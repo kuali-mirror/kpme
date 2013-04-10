@@ -18,6 +18,7 @@ package org.kuali.hr.time.task;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
@@ -33,8 +34,8 @@ public class TaskInquirableImpl extends KualiInquirableImpl {
         } else if (fieldValues.containsKey("task") && fieldValues.containsKey("effectiveDate")) {
             String taskString = (String)fieldValues.get("task");
             Long taskNumber = taskString != null ? Long.parseLong(taskString) : null;
-            task = TkServiceLocator.getTaskService().getTask(taskNumber,
-                    new java.sql.Date(TKUtils.convertDateStringToTimestampNoTimezone((String)fieldValues.get("effectiveDate")).getTime()));
+            LocalDate effectiveDate = TKUtils.formatDateString((String)fieldValues.get("effectiveDate"));
+            task = TkServiceLocator.getTaskService().getTask(taskNumber, effectiveDate);
         } else {
         	task = (Task) super.getBusinessObject(fieldValues);
         }

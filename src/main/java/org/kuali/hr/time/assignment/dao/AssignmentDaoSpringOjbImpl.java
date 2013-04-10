@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.assignment.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -30,11 +29,11 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -72,7 +71,7 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         }
     }
 
-    public Assignment getAssignment(String principalId, Long jobNumber, Long workArea, Long task, Date asOfDate) {
+    public Assignment getAssignment(String principalId, Long jobNumber, Long workArea, Long task, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
         root.addEqualTo("principalId", principalId);
@@ -95,7 +94,7 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
 
     @Override
-    public Assignment getAssignment(Long job, Long workArea, Long task, Date asOfDate) {
+    public Assignment getAssignment(Long job, Long workArea, Long task, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
         root.addEqualTo("jobNumber", job);
@@ -118,7 +117,7 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public List<Assignment> findAssignments(String principalId, Date asOfDate) {
+    public List<Assignment> findAssignments(String principalId, LocalDate asOfDate) {
         List<Assignment> assignments = new ArrayList<Assignment>();
         Criteria root = new Criteria();
 
@@ -143,12 +142,12 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public List<Assignment> findAssignmentsWithinPeriod(String principalId, Date startDate, Date endDate) {
+    public List<Assignment> findAssignmentsWithinPeriod(String principalId, LocalDate startDate, LocalDate endDate) {
         List<Assignment> assignments = new ArrayList<Assignment>();
         Criteria root = new Criteria();
 
-        root.addGreaterOrEqualThan("effectiveDate", startDate);
-        root.addLessOrEqualThan("effectiveDate", endDate);
+        root.addGreaterOrEqualThan("effectiveDate", startDate.toDate());
+        root.addLessOrEqualThan("effectiveDate", endDate.toDate());
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("active", true);
 
@@ -163,7 +162,7 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public List<Assignment> getActiveAssignmentsInWorkArea(Long workArea, Date asOfDate) {
+    public List<Assignment> getActiveAssignmentsInWorkArea(Long workArea, LocalDate asOfDate) {
         List<Assignment> assignments = new ArrayList<Assignment>();
         Criteria root = new Criteria();
 
@@ -186,11 +185,11 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         return assignments;
     }
 
-    public List<Assignment> getActiveAssignments(Date asOfDate) {
+    public List<Assignment> getActiveAssignments(LocalDate asOfDate) {
         List<Assignment> assignments = new ArrayList<Assignment>();
         
         Criteria root = new Criteria();
-        root.addLessOrEqualThan("effectiveDate", asOfDate);
+        root.addLessOrEqualThan("effectiveDate", asOfDate.toDate());
 
         Criteria timestamp = new Criteria();
         timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
@@ -225,7 +224,7 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
     // KPME-1129 Kagata
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, Date asOfDate) {
+    public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, LocalDate asOfDate) {
         List<Assignment> assignments = new ArrayList<Assignment>();
         Criteria root = new Criteria();
 
@@ -251,7 +250,7 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<Assignment> searchAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber, String dept, String workArea, 
+    public List<Assignment> searchAssignments(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber, String dept, String workArea, 
     										  String active, String showHistory) {
 
         List<Assignment> results = new ArrayList<Assignment>();
@@ -260,13 +259,13 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
         
@@ -280,7 +279,7 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
         if (StringUtils.isNotBlank(dept)) {
             Criteria workAreaCriteria = new Criteria();
-            Date asOfDate = toEffdt != null ? toEffdt : TKUtils.getCurrentDate();
+            LocalDate asOfDate = toEffdt != null ? toEffdt : LocalDate.now();
             Collection<WorkArea> workAreasForDept = TkServiceLocator.getWorkAreaService().getWorkAreas(dept,asOfDate);
             if (CollectionUtils.isNotEmpty(workAreasForDept)) {
                 List<Long> longWorkAreas = new ArrayList<Long>();
@@ -333,7 +332,7 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         return (Assignment) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
-    public List<String> getPrincipalIds(List<String> workAreaList, Date effdt, Date startDate, Date endDate) {
+    public List<String> getPrincipalIds(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate) {
     	List<Assignment> results = this.getAssignments(workAreaList, effdt, startDate, endDate);
         Set<String> pids = new HashSet<String>();
         for(Assignment anAssignment : results) {
@@ -346,7 +345,7 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
      	return ids;
     }
     
-    public List<Assignment> getAssignments(List<String> workAreaList, Date effdt, Date startDate, Date endDate) {
+    public List<Assignment> getAssignments(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate) {
     	List<Assignment> results = new ArrayList<Assignment>();
 		 
 		Criteria activeRoot = new Criteria();
@@ -358,8 +357,8 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
         inactiveRoot.addEqualTo("active", "N");
         inactiveRoot.addIn("workArea", workAreaList);
-        inactiveRoot.addGreaterOrEqualThan("effectiveDate", startDate);
-        inactiveRoot.addLessOrEqualThan("effectiveDate", endDate);
+        inactiveRoot.addGreaterOrEqualThan("effectiveDate", startDate.toDate());
+        inactiveRoot.addLessOrEqualThan("effectiveDate", endDate.toDate());
         inactiveRoot.addEqualTo("effectiveDate", effdtSubQuery);
         inactiveRoot.addEqualTo("timestamp", timestampSubQuery);
          

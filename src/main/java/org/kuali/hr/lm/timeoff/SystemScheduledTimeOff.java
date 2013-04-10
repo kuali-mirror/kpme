@@ -16,9 +16,10 @@
 package org.kuali.hr.lm.timeoff;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
@@ -67,7 +68,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 		}
 		if (this.earnCodeObj == null && 
 				(!StringUtils.isEmpty(this.earnCode) && getEffectiveDate() != null)) {		
-			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveDate());
+			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveLocalDate());
 		}
 		leavePlan = (earnCodeObj != null) ? earnCodeObj.getLeavePlan() : "";
 		return leavePlan;
@@ -83,7 +84,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
         }
 		if (this.earnCodeObj == null &&
 				(!StringUtils.isEmpty(this.earnCode) && getEffectiveDate() != null)) {
-			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveDate());
+			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveLocalDate());
 		}
 		accrualCategory = (earnCodeObj != null) ? earnCodeObj.getAccrualCategory() : "";
 		return accrualCategory;
@@ -100,6 +101,14 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 	public void setAccruedDate(Date accruedDate) {
 		this.accruedDate = accruedDate;
 	}
+	
+	public LocalDate getAccruedLocalDate() {
+		return accruedDate != null ? LocalDate.fromDateFields(accruedDate) : null;
+	}
+	
+	public void setAccruedLocalDate(LocalDate accruedLocalDate) {
+		this.accruedDate = accruedLocalDate != null? accruedLocalDate.toDate() : null;
+	}
 
 	public Date getScheduledTimeOffDate() {
 		return scheduledTimeOffDate;
@@ -107,6 +116,14 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 
 	public void setScheduledTimeOffDate(Date scheduledTimeOffDate) {
 		this.scheduledTimeOffDate = scheduledTimeOffDate;
+	}
+	
+	public LocalDate getScheduledTimeOffLocalDate() {
+		return scheduledTimeOffDate != null ? LocalDate.fromDateFields(scheduledTimeOffDate) : null;
+	}
+	
+	public void setScheduledTimeOffLocalDate(LocalDate scheduledTimeOffLocalDate) {
+		this.scheduledTimeOffDate = scheduledTimeOffLocalDate != null? scheduledTimeOffLocalDate.toDate() : null;
 	}
 
 	public String getLocation() {

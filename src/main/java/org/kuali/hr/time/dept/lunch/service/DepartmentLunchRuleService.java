@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.time.dept.lunch.service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.springframework.cache.annotation.Cacheable;
@@ -38,7 +38,7 @@ public interface DepartmentLunchRuleService {
                     "+ '|' + 'principalId=' + #p2" +
                     "+ '|' + 'jobNumber=' + #p3" +
                     "+ '|' + 'asOfDate=' + #p4")
-	public DeptLunchRule getDepartmentLunchRule(String dept, Long workArea, String principalId, Long jobNumber, Date asOfDate);
+	public DeptLunchRule getDepartmentLunchRule(String dept, Long workArea, String principalId, Long jobNumber, LocalDate asOfDate);
 	/**
 	 * Apply department lunch rule to the list of timeblocks
 	 * @param timeblocks

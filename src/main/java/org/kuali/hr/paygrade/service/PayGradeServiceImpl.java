@@ -15,17 +15,17 @@
  */
 package org.kuali.hr.paygrade.service;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.paygrade.dao.PayGradeDao;
 
-import java.sql.Date;
 import java.util.List;
 
 public class PayGradeServiceImpl implements PayGradeService{
 
 	private PayGradeDao payGradeDao;
 	@Override
-	public PayGrade getPayGrade(String payGrade, Date asOfDate) {
+	public PayGrade getPayGrade(String payGrade, LocalDate asOfDate) {
 		return payGradeDao.getPayGrade(payGrade, asOfDate);
 	}
  
@@ -49,7 +49,7 @@ public class PayGradeServiceImpl implements PayGradeService{
 
 	@Override
 	public List<PayGrade> getPayGradesForSalaryGroup(String salaryGroup,
-			Date asOfDate) {
+			LocalDate asOfDate) {
 		return payGradeDao.getPayGradesForSalaryGroup(salaryGroup, asOfDate);
 	}
 }

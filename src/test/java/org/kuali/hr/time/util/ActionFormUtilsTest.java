@@ -36,7 +36,7 @@ public class ActionFormUtilsTest extends KPMETestCase {
 	
 	@Test
 	public void testBuildAssignmentStyleClassMap() {
-		Date aDate = new Date((new DateTime(2011, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		DateTime aDate = new DateTime(2011, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(aDate);
 		Map<String, String> aMap = ActionFormUtils.buildAssignmentStyleClassMap(doc.getTimeBlocks());
 		Assert.assertEquals("Wrong number of classes in style class map", 1, aMap.size());

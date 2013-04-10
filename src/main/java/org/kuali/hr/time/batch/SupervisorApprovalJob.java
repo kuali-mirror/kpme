@@ -35,7 +35,6 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.quartz.*;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 public class SupervisorApprovalJob implements Job {
@@ -123,9 +122,9 @@ public class SupervisorApprovalJob implements Job {
 			Scheduler scheduler = context.getScheduler();
 			Trigger oldTrigger = context.getTrigger();
 			
-			Date newStartTime = new DateTime().plusMinutes(5).toDate();
+			DateTime newStartTime = new DateTime().plusMinutes(5);
 			String newTriggerName = BatchJobUtil.getTriggerName(SupervisorApprovalJob.class, newStartTime);
-			Trigger newTrigger = new SimpleTrigger(newTriggerName, oldTrigger.getGroup(), newStartTime);
+			Trigger newTrigger = new SimpleTrigger(newTriggerName, oldTrigger.getGroup(), newStartTime.toDate());
 			newTrigger.setJobName(oldTrigger.getJobName());
 			newTrigger.setJobGroup(oldTrigger.getJobGroup());
 			

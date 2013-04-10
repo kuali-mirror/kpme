@@ -50,7 +50,7 @@ public class EarnCodeGroupMaintainableImpl extends HrBusinessObjectMaintainableI
             				"earngroup.duplicate.earncode",definition.getEarnCode());
             		return;
     			} 
-            	if (!ValidationUtils.validateEarnCode(definition.getEarnCode().toUpperCase(), earnGroup.getEffectiveDate())) {
+            	if (!ValidationUtils.validateEarnCode(definition.getEarnCode().toUpperCase(), earnGroup.getEffectiveLocalDate())) {
     				GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"earnCodeGroups", 
     							"error.existence", "Earncode '" + definition.getEarnCode()+ "'");
     				return;
@@ -63,7 +63,7 @@ public class EarnCodeGroupMaintainableImpl extends HrBusinessObjectMaintainableI
 	@Override
     public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
 		EarnCodeGroup earnGroup = (EarnCodeGroup)this.getBusinessObject();
-		int count = TkServiceLocator.getEarnCodeGroupService().getNewerEarnCodeGroupCount(earnGroup.getEarnCodeGroup(), earnGroup.getEffectiveDate());
+		int count = TkServiceLocator.getEarnCodeGroupService().getNewerEarnCodeGroupCount(earnGroup.getEarnCodeGroup(), earnGroup.getEffectiveLocalDate());
 		if(count > 0) {
 			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
 					"earngroup.effectiveDate.newr.exists");

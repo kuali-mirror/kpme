@@ -17,22 +17,22 @@ package org.kuali.hr.lm.earncodesec.dao;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.common.collect.ImmutableList;
 
 public class EarnCodeSecurityDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements EarnCodeSecurityDao {
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
@@ -59,7 +59,7 @@ public class EarnCodeSecurityDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
-	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, Date asOfDate) {
+	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate) {
 		List<EarnCodeSecurity> decs = new LinkedList<EarnCodeSecurity>();
 
 		Criteria root = new Criteria();
@@ -99,11 +99,7 @@ public class EarnCodeSecurityDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
         if ( !location.trim().isEmpty() ){
             fields.add("location");
         }
-        java.sql.Date effDate = null;
-        if (asOfDate != null) {
-            effDate = new java.sql.Date(asOfDate.getTime());
-        }
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeSecurity.class, effDate, fields.build(), false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeSecurity.class, asOfDate, fields.build(), false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeSecurity.class, fields.build(), false));
 		
 		root.addOrderBy("earnCode", true);
@@ -142,7 +138,7 @@ public class EarnCodeSecurityDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<EarnCodeSecurity> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location, Date fromEffdt, Date toEffdt, 
+	public List<EarnCodeSecurity> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location, LocalDate fromEffdt, LocalDate toEffdt, 
 														   String active, String showHistory) {
 		
 		List<EarnCodeSecurity> results = new ArrayList<EarnCodeSecurity>();
@@ -167,14 +163,14 @@ public class EarnCodeSecurityDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
 
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
 
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
 
@@ -201,7 +197,7 @@ public class EarnCodeSecurityDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
 	
 	@Override
 	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,
-			String active, java.sql.Date effdt,String hrDeptEarnCodeId) {
+			String active, LocalDate effdt, String hrDeptEarnCodeId) {
 		Criteria crit = new Criteria();
       crit.addEqualTo("dept", dept);
       crit.addEqualTo("hrSalGroup", salGroup);
@@ -210,7 +206,7 @@ public class EarnCodeSecurityDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
       crit.addEqualTo("approver", approver);
       crit.addEqualTo("location", location);
       crit.addEqualTo("active", active);
-      crit.addEqualTo("effectiveDate", effdt);
+      crit.addEqualTo("effectiveDate", effdt.toDate());
       if(hrDeptEarnCodeId != null) {
     	  crit.addEqualTo("hrEarnCodeSecurityId", hrDeptEarnCodeId);
       }
@@ -218,11 +214,11 @@ public class EarnCodeSecurityDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
       return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 	@Override
-	public int getNewerEarnCodeSecurityCount(String earnCode, Date effdt) {
+	public int getNewerEarnCodeSecurityCount(String earnCode, LocalDate effdt) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("earnCode", earnCode);
 		crit.addEqualTo("active", "Y");
-		crit.addGreaterThan("effectiveDate", effdt);
+		crit.addGreaterThan("effectiveDate", effdt.toDate());
 		Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
        	return this.getPersistenceBrokerTemplate().getCount(query);
 	}

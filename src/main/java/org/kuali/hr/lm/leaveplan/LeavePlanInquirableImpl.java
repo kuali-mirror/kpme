@@ -15,13 +15,12 @@
  */
 package org.kuali.hr.lm.leaveplan;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 
@@ -36,16 +35,9 @@ public class LeavePlanInquirableImpl extends KualiInquirableImpl {
 			
 		} else if(StringUtils.isNotBlank((String)fieldValues.get("leavePlan"))
 					&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
-			java.util.Date uDate = null;
-			try {
-				uDate = new SimpleDateFormat("MM/dd/yyyy").parse(fieldValues.get("effectiveDate").toString());
-
-                Date effdt = new java.sql.Date(uDate.getTime());
-                lp = TkServiceLocator.getLeavePlanService().getLeavePlan((String)fieldValues.get("leavePlan"), effdt);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-			
+			String leavePlan = (String)fieldValues.get("leavePlan");
+			LocalDate effectiveDate = TKUtils.formatDateString((String)fieldValues.get("effectiveDate"));
+			lp = TkServiceLocator.getLeavePlanService().getLeavePlan(leavePlan, effectiveDate);
 		} else {
 			lp = (LeavePlan) super.getBusinessObject(fieldValues);
 		}

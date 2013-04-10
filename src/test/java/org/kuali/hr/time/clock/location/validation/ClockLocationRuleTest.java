@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -151,14 +152,14 @@ public class ClockLocationRuleTest extends KPMETestCase {
     public void testClockLocationRuleFetch() throws Exception{
     	ClockLocationRule clr = this.createClr(IP_ADDRESS_ONE, 1234L, "1234", 0L);
     	List<ClockLocationRule> clockLocationRule = TkServiceLocator.getClockLocationRuleService().getClockLocationRule("TEST", 1234L, 
-    											"12345", 0L, new Date(System.currentTimeMillis()));
+    											"12345", 0L, LocalDate.now());
     	
     	Assert.assertTrue("Clock Location Rule pulled back correctly",clockLocationRule.size()==1);
     	boService.delete(clr);
     	clr = this.createClr(IP_ADDRESS_ONE, -1L, "%", -1L);
     	
     	clockLocationRule = TkServiceLocator.getClockLocationRuleService().getClockLocationRule("TEST", 1234L, 
-				"12345", 0L, new Date(System.currentTimeMillis()));
+				"12345", 0L, LocalDate.now());
     	Assert.assertTrue("Clock Location Rule pulled back correctly",clockLocationRule.size()==1);
     }
     
@@ -175,7 +176,7 @@ public class ClockLocationRuleTest extends KPMETestCase {
     	clockLog.setJobNumber(0L);
     	clockLog.getJob().setDept("TEST");
     	
-    	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, new Date(System.currentTimeMillis()));
+    	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, LocalDate.now());
     	
     	Assert.assertTrue("clock location rule no error",GlobalVariables.getMessageMap().hasNoWarnings());
     	Assert.assertFalse("clock log should have 'false' as unapprovedIP.", clockLog.getUnapprovedIP());
@@ -192,7 +193,7 @@ public class ClockLocationRuleTest extends KPMETestCase {
     	clockLog.setJobNumber(0L);
     	clockLog.getJob().setDept("TEST");
     	
-    	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, new Date(System.currentTimeMillis()));
+    	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, LocalDate.now());
     	
     	Assert.assertTrue("clock location rule no error",GlobalVariables.getMessageMap().hasWarnings());
     	Assert.assertTrue("clock log should have 'true' as unapprovedIP.", clockLog.getUnapprovedIP());
@@ -222,7 +223,7 @@ public class ClockLocationRuleTest extends KPMETestCase {
     
     public void processRuleWithIPNoWarning(ClockLog clockLog, String ipAddress) {
     	ClockLocationRule clr = this.createClr(ipAddress, 1234L, "1234", 0L);
-    	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, new Date(System.currentTimeMillis()));
+    	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, LocalDate.now());
     	Assert.assertTrue("clock location rule no warning message",GlobalVariables.getMessageMap().hasNoWarnings());
     	Assert.assertFalse("clock log should have 'false' as unapprovedIP.", clockLog.getUnapprovedIP());
     }
@@ -230,7 +231,7 @@ public class ClockLocationRuleTest extends KPMETestCase {
     public void processRuleWithIPWithWarning(ClockLog clockLog, String ipAddress) {
     	clearBusinessObjects(ClockLocationRule.class);
     	ClockLocationRule clr = this.createClr(ipAddress, 1234L, "12345", 0L);
-    	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, new Date(System.currentTimeMillis()));
+    	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, LocalDate.now());
     	Assert.assertFalse("clock location rule with warning message",GlobalVariables.getMessageMap().hasNoWarnings());
     	Assert.assertTrue("clock location rule with 1 warning message",(GlobalVariables.getMessageMap().getWarningCount()== 1));
     	Assert.assertTrue("clock log should have 'true' as unapprovedIP.", clockLog.getUnapprovedIP());

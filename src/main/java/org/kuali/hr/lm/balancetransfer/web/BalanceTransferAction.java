@@ -16,7 +16,6 @@
 package org.kuali.hr.lm.balancetransfer.web;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +27,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -42,7 +42,6 @@ import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -97,9 +96,9 @@ public class BalanceTransferAction extends TkAction {
 			AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
 			
 			AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
-			BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(balanceTransfer.getPrincipalId(), accrualCategory, balanceTransfer.getEffectiveDate());
+			BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(balanceTransfer.getPrincipalId(), accrualCategory, balanceTransfer.getEffectiveLocalDate());
 
-			BalanceTransfer defaultBT = TkServiceLocator.getBalanceTransferService().initializeTransfer(balanceTransfer.getPrincipalId(), accrualRuleId, accruedBalance, balanceTransfer.getEffectiveDate());
+			BalanceTransfer defaultBT = TkServiceLocator.getBalanceTransferService().initializeTransfer(balanceTransfer.getPrincipalId(), accrualRuleId, accruedBalance, balanceTransfer.getEffectiveLocalDate());
 			if(balanceTransfer.getTransferAmount().compareTo(defaultBT.getTransferAmount()) != 0) {
 				//employee changed the transfer amount, recalculate forfeiture.
 				//Note: transfer form has been validated.
@@ -214,9 +213,9 @@ public class BalanceTransferAction extends TkAction {
 
 					AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
 					AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
-					BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(principalId, accrualCategory, TKUtils.getCurrentDate());
+					BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(principalId, accrualCategory, LocalDate.now());
 
-					BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(principalId, aRule.getLmAccrualCategoryRuleId(), accruedBalance, TKUtils.getCurrentDate());
+					BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(principalId, aRule.getLmAccrualCategoryRuleId(), accruedBalance, LocalDate.now());
 					balanceTransfer.setLeaveCalendarDocumentId(documentId);
 					if(ObjectUtils.isNotNull(balanceTransfer)) {
 						if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {	
@@ -282,13 +281,13 @@ public class BalanceTransferAction extends TkAction {
 			LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocumentId);
 			
 			LeaveBlock leaveBlock = eligibleTransfers.get(0);
-			Date effectiveDate = leaveBlock.getLeaveDate();
+			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
 			String accrualCategoryRuleId = leaveBlock.getAccrualCategoryRuleId();
 			if(!StringUtils.isBlank(accrualCategoryRuleId)) {
 				
 				AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
 				AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
-				BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(lcd.getPrincipalId(), accrualCategory, leaveBlock.getLeaveDate());
+				BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(lcd.getPrincipalId(), accrualCategory, leaveBlock.getLeaveLocalDate());
 				
 				BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(lcd.getPrincipalId(), accrualCategoryRuleId, accruedBalance, effectiveDate);
 				
@@ -359,12 +358,12 @@ public class BalanceTransferAction extends TkAction {
 			TimesheetDocument tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
 			
 			LeaveBlock leaveBlock = eligibleTransfers.get(0);
-			Date effectiveDate = leaveBlock.getLeaveDate();
+			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
 			String accrualCategoryRuleId = leaveBlock.getAccrualCategoryRuleId();
 			if(!StringUtils.isBlank(accrualCategoryRuleId)) {
 				AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
 				AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
-				BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(tsd.getPrincipalId(), accrualCategory, leaveBlock.getLeaveDate());
+				BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(tsd.getPrincipalId(), accrualCategory, leaveBlock.getLeaveLocalDate());
 
 				BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(tsd.getPrincipalId(), accrualCategoryRuleId, accruedBalance, effectiveDate);
 				balanceTransfer.setLeaveCalendarDocumentId(timesheetDocumentId);
@@ -437,7 +436,7 @@ public class BalanceTransferAction extends TkAction {
 		}
 		SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
 		BigDecimal amountTransferred = ssto.getTransferConversionFactor() == null ? lb.getLeaveAmount() : lb.getLeaveAmount().multiply(ssto.getTransferConversionFactor());
-		EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(ssto.getTransfertoEarnCode(), lb.getLeaveDate());
+		EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(ssto.getTransfertoEarnCode(), lb.getLeaveLocalDate());
 		
 		BalanceTransfer bt = new BalanceTransfer();
 		bt.setTransferAmount(lb.getLeaveAmount().abs());	// the usage leave block's leave amount is negative
@@ -465,7 +464,7 @@ public class BalanceTransferAction extends TkAction {
 		if(StringUtils.isEmpty(bt.getSstoId())) {
 			throw new RuntimeException("System Scheduled Time Off not found for this balance transfer!");
 		}
-		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getSSTOLeaveBlocks(bt.getPrincipalId(), bt.getSstoId(), bt.getEffectiveDate());
+		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getSSTOLeaveBlocks(bt.getPrincipalId(), bt.getSstoId(), bt.getEffectiveLocalDate());
 		if(CollectionUtils.isEmpty(lbList) || (CollectionUtils.isNotEmpty(lbList) && lbList.size() != 2)) {
 			throw new RuntimeException("There should be 2 system scheduled time off leave blocks!");
 		}

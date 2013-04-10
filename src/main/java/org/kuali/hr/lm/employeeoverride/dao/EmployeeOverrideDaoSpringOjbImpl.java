@@ -15,20 +15,20 @@
  */
 package org.kuali.hr.lm.employeeoverride.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.common.collect.ImmutableList;
 
 public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements EmployeeOverrideDao{
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
@@ -40,7 +40,7 @@ public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<EmployeeOverride> getEmployeeOverrides(String principalId, Date asOfDate) {
+	public List<EmployeeOverride> getEmployeeOverrides(String principalId, LocalDate asOfDate) {
         List<EmployeeOverride> employeeOverrides = new ArrayList<EmployeeOverride>();
         Criteria root = new Criteria();
 
@@ -62,7 +62,7 @@ public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
     }
 	
 	@Override
-	public EmployeeOverride getEmployeeOverride(String principalId, String leavePlan, String accrualCategory, String overrideType, Date asOfDate) {
+	public EmployeeOverride getEmployeeOverride(String principalId, String leavePlan, String accrualCategory, String overrideType, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
         root.addEqualTo("principalId", principalId);
@@ -92,7 +92,7 @@ public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
     @Override
     @SuppressWarnings("unchecked")
     public List<EmployeeOverride> getEmployeeOverrides(String principalId, String leavePlan, String accrualCategory, String overrideType,
-                                                       Date fromEffdt, Date toEffdt, String active) {
+                                                       LocalDate fromEffdt, LocalDate toEffdt, String active) {
 
         List<EmployeeOverride> results = new ArrayList<EmployeeOverride>();
     	
@@ -116,13 +116,13 @@ public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
         
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
 

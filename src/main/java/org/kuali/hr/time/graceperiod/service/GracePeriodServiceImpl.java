@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.time.graceperiod.service;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.graceperiod.dao.GracePeriodDao;
 import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -35,13 +35,13 @@ public class GracePeriodServiceImpl implements GracePeriodService {
 	}
 
     @Override
-	public GracePeriodRule getGracePeriodRule(Date asOfDate){
+	public GracePeriodRule getGracePeriodRule(LocalDate asOfDate){
 		return gracePeriodDao.getGracePeriodRule(asOfDate);
 	}
 
 	
 	@SuppressWarnings("deprecation")
-	public Timestamp processGracePeriodRule(Timestamp actualTime, Date asOfDate){
+	public Timestamp processGracePeriodRule(Timestamp actualTime, LocalDate asOfDate){
 		GracePeriodRule gracePeriodRule = getGracePeriodRule(asOfDate);
 		if(gracePeriodRule!=null){
 			//go ahead and round off seconds

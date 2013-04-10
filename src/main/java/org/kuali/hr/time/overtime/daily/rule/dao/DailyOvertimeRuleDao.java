@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.time.overtime.daily.rule.dao;
 
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
 
 public interface DailyOvertimeRuleDao {
@@ -28,7 +28,7 @@ public interface DailyOvertimeRuleDao {
 	 * 
 	 * @return
 	 */
-	public DailyOvertimeRule findDailyOvertimeRule(String location, String paytype, String dept, Long workArea, Date asOfDate);
+	public DailyOvertimeRule findDailyOvertimeRule(String location, String paytype, String dept, Long workArea, LocalDate asOfDate);
 	
 	public void saveOrUpdate(DailyOvertimeRule dailyOvertimeRule);
 	
@@ -36,5 +36,5 @@ public interface DailyOvertimeRuleDao {
 	
 	public DailyOvertimeRule getDailyOvertimeRule(String tkDailyOvertimeRuleId);
 	
-	public List<DailyOvertimeRule> getDailyOvertimeRules(String dept, String workArea, String location, Date fromEffdt, Date toEffdt, String active, String showHist);
+	public List<DailyOvertimeRule> getDailyOvertimeRules(String dept, String workArea, String location, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }

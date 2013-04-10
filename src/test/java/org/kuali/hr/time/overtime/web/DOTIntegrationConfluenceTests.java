@@ -143,10 +143,10 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         Assert.assertNotNull(form);
 
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getPrincipalId(), JAN_AS_OF_DATE);
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getPrincipalId(), JAN_AS_OF_DATE.toLocalDate());
         Assignment assignment = assignments.get(0);
 
-        List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE);
+        List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());
         EarnCode earnCode = earnCodes.get(0);
         Assert.assertEquals("There should be no existing time blocks.", 0, tdoc.getTimeBlocks().size());
 
@@ -184,7 +184,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
 
     private DailyOvertimeRule createDailyOvertimeRule(String fromEarnGroup, String earnCode, String location, String paytype, String dept, Long workArea, Long task, BigDecimal minHours, BigDecimal maxGap, String overtimePref) {
         DailyOvertimeRule rule = new DailyOvertimeRule();
-        rule.setEffectiveDate(JAN_AS_OF_DATE);
+        rule.setEffectiveLocalDate(JAN_AS_OF_DATE.toLocalDate());
         rule.setFromEarnGroup(fromEarnGroup);
         rule.setEarnCode(earnCode);
         rule.setLocation(location);

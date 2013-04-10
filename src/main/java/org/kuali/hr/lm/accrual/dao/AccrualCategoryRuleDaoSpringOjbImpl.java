@@ -17,7 +17,6 @@ package org.kuali.hr.lm.accrual.dao;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -46,7 +45,7 @@ public class AccrualCategoryRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb
 		return (AccrualCategoryRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
     
-    public List <AccrualCategoryRule> getActiveRulesForAccrualCategoryId(String accrualCategoryId, Date asOfDate) {
+    public List <AccrualCategoryRule> getActiveRulesForAccrualCategoryId(String accrualCategoryId) {
     	List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
 		
 		Criteria root = new Criteria();
@@ -61,7 +60,7 @@ public class AccrualCategoryRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb
 		return rules;
     }
     
-    public List <AccrualCategoryRule> getInActiveRulesForAccrualCategoryId(String accrualCategoryId, Date asOfDate) {
+    public List <AccrualCategoryRule> getInActiveRulesForAccrualCategoryId(String accrualCategoryId) {
     	List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
 		
 		Criteria root = new Criteria();

@@ -1,8 +1,8 @@
 package org.kuali.hr.pm.positionreportsubcat.service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory;
 import org.kuali.hr.pm.positionreportsubcat.dao.PositionReportSubCatDao;
 
@@ -24,7 +24,7 @@ public class PositionReportSubCatServiceImpl implements PositionReportSubCatServ
 		this.positionReportSubCatDao = positionReportSubCatDao;
 	}
 	
-	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String campus, Date asOfDate) {
+	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String campus, LocalDate asOfDate) {
 		return positionReportSubCatDao.getPositionReportSubCat(pstnRptSubCat, institution, campus, asOfDate);
 	}
 

@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.time.workflow.service;
 
+import org.joda.time.DateTime;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
-import java.util.Date;
 import java.util.List;
 
 public interface TimesheetDocumentHeaderService {
@@ -39,21 +39,21 @@ public interface TimesheetDocumentHeaderService {
 	 * @param payEndDate
 	 * @return
 	 */
-	public TimesheetDocumentHeader getDocumentHeader(String principalId, Date payBeginDate, Date payEndDate);
+	public TimesheetDocumentHeader getDocumentHeader(String principalId, DateTime payBeginDate, DateTime payEndDate);
 	/**
 	 * Fetch previous document header
 	 * @param principalId
 	 * @param payBeginDate
 	 * @return
 	 */
-    public TimesheetDocumentHeader getPreviousDocumentHeader(String principalId, Date payBeginDate);
+    public TimesheetDocumentHeader getPreviousDocumentHeader(String principalId, DateTime payBeginDate);
 	/**
 	 * Fetch next document header
 	 * @param principalId
 	 * @param payBeginDate
 	 * @return
 	 */
-    public TimesheetDocumentHeader getNextDocumentHeader(String principalId, Date payEndDate);
+    public TimesheetDocumentHeader getNextDocumentHeader(String principalId, DateTime payEndDate);
     /**
      * Fetch previous or next Document Header -- uses the current Document from context.
      * @param prevOrNext
@@ -67,7 +67,7 @@ public interface TimesheetDocumentHeaderService {
 	 * @param payEndDate
 	 * @return
 	 */
-	public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate, Date payEndDate);
+	public List<TimesheetDocumentHeader> getDocumentHeaders(DateTime payBeginDate, DateTime payEndDate);
 
     public void deleteTimesheetHeader(String documentId);
     
@@ -91,6 +91,6 @@ public interface TimesheetDocumentHeaderService {
      * @param asOfDate
      * @return TimesheetDocumentHeader
      */
-    public TimesheetDocumentHeader getDocumentHeaderForDate(String principalId, Date asOfDate);
+    public TimesheetDocumentHeader getDocumentHeaderForDate(String principalId, DateTime asOfDate);
     
 }

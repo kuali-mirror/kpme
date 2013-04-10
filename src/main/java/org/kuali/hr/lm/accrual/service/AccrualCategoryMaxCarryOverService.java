@@ -15,19 +15,19 @@
  */
 package org.kuali.hr.lm.accrual.service;
 
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.calendar.CalendarEntry;
 
 public interface AccrualCategoryMaxCarryOverService {
 
-	boolean exceedsAccrualCategoryMaxCarryOver(String accrualCategory, String principalId, List<CalendarEntry> calendarEntries, Date asOfDate);
+	boolean exceedsAccrualCategoryMaxCarryOver(String accrualCategory, String principalId, List<CalendarEntry> calendarEntries, LocalDate asOfDate);
 	
-	boolean exceedsAccrualCategoryMaxCarryOver(String accrualCategory, String principalId, CalendarEntry calendarEntry, Date asOfDate);
+	boolean exceedsAccrualCategoryMaxCarryOver(String accrualCategory, String principalId, CalendarEntry calendarEntry, LocalDate asOfDate);
 
-	void calculateMaxCarryOver(String documentId, String principalId, List<CalendarEntry> calendarEntries, Date asOfDate);
+	void calculateMaxCarryOver(String documentId, String principalId, List<CalendarEntry> calendarEntries, LocalDate asOfDate);
 	
-	void calculateMaxCarryOver(String documentId, String principalId, CalendarEntry calendarEntry, Date asOfDate);
+	void calculateMaxCarryOver(String documentId, String principalId, CalendarEntry calendarEntry, LocalDate asOfDate);
 
 }

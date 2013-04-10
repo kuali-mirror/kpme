@@ -15,8 +15,6 @@
  */
 package org.kuali.hr.time.workflow.service;
 
-import java.util.Date;
-
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,12 +29,12 @@ public class TimesheetDocumentHeaderServiceImplTest extends KPMETestCase {
 	public void testGetDocumentHeaderForDate() {
 		String principalId = "admin";
 		// there is NO TimesheetDocumentHeader that covers 05/03/2012
-		Date asOfDate = new Date((new DateTime(2012, 5, 3, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		DateTime asOfDate = new DateTime(2012, 5, 3, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId,asOfDate);
 		Assert.assertNull("TimesheetDocumentHeader for 05/03/2012 should be null.", tdh);
 		
 		// there is a TimesheetDocumentHeader that covers 03/08/2012
-		asOfDate = new Date((new DateTime(2012, 3, 8, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		asOfDate = new DateTime(2012, 3, 8, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId,asOfDate);
 		Assert.assertNotNull("TimesheetDocumentHeader for 03/08/2012 should NOT be null.", tdh);
 	}

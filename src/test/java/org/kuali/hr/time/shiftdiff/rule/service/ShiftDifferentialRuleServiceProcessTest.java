@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -158,7 +157,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		DateTime start = new DateTime(2010, 8, 31, 21, 45, 0, 0, tz);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
-		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), new Date(beginPeriodDate.getMillis()));
+		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), beginPeriodDate.toLocalDate());
 		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust, TkServiceLocator.getCalendarService().getCalendar(endOfAugust.getHrCalendarId()), true);
 		tdoc.setTimeBlocks(blocks);
@@ -241,7 +240,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		DateTime start = new DateTime(2010, 8, 31, 22, 0, 0, 0, tz);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
-		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), endOfAugust.getBeginPeriodDate());
+		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), endOfAugust.getBeginPeriodFullDateTime().toLocalDate());
 		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust, TkServiceLocator.getCalendarService().getCalendar(endOfAugust.getHrCalendarId()), true);
 

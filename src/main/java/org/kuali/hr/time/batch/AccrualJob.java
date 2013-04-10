@@ -17,6 +17,7 @@ package org.kuali.hr.time.batch;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.accrual.service.AccrualService;
 import org.kuali.hr.lm.leavecalendar.service.LeaveCalendarServiceImpl;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
@@ -25,7 +26,6 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.service.PrincipalHRAttributesService;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.api.identity.principal.Principal;
@@ -34,7 +34,6 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import java.sql.Date;
 import java.util.List;
 
 public class AccrualJob implements Job {
@@ -51,7 +50,7 @@ public class AccrualJob implements Job {
         String batchUserPrincipalId = getBatchUserPrincipalId();
         
         if (batchUserPrincipalId != null) {
-    		Date asOfDate = TKUtils.getCurrentDate();
+    		LocalDate asOfDate = LocalDate.now();
 			List<Assignment> assignments = getAssignmentService().getActiveAssignments(asOfDate);
 			
 			for (Assignment assignment : assignments) {
@@ -60,10 +59,10 @@ public class AccrualJob implements Job {
 					
 					PrincipalHRAttributes principalHRAttributes = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 					if (principalHRAttributes != null) {
-						LeavePlan leavePlan = getLeavePlanService().getLeavePlan(principalHRAttributes.getLeavePlan(), principalHRAttributes.getEffectiveDate());
+						LeavePlan leavePlan = getLeavePlanService().getLeavePlan(principalHRAttributes.getLeavePlan(), principalHRAttributes.getEffectiveLocalDate());
 						if (leavePlan != null) {
 							DateTime endDate = new DateTime(asOfDate).plusMonths(Integer.parseInt(leavePlan.getPlanningMonths()));
-							getAccrualService().runAccrual(principalId, new java.sql.Date(asOfDate.getTime()), new java.sql.Date(endDate.toDate().getTime()), true, batchUserPrincipalId);
+							getAccrualService().runAccrual(principalId, asOfDate.toDateTimeAtStartOfDay(), endDate, true, batchUserPrincipalId);
 						}
 					}
 				}

@@ -18,6 +18,7 @@ package org.kuali.hr.time.collection.rule;
 import java.sql.Timestamp;
 import java.util.*;
 
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -25,7 +26,6 @@ import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
@@ -188,13 +188,13 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 				timeCollectionRuleObj);
 
 		timeCollectionRuleObj = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(TEST_CODE_DEPARTMENT_VALID,
-									TEST_CODE_INVALID_WORKAREA, TKUtils.getCurrentDate());
+									TEST_CODE_INVALID_WORKAREA, LocalDate.now());
 		//timeCollectionRuleObj = KRADServiceLocator.getBusinessObjectService()
         //        .findByPrimaryKey(TimeCollectionRule.class, Collections.singletonMap("tkTimeCollectionRuleId", timeCollectionRuleIdWithInvalidWorkArea));
 		KRADServiceLocator.getBusinessObjectService().delete(
 				timeCollectionRuleObj);
 
-		Department deptObj = TkServiceLocator.getDepartmentService().getDepartment(TEST_CODE_DEPARTMENT_VALID, TKUtils.getCurrentDate());
+		Department deptObj = TkServiceLocator.getDepartmentService().getDepartment(TEST_CODE_DEPARTMENT_VALID, LocalDate.now());
 		KRADServiceLocator.getBusinessObjectService().delete(deptObj);
 		super.tearDown();
 	}

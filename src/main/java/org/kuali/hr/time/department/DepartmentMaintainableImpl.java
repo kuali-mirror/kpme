@@ -70,12 +70,12 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
         Department oldMaintainableObject = (Department) document.getOldMaintainableObject().getBusinessObject();
         Department newMaintainableObject = (Department) document.getNewMaintainableObject().getBusinessObject();
         
-        Department oldDepartment = TkServiceLocator.getDepartmentService().getDepartment(oldMaintainableObject.getDept(), oldMaintainableObject.getEffectiveDate());
+        Department oldDepartment = TkServiceLocator.getDepartmentService().getDepartment(oldMaintainableObject.getDept(), oldMaintainableObject.getEffectiveLocalDate());
 
         oldMaintainableObject.setRoleMembers(oldDepartment.getRoleMembers());
         oldMaintainableObject.setInactiveRoleMembers(oldDepartment.getInactiveRoleMembers());
         
-        Department newDepartment = TkServiceLocator.getDepartmentService().getDepartment(newMaintainableObject.getDept(), newMaintainableObject.getEffectiveDate());
+        Department newDepartment = TkServiceLocator.getDepartmentService().getDepartment(newMaintainableObject.getDept(), newMaintainableObject.getEffectiveLocalDate());
 
         newMaintainableObject.setRoleMembers(newDepartment.getRoleMembers());
         newMaintainableObject.setInactiveRoleMembers(newDepartment.getInactiveRoleMembers());

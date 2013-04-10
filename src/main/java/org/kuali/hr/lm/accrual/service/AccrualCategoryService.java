@@ -15,12 +15,12 @@
  */
 package org.kuali.hr.lm.accrual.service;
 
+import java.math.BigDecimal;
+import java.util.List;
+
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.springframework.cache.annotation.Cacheable;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.List;
 
 public interface AccrualCategoryService {
 
@@ -31,7 +31,7 @@ public interface AccrualCategoryService {
 	 * @return
 	 */
     @Cacheable(value= AccrualCategory.CACHE_NAME, key="'accrualCategory=' + #p0 + '|' + 'asOfDate=' + #p1")
-    public AccrualCategory getAccrualCategory(String accrualCategory, Date asOfDate);
+    public AccrualCategory getAccrualCategory(String accrualCategory, LocalDate asOfDate);
     /**
      * Save or Update an accrual category
      * @param accrualCategory
@@ -52,9 +52,9 @@ public interface AccrualCategoryService {
      * @return
      */
     @Cacheable(value= AccrualCategory.CACHE_NAME, key="'asOfDate=' + #p0")
-    public List <AccrualCategory> getActiveAccrualCategories(Date asOfDate);
+    public List <AccrualCategory> getActiveAccrualCategories(LocalDate asOfDate);
 
-    List <AccrualCategory> getAccrualCategories(String accrualCategory, String accrualCatDescr, String leavePlan, String accrualEarnInterval, String unitOfTime, String minPercentWorked, Date fromEffdt, Date toEffdt, String active, String showHistory);
+    List <AccrualCategory> getAccrualCategories(String accrualCategory, String accrualCatDescr, String leavePlan, String accrualEarnInterval, String unitOfTime, String minPercentWorked, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
     
     /**
      * Fetch list of active accrual categories with given leavePlan and date
@@ -62,12 +62,12 @@ public interface AccrualCategoryService {
      * @param asOfDate
      * @return List <AccrualCategory>
      */
-   public List <AccrualCategory> getActiveAccrualCategoriesForLeavePlan(String leavePlan, Date asOfDate);
+   public List <AccrualCategory> getActiveAccrualCategoriesForLeavePlan(String leavePlan, LocalDate asOfDate);
      
-    public List <AccrualCategory> getActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, Date asOfDate);
+    public List <AccrualCategory> getActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, LocalDate asOfDate);
 
     
-    public List <AccrualCategory> getInActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, Date asOfDate);
+    public List <AccrualCategory> getInActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, LocalDate asOfDate);
     
     /**
      * Retreives the principal's balance on the current calendar for the given accrual category through the date supplied.
@@ -77,8 +77,8 @@ public interface AccrualCategoryService {
      * @return
      * @throws Exception 
      */
-	public BigDecimal getAccruedBalanceForPrincipal(String principalId, AccrualCategory accrualCategory, Date asOfDate);
+	public BigDecimal getAccruedBalanceForPrincipal(String principalId, AccrualCategory accrualCategory, LocalDate asOfDate);
 	
-	public BigDecimal getApprovedBalanceForPrincipal(String principalId, AccrualCategory accrualCategory, Date asOfDate);
+	public BigDecimal getApprovedBalanceForPrincipal(String principalId, AccrualCategory accrualCategory, LocalDate asOfDate);
 	
 }

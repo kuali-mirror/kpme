@@ -15,11 +15,10 @@
  */
 package org.kuali.hr.lm.leaveplan.dao;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
-
 
 public interface LeavePlanDao {
 
@@ -30,16 +29,16 @@ public interface LeavePlanDao {
 	 */
 	public LeavePlan getLeavePlan(String lmLeavePlanId);
 	
-	public LeavePlan getLeavePlan(String leavePlan, Date asOfDate);
+	public LeavePlan getLeavePlan(String leavePlan, LocalDate asOfDate);
 	
 	public int getNumberLeavePlan(String leavePlan);
 	
-	public List<LeavePlan> getAllActiveLeavePlan(String leavePlan, Date asOfDate);
+	public List<LeavePlan> getAllActiveLeavePlan(String leavePlan, LocalDate asOfDate);
 	
-	public List<LeavePlan> getAllInActiveLeavePlan(String leavePlan, Date asOfDate);
+	public List<LeavePlan> getAllInActiveLeavePlan(String leavePlan, LocalDate asOfDate);
 
-    List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths, Date fromEffdt, Date toEffdt, String active, String showHistory);
+    List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
     
-    public List<LeavePlan> getLeavePlansNeedsScheduled(int thresholdDays, Date asOfDate);
+    public List<LeavePlan> getLeavePlansNeedsScheduled(int thresholdDays, LocalDate asOfDate);
 
 }

@@ -15,7 +15,10 @@
  */
 package org.kuali.hr.time.batch;
 
+import java.sql.Timestamp;
+
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.Calendar;
@@ -32,9 +35,6 @@ import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-
-import java.sql.Timestamp;
-import java.util.Date;
 
 public class EndPayPeriodJob implements Job {
 	
@@ -53,8 +53,8 @@ public class EndPayPeriodJob implements Job {
 	        Calendar calendar = TkServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
 	        calendarEntry.setCalendarObj(calendar);
 	        
-	        Date beginPeriodDateTime = calendarEntry.getBeginPeriodDateTime();
-	        Date endPeriodDateTime = calendarEntry.getEndPeriodDateTime();
+	        DateTime beginPeriodDateTime = calendarEntry.getBeginPeriodFullDateTime();
+	        DateTime endPeriodDateTime = calendarEntry.getEndPeriodFullDateTime();
 	        ClockLog openClockLog = TkServiceLocator.getClockLogService().getClockLog(tkClockLogId);
 	        String ipAddress = openClockLog.getIpAddress();
 	        String principalId = openClockLog.getPrincipalId();
@@ -65,10 +65,10 @@ public class EndPayPeriodJob implements Job {
 	            String assignmentKey = new AssignmentDescriptionKey(openClockLog.getJobNumber(), openClockLog.getWorkArea(), openClockLog.getTask()).toAssignmentKeyString();
 	            Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(timesheetDocument, assignmentKey);
 	    		
-	            TkServiceLocator.getClockLogService().processClockLog(new Timestamp(endPeriodDateTime.getTime()), assignment, calendarEntry, ipAddress, 
-	            		new java.sql.Date(endPeriodDateTime.getTime()), timesheetDocument, TkConstants.CLOCK_OUT, principalId, batchUserPrincipalId);
-	            TkServiceLocator.getClockLogService().processClockLog(new Timestamp(beginPeriodDateTime.getTime()), assignment, calendarEntry, ipAddress, 
-	            		new java.sql.Date(beginPeriodDateTime.getTime()), timesheetDocument, TkConstants.CLOCK_IN, principalId, batchUserPrincipalId);
+	            TkServiceLocator.getClockLogService().processClockLog(new Timestamp(endPeriodDateTime.toDate().getTime()), assignment, calendarEntry, ipAddress, 
+	            		endPeriodDateTime.toLocalDate(), timesheetDocument, TkConstants.CLOCK_OUT, principalId, batchUserPrincipalId);
+	            TkServiceLocator.getClockLogService().processClockLog(new Timestamp(beginPeriodDateTime.toDate().getTime()), assignment, calendarEntry, ipAddress, 
+	            		beginPeriodDateTime.toLocalDate(), timesheetDocument, TkConstants.CLOCK_IN, principalId, batchUserPrincipalId);
 	        }
         } else {
         	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);

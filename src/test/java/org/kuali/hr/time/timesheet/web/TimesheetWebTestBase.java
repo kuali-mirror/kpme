@@ -33,14 +33,13 @@ import org.kuali.hr.util.filter.TestAutoLoginFilter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import java.net.URL;
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
 @Ignore
 public class TimesheetWebTestBase extends KPMETestCase {
     private static final Logger LOG = Logger.getLogger(TimesheetWebTestBase.class);
-    public static final Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+    public static final DateTime JAN_AS_OF_DATE = new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
     public static final String USER_PRINCIPAL_ID = "admin";
     public static String BASE_DETAIL_URL = ""; // moved to setUp() method -- initialization order for TkTestConstants problem.
 

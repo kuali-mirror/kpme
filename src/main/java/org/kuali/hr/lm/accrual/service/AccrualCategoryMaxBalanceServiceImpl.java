@@ -16,7 +16,6 @@
 package org.kuali.hr.lm.accrual.service;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -28,8 +27,8 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -59,10 +58,10 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 		
 		Interval thisEntryInterval = new Interval(entry.getBeginPeriodDate().getTime(),entry.getEndPeriodDate().getTime());
 
-		Date asOfDate = TKUtils.getCurrentDate();
+		LocalDate asOfDate = LocalDate.now();
 		
-		if(!thisEntryInterval.contains(asOfDate.getTime()))
-			asOfDate = new Date(DateUtils.addDays(entry.getEndPeriodDate(),-1).getTime());
+		if(!thisEntryInterval.contains(asOfDate.toDate().getTime()))
+			asOfDate = entry.getEndPeriodFullDateTime().minusDays(1).toLocalDate();
 
 		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
 		
@@ -74,7 +73,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 		if(cal == null)
 			return eligibilities;
 		
-		List<CalendarEntry> leaveCalEntries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(cal.getHrCalendarId(), new DateTime(entry.getBeginPeriodDateTime()), new DateTime(entry.getEndPeriodDateTime()));
+		List<CalendarEntry> leaveCalEntries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(cal.getHrCalendarId(), entry.getBeginPeriodFullDateTime(), entry.getEndPeriodFullDateTime());
 		CalendarEntry yearEndLeaveEntry = null;
 		CalendarEntry leaveLeaveEntry = null;
 		if(!leaveCalEntries.isEmpty()) {
@@ -102,7 +101,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 			Map<String, BigDecimal> accruedBalance = new HashMap<String, BigDecimal>();
 
 			for(AccrualCategory accrualCategory : accrualCategories) {
-				leaveBlocks.addAll(TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceDate(), DateUtils.addDays(asOfDate,1), accrualCategory.getAccrualCategory()));
+				leaveBlocks.addAll(TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceLocalDate(), asOfDate.plusDays(1), accrualCategory.getAccrualCategory()));
 				accruedBalance.put(accrualCategory.getLmAccrualCategoryId(), BigDecimal.ZERO);
 /*	Un-comment to consider service interval end-point changes. i.e. when defining a new action frequency - "ON_SERVICE_MILESTONE"
  * 
@@ -176,11 +175,11 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 			for(LeaveBlock lb : leaveBlocks) {
 				if(StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.DISAPPROVED) || StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.DEFERRED))
 					continue;
-				AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveDate());
+				AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveLocalDate());
 				BigDecimal tally = accruedBalance.get(accrualCategory.getLmAccrualCategoryId());
 				tally = tally.add(lb.getLeaveAmount());
 				
-				AccrualCategoryRule asOfLeaveDateRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, lb.getLeaveDate(), pha.getServiceDate());
+				AccrualCategoryRule asOfLeaveDateRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, lb.getLeaveLocalDate(), pha.getServiceLocalDate());
 
 				//Employee overrides...
 				if(ObjectUtils.isNotNull(asOfLeaveDateRule)) {
@@ -193,7 +192,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 								
 								BigDecimal maxBalance = asOfLeaveDateRule.getMaxBalance();
 
-								BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, TKUtils.getCurrentDate());
+								BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, LocalDate.now());
 								BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
 
 								BigDecimal maxAnnualCarryOver = null;
@@ -205,7 +204,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 									adjustedMaxAnnualCarryOver = maxAnnualCarryOver.multiply(fte);
 								}
 
-								List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, lb.getLeaveDate());
+								List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, lb.getLeaveLocalDate());
 								for(EmployeeOverride override : overrides) {
 									if(StringUtils.equals(override.getAccrualCategory(),lb.getAccrualCategory())) {
 										//Do not pro-rate override values for FTE.

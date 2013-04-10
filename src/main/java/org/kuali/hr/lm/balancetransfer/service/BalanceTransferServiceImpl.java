@@ -16,7 +16,6 @@
 package org.kuali.hr.lm.balancetransfer.service;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -58,13 +58,13 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 
 	@Override
 	public List<BalanceTransfer> getAllBalanceTransferForPrincipalIdAsOfDate(
-			String principalId, Date effectiveDate) {
+			String principalId, LocalDate effectiveDate) {
 		return balanceTransferDao.getAllBalanceTransferForPrincipalIdAsOfDate(principalId,effectiveDate);
 	}
 
 	@Override
 	public List<BalanceTransfer> getAllBalanceTransferByEffectiveDate(
-			Date effectiveDate) {
+			LocalDate effectiveDate) {
 		return balanceTransferDao.getAllBalanceTransferByEffectiveDate(effectiveDate);
 	}
 
@@ -74,7 +74,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 	}
 	
 	@Override
-	public BalanceTransfer initializeTransfer(String principalId, String accrualCategoryRule, BigDecimal accruedBalance, Date effectiveDate) {
+	public BalanceTransfer initializeTransfer(String principalId, String accrualCategoryRule, BigDecimal accruedBalance, LocalDate effectiveDate) {
 		//Initially, principals may be allowed to edit the transfer amount when prompted to submit this balance transfer, however,
 		//a base transfer amount together with a forfeited amount is calculated to bring the balance back to its limit in accordance
 		//with transfer limits. This "default" transfer object is used to adjust forfeiture when the user changes the transfer amount.
@@ -205,7 +205,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				//otherwise, given balance will be at or under the max annual carry over.
 			}
 			
-			bt.setEffectiveDate(effectiveDate);
+			bt.setEffectiveLocalDate(effectiveDate);
 			bt.setAccrualCategoryRule(accrualCategoryRule);
 			bt.setFromAccrualCategory(fromAccrualCategory.getAccrualCategory());
 			bt.setPrincipalId(principalId);
@@ -347,7 +347,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				"BalanceTransferDocumentType",KRADConstants.MAINTENANCE_NEW_ACTION);
 
         String personName = (principalName != null  && principalName.getDefaultName() != null) ? principalName.getDefaultName().getCompositeName() : StringUtils.EMPTY;
-        String date = TKUtils.formatDate(new java.sql.Date(balanceTransfer.getEffectiveDate().getTime()));
+        String date = TKUtils.formatDate(balanceTransfer.getEffectiveLocalDate());
         document.getDocumentHeader().setDocumentDescription(personName + " (" + balanceTransfer.getPrincipalId() + ")  - " + date);
 		Map<String,String[]> params = new HashMap<String,String[]>();
 		
@@ -378,7 +378,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		if(ObjectUtils.isNull(balanceTransfer))
 			throw new RuntimeException("did not supply a valid BalanceTransfer object.");
 		else {
-			List<LeaveBlock> sstoLbList = TkServiceLocator.getLeaveBlockService().getSSTOLeaveBlocks(balanceTransfer.getPrincipalId(), balanceTransfer.getSstoId(), balanceTransfer.getEffectiveDate());
+			List<LeaveBlock> sstoLbList = TkServiceLocator.getLeaveBlockService().getSSTOLeaveBlocks(balanceTransfer.getPrincipalId(), balanceTransfer.getSstoId(), balanceTransfer.getEffectiveLocalDate());
 			String leaveDocId = "";
 			if(CollectionUtils.isNotEmpty(sstoLbList)) {
 				leaveDocId = sstoLbList.get(0).getDocumentId();
@@ -409,7 +409,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 
 	@Override
 	public List<BalanceTransfer> getBalanceTransfers(String viewPrincipal,
-			Date beginPeriodDate, Date endPeriodDate) {
+			LocalDate beginPeriodDate, LocalDate endPeriodDate) {
 		// TODO Auto-generated method stub
 		return balanceTransferDao.getBalanceTransfers(viewPrincipal, beginPeriodDate, endPeriodDate);
 	}
@@ -420,7 +420,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		balanceTransferDao.saveOrUpdate(balanceTransfer);
 	}
 	
-    public List<BalanceTransfer> getBalanceTransfers(String principalId, String fromAccrualCategory, String transferAmount, String toAccrualCategory, String amountTransferred, String forfeitedAmount, Date fromEffdt, Date toEffdt) {
+    public List<BalanceTransfer> getBalanceTransfers(String principalId, String fromAccrualCategory, String transferAmount, String toAccrualCategory, String amountTransferred, String forfeitedAmount, LocalDate fromEffdt, LocalDate toEffdt) {
     	return balanceTransferDao.getBalanceTransfers(principalId, fromAccrualCategory, transferAmount, toAccrualCategory, amountTransferred, forfeitedAmount, fromEffdt, toEffdt);
     }
 

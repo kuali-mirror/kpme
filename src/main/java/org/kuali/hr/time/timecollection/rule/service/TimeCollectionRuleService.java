@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.time.timecollection.rule.service;
 
+import java.util.List;
+
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.springframework.cache.annotation.Cacheable;
-
-import java.sql.Date;
-import java.util.List;
 
 public interface TimeCollectionRuleService {
 	/**
@@ -33,14 +33,14 @@ public interface TimeCollectionRuleService {
             key="'dept=' + #p0" +
                 "+ '|' + 'workArea=' + #p1" +
                 "+ '|' + 'asOfDate=' + #p2")
-	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea,Date asOfDate);
+	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea,LocalDate asOfDate);
 
     @Cacheable(value= TimeCollectionRule.CACHE_NAME,
             key="'dept=' + #p0" +
                 "+ '|' + 'workArea=' + #p1" +
                 "+ '|' + 'payType=' + #p2" +
                 "+ '|' + 'asOfDate=' + #p3")
-	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, Date asOfDate);
+	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, LocalDate asOfDate);
 
     @Cacheable(value= TimeCollectionRule.CACHE_NAME, key="'tkTimeCollectionRuleId=' + #p0")
 	public TimeCollectionRule getTimeCollectionRule(String tkTimeCollectionRuleId);

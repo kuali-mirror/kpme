@@ -21,10 +21,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -74,15 +74,15 @@ public class TkClockActionValuesFinder extends KeyValuesBase {
             } 
             //#KPME-2178 nullity checked.
             if(lastClock != null){
-            	String dept = TkServiceLocator.getJobService().getJob(targetPerson, lastClock.getJobNumber(), TKUtils.getCurrentDate()).getDept();
+            	String dept = TkServiceLocator.getJobService().getJob(targetPerson, lastClock.getJobNumber(), LocalDate.now()).getDept();
 	            Long workArea = lastClock.getWorkArea();
 	            Long jobNumber = lastClock.getJobNumber();
 	
-	            if (!TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(TKUtils.getCurrentDate()).getShowLunchButton()) {
+	            if (!TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(LocalDate.now()).getShowLunchButton()) {
 	                keyLabels.remove(new ConcreteKeyValue("LO", "Lunch Out"));
 	                keyLabels.remove(new ConcreteKeyValue("LI", "Lunch In"));
 	            } else {
-	                   if (TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(dept, workArea, targetPerson, jobNumber,TKUtils.getCurrentDate()) != null) {
+	                   if (TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(dept, workArea, targetPerson, jobNumber, LocalDate.now()) != null) {
 	                       keyLabels.remove(new ConcreteKeyValue("LO", "Lunch Out"));
 	                       keyLabels.remove(new ConcreteKeyValue("LI", "Lunch In"));
 	                   }

@@ -15,18 +15,18 @@
  */
 package org.kuali.hr.lm.workflow.service;
 
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 
 public interface LeaveCalendarDocumentHeaderService {
     LeaveCalendarDocumentHeader getDocumentHeader(String documentId);
-    LeaveCalendarDocumentHeader getDocumentHeader(String principalId, Date beginDate, Date endDate);
+    LeaveCalendarDocumentHeader getDocumentHeader(String principalId, DateTime beginDate, DateTime endDate);
     void saveOrUpdate(LeaveCalendarDocumentHeader leaveCalendarDocumentHeader);
     LeaveCalendarDocumentHeader getPrevOrNextDocumentHeader(String prevOrNext, String principalId);
     
-    public List<LeaveCalendarDocumentHeader> getDocumentHeaders(Date beginDate, Date endDate);
+    public List<LeaveCalendarDocumentHeader> getDocumentHeaders(DateTime beginDate, DateTime endDate);
     /*
      * return the latest approved leave calendar for given principalId
      */
@@ -41,7 +41,7 @@ public interface LeaveCalendarDocumentHeaderService {
      */
 	public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersForPricipalId(String principalId);
 	
-	public List<LeaveCalendarDocumentHeader> getSubmissionDelinquentDocumentHeaders(String principalId, Date beforeDate);
+	public List<LeaveCalendarDocumentHeader> getSubmissionDelinquentDocumentHeaders(String principalId, DateTime beforeDate);
 	
 	public List<LeaveCalendarDocumentHeader> getApprovalDelinquentDocumentHeaders(String principalId);
 
@@ -54,6 +54,6 @@ public interface LeaveCalendarDocumentHeaderService {
      * @param endDate
      * @return
      */
-    public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersInRangeForPricipalId(String principalId, Date beginDate, Date endDate);
+    public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersInRangeForPricipalId(String principalId, DateTime beginDate, DateTime endDate);
 }
 

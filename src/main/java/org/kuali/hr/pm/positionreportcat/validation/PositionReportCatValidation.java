@@ -25,7 +25,7 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 	
 	private boolean validatePositionReportType(PositionReportCategory prc) {
 		if (StringUtils.isNotEmpty(prc.getPositionReportType())
-				&& !PmValidationUtils.validatePositionReportType(prc.getPositionReportType(), prc.getInstitution(), prc.getCampus(), prc.getEffectiveDate())) {
+				&& !PmValidationUtils.validatePositionReportType(prc.getPositionReportType(), prc.getInstitution(), prc.getCampus(), prc.getEffectiveLocalDate())) {
 			String[] parameters = new String[3];
 			parameters[0] = prc.getPositionReportType();
 			parameters[1] = prc.getInstitution();
@@ -38,7 +38,7 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 	
 	private boolean validateInstitution(PositionReportCategory prc) {
 		if (StringUtils.isNotEmpty(prc.getInstitution())) {
-			if(!PmValidationUtils.validateInstitution(prc.getInstitution(), prc.getEffectiveDate())) {
+			if(!PmValidationUtils.validateInstitution(prc.getInstitution(), prc.getEffectiveLocalDate())) {
 				this.putFieldError("institution", "error.existence", "Instituion '"
 						+ prc.getInstitution() + "'");
 				return false;

@@ -71,12 +71,12 @@ public class LocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         Location oldMaintainableObject = (Location) document.getOldMaintainableObject().getBusinessObject();
         Location newMaintainableObject = (Location) document.getNewMaintainableObject().getBusinessObject();
         
-        Location oldLocation = TkServiceLocator.getLocationService().getLocation(oldMaintainableObject.getLocation(), oldMaintainableObject.getEffectiveDate());
+        Location oldLocation = TkServiceLocator.getLocationService().getLocation(oldMaintainableObject.getLocation(), oldMaintainableObject.getEffectiveLocalDate());
 
         oldMaintainableObject.setRoleMembers(oldLocation.getRoleMembers());
         oldMaintainableObject.setInactiveRoleMembers(oldLocation.getInactiveRoleMembers());
         
-        Location newLocation = TkServiceLocator.getLocationService().getLocation(newMaintainableObject.getLocation(), newMaintainableObject.getEffectiveDate());
+        Location newLocation = TkServiceLocator.getLocationService().getLocation(newMaintainableObject.getLocation(), newMaintainableObject.getEffectiveLocalDate());
 
         newMaintainableObject.setRoleMembers(newLocation.getRoleMembers());
         newMaintainableObject.setInactiveRoleMembers(newLocation.getInactiveRoleMembers());

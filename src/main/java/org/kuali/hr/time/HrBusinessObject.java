@@ -15,9 +15,10 @@
  */
 package org.kuali.hr.time;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 
+import org.joda.time.LocalDate;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public abstract class HrBusinessObject extends PersistableBusinessObjectBase{
@@ -40,6 +41,14 @@ public abstract class HrBusinessObject extends PersistableBusinessObjectBase{
 
 	public void setEffectiveDate(Date effectiveDate) {
 		this.effectiveDate = effectiveDate;
+	}
+	
+	public LocalDate getEffectiveLocalDate() {
+		return effectiveDate != null ? LocalDate.fromDateFields(effectiveDate) : null;
+	}
+	
+	public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
+		this.effectiveDate = effectiveLocalDate != null ? effectiveLocalDate.toDate() : null;
 	}
 
 	public boolean isActive() {

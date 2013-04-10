@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.time.earncode.dao;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.earncode.EarnCode;
 
-import java.sql.Date;
 import java.util.List;
 
 public interface EarnCodeDao {
@@ -26,15 +26,15 @@ public interface EarnCodeDao {
 	public EarnCode getEarnCodeById(String earnCodeId);
 	
 	/** Provides access to earn code by name, using effdt, timestamp and active as qualifiers */
-	public EarnCode getEarnCode(String earnCode, Date asOfDate);
+	public EarnCode getEarnCode(String earnCode, LocalDate asOfDate);
 	
-	public List<EarnCode> getOvertimeEarnCodes(Date asOfDate);
+	public List<EarnCode> getOvertimeEarnCodes(LocalDate asOfDate);
 
 	public int getEarnCodeCount(String earnCode);
 	
-	public int getNewerEarnCodeCount(String earnCode, Date effdt);
+	public int getNewerEarnCodeCount(String earnCode, LocalDate effdt);
 	
-	public List<EarnCode> getEarnCodes(String leavePlan, Date asOfDate);
+	public List<EarnCode> getEarnCodes(String leavePlan, LocalDate asOfDate);
 
-    List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String descr, String leavePlan, String accrualCategory, Date fromEffdt, Date toEffdt, String active, String showHist);
+    List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String descr, String leavePlan, String accrualCategory, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }

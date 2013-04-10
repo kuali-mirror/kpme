@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveadjustment.LeaveAdjustment;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -70,7 +71,7 @@ public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMain
 				&& StringUtils.isNotEmpty(fieldValues.get("effectiveDate"))) {
 			Date effDate = new Date(fieldValues.get("effectiveDate"));
 			PrincipalHRAttributes principalHRAttrObj = TkServiceLocator.getPrincipalHRAttributeService()
-						.getPrincipalCalendar(fieldValues.get("principalId"), effDate);
+						.getPrincipalCalendar(fieldValues.get("principalId"), LocalDate.fromDateFields(effDate));
 			String lpString = (principalHRAttrObj != null) ? principalHRAttrObj.getLeavePlan() : "";
 			fieldValues.put("leavePlan", lpString);
 		}

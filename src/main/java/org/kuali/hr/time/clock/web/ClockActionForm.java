@@ -313,7 +313,7 @@ public class ClockActionForm extends TimesheetActionForm {
 				 LinkedHashMap<String, String> desMap = new LinkedHashMap<String, String>();  // for populating assignment dropdown list when click Edit button
 
 				 for(Assignment assignment : assignmentList) {
-					TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveDate());
+					TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveLocalDate());
 					if(rule != null && rule.isHrsDistributionF() && rule.isClockUserFl()) {
 						aList.add(assignment.getAssignmentDescription()+ "=" + assignment.getTkAssignmentId().toString());
 						desMap.put(assignment.getTkAssignmentId().toString(), assignment.getAssignmentDescription());

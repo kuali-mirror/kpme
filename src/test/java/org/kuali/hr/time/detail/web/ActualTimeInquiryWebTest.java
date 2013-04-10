@@ -96,7 +96,7 @@ public class ActualTimeInquiryWebTest extends KPMETestCase {
 	}
 	
 	public void changeGracePeriodRule() {
-		GracePeriodRule gracePeriodRule = TkServiceLocator.getGracePeriodService().getGracePeriodRule(timeBlock.getBeginDate());
+		GracePeriodRule gracePeriodRule = TkServiceLocator.getGracePeriodService().getGracePeriodRule(timeBlock.getBeginDateTime().toLocalDate());
 		gracePeriodRule.setHourFactor(new BigDecimal("1"));
 		KRADServiceLocator.getBusinessObjectService().save(gracePeriodRule);
 	}

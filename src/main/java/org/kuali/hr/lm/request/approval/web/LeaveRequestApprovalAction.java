@@ -39,6 +39,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.hsqldb.lib.StringUtil;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.core.role.KPMERole;
@@ -69,7 +70,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
         ActionForward forward = super.execute(mapping, form, request, response);
 		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
 		
-		Date currentDate = TKUtils.getCurrentDate();
+		LocalDate currentDate = LocalDate.now();
 		List<Long> workAreas = TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);
 		List<String> principalIds = new ArrayList<String>();
         for (Long workArea : workAreas) {
@@ -105,7 +106,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward fwd = mapping.findForward("basic");
 		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
-        Date currentDate = TKUtils.getCurrentDate();
+        LocalDate currentDate = LocalDate.now();
         
         //reset state
         if(StringUtils.isEmpty(lraaForm.getSelectedDept())) {
@@ -182,7 +183,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		lraaForm.getWorkAreaDescr().clear();
 		
 		String principalId = GlobalVariables.getUserSession().getPrincipalId();
-    	List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), TKUtils.getCurrentDate());
+    	List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), LocalDate.now());
         for (WorkArea workAreaObj : workAreaObjs) {
         	Long workArea = workAreaObj.getWorkArea();
         	String description = workAreaObj.getDescription();
@@ -222,7 +223,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		List<ActionItem> actionList = KewApiServiceLocator.getActionListService().getActionItemsForPrincipal(principalId);
 		List<ActionItem> resultsList = new ArrayList<ActionItem>();
 
-		Date currentDate = TKUtils.getCurrentDate();
+		LocalDate currentDate = LocalDate.now();
 		List<String> principalIds = TkServiceLocator.getLeaveApprovalService()
  			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, calGroup, currentDate, currentDate, currentDate);    
 		
@@ -363,7 +364,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 			LeaveRequestApprovalRow aRow = new LeaveRequestApprovalRow();
 			aRow.setLeaveRequestDocId(lrd.getDocumentNumber());
 			aRow.setLeaveCode(lb.getEarnCode());
-			aRow.setRequestedDate(TKUtils.formatDate(lb.getLeaveDate()));
+			aRow.setRequestedDate(TKUtils.formatDate(lb.getLeaveLocalDate()));
 			aRow.setRequestedHours(lb.getLeaveAmount().toString());
 			aRow.setDescription(lrd.getDescription());
 			DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");

@@ -15,11 +15,10 @@
  */
 package org.kuali.hr.time.docsearch;
 
-import java.util.Date;
-
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 
 public interface TkSearchableAttributeService {
-	public String createSearchableAttributeXml(CalendarDocumentContract document, Date asOfDate);
-	public void updateSearchableAttribute(CalendarDocumentContract document, Date asOfDate);
+	public String createSearchableAttributeXml(CalendarDocumentContract document, LocalDate asOfDate);
+	public void updateSearchableAttribute(CalendarDocumentContract document, LocalDate asOfDate);
 }

@@ -191,7 +191,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         LeaveBlock leaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
 
         String principalName = person != null && person.getDefaultName() != null ? person.getDefaultName().getCompositeName() : StringUtils.EMPTY;
-        String leaveRequestDateString = leaveBlock != null ? TKUtils.formatDate(leaveBlock.getLeaveDate()) : StringUtils.EMPTY;
+        String leaveRequestDateString = leaveBlock != null ? TKUtils.formatDate(leaveBlock.getLeaveLocalDate()) : StringUtils.EMPTY;
         String leaveRequestDocumentTitle = principalName + " (" + principalId + ") - " + leaveRequestDateString;
         
         leaveRequestDocument.setLmLeaveBlockId(leaveBlockId);
@@ -240,7 +240,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
                 if(!workAreas.contains(assign.getWorkArea())){
                     workAreas.add(assign.getWorkArea());
                 }
-                Job job = TkServiceLocator.getJobService().getJob(assign.getPrincipalId(), assign.getJobNumber(), leaveBlock.getLeaveDate());
+                Job job = TkServiceLocator.getJobService().getJob(assign.getPrincipalId(), assign.getJobNumber(), leaveBlock.getLeaveLocalDate());
 
                 if(!salGroups.contains(job.getHrSalGroup())){
                     salGroups.add(job.getHrSalGroup());
@@ -248,7 +248,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
             }
         }
         for(Long workArea : workAreas){
-            WorkArea workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, TKUtils.getTimelessDate(leaveBlock.getLeaveDate()));
+            WorkArea workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, leaveBlock.getLeaveLocalDate());
             if(deptToListOfWorkAreas.containsKey(workAreaObj.getDept())){
                 List<Long> deptWorkAreas = deptToListOfWorkAreas.get(workAreaObj.getDept());
                 deptWorkAreas.add(workArea);

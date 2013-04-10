@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.lm.earncodesec.service;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.springframework.cache.annotation.Cacheable;
 
-import java.util.Date;
 import java.util.List;
 
 public interface EarnCodeSecurityService {
@@ -31,7 +31,7 @@ public interface EarnCodeSecurityService {
                     "+ '|' + 'hrSalGroup=' + #p1" +
                     "+ '|' + 'location=' + #p2" +
                     "+ '|' + 'asOfDate=' + #p3")
-	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, Date asOfDate);
+	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate);
 	
 	/**
 	 * Fetch department earn code by id
@@ -42,7 +42,7 @@ public interface EarnCodeSecurityService {
 	public EarnCodeSecurity getEarnCodeSecurity(String hrEarnCodeSecId);
 	
 	public List<EarnCodeSecurity> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location,
-			java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory);
+			LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 	
     /**
      * get the count of Department Earn Code by given parameters
@@ -50,7 +50,7 @@ public interface EarnCodeSecurityService {
      * @return int
      */
 	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,
-			String active, java.sql.Date effdt,String hrDeptEarnCodeId);
+			String active, LocalDate effdt,String hrDeptEarnCodeId);
 	
     /**
      * get the count of newer versions of the given earnCode
@@ -58,5 +58,5 @@ public interface EarnCodeSecurityService {
      * @param effdt
      * @return int
      */
-	public int getNewerEarnCodeSecurityCount(String earnCode, Date effdt);
+	public int getNewerEarnCodeSecurityCount(String earnCode, LocalDate effdt);
 }

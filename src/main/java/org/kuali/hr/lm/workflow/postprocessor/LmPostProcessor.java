@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.lm.workflow.postprocessor;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -63,7 +62,7 @@ public class LmPostProcessor extends DefaultPostProcessor {
 	private void calculateMaxCarryOver(LeaveCalendarDocumentHeader leaveCalendarDocumentHeader, DocumentStatus newDocumentStatus) {
 		String documentId = leaveCalendarDocumentHeader.getDocumentId();
 		String principalId = leaveCalendarDocumentHeader.getPrincipalId();
-		Date endDate = leaveCalendarDocumentHeader.getEndDate();
+		DateTime endDate = leaveCalendarDocumentHeader.getEndDateTime();
 		if (DocumentStatus.ENROUTE.equals(newDocumentStatus)) {
 			//create pending carry over leave blocks.
 			
@@ -72,12 +71,12 @@ public class LmPostProcessor extends DefaultPostProcessor {
 			if (calendar != null) {
 				CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate(calendar.getHrCalendarId(), new DateTime(endDate));
 				
-				TkServiceLocator.getAccrualCategoryMaxCarryOverService().calculateMaxCarryOver(documentId, principalId, calendarEntry, endDate);
+				TkServiceLocator.getAccrualCategoryMaxCarryOverService().calculateMaxCarryOver(documentId, principalId, calendarEntry, endDate.toLocalDate());
 			}
 		}
 		else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
 			//approve the carry over leave block.
-			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, leaveCalendarDocumentHeader.getBeginDate(), endDate);
+			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, leaveCalendarDocumentHeader.getBeginDateTime().toLocalDate(), endDate.toLocalDate());
 			for(LeaveBlock lb : leaveBlocks) {
 				if(StringUtils.equals(lb.getDescription(),"Max carry over adjustment")) {
 					lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);

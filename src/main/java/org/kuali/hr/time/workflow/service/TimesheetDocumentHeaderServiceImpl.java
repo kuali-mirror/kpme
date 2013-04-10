@@ -15,15 +15,15 @@
  */
 package org.kuali.hr.time.workflow.service;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.hr.time.workflow.dao.TimesheetDocumentHeaderDao;
-
-import java.util.Date;
-import java.util.List;
 
 public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHeaderService {
 
@@ -44,15 +44,15 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
     }
 
     @Override
-    public TimesheetDocumentHeader getDocumentHeader(String principalId, Date payBeginDate, Date payEndDate) {
+    public TimesheetDocumentHeader getDocumentHeader(String principalId, DateTime payBeginDate, DateTime payEndDate) {
         return documentHeaderDao.getTimesheetDocumentHeader(principalId, payBeginDate, payEndDate);
     }
 
-    public TimesheetDocumentHeader getPreviousDocumentHeader(String principalId, Date payBeginDate) {
+    public TimesheetDocumentHeader getPreviousDocumentHeader(String principalId, DateTime payBeginDate) {
         return documentHeaderDao.getPreviousDocumentHeader(principalId, payBeginDate);
     }
     
-    public TimesheetDocumentHeader getNextDocumentHeader(String principalId, Date payEndDate) {
+    public TimesheetDocumentHeader getNextDocumentHeader(String principalId, DateTime payEndDate) {
         return documentHeaderDao.getNextDocumentHeader(principalId, payEndDate);
     }
 
@@ -61,15 +61,15 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
         TimesheetDocument currentTimesheet = TKContext.getCurrentTimesheetDocument();
         TimesheetDocumentHeader tsdh;
         if (StringUtils.equals(prevOrNext, TkConstants.PREV_TIMESHEET)) {
-            tsdh = documentHeaderDao.getPreviousDocumentHeader(principalId, currentTimesheet.getDocumentHeader().getBeginDate());
+            tsdh = documentHeaderDao.getPreviousDocumentHeader(principalId, currentTimesheet.getDocumentHeader().getBeginDateTime());
         } else {
-            tsdh = documentHeaderDao.getNextDocumentHeader(principalId, currentTimesheet.getDocumentHeader().getEndDate());
+            tsdh = documentHeaderDao.getNextDocumentHeader(principalId, currentTimesheet.getDocumentHeader().getEndDateTime());
         }
         return tsdh;
     }
     
     @Override
-    public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate, Date payEndDate) {
+    public List<TimesheetDocumentHeader> getDocumentHeaders(DateTime payBeginDate, DateTime payEndDate) {
         return documentHeaderDao.getDocumentHeaders(payBeginDate, payEndDate);
     }
 
@@ -88,7 +88,7 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
 		return documentHeaderDao.getDocumentHeadersForYear(principalId, year);
 	}
 	
-	public TimesheetDocumentHeader getDocumentHeaderForDate(String principalId, Date asOfDate) {
+	public TimesheetDocumentHeader getDocumentHeaderForDate(String principalId, DateTime asOfDate) {
 		return documentHeaderDao.getDocumentHeaderForDate(principalId, asOfDate);
 	}
 

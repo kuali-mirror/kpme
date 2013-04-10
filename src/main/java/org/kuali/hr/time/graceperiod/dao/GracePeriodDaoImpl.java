@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.graceperiod.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,12 +23,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class GracePeriodDaoImpl extends PlatformAwareDaoBaseOjb implements GracePeriodDao {
-	public GracePeriodRule getGracePeriodRule(Date asOfDate){
+	public GracePeriodRule getGracePeriodRule(LocalDate asOfDate){
 		GracePeriodRule gracePeriodRule = null;
 		
 		Criteria root = new Criteria();

@@ -1,8 +1,8 @@
 package org.kuali.hr.pm.positiontype.service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.pm.positiontype.PositionType;
 import org.kuali.hr.pm.positiontype.dao.PositionTypeDao;
 
@@ -17,7 +17,7 @@ public class PositionTypeServiceImpl implements PositionTypeService {
 	}
 
 	@Override
-	public List<PositionType> getPositionTypeList(String positionType, String institution, String campus, Date asOfDate) {
+	public List<PositionType> getPositionTypeList(String positionType, String institution, String campus, LocalDate asOfDate) {
 		return positionTypeDao.getPositionTypeList(positionType, institution, campus, asOfDate);
 	}
 

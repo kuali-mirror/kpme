@@ -24,7 +24,7 @@ public class PositionReportTypeValidation extends MaintenanceDocumentRuleBase  {
 	
 	private boolean validateInstitution(PositionReportType prt) {
 		if (StringUtils.isNotEmpty(prt.getInstitution())
-				&& !PmValidationUtils.validateInstitution(prt.getInstitution(), prt.getEffectiveDate())) {
+				&& !PmValidationUtils.validateInstitution(prt.getInstitution(), prt.getEffectiveLocalDate())) {
 			this.putFieldError("institution", "error.existence", "Instituion '"
 					+ prt.getInstitution() + "'");
 			return false;

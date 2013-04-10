@@ -15,21 +15,20 @@
  */
 package org.kuali.hr.core.util;
 
+import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-
-import java.sql.Date;
-import java.util.List;
+import org.joda.time.LocalDate;
 
 public class OjbSubQueryUtil {
 
-    public static ReportQueryByCriteria getEffectiveDateSubQuery(Class clazz, Date asOfDate, List<String> equalToField, boolean checkActive) {
+    public static ReportQueryByCriteria getEffectiveDateSubQuery(Class clazz, LocalDate asOfDate, List<String> equalToField, boolean checkActive) {
         //create base effective date filter
         Criteria effDateFilter = new Criteria();
-        effDateFilter.addLessOrEqualThan("effectiveDate", asOfDate);
+        effDateFilter.addLessOrEqualThan("effectiveDate", asOfDate != null ? asOfDate.toDate() : null);
         Criteria orNull = new Criteria();
         orNull.addIsNull("effectiveDate");
         effDateFilter.addOrCriteria(orNull);

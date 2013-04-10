@@ -15,14 +15,14 @@
  */
 package org.kuali.hr.time.timecollection.rule.dao;
 
-import org.kuali.hr.time.collection.rule.TimeCollectionRule;
-
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
+import org.kuali.hr.time.collection.rule.TimeCollectionRule;
+
 public interface TimeCollectionRuleDaoService {
-	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, Date asOfDate);
-	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, Date asOfDate);
+	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, LocalDate asOfDate);
+	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, LocalDate asOfDate);
 	public TimeCollectionRule getTimeCollectionRule(String tkTimeCollectionRuleId);
 
     List<TimeCollectionRule> getTimeCollectionRules(String dept, Long workArea, String payType, String active, String showHistory);

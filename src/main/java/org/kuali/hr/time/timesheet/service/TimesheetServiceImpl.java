@@ -18,7 +18,6 @@ package org.kuali.hr.time.timesheet.service;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,6 +25,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -124,8 +124,8 @@ public class TimesheetServiceImpl implements TimesheetService {
     public TimesheetDocument openTimesheetDocument(String principalId, CalendarEntry calendarDates) throws WorkflowException {
         TimesheetDocument timesheetDocument = null;
 
-        Date begin = calendarDates.getBeginPeriodDateTime();
-        Date end = calendarDates.getEndPeriodDateTime();
+        DateTime begin = calendarDates.getBeginPeriodFullDateTime();
+        DateTime end = calendarDates.getEndPeriodFullDateTime();
 
         TimesheetDocumentHeader header = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, begin, end);
 
@@ -140,7 +140,7 @@ public class TimesheetServiceImpl implements TimesheetService {
             
             EntityNamePrincipalName person = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
             String principalName = person != null && person.getDefaultName() != null ? person.getDefaultName().getCompositeName() : StringUtils.EMPTY;
-            String endDateString = TKUtils.formatDate(new java.sql.Date(end.getTime()));
+            String endDateString = TKUtils.formatDate(end.toLocalDate());
             String timesheetDocumentTitle = TimesheetDocument.TIMESHEET_DOCUMENT_TYPE + " - " + principalName + " (" + principalId + ") - " + endDateString;
             
             timesheetDocument = this.initiateWorkflowDocument(principalId, begin, end, calendarDates, TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, timesheetDocumentTitle);
@@ -157,12 +157,12 @@ public class TimesheetServiceImpl implements TimesheetService {
         return timesheetDocument;
     }
 
-    public void loadHolidaysOnTimesheet(TimesheetDocument timesheetDocument, String principalId, Date beginDate, Date endDate) {
-        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, new java.sql.Date(beginDate.getTime()));
+    public void loadHolidaysOnTimesheet(TimesheetDocument timesheetDocument, String principalId, LocalDate beginDate, LocalDate endDate) {
+        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, beginDate);
         if (principalCalendar != null && StringUtils.isNotEmpty(principalCalendar.getLeavePlan())) {
         	List<SystemScheduledTimeOff> sstoList = TkServiceLocator.getSysSchTimeOffService()
         		.getSystemScheduledTimeOffForPayPeriod(principalCalendar.getLeavePlan(), beginDate, endDate);
-        	Assignment sstoAssign = TkServiceLocator.getAssignmentService().getAssignmentToApplyScheduledTimeOff(timesheetDocument, TKUtils.getTimelessDate(endDate));
+        	Assignment sstoAssign = TkServiceLocator.getAssignmentService().getAssignmentToApplyScheduledTimeOff(timesheetDocument, endDate);
         	if (sstoAssign != null) {
         		for(SystemScheduledTimeOff ssto : sstoList) {
                   BigDecimal sstoCalcHours = TkServiceLocator.getSysSchTimeOffService().calculateSysSchTimeOffHours(sstoAssign.getJob(), ssto.getAmountofTime());
@@ -178,14 +178,14 @@ public class TimesheetServiceImpl implements TimesheetService {
         }
     }
 
-    protected TimesheetDocument initiateWorkflowDocument(String principalId, Date payBeginDate,  Date payEndDate, CalendarEntry calendarEntry, String documentType, String title) throws WorkflowException {
+    protected TimesheetDocument initiateWorkflowDocument(String principalId, DateTime payBeginDate,  DateTime payEndDate, CalendarEntry calendarEntry, String documentType, String title) throws WorkflowException {
         TimesheetDocument timesheetDocument = null;
         WorkflowDocument workflowDocument = null;
 
         workflowDocument = WorkflowDocumentFactory.createDocument(principalId, documentType, title);
 
         String status = workflowDocument.getStatus().getCode();
-        TimesheetDocumentHeader documentHeader = new TimesheetDocumentHeader(workflowDocument.getDocumentId(), principalId, payBeginDate, payEndDate, status);
+        TimesheetDocumentHeader documentHeader = new TimesheetDocumentHeader(workflowDocument.getDocumentId(), principalId, payBeginDate.toDate(), payEndDate.toDate(), status);
 
         documentHeader.setDocumentId(workflowDocument.getDocumentId().toString());
         documentHeader.setDocumentStatus("I");
@@ -194,16 +194,16 @@ public class TimesheetServiceImpl implements TimesheetService {
         timesheetDocument = new TimesheetDocument(documentHeader);
         timesheetDocument.setCalendarEntry(calendarEntry);
         loadTimesheetDocumentData(timesheetDocument, principalId, calendarEntry);
-        TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(timesheetDocument, payEndDate);
+        TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(timesheetDocument, payEndDate.toLocalDate());
 
         if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
-        	deleteNonApprovedLeaveBlocks(principalId, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
+        	deleteNonApprovedLeaveBlocks(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
         }
         
         return timesheetDocument;
     }
     
-    private void deleteNonApprovedLeaveBlocks(String principalId, Date beginDate, Date endDate) {
+    private void deleteNonApprovedLeaveBlocks(String principalId, LocalDate beginDate, LocalDate endDate) {
     	String batchUserPrincipalId = getBatchUserPrincipalId();
         
         if (batchUserPrincipalId != null) {
@@ -226,7 +226,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         return principal == null ? null : principal.getPrincipalId();
     }
 
-    public List<TimeBlock> getPrevDocumentTimeBlocks(String principalId, Date payBeginDate) {
+    public List<TimeBlock> getPrevDocumentTimeBlocks(String principalId, DateTime payBeginDate) {
         TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, payBeginDate);
         if (prevTdh == null) {
             return new ArrayList<TimeBlock>();
@@ -253,7 +253,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
     protected void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, CalendarEntry payCalEntry) {
         List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, payCalEntry);
-        List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId, TKUtils.getTimelessDate(payCalEntry.getEndPeriodDate()));
+        List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId, payCalEntry.getEndPeriodFullDateTime().toLocalDate());
         List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(tdoc.getDocumentHeader().getDocumentId());
 
         tdoc.setAssignments(assignments);
@@ -262,7 +262,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     public boolean isSynchronousUser() {
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate());
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), LocalDate.now());
         boolean isSynchronousUser = true;
         for (Assignment assignment : assignments) {
             isSynchronousUser &= assignment.isSynchronous();
@@ -298,9 +298,9 @@ public class TimesheetServiceImpl implements TimesheetService {
             return false;
         }
         List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
-        		document.getCalendarEntry().getBeginPeriodDate(), document.getCalendarEntry().getEndPeriodDate(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
+        		document.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), document.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
         leaveBlocks.addAll(TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
-        		document.getCalendarEntry().getBeginPeriodDate(), document.getCalendarEntry().getEndPeriodDate(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT));
+        		document.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), document.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT));
         for(LeaveBlock lb : leaveBlocks) {
         	if(!StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.APPROVED) &&
         			!StringUtils.equals(lb.getRequestStatus(), LMConstants.REQUEST_STATUS.DISAPPROVED))

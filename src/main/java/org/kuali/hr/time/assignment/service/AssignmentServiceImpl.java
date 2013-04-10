@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.assignment.service;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,6 +26,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.assignment.Assignment;
@@ -54,11 +54,11 @@ public class AssignmentServiceImpl implements AssignmentService {
 
 
     @Override
-    public List<Assignment> getAssignments(String principalId, Date asOfDate) {
+    public List<Assignment> getAssignments(String principalId, LocalDate asOfDate) {
         List<Assignment> assignments;
 
         if (asOfDate == null) {
-            asOfDate = TKUtils.getCurrentDate();
+            asOfDate = LocalDate.now();
         }
 
         assignments = assignmentDao.findAssignments(principalId, asOfDate);
@@ -70,13 +70,13 @@ public class AssignmentServiceImpl implements AssignmentService {
         return assignments;
     }
 
-    public List<Assignment> getAssignments(String principalId, Date beginDate, Date endDate) {
+    public List<Assignment> getAssignments(String principalId, LocalDate beginDate, LocalDate endDate) {
         List<Assignment> assignments;
 
         assignments = assignmentDao.findAssignmentsWithinPeriod(principalId, beginDate, endDate);
 
         for (Assignment assignment : assignments) {
-            populateAssignment(assignment, assignment.getEffectiveDate());
+            populateAssignment(assignment, assignment.getEffectiveLocalDate());
         }
 
         return assignments;
@@ -84,20 +84,19 @@ public class AssignmentServiceImpl implements AssignmentService {
 
 
     @Override
-    public List<Assignment> searchAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
+    public List<Assignment> searchAssignments(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
                                            String dept, String workArea, String active, String showHistory) {
         return assignmentDao.searchAssignments(fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
     }
 
     public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntry payCalendarEntry) {
-    	DateTime entryEndDate = payCalendarEntry.getEndLocalDateTime().toDateTime();
+    	DateTime entryEndDate = payCalendarEntry.getEndPeriodLocalDateTime().toDateTime();
         if (entryEndDate.getHourOfDay() == 0) {
             entryEndDate = entryEndDate.minusDays(1);
         }
-        Date endDate = new java.sql.Date(entryEndDate.getMillis());
-        List<Assignment> beginPeriodAssign = getAssignments(principalId, payCalendarEntry.getBeginPeriodDate());
-        List<Assignment> endPeriodAssign = getAssignments(principalId, endDate);
-        List<Assignment> assignsWithPeriod = getAssignments(principalId, payCalendarEntry.getBeginPeriodDate(), endDate);
+        List<Assignment> beginPeriodAssign = getAssignments(principalId, payCalendarEntry.getBeginPeriodFullDateTime().toLocalDate());
+        List<Assignment> endPeriodAssign = getAssignments(principalId, entryEndDate.toLocalDate());
+        List<Assignment> assignsWithPeriod = getAssignments(principalId, payCalendarEntry.getBeginPeriodFullDateTime().toLocalDate(), entryEndDate.toLocalDate());
 
         List<Assignment> finalAssignments = new ArrayList<Assignment>();
         Map<String, Assignment> assignKeyToAssignmentMap = new HashMap<String, Assignment>();
@@ -235,7 +234,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         }
 
         //No assignment found so fetch the inactive ones for this payBeginDate
-        Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(desc, timesheetDocument.getCalendarEntry().getBeginPeriodDate());
+        Assignment assign = getAssignment(desc, timesheetDocument.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate());
         if (assign != null) {
             return assign;
         }
@@ -252,7 +251,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
 
     @Override
-    public List<Assignment> getActiveAssignmentsForWorkArea(Long workArea, Date asOfDate) {
+    public List<Assignment> getActiveAssignmentsForWorkArea(Long workArea, LocalDate asOfDate) {
         List<Assignment> assignments = assignmentDao.getActiveAssignmentsInWorkArea(workArea, asOfDate);
         for (Assignment assignment : assignments) {
             populateAssignment(assignment, asOfDate);
@@ -261,11 +260,11 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public List<Assignment> getActiveAssignments(Date asOfDate) {
+    public List<Assignment> getActiveAssignments(LocalDate asOfDate) {
         return assignmentDao.getActiveAssignments(asOfDate);
     }
 
-    private void populateAssignment(Assignment assignment, Date asOfDate) {
+    private void populateAssignment(Assignment assignment, LocalDate asOfDate) {
         assignment.setJob(TkServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate));
         assignment.setTimeCollectionRule(TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(),asOfDate));
         assignment.setWorkAreaObj(TkServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), asOfDate));
@@ -273,7 +272,7 @@ public class AssignmentServiceImpl implements AssignmentService {
                 assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate));
     }
 
-    public Assignment getAssignment(String principalId, AssignmentDescriptionKey key, Date asOfDate) {
+    public Assignment getAssignment(String principalId, AssignmentDescriptionKey key, LocalDate asOfDate) {
         Assignment a = null;
 
         if (key != null) {
@@ -284,7 +283,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public Assignment getAssignment(AssignmentDescriptionKey key, Date asOfDate) {
+    public Assignment getAssignment(AssignmentDescriptionKey key, LocalDate asOfDate) {
         Assignment a = null;
 
         if (key != null) {
@@ -299,7 +298,7 @@ public class AssignmentServiceImpl implements AssignmentService {
      * Get a list of active assignments based on principalId and jobNumber as of a particular date
      */
     @Override
-    public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, Date asOfDate) {
+    public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, LocalDate asOfDate) {
         List<Assignment> assignments = assignmentDao.getActiveAssignmentsForJob(principalId, jobNumber, asOfDate);
 
         return assignments;
@@ -325,10 +324,10 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public Assignment getAssignment(LeaveCalendarDocument leaveCalendarDocument, String assignmentKey) {
         List<Assignment> assignments = leaveCalendarDocument.getAssignments();
-        return TkServiceLocator.getAssignmentService().getAssignment(assignments, assignmentKey, leaveCalendarDocument.getCalendarEntry().getBeginPeriodDate());
+        return getAssignment(assignments, assignmentKey, leaveCalendarDocument.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate());
     }
     
-    public Assignment getAssignment(List<Assignment> assignments, String assignmentKey, Date beginDate) {
+    public Assignment getAssignment(List<Assignment> assignments, String assignmentKey, LocalDate beginDate) {
         AssignmentDescriptionKey desc = getAssignmentDescriptionKey(assignmentKey);
     	if (CollectionUtils.isNotEmpty(assignments)) {
             for (Assignment assignment : assignments) {
@@ -341,7 +340,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         }
 
         //No assignment found so fetch the inactive ones for this payBeginDate
-        Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(desc, beginDate);
+        Assignment assign = getAssignment(desc, beginDate);
         if (assign != null) {
             return assign;
         }
@@ -355,7 +354,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     	return assignmentDao.getMaxTimestampAssignment(principalId);
     }
     
-	public Assignment getAssignmentToApplyScheduledTimeOff(TimesheetDocument timesheetDocument, java.sql.Date payEndDate) {
+	public Assignment getAssignmentToApplyScheduledTimeOff(TimesheetDocument timesheetDocument, LocalDate payEndDate) {
 		Job primaryJob = TkServiceLocator.getJobService().getPrimaryJob(timesheetDocument.getPrincipalId(), payEndDate);
 		for(Assignment assign : timesheetDocument.getAssignments()){
 			if(assign.getJobNumber().equals(primaryJob.getJobNumber())){
@@ -365,14 +364,14 @@ public class AssignmentServiceImpl implements AssignmentService {
 		return null;
 	}
 	
-	public List<String> getPrincipalIds(List<String> workAreaList, Date effdt, Date startDate, Date endDate) {
+	public List<String> getPrincipalIds(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate) {
 		if (CollectionUtils.isEmpty(workAreaList)) {
 			return new ArrayList<String>();
 		}	
 		return assignmentDao.getPrincipalIds(workAreaList, effdt, startDate, endDate);
 	}
 	
-	 public List<Assignment> getAssignments(List<String> workAreaList, Date effdt, Date startDate, Date endDate) {
+	 public List<Assignment> getAssignments(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate) {
 		if (CollectionUtils.isEmpty(workAreaList)) {
 			return new ArrayList<Assignment>();
 		}	

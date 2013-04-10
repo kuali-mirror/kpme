@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.paygrade.dao;
 
-import org.kuali.hr.paygrade.PayGrade;
-
-import java.sql.Date;
 import java.util.List;
+
+import org.joda.time.LocalDate;
+import org.kuali.hr.paygrade.PayGrade;
 
 public interface PayGradeDao {
 	/**
@@ -27,7 +27,7 @@ public interface PayGradeDao {
 	 * @param asOfDate
 	 * @return
 	 */
-	public PayGrade getPayGrade(String payGrade,Date asOfDate);
+	public PayGrade getPayGrade(String payGrade,LocalDate asOfDate);
 	/**
 	 * Get paygrade by unique id
 	 * @param hrPayGradeId
@@ -45,5 +45,5 @@ public interface PayGradeDao {
      * @return
      */
 	public List<PayGrade> getPayGradesForSalaryGroup(String salaryGroup,
-			Date asOfDate);
+			LocalDate asOfDate);
 }

@@ -81,7 +81,7 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 	
 	boolean validateEffectiveDate(PrincipalHRAttributes principalHRAttr) {
 		boolean valid = true;
-		if (principalHRAttr.getEffectiveDate() != null && !ValidationUtils.validateOneYearFutureDate(principalHRAttr.getEffectiveDate())) {
+		if (principalHRAttr.getEffectiveDate() != null && !ValidationUtils.validateOneYearFutureDate(principalHRAttr.getEffectiveLocalDate())) {
 			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date");
 			valid = false;
 		}

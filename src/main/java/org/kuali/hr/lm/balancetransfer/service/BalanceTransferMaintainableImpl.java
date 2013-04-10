@@ -120,7 +120,7 @@ public class BalanceTransferMaintainableImpl extends
                     TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
                 }
             }
-            List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveDate());
+            List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveLocalDate());
             LeaveBlock carryOverBlock = null;
             for(LeaveBlock lb : leaveBlocks) {
             	if(StringUtils.equals(lb.getAccrualCategory(),balanceTransfer.getFromAccrualCategory())
@@ -153,7 +153,7 @@ public class BalanceTransferMaintainableImpl extends
 	private List<LeaveBlock> buildSstoLeaveBlockList(BalanceTransfer bt) {
 		String leaveDocId = CollectionUtils.isNotEmpty(bt.getLeaveBlocks())? bt.getLeaveBlocks().get(0).getDocumentId() : "";
 		List<LeaveBlock> lbList = new ArrayList<LeaveBlock>();
-		AccrualCategory fromAC = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getFromAccrualCategory(), bt.getEffectiveDate());
+		AccrualCategory fromAC = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getFromAccrualCategory(), bt.getEffectiveLocalDate());
 		
 		LeaveBlock accruedLeaveBlock = new LeaveBlock();
 		accruedLeaveBlock.setAccrualCategory(bt.getFromAccrualCategory());

@@ -131,11 +131,11 @@ public class BalanceTransfer extends HrBusinessObject {
 	}
 
 	public AccrualCategory getCreditedAccrualCategory() {
-		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, super.getEffectiveDate());
+		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, getEffectiveLocalDate());
 	}
 
 	public AccrualCategory getDebitedAccrualCategory() {
-		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, super.getEffectiveDate());
+		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, getEffectiveLocalDate());
 	}
 
 	public String getLeaveCalendarDocumentId() {

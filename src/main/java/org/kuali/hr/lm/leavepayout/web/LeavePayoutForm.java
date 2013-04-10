@@ -21,6 +21,7 @@ import java.sql.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
@@ -115,11 +116,11 @@ public class LeavePayoutForm extends KualiTransactionalDocumentFormBase {
 	}
 
 	public EarnCode getPayoutEarnCodeObj() {
-		return TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, effectiveDate);
+		return TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, LocalDate.fromDateFields(effectiveDate));
 	}
 
 	public AccrualCategory getDebitedAccrualCategory() {
-		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
+		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, LocalDate.fromDateFields(effectiveDate));
 	}
 	
     @Override

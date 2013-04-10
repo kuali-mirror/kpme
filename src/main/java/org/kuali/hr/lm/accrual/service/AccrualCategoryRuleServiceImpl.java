@@ -16,14 +16,13 @@
 package org.kuali.hr.lm.accrual.service;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.accrual.dao.AccrualCategoryRuleDao;
-import org.kuali.hr.time.util.TKUtils;
 
 public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleService{
 	
@@ -38,7 +37,7 @@ public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleServic
 			
 	}
 	
-    public AccrualCategoryRule getAccrualCategoryRuleForDate(AccrualCategory accrualCategory, Date currentDate, Date serviceDate) {
+    public AccrualCategoryRule getAccrualCategoryRuleForDate(AccrualCategory accrualCategory, LocalDate currentDate, LocalDate serviceDate) {
     	if(serviceDate == null) {
     		return null;
     	}
@@ -50,8 +49,8 @@ public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleServic
     		int startTime = acr.getStart().intValue();
 			int endTime = acr.getEnd().intValue();
 			
-			startCal.setTime(serviceDate);
-			endCal.setTime(serviceDate);
+			startCal.setTime(serviceDate.toDate());
+			endCal.setTime(serviceDate.toDate());
     		if(uot.equals("M")) {		// monthly
     			startCal.add(Calendar.MONTH, startTime);
     			endCal.add(Calendar.MONTH, endTime);
@@ -70,8 +69,8 @@ public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleServic
 				endCal.set(Calendar.DATE, endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 			}
     		
-    		if(TKUtils.removeTime(currentDate).compareTo(TKUtils.removeTime(startCal.getTime())) >= 0 
-    				&& TKUtils.removeTime(currentDate).compareTo(TKUtils.removeTime(endCal.getTime())) <=0 ) {
+    		if(currentDate.compareTo(LocalDate.fromCalendarFields(startCal)) >= 0 
+    				&& currentDate.compareTo(LocalDate.fromCalendarFields(endCal)) <=0 ) {
     			return acr;
     		}
     	}
@@ -87,11 +86,11 @@ public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleServic
 		this.accrualCategoryRuleDao = accrualCategoryRuleDao;
 	}
 	@Override
-	public List <AccrualCategoryRule> getActiveRulesForAccrualCategoryId(String accrualCategoryId, Date asOfDate) {
-		return this.accrualCategoryRuleDao.getActiveRulesForAccrualCategoryId(accrualCategoryId, asOfDate);
+	public List <AccrualCategoryRule> getActiveRulesForAccrualCategoryId(String accrualCategoryId) {
+		return this.accrualCategoryRuleDao.getActiveRulesForAccrualCategoryId(accrualCategoryId);
 	}
     @Override
-    public List <AccrualCategoryRule> getInActiveRulesForAccrualCategoryId(String accrualCategoryId, Date asOfDate) {
-    	return this.accrualCategoryRuleDao.getInActiveRulesForAccrualCategoryId(accrualCategoryId, asOfDate);
+    public List <AccrualCategoryRule> getInActiveRulesForAccrualCategoryId(String accrualCategoryId) {
+    	return this.accrualCategoryRuleDao.getInActiveRulesForAccrualCategoryId(accrualCategoryId);
     }	
 }

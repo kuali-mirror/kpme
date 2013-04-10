@@ -58,29 +58,29 @@ public class WeeklyOvertimeRuleValidation extends MaintenanceDocumentRuleBase {
             errorFieldPrefix = "";
 
         if(!StringUtils.isEmpty(rule.getMaxHoursEarnGroup())) {
-            if(!ValidationUtils.validateEarnGroup(rule.getMaxHoursEarnGroup(), rule.getEffectiveDate())) {
+            if(!ValidationUtils.validateEarnGroup(rule.getMaxHoursEarnGroup(), rule.getEffectiveLocalDate())) {
                 this.putFieldError(errorFieldPrefix + "maxHoursEarnGroup", "error.existence", "maxHoursEarnGroup '" + rule.getMaxHoursEarnGroup() + "'");
                 valid = false;
             }
         }
         if(!StringUtils.isEmpty(rule.getConvertFromEarnGroup())) {
-            if(!ValidationUtils.validateEarnGroup(rule.getConvertFromEarnGroup(), rule.getEffectiveDate())) {
+            if(!ValidationUtils.validateEarnGroup(rule.getConvertFromEarnGroup(), rule.getEffectiveLocalDate())) {
                 this.putFieldError(errorFieldPrefix + "convertFromEarnGroup", "error.existence", "convertFromEarnGroup '" + rule.getConvertFromEarnGroup() + "'");
                 valid = false;
             }
         }
         
 		if (!StringUtils.isEmpty(rule.getConvertFromEarnGroup())
-				&& ValidationUtils.earnGroupHasOvertimeEarnCodes(rule.getConvertFromEarnGroup(), rule.getEffectiveDate())){
+				&& ValidationUtils.earnGroupHasOvertimeEarnCodes(rule.getConvertFromEarnGroup(), rule.getEffectiveLocalDate())){
 			this.putFieldError(errorFieldPrefix + "convertFromEarnGroup", "earngroup.earncode.overtime",  rule.getConvertFromEarnGroup());
 			valid = false;;
 		}
 
         if(!StringUtils.isEmpty(rule.getConvertToEarnCode())) {
-            if(!ValidationUtils.validateEarnCode(rule.getConvertToEarnCode(), rule.getEffectiveDate())) {
+            if(!ValidationUtils.validateEarnCode(rule.getConvertToEarnCode(), rule.getEffectiveLocalDate())) {
                 this.putFieldError(errorFieldPrefix + "convertToEarnCode", "error.existence", "convertToEarnCode '" + rule.getConvertToEarnCode() + "'");
                 valid = false;
-            } else if (!ValidationUtils.validateEarnCode(rule.getConvertToEarnCode(), true, rule.getEffectiveDate())) {
+            } else if (!ValidationUtils.validateEarnCode(rule.getConvertToEarnCode(), true, rule.getEffectiveLocalDate())) {
                 this.putFieldError(errorFieldPrefix + "convertToEarnCode", "earncode.ovt.required", rule.getConvertToEarnCode());
                 valid = false;
             }

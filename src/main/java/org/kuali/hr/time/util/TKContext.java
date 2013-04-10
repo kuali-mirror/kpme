@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.assignment.Assignment;
@@ -153,17 +154,17 @@ public class TKContext {
 	}
 	
 	public static boolean isActiveEmployee() {
-    	return CollectionUtils.isNotEmpty(TkServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), TKUtils.getCurrentDate()));
+    	return CollectionUtils.isNotEmpty(TkServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), LocalDate.now()));
 	}
     
 	public static boolean isTargetActiveEmployee() {
-		return CollectionUtils.isNotEmpty(TkServiceLocator.getAssignmentService().getAssignments(getTargetPrincipalId(), TKUtils.getCurrentDate()));
+		return CollectionUtils.isNotEmpty(TkServiceLocator.getAssignmentService().getAssignments(getTargetPrincipalId(), LocalDate.now()));
 	}
 	
 	public static boolean isSynchronous() {
     	boolean isSynchronous = false;
     	
-    	List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), TKUtils.getCurrentDate());
+    	List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), LocalDate.now());
     	
     	for (Assignment assignment : assignments) {
             if (assignment.isSynchronous()) {
@@ -178,7 +179,7 @@ public class TKContext {
     public static boolean isTargetSynchronous() {
     	boolean isSynchronous = false;
     	
-    	List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(getTargetPrincipalId(), TKUtils.getCurrentDate());
+    	List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(getTargetPrincipalId(), LocalDate.now());
     	
     	for (Assignment assignment : assignments) {
             if (assignment.isSynchronous()) {

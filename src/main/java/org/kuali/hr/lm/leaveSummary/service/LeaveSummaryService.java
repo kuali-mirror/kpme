@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.time.calendar.CalendarEntry;
 
@@ -27,16 +28,12 @@ public interface LeaveSummaryService {
 
 	public List<Date> getLeaveSummaryDates(CalendarEntry cal);
 
-    public LeaveSummary getLeaveSummaryAsOfDate(String principalId, java.sql.Date asOfDate);
+    public LeaveSummary getLeaveSummaryAsOfDate(String principalId, LocalDate asOfDate);
 
-    public LeaveSummary getLeaveSummaryAsOfDateForAccrualCategory(String principalId, java.sql.Date asOfDate, String accrualCategory);
+    public LeaveSummary getLeaveSummaryAsOfDateForAccrualCategory(String principalId, LocalDate asOfDate, String accrualCategory);
 
-    public LeaveSummary getLeaveSummaryAsOfDateWithoutFuture(String principalId, java.sql.Date asOfDate);
+    public LeaveSummary getLeaveSummaryAsOfDateWithoutFuture(String principalId, LocalDate asOfDate);
     
     
-    public BigDecimal getLeaveBalanceForAccrCatUpToDate(String principalId,
-            java.sql.Date startDate,	
-            java.sql.Date endDate,
-            String accrualCategory,
-            Date usageEndDate);
+    public BigDecimal getLeaveBalanceForAccrCatUpToDate(String principalId, LocalDate startDate, LocalDate endDate, String accrualCategory, LocalDate usageEndDate);
 }

@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.lm.leave.web;
 
-import java.sql.Date;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -30,6 +29,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
@@ -39,7 +39,6 @@ import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -54,7 +53,7 @@ public class LeaveRequestAction extends TkAction {
 		ActionForward forward = super.execute(mapping, form, request, response);
 		LeaveRequestForm leaveForm = (LeaveRequestForm) form;
 		String principalId = TKContext.getTargetPrincipalId();
-		Date currentDate = TKUtils.getTimelessDate(null);
+		DateTime currentDate = LocalDate.now().toDateTimeAtStartOfDay();
 
         Calendar currentCalendar = Calendar.getInstance();
         if (leaveForm.getNavString() == null) {
@@ -66,12 +65,12 @@ public class LeaveRequestAction extends TkAction {
         }
         currentCalendar.set(leaveForm.getYear(), 0, 1);
 //        java.util.Date serviceDate = (principalHRAttributes != null) ? principalHRAttributes.getServiceDate() : TKUtils.getTimelessDate(currentCalendar.getTime());
-        java.util.Date beginDate = TKUtils.getTimelessDate(currentCalendar.getTime());
+        LocalDate beginDate = LocalDate.fromCalendarFields(currentCalendar);
         currentCalendar.set(leaveForm.getYear(), 11, 31);
-        java.util.Date endDate = TKUtils.getTimelessDate(currentCalendar.getTime());
+        LocalDate endDate = LocalDate.fromCalendarFields(currentCalendar);
 
 //        CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(principalId, currentDate);
-        CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(principalId, new DateTime(beginDate), new DateTime(endDate));
+        CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(principalId, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
 
         //  If the current pay period ends before the current leave calendar ends, then we need to include any planned leave blocks that occur
         //  in this window between the current pay end and the beginning of the leave planning calendar (the next future leave period).
@@ -87,11 +86,11 @@ public class LeaveRequestAction extends TkAction {
         }
 
 		if(calendarEntry != null) {
-			if(calendarEntry.getEndLocalDateTime().getMillisOfDay() == 0) {
+			if(calendarEntry.getEndPeriodLocalDateTime().getMillisOfDay() == 0) {
 				// if the time of the end date is the beginning of a day, subtract one day from the end date
-				currentDate = new java.sql.Date(TKUtils.addDates(calendarEntry.getEndPeriodDate(), -1).getTime());
+				currentDate = calendarEntry.getEndPeriodFullDateTime().minusDays(1);
 			} else {
-				currentDate = calendarEntry.getEndPeriodDate();	// only show leave requests from planning calendars on leave request page
+				currentDate = calendarEntry.getEndPeriodFullDateTime();	// only show leave requests from planning calendars on leave request page
 			}
 		}
         List<LeaveBlock> plannedLeaves = getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, LMConstants.REQUEST_STATUS.PLANNED);
@@ -99,14 +98,14 @@ public class LeaveRequestAction extends TkAction {
 		leaveForm.setPlannedLeaves(plannedLeaves);
 		leaveForm.setPendingLeaves(getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, LMConstants.REQUEST_STATUS.REQUESTED));
 		leaveForm.setApprovedLeaves(getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, LMConstants.REQUEST_STATUS.APPROVED));
-		leaveForm.setDisapprovedLeaves(getDisapprovedLeaveBlockHistory(principalId, currentDate));
+		leaveForm.setDisapprovedLeaves(getDisapprovedLeaveBlockHistory(principalId, currentDate.toLocalDate()));
 
         leaveForm.setDocuments(getLeaveRequestDocuments(leaveForm));
 		return forward;
 	}
 
 
-    private List<LeaveBlock> getLeaveBlocksWithRequestStatus(String principalId, java.util.Date beginDate, java.util.Date endDate, String requestStatus) {
+    private List<LeaveBlock> getLeaveBlocksWithRequestStatus(String principalId, LocalDate beginDate, LocalDate endDate, String requestStatus) {
         List<LeaveBlock> plannedLeaves = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, requestStatus, beginDate, endDate);
 
         Collections.sort(plannedLeaves, new Comparator<LeaveBlock>() {
@@ -119,7 +118,7 @@ public class LeaveRequestAction extends TkAction {
         return plannedLeaves;
     }
     
-    private List<LeaveBlockHistory> getDisapprovedLeaveBlockHistory(String principalId, Date currentDate) {
+    private List<LeaveBlockHistory> getDisapprovedLeaveBlockHistory(String principalId, LocalDate currentDate) {
         List<LeaveBlockHistory> historyList = TkServiceLocator.getLeaveBlockHistoryService()
         	.getLeaveBlockHistories(principalId, LMConstants.REQUEST_STATUS.DISAPPROVED, LMConstants.ACTION.DELETE, currentDate);
 

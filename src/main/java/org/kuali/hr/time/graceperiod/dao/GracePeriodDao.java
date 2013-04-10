@@ -15,13 +15,13 @@
  */
 package org.kuali.hr.time.graceperiod.dao;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
 
 public interface GracePeriodDao {
-	public GracePeriodRule getGracePeriodRule(Date asOfDate);
+	public GracePeriodRule getGracePeriodRule(LocalDate asOfDate);
 	public GracePeriodRule getGracePeriodRule(String tkGracePeriodId);
 
     public List<GracePeriodRule> getGracePeriodRules(String hourFactor, String active);

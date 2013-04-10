@@ -16,7 +16,6 @@
 package org.kuali.hr.time.overtime.daily.rule.service;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,14 +36,14 @@ import org.kuali.hr.time.util.TkTimeBlockAggregate;
 public class DailyOvertimeRuleServiceTest extends KPMETestCase {
 
 	public static final String USER_PRINCIPAL_ID = "admin";
-	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+	private DateTime JAN_AS_OF_DATE = new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
 
 	private void createDailyOvertimeRule(String fromEarnGroup, String earnCode, String location, String paytype, String dept, Long workArea, Long task, BigDecimal minHours, BigDecimal maxGap, String overtimePref) {
 		DailyOvertimeRuleService service = TkServiceLocator.getDailyOvertimeRuleService();
 		DailyOvertimeRule rule = new DailyOvertimeRule();
 
-		rule.setEffectiveDate(JAN_AS_OF_DATE);
+		rule.setEffectiveLocalDate(JAN_AS_OF_DATE.toLocalDate());
 		rule.setFromEarnGroup(fromEarnGroup);
 		rule.setEarnCode(earnCode);
 		rule.setLocation(location);
@@ -125,7 +124,7 @@ public class DailyOvertimeRuleServiceTest extends KPMETestCase {
 		Long task = 30L;
 		createDailyOvertimeRule("REG", "OVT", "SD1", "BW", "TEST-DEPT", workArea,
 				task, new BigDecimal(8), new BigDecimal("0.25"), null);
-		DailyOvertimeRule rule = TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRule("SD1", "BW", "TEST-DEPT", workArea, JAN_AS_OF_DATE);
+		DailyOvertimeRule rule = TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRule("SD1", "BW", "TEST-DEPT", workArea, JAN_AS_OF_DATE.toLocalDate());
 		Assert.assertNotNull("Rule not created.", rule);
 	}
 

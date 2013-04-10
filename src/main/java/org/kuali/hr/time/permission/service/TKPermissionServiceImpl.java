@@ -1,12 +1,12 @@
 package org.kuali.hr.time.permission.service;
 
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.KPMENamespace;
 import org.kuali.hr.core.permission.service.KPMEPermissionServiceBase;
 import org.kuali.hr.core.role.KPMERole;
@@ -23,7 +23,6 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.service.TimesheetService;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
@@ -154,9 +153,9 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
             }
             Job job = TkServiceLocator.getJobService().getJob(
                     TKContext.getTargetPrincipalId(), timeBlock.getJobNumber(),
-                    timeBlock.getEndDate());
+                    timeBlock.getEndDateTime().toLocalDate());
             PayType payType = TkServiceLocator.getPayTypeService().getPayType(
-                    job.getHrPayType(), timeBlock.getEndDate());
+                    job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
             
         	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
         			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
@@ -170,7 +169,7 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
                 List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
                         .getEarnCodeSecurityService().getEarnCodeSecurities(
                                 job.getDept(), job.getHrSalGroup(),
-                                job.getLocation(), timeBlock.getEndDate());
+                                job.getLocation(), timeBlock.getEndDateTime().toLocalDate());
                 for (EarnCodeSecurity dec : deptEarnCodes) {
                     if (dec.isApprover()
                             && StringUtils.equals(dec.getEarnCode(),
@@ -190,9 +189,9 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
                 if (StringUtils.equals(payType.getRegEarnCode(), timeBlock.getEarnCode())) {
                     //If you are a clock user and you have only one assignment you should not be allowed to change the assignment
                     //TODO eventually move this logic to one concise place for editable portions of the timeblock
-                    List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getPrincipalId(),timeBlock.getBeginDate());
+                    List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getPrincipalId(),timeBlock.getBeginDateTime().toLocalDate());
                     if (assignments.size() == 1) {
-                    	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),job.getHrPayType(),timeBlock.getBeginDate());
+                    	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),job.getHrPayType(),timeBlock.getBeginDateTime().toLocalDate());
                     	
                     	if (tcr != null && !tcr.isClockUserFl()) {
                     		return true;
@@ -207,7 +206,7 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
                 List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
                         .getEarnCodeSecurityService().getEarnCodeSecurities(
                                 job.getDept(), job.getHrSalGroup(),
-                                job.getLocation(), timeBlock.getEndDate());
+                                job.getLocation(), timeBlock.getEndDateTime().toLocalDate());
                 for (EarnCodeSecurity dec : deptEarnCodes) {
                     if (dec.isEmployee()
                             && StringUtils.equals(dec.getEarnCode(),
@@ -232,16 +231,16 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
 
             Job job = TkServiceLocator.getJobService().getJob(
                     TKContext.getTargetPrincipalId(), timeBlock.getJobNumber(),
-                    timeBlock.getEndDate());
+                    timeBlock.getEndDateTime().toLocalDate());
             PayType payType = TkServiceLocator.getPayTypeService().getPayType(
-                    job.getHrPayType(), timeBlock.getEndDate());
+                    job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
 
         	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
         			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
         			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime())) {
         		
                 if (StringUtils.equals(payType.getRegEarnCode(), timeBlock.getEarnCode())) {
-                    TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),timeBlock.getBeginDate());
+                    TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),timeBlock.getBeginDateTime().toLocalDate());
                     
                     if (tcr != null && !tcr.isClockUserFl()) {
                     	return true;
@@ -253,7 +252,7 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
                 List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
                         .getEarnCodeSecurityService().getEarnCodeSecurities(
                                 job.getDept(), job.getHrSalGroup(),
-                                job.getLocation(), timeBlock.getEndDate());
+                                job.getLocation(), timeBlock.getEndDateTime().toLocalDate());
                 for (EarnCodeSecurity dec : deptEarnCodes) {
                     if (dec.isApprover()
                             && StringUtils.equals(dec.getEarnCode(),
@@ -273,7 +272,7 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
                 List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
                         .getEarnCodeSecurityService().getEarnCodeSecurities(
                                 job.getDept(), job.getHrSalGroup(),
-                                job.getLocation(), timeBlock.getEndDate());
+                                job.getLocation(), timeBlock.getEndDateTime().toLocalDate());
                 for (EarnCodeSecurity dec : deptEarnCodes) {
                     if (dec.isEmployee()
                             && StringUtils.equals(dec.getEarnCode(),
@@ -298,9 +297,9 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
             }
             Job job = TkServiceLocator.getJobService().getJob(
                     TKContext.getTargetPrincipalId(), timeBlock.getJobNumber(),
-                    timeBlock.getEndDate());
+                    timeBlock.getEndDateTime().toLocalDate());
             PayType payType = TkServiceLocator.getPayTypeService().getPayType(
-                    job.getHrPayType(), timeBlock.getEndDate());
+                    job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
 
         	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
         			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
@@ -314,7 +313,7 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
                 List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
                         .getEarnCodeSecurityService().getEarnCodeSecurities(
                                 job.getDept(), job.getHrSalGroup(),
-                                job.getLocation(), timeBlock.getEndDate());
+                                job.getLocation(), timeBlock.getEndDateTime().toLocalDate());
                 for (EarnCodeSecurity dec : deptEarnCodes) {
                     if (dec.isApprover()
                             && StringUtils.equals(dec.getEarnCode(),
@@ -342,7 +341,7 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
 
             //if on a regular earncode and the user is a clock user and this is the users timesheet, do not allow to be deleted
             if (StringUtils.equals(payType.getRegEarnCode(), timeBlock.getEarnCode())) {
-            	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),payType.getPayType(),timeBlock.getEndDate());
+            	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),payType.getPayType(),timeBlock.getEndDateTime().toLocalDate());
             	
             	if (tcr == null || tcr.isClockUserFl()) {
             		if (StringUtils.equals(principalId,TKContext.getTargetPrincipalId())) {
@@ -356,7 +355,7 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
             List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
                     .getEarnCodeSecurityService().getEarnCodeSecurities(
                             job.getDept(), job.getHrSalGroup(),
-                            job.getLocation(), timeBlock.getEndDate());
+                            job.getLocation(), timeBlock.getEndDateTime().toLocalDate());
             for (EarnCodeSecurity dec : deptEarnCodes) {
             	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
             			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
@@ -379,9 +378,9 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
     public boolean canEditOvertimeEarnCode(TimeBlock timeBlock) {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         Long workArea = timeBlock.getWorkArea();
-    	WorkArea workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, new java.sql.Date(timeBlock.getEndTimestamp().getTime()));
+    	WorkArea workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, timeBlock.getEndDateTime().toLocalDate());
     	String department = workAreaObj.getDept();
-    	Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+    	Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 		String location = departmentObj != null ? departmentObj.getLocation() : null;
 		
     	if (StringUtils.equals(workAreaObj.getOvertimeEditRole(), "Employee")) {
@@ -406,20 +405,20 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
     @Override
     public boolean canEditRegEarnCode(TimeBlock tb) {
     	AssignmentDescriptionKey adk = new AssignmentDescriptionKey(tb.getJobNumber().toString(), tb.getWorkArea().toString(), tb.getTask().toString());
-        Assignment anAssignment = TkServiceLocator.getAssignmentService().getAssignment(adk, tb.getBeginDate());
+        Assignment anAssignment = TkServiceLocator.getAssignmentService().getAssignment(adk, tb.getBeginDateTime().toLocalDate());
         if(anAssignment != null) {
         	// use timesheet's end date to get Time Collection Rule
         	TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(tb.getDocumentId());
-        	Date aDate =  tb.getBeginDate();
+        	DateTime aDate =  tb.getBeginDateTime();
         	if(tdh != null && tdh.getEndDate() != null) {
-        		aDate = new java.sql.Date(tdh.getEndDate().getTime());
+        		aDate = new DateTime(tdh.getEndDate());
         	}
         	
-        	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(anAssignment.getDept(), anAssignment.getWorkArea(), anAssignment.getJob().getHrPayType(), aDate);
+        	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(anAssignment.getDept(), anAssignment.getWorkArea(), anAssignment.getJob().getHrPayType(), aDate.toLocalDate());
         	if (tcr == null || tcr.isClockUserFl()) {
         		// use assignment to get the payType object, then check if the regEarnCode of the paytyep matches the earn code of the timeblock
         		// if they do match, then return false
-        		PayType pt = TkServiceLocator.getPayTypeService().getPayType(anAssignment.getJob().getHrPayType(), anAssignment.getJob().getEffectiveDate());
+        		PayType pt = TkServiceLocator.getPayTypeService().getPayType(anAssignment.getJob().getHrPayType(), anAssignment.getJob().getEffectiveLocalDate());
         		if(pt != null && pt.getRegEarnCode().equals(tb.getEarnCode())) {
         			return false;
         		}
@@ -431,7 +430,7 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
     @Override
     public boolean canViewTimeTabs() {
     	boolean canViewTimeTabs = false;
-    	Date asOfDate = TKUtils.getTimelessDate(null);
+    	LocalDate asOfDate = LocalDate.now();
     	String flsaStatus = TkConstants.FLSA_STATUS_NON_EXEMPT;
     	// find active assignments as of currentDate
     	String principalId = TKContext.getTargetPrincipalId();
@@ -444,7 +443,7 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
     
     private boolean isActiveAssignmentFoundOnJobFlsaStatus(String principalId, String flsaStatus, boolean chkForLeaveEligible) {
     	boolean isActiveAssFound = false;
-    	Date asOfDate = TKUtils.getTimelessDate(null);
+    	LocalDate asOfDate = LocalDate.now();
      	List<Assignment> activeAssignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
      	if(activeAssignments != null && !activeAssignments.isEmpty()) {
      		for(Assignment assignment : activeAssignments) {
@@ -463,7 +462,7 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
     	return isActiveAssFound;
     }
     
-    private boolean isCalendarDefined(String calendarType, String principalId, Date asOfDate, boolean chkForLeavePlan){
+    private boolean isCalendarDefined(String calendarType, String principalId, LocalDate asOfDate, boolean chkForLeavePlan){
     	boolean calDefined = false;
     	PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
     	if(principalHRAttributes != null) {

@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.time.principal.service;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.dao.PrincipalHRAttributesDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 
-import java.util.Date;
 import java.util.List;
 
 public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesService {
@@ -29,7 +29,7 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
 		this.principalHRAttributesDao = principalHRAttributesDao;
 	}
 	
-	public PrincipalHRAttributes getPrincipalCalendar(String principalId, Date asOfDate){
+	public PrincipalHRAttributes getPrincipalCalendar(String principalId, LocalDate asOfDate){
 		PrincipalHRAttributes pc =  this.principalHRAttributesDao.getPrincipalCalendar(principalId, asOfDate);
 		if(pc != null) {
 			pc.setCalendar(TkServiceLocator.getCalendarService().getCalendarByGroup(pc.getPayCalendar()));
@@ -38,19 +38,19 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
 		return pc;
 	}
 	
-    public List<PrincipalHRAttributes> getActiveEmployeesForPayCalendar(String payCalendarName, Date asOfDate) {
+    public List<PrincipalHRAttributes> getActiveEmployeesForPayCalendar(String payCalendarName, LocalDate asOfDate) {
     	return principalHRAttributesDao.getActiveEmployeesForPayCalendar(payCalendarName, asOfDate);
     }
     
-    public List<PrincipalHRAttributes> getActiveEmployeesForLeaveCalendar(String leaveCalendarName, Date asOfDate) {
+    public List<PrincipalHRAttributes> getActiveEmployeesForLeaveCalendar(String leaveCalendarName, LocalDate asOfDate) {
     	return principalHRAttributesDao.getActiveEmployeesForLeaveCalendar(leaveCalendarName, asOfDate);
     }
 	
-    public List<String> getActiveEmployeesIdForLeaveCalendarAndIdList(String leaveCalendarName, List<String> pidList, Date asOfDate) {
+    public List<String> getActiveEmployeesIdForLeaveCalendarAndIdList(String leaveCalendarName, List<String> pidList, LocalDate asOfDate) {
     	return principalHRAttributesDao.getActiveEmployeesIdForLeaveCalendarAndIdList(leaveCalendarName, pidList, asOfDate);
     }
     
-    public List<String> getActiveEmployeesIdForTimeCalendarAndIdList(String timeCalendarName, List<String> pidList, Date asOfDate) {
+    public List<String> getActiveEmployeesIdForTimeCalendarAndIdList(String timeCalendarName, List<String> pidList, LocalDate asOfDate) {
     	return principalHRAttributesDao.getActiveEmployeesIdForTimeCalendarAndIdList(timeCalendarName, pidList, asOfDate);
     }
     
@@ -59,7 +59,7 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
      * Get a list of active employees based on leave plan and as of a particular date
      */
     @Override
-    public List<PrincipalHRAttributes> getActiveEmployeesForLeavePlan(String leavePlan, Date asOfDate) {
+    public List<PrincipalHRAttributes> getActiveEmployeesForLeavePlan(String leavePlan, LocalDate asOfDate) {
         List<PrincipalHRAttributes> principals = principalHRAttributesDao.getActiveEmployeesForLeavePlan(leavePlan, asOfDate);
 
         return principals;
@@ -71,7 +71,7 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
 //	}
     
     @Override
-    public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, Date asOfDate) {
+    public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, LocalDate asOfDate) {
     	return this.principalHRAttributesDao.getInactivePrincipalHRAttributes(principalId, asOfDate);
     }
     
@@ -81,7 +81,7 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
     }
     
     @Override
-    public List<PrincipalHRAttributes> getAllActivePrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate) {
+    public List<PrincipalHRAttributes> getAllActivePrincipalHrAttributesForPrincipalId(String principalId, LocalDate asOfDate) {
     	return this.principalHRAttributesDao.getAllActivePrincipalHrAttributesForPrincipalId(principalId, asOfDate);
     }
     @Override
@@ -90,20 +90,20 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
     }
     
     @Override
-    public List<PrincipalHRAttributes> getAllInActivePrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate) {
+    public List<PrincipalHRAttributes> getAllInActivePrincipalHrAttributesForPrincipalId(String principalId, LocalDate asOfDate) {
     	return this.principalHRAttributesDao.getAllInActivePrincipalHrAttributesForPrincipalId(principalId, asOfDate);
     }
     @Override
-    public List<PrincipalHRAttributes> getActivePrincipalHrAttributesForRange(String principalId, Date startDate, Date endDate) {
+    public List<PrincipalHRAttributes> getActivePrincipalHrAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate) {
     	return this.principalHRAttributesDao.getActivePrincipalHrAttributesForRange(principalId, startDate, endDate);
     }
     @Override
-    public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, Date startDate, Date endDate) {
+    public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate) {
     	return this.principalHRAttributesDao.getInactivePrincipalHRAttributesForRange(principalId, startDate, endDate);
     }
     @Override
     public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId,
-                                                               String leavePlan, java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory) {
+                                                               String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
     	return this.principalHRAttributesDao.getPrincipalHrAtributes(principalId, leavePlan, fromEffdt, toEffdt, active, showHistory);
     }
     @Override

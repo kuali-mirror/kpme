@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.joda.time.DateTime;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
@@ -146,7 +147,7 @@ public class WorkflowTagSupport {
      */
     private boolean isDelinquent(LeaveCalendarDocument doc) {
         String principalId = doc.getDocumentHeader().getPrincipalId();
-        List<LeaveCalendarDocumentHeader> lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getSubmissionDelinquentDocumentHeaders(principalId, DateUtils.addSeconds(doc.getAsOfDate(),1));
+        List<LeaveCalendarDocumentHeader> lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getSubmissionDelinquentDocumentHeaders(principalId, new DateTime(doc.getAsOfDate()).plusSeconds(1));
         if (lcdh.isEmpty()){
             return false;        // no delinquncy
         } else

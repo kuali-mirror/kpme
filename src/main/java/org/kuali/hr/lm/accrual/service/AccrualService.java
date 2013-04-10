@@ -15,9 +15,11 @@
  */
 package org.kuali.hr.lm.accrual.service;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.accrual.RateRangeAggregate;
 
 public interface AccrualService {
@@ -27,8 +29,8 @@ public interface AccrualService {
 	 * run Accrual for the given principal id and dates. 
 	 * If recordRanData is true, record the timestamp of this run in database 
 	 */
-	public void runAccrual(String principalId, Date startDate, Date endDate, boolean recordRanData);
-	public void runAccrual(String principalId, Date startDate, Date endDate, boolean recordRanData, String runAsPrincipalId);
+	public void runAccrual(String principalId, DateTime startDate, DateTime endDate, boolean recordRanData);
+	public void runAccrual(String principalId, DateTime startDate, DateTime endDate, boolean recordRanData, String runAsPrincipalId);
 	public void runAccrual(List<String> principalIds);
 	
 	
@@ -47,7 +49,7 @@ public interface AccrualService {
 	 * @param endDate
 	 * @return boolean
 	 */
-	public RateRangeAggregate buildRateRangeAggregate(String principalId, Date startDate, Date endDate);
+	public RateRangeAggregate buildRateRangeAggregate(String principalId, DateTime startDate, DateTime endDate);
 	
 	/**
 	 * determine if the employee's future status is changed during the range of given Calendar Entry
@@ -56,7 +58,7 @@ public interface AccrualService {
 	 * @param endDate
 	 * @return boolean
 	 */
-	public boolean isEmpoyeementFutureStatusChanged(String principalId, Date startDate, Date endDate);
+	public boolean isEmpoyeementFutureStatusChanged(String principalId, DateTime startDate, DateTime endDate);
 	
 	/**
 	 * calculate future accrual for given principal id
@@ -64,7 +66,7 @@ public interface AccrualService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public void calculateFutureAccrualUsingPlanningMonth(String principalId, Date asOfDate);
+	public void calculateFutureAccrualUsingPlanningMonth(String principalId, LocalDate asOfDate);
 
 	/**
 	 * get the accrual interval date of the previous accrual period with given parameters
@@ -72,7 +74,7 @@ public interface AccrualService {
 	 * @param aDate
 	 * @return
 	 */
-	public java.util.Date getPreviousAccrualIntervalDate(String earnInterval, Date aDate);
+	public Date getPreviousAccrualIntervalDate(String earnInterval, Date aDate);
 	
 	/**
 	 * get the accrual interval date of the next accrual period with given parameters
@@ -80,7 +82,7 @@ public interface AccrualService {
 	 * @param aDate
 	 * @return
 	 */
-	public java.util.Date getNextAccrualIntervalDate(String earnInterval, Date aDate);
+	public Date getNextAccrualIntervalDate(String earnInterval, Date aDate);
 
 	/**
 	 * calculate # of work days in an accrual period

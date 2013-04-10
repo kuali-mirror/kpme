@@ -17,6 +17,7 @@ package org.kuali.hr.core.document;
 
 import java.util.Date;
 
+import org.joda.time.DateTime;
 
 public interface CalendarDocumentHeaderContract {
     /**
@@ -48,9 +49,24 @@ public interface CalendarDocumentHeaderContract {
     Date getBeginDate();
 
     /**
+     * The begin date time of the calendar entry for the Calendar document
+     *
+     * @return beginDateTime
+     */
+    DateTime getBeginDateTime();
+
+    /**
      * The end date of the calendar entry for the Calendar document
      *
      * @return endDate
      */
     Date getEndDate();
+    
+    /**
+     * The end date time of the calendar entry for the Calendar document
+     *
+     * @return endDateTime
+     */
+    DateTime getEndDateTime();
+    
 }

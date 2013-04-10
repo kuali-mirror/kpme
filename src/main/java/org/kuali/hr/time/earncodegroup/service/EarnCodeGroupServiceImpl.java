@@ -16,6 +16,7 @@
 package org.kuali.hr.time.earncodegroup.service;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroupDefinition;
@@ -23,7 +24,6 @@ import org.kuali.hr.time.earncodegroup.dao.EarnCodeGroupDaoService;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,7 +33,7 @@ public class EarnCodeGroupServiceImpl implements EarnCodeGroupService {
     private EarnCodeGroupDaoService earnCodeGroupDao;
 
     @Override
-    public EarnCodeGroup getEarnCodeGroup(String earnCodeGroup, Date asOfDate) {
+    public EarnCodeGroup getEarnCodeGroup(String earnCodeGroup, LocalDate asOfDate) {
         return earnCodeGroupDao.getEarnCodeGroup(earnCodeGroup, asOfDate);
     }
 
@@ -46,16 +46,16 @@ public class EarnCodeGroupServiceImpl implements EarnCodeGroupService {
     }
 
     @Override
-    public EarnCodeGroup getEarnCodeGroupSummaryForEarnCode(String earnCode, Date asOfDate) {
+    public EarnCodeGroup getEarnCodeGroupSummaryForEarnCode(String earnCode, LocalDate asOfDate) {
         return earnCodeGroupDao.getEarnCodeGroupSummaryForEarnCode(earnCode, asOfDate);
     }
 
     @Override
-    public EarnCodeGroup getEarnCodeGroupForEarnCode(String earnCode, Date asOfDate) {
+    public EarnCodeGroup getEarnCodeGroupForEarnCode(String earnCode, LocalDate asOfDate) {
         return earnCodeGroupDao.getEarnCodeGroupForEarnCode(earnCode, asOfDate);
     }
 
-    public Set<String> getEarnCodeListForEarnCodeGroup(String earnCodeGroup, Date asOfDate) {
+    public Set<String> getEarnCodeListForEarnCodeGroup(String earnCodeGroup, LocalDate asOfDate) {
         Set<String> earnCodes = new HashSet<String>();
         EarnCodeGroup earnGroupObj = earnCodeGroupDao.getEarnCodeGroup(earnCodeGroup, asOfDate);
         if ( earnGroupObj != null ) {
@@ -83,7 +83,7 @@ public class EarnCodeGroupServiceImpl implements EarnCodeGroupService {
 	     
 	     Set<String> aSet = new HashSet<String>();
 	     for(TimeBlock tb : tbList) {
-	    	EarnCodeGroup eg = this.getEarnCodeGroupForEarnCode(tb.getEarnCode(), tb.getBeginDate());
+	    	EarnCodeGroup eg = this.getEarnCodeGroupForEarnCode(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
 	    	if(eg != null && !StringUtils.isEmpty(eg.getWarningText())) {
 	    		aSet.add(eg.getWarningText());
 	    	}
@@ -96,12 +96,12 @@ public class EarnCodeGroupServiceImpl implements EarnCodeGroupService {
     	return earnCodeGroupDao.getEarnCodeGroupCount(earnCodeGroup);
     }
     @Override
-    public int getNewerEarnCodeGroupCount(String earnCodeGroup, Date effdt) {
+    public int getNewerEarnCodeGroupCount(String earnCodeGroup, LocalDate effdt) {
     	return earnCodeGroupDao.getNewerEarnCodeGroupCount(earnCodeGroup, effdt);
     }
     
     @Override
-    public List<EarnCode> getEarnCodeGroups(String earnCodeGroup, String descr, Date fromEffdt, Date toEffdt, String active, String showHist) {
+    public List<EarnCode> getEarnCodeGroups(String earnCodeGroup, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
     	return earnCodeGroupDao.getEarnCodeGroups(earnCodeGroup, descr, fromEffdt, toEffdt, active, showHist);
     }
 }

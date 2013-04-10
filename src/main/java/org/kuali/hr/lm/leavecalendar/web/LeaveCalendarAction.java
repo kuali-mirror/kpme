@@ -18,7 +18,6 @@ package org.kuali.hr.lm.leavecalendar.web;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -69,7 +68,6 @@ import org.kuali.rice.krad.util.UrlFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -141,7 +139,7 @@ public class LeaveCalendarAction extends TkAction {
 			// only run the accrual if the calendar entry contains future dates
 			if(calendarEntry != null && calendarEntry.getEndPeriodDate().after(TKUtils.getCurrentDate())) {
 				if(TkServiceLocator.getLeaveAccrualService().statusChangedSinceLastRun(viewPrincipal)) {
-					TkServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(viewPrincipal, calendarEntry.getBeginPeriodDate());
+					TkServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
 				}
 			}
 		}
@@ -152,7 +150,7 @@ public class LeaveCalendarAction extends TkAction {
 			if(createFlag) {
 				lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 			} else {
-				LeaveCalendarDocumentHeader header = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(viewPrincipal, calendarEntry.getBeginPeriodDateTime(), calendarEntry.getEndPeriodDateTime());
+				LeaveCalendarDocumentHeader header = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
 				if(header != null) {
 					lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(header.getDocumentId());
 				}
@@ -188,18 +186,18 @@ public class LeaveCalendarAction extends TkAction {
 		// KPME-1447
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         if (lcdh != null && lcdh.getPrincipalId() != null && lcdh.getBeginDate() != null && lcdh.getEndDate() != null) {
-            leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(lcdh.getPrincipalId(), lcdh.getBeginDate(), lcdh.getEndDate(), assignmentKeys);
+            leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(lcdh.getPrincipalId(), LocalDate.fromDateFields(lcdh.getBeginDate()), LocalDate.fromDateFields(lcdh.getEndDate()), assignmentKeys);
         } else if(calendarEntry != null){
-            leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate(), assignmentKeys);
+            leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), assignmentKeys);
         } 
         
         // leave summary
         if (calendarEntry != null) {
             //check to see if we are on a previous leave plan
-            PrincipalHRAttributes principalCal = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodDate());
+            PrincipalHRAttributes principalCal = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
             if(principalCal != null) {
 
-                DateTime currentYearBeginDate = TkServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(principalCal.getLeavePlan(), TKUtils.getCurrentDate());
+                DateTime currentYearBeginDate = TkServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(principalCal.getLeavePlan(), LocalDate.now());
                 DateTime calEntryEndDate = new DateTime(calendarEntry.getEndPeriodDate());
 	            if (calEntryEndDate.getMillis() > currentYearBeginDate.getMillis()) {
 	            	//current or future year
@@ -207,8 +205,8 @@ public class LeaveCalendarAction extends TkAction {
 	                lcf.setLeaveSummary(ls);
                 } else {
                     //current year roll over date has been passed, all previous calendars belong to the previous leave plan calendar year.
-                    DateTime effDate = TkServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalCal.getLeavePlan(), calEntryEndDate.toDate()).minus(1);
-                    LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(viewPrincipal, new java.sql.Date(effDate.getMillis()));
+                    DateTime effDate = TkServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalCal.getLeavePlan(), calEntryEndDate.minusDays(1).toLocalDate());
+                    LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(viewPrincipal, effDate.toLocalDate());
                     //override title element (based on date passed in)
                     DateFormat formatter = new SimpleDateFormat("MMMM d");
                     DateFormat formatter2 = new SimpleDateFormat("MMMM d yyyy");
@@ -235,7 +233,7 @@ public class LeaveCalendarAction extends TkAction {
         // which row(s) to transfer when user submits the calendar for approval.
 
         if(ObjectUtils.isNotNull(calendarEntry)) {
-            PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodDate());
+            PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 	        List<BalanceTransfer> losses = new ArrayList<BalanceTransfer>();
 
 	        Interval calendarInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(), calendarEntry.getEndPeriodDate().getTime());
@@ -251,12 +249,12 @@ public class LeaveCalendarAction extends TkAction {
 		        LeaveSummary summary = lcf.getLeaveSummary();
     	        for(Entry<String,Set<LeaveBlock>> entry : maxBalInfractions.entrySet()) {
     	        	for(LeaveBlock lb : entry.getValue()) {
-    	        		AccrualCategory accrualCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveDate());
+    	        		AccrualCategory accrualCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveLocalDate());
 			        	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
 			        	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
 			        		DateTime aDate = null;
 			        		if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
-			        			aDate = TkServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalCalendar.getLeavePlan(), lb.getLeaveDate());
+			        			aDate = TkServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalCalendar.getLeavePlan(), lb.getLeaveLocalDate());
 			        		}
 			        		else {
 				        		Calendar cal = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, new LocalDate(lb.getLeaveDate()), true);
@@ -267,9 +265,9 @@ public class LeaveCalendarAction extends TkAction {
 			        		if(calendarInterval.contains(aDate.getMillis()) && aDate.toDate().compareTo(calendarEntry.getEndPeriodDate()) <= 0) {
 				        		//may want to calculate summary for all rows, displayable or not, and determine displayability via tags.
 				    			AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
-				    			BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(viewPrincipal, accrualCategory, lb.getLeaveDate());
+				    			BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(viewPrincipal, accrualCategory, lb.getLeaveLocalDate());
 					        	
-					        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveDate());
+					        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveLocalDate());
 					        	boolean valid = BalanceTransferValidationUtils.validateTransfer(loseTransfer);
 					        	if(valid)
 					        		losses.add(loseTransfer);
@@ -312,7 +310,7 @@ public class LeaveCalendarAction extends TkAction {
             }
 	        lcf.setForfeitures(losses);
 	        
-	        Map<String,Set<String>> transactions = LeaveCalendarValidationUtil.validatePendingTransactions(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
+	        Map<String,Set<String>> transactions = LeaveCalendarValidationUtil.validatePendingTransactions(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 
 	        allMessages.get("infoMessages").addAll(transactions.get("infoMessages"));
 	        allMessages.get("warningMessages").addAll(transactions.get("warningMessages"));
@@ -324,11 +322,11 @@ public class LeaveCalendarAction extends TkAction {
         
         // add warning messages based on max carry over balances for each accrual category
         if(calendarEntry != null) {
-	        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodDate());
+	        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 			if (principalCalendar != null) {
-				List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalCalendar.getLeavePlan(), new java.sql.Date(calendarEntry.getEndPeriodDate().getTime()));
+				List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalCalendar.getLeavePlan(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 				for (AccrualCategory accrualCategory : accrualCategories) {
-					if (TkServiceLocator.getAccrualCategoryMaxCarryOverService().exceedsAccrualCategoryMaxCarryOver(accrualCategory.getAccrualCategory(), viewPrincipal, calendarEntry, calendarEntry.getEndPeriodDate())) {
+					if (TkServiceLocator.getAccrualCategoryMaxCarryOverService().exceedsAccrualCategoryMaxCarryOver(accrualCategory.getAccrualCategory(), viewPrincipal, calendarEntry, calendarEntry.getEndPeriodFullDateTime().toLocalDate())) {
 						String message = "Your pending leave balance is greater than the annual max carry over for accrual category '" + accrualCategory.getAccrualCategory() + "' and upon approval, the excess balance will be lost.";
 						if (!allMessages.get("warningMessages").contains(message)) {
                             allMessages.get("warningMessages").add(message);
@@ -337,7 +335,7 @@ public class LeaveCalendarAction extends TkAction {
 				}
 				
 				// KPME-1279 check for Absent Earn code to add warning.
-				List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForPrincipal(viewPrincipal, calendarEntry.getEndPeriodDate(), true);
+				List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForPrincipal(viewPrincipal, calendarEntry.getEndPeriodFullDateTime().toLocalDate(), true);
 				if(earnCodes != null && !earnCodes.isEmpty()) {
 					for (EarnCode earnCodeObj : earnCodes) {
 						if(earnCodeObj != null) {
@@ -442,8 +440,8 @@ public class LeaveCalendarAction extends TkAction {
 			beginDate = new DateTime(TKUtils.convertDateStringToTimestampWithoutZone(lcf.getStartDate(), lcf.getStartTime()).getTime());
 			endDate   = new DateTime(TKUtils.convertDateStringToTimestampWithoutZone(lcf.getEndDate(), lcf.getEndTime()).getTime());
 		}  else {
-			beginDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getStartDate()));
-			endDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getEndDate()));
+			beginDate = new DateTime(TKUtils.formatDateTimeStringNoTimezone(lcf.getStartDate()));
+			endDate = new DateTime(TKUtils.formatDateTimeStringNoTimezone(lcf.getEndDate()));
 		}
         LOG.debug("Begin Date is>> "+beginDate);
         LOG.debug("End Date is>> "+endDate);
@@ -465,7 +463,7 @@ public class LeaveCalendarAction extends TkAction {
 			assignment = TkServiceLocator.getAssignmentService().getAssignment(lcd, selectedAssignment);
 		} else {
 			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(targetPrincipalId, calendarEntry);
-			assignment = TkServiceLocator.getAssignmentService().getAssignment(assignments, selectedAssignment, calendarEntry.getBeginPeriodDate());
+			assignment = TkServiceLocator.getAssignmentService().getAssignment(assignments, selectedAssignment, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
 		}
 
 		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, calendarEntry, selectedEarnCode, hours, desc, assignment, spanningWeeks, 
@@ -479,8 +477,7 @@ public class LeaveCalendarAction extends TkAction {
 		
 		// call accrual service if earn code is not eligible for accrual
 		if(calendarEntry != null) {
-			java.sql.Date sqlDate = new java.sql.Date(endDate.getMillis());
-			this.rerunAccrualForNotEligibleForAccrualChanges(selectedEarnCode, sqlDate, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
+			this.rerunAccrualForNotEligibleForAccrualChanges(selectedEarnCode, endDate.toLocalDate(), calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 		 }
 		// recalculate summary
 		if (calendarEntry != null) {
@@ -537,12 +534,12 @@ public class LeaveCalendarAction extends TkAction {
         	TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, principalId);
 		    generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntryId());
 		    if(CollectionUtils.isNotEmpty(approverList)) {
-		    	this.generateLeaveBlockDeletionNotification(approverList, targetPrincipalId, principalId, TKUtils.formatDate(blockToDelete.getLeaveDate()), blockToDelete.getLeaveAmount().toString());
+		    	this.generateLeaveBlockDeletionNotification(approverList, targetPrincipalId, principalId, TKUtils.formatDate(blockToDelete.getLeaveLocalDate()), blockToDelete.getLeaveAmount().toString());
 		    }
         	
 		    // recalculate accruals
 		    if(lcf.getCalendarEntry() != null) {
-		    	rerunAccrualForNotEligibleForAccrualChanges(blockToDelete.getEarnCode(), blockToDelete.getLeaveDate(), calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
+		    	rerunAccrualForNotEligibleForAccrualChanges(blockToDelete.getEarnCode(), blockToDelete.getLeaveLocalDate(), calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 		    }	
         }
 		// recalculate summary
@@ -561,12 +558,12 @@ public class LeaveCalendarAction extends TkAction {
 	 * @param startDate
 	 * @param endDate
 	 */
-	private void rerunAccrualForNotEligibleForAccrualChanges(String earnCode, Date asOfDate, Date startDate, Date endDate) {
+	private void rerunAccrualForNotEligibleForAccrualChanges(String earnCode, LocalDate asOfDate, LocalDate startDate, LocalDate endDate) {
 		EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
 		if(ec != null && ec.getEligibleForAccrual().equals("N")) {
 			if(startDate != null && endDate != null) {
 				// since we are only recalculating accrual for this pay period, we use "false" to not record the accrual run data
-				TkServiceLocator.getLeaveAccrualService().runAccrual(TKContext.getTargetPrincipalId(), startDate, endDate, false);
+				TkServiceLocator.getLeaveAccrualService().runAccrual(TKContext.getTargetPrincipalId(), startDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay(), false);
 			}
 		}
 	}
@@ -597,14 +594,14 @@ public class LeaveCalendarAction extends TkAction {
             DateTime beginDate = null;
     		DateTime endDate = null;
             
-            EarnCode earnCode =  TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, updatedLeaveBlock.getLeaveDate()); // selectedEarnCode = hrEarnCodeId
+            EarnCode earnCode =  TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, updatedLeaveBlock.getLeaveLocalDate()); // selectedEarnCode = hrEarnCodeId
             if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(TkConstants.EARN_CODE_TIME)) {
             	if(lcf.getStartTime() != null && lcf.getEndTime() != null) {
         			beginDate = new DateTime(TKUtils.convertDateStringToTimestampWithoutZone(lcf.getStartDate(), lcf.getStartTime()).getTime());
         			endDate   = new DateTime(TKUtils.convertDateStringToTimestampWithoutZone(lcf.getEndDate(), lcf.getEndTime()).getTime());
         		}  else {
-        			beginDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getStartDate()));
-        			endDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getEndDate()));
+        			beginDate = new DateTime(TKUtils.formatDateTimeStringNoTimezone(lcf.getStartDate()));
+        			endDate = new DateTime(TKUtils.formatDateTimeStringNoTimezone(lcf.getEndDate()));
         		}
             	updatedLeaveBlock.setBeginTimestamp(new Timestamp(beginDate.getMillis()));
             	updatedLeaveBlock.setEndTimestamp(new Timestamp(endDate.getMillis()));
@@ -662,8 +659,8 @@ public class LeaveCalendarAction extends TkAction {
             if (calPreEntry != null) {
             	
             	// Check if service date of user is after the Calendar entry
-                Date asOfDate = new Date(DateUtils.addDays(calPreEntry.getEndPeriodDate(),-1).getTime());;
-        		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, asOfDate);
+                DateTime asOfDate = calPreEntry.getEndPeriodFullDateTime().minusDays(1);
+        		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, asOfDate.toLocalDate());
         		
         		if(principalHRAttributes != null) {
         			startCalDate = principalHRAttributes.getServiceDate();
@@ -719,8 +716,8 @@ public class LeaveCalendarAction extends TkAction {
 				CalendarEntry calendarEntry = TkServiceLocator.getCalendarService()
 						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 				if(calendarEntry != null) {
-					leaveForm.setCurrentPayCalStart(calendarEntry.getBeginLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback()));
-					leaveForm.setCurrentPayCalEnd(calendarEntry.getEndLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback()));
+					leaveForm.setCurrentPayCalStart(calendarEntry.getBeginPeriodLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback()));
+					leaveForm.setCurrentPayCalEnd(calendarEntry.getEndPeriodLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback()));
 				}
 			}
 		} else {

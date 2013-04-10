@@ -99,12 +99,12 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		// March end time blocks: 3/29-3-31 [m, w]
 		List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 		DateTime start = new DateTime(2010, 3, 29, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		Date beginPeriodDate = new Date(new DateTime(2010, 3, 15, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
+		DateTime beginPeriodDate = new DateTime(2010, 3, 15, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		DateTime endPeriodDate = new DateTime(2010, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         Date calEntryEndDate = new Date(new DateTime(2010, 4, 1, 0, 0, 0).getMillis());
 		CalendarEntry endOfMarch = TkServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfMarch);
-		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), beginPeriodDate);
+		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), beginPeriodDate.toLocalDate());
 		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 3, BigDecimal.TEN, BigDecimal.ZERO);
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), timeBlocks, TKContext.getPrincipalId());
 		tdoc.setTimeBlocks(timeBlocks);
@@ -149,11 +149,11 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 	public void testProcessPreviousMonthFlsaOT() throws Exception {
 		List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 		DateTime start = new DateTime(2010, 6, 27, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		Date beginPeriodDate = new Date(new DateTime(2010, 6, 15, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
+		DateTime beginPeriodDate = new DateTime(2010, 6, 15, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		DateTime endPeriodDate = new DateTime(2010, 7, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         CalendarEntry endOfJune = TkServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
-		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), beginPeriodDate);
+		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), beginPeriodDate.toLocalDate());
 		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 4, new BigDecimal(11), BigDecimal.ZERO);
 		
 		tdoc.setTimeBlocks(timeBlocks);
@@ -229,11 +229,11 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		
 		List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 		DateTime start = new DateTime(2010, 6, 27, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		Date beginPeriodDate = new Date(new DateTime(2010, 6, 15, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
+		DateTime beginPeriodDate = new DateTime(2010, 6, 15, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		DateTime endPeriodDate = new DateTime(2010, 7, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         CalendarEntry endOfJune = TkServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
-		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), beginPeriodDate);		
+		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), beginPeriodDate.toLocalDate());		
 		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "ABC", start, 1, new BigDecimal(11), BigDecimal.ZERO));
 		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "XYZ", start.plusDays(1), 1, new BigDecimal(11), BigDecimal.ZERO));
 		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "ABC", start.plusDays(2), 1, new BigDecimal(11), BigDecimal.ZERO));

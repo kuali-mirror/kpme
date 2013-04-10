@@ -15,14 +15,14 @@
  */
 package org.kuali.hr.time.syslunch.dao;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.syslunch.rule.SystemLunchRule;
 
 public interface SystemLunchRuleDao {
-	public SystemLunchRule getSystemLunchRule(Date asOfDate);
+	public SystemLunchRule getSystemLunchRule(LocalDate asOfDate);
 	public SystemLunchRule getSystemLunchRule(String tkSystemLunchRuleId);
 
-    List<SystemLunchRule> getSystemLunchRules(Date fromEffdt, Date toEffdt, String active, String showHist);
+    List<SystemLunchRule> getSystemLunchRules(LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }

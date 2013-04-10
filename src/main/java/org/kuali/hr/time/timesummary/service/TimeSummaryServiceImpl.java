@@ -17,11 +17,11 @@ package org.kuali.hr.time.timesummary.service;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
@@ -46,7 +46,6 @@ import org.kuali.hr.time.timesummary.AssignmentRow;
 import org.kuali.hr.time.timesummary.EarnCodeSection;
 import org.kuali.hr.time.timesummary.EarnGroupSection;
 import org.kuali.hr.time.timesummary.TimeSummary;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -78,14 +77,14 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
             tAssignmentKeys.add(assign.getAssignmentKey());
         }
         List<LeaveBlock> leaveBlocks =  TkServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(timesheetDocument.getPrincipalId(),
-                timesheetDocument.getCalendarEntry().getBeginPeriodDate(), timesheetDocument.getCalendarEntry().getEndPeriodDate(), tAssignmentKeys);
+                timesheetDocument.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate(), tAssignmentKeys);
         LeaveBlockAggregate leaveBlockAggregate = new LeaveBlockAggregate(leaveBlocks, timesheetDocument.getCalendarEntry());
         tkTimeBlockAggregate = combineTimeAndLeaveAggregates(tkTimeBlockAggregate, leaveBlockAggregate);
 
 		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate));
 
         List<EarnGroupSection> earnGroupSections = getEarnGroupSections(tkTimeBlockAggregate, timeSummary.getSummaryHeader().size()+1, 
-        			dayArrangements, timesheetDocument.getAsOfDate(), timesheetDocument.getDocEndDate());
+        			dayArrangements, LocalDate.fromDateFields(timesheetDocument.getAsOfDate()), LocalDate.fromDateFields(timesheetDocument.getDocEndDate()));
         timeSummary.setSections(earnGroupSections);
         
         try {
@@ -115,13 +114,13 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 
         	if(!onDemandTransfers.isEmpty()) {
             	for(LeaveBlock lb : onDemandTransfers) {
-            		Date leaveDate = lb.getLeaveDate();
-                	LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, new java.sql.Date(DateUtils.addDays(leaveDate, 1).getTime()));
+            		LocalDate leaveDate = lb.getLeaveLocalDate();
+                	LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, leaveDate.plusDays(1));
                 	LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
             		if(row != null) {
             			//AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(row.getAccrualCategoryId());
                     	//AccrualCategoryRule currentRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, asOfDate, pha.getServiceDate());
-                    	if(calendarEntryInterval.contains(leaveDate.getTime())) {
+                    	if(calendarEntryInterval.contains(leaveDate.toDate().getTime())) {
                     		//do not allow the on-demand max balance action if the rule the action occurs under is no longer in effect,
                     		//or if the infraction did not occur within this interval. ( if it occurred during the previous interval, 
                     		//the employee will have the option to take action in that interval up to & including the end date of that interval. )
@@ -156,7 +155,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * @param asOfDate
      * @return
      */
-	public List<EarnGroupSection> getEarnGroupSections(TkTimeBlockAggregate tkTimeBlockAggregate, int numEntries, List<Boolean> dayArrangements, Date asOfDate , Date docEndDate){
+	public List<EarnGroupSection> getEarnGroupSections(TkTimeBlockAggregate tkTimeBlockAggregate, int numEntries, List<Boolean> dayArrangements, LocalDate asOfDate, LocalDate docEndDate){
 		List<EarnGroupSection> earnGroupSections = new ArrayList<EarnGroupSection>();
 		List<FlsaWeek> flsaWeeks = tkTimeBlockAggregate.getFlsaWeeks(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
 		Map<String, EarnCodeSection> earnCodeToEarnCodeSection = new HashMap<String, EarnCodeSection>();
@@ -191,7 +190,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 							if(earnCodeSection == null){
 								earnCodeSection = new EarnCodeSection();
 								earnCodeSection.setEarnCode(thd.getEarnCode());
-								EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(thd.getEarnCode(), TKUtils.getTimelessDate(asOfDate));
+								EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(thd.getEarnCode(), asOfDate);
 								earnCodeSection.setDescription(earnCodeObj.getDescription());
 								earnCodeSection.setIsAmountEarnCode((earnCodeObj.getRecordMethod()!= null && earnCodeObj.getRecordMethod().equalsIgnoreCase(TkConstants.EARN_CODE_AMOUNT)) ? true : false);
 								for(int i = 0;i<(numEntries-1);i++){
@@ -206,19 +205,19 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 								assignRow = new AssignmentRow();
 								assignRow.setAssignmentKey(assignKey);
 								AssignmentDescriptionKey assignmentKey = TkServiceLocator.getAssignmentService().getAssignmentDescriptionKey(assignKey);
-								Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, TKUtils.getTimelessDate(asOfDate));
+								Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, asOfDate);
 								// some assignment may not be effective at the beginning of the pay period, use the end date of the period to find it
 								if(assignment == null) {
-									assignment = TkServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, TKUtils.getTimelessDate(docEndDate));
+									assignment = TkServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, asOfDate);
 								}
 								//TODO push this up to the assignment fetch/fully populated instead of like this
 								if(assignment != null){
 									if(assignment.getJob() == null){
-										Job aJob = TkServiceLocator.getJobService().getJob(assignment.getPrincipalId(),assignment.getJobNumber(),TKUtils.getTimelessDate(assignment.getEffectiveDate()));
+										Job aJob = TkServiceLocator.getJobService().getJob(assignment.getPrincipalId(),assignment.getJobNumber(), assignment.getEffectiveLocalDate());
 										assignment.setJob(aJob);
 									}
 									if(assignment.getWorkAreaObj() == null){
-										WorkArea aWorkArea = TkServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), TKUtils.getTimelessDate(assignment.getEffectiveDate()));
+										WorkArea aWorkArea = TkServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), assignment.getEffectiveLocalDate());
 										assignment.setWorkAreaObj(aWorkArea);
 									}
 									assignRow.setDescr(assignment.getAssignmentDescription());
@@ -251,7 +250,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 		//now create all teh earn group sections and aggregate accordingly
 		for(EarnCodeSection earnCodeSection : earnCodeToEarnCodeSection.values()){
 			String earnCode = earnCodeSection.getEarnCode();
-			EarnCodeGroup earnGroupObj = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroupSummaryForEarnCode(earnCode, TKUtils.getTimelessDate(asOfDate));
+			EarnCodeGroup earnGroupObj = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroupSummaryForEarnCode(earnCode, asOfDate);
 			String earnGroup = null;
 			if(earnGroupObj == null){
 				earnGroup = OTHER_EARN_GROUP;
@@ -288,7 +287,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 		Date beginDateTime = payCalEntry.getBeginPeriodDateTime();
 		Date endDateTime = payCalEntry.getEndPeriodDateTime();
 		boolean virtualDays = false;
-        LocalDateTime endDate = payCalEntry.getEndLocalDateTime();
+        LocalDateTime endDate = payCalEntry.getEndPeriodLocalDateTime();
 
         if (endDate.get(DateTimeFieldType.hourOfDay()) != 0 || endDate.get(DateTimeFieldType.minuteOfHour()) != 0 ||
                 endDate.get(DateTimeFieldType.secondOfMinute()) != 0){
@@ -397,8 +396,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         // Maps directly to joda time day of week constants.
         int flsaBeginDay = this.getPayCalendarForEntry(cal).getFlsaBeginDayConstant();
         boolean virtualDays = false;
-        LocalDateTime startDate = cal.getBeginLocalDateTime();
-        LocalDateTime endDate = cal.getEndLocalDateTime();
+        LocalDateTime startDate = cal.getBeginPeriodLocalDateTime();
+        LocalDateTime endDate = cal.getEndPeriodLocalDateTime();
 
         // Increment end date if we are on a virtual day calendar, so that the
         // for loop can account for having the proper amount of days on the

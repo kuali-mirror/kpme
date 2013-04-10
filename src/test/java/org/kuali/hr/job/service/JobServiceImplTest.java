@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.job.service;
 
-import java.sql.Date;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -43,8 +42,8 @@ public class JobServiceImplTest extends KPMETestCase {
 	
 	@Test
 	public void testGetJobs() {
-		Date payPeriodEndDate = new Date((new DateTime(2010,7,30,1,0,0,0, TKUtils.getSystemDateTimeZone())).getMillis());
-		List<Job> jobs = jobService.getJobs(TEST_USER, payPeriodEndDate);
+		DateTime payPeriodEndDate = new DateTime(2010,7,30,1,0,0,0, TKUtils.getSystemDateTimeZone());
+		List<Job> jobs = jobService.getJobs(TEST_USER, payPeriodEndDate.toLocalDate());
 		Assert.assertNotNull("Jobs was null", jobs);
 		Assert.assertEquals("Incorrect number of jobs", 2, jobs.size());
 	}

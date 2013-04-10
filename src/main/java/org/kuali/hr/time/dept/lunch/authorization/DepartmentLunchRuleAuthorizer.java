@@ -26,7 +26,7 @@ public class DepartmentLunchRuleAuthorizer extends KPMEMaintenanceDocumentAuthor
 			if (departmentLunchRuleObj != null) {
 				department = departmentLunchRuleObj.getDept();
 				
-				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, departmentLunchRuleObj.getEffectiveDate());
+				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, departmentLunchRuleObj.getEffectiveLocalDate());
 			
 				if (departmentObj != null) {
 					location = departmentObj.getLocation();

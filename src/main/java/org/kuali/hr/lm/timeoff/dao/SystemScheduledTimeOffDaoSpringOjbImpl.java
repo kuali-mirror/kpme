@@ -17,18 +17,18 @@ package org.kuali.hr.lm.timeoff.dao;
 
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.common.collect.ImmutableList;
 
 public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements SystemScheduledTimeOffDao {
 
@@ -42,25 +42,25 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
 
 	@Override
 	public List<SystemScheduledTimeOff> getSystemScheduledTimeOffForPayPeriod(
-			String leavePlan, Date startDate, Date endDate) {
+			String leavePlan, LocalDate startDate, LocalDate endDate) {
 		Criteria root = new Criteria();
 		root.addEqualTo("leavePlan", leavePlan);
-		root.addBetween("accruedDate", startDate, endDate);
+		root.addBetween("accruedDate", startDate.toDate(), endDate.toDate());
 		return (List<SystemScheduledTimeOff>)this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(SystemScheduledTimeOff.class, root));
 	}
 
 	@Override
-	public SystemScheduledTimeOff getSystemScheduledTimeOffByDate(String leavePlan, Date startDate) {
+	public SystemScheduledTimeOff getSystemScheduledTimeOffByDate(String leavePlan, LocalDate startDate) {
 		Criteria root = new Criteria();
 		root.addEqualTo("leavePlan", leavePlan);
-		root.addEqualTo("accruedDate", startDate);
+		root.addEqualTo("accruedDate", startDate.toDate());
 		return (SystemScheduledTimeOff)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SystemScheduledTimeOff.class, root));
 	}
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(Date fromEffdt, Date toEffdt, String earnCode, Date fromAccruedDate,Date toAccruedDate, 
-    															   Date fromSchTimeOffDate, Date toSchTimeOffDate, String active, String showHistory) {
+    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(LocalDate fromEffdt, LocalDate toEffdt, String earnCode, LocalDate fromAccruedDate,LocalDate toAccruedDate, 
+    		LocalDate fromSchTimeOffDate, LocalDate toSchTimeOffDate, String active, String showHistory) {
         
     	List<SystemScheduledTimeOff> results = new ArrayList<SystemScheduledTimeOff>();
     	
@@ -72,28 +72,28 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
 
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
 
         if (fromAccruedDate != null) {
-            root.addGreaterOrEqualThan("accruedDate", fromAccruedDate);
+            root.addGreaterOrEqualThan("accruedDate", fromAccruedDate.toDate());
         }
         if (toAccruedDate != null) {
-            root.addLessOrEqualThan("accruedDate", toAccruedDate);
+            root.addLessOrEqualThan("accruedDate", toAccruedDate.toDate());
         }
 
         if (fromSchTimeOffDate != null) {
-            root.addGreaterOrEqualThan("scheduledTimeOffDate", fromSchTimeOffDate);
+            root.addGreaterOrEqualThan("scheduledTimeOffDate", fromSchTimeOffDate.toDate());
         }
         if (toSchTimeOffDate != null) {
-            root.addLessOrEqualThan("scheduledTimeOffDate", toSchTimeOffDate);
+            root.addLessOrEqualThan("scheduledTimeOffDate", toSchTimeOffDate.toDate());
         }
         
         if (StringUtils.isNotBlank(active)) {
@@ -123,15 +123,15 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
 	
 	@Override
     @SuppressWarnings("unchecked")
-    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffsForLeavePlan(Date fromAccruedDate,Date toAccruedDate, String leavePlan) {
+    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffsForLeavePlan(LocalDate fromAccruedDate,LocalDate toAccruedDate, String leavePlan) {
     	List<SystemScheduledTimeOff> results = new ArrayList<SystemScheduledTimeOff>();
     	Criteria root = new Criteria();
 
         if (fromAccruedDate != null) {
-            root.addGreaterOrEqualThan("accruedDate", fromAccruedDate);
+            root.addGreaterOrEqualThan("accruedDate", fromAccruedDate.toDate());
         }
         if (toAccruedDate != null) {
-            root.addLessOrEqualThan("accruedDate", toAccruedDate);
+            root.addLessOrEqualThan("accruedDate", toAccruedDate.toDate());
         }
         
         if(StringUtils.isNotEmpty(leavePlan)) {

@@ -15,7 +15,13 @@
  */
 package org.kuali.hr.time.util;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
@@ -38,11 +44,6 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A few methods to assist with various validation tasks.
@@ -89,7 +90,7 @@ public class ValidationUtils {
 	}
 
 
-	public static boolean validateSalGroup(String salGroup, Date asOfDate) {
+	public static boolean validateSalGroup(String salGroup, LocalDate asOfDate) {
 		boolean valid = false;
 
 		if (StringUtils.equals(salGroup, TkConstants.WILDCARD_CHARACTER)) {
@@ -105,7 +106,7 @@ public class ValidationUtils {
 		return valid;
 	}
 
-	public static boolean validateEarnCode(String earnCode, Date asOfDate) {
+	public static boolean validateEarnCode(String earnCode, LocalDate asOfDate) {
 		boolean valid = false;
 
 		if (asOfDate != null) {
@@ -119,7 +120,7 @@ public class ValidationUtils {
 		return valid;
 	}
 	
-	public static boolean validateLeavePlan(String leavePlan, Date asOfDate) {
+	public static boolean validateLeavePlan(String leavePlan, LocalDate asOfDate) {
 		boolean valid = false;
 		
 		if (asOfDate != null) {
@@ -133,7 +134,7 @@ public class ValidationUtils {
 		return valid;
 	}
 
-	public static boolean validateEarnCodeOfAccrualCategory(String earnCode, String accrualCategory, Date asOfDate) {
+	public static boolean validateEarnCodeOfAccrualCategory(String earnCode, String accrualCategory, LocalDate asOfDate) {
 		boolean valid = false;
 		
 		if (asOfDate != null) {
@@ -154,7 +155,7 @@ public class ValidationUtils {
 		return valid;
 	}
 	
-	public static boolean validateAccCategory(String accrualCategory, Date asOfDate) {
+	public static boolean validateAccCategory(String accrualCategory, LocalDate asOfDate) {
 		boolean valid = false;
 		
 		if (asOfDate != null) {
@@ -171,7 +172,7 @@ public class ValidationUtils {
 		return valid;
 	}
 	
-	public static boolean validateAccCategory(String accrualCategory, String principalId, Date asOfDate) {
+	public static boolean validateAccCategory(String accrualCategory, String principalId, LocalDate asOfDate) {
 		boolean valid = false;
 		
 		if (asOfDate != null) {
@@ -197,7 +198,7 @@ public class ValidationUtils {
 		return valid;
 	}
 	
-	public static boolean validateLocation(String location, Date asOfDate) {
+	public static boolean validateLocation(String location, LocalDate asOfDate) {
 		boolean valid = false;
 
 		if (asOfDate != null) {
@@ -211,7 +212,7 @@ public class ValidationUtils {
 		return valid;
 	}
 
-	public static boolean validatePayType(String payType, Date asOfDate) {
+	public static boolean validatePayType(String payType, LocalDate asOfDate) {
 		boolean valid = false;
 
 		if (asOfDate != null) {
@@ -226,7 +227,7 @@ public class ValidationUtils {
 	}
 
 
-	public static boolean validatePayGrade(String payGrade, Date asOfDate) {
+	public static boolean validatePayGrade(String payGrade, LocalDate asOfDate) {
 		boolean valid = false;
 
 		if (asOfDate != null) {
@@ -247,7 +248,7 @@ public class ValidationUtils {
      * @param asOfDate
      * @return
      */
-    public static boolean validateEarnCode(String earnCode, boolean otEarnCode, Date asOfDate) {
+    public static boolean validateEarnCode(String earnCode, boolean otEarnCode, LocalDate asOfDate) {
         boolean valid = false;
 
         if (asOfDate != null) {
@@ -262,7 +263,7 @@ public class ValidationUtils {
 	 * Checks for row presence of a department, and optionally whether or not
 	 * it is active as of the specified date.
 	 */
-	public static boolean validateDepartment(String department, Date asOfDate) {
+	public static boolean validateDepartment(String department, LocalDate asOfDate) {
 		boolean valid = false;
 
         if (StringUtils.isEmpty(department)) {
@@ -293,11 +294,11 @@ public class ValidationUtils {
 	 * Checks for row presence of a work area, and optionally whether or not
 	 * it is active as of the specified date.
 	 */
-    public static boolean validateWorkArea(Long workArea, Date asOfDate) {
+    public static boolean validateWorkArea(Long workArea, LocalDate asOfDate) {
         return ValidationUtils.validateWorkArea(workArea, null, asOfDate);
     }
 
-	public static boolean validateWorkArea(Long workArea, String dept, Date asOfDate) {
+	public static boolean validateWorkArea(Long workArea, String dept, LocalDate asOfDate) {
 		boolean valid = false;
 
 		if (workArea == null) {
@@ -321,7 +322,7 @@ public class ValidationUtils {
 	 * Checks for row presence of a Accrual Category, and optionally whether or not
 	 * it is active as of the specified date.
 	 */
-	public static boolean validateAccrualCategory(String accrualCategory, Date asOfDate) {
+	public static boolean validateAccrualCategory(String accrualCategory, LocalDate asOfDate) {
 		boolean valid = false;
 
 		if (StringUtils.equals(accrualCategory, TkConstants.WILDCARD_CHARACTER)) {
@@ -353,7 +354,7 @@ public class ValidationUtils {
      * @param asOfDate Can be null, if we just want to look for the general case.
      * @return True if the task is present / valid.
      */
-    public static boolean validateTask(Long task, Date asOfDate) {
+    public static boolean validateTask(Long task, LocalDate asOfDate) {
         boolean valid = false;
 
         if (task != null && asOfDate != null) {
@@ -373,7 +374,7 @@ public class ValidationUtils {
      * @param asOfDate Can be null, if we just want to look for the general case.
      * @return True if the EarnCodeGroup is present / valid.
      */
-    public static boolean validateEarnGroup(String earnGroup, Date asOfDate) {
+    public static boolean validateEarnGroup(String earnGroup, LocalDate asOfDate) {
         boolean valid = false;
 
         if (earnGroup != null && asOfDate != null) {
@@ -392,7 +393,7 @@ public class ValidationUtils {
      * @param asOfDate
      * @return True if the EarnCodeGroup has overtime earn codes
      */
-    public static boolean earnGroupHasOvertimeEarnCodes(String earnGroup, Date asOfDate) {
+    public static boolean earnGroupHasOvertimeEarnCodes(String earnGroup, LocalDate asOfDate) {
          if (earnGroup != null && asOfDate != null) {
              EarnCodeGroup eg = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(earnGroup, asOfDate);
              if(eg != null) {
@@ -426,12 +427,12 @@ public class ValidationUtils {
 	   boolean valid = false;
 	   int count = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityCount
                (deptEarnCode.getDept(), deptEarnCode.getHrSalGroup(), deptEarnCode.getEarnCode(), deptEarnCode.isEmployee() ? "1" : "0",
-                       deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.isActive() ? "Y" : "N", deptEarnCode.getEffectiveDate(), null);
+                       deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.isActive() ? "Y" : "N", deptEarnCode.getEffectiveLocalDate(), null);
        if(count == 1) {
     	   valid = true;
     	   count = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityCount
                    (deptEarnCode.getDept(), deptEarnCode.getHrSalGroup(), deptEarnCode.getEarnCode(), deptEarnCode.isEmployee() ? "1" : "0",
-                           deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.isActive() ? "Y" : "N", deptEarnCode.getEffectiveDate(), deptEarnCode.getHrEarnCodeSecurityId());
+                           deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.isActive() ? "Y" : "N", deptEarnCode.getEffectiveLocalDate(), deptEarnCode.getHrEarnCodeSecurityId());
     	   if(count == 1) {
     		   valid = false;
     	   }
@@ -466,7 +467,7 @@ public class ValidationUtils {
     * 
     */
 
-   public static boolean validateOneYearFutureDate(Date date){
+   public static boolean validateOneYearFutureDate(LocalDate date){
 	   java.util.Calendar startDate = java.util.Calendar.getInstance();
 	   startDate.add(java.util.Calendar.DATE, -1);
 	   startDate.set(java.util.Calendar.SECOND, 0);
@@ -474,7 +475,7 @@ public class ValidationUtils {
 	   startDate.set(java.util.Calendar.HOUR_OF_DAY, 0);
 	   java.util.Calendar endDate = java.util.Calendar.getInstance();
 	   endDate.add(java.util.Calendar.YEAR, 1); // One year after the current date
-	   return date.compareTo(startDate.getTime()) * date.compareTo(endDate.getTime()) <= 0;
+	   return date.toDate().compareTo(startDate.getTime()) * date.toDate().compareTo(endDate.getTime()) <= 0;
    }
    
    /**
@@ -482,14 +483,14 @@ public class ValidationUtils {
     * 
     */
 
-   public static boolean validateOneYearFutureEffectiveDate(Date date){
+   public static boolean validateOneYearFutureEffectiveDate(LocalDate date){
 	   java.util.Calendar startDate = java.util.Calendar.getInstance();
 	   startDate.set(java.util.Calendar.MILLISECOND, 0);
 	   startDate.set(java.util.Calendar.SECOND, 0);
 	   startDate.set(java.util.Calendar.MINUTE, 0);
 	   startDate.set(java.util.Calendar.HOUR_OF_DAY, 0);
 	   startDate.add(java.util.Calendar.YEAR, 1); // One year after the current date
-	   return date.compareTo(startDate.getTime()) <= 0;
+	   return date.toDate().compareTo(startDate.getTime()) <= 0;
    }
    
    /**
@@ -497,13 +498,13 @@ public class ValidationUtils {
     * 
     */
    
-   public static boolean validateFutureDate(Date date){
+   public static boolean validateFutureDate(LocalDate date){
 	   java.util.Calendar startDate = java.util.Calendar.getInstance();
 	   startDate.add(java.util.Calendar.DATE, 0);
 	   startDate.set(java.util.Calendar.SECOND, 0);
 	   startDate.set(java.util.Calendar.MINUTE, 0);
 	   startDate.set(java.util.Calendar.HOUR_OF_DAY, 0);
-	   return date.compareTo(startDate.getTime()) > 0;
+	   return date.toDate().compareTo(startDate.getTime()) > 0;
    }
 
 	/**
@@ -518,7 +519,7 @@ public class ValidationUtils {
 		return matches > 0;
 	}
 	
-	public static boolean validateRecordMethod(String recordMethod, String accrualCategory, Date asOfDate) {
+	public static boolean validateRecordMethod(String recordMethod, String accrualCategory, LocalDate asOfDate) {
 		boolean valid = false;
 		if (asOfDate != null) {
 			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
@@ -537,7 +538,7 @@ public class ValidationUtils {
 		return valid;
 	}
 	
-	public static boolean validateEarnCodeFraction(String earnCode, BigDecimal amount, Date asOfDate) {
+	public static boolean validateEarnCodeFraction(String earnCode, BigDecimal amount, LocalDate asOfDate) {
 		boolean valid = true;
 		 EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
 		 if(ec != null && ec.getFractionalTimeAllowed() != null) {

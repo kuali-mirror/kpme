@@ -128,7 +128,7 @@ public class LeaveCalendarWSAction extends TkAction {
             lcf.setCalendarEntry(ce);
         }
         lcf.setPrincipalId(TKContext.getTargetPrincipalId());
-        boolean isPlanningCal = TkServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(lcf.getPrincipalId(), lcf.getCalendarEntry().getBeginPeriodDateTime(), lcf.getCalendarEntry().getEndPeriodDateTime());
+        boolean isPlanningCal = TkServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(lcf.getPrincipalId(), lcf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), lcf.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
         lcf.setLeavePlanningCalendar(isPlanningCal);
 
         List<Map<String, Object>> earnCodeList = new LinkedList<Map<String, Object>>();
@@ -140,7 +140,7 @@ public class LeaveCalendarWSAction extends TkAction {
             	if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
                         assignment.getWorkArea().compareTo(key.getWorkArea()) == 0 &&
                         assignment.getTask().compareTo(key.getTask()) == 0) {
-                	List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, new java.sql.Date(TKUtils.convertDateStringToTimestamp(lcf.getStartDate()).getTime()), lcf.isLeavePlanningCalendar());
+                	List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, TKUtils.formatDateTimeString(lcf.getStartDate()).toLocalDate(), lcf.isLeavePlanningCalendar());
                     for (EarnCode earnCode : earnCodes) {
                         Map<String, Object> earnCodeMap = new HashMap<String, Object>();
                         earnCodeMap.put("assignment", assignment.getAssignmentKey());

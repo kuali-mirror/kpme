@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.lm.accrual.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,9 +25,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements AccrualCategoryDao {
@@ -37,7 +36,7 @@ public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
             .build();
 
     @Override
-    public AccrualCategory getAccrualCategory(String accrualCategory, Date asOfDate) {
+    public AccrualCategory getAccrualCategory(String accrualCategory, LocalDate asOfDate) {
     	AccrualCategory accrlCategory = null;
 		Criteria root = new Criteria();
 
@@ -72,7 +71,7 @@ public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 
 	@Override
 	// KPME-1011
-    public List<AccrualCategory> getActiveAccrualCategories(Date asOfDate) {
+    public List<AccrualCategory> getActiveAccrualCategories(LocalDate asOfDate) {
 		List<AccrualCategory> accrualCategories = new ArrayList<AccrualCategory>();
 		Criteria root = new Criteria();
 		Criteria timestampSubCrit = new Criteria();
@@ -81,7 +80,7 @@ public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(AccrualCategory.class, timestampSubCrit);
 		timestampSubQuery.setAttributes(new String[]{ "max(timestamp)" });
 		
-		root.addLessOrEqualThan("effectiveDate", asOfDate);
+		root.addLessOrEqualThan("effectiveDate", asOfDate.toDate());
 		root.addEqualTo("timestamp", timestampSubQuery);
 		root.addEqualTo("active",true);
 		
@@ -99,7 +98,7 @@ public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 	@Override
     @SuppressWarnings("unchecked")
 	public List<AccrualCategory> getAccrualCategories(String accrualCategory, String descr, String leavePlan, String accrualEarnInterval, 
-													  String unitOfTime, String minPercentWorked, Date fromEffdt, Date toEffdt, String active, 
+													  String unitOfTime, String minPercentWorked, LocalDate fromEffdt, LocalDate toEffdt, String active, 
 													  String showHistory) {
         
         List<AccrualCategory> results = new ArrayList<AccrualCategory>();
@@ -132,13 +131,13 @@ public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
         
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
         
@@ -163,7 +162,7 @@ public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
         return results;
     }
     
-	public List<AccrualCategory> getActiveAccrualCategories(String leavePlan, Date asOfDate){
+	public List<AccrualCategory> getActiveAccrualCategories(String leavePlan, LocalDate asOfDate){
 		List<AccrualCategory> accrualCategories = new ArrayList<AccrualCategory>();
 		
 		Criteria root = new Criteria();
@@ -186,10 +185,10 @@ public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 	}
     
     @Override
-	public List<AccrualCategory> getActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, Date asOfDate){
+	public List<AccrualCategory> getActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, LocalDate asOfDate){
 		Criteria root = new Criteria();
 		root.addEqualTo("leavePlan", leavePlan);
-		root.addLessOrEqualThan("effectiveDate", asOfDate);
+		root.addLessOrEqualThan("effectiveDate", asOfDate.toDate());
 		root.addNotEqualTo("accrualEarnInterval", "N");
 		root.addEqualTo("active", true);
 		
@@ -204,11 +203,11 @@ public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 	}
 	
 	@Override
-	public List <AccrualCategory> getInActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, Date asOfDate) {
+	public List <AccrualCategory> getInActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 		root.addEqualTo("leavePlan", leavePlan);
 		root.addNotEqualTo("accrualEarnInterval", "N");
-		root.addLessOrEqualThan("effectiveDate", asOfDate);
+		root.addLessOrEqualThan("effectiveDate", asOfDate.toDate());
 		root.addEqualTo("active", false);
 		Query query = QueryFactory.newQuery(AccrualCategory.class, root);
 		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);

@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -169,7 +170,7 @@ public class ClockWebTest extends KPMETestCase {
     @Test
     public void testClockActionWithoutGracePeriodRule() throws Exception {
         // Make sure there is no active grace period rule
-        GracePeriodRule gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(TKUtils.getCurrentDate());
+        GracePeriodRule gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
         if (gpr != null && gpr.isActive()) {
             gpr.setActive(false);
             KRADServiceLocator.getBusinessObjectService().save(gpr);

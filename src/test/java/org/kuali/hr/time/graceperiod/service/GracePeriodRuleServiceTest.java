@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -39,7 +40,7 @@ public class GracePeriodRuleServiceTest extends KPMETestCase{
 		gpr.setHourFactor(new BigDecimal(0.1));
 		
 		KRADServiceLocator.getBusinessObjectService().save(gpr);
-		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(new Date(System.currentTimeMillis()));
+		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
 		Assert.assertTrue("fetched one rule", gpr != null);
 
         //cleanup
@@ -63,16 +64,16 @@ public class GracePeriodRuleServiceTest extends KPMETestCase{
 		gpr.setHourFactor(new BigDecimal(3));
 		
 		KRADServiceLocator.getBusinessObjectService().save(gpr);
-		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(new Date(System.currentTimeMillis()));
+		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
 		Assert.assertTrue("fetched one rule", gpr != null);
 
 		Timestamp beginDateTime = new Timestamp((new DateTime(2012, 10, 16, 12, 3, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		Timestamp derivedTimestamp = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, new Date(System.currentTimeMillis()));
+		Timestamp derivedTimestamp = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
 
 		Assert.assertTrue("rounded to 1:03", derivedTimestamp.getMinutes()==3);
 		
 		beginDateTime = new Timestamp((new DateTime(2012, 10, 16, 12, 56, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		derivedTimestamp = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, new Date(System.currentTimeMillis()));
+		derivedTimestamp = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
 
 		Assert.assertTrue("rounded to 1:56", derivedTimestamp.getMinutes()==57);
 

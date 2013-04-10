@@ -15,20 +15,20 @@
  */
 package org.kuali.hr.time.task.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.task.Task;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.common.collect.ImmutableList;
 
 public class TaskDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements TaskDao {
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
@@ -59,7 +59,7 @@ public class TaskDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements Tas
     }
 
     @Override
-    public Task getTask(Long task, Date asOfDate) {
+    public Task getTask(Long task, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
         root.addEqualTo("task", task);
@@ -92,7 +92,7 @@ public class TaskDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements Tas
 
     @SuppressWarnings("unchecked")
 	@Override
-    public List<Task> getTasks(Long task, String description, Long workArea, Date fromEffdt, Date toEffdt) {
+    public List<Task> getTasks(Long task, String description, Long workArea, LocalDate fromEffdt, LocalDate toEffdt) {
         Criteria root = new Criteria();
 
         List<Task> results = new ArrayList<Task>();
@@ -111,13 +111,13 @@ public class TaskDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements Tas
         
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
 

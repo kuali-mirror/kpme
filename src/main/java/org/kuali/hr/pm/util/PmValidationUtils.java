@@ -1,10 +1,10 @@
 package org.kuali.hr.pm.util;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.pm.PMConstants;
 import org.kuali.hr.pm.institution.Institution;
@@ -27,7 +27,7 @@ public class PmValidationUtils {
 	 * @param asOfDate
 	 * @return
 	 */
-	public static boolean validateInstitution(String institutionCode, Date asOfDate) {
+	public static boolean validateInstitution(String institutionCode, LocalDate asOfDate) {
 		boolean valid = false;
 		if (PmValidationUtils.isWildCard(institutionCode)) {
 			valid = true;
@@ -65,7 +65,7 @@ public class PmValidationUtils {
 	 * @param asOfDate
 	 * @return
 	 */
-	public static boolean validatePositionReportType(String positionReportType, String institution, String campus, Date asOfDate) {
+	public static boolean validatePositionReportType(String positionReportType, String institution, String campus, LocalDate asOfDate) {
 		boolean valid = false;
 		if (asOfDate != null) {
 			List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeList(positionReportType, institution, campus, asOfDate);
@@ -82,7 +82,7 @@ public class PmValidationUtils {
 	 * @param asOfDate
 	 * @return
 	 */
-	public static boolean validateInstitutionWithPRT(String positionReportType, String institutionCode, Date asOfDate) {
+	public static boolean validateInstitutionWithPRT(String positionReportType, String institutionCode, LocalDate asOfDate) {
 		if (asOfDate != null) {
 			List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService()
 				.getPositionReportTypeList(positionReportType, institutionCode, PMConstants.WILDCARD_CHARACTER, asOfDate);
@@ -99,7 +99,7 @@ public class PmValidationUtils {
 	 * @param asOfDate
 	 * @return
 	 */
-	public static boolean validateCampusWithPRT(String positionReportType, String campus, Date asOfDate) {
+	public static boolean validateCampusWithPRT(String positionReportType, String campus, LocalDate asOfDate) {
 		if (asOfDate != null) {
 			List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService()
 				.getPositionReportTypeList(positionReportType, TkConstants.WILDCARD_CHARACTER, campus, asOfDate);
@@ -108,7 +108,7 @@ public class PmValidationUtils {
 		return false;
 	}
 	
-	public static boolean validatePayGradeWithSalaryGroup(String salaryGroup, String payGrade, Date asOfDate) {
+	public static boolean validatePayGradeWithSalaryGroup(String salaryGroup, String payGrade, LocalDate asOfDate) {
 		if (asOfDate != null) {
 			PayGrade grade = TkServiceLocator.getPayGradeService().getPayGrade(payGrade, asOfDate);
 			if(grade != null && StringUtils.isNotBlank(grade.getSalGroup())) 
@@ -126,7 +126,7 @@ public class PmValidationUtils {
 	 * @param asOfDate
 	 * @return
 	 */
-	public static boolean validatePositionReportCategory(String positionReportCat, String positionReportType, String institution, String campus, Date asOfDate) {
+	public static boolean validatePositionReportCategory(String positionReportCat, String positionReportType, String institution, String campus, LocalDate asOfDate) {
 		if (StringUtils.isNotEmpty(positionReportCat) && asOfDate != null) {
 			List<PositionReportCategory> prcList = PmServiceLocator.getPositionReportCatService().getPositionReportCatList(positionReportCat, positionReportType, institution, campus, asOfDate);
 			return CollectionUtils.isNotEmpty(prcList);
@@ -144,7 +144,7 @@ public class PmValidationUtils {
 	 * @return
 	 */
 	
-	public static boolean validatePositionReportSubCat(String pstnRptSubCat, String institution, String campus, Date asOfDate) {
+	public static boolean validatePositionReportSubCat(String pstnRptSubCat, String institution, String campus, LocalDate asOfDate) {
 		if(asOfDate != null) {
 			List<PositionReportSubCategory> prscList = PmServiceLocator.getPositionReportSubCatService().getPositionReportSubCat(pstnRptSubCat, institution, campus, asOfDate);
 			return CollectionUtils.isNotEmpty(prscList);
@@ -152,7 +152,7 @@ public class PmValidationUtils {
 		return false;
 	}
 	
-	public static boolean validatePstnRptGrp(String PstnRptGrp, String institution, String campus, Date asOfDate) {
+	public static boolean validatePstnRptGrp(String PstnRptGrp, String institution, String campus, LocalDate asOfDate) {
 		if(asOfDate != null) {
 			List<PositionReportGroup> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(PstnRptGrp, institution, campus, asOfDate);
 			return CollectionUtils.isNotEmpty(prgList);

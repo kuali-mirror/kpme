@@ -15,25 +15,26 @@
  */
 package org.kuali.hr.time.overtime.weekly.rule.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.common.collect.ImmutableList;
 
 public class WeeklyOvertimeRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements WeeklyOvertimeRuleDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<WeeklyOvertimeRule> findWeeklyOvertimeRules(Date asOfDate) {
+	public List<WeeklyOvertimeRule> findWeeklyOvertimeRules(LocalDate asOfDate) {
 		List<WeeklyOvertimeRule> list = new ArrayList<WeeklyOvertimeRule>();
 
 		Criteria root = new Criteria();

@@ -184,7 +184,14 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         this.endTime = endTime;
     }
 
-
+    public DateTime getBeginDateTime() {
+    	return new DateTime(getBeginDate());
+    }
+    
+    public DateTime getEndDateTime() {
+    	return new DateTime(getEndDate());
+    }
+    
     public Boolean getClockLogCreated() {
         return clockLogCreated;
     }
@@ -431,7 +438,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 
     public String getAssignmentDescription() {
         AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber().toString(), this.getWorkArea().toString(), this.getTask().toString());
-        Assignment anAssignment = TkServiceLocator.getAssignmentService().getAssignment(adk, this.getBeginDate());
+        Assignment anAssignment = TkServiceLocator.getAssignmentService().getAssignment(adk, this.getBeginDateTime().toLocalDate());
         return anAssignment == null ? this.getAssignmentKey() : anAssignment.getAssignmentDescription();
     }
 

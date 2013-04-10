@@ -16,9 +16,8 @@
 package org.kuali.hr.lm.timeoff.validation;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -29,7 +28,7 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBase {	 
-	boolean validateEffectiveDate(Date effectiveDate) {
+	boolean validateEffectiveDate(LocalDate effectiveDate) {
 		boolean valid = true;
 		if (effectiveDate != null && !ValidationUtils.validateOneYearFutureDate(effectiveDate)) {
 			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date");
@@ -38,7 +37,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 		return valid;
 	}
 
-	boolean validateAccruedDate(Date accruedDate) {
+	boolean validateAccruedDate(LocalDate accruedDate) {
 		boolean valid = true;
 		if (accruedDate != null && !ValidationUtils.validateFutureDate(accruedDate)) {
 			this.putFieldError("accruedDate", "error.future.date", "Accrued Date");
@@ -60,7 +59,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 		return valid;
 	}
 	
-	boolean validateScheduledTimeOffDate(Date scheduledTimeOffDate) {
+	boolean validateScheduledTimeOffDate(LocalDate scheduledTimeOffDate) {
 		boolean valid = true;
 		if (scheduledTimeOffDate!= null && !ValidationUtils.validateFutureDate(scheduledTimeOffDate)) {
 			this.putFieldError("scheduledTimeOffDate", "error.future.date", "Scheduled Time Off Date");
@@ -69,7 +68,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 		return valid;
 	}
 	
-	boolean validateUnusedTimeForScheduledTimeOffDate(Date scheduledTimeOffDate, String unusedTime) {
+	boolean validateUnusedTimeForScheduledTimeOffDate(LocalDate scheduledTimeOffDate, String unusedTime) {
 		boolean valid = true;
 		if (scheduledTimeOffDate == null && (StringUtils.isEmpty(unusedTime) || StringUtils.equals("T", unusedTime) || StringUtils.equals("NUTA", unusedTime))) {
 			this.putFieldError("unusedTime", "error.unusedtime.bank.required", "Unused Time");			
@@ -96,7 +95,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 		return valid;
 	}
 	
-	boolean validateEarnCode(String earnCode, Date asOfDate) {
+	boolean validateEarnCode(String earnCode, LocalDate asOfDate) {
 		boolean valid = true;
 		if (!ValidationUtils.validateEarnCode(earnCode, asOfDate)) {
 			this.putFieldError("earnCode", "error.existence", "earnCode '"
@@ -106,7 +105,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 		return valid;
 	}
 
-    private boolean validateFraction(String earnCode, BigDecimal amount, Date asOfDate, String fieldName) {
+    private boolean validateFraction(String earnCode, BigDecimal amount, LocalDate asOfDate, String fieldName) {
         boolean valid = true;
         if (!ValidationUtils.validateEarnCodeFraction(earnCode, amount, asOfDate)) {
             EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
@@ -132,13 +131,13 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 			SystemScheduledTimeOff sysSchTimeOff = (SystemScheduledTimeOff) pbo;
 			if (sysSchTimeOff != null) {
 				valid = true;
-				valid &= this.validateEffectiveDate(sysSchTimeOff.getEffectiveDate());
-				valid &= this.validateAccruedDate(sysSchTimeOff.getAccruedDate());
-				valid &= this.validateScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffDate());
-                valid &= this.validateFraction(sysSchTimeOff.getEarnCode(),sysSchTimeOff.getAmountofTime(),sysSchTimeOff.getEffectiveDate(),"amountofTime");
-				valid &= this.validateUnusedTimeForScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffDate(), sysSchTimeOff.getUnusedTime());
+				valid &= this.validateEffectiveDate(sysSchTimeOff.getEffectiveLocalDate());
+				valid &= this.validateAccruedDate(sysSchTimeOff.getAccruedLocalDate());
+				valid &= this.validateScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffLocalDate());
+                valid &= this.validateFraction(sysSchTimeOff.getEarnCode(),sysSchTimeOff.getAmountofTime(),sysSchTimeOff.getEffectiveLocalDate(),"amountofTime");
+				valid &= this.validateUnusedTimeForScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffLocalDate(), sysSchTimeOff.getUnusedTime());
 				valid &= this.validateLocation(sysSchTimeOff.getLocation());
-				valid &= this.validateEarnCode(sysSchTimeOff.getEarnCode(), sysSchTimeOff.getEffectiveDate());
+				valid &= this.validateEarnCode(sysSchTimeOff.getEarnCode(), sysSchTimeOff.getEffectiveLocalDate());
 			}
 		}
 		

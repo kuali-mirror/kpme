@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.job;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
@@ -98,7 +97,7 @@ public class JobTest extends KPMETestCase {
 		payType.setTimestamp(new Timestamp(currentTimestamp));
 
 		KRADServiceLocator.getBusinessObjectService().save(payType);
-		Assert.assertTrue(TkServiceLocator.getPayTypeService().getPayType(payType.getPayType(), payType.getEffectiveDate()) != null);
+		Assert.assertTrue(TkServiceLocator.getPayTypeService().getPayType(payType.getPayType(), payType.getEffectiveLocalDate()) != null);
 	}
 
 	@Test
@@ -115,8 +114,8 @@ public class JobTest extends KPMETestCase {
 
 	@Test
 	public void testGetJobs() {
-		Date payPeriodEndDate = new Date((new DateTime(2010,7,30,1,0,0,0, TKUtils.getSystemDateTimeZone())).getMillis());
-		List<Job> jobs = TkServiceLocator.getJobService().getJobs(TEST_USER, payPeriodEndDate);
+		DateTime payPeriodEndDate = new DateTime(2010,7,30,1,0,0,0, TKUtils.getSystemDateTimeZone());
+		List<Job> jobs = TkServiceLocator.getJobService().getJobs(TEST_USER, payPeriodEndDate.toLocalDate());
 		Assert.assertNotNull("Jobs was null", jobs);
 		Assert.assertEquals("Incorrect number of jobs", 2, jobs.size());
 	}

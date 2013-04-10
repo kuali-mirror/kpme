@@ -15,19 +15,18 @@
  */
 package org.kuali.hr.time.syslunch.service;
 
+import java.util.List;
+
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.syslunch.dao.SystemLunchRuleDao;
 import org.kuali.hr.time.syslunch.rule.SystemLunchRule;
-import org.kuali.hr.time.util.TKUtils;
-
-import java.sql.Date;
-import java.util.List;
 
 public class SystemLunchRuleServiceImpl implements SystemLunchRuleService {
 	public SystemLunchRuleDao systemLunchRuleDao;
 
 	@Override
-	public SystemLunchRule getSystemLunchRule(Date asOfDate) {
+	public SystemLunchRule getSystemLunchRule(LocalDate asOfDate) {
 		return systemLunchRuleDao.getSystemLunchRule(asOfDate);
 	}
 
@@ -43,7 +42,7 @@ public class SystemLunchRuleServiceImpl implements SystemLunchRuleService {
 	public boolean isShowLunchButton() {
 
     	Boolean isShowLunchButton = false;
-    	SystemLunchRule systemLunchrule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(TKUtils.getCurrentDate());
+    	SystemLunchRule systemLunchrule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(LocalDate.now());
     	if(systemLunchrule != null) {
     		isShowLunchButton = systemLunchrule.getShowLunchButton();
     	}
@@ -57,7 +56,7 @@ public class SystemLunchRuleServiceImpl implements SystemLunchRuleService {
 	}
 
     @Override
-    public List<SystemLunchRule> getSystemLunchRules(Date fromEffdt, Date toEffdt, String active, String showHist){
+    public List<SystemLunchRule> getSystemLunchRules(LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist){
         return systemLunchRuleDao.getSystemLunchRules(fromEffdt, toEffdt, active, showHist);
     }
 }

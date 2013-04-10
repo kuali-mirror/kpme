@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.time.paytype.validation;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -28,7 +28,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class PayTypeRule extends MaintenanceDocumentRuleBase {
 
-	boolean validateEarnCode(String regEarnCode, Date asOfDate) {
+	boolean validateEarnCode(String regEarnCode, LocalDate asOfDate) {
 		boolean valid = ValidationUtils.validateEarnCode(regEarnCode, asOfDate);
 
 		if (!valid) {
@@ -45,7 +45,7 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	boolean validateActive(String hrPayType, Date asOfDate) {
+	boolean validateActive(String hrPayType, LocalDate asOfDate) {
 		boolean valid = true;
 		List<Job> jobs = TkServiceLocator.getJobService()
 				.getActiveJobsForPayType(hrPayType, asOfDate);
@@ -65,9 +65,9 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 		if (pbo instanceof PayType) {
 			PayType pt = (PayType) pbo;
 
-			valid = validateEarnCode(pt.getRegEarnCode(), pt.getEffectiveDate());
+			valid = validateEarnCode(pt.getRegEarnCode(), pt.getEffectiveLocalDate());
 			if (document.isOldBusinessObjectInDocument() && !pt.isActive()) {
-				valid = validateActive(pt.getPayType(), pt.getEffectiveDate());
+				valid = validateActive(pt.getPayType(), pt.getEffectiveLocalDate());
 			}
 		}
 

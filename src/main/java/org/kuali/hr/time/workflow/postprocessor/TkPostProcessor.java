@@ -73,7 +73,7 @@ public class TkPostProcessor extends DefaultPostProcessor {
 		if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
 			String documentId = timesheetDocumentHeader.getDocumentId();
 			String principalId = timesheetDocumentHeader.getPrincipalId();
-			Date endDate = timesheetDocumentHeader.getEndDate();
+			DateTime endDate = timesheetDocumentHeader.getEndDateTime();
 			
 			if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
 				List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(documentId);
@@ -81,13 +81,13 @@ public class TkPostProcessor extends DefaultPostProcessor {
 				List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 				
 				for (TimeBlock timeBlock : timeBlocks) {
-					EarnCode overtimeEarnCode = getOvertimeEarnCode(timeBlock, endDate);
+					EarnCode overtimeEarnCode = getOvertimeEarnCode(timeBlock, endDate.toLocalDate());
 					
 					if (overtimeEarnCode != null) {
-						AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(overtimeEarnCode.getAccrualCategory(), new java.sql.Date(endDate.getTime()));
+						AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(overtimeEarnCode.getAccrualCategory(), endDate.toLocalDate());
 						
 						if (accrualCategory != null) {
-							DateTime leaveDate = new DateTime(timeBlock.getBeginDate());
+							LocalDate leaveDate = LocalDate.fromDateFields(timeBlock.getBeginDate());
 							BigDecimal leaveAmount = timeBlock.getHours();
 							
 							LeaveBlock.Builder builder = new LeaveBlock.Builder(leaveDate, null, principalId, overtimeEarnCode.getEarnCode(), leaveAmount)
@@ -105,11 +105,11 @@ public class TkPostProcessor extends DefaultPostProcessor {
 		}
 	}
 	
-	private EarnCode getOvertimeEarnCode(TimeBlock timeBlock, Date asOfDate) {
+	private EarnCode getOvertimeEarnCode(TimeBlock timeBlock, LocalDate asOfDate) {
 		EarnCode overtimeEarnCode = null;
 		
 		for (TimeHourDetail timeHourDetail : timeBlock.getTimeHourDetails()) {
-			EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeHourDetail.getEarnCode(), new java.sql.Date(asOfDate.getTime()));
+			EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeHourDetail.getEarnCode(), asOfDate);
 		
 			if (earnCode != null && earnCode.getOvtEarnCode()) {
 				overtimeEarnCode = earnCode;
@@ -123,7 +123,7 @@ public class TkPostProcessor extends DefaultPostProcessor {
 	private void calculateMaxCarryOver(TimesheetDocumentHeader timesheetDocumentHeader, DocumentStatus newDocumentStatus) {
 		String documentId = timesheetDocumentHeader.getDocumentId();
 		String principalId = timesheetDocumentHeader.getPrincipalId();
-		Date endDate = timesheetDocumentHeader.getEndDate();
+		DateTime endDate = timesheetDocumentHeader.getEndDateTime();
 		Date beginDate = timesheetDocumentHeader.getBeginDate();
 		if (DocumentStatus.ENROUTE.equals(newDocumentStatus)) {
 			//create pending carry over leave blocks.
@@ -133,12 +133,12 @@ public class TkPostProcessor extends DefaultPostProcessor {
 			if (calendar != null) {
 				List<CalendarEntry> calendarEntries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(calendar.getHrCalendarId(), new DateTime(beginDate), new DateTime(endDate));
 				
-				TkServiceLocator.getAccrualCategoryMaxCarryOverService().calculateMaxCarryOver(documentId, principalId, calendarEntries, endDate);
+				TkServiceLocator.getAccrualCategoryMaxCarryOverService().calculateMaxCarryOver(documentId, principalId, calendarEntries, endDate.toLocalDate());
 			}
 		}
 		else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
 			//approve the carry over leave block.
-			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, timesheetDocumentHeader.getBeginDate(), endDate);
+			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, timesheetDocumentHeader.getBeginDateTime().toLocalDate(), endDate.toLocalDate());
 			for(LeaveBlock lb : leaveBlocks) {
 				if(StringUtils.equals(lb.getDescription(),"Max carry over adjustment")) {
 					lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);

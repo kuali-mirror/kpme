@@ -15,8 +15,23 @@
  */
 package org.kuali.hr.time.shiftdiff.rule.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
-import org.joda.time.*;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
@@ -31,10 +46,6 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.*;
-
 
 public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleService {
 
@@ -48,11 +59,11 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 	private Map<Long,List<ShiftDifferentialRule>> getJobNumberToShiftRuleMap(TimesheetDocument timesheetDocument) {
 		Map<Long,List<ShiftDifferentialRule>> jobNumberToShifts = new HashMap<Long,List<ShiftDifferentialRule>>();
-		PrincipalHRAttributes principalCal = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(timesheetDocument.getPrincipalId(),timesheetDocument.getCalendarEntry().getEndPeriodDate());
+		PrincipalHRAttributes principalCal = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(timesheetDocument.getPrincipalId(),timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
 
 		for (Job job : timesheetDocument.getJobs()) {
-			List<ShiftDifferentialRule> shiftDifferentialRules = getShiftDifferentalRules(job.getLocation(),job.getHrSalGroup(),job.getPayGrade(),principalCal.getPayCalendar(),
-					TKUtils.getTimelessDate(timesheetDocument.getCalendarEntry().getBeginPeriodDateTime()));
+			List<ShiftDifferentialRule> shiftDifferentialRules = getShiftDifferentalRules(job.getLocation(),job.getHrSalGroup(),job.getPayGrade(),principalCal.getPayCalendar(), 
+					timesheetDocument.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate());
 			if (shiftDifferentialRules.size() > 0)
 				jobNumberToShifts.put(job.getJobNumber(), shiftDifferentialRules);
 		}
@@ -65,9 +76,9 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 		// Get the last day of the last week of the previous pay period.
 		// This is the only day that can have impact on the current day.
-		List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentHeader().getBeginDate());
+		List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentHeader().getBeginDateTime());
 		if (prevBlocks.size() > 0) {
-			TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentHeader().getBeginDate());
+			TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentHeader().getBeginDateTime().toDateTime());
 			if (prevTdh != null) {
 				CalendarEntry prevPayCalendarEntry = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(timesheetDocument.getPrincipalId(), new DateTime(prevTdh.getEndDate()), TkConstants.PAY_CALENDAR_TYPE);
 				TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry, prevPayCalendarEntry.getCalendarObj(), true);
@@ -135,7 +146,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 	public void processShiftDifferentialRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate) {
         DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
 		List<List<TimeBlock>> blockDays = aggregate.getDayTimeBlockList();
-		DateTime periodStartDateTime = timesheetDocument.getCalendarEntry().getBeginLocalDateTime().toDateTime(zone);
+		DateTime periodStartDateTime = timesheetDocument.getCalendarEntry().getBeginPeriodLocalDateTime().toDateTime(zone);
 		Map<Long,List<ShiftDifferentialRule>> jobNumberToShifts = getJobNumberToShiftRuleMap(timesheetDocument);
 
 
@@ -210,7 +221,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 				}
 
 				for (ShiftDifferentialRule rule : shiftDifferentialRules) {
-					Set<String> fromEarnGroup = TkServiceLocator.getEarnCodeGroupService().getEarnCodeListForEarnCodeGroup(rule.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getCalendarEntry().getBeginPeriodDateTime()));
+					Set<String> fromEarnGroup = TkServiceLocator.getEarnCodeGroupService().getEarnCodeListForEarnCodeGroup(rule.getFromEarnGroup(), timesheetDocument.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate());
 
                     LocalTime ruleStart = new LocalTime(rule.getBeginTime(), zone);
                     LocalTime ruleEnd = new LocalTime(rule.getEndTime(), zone);
@@ -444,7 +455,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 	}
 
     @Override
-    public List<ShiftDifferentialRule> getShiftDifferentialRules(String location, String hrSalGroup, String payGrade, Date fromEffdt, Date toEffdt, String active, String showHist) {
+    public List<ShiftDifferentialRule> getShiftDifferentialRules(String location, String hrSalGroup, String payGrade, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
         return shiftDifferentialRuleDao.getShiftDifferentialRules(location, hrSalGroup, payGrade, fromEffdt, toEffdt, active, showHist);
     }
 
@@ -592,7 +603,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 	}
 
 	@Override
-	public List<ShiftDifferentialRule> getShiftDifferentalRules(String location, String hrSalGroup, String payGrade, String pyCalendarGroup, Date asOfDate) {
+	public List<ShiftDifferentialRule> getShiftDifferentalRules(String location, String hrSalGroup, String payGrade, String pyCalendarGroup, LocalDate asOfDate) {
 		List<ShiftDifferentialRule> sdrs = new ArrayList<ShiftDifferentialRule>();
 
 		// location, sal group, pay grade

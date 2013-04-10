@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.time.workflow.dao;
 
-import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
-
-import java.util.Date;
 import java.util.List;
+
+import org.joda.time.DateTime;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 public interface TimesheetDocumentHeaderDao {
 
@@ -26,13 +26,13 @@ public interface TimesheetDocumentHeaderDao {
 
 	public TimesheetDocumentHeader getTimesheetDocumentHeader(String documentId);
 
-	public TimesheetDocumentHeader getTimesheetDocumentHeader(String principalId, Date PayBeginDate, Date payEndDate);
+	public TimesheetDocumentHeader getTimesheetDocumentHeader(String principalId, DateTime PayBeginDate, DateTime payEndDate);
 
-	public TimesheetDocumentHeader getPreviousDocumentHeader(String principalId, Date payBegindate);
+	public TimesheetDocumentHeader getPreviousDocumentHeader(String principalId, DateTime payBegindate);
 
-    public TimesheetDocumentHeader getNextDocumentHeader(String principalId, Date payEndDate);
+    public TimesheetDocumentHeader getNextDocumentHeader(String principalId, DateTime payEndDate);
     
-    public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate, Date payEndDate);
+    public List<TimesheetDocumentHeader> getDocumentHeaders(DateTime payBeginDate, DateTime payEndDate);
     
     public void deleteTimesheetHeader(String documentId);
     
@@ -40,5 +40,5 @@ public interface TimesheetDocumentHeaderDao {
     
     public List<TimesheetDocumentHeader> getDocumentHeadersForYear(String principalId, String year);
     
-    public TimesheetDocumentHeader getDocumentHeaderForDate(String principalId, Date asOfDate);
+    public TimesheetDocumentHeader getDocumentHeaderForDate(String principalId, DateTime asOfDate);
 }

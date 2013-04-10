@@ -16,6 +16,7 @@
 package org.kuali.hr.time.earncode.validation;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -25,12 +26,11 @@ import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
-import java.sql.Date;
 import java.util.List;
 
 public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 	
-	boolean validateRollupToEarnCode(String earnCode, Date asOfDate) {
+	boolean validateRollupToEarnCode(String earnCode, LocalDate asOfDate) {
 		boolean valid = true;
 		if (!StringUtils.isEmpty(earnCode) && !ValidationUtils.validateEarnCode(earnCode, asOfDate)) {
 			this.putFieldError("rollupToEarnCode", "earncode.rollupToEarnCode.notfound", "Roll up to Earn code "
@@ -52,7 +52,7 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 		return valid;
 	}
 	
-	boolean validateRecordMethod(String recordMethod, String accrualCategory, Date asOfDate){
+	boolean validateRecordMethod(String recordMethod, String accrualCategory, LocalDate asOfDate){
 		boolean valid = true;
 		if(recordMethod != null) {
 			if(StringUtils.isNotEmpty(accrualCategory)) {
@@ -71,7 +71,7 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 		
 		if (StringUtils.isNotBlank(earnCode.getLeavePlan())) {
 
-			if (!ValidationUtils.validateLeavePlan(earnCode.getLeavePlan(), earnCode.getEffectiveDate())) {
+			if (!ValidationUtils.validateLeavePlan(earnCode.getLeavePlan(), earnCode.getEffectiveLocalDate())) {
 				this.putFieldError("leavePlan", "error.existence", "leavePlan '"
 						+ earnCode.getLeavePlan() + "'");
 				valid = false;
@@ -79,7 +79,7 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 			}
 			
 			if (earnCode.getEffectiveDate() != null && StringUtils.isNotBlank(earnCode.getAccrualCategory())) {
-				AccrualCategory myTestAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), earnCode.getEffectiveDate());
+				AccrualCategory myTestAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), earnCode.getEffectiveLocalDate());
 				if(myTestAccrualCategoryObj != null) {
 					if (!myTestAccrualCategoryObj.getLeavePlan().equals(earnCode.getLeavePlan())) {
 						this.putFieldError("leavePlan", "error.leaveCode.leavePlanMismatch", myTestAccrualCategoryObj.getLeavePlan());
@@ -124,14 +124,14 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 		//check if the effective date of the accrual category is prior to effective date of the earn code 
 		//accrual category is an optional field
 		if(StringUtils.isNotEmpty(earnCode.getAccrualCategory())){
-			if (!ValidationUtils.validateAccrualCategory(earnCode.getAccrualCategory(), earnCode.getEffectiveDate())) {
+			if (!ValidationUtils.validateAccrualCategory(earnCode.getAccrualCategory(), earnCode.getEffectiveLocalDate())) {
 				this.putFieldError("accrualCategory", "earncode.accrualCategory.invalid", new String[]{earnCode.getAccrualCategory(),earnCode.getLeavePlan()});
 				return false;
 			}
 		}
 		
 		// check if there's a newer version of the Earn Code
-		int count = TkServiceLocator.getEarnCodeService().getNewerEarnCodeCount(earnCode.getEarnCode(), earnCode.getEffectiveDate());
+		int count = TkServiceLocator.getEarnCodeService().getNewerEarnCodeCount(earnCode.getEarnCode(), earnCode.getEffectiveLocalDate());
 		if(count > 0) {
 			this.putFieldError("effectiveDate", "earncode.effectiveDate.newer.exists");
 			return false;
@@ -141,7 +141,7 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestamp();
 		
 		if ( !earnCode.isActive() && earnCode.getEffectiveDate().before(latestEndTimestampTimeBlocks.get(0).getEndDate()) ){
-			List<TimeBlock> activeTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksWithEarnCode(earnCode.getEarnCode(), earnCode.getEffectiveDate());
+			List<TimeBlock> activeTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksWithEarnCode(earnCode.getEarnCode(), earnCode.getEffectiveLocalDate().toDateTimeAtStartOfDay());
 			if(activeTimeBlocks != null && !activeTimeBlocks.isEmpty()) {
 				this.putFieldError("earnCode", "earncode.earncode.inactivate", earnCode.getEarnCode());
 				return false;
@@ -153,12 +153,12 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 		}
 		
 		if(earnCode.getRollupToEarnCode() != null && !StringUtils.isEmpty(earnCode.getRollupToEarnCode())) {
-			if(!(this.validateRollupToEarnCode(earnCode.getRollupToEarnCode(), earnCode.getEffectiveDate()))) {
+			if(!(this.validateRollupToEarnCode(earnCode.getRollupToEarnCode(), earnCode.getEffectiveLocalDate()))) {
 				return false;
 			}
 		}
 		
-		if(!validateRecordMethod(earnCode.getRecordMethod(), earnCode.getAccrualCategory(), earnCode.getEffectiveDate())) {
+		if(!validateRecordMethod(earnCode.getRecordMethod(), earnCode.getAccrualCategory(), earnCode.getEffectiveLocalDate())) {
 			return false;
 		}
 		

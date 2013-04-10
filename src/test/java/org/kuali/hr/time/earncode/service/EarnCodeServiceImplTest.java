@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.time.earncode.service;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,8 +29,6 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.util.TKUtils;
-
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
@@ -61,7 +59,7 @@ public class EarnCodeServiceImplTest extends KPMETestCase {
 
 	@Test
 	public void getEarnCodes() throws Exception {
-        Date asOfDate = TKUtils.getTimelessDate(null);
+        LocalDate asOfDate = LocalDate.now();
 		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TEST_USER, asOfDate);
 		Assert.assertNotNull(assignments);
 		Assert.assertTrue("Emtpy assignment list", !assignments.isEmpty());

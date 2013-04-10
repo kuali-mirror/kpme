@@ -1,6 +1,5 @@
 package org.kuali.hr.pm.positionreportcat.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.pm.positionreportcat.PositionReportCategory;
 import org.kuali.hr.pm.util.PmValidationUtils;
@@ -32,7 +32,7 @@ public class PositionReportCatDaoObjImpl extends PlatformAwareDaoBaseOjb impleme
 	}
 
 	@Override
-	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String institution, String campus, Date asOfDate) {
+	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String institution, String campus, LocalDate asOfDate) {
 		List<PositionReportCategory> prcList = new ArrayList<PositionReportCategory>();
 		Criteria root = new Criteria();
 		

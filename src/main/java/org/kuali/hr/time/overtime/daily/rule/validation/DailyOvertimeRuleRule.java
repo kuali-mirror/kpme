@@ -30,7 +30,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 	boolean validateWorkArea(DailyOvertimeRule ruleObj) {
 		boolean valid = true;
 		if (!ValidationUtils.validateWorkArea(ruleObj.getWorkArea(), ruleObj
-				.getEffectiveDate())) {
+				.getEffectiveLocalDate())) {
 			this.putFieldError("workArea", "error.existence", "workArea '"
 					+ ruleObj.getWorkArea() + "'");
 			valid = false;
@@ -49,7 +49,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 		if (ruleObj.getDept() != null
 				&& !ruleObj.getDept().equals(TkConstants.WILDCARD_CHARACTER)
 				&& !ValidationUtils.validateDepartment(ruleObj.getDept(),
-						ruleObj.getEffectiveDate())) {
+						ruleObj.getEffectiveLocalDate())) {
 			this.putFieldError("dept", "error.existence", "department '"
 					+ ruleObj.getDept() + "'");
 			return false;
@@ -61,7 +61,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 	boolean validateEarnCode(DailyOvertimeRule dailyOvertimeRule) {
 		if (dailyOvertimeRule.getEarnCode() != null
 				&& !ValidationUtils.validateEarnCode(dailyOvertimeRule
-						.getEarnCode(), dailyOvertimeRule.getEffectiveDate())) {
+						.getEarnCode(), dailyOvertimeRule.getEffectiveLocalDate())) {
 			this.putFieldError("earnCode", "error.existence", "earnCode '"
 					+ dailyOvertimeRule.getEarnCode() + "'");
 			return false;
@@ -69,7 +69,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 			if (dailyOvertimeRule.getEarnCode() != null
 					&& !ValidationUtils.validateEarnCode(dailyOvertimeRule
 							.getEarnCode(), true, dailyOvertimeRule
-							.getEffectiveDate())) {
+							.getEffectiveLocalDate())) {
 				this.putFieldError("earnCode", "earncode.ovt.required",
 						dailyOvertimeRule.getEarnCode());
 				return false;
@@ -82,14 +82,14 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 		if (dailyOvertimeRule.getFromEarnGroup() != null
 				&& !ValidationUtils.validateEarnGroup(dailyOvertimeRule
 						.getFromEarnGroup(), dailyOvertimeRule
-						.getEffectiveDate())) {
+						.getEffectiveLocalDate())) {
 			this.putFieldError("fromEarnGroup", "error.existence",
 					"from EarnCodeGroup '" + dailyOvertimeRule.getFromEarnGroup()
 							+ "'");
 			return false;
 		}
 		if (!StringUtils.isEmpty(dailyOvertimeRule.getFromEarnGroup())
-				&& ValidationUtils.earnGroupHasOvertimeEarnCodes(dailyOvertimeRule.getFromEarnGroup(), dailyOvertimeRule.getEffectiveDate())){
+				&& ValidationUtils.earnGroupHasOvertimeEarnCodes(dailyOvertimeRule.getFromEarnGroup(), dailyOvertimeRule.getEffectiveLocalDate())){
 			this.putFieldError("fromEarnGroup", "earngroup.earncode.overtime", dailyOvertimeRule.getFromEarnGroup());
 			return false;
 		}
@@ -99,7 +99,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 	boolean validateLocation(DailyOvertimeRule dailyOvertimeRule) {
 		if (dailyOvertimeRule.getLocation() != null
 				&& !ValidationUtils.validateLocation(dailyOvertimeRule
-						.getLocation(), dailyOvertimeRule.getEffectiveDate())) {
+						.getLocation(), dailyOvertimeRule.getEffectiveLocalDate())) {
 			this.putFieldError("location", "error.existence", "location '"
 					+ dailyOvertimeRule.getLocation() + "'");
 			return false;
@@ -113,7 +113,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 				&& !dailyOvertimeRule.getPaytype().equals(
 						TkConstants.WILDCARD_CHARACTER)
 				&& !ValidationUtils.validatePayType(dailyOvertimeRule
-						.getPaytype(), dailyOvertimeRule.getEffectiveDate())) {
+						.getPaytype(), dailyOvertimeRule.getEffectiveLocalDate())) {
 			this.putFieldError("paytype", "error.existence", "paytype '"
 					+ dailyOvertimeRule.getPaytype() + "'");
 			return false;

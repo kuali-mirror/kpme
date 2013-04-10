@@ -17,11 +17,11 @@ package org.kuali.hr.time.authorization;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -47,7 +47,7 @@ public class AuthorizationValidationUtils {
     	if (departmentalRule != null) {
 	    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
 	    	String department = departmentalRule.getDept();
-	    	Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+	    	Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 	    	
 	        if (!TkConstants.WILDCARD_CHARACTER.equals(department)) {
@@ -82,7 +82,7 @@ public class AuthorizationValidationUtils {
         if (departmentalRule != null) {
 	    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
 	    	String department = departmentalRule.getDept();
-	    	Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+	    	Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 	        
 	        if (!TkConstants.WILDCARD_CHARACTER.equals(department)) {
@@ -123,7 +123,7 @@ public class AuthorizationValidationUtils {
         	String principalId = GlobalVariables.getUserSession().getPrincipalId();
         	Long workArea = departmentalRule.getWorkArea();
         	String department = departmentalRule.getDept();
-        	Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+        	Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
     		String location = departmentObj != null ? departmentObj.getLocation() : null;
             
             if (TkConstants.WILDCARD_CHARACTER.equals(department) && TkConstants.WILDCARD_LONG.equals(workArea)) {

@@ -23,7 +23,7 @@ public class SalaryGroupValidation  extends MaintenanceDocumentRuleBase{
 	
 	private boolean validateInstitution(SalGroup sg) {
 		if (StringUtils.isNotEmpty(sg.getInstitution())
-				&& !PmValidationUtils.validateInstitution(sg.getInstitution(), sg.getEffectiveDate())) {
+				&& !PmValidationUtils.validateInstitution(sg.getInstitution(), sg.getEffectiveLocalDate())) {
 			this.putFieldError("dataObject.institution", "error.existence", "Instituion '"
 					+ sg.getInstitution() + "'");
 			return false;

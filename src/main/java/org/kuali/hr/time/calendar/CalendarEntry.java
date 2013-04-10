@@ -37,13 +37,13 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  *
  * Local Relative Time Methods: (Time/Date without Timezone)
  *
- * LocalDateTime : getBeginLocalDateTime()
- * LocalDateTime : getEndLocalDateTime()
+ * LocalDateTime : getBeginPeriodLocalDateTime()
+ * LocalDateTime : getEndPeriodLocalDateTime()
  *
  * Absolute Methods:
  *
- * java.util.Date : getEndPeriodDateTime()
- * java.util.Date : getBeginPeriodDateTime()
+ * DateTime : getEndPeriodFullDateTime()
+ * DateTime : getBeginPeriodFullDateTime()
  *
  */
 public class CalendarEntry extends PersistableBusinessObjectBase implements Comparable<CalendarEntry>{
@@ -100,15 +100,6 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     public void setBeginPeriodDateTime(Date beginPeriodDateTime) {
         this.beginPeriodDateTime = beginPeriodDateTime;
     }
-    
-    /**
-     * Provides the Begin Period time without timezone information, used for relative calculations.
-     *
-     * @return A LocalDateTime representation of the begin period date/time.
-     */
-    public LocalDateTime getBeginLocalDateTime() {
-        return new DateTime(beginPeriodDateTime).toLocalDateTime();
-    }
 
     public java.sql.Date getBeginPeriodDate() {
     	java.sql.Date beginPeriodDate = null;
@@ -144,21 +135,20 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     	beginPeriodDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
     }
     
+    public DateTime getBeginPeriodFullDateTime() {
+    	return new DateTime(beginPeriodDateTime);
+    }
+    
+    public LocalDateTime getBeginPeriodLocalDateTime() {
+        return getBeginPeriodFullDateTime().toLocalDateTime();
+    }
+    
     public java.util.Date getEndPeriodDateTime() {
         return endPeriodDateTime;
     }
 
     public void setEndPeriodDateTime(Date endPeriodDateTime) {
         this.endPeriodDateTime = endPeriodDateTime;
-    }
-
-    /**
-     * Provides the End Period time without timezone information, used for relative calculations.
-     *
-     * @return A LocalDateTime representation of the end period date/time.
-     */
-    public LocalDateTime getEndLocalDateTime() {
-        return new DateTime(endPeriodDateTime).toLocalDateTime();
     }
 
     public java.sql.Date getEndPeriodDate() {
@@ -193,6 +183,14 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     	LocalDate localDate = new LocalDate(endPeriodDateTime);
     	LocalTime localTime = new LocalTime(endPeriodDate);
     	endPeriodDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    }
+    
+    public DateTime getEndPeriodFullDateTime() {
+    	return new DateTime(endPeriodDateTime);
+    }
+    
+    public LocalDateTime getEndPeriodLocalDateTime() {
+        return getEndPeriodFullDateTime().toLocalDateTime();
     }
 
     public Date getBatchInitiateDateTime() {
@@ -236,6 +234,10 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     	LocalTime localTime = new LocalTime(batchInitiateDate);
     	batchInitiateDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
     }
+    
+    public DateTime getBatchInitiateFullDateTime() {
+    	return new DateTime(batchInitiateDateTime);
+    }
 
     public Date getBatchEndPayPeriodDateTime() {
         return batchEndPayPeriodDateTime;
@@ -277,6 +279,10 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     	LocalDate localDate = new LocalDate(batchEndPayPeriodDateTime);
     	LocalTime localTime = new LocalTime(batchEndPayPeriodDate);
     	batchEndPayPeriodDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    }
+    
+    public DateTime getBatchEndPayPeriodFullDateTime() {
+    	return new DateTime(batchEndPayPeriodDateTime);
     }
 
     public Date getBatchEmployeeApprovalDateTime() {
@@ -320,6 +326,10 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     	LocalTime localTime = new LocalTime(batchEmployeeApprovalDate);
     	batchEmployeeApprovalDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
     }
+    
+    public DateTime getBatchEmployeeApprovalFullDateTime() {
+    	return new DateTime(batchEmployeeApprovalDateTime);
+    }
 
     public Date getBatchSupervisorApprovalDateTime() {
         return batchSupervisorApprovalDateTime;
@@ -361,6 +371,10 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     	LocalDate localDate = new LocalDate(batchSupervisorApprovalDateTime);
     	LocalTime localTime = new LocalTime(batchSupervisorApprovalDate);
     	batchSupervisorApprovalDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    }
+    
+    public DateTime getBatchSupervisorApprovalFullDateTime() {
+    	return new DateTime(batchSupervisorApprovalDateTime);
     }
 
 	public Calendar getCalendarObj() {

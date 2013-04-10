@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERoleMemberAttribute;
 import org.kuali.hr.job.service.JobService;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.Role;
@@ -51,7 +51,7 @@ public class PositionDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
         if (role != null) {
 	        if (qualification.containsKey(KPMERoleMemberAttribute.POSITION.getRoleMemberAttributeName())) {
 				String positionNumber = qualification.get(KPMERoleMemberAttribute.POSITION.getRoleMemberAttributeName());
-	            List<String> principalIds = getJobService().getPrincipalIdsInPosition(positionNumber, TKUtils.getCurrentDate());
+	            List<String> principalIds = getJobService().getPrincipalIdsInPosition(positionNumber, LocalDate.now());
 	            for (String principalId : principalIds) {
 	            	roleMembers.add(RoleMembership.Builder.create(role.getId(), null, principalId, MemberType.PRINCIPAL, qualification).build());
 	            }

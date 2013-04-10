@@ -16,12 +16,12 @@
 package org.kuali.hr.time.task.service;
 
 
+import java.util.List;
+
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.task.Task;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-
-import java.sql.Date;
-import java.util.List;
 
 public interface TaskService {
 	/**
@@ -38,7 +38,7 @@ public interface TaskService {
 	 * @return
 	 */
     @Cacheable(value= Task.CACHE_NAME, key="'task=' + #p0 + '|' + 'asOfDate=' + #p1")
-    public Task getTask(Long task, Date asOfDate);
+    public Task getTask(Long task, LocalDate asOfDate);
     /**
      * Save a given Task
      * @param task
@@ -54,7 +54,7 @@ public interface TaskService {
     
 	public Task getMaxTask();
 
-    List<Task> getTasks(String task, String description, String workArea, Date fromEffdt, Date toEffdt);
+    List<Task> getTasks(String task, String description, String workArea, LocalDate fromEffdt, LocalDate toEffdt);
     
     /**
      * get the count of Tasks by given task

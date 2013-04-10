@@ -32,7 +32,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 		boolean valid = true;
 		if (ruleObj.getWorkArea() != null
 				&& !ValidationUtils.validateWorkArea(ruleObj.getWorkArea(), ruleObj
-						.getEffectiveDate())) {
+						.getEffectiveLocalDate())) {
 			this.putFieldError("workArea", "error.existence", "workArea '"
 					+ ruleObj.getWorkArea() + "'");
 			valid = false;
@@ -49,7 +49,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 	}
 
 	boolean validateDepartment(DeptLunchRule ruleObj) {
-		if (!ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getEffectiveDate())) {
+		if (!ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getEffectiveLocalDate())) {
 			this.putFieldError("dept", "error.existence", "department '" + ruleObj.getDept() + "'");
 			return false;
 		} else {

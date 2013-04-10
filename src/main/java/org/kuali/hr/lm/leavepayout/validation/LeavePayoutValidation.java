@@ -16,11 +16,10 @@
 package org.kuali.hr.lm.leavepayout.validation;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
@@ -29,7 +28,6 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -39,7 +37,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 
-	private boolean validateAgainstLeavePlan(PrincipalHRAttributes pha, AccrualCategory fromAccrualCategory, Date effectiveDate) {
+	private boolean validateAgainstLeavePlan(PrincipalHRAttributes pha, AccrualCategory fromAccrualCategory, LocalDate effectiveDate) {
 		boolean isValid = true;
 
 		List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), effectiveDate);
@@ -77,7 +75,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 	 */
 	private boolean validatePayoutAmount(BigDecimal transferAmount,
 			AccrualCategory debitedAccrualCategory,
-			EarnCode payoutEarnCode, String principalId, Date effectiveDate) {
+			EarnCode payoutEarnCode, String principalId, LocalDate effectiveDate) {
 		
 		if(transferAmount.compareTo(BigDecimal.ZERO) < 0 ) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.transferAmount", "leavePayout.amount.negative");
@@ -93,9 +91,9 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 	 * @param date
 	 * @return
 	 */
-	private boolean validateEffectiveDate(Date date) {
+	private boolean validateEffectiveDate(LocalDate date) {
 		//Limit on future dates?
-		if(date.getTime() > DateUtils.addYears(TKUtils.getCurrentDate(), 1).getTime()) {
+		if(date.isAfter(LocalDate.now().plusYears(1))) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.effectiveDate", "leavePayout.effectiveDate.overOneYear");
 			return false;
 		}
@@ -112,7 +110,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 	 * @return
 	 */
 	private boolean validateTransferFromAccrualCategory(AccrualCategory accrualCategory, String principalId,
-			Date effectiveDate, AccrualCategoryRule acr) {
+			LocalDate effectiveDate, AccrualCategoryRule acr) {
 		//accrualCategory has rules
 		//PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, effectiveDate);
 		
@@ -128,7 +126,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 	}
 	
 	//transfer amount must be under max limit when submitted via max balance triggered action or by a work area approver.
-	private boolean isPayoutAmountUnderMaxLimit(String principalId, Date effectiveDate, String accrualCategory,
+	private boolean isPayoutAmountUnderMaxLimit(String principalId, LocalDate effectiveDate, String accrualCategory,
 				BigDecimal payoutAmount, AccrualCategoryRule accrualRule, String leavePlan) {
 	
 		if(ObjectUtils.isNotNull(accrualRule)) {
@@ -179,7 +177,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 			 * Balance transfers initiated via the Maintenance tab will have no values populated.
 			 */
 			String principalId = leavePayout.getPrincipalId();
-			Date effectiveDate = leavePayout.getEffectiveDate();
+			LocalDate effectiveDate = leavePayout.getEffectiveLocalDate();
 			String fromAccrualCategory = leavePayout.getFromAccrualCategory();
 			EarnCode payoutEarnCode = leavePayout.getEarnCodeObj();
 			AccrualCategory fromCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
@@ -193,7 +191,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 			else {
 				if(ObjectUtils.isNotNull(pha)) {
 					if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
-						AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat, effectiveDate, pha.getServiceDate());
+						AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat, effectiveDate, pha.getServiceLocalDate());
 						if(ObjectUtils.isNotNull(acr)) {
 							if(ObjectUtils.isNotNull(acr.getMaxBalFlag())
 									&& StringUtils.isNotBlank(acr.getMaxBalFlag())

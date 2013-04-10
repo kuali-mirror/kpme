@@ -15,18 +15,19 @@
  */
 package org.kuali.hr.time.timecollection.rule.dao;
 
-import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.common.collect.ImmutableList;
 
 public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb implements TimeCollectionRuleDaoService {
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
@@ -43,7 +44,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
       */
 
     @Override
-    public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, Date asOfDate) {
+    public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, LocalDate asOfDate) {
 
 
         TimeCollectionRule timeCollectionRule = new TimeCollectionRule();
@@ -69,7 +70,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
         return getTimeCollectionRuleWildCarded("%", -1L, asOfDate);
     }
 
-    private TimeCollectionRule getTimeCollectionRuleWildCarded(String dept, Long workArea, Date asOfDate) {
+    private TimeCollectionRule getTimeCollectionRuleWildCarded(String dept, Long workArea, LocalDate asOfDate) {
         Criteria root = new Criteria();
         ImmutableList<String> fields = new ImmutableList.Builder<String>()
                 .add("workArea")
@@ -107,7 +108,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
       * dept, work area, and payType can be wildcardable values
       */
     @Override
-    public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, Date asOfDate) {
+    public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, LocalDate asOfDate) {
 
 
         TimeCollectionRule timeCollectionRule = new TimeCollectionRule();
@@ -157,7 +158,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
         return getTimeCollectionRuleWildCarded("%", -1L, "%", asOfDate);
     }
 
-    private TimeCollectionRule getTimeCollectionRuleWildCarded(String dept, Long workArea, String payType, Date asOfDate) {
+    private TimeCollectionRule getTimeCollectionRuleWildCarded(String dept, Long workArea, String payType, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
         root.addEqualTo("dept", dept);

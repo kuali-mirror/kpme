@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.lm.employeeoverride.service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.lm.employeeoverride.dao.EmployeeOverrideDao;
 
@@ -26,12 +26,12 @@ public class EmployeeOverrideServiceImpl implements EmployeeOverrideService {
 	private EmployeeOverrideDao employeeOverrideDao;
 
 	@Override
-	public List<EmployeeOverride> getEmployeeOverrides(String principalId, Date asOfDate) {
+	public List<EmployeeOverride> getEmployeeOverrides(String principalId, LocalDate asOfDate) {
 		return employeeOverrideDao.getEmployeeOverrides(principalId, asOfDate);
 	}
 	
 	@Override
-	public EmployeeOverride getEmployeeOverride(String principalId, String leavePlan, String accrualCategory, String overrideType, Date asOfDate) {
+	public EmployeeOverride getEmployeeOverride(String principalId, String leavePlan, String accrualCategory, String overrideType, LocalDate asOfDate) {
 		return employeeOverrideDao.getEmployeeOverride(principalId, leavePlan, accrualCategory, overrideType, asOfDate);
 	}
 
@@ -41,7 +41,7 @@ public class EmployeeOverrideServiceImpl implements EmployeeOverrideService {
 	}
 
     @Override
-    public List<EmployeeOverride> getEmployeeOverrides(String principalId, String leavePlan, String accrualCategory, String overrideType, Date fromEffdt, Date toEffdt, String active) {
+    public List<EmployeeOverride> getEmployeeOverrides(String principalId, String leavePlan, String accrualCategory, String overrideType, LocalDate fromEffdt, LocalDate toEffdt, String active) {
         return employeeOverrideDao.getEmployeeOverrides(principalId, leavePlan, accrualCategory, overrideType, fromEffdt, toEffdt, active);
     }
 

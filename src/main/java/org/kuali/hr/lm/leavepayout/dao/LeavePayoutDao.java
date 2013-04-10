@@ -15,21 +15,21 @@
  */
 package org.kuali.hr.lm.leavepayout.dao;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
 
 public interface LeavePayoutDao {
 
     public List<LeavePayout> getAllLeavePayoutsForPrincipalId(String principalId);
-    public List<LeavePayout> getAllLeavePayoutsForPrincipalIdAsOfDate(String principalId, Date effectiveDate);
-    public List<LeavePayout> getAllLeavePayoutsByEffectiveDate(Date effectiveDate);
+    public List<LeavePayout> getAllLeavePayoutsForPrincipalIdAsOfDate(String principalId, LocalDate effectiveDate);
+    public List<LeavePayout> getAllLeavePayoutsByEffectiveDate(LocalDate effectiveDate);
     public List<LeavePayout> getAllLeavePayoutsMarkedPayoutForPrincipalId(String principalId);
     public LeavePayout getLeavePayoutById(String lmLeavePayoutId);
 	public List<LeavePayout> getLeavePayouts(String viewPrincipal,
-			Date beginPeriodDate, Date endPeriodDate);
+			LocalDate beginPeriodDate, LocalDate endPeriodDate);
 	public void saveOrUpdate(LeavePayout payout);
-	public List<LeavePayout> getLeavePayouts(String principalId, String fromAccrualCategory, String payoutAmount, String earnCode, String forfeitedAmount, Date fromEffdt, Date toEffdt);
+	public List<LeavePayout> getLeavePayouts(String principalId, String fromAccrualCategory, String payoutAmount, String earnCode, String forfeitedAmount, LocalDate fromEffdt, LocalDate toEffdt);
 
 }

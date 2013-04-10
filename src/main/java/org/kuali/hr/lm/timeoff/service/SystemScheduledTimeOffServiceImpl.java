@@ -15,7 +15,11 @@
  */
 package org.kuali.hr.lm.timeoff.service;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.apache.log4j.Logger;
+import org.joda.time.LocalDate;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.lm.timeoff.dao.SystemScheduledTimeOffDao;
@@ -23,10 +27,6 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
 
 public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOffService {
 
@@ -49,17 +49,17 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
 
 	@Override
 	public List<SystemScheduledTimeOff> getSystemScheduledTimeOffForPayPeriod(
-			String leavePlan, Date startDate, Date endDate) {
+			String leavePlan, LocalDate startDate, LocalDate endDate) {
 		return getSystemScheduledTimeOffDao().getSystemScheduledTimeOffForPayPeriod(leavePlan, startDate, endDate);
 	}
 
 	@Override
 	public SystemScheduledTimeOff getSystemScheduledTimeOffByDate(
-			String leavePlan, Date startDate) {
+			String leavePlan, LocalDate startDate) {
 		return getSystemScheduledTimeOffDao().getSystemScheduledTimeOffByDate(leavePlan, startDate);
 	}	
 	@Override
-	public Assignment getAssignmentToApplyHolidays(TimesheetDocument timesheetDocument, java.sql.Date payEndDate) {
+	public Assignment getAssignmentToApplyHolidays(TimesheetDocument timesheetDocument, LocalDate payEndDate) {
 		Job primaryJob = TkServiceLocator.getJobService().getPrimaryJob(timesheetDocument.getPrincipalId(), payEndDate);
 		for(Assignment assign : timesheetDocument.getAssignments()){
 			if(assign.getJobNumber().equals(primaryJob.getJobNumber())){
@@ -76,14 +76,14 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
     }
 
     @Override
-    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(Date fromEffdt, Date toEffdt, String earnCode, Date fromAccruedDate, Date toAccruedDate, 
-    															   Date fromSchTimeOffDate, Date toSchTimeOffDate, String active, String showHist) {
+    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(LocalDate fromEffdt, LocalDate toEffdt, String earnCode, LocalDate fromAccruedDate, LocalDate toAccruedDate, 
+    		LocalDate fromSchTimeOffDate, LocalDate toSchTimeOffDate, String active, String showHist) {
         return systemScheduledTimeOffDao.getSystemScheduledTimeOffs(fromEffdt, toEffdt, earnCode, fromAccruedDate, toAccruedDate, fromSchTimeOffDate, 
         															toSchTimeOffDate, active, showHist);
     }
     
     @Override
-    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffsForLeavePlan(Date fromAccruedDate,Date toAccruedDate, String leavePlan) {
+    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffsForLeavePlan(LocalDate fromAccruedDate, LocalDate toAccruedDate, String leavePlan) {
     	return systemScheduledTimeOffDao.getSystemScheduledTimeOffsForLeavePlan(fromAccruedDate, toAccruedDate, leavePlan);
     }
 

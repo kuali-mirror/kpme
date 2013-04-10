@@ -26,7 +26,7 @@ public class ClockLocationRuleAuthorizer extends KPMEMaintenanceDocumentAuthoriz
 			if (clockLocationRuleObj != null) {
 				department = clockLocationRuleObj.getDept();
 				
-				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, clockLocationRuleObj.getEffectiveDate());
+				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, clockLocationRuleObj.getEffectiveLocalDate());
 			
 				if (departmentObj != null) {
 					location = departmentObj.getLocation();

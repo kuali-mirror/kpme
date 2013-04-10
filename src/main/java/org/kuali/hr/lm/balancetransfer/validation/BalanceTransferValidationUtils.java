@@ -16,8 +16,8 @@
 package org.kuali.hr.lm.balancetransfer.validation;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -38,7 +38,7 @@ public class BalanceTransferValidationUtils {
 			return isValid && validateSstoTranser(balanceTransfer) ;
 		}
 		String principalId = balanceTransfer.getPrincipalId();
-		Date effectiveDate = balanceTransfer.getEffectiveDate();
+		LocalDate effectiveDate = balanceTransfer.getEffectiveLocalDate();
 		String fromAccrualCategory = balanceTransfer.getFromAccrualCategory();
 		String toAccrualCategory = balanceTransfer.getToAccrualCategory();
 		AccrualCategory fromCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
@@ -48,7 +48,7 @@ public class BalanceTransferValidationUtils {
 		if(ObjectUtils.isNotNull(pha)) {
 			if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
 				AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat,
-						effectiveDate, pha.getServiceDate());
+						effectiveDate, pha.getServiceLocalDate());
 				if(ObjectUtils.isNotNull(acr)) {
 					if(ObjectUtils.isNotNull(acr.getMaxBalFlag())
 							&& StringUtils.isNotBlank(acr.getMaxBalFlag())
@@ -121,7 +121,7 @@ public class BalanceTransferValidationUtils {
 	}
 	
 	private static boolean validateMaxCarryOver(BigDecimal amountTransferred,
-			AccrualCategory toCat, String principalId, Date effectiveDate,
+			AccrualCategory toCat, String principalId, LocalDate effectiveDate,
 			AccrualCategoryRule acr, PrincipalHRAttributes pha) {
 /*		List<AccrualCategoryRule> rules = toCat.getAccrualCategoryRules();
 		Date serviceDate = pha.getServiceDate();
@@ -135,7 +135,7 @@ public class BalanceTransferValidationUtils {
 
 	private static boolean validateTransferAmount(BigDecimal transferAmount,
 			AccrualCategory fromCat, AccrualCategory toCat, String principalId,
-			Date effectiveDate, AccrualCategoryRule accrualRule) {
+			LocalDate effectiveDate, AccrualCategoryRule accrualRule) {
 
 		//transfer amount must be less than the max transfer amount defined in the accrual category rule.
 		//it cannot be negative.
@@ -198,18 +198,18 @@ public class BalanceTransferValidationUtils {
 			return false;
 		}
 		
-		AccrualCategory fromAC = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getFromAccrualCategory(), bt.getEffectiveDate());
+		AccrualCategory fromAC = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getFromAccrualCategory(), bt.getEffectiveLocalDate());
 		if(fromAC == null) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "balanceTransfer.transferSSTO.acDoesNotExist", bt.getFromAccrualCategory());
 			return false;
 		}
-		AccrualCategory toAC = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getToAccrualCategory(), bt.getEffectiveDate());
+		AccrualCategory toAC = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getToAccrualCategory(), bt.getEffectiveLocalDate());
 		if(toAC == null) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.toAccrualCategory", "balanceTransfer.transferSSTO.acDoesNotExist", bt.getToAccrualCategory());
 			return false;
 		}
 		// make sure the leave plan of from/to accrual categories are consistent with the employee's leave plan
-		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(bt.getPrincipalId(),bt.getEffectiveDate());
+		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(bt.getPrincipalId(),bt.getEffectiveLocalDate());
 		if(StringUtils.isNotEmpty(fromAC.getLeavePlan())){
 			if(!fromAC.getLeavePlan().equals(pha.getLeavePlan())) {
 				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "balanceTransfer.transferSSTO.wrongACLeavePlan", fromAC.getLeavePlan(), pha.getLeavePlan());

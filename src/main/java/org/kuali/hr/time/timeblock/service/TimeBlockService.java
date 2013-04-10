@@ -15,15 +15,15 @@
  */
 package org.kuali.hr.time.timeblock.service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.List;
+
+import org.joda.time.DateTime;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.List;
 
 public interface TimeBlockService {
 	/**
@@ -156,5 +156,5 @@ public interface TimeBlockService {
 	 * @param effDate
 	 * @return List<TimeBlock>	 * 
 	 */
-    public List<TimeBlock> getTimeBlocksWithEarnCode(String earnCode, Date effDate);
+    public List<TimeBlock> getTimeBlocksWithEarnCode(String earnCode, DateTime effDate);
 }

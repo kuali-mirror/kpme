@@ -24,7 +24,7 @@ public class PositionReportGroupValidation extends MaintenanceDocumentRuleBase  
 	
 	private boolean validateInstitution(PositionReportGroup prg) {
 		if (StringUtils.isNotEmpty(prg.getInstitution())
-				&& !PmValidationUtils.validateInstitution(prg.getInstitution(), prg.getEffectiveDate())) {
+				&& !PmValidationUtils.validateInstitution(prg.getInstitution(), prg.getEffectiveLocalDate())) {
 			this.putFieldError("institution", "error.existence", "Instituion '"
 					+ prg.getInstitution() + "'");
 			return false;

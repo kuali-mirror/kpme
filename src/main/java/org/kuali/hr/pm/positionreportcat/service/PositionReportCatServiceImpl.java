@@ -1,8 +1,8 @@
 package org.kuali.hr.pm.positionreportcat.service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.pm.positionreportcat.PositionReportCategory;
 import org.kuali.hr.pm.positionreportcat.dao.PositionReportCatDao;
 
@@ -16,7 +16,7 @@ public class PositionReportCatServiceImpl implements PositionReportCatService {
 	}
 	
 	@Override
-	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String institution, String campus, Date asOfDate) {
+	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String institution, String campus, LocalDate asOfDate) {
 		return positionReportCatDao.getPositionReportCatList(positionReportCat, positionReportType, institution, campus, asOfDate);
 	}
 

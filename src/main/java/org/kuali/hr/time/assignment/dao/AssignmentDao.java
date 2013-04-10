@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.time.assignment.dao;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.assignment.Assignment;
 
-import java.sql.Date;
 import java.util.List;
 
 public interface AssignmentDao {
@@ -30,7 +30,7 @@ public interface AssignmentDao {
 	 * @param payPeriodEndDate
 	 * @return
 	 */
-	public List<Assignment> findAssignments(String principalId, Date asOfDate);
+	public List<Assignment> findAssignments(String principalId, LocalDate asOfDate);
 	/**
 	 * Save or update the given assignment
 	 * @param assignment
@@ -54,15 +54,15 @@ public interface AssignmentDao {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<Assignment> getActiveAssignmentsInWorkArea(Long workArea, Date asOfDate);
+	public List<Assignment> getActiveAssignmentsInWorkArea(Long workArea, LocalDate asOfDate);
 
 	public Assignment getAssignment(String tkAssignmentId);
 
-    public Assignment getAssignment(Long job, Long workArea, Long task, Date asOfDate);
+    public Assignment getAssignment(Long job, Long workArea, Long task, LocalDate asOfDate);
 
-	public List<Assignment> getActiveAssignments(Date asOfDate);
+	public List<Assignment> getActiveAssignments(LocalDate asOfDate);
 	
-	public Assignment getAssignment(String principalId, Long jobNumber, Long workArea, Long task, Date asOfDate);
+	public Assignment getAssignment(String principalId, Long jobNumber, Long workArea, Long task, LocalDate asOfDate);
 	
 	/**
 	 * KPME-1129
@@ -72,16 +72,16 @@ public interface AssignmentDao {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, Date asOfDate);
+	public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, LocalDate asOfDate);
 
-    List<Assignment> findAssignmentsWithinPeriod(String principalId, Date startDate, Date endDate);
+    List<Assignment> findAssignmentsWithinPeriod(String principalId, LocalDate startDate, LocalDate endDate);
 
-    List<Assignment> searchAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
+    List<Assignment> searchAssignments(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
                                     String dept, String workArea, String active, String showHistory);
     
     public Assignment getMaxTimestampAssignment(String principalId);
     
-    public List<String> getPrincipalIds(List<String> workAreaList, Date effdt, Date startDate, Date endDate);
+    public List<String> getPrincipalIds(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate);
     
-    public List<Assignment> getAssignments(List<String> workAreaList, Date effdt, Date startDate, Date endDate);
+    public List<Assignment> getAssignments(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate);
 }

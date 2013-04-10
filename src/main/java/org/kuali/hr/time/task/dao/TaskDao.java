@@ -16,19 +16,19 @@
 package org.kuali.hr.time.task.dao;
 
 
-import org.kuali.hr.time.task.Task;
-
-import java.sql.Date;
 import java.util.List;
+
+import org.joda.time.LocalDate;
+import org.kuali.hr.time.task.Task;
 
 public interface TaskDao {
 	public Task getTask(String tkTaskId);
-    public Task getTask(Long task, Date asOfDate);
+    public Task getTask(Long task, LocalDate asOfDate);
 
     public void saveOrUpdate(Task task);
     public void saveOrUpdate(List<Task> tasks);
     public Task getMaxTask();
 
-    List<Task> getTasks(Long task, String description, Long workArea, Date fromEffdt, Date toEffdt);
+    List<Task> getTasks(Long task, String description, Long workArea, LocalDate fromEffdt, LocalDate toEffdt);
     public int getTaskCount(Long task);
 }

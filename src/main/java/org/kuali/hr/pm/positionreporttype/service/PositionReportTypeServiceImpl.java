@@ -1,8 +1,8 @@
 package org.kuali.hr.pm.positionreporttype.service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.pm.positionreporttype.PositionReportType;
 import org.kuali.hr.pm.positionreporttype.dao.PositionReportTypeDao;
 
@@ -25,7 +25,7 @@ public class PositionReportTypeServiceImpl implements PositionReportTypeService 
 	}
 
 	@Override
-	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String institution, String campus, Date asOfDate) {
+	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String institution, String campus, LocalDate asOfDate) {
 		return positionReportTypeDao.getPositionReportTypeList(positionReportType, institution, campus, asOfDate);
 	}
 	
@@ -35,12 +35,12 @@ public class PositionReportTypeServiceImpl implements PositionReportTypeService 
 	}
 	
 	@Override
-	public List<PositionReportType> getPrtListWithInstitutionCodeAndDate(String institutionCode, Date asOfDate) {
+	public List<PositionReportType> getPrtListWithInstitutionCodeAndDate(String institutionCode, LocalDate asOfDate) {
 		return positionReportTypeDao.getPrtListWithInstitutionCodeAndDate(institutionCode, asOfDate);
 	}
 
 	@Override
-	public List<PositionReportType> getPrtListWithCampusAndDate(String campus,Date asOfDate) {
+	public List<PositionReportType> getPrtListWithCampusAndDate(String campus,LocalDate asOfDate) {
 		return positionReportTypeDao.getPrtListWithCampusAndDate(campus, asOfDate);
 	}
 

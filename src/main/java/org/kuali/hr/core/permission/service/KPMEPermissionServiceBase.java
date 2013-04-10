@@ -199,10 +199,10 @@ public abstract class KPMEPermissionServiceBase {
     	boolean isAuthorized = false;
     	
 		Long workArea = assignment.getWorkArea();
-    	WorkArea workAreaObj = getWorkAreaService().getWorkArea(workArea, assignment.getEffectiveDate());
+    	WorkArea workAreaObj = getWorkAreaService().getWorkArea(workArea, assignment.getEffectiveLocalDate());
 		
 		String department = workAreaObj != null ? workAreaObj.getDept() : null;
-    	Department departmentObj = getDepartmentService().getDepartment(department, assignment.getEffectiveDate());
+    	Department departmentObj = getDepartmentService().getDepartment(department, assignment.getEffectiveLocalDate());
     	
     	String location = departmentObj != null ? departmentObj.getLocation() : null;
     	

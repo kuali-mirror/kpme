@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.timeblock.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -26,6 +25,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.joda.time.DateTime;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -156,10 +156,10 @@ public class TimeBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
     
     @SuppressWarnings("unchecked")
 	@Override
-    public List<TimeBlock> getTimeBlocksWithEarnCode(String earnCode, Date effDate) {
+    public List<TimeBlock> getTimeBlocksWithEarnCode(String earnCode, DateTime effDate) {
     	 Criteria root = new Criteria();
          root.addEqualTo("earnCode", earnCode);
-         root.addGreaterOrEqualThan("beginTimestamp", effDate);
+         root.addGreaterOrEqualThan("beginTimestamp", effDate.toDate());
          return (List<TimeBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlock.class, root));
     }
 

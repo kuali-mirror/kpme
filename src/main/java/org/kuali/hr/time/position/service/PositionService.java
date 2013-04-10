@@ -15,18 +15,18 @@
  */
 package org.kuali.hr.time.position.service;
 
+import java.util.List;
+
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.position.Position;
 import org.springframework.cache.annotation.Cacheable;
-
-import java.sql.Date;
-import java.util.List;
 
 public interface PositionService {
     @Cacheable(value= Position.CACHE_NAME, key="'hrPositionId=' + #p0")
 	public Position getPosition(String hrPositionId);
 
     @Cacheable(value= Position.CACHE_NAME, key="'hrPositionNbr=' + #p0  + '|' + 'effectiveDate=' + #p1")
-    public Position getPosition(String hrPositionNbr, Date effectiveDate);
+    public Position getPosition(String hrPositionNbr, LocalDate effectiveDate);
     
-    List<Position> getPositions(String positionNum, String descr, Date fromEffdt, Date toEffdt, String active, String showHist);
+    List<Position> getPositions(String positionNum, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }

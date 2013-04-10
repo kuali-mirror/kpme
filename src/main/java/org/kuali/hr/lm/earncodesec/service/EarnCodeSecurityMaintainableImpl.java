@@ -36,7 +36,7 @@ public class EarnCodeSecurityMaintainableImpl extends HrBusinessObjectMaintainab
 	@Override
     public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
 		EarnCodeSecurity departmentEarnCode = (EarnCodeSecurity) this.getBusinessObject();
-		int count = TkServiceLocator.getEarnCodeSecurityService().getNewerEarnCodeSecurityCount(departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveDate());
+		int count = TkServiceLocator.getEarnCodeSecurityService().getNewerEarnCodeSecurityCount(departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveLocalDate());
 		if(count > 0) {
 			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(
 					KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 

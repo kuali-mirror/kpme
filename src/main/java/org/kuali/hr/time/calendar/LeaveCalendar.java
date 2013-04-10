@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.time.calendar;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +29,6 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
@@ -56,7 +55,7 @@ public class LeaveCalendar extends CalendarParent {
 
         LeaveCalendarWeek leaveCalendarWeek = new LeaveCalendarWeek();
         Integer dayNumber = 0;
-        List<LeaveBlock> blocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
+        List<LeaveBlock> blocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
         Map<String, List<LeaveBlock>> leaveBlockMap = new HashMap<String, List<LeaveBlock>>();
         for (LeaveBlock lb : blocks) {
             String key = new LocalDate(lb.getLeaveDate()).toString();
@@ -82,7 +81,7 @@ public class LeaveCalendar extends CalendarParent {
 //                leaveCalendarDay.setDayNumberDelta(currDateTime.getDayOfMonth());
                 leaveCalendarDay.setDayNumberDelta(dayNumber);
     
-               java.util.Date leaveDate = TKUtils.getTimelessDate(currentDisplayDateTime.toLocalDate().toDateMidnight().toDate());
+               LocalDate leaveDate = currentDisplayDateTime.toLocalDate();
                List<LeaveBlock> lbs = leaveBlockMap.get(currentDisplayDateTime.toLocalDate().toString());
                if (lbs == null) {
                    lbs = Collections.emptyList();
@@ -96,9 +95,9 @@ public class LeaveCalendar extends CalendarParent {
                }
                
                if (TkServiceLocator.getLMPermissionService().canViewLeaveTabsWithNEStatus()) {
-	               TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveDate);
+	               TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveDate.toDateTimeAtStartOfDay());
 	               if (tdh != null) {
-	            	   if (DateUtils.isSameDay(leaveDate, tdh.getEndDate()) || leaveDate.after(tdh.getEndDate())) {
+	            	   if (DateUtils.isSameDay(leaveDate.toDate(), tdh.getEndDate()) || leaveDate.isAfter(LocalDate.fromDateFields(tdh.getEndDate()))) {
 	            		   leaveCalendarDay.setDayEditable(true);
 	            	   }
 	               } else {
@@ -127,7 +126,7 @@ public class LeaveCalendar extends CalendarParent {
             getWeeks().add(leaveCalendarWeek);
         }
 
-        boolean isPlanningCal = TkServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(principalId, calendarEntry.getBeginPeriodDateTime(), calendarEntry.getEndPeriodDateTime());
+        boolean isPlanningCal = TkServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
         Map<String, String> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForDisplay(principalId, isPlanningCal);
         setEarnCodeList(earnCodes);
     }

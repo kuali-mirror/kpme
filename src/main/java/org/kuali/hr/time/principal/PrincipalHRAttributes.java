@@ -15,8 +15,9 @@
  */
 package org.kuali.hr.time.principal;
 
-import java.sql.Date;
+import java.util.Date;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
@@ -89,6 +90,14 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 
 	public void setServiceDate(Date serviceDate) {
 		this.serviceDate = serviceDate;
+	}
+	
+	public LocalDate getServiceLocalDate() {
+		return LocalDate.fromDateFields(serviceDate);
+	}
+	
+	public void setServiceLocalDate(LocalDate serviceLocalDate) {
+		this.serviceDate = serviceLocalDate != null ? serviceLocalDate.toDate() : null;
 	}
 
 	public boolean isFmlaEligible() {

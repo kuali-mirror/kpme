@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.time.clock.location.dao;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 
 public interface ClockLocationDao {
@@ -31,7 +31,7 @@ public interface ClockLocationDao {
 	 * @return
 	 */
 	public List<ClockLocationRule> getClockLocationRule(String dept, Long workArea, String principalId, 
-													Long jobNumber, Date asOfDate);
+													Long jobNumber, LocalDate asOfDate);
 	/**
 	 * Get list of clock location rules based on criteria
 	 * @param dept
@@ -42,7 +42,7 @@ public interface ClockLocationDao {
 	 * @return
 	 */
 	public List<ClockLocationRule> getNewerVersionClockLocationRule(String dept, Long workArea, String principalId, 
-			Long jobNumber, Date asOfDate);
+			Long jobNumber, LocalDate asOfDate);
 	/**
 	 * Get Clock Location Rule based on id
 	 * @param tkClockLocationRuleId
@@ -56,5 +56,5 @@ public interface ClockLocationDao {
 	 */
 	public void populateIPAddressesForCLR(ClockLocationRule clr);
 
-    List<ClockLocationRule> getClockLocationRules(Date fromEffdt, Date toEffdt, String principalId, String jobNumber, String dept, String workArea, String active, String showHistory);
+    List<ClockLocationRule> getClockLocationRules(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber, String dept, String workArea, String active, String showHistory);
 }

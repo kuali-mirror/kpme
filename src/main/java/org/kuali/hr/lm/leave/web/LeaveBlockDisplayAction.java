@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -33,7 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
@@ -45,7 +44,6 @@ import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kew.api.KewApiConstants;
 
 public class LeaveBlockDisplayAction extends TkAction {
@@ -56,7 +54,7 @@ public class LeaveBlockDisplayAction extends TkAction {
 		
 		LeaveBlockDisplayForm lbdf = (LeaveBlockDisplayForm) form;	
 
-		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate());
+		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(TKContext.getTargetPrincipalId(), LocalDate.now());
 		String leavePlan = (principalHRAttributes != null) ? principalHRAttributes.getLeavePlan() : null;
 
 		Calendar currentCalendar = Calendar.getInstance();
@@ -68,10 +66,10 @@ public class LeaveBlockDisplayAction extends TkAction {
 			lbdf.setYear(lbdf.getYear() - 1);
 		}
 		currentCalendar.set(lbdf.getYear(), 0, 1);
-		Date serviceDate = (principalHRAttributes != null) ? principalHRAttributes.getServiceDate() : TKUtils.getTimelessDate(currentCalendar.getTime());
-		Date beginDate = TKUtils.getTimelessDate(currentCalendar.getTime());
+		LocalDate serviceDate = (principalHRAttributes != null) ? principalHRAttributes.getServiceLocalDate() : LocalDate.fromCalendarFields(currentCalendar);
+		LocalDate beginDate = LocalDate.fromCalendarFields(currentCalendar);
 		currentCalendar.set(lbdf.getYear(), 11, 31);
-		Date endDate = TKUtils.getTimelessDate(currentCalendar.getTime());
+		LocalDate endDate = LocalDate.fromCalendarFields(currentCalendar);
 
 		lbdf.setAccrualCategories(getAccrualCategories(leavePlan));
 		lbdf.setLeaveEntries(getLeaveEntries(TKContext.getTargetPrincipalId(), serviceDate, beginDate, endDate, lbdf.getAccrualCategories()));
@@ -127,7 +125,7 @@ public class LeaveBlockDisplayAction extends TkAction {
 	private List<AccrualCategory> getAccrualCategories(String leavePlan) {
 		List<AccrualCategory> accrualCategories = new ArrayList<AccrualCategory>();
 		
-		List<AccrualCategory> allAccrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, TKUtils.getCurrentDate());
+		List<AccrualCategory> allAccrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, LocalDate.now());
 		if (allAccrualCategories != null) {
 			for (AccrualCategory ac : allAccrualCategories) {
 				if (StringUtils.equalsIgnoreCase(ac.getShowOnGrid(), "Y")) {
@@ -145,7 +143,7 @@ public class LeaveBlockDisplayAction extends TkAction {
 		return accrualCategories;
 	}
 	
-	private List<LeaveBlockDisplay> getLeaveEntries(String principalId, Date serviceDate, Date beginDate, Date endDate, List<AccrualCategory> accrualCategories) {
+	private List<LeaveBlockDisplay> getLeaveEntries(String principalId, LocalDate serviceDate, LocalDate beginDate, LocalDate endDate, List<AccrualCategory> accrualCategories) {
 		List<LeaveBlockDisplay> leaveEntries = new ArrayList<LeaveBlockDisplay>();
 		
 		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
@@ -183,10 +181,10 @@ public class LeaveBlockDisplayAction extends TkAction {
 		return leaveEntries;
 	}
 	
-	private SortedMap<String, BigDecimal> getPreviousAccrualBalances(String principalId, Date serviceDate, Date beginDate, List<AccrualCategory> accrualCategories) {
+	private SortedMap<String, BigDecimal> getPreviousAccrualBalances(String principalId, LocalDate serviceDate, LocalDate beginDate, List<AccrualCategory> accrualCategories) {
 		SortedMap<String, BigDecimal> previousAccrualBalances = new TreeMap<String, BigDecimal>();
 
-        LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(principalId, new java.sql.Date(new DateTime(beginDate).getMillis()));
+        LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(principalId, beginDate);
 
         for (LeaveSummaryRow row : leaveSummary.getLeaveSummaryRows()) {
             previousAccrualBalances.put(row.getAccrualCategory(), row.getLeaveBalance());

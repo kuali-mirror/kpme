@@ -15,18 +15,18 @@
  */
 package org.kuali.hr.time.position.dao;
 
-import org.kuali.hr.time.position.Position;
-
-import java.sql.Date;
 import java.util.List;
+
+import org.joda.time.LocalDate;
+import org.kuali.hr.time.position.Position;
 //import org.kuali.hr.time.position.PositionNumber;
 
 public interface PositionDao {
 	public Position getPosition(String hrPositionId);
-    public Position getPosition(String positionNumber, Date effectiveDate);
+    public Position getPosition(String positionNumber, LocalDate effectiveDate);
     //public PositionNumber getNextUniquePositionNumber();
 
     //void saveOrUpdate(PositionNumber positionNumber);
 
-    public List<Position> getPositions(String positionNum, String description, Date fromEffdt, Date toEffdt, String active, String showHistory);
+    public List<Position> getPositions(String positionNum, String description, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 }

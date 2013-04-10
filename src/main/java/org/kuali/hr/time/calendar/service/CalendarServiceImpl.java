@@ -50,7 +50,7 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public CalendarEntry getCalendarDatesByPayEndDate(String principalId, DateTime payEndDate, String calendarType) {
-        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, payEndDate.toDate());
+        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, payEndDate.toLocalDate());
         
         Calendar calendar = null;
         if (StringUtils.equalsIgnoreCase(calendarType, TkConstants.PAY_CALENDAR_TYPE)) {
@@ -99,7 +99,7 @@ public class CalendarServiceImpl implements CalendarService {
     @Override
     public Calendar getCalendarByPrincipalIdAndDate(String principalId, LocalDate beginDate, LocalDate endDate, boolean findLeaveCal) {
         Calendar pcal = null;
-        List<Job> currentJobs = TkServiceLocator.getJobService().getJobs(principalId, endDate.toDate());
+        List<Job> currentJobs = TkServiceLocator.getJobService().getJobs(principalId, endDate);
         if(currentJobs.size() < 1){
             return pcal;
         }
@@ -112,7 +112,7 @@ public class CalendarServiceImpl implements CalendarService {
                 throw new RuntimeException("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
             }
 
-            PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, beginDate.toDate());
+            PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, beginDate);
             if(principalCalendar == null){
             	return null;
                 //throw new RuntimeException("No principal hr attribute setup for "+principalId);
@@ -139,7 +139,7 @@ public class CalendarServiceImpl implements CalendarService {
 	@Override
 	public Calendar getCalendarByPrincipalIdAndDate(String principalId, LocalDate asOfDate, boolean findLeaveCal) {
 		Calendar pcal = null;
-        List<Job> currentJobs = TkServiceLocator.getJobService().getJobs(principalId, asOfDate.toDate());
+        List<Job> currentJobs = TkServiceLocator.getJobService().getJobs(principalId, asOfDate);
         if(currentJobs.size() < 1){
            return pcal;
         }
@@ -152,7 +152,7 @@ public class CalendarServiceImpl implements CalendarService {
                 throw new RuntimeException("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
             }
 
-            PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate.toDate());
+            PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
             if(principalCalendar == null){
                 throw new RuntimeException("No principal hr attribute setup for "+principalId);
             }

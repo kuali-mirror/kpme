@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.lm.workflow.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.lm.workflow.dao.LeaveCalendarDocumentHeaderDao;
@@ -43,7 +43,7 @@ public class LeaveCalendarDocumentHeaderServiceImpl implements LeaveCalendarDocu
     }
 
     @Override
-    public LeaveCalendarDocumentHeader getDocumentHeader(String principalId, Date beginDate, Date endDate) {
+    public LeaveCalendarDocumentHeader getDocumentHeader(String principalId, DateTime beginDate, DateTime endDate) {
         return leaveCalendarDocumentHeaderDao.getLeaveCalendarDocumentHeader(principalId,  beginDate,  endDate);
     }
 
@@ -58,15 +58,15 @@ public class LeaveCalendarDocumentHeaderServiceImpl implements LeaveCalendarDocu
 		    LeaveCalendarDocument currentLeaveCalendar = TKContext.getCurrentLeaveCalendarDocument();
 	        LeaveCalendarDocumentHeader lcdh;
 	        if (StringUtils.equals(prevOrNext, TkConstants.PREV_TIMESHEET)) {
-	        	lcdh = leaveCalendarDocumentHeaderDao.getPreviousDocumentHeader(principalId, currentLeaveCalendar.getDocumentHeader().getBeginDate());
+	        	lcdh = leaveCalendarDocumentHeaderDao.getPreviousDocumentHeader(principalId, currentLeaveCalendar.getDocumentHeader().getBeginDateTime());
 	        } else {
-	        	lcdh = leaveCalendarDocumentHeaderDao.getNextDocumentHeader(principalId, currentLeaveCalendar.getDocumentHeader().getEndDate());
+	        	lcdh = leaveCalendarDocumentHeaderDao.getNextDocumentHeader(principalId, currentLeaveCalendar.getDocumentHeader().getEndDateTime());
 	        }
 	        return lcdh;
 	}
 	
 	@Override
-    public List<LeaveCalendarDocumentHeader> getDocumentHeaders(Date beginDate, Date endDate) {
+    public List<LeaveCalendarDocumentHeader> getDocumentHeaders(DateTime beginDate, DateTime endDate) {
         return leaveCalendarDocumentHeaderDao.getDocumentHeaders(beginDate, endDate);
     }
 	
@@ -86,7 +86,7 @@ public class LeaveCalendarDocumentHeaderServiceImpl implements LeaveCalendarDocu
 	}
 	
 	@Override
-	public List<LeaveCalendarDocumentHeader> getSubmissionDelinquentDocumentHeaders(String principalId, Date beforeDate) {
+	public List<LeaveCalendarDocumentHeader> getSubmissionDelinquentDocumentHeaders(String principalId, DateTime beforeDate) {
 		return leaveCalendarDocumentHeaderDao.getSubmissionDelinquentDocumentHeaders(principalId, beforeDate);
 	}
 	
@@ -99,7 +99,7 @@ public class LeaveCalendarDocumentHeaderServiceImpl implements LeaveCalendarDocu
         leaveCalendarDocumentHeaderDao.deleteLeaveCalendarHeader(documentId);
     }
     @Override
-    public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersInRangeForPricipalId(String principalId, Date beginDate, Date endDate) {
+    public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersInRangeForPricipalId(String principalId, DateTime beginDate, DateTime endDate) {
     	return leaveCalendarDocumentHeaderDao.getAllDocumentHeadersInRangeForPricipalId(principalId, beginDate, endDate);
     }
 }

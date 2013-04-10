@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.time.department.service;
 
+import java.util.List;
+
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.department.Department;
 import org.springframework.cache.annotation.Cacheable;
-
-import java.sql.Date;
-import java.util.List;
 
 public interface DepartmentService {
 	
@@ -47,7 +47,7 @@ public interface DepartmentService {
 	 * @return
 	 */
     @Cacheable(value= Department.CACHE_NAME, key="'department=' + #p0 + '|' + 'asOfDate=' + #p1")
-	Department getDepartment(String department, Date asOfDate);
+	Department getDepartment(String department, LocalDate asOfDate);
 
     /**
      * Fetches a list of Department objects as of the specified date all of which
@@ -58,6 +58,6 @@ public interface DepartmentService {
      * @return A List<Department> object.
      */
     @Cacheable(value= Department.CACHE_NAME, key="'chart=' + #p0 + '|' + 'asOfDate=' + #p1")
-    List<Department> getDepartments(String location, Date asOfDate);
+    List<Department> getDepartments(String location, LocalDate asOfDate);
 
 }

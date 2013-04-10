@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.time.graceperiod.service;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -29,14 +29,14 @@ public interface GracePeriodService {
 	 * @return
 	 */
     @Cacheable(value= GracePeriodRule.CACHE_NAME, key="'asOfDate=' + #p0")
-	public GracePeriodRule getGracePeriodRule(Date asOfDate);
+	public GracePeriodRule getGracePeriodRule(LocalDate asOfDate);
 	/**
 	 * Process grace period rule as of a particular date with the corresponding timestamp
 	 * @param actualTime
 	 * @param asOfDate
 	 * @return
 	 */
-	public Timestamp processGracePeriodRule(Timestamp actualTime, Date asOfDate);
+	public Timestamp processGracePeriodRule(Timestamp actualTime, LocalDate asOfDate);
 	
 	/**
 	 * Fetch Grace period rule by id

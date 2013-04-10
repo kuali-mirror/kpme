@@ -35,6 +35,7 @@ import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.time.assignment.Assignment;
@@ -183,7 +184,7 @@ public class ClockAction extends TimesheetAction {
     		}
     		List<TimeCollectionRule> ruleList = new ArrayList<TimeCollectionRule> ();
     		for(Assignment assignment: assignments) {
-    			TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(),assignment.getEffectiveDate());
+    			TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(),assignment.getEffectiveLocalDate());
 		    	if(rule != null) {
 		    		if(rule.isHrsDistributionF()) {
 		    			ruleList.add(rule);
@@ -220,7 +221,7 @@ public class ClockAction extends TimesheetAction {
         String ip = TKUtils.getIPAddressFromRequest(request);
         Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(), caf.getSelectedAssignment());
         
-        List<Assignment> lstAssingmentAsOfToday = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate());
+        List<Assignment> lstAssingmentAsOfToday = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), LocalDate.now());
         boolean foundValidAssignment = false;
         for(Assignment assign : lstAssingmentAsOfToday){
         	if((assign.getJobNumber().compareTo(assignment.getJobNumber()) ==0) &&
@@ -238,7 +239,7 @@ public class ClockAction extends TimesheetAction {
         
                
         ClockLog clockLog = TkServiceLocator.getClockLogService().processClockLog(new Timestamp(System.currentTimeMillis()), assignment, caf.getPayCalendarDates(), ip,
-                TKUtils.getCurrentDate(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), TKContext.getTargetPrincipalId());
+                LocalDate.now(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), TKContext.getTargetPrincipalId());
 
         caf.setClockLog(clockLog);
 

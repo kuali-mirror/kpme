@@ -1,6 +1,5 @@
 package org.kuali.hr.pm.positionreportsubcat.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory;
 import org.kuali.hr.time.util.TkConstants;
@@ -32,7 +32,7 @@ public class PositionReportSubCatDaoObjImpl extends PlatformAwareDaoBaseOjb  imp
         return (PositionReportSubCategory) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 	
-	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String campus, Date asOfDate) {
+	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String campus, LocalDate asOfDate) {
 		List<PositionReportSubCategory> prscList = new ArrayList<PositionReportSubCategory>();
 		Criteria root = new Criteria();
 		if(StringUtils.isNotEmpty(pstnRptSubCat) 

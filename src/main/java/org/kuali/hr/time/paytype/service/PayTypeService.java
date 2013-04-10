@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.time.paytype.service;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.paytype.PayType;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
-import java.util.Date;
 import java.util.List;
 
 public interface PayTypeService {
@@ -42,7 +42,7 @@ public interface PayTypeService {
 	 * @return A fully populated PayType.
 	 */
     @Cacheable(value= PayType.CACHE_NAME, key="'payType=' + #p0 + '|' + 'effectiveDate=' + #p1")
-	public PayType getPayType(String payType, Date effectiveDate);
+	public PayType getPayType(String payType, LocalDate effectiveDate);
 
     @Cacheable(value= PayType.CACHE_NAME, key="'hrPayTypeId=' + #p0")
 	public PayType getPayType(String hrPayTypeId);
@@ -54,6 +54,6 @@ public interface PayTypeService {
 	 */
 	public int getPayTypeCount(String payType);
 
-    List<PayType> getPayTypes(String payType, String regEarnCode, String descr, Date fromEffdt,
-     Date toEffdt, String active, String showHist);
+    List<PayType> getPayTypes(String payType, String regEarnCode, String descr, LocalDate fromEffdt,
+    		LocalDate toEffdt, String active, String showHist);
 }

@@ -15,12 +15,12 @@
  */
 package org.kuali.hr.lm.leaveplan.validation;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -44,7 +44,7 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 			List<PrincipalHRAttributes> pList = TkServiceLocator
 					.getPrincipalHRAttributeService()
 					.getActiveEmployeesForLeavePlan(leavePlan.getLeavePlan(),
-							leavePlan.getEffectiveDate());
+							leavePlan.getEffectiveLocalDate());
 
 			if (pList != null && pList.size() > 0) {
 				// error.leaveplan.inactivate=Can not inactivate leave plan {0}.
@@ -73,7 +73,7 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	boolean validateEffectiveDate(Date effectiveDate) {
+	boolean validateEffectiveDate(LocalDate effectiveDate) {
 		boolean valid = true;
 		valid = ValidationUtils.validateOneYearFutureEffectiveDate(effectiveDate);
 		if(!valid) {
@@ -116,7 +116,7 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 				}
 				if (leavePlan.getEffectiveDate() != null) {
 					valid &= this.validateEffectiveDate(
-							leavePlan.getEffectiveDate());
+							leavePlan.getEffectiveLocalDate());
 				}
 				valid &= this.validateCalendarYearStart(leavePlan
 						.getCalendarYearStart());

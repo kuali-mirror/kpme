@@ -60,7 +60,7 @@ public class LeavePayout extends HrBusinessObject {
 	}
 	public EarnCode getEarnCodeObj() {
 		if (earnCodeObj == null) {
-            earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(this.earnCode, getEffectiveDate());
+            earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(this.earnCode, getEffectiveLocalDate());
         }
         return earnCodeObj;
 	}
@@ -88,7 +88,7 @@ public class LeavePayout extends HrBusinessObject {
 	
 	public String getLeavePlan() {
 		if (!StringUtils.isEmpty(this.principalId)) {
-			principalHRAttrObj = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveDate());
+			principalHRAttrObj = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveLocalDate());
 		}
 		return (principalHRAttrObj != null) ? principalHRAttrObj.getLeavePlan() : "";
 	}
@@ -122,7 +122,7 @@ public class LeavePayout extends HrBusinessObject {
     }
 	public AccrualCategory getFromAccrualCategoryObj() {
         if (fromAccrualCategoryObj == null) {
-            fromAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, getEffectiveDate());
+            fromAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, getEffectiveLocalDate());
         }
         return fromAccrualCategoryObj;
 	}

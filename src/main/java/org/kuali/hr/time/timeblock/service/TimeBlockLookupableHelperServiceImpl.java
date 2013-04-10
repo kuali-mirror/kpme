@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.department.Department;
@@ -32,7 +33,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -72,10 +72,10 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 				
 				Long workArea = tb.getWorkArea();
 				
-				Job job = TkServiceLocator.getJobService().getJob(tb.getUserPrincipalId(), tb.getJobNumber(), TKUtils.getCurrentDate(), false);
+				Job job = TkServiceLocator.getJobService().getJob(tb.getUserPrincipalId(), tb.getJobNumber(), LocalDate.now(), false);
 				String department = job != null ? job.getDept() : null;
 				
-				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 				String location = departmentObj != null ? departmentObj.getLocation() : null;
 				
 				boolean valid = false;

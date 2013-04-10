@@ -26,7 +26,7 @@ public class TimeCollectionRuleAuthorizer extends KPMEMaintenanceDocumentAuthori
 			if (timeCollectionRuleObj != null) {
 				department = timeCollectionRuleObj.getDept();
 				
-				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, timeCollectionRuleObj.getEffectiveDate());
+				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, timeCollectionRuleObj.getEffectiveLocalDate());
 			
 				if (departmentObj != null) {
 					location = departmentObj.getLocation();

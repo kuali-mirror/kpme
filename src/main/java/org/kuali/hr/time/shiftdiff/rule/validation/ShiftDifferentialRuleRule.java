@@ -32,7 +32,7 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 						TkConstants.WILDCARD_CHARACTER)
 				&& !ValidationUtils.validateSalGroup(shiftDifferentialRule
 						.getHrSalGroup(), shiftDifferentialRule
-						.getEffectiveDate())) {
+						.getEffectiveLocalDate())) {
 			this.putFieldError("hrSalGroup", "error.existence", "Salgroup '"
 					+ shiftDifferentialRule.getHrSalGroup() + "'");
 			return false;
@@ -45,7 +45,7 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 		if (shiftDifferentialRule.getEarnCode() != null
 				&& !ValidationUtils.validateEarnCode(shiftDifferentialRule
 						.getEarnCode(), shiftDifferentialRule
-						.getEffectiveDate())) {
+						.getEffectiveLocalDate())) {
 			this.putFieldError("earnCode", "error.existence", "earnCode '"
 					+ shiftDifferentialRule.getEarnCode() + "'");
 			return false;
@@ -60,7 +60,7 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 						TkConstants.WILDCARD_CHARACTER)
 				&& !ValidationUtils.validateLocation(shiftDifferentialRule
 						.getLocation(), shiftDifferentialRule
-						.getEffectiveDate())) {
+						.getEffectiveLocalDate())) {
 			this.putFieldError("location", "error.existence", "location '"
 					+ shiftDifferentialRule.getLocation() + "'");
 			return false;
@@ -75,7 +75,7 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 						TkConstants.WILDCARD_CHARACTER)
 				&& !ValidationUtils.validatePayGrade(shiftDifferentialRule
 						.getPayGrade(), shiftDifferentialRule
-						.getEffectiveDate())) {
+						.getEffectiveLocalDate())) {
 			this.putFieldError("payGrade", "error.existence", "pay grade '"
 					+ shiftDifferentialRule.getPayGrade() + "'");
 			return false;

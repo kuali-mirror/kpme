@@ -17,7 +17,6 @@ package org.kuali.hr.time.batch.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,19 +77,19 @@ public class BatchJobServiceImpl implements BatchJobService {
 	
 	@Override
 	public void scheduleInitiateJobs(CalendarEntry calendarEntry) throws SchedulerException {
-		scheduleInitiateJobs(calendarEntry, calendarEntry.getBatchInitiateDateTime());
+		scheduleInitiateJobs(calendarEntry, calendarEntry.getBatchInitiateFullDateTime());
 	}
 
     @Override
-    public void scheduleInitiateJobs(CalendarEntry calendarEntry, Date scheduleDate) throws SchedulerException {
+    public void scheduleInitiateJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException {
 		Calendar calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
 		String calendarTypes = calendar.getCalendarTypes();
 		String calendarName = calendar.getCalendarName();
-		java.util.Date beginDate = calendarEntry.getBeginPeriodDateTime();
-		java.util.Date endDate = calendarEntry.getEndPeriodDateTime();
+		DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
+		DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
 		
 		if (StringUtils.equals(calendarTypes, "Pay")) {
-			List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForPayCalendar(calendarName, scheduleDate);
+			List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForPayCalendar(calendarName, scheduleDate.toLocalDate());
 			
 			for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
 				String principalId = principalHRAttribute.getPrincipalId();
@@ -108,7 +107,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 				}
 			}
 		} else if (StringUtils.equals(calendarTypes, "Leave")) {
-			List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForLeaveCalendar(calendarName, scheduleDate);
+			List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForLeaveCalendar(calendarName, scheduleDate.toLocalDate());
 			
 			for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
 				String principalId = principalHRAttribute.getPrincipalId();
@@ -128,7 +127,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 		}
     }
     
-	private void scheduleInitiateJob(CalendarEntry calendarEntry, Date scheduleDate, String principalId) throws SchedulerException {
+	private void scheduleInitiateJob(CalendarEntry calendarEntry, DateTime scheduleDate, String principalId) throws SchedulerException {
         Map<String, String> jobGroupDataMap = new HashMap<String, String>();
         jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
 		
@@ -140,19 +139,19 @@ public class BatchJobServiceImpl implements BatchJobService {
 	
 	@Override
 	public void scheduleEndReportingPeriodJobs(CalendarEntry calendarEntry) throws SchedulerException {
-		scheduleEndReportingPeriodJobs(calendarEntry, calendarEntry.getEndPeriodDateTime());
+		scheduleEndReportingPeriodJobs(calendarEntry, calendarEntry.getEndPeriodFullDateTime());
 	}
 	
 	@Override
-	public void scheduleEndReportingPeriodJobs(CalendarEntry calendarEntry, Date scheduleDate) throws SchedulerException {
+	public void scheduleEndReportingPeriodJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException {
     	Calendar calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
     	String calendarTypes = calendar.getCalendarTypes();
     	String calendarName = calendar.getCalendarName();
-		java.util.Date beginDate = calendarEntry.getBeginPeriodDateTime();
-		java.util.Date endDate = calendarEntry.getEndPeriodDateTime();
+    	DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
+		DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
     	
 		if (StringUtils.equals(calendarTypes, "Pay")) {
-			List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForPayCalendar(calendarName, scheduleDate);
+			List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForPayCalendar(calendarName, scheduleDate.toLocalDate());
 			
 			for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
 				String principalId = principalHRAttribute.getPrincipalId();
@@ -163,7 +162,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 				}
 			}
 		} else if (StringUtils.equals(calendarTypes, "Leave")) {
-			List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForLeaveCalendar(calendarName, scheduleDate);
+			List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForLeaveCalendar(calendarName, scheduleDate.toLocalDate());
 			
 			for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
 				String principalId = principalHRAttribute.getPrincipalId();
@@ -176,7 +175,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 		}
 	}
 	
-	private void scheduleEndReportingPeriodJob(CalendarEntry calendarEntry, Date scheduleDate, String principalId) throws SchedulerException {
+	private void scheduleEndReportingPeriodJob(CalendarEntry calendarEntry, DateTime scheduleDate, String principalId) throws SchedulerException {
         Map<String, String> jobGroupDataMap = new HashMap<String, String>();
         jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
 
@@ -188,14 +187,14 @@ public class BatchJobServiceImpl implements BatchJobService {
 	
 	@Override
 	public void scheduleEndPayPeriodJobs(CalendarEntry calendarEntry) throws SchedulerException {
-		scheduleEndPayPeriodJobs(calendarEntry, calendarEntry.getBatchEndPayPeriodDateTime());
+		scheduleEndPayPeriodJobs(calendarEntry, calendarEntry.getBatchEndPayPeriodFullDateTime());
 	}
 	
 	@Override
-	public void scheduleEndPayPeriodJobs(CalendarEntry calendarEntry, Date scheduleDate) throws SchedulerException {
+	public void scheduleEndPayPeriodJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException {
 		String calendarName = calendarEntry.getCalendarName();
 		    	
-    	List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForPayCalendar(calendarName, scheduleDate);
+    	List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForPayCalendar(calendarName, scheduleDate.toLocalDate());
         for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
         	String principalId = principalHRAttribute.getPrincipalId();
             
@@ -213,7 +212,7 @@ public class BatchJobServiceImpl implements BatchJobService {
         }
 	}
 	
-	private void scheduleEndPayPeriodJob(CalendarEntry calendarEntry, Date scheduleDate, ClockLog clockLog) throws SchedulerException {
+	private void scheduleEndPayPeriodJob(CalendarEntry calendarEntry, DateTime scheduleDate, ClockLog clockLog) throws SchedulerException {
         Map<String, String> jobGroupDataMap = new HashMap<String, String>();
         jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
 		
@@ -225,13 +224,13 @@ public class BatchJobServiceImpl implements BatchJobService {
 	
 	@Override
 	public void scheduleEmployeeApprovalJobs(CalendarEntry calendarEntry) throws SchedulerException {
-		scheduleEmployeeApprovalJobs(calendarEntry, calendarEntry.getBatchEmployeeApprovalDateTime());
+		scheduleEmployeeApprovalJobs(calendarEntry, calendarEntry.getBatchEmployeeApprovalFullDateTime());
 	}
 	
 	@Override
-	public void scheduleEmployeeApprovalJobs(CalendarEntry calendarEntry, Date scheduleDate) throws SchedulerException {
-    	java.util.Date beginDate = calendarEntry.getBeginPeriodDateTime();
-    	java.util.Date endDate = calendarEntry.getEndPeriodDateTime();
+	public void scheduleEmployeeApprovalJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException {
+    	DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
+    	DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
     	Calendar calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
     	
     	if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
@@ -247,7 +246,7 @@ public class BatchJobServiceImpl implements BatchJobService {
     	}
 	}
 	
-	private void scheduleEmployeeApprovalJob(CalendarEntry calendarEntry, Date scheduleDate, CalendarDocumentHeaderContract calendarDocumentHeaderContract) throws SchedulerException {
+	private void scheduleEmployeeApprovalJob(CalendarEntry calendarEntry, DateTime scheduleDate, CalendarDocumentHeaderContract calendarDocumentHeaderContract) throws SchedulerException {
         Map<String, String> jobGroupDataMap = new HashMap<String, String>();
         jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
 		
@@ -259,13 +258,13 @@ public class BatchJobServiceImpl implements BatchJobService {
 
 	@Override
 	public void scheduleMissedPunchApprovalJobs(CalendarEntry calendarEntry) throws SchedulerException {
-		scheduleMissedPunchApprovalJobs(calendarEntry, calendarEntry.getBatchSupervisorApprovalDateTime());
+		scheduleMissedPunchApprovalJobs(calendarEntry, calendarEntry.getBatchSupervisorApprovalFullDateTime());
 	}
 
 	@Override
-	public void scheduleMissedPunchApprovalJobs(CalendarEntry calendarEntry, Date scheduleDate) throws SchedulerException {
-		java.util.Date beginDate = calendarEntry.getBeginPeriodDateTime();
-		java.util.Date endDate = calendarEntry.getEndPeriodDateTime();
+	public void scheduleMissedPunchApprovalJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException {
+		DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
+		DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
    	
 		List<TimesheetDocumentHeader> timesheetDocumentHeaders = getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
 		for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
@@ -278,7 +277,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 		}
 	}
 	
-	private void scheduleMissedPunchApprovalJob(CalendarEntry calendarEntry, Date scheduleDate, MissedPunchDocument missedPunchDocument) throws SchedulerException {
+	private void scheduleMissedPunchApprovalJob(CalendarEntry calendarEntry, DateTime scheduleDate, MissedPunchDocument missedPunchDocument) throws SchedulerException {
         Map<String, String> jobGroupDataMap = new HashMap<String, String>();
         jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
 		
@@ -290,13 +289,13 @@ public class BatchJobServiceImpl implements BatchJobService {
 	
 	@Override
 	public void scheduleSupervisorApprovalJobs(CalendarEntry calendarEntry) throws SchedulerException {
-		scheduleSupervisorApprovalJobs(calendarEntry, calendarEntry.getBatchSupervisorApprovalDateTime());
+		scheduleSupervisorApprovalJobs(calendarEntry, calendarEntry.getBatchSupervisorApprovalFullDateTime());
 	}
 	
 	@Override
-	public void scheduleSupervisorApprovalJobs(CalendarEntry calendarEntry, Date scheduleDate) throws SchedulerException {
-    	java.util.Date beginDate = calendarEntry.getBeginPeriodDateTime();
-    	java.util.Date endDate = calendarEntry.getEndPeriodDateTime();
+	public void scheduleSupervisorApprovalJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException {
+		DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
+		DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
     	Calendar calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
 
     	if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
@@ -312,7 +311,7 @@ public class BatchJobServiceImpl implements BatchJobService {
     	}
 	}
 	
-	private void scheduleSupervisorApprovalJob(CalendarEntry calendarEntry, Date scheduleDate, CalendarDocumentHeaderContract calendarDocumentHeaderContract) throws SchedulerException {
+	private void scheduleSupervisorApprovalJob(CalendarEntry calendarEntry, DateTime scheduleDate, CalendarDocumentHeaderContract calendarDocumentHeaderContract) throws SchedulerException {
         Map<String, String> jobGroupDataMap = new HashMap<String, String>();
         jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
 		
@@ -345,24 +344,24 @@ public class BatchJobServiceImpl implements BatchJobService {
 		batchJobStartDateTime.set(java.util.Calendar.SECOND, 0);
 		batchJobStartDateTime.set(java.util.Calendar.MILLISECOND, 0);
 		
-		scheduleLeaveCarryOverJob(leavePlan, batchJobStartDateTime.getTime());
+		scheduleLeaveCarryOverJob(leavePlan, new DateTime(batchJobStartDateTime));
 	}
 	
 	@Override
-	public void scheduleLeaveCarryOverJobs(LeavePlan leavePlan, Date scheduleDate) throws SchedulerException {
+	public void scheduleLeaveCarryOverJobs(LeavePlan leavePlan, DateTime scheduleDate) throws SchedulerException {
 		scheduleLeaveCarryOverJob(leavePlan, scheduleDate);
 	}
 
-	private void scheduleLeaveCarryOverJob(LeavePlan leavePlan, Date scheduleDate) throws SchedulerException {
+	private void scheduleLeaveCarryOverJob(LeavePlan leavePlan, DateTime scheduleDate) throws SchedulerException {
         Map<String, String> jobGroupDataMap = new HashMap<String, String>();
-        jobGroupDataMap.put("date", BatchJobUtil.FORMAT.print(new DateTime(scheduleDate)));
+        jobGroupDataMap.put("date", BatchJobUtil.FORMAT.print(scheduleDate));
 		Map<String, String> jobDataMap = new HashMap<String, String>();
 		jobDataMap.put("leavePlan", leavePlan.getLeavePlan());
         scheduleJob(CarryOverJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void scheduleJob(Class<?> jobClass, Date jobDate, Map<String, String> jobGroupDataMap, Map<String, String> jobDataMap) throws SchedulerException {
+	private void scheduleJob(Class<?> jobClass, DateTime jobDate, Map<String, String> jobGroupDataMap, Map<String, String> jobDataMap) throws SchedulerException {
 		String jobGroupName = BatchJobUtil.getJobGroupName(jobClass, jobGroupDataMap);
 		String jobName = BatchJobUtil.getJobName(jobClass, jobDataMap);
     	String[] jobNames = getScheduler().getJobNames(jobGroupName);
@@ -374,7 +373,7 @@ public class BatchJobServiceImpl implements BatchJobService {
     		
 	        String triggerGroupName = BatchJobUtil.getTriggerGroupName(jobClass, MapUtils.merge(jobGroupDataMap, jobDataMap));
 	        String triggerName = BatchJobUtil.getTriggerName(jobClass, jobDate);
-	        Trigger trigger = new SimpleTrigger(triggerName, triggerGroupName, jobDate);
+	        Trigger trigger = new SimpleTrigger(triggerName, triggerGroupName, jobDate.toDate());
 	        trigger.setJobGroup(jobGroupName);
 	        trigger.setJobName(jobName);
 	        

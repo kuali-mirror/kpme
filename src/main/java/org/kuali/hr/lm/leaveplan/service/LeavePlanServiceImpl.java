@@ -15,12 +15,12 @@
  */
 package org.kuali.hr.lm.leaveplan.service;
 
-import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.lm.leaveplan.dao.LeavePlanDao;
 import org.kuali.hr.time.calendar.CalendarEntry;
@@ -45,7 +45,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 	}
 	
 	@Override
-	public LeavePlan getLeavePlan(String leavePlan, Date asOfDate) {
+	public LeavePlan getLeavePlan(String leavePlan, LocalDate asOfDate) {
 		return getLeavePlanDao().getLeavePlan(leavePlan, asOfDate);
 	}
    
@@ -58,21 +58,21 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 	}
 	
 	@Override
-	public List<LeavePlan> getAllActiveLeavePlan(String leavePlan, Date asOfDate) {
+	public List<LeavePlan> getAllActiveLeavePlan(String leavePlan, LocalDate asOfDate) {
 		 return leavePlanDao.getAllActiveLeavePlan(leavePlan, asOfDate);
 	 }
 	@Override
-	public List<LeavePlan> getAllInActiveLeavePlan(String leavePlan, Date asOfDate) {
+	public List<LeavePlan> getAllInActiveLeavePlan(String leavePlan, LocalDate asOfDate) {
 		 return leavePlanDao.getAllInActiveLeavePlan(leavePlan, asOfDate);
 	 }
 
     @Override
-    public List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths, Date fromEffdt, Date toEffdt, String active, String showHistory) {
+    public List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
         return leavePlanDao.getLeavePlans(leavePlan, calendarYearStart, descr, planningMonths, fromEffdt, toEffdt, active, showHistory);
     }
     
     @Override
-	public boolean isFirstCalendarPeriodOfLeavePlan(CalendarEntry calendarEntry, String leavePlan, Date asOfDate) {
+	public boolean isFirstCalendarPeriodOfLeavePlan(CalendarEntry calendarEntry, String leavePlan, LocalDate asOfDate) {
 		boolean isFirstCalendarPeriodOfLeavePlan = false;
     	
     	LeavePlan leavePlanObj = getLeavePlan(leavePlan, asOfDate);
@@ -92,7 +92,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 	}
     
     @Override
-	public boolean isLastCalendarPeriodOfLeavePlan(CalendarEntry calendarEntry, String leavePlan, Date asOfDate) {
+	public boolean isLastCalendarPeriodOfLeavePlan(CalendarEntry calendarEntry, String leavePlan, LocalDate asOfDate) {
     	boolean isLastCalendarPeriodOfLeavePlan = false;
     	
     	LeavePlan leavePlanObj = getLeavePlan(leavePlan, asOfDate);
@@ -112,9 +112,9 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 	}
 
     @Override
-    public DateTime getFirstDayOfLeavePlan(String leavePlan, java.util.Date asOfDate) {
+    public DateTime getFirstDayOfLeavePlan(String leavePlan, LocalDate asOfDate) {
     	//The only thing this method does is tack on the year of the supplied asOfDate to the calendar year start date.
-        LeavePlan lp = getLeavePlan(leavePlan, new Date(asOfDate.getTime()));
+        LeavePlan lp = getLeavePlan(leavePlan, asOfDate);
 
         int priorYearCutOffMonth = Integer.parseInt(lp.getCalendarYearStartMonth());
         int priorYearCutOffDay = Integer.parseInt(lp.getCalendarYearStartDayOfMonth());
@@ -122,16 +122,16 @@ public class LeavePlanServiceImpl implements LeavePlanService {
         cal.set(Calendar.MONTH, priorYearCutOffMonth);
         cal.set(Calendar.DATE, priorYearCutOffDay);
 
-        DateMidnight cutOffDate = new DateMidnight(asOfDate.getTime()).withMonthOfYear(priorYearCutOffMonth).withDayOfMonth(priorYearCutOffDay);
-        if (asOfDate.before(cutOffDate.toDate())) {
+        LocalDate cutOffDate = asOfDate.withMonthOfYear(priorYearCutOffMonth).withDayOfMonth(priorYearCutOffDay);
+        if (asOfDate.isBefore(cutOffDate)) {
             cutOffDate = cutOffDate.minusYears(1);
         }
-        return cutOffDate.toDateTime();
+        return cutOffDate.toDateTimeAtStartOfDay();
     }
 
     @Override
-    public DateTime getRolloverDayOfLeavePlan(String leavePlan, java.util.Date asOfDate) {
-        LeavePlan lp = getLeavePlan(leavePlan, new Date(asOfDate.getTime()));
+    public DateTime getRolloverDayOfLeavePlan(String leavePlan, LocalDate asOfDate) {
+        LeavePlan lp = getLeavePlan(leavePlan, asOfDate);
 
         int priorYearCutOffMonth = Integer.parseInt(lp.getCalendarYearStartMonth());
         int priorYearCutOffDay = Integer.parseInt(lp.getCalendarYearStartDayOfMonth());
@@ -139,8 +139,8 @@ public class LeavePlanServiceImpl implements LeavePlanService {
         cal.set(Calendar.MONTH, priorYearCutOffMonth);
         cal.set(Calendar.DATE, priorYearCutOffDay);
 
-        DateMidnight cutOffDate = new DateMidnight(asOfDate.getTime()).withMonthOfYear(priorYearCutOffMonth).withDayOfMonth(priorYearCutOffDay);
-        if (asOfDate.after(cutOffDate.toDate())) {
+        DateMidnight cutOffDate = new DateMidnight(asOfDate).withMonthOfYear(priorYearCutOffMonth).withDayOfMonth(priorYearCutOffDay);
+        if (asOfDate.isAfter(cutOffDate.toLocalDate())) {
             cutOffDate = cutOffDate.plusYears(1);
         }
         return cutOffDate.toDateTime();
@@ -149,7 +149,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 
 	@Override
 	public List<LeavePlan> getLeavePlansNeedsCarryOverScheduled(int thresholdDays,
-                                                                Date asOfDate) {
+                                                                LocalDate asOfDate) {
 		return leavePlanDao.getLeavePlansNeedsScheduled(thresholdDays, asOfDate);
 	}
 	

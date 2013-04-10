@@ -15,12 +15,12 @@
  */
 package org.kuali.hr.time.principal.service;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
 
+import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
@@ -31,8 +31,8 @@ public class PrincipalHRAttributeServiceTest extends KPMETestCase {
 	@Test
 	public void testGetPrincipalHrAtributes() {
 		List<PrincipalHRAttributes> phraList = new ArrayList<PrincipalHRAttributes>();
-		Date fromEffDate = TKUtils.formatDateString("");
-		Date toEffDate = TKUtils.formatDateString("");
+		LocalDate fromEffDate = TKUtils.formatDateString("");
+		LocalDate toEffDate = TKUtils.formatDateString("");
         String leavePlan = "";
 		
 		// show both active and inactive, show history

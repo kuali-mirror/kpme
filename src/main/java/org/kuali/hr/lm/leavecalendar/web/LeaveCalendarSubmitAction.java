@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -82,14 +83,14 @@ public class LeaveCalendarSubmitAction extends TkAction {
             		for(LeaveBlock lb : entry.getValue()) {
             			if(interval.contains(lb.getLeaveDate().getTime())) {
 	            			//maxBalanceViolations should, if a violation exists, return a leave block with leave date either current date, or the end period date - 1 days.
-                    		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), lb.getLeaveDate());
+                    		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), lb.getLeaveLocalDate());
 	        				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
 	
 	            			if(ObjectUtils.isNotNull(aRule)
 	            					&& !StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) {
 	            				if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)
 	            						|| (StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)
-	            								&& TkServiceLocator.getLeavePlanService().isLastCalendarPeriodOfLeavePlan(document.getCalendarEntry(),pha.getLeavePlan(),lb.getLeaveDate())))
+	            								&& TkServiceLocator.getLeavePlanService().isLastCalendarPeriodOfLeavePlan(document.getCalendarEntry(),pha.getLeavePlan(),lb.getLeaveLocalDate())))
 			            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.PAYOUT)) {
 			            				eligiblePayouts.add(lb);
 			            			}
@@ -127,7 +128,7 @@ public class LeaveCalendarSubmitAction extends TkAction {
             }
         }
         ActionRedirect rd = new ActionRedirect(mapping.findForward("leaveCalendarRedirect"));
-        TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(document, document.getAsOfDate());
+        TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(document, LocalDate.fromDateFields(document.getAsOfDate()));
         rd.addParameter("documentId", documentId);
 
         return rd;

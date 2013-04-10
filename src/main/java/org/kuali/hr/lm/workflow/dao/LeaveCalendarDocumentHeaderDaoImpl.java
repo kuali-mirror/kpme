@@ -17,7 +17,6 @@ package org.kuali.hr.lm.workflow.dao;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -26,6 +25,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.joda.time.DateTime;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -41,11 +41,11 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb 
     }
 
     @Override
-    public LeaveCalendarDocumentHeader getLeaveCalendarDocumentHeader(String principalId, Date beginDate, Date endDate) {
+    public LeaveCalendarDocumentHeader getLeaveCalendarDocumentHeader(String principalId, DateTime beginDate, DateTime endDate) {
         Criteria crit = new Criteria();
         crit.addEqualTo("principalId", principalId);
-        crit.addEqualTo("beginDate", beginDate);
-        crit.addEqualTo("endDate", endDate);
+        crit.addEqualTo("beginDate", beginDate.toDate());
+        crit.addEqualTo("endDate", endDate.toDate());
 
         return (LeaveCalendarDocumentHeader) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(LeaveCalendarDocumentHeader.class, crit));
     }
@@ -59,11 +59,11 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb 
      * Document header IDs are ordered, so an ID less than the current will
      * always be previous to current.
      */
-    public LeaveCalendarDocumentHeader getPreviousDocumentHeader(String principalId, Date beginDate) {
+    public LeaveCalendarDocumentHeader getPreviousDocumentHeader(String principalId, DateTime beginDate) {
         Criteria crit = new Criteria();
         crit.addEqualTo("principalId", principalId);
         // the pay begin date is the end date of the previous pay period
-        crit.addEqualTo("endDate", beginDate);
+        crit.addEqualTo("endDate", beginDate.toDate());
         QueryByCriteria query = new QueryByCriteria(LeaveCalendarDocumentHeader.class, crit);
         query.addOrderByDescending("documentId");
         query.setStartAtIndex(0);
@@ -73,11 +73,11 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb 
     }
 
     @Override
-    public LeaveCalendarDocumentHeader getNextDocumentHeader(String principalId, Date endDate) {
+    public LeaveCalendarDocumentHeader getNextDocumentHeader(String principalId, DateTime endDate) {
         Criteria crit = new Criteria();
         crit.addEqualTo("principalId", principalId);
         // the pay end date is the begin date of the next pay period
-        crit.addEqualTo("beginDate", endDate);
+        crit.addEqualTo("beginDate", endDate.toDate());
         QueryByCriteria query = new QueryByCriteria(LeaveCalendarDocumentHeader.class, crit);
         query.setStartAtIndex(0);
         query.setEndAtIndex(1);
@@ -86,12 +86,12 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb 
     }
     
     @Override
-    public List<LeaveCalendarDocumentHeader> getDocumentHeaders(Date beginDate, Date endDate) {
+    public List<LeaveCalendarDocumentHeader> getDocumentHeaders(DateTime beginDate, DateTime endDate) {
         Criteria crit = new Criteria();
         List<LeaveCalendarDocumentHeader> lstDocumentHeaders = new ArrayList<LeaveCalendarDocumentHeader>();
 
-        crit.addEqualTo("beginDate", beginDate);
-        crit.addEqualTo("endDate", endDate);
+        crit.addEqualTo("beginDate", beginDate.toDate());
+        crit.addEqualTo("endDate", endDate.toDate());
         QueryByCriteria query = new QueryByCriteria(LeaveCalendarDocumentHeader.class, crit);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         if (c != null) {
@@ -155,12 +155,12 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb 
     }
     
     @Override
-    public List<LeaveCalendarDocumentHeader> getSubmissionDelinquentDocumentHeaders(String principalId, Date beforeDate) {
+    public List<LeaveCalendarDocumentHeader> getSubmissionDelinquentDocumentHeaders(String principalId, DateTime beforeDate) {
     	Criteria crit = new Criteria();
         List<LeaveCalendarDocumentHeader> lstDocumentHeaders = new ArrayList<LeaveCalendarDocumentHeader>();
 
         crit.addEqualTo("principalId", principalId);
-        crit.addLessThan("endDate", beforeDate);
+        crit.addLessThan("endDate", beforeDate.toDate());
         crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.INITIATED);
         crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.ENROUTE);
         crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.FINAL);
@@ -195,25 +195,25 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb 
     }
     
     @Override
-    public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersInRangeForPricipalId(String principalId, Date startDate, Date endDate) {
+    public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersInRangeForPricipalId(String principalId, DateTime startDate, DateTime endDate) {
     	Criteria root = new Criteria();
         List<LeaveCalendarDocumentHeader> lstDocumentHeaders = new ArrayList<LeaveCalendarDocumentHeader>();
 
         Criteria beginRoot = new Criteria();
         beginRoot.addEqualTo("principalId", principalId);
-        beginRoot.addLessOrEqualThan("beginDate", startDate);
-        beginRoot.addGreaterOrEqualThan("endDate", startDate);  
+        beginRoot.addLessOrEqualThan("beginDate", startDate.toDate());
+        beginRoot.addGreaterOrEqualThan("endDate", startDate.toDate());  
         
         Criteria endRoot = new Criteria();
         endRoot.addEqualTo("principalId", principalId);
-        endRoot.addLessOrEqualThan("beginDate", endDate);
-        endRoot.addGreaterOrEqualThan("endDate", endDate); 
+        endRoot.addLessOrEqualThan("beginDate", endDate.toDate());
+        endRoot.addGreaterOrEqualThan("endDate", endDate.toDate()); 
         
         root.addEqualTo("principalId", principalId);
-        root.addGreaterOrEqualThan("beginDate", startDate);
-        root.addLessOrEqualThan("beginDate", endDate);
-        root.addGreaterOrEqualThan("endDate", startDate);
-        root.addLessOrEqualThan("endDate", endDate);
+        root.addGreaterOrEqualThan("beginDate", startDate.toDate());
+        root.addLessOrEqualThan("beginDate", endDate.toDate());
+        root.addGreaterOrEqualThan("endDate", startDate.toDate());
+        root.addLessOrEqualThan("endDate", endDate.toDate());
         root.addOrCriteria(beginRoot);
         root.addOrCriteria(endRoot);
         

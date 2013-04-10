@@ -45,7 +45,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 		if(lastClockLog != null){
 			clockEntryInfo.setLastClockLogDescription(getLastClockLogDescription(principalId));
 		}
-		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getCurrentDate());
+		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
 		for(Assignment assignment : assignments){
 			if(assignment.isSynchronous()){
@@ -67,7 +67,7 @@ public class TkMobileServiceImpl implements TkMobileService {
         // This is primary for getting the assignment, since we get the assignment by using the target principal id on the context
         TKContext.setTargetPrincipalId(principalId);
 
-		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(new AssignmentDescriptionKey(assignmentKey), TKUtils.getCurrentDate());
+		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(new AssignmentDescriptionKey(assignmentKey), LocalDate.now());
         CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, new LocalDate().toDateTimeAtStartOfDay());
         TimesheetDocument td;
 		try {
@@ -82,7 +82,7 @@ public class TkMobileServiceImpl implements TkMobileService {
         // processClockLog is the correct method to use. It creates and persists a clock log and a time block if necessary.
         // buildClockLog just creates a clock log object.
         TkServiceLocator.getClockLogService().processClockLog(currentTs, assignment, td.getCalendarEntry(), ip,
-                new java.sql.Date(currentTs.getTime()), td, getCurrentClockAction(), principalId);
+                LocalDate.fromDateFields(currentTs), td, getCurrentClockAction(), principalId);
 
         // TODO: not sure what we want to return for the errorWarningMap
 
@@ -104,7 +104,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 			}
 			//TODO convert for timezone
 			
-			lastClockDescription += TKUtils.formatDateTime(lastClockLog.getClockTimestamp());
+			lastClockDescription += TKUtils.formatTimestamp(lastClockLog.getClockTimestamp());
 			return lastClockDescription;
 		}
 		return "";

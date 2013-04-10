@@ -35,7 +35,7 @@ public class PayGradeValidation extends MaintenanceDocumentRuleBase {
 	}
 	
 	private boolean validateSalGroup(PayGrade aPayGrade){
-		if (aPayGrade.getSalGroup() != null && !ValidationUtils.validateSalGroup(aPayGrade.getSalGroup(), aPayGrade.getEffectiveDate())) {
+		if (aPayGrade.getSalGroup() != null && !ValidationUtils.validateSalGroup(aPayGrade.getSalGroup(), aPayGrade.getEffectiveLocalDate())) {
 			this.putFieldError("salGroup", "error.existence", "Salgroup '"+ aPayGrade.getSalGroup() + "'");
 			return false;
 		} 

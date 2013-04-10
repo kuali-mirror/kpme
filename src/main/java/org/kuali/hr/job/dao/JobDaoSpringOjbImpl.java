@@ -17,7 +17,6 @@ package org.kuali.hr.job.dao;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,9 +28,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import com.google.common.collect.ImmutableList;
@@ -60,15 +59,10 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
         }
     }
 
-    public Job getPrimaryJob(String principalId, Date payPeriodEndDate) {
+    public Job getPrimaryJob(String principalId, LocalDate payPeriodEndDate) {
         Criteria root = new Criteria();
-
-        java.sql.Date effDate = null;
-        if (payPeriodEndDate != null) {
-            effDate = new java.sql.Date(payPeriodEndDate.getTime());
-        }
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, effDate, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, payPeriodEndDate, EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, EQUAL_TO_FIELDS, false));
         root.addEqualTo("primaryIndicator", true);
 
@@ -83,16 +77,11 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public List<Job> getJobs(String principalId, Date payPeriodEndDate) {
+    public List<Job> getJobs(String principalId, LocalDate payPeriodEndDate) {
         List<Job> jobs = new LinkedList<Job>();
         Criteria root = new Criteria();
-
-        java.sql.Date effDate = null;
-        if (payPeriodEndDate != null) {
-            effDate = new java.sql.Date(payPeriodEndDate.getTime());
-        }
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, effDate, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, payPeriodEndDate, EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -111,16 +100,11 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
         return jobs;
     }
 
-    public Job getJob(String principalId, Long jobNumber, Date asOfDate) {
+    public Job getJob(String principalId, Long jobNumber, LocalDate asOfDate) {
         Criteria root = new Criteria();
-
-        java.sql.Date effDate = null;
-        if (asOfDate != null) {
-            effDate = new java.sql.Date(asOfDate.getTime());
-        }
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("jobNumber", jobNumber);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, effDate, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -133,12 +117,10 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
     }
 
     @SuppressWarnings("unchecked")
-    public List<Job> getActiveJobsForPayType(String hrPayType, Date asOfDate) {
+    public List<Job> getActiveJobsForPayType(String hrPayType, LocalDate asOfDate) {
         Criteria root = new Criteria();
-
-        java.sql.Date effDate = asOfDate == null ? null : new java.sql.Date(asOfDate.getTime());
         root.addEqualTo("hrPayType", hrPayType);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, effDate, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -175,7 +157,7 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Job> getJobs(String principalId, String jobNumber, String dept, String positionNumber, String hrPayType, Date fromEffdt, Date toEffdt, 
+    public List<Job> getJobs(String principalId, String jobNumber, String dept, String positionNumber, String hrPayType, LocalDate fromEffdt, LocalDate toEffdt, 
     						 String active, String showHistory) {
 
         List<Job> results = new ArrayList<Job>();
@@ -204,13 +186,13 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
 
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
         
@@ -258,14 +240,13 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
     }
     
     @SuppressWarnings("unchecked")
-	public List<Job> getActiveLeaveJobs(String principalId, Date asOfDate) {
+	public List<Job> getActiveLeaveJobs(String principalId, LocalDate asOfDate) {
     	Criteria root = new Criteria();
 
-        java.sql.Date effDate = asOfDate == null ? null : new java.sql.Date(asOfDate.getTime());
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("eligibleForLeave", true);
         root.addEqualTo("active", true);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, effDate, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, EQUAL_TO_FIELDS, false));
         
         Query query = QueryFactory.newQuery(Job.class, root);
@@ -276,7 +257,7 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
         List<Job> aList = new ArrayList<Job>();
         aList.addAll(jobList);
         for(Job aJob : aList) {
-        	List<Job> inactiveJobs = this.getInactiveLeaveJobs(aJob.getJobNumber(), asOfDate, aJob.getEffectiveDate());
+        	List<Job> inactiveJobs = this.getInactiveLeaveJobs(aJob.getJobNumber(), aJob.getEffectiveLocalDate());
         	if(!inactiveJobs.isEmpty()) {
         		jobList.remove(aJob);
         	}
@@ -286,17 +267,16 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
     
     @Override
     @SuppressWarnings("unchecked")
-	public List<Job> getInactiveLeaveJobs(Long jobNumber, Date asOfDate, Date jobDate) {
+	public List<Job> getInactiveLeaveJobs(Long jobNumber, LocalDate asOfDate) {
     	Criteria root = new Criteria();
         ImmutableList<String> fields = new ImmutableList.Builder<String>()
                 .add("jobNumber")
                 .build();
 
-        java.sql.Date effDate = asOfDate == null ? null : new java.sql.Date(asOfDate.getTime());
         root.addEqualTo("jobNumber", jobNumber);
         root.addEqualTo("eligibleForLeave", true);
         root.addEqualTo("active", false);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, effDate, fields, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, fields, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, fields, false));
         
         Query query = QueryFactory.newQuery(Job.class, root);
@@ -304,10 +284,10 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
     }
     
     @Override
-    public List<Job> getAllActiveLeaveJobs(String principalId, Date asOfDate) {
+    public List<Job> getAllActiveLeaveJobs(String principalId, LocalDate asOfDate) {
     	Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
-        root.addLessOrEqualThan("effectiveDate", asOfDate);
+        root.addLessOrEqualThan("effectiveDate", asOfDate.toDate());
         root.addEqualTo("active", true);
         root.addEqualTo("eligibleForLeave", true);
 
@@ -321,10 +301,10 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
         return jobs;
     }
     
-    public List<Job> getAllInActiveLeaveJobsInRange(String principalId, Date startDate, Date endDate) {
+    public List<Job> getAllInActiveLeaveJobsInRange(String principalId, LocalDate endDate) {
     	Criteria root = new Criteria();    	
         root.addEqualTo("principalId", principalId);
-        root.addLessOrEqualThan("effectiveDate", endDate);
+        root.addLessOrEqualThan("effectiveDate", endDate.toDate());
         root.addEqualTo("active", false);
         Query query = QueryFactory.newQuery(Job.class, root);
         return (List<Job>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);    	
@@ -348,16 +328,12 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
     
 
     @SuppressWarnings("unchecked")
-    public List<String> getPrincipalIdsInPosition(String positionNumber, Date asOfDate) {
+    public List<String> getPrincipalIdsInPosition(String positionNumber, LocalDate asOfDate) {
         Set<String> principalIdsInPosition = new HashSet<String>();
     	
     	Criteria root = new Criteria();
-        java.sql.Date effDate = null;
-        if (asOfDate != null) {
-            effDate = new java.sql.Date(asOfDate.getTime());
-        }
         root.addEqualTo("positionNumber", positionNumber);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, effDate, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria();

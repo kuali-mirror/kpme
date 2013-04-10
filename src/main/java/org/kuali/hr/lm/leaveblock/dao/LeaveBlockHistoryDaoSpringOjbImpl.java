@@ -17,13 +17,13 @@ package org.kuali.hr.lm.leaveblock.dao;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -75,14 +75,14 @@ public class LeaveBlockHistoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb i
 	}
 	
 	@Override
-	public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId,String requestStatus, String action, Date currentDate) {
+	public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId,String requestStatus, String action, LocalDate currentDate) {
 		Criteria recordCriteria = new Criteria();
 		recordCriteria.addEqualTo("principalId", principalId);
 		if (requestStatus != null) {
 			recordCriteria.addEqualTo("requestStatus", requestStatus);
 		}
 		if(currentDate != null) {
-			recordCriteria.addGreaterThan("leaveDate", currentDate);
+			recordCriteria.addGreaterThan("leaveDate", currentDate.toDate());
 		}
 		if(action != null) {
 			recordCriteria.addEqualTo("action", action);
@@ -95,14 +95,14 @@ public class LeaveBlockHistoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb i
 
 	@Override
 	public List<LeaveBlockHistory> getLeaveBlockHistoriesForLeaveDisplay(String principalId,
-			Date beginDate, Date endDate, boolean considerModifiedUser) {
+			LocalDate beginDate, LocalDate endDate, boolean considerModifiedUser) {
 		
 		List<LeaveBlockHistory> leaveBlockHistories = new ArrayList<LeaveBlockHistory>();
 		
 		Criteria root = new Criteria();
 		root.addEqualTo("principalId", principalId);
-		root.addGreaterOrEqualThan("leaveDate", beginDate);
-		root.addLessOrEqualThan("leaveDate", endDate);
+		root.addGreaterOrEqualThan("leaveDate", beginDate.toDate());
+		root.addLessOrEqualThan("leaveDate", endDate.toDate());
 		root.addEqualTo("action",LMConstants.ACTION.MODIFIED);
 		if(considerModifiedUser) {
 			root.addNotEqualTo("principalIdModified", principalId);
@@ -110,8 +110,8 @@ public class LeaveBlockHistoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb i
 		
 		Criteria root1 = new Criteria();
 		root1.addEqualTo("principalId", principalId);
-		root1.addGreaterOrEqualThan("leaveDate", beginDate);
-		root1.addLessOrEqualThan("leaveDate", endDate);
+		root1.addGreaterOrEqualThan("leaveDate", beginDate.toDate());
+		root1.addLessOrEqualThan("leaveDate", endDate.toDate());
 		root1.addEqualTo("action",LMConstants.ACTION.DELETE);
 		if(considerModifiedUser) {
 			root1.addNotEqualTo("principalIdDeleted", principalId);

@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.time.overtime.weekly.rule.service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
@@ -43,7 +43,7 @@ public interface WeeklyOvertimeRuleService {
 	 * @return
 	 */
     @Cacheable(value= WeeklyOvertimeRule.CACHE_NAME, key="'asOfDate=' + #p1")
-	public List<WeeklyOvertimeRule> getWeeklyOvertimeRules(Date asOfDate);
+	public List<WeeklyOvertimeRule> getWeeklyOvertimeRules(LocalDate asOfDate);
 	/**
 	 * Process weekly overtime rules for a given TkTimeBlockAggregate
 	 * @param timesheetDocument

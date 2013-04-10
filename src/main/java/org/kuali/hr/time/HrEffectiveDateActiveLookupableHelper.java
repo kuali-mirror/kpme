@@ -210,8 +210,8 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KPMELookupab
             HrBusinessObject hrBusinessObject = (HrBusinessObject)arg0;
 			HrBusinessObject hrBusinessObject2 = (HrBusinessObject)arg1;
 
-            java.sql.Date effDate1 = hrBusinessObject.getEffectiveDate();
-            java.sql.Date effDate2 = hrBusinessObject2.getEffectiveDate();
+            Date effDate1 = hrBusinessObject.getEffectiveDate();
+            Date effDate2 = hrBusinessObject2.getEffectiveDate();
             if (effDate1 == null ^ effDate2 == null) {
                 return (effDate1 == null) ? -1 : 1;
             }

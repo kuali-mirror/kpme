@@ -15,7 +15,18 @@
  */
 package org.kuali.hr.time.overtime.daily.rule.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
+import org.joda.time.LocalDate;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
@@ -27,10 +38,6 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.*;
 
 public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
@@ -56,7 +63,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	 *
 	 * asOfDate is required.
 	 */
-	public DailyOvertimeRule getDailyOvertimeRule(String location, String paytype, String dept, Long workArea, Date asOfDate) {
+	public DailyOvertimeRule getDailyOvertimeRule(String location, String paytype, String dept, Long workArea, LocalDate asOfDate) {
 		DailyOvertimeRule dailyOvertimeRule = null;
 
 		//		l, p, d, w
@@ -132,7 +139,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 		this.dailyOvertimeRuleDao = dailyOvertimeRuleDao;
 	}
 
-	private Assignment getIdentifyingKey(TimeBlock block, Date asOfDate, String principalId) {
+	private Assignment getIdentifyingKey(TimeBlock block, LocalDate asOfDate, String principalId) {
 		List<Assignment> lstAssign = TkServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
 
 		for(Assignment assign : lstAssign){
@@ -149,7 +156,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
 		for(Assignment assignment : timesheetDocument.getAssignments()) {
 			Job job = assignment.getJob();
-			DailyOvertimeRule dailyOvertimeRule = getDailyOvertimeRule(job.getLocation(), job.getHrPayType(), job.getDept(), assignment.getWorkArea(), timesheetDocument.getAsOfDate());
+			DailyOvertimeRule dailyOvertimeRule = getDailyOvertimeRule(job.getLocation(), job.getHrPayType(), job.getDept(), assignment.getWorkArea(), LocalDate.fromDateFields(timesheetDocument.getAsOfDate()));
 
 			if(dailyOvertimeRule !=null) {
 				if(mapDailyOvtRulesToAssignment.containsKey(dailyOvertimeRule)){
@@ -178,7 +185,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 			// 1: ... bucketing by (DailyOvertimeRule -> List<TimeBlock>)
 			Map<DailyOvertimeRule,List<TimeBlock>> dailyOvtRuleToDayTotals = new HashMap<DailyOvertimeRule,List<TimeBlock>>();
 			for(TimeBlock timeBlock : dayTimeBlocks) {
-				Assignment assign = this.getIdentifyingKey(timeBlock, timesheetDocument.getAsOfDate(), timesheetDocument.getPrincipalId());
+				Assignment assign = this.getIdentifyingKey(timeBlock, LocalDate.fromDateFields(timesheetDocument.getAsOfDate()), timesheetDocument.getPrincipalId());
 				for(Map.Entry<DailyOvertimeRule, List<Assignment>> entry : mapDailyOvtRulesToAssignment.entrySet()){
 					List<Assignment> lstAssign = entry.getValue();
 
@@ -201,7 +208,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 			}
 
 			for(DailyOvertimeRule dr : mapDailyOvtRulesToAssignment.keySet() ){
-				Set<String> fromEarnGroup = TkServiceLocator.getEarnCodeGroupService().getEarnCodeListForEarnCodeGroup(dr.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getCalendarEntry().getEndPeriodDateTime()));
+				Set<String> fromEarnGroup = TkServiceLocator.getEarnCodeGroupService().getEarnCodeListForEarnCodeGroup(dr.getFromEarnGroup(), timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
 				List<TimeBlock> blocksForRule = dailyOvtRuleToDayTotals.get(dr);
 				if (blocksForRule == null || blocksForRule.size() == 0)
 					continue; // skip to next rule and check for valid blocks.
@@ -356,7 +363,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	}
 	
 	@Override
-	public List<DailyOvertimeRule> getDailyOvertimeRules(String dept, String workArea, String location, Date fromEffdt, Date toEffdt, String active, String showHist) {
+	public List<DailyOvertimeRule> getDailyOvertimeRules(String dept, String workArea, String location, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
 		return dailyOvertimeRuleDao.getDailyOvertimeRules(dept, workArea, location, fromEffdt, toEffdt, active, showHist);
 	}
 }

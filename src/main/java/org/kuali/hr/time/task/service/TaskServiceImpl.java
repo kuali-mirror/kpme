@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.time.task.service;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.task.dao.TaskDao;
 import org.kuali.hr.time.util.TkConstants;
@@ -33,12 +33,12 @@ public class TaskServiceImpl implements TaskService {
 	}
 
     @Override
-    public Task getTask(Long task, Date asOfDate) {
+    public Task getTask(Long task, LocalDate asOfDate) {
         Task taskObj =  taskDao.getTask(task, asOfDate);
         if(taskObj == null){
         	taskObj = new Task();
         	taskObj.setActive(true);
-        	taskObj.setEffectiveDate(asOfDate);
+        	taskObj.setEffectiveLocalDate(asOfDate);
         	taskObj.setTask(task);
         	taskObj.setDescription(TkConstants.TASK_DEFAULT_DESP);
         	taskObj.setTkTaskId("0");
@@ -66,7 +66,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
     @Override
-    public List<Task> getTasks(String task, String description, String workArea, Date fromEffdt, Date toEffdt) {
+    public List<Task> getTasks(String task, String description, String workArea, LocalDate fromEffdt, LocalDate toEffdt) {
         Long taskNumber = StringUtils.isEmpty(task) ? null : Long.parseLong(task);
         Long workAreaNumber = StringUtils.isEmpty(workArea) ? null : Long.parseLong(workArea);
         

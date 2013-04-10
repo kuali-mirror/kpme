@@ -15,22 +15,22 @@
  */
 package org.kuali.hr.lm.balancetransfer.dao;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 
 public interface BalanceTransferDao {
 
 	public List<BalanceTransfer> getAllBalanceTransfersForPrincipalId(String principalId);
-	public List<BalanceTransfer> getAllBalanceTransferForPrincipalIdAsOfDate(String principalId, Date effectiveDate);
-	public List<BalanceTransfer> getAllBalanceTransferByEffectiveDate(Date effectiveDate);
+	public List<BalanceTransfer> getAllBalanceTransferForPrincipalIdAsOfDate(String principalId, LocalDate effectiveDate);
+	public List<BalanceTransfer> getAllBalanceTransferByEffectiveDate(LocalDate effectiveDate);
 	public List<BalanceTransfer> getAllBalanceTransfersMarkedPayoutForPrincipalId(String principalId);
-	public List<BalanceTransfer> getAllBalanceTransfersForAccrualCategoryRuleByDate(String accrualRuleId, Date asOfDate);
+	public List<BalanceTransfer> getAllBalanceTransfersForAccrualCategoryRuleByDate(String accrualRuleId, LocalDate asOfDate);
 	public BalanceTransfer getBalanceTransferById(String balanceTransferId);
 	public List<BalanceTransfer> getBalanceTransfers(String viewPrincipal,
-			Date beginPeriodDate, Date endPeriodDate);
+			LocalDate beginPeriodDate, LocalDate endPeriodDate);
 	public void saveOrUpdate(BalanceTransfer balanceTransfer);
-    public List<BalanceTransfer> getBalanceTransfers(String principalId, String fromAccrualCategory, String transferAmount, String toAccrualCategory, String amountTransferred, String forfeitedAmount, Date fromEffdt, Date toEffdt);
+    public List<BalanceTransfer> getBalanceTransfers(String principalId, String fromAccrualCategory, String transferAmount, String toAccrualCategory, String amountTransferred, String forfeitedAmount, LocalDate fromEffdt, LocalDate toEffdt);
 	
 }

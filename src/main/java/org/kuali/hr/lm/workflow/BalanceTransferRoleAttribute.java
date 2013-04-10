@@ -61,7 +61,7 @@ public class BalanceTransferRoleAttribute extends GenericRoleAttribute {
 		}
 		
         if (balanceTransfer != null) {
-            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveDate());
+            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveLocalDate());
             for (Assignment assignment : assignments) {
             	roleNameQualifiers.add(String.valueOf(assignment.getWorkArea()));
             }

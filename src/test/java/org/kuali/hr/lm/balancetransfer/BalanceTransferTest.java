@@ -134,9 +134,9 @@ public class BalanceTransferTest extends LeaveCalendarWebTestBase {
 		LeaveSummary ls = new LeaveSummary();
 
 		//Leave summary is created on the fly
-		Date startDate = new Date((new DateTime(2012, 1, 1, 0, 0, 0, 1, TKUtils.getSystemDateTimeZone())).getMillis());
+		DateTime startDate = new DateTime(2012, 1, 1, 0, 0, 0, 1, TKUtils.getSystemDateTimeZone());
         DateTime asOfDate = new DateTime(2012, 11, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-        TkServiceLocator.getAccrualService().runAccrual(USER_PRINCIPAL_ID,startDate,new java.sql.Date(asOfDate.toDate().getTime()),false);
+        TkServiceLocator.getAccrualService().runAccrual(USER_PRINCIPAL_ID,startDate,asOfDate,false);
         CalendarEntry pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(USER_PRINCIPAL_ID, asOfDate);
         Assert.assertNotNull("No CalendarEntry", pcd);
 

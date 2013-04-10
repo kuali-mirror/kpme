@@ -15,18 +15,18 @@
  */
 package org.kuali.hr.time.salgroup.service;
 
+import java.util.List;
+
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.salgroup.dao.SalGroupDao;
-
-import java.sql.Date;
-import java.util.List;
 
 public class SalGroupServiceImpl implements SalGroupService {
 	
 	private SalGroupDao salGroupDao;
 
 	@Override
-	public SalGroup getSalGroup(String salGroup, Date asOfDate) {
+	public SalGroup getSalGroup(String salGroup, LocalDate asOfDate) {
 		return salGroupDao.getSalGroup(salGroup, asOfDate);
 	}
 
@@ -45,7 +45,7 @@ public class SalGroupServiceImpl implements SalGroupService {
 	}
 
     @Override
-    public List<SalGroup> getSalGroups(String salGroup, String descr, Date fromEffdt, Date toEffdt, String active, String showHist) {
+    public List<SalGroup> getSalGroups(String salGroup, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
         return salGroupDao.getSalGroups(salGroup, descr, fromEffdt, toEffdt, active, showHist);
     }
 }

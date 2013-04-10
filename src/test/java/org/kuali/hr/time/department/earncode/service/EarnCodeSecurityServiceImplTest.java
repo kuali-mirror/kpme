@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.time.department.earncode.service;
 
-import java.util.Calendar;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class EarnCodeSecurityServiceImplTest extends KPMETestCase {
 	public static final String TEST_SAL_GROUP_A10 = "A10";
 	public static final String TEST_SAL_GROUP_A = "A";
 	public static final String TEST_LOCATION = "";
-	private static final java.sql.Date TEST_DATE=new java.sql.Date(Calendar.getInstance().getTimeInMillis());
+	private static final DateTime TEST_DATE = new DateTime();
 	private EarnCodeSecurityService earnCodeSecurityService = null;
 
 	@Before
@@ -45,7 +45,7 @@ public class EarnCodeSecurityServiceImplTest extends KPMETestCase {
 	@Test
 	public void testGetEarnCodeSecurities() throws Exception {		
 		// Testing Wildcard on department.
-		List<EarnCodeSecurity> earnCodeSecurities = earnCodeSecurityService.getEarnCodeSecurities(TEST_LORA, TEST_SAL_GROUP_A10, TEST_LOCATION, TEST_DATE);
+		List<EarnCodeSecurity> earnCodeSecurities = earnCodeSecurityService.getEarnCodeSecurities(TEST_LORA, TEST_SAL_GROUP_A10, TEST_LOCATION, TEST_DATE.toLocalDate());
 		Assert.assertEquals("Wrong number of earn codes returned.", 5, earnCodeSecurities.size());
 		// Test sorting of earn codes
 		Assert.assertEquals("First Earn Code should be RGH", "RGH", earnCodeSecurities.get(0).getEarnCode());
@@ -60,7 +60,7 @@ public class EarnCodeSecurityServiceImplTest extends KPMETestCase {
 		}
 		
 		// Testing Wildcard on dept and salGroup.
-		List<EarnCodeSecurity> earnCodesSec1 = earnCodeSecurityService.getEarnCodeSecurities(TEST_TEST_DEPT, TEST_SAL_GROUP_A, TEST_LOCATION, TEST_DATE);
+		List<EarnCodeSecurity> earnCodesSec1 = earnCodeSecurityService.getEarnCodeSecurities(TEST_TEST_DEPT, TEST_SAL_GROUP_A, TEST_LOCATION, TEST_DATE.toLocalDate());
 		Assert.assertEquals("Wrong number of earn codes returned.", 2, earnCodesSec1.size());
 		
 		for (EarnCodeSecurity ec1 : earnCodesSec1) {

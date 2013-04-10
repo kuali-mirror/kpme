@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.time.syslunch.service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.syslunch.rule.SystemLunchRule;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -28,7 +28,7 @@ public interface SystemLunchRuleService {
 	 * @return
 	 */
     @Cacheable(value= SystemLunchRule.CACHE_NAME, key="'asOfDate=' + #p0")
-	public SystemLunchRule getSystemLunchRule(Date asOfDate);
+	public SystemLunchRule getSystemLunchRule(LocalDate asOfDate);
 	/**
 	 * Determines if the Lunch button should show
 	 * @return
@@ -38,5 +38,5 @@ public interface SystemLunchRuleService {
     @Cacheable(value= SystemLunchRule.CACHE_NAME, key="'tkSystemLunchRuleId=' + #p0")
 	public SystemLunchRule getSystemLunchRule(String tkSystemLunchRuleId);
 
-    List<SystemLunchRule> getSystemLunchRules(Date fromEffdt, Date toEffdt, String active, String showHist);
+    List<SystemLunchRule> getSystemLunchRules(LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }

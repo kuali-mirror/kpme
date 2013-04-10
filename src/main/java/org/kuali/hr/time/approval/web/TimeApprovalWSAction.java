@@ -17,7 +17,6 @@ package org.kuali.hr.time.approval.web;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -29,7 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -62,10 +60,10 @@ public class TimeApprovalWSAction extends TkAction {
         List<Map<String, String>> results = new LinkedList<Map<String, String>>();
         if(StringUtils.isNotEmpty(taaf.getPayBeginDateForSearch()) 
         		&& StringUtils.isNotEmpty(taaf.getPayEndDateForSearch()) ) {
-	        Date beginDate = new SimpleDateFormat("MM/dd/yyyy").parse(taaf.getPayBeginDateForSearch());
-	        Date endDate = new SimpleDateFormat("MM/dd/yyyy").parse(taaf.getPayEndDateForSearch());
+	        DateTime beginDate = new DateTime(new SimpleDateFormat("MM/dd/yyyy").parse(taaf.getPayBeginDateForSearch()));
+	        DateTime endDate = new DateTime(new SimpleDateFormat("MM/dd/yyyy").parse(taaf.getPayEndDateForSearch()));
             //the endDate we get here is coming from approval.js and is extracted from html. we need to add a day to cover the last day in the pay period.
-            endDate = DateUtils.addDays(endDate,1);
+            endDate = endDate.plusDays(1);
             List<String> workAreaList = new ArrayList<String>();
 	        if(StringUtil.isEmpty(taaf.getSelectedWorkArea())) {
 	        	String principalId = GlobalVariables.getUserSession().getPrincipalId();
@@ -82,7 +80,7 @@ public class TimeApprovalWSAction extends TkAction {
 	        }
 	        List<String> principalIds = TkServiceLocator.getTimeApproveService()
 				.getTimePrincipalIdsWithSearchCriteria(workAreaList, taaf.getSelectedPayCalendarGroup(),
-					new java.sql.Date(endDate.getTime()), new java.sql.Date(beginDate.getTime()), new java.sql.Date(endDate.getTime())); 
+					endDate.toLocalDate(), beginDate.toLocalDate(), endDate.toLocalDate()); 
 	        
 	        List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
 	        

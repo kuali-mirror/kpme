@@ -16,9 +16,9 @@
 package org.kuali.hr.lm.leaveblock;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Transient;
@@ -28,6 +28,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -96,9 +97,9 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private String transactionalDocId;
 
 	public String getAccrualCategoryRuleId() {
-		AccrualCategory category = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, leaveDate);
-		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, leaveDate);
-		AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(category, leaveDate, pha.getServiceDate());
+		AccrualCategory category = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, getLeaveLocalDate());
+		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, getLeaveLocalDate());
+		AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(category, getLeaveLocalDate(), pha.getServiceLocalDate());
 		return ObjectUtils.isNull(aRule) ? null : aRule.getLmAccrualCategoryRuleId();
 	}
 	
@@ -118,17 +119,15 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		private Long blockId = 0L;
 		private String scheduleTimeOffId;
 		private String accrualCategory;
-		private String tkAssignmentId;
 		private String requestStatus;
 		private Long workArea;
 		private Long jobNumber;
 		private Long task;
 		private String leaveBlockType;
 		
-		public Builder(DateTime leaveBlockDate, String documentId,
+		public Builder(LocalDate leaveDate, String documentId,
 				String principalId, String earnCode, BigDecimal leaveAmount) {
-			this.leaveDate = new java.sql.Date(leaveBlockDate.toDate()
-					.getTime());
+			this.leaveDate = leaveDate.toDate();
 			this.documentId = documentId;
 			this.principalId = principalId;
 			this.earnCode = earnCode;
@@ -294,6 +293,14 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	public void setLeaveDate(Date leaveDate) {
 		this.leaveDate = leaveDate;
 	}
+	
+	public LocalDate getLeaveLocalDate() {
+		return leaveDate != null ? LocalDate.fromDateFields(leaveDate) : null;
+	}
+	
+	public void setLeaveLocalDate(LocalDate leaveLocalDate) {
+		this.leaveDate = leaveLocalDate != null ? leaveLocalDate.toDate() : null;
+	}
 
 	public String getLmLeaveBlockId() {
 		return lmLeaveBlockId;
@@ -402,12 +409,12 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 
 		if (this.workArea != null) {
 			WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(
-					this.workArea, TKUtils.getCurrentDate());
+					this.workArea, LocalDate.now());
 			if (wa != null) {
 				b.append(wa.getDescription());
 			}
 			Task task = TkServiceLocator.getTaskService().getTask(
-					this.getTask(), this.getLeaveDate());
+					this.getTask(), this.getLeaveLocalDate());
 			if (task != null) {
 				// do not display task description if the task is the default
 				// one
@@ -426,7 +433,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	}
 
 	public String getCalendarId() {
-		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(this.principalId, TKUtils.getCurrentDate());
+		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(this.principalId, LocalDate.now());
 		Calendar pcal= null;
 		if(principalHRAttributes != null) {
 			//pcal = principalHRAttributes.getCalendar() != null ? principalHRAttributes.getCalendar() : principalHRAttributes.getLeaveCalObj() ;
@@ -456,7 +463,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	public String getEarnCodeDescription() {
 		String earnCodeDescription = "";
 		
-		EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, leaveDate);
+		EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, getLeaveLocalDate());
 		if (earnCodeObj != null) {
 			earnCodeDescription = earnCodeObj.getDescription();
 		}
@@ -561,7 +568,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 						if(StringUtils.isNotEmpty(this.getDescription())) {
 							requestDescription = this.getDescription() + " <br/>";
 						}
-						String actionDateString = TKUtils.formatDate(new Date(lrd.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()));
+						String actionDateString = TKUtils.formatDate(lrd.getDocumentHeader().getWorkflowDocument().getDateFinalized().toLocalDate());
 						requestDescription += "Approval deferred on " + actionDateString + ". Reason: " + lrd.getDescription();
 			    		this.setPlanningDescription(requestDescription);
 						return planningDescription;

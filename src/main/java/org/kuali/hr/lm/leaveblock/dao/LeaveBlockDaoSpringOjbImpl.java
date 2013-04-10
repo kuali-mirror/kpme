@@ -16,7 +16,11 @@
 package org.kuali.hr.lm.leaveblock.dao;
 
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -25,7 +29,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -66,12 +70,12 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
     @SuppressWarnings("rawtypes")
     @Override
-    public List<LeaveBlock> getLeaveBlocks(String principalId, Date beginDate, Date endDate) {
+    public List<LeaveBlock> getLeaveBlocks(String principalId, LocalDate beginDate, LocalDate endDate) {
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
-        root.addGreaterOrEqualThan("leaveDate", beginDate);
-        root.addLessOrEqualThan("leaveDate", endDate);
+        root.addGreaterOrEqualThan("leaveDate", beginDate.toDate());
+        root.addLessOrEqualThan("leaveDate", endDate.toDate());
 //        root.addEqualTo("active", true);
 
         Query query = QueryFactory.newQuery(LeaveBlock.class, root);
@@ -86,12 +90,12 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
     @SuppressWarnings("rawtypes")
     @Override
-    public List<LeaveBlock> getLeaveBlocksWithType(String principalId, Date beginDate, Date endDate, String leaveBlockType) {
+    public List<LeaveBlock> getLeaveBlocksWithType(String principalId, LocalDate beginDate, LocalDate endDate, String leaveBlockType) {
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
-        root.addGreaterOrEqualThan("leaveDate", beginDate);
-        root.addLessOrEqualThan("leaveDate", endDate);
+        root.addGreaterOrEqualThan("leaveDate", beginDate.toDate());
+        root.addLessOrEqualThan("leaveDate", endDate.toDate());
         root.addEqualTo("leaveBlockType", leaveBlockType);
 //        root.addEqualTo("active", true);
 
@@ -106,12 +110,12 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     }
 
     @Override
-    public List<LeaveBlock> getLeaveBlocksWithAccrualCategory(String principalId, Date beginDate, Date endDate, String accrualCategory) {
+    public List<LeaveBlock> getLeaveBlocksWithAccrualCategory(String principalId, LocalDate beginDate, LocalDate endDate, String accrualCategory) {
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
-        root.addGreaterOrEqualThan("leaveDate", beginDate);
-        root.addLessOrEqualThan("leaveDate", endDate);
+        root.addGreaterOrEqualThan("leaveDate", beginDate.toDate());
+        root.addLessOrEqualThan("leaveDate", endDate.toDate());
         root.addEqualTo("accrualCategory", accrualCategory);
 //        root.addEqualTo("active", true);
 
@@ -125,7 +129,7 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         return leaveBlocks;
     }
 
-    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOverDates, DateTime endDate, boolean includeAllAccrualCategories) {
+    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOverDates, LocalDate endDate, boolean includeAllAccrualCategories) {
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
         if (endDate != null) {
@@ -159,7 +163,7 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         return leaveBlocks;
     }
 
-    public Map<String, LeaveBlock> getLastCarryOverBlocks(String principalId, String leaveBlockType, Date asOfDate) {
+    public Map<String, LeaveBlock> getLastCarryOverBlocks(String principalId, String leaveBlockType, LocalDate asOfDate) {
         Map<String, LeaveBlock> carryOver = new HashMap<String, LeaveBlock>();
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
@@ -170,7 +174,7 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         dateSubquery.addEqualToField("leaveBlockType", Criteria.PARENT_QUERY_PREFIX + "leaveBlockType");
         dateSubquery.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
         if (asOfDate != null) {
-            dateSubquery.addLessThan("leaveDate", asOfDate);
+            dateSubquery.addLessThan("leaveDate", asOfDate.toDate());
         }
 
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(LeaveBlock.class, dateSubquery);
@@ -191,17 +195,17 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     }
 
     @Override
-    public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date beginDate, Date endDate) {
+    public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, LocalDate beginDate, LocalDate endDate) {
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("leaveBlockType", leaveBlockType);
         root.addEqualTo("requestStatus", requestStatus);
         if(beginDate != null) {
-            root.addGreaterOrEqualThan("leaveDate", beginDate);
+            root.addGreaterOrEqualThan("leaveDate", beginDate.toDate());
         }
         if (endDate != null){
-            root.addLessOrEqualThan("leaveDate", endDate);
+            root.addLessOrEqualThan("leaveDate", endDate.toDate());
         }
         Query query = QueryFactory.newQuery(LeaveBlock.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -212,14 +216,14 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     }
 
 	@Override
-	public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date currentDate) {
+	public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, LocalDate currentDate) {
 	    List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 	    Criteria root = new Criteria();
 	    root.addEqualTo("principalId", principalId);
 	    root.addEqualTo("leaveBlockType", leaveBlockType);
 	    root.addEqualTo("requestStatus", requestStatus);
 	    if(currentDate != null) {
-	    	root.addGreaterThan("leaveDate", currentDate);
+	    	root.addGreaterThan("leaveDate", currentDate.toDate());
 	    }
 	    Query query = QueryFactory.newQuery(LeaveBlock.class, root);
 	    Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -230,11 +234,11 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	}
 	
 	@Override
-	public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate) {
+	public List<LeaveBlock> getLeaveBlocksForDate(String principalId, LocalDate leaveDate) {
 	    List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 	    Criteria root = new Criteria();
 	    root.addEqualTo("principalId", principalId);
-	    root.addEqualTo("leaveDate", leaveDate);
+	    root.addEqualTo("leaveDate", leaveDate.toDate());
 	    Query query = QueryFactory.newQuery(LeaveBlock.class, root);
 	    Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 	    if(c!= null) {
@@ -244,9 +248,9 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	}
 
 	@Override
-	public List<LeaveBlock> getLeaveBlocks(Date leaveDate, String accrualCategory, String principalId) {
+	public List<LeaveBlock> getLeaveBlocks(LocalDate leaveDate, String accrualCategory, String principalId) {
 		Criteria root = new Criteria();
-		root.addLessOrEqualThan("timestamp", leaveDate);
+		root.addLessOrEqualThan("leaveDate", leaveDate.toDate());
 		root.addEqualTo("accrualCategory", accrualCategory);
 		root.addEqualTo("principalId", principalId);
 		Query query = QueryFactory.newQuery(LeaveBlock.class, root);
@@ -255,12 +259,12 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	}
 
     @Override
-    public List<LeaveBlock> getLeaveBlocks(String principalId, String accrualCategory, Date beginDate, Date endDate) {
+    public List<LeaveBlock> getLeaveBlocks(String principalId, String accrualCategory, LocalDate beginDate, LocalDate endDate) {
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
-        root.addGreaterOrEqualThan("leaveDate", beginDate);
-        root.addLessOrEqualThan("leaveDate", endDate);
+        root.addGreaterOrEqualThan("leaveDate", beginDate.toDate());
+        root.addLessOrEqualThan("leaveDate", endDate.toDate());
         root.addEqualTo("accrualCategory", accrualCategory);
 //        root.addEqualTo("active", true);
 
@@ -275,12 +279,12 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     }
 
     @Override
-    public List<LeaveBlock> getFMLALeaveBlocks(String principalId, String accrualCategory, Date beginDate, Date endDate) {
+    public List<LeaveBlock> getFMLALeaveBlocks(String principalId, String accrualCategory, LocalDate beginDate, LocalDate endDate) {
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
-        root.addGreaterOrEqualThan("leaveDate", beginDate);
-        root.addLessOrEqualThan("leaveDate", endDate);
+        root.addGreaterOrEqualThan("leaveDate", beginDate.toDate());
+        root.addLessOrEqualThan("leaveDate", endDate.toDate());
         root.addEqualTo("accrualCategory", accrualCategory);
         
         Criteria earnCode = new Criteria();
@@ -303,11 +307,11 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     }
 	
 	@Override
-	public List<LeaveBlock> getNotAccrualGeneratedLeaveBlocksForDate(String principalId, Date leaveDate) {
+	public List<LeaveBlock> getNotAccrualGeneratedLeaveBlocksForDate(String principalId, LocalDate leaveDate) {
 		List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 	    Criteria root = new Criteria();
 	    root.addEqualTo("principalId", principalId);
-	    root.addEqualTo("leaveDate", leaveDate);
+	    root.addEqualTo("leaveDate", leaveDate.toDate());
 	    root.addEqualTo("accrualGenerated", "N");
 	    Query query = QueryFactory.newQuery(LeaveBlock.class, root);
 	    Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -317,13 +321,13 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 		return leaveBlocks;
 	}
 	
-	public List<LeaveBlock> getCalendarLeaveBlocks(String principalId, Date beginDate, Date endDate) {
+	public List<LeaveBlock> getCalendarLeaveBlocks(String principalId, LocalDate beginDate, LocalDate endDate) {
 		List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 		
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
-        root.addGreaterOrEqualThan("leaveDate", beginDate);
-        root.addLessOrEqualThan("leaveDate", endDate);
+        root.addGreaterOrEqualThan("leaveDate", beginDate.toDate());
+        root.addLessOrEqualThan("leaveDate", endDate.toDate());
         List<String> typeValues = new ArrayList<String>();
         typeValues.add(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR);
         typeValues.add(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR);
@@ -355,13 +359,13 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     
       
     @Override
-    public List<LeaveBlock> getAccrualGeneratedLeaveBlocks(String principalId, Date beginDate, Date endDate) {
+    public List<LeaveBlock> getAccrualGeneratedLeaveBlocks(String principalId, LocalDate beginDate, LocalDate endDate) {
     	List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         Criteria root = new Criteria();
           
         root.addEqualTo("principalId", principalId);
-        root.addGreaterOrEqualThan("leaveDate", beginDate);
-        root.addLessOrEqualThan("leaveDate", endDate);
+        root.addGreaterOrEqualThan("leaveDate", beginDate.toDate());
+        root.addLessOrEqualThan("leaveDate", endDate.toDate());
         root.addEqualTo("accrualGenerated", "Y");
 
         Query query = QueryFactory.newQuery(LeaveBlock.class, root);
@@ -373,12 +377,12 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     }
     
     @Override
-    public List<LeaveBlock> getSSTOLeaveBlocks(String principalId, String sstoId, Date accruledDate) {
+    public List<LeaveBlock> getSSTOLeaveBlocks(String principalId, String sstoId, LocalDate accruledDate) {
     	List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         Criteria root = new Criteria();
           
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("leaveDate", accruledDate);
+        root.addEqualTo("leaveDate", accruledDate.toDate());
         root.addEqualTo("scheduleTimeOffId", sstoId);
 
         Query query = QueryFactory.newQuery(LeaveBlock.class, root);
@@ -404,7 +408,7 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 		}
 		for(LeaveBlock lb : tempList) {
 			if(lb != null && StringUtils.isNotEmpty(lb.getEarnCode())) {
-				EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveDate());
+				EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
 				if(ec != null && ec.getEligibleForAccrual().equals("N")) {
 					leaveBlocks.add(lb);
 				}

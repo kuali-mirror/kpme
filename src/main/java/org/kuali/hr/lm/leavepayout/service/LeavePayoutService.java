@@ -16,17 +16,17 @@
 package org.kuali.hr.lm.leavepayout.service;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface LeavePayoutService {
 
     public List<LeavePayout> getAllLeavePayoutsForPrincipalId(String principalId);
-    public List<LeavePayout> getAllLeavePayoutsForPrincipalIdAsOfDate(String principalId, Date effectiveDate);
-    public List<LeavePayout> getAllLeavePayoutsByEffectiveDate(Date effectiveDate);
+    public List<LeavePayout> getAllLeavePayoutsForPrincipalIdAsOfDate(String principalId, LocalDate effectiveDate);
+    public List<LeavePayout> getAllLeavePayoutsByEffectiveDate(LocalDate effectiveDate);
 
     //@Cacheable(value= LeaveDonation.CACHE_NAME, key="'lmLeavePayoutId=' + #p0")
     public LeavePayout getLeavePayoutById(String lmLeavePayoutId);
@@ -47,7 +47,7 @@ public interface LeavePayoutService {
 	 *  	2.) the number of time units exceeding the maximum balance 
 	 *
 	 */
-	public LeavePayout initializePayout(String principalId, String accrualCategoryRule, BigDecimal accruedBalance, Date effectiveDate);
+	public LeavePayout initializePayout(String principalId, String accrualCategoryRule, BigDecimal accruedBalance, LocalDate effectiveDate);
 
 	/**
 	 * Consumes a LeavePayout object, creating up to three leave blocks.
@@ -62,10 +62,10 @@ public interface LeavePayoutService {
 	
 	public void submitToWorkflow(LeavePayout leavePayout) throws WorkflowException;
 	
-	public List<LeavePayout> getLeavePayouts(String viewPrincipal, Date beginPeriodDate, Date endPeriodDate);
+	public List<LeavePayout> getLeavePayouts(String viewPrincipal, LocalDate beginPeriodDate, LocalDate endPeriodDate);
 	
 	public void saveOrUpdate(LeavePayout payout);
-	public List<LeavePayout> getLeavePayouts(String principalId, String fromAccrualCategory, String payoutAmount, String earnCode, String forfeitedAmount, Date fromEffdt, Date toEffdt);
+	public List<LeavePayout> getLeavePayouts(String principalId, String fromAccrualCategory, String payoutAmount, String earnCode, String forfeitedAmount, LocalDate fromEffdt, LocalDate toEffdt);
 
     
 }

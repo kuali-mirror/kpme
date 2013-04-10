@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.earncodegroup.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +23,11 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroupDefinition;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import com.google.common.collect.ImmutableList;
@@ -39,7 +38,7 @@ public class EarnCodeGroupDaoServiceImpl extends PlatformAwareDaoBaseOjb impleme
             .build();
 
 	@Override
-	public EarnCodeGroup getEarnCodeGroup(String earnGroup, Date asOfDate) {
+	public EarnCodeGroup getEarnCodeGroup(String earnGroup, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 
 		root.addEqualTo("earnCodeGroup", earnGroup);
@@ -58,7 +57,7 @@ public class EarnCodeGroupDaoServiceImpl extends PlatformAwareDaoBaseOjb impleme
 	}
 
 	@Override
-	public EarnCodeGroup getEarnCodeGroupSummaryForEarnCode(String earnCode, Date asOfDate) {
+	public EarnCodeGroup getEarnCodeGroupSummaryForEarnCode(String earnCode, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 		Criteria earnCodeJoin = new Criteria();
 		
@@ -83,7 +82,7 @@ public class EarnCodeGroupDaoServiceImpl extends PlatformAwareDaoBaseOjb impleme
 	}
 
 	@Override
-	public EarnCodeGroup getEarnCodeGroupForEarnCode(String earnCode, Date asOfDate) {
+	public EarnCodeGroup getEarnCodeGroupForEarnCode(String earnCode, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 		Criteria earnCodeJoin = new Criteria();
 
@@ -123,16 +122,16 @@ public class EarnCodeGroupDaoServiceImpl extends PlatformAwareDaoBaseOjb impleme
 	    return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 	@Override
-	public int getNewerEarnCodeGroupCount(String earnCodeGroup, Date effdt) {
+	public int getNewerEarnCodeGroupCount(String earnCodeGroup, LocalDate effdt) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("earnCodeGroup", earnCodeGroup);
 		crit.addEqualTo("active", "Y");
-		crit.addGreaterThan("effectiveDate", effdt);
+		crit.addGreaterThan("effectiveDate", effdt.toDate());
 		Query query = QueryFactory.newQuery(EarnCodeGroup.class, crit);
        	return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 	
-	public List<EarnCode> getEarnCodeGroups(String earnCodeGroup, String descr, Date fromEffdt, Date toEffdt, String active, String showHist) {
+	public List<EarnCode> getEarnCodeGroups(String earnCodeGroup, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
         List<EarnCode> results = new ArrayList<EarnCode>();
         
         Criteria root = new Criteria();
@@ -147,13 +146,13 @@ public class EarnCodeGroupDaoServiceImpl extends PlatformAwareDaoBaseOjb impleme
         
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
         

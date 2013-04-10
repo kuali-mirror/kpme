@@ -15,33 +15,30 @@
  */
 package org.kuali.hr.lm.leaveadjustment.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.leaveadjustment.LeaveAdjustment;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 public class LeaveAdjustmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveAdjustmentDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<LeaveAdjustment> getLeaveAdjustments(String principalId, Date asOfDate) {
+	public List<LeaveAdjustment> getLeaveAdjustments(String principalId, LocalDate asOfDate) {
         List<LeaveAdjustment> leaveAdjustments = new ArrayList<LeaveAdjustment>();
         Criteria root = new Criteria();
-
-        java.sql.Date effDate = asOfDate == null ? null : new java.sql.Date(asOfDate.getTime());
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LeaveAdjustment.class, effDate, Collections.singletonList("principalId"), false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LeaveAdjustment.class, asOfDate, Collections.singletonList("principalId"), false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeaveAdjustment.class, Collections.singletonList("principalId"), false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -66,20 +63,20 @@ public class LeaveAdjustmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 	}
 
 	@Override
-	public List<LeaveAdjustment> getLeaveAdjustments(Date fromEffdt, Date toEffdt, String principalId, String accrualCategory, String earnCode) {
+	public List<LeaveAdjustment> getLeaveAdjustments(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String accrualCategory, String earnCode) {
         List<LeaveAdjustment> results = new ArrayList<LeaveAdjustment>();
     	
     	Criteria root = new Criteria();
     	
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
         

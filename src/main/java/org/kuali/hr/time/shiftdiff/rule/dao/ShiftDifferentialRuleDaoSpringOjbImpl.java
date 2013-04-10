@@ -15,20 +15,21 @@
  */
 package org.kuali.hr.time.shiftdiff.rule.dao;
 
-import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import com.google.common.collect.ImmutableList;
 
 public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements ShiftDifferentialRuleDao {
 	
@@ -41,7 +42,7 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseO
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ShiftDifferentialRule> findShiftDifferentialRules(String location, String hrSalGroup, String payGrade, String pyCalendarGroup, Date asOfDate) {
+	public List<ShiftDifferentialRule> findShiftDifferentialRules(String location, String hrSalGroup, String payGrade, String pyCalendarGroup, LocalDate asOfDate) {
 		List<ShiftDifferentialRule> list = new ArrayList<ShiftDifferentialRule>();
 
 		Criteria root = new Criteria();
@@ -87,7 +88,7 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseO
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<ShiftDifferentialRule> getShiftDifferentialRules(String location, String hrSalGroup, String payGrade, Date fromEffdt, Date toEffdt, 
+    public List<ShiftDifferentialRule> getShiftDifferentialRules(String location, String hrSalGroup, String payGrade, LocalDate fromEffdt, LocalDate toEffdt, 
     															 String active, String showHistory) {
     	
 		List<ShiftDifferentialRule> results = new ArrayList<ShiftDifferentialRule>();
@@ -108,13 +109,13 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseO
 
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", DateTime.now().toDate());
         }
 
         

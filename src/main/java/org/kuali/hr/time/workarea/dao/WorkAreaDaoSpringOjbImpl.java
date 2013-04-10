@@ -15,21 +15,21 @@
  */
 package org.kuali.hr.time.workarea.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import com.google.common.collect.ImmutableList;
 
 public class WorkAreaDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements WorkAreaDao {
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
@@ -37,7 +37,7 @@ public class WorkAreaDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
             .build();
 
     @Override
-    public WorkArea getWorkArea(Long workArea, Date asOfDate) {
+    public WorkArea getWorkArea(Long workArea, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 
 		root.addEqualTo("workArea", workArea);
@@ -53,7 +53,7 @@ public class WorkAreaDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
     }
 
     @Override
-    public List<WorkArea> getWorkArea(String department, Date asOfDate) {
+    public List<WorkArea> getWorkArea(String department, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
         root.addEqualTo("dept", department);
@@ -91,7 +91,7 @@ public class WorkAreaDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<WorkArea> getWorkAreas(String dept, String workArea, String description, Date fromEffdt, Date toEffdt, String active, String showHistory) {
+	public List<WorkArea> getWorkAreas(String dept, String workArea, String description, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
 		List<WorkArea> results = new ArrayList<WorkArea>();
 		
 		Criteria root = new Criteria();
@@ -110,13 +110,13 @@ public class WorkAreaDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
 		
 		Criteria effectiveDateFilter = new Criteria();
 		if (fromEffdt != null) {
-		    effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+		    effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
 		}
 		if (toEffdt != null) {
-		    effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+		    effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
 		}
 		if (fromEffdt == null && toEffdt == null) {
-		    effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+		    effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
 		}
 		root.addAndCriteria(effectiveDateFilter);
 		

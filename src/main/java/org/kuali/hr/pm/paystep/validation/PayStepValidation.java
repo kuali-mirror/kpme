@@ -40,7 +40,7 @@ public class PayStepValidation extends MaintenanceDocumentRuleBase {
 
 	private boolean validateSalaryGroup(PayStep payStep) {
 		if(StringUtils.isNotEmpty(payStep.getSalaryGroup())
-				&& ValidationUtils.validateSalGroup(payStep.getSalaryGroup(), payStep.getEffectiveDate())) {
+				&& ValidationUtils.validateSalGroup(payStep.getSalaryGroup(), payStep.getEffectiveLocalDate())) {
 			return true;
 		} else {
 			this.putFieldError("salaryGroup", "error.existence", "Salary Group '"
@@ -51,7 +51,7 @@ public class PayStepValidation extends MaintenanceDocumentRuleBase {
 	
 	private boolean validatePayGradeInSalaryGroup(PayStep payStep) {
 		if(StringUtils.isNotEmpty(payStep.getSalaryGroup())
-				&& PmValidationUtils.validatePayGradeWithSalaryGroup(payStep.getSalaryGroup(),payStep.getPayGrade(),payStep.getEffectiveDate())) {
+				&& PmValidationUtils.validatePayGradeWithSalaryGroup(payStep.getSalaryGroup(),payStep.getPayGrade(),payStep.getEffectiveLocalDate())) {
 			return true;
 		} else {
 			String[] params = new String[2];
@@ -76,7 +76,7 @@ public class PayStepValidation extends MaintenanceDocumentRuleBase {
 
 	private boolean validateInstitution(PayStep payStep) {
 		if (StringUtils.isNotEmpty(payStep.getInstitution())
-				&& PmValidationUtils.validateInstitution(payStep.getInstitution(), payStep.getEffectiveDate())) {
+				&& PmValidationUtils.validateInstitution(payStep.getInstitution(), payStep.getEffectiveLocalDate())) {
 			return true;
 		} else {
 			this.putFieldError("institution", "error.existence", "Instituion '"

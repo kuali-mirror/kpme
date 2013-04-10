@@ -16,18 +16,18 @@
 package org.kuali.hr.time.paytype.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.paytype.PayType;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.common.collect.ImmutableList;
 
 public class PayTypeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements PayTypeDao {
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
@@ -46,12 +46,11 @@ public class PayTypeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements 
 		}
 	}
 
-	public PayType getPayType(String payType, Date effectiveDate) {
+	public PayType getPayType(String payType, LocalDate effectiveDate) {
 		Criteria currentRecordCriteria = new Criteria();
 
-        java.sql.Date effDate = effectiveDate == null ? null : new java.sql.Date(effectiveDate.getTime());
 		currentRecordCriteria.addEqualTo("payType", payType);
-        currentRecordCriteria.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PayType.class, effDate, EQUAL_TO_FIELDS, false));
+        currentRecordCriteria.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PayType.class, effectiveDate, EQUAL_TO_FIELDS, false));
         currentRecordCriteria.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PayType.class, EQUAL_TO_FIELDS, false));
 		
 //		Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -82,7 +81,7 @@ public class PayTypeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements 
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<PayType> getPayTypes(String payType, String regEarnCode, String descr, Date fromEffdt, Date toEffdt, String active, String showHistory) {
+    public List<PayType> getPayTypes(String payType, String regEarnCode, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
         List<PayType> results = new ArrayList<PayType>();
         
         Criteria root = new Criteria();
@@ -101,13 +100,13 @@ public class PayTypeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements 
         
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
         

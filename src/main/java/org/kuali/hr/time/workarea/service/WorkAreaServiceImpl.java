@@ -15,12 +15,11 @@
  */
 package org.kuali.hr.time.workarea.service;
 
-import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.role.KPMERoleMemberAttribute;
 import org.kuali.hr.core.role.workarea.WorkAreaPositionRoleMemberBo;
@@ -49,7 +48,7 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 		
 		if (workAreaObj != null) {
 			populateWorkAreaTasks(workAreaObj);
-	        populateWorkAreaRoleMembers(workAreaObj, workAreaObj.getEffectiveDate());
+	        populateWorkAreaRoleMembers(workAreaObj, workAreaObj.getEffectiveLocalDate());
 		}
 		
 		return workAreaObj;
@@ -61,12 +60,12 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 	}
 
 	@Override
-	public List<WorkArea> getWorkAreas(String dept, String workArea, String workAreaDescr, Date fromEffdt, Date toEffdt, String active, String showHistory) {
+	public List<WorkArea> getWorkAreas(String dept, String workArea, String workAreaDescr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
 		List<WorkArea> workAreaObjs = workAreaDao.getWorkAreas(dept, workArea, workAreaDescr, fromEffdt, toEffdt, active, showHistory);
 		
         for (WorkArea workAreaObj : workAreaObjs) {
         	populateWorkAreaTasks(workAreaObj);
-        	populateWorkAreaRoleMembers(workAreaObj, workAreaObj.getEffectiveDate());
+        	populateWorkAreaRoleMembers(workAreaObj, workAreaObj.getEffectiveLocalDate());
         }
 
         return workAreaObjs;
@@ -78,7 +77,7 @@ public class WorkAreaServiceImpl implements WorkAreaService {
     }
 	
     @Override
-	public WorkArea getWorkArea(Long workArea, Date asOfDate) {
+	public WorkArea getWorkArea(Long workArea, LocalDate asOfDate) {
         WorkArea workAreaObj = workAreaDao.getWorkArea(workArea, asOfDate);
         
         if (workAreaObj != null) {
@@ -90,7 +89,7 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 	}
 
     @Override
-    public List<WorkArea> getWorkAreas(String department, Date asOfDate) {
+    public List<WorkArea> getWorkAreas(String department, LocalDate asOfDate) {
         List<WorkArea> workAreas = workAreaDao.getWorkArea(department, asOfDate);
 
         for (WorkArea workArea : workAreas) {
@@ -102,32 +101,34 @@ public class WorkAreaServiceImpl implements WorkAreaService {
     }
     
 	private void populateWorkAreaTasks(WorkArea workArea) {
-		workArea.setTasks(TkServiceLocator.getTaskService().getTasks(null, null, String.valueOf(workArea.getWorkArea()), workArea.getEffectiveDate(), null));
+		workArea.setTasks(TkServiceLocator.getTaskService().getTasks(null, null, String.valueOf(workArea.getWorkArea()), workArea.getEffectiveLocalDate(), null));
 	}
 
-    private void populateWorkAreaRoleMembers(WorkArea workArea, Date asOfDate) {
+    private void populateWorkAreaRoleMembers(WorkArea workArea, LocalDate asOfDate) {
     	Set<RoleMember> roleMembers = new HashSet<RoleMember>();
     	
-    	roleMembers.addAll(TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.REVIEWER.getRoleName(), workArea.getWorkArea(), new DateTime(asOfDate), false));
-    	roleMembers.addAll(TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), workArea.getWorkArea(), new DateTime(asOfDate), false));
-    	roleMembers.addAll(TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER_DELEGATE.getRoleName(), workArea.getWorkArea(), new DateTime(asOfDate), false));
-    
-    	for (RoleMember roleMember : roleMembers) {
-    		RoleMemberBo roleMemberBo = RoleMemberBo.from(roleMember);
-    		
-    		if (!roleMember.getAttributes().containsKey(KPMERoleMemberAttribute.POSITION.getRoleMemberAttributeName())) {
-        		if (roleMemberBo.isActive()) {
-        			workArea.addPrincipalRoleMember(WorkAreaPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
-        		} else {
-        			workArea.addInactivePrincipalRoleMember(WorkAreaPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
-        		}
-    		} else {
-        		if (roleMemberBo.isActive()) {
-        			workArea.addPositionRoleMember(WorkAreaPositionRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
-        		} else {
-        			workArea.addInactivePositionRoleMember(WorkAreaPositionRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
-        		}
-    		}
+    	if (workArea != null && asOfDate != null) {
+	    	roleMembers.addAll(TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.REVIEWER.getRoleName(), workArea.getWorkArea(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), workArea.getWorkArea(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER_DELEGATE.getRoleName(), workArea.getWorkArea(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    
+	    	for (RoleMember roleMember : roleMembers) {
+	    		RoleMemberBo roleMemberBo = RoleMemberBo.from(roleMember);
+	    		
+	    		if (!roleMember.getAttributes().containsKey(KPMERoleMemberAttribute.POSITION.getRoleMemberAttributeName())) {
+	        		if (roleMemberBo.isActive()) {
+	        			workArea.addPrincipalRoleMember(WorkAreaPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
+	        		} else {
+	        			workArea.addInactivePrincipalRoleMember(WorkAreaPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
+	        		}
+	    		} else {
+	        		if (roleMemberBo.isActive()) {
+	        			workArea.addPositionRoleMember(WorkAreaPositionRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
+	        		} else {
+	        			workArea.addInactivePositionRoleMember(WorkAreaPositionRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
+	        		}
+	    		}
+	    	}
     	}
     }
     

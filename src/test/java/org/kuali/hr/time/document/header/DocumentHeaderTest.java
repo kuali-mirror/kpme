@@ -50,7 +50,7 @@ public class DocumentHeaderTest extends KPMETestCase {
 		timeHeader.setEndDate(TkTestUtils.createDate(1, 15, 2011, 0, 0, 0));
 		KRADServiceLocator.getBusinessObjectService().save(timeHeader);
         DateTime dateTime = new DateTime(2011,1,15,0,0,0,0);
-		TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader("admin", new java.util.Date(dateTime.getMillis()));
+		TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader("admin", dateTime);
 		Assert.assertTrue(tdh!=null && StringUtils.equals(tdh.getDocumentId(),"1"));
 	}
 	

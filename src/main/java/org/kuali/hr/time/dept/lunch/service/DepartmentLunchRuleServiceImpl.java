@@ -15,7 +15,11 @@
  */
 package org.kuali.hr.time.dept.lunch.service;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.apache.log4j.Logger;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.dept.lunch.dao.DepartmentLunchRuleDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -25,17 +29,13 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.List;
-
 public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleService {
 	public DepartmentLunchRuleDao deptLunchRuleDao;
 	private static final Logger LOG = Logger.getLogger(DepartmentLunchRuleServiceImpl.class);
 
 	@Override
 	public DeptLunchRule getDepartmentLunchRule(String dept, Long workArea,
-			String principalId, Long jobNumber, Date asOfDate) {
+			String principalId, Long jobNumber, LocalDate asOfDate) {
 		DeptLunchRule deptLunchRule = deptLunchRuleDao.getDepartmentLunchRule(dept, workArea, principalId, jobNumber, asOfDate);
 		if(deptLunchRule!=null){
 			return deptLunchRule;
@@ -68,8 +68,9 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
                 continue;
             }
 			TimesheetDocumentHeader doc = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(timeBlock.getDocumentId());
-			String dept = TkServiceLocator.getJobService().getJob(doc.getPrincipalId(), timeBlock.getJobNumber(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime())).getDept();
-			DeptLunchRule deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(dept, timeBlock.getWorkArea(), doc.getPrincipalId(), timeBlock.getJobNumber(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
+			String dept = TkServiceLocator.getJobService().getJob(doc.getPrincipalId(), timeBlock.getJobNumber(), timeBlock.getBeginDateTime().toLocalDate()).getDept();
+			
+			DeptLunchRule deptLunchRule = getDepartmentLunchRule(dept, timeBlock.getWorkArea(), doc.getPrincipalId(), timeBlock.getJobNumber(), timeBlock.getBeginDateTime().toLocalDate());
 			if(timeBlock.getClockLogCreated() && deptLunchRule!= null && deptLunchRule.getDeductionMins() != null && timeBlock.getHours().compareTo(deptLunchRule.getShiftHours()) >= 0) {
                 applyLunchRuleToDetails(timeBlock, deptLunchRule);
 			}

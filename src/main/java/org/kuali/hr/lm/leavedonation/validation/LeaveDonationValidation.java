@@ -16,9 +16,8 @@
 package org.kuali.hr.lm.leavedonation.validation;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leavedonation.LeaveDonation;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -31,7 +30,7 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 	public static final String DONOR = "donor";
 	public static final String RECEPIENT = "recepient";
 
-	boolean validateEffectiveDate(Date effectiveDate) {
+	boolean validateEffectiveDate(LocalDate effectiveDate) {
 		boolean valid = true;
 		if (effectiveDate != null
 				&& !ValidationUtils.validateOneYearFutureDate(effectiveDate)) {
@@ -53,7 +52,7 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	boolean validateAccrualCategory(String accrualCategory, Date asOfDate,
+	boolean validateAccrualCategory(String accrualCategory, LocalDate asOfDate,
 			String forPerson) {
 		boolean valid = true;
 		if (!ValidationUtils.validateAccCategory(accrualCategory, asOfDate)) {
@@ -66,7 +65,7 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 	
-	boolean validateAccrualCategory(String accrualCategory, Date asOfDate,
+	boolean validateAccrualCategory(String accrualCategory, LocalDate asOfDate,
 			String forPerson, String principalId) {
 		boolean valid = true;
 		if (!ValidationUtils.validateAccCategory(accrualCategory, principalId, asOfDate)) {
@@ -81,7 +80,7 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	boolean validateEarnCode(String principalAC, String formEarnCode, String forPerson, Date asOfDate) {
+	boolean validateEarnCode(String principalAC, String formEarnCode, String forPerson, LocalDate asOfDate) {
 		boolean valid = true;
 
 		EarnCode testEarnCode = TkServiceLocator.getEarnCodeService().getEarnCode(formEarnCode, asOfDate);
@@ -99,7 +98,7 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 	
-	private boolean validateFraction(String earnCode, BigDecimal amount, Date asOfDate, String fieldName) {
+	private boolean validateFraction(String earnCode, BigDecimal amount, LocalDate asOfDate, String fieldName) {
 		boolean valid = true;
 		if (!ValidationUtils.validateEarnCodeFraction(earnCode, amount, asOfDate)) {
 			EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
@@ -129,13 +128,13 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 				if(leaveDonation.getDonatedAccrualCategory() != null) {
 						valid &= this.validateAccrualCategory(
 						leaveDonation.getDonatedAccrualCategory(),
-						leaveDonation.getEffectiveDate(),
+						leaveDonation.getEffectiveLocalDate(),
 						LeaveDonationValidation.DONOR, leaveDonation.getDonorsPrincipalID());
 				}
 				if(leaveDonation.getRecipientsAccrualCategory() != null) {
 						valid &= this.validateAccrualCategory(
 						leaveDonation.getRecipientsAccrualCategory(),
-						leaveDonation.getEffectiveDate(),
+						leaveDonation.getEffectiveLocalDate(),
 						LeaveDonationValidation.RECEPIENT, leaveDonation.getRecipientsPrincipalID());
 				}
 				if(leaveDonation.getDonorsPrincipalID() != null) {
@@ -152,26 +151,26 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 						valid &= this.validateEarnCode(
 						leaveDonation.getDonatedAccrualCategory(),
 						leaveDonation.getDonatedEarnCode(),
-						LeaveDonationValidation.DONOR, leaveDonation.getEffectiveDate());
+						LeaveDonationValidation.DONOR, leaveDonation.getEffectiveLocalDate());
 				}
 				if(leaveDonation.getRecipientsAccrualCategory() != null) {
 						valid &= this.validateEarnCode(
 						leaveDonation.getRecipientsAccrualCategory(),
 						leaveDonation.getRecipientsEarnCode(),
-						LeaveDonationValidation.RECEPIENT, leaveDonation.getEffectiveDate());
+						LeaveDonationValidation.RECEPIENT, leaveDonation.getEffectiveLocalDate());
 				}
 				if(leaveDonation.getAmountDonated() != null && leaveDonation.getDonatedEarnCode() != null) {
 					valid &= this.validateFraction(
 					leaveDonation.getDonatedEarnCode(), 
 					leaveDonation.getAmountDonated(), 
-					leaveDonation.getEffectiveDate(),
+					leaveDonation.getEffectiveLocalDate(),
 					"amountDonated");
 				}
 				if(leaveDonation.getAmountReceived() != null && leaveDonation.getRecipientsEarnCode() != null) {
 					valid &= this.validateFraction(
 					leaveDonation.getRecipientsEarnCode(), 
 					leaveDonation.getAmountReceived(), 
-					leaveDonation.getEffectiveDate(),
+					leaveDonation.getEffectiveLocalDate(),
 					"amountReceived");
 				}
 			}

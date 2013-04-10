@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -33,8 +34,8 @@ public class TimeApproveServiceTest extends KPMETestCase {
 		List<String> workAreaList = new ArrayList<String>();
 		String calendarGroup = "payCal";
 		DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yy");
-		java.sql.Date beginDate = new java.sql.Date(DATE_FORMAT.parse("03/01/2012").getTime());
-		java.sql.Date endDate = new java.sql.Date(DATE_FORMAT.parse("03/30/2012").getTime());
+		LocalDate beginDate = LocalDate.fromDateFields(DATE_FORMAT.parse("03/01/2012"));
+		LocalDate endDate = LocalDate.fromDateFields(DATE_FORMAT.parse("03/30/2012"));
 		
 		List<String> idList = TkServiceLocator.getTimeApproveService()
 								.getTimePrincipalIdsWithSearchCriteria(workAreaList, calendarGroup, endDate, beginDate, endDate);		

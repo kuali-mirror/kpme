@@ -137,7 +137,7 @@ public class ApprovalAction extends TkAction{
 		    	if (StringUtils.isEmpty(taf.getSelectedDept()))
 		    		taf.setSelectedDept(taf.getDepartments().get(0));
 		        
-		    	List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(taf.getSelectedDept(), new java.sql.Date(taf.getPayBeginDate().getTime()));
+		    	List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(taf.getSelectedDept(), LocalDate.fromDateFields(taf.getPayBeginDate()));
 		        for (WorkArea workAreaObj : workAreaObjs) {
 		        	Long workArea = workAreaObj.getWorkArea();
 		        	String description = workAreaObj.getDescription();

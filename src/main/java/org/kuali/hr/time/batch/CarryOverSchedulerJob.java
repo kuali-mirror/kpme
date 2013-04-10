@@ -15,16 +15,15 @@
  */
 package org.kuali.hr.time.batch;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.batch.service.BatchJobService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerException;
@@ -38,11 +37,11 @@ public class CarryOverSchedulerJob extends QuartzJobBean {
 
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-		Date asOfDate = TKUtils.getCurrentDate();
+		LocalDate asOfDate = LocalDate.now();
 		List<LeavePlan> leavePlans = TkServiceLocator.getLeavePlanService().getLeavePlansNeedsCarryOverScheduled(getLeavePlanPollingWindow(), asOfDate);
         try {
         	if(leavePlans!=null && !leavePlans.isEmpty()) {
-				DateTime current = new DateTime(asOfDate.getTime());
+				DateTime current = asOfDate.toDateTimeAtStartOfDay();
 		        DateTime windowStart = current.minusDays(getLeavePlanPollingWindow());
 		        DateTime windowEnd = current.plusDays(getLeavePlanPollingWindow());
 

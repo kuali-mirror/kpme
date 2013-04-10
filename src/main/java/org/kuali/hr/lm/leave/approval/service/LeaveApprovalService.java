@@ -20,6 +20,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.approval.web.ApprovalLeaveSummaryRow;
@@ -48,7 +50,7 @@ public interface LeaveApprovalService {
     /*
      * returns all calendar entries with LeaveCalendarDocument created and can be approved by given principalId
      */
-    public List<CalendarEntry> getAllLeavePayCalendarEntriesForApprover(String principalId, Date currentDate);
+    public List<CalendarEntry> getAllLeavePayCalendarEntriesForApprover(String principalId, LocalDate currentDate);
 
     /*
      * remove the employees with no jobs that are eligible for leave fromt the given list of principal ids
@@ -66,7 +68,7 @@ public interface LeaveApprovalService {
     * @param payEndDate
     * @return A PrincipalId to LeaveCalendarDocumentHeader mapping.
     */
-   public Map<String, LeaveCalendarDocumentHeader> getPrincipalDocumehtHeader(List<TKPerson> persons, Date payBeginDate, Date payEndDate);
+   public Map<String, LeaveCalendarDocumentHeader> getPrincipalDocumehtHeader(List<TKPerson> persons, DateTime payBeginDate, DateTime payEndDate);
    
    /**
     * 
@@ -87,5 +89,5 @@ public interface LeaveApprovalService {
     * @return
     */		   
    public List<String> getLeavePrincipalIdsWithSearchCriteria(
-			List<String> workAreaList, String calendarGroup, java.sql.Date effdt, java.sql.Date beginDate, java.sql.Date endDate);
+			List<String> workAreaList, String calendarGroup, LocalDate effdt, LocalDate beginDate, LocalDate endDate);
 }

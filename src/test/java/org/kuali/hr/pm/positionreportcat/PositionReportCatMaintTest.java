@@ -1,6 +1,5 @@
 package org.kuali.hr.pm.positionreportcat;
 
-import java.sql.Date;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -49,10 +48,10 @@ public class PositionReportCatMaintTest extends KPMETestCase {
 	
 	@Test
 	public void testAddNew() throws Exception {
-		Date effectiveDate =  new Date((new DateTime(2012, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		DateTime effectiveDate =  new DateTime(2012, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		String prcString = "testPRC";
 		String prtString = "testPRT";
-		List<PositionReportCategory> prcList = PmServiceLocator.getPositionReportCatService().getPositionReportCatList(prcString, prtString, "testInst", "TS", effectiveDate);
+		List<PositionReportCategory> prcList = PmServiceLocator.getPositionReportCatService().getPositionReportCatList(prcString, prtString, "testInst", "TS", effectiveDate.toLocalDate());
 		Assert.assertTrue("There should NOT be Position Report Category with name " + prcString, CollectionUtils.isEmpty(prcList));
 		
 	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_CAT_MAINT_NEW_URL;
@@ -104,7 +103,7 @@ public class PositionReportCatMaintTest extends KPMETestCase {
 	  	page = element.click();
 	  	Assert.assertFalse("page text contains error", page.asText().contains("error"));
 	  	
-	  	prcList = PmServiceLocator.getPositionReportCatService().getPositionReportCatList(prcString, prtString, "testInst", "TS", effectiveDate);
+	  	prcList = PmServiceLocator.getPositionReportCatService().getPositionReportCatList(prcString, prtString, "testInst", "TS", effectiveDate.toLocalDate());
 	  	Assert.assertTrue("There should be Position Report Category with name " + prcString, CollectionUtils.isNotEmpty(prcList));
 	  	
 	}

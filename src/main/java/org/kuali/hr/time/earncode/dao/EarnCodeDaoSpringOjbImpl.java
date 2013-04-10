@@ -15,21 +15,21 @@
  */
 package org.kuali.hr.time.earncode.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.common.collect.ImmutableList;
 
 public class EarnCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements EarnCodeDao {
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
@@ -58,7 +58,7 @@ public class EarnCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
 	}
 
 	@Override
-	public EarnCode getEarnCode(String earnCode, Date asOfDate) {
+	public EarnCode getEarnCode(String earnCode, LocalDate asOfDate) {
 		EarnCode ec = null;
 
 		Criteria root = new Criteria();
@@ -83,7 +83,7 @@ public class EarnCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
 	}
 
 	@Override
-	public List<EarnCode> getOvertimeEarnCodes(Date asOfDate) {
+	public List<EarnCode> getOvertimeEarnCodes(LocalDate asOfDate) {
 		Criteria root = new Criteria();
 
 		root.addEqualTo("ovtEarnCode", "Y");
@@ -110,17 +110,17 @@ public class EarnCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
 	}
 	
 	@Override
-	public int getNewerEarnCodeCount(String earnCode, Date effdt) {
+	public int getNewerEarnCodeCount(String earnCode, LocalDate effdt) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("earnCode", earnCode);
 		crit.addEqualTo("active", "Y");
-		crit.addGreaterThan("effectiveDate", effdt);
+		crit.addGreaterThan("effectiveDate", effdt.toDate());
 		Query query = QueryFactory.newQuery(EarnCode.class, crit);
        	return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 
 	@Override
-	public List<EarnCode> getEarnCodes(String leavePlan, Date asOfDate) {
+	public List<EarnCode> getEarnCodes(String leavePlan, LocalDate asOfDate) {
 		List<EarnCode> earnCodes = new ArrayList<EarnCode>();
 		Criteria root = new Criteria();
 
@@ -147,7 +147,7 @@ public class EarnCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String descr, String leavePlan, String accrualCategory, Date fromEffdt, Date toEffdt, String active, String showHistory) {
+    public List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String descr, String leavePlan, String accrualCategory, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
         List<EarnCode> results = new ArrayList<EarnCode>();
         
         Criteria root = new Criteria();
@@ -174,13 +174,13 @@ public class EarnCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
         
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
         

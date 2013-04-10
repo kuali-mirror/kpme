@@ -74,7 +74,7 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
             	Map<String, String> attributes = roleMember.getAttributes();
             	if (attributes.containsKey(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName())) {
     				Long workArea = Long.valueOf(attributes.get(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName()));
-    				WorkArea workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, new java.sql.Date(roleMember.getActiveFromDateValue().getTime()));
+    				WorkArea workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, roleMember.getActiveFromDate().toLocalDate());
     			
     				if (workAreaObj == null) {
             			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 

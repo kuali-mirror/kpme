@@ -18,6 +18,7 @@ package org.kuali.hr.time.clocklog.service;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.clocklog.ClockLog;
@@ -80,7 +81,7 @@ public interface ClockLogService {
 	 * @param principalId
 	 * @return
 	 */
-    ClockLog processClockLog(Timestamp clockTimestamp, Assignment assignment, CalendarEntry pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId);
+    ClockLog processClockLog(Timestamp clockTimestamp, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, String principalId);
     
     /**
      * Fetch clock log by id
@@ -91,7 +92,7 @@ public interface ClockLogService {
 
     ClockLog buildClockLog(Timestamp clockTimestamp, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip, String userPrincipalId);
 
-    ClockLog processClockLog(Timestamp clockTimeStamp, Assignment assignment, CalendarEntry pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId);
+    ClockLog processClockLog(Timestamp clockTimeStamp, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId);
     
     /**
      * Get warning messages for clock actions taken from unapproved IP address on given timesheet document

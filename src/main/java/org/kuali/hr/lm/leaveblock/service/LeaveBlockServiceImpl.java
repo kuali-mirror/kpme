@@ -67,30 +67,30 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 
 
     @Override
-    public List<LeaveBlock> getLeaveBlocks(String principalId, Date beginDate,
-                                   Date endDate) {
+    public List<LeaveBlock> getLeaveBlocks(String principalId, LocalDate beginDate,
+                                   LocalDate endDate) {
         return leaveBlockDao.getLeaveBlocks(principalId, beginDate, endDate);
     }
 
     @Override
-    public List<LeaveBlock> getLeaveBlocksWithAccrualCategory(String principalId, Date beginDate,
-                                           Date endDate, String accrualCategory) {
+    public List<LeaveBlock> getLeaveBlocksWithAccrualCategory(String principalId, LocalDate beginDate,
+                                           LocalDate endDate, String accrualCategory) {
         return leaveBlockDao.getLeaveBlocksWithAccrualCategory(principalId, beginDate, endDate, accrualCategory);
     }
 
     @Override
-    public List<LeaveBlock> getLeaveBlocksWithType(String principalId, Date beginDate,
-                                           Date endDate, String leaveBlockType) {
+    public List<LeaveBlock> getLeaveBlocksWithType(String principalId, LocalDate beginDate,
+                                           LocalDate endDate, String leaveBlockType) {
         return leaveBlockDao.getLeaveBlocksWithType(principalId, beginDate, endDate, leaveBlockType);
     }
 
     @Override
-    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOver, DateTime endDate, boolean includeAllAccrualCategories) {
+    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOver, LocalDate endDate, boolean includeAllAccrualCategories) {
         return leaveBlockDao.getLeaveBlocksSinceCarryOver(principalId, carryOver, endDate, includeAllAccrualCategories);
     }
 
     @Override
-    public Map<String, LeaveBlock> getLastCarryOverBlocks(String principalId, Date asOfDate) {
+    public Map<String, LeaveBlock> getLastCarryOverBlocks(String principalId, LocalDate asOfDate) {
         if (StringUtils.isEmpty(principalId)) {
             return Collections.emptyMap();
         }
@@ -161,8 +161,8 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     	DateTime calEndDateTime = endDate;
     	
         if(ce != null) {
-        	calBeginDateTime = ce.getBeginLocalDateTime().toDateTime();
-        	calEndDateTime = ce.getEndLocalDateTime().toDateTime();
+        	calBeginDateTime = ce.getBeginPeriodLocalDateTime().toDateTime();
+        	calEndDateTime = ce.getEndPeriodLocalDateTime().toDateTime();
         } else {
             throw new RuntimeException("Calendar Entry parameter is null.");
         }
@@ -192,11 +192,11 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 //        List<Interval> leaveBlockIntervals = TKUtils.createDaySpan(beginDate.toDateMidnight().toDateTime(), endDate.plusDays(1).toDateMidnight().toDateTime(), TKUtils.getSystemDateTimeZone());
 
         // need to use beginDate and endDate of the calendar to find all leaveBlocks since LeaveCalendarDocument Id is not always available
-        List<LeaveBlock> currentLeaveBlocks = getLeaveBlocks(principalId, calBeginDateTime.toDate(), calEndDateTime.toDate());
+        List<LeaveBlock> currentLeaveBlocks = getLeaveBlocks(principalId, calBeginDateTime.toLocalDate(), calEndDateTime.toLocalDate());
     
         // use the current calendar's begin and end date to figure out if this pay period has a leaveDocument
         LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService()
-        		.getDocumentHeader(principalId, ce.getBeginLocalDateTime().toDateTime().toDate(), ce.getEndLocalDateTime().toDateTime().toDate());
+        		.getDocumentHeader(principalId, ce.getBeginPeriodLocalDateTime().toDateTime(), ce.getEndPeriodLocalDateTime().toDateTime());
         String docId = lcdh == null ? null : lcdh.getDocumentId();
         
         // TODO: need to integrate with the scheduled timeoff.
@@ -215,28 +215,26 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
             		 // Currently, we store the accrual category value in the leave code table, but store accrual category id in the leaveBlock.
                     // That's why there is a two step server call to get the id. This might be changed in the future.
 
-                    java.sql.Date sqlDate = new java.sql.Date(ce.getEndLocalDateTime().toDateTime().toDate().getTime());
-                    
                     CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(ce.getHrCalendarId(), new LocalDate().toDateTimeAtStartOfDay());
-                    Date leaveBlockDate = new DateTime(leaveBlockInt.getStartMillis()).toDate();
+                    DateTime leaveBlockDate = new DateTime(leaveBlockInt.getStartMillis());
                     
                     String requestStatus = LMConstants.REQUEST_STATUS.USAGE;
                     if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
                     	TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveBlockDate);
                     	if (tdh != null) {
-     	            	   if (DateUtils.isSameDay(leaveBlockDate, tdh.getEndDate()) || leaveBlockDate.after(tdh.getEndDate())) {
+     	            	   if (DateUtils.isSameDay(leaveBlockDate.toDate(), tdh.getEndDate()) || leaveBlockDate.isAfter(new DateTime(tdh.getEndDate()))) {
      	            		  requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
      	            	   }
      	               } else {
      	            	  requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
      	               }
                     } else {
-                    	if (DateUtils.isSameDay(leaveBlockDate, calendarEntry.getEndPeriodDateTime()) || leaveBlockDate.after(calendarEntry.getEndPeriodDateTime())) {
+                    	if (DateUtils.isSameDay(leaveBlockDate.toDate(), calendarEntry.getEndPeriodDateTime()) || leaveBlockDate.isAfter(calendarEntry.getEndPeriodFullDateTime())) {
                     		requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
                     	}
                     }
                     
-                    EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, sqlDate);
+                    EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, ce.getEndPeriodLocalDateTime().toDateTime().toLocalDate());
                     
                     if(earnCodeObj != null && earnCodeObj.getRecordMethod().equals(LMConstants.RECORD_METHOD.TIME)) {
 	                    if (firstDay != null) {
@@ -247,7 +245,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                            hours = TKUtils.getHoursBetween(leaveBlockInt.getStartMillis(), endTimestamp.getTime());
                                 hours = negateHoursIfNecessary(leaveBlockType, hours);
 	                    		
-	                    		LeaveBlock leaveBlock = buildLeaveBlock(new DateTime(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, new Timestamp(leaveBlockInt.getStartMillis()), endTimestamp);
+	                    		LeaveBlock leaveBlock = buildLeaveBlock(new LocalDate(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, new Timestamp(leaveBlockInt.getStartMillis()), endTimestamp);
 	                            
 			                    if (!currentLeaveBlocks.contains(leaveBlock)) {
 			                        currentLeaveBlocks.add(leaveBlock);
@@ -264,7 +262,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                        	hours = TKUtils.getHoursBetween(beginTemp.getTime(), endTimestamp.getTime());
                                 hours = negateHoursIfNecessary(leaveBlockType, hours);
 	                    		
-	                    		LeaveBlock leaveBlock = buildLeaveBlock(new DateTime(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, beginTemp, endTimestamp);
+	                    		LeaveBlock leaveBlock = buildLeaveBlock(new LocalDate(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, beginTemp, endTimestamp);
 	                            
 			                    if (!currentLeaveBlocks.contains(leaveBlock)) {
 			                        currentLeaveBlocks.add(leaveBlock);
@@ -277,7 +275,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                        	hours = TKUtils.getHoursBetween(beginTemp.getTime(), firstDay.getEndMillis());
                                 hours = negateHoursIfNecessary(leaveBlockType, hours);
 	                    		
-	                    		LeaveBlock leaveBlock = buildLeaveBlock(new DateTime(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, beginTemp, new Timestamp(firstDay.getEndMillis()));
+	                    		LeaveBlock leaveBlock = buildLeaveBlock(new LocalDate(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, beginTemp, new Timestamp(firstDay.getEndMillis()));
 	                            
 			                    if (!currentLeaveBlocks.contains(leaveBlock)) {
 			                        currentLeaveBlocks.add(leaveBlock);
@@ -287,7 +285,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                    }
                     } else {
                         hours = negateHoursIfNecessary(leaveBlockType, hours);
-		                LeaveBlock leaveBlock = buildLeaveBlock(new DateTime(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), 
+		                LeaveBlock leaveBlock = buildLeaveBlock(new LocalDate(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), 
 		                		selectedAssignment, requestStatus, leaveBlockType, null, null);
 	                    if (!currentLeaveBlocks.contains(leaveBlock)) {
 	                        currentLeaveBlocks.add(leaveBlock);
@@ -309,7 +307,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
     
     
-    public LeaveBlock buildLeaveBlock(DateTime leaveDate, String docId, String principalId, String selectedEarnCode, 
+    public LeaveBlock buildLeaveBlock(LocalDate leaveDate, String docId, String principalId, String selectedEarnCode, 
     		BigDecimal hours, String description, String accrualCategory, Assignment selectedAssignment, String requestStatus, String leaveBlockType, Timestamp beginTimeStamp, Timestamp endTimestamp) {
     	
     	LeaveBlock leaveBlock = new LeaveBlock.Builder(leaveDate, docId, principalId, selectedEarnCode, hours)
@@ -369,32 +367,32 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
 	@Override
-	public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date currentDate) {
+	public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, LocalDate currentDate) {
 		return leaveBlockDao.getLeaveBlocks(principalId, leaveBlockType, requestStatus, currentDate);
 	}
 
     @Override
-    public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date beginDate, Date endDate) {
+    public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, LocalDate beginDate, LocalDate endDate) {
         return leaveBlockDao.getLeaveBlocks(principalId, leaveBlockType, requestStatus, beginDate, endDate);
     }
 
 	@Override
-	public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate) {
+	public List<LeaveBlock> getLeaveBlocksForDate(String principalId, LocalDate leaveDate) {
 		return leaveBlockDao.getLeaveBlocksForDate(principalId, leaveDate);
 	}
 
 	@Override
-	public List<LeaveBlock> getNotAccrualGeneratedLeaveBlocksForDate(String principalId, Date leaveDate) {
+	public List<LeaveBlock> getNotAccrualGeneratedLeaveBlocksForDate(String principalId, LocalDate leaveDate) {
 		return leaveBlockDao.getNotAccrualGeneratedLeaveBlocksForDate(principalId, leaveDate);
 	}
 
-	public List<LeaveBlock> getLeaveBlocksForTimeCalendar(String principalId, Date beginDate, Date endDate, List<String> assignmentKeys) {
+	public List<LeaveBlock> getLeaveBlocksForTimeCalendar(String principalId, LocalDate beginDate, LocalDate endDate, List<String> assignmentKeys) {
 		List<LeaveBlock> col = leaveBlockDao.getCalendarLeaveBlocks(principalId, beginDate, endDate);
 		List<LeaveBlock> leaveBlocks = filterLeaveBlocksForTimeCalendar(col, assignmentKeys);
 		return leaveBlocks;
 	}
 	
-	public List<LeaveBlock> getLeaveBlocksForLeaveCalendar(String principalId, Date beginDate, Date endDate, List<String> assignmentKeys) {
+	public List<LeaveBlock> getLeaveBlocksForLeaveCalendar(String principalId, LocalDate beginDate, LocalDate endDate, List<String> assignmentKeys) {
 		List<LeaveBlock> col = leaveBlockDao.getLeaveBlocks(principalId, beginDate, endDate);
 		List<LeaveBlock> leaveBlocks = filterLeaveBlocksForLeaveCalendar(col, assignmentKeys);
 		return leaveBlocks;
@@ -455,12 +453,12 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     
     
     @Override
-    public List<LeaveBlock> getAccrualGeneratedLeaveBlocks(String principalId, Date beginDate, Date endDate) {
+    public List<LeaveBlock> getAccrualGeneratedLeaveBlocks(String principalId, LocalDate beginDate, LocalDate endDate) {
     	return leaveBlockDao.getAccrualGeneratedLeaveBlocks(principalId, beginDate, endDate);
     }
     
     @Override
-    public List<LeaveBlock> getSSTOLeaveBlocks(String principalId, String sstoId, Date accruledDate) {
+    public List<LeaveBlock> getSSTOLeaveBlocks(String principalId, String sstoId, LocalDate accruledDate) {
     	return leaveBlockDao.getSSTOLeaveBlocks(principalId, sstoId, accruledDate);
     }
     

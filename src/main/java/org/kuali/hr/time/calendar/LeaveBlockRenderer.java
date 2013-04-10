@@ -124,7 +124,7 @@ public class LeaveBlockRenderer {
         StringBuilder b = new StringBuilder();
 
         if(leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp() != null) {
-        	String earnCodeType = TkServiceLocator.getEarnCodeService().getEarnCodeType(leaveBlock.getEarnCode(), new java.sql.Date(leaveBlock.getBeginTimestamp().getTime()));
+        	String earnCodeType = TkServiceLocator.getEarnCodeService().getEarnCodeType(leaveBlock.getEarnCode(), new DateTime(leaveBlock.getBeginTimestamp()).toLocalDate());
         	if(StringUtils.equals(earnCodeType, TkConstants.EARN_CODE_TIME)) {
 	        	DateTime start = new DateTime(leaveBlock.getBeginTimestamp().getTime());
 	        	DateTime end = new DateTime(leaveBlock.getEndTimestamp().getTime());

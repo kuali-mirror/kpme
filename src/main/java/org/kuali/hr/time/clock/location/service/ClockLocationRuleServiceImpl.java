@@ -15,15 +15,15 @@
  */
 package org.kuali.hr.time.clock.location.service;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.clock.location.ClockLocationRuleIpAddress;
 import org.kuali.hr.time.clock.location.dao.ClockLocationDao;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.sql.Date;
-import java.util.List;
 
 public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 	private ClockLocationDao clockLocationDao;
@@ -36,7 +36,7 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 		this.clockLocationDao = clockLocationDao;
 	}
 
-	public void processClockLocationRule(ClockLog clockLog, Date asOfDate){
+	public void processClockLocationRule(ClockLog clockLog, LocalDate asOfDate){
 		List<ClockLocationRule> lstClockLocationRules = getClockLocationRule(clockLog.getJob().getDept(),
 										clockLog.getWorkArea(), clockLog.getPrincipalId(), clockLog.getJobNumber(), asOfDate);
 		if(lstClockLocationRules.isEmpty()){
@@ -77,7 +77,7 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 	}
 
 	@Override
-	public List<ClockLocationRule> getClockLocationRule(String dept, Long workArea,String principalId, Long jobNumber, Date asOfDate) {
+	public List<ClockLocationRule> getClockLocationRule(String dept, Long workArea,String principalId, Long jobNumber, LocalDate asOfDate) {
 
         // 1 : dept, wa, principal, job
 		List<ClockLocationRule> clockLocationRule = clockLocationDao.getClockLocationRule(dept, workArea,principalId,jobNumber,asOfDate);
@@ -129,7 +129,7 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 	@Override
 	public List<ClockLocationRule> getNewerVersionClockLocationRule(
 			String dept, Long workArea, String principalId, Long jobNumber,
-			Date asOfDate) {
+			LocalDate asOfDate) {
 		 
 		return clockLocationDao.getNewerVersionClockLocationRule(dept, workArea, principalId, jobNumber, asOfDate);
 	}
@@ -143,7 +143,7 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 		clockLocationDao.populateIPAddressesForCLR(clr);
 	}
 
-    public List<ClockLocationRule> getClockLocationRules(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
+    public List<ClockLocationRule> getClockLocationRules(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
                                                          String dept, String workArea, String active, String showHistory){
         return clockLocationDao.getClockLocationRules(fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
 

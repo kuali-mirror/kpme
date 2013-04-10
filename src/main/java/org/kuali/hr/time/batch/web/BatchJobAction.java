@@ -15,8 +15,6 @@
  */
 package org.kuali.hr.time.batch.web;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.joda.time.DateTime;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -36,7 +35,7 @@ public class BatchJobAction extends TkAction {
         String batchJobName = bjaf.getSelectedBatchJob();
 
         CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(bjaf.getHrPyCalendarEntryId());
-        Date scheduleDate = new Date();
+        DateTime scheduleDate = new DateTime();
         
         if (StringUtils.equals(batchJobName, TkConstants.BATCH_JOB_NAMES.INITIATE)) {
         	TkServiceLocator.getBatchJobService().scheduleInitiateJobs(calendarEntry, scheduleDate);

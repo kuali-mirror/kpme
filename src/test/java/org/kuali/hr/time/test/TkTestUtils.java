@@ -34,6 +34,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.Duration;
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
@@ -80,11 +81,11 @@ public class TkTestUtils {
 		}
 	}
 
-	public static TimesheetDocument populateTimesheetDocument(Date calDate) {
+	public static TimesheetDocument populateTimesheetDocument(DateTime calDate) {
 		try {
 			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getTargetPrincipalId(),
 							TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getTargetPrincipalId(),
-									new DateTime(calDate)));
+									calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
 			}
@@ -206,7 +207,7 @@ public class TkTestUtils {
 		return timeBlock;
 	}
 
-	public static List<Job> getJobs(Date calDate){
+	public static List<Job> getJobs(LocalDate calDate){
 		return TkServiceLocator.getJobService().getJobs(TKContext.getPrincipalId(), calDate);
 	}
 	/**

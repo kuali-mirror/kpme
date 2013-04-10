@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.lm.accrual.service;
 
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 
@@ -40,10 +40,10 @@ public interface AccrualCategoryRuleService {
     /**
      * Fetch the accrual category rule applies for the given date and accrualCategory
      */
-    public AccrualCategoryRule getAccrualCategoryRuleForDate(AccrualCategory accrualCategory, Date currentDate, Date serviceDate);
+    public AccrualCategoryRule getAccrualCategoryRuleForDate(AccrualCategory accrualCategory, LocalDate currentDate, LocalDate serviceDate);
     
-    public List <AccrualCategoryRule> getActiveRulesForAccrualCategoryId(String accrualCategoryId, Date asOfDate);
+    public List <AccrualCategoryRule> getActiveRulesForAccrualCategoryId(String accrualCategoryId);
     
-    public List <AccrualCategoryRule> getInActiveRulesForAccrualCategoryId(String accrualCategoryId, Date asOfDate);
+    public List <AccrualCategoryRule> getInActiveRulesForAccrualCategoryId(String accrualCategoryId);
 
 }

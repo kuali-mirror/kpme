@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.dept.lunch.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,10 +25,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -43,7 +42,7 @@ public class DepartmentLunchRuleDaoImpl  extends PlatformAwareDaoBaseOjb impleme
 
 	@Override
 	public DeptLunchRule getDepartmentLunchRule(String dept, Long workArea, String principalId, 
-												Long jobNumber, Date asOfDate) {
+												Long jobNumber, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 
 		root.addEqualTo("dept", dept);
@@ -95,7 +94,7 @@ public class DepartmentLunchRuleDaoImpl  extends PlatformAwareDaoBaseOjb impleme
         
         if (StringUtils.isNotBlank(dept)) {
             Criteria workAreaCriteria = new Criteria();
-            Date asOfDate = TKUtils.getCurrentDate();
+            LocalDate asOfDate = LocalDate.now();
             Collection<WorkArea> workAreasForDept = TkServiceLocator.getWorkAreaService().getWorkAreas(dept,asOfDate);
             if (CollectionUtils.isNotEmpty(workAreasForDept)) {
                 List<Long> longWorkAreas = new ArrayList<Long>();

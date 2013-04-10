@@ -18,6 +18,7 @@ package org.kuali.hr.time.batch;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -45,7 +46,6 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -70,7 +70,7 @@ public class CarryOverJob implements Job{
             String leavePlan = jobDataMap.getString("leavePlan");
             if (leavePlan!= null) {
 
-                Date asOfDate = TKUtils.getCurrentDate();
+            	LocalDate asOfDate = LocalDate.now();
                 LeavePlan leavePlanObj = getLeavePlanService().getLeavePlan(leavePlan, asOfDate);
                 List<Assignment> assignments = getAssignmentService().getActiveAssignments(asOfDate);
 
@@ -84,18 +84,18 @@ public class CarryOverJob implements Job{
                         principalIds.add(principalId);
 
                         if (principalHRAttributes != null) {
-                            Date serviceDate = principalHRAttributes.getServiceDate();
+                            LocalDate serviceDate = principalHRAttributes.getServiceLocalDate();
                             if(serviceDate != null){
 
                                 if (leavePlanObj != null && leavePlanObj.getLeavePlan().equalsIgnoreCase(principalHRAttributes.getLeavePlan())) {
 
-                                    DateTime leavePlanStartDate = getLeavePlanService().getFirstDayOfLeavePlan(leavePlan, TKUtils.getCurrentDate());
+                                    DateTime leavePlanStartDate = getLeavePlanService().getFirstDayOfLeavePlan(leavePlan, LocalDate.now());
 
                                     DateTime lpPreviousLastDay = (new LocalDateTime(leavePlanStartDate)).toDateTime().minus(1);
-                                    DateTime lpPreviousFirstDay = new DateTime(getLeavePlanService().getFirstDayOfLeavePlan(leavePlan, new Date(lpPreviousLastDay.toDateTime().toDateMidnight().getMillis())));
+                                    DateTime lpPreviousFirstDay = getLeavePlanService().getFirstDayOfLeavePlan(leavePlan, lpPreviousLastDay.toLocalDate());
 
-                                    List<LeaveBlock> prevYearCarryOverleaveBlocks = getLeaveBlockService().getLeaveBlocksWithType(principalId,  lpPreviousFirstDay.toDateMidnight().toDate(), lpPreviousLastDay.toDateMidnight().toDate(), LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER);
-                                    LeaveSummary leaveSummary = getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(principalId, new java.sql.Date(lpPreviousLastDay.getMillis()));
+                                    List<LeaveBlock> prevYearCarryOverleaveBlocks = getLeaveBlockService().getLeaveBlocksWithType(principalId,  lpPreviousFirstDay.toLocalDate(), lpPreviousLastDay.toLocalDate(), LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER);
+                                    LeaveSummary leaveSummary = getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(principalId, lpPreviousLastDay.toLocalDate());
                                     //no existing carry over blocks.  just create new
                                     if(CollectionUtils.isEmpty(prevYearCarryOverleaveBlocks)){
                                         getLeaveBlockService().saveLeaveBlocks(createCarryOverLeaveBlocks(principalId, lpPreviousLastDay, leaveSummary));

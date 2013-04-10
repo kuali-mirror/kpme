@@ -15,12 +15,11 @@
  */
 package org.kuali.hr.time.department.service;
 
-import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.role.department.DepartmentPrincipalRoleMemberBo;
 import org.kuali.hr.time.department.Department;
@@ -46,7 +45,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 		Department departmentObj = departmentDao.getDepartment(hrDeptId);
 		
 		if (departmentObj != null) {
-			populateDepartmentRoleMembers(departmentObj, departmentObj.getEffectiveDate());
+			populateDepartmentRoleMembers(departmentObj, departmentObj.getEffectiveLocalDate());
 		}
 		
 		return departmentObj;
@@ -57,7 +56,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     	List<Department> departmentObjs = departmentDao.getDepartments(department, location, descr, active);
         
         for (Department departmentObj : departmentObjs) {
-        	populateDepartmentRoleMembers(departmentObj, departmentObj.getEffectiveDate());
+        	populateDepartmentRoleMembers(departmentObj, departmentObj.getEffectiveLocalDate());
         }
         
         return departmentObjs;
@@ -69,7 +68,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 	
     @Override
-	public Department getDepartment(String department, Date asOfDate) {
+	public Department getDepartment(String department, LocalDate asOfDate) {
         Department departmentObj = departmentDao.getDepartment(department, asOfDate);
         
         if (departmentObj != null) {
@@ -80,32 +79,34 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 
     @Override
-    public List<Department> getDepartments(String location, Date asOfDate) {
+    public List<Department> getDepartments(String location, LocalDate asOfDate) {
         List<Department> departmentObjs = departmentDao.getDepartments(location, asOfDate);
 
         for (Department departmentObj : departmentObjs) {
-        	populateDepartmentRoleMembers(departmentObj, departmentObj.getEffectiveDate());
+        	populateDepartmentRoleMembers(departmentObj, departmentObj.getEffectiveLocalDate());
         }
 
         return departmentObjs;
     }
 
-    private void populateDepartmentRoleMembers(Department department, Date asOfDate) {
+    private void populateDepartmentRoleMembers(Department department, LocalDate asOfDate) {
     	Set<RoleMember> roleMembers = new HashSet<RoleMember>();
     	
-    	roleMembers.addAll(TkServiceLocator.getTKRoleService().getRoleMembersInDepartment(KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), new DateTime(asOfDate), false));
-    	roleMembers.addAll(TkServiceLocator.getTKRoleService().getRoleMembersInDepartment(KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), new DateTime(asOfDate), false));
-    	roleMembers.addAll(TkServiceLocator.getLMRoleService().getRoleMembersInDepartment(KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), new DateTime(asOfDate), false));
-    	roleMembers.addAll(TkServiceLocator.getLMRoleService().getRoleMembersInDepartment(KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), new DateTime(asOfDate), false));
-
-    	for (RoleMember roleMember : roleMembers) {
-    		RoleMemberBo roleMemberBo = RoleMemberBo.from(roleMember);
-    		
-    		if (roleMemberBo.isActive()) {
-    			department.addRoleMember(DepartmentPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
-    		} else {
-    			department.addInactiveRoleMember(DepartmentPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
-    		}
+    	if (department != null && asOfDate != null) {
+	    	roleMembers.addAll(TkServiceLocator.getTKRoleService().getRoleMembersInDepartment(KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(TkServiceLocator.getTKRoleService().getRoleMembersInDepartment(KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(TkServiceLocator.getLMRoleService().getRoleMembersInDepartment(KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(TkServiceLocator.getLMRoleService().getRoleMembersInDepartment(KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
+	
+	    	for (RoleMember roleMember : roleMembers) {
+	    		RoleMemberBo roleMemberBo = RoleMemberBo.from(roleMember);
+	    		
+	    		if (roleMemberBo.isActive()) {
+	    			department.addRoleMember(DepartmentPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
+	    		} else {
+	    			department.addInactiveRoleMember(DepartmentPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
+	    		}
+	    	}
     	}
     }
 

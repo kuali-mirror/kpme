@@ -17,10 +17,10 @@ package org.kuali.hr.job.validation;
 
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -43,7 +43,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 		if (job.getJobNumber() != null) {
 			Job jobObj = TkServiceLocator.getJobService().getJob(
 					job.getPrincipalId(), job.getJobNumber(),
-					job.getEffectiveDate(), false);
+					job.getEffectiveLocalDate(), false);
 			if (jobObj != null) {
 				String[] parameters = new String[2];
 				parameters[0] = job.getJobNumber().toString();
@@ -59,7 +59,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 	protected boolean validateDepartment(Job job) {
 		if (job.getDept() != null
 				&& !ValidationUtils.validateDepartment(job.getDept(), job
-						.getEffectiveDate())) {
+						.getEffectiveLocalDate())) {
 			this.putFieldError("dept", "error.existence", "department '"
 					+ job.getDept() + "'");
 			return false;
@@ -70,7 +70,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 
 	boolean validateSalGroup(Job job) {
 		if (!ValidationUtils.validateSalGroup(job.getHrSalGroup(), job
-				.getEffectiveDate())) {
+				.getEffectiveLocalDate())) {
 			this.putFieldError("hrSalGroup", "error.existence", "Salgroup '"
 					+ job.getHrSalGroup() + "'");
 			return false;
@@ -93,7 +93,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 	boolean validatePayType(Job job) {
 		if (job.getHrPayType() != null
 				&& !ValidationUtils.validatePayType(job.getHrPayType(), job
-						.getEffectiveDate())) {
+						.getEffectiveLocalDate())) {
 			this.putFieldError("hrPayType", "error.existence", "pay type '"
 					+ job.getHrPayType() + "'");
 			return false;
@@ -105,7 +105,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 	boolean validatePayGrade(Job job) {
 		if (job.getPayGrade() != null
 				&& !ValidationUtils.validatePayGrade(job.getPayGrade(), job
-						.getEffectiveDate())) {
+						.getEffectiveLocalDate())) {
 			this.putFieldError("payGrade", "error.existence", "pay grade '"
 					+ job.getPayGrade() + "'");
 			return false;
@@ -121,7 +121,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 			if(oldJob!=null && oldJob.getPrimaryIndicator()!=null && oldJob.getPrimaryIndicator()){
 				return valid;
 			}
-			Job existingJob = TkServiceLocator.getJobService().getPrimaryJob(job.getPrincipalId(), TKUtils.getCurrentDate());
+			Job existingJob = TkServiceLocator.getJobService().getPrimaryJob(job.getPrincipalId(), LocalDate.now());
 			if (existingJob != null && existingJob.getPrimaryIndicator()) {
 				this.putFieldError("primaryIndicator", "error.primary.job.already.exist", job.getPrincipalId());
 				valid = false;
@@ -138,7 +138,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 		// If the list is not null, there are active assignments and the job can't be inactivated, so return false, otherwise true
 		if(!job.isActive()) {
 			//this has to use the effective date of the job passed in
-			List<Assignment> aList = TkServiceLocator.getAssignmentService().getActiveAssignmentsForJob(job.getPrincipalId(), job.getJobNumber(), job.getEffectiveDate());
+			List<Assignment> aList = TkServiceLocator.getAssignmentService().getActiveAssignmentsForJob(job.getPrincipalId(), job.getJobNumber(), job.getEffectiveLocalDate());
 			if (aList != null && aList.size() > 0) {
 				// error.job.inactivate=Can not inactivate job number {0}.  It is used in active assignments.
 				this.putFieldError("active", "error.job.inactivate", job.getJobNumber().toString());

@@ -33,6 +33,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -77,7 +78,7 @@ public class TimesheetSubmitAction extends TkAction {
             				TkConstants.FLSA_STATUS_NON_EXEMPT, true);
             	if(nonExemptLE) {
             		Map<String,Set<LeaveBlock>> eligibilities = TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(document.getCalendarEntry(), document.getPrincipalId());
-            		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), document.getCalendarEntry().getEndPeriodDate());
+            		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), document.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
 					Calendar cal = pha.getLeaveCalObj();
 					if(cal == null) {
 						//non exempt leave eligible employee without a leave calendar?
@@ -97,7 +98,7 @@ public class TimesheetSubmitAction extends TkAction {
 		            			if(ObjectUtils.isNotNull(aRule)
 		            					&& !StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) {
 		            				if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
-		            					DateTime rollOverDate = TkServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(pha.getLeavePlan(), document.getCalendarEntry().getBeginPeriodDate());
+		            					DateTime rollOverDate = TkServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(pha.getLeavePlan(), document.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate());
 		            					//the final calendar period of the leave plan should end within this time sheet 
 		            					if(interval.contains(rollOverDate.minusDays(1).getMillis())) {
 		            						//only leave blocks belonging to the calendar entry being submitted may reach this point
@@ -164,7 +165,7 @@ public class TimesheetSubmitAction extends TkAction {
             }
         }
         
-        TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(document, document.getAsOfDate());
+        TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(document, LocalDate.fromDateFields(document.getAsOfDate()));
         ActionRedirect rd = new ActionRedirect(mapping.findForward("timesheetRedirect"));
         rd.addParameter("documentId", tsaf.getDocumentId());
 

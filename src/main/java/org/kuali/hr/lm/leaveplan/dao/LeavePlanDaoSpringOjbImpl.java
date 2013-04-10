@@ -15,21 +15,21 @@
  */
 package org.kuali.hr.lm.leaveplan.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.common.collect.ImmutableList;
 
 public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeavePlanDao {
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
@@ -45,14 +45,12 @@ public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
 	}
 	
 	@Override
-	public LeavePlan getLeavePlan(String leavePlan, Date asOfDate) {
+	public LeavePlan getLeavePlan(String leavePlan, LocalDate asOfDate) {
 		LeavePlan lp = null;
 
 		Criteria root = new Criteria();
-
-        java.sql.Date effDate = asOfDate == null ? null : new java.sql.Date(asOfDate.getTime());
 		root.addEqualTo("leavePlan", leavePlan);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LeavePlan.class, effDate, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LeavePlan.class, asOfDate, EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeavePlan.class, EQUAL_TO_FIELDS, false));
 		
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -79,11 +77,11 @@ public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
 	}
 	
 	@Override
-	public List<LeavePlan> getAllActiveLeavePlan(String leavePlan, Date asOfDate) {
+	public List<LeavePlan> getAllActiveLeavePlan(String leavePlan, LocalDate asOfDate) {
 		Criteria root = new Criteria();
         root.addEqualTo("leavePlan", leavePlan);
         root.addEqualTo("active", true);
-        root.addLessOrEqualThan("effectiveDate", asOfDate);
+        root.addLessOrEqualThan("effectiveDate", asOfDate.toDate());
 
         Query query = QueryFactory.newQuery(LeavePlan.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -97,11 +95,11 @@ public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
 	}
 	
 	@Override
-	public List<LeavePlan> getAllInActiveLeavePlan(String leavePlan, Date asOfDate) {
+	public List<LeavePlan> getAllInActiveLeavePlan(String leavePlan, LocalDate asOfDate) {
 		Criteria root = new Criteria();
         root.addEqualTo("leavePlan", leavePlan);
         root.addEqualTo("active", false);
-        root.addLessOrEqualThan("effectiveDate", asOfDate);
+        root.addLessOrEqualThan("effectiveDate", asOfDate.toDate());
         
         Query query = QueryFactory.newQuery(LeavePlan.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -115,7 +113,7 @@ public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths, Date fromEffdt, Date toEffdt, 
+    public List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths, LocalDate fromEffdt, LocalDate toEffdt, 
     									 String active, String showHistory) {
 
         List<LeavePlan> results = new ArrayList<LeavePlan>();
@@ -140,13 +138,13 @@ public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
         
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
 
@@ -173,7 +171,7 @@ public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
 
 	@Override
 	public List<LeavePlan> getLeavePlansNeedsScheduled(int thresholdDays,
-			Date asOfDate) {
+			LocalDate asOfDate) {
 
         Criteria root = new Criteria();
 

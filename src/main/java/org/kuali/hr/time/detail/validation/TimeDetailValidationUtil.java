@@ -16,7 +16,6 @@
 package org.kuali.hr.time.detail.validation;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +27,7 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Hours;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -68,7 +68,6 @@ public class TimeDetailValidationUtil {
         if (errors.size() > 0) return errors;
 
         CalendarEntry payCalEntry = timesheetDocument.getCalendarEntry();
-        java.sql.Date asOfDate = payCalEntry.getEndPeriodDate();
 
         errors.addAll(TimeDetailValidationUtil.validateDates(startDateS, endDateS));
         errors.addAll(TimeDetailValidationUtil.validateTimes(startTimeS, endTimeS));
@@ -92,7 +91,7 @@ public class TimeDetailValidationUtil {
 
         EarnCode earnCode = new EarnCode();
         if (StringUtils.isNotBlank(selectedEarnCode)) {
-            earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, asOfDate);
+            earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, payCalEntry.getEndPeriodFullDateTime().toLocalDate());
 
             if (earnCode != null && earnCode.getRecordMethod()!= null && earnCode.getRecordMethod().equalsIgnoreCase(TkConstants.EARN_CODE_TIME)) {
                 if (startTimeS == null) errors.add("The start time is blank.");
@@ -113,10 +112,10 @@ public class TimeDetailValidationUtil {
 
         //Check that assignment is valid for both days
         AssignmentDescriptionKey assignKey = TkServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssignment);
-        Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(assignKey, new Date(startTime));
-        if (assign == null) errors.add("Assignment is not valid for start date " + TKUtils.formatDate(new Date(startTime)));
-        assign = TkServiceLocator.getAssignmentService().getAssignment(assignKey, new Date(endTime));
-        if (assign == null) errors.add("Assignment is not valid for end date " + TKUtils.formatDate(new Date(endTime)));
+        Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(assignKey, startTemp.toLocalDate());
+        if (assign == null) errors.add("Assignment is not valid for start date " + TKUtils.formatDate(new LocalDate(startTime)));
+        assign = TkServiceLocator.getAssignmentService().getAssignment(assignKey, endTemp.toLocalDate());
+        if (assign == null) errors.add("Assignment is not valid for end date " + TKUtils.formatDate(new LocalDate(endTime)));
         if (errors.size() > 0) return errors;
 
         //------------------------
@@ -286,8 +285,8 @@ public class TimeDetailValidationUtil {
 
     public static List<String> validateInterval(CalendarEntry payCalEntry, Long startTime, Long endTime) {
         List<String> errors = new ArrayList<String>();
-        LocalDateTime pcb_ldt = payCalEntry.getBeginLocalDateTime();
-        LocalDateTime pce_ldt = payCalEntry.getEndLocalDateTime();
+        LocalDateTime pcb_ldt = payCalEntry.getBeginPeriodLocalDateTime();
+        LocalDateTime pce_ldt = payCalEntry.getEndPeriodLocalDateTime();
         DateTimeZone utz = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         DateTime p_cal_b_dt = pcb_ldt.toDateTime(utz);
         DateTime p_cal_e_dt = pce_ldt.toDateTime(utz);

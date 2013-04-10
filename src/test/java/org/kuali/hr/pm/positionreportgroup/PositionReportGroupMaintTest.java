@@ -1,6 +1,5 @@
 package org.kuali.hr.pm.positionreportgroup;
 
-import java.sql.Date;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -47,9 +46,9 @@ public class PositionReportGroupMaintTest extends KPMETestCase {
 	
 	@Test
 	public void testAddNew() throws Exception {
-		Date effectiveDate =  new Date((new DateTime(2012, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		DateTime effectiveDate =  new DateTime(2012, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		String prgString = "testPRG";
-		List<PositionReportGroup> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(prgString, "testInst", "TS", effectiveDate);
+		List<PositionReportGroup> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(prgString, "testInst", "TS", effectiveDate.toLocalDate());
 		Assert.assertTrue("There should NOT be Position Report Group with name " + prgString, CollectionUtils.isEmpty(prgList));
 		
 	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_GROUP_MAINT_NEW_URL;
@@ -86,7 +85,7 @@ public class PositionReportGroupMaintTest extends KPMETestCase {
 	  	page = element.click();
 	  	Assert.assertFalse("page text contains error", page.asText().contains("error"));
 	  	
-	  	prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(prgString, "testInst", "TS", effectiveDate);
+	  	prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(prgString, "testInst", "TS", effectiveDate.toLocalDate());
 	  	Assert.assertTrue("There should be Position Report Group with name " + prgString, CollectionUtils.isNotEmpty(prgList));
 	  	
 	}

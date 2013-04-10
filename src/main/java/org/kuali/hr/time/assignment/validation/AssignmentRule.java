@@ -16,7 +16,6 @@
 package org.kuali.hr.time.assignment.validation;
 
 import java.sql.Date;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentAccount;
@@ -48,7 +48,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		boolean valid = true;
 		if (assignment.getWorkArea() != null) {
 			if (!ValidationUtils.validateWorkArea(assignment.getWorkArea(),
-					assignment.getEffectiveDate())) {
+					assignment.getEffectiveLocalDate())) {
 				this.putFieldError("workArea", "error.existence", "workArea '"
 						+ assignment.getWorkArea() + "'");
 				valid = false;
@@ -67,7 +67,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		boolean valid = true;
 		//task by default is zero so if non zero validate against existing taskss
 		if (assignment.getTask() != null && !assignment.getTask().equals(0L)) {
-			Task task = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveDate());
+			Task task = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveLocalDate());
 			if(task != null) {
 				if(task.getWorkArea() == null || !task.getWorkArea().equals(assignment.getWorkArea())) {
 					this.putFieldError("task", "task.workarea.invalid.sync");
@@ -96,7 +96,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		LOG.debug("Validating job: " + assignment.getPrincipalId() +" Job number: "+assignment.getJobNumber());
 		Job job = TkServiceLocator.getJobService().getJob(
 				assignment.getPrincipalId(), assignment.getJobNumber(),
-				assignment.getEffectiveDate(), false);
+				assignment.getEffectiveLocalDate(), false);
 		// Job job =
 		// KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Job.class,
 		// assignment.getJob().getHrJobId());
@@ -158,9 +158,8 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	protected boolean validateEarnCode(AssignmentAccount assignmentAccount) {
 		boolean valid = false;
 		LOG.debug("Validating EarnCode: " + assignmentAccount.getEarnCode());
-		Date date = new Date(Calendar.getInstance().getTimeInMillis());
 		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(
-				assignmentAccount.getEarnCode(), date);
+				assignmentAccount.getEarnCode(), LocalDate.now());
 		if (earnCode != null) {
 
 			valid = true;
@@ -178,9 +177,9 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		LOG.debug("Validating Regular pay EarnCodes: " + assignment.getAssignmentAccounts().size());
 		for(AssignmentAccount assignmentAccount : assignment.getAssignmentAccounts()){
 			if(assignment.getJobNumber()!=null && assignment.getPrincipalId()!=null){
-				Job job = TkServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveDate(), false);
+				Job job = TkServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveLocalDate(), false);
 				if(job !=null){
-					PayType payType = TkServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), assignment.getEffectiveDate());
+					PayType payType = TkServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), assignment.getEffectiveLocalDate());
 					if(StringUtils.equals(assignmentAccount.getEarnCode(), payType.getRegEarnCode())){
 						valid = true;
 						break;

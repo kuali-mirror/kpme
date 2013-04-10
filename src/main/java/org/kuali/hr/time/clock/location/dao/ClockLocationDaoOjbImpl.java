@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.clock.location.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,11 +25,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.clock.location.ClockLocationRuleIpAddress;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -42,7 +41,7 @@ public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
             .add("principalId")
             .build();
 
-	public List<ClockLocationRule> getClockLocationRule(String dept, Long workArea, String principalId, Long jobNumber, Date asOfDate){
+	public List<ClockLocationRule> getClockLocationRule(String dept, Long workArea, String principalId, Long jobNumber, LocalDate asOfDate){
 		Criteria root = new Criteria();
 
 		root.addEqualTo("dept", dept);
@@ -72,13 +71,13 @@ public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
 	@Override
 	public List<ClockLocationRule> getNewerVersionClockLocationRule(
 			String dept, Long workArea, String principalId, Long jobNumber,
-			Date asOfDate) {
+			LocalDate asOfDate) {
 		Criteria root = new Criteria();
 		root.addEqualTo("dept", dept);
 		root.addEqualTo("workArea", workArea);
 		root.addEqualTo("principalId", principalId);
 		root.addEqualTo("jobNumber", jobNumber);
-		root.addGreaterThan("effectiveDate", asOfDate);
+		root.addGreaterThan("effectiveDate", asOfDate.toDate());
 		
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
@@ -121,7 +120,7 @@ public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<ClockLocationRule> getClockLocationRules(Date fromEffdt, Date toEffdt, String principalId, String jobNumber, String dept, String workArea, 
+    public List<ClockLocationRule> getClockLocationRules(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber, String dept, String workArea, 
     													 String active, String showHistory) {
 
         List<ClockLocationRule> results = new ArrayList<ClockLocationRule>();
@@ -130,13 +129,13 @@ public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
 
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
 
@@ -154,7 +153,7 @@ public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
 
         if (StringUtils.isNotBlank(dept)) {
             Criteria workAreaCriteria = new Criteria();
-            Date asOfDate = toEffdt != null ? toEffdt : TKUtils.getCurrentDate();
+            LocalDate asOfDate = toEffdt != null ? toEffdt : LocalDate.now();
             Collection<WorkArea> workAreasForDept = TkServiceLocator.getWorkAreaService().getWorkAreas(dept,asOfDate);
             if (CollectionUtils.isNotEmpty(workAreasForDept)) {
                 List<Long> longWorkAreas = new ArrayList<Long>();

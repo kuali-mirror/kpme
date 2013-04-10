@@ -15,12 +15,11 @@
  */
 package org.kuali.hr.location.service;
 
-import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.role.location.LocationPrincipalRoleMemberBo;
 import org.kuali.hr.location.Location;
@@ -46,7 +45,7 @@ public class LocationServiceImpl implements LocationService {
 		Location locationObj = locationDao.getLocation(hrLocationId);
 		
 		if (locationObj != null) {
-			populateLocationRoleMembers(locationObj, locationObj.getEffectiveDate());
+			populateLocationRoleMembers(locationObj, locationObj.getEffectiveLocalDate());
 		}
 		
 		return locationObj;
@@ -57,7 +56,7 @@ public class LocationServiceImpl implements LocationService {
 		return locationDao.getLocationCount(location);
 	}
 	
-	public Location getLocation(String location, Date asOfDate) {
+	public Location getLocation(String location, LocalDate asOfDate) {
 		Location locationObj = locationDao.getLocation(location, asOfDate);
 		
 		if (locationObj != null) {
@@ -67,22 +66,24 @@ public class LocationServiceImpl implements LocationService {
 		return locationObj;
 	}
 	
-    private void populateLocationRoleMembers(Location location, Date asOfDate) {
+    private void populateLocationRoleMembers(Location location, LocalDate asOfDate) {
     	Set<RoleMember> roleMembers = new HashSet<RoleMember>();
     	
-    	roleMembers.addAll(TkServiceLocator.getTKRoleService().getRoleMembersInLocation(KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), location.getLocation(), new DateTime(asOfDate), false));
-    	roleMembers.addAll(TkServiceLocator.getTKRoleService().getRoleMembersInLocation(KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location.getLocation(), new DateTime(asOfDate), false));
-    	roleMembers.addAll(TkServiceLocator.getLMRoleService().getRoleMembersInLocation(KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location.getLocation(), new DateTime(asOfDate), false));
-    	roleMembers.addAll(TkServiceLocator.getLMRoleService().getRoleMembersInLocation(KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location.getLocation(), new DateTime(asOfDate), false));
-
-    	for (RoleMember roleMember : roleMembers) {
-    		RoleMemberBo roleMemberBo = RoleMemberBo.from(roleMember);
-    		
-    		if (roleMemberBo.isActive()) {
-    			location.addRoleMember(LocationPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
-    		} else {
-    			location.addInactiveRoleMember(LocationPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
-    		}
+    	if (location != null && asOfDate != null) {
+	    	roleMembers.addAll(TkServiceLocator.getTKRoleService().getRoleMembersInLocation(KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(TkServiceLocator.getTKRoleService().getRoleMembersInLocation(KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(TkServiceLocator.getLMRoleService().getRoleMembersInLocation(KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(TkServiceLocator.getLMRoleService().getRoleMembersInLocation(KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
+	
+	    	for (RoleMember roleMember : roleMembers) {
+	    		RoleMemberBo roleMemberBo = RoleMemberBo.from(roleMember);
+	    		
+	    		if (roleMemberBo.isActive()) {
+	    			location.addRoleMember(LocationPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
+	    		} else {
+	    			location.addInactiveRoleMember(LocationPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
+	    		}
+	    	}
     	}
     }
 

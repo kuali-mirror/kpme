@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.location.dao;
 
-import org.kuali.hr.location.Location;
-
-import java.sql.Date;
 import java.util.List;
+
+import org.joda.time.LocalDate;
+import org.kuali.hr.location.Location;
 
 public interface LocationDao {
 	/**
@@ -27,7 +27,7 @@ public interface LocationDao {
 	 * @param asOfDate
 	 * @return
 	 */
-	public Location getLocation(String location,Date asOfDate);
+	public Location getLocation(String location,LocalDate asOfDate);
 	/**
 	 * Get location by unique id
 	 * @param hrLocationId

@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.lm.leaveadjustment.service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leaveadjustment.LeaveAdjustment;
 import org.kuali.hr.lm.leaveadjustment.dao.LeaveAdjustmentDao;
 
@@ -26,7 +26,7 @@ public class LeaveAdjustmentServiceImpl implements LeaveAdjustmentService {
 	private LeaveAdjustmentDao leaveAdjustmentDao;
 
 	@Override
-	public List<LeaveAdjustment> getLeaveAdjustments(String principalId, Date asOfDate) {
+	public List<LeaveAdjustment> getLeaveAdjustments(String principalId, LocalDate asOfDate) {
 		return leaveAdjustmentDao.getLeaveAdjustments(principalId, asOfDate);
 	}
 
@@ -44,7 +44,7 @@ public class LeaveAdjustmentServiceImpl implements LeaveAdjustmentService {
 	}
 
 	@Override
-	public List<LeaveAdjustment> getLeaveAdjustments(Date fromEffdt, Date toEffdt, String principalId, String accrualCategory, String earnCode) {
+	public List<LeaveAdjustment> getLeaveAdjustments(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String accrualCategory, String earnCode) {
 		return leaveAdjustmentDao.getLeaveAdjustments(fromEffdt, toEffdt, principalId, accrualCategory, earnCode);
 	}
 

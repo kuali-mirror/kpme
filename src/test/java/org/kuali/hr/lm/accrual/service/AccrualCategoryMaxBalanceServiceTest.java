@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -110,15 +111,15 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 	private final String YE_LOSE_MAC = "5010";
 	private final String LA_LOSE_MAC = "5011";
 	private final String YE_XFER_EO = "5012";
-	private final java.sql.Date LM_FROM = TKUtils.formatDateString("11/01/2012");
-	private final java.sql.Date LM_TO = TKUtils.formatDateString("02/01/2013");
-	private final java.sql.Date TK_FROM = TKUtils.formatDateString("11/01/2011");
-	private final java.sql.Date TK_TO = TKUtils.formatDateString("02/01/2012");
+	private final LocalDate LM_FROM = TKUtils.formatDateString("11/01/2012");
+	private final LocalDate LM_TO = TKUtils.formatDateString("02/01/2013");
+	private final LocalDate TK_FROM = TKUtils.formatDateString("11/01/2011");
+	private final LocalDate TK_TO = TKUtils.formatDateString("02/01/2012");
 	
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		TkServiceLocator.getAccrualService().runAccrual(USER_ID,LM_FROM,LM_TO,true,USER_ID);
+		TkServiceLocator.getAccrualService().runAccrual(USER_ID,LM_FROM.toDateTimeAtStartOfDay(),LM_TO.toDateTimeAtStartOfDay(),true,USER_ID);
 		janLCD = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(JAN_ID);
 		janEntry = janLCD.getCalendarEntry();
 		janStart = janEntry.getBeginPeriodDate();
@@ -172,7 +173,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 					"testLP",
 					row.getAccrualCategory(),
 					"MB",
-					janEntry.getBeginPeriodDate());
+					janEntry.getBeginPeriodFullDateTime().toLocalDate());
 			if(ObjectUtils.isNotNull(mbOverride))
 				maxBalance = new BigDecimal(mbOverride.getOverrideValue());
 			assertNotNull("eligible accrual category has no balance limit",maxBalance);
@@ -211,7 +212,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		usage.setAccrualCategory("ye-xfer");
 		usage.setAccrualGenerated(true);
 		usage.setLeaveAmount(new BigDecimal(-34));
-		usage.setLeaveDate(TKUtils.formatDateString("12/28/2012"));
+		usage.setLeaveLocalDate(TKUtils.formatDateString("12/28/2012"));
 		usage.setDocumentId(DEC_ID);
 		usage.setPrincipalId(USER_ID);
 		usage.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
@@ -266,7 +267,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 	public void testGetMaxBalanceViolationsLeaveApproveForTimesheetCaseOne() throws Exception {
 		//Timesheet contains leave period ending 12/11/2011
 		//accruals occur on 12/01/2011
-		TkServiceLocator.getAccrualService().runAccrual(TS_USER_ID,TK_FROM,TK_TO,true,TS_USER_ID);
+		TkServiceLocator.getAccrualService().runAccrual(TS_USER_ID,TK_FROM.toDateTimeAtStartOfDay(),TK_TO.toDateTimeAtStartOfDay(),true,TS_USER_ID);
 		midDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_MID_DEC_PERIOD_ID);
 		midDecTSDEntry = midDecTSD.getCalendarEntry();
 
@@ -291,7 +292,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 	public void testGetMaxBalanceViolationsYearEndForTimesheetCaseOne() throws Exception {
 		//Timesheet contains leave period ending 12/11/2011
 		//this is not the last leave period of the leave plan's calendar year.
-		TkServiceLocator.getAccrualService().runAccrual(TS_USER_ID,TK_FROM,TK_TO,true,TS_USER_ID);
+		TkServiceLocator.getAccrualService().runAccrual(TS_USER_ID,TK_FROM.toDateTimeAtStartOfDay(),TK_TO.toDateTimeAtStartOfDay(),true,TS_USER_ID);
 		midDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_MID_DEC_PERIOD_ID);
 		midDecTSDEntry = midDecTSD.getCalendarEntry();
 
@@ -315,7 +316,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 	@Test
 	public void testGetMaxBalanceViolationsOnDemandForTimesheetCaseOne() throws Exception {
 		//Timesheet contains leave period ending 12/11/2011
-		TkServiceLocator.getAccrualService().runAccrual(TS_USER_ID,TK_FROM,TK_TO,true,TS_USER_ID);
+		TkServiceLocator.getAccrualService().runAccrual(TS_USER_ID,TK_FROM.toDateTimeAtStartOfDay(),TK_TO.toDateTimeAtStartOfDay(),true,TS_USER_ID);
 		midDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_MID_DEC_PERIOD_ID);
 		midDecTSDEntry = midDecTSD.getCalendarEntry();
 
@@ -327,7 +328,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 	@Test
 	public void testGetMaxBalanceViolationsLeaveApproveForTimesheetCaseThree() throws Exception {
 		//Timesheet contains leave period ending 12/25/2011
-		TkServiceLocator.getAccrualService().runAccrual(TS_USER_ID,TK_FROM,TK_TO,true,TS_USER_ID);
+		TkServiceLocator.getAccrualService().runAccrual(TS_USER_ID,TK_FROM.toDateTimeAtStartOfDay(),TK_TO.toDateTimeAtStartOfDay(),true,TS_USER_ID);
 		endDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_END_DEC_PERIOD_ID);
 		endDecTSDEntry = endDecTSD.getCalendarEntry();
 
@@ -354,7 +355,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		usage.setAccrualGenerated(false);
 		usage.setLeaveAmount(new BigDecimal(-30));
 		// 12/15/2011 <= leave date < 12/25/2011
-		usage.setLeaveDate(TKUtils.formatDateString("12/23/2011"));
+		usage.setLeaveLocalDate(TKUtils.formatDateString("12/23/2011"));
 		usage.setDocumentId(TSD_END_DEC_PERIOD_ID);
 		usage.setPrincipalId(TS_USER_ID);
 		usage.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
@@ -385,7 +386,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		usage.setAccrualCategory("la-xfer");
 		usage.setAccrualGenerated(false);
 		usage.setLeaveAmount(new BigDecimal(30));
-		usage.setLeaveDate(TKUtils.formatDateString("12/28/2011"));
+		usage.setLeaveLocalDate(TKUtils.formatDateString("12/28/2011"));
 		usage.setDocumentId(TSD_END_DEC_PERIOD_ID);
 		usage.setPrincipalId(TS_USER_ID);
 		usage.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
@@ -410,7 +411,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 	@Test
 	public void testGetMaxBalanceViolationsLeaveApproveForTimesheetCaseTwo() throws Exception {
 		//Timesheet includes the leave calendar end period, but does not include the leave plan's start date.
-		TkServiceLocator.getAccrualService().runAccrual(TS_USER_ID,TK_FROM,TK_TO,true,TS_USER_ID);
+		TkServiceLocator.getAccrualService().runAccrual(TS_USER_ID,TK_FROM.toDateTimeAtStartOfDay(),TK_TO.toDateTimeAtStartOfDay(),true,TS_USER_ID);
 		endDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_END_DEC_PERIOD_ID);
 		endDecTSDEntry = endDecTSD.getCalendarEntry();
 
@@ -436,7 +437,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 	@Test
 	public void testGetMaxBalanceViolationsYearEndForTimesheetCaseTwo() throws Exception {
 		//Timesheet includes the leave calendar end period, but does not include the leave plan's start date.
-		TkServiceLocator.getAccrualService().runAccrual(TS_USER_ID,TK_FROM,TK_TO,true,TS_USER_ID);
+		TkServiceLocator.getAccrualService().runAccrual(TS_USER_ID,TK_FROM.toDateTimeAtStartOfDay(),TK_TO.toDateTimeAtStartOfDay(),true,TS_USER_ID);
 		endDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_END_DEC_PERIOD_ID);
 		endDecTSDEntry = endDecTSD.getCalendarEntry();
 
@@ -462,7 +463,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 	@Test
 	public void testGetMaxBalanceViolationsYearEndForTimesheetCaseThree() throws Exception {
 		//Timesheet includes the leave calendar end period, which is the leave plan's final period.
-		TkServiceLocator.getAccrualService().runAccrual(TS_USER_ID,TK_FROM,TK_TO,true,TS_USER_ID);
+		TkServiceLocator.getAccrualService().runAccrual(TS_USER_ID,TK_FROM.toDateTimeAtStartOfDay(),TK_TO.toDateTimeAtStartOfDay(),true,TS_USER_ID);
 		endJanTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_END_JAN_PERIOD_ID);
 		endJanTSDEntry = endJanTSD.getCalendarEntry();
 

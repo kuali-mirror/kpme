@@ -72,7 +72,7 @@ public class ClockLocationMaintainableImpl extends HrBusinessObjectMaintainableI
 						clockLocationRule.getWorkArea(),
 						clockLocationRule.getPrincipalId(),
 						clockLocationRule.getJobNumber(),
-						clockLocationRule.getEffectiveDate());
+						clockLocationRule.getEffectiveLocalDate());
 		if (clockLocationRuleList.size() > 0) {
 			GlobalVariables.getMessageMap().putWarningForSectionId(
 					"Clock Location Rule Maintenance",

@@ -15,15 +15,14 @@
  */
 package org.kuali.hr.time.earncode;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class EarnCodeInquirableImpl extends KualiInquirableImpl {
 	
@@ -35,16 +34,9 @@ public class EarnCodeInquirableImpl extends KualiInquirableImpl {
 			
 		} else if(StringUtils.isNotBlank((String)fieldValues.get("earnCode"))
 					&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
-			java.util.Date uDate = null;
-			try {
-				uDate = new SimpleDateFormat("MM/dd/yyyy").parse(fieldValues.get("effectiveDate").toString());
-
-                Date effdt = new java.sql.Date(uDate.getTime());
-                ec = TkServiceLocator.getEarnCodeService().getEarnCode((String)fieldValues.get("earnCode"), effdt);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-			
+			String earnCode = (String)fieldValues.get("earnCode");
+			LocalDate effectiveDate = TKUtils.formatDateString(fieldValues.get("effectiveDate").toString());
+			ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, effectiveDate);
 		} else {
 			ec = (EarnCode) super.getBusinessObject(fieldValues);
 		}

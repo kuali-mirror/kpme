@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.clocklog.ClockLog;
@@ -47,14 +48,14 @@ public class ClockLogServiceImpl implements ClockLogService {
     }
 
     @Override
-    public ClockLog processClockLog(Timestamp clockTimeStamp, Assignment assignment,CalendarEntry pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId) {
+    public ClockLog processClockLog(Timestamp clockTimeStamp, Assignment assignment,CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, String principalId) {
         return processClockLog(clockTimeStamp, assignment, pe, ip, asOfDate, td, clockAction, principalId, TKContext.getPrincipalId());
     }
 
     @Override
-    public ClockLog processClockLog(Timestamp clockTimeStamp, Assignment assignment,CalendarEntry pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId) {
+    public ClockLog processClockLog(Timestamp clockTimeStamp, Assignment assignment,CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId) {
         // process rules
-        Timestamp roundedClockTimestamp = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockTimeStamp, new java.sql.Date(pe.getBeginPeriodDateTime().getTime()));
+        Timestamp roundedClockTimestamp = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockTimeStamp, pe.getBeginPeriodFullDateTime().toLocalDate());
 
         ClockLog clockLog = buildClockLog(roundedClockTimestamp, new Timestamp(System.currentTimeMillis()), assignment, td, clockAction, ip, userPrincipalId);
         TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, asOfDate);

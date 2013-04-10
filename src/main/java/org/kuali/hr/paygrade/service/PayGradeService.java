@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.paygrade.service;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.paygrade.PayGrade;
 import org.springframework.cache.annotation.Cacheable;
 
-import java.sql.Date;
 import java.util.List;
 
 public interface PayGradeService {
@@ -29,7 +29,7 @@ public interface PayGradeService {
 	 * @return
 	 */
     @Cacheable(value= PayGrade.CACHE_NAME, key="'payGrade=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public PayGrade getPayGrade(String payGrade, Date asOfDate);
+	public PayGrade getPayGrade(String payGrade, LocalDate asOfDate);
 	/**
 	 * Get pay grade by a unique id
 	 * @param hrPayGradeId
@@ -51,5 +51,5 @@ public interface PayGradeService {
      * @param asOfDate
      * @return
      */
-    public List<PayGrade> getPayGradesForSalaryGroup(String salaryGroup, Date asOfDate);
+    public List<PayGrade> getPayGradesForSalaryGroup(String salaryGroup, LocalDate asOfDate);
 }

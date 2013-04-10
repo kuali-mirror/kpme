@@ -16,7 +16,6 @@
 package org.kuali.hr.lm.leavedonation;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.List;
 
 import com.gargoylesoftware.htmlunit.html.*;
@@ -44,13 +43,13 @@ public class LeaveDonationMaintTest extends KPMETestCase{
 	
 	@Test
 	public void testCreatingLeaveBlocks() throws Exception {
-		Date START_DATE = new Date((new DateTime(2012, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		Date END_DATE = new Date((new DateTime(2012, 4, 2, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		DateTime START_DATE = new DateTime(2012, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime END_DATE = new DateTime(2012, 4, 2, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		
 		List<LeaveBlock> leaveBlockList;
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("testuser1", START_DATE, END_DATE);
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("testuser1", START_DATE.toLocalDate(), END_DATE.toLocalDate());
 		Assert.assertTrue("There are leave blocks for principal id " + "testuser1", leaveBlockList.isEmpty());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("testuser2", START_DATE, END_DATE);
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("testuser2", START_DATE.toLocalDate(), END_DATE.toLocalDate());
 		Assert.assertTrue("There are leave blocks for principal id " + "testuser2", leaveBlockList.isEmpty());
 		
 		List<LeaveBlockHistory> historyList = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories("10001", null);
@@ -85,14 +84,14 @@ public class LeaveDonationMaintTest extends KPMETestCase{
 	  	page.asText();
 	  	Assert.assertTrue("page text does not contain: success ", page.asText().contains("success"));
 	  	
-	  	leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("testuser1", START_DATE, END_DATE);
+	  	leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("testuser1", START_DATE.toLocalDate(), END_DATE.toLocalDate());
 	  	Assert.assertTrue("There should be 1 leave blocks for emplyee 'testuser1', not " + leaveBlockList.size(), leaveBlockList.size()== 1);
 	  	LeaveBlock lb = leaveBlockList.get(0);
 	  	Assert.assertTrue("Hours of the leave block for donor 'testuser1' should be -10, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(-10)));
 	  	Assert.assertTrue("Request status of the leave block for donor 'testuser1' should be Approved, not " + lb.getRequestStatus()
 	  			, lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED));
 	  	
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("testuser2", START_DATE, END_DATE);
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("testuser2", START_DATE.toLocalDate(), END_DATE.toLocalDate());
 		Assert.assertTrue("There should be 1 leave blocks for emplyee 'testuser2', not " + leaveBlockList.size(), leaveBlockList.size()== 1);
 		lb = leaveBlockList.get(0);
 		Assert.assertTrue("Hours of the leave block for recipient 'testuser2' should be 8, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(8)));

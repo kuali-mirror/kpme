@@ -18,7 +18,6 @@ package org.kuali.hr.time.principal.dao;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -31,16 +30,16 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implements PrincipalHRAttributesDao {
 
 	@Override
 	public PrincipalHRAttributes getPrincipalCalendar(String principalId,
-			java.util.Date asOfDate) {
+			LocalDate asOfDate) {
 		PrincipalHRAttributes pc = null;
 
 		Criteria root = new Criteria();
@@ -50,8 +49,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
                 .build();
 
 		root.addEqualTo("principalId", principalId);
-        java.sql.Date effDate = asOfDate == null ? null : new java.sql.Date(asOfDate.getTime());
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, effDate, fields, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, asOfDate, fields, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, fields, false));
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -85,7 +83,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 	}
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public List<PrincipalHRAttributes> getActiveEmployeesForPayCalendar(String payCalendarName, java.util.Date asOfDate) {
+    public List<PrincipalHRAttributes> getActiveEmployeesForPayCalendar(String payCalendarName, LocalDate asOfDate) {
         List<PrincipalHRAttributes> principalHRAttributes = new ArrayList<PrincipalHRAttributes>();
         Criteria root = new Criteria();
         
@@ -98,8 +96,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
-        java.sql.Date effDate = asOfDate == null ? null : new java.sql.Date(asOfDate.getTime());
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, effDate, fields, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, asOfDate, fields, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, fields, false));
 
         Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
@@ -113,7 +110,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
     }
     
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public List<PrincipalHRAttributes> getActiveEmployeesForLeaveCalendar(String leaveCalendarName, Date asOfDate) {
+    public List<PrincipalHRAttributes> getActiveEmployeesForLeaveCalendar(String leaveCalendarName, LocalDate asOfDate) {
         List<PrincipalHRAttributes> principalHRAttributes = new ArrayList<PrincipalHRAttributes>();
         Criteria root = new Criteria();
 
@@ -124,8 +121,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
                 .add("leaveCalendar")
                 .add("principalId")
                 .build();
-        java.sql.Date effDate = asOfDate == null ? null : new java.sql.Date(asOfDate.getTime());
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, effDate, fields, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, asOfDate, fields, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, fields, false));
 
         Criteria activeFilter = new Criteria();
@@ -142,7 +138,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
         return principalHRAttributes;
     }
     
-    public List<String> getActiveEmployeesIdForLeaveCalendarAndIdList(String leaveCalendarName, List<String> pidList, Date asOfDate) {
+    public List<String> getActiveEmployeesIdForLeaveCalendarAndIdList(String leaveCalendarName, List<String> pidList, LocalDate asOfDate) {
     	List<PrincipalHRAttributes> principalHRAttributes = new ArrayList<PrincipalHRAttributes>();
         Criteria root = new Criteria();
         
@@ -153,8 +149,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
                 .add("leaveCalendar")
                 .add("principalId")
                 .build();
-        java.sql.Date effDate = asOfDate == null ? null : new java.sql.Date(asOfDate.getTime());
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class,effDate, fields, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class,asOfDate, fields, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, fields, false));
 
         Criteria activeFilter = new Criteria();
@@ -178,7 +173,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
         return ids;
     }
     
-    public List<String> getActiveEmployeesIdForTimeCalendarAndIdList(String timeCalendarName, List<String> pidList, Date asOfDate) {
+    public List<String> getActiveEmployeesIdForTimeCalendarAndIdList(String timeCalendarName, List<String> pidList, LocalDate asOfDate) {
     	List<PrincipalHRAttributes> principalHRAttributes = new ArrayList<PrincipalHRAttributes>();
         Criteria root = new Criteria();
         
@@ -189,8 +184,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
                 .add("payCalendar")
                 .add("principalId")
                 .build();
-        java.sql.Date effDate = asOfDate == null ? null : new java.sql.Date(asOfDate.getTime());
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, effDate, fields, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, asOfDate, fields, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, fields, false));
 
         Criteria activeFilter = new Criteria();
@@ -216,7 +210,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 	
     // KPME-1250 Kagata
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public List<PrincipalHRAttributes> getActiveEmployeesForLeavePlan(String leavePlan, java.util.Date asOfDate) {
+    public List<PrincipalHRAttributes> getActiveEmployeesForLeavePlan(String leavePlan, LocalDate asOfDate) {
 
         List<PrincipalHRAttributes> principals = new ArrayList<PrincipalHRAttributes>();
         Criteria root = new Criteria();
@@ -225,8 +219,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
                 .add("leavePlan")
                 .add("principalId")
                 .build();
-        java.sql.Date effDate = asOfDate == null ? null : new java.sql.Date(asOfDate.getTime());
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, effDate, fields, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, asOfDate, fields, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, fields, false));
 
         root.addEqualTo("leavePlan", leavePlan);
@@ -298,13 +291,13 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 //	}
     
     @Override
-    public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, java.util.Date asOfDate) {
+    public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, LocalDate asOfDate) {
     	PrincipalHRAttributes pc = null;
 
 		Criteria root = new Criteria();
 		Criteria effdt = new Criteria();
 
-        effdt.addGreaterOrEqualThan("effectiveDate", asOfDate);
+        effdt.addGreaterOrEqualThan("effectiveDate", asOfDate.toDate());
         ImmutableList<String> fields = new ImmutableList.Builder<String>()
                 .add("leavePlan")
                 .add("principalId")
@@ -338,12 +331,12 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
     }
     
     @Override
-    public List<PrincipalHRAttributes> getAllActivePrincipalHrAttributesForPrincipalId(String principalId, java.util.Date asOfDate) {
+    public List<PrincipalHRAttributes> getAllActivePrincipalHrAttributesForPrincipalId(String principalId, LocalDate asOfDate) {
     	
     	List<PrincipalHRAttributes> phaList = new ArrayList<PrincipalHRAttributes>();
     	Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
-        root.addLessOrEqualThan("effectiveDate", asOfDate);
+        root.addLessOrEqualThan("effectiveDate", asOfDate.toDate());
         root.addEqualTo("active", true);
         Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -354,11 +347,11 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
     }
     
     @Override
-    public List<PrincipalHRAttributes> getAllInActivePrincipalHrAttributesForPrincipalId(String principalId, java.util.Date asOfDate) {
+    public List<PrincipalHRAttributes> getAllInActivePrincipalHrAttributesForPrincipalId(String principalId, LocalDate asOfDate) {
     	List<PrincipalHRAttributes> phaList = new ArrayList<PrincipalHRAttributes>();
     	Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
-        root.addLessOrEqualThan("effectiveDate", asOfDate);
+        root.addLessOrEqualThan("effectiveDate", asOfDate.toDate());
         root.addEqualTo("active", false);
 
         Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
@@ -385,12 +378,12 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
     }
     
     @Override
-    public List<PrincipalHRAttributes> getActivePrincipalHrAttributesForRange(String principalId, java.util.Date startDate, java.util.Date endDate) {
+    public List<PrincipalHRAttributes> getActivePrincipalHrAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate) {
     	List<PrincipalHRAttributes> activeList = new ArrayList<PrincipalHRAttributes>();
     	Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
-        root.addGreaterOrEqualThan("effectiveDate", startDate);
-        root.addLessOrEqualThan("effectiveDate", endDate);
+        root.addGreaterOrEqualThan("effectiveDate", startDate.toDate());
+        root.addLessOrEqualThan("effectiveDate", endDate.toDate());
         root.addEqualTo("active", true);
         Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -400,7 +393,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
         List<PrincipalHRAttributes> aList = new ArrayList<PrincipalHRAttributes>();
         aList.addAll(activeList);
         for(PrincipalHRAttributes aPha : aList) {
-        	List<PrincipalHRAttributes> inactivePhas = this.getInactivePrincipalHRAttributesForRange(principalId, aPha.getEffectiveDate(), endDate);
+        	List<PrincipalHRAttributes> inactivePhas = this.getInactivePrincipalHRAttributesForRange(principalId, aPha.getEffectiveLocalDate(), endDate);
         	if(CollectionUtils.isNotEmpty(inactivePhas)) {
         		for(PrincipalHRAttributes inactive : inactivePhas) {
         			if(inactive.getTimestamp().after(aPha.getTimestamp())) {
@@ -414,12 +407,12 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
     }
     
     @Override
-    public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, java.util.Date startDate, java.util.Date endDate) {
+    public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate) {
     	List<PrincipalHRAttributes> inactiveList = new ArrayList<PrincipalHRAttributes>();
     	Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
-        root.addGreaterOrEqualThan("effectiveDate", startDate);
-        root.addLessOrEqualThan("effectiveDate", endDate);
+        root.addGreaterOrEqualThan("effectiveDate", startDate.toDate());
+        root.addLessOrEqualThan("effectiveDate", endDate.toDate());
         root.addEqualTo("active", false);
         Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -431,7 +424,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
    
 	@Override
     @SuppressWarnings("unchecked")
-    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, String leavePlan, java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory) {
+    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
     	List<PrincipalHRAttributes> results = new ArrayList<PrincipalHRAttributes>();
         
     	Criteria root = new Criteria();
@@ -446,13 +439,13 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
 

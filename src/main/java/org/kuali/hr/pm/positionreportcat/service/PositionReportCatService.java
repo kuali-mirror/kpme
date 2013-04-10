@@ -1,8 +1,8 @@
 package org.kuali.hr.pm.positionreportcat.service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.pm.positionreportcat.PositionReportCategory;
 
 public interface PositionReportCatService {
@@ -23,6 +23,6 @@ public interface PositionReportCatService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String institution, String campus, Date asOfDate);
+	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String institution, String campus, LocalDate asOfDate);
 
 }

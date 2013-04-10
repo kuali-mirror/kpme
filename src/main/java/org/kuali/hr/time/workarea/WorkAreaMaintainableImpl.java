@@ -86,7 +86,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         WorkArea oldMaintainableObject = (WorkArea) document.getOldMaintainableObject().getBusinessObject();
         WorkArea newMaintainableObject = (WorkArea) document.getNewMaintainableObject().getBusinessObject();
         
-        WorkArea oldWorkArea = TkServiceLocator.getWorkAreaService().getWorkArea(oldMaintainableObject.getWorkArea(), oldMaintainableObject.getEffectiveDate());
+        WorkArea oldWorkArea = TkServiceLocator.getWorkAreaService().getWorkArea(oldMaintainableObject.getWorkArea(), oldMaintainableObject.getEffectiveLocalDate());
 
         oldMaintainableObject.setTasks(oldWorkArea.getTasks());
         oldMaintainableObject.setPrincipalRoleMembers(oldWorkArea.getPrincipalRoleMembers());
@@ -94,7 +94,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         oldMaintainableObject.setPositionRoleMembers(oldWorkArea.getPositionRoleMembers());
         oldMaintainableObject.setInactivePositionRoleMembers(oldWorkArea.getInactivePositionRoleMembers());
         
-        WorkArea newWorkArea = TkServiceLocator.getWorkAreaService().getWorkArea(newMaintainableObject.getWorkArea(), newMaintainableObject.getEffectiveDate());
+        WorkArea newWorkArea = TkServiceLocator.getWorkAreaService().getWorkArea(newMaintainableObject.getWorkArea(), newMaintainableObject.getEffectiveLocalDate());
 
         newMaintainableObject.setTasks(newWorkArea.getTasks());
         newMaintainableObject.setPrincipalRoleMembers(newWorkArea.getPrincipalRoleMembers());
@@ -142,7 +142,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         	PositionRoleMemberBo roleMember = (PositionRoleMemberBo) newCollectionLines.get(collectionName);
             if (roleMember != null) {
             	if (!StringUtils.isEmpty(roleMember.getPositionNumber())) {
-            		Position position = TkServiceLocator.getPositionService().getPosition(roleMember.getPositionNumber(), workArea.getEffectiveDate());
+            		Position position = TkServiceLocator.getPositionService().getPosition(roleMember.getPositionNumber(), workArea.getEffectiveLocalDate());
             		if (position == null) {
             			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"positionRoleMembers", 
                 				"error.role.positionNumber.notexist", roleMember.getPositionNumber());

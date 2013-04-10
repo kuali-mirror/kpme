@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.lm.earncodesec.service;
 
+import java.util.List;
+
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.lm.earncodesec.dao.EarnCodeSecurityDao;
-
-import java.sql.Date;
-import java.util.List;
 
 public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 
@@ -30,7 +30,7 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 	}
 
 	@Override
-	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, java.util.Date asOfDate) {
+	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate) {
 		return earnCodeSecurityDao.getEarnCodeSecurities(department, hrSalGroup, location, asOfDate);
 	}
 
@@ -41,19 +41,19 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 
 	@Override
 	public List<EarnCodeSecurity> searchEarnCodeSecurities(String dept,
-			String salGroup, String earnCode, String location, Date fromEffdt,
-			Date toEffdt, String active, String showHistory) {
+			String salGroup, String earnCode, String location, LocalDate fromEffdt,
+			LocalDate toEffdt, String active, String showHistory) {
 		return earnCodeSecurityDao.searchEarnCodeSecurities(dept, salGroup, earnCode, location, fromEffdt,
 								toEffdt, active, showHistory);
 	}
 	@Override
 	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,
-			String active, java.sql.Date effdt,String hrDeptEarnCodeId) {
+			String active, LocalDate effdt, String hrDeptEarnCodeId) {
 		return earnCodeSecurityDao.getEarnCodeSecurityCount(dept, salGroup, earnCode, employee, approver, location,
 				active, effdt, hrDeptEarnCodeId);
 	}
 	@Override
-	public int getNewerEarnCodeSecurityCount(String earnCode, java.util.Date effdt) {
+	public int getNewerEarnCodeSecurityCount(String earnCode, LocalDate effdt) {
 		return earnCodeSecurityDao.getNewerEarnCodeSecurityCount(earnCode, effdt);
 	}
 }

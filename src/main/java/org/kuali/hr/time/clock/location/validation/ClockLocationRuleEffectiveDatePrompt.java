@@ -28,7 +28,7 @@ public class ClockLocationRuleEffectiveDatePrompt extends KpmeEffectiveDatePromp
     @Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
         ClockLocationRule clr = (ClockLocationRule)pbo;
-        List<ClockLocationRule> lastClr = TkServiceLocator.getClockLocationRuleService().getNewerVersionClockLocationRule(clr.getDept(), clr.getWorkArea(), clr.getPrincipalId(), clr.getJobNumber(), clr.getEffectiveDate());
+        List<ClockLocationRule> lastClr = TkServiceLocator.getClockLocationRuleService().getNewerVersionClockLocationRule(clr.getDept(), clr.getWorkArea(), clr.getPrincipalId(), clr.getJobNumber(), clr.getEffectiveLocalDate());
         return CollectionUtils.isNotEmpty(lastClr);
     }
 }

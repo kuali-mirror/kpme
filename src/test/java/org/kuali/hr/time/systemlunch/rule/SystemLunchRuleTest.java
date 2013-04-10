@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.systemlunch.rule;
 
-import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -37,11 +36,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class SystemLunchRuleTest extends KPMETestCase {
 	
 	SystemLunchRule systemLunchRule;
-	Date date = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+	DateTime date = new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	
 	@Test
 	public void testSystemLunchRuleFetch() throws Exception{
-		this.systemLunchRule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(date);
+		this.systemLunchRule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(date.toLocalDate());
 		Assert.assertTrue("System lunch rule is pulled back", this.systemLunchRule!=null);
 	}
 	
@@ -52,7 +51,7 @@ public class SystemLunchRuleTest extends KPMETestCase {
 	@Test
 	public void testSystemLunchRule() throws Exception {
 		
-		systemLunchRule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(date);
+		systemLunchRule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(date.toLocalDate());
 		Assert.assertTrue("System lunch rule is pulled back", systemLunchRule!=null);
 
         String baseUrl = TkTestConstants.Urls.CLOCK_URL;

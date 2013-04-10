@@ -149,7 +149,7 @@ public class TkCalendar extends CalendarParent {
         for (TimeBlockRenderer tbr : day.getBlockRenderers()) {
             for (TimeHourDetailRenderer thdr : tbr.getDetailRenderers()) {
                 if (thdr.getTitle().equals(TkConstants.LUNCH_EARN_CODE)) {
-                    ec = TkServiceLocator.getEarnCodeService().getEarnCode(thdr.getTitle(), tbr.getTimeBlock().getBeginDate());
+                    ec = TkServiceLocator.getEarnCodeService().getEarnCode(thdr.getTitle(), tbr.getTimeBlock().getBeginDateTime().toLocalDate());
                     if (ec != null) {
                         label = ec.getDescription() + " : " + thdr.getHours() + " hours";
                         id = thdr.getTkTimeHourDetailId();
@@ -195,8 +195,8 @@ public class TkCalendar extends CalendarParent {
     public void setPayCalEntry(CalendarEntry payCalEntry) {
         this.payCalEntry = payCalEntry;
         // Relative time, with time zone added.
-        this.beginDateTime = payCalEntry.getBeginLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
-        this.endDateTime = payCalEntry.getEndLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+        this.beginDateTime = payCalEntry.getBeginPeriodLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+        this.endDateTime = payCalEntry.getEndPeriodLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
     }
 
     public DateTime getBeginDateTime() {

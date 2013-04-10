@@ -1,16 +1,15 @@
 package org.kuali.hr.pm.institution.service;
 
-import java.sql.Date;
 import java.util.List;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.pm.institution.Institution;
 
 public interface InstitutionService {
 
 	public Institution getInstitutionById(String institutionId);
 	
-	public List<Institution> getActiveInstitutionsAsOf(DateTime asOfDate);
+	public List<Institution> getActiveInstitutionsAsOf(LocalDate asOfDate);
 	
 	public List<Institution> getInstitutionsByCode(String code);
 	
@@ -20,6 +19,6 @@ public interface InstitutionService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public Institution getInstitution(String institutionCode, Date asOfDate);
+	public Institution getInstitution(String institutionCode, LocalDate asOfDate);
 	
 }

@@ -1,8 +1,8 @@
 package org.kuali.hr.pm.positionreportsubcat.service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory;
 
 public interface PositionReportSubCatService {
@@ -23,6 +23,6 @@ public interface PositionReportSubCatService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String campus, Date asOfDate);
+	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String campus, LocalDate asOfDate);
 
 }

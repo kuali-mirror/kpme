@@ -15,9 +15,10 @@
  */
 package org.kuali.hr.time.timesheet.service;
 
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -63,7 +64,7 @@ public interface TimesheetService {
 	 * @param payBeginDate
 	 * @return
 	 */
-	public List<TimeBlock> getPrevDocumentTimeBlocks(String principalId, Date payBeginDate);
+	public List<TimeBlock> getPrevDocumentTimeBlocks(String principalId, DateTime payBeginDate);
 	/**
 	 * Load holidays on given timesheet
 	 * @param timesheetDocument
@@ -71,7 +72,7 @@ public interface TimesheetService {
 	 * @param beginDate
 	 * @param endDate
 	 */
-	public void loadHolidaysOnTimesheet(TimesheetDocument timesheetDocument, String principalId, Date beginDate, Date endDate);
+	public void loadHolidaysOnTimesheet(TimesheetDocument timesheetDocument, String principalId, LocalDate beginDate, LocalDate endDate);
 	/**
 	 * Delete a timesheet(used for testing only)
 	 * @param documentId

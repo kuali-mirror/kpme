@@ -19,13 +19,13 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -37,7 +37,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 
 	boolean validateSalGroup(EarnCodeSecurity departmentEarnCode ) {
-		if (!ValidationUtils.validateSalGroup(departmentEarnCode.getHrSalGroup(), departmentEarnCode.getEffectiveDate())) {
+		if (!ValidationUtils.validateSalGroup(departmentEarnCode.getHrSalGroup(), departmentEarnCode.getEffectiveLocalDate())) {
 			this.putFieldError("hrSalGroup", "error.existence", "Salgroup '" + departmentEarnCode.getHrSalGroup()+ "'");
 			return false;
 		} else {
@@ -46,7 +46,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 	}
 
 	boolean validateDept(EarnCodeSecurity clr) {
-		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveDate()) && !StringUtils.equals(clr.getDept(), TkConstants.WILDCARD_CHARACTER)) {
+		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveLocalDate()) && !StringUtils.equals(clr.getDept(), TkConstants.WILDCARD_CHARACTER)) {
 			this.putFieldError("dept", "error.existence", "department '" + clr.getDept() + "'");
 			return false;
 		} else {
@@ -55,7 +55,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 	}
 
 	boolean validateEarnCode(EarnCodeSecurity departmentEarnCode ) {
-		if (!ValidationUtils.validateEarnCode(departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveDate())) {
+		if (!ValidationUtils.validateEarnCode(departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveLocalDate())) {
 			this.putFieldError("earnCode", "error.existence", "Earncode '" + departmentEarnCode.getEarnCode()+ "'");
 			return false;
 		} else {
@@ -89,7 +89,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		
 		String principalId = GlobalVariables.getUserSession().getPrincipalId();
 		String department = departmentEarnCode.getDept();
-		Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+		Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 		String location = departmentObj != null ? departmentObj.getLocation() : null;
 		
 		if (!TKContext.isSystemAdmin() 

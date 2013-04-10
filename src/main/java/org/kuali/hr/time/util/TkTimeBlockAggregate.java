@@ -209,13 +209,13 @@ public class TkTimeBlockAggregate {
 		// We will add 1 day to this to move over all days.
 		//
 		// FLSA time is set.  This is an FLSA start date.
-        LocalDateTime startLDT = payCalendarEntry.getBeginLocalDateTime();
+        LocalDateTime startLDT = payCalendarEntry.getBeginPeriodLocalDateTime();
 //		DateTime startDate = new DateTime(payCalendarEntry.getBeginPeriodDateTime());
 //		startDate = startDate.toLocalDate().toDateTime(flsaBeginLocalTime,TKUtils.getSystemDateTimeZone());
 
 		List<FlsaWeek> flsaWeeks = new ArrayList<FlsaWeek>();
 		List<TimeBlock> flatSortedBlockList = getFlattenedTimeBlockList();
-		FlsaWeek currentWeek = new FlsaWeek(flsaDayConstant, flsaBeginLocalTime, LocalTime.fromDateFields(payCalendarEntry.getBeginPeriodDateTime()));
+		FlsaWeek currentWeek = new FlsaWeek(flsaDayConstant, flsaBeginLocalTime, payCalendarEntry.getBeginPeriodFullDateTime().toLocalTime());
 		FlsaDay flsaDay = new FlsaDay(startLDT, flatSortedBlockList, zone);
 		currentWeek.addFlsaDay(flsaDay);
 		flsaWeeks.add(currentWeek);
@@ -249,7 +249,7 @@ public class TkTimeBlockAggregate {
 			if (index == 0 && !currentWeek.isFirstWeekFull()) {
 				CalendarEntry previousCalendarEntry = TkServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(payCalendar.getHrCalendarId(), payCalendarEntry);
 				if (previousCalendarEntry != null) {
-					TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, previousCalendarEntry.getBeginPeriodDateTime(), previousCalendarEntry.getEndPeriodDateTime());
+					TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, previousCalendarEntry.getBeginPeriodFullDateTime(), previousCalendarEntry.getEndPeriodFullDateTime());
 					if (timesheetDocumentHeader != null) { 
 						List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(timesheetDocumentHeader.getDocumentId());
 						if (CollectionUtils.isNotEmpty(timeBlocks)) {
@@ -268,7 +268,7 @@ public class TkTimeBlockAggregate {
 			if (index == currentWeeks.size() - 1 && !currentWeek.isLastWeekFull()) {
 				CalendarEntry nextCalendarEntry = TkServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(payCalendar.getHrCalendarId(), payCalendarEntry);
 				if (nextCalendarEntry != null) {
-					TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, nextCalendarEntry.getBeginPeriodDateTime(), nextCalendarEntry.getEndPeriodDateTime());
+					TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, nextCalendarEntry.getBeginPeriodFullDateTime(), nextCalendarEntry.getEndPeriodFullDateTime());
 					if (timesheetDocumentHeader != null) { 
 						List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(timesheetDocumentHeader.getDocumentId());
 						if (CollectionUtils.isNotEmpty(timeBlocks)) {

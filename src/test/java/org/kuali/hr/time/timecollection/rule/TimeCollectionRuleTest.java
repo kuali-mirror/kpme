@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -32,19 +33,19 @@ public class TimeCollectionRuleTest extends KPMETestCase{
 	public void testTimeCollectionRuleFetch() throws Exception{
 		loadData();
 		TimeCollectionRule timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-DEPT",
-												1234L, new Date(System.currentTimeMillis()));
+												1234L, LocalDate.now());
 		Assert.assertTrue("Time collection rule present" , timeCollection!=null);
 
 		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-ME",
-				1234L, new Date(System.currentTimeMillis()));
+				1234L, LocalDate.now());
 		Assert.assertTrue("Time collection rule present" , timeCollection!=null);
 
 		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-DEPT",
-				234L, new Date(System.currentTimeMillis()));
+				234L, LocalDate.now());
 		Assert.assertTrue("Time collection rule present" , timeCollection!=null);
 
 		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-ME",
-				234L, new Date(System.currentTimeMillis()));
+				234L, LocalDate.now());
 		Assert.assertTrue("Time collection rule present" , timeCollection!=null);
 	}
 

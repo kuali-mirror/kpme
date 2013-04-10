@@ -16,18 +16,17 @@
 package org.kuali.hr.time.docsearch;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
@@ -38,7 +37,7 @@ public class TkSearchableAttributeServiceImpl implements
 
     private static final Logger LOG = Logger.getLogger(TkSearchableAttributeServiceImpl.class);
 
-	public void updateSearchableAttribute(CalendarDocumentContract document, Date asOfDate){
+	public void updateSearchableAttribute(CalendarDocumentContract document, LocalDate asOfDate){
         WorkflowDocument workflowDocument = null;
         //
         // djunk - Need to actually look at why this call is here for every
@@ -71,7 +70,7 @@ public class TkSearchableAttributeServiceImpl implements
 	}
 
 	@Override
-	public String createSearchableAttributeXml(CalendarDocumentContract document, Date asOfDate) {
+	public String createSearchableAttributeXml(CalendarDocumentContract document, LocalDate asOfDate) {
 		List<Long> workAreas = new ArrayList<Long>();
 		Map<String,List<Long>> deptToListOfWorkAreas = new HashMap<String,List<Long>>();
 		List<String> salGroups = new ArrayList<String>();
@@ -80,7 +79,7 @@ public class TkSearchableAttributeServiceImpl implements
 			if(!workAreas.contains(assign.getWorkArea())){
 				workAreas.add(assign.getWorkArea());
 			}
-			Job job = TkServiceLocator.getJobService().getJob(assign.getPrincipalId(), assign.getJobNumber(), assign.getEffectiveDate());
+			Job job = TkServiceLocator.getJobService().getJob(assign.getPrincipalId(), assign.getJobNumber(), assign.getEffectiveLocalDate());
 
 			if(!salGroups.contains(job.getHrSalGroup())){
 				salGroups.add(job.getHrSalGroup());
@@ -88,7 +87,7 @@ public class TkSearchableAttributeServiceImpl implements
 		}
 
 		for(Long workArea : workAreas){
-			WorkArea workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, TKUtils.getTimelessDate(asOfDate));
+			WorkArea workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, asOfDate);
 			if(deptToListOfWorkAreas.containsKey(workAreaObj.getDept())){
 				List<Long> deptWorkAreas = deptToListOfWorkAreas.get(workAreaObj.getDept());
 				deptWorkAreas.add(workArea);

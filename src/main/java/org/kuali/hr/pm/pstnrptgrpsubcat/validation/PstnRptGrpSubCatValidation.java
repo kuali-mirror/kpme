@@ -28,7 +28,7 @@ public class PstnRptGrpSubCatValidation extends MaintenanceDocumentRuleBase {
 		if (StringUtils.isNotEmpty(prgsc.getPositionReportSubCat())
 				&& StringUtils.isNotEmpty(prgsc.getInstitution())
 				&& StringUtils.isNotEmpty(prgsc.getCampus())
-				&& !PmValidationUtils.validatePositionReportSubCat(prgsc.getPositionReportSubCat(), prgsc.getInstitution(), prgsc.getCampus(), prgsc.getEffectiveDate())) {
+				&& !PmValidationUtils.validatePositionReportSubCat(prgsc.getPositionReportSubCat(), prgsc.getInstitution(), prgsc.getCampus(), prgsc.getEffectiveLocalDate())) {
 			String[] parameters = new String[3];
 			parameters[0] = prgsc.getPositionReportSubCat();
 			parameters[1] = prgsc.getInstitution();
@@ -42,7 +42,7 @@ public class PstnRptGrpSubCatValidation extends MaintenanceDocumentRuleBase {
 	
 	private boolean validateInstitution(PositionReportGroupSubCategory prgsc) {
 		if (StringUtils.isNotEmpty(prgsc.getInstitution())
-				&& !PmValidationUtils.validateInstitution(prgsc.getInstitution(), prgsc.getEffectiveDate())) {
+				&& !PmValidationUtils.validateInstitution(prgsc.getInstitution(), prgsc.getEffectiveLocalDate())) {
 			this.putFieldError("dataObject.institution", "error.existence", "Instituion '"
 					+ prgsc.getInstitution() + "'");
 			return false;
@@ -66,7 +66,7 @@ public class PstnRptGrpSubCatValidation extends MaintenanceDocumentRuleBase {
 		if (StringUtils.isNotEmpty(prgsc.getPositionReportGroup())
 				&& StringUtils.isNotEmpty(prgsc.getInstitution())
 				&& StringUtils.isNotEmpty(prgsc.getCampus())
-				&& !PmValidationUtils.validatePstnRptGrp(prgsc.getPositionReportGroup(), prgsc.getInstitution(), prgsc.getCampus(), prgsc.getEffectiveDate())) {
+				&& !PmValidationUtils.validatePstnRptGrp(prgsc.getPositionReportGroup(), prgsc.getInstitution(), prgsc.getCampus(), prgsc.getEffectiveLocalDate())) {
 			String[] parameters = new String[3];
 			parameters[0] = prgsc.getPositionReportGroup();
 			parameters[1] = prgsc.getInstitution();

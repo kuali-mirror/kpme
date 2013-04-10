@@ -15,20 +15,20 @@
  */
 package org.kuali.hr.lm.workflow.dao;
 
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 
 public interface LeaveCalendarDocumentHeaderDao {
     LeaveCalendarDocumentHeader getLeaveCalendarDocumentHeader(String documentId);
-    LeaveCalendarDocumentHeader getLeaveCalendarDocumentHeader(String principalId, Date beginDate, Date endDate);
+    LeaveCalendarDocumentHeader getLeaveCalendarDocumentHeader(String principalId, DateTime beginDate, DateTime endDate);
 
     void saveOrUpdate(LeaveCalendarDocumentHeader leaveCalendarDocumentHeader);
-    public LeaveCalendarDocumentHeader getPreviousDocumentHeader(String principalId, Date beginDate);
-    public LeaveCalendarDocumentHeader getNextDocumentHeader(String principalId, Date endDate);
+    public LeaveCalendarDocumentHeader getPreviousDocumentHeader(String principalId, DateTime beginDate);
+    public LeaveCalendarDocumentHeader getNextDocumentHeader(String principalId, DateTime endDate);
     
-    public List<LeaveCalendarDocumentHeader> getDocumentHeaders(Date beginDate, Date endDate);
+    public List<LeaveCalendarDocumentHeader> getDocumentHeaders(DateTime beginDate, DateTime endDate);
     
     public LeaveCalendarDocumentHeader getMaxEndDateApprovedLeaveCalendar(String principalId);
     
@@ -36,11 +36,11 @@ public interface LeaveCalendarDocumentHeaderDao {
 	
 	public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersForPricipalId(String principalId);
 	
-	public List<LeaveCalendarDocumentHeader> getSubmissionDelinquentDocumentHeaders(String principalId, Date beforeDate);
+	public List<LeaveCalendarDocumentHeader> getSubmissionDelinquentDocumentHeaders(String principalId, DateTime beforeDate);
 	
 	public List<LeaveCalendarDocumentHeader> getApprovalDelinquentDocumentHeaders(String principalId);
 
     public void deleteLeaveCalendarHeader(String documentId);
     
-    public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersInRangeForPricipalId(String principalId, Date beginDate, Date endDate);
+    public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersInRangeForPricipalId(String principalId, DateTime beginDate, DateTime endDate);
 }

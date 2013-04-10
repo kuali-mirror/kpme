@@ -17,7 +17,6 @@ package org.kuali.hr.lm.approval.web;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -29,12 +28,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.hsqldb.lib.StringUtil;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
@@ -65,10 +64,10 @@ public class LeaveApprovalWSAction extends TkAction {
 	        List<Map<String, String>> results = new LinkedList<Map<String, String>>();
 	        if(StringUtils.isNotEmpty(laaf.getPayBeginDateForSearch()) 
 	        		&& StringUtils.isNotEmpty(laaf.getPayEndDateForSearch()) ) {
-		        Date beginDate = new SimpleDateFormat("MM/dd/yyyy").parse(laaf.getPayBeginDateForSearch());
-		        Date endDate = new SimpleDateFormat("MM/dd/yyyy").parse(laaf.getPayEndDateForSearch());
+		        LocalDate beginDate = LocalDate.fromDateFields(new SimpleDateFormat("MM/dd/yyyy").parse(laaf.getPayBeginDateForSearch()));
+		        LocalDate endDate = LocalDate.fromDateFields(new SimpleDateFormat("MM/dd/yyyy").parse(laaf.getPayEndDateForSearch()));
                 //the endDate we get here is coming from approval.js and is extracted from html. we need to add a day to cover the last day in the pay period.
-                endDate = DateUtils.addDays(endDate,1);
+                endDate = endDate.plusDays(1);
                 List<String> workAreaList = new ArrayList<String>();
 		        if (StringUtil.isEmpty(laaf.getSelectedWorkArea())) {
 		        	String principalId = GlobalVariables.getUserSession().getPrincipalId();
@@ -85,7 +84,7 @@ public class LeaveApprovalWSAction extends TkAction {
 		        } 
 		        List<String> principalIds = TkServiceLocator.getLeaveApprovalService()
         			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, laaf.getSelectedPayCalendarGroup(),
-        					new java.sql.Date(endDate.getTime()), new java.sql.Date(beginDate.getTime()), new java.sql.Date(endDate.getTime())); 
+        					endDate, beginDate, endDate); 
 		        
 		        List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
 		        
@@ -100,7 +99,7 @@ public class LeaveApprovalWSAction extends TkAction {
 		            }
 		        } else if (StringUtils.equals(laaf.getSearchField(), ApprovalForm.ORDER_BY_DOCID)) {
 		            Map<String, LeaveCalendarDocumentHeader> principalDocumentHeaders =
-		                    TkServiceLocator.getLeaveApprovalService().getPrincipalDocumehtHeader(persons, beginDate, endDate);
+		                    TkServiceLocator.getLeaveApprovalService().getPrincipalDocumehtHeader(persons, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
 	
 		            for (Map.Entry<String,LeaveCalendarDocumentHeader> entry : principalDocumentHeaders.entrySet()) {
 		                if (StringUtils.contains(entry.getValue().getDocumentId(), laaf.getSearchTerm())) {

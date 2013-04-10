@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.location.service;
 
+import java.util.List;
+
+import org.joda.time.LocalDate;
 import org.kuali.hr.location.Location;
 import org.springframework.cache.annotation.Cacheable;
-
-import java.sql.Date;
-import java.util.List;
 
 public interface LocationService {
 	
@@ -45,7 +45,7 @@ public interface LocationService {
 	 * @return {@link Location}
 	 */
     @Cacheable(value= Location.CACHE_NAME, key="'location=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public Location getLocation(String location, Date asOfDate);
+	public Location getLocation(String location, LocalDate asOfDate);
 
     List<Location> searchLocations(String location, String locationDescr, String active, String showHistory);
 

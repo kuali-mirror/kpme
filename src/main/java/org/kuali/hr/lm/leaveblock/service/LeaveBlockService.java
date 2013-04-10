@@ -17,11 +17,11 @@ package org.kuali.hr.lm.leaveblock.service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntry;
@@ -29,11 +29,11 @@ import org.kuali.hr.time.calendar.CalendarEntry;
 public interface LeaveBlockService {
     public LeaveBlock getLeaveBlock(String leaveBlockId);
     public List<LeaveBlock> getLeaveBlocksForDocumentId(String documentId);
-    public List<LeaveBlock> getLeaveBlocks(String principalId, Date beginDate, Date endDate);
-    public List<LeaveBlock> getLeaveBlocksWithType(String principalId, Date beginDate, Date endDate, String leaveBlockType);
-    public List<LeaveBlock> getLeaveBlocksWithAccrualCategory(String principalId, Date beginDate, Date endDate, String accrualCategory);
-    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOverBlocks, DateTime endDate, boolean includeAllAccrualCategories);
-    public Map<String, LeaveBlock> getLastCarryOverBlocks(String principalId, Date asOfDate);
+    public List<LeaveBlock> getLeaveBlocks(String principalId, LocalDate beginDate, LocalDate endDate);
+    public List<LeaveBlock> getLeaveBlocksWithType(String principalId, LocalDate beginDate, LocalDate endDate, String leaveBlockType);
+    public List<LeaveBlock> getLeaveBlocksWithAccrualCategory(String principalId, LocalDate beginDate, LocalDate endDate, String accrualCategory);
+    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOverBlocks, LocalDate endDate, boolean includeAllAccrualCategories);
+    public Map<String, LeaveBlock> getLastCarryOverBlocks(String principalId, LocalDate asOfDate);
     public void saveLeaveBlocks(List<LeaveBlock> leaveBlocks);
 
     public void saveLeaveBlock(LeaveBlock leaveBlock, String principalId);
@@ -57,7 +57,7 @@ public interface LeaveBlockService {
      * @param currentDate currentDate to get the records for the future date, pass null when not required
      * @return List of LeaveBlocks
      */
-    public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date currentDate);
+    public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, LocalDate currentDate);
 
     /**
      *
@@ -68,7 +68,7 @@ public interface LeaveBlockService {
      * @param endDate
      * @return List of LeaveBlocks
      */
-    public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date beginDate, Date endDate);
+    public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, LocalDate beginDate, LocalDate endDate);
 
     /**
      * Get the list of leave blocks from the given leaveDate for the principalId
@@ -76,14 +76,14 @@ public interface LeaveBlockService {
      * @param leaveDate
      * @return List of LeaveBlocks
      */
-    public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate);
+    public List<LeaveBlock> getLeaveBlocksForDate(String principalId, LocalDate leaveDate);
     /**
      * Get the list of not-accrual-generated leave blocks from the given leaveDate for the principalId
      * @param principalId
      * @param leaveDate
      * @return List of LeaveBlocks
      */
-    public List<LeaveBlock> getNotAccrualGeneratedLeaveBlocksForDate(String principalId, Date leaveDate);
+    public List<LeaveBlock> getNotAccrualGeneratedLeaveBlocksForDate(String principalId, LocalDate leaveDate);
     /**
      * Get list of leave blocks to display on time sheet with given dates and principal id
      * Only get leave blocks with type of leave calendar and time calendar
@@ -94,7 +94,7 @@ public interface LeaveBlockService {
      * @param assignmentKeys
      * @return List of leave blocks
      */
-    public List<LeaveBlock> getLeaveBlocksForTimeCalendar(String principalId, Date beginDate, Date endDate, List<String> assignmentKeys); 
+    public List<LeaveBlock> getLeaveBlocksForTimeCalendar(String principalId, LocalDate beginDate, LocalDate endDate, List<String> assignmentKeys); 
     /**
      * Get list of leave blocks to display on leave calendar with given dates and principal id
      * the leave blocks created from time calendar should have assignments in the list of assignment keys
@@ -104,7 +104,7 @@ public interface LeaveBlockService {
      * @param assignmentKeys
      * @return List of leave blocks
      */    
-    public List<LeaveBlock> getLeaveBlocksForLeaveCalendar(String principalId, Date beginDate, Date endDate, List<String> assignmentKeys); 
+    public List<LeaveBlock> getLeaveBlocksForLeaveCalendar(String principalId, LocalDate beginDate, LocalDate endDate, List<String> assignmentKeys); 
    
     /**
      * Filter list of leave blocks with given list of assignmentKeys for Time Calendar
@@ -133,7 +133,7 @@ public interface LeaveBlockService {
      * @param endDate
      * @return List of leave blocks
      */
-    public List<LeaveBlock> getAccrualGeneratedLeaveBlocks(String principalId, Date beginDate, Date endDate);
+    public List<LeaveBlock> getAccrualGeneratedLeaveBlocks(String principalId, LocalDate beginDate, LocalDate endDate);
     
     /**
      * Retrieve list of leave blocks generated with given system scheduled time off id, date and user
@@ -142,7 +142,7 @@ public interface LeaveBlockService {
      * @param accruledDate
      * @return
      */
-    public List<LeaveBlock> getSSTOLeaveBlocks(String principalId, String sstoId, Date accruledDate);
+    public List<LeaveBlock> getSSTOLeaveBlocks(String principalId, String sstoId, LocalDate accruledDate);
     
     /**
      * gets list of leave blocks created for earn codes with eligible-for-accrual=no since the given timestamp

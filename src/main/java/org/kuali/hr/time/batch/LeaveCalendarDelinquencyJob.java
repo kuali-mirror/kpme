@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.batch;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,14 +52,14 @@ public class LeaveCalendarDelinquencyJob implements Job {
 		
 		for (CalendarEntry calendarEntry : calendarEntries) {
 			String hrCalendarId = calendarEntry.getHrCalendarId();
-			Date currentBeginDate = calendarEntry.getBeginPeriodDateTime();
+			DateTime currentBeginDate = calendarEntry.getBeginPeriodFullDateTime();
 			
-			if (currentBeginDate.before(asOfDate.toDate()) || DateUtils.isSameDay(currentBeginDate, asOfDate.toDate())) {
+			if (currentBeginDate.isBefore(asOfDate) || DateUtils.isSameDay(currentBeginDate.toDate(), asOfDate.toDate())) {
 				CalendarEntry previousCalendarEntry = getCalendarEntryService().getPreviousCalendarEntryByCalendarId(hrCalendarId, calendarEntry);
 				
 				if (previousCalendarEntry != null) {
 					String calendarName = previousCalendarEntry.getCalendarName();
-					Date previousBeginDate = previousCalendarEntry.getBeginPeriodDateTime();
+					LocalDate previousBeginDate = previousCalendarEntry.getBeginPeriodFullDateTime().toLocalDate();
 					List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForLeaveCalendar(calendarName, previousBeginDate);
 					
 					for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {

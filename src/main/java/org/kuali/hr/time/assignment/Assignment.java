@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.HrBusinessObject;
@@ -87,7 +88,7 @@ public class Assignment extends HrBusinessObject {
 
 	public Job getJob() {
 		if(job == null && this.getJobNumber() != null) {
-			this.setJob(TkServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveDate()));
+			this.setJob(TkServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveLocalDate()));
 		}
 		return job;
 	}
@@ -144,9 +145,9 @@ public class Assignment extends HrBusinessObject {
 		if(this.getJobNumber()!= null) {
 			if(this.getJob() == null || !this.getJobNumber().equals(this.getJob().getJobNumber())) {
 				if(this.getEffectiveDate()!=null){
-					this.setJob(TkServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveDate(), false));
+					this.setJob(TkServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveLocalDate(), false));
 				}else{
-					this.setJob(TkServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), TKUtils.getCurrentDate(), false));
+					this.setJob(TkServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), LocalDate.now(), false));
 				}
 			}
 			setDept((this.getJob() != null) ? this.getJob().getDept() : "");
@@ -160,7 +161,7 @@ public class Assignment extends HrBusinessObject {
 
 	public WorkArea getWorkAreaObj() {
 		if(workAreaObj == null && workArea != null) {
-			this.setWorkAreaObj(TkServiceLocator.getWorkAreaService().getWorkArea(this.getWorkArea(), this.getEffectiveDate()));
+			this.setWorkAreaObj(TkServiceLocator.getWorkAreaService().getWorkArea(this.getWorkArea(), this.getEffectiveLocalDate()));
 		}
 		return workAreaObj;
 	}

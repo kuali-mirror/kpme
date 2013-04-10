@@ -16,16 +16,15 @@
 package org.kuali.hr.time.overtime.daily.rule.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import com.google.common.collect.ImmutableList;
@@ -39,19 +38,15 @@ public class DailyOvertimeRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb i
             .build();
 
 	@Override
-	public DailyOvertimeRule findDailyOvertimeRule(String location, String paytype, String dept, Long workArea, Date asOfDate) {
+	public DailyOvertimeRule findDailyOvertimeRule(String location, String paytype, String dept, Long workArea, LocalDate asOfDate) {
 		DailyOvertimeRule dailyOvertimeRule;
 
 		Criteria root = new Criteria();
-        java.sql.Date effDate = null;
-        if (asOfDate != null) {
-            effDate = new java.sql.Date(asOfDate.getTime());
-        }
 		root.addEqualTo("dept", dept);
 		root.addEqualTo("workArea", workArea);
 		root.addEqualTo("location", location);
 		root.addEqualTo("paytype", paytype);
-		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DailyOvertimeRule.class, effDate, EQUAL_TO_FIELDS, false));
+		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DailyOvertimeRule.class, asOfDate, EQUAL_TO_FIELDS, false));
 		root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DailyOvertimeRule.class, EQUAL_TO_FIELDS, false));
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -87,7 +82,7 @@ public class DailyOvertimeRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb i
 	}
 	
 	@Override
-	public List<DailyOvertimeRule> getDailyOvertimeRules(String dept, String workArea, String location, Date fromEffdt, Date toEffdt, String active, String showHist) {
+	public List<DailyOvertimeRule> getDailyOvertimeRules(String dept, String workArea, String location, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
         List<DailyOvertimeRule> results = new ArrayList<DailyOvertimeRule>();
         
         Criteria root = new Criteria();
@@ -107,13 +102,13 @@ public class DailyOvertimeRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb i
         
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now());
         }
         root.addAndCriteria(effectiveDateFilter);
         

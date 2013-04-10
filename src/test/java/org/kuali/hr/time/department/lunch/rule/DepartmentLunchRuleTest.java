@@ -16,7 +16,6 @@
 package org.kuali.hr.time.department.lunch.rule;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.Calendar;
 
 import org.apache.commons.lang.StringUtils;
@@ -36,7 +35,7 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class DepartmentLunchRuleTest extends KPMETestCase {
-    private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+    private DateTime JAN_AS_OF_DATE = new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
 	@Test
 	public void testDepartmentLunchRuleFetch() throws Exception{
@@ -44,7 +43,7 @@ public class DepartmentLunchRuleTest extends KPMETestCase {
 		deptLunchRule.setActive(true);
 		deptLunchRule.setDept("TEST");
 		deptLunchRule.setWorkArea(1234L);
-		deptLunchRule.setEffectiveDate(JAN_AS_OF_DATE);
+		deptLunchRule.setEffectiveLocalDate(JAN_AS_OF_DATE.toLocalDate());
 		deptLunchRule.setJobNumber(0L);
 		deptLunchRule.setPrincipalId("admin");
 		deptLunchRule.setDeductionMins(new BigDecimal(30));
@@ -54,7 +53,7 @@ public class DepartmentLunchRuleTest extends KPMETestCase {
 		KRADServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
 		deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule("TEST",
-											1234L, "admin", 0L, JAN_AS_OF_DATE);
+											1234L, "admin", 0L, JAN_AS_OF_DATE.toLocalDate());
 		Assert.assertTrue("dept lunch rule fetched ", deptLunchRule!=null);
 
 	}
@@ -72,7 +71,7 @@ public class DepartmentLunchRuleTest extends KPMETestCase {
 		deptLunchRule.setWorkArea(1234L);
 		Calendar cal = Calendar.getInstance();
 		cal.set(2010, 1, 1);
-		deptLunchRule.setEffectiveDate(JAN_AS_OF_DATE);
+		deptLunchRule.setEffectiveLocalDate(JAN_AS_OF_DATE.toLocalDate());
 		deptLunchRule.setJobNumber(1L);
 		deptLunchRule.setPrincipalId("edna");
 		deptLunchRule.setDeductionMins(new BigDecimal(30));
@@ -82,7 +81,7 @@ public class DepartmentLunchRuleTest extends KPMETestCase {
 		KRADServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
 		deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule("TEST-DEPT",
-											1234L, "edna", 1L, JAN_AS_OF_DATE);
+											1234L, "edna", 1L, JAN_AS_OF_DATE.toLocalDate());
 		Assert.assertTrue("dept lunch rule fetched ", deptLunchRule!=null);
 
         TKContext.setTargetPrincipalId("edna");

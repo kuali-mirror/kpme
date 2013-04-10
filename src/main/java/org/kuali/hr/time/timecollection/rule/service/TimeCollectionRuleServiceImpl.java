@@ -15,23 +15,23 @@
  */
 package org.kuali.hr.time.timecollection.rule.service;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.timecollection.rule.dao.TimeCollectionRuleDaoService;
-
-import java.sql.Date;
-import java.util.List;
 
 public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService{
 	private TimeCollectionRuleDaoService timeCollectRuleDao;
 
     @Override
-	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, Date asOfDate){
+	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, LocalDate asOfDate){
 		return timeCollectRuleDao.getTimeCollectionRule(dept, workArea, payType, asOfDate);
 	}
 
     @Override
-	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea,Date asOfDate){
+	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea,LocalDate asOfDate){
 		return timeCollectRuleDao.getTimeCollectionRule(dept, workArea, asOfDate);
 	}
 

@@ -15,11 +15,10 @@
  */
 package org.kuali.hr.lm.timeoff.dao;
 
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
-
 
 public interface SystemScheduledTimeOffDao {
 
@@ -31,12 +30,12 @@ public interface SystemScheduledTimeOffDao {
 	public SystemScheduledTimeOff getSystemScheduledTimeOff(String lmSystemScheduledTimeOffId);
 
 	public List<SystemScheduledTimeOff> getSystemScheduledTimeOffForPayPeriod(
-			String leavePlan, Date startDate, Date endDate);
+			String leavePlan, LocalDate startDate, LocalDate endDate);
 
-	public SystemScheduledTimeOff getSystemScheduledTimeOffByDate(String leavePlan, Date startDate);
+	public SystemScheduledTimeOff getSystemScheduledTimeOffByDate(String leavePlan, LocalDate startDate);
 
-    List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(Date fromEffdt, Date toEffdt, String earnCode, Date fromAccruedDate, Date toAccruedDate, 
-    														Date fromSchTimeOffDate, Date toSchTimeOffDate, String active, String showHist);
+    List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(LocalDate fromEffdt, LocalDate toEffdt, String earnCode, LocalDate fromAccruedDate, LocalDate toAccruedDate, 
+    		LocalDate fromSchTimeOffDate, LocalDate toSchTimeOffDate, String active, String showHist);
     
-    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffsForLeavePlan(Date fromAccruedDate,Date toAccruedDate, String leavePlan);
+    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffsForLeavePlan(LocalDate fromAccruedDate,LocalDate toAccruedDate, String leavePlan);
 }

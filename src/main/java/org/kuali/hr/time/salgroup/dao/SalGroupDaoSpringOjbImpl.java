@@ -15,19 +15,20 @@
  */
 package org.kuali.hr.time.salgroup.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.salgroup.SalGroup;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.common.collect.ImmutableList;
 
 public class SalGroupDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements SalGroupDao {
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
@@ -40,7 +41,7 @@ public class SalGroupDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
 	}
 
 	@Override
-	public SalGroup getSalGroup(String salGroup, Date asOfDate) {
+	public SalGroup getSalGroup(String salGroup, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 
 		root.addEqualTo("hrSalGroup", salGroup);
@@ -74,7 +75,7 @@ public class SalGroupDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<SalGroup> getSalGroups(String hrSalGroup, String descr, Date fromEffdt, Date toEffdt, String active, String showHistory) {
+    public List<SalGroup> getSalGroups(String hrSalGroup, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
         List<SalGroup> results = new ArrayList<SalGroup>();
     	
     	Criteria root = new Criteria();
@@ -89,13 +90,13 @@ public class SalGroupDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
         
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", DateTime.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
 

@@ -43,7 +43,7 @@ public class WorkflowTimesheetTest extends KPMETestCase {
 
 		DateTime asOfDate = new DateTime(2010, 8, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
-		List<Job> jobs = TkServiceLocator.getJobService().getJobs(GlobalVariables.getUserSession().getPrincipalId(), asOfDate.toDate());
+		List<Job> jobs = TkServiceLocator.getJobService().getJobs(GlobalVariables.getUserSession().getPrincipalId(), asOfDate.toLocalDate());
 		Assert.assertNotNull("No jobs", jobs);
 		Assert.assertTrue("Should only be two Jobs.", jobs.size() == 2);
 		CalendarEntry pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDates(GlobalVariables.getUserSession().getPrincipalId(), asOfDate);

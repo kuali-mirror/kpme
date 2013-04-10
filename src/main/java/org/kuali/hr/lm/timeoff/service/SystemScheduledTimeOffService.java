@@ -16,9 +16,9 @@
 package org.kuali.hr.lm.timeoff.service;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.assignment.Assignment;
@@ -36,12 +36,12 @@ public interface SystemScheduledTimeOffService {
     public SystemScheduledTimeOff getSystemScheduledTimeOff(String lmSystemScheduledTimeOffId);
     
     public List<SystemScheduledTimeOff> getSystemScheduledTimeOffForPayPeriod(
-			String leavePlan, Date startDate, Date endDate);
+			String leavePlan, LocalDate startDate, LocalDate endDate);
 
-	public SystemScheduledTimeOff getSystemScheduledTimeOffByDate(String leavePlan, Date startDate);
+	public SystemScheduledTimeOff getSystemScheduledTimeOffByDate(String leavePlan, LocalDate startDate);
 
 	Assignment getAssignmentToApplyHolidays(
-			TimesheetDocument timesheetDocument, java.sql.Date payEndDate);
+			TimesheetDocument timesheetDocument, LocalDate payEndDate);
 
 	/**
 	 * Calculate System Scheduled Time Off hours based on given hours and fte of job
@@ -51,8 +51,8 @@ public interface SystemScheduledTimeOffService {
 	 */
     public BigDecimal calculateSysSchTimeOffHours(Job job, BigDecimal sstoHours);
 
-    List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(Date fromEffdt, Date toEffdt, String earnCode, Date fromAccruedDate, Date toAccruedDate, 
-    														Date fromSchTimeOffDate, Date toSchTimeOffDate, String active, String showHist);
+    List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(LocalDate fromEffdt, LocalDate toEffdt, String earnCode, LocalDate fromAccruedDate, LocalDate toAccruedDate, 
+    		LocalDate fromSchTimeOffDate, LocalDate toSchTimeOffDate, String active, String showHist);
     /**
      * Get the list of all active system scheduled time off for the given leave plan and dates
      * @param fromEffdt
@@ -62,5 +62,5 @@ public interface SystemScheduledTimeOffService {
      * @param leavePlan
      * @return
      */
-    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffsForLeavePlan(Date fromAccruedDate,Date toAccruedDate, String leavePlan);
+    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffsForLeavePlan(LocalDate fromAccruedDate,LocalDate toAccruedDate, String leavePlan);
 }

@@ -17,6 +17,7 @@ package org.kuali.hr.time.workflow;
 
 import java.util.Date;
 
+import org.joda.time.DateTime;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -67,6 +68,15 @@ public class TimesheetDocumentHeader extends PersistableBusinessObjectBase imple
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
+	@Override
+	public DateTime getEndDateTime() {
+		return new DateTime(endDate);
+	}
+	
+	public void setEndDateTime(DateTime endDateTime) {
+		this.endDate = endDateTime.toDate();
+	}
 
     @Override
 	public String getDocumentStatus() {
@@ -84,6 +94,15 @@ public class TimesheetDocumentHeader extends PersistableBusinessObjectBase imple
 
 	public void setBeginDate(Date beginDate) {
 		this.beginDate = beginDate;
+	}
+	
+	@Override
+	public DateTime getBeginDateTime() {
+		return new DateTime(beginDate);
+	}
+	
+	public void setBeginDateTime(DateTime beginDateTime) {
+		this.beginDate = beginDateTime.toDate();
 	}
 
 }

@@ -1,6 +1,5 @@
 package org.kuali.hr.pm.positionreportgroup.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.pm.positionreportgroup.PositionReportGroup;
 import org.kuali.hr.time.util.TkConstants;
@@ -34,7 +34,7 @@ public class PositionReportGroupDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 	}
 
 	@Override
-	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String institution, String campus, Date asOfDate) {
+	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String institution, String campus, LocalDate asOfDate) {
 		List<PositionReportGroup> prgList = new ArrayList<PositionReportGroup>();
 		Criteria root = new Criteria();
 

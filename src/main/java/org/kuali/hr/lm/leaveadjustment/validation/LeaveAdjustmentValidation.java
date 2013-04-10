@@ -16,8 +16,7 @@
 package org.kuali.hr.lm.leaveadjustment.validation;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leaveadjustment.LeaveAdjustment;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -28,7 +27,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 	
-	boolean validateLeavePlan(String leavePlan, Date asOfDate) {
+	boolean validateLeavePlan(String leavePlan, LocalDate asOfDate) {
 		boolean valid = true;
 		if (!ValidationUtils.validateLeavePlan(leavePlan, asOfDate)) {
 			this.putFieldError("leavePlan", "error.existence", "leavePlan '"
@@ -38,7 +37,7 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 		return valid;
 	}
 	
-	boolean validateEarnCode(String earnCode, String accrualCategory, Date asOfDate) {
+	boolean validateEarnCode(String earnCode, String accrualCategory, LocalDate asOfDate) {
 		boolean valid = true;
 		if (!ValidationUtils.validateEarnCodeOfAccrualCategory(earnCode, accrualCategory, asOfDate)) {
 			this.putFieldError("earnCode", "error.earnCode.accrualCategory.mismatch", 
@@ -58,7 +57,7 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 		return valid;
 	}
 
-	boolean validateAccrualCategory(String accrualCategory, Date asOfDate, String principalId) {
+	boolean validateAccrualCategory(String accrualCategory, LocalDate asOfDate, String principalId) {
 		boolean valid = true;
 		if (!ValidationUtils.validateAccCategory(accrualCategory, principalId, asOfDate)) {
 			this.putFieldError("accrualCategory", "error.existence", "accrualCategory '"
@@ -68,7 +67,7 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 		return valid;
 	}
 	
-	private boolean validateFraction(String earnCode, BigDecimal amount, Date asOfDate) {
+	private boolean validateFraction(String earnCode, BigDecimal amount, LocalDate asOfDate) {
 		boolean valid = true;
 		if (!ValidationUtils.validateEarnCodeFraction(earnCode, amount, asOfDate)) {
 			EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
@@ -100,15 +99,15 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 					valid &= this.validatePrincipal(leaveAdjustment.getPrincipalId());
 				}
 				if(leaveAdjustment.getAccrualCategory() != null) {
-					valid &= this.validateAccrualCategory(leaveAdjustment.getAccrualCategory(),leaveAdjustment.getEffectiveDate(), leaveAdjustment.getPrincipalId());
+					valid &= this.validateAccrualCategory(leaveAdjustment.getAccrualCategory(),leaveAdjustment.getEffectiveLocalDate(), leaveAdjustment.getPrincipalId());
 				}
 				if(leaveAdjustment.getLeavePlan() != null) {
-					valid &= this.validateLeavePlan(leaveAdjustment.getLeavePlan(), leaveAdjustment.getEffectiveDate());
+					valid &= this.validateLeavePlan(leaveAdjustment.getLeavePlan(), leaveAdjustment.getEffectiveLocalDate());
 				}
 				if(leaveAdjustment.getEarnCode() != null) {
-					valid &= this.validateEarnCode(leaveAdjustment.getEarnCode(), leaveAdjustment.getAccrualCategory(), leaveAdjustment.getEffectiveDate());
+					valid &= this.validateEarnCode(leaveAdjustment.getEarnCode(), leaveAdjustment.getAccrualCategory(), leaveAdjustment.getEffectiveLocalDate());
 					if(leaveAdjustment.getAdjustmentAmount() != null) {
-						valid &= this.validateFraction(leaveAdjustment.getEarnCode(), leaveAdjustment.getAdjustmentAmount(), leaveAdjustment.getEffectiveDate());
+						valid &= this.validateFraction(leaveAdjustment.getEarnCode(), leaveAdjustment.getAdjustmentAmount(), leaveAdjustment.getEffectiveLocalDate());
 					}
 				}
 			}

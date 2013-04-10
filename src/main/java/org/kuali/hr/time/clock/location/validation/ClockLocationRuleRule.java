@@ -72,7 +72,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 		boolean valid = true;
 		if (clr.getWorkArea() != null
 				&& !ValidationUtils.validateWorkArea(clr.getWorkArea(), clr
-						.getEffectiveDate())) {
+						.getEffectiveLocalDate())) {
 			this.putFieldError("workArea", "error.existence", "workArea '"
 					+ clr.getWorkArea() + "'");
 			valid = false;
@@ -92,7 +92,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
         boolean ret = false;
 
         if (!StringUtils.isEmpty(clr.getDept())) {
-    		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveDate())) {
+    		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveLocalDate())) {
 			    this.putFieldError("dept", "error.existence", "department '" + clr.getDept() + "'");
             } else if (!AuthorizationValidationUtils.hasAccessToWrite(clr)) {
                 this.putFieldError("dept", "error.department.permissions", clr.getDept());

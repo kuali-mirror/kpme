@@ -18,6 +18,7 @@ package org.kuali.hr.time.department;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
@@ -37,8 +38,8 @@ public class DepartmentInquirableImpl extends KualiInquirableImpl {
 			departmentObj = TkServiceLocator.getDepartmentService().getDepartment((String) fieldValues.get("hrDeptId"));
         } else if (fieldValues.containsKey("dept") && fieldValues.containsKey("effectiveDate")) {
             String department = (String) fieldValues.get("dept");
-            departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department,
-                    new java.sql.Date(TKUtils.convertDateStringToTimestampNoTimezone((String) fieldValues.get("effectiveDate")).getTime()));
+            LocalDate effectiveDate = TKUtils.formatDateString((String) fieldValues.get("effectiveDate"));
+            departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, effectiveDate);
         } else {
         	departmentObj = (Department) super.getBusinessObject(fieldValues);
         }

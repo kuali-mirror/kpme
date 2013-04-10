@@ -29,6 +29,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -45,7 +46,6 @@ import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.dao.PrincipalHRAttributesDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.note.Note;
@@ -60,8 +60,8 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	
 	@Override
 	public List<ApprovalLeaveSummaryRow> getLeaveApprovalSummaryRows(List<TKPerson> persons, CalendarEntry payCalendarEntry, List<Date> leaveSummaryDates) {
-		Date payBeginDate = payCalendarEntry.getBeginPeriodDate();
-		Date payEndDate = payCalendarEntry.getEndPeriodDate();
+		DateTime payBeginDate = payCalendarEntry.getBeginPeriodFullDateTime();
+		DateTime payEndDate = payCalendarEntry.getEndPeriodFullDateTime();
 		List<ApprovalLeaveSummaryRow> rowList = new ArrayList<ApprovalLeaveSummaryRow>();		
 		
 		for(TKPerson aPerson : persons) {
@@ -90,7 +90,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 				aRow.setMoreThanOneCalendar(true);
 			}
 			
-			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, payBeginDate, payEndDate);
+			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, payBeginDate.toLocalDate(), payEndDate.toLocalDate());
 
             aRow.setLeaveBlockList(leaveBlocks);
 			Map<Date, Map<String, BigDecimal>> earnCodeLeaveHours = getEarnCodeLeaveHours(leaveBlocks, leaveSummaryDates);
@@ -126,7 +126,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		allMessages.put("infoMessages", new HashSet<String>());
 		allMessages.put("warningMessages", new HashSet<String>());
 		if(aDoc != null) {
-			allMessages = LeaveCalendarValidationUtil.validatePendingTransactions(aDoc.getPrincipalId(), payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate());
+			allMessages = LeaveCalendarValidationUtil.validatePendingTransactions(aDoc.getPrincipalId(), payCalendarEntry.getBeginPeriodFullDateTime().toLocalDate(), payCalendarEntry.getEndPeriodFullDateTime().toLocalDate());
 		}
 		return allMessages;
 	}
@@ -194,7 +194,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		return earnCodeLeaveHours;
 	}
 
-	public Map<String, LeaveCalendarDocumentHeader> getLeaveDocumentHeaderMap(List<TKPerson> persons, Date payBeginDate, Date payEndDate) {
+	public Map<String, LeaveCalendarDocumentHeader> getLeaveDocumentHeaderMap(List<TKPerson> persons, DateTime payBeginDate, DateTime payEndDate) {
 		Map<String, LeaveCalendarDocumentHeader> leaveDocumentHeaderMap = new LinkedHashMap<String, LeaveCalendarDocumentHeader>();
 		if (CollectionUtils.isNotEmpty(persons)) {
 			for (TKPerson person : persons) {
@@ -218,8 +218,8 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
         CalendarEntry calendarEntry = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcdh.getDocumentId()).getCalendarEntry();
 		//CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(lcdh.getBeginDate(), lcdh.getEndDate());
 		if(calendarEntry != null) {
-			Date beginDate = calendarEntry.getBeginPeriodDate();
-			Date endDate = calendarEntry.getEndPeriodDate();
+			DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
+			DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
 			LeaveSummary leaveSummary;
 			List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(calendarEntry);
             try {
@@ -227,13 +227,13 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
             } catch (Exception e) {
                 leaveSummary = null;
             }
-            List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
+            List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate.toLocalDate(), endDate.toLocalDate());
 			Map<Date, Map<String, BigDecimal>> accrualCategoryLeaveHours = getAccrualCategoryLeaveHours(leaveBlocks, leaveSummaryDates);
 
 			//get all accrual categories of this employee
-			PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate);
+			PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate.toLocalDate());
 			if(pha != null) {
-				List<AccrualCategory> acList = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), new java.sql.Date(endDate.getTime()));
+				List<AccrualCategory> acList = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), endDate.toLocalDate());
 				for(AccrualCategory ac : acList) {
 					List<BigDecimal> acDayDetails = new ArrayList<BigDecimal>();
 					Map<String, Object> displayMap = new HashMap<String, Object>();
@@ -282,7 +282,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		for (LeaveBlock lb : leaveBlocks) {
 			DateTime leaveDate = new DateTime(lb.getLeaveDate()).toLocalDate().toDateTimeAtStartOfDay();
 			
-			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveDate());
+			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveLocalDate());
 			if (ac != null && ac.getShowOnGrid().equals("Y")) {
 				if (accrualCategoryLeaveHours.get(leaveDate.toDate()) != null) {
 					Map<String, BigDecimal> leaveHours = accrualCategoryLeaveHours.get(leaveDate.toDate());
@@ -306,7 +306,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
     }
 	
 	@Override
-	public List<CalendarEntry> getAllLeavePayCalendarEntriesForApprover(String principalId, Date currentDate) {
+	public List<CalendarEntry> getAllLeavePayCalendarEntriesForApprover(String principalId, LocalDate currentDate) {
 		Set<String> principals = new HashSet<String>();
 
     	Set<Long> workAreas = new HashSet<Long>();
@@ -316,7 +316,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		// Get all of the principals within our window of time.
 		for (Long waNum : workAreas) {
 			List<Assignment> assignments = TkServiceLocator
-					.getAssignmentService().getActiveAssignmentsForWorkArea(waNum, TKUtils.getTimelessDate(currentDate));
+					.getAssignmentService().getActiveAssignmentsForWorkArea(waNum, currentDate);
 
 			if (assignments != null) {
 				for (Assignment assignment : assignments) {
@@ -342,7 +342,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	@Override
 	public void removeNonLeaveEmployees(List<String> principalIds) {
 		if(CollectionUtils.isNotEmpty(principalIds)) {
-			java.sql.Date asOfDate = TKUtils.getTimelessDate(null);
+			LocalDate asOfDate = LocalDate.now();
 			List<String> idList = new ArrayList<String>();
 			idList.addAll(principalIds);
 	     	for(String principalId: idList) {
@@ -364,7 +364,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	}
 	
 	@Override
-	public List<String> getLeavePrincipalIdsWithSearchCriteria(List<String> workAreaList, String calendarGroup, java.sql.Date effdt, java.sql.Date beginDate, java.sql.Date endDate) {
+	public List<String> getLeavePrincipalIdsWithSearchCriteria(List<String> workAreaList, String calendarGroup, LocalDate effdt, LocalDate beginDate, LocalDate endDate) {
 		if (CollectionUtils.isEmpty(workAreaList)) {
 	      return new ArrayList<String>();
 	    }
@@ -385,7 +385,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	}	
 
 	@Override
-	public Map<String, LeaveCalendarDocumentHeader> getPrincipalDocumehtHeader(List<TKPerson> persons, Date payBeginDate, Date payEndDate) {
+	public Map<String, LeaveCalendarDocumentHeader> getPrincipalDocumehtHeader(List<TKPerson> persons, DateTime payBeginDate, DateTime payEndDate) {
 		Map<String, LeaveCalendarDocumentHeader> principalDocumentHeader = new LinkedHashMap<String, LeaveCalendarDocumentHeader>();
 		for (TKPerson person : persons) {
 			String principalId = person.getPrincipalId();
@@ -401,7 +401,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	public boolean isActiveAssignmentFoundOnJobFlsaStatus(String principalId,
 			String flsaStatus, boolean chkForLeaveEligible) {
 		boolean isActiveAssFound = false;
-		java.sql.Date asOfDate = TKUtils.getTimelessDate(null);
+		LocalDate asOfDate = LocalDate.now();
 		List<Assignment> activeAssignments = TkServiceLocator
 				.getAssignmentService().getAssignments(principalId, asOfDate);
 		if (activeAssignments != null && !activeAssignments.isEmpty()) {

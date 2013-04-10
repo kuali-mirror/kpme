@@ -355,7 +355,7 @@ public abstract class KPMERoleServiceBase {
 		List<String> departments = getDepartmentsForPrincipalInRole(principalId, roleName, asOfDate, getActiveOnly);
 		
 		for (String department : departments) {
-			List<WorkArea> workAreaObjs = getWorkAreaService().getWorkAreas(department, new java.sql.Date(asOfDate.toDate().getTime()));
+			List<WorkArea> workAreaObjs = getWorkAreaService().getWorkAreas(department, asOfDate.toLocalDate());
 			
 			for (WorkArea workAreaObj : workAreaObjs) {
 				workAreas.add(workAreaObj.getWorkArea());
@@ -392,7 +392,7 @@ public abstract class KPMERoleServiceBase {
 		List<String> locations = getLocationsForPrincipalInRole(principalId, roleName, asOfDate, getActiveOnly);
 		
 		for (String location : locations) {
-			List<Department> departmentObjs = getDepartmentService().getDepartments(location, new java.sql.Date(asOfDate.toDate().getTime()));
+			List<Department> departmentObjs = getDepartmentService().getDepartments(location,asOfDate.toLocalDate());
 			
 			for (Department departmentObj : departmentObjs) {
 				departments.add(departmentObj.getDept());

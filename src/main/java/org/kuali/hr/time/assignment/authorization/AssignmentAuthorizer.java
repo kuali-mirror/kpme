@@ -23,7 +23,7 @@ public class AssignmentAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase 
 			Assignment assignmentObj = (Assignment) dataObject;
 			
 			if (assignmentObj != null) {
-				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(assignmentObj.getDept(), assignmentObj.getEffectiveDate());
+				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(assignmentObj.getDept(), assignmentObj.getEffectiveLocalDate());
 				
 				if (departmentObj != null) {
 					location = departmentObj.getLocation();

@@ -27,7 +27,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 
 	boolean validateWorkArea(TimeCollectionRule ruleObj) {
-		if (!ValidationUtils.validateWorkArea(ruleObj.getWorkArea(), ruleObj.getDept(), ruleObj.getEffectiveDate())) {
+		if (!ValidationUtils.validateWorkArea(ruleObj.getWorkArea(), ruleObj.getDept(), ruleObj.getEffectiveLocalDate())) {
 			this.putFieldError("workArea", "error.existence", "workarea '" + ruleObj.getWorkArea() + "'");
 			return false;
 		} else {
@@ -36,7 +36,7 @@ public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 	}
 
 	boolean validateDepartment(TimeCollectionRule ruleObj) {
-		if (!ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getEffectiveDate())) {
+		if (!ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getEffectiveLocalDate())) {
 			this.putFieldError("dept", "error.existence", "department '" + ruleObj.getDept() + "'");
 			return false;
 		} else {
@@ -49,7 +49,7 @@ public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 		if(!StringUtils.isEmpty(ruleObj.getPayType()) && ruleObj.getPayType().equals(TkConstants.WILDCARD_CHARACTER)) {
 			return true;
 		}		
-		if (!ValidationUtils.validatePayType(ruleObj.getPayType(), ruleObj.getEffectiveDate())) {
+		if (!ValidationUtils.validatePayType(ruleObj.getPayType(), ruleObj.getEffectiveLocalDate())) {
 			this.putFieldError("payType", "error.existence", "payType '" + ruleObj.getPayType() + "'");
 			return false;
 		} else {

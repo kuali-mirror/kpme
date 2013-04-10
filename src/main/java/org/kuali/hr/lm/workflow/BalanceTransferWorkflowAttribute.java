@@ -63,7 +63,7 @@ public class BalanceTransferWorkflowAttribute extends AbstractRoleAttribute {
 		}
 		
         if (balanceTransfer != null) {
-            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveDate());
+            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveLocalDate());
             for (Assignment assignment : assignments) {
                 String roleStr = roleName + "_" + assignment.getWorkArea();
                 if (!roles.contains(roleStr)) {
@@ -110,7 +110,7 @@ public class BalanceTransferWorkflowAttribute extends AbstractRoleAttribute {
         }
         
         if (balanceTransfer != null) {
-	        WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, balanceTransfer.getEffectiveDate());
+	        WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, balanceTransfer.getEffectiveLocalDate());
 	
 	        List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 	        

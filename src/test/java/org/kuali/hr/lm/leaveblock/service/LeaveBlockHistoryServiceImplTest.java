@@ -22,6 +22,7 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,13 +67,13 @@ public class LeaveBlockHistoryServiceImplTest extends KPMETestCase {
 		Date beginDate = TKUtils.getTimelessDate(currCal.getTime());
 		currCal.set(2012, 11, 31);
 		Date endDate = TKUtils.getTimelessDate(currCal.getTime());
-        List<LeaveBlockHistory> leaveBlockHistories= leaveBlockHistoryService.getLeaveBlockHistoriesForLeaveDisplay("admin", beginDate, endDate, Boolean.TRUE);
+        List<LeaveBlockHistory> leaveBlockHistories= leaveBlockHistoryService.getLeaveBlockHistoriesForLeaveDisplay("admin", LocalDate.fromDateFields(beginDate), LocalDate.fromDateFields(endDate), Boolean.TRUE);
         Assert.assertNotNull("Leave Block histories for leavedisplay  not found ", leaveBlockHistories);
 	}
 	@Test
 	public void testGetLeaveBlockHistoriesWithStatusAndAction() {
-		Date currentDate = new Date((new DateTime(2012, 3, 10, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		List<LeaveBlockHistory> leaveBlockHistories= leaveBlockHistoryService.getLeaveBlockHistories("admin", LMConstants.REQUEST_STATUS.DISAPPROVED, LMConstants.ACTION.DELETE, currentDate);
+		DateTime currentDate = new DateTime(2012, 3, 10, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		List<LeaveBlockHistory> leaveBlockHistories= leaveBlockHistoryService.getLeaveBlockHistories("admin", LMConstants.REQUEST_STATUS.DISAPPROVED, LMConstants.ACTION.DELETE, currentDate.toLocalDate());
 		Assert.assertNotNull("Leave Block histories for leavedisplay  not found ", leaveBlockHistories);
 		Assert.assertTrue("There should be 1 leave block history found, not " + leaveBlockHistories.size() , leaveBlockHistories.size() == 1);
 	}

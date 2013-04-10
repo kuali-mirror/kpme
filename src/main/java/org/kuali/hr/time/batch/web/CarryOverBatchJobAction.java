@@ -15,14 +15,14 @@
  */
 package org.kuali.hr.time.batch.web;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -32,8 +32,8 @@ public class CarryOverBatchJobAction extends TkAction {
     public ActionForward runCarryOverBatchJob(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	CarryOverBatchJobActionForm cobjaf = (CarryOverBatchJobActionForm) form;
 
-    	LeavePlan leavePlan = TkServiceLocator.getLeavePlanService().getLeavePlan(cobjaf.getLeavePlan(), new java.sql.Date(System.currentTimeMillis()));
-    	Date scheduleDate = new Date();
+    	LeavePlan leavePlan = TkServiceLocator.getLeavePlanService().getLeavePlan(cobjaf.getLeavePlan(), LocalDate.now());
+    	DateTime scheduleDate = new DateTime();
     	
     	TkServiceLocator.getBatchJobService().scheduleLeaveCarryOverJobs(leavePlan, scheduleDate);
     	

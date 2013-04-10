@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.time.paytype.service;
 
+import java.util.List;
+
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.paytype.dao.PayTypeDao;
-
-import java.util.Date;
-import java.util.List;
 
 public class PayTypeServiceImpl implements PayTypeService {
 
@@ -40,7 +40,7 @@ public class PayTypeServiceImpl implements PayTypeService {
 	}
 
 	@Override
-	public PayType getPayType(String payType, Date effectiveDate) {
+	public PayType getPayType(String payType, LocalDate effectiveDate) {
 		return payTypeDao.getPayType(payType, effectiveDate);
 	}
 
@@ -55,7 +55,7 @@ public class PayTypeServiceImpl implements PayTypeService {
 	}
 
     @Override
-    public List<PayType> getPayTypes(String payType, String regEarnCode, String descr, Date fromEffdt, Date toEffdt, String active, String showHist) {
+    public List<PayType> getPayTypes(String payType, String regEarnCode, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
         return payTypeDao.getPayTypes(payType, regEarnCode, descr, fromEffdt, toEffdt, active, showHist);
     }
 

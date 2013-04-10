@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -59,7 +60,7 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
-		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodDateTime(), ce.getEndPeriodDateTime());
+		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodFullDateTime().toLocalDate(), ce.getEndPeriodFullDateTime().toLocalDate());
 		Assert.assertTrue("Leave Block list should not be empty. ", CollectionUtils.isNotEmpty(lbList));
 		Map<Date, Map<String, BigDecimal>> aMap = TkServiceLocator.getLeaveApprovalService().getEarnCodeLeaveHours(lbList, leaveSummaryDates);
 		
@@ -74,7 +75,7 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
-		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodDateTime(), ce.getEndPeriodDateTime());
+		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodFullDateTime().toLocalDate(), ce.getEndPeriodFullDateTime().toLocalDate());
 		Assert.assertTrue("Leave Block list should not be empty. ", CollectionUtils.isNotEmpty(lbList));
 		Map<Date, Map<String, BigDecimal>> aMap = TkServiceLocator.getLeaveApprovalService().getAccrualCategoryLeaveHours(lbList, leaveSummaryDates);
 		
@@ -88,8 +89,8 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 	public void testGetLeavePrincipalIdsWithSearchCriteria() throws ParseException {
 		List<String> workAreaList = new ArrayList<String>();
 		String calendarGroup = "leaveCal";
-		java.sql.Date beginDate = new java.sql.Date(DATE_FORMAT.parse("03/01/2012").getTime());
-		java.sql.Date endDate = new java.sql.Date(DATE_FORMAT.parse("03/30/2012").getTime());
+		LocalDate beginDate = LocalDate.fromDateFields(DATE_FORMAT.parse("03/01/2012"));
+		LocalDate endDate = LocalDate.fromDateFields(DATE_FORMAT.parse("03/30/2012"));
 		
 		List<String> idList = TkServiceLocator.getLeaveApprovalService()
 			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, calendarGroup, endDate, beginDate, endDate);		

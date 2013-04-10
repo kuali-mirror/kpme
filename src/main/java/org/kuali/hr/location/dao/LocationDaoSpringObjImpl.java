@@ -15,29 +15,29 @@
  */
 package org.kuali.hr.location.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.location.Location;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.common.collect.ImmutableList;
 
 public class LocationDaoSpringObjImpl extends PlatformAwareDaoBaseOjb implements LocationDao {
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("location")
             .build();
 	@Override
-	public Location getLocation(String location, Date asOfDate) {
+	public Location getLocation(String location, LocalDate asOfDate) {
 		Criteria root = new Criteria();
-
 		root.addEqualTo("location", location);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Location.class, new java.sql.Date(asOfDate.getTime()), EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Location.class, asOfDate, EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Location.class, EQUAL_TO_FIELDS, false));
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);

@@ -1,8 +1,8 @@
 package org.kuali.hr.pm.positiontype.service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.pm.positiontype.PositionType;
 
 public interface PositionTypeService {
@@ -22,5 +22,5 @@ public interface PositionTypeService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PositionType> getPositionTypeList(String positionType, String institution, String campus, Date asOfDate);
+	public List<PositionType> getPositionTypeList(String positionType, String institution, String campus, LocalDate asOfDate);
 }

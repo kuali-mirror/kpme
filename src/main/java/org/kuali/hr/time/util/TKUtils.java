@@ -21,7 +21,13 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,6 +38,8 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDate.Property;
 import org.joda.time.Period;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntry;
@@ -77,14 +85,14 @@ public class TKUtils {
         return DateTimeZone.forID(TKUtils.getSystemTimeZone());
     }
 
-    public static final Date END_OF_TIME;
+    public static final LocalDate END_OF_TIME;
 
     static
     {
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        final Calendar c = new GregorianCalendar(tz);
-        c.setTime(new Date(Long.MAX_VALUE));
-        END_OF_TIME = new java.sql.Date(c.getTime().getTime());
+    	Property year = LocalDate.now().year();
+    	Property month = LocalDate.now().monthOfYear();
+    	Property day = LocalDate.now().dayOfMonth();
+        END_OF_TIME = new LocalDate(year.getMaximumValueOverall(), month.getMaximumValueOverall(), day.getMaximumValueOverall());
     }
 
     /**
@@ -115,11 +123,11 @@ public class TKUtils {
         return daysBetween;
     }
 
-    public static long getDaysBetween(java.util.Date startDate, java.util.Date endDate) {
+    public static long getDaysBetween(LocalDate startDate, LocalDate endDate) {
         Calendar beginCal = GregorianCalendar.getInstance();
         Calendar endCal = GregorianCalendar.getInstance();
-        beginCal.setTime(startDate);
-        endCal.setTime(endDate);
+        beginCal.setTime(startDate.toDate());
+        endCal.setTime(endDate.toDate());
 
         return getDaysBetween(beginCal, endCal);
     }
@@ -178,7 +186,7 @@ public class TKUtils {
        				+ assignment.getJob().getCompRate().setScale(TkConstants.BIG_DECIMAL_SCALE) 
        				+ " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
        if(assignment.getTask()!= null) {
-	       	Task aTask = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveDate());
+	       	Task aTask = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveLocalDate());
 	       	if(aTask != null) {
 	       		// do not display task description if the task is the default one
 	        	// default task is created in getTask() of TaskService
@@ -199,8 +207,8 @@ public class TKUtils {
      * @return
      */
     public static List<Interval> getDaySpanForCalendarEntry(CalendarEntry calendarEntry, DateTimeZone timeZone) {
-        DateTime beginDateTime = calendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
-        DateTime endDateTime = calendarEntry.getEndLocalDateTime().toDateTime(timeZone);
+        DateTime beginDateTime = calendarEntry.getBeginPeriodLocalDateTime().toDateTime(timeZone);
+        DateTime endDateTime = calendarEntry.getEndPeriodLocalDateTime().toDateTime(timeZone);
 
         List<Interval> dayIntervals = new ArrayList<Interval>();
 
@@ -372,22 +380,45 @@ public class TKUtils {
         return new Date(dt.getMillis());
     }
 
-    public static String formatDate(Date dt) {
+    public static String formatDate(LocalDate localDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        return sdf.format(dt);
+        return sdf.format(localDate.toDate());
     }
 
+    public static String formatDateTime(DateTime dateTime) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        return sdf.format(dateTime.toDate());
+    }
     
-    public static String formatDateTime(Timestamp timestamp){
+    public static String formatTimestamp(Timestamp timestamp){
     	Date dt = new Date(timestamp.getTime());
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         return sdf.format(dt);
     }
     
-    public static Date formatDateString(String date){
+    public static LocalDate formatDateString(String date){
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
     	try {
-			return new Date(sdf.parse(date).getTime());
+			return LocalDate.fromDateFields(sdf.parse(date));
+		} catch (ParseException e) {
+			return null;
+		}
+    }
+    
+    public static DateTime formatDateTimeString(String dateTime) {
+    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        DateTimeZone dtz = DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimezone());
+    	try {
+			return new DateTime(sdf.parse(dateTime)).withZone(dtz);
+		} catch (ParseException e) {
+			return null;
+		}
+    }
+
+    public static DateTime formatDateTimeStringNoTimezone(String dateTime) {
+    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+    	try {
+			return new DateTime(sdf.parse(dateTime));
 		} catch (ParseException e) {
 			return null;
 		}
@@ -436,59 +467,6 @@ public class TKUtils {
                 Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.SESSION_TIMEOUT));
     }
     
-    /**
-     * Creates a Timestamp object using Jodatime as an intermediate data structure
-     * from the provided date and time string. (From the form POST and javascript
-     * formats)
-     *
-     * @param dateStr (the format is 01/01/2011)
-     * @return Timestamp
-     */
-    public static Timestamp convertDateStringToTimestamp(String dateStr) {
-        // the date/time format is defined in tk.calendar.js. the format is 11/17/2010
-        String[] date = dateStr.split("/");
-
-        DateTimeZone dtz = DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimezone());
-
-        // this is from the jodattime javadoc:
-        // DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)
-        // Noted that the month value is the actual month which is different than the java date object where the month value is the current month minus 1.
-        // I tried to use the actual month in the code as much as I can to reduce the convertions.
-        DateTime dateTime = new DateTime(
-                Integer.parseInt(date[2]),
-                Integer.parseInt(date[0]),
-                Integer.parseInt(date[1]),
-                0, 0, 0, 0, dtz);
-
-        return new Timestamp(dateTime.getMillis());
-    }
-
-    /**
-     * Creates a Timestamp object using Jodatime as an intermediate data structure
-     * from the provided date and time string. (From the form POST and javascript
-     * formats)
-     *
-     * @param dateStr (the format is 01/01/2011)
-     * @return Timestamp
-     */
-    public static Timestamp convertDateStringToTimestampNoTimezone(String dateStr) {
-        // the date/time format is defined in tk.calendar.js. the format is 11/17/2010
-        String[] date = dateStr.split("/");
-
-        // this is from the jodattime javadoc:
-        // DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)
-        // Noted that the month value is the actual month which is different than the java date object where the month value is the current month minus 1.
-        // I tried to use the actual month in the code as much as I can to reduce the convertions.
-        DateTime dateTime = new DateTime(
-                Integer.parseInt(date[2]),
-                Integer.parseInt(date[0]),
-                Integer.parseInt(date[1]),
-                0, 0, 0, 0);
-
-        return new Timestamp(dateTime.getMillis());
-    }
-
-    
     public static Timestamp getCurrentTimestamp() {
         return new Timestamp(System.currentTimeMillis());
     }
@@ -518,8 +496,8 @@ public class TKUtils {
     }
     
     public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntry calendarEntry, DateTimeZone timeZone) {
-        DateTime beginDateTime = calendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
-        DateTime endDateTime = calendarEntry.getEndLocalDateTime().toDateTime(timeZone);
+        DateTime beginDateTime = calendarEntry.getBeginPeriodLocalDateTime().toDateTime(timeZone);
+        DateTime endDateTime = calendarEntry.getEndPeriodLocalDateTime().toDateTime(timeZone);
 
         List<Interval> dayIntervals = new ArrayList<Interval>();
 

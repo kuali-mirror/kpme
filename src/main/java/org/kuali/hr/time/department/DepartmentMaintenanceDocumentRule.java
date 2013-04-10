@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.time.department;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.ListIterator;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.role.department.DepartmentPrincipalRoleMemberBo;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -50,7 +50,7 @@ public class DepartmentMaintenanceDocumentRule extends MaintenanceDocumentRuleBa
 			valid &= validateChart(department.getChart());
 			valid &= validateOrg(department.getOrg());
 			valid &= validateChartAndOrg(department.getChart(), department.getOrg());
-			valid &= validateRolePresent(department.getRoleMembers(), department.getEffectiveDate());
+			valid &= validateRolePresent(department.getRoleMembers(), department.getEffectiveLocalDate());
 		}
 
 		return valid;
@@ -61,7 +61,7 @@ public class DepartmentMaintenanceDocumentRule extends MaintenanceDocumentRuleBa
 
 		if (department.getHrDeptId() == null) {
 			if (department.getDept() != null && department.getEffectiveDate() != null) {
-				Department existingDept = TkServiceLocator.getDepartmentService().getDepartment(department.getDept(), department.getEffectiveDate());
+				Department existingDept = TkServiceLocator.getDepartmentService().getDepartment(department.getDept(), department.getEffectiveLocalDate());
 				
 				if (existingDept != null) {
 					if (StringUtils.equalsIgnoreCase(department.getDept(), existingDept.getDept())
@@ -125,7 +125,7 @@ public class DepartmentMaintenanceDocumentRule extends MaintenanceDocumentRuleBa
 		return valid;
 	}
 
-	boolean validateRolePresent(List<DepartmentPrincipalRoleMemberBo> roleMembers, Date effectiveDate) {
+	boolean validateRolePresent(List<DepartmentPrincipalRoleMemberBo> roleMembers, LocalDate effectiveDate) {
 		boolean valid = true;
 
 		for (ListIterator<DepartmentPrincipalRoleMemberBo> iterator = roleMembers.listIterator(); iterator.hasNext(); ) {
@@ -140,11 +140,11 @@ public class DepartmentMaintenanceDocumentRule extends MaintenanceDocumentRuleBa
 				String prefix = "roleMembers[" + index + "].";
 				
 				if (roleMember.getActiveToDateValue() != null) {
-					if (effectiveDate.compareTo(roleMember.getActiveToDateValue()) >= 0
+					if (effectiveDate.compareTo(roleMember.getActiveToDate().toLocalDate()) >= 0
 							|| roleMember.getActiveFromDateValue().compareTo(roleMember.getActiveToDateValue()) >= 0) {
 						this.putFieldError(prefix + "expirationDate", "error.role.expiration");
 						valid = false;
-					} else if (TKUtils.getDaysBetween(roleMember.getActiveFromDateValue(), roleMember.getActiveToDateValue()) > 180) {
+					} else if (TKUtils.getDaysBetween(roleMember.getActiveFromDate().toLocalDate(), roleMember.getActiveToDate().toLocalDate()) > 180) {
 						this.putFieldError(prefix + "expirationDate", "error.role.expiration.duration");
 						valid = false;
 		        	}

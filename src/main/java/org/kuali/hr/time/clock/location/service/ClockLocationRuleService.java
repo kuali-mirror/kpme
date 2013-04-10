@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.time.clock.location.service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.springframework.cache.annotation.Cacheable;
@@ -39,13 +39,13 @@ public interface ClockLocationRuleService {
                     "+ '|' + 'jobNumber=' + #p3" +
                     "+ '|' + 'asOfDate=' + #p4")
 	public List<ClockLocationRule> getClockLocationRule(String dept, Long workArea,
-			String principalId, Long jobNumber, Date asOfDate);
+			String principalId, Long jobNumber, LocalDate asOfDate);
 	/**
 	 * Process clock location rule based on clock log passed in
 	 * @param clockLog
 	 * @param asOfDate
 	 */
-	public void processClockLocationRule(ClockLog clockLog, Date asOfDate);
+	public void processClockLocationRule(ClockLog clockLog, LocalDate asOfDate);
 	
 	/**
 	 * 
@@ -63,7 +63,7 @@ public interface ClockLocationRuleService {
                     "+ '|' + 'jobNumber=' + #p3" +
                     "+ '|' + 'asOfDate=' + #p4")
 	public List<ClockLocationRule> getNewerVersionClockLocationRule(String dept, Long workArea, String principalId, 
-			Long jobNumber, Date asOfDate);
+			Long jobNumber, LocalDate asOfDate);
 	/**
 	 * 
 	 * @param tkClockLocationRuleId
@@ -79,6 +79,6 @@ public interface ClockLocationRuleService {
 	 */
 	public void populateIPAddressesForCLR(ClockLocationRule clr);
 
-    List<ClockLocationRule> getClockLocationRules(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
+    List<ClockLocationRule> getClockLocationRules(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
                                                   String dept, String workArea, String active, String showHistory);
 }

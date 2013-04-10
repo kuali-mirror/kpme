@@ -15,13 +15,13 @@
  */
 package org.kuali.hr.lm.leavecalendar.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -79,15 +79,15 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     public LeaveCalendarDocument openLeaveCalendarDocument(String principalId, CalendarEntry calEntry) throws WorkflowException {
         LeaveCalendarDocument doc;
 
-        Date begin = calEntry.getBeginPeriodDateTime();
-        Date end = calEntry.getEndPeriodDateTime();
+        DateTime begin = calEntry.getBeginPeriodFullDateTime();
+        DateTime end = calEntry.getEndPeriodFullDateTime();
 
         LeaveCalendarDocumentHeader header = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, begin, end);
         if (header == null) {
             EntityNamePrincipalName person = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
             String principalName = person != null && person.getDefaultName() != null ? person.getDefaultName().getCompositeName() : StringUtils.EMPTY;
-            String beginDateString = TKUtils.formatDate(new java.sql.Date(begin.getTime()));
-            String endDateString = TKUtils.formatDate(new java.sql.Date(end.getTime()));
+            String beginDateString = TKUtils.formatDate(begin.toLocalDate());
+            String endDateString = TKUtils.formatDate(end.toLocalDate());
             String leaveCalendarDocumentTitle = LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE + " - " + principalName + " (" + principalId + ") - " + beginDateString + "-" + endDateString;
             
             doc = initiateWorkflowDocument(principalId, begin, end, calEntry, LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE, leaveCalendarDocumentTitle);
@@ -105,7 +105,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             return false;
         }
         
-        boolean isPlanningCalendar = TkServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(principalId, calEntry.getBeginPeriodDateTime(), calEntry.getEndPeriodDateTime());
+        boolean isPlanningCalendar = TkServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(principalId, calEntry.getBeginPeriodFullDateTime().toLocalDate(), calEntry.getEndPeriodFullDateTime().toLocalDate());
     	if (isPlanningCalendar) {
     		return false;
     	}
@@ -115,14 +115,14 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     	return CollectionUtils.isNotEmpty(results);
     }
     
-    protected LeaveCalendarDocument initiateWorkflowDocument(String principalId, Date payBeginDate, Date payEndDate, CalendarEntry calendarEntry, String documentType, String title) throws WorkflowException {
+    protected LeaveCalendarDocument initiateWorkflowDocument(String principalId, DateTime payBeginDate, DateTime payEndDate, CalendarEntry calendarEntry, String documentType, String title) throws WorkflowException {
         LeaveCalendarDocument leaveCalendarDocument = null;
         WorkflowDocument workflowDocument = null;
 
         workflowDocument =  WorkflowDocumentFactory.createDocument(principalId, documentType, title);
 
         String status = workflowDocument.getStatus().getCode();
-        LeaveCalendarDocumentHeader documentHeader = new LeaveCalendarDocumentHeader(workflowDocument.getDocumentId(), principalId, payBeginDate, payEndDate, status);
+        LeaveCalendarDocumentHeader documentHeader = new LeaveCalendarDocumentHeader(workflowDocument.getDocumentId(), principalId, payBeginDate.toDate(), payEndDate.toDate(), status);
 
         documentHeader.setDocumentId(workflowDocument.getDocumentId());
         documentHeader.setDocumentStatus(TkConstants.ROUTE_STATUS.INITIATED);
@@ -132,16 +132,16 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         leaveCalendarDocument = new LeaveCalendarDocument(documentHeader);
         leaveCalendarDocument.setCalendarEntry(calendarEntry);
         loadLeaveCalendarDocumentData(leaveCalendarDocument, principalId, calendarEntry);
-        TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(leaveCalendarDocument, payEndDate);
+        TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(leaveCalendarDocument, payEndDate.toLocalDate());
         
-        updateLeaveBlockDocumentIds(principalId, payBeginDate, payEndDate, workflowDocument.getDocumentId());
+        updateLeaveBlockDocumentIds(principalId, payBeginDate.toLocalDate(), payEndDate.toLocalDate(), workflowDocument.getDocumentId());
         
-        updatePlannedLeaveBlocks(principalId, payBeginDate, payEndDate);
+        updatePlannedLeaveBlocks(principalId, payBeginDate.toLocalDate(), payEndDate.toLocalDate());
 
         return leaveCalendarDocument;
     }
     
-    private void updateLeaveBlockDocumentIds(String principalId, Date beginDate, Date endDate, String documentId) {
+    private void updateLeaveBlockDocumentIds(String principalId, LocalDate beginDate, LocalDate endDate, String documentId) {
         List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
         
         for (LeaveBlock leaveBlock : leaveBlocks) {
@@ -151,7 +151,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(leaveBlocks);
     }
     
-    private void updatePlannedLeaveBlocks(String principalId, Date beginDate, Date endDate) {
+    private void updatePlannedLeaveBlocks(String principalId, LocalDate beginDate, LocalDate endDate) {
         String batchUserPrincipalId = getBatchUserPrincipalId();
         
         if (batchUserPrincipalId != null) {
@@ -254,9 +254,9 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             return false;
         }
         List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
-        		document.getCalendarEntry().getBeginPeriodDate(), document.getCalendarEntry().getEndPeriodDate(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
+        		document.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), document.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
         leaveBlocks.addAll(TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
-        		document.getCalendarEntry().getBeginPeriodDate(), document.getCalendarEntry().getEndPeriodDate(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT));
+        		document.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), document.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT));
         for(LeaveBlock lb : leaveBlocks) {
         	if(!StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.APPROVED) &&
         			!StringUtils.equals(lb.getRequestStatus(), LMConstants.REQUEST_STATUS.DISAPPROVED))
@@ -341,8 +341,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         }
     }
 
-    public boolean isLeavePlanningCalendar(String principalId, Date beginDate, Date endDate) {
-        Date today = new Date();
+    public boolean isLeavePlanningCalendar(String principalId, LocalDate beginDate, LocalDate endDate) {
+        LocalDate today = LocalDate.now();
 
         List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId, endDate);
         for (Job job : jobs) {
@@ -353,7 +353,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
                     return true;
                 } else {
                     //  If leave eligible and FLSA exempt, then report leave in the Leave Calendar. Use the date to determine Planning vs Recording Calendars.
-                    if ( beginDate.after(today) ) {
+                    if ( beginDate.isAfter(today) ) {
                         //  future period, this is a Planning Calendar.
                         return true;
                     } else {

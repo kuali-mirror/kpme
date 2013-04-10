@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.time.detail.web;
 
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -46,7 +46,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -164,7 +163,7 @@ public class ActionFormUtils {
         for (TimeBlock timeBlock : timeBlocks) {
             Map<String, Object> timeBlockMap = new LinkedHashMap<String, Object>();
 
-            WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), new java.sql.Date(timeBlock.getEndTimestamp().getTime()));
+            WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), timeBlock.getEndDateTime().toLocalDate());
             String workAreaDesc = workArea.getDescription();
 
             String principalId = GlobalVariables.getUserSession().getPrincipalId();
@@ -202,7 +201,7 @@ public class ActionFormUtils {
             timeBlockMap.put("documentId", timeBlock.getDocumentId());
             timeBlockMap.put("title", workAreaDesc);
             timeBlockMap.put("earnCode", timeBlock.getEarnCode());
-            timeBlockMap.put("earnCodeDesc", TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), TKUtils.getCurrentDate()).getDescription());
+            timeBlockMap.put("earnCodeDesc", TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), LocalDate.now()).getDescription());
             //TODO: need to cache this or pre-load it when the app boots up
             // EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
             timeBlockMap.put("earnCodeType", timeBlock.getEarnCodeType());
@@ -311,11 +310,11 @@ public class ActionFormUtils {
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         for (CalendarEntry pce : payPeriods) {
         	// Check if service date of user is after the Calendar entry
-            Date asOfDate = new Date(DateUtils.addDays(pce.getEndPeriodDate(),-1).getTime());
+            DateTime asOfDate = pce.getEndPeriodFullDateTime().minusDays(1);
     		PrincipalHRAttributes principalHRAttributes = null;
     		
     		if(viewPrincipal != null) {
-    			principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, asOfDate);
+    			principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, asOfDate.toLocalDate());
     		} else {
     			pMap.put(pce.getHrCalendarEntryId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format((DateUtils.addMilliseconds(pce.getEndPeriodDate(),-1))));
     		}
@@ -363,12 +362,12 @@ public class ActionFormUtils {
 		int plannningMonths = 0;
 		PrincipalHRAttributes principalHRAttributes = TkServiceLocator
 				.getPrincipalHRAttributeService().getPrincipalCalendar(
-						principalid, TKUtils.getCurrentDate());
+						principalid, LocalDate.now());
 		if (principalHRAttributes != null
 				&& principalHRAttributes.getLeavePlan() != null) {
 			LeavePlan lp = TkServiceLocator.getLeavePlanService()
 					.getLeavePlan(principalHRAttributes.getLeavePlan(),
-							TKUtils.getCurrentDate());
+							LocalDate.now());
 			if (lp != null && lp.getPlanningMonths() != null) {
 				plannningMonths = Integer.parseInt(lp.getPlanningMonths());
 			}

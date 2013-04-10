@@ -15,12 +15,12 @@
  */
 package org.kuali.hr.time.workarea.service;
 
+import java.util.List;
+
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-
-import java.sql.Date;
-import java.util.List;
 
 public interface WorkAreaService {
 	
@@ -29,7 +29,7 @@ public interface WorkAreaService {
     
     Long getNextWorkAreaKey();
     
-    List<WorkArea> getWorkAreas(String dept, String workArea, String workAreaDescr, Date fromEffdt, Date toEffdt, String active, String showHistory);
+    List<WorkArea> getWorkAreas(String dept, String workArea, String workAreaDescr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
     
     /**
      * Fetch the count of the work areas with the given department and workarea
@@ -46,7 +46,7 @@ public interface WorkAreaService {
 	 * @return
 	 */
     @Cacheable(value= WorkArea.CACHE_NAME, key="'workArea=' + #p0 + '|' + 'asOfDate=' + #p1")
-    WorkArea getWorkArea(Long workArea, Date asOfDate);
+    WorkArea getWorkArea(Long workArea, LocalDate asOfDate);
 
     /**
      * Fetch a List of WorkArea objects for a given department as of the
@@ -57,7 +57,7 @@ public interface WorkAreaService {
      * @return A List<WorkArea> that matches the provided params.
      */
     @Cacheable(value= WorkArea.CACHE_NAME, key="'department=' + #p0 + '|' + 'asOfDate=' + #p1")
-    List<WorkArea> getWorkAreas(String department, Date asOfDate);
+    List<WorkArea> getWorkAreas(String department, LocalDate asOfDate);
 
     /**
      * Save or Update given work area

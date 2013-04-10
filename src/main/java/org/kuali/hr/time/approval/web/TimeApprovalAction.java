@@ -48,7 +48,6 @@ import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
@@ -81,7 +80,7 @@ public class TimeApprovalAction extends ApprovalAction{
    	        taaf.setPayCalendarEntry(payCalendarEntry);
    	        taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntry, new ArrayList<Boolean>()));
         	
-	        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(taaf.getSearchTerm(), payCalendarEntry.getEndPeriodDate());
+	        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(taaf.getSearchTerm(), payCalendarEntry.getEndPeriodFullDateTime().toLocalDate());
 	        if(!assignments.isEmpty()){
 	        	 for(Long wa : taaf.getWorkAreaDescr().keySet()){
 	        		for (Assignment assign : assignments) {
@@ -123,7 +122,7 @@ public class TimeApprovalAction extends ApprovalAction{
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntry, new ArrayList<Boolean>()));
 
 		String principalId = GlobalVariables.getUserSession().getPrincipalId();
-    	List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), new java.sql.Date(taaf.getPayBeginDate().getTime()));
+    	List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), LocalDate.fromDateFields(taaf.getPayBeginDate()));
         for (WorkArea workAreaObj : workAreaObjs) {
         	Long workArea = workAreaObj.getWorkArea();
         	String description = workAreaObj.getDescription();
@@ -294,7 +293,7 @@ public class TimeApprovalAction extends ApprovalAction{
      * @return
      */
     protected List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm taaf, List<TKPerson> assignmentPrincipalIds) {
-        return TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), taaf.getSelectedPayCalendarGroup(), assignmentPrincipalIds, taaf.getPayCalendarLabels(), taaf.getPayCalendarEntry());
+        return TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(new DateTime(taaf.getPayBeginDate()), new DateTime(taaf.getPayEndDate()), taaf.getSelectedPayCalendarGroup(), assignmentPrincipalIds, taaf.getPayCalendarLabels(), taaf.getPayCalendarEntry());
     }
 	
     public void resetState(ActionForm form, HttpServletRequest request) {
@@ -326,7 +325,7 @@ public class TimeApprovalAction extends ApprovalAction{
 		
 		List<CalendarEntry> pcListForYear = new ArrayList<CalendarEntry>();
 		List<CalendarEntry> pceList = TkServiceLocator.getTimeApproveService()
-			.getAllPayCalendarEntriesForApprover(TKContext.getPrincipalId(), TKUtils.getTimelessDate(null));
+			.getAllPayCalendarEntriesForApprover(TKContext.getPrincipalId(), LocalDate.now());
 	    for(CalendarEntry pce : pceList) {
 	    	yearSet.add(sdf.format(pce.getBeginPeriodDate()));
 	    	if(sdf.format(pce.getBeginPeriodDate()).equals(taaf.getSelectedCalendarYear())) {
@@ -359,8 +358,8 @@ public class TimeApprovalAction extends ApprovalAction{
         } else {
         	workAreaList.add(taf.getSelectedWorkArea());
         }
-        java.sql.Date endDate = new java.sql.Date(taf.getPayEndDate().getTime());
-        java.sql.Date beginDate = new java.sql.Date(taf.getPayBeginDate().getTime());
+        LocalDate endDate = LocalDate.fromDateFields(taf.getPayEndDate());
+        LocalDate beginDate = LocalDate.fromDateFields(taf.getPayBeginDate());
 
         List<String> idList = TkServiceLocator.getTimeApproveService()
         		.getTimePrincipalIdsWithSearchCriteria(workAreaList, taf.getSelectedPayCalendarGroup(), endDate, beginDate, endDate);      

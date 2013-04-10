@@ -62,7 +62,7 @@ public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
 		}
 		
         if (leavePayout != null) {
-            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(leavePayout.getPrincipalId(), leavePayout.getEffectiveDate());
+            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(leavePayout.getPrincipalId(), leavePayout.getEffectiveLocalDate());
             for (Assignment assignment : assignments) {
                 String roleStr = roleName + "_" + assignment.getWorkArea();
                 if (!roles.contains(roleStr)) {
@@ -109,7 +109,7 @@ public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
         }
         
         if (leavePayout != null) {
-	        WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leavePayout.getEffectiveDate());
+	        WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leavePayout.getEffectiveLocalDate());
 	
 	        List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 	        

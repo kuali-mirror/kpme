@@ -21,6 +21,7 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
@@ -34,14 +35,14 @@ public class TimezoneServiceImpl implements TimezoneService {
 
     @Override
     public String getUserTimezone(String principalId) {
-        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, TKUtils.getCurrentDate());
+        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, LocalDate.now());
         if(principalCalendar != null && principalCalendar.getTimezone() != null){
             return principalCalendar.getTimezone();
         }
-        List<Job> jobs = TkServiceLocator.getJobService().getJobs(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
+        List<Job> jobs = TkServiceLocator.getJobService().getJobs(TKContext.getPrincipalId(), LocalDate.now());
         if (jobs.size() > 0) {
             // Grab the location off the first job in the list
-            Location location = TkServiceLocator.getLocationService().getLocation(jobs.get(0).getLocation(), TKUtils.getCurrentDate());
+            Location location = TkServiceLocator.getLocationService().getLocation(jobs.get(0).getLocation(), LocalDate.now());
             if (location!=null){
                 if(StringUtils.isNotBlank(location.getTimezone())){
                     return location.getTimezone();

@@ -25,7 +25,7 @@ public class EarnCodeSecurityEffectiveDatePrompt extends KpmeEffectiveDatePrompt
     @Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
         EarnCodeSecurity earnCodeSecurity = (EarnCodeSecurity)pbo;
-        int numberOfNewer = TkServiceLocator.getEarnCodeSecurityService().getNewerEarnCodeSecurityCount(earnCodeSecurity.getEarnCode(), earnCodeSecurity.getEffectiveDate());
+        int numberOfNewer = TkServiceLocator.getEarnCodeSecurityService().getNewerEarnCodeSecurityCount(earnCodeSecurity.getEarnCode(), earnCodeSecurity.getEffectiveLocalDate());
         return numberOfNewer > 0;
     }
 }

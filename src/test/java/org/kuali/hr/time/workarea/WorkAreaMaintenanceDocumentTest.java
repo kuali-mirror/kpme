@@ -18,6 +18,7 @@ package org.kuali.hr.time.workarea;
 import java.sql.Date;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -105,8 +106,8 @@ public class WorkAreaMaintenanceDocumentTest extends KPMETestCase {
         searchPage = HtmlUnitUtil.clickInputContainingText(searchPage, "search");
         Assert.assertTrue("Page contains test Earn Code", searchPage.asText().contains(workArea.toString()));
 		
-		java.sql.Date aDate = new Date((new DateTime(2011, 5, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, aDate);
+		DateTime aDate = new DateTime(2011, 5, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, aDate.toLocalDate());
 		String workAreaId = wa.getTkWorkAreaId().toString();
 		
 		// when open the new work area, role should be show up
@@ -122,7 +123,7 @@ public class WorkAreaMaintenanceDocumentTest extends KPMETestCase {
 	
 	@Override
 	public void tearDown() throws Exception {
-		Department deptObj = TkServiceLocator.getDepartmentService().getDepartment(TEST_CODE_DEPARTMENT_VALID, TKUtils.getCurrentDate());
+		Department deptObj = TkServiceLocator.getDepartmentService().getDepartment(TEST_CODE_DEPARTMENT_VALID, LocalDate.now());
 		KRADServiceLocator.getBusinessObjectService().delete(deptObj);
 		super.tearDown();
 	}

@@ -84,10 +84,10 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         Assert.assertNotNull(form);
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(userId, JAN_AS_OF_DATE);
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(userId, JAN_AS_OF_DATE.toLocalDate());
         Assignment assignment = assignments.get(0);
 
-        List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE);
+        List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());
         EarnCode earnCode = earnCodes.get(0);
         Assert.assertEquals("There should be no existing time blocks.", 0, fredsDocument.getTimeBlocks().size());
 
@@ -159,10 +159,10 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         Assert.assertNotNull(form);
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments("fred", JAN_AS_OF_DATE);
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments("fred", JAN_AS_OF_DATE.toLocalDate());
         Assignment assignment = assignments.get(0);
 
-        List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE);
+        List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());
         EarnCode earnCode = earnCodes.get(0);
 
         Assert.assertEquals("There should be one existing time block.", 1, fredsDocument.getTimeBlocks().size());
@@ -206,10 +206,10 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         Assert.assertNotNull(form);
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments("fred", JAN_AS_OF_DATE);
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments("fred", JAN_AS_OF_DATE.toLocalDate());
         Assignment assignment = assignments.get(0);
 
-        List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE);
+        List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());
         EarnCode earnCode = earnCodes.get(0);
 
         Assert.assertEquals("There should be one existing time block.", 1, fredsDocument.getTimeBlocks().size());

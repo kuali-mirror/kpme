@@ -24,6 +24,7 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.job.Job;
@@ -32,7 +33,6 @@ import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -115,16 +115,16 @@ public class ClockLogLookupableHelper extends KPMELookupableHelper {
 				
 				// Set Document Id 
 				if(cl.getDocumentId() == null) {
-					TimesheetDocumentHeader tsdh = timesheetDocumentHeaderService.getDocumentHeaderForDate(cl.getPrincipalId(), cl.getClockTimestamp());
+					TimesheetDocumentHeader tsdh = timesheetDocumentHeaderService.getDocumentHeaderForDate(cl.getPrincipalId(), new DateTime(cl.getClockTimestamp()));
 					if(tsdh != null) {
 						cl.setDocumentId(tsdh.getDocumentId());
 					}
 				}
 				
-				Job job = TkServiceLocator.getJobService().getJob(cl.getPrincipalId(), cl.getJobNumber(), TKUtils.getCurrentDate(), false);
+				Job job = TkServiceLocator.getJobService().getJob(cl.getPrincipalId(), cl.getJobNumber(), LocalDate.now(), false);
 				String department = job != null ? job.getDept() : null;
 				
-				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 				String location = departmentObj != null ? departmentObj.getLocation() : null;
 				
 				boolean valid = false;

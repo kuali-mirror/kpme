@@ -16,11 +16,11 @@
 package org.kuali.hr.lm.balancetransfer.validation;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
@@ -40,7 +40,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 
 	//the "to" and "from" accrual categories should be in the supplied principal's leave plan as of the effective date.
 	private boolean validateLeavePlan(PrincipalHRAttributes pha,
-			AccrualCategory fromAccrualCategory, AccrualCategory toAccrualCategory, Date effectiveDate) {
+			AccrualCategory fromAccrualCategory, AccrualCategory toAccrualCategory, LocalDate effectiveDate) {
 		boolean isValid = true;
 		
 		List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), effectiveDate);
@@ -74,7 +74,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	//See isTransferAmountUnderMaxLimit for futher validation
 	private boolean validateTransferAmount(BigDecimal transferAmount,
 			AccrualCategory debitedAccrualCategory,
-			AccrualCategory creditedAccrualCategory, String principalId, Date effectiveDate) {
+			AccrualCategory creditedAccrualCategory, String principalId, LocalDate effectiveDate) {
 		
 		if(transferAmount.compareTo(BigDecimal.ZERO) < 0 ) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.transferAmount", "balanceTransfer.amount.negative");
@@ -85,8 +85,8 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	}
 
 	//Effective date not more than one year in advance
-	private boolean validateEffectiveDate(Date date) {
-		if(DateUtils.addYears(TKUtils.getCurrentDate(), 1).compareTo(date) > 0)
+	private boolean validateEffectiveDate(LocalDate date) {
+		if(DateUtils.addYears(TKUtils.getCurrentDate(), 1).compareTo(date.toDate()) > 0)
 			return true;
 		else
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.effectiveDate", "balanceTransfer.effectiveDate.error");
@@ -94,7 +94,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	}
 	
 	private boolean validateTransferFromAccrualCategory(AccrualCategory accrualCategory, String principalId,
-			Date effectiveDate, AccrualCategoryRule acr) {
+			LocalDate effectiveDate, AccrualCategoryRule acr) {
 		//accrualCategory has rules
 		//PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, effectiveDate);
 		
@@ -102,7 +102,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	}
 	
 	//Transfer to accrual category should match the value defined in the accrual category rule
-	private boolean validateTransferToAccrualCategory(AccrualCategory accrualCategory, String principalId, Date effectiveDate, AccrualCategoryRule acr) {
+	private boolean validateTransferToAccrualCategory(AccrualCategory accrualCategory, String principalId, LocalDate effectiveDate, AccrualCategoryRule acr) {
 		AccrualCategory maxBalTranToAccCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(acr.getMaxBalanceTransferToAccrualCategory(),effectiveDate);
 		if(!StringUtils.equals(maxBalTranToAccCat.getLmAccrualCategoryId(),accrualCategory.getLmAccrualCategoryId())) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.toAccrualCategory", "balanceTransfer.toAccrualCategory.noMatch",accrualCategory.getAccrualCategory());
@@ -117,7 +117,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	}
 	
 	//transfer amount must be under max limit when submitted via max balance triggered action or by a work area approver.
-	private boolean isTransferAmountUnderMaxLimit(String principalId, Date effectiveDate, String accrualCategory,
+	private boolean isTransferAmountUnderMaxLimit(String principalId, LocalDate effectiveDate, String accrualCategory,
 			BigDecimal transferAmount, AccrualCategoryRule accrualRule, String leavePlan) {
 	
 		if(ObjectUtils.isNotNull(accrualRule)) {
@@ -175,7 +175,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 				 * Balance transfers initiated via the Maintenance tab will have no values populated.
 				 */
 				String principalId = balanceTransfer.getPrincipalId();
-				Date effectiveDate = balanceTransfer.getEffectiveDate();
+				LocalDate effectiveDate = balanceTransfer.getEffectiveLocalDate();
 				String fromAccrualCategory = balanceTransfer.getFromAccrualCategory();
 				String toAccrualCategory = balanceTransfer.getToAccrualCategory();
 				AccrualCategory fromCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
@@ -191,7 +191,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 					if(ObjectUtils.isNotNull(pha)) {
 						if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
 							AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat,
-									effectiveDate, pha.getServiceDate());
+									effectiveDate, pha.getServiceLocalDate());
 							if(ObjectUtils.isNotNull(acr)) {
 								if(StringUtils.isNotBlank(acr.getMaxBalFlag())
 										&& StringUtils.equals(acr.getMaxBalFlag(), "Y")) {

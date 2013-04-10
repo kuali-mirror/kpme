@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.lm.leaveCalendar.service;
 
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -32,10 +32,10 @@ public class LeaveCalendarServiceTest extends KPMETestCase {
 	@Test
 	public void testOpenLeaveCalendarDocument() throws WorkflowException {
 		CalendarEntry calEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
-		Date beginDate = calEntry.getBeginPeriodDate();
-		Date endDate = calEntry.getEndPeriodDate();
+		DateTime beginDate = calEntry.getBeginPeriodFullDateTime();
+		DateTime endDate = calEntry.getEndPeriodFullDateTime();
 		
-		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", beginDate, endDate);
+		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", beginDate.toLocalDate(), endDate.toLocalDate());
 		LeaveBlock lb = leaveBlocks.get(0);
 		Assert.assertNull("Leave Block should have null as documentId", lb.getDocumentId());
 		
@@ -43,7 +43,7 @@ public class LeaveCalendarServiceTest extends KPMETestCase {
 		LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", calEntry);
 		Assert.assertNotNull("Leave Calendar document should not be null", lcd);
 		
-		leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", beginDate, endDate);
+		leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", beginDate.toLocalDate(), endDate.toLocalDate());
 		lb = leaveBlocks.get(0);
 		Assert.assertTrue("Leave Block should have the new leave calendar document's id as document id", lb.getDocumentId().equals(lcd.getDocumentId()));		
 	}

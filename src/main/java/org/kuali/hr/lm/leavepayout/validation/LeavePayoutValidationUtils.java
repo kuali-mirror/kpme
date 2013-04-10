@@ -16,8 +16,8 @@
 package org.kuali.hr.lm.leavepayout.validation;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -34,7 +34,7 @@ public class LeavePayoutValidationUtils {
 	public static boolean validatePayout(LeavePayout leavePayout) {
 		boolean isValid = true;
 		String principalId = leavePayout.getPrincipalId();
-		Date effectiveDate = leavePayout.getEffectiveDate();
+		LocalDate effectiveDate = leavePayout.getEffectiveLocalDate();
 		String fromAccrualCategory = leavePayout.getFromAccrualCategory();
 		String payoutEarnCode = leavePayout.getEarnCode();
 		AccrualCategory fromCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
@@ -43,7 +43,7 @@ public class LeavePayoutValidationUtils {
 		
 		if(ObjectUtils.isNotNull(pha)) {
 			if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
-				AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat, effectiveDate, pha.getServiceDate());
+				AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat, effectiveDate, pha.getServiceLocalDate());
 				if(ObjectUtils.isNotNull(acr)) {
 					if(ObjectUtils.isNotNull(acr.getMaxBalFlag())
 							&& StringUtils.isNotBlank(acr.getMaxBalFlag())
@@ -98,7 +98,7 @@ public class LeavePayoutValidationUtils {
 
 	private static boolean validatePayoutAmount(BigDecimal payoutAmount,
 			AccrualCategory fromCat, AccrualCategory toCat, String principalId,
-			Date effectiveDate, AccrualCategoryRule accrualRule) {
+			LocalDate effectiveDate, AccrualCategoryRule accrualRule) {
 
 		BigDecimal balance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(principalId, fromCat, effectiveDate);
 		//transfer amount must be less than the max transfer amount defined in the accrual category rule.

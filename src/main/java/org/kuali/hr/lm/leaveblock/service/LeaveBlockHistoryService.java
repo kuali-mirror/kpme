@@ -15,11 +15,10 @@
  */
 package org.kuali.hr.lm.leaveblock.service;
 
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
-
 
 public interface LeaveBlockHistoryService {
 	
@@ -31,8 +30,8 @@ public interface LeaveBlockHistoryService {
     
     public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId, List<String> requestStatus);
 
-    public List<LeaveBlockHistory> getLeaveBlockHistoriesForLeaveDisplay(String principalId, Date beginDate, Date endDate, boolean considerModifiedUser);
+    public List<LeaveBlockHistory> getLeaveBlockHistoriesForLeaveDisplay(String principalId, LocalDate beginDate, LocalDate endDate, boolean considerModifiedUser);
     
-	public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId,String requestStatus, String action, Date currentDate);
+	public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId,String requestStatus, String action, LocalDate currentDate);
     
 }

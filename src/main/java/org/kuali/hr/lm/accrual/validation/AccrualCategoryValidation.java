@@ -16,7 +16,6 @@
 package org.kuali.hr.lm.accrual.validation;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -343,7 +343,7 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 	}
 	
 	// JIRA1355
-	boolean validateLeavePlan(String leavePlan, Date asOfDate) {
+	boolean validateLeavePlan(String leavePlan, LocalDate asOfDate) {
 		boolean valid = true;
 		if (!ValidationUtils.validateLeavePlan(leavePlan, asOfDate)) {
 			this.putFieldError("leavePlan", "error.existence", "leavePlan '"
@@ -370,7 +370,7 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 			AccrualCategory leaveAccrualCategory = (AccrualCategory) pbo;
 			if (leaveAccrualCategory != null) {
 				valid = true;
-				valid &= this.validateEffectiveDate(leaveAccrualCategory.getEffectiveDate());                           //validate effective dates
+				valid &= this.validateEffectiveDate(leaveAccrualCategory.getEffectiveLocalDate());                           //validate effective dates
 				valid &= this.doesCategoryHaveRules(leaveAccrualCategory);
 				valid &= this.validateAccrualRulePresent(leaveAccrualCategory.getAccrualCategoryRules());               // validate existence of active rules if specified in Acc. Cat.
 				if(valid && CollectionUtils.isNotEmpty(leaveAccrualCategory.getAccrualCategoryRules())) {
@@ -378,13 +378,13 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
                     valid &= this.validateAccrualCategoryRules(leaveAccrualCategory.getAccrualCategoryRules());           //validate required fields in case of actions at max balance
 				}
 				valid &= this.validateMinPercentWorked(leaveAccrualCategory.getMinPercentWorked(), ADD_LINE_LOCATION);      //validate minimum work percentage
-				valid &= this.validateLeavePlan(leaveAccrualCategory.getLeavePlan(), leaveAccrualCategory.getEffectiveDate());
+				valid &= this.validateLeavePlan(leaveAccrualCategory.getLeavePlan(), leaveAccrualCategory.getEffectiveLocalDate());
 			}
 		}
 		return valid;
 	}
 	
-	boolean validateEffectiveDate(Date effectiveDate) {
+	boolean validateEffectiveDate(LocalDate effectiveDate) {
 		boolean valid = true;
 		if(effectiveDate != null && !ValidationUtils.validateOneYearFutureEffectiveDate(effectiveDate)) {
 			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date");

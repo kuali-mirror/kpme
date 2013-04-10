@@ -1,8 +1,8 @@
 package org.kuali.hr.pm.positionreportgroup.service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.pm.positionreportgroup.PositionReportGroup;
 
 public interface PositionReportGroupService {
@@ -22,5 +22,5 @@ public interface PositionReportGroupService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String institution, String campus, Date asOfDate);
+	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String institution, String campus, LocalDate asOfDate);
 }

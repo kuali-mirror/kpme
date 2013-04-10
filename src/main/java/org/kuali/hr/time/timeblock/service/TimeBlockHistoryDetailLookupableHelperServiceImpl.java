@@ -30,6 +30,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.department.Department;
@@ -138,10 +139,10 @@ public class TimeBlockHistoryDetailLookupableHelperServiceImpl extends KualiLook
 
 			Long workArea = tbhd.getTimeBlockHistory().getWorkArea();
 			
-			Job job = TkServiceLocator.getJobService().getJob(tbhd.getTimeBlockHistory().getPrincipalId(), tbhd.getTimeBlockHistory().getJobNumber(), TKUtils.getCurrentDate(), false);
+			Job job = TkServiceLocator.getJobService().getJob(tbhd.getTimeBlockHistory().getPrincipalId(), tbhd.getTimeBlockHistory().getJobNumber(), LocalDate.now(), false);
 			String department = job != null ? job.getDept() : null;
 			
-			Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+			Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 			
 			boolean valid = false;

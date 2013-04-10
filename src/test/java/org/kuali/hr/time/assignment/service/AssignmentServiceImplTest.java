@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.assignment.service;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -45,7 +44,7 @@ public class AssignmentServiceImplTest extends KPMETestCase {
 	
 	@Test
 	public void testGetAssignments() throws Exception {
-		List<Assignment> assignments = assignmentService.getAssignments("admin", new Date((new DateTime(2010,8,5,1,0,0,0, TKUtils.getSystemDateTimeZone())).getMillis()));
+		List<Assignment> assignments = assignmentService.getAssignments("admin", new DateTime(2010,8,5,1,0,0,0, TKUtils.getSystemDateTimeZone()).toLocalDate());
 		Assert.assertNotNull("Null assignment list", assignments);
 		Assert.assertTrue("No assignments found", assignments.size() > 0);
 		

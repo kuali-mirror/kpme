@@ -15,18 +15,19 @@
  */
 package org.kuali.hr.paygrade.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.common.collect.ImmutableList;
 
 public class PayGradeDaoSpringObjImpl  extends PlatformAwareDaoBaseOjb implements PayGradeDao {
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
@@ -34,11 +35,11 @@ public class PayGradeDaoSpringObjImpl  extends PlatformAwareDaoBaseOjb implement
             .build();
 
 	@Override
-	public PayGrade getPayGrade(String payGrade, Date asOfDate) {
+	public PayGrade getPayGrade(String payGrade, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 
 		root.addEqualTo("payGrade", payGrade);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PayGrade.class, new java.sql.Date(asOfDate.getTime()), EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PayGrade.class, asOfDate, EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PayGrade.class, EQUAL_TO_FIELDS, false));
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -104,13 +105,13 @@ public class PayGradeDaoSpringObjImpl  extends PlatformAwareDaoBaseOjb implement
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<PayGrade> getPayGradesForSalaryGroup(String salaryGroup,
-			Date asOfDate) {
+			LocalDate asOfDate) {
         List<PayGrade> results = new ArrayList<PayGrade>();
 
 		Criteria root = new Criteria();
 
 		root.addEqualTo("salGroup", salaryGroup);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PayGrade.class, new java.sql.Date(asOfDate.getTime()), EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PayGrade.class, asOfDate, EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PayGrade.class, EQUAL_TO_FIELDS, false));
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity

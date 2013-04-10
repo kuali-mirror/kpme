@@ -16,7 +16,6 @@
 package org.kuali.hr.time.batch;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -41,8 +40,8 @@ public class BatchJobUtil {
         return jobClass.getSimpleName() + "-TriggerGroup-" + getDataMapString(triggerDataMap);
 	}
 	
-	public static String getTriggerName(Class<?> jobClass, Date jobDate) {
-		return jobClass.getSimpleName() + "-Trigger-" + "date=" + FORMAT.print(new DateTime(jobDate));
+	public static String getTriggerName(Class<?> jobClass, DateTime jobDate) {
+		return jobClass.getSimpleName() + "-Trigger-" + "date=" + FORMAT.print(jobDate);
 	}
 	
 	private static String getDataMapString(Map<String, String> dataMap) {

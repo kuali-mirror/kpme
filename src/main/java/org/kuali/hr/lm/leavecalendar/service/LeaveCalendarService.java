@@ -15,8 +15,7 @@
  */
 package org.kuali.hr.lm.leavecalendar.service;
 
-import java.util.Date;
-
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -56,7 +55,7 @@ public interface LeaveCalendarService {
      * @param endDate
      * @return boolean
      */
-    public boolean isLeavePlanningCalendar(String principalId, Date beginDate, Date endDate);
+    public boolean isLeavePlanningCalendar(String principalId, LocalDate beginDate, LocalDate endDate);
     
     void approveLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument, String action);
 

@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time.assignment.service;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -22,7 +23,6 @@ import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.springframework.cache.annotation.Cacheable;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +34,7 @@ public interface AssignmentService {
 	 * @return
 	 */
     @Cacheable(value= Assignment.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'asOfDate=' + #p1")
-    public List<Assignment> getAssignments(String principalId, Date asOfDate);
+    public List<Assignment> getAssignments(String principalId, LocalDate asOfDate);
     /**
      * Reverse lookup of an assignment based on the assignment key and the document
      * @param timesheetDocument
@@ -75,7 +75,7 @@ public interface AssignmentService {
 	 * @return
 	 */
     @Cacheable(value= Assignment.CACHE_NAME, key="'workArea=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public List<Assignment> getActiveAssignmentsForWorkArea(Long workArea, Date asOfDate);
+	public List<Assignment> getActiveAssignmentsForWorkArea(Long workArea, LocalDate asOfDate);
 
 	/**
 	 * Get active assignments for all users for the current date
@@ -85,7 +85,7 @@ public interface AssignmentService {
 	 * @return
 	 */
     @Cacheable(value= Assignment.CACHE_NAME, key="'asOfDate=' + #p0")
-	public List<Assignment> getActiveAssignments(Date asOfDate);
+	public List<Assignment> getActiveAssignments(LocalDate asOfDate);
 
 
     /**
@@ -93,7 +93,7 @@ public interface AssignmentService {
      * @param key
      * @return
      */
-    public Assignment getAssignment(AssignmentDescriptionKey key, Date asOfDate);
+    public Assignment getAssignment(AssignmentDescriptionKey key, LocalDate asOfDate);
 
     
     /**
@@ -103,7 +103,7 @@ public interface AssignmentService {
      * @param asOfDate
      * @return
      */
-    public Assignment getAssignment(String principalId, AssignmentDescriptionKey key, Date asOfDate);
+    public Assignment getAssignment(String principalId, AssignmentDescriptionKey key, LocalDate asOfDate);
     
     /**
      * Get assignments by pay calendar entry
@@ -136,9 +136,9 @@ public interface AssignmentService {
 	 * @return
 	 */
     @Cacheable(value= Assignment.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'jobNumber=' + #p1 + '|' + 'asOfDate=' + #p2")
-    public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, Date asOfDate);
+    public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, LocalDate asOfDate);
 
-    List<Assignment> searchAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
+    List<Assignment> searchAssignments(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
                                     String dept, String workArea, String active, String showHistory);
     
     
@@ -159,7 +159,7 @@ public interface AssignmentService {
     
     public Assignment getAssignment(LeaveCalendarDocument leaveCalendarDocument, String assignmentKey);
     
-    public Assignment getAssignment(List<Assignment> assignments, String assignmentKey, Date beginDate);
+    public Assignment getAssignment(List<Assignment> assignments, String assignmentKey, LocalDate beginDate);
     
     public Assignment getMaxTimestampAssignment(String principalId);
     
@@ -179,7 +179,7 @@ public interface AssignmentService {
      * @param payEndDate
      * @return
      */
-	public Assignment getAssignmentToApplyScheduledTimeOff(TimesheetDocument timesheetDocument, java.sql.Date payEndDate);
+	public Assignment getAssignmentToApplyScheduledTimeOff(TimesheetDocument timesheetDocument, LocalDate payEndDate);
 	/**
 	 * Get list of unique principalIds with given workarea list and dates
 	 * @param workAreaList
@@ -188,7 +188,7 @@ public interface AssignmentService {
 	 * @param endDate
 	 * @return
 	 */
-	public List<String> getPrincipalIds(List<String> workAreaList, Date effdt, Date startDate, Date endDate);
+	public List<String> getPrincipalIds(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate);
 	
-	 public List<Assignment> getAssignments(List<String> workAreaList, Date effdt, Date startDate, Date endDate);
+	 public List<Assignment> getAssignments(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate);
 }

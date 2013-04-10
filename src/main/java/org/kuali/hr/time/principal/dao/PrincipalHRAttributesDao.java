@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.time.principal.dao;
 
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 
 public interface PrincipalHRAttributesDao {
@@ -25,15 +25,15 @@ public interface PrincipalHRAttributesDao {
 
 	public void saveOrUpdate(List<PrincipalHRAttributes> lstPrincipalCalendar);
 
-	public PrincipalHRAttributes getPrincipalCalendar(String principalId, Date asOfDate);
+	public PrincipalHRAttributes getPrincipalCalendar(String principalId, LocalDate asOfDate);
 	
-	public List<PrincipalHRAttributes> getActiveEmployeesForPayCalendar(String payCalendarName, Date asOfDate);
+	public List<PrincipalHRAttributes> getActiveEmployeesForPayCalendar(String payCalendarName, LocalDate asOfDate);
 
-	public List<PrincipalHRAttributes> getActiveEmployeesForLeaveCalendar(String leaveCalendarName, Date asOfDate);
+	public List<PrincipalHRAttributes> getActiveEmployeesForLeaveCalendar(String leaveCalendarName, LocalDate asOfDate);
 	
-	public List<String> getActiveEmployeesIdForLeaveCalendarAndIdList(String leaveCalendarName, List<String> pidList, Date asOfDate);
+	public List<String> getActiveEmployeesIdForLeaveCalendarAndIdList(String leaveCalendarName, List<String> pidList, LocalDate asOfDate);
 	
-    public List<String> getActiveEmployeesIdForTimeCalendarAndIdList(String timeCalendarName, List<String> pidList, Date asOfDate);
+    public List<String> getActiveEmployeesIdForTimeCalendarAndIdList(String timeCalendarName, List<String> pidList, LocalDate asOfDate);
 
 	/**
 	 * KPME-1250 Kagata
@@ -42,30 +42,30 @@ public interface PrincipalHRAttributesDao {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PrincipalHRAttributes> getActiveEmployeesForLeavePlan(String leavePlan, Date asOfDate);
+	public List<PrincipalHRAttributes> getActiveEmployeesForLeavePlan(String leavePlan, LocalDate asOfDate);
 	
 // this method is not needed anymore since we changed the primary key of
 //	PrincipalHRAttributes table from principalId to hrPrincipalAttributeId
 //	use getPrincipalCalendar(String principalId, Date asOfDate) instead
 //	public PrincipalHRAttributes getPrincipalHRAttributes(String principalId);
 	
-	public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, Date asOfDate);
+	public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, LocalDate asOfDate);
 	
 	public PrincipalHRAttributes getPrincipalHRAttributes(String hrPrincipalAttributeId);
 	
-	public List<PrincipalHRAttributes> getAllActivePrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate);
+	public List<PrincipalHRAttributes> getAllActivePrincipalHrAttributesForPrincipalId(String principalId, LocalDate asOfDate);
 	
-	public List<PrincipalHRAttributes> getAllInActivePrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate);
+	public List<PrincipalHRAttributes> getAllInActivePrincipalHrAttributesForPrincipalId(String principalId, LocalDate asOfDate);
 	
 	public PrincipalHRAttributes getMaxTimeStampPrincipalHRAttributes(String principalId);
 	
-	public List<PrincipalHRAttributes> getActivePrincipalHrAttributesForRange(String principalId, Date startDate, Date endDate);
+	public List<PrincipalHRAttributes> getActivePrincipalHrAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate);
 	 
-	public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, Date startDate, Date endDate);
+	public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate);
 
     public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds);
     
-    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, String leavePlan, java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory);
+    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
     
     public List<String> getUniqueTimePayGroups();
     

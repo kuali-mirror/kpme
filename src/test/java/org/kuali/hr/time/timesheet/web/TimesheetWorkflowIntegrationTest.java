@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.timesheet.web;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,7 +48,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
 
     public static final String USER_PRINCIPAL_ID = "admin";
-	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+	private DateTime JAN_AS_OF_DATE = new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
 
     /**
@@ -89,8 +88,8 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), "admin", tdocId, true);
 
         // 1. Obtain User Data
-        Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(TKContext.getPrincipalId(), new AssignmentDescriptionKey("30_30_30"), JAN_AS_OF_DATE);
-        EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE);
+        Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(TKContext.getPrincipalId(), new AssignmentDescriptionKey("30_30_30"), JAN_AS_OF_DATE.toLocalDate());
+        EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE.toLocalDate());
 
         // 2. Set Timeblock Start and End time
         // 3/02/2011 - 8:00a to 4:00pm

@@ -44,9 +44,9 @@ public class EmployeeOverrideRule extends MaintenanceDocumentRuleBase{
 			return false;
 		} else if(eo.getEffectiveDate() != null) {
 			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().
-				getAccrualCategory(eo.getAccrualCategory(), eo.getEffectiveDate());
+				getAccrualCategory(eo.getAccrualCategory(), eo.getEffectiveLocalDate());
 			PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().
-				getPrincipalCalendar(eo.getPrincipalId(), eo.getEffectiveDate());
+				getPrincipalCalendar(eo.getPrincipalId(), eo.getEffectiveLocalDate());
 			if(ac != null && pha != null && !ac.getLeavePlan().equals(pha.getLeavePlan())) {
 				this.putFieldError("leavePlan", "error.employeeOverride.leavePlan.inconsistent", eo.getAccrualCategory() );
 				return false;
@@ -58,7 +58,7 @@ public class EmployeeOverrideRule extends MaintenanceDocumentRuleBase{
 	boolean validateAccrualCategory(EmployeeOverride eo) {
 		if(eo.getAccrualCategory() != null && eo.getEffectiveDate() != null) {
 			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().
-				getAccrualCategory(eo.getAccrualCategory(), eo.getEffectiveDate());
+				getAccrualCategory(eo.getAccrualCategory(), eo.getEffectiveLocalDate());
 			if(ac == null) {
 				this.putFieldError("accrualCategory", "error.employeeOverride.accrualCategory.notfound", eo.getAccrualCategory() );
 				return false;
@@ -69,7 +69,7 @@ public class EmployeeOverrideRule extends MaintenanceDocumentRuleBase{
 	
 	boolean validatePrincipalHRAttributes(EmployeeOverride eo) {
 		if(eo.getPrincipalId() != null && eo.getEffectiveDate() != null) {
-			PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(eo.getPrincipalId(), eo.getEffectiveDate());
+			PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(eo.getPrincipalId(), eo.getEffectiveLocalDate());
 			if(pha == null) {
 				this.putFieldError("principalId", "error.employeeOverride.principalHRAttributes.notfound", eo.getPrincipalId() );
 				return false;

@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.time.overtime.daily.rule.service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
@@ -53,7 +53,7 @@ public interface DailyOvertimeRuleService {
                     "+ '|' + 'dept=' + #p2" +
                     "+ '|' + 'workArea=' + #p3" +
                     "+ '|' + 'asOfDate=' + #p4")
-	public DailyOvertimeRule getDailyOvertimeRule(String location, String paytype, String dept, Long workArea, Date asOfDate);
+	public DailyOvertimeRule getDailyOvertimeRule(String location, String paytype, String dept, Long workArea, LocalDate asOfDate);
 	/**
 	 * Process DailyOvertimeRules for the given TkTimeBlockAggregate
 	 * @param timesheetDocument
@@ -68,6 +68,6 @@ public interface DailyOvertimeRuleService {
     @Cacheable(value= DailyOvertimeRule.CACHE_NAME, key="'tkDailyOvertimeRuleId=' + #p0")
 	public DailyOvertimeRule getDailyOvertimeRule(String tkDailyOvertimeRuleId);
     
-    public List<DailyOvertimeRule> getDailyOvertimeRules(String dept, String workArea, String location, Date fromEffdt, Date toEffdt, String active, String showHist);
+    public List<DailyOvertimeRule> getDailyOvertimeRules(String dept, String workArea, String location, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 
 }

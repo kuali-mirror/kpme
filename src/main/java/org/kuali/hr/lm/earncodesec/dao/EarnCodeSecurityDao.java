@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.lm.earncodesec.dao;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 
-import java.util.Date;
 import java.util.List;
 
 public interface EarnCodeSecurityDao {
@@ -26,15 +26,15 @@ public interface EarnCodeSecurityDao {
 
 	public void saveOrUpdate(List<EarnCodeSecurity> earnCodeSecList);
 
-	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hr_sal_group, String location, Date asOfDate);
+	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hr_sal_group, String location, LocalDate asOfDate);
 
 	public EarnCodeSecurity getEarnCodeSecurity(String hrEarnCodeSecId);
 	
-	public List<EarnCodeSecurity> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location, Date fromEffdt, Date toEffdt, 
+	public List<EarnCodeSecurity> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location, LocalDate fromEffdt, LocalDate toEffdt, 
 														   String active, String showHistory);
 	
 	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,
-                                        String active, java.sql.Date effdt, String hrDeptEarnCodeId);
+                                        String active, LocalDate effdt, String hrDeptEarnCodeId);
 	
-	public int getNewerEarnCodeSecurityCount(String earnCode, Date effdt);
+	public int getNewerEarnCodeSecurityCount(String earnCode, LocalDate effdt);
 }

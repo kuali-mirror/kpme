@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.job.dao;
 
-import org.kuali.hr.job.Job;
-
-import java.util.Date;
 import java.util.List;
+
+import org.joda.time.LocalDate;
+import org.kuali.hr.job.Job;
 
 public interface JobDao {
 
@@ -42,7 +42,7 @@ public interface JobDao {
 	 * @param payPeriodEndDate
 	 * @return
 	 */
-	public List<Job> getJobs(String principalId, Date payPeriodEndDate);
+	public List<Job> getJobs(String principalId, LocalDate payPeriodEndDate);
 	/**
 	 * 
 	 * @param principalId
@@ -50,7 +50,7 @@ public interface JobDao {
 	 * @param asOfDate
 	 * @return a Job per the critieria passed in
 	 */
-	public Job getJob(String principalId, Long jobNumber, Date asOfDate);
+	public Job getJob(String principalId, Long jobNumber, LocalDate asOfDate);
 	
 	/**
 	 * Get Primary Job as indicated by primary indicator on Job table
@@ -58,7 +58,7 @@ public interface JobDao {
 	 * @param payPeriodEndDate
 	 * @return
 	 */
-	public Job getPrimaryJob(String principalId, Date payPeriodEndDate);
+	public Job getPrimaryJob(String principalId, LocalDate payPeriodEndDate);
 	
 	/**
 	 * Fetch active jobs that are incumbents of the payType
@@ -66,7 +66,7 @@ public interface JobDao {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<Job> getActiveJobsForPayType(String hrPayType, Date asOfDate);
+	public List<Job> getActiveJobsForPayType(String hrPayType, LocalDate asOfDate);
 	
 	/**
 	 * Get job based on id
@@ -82,7 +82,7 @@ public interface JobDao {
 	 */
 	public Job getMaxJob(String principalId);
 
-    List<Job> getJobs(String principalId, String jobNumber, String dept, String positionNbr, String payType, Date fromEffdt, Date toEffdt, String active, 
+    List<Job> getJobs(String principalId, String jobNumber, String dept, String positionNbr, String payType, LocalDate fromEffdt, LocalDate toEffdt, String active, 
     				  String showHistory);
     
     /**
@@ -93,13 +93,13 @@ public interface JobDao {
      */
     public int getJobCount(String principalId, Long jobNumber, String dept);
     
-    public List<Job> getActiveLeaveJobs(String principalId, Date asOfDate);
+    public List<Job> getActiveLeaveJobs(String principalId, LocalDate asOfDate);
     
-    public List<Job> getAllActiveLeaveJobs(String principalId, Date asOfDate);
+    public List<Job> getAllActiveLeaveJobs(String principalId, LocalDate asOfDate);
     
-    public List<Job> getInactiveLeaveJobs(Long jobNumber, Date startDate, Date endDate);
+    public List<Job> getInactiveLeaveJobs(Long jobNumber, LocalDate endDate);
     
-    public List<Job> getAllInActiveLeaveJobsInRange(String principalId, Date startDate, Date endDate);
+    public List<Job> getAllInActiveLeaveJobsInRange(String principalId, LocalDate endDate);
     
     public Job getMaxTimestampJob(String principalId);
     
@@ -110,6 +110,6 @@ public interface JobDao {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<String> getPrincipalIdsInPosition(String positionNumber, Date asOfDate);
+	public List<String> getPrincipalIdsInPosition(String positionNumber, LocalDate asOfDate);
 	
 }

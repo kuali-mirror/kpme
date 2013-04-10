@@ -1,7 +1,6 @@
 package org.kuali.hr.lm.permission.service;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +23,6 @@ import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionType;
@@ -293,7 +291,7 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
 	
     private boolean isActiveAssignmentFoundOnJobFlsaStatus(String principalId, String flsaStatus, boolean chkForLeaveEligible) {
     	boolean isActiveAssFound = false;
-    	Date asOfDate = TKUtils.getTimelessDate(null);
+    	LocalDate asOfDate = LocalDate.now();
      	List<Assignment> activeAssignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
      	if(activeAssignments != null && !activeAssignments.isEmpty()) {
      		for(Assignment assignment : activeAssignments) {
@@ -312,7 +310,7 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
     	return isActiveAssFound;
     }
     
-    private boolean isCalendarDefined(String calendarType, String principalId, Date asOfDate, boolean chkForLeavePlan){
+    private boolean isCalendarDefined(String calendarType, String principalId, LocalDate asOfDate, boolean chkForLeavePlan){
     	boolean calDefined = false;
     	PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
     	if(principalHRAttributes != null) {
@@ -332,7 +330,7 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
     public boolean canViewLeaveTabsWithEStatus() {
     	boolean canViewLeaveTabs = false;
     	String principalId = TKContext.getTargetPrincipalId();
-    	Date asOfDate = TKUtils.getTimelessDate(null);
+    	LocalDate asOfDate = LocalDate.now();
     	boolean leaveCalNPlanDefined = isCalendarDefined("leaveCalendar", principalId, asOfDate, true);
     	String flsaStatus = TkConstants.FLSA_STATUS_EXEMPT;
     	boolean activeAss = isActiveAssignmentFoundOnJobFlsaStatus(principalId, flsaStatus, true);
@@ -343,7 +341,7 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
     @Override
     public boolean canViewLeaveTabsWithNEStatus() {
     	boolean canViewLeaveTabs = false;
-    	Date asOfDate = TKUtils.getTimelessDate(null);
+    	LocalDate asOfDate = LocalDate.now();
     	String flsaStatus = TkConstants.FLSA_STATUS_NON_EXEMPT;
     	// find active assignments as of currentDate
     	String principalId = TKContext.getTargetPrincipalId();

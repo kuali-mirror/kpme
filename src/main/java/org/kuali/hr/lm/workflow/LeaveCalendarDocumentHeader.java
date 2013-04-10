@@ -17,6 +17,7 @@ package org.kuali.hr.lm.workflow;
 
 import java.util.Date;
 
+import org.joda.time.DateTime;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -66,6 +67,15 @@ public class LeaveCalendarDocumentHeader extends PersistableBusinessObjectBase i
     public void setBeginDate(Date beginDate) {
         this.beginDate = beginDate;
     }
+    
+	@Override
+	public DateTime getBeginDateTime() {
+		return new DateTime(beginDate);
+	}
+	
+	public void setBeginDateTime(DateTime beginDateTime) {
+		this.beginDate = beginDateTime.toDate();
+	}
 
     @Override
     public Date getEndDate() {
@@ -75,6 +85,15 @@ public class LeaveCalendarDocumentHeader extends PersistableBusinessObjectBase i
     public void setEndDate(Date payEndDate) {
         this.endDate = payEndDate;
     }
+    
+	@Override
+	public DateTime getEndDateTime() {
+		return new DateTime(endDate);
+	}
+	
+	public void setEndDateTime(DateTime endDateTime) {
+		this.endDate = endDateTime.toDate();
+	}
 
     @Override
     public String getPrincipalId() {

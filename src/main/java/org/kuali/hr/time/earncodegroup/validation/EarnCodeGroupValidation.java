@@ -51,13 +51,13 @@ public class EarnCodeGroupValidation  extends MaintenanceDocumentRuleBase{
 			if(earnGroup.getShowSummary()) {
 				validateEarnCode(earnGroupDef.getEarnCode().toUpperCase(), index, earnGroup);
 			}
-			if (!ValidationUtils.validateEarnCode(earnGroupDef.getEarnCode(), earnGroup.getEffectiveDate())) {
+			if (!ValidationUtils.validateEarnCode(earnGroupDef.getEarnCode(), earnGroup.getEffectiveLocalDate())) {
 				this.putFieldError("earnCodeGroups["+index+"].earnCode", "error.existence", "Earncode '" + earnGroupDef.getEarnCode()+ "'");
 			}
 			earnCodes.add(earnGroupDef.getEarnCode());
 			index++;
 		}
-		int count = TkServiceLocator.getEarnCodeGroupService().getNewerEarnCodeGroupCount(earnGroup.getEarnCodeGroup(), earnGroup.getEffectiveDate());
+		int count = TkServiceLocator.getEarnCodeGroupService().getNewerEarnCodeGroupCount(earnGroup.getEarnCodeGroup(), earnGroup.getEffectiveLocalDate());
 		if(count > 0) {
 			this.putFieldError("effectiveDate", "earngroup.effectiveDate.newr.exists");
 			return false;

@@ -16,6 +16,7 @@
 package org.kuali.hr.time.calendar;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -33,7 +34,7 @@ public class TimeHourDetailRenderer {
 
     public TimeHourDetailRenderer(TimeHourDetail d) {
         this.timeHourDetail = d;
-        List<String> ovtEarnCodes = TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDocument().getAsOfDate());
+        List<String> ovtEarnCodes = TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(LocalDate.fromDateFields(TKContext.getCurrentTimesheetDocument().getAsOfDate()));
         setOvertimeEarnCode(ovtEarnCodes.contains(d.getEarnCode()));
     }
 
@@ -65,10 +66,10 @@ public class TimeHourDetailRenderer {
 			if(timeBlock.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)) {
 				String documentId = timeBlock.getDocumentId();
 				TimesheetDocumentHeader docHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
-				PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(docHeader.getPrincipalId(), new java.sql.Date(timeBlock.getBeginDate().getTime()));
+				PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(docHeader.getPrincipalId(), timeBlock.getBeginDateTime().toLocalDate());
 				
 				if(principalCalendar != null && StringUtils.isNotEmpty(principalCalendar.getLeavePlan())) {
-					SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffByDate(principalCalendar.getLeavePlan(), timeBlock.getBeginDate());
+					SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffByDate(principalCalendar.getLeavePlan(), timeBlock.getBeginDateTime().toLocalDate());
 					if(ssto != null) {
 						holidayDesc = ssto.getDescr();
 					}

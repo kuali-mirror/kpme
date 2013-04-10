@@ -15,8 +15,6 @@
  */
 package org.kuali.hr.lm.leavepayout.dao;
 
-
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,8 +24,8 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 
@@ -54,12 +52,12 @@ public class LeavePayoutDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
 
     @Override
     public List<LeavePayout> getAllLeavePayoutsForPrincipalIdAsOfDate(
-            String principalId, Date effectiveDate) {
+            String principalId, LocalDate effectiveDate) {
         List<LeavePayout> leavePayouts = new ArrayList<LeavePayout>();
         Criteria crit = new Criteria();
         crit.addEqualTo("principalId",principalId);
         Criteria effDate = new Criteria();
-        effDate.addGreaterOrEqualThan("effectiveDate", effectiveDate);
+        effDate.addGreaterOrEqualThan("effectiveDate", effectiveDate.toDate());
         crit.addAndCriteria(effDate);
         Query query = QueryFactory.newQuery(LeavePayout.class,crit);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -72,10 +70,10 @@ public class LeavePayoutDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
 
     @Override
     public List<LeavePayout> getAllLeavePayoutsByEffectiveDate(
-            Date effectiveDate) {
+    		LocalDate effectiveDate) {
         List<LeavePayout> leavePayouts = new ArrayList<LeavePayout>();
         Criteria effDate = new Criteria();
-        effDate.addGreaterOrEqualThan("effectiveDate", effectiveDate);
+        effDate.addGreaterOrEqualThan("effectiveDate", effectiveDate.toDate());
         Query query = QueryFactory.newQuery(LeavePayout.class,effDate);
 
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -115,15 +113,15 @@ public class LeavePayoutDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
 
 	@Override
 	public List<LeavePayout> getLeavePayouts(String viewPrincipal,
-			Date beginPeriodDate, Date endPeriodDate) {
+			LocalDate beginPeriodDate, LocalDate endPeriodDate) {
 		// TODO Auto-generated method stub
 		List<LeavePayout> leavePayouts = new ArrayList<LeavePayout>();
 		Criteria crit = new Criteria();
 		crit.addEqualTo("principalId",viewPrincipal);
 		
 		Criteria effDate = new Criteria();
-		effDate.addGreaterOrEqualThan("effectiveDate", beginPeriodDate);
-		effDate.addLessOrEqualThan("effectiveDate", endPeriodDate);
+		effDate.addGreaterOrEqualThan("effectiveDate", beginPeriodDate.toDate());
+		effDate.addLessOrEqualThan("effectiveDate", endPeriodDate.toDate());
 		
 		crit.addAndCriteria(effDate);
 		
@@ -143,7 +141,7 @@ public class LeavePayoutDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
 	}
 
 	@Override
-	public List<LeavePayout> getLeavePayouts(String principalId, String fromAccrualCategory, String payoutAmount, String earnCode, String forfeitedAmount, Date fromEffdt, Date toEffdt) {
+	public List<LeavePayout> getLeavePayouts(String principalId, String fromAccrualCategory, String payoutAmount, String earnCode, String forfeitedAmount, LocalDate fromEffdt, LocalDate toEffdt) {
         List<LeavePayout> results = new ArrayList<LeavePayout>();
     	
     	Criteria root = new Criteria();
@@ -170,13 +168,13 @@ public class LeavePayoutDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
         
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
         }
         if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
         }
         if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now());
         }
         root.addAndCriteria(effectiveDateFilter);
 

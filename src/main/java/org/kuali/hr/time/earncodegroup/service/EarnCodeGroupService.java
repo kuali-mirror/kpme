@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.time.earncodegroup.service;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -30,26 +30,26 @@ public interface EarnCodeGroupService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public EarnCodeGroup getEarnCodeGroup(String earnCodeGroup, Date asOfDate);
+	public EarnCodeGroup getEarnCodeGroup(String earnCodeGroup, LocalDate asOfDate);
 	/**
 	 * Fetch earn group for an earn code as of a particular date
 	 * @param earnCode
 	 * @param asOfDate
 	 * @return
 	 */
-	public EarnCodeGroup getEarnCodeGroupForEarnCode(String earnCode, Date asOfDate);
+	public EarnCodeGroup getEarnCodeGroupForEarnCode(String earnCode, LocalDate asOfDate);
 	/**
 	 * Fetch Set of earn codes for earn group
 	 * @param earnGroup
 	 * @param asOfDate
 	 * @return
 	 */
-	public Set<String> getEarnCodeListForEarnCodeGroup(String earnCodeGroup, Date asOfDate);
+	public Set<String> getEarnCodeListForEarnCodeGroup(String earnCodeGroup, LocalDate asOfDate);
 	/**
 	 * Used to get earn group that this earn code belongs on in context to the summary
 	 * CAUTION this is used only for the timesheet summary
 	 */
-	public EarnCodeGroup getEarnCodeGroupSummaryForEarnCode(String earnCode, Date asOfDate);
+	public EarnCodeGroup getEarnCodeGroupSummaryForEarnCode(String earnCode, LocalDate asOfDate);
 	
 	public EarnCodeGroup getEarnCodeGroup(String hrEarnCodeGroupId);
 	
@@ -71,7 +71,7 @@ public interface EarnCodeGroupService {
      * @param effdt
      * @return int
      */
-    public int getNewerEarnCodeGroupCount(String earnGroup, Date effdt);
+    public int getNewerEarnCodeGroupCount(String earnGroup, LocalDate effdt);
     
-    List<EarnCode> getEarnCodeGroups(String earnCodeGroup, String descr, Date fromEffdt, Date toEffdt, String active, String showHist);
+    List<EarnCode> getEarnCodeGroups(String earnCodeGroup, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }

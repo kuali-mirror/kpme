@@ -15,19 +15,20 @@
  */
 package org.kuali.hr.time.department.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.department.Department;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.common.collect.ImmutableList;
 
 public class DepartmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements DepartmentDao {
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
@@ -40,7 +41,7 @@ public class DepartmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	}
 
 	@Override
-	public Department getDepartment(String department, Date asOfDate) {
+	public Department getDepartment(String department, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 
 		root.addEqualTo("dept", department);
@@ -59,7 +60,7 @@ public class DepartmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	}
 
     @Override
-    public List<Department> getDepartments(String location, Date asOfDate) {
+    public List<Department> getDepartments(String location, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 
 		root.addEqualTo("location", location);

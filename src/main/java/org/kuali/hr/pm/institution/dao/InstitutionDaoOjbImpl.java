@@ -1,6 +1,5 @@
 package org.kuali.hr.pm.institution.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -8,6 +7,7 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.pm.institution.Institution;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -22,14 +22,12 @@ public class InstitutionDaoOjbImpl extends PlatformAwareDaoBaseOjb implements In
 	
     
     @Override
-    public Institution getInstitution(String institution, Date asOfDate) {
+    public Institution getInstitution(String institution, LocalDate asOfDate) {
 		Institution inst = null;
 
 		Criteria root = new Criteria();
-
-        java.sql.Date effDate = asOfDate == null ? null : new java.sql.Date(asOfDate.getTime());
 		root.addEqualTo("institutionCode", institution);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Institution.class, effDate, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Institution.class, asOfDate, EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Institution.class, EQUAL_TO_FIELDS, false));
 		
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -48,7 +46,7 @@ public class InstitutionDaoOjbImpl extends PlatformAwareDaoBaseOjb implements In
     }
     
 	@Override
-	public List<Institution> getActiveInstitutions(Date asOfDate) {
+	public List<Institution> getActiveInstitutions(LocalDate asOfDate) {
 		List<Institution> institutions = new ArrayList<Institution>();
 		
 		Criteria root = new Criteria();

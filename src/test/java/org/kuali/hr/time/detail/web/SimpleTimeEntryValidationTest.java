@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.detail.web;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -43,7 +42,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class SimpleTimeEntryValidationTest extends KPMETestCase {
 
     public static final String USER_PRINCIPAL_ID = "admin";
-	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+	private DateTime JAN_AS_OF_DATE = new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	private String documentId;
 	
     @Override
@@ -73,8 +72,8 @@ public class SimpleTimeEntryValidationTest extends KPMETestCase {
         Assert.assertNotNull(form);
 
         // 1. Obtain User Data
-        Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, new AssignmentDescriptionKey("30_30_30"), JAN_AS_OF_DATE);
-		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE);
+        Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, new AssignmentDescriptionKey("30_30_30"), JAN_AS_OF_DATE.toLocalDate());
+		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE.toLocalDate());
 
         TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 
@@ -113,8 +112,8 @@ public class SimpleTimeEntryValidationTest extends KPMETestCase {
         Assert.assertNotNull(form);
 
         // 1. Obtain User Data
-        Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, new AssignmentDescriptionKey("30_30_30"), JAN_AS_OF_DATE);
-		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE);
+        Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, new AssignmentDescriptionKey("30_30_30"), JAN_AS_OF_DATE.toLocalDate());
+		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE.toLocalDate());
 
         TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 

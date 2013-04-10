@@ -15,12 +15,12 @@
  */
 package org.kuali.hr.time.workarea.web;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.role.KPMERoleMemberBo;
 import org.kuali.hr.core.role.PositionRoleMemberBo;
@@ -52,9 +52,9 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		if (pbo instanceof WorkArea) {
 			WorkArea workArea = (WorkArea) pbo;
 			
-			valid &= validateDefaultOvertimeEarnCode(workArea.getDefaultOvertimeEarnCode(), workArea.getEffectiveDate());
+			valid &= validateDefaultOvertimeEarnCode(workArea.getDefaultOvertimeEarnCode(), workArea.getEffectiveLocalDate());
 			
-			valid &= validateDepartment(workArea.getDept(), workArea.getEffectiveDate());
+			valid &= validateDepartment(workArea.getDept(), workArea.getEffectiveLocalDate());
 			
 			if (!AuthorizationValidationUtils.hasAccessToWrite((DepartmentalRule)pbo)) {
 				String[] params = new String[] {GlobalVariables.getUserSession().getPrincipalName(), workArea.getDept()};
@@ -62,7 +62,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 				valid &= false;
 			}
 			
-			valid &= validateRoleMembers(workArea.getPrincipalRoleMembers(), workArea.getPositionRoleMembers(), workArea.getEffectiveDate(), "principalRoleMembers", "positionRoleMembers");
+			valid &= validateRoleMembers(workArea.getPrincipalRoleMembers(), workArea.getPositionRoleMembers(), workArea.getEffectiveLocalDate(), "principalRoleMembers", "positionRoleMembers");
 			
 			valid &= validateActive(workArea);
 		}
@@ -105,7 +105,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		return valid;
 	}
 	
-	protected boolean validateDefaultOvertimeEarnCode(String defaultOvertimeEarnCode, Date asOfDate) {
+	protected boolean validateDefaultOvertimeEarnCode(String defaultOvertimeEarnCode, LocalDate asOfDate) {
 		boolean valid = true;
 		
 		if (defaultOvertimeEarnCode != null) {
@@ -123,7 +123,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		return valid;
 	}
 	
-	protected boolean validateDepartment(String dept, Date asOfDate) {
+	protected boolean validateDepartment(String dept, LocalDate asOfDate) {
 		boolean valid = ValidationUtils.validateDepartment(dept, asOfDate);
 		
 		if (!valid) {
@@ -133,7 +133,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		return valid;
 	}
 
-	boolean validateRoleMembers(List<? extends PrincipalRoleMemberBo> principalRoleMembers, List<? extends PositionRoleMemberBo> positionRoleMembers, Date effectiveDate, String principalPrefix, String positionPrefix) {
+	boolean validateRoleMembers(List<? extends PrincipalRoleMemberBo> principalRoleMembers, List<? extends PositionRoleMemberBo> positionRoleMembers, LocalDate effectiveDate, String principalPrefix, String positionPrefix) {
 		boolean valid = true;
 		
 		boolean activeRoleMember = false;
@@ -162,7 +162,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		return valid;
 	}
 	
-	boolean validateRoleMember(KPMERoleMemberBo roleMember, Date effectiveDate, String prefix, int index) {
+	boolean validateRoleMember(KPMERoleMemberBo roleMember, LocalDate effectiveDate, String prefix, int index) {
 		boolean valid = true;
 		
 		Role role = KimApiServiceLocator.getRoleService().getRole(roleMember.getRoleId());
@@ -170,14 +170,14 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		if (StringUtils.equals(role.getName(), KPMERole.APPROVER_DELEGATE.getRoleName())) {
 			String propertyNamePrefix = prefix + "[" + index + "].";
 
-			if (roleMember.getExpirationDate() == null) {
+			if (roleMember.getActiveToDateValue() == null) {
 				this.putFieldError(propertyNamePrefix + "expirationDate", "error.role.expiration.required");
 				valid = false;
-			} else if (effectiveDate.compareTo(roleMember.getExpirationDate()) >= 0
-					|| roleMember.getEffectiveDate().compareTo(roleMember.getExpirationDate()) >= 0) {
+			} else if (effectiveDate.toDate().compareTo(roleMember.getActiveToDateValue()) >= 0
+					|| roleMember.getActiveFromDateValue().compareTo(roleMember.getActiveToDateValue()) >= 0) {
 				this.putFieldError(propertyNamePrefix + "expirationDate", "error.role.expiration");
 				valid = false;
-			} else if (TKUtils.getDaysBetween(roleMember.getEffectiveDate(), roleMember.getExpirationDate()) > 180) {
+			} else if (TKUtils.getDaysBetween(roleMember.getActiveFromDate().toLocalDate(), roleMember.getActiveToDate().toLocalDate()) > 180) {
 				this.putFieldError(propertyNamePrefix + "expirationDate", "error.role.expiration.duration");
 				valid = false;
         	}
@@ -190,7 +190,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		boolean valid = true;
 		
 		if(!workArea.isActive()){
-			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveDate());
+			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
 			for(Assignment assignment: assignments){
 				if(assignment.getWorkArea().equals(workArea.getWorkArea())){
 					this.putGlobalError("workarea.active.required");
@@ -207,7 +207,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 			}
 			
 			if(!inactiveTasks.isEmpty()){
-				List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveDate());
+				List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
 				for(Assignment assignment : assignments){
 					for(Long inactiveTask : inactiveTasks){
 						if(inactiveTask.equals(assignment.getTask())){

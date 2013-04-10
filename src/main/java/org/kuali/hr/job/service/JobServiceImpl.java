@@ -16,6 +16,7 @@
 package org.kuali.hr.job.service;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.job.dao.JobDao;
 import org.kuali.hr.time.paytype.PayType;
@@ -48,7 +49,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public List<Job> getJobs(String principalId, Date asOfDate) {
+    public List<Job> getJobs(String principalId, LocalDate asOfDate) {
         List<Job> jobs = jobDao.getJobs(principalId, asOfDate);
 
         for (Job job : jobs) {
@@ -61,16 +62,16 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job getJob(String principalId, Long jobNumber, Date asOfDate) {
+    public Job getJob(String principalId, Long jobNumber, LocalDate asOfDate) {
         return getJob(principalId, jobNumber, asOfDate, true);
     }
 
-    public Job getPrimaryJob(String principalId, Date payPeriodEndDate) {
+    public Job getPrimaryJob(String principalId, LocalDate payPeriodEndDate) {
         return jobDao.getPrimaryJob(principalId, payPeriodEndDate);
     }
 
     @Override
-    public Job getJob(String principalId, Long jobNumber, Date asOfDate,
+    public Job getJob(String principalId, Long jobNumber, LocalDate asOfDate,
                       boolean chkDetails) {
         Job job = jobDao.getJob(principalId, jobNumber, asOfDate);
         if (job == null && chkDetails) {
@@ -93,7 +94,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public List<Job> getActiveJobsForPayType(String hrPayType, Date asOfDate) {
+    public List<Job> getActiveJobsForPayType(String hrPayType, LocalDate asOfDate) {
         return jobDao.getActiveJobsForPayType(hrPayType, asOfDate);
     }
 
@@ -110,7 +111,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public List<Job> getJobs(String principalId, String firstName, String lastName, String jobNumber,
                              String dept, String positionNbr, String payType,
-                             java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory) {
+                             LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
 
         if (StringUtils.isNotEmpty(firstName) || StringUtils.isNotEmpty(lastName)) {
             Map<String, String> fields = new HashMap<String, String>();
@@ -135,7 +136,7 @@ public class JobServiceImpl implements JobService {
     }
     
     @Override
-    public List<Job> getActiveLeaveJobs(String principalId, Date asOfDate) {
+    public List<Job> getActiveLeaveJobs(String principalId, LocalDate asOfDate) {
     	return jobDao.getActiveLeaveJobs(principalId, asOfDate);
     }
     
@@ -150,7 +151,7 @@ public class JobServiceImpl implements JobService {
     }
     
 	@Override
-	public BigDecimal getFteSumForAllActiveLeaveEligibleJobs(String principalId, Date asOfDate) {
+	public BigDecimal getFteSumForAllActiveLeaveEligibleJobs(String principalId, LocalDate asOfDate) {
 		BigDecimal fteSum = new BigDecimal(0);
 		List<Job> lmEligibleJobs = jobDao.getActiveLeaveJobs(principalId, asOfDate);
 		for(Job job : lmEligibleJobs) {
@@ -169,17 +170,17 @@ public class JobServiceImpl implements JobService {
     }
    
     @Override
-    public List<Job> getAllActiveLeaveJobs(String principalId, Date asOfDate) {
+    public List<Job> getAllActiveLeaveJobs(String principalId, LocalDate asOfDate) {
     	return jobDao.getAllActiveLeaveJobs(principalId, asOfDate);
     }
     
-    public List<Job> getInactiveLeaveJobs(Long jobNumber, Date startDate, Date endDate) {
-    	return jobDao.getInactiveLeaveJobs(jobNumber, startDate, endDate);
+    public List<Job> getInactiveLeaveJobs(Long jobNumber, LocalDate endDate) {
+    	return jobDao.getInactiveLeaveJobs(jobNumber, endDate);
     }
     
     @Override
-    public List<Job> getAllInActiveLeaveJobsInRange(String principalId, Date startDate, Date endDate) {
-    	return jobDao.getAllInActiveLeaveJobsInRange(principalId, startDate, endDate);
+    public List<Job> getAllInActiveLeaveJobsInRange(String principalId, LocalDate endDate) {
+    	return jobDao.getAllInActiveLeaveJobsInRange(principalId, endDate);
     }
     
     @Override
@@ -188,7 +189,7 @@ public class JobServiceImpl implements JobService {
     }
     
     @Override
-    public List<String> getPrincipalIdsInPosition(String positionNumber, Date asOfDate) {
+    public List<String> getPrincipalIdsInPosition(String positionNumber, LocalDate asOfDate) {
         return jobDao.getPrincipalIdsInPosition(positionNumber, asOfDate);
     }
     

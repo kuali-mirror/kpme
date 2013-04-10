@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.lm.leaveplan.service;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.springframework.cache.annotation.Cacheable;
@@ -34,23 +34,23 @@ public interface LeavePlanService {
     public LeavePlan getLeavePlan(String lmLeavePlanId);
 
     @Cacheable(value= LeavePlan.CACHE_NAME, key="'leavePlan=' + #p0 + '|' + 'asOfDate=' + #p1")
-    public LeavePlan getLeavePlan(String leavePlan, Date asOfDate);
+    public LeavePlan getLeavePlan(String leavePlan, LocalDate asOfDate);
     
     public boolean isValidLeavePlan(String leavePlan);
     
-    public List<LeavePlan> getAllActiveLeavePlan(String leavePlan, Date asOfDate);
+    public List<LeavePlan> getAllActiveLeavePlan(String leavePlan, LocalDate asOfDate);
     
-    public List<LeavePlan> getAllInActiveLeavePlan(String leavePlan, Date asOfDate);
+    public List<LeavePlan> getAllInActiveLeavePlan(String leavePlan, LocalDate asOfDate);
 
     List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths,
-                                  Date fromEffdt, Date toEffdt, String active, String showHistory);
+                                  LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
     
-    boolean isFirstCalendarPeriodOfLeavePlan(CalendarEntry calendarEntry, String leavePlan, Date asOfDate);
+    boolean isFirstCalendarPeriodOfLeavePlan(CalendarEntry calendarEntry, String leavePlan, LocalDate asOfDate);
     
-    boolean isLastCalendarPeriodOfLeavePlan(CalendarEntry calendarEntry, String leavePlan, Date asOfDate);
+    boolean isLastCalendarPeriodOfLeavePlan(CalendarEntry calendarEntry, String leavePlan, LocalDate asOfDate);
     
-    public List<LeavePlan> getLeavePlansNeedsCarryOverScheduled(int thresholdDays, Date asOfDate);
+    public List<LeavePlan> getLeavePlansNeedsCarryOverScheduled(int thresholdDays, LocalDate asOfDate);
 
-    public DateTime getFirstDayOfLeavePlan(String leavePlan, java.util.Date date);
-    public DateTime getRolloverDayOfLeavePlan(String leavePlan, java.util.Date asOfDate);
+    public DateTime getFirstDayOfLeavePlan(String leavePlan, LocalDate date);
+    public DateTime getRolloverDayOfLeavePlan(String leavePlan, LocalDate asOfDate);
 }

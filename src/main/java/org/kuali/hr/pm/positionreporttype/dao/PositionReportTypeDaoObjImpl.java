@@ -1,6 +1,5 @@
 package org.kuali.hr.pm.positionreporttype.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.pm.positionreporttype.PositionReportType;
 import org.kuali.hr.pm.util.PmValidationUtils;
@@ -34,7 +34,7 @@ public class PositionReportTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implem
 	}
 
 	@Override
-	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String institution, String campus, Date asOfDate) {
+	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String institution, String campus, LocalDate asOfDate) {
 		List<PositionReportType> prtList = new ArrayList<PositionReportType>();
 		Criteria root = new Criteria();
 		if(StringUtils.isNotEmpty(positionReportType) 
@@ -79,7 +79,7 @@ public class PositionReportTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implem
 	}
 	
 	@Override
-	public List<PositionReportType> getPrtListWithInstitutionCodeAndDate(String institutionCode, Date asOfDate) {
+	public List<PositionReportType> getPrtListWithInstitutionCodeAndDate(String institutionCode, LocalDate asOfDate) {
 		List<PositionReportType> prtList = new ArrayList<PositionReportType>();
 		Criteria root = new Criteria();
 
@@ -100,7 +100,7 @@ public class PositionReportTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implem
 	}
 	
 	@Override
-	public List<PositionReportType> getPrtListWithCampusAndDate(String campus,Date asOfDate) {
+	public List<PositionReportType> getPrtListWithCampusAndDate(String campus,LocalDate asOfDate) {
 		List<PositionReportType> prtList = new ArrayList<PositionReportType>();
 		Criteria root = new Criteria();
 

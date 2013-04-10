@@ -16,13 +16,13 @@
 package org.kuali.hr.lm.leavepayout.service;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -42,7 +42,6 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-
 public class LeavePayoutServiceImpl implements LeavePayoutService {
 
     private LeavePayoutDao leavePayoutDao;
@@ -55,13 +54,13 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 
     @Override
     public List<LeavePayout> getAllLeavePayoutsForPrincipalIdAsOfDate(
-            String principalId, Date effectiveDate) {
+            String principalId, LocalDate effectiveDate) {
         return leavePayoutDao.getAllLeavePayoutsForPrincipalIdAsOfDate(principalId,effectiveDate);
     }
 
     @Override
     public List<LeavePayout> getAllLeavePayoutsByEffectiveDate(
-            Date effectiveDate) {
+    		LocalDate effectiveDate) {
         return leavePayoutDao.getAllLeavePayoutsByEffectiveDate(effectiveDate);
     }
 
@@ -81,7 +80,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 	@Override
 	public LeavePayout initializePayout(String principalId,
 			String accrualCategoryRule, BigDecimal accruedBalance,
-			Date effectiveDate) {
+			LocalDate effectiveDate) {
 		//Initially, principals may be allowed to edit the transfer amount when prompted to submit this balance transfer, however,
 		//a base transfer amount together with a forfeited amount is calculated to bring the balance back to its limit in accordance
 		//with transfer limits.
@@ -198,7 +197,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 				}
 			}
 			
-			leavePayout.setEffectiveDate(effectiveDate);
+			leavePayout.setEffectiveLocalDate(effectiveDate);
 			leavePayout.setAccrualCategoryRule(accrualCategoryRule);
 			leavePayout.setFromAccrualCategory(fromAccrualCategory.getAccrualCategory());
 			leavePayout.setPrincipalId(principalId);
@@ -328,7 +327,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 				"LeavePayoutDocumentType",KRADConstants.MAINTENANCE_NEW_ACTION);
 
         String personName = (principalName != null  && principalName.getDefaultName() != null) ? principalName.getDefaultName().getCompositeName() : StringUtils.EMPTY;
-        String date = TKUtils.formatDate(new java.sql.Date(leavePayout.getEffectiveDate().getTime()));
+        String date = TKUtils.formatDate(leavePayout.getEffectiveLocalDate());
         document.getDocumentHeader().setDocumentDescription(personName + " (" + leavePayout.getPrincipalId() + ")  - " + date);
 		Map<String,String[]> params = new HashMap<String,String[]>();
 		
@@ -353,7 +352,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 
 	@Override
 	public List<LeavePayout> getLeavePayouts(String viewPrincipal,
-			Date beginPeriodDate, Date endPeriodDate) {
+			LocalDate beginPeriodDate, LocalDate endPeriodDate) {
 		// TODO Auto-generated method stub
 		return leavePayoutDao.getLeavePayouts(viewPrincipal, beginPeriodDate, endPeriodDate);
 	}
@@ -364,7 +363,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 	}
 
 	@Override
-	public List<LeavePayout> getLeavePayouts(String principalId, String fromAccrualCategory, String payoutAmount, String earnCode, String forfeitedAmount, Date fromEffdt, Date toEffdt) {
+	public List<LeavePayout> getLeavePayouts(String principalId, String fromAccrualCategory, String payoutAmount, String earnCode, String forfeitedAmount, LocalDate fromEffdt, LocalDate toEffdt) {
 		return leavePayoutDao.getLeavePayouts(principalId, fromAccrualCategory, payoutAmount, earnCode, forfeitedAmount, fromEffdt, toEffdt);
 	}
 }

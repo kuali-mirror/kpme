@@ -16,9 +16,9 @@
 package org.kuali.hr.lm.balancetransfer.service;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -26,8 +26,8 @@ public interface BalanceTransferService {
 
 	//Data access
 	public List<BalanceTransfer> getAllBalanceTransfersForPrincipalId(String principalId);
-	public List<BalanceTransfer> getAllBalanceTransferForPrincipalIdAsOfDate(String principalId, Date effectiveDate);
-	public List<BalanceTransfer> getAllBalanceTransferByEffectiveDate(Date effectiveDate);
+	public List<BalanceTransfer> getAllBalanceTransferForPrincipalIdAsOfDate(String principalId, LocalDate effectiveDate);
+	public List<BalanceTransfer> getAllBalanceTransferByEffectiveDate(LocalDate effectiveDate);
 	public void saveOrUpdate(BalanceTransfer balanceTransfer);
 	
 	//@Cacheable(value= LeaveDonation.CACHE_NAME, key="'balanceTransferId=' + #p0")
@@ -49,7 +49,7 @@ public interface BalanceTransferService {
 	 *  	2.) the number of time units exceeding the maximum balance 
 	 *
 	 */
-	public BalanceTransfer initializeTransfer(String principalId, String accrualCategoryRule, BigDecimal accruedBalance, Date effectiveDate);
+	public BalanceTransfer initializeTransfer(String principalId, String accrualCategoryRule, BigDecimal accruedBalance, LocalDate effectiveDate);
 
 	/**
 	 * Consumes a BalanceTransfer object, creating up to three leave blocks.
@@ -82,8 +82,8 @@ public interface BalanceTransferService {
 	 */
 	public BalanceTransfer transferSsto(BalanceTransfer balanceTransfer);
 	
-	public List<BalanceTransfer> getBalanceTransfers(String viewPrincipal, Date beginPeriodDate, Date endPeriodDate);
+	public List<BalanceTransfer> getBalanceTransfers(String viewPrincipal, LocalDate beginPeriodDate, LocalDate endPeriodDate);
 
 
-    public List<BalanceTransfer> getBalanceTransfers(String principalId, String fromAccrualCategory, String transferAmount, String toAccrualCategory, String amountTransferred, String forfeitedAmount, Date fromEffdt, Date toEffdt);
+    public List<BalanceTransfer> getBalanceTransfers(String principalId, String fromAccrualCategory, String transferAmount, String toAccrualCategory, String amountTransferred, String forfeitedAmount, LocalDate fromEffdt, LocalDate toEffdt);
 }

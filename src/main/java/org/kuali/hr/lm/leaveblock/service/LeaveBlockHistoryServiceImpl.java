@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.lm.leaveblock.service;
 
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.lm.leaveblock.dao.LeaveBlockHistoryDao;
 
@@ -53,12 +53,12 @@ public class LeaveBlockHistoryServiceImpl implements LeaveBlockHistoryService {
 
 	@Override
 	public List<LeaveBlockHistory> getLeaveBlockHistoriesForLeaveDisplay(
-			String principalId, Date beginDate, Date endDate, boolean considerModifiedUser) {
+			String principalId, LocalDate beginDate, LocalDate endDate, boolean considerModifiedUser) {
 		return leaveBlockHistoryDao.getLeaveBlockHistoriesForLeaveDisplay(principalId, beginDate, endDate, considerModifiedUser);
 	}
 	
 	@Override
-	public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId,String requestStatus, String action, Date currentDate) {
+	public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId,String requestStatus, String action, LocalDate currentDate) {
 		return leaveBlockHistoryDao.getLeaveBlockHistories(principalId, requestStatus, action, currentDate);
 	}
 	

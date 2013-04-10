@@ -16,7 +16,6 @@
 package org.kuali.hr.lm.leavepayout.web;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +23,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -36,7 +36,6 @@ import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -93,9 +92,9 @@ public class LeavePayoutAction extends TkAction {
 			
 			AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
 			AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
-			BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(leavePayout.getPrincipalId(), accrualCategory, leavePayout.getEffectiveDate());
+			BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(leavePayout.getPrincipalId(), accrualCategory, leavePayout.getEffectiveLocalDate());
 
-			LeavePayout defaultBT = TkServiceLocator.getLeavePayoutService().initializePayout(leavePayout.getPrincipalId(), accrualRuleId, accruedBalance, leavePayout.getEffectiveDate());
+			LeavePayout defaultBT = TkServiceLocator.getLeavePayoutService().initializePayout(leavePayout.getPrincipalId(), accrualRuleId, accruedBalance, leavePayout.getEffectiveLocalDate());
 			if(leavePayout.getPayoutAmount().compareTo(defaultBT.getPayoutAmount()) != 0) {
 				//employee changed the payout amount, recalculate forfeiture.
 				//Note: payout form has been validated.
@@ -211,9 +210,9 @@ public class LeavePayoutAction extends TkAction {
 					
 					AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(leaveBlockId);
 					AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
-					BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(principalId, accrualCategory, TKUtils.getCurrentDate());
+					BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(principalId, accrualCategory, LocalDate.now());
 
-					LeavePayout leavePayout = TkServiceLocator.getLeavePayoutService().initializePayout(principalId, leaveBlockId, accruedBalance, TKUtils.getCurrentDate());
+					LeavePayout leavePayout = TkServiceLocator.getLeavePayoutService().initializePayout(principalId, leaveBlockId, accruedBalance, LocalDate.now());
 					leavePayout.setLeaveCalendarDocumentId(documentId);
 					if(ObjectUtils.isNotNull(leavePayout)) {
 						if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {	
@@ -279,7 +278,7 @@ public class LeavePayoutAction extends TkAction {
 			LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocumentId);
 			
 			LeaveBlock leaveBlock = eligiblePayouts.get(0);
-			Date effectiveDate = leaveBlock.getLeaveDate();
+			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
 			String accrualCategoryRuleId = leaveBlock.getAccrualCategoryRuleId();
 			if(!StringUtils.isBlank(accrualCategoryRuleId)) {
 				AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
@@ -358,7 +357,7 @@ public class LeavePayoutAction extends TkAction {
 			TimesheetDocument tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
 			
 			LeaveBlock leaveBlock = eligiblePayouts.get(0);
-			Date effectiveDate = leaveBlock.getLeaveDate();
+			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
 			String accrualCategoryRuleId = leaveBlock.getAccrualCategoryRuleId();
 			if(!StringUtils.isBlank(accrualCategoryRuleId)) {
 				AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);

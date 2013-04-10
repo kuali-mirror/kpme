@@ -31,8 +31,8 @@ public abstract class CalendarParent implements Serializable {
     public CalendarParent(CalendarEntry calendarEntry) {
         this.calendarEntry = calendarEntry;
         if (calendarEntry != null) {
-            this.beginDateTime = calendarEntry.getBeginLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
-            this.endDateTime = calendarEntry.getEndLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+            this.beginDateTime = calendarEntry.getBeginPeriodLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+            this.endDateTime = calendarEntry.getEndPeriodLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
         }
     }
 

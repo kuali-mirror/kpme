@@ -16,7 +16,6 @@
 package org.kuali.hr.time.earncode.service;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -28,6 +27,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
@@ -41,7 +41,6 @@ import org.kuali.hr.time.earncode.dao.EarnCodeDao;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -56,7 +55,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		this.earnCodeDao = earnCodeDao;
 	}
 
-    public List<EarnCode> getEarnCodesForLeaveAndTime(Assignment a, Date asOfDate, boolean isLeavePlanningCalendar) {
+    public List<EarnCode> getEarnCodesForLeaveAndTime(Assignment a, LocalDate asOfDate, boolean isLeavePlanningCalendar) {
         //  This method combining both leave calendar and timesheet calendar earn codes may never be used, but it is available.
         //  It was specified in kpme-1745, "Implement getEarnCodesForLeaveAndTime and call both of the above methods and return in one collection."
         List<EarnCode> earnCodes = getEarnCodesForTime(a, asOfDate);
@@ -68,7 +67,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         return earnCodes;
     }
 
-    public List<EarnCode> getEarnCodesForTime(Assignment a, Date asOfDate) {
+    public List<EarnCode> getEarnCodesForTime(Assignment a, LocalDate asOfDate) {
         //getEarnCodesForTime and getEarnCodesForLeave have some overlapping logic, but they were separated so that they could follow their own distinct logic, so consolidation of logic is not desirable.
 
         if (a == null) throw new RuntimeException("No assignment parameter.");
@@ -170,7 +169,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         return earnCodes;
     }
 
-    public List<EarnCode> getEarnCodesForLeave(Assignment a, Date asOfDate, boolean isLeavePlanningCalendar) {
+    public List<EarnCode> getEarnCodesForLeave(Assignment a, LocalDate asOfDate, boolean isLeavePlanningCalendar) {
         //getEarnCodesForTime and getEarnCodesForLeave have some overlapping logic, but they were separated so that they could follow their own distinct logic, so consolidation of logic is not desirable.
 
         if (a == null) throw new RuntimeException("No assignment parameter.");
@@ -260,7 +259,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         return earnCodes;
     }
 
-    private boolean addEarnCodeBasedOnEmployeeApproverSettings(EarnCodeSecurity security, Assignment a, Date asOfDate) {
+    private boolean addEarnCodeBasedOnEmployeeApproverSettings(EarnCodeSecurity security, Assignment a, LocalDate asOfDate) {
         boolean addEarnCode = false;
         if (security.isEmployee() &&
                 (StringUtils.equals(TKContext.getTargetPrincipalId(), GlobalVariables.getUserSession().getPrincipalId()))) {
@@ -298,7 +297,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
     }
 
     @Override
-    public List<EarnCode> getEarnCodesForPrincipal(String principalId, Date asOfDate, boolean isLeavePlanningCalendar) {
+    public List<EarnCode> getEarnCodesForPrincipal(String principalId, LocalDate asOfDate, boolean isLeavePlanningCalendar) {
         List<EarnCode> earnCodes = new LinkedList<EarnCode>();
         List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
         for (Assignment assignment : assignments) {
@@ -311,12 +310,12 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         return earnCodes;
     }
 
-    public EarnCode getEarnCode(String earnCode, Date asOfDate) {
+    public EarnCode getEarnCode(String earnCode, LocalDate asOfDate) {
 		return earnCodeDao.getEarnCode(earnCode, asOfDate);
 	}
 
     @Override
-    public String getEarnCodeType(String earnCode, Date asOfDate) {
+    public String getEarnCodeType(String earnCode, LocalDate asOfDate) {
         EarnCode earnCodeObj = getEarnCode(earnCode, asOfDate);
         return earnCodeObj.getEarnCodeType();
     }
@@ -326,11 +325,11 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		return earnCodeDao.getEarnCodeById(earnCodeId);
 	}
 
-	public List<EarnCode> getOvertimeEarnCodes(Date asOfDate){
+	public List<EarnCode> getOvertimeEarnCodes(LocalDate asOfDate){
 		return earnCodeDao.getOvertimeEarnCodes(asOfDate);
 	}
 
-	public List<String> getOvertimeEarnCodesStrs(Date asOfDate){
+	public List<String> getOvertimeEarnCodesStrs(LocalDate asOfDate){
 		List<String> ovtEarnCodeStrs = new ArrayList<String>();
 		List<EarnCode> ovtEarnCodes = getOvertimeEarnCodes(asOfDate);
 		if(ovtEarnCodes != null){
@@ -347,7 +346,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 	}
 
 	@Override
-	public int getNewerEarnCodeCount(String earnCode, Date effdt) {
+	public int getNewerEarnCodeCount(String earnCode, LocalDate effdt) {
 		return earnCodeDao.getNewerEarnCodeCount(earnCode, effdt);
 	}
 
@@ -369,19 +368,18 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
 	@Override
 	public Map<String, String> getEarnCodesForDisplay(String principalId, boolean isLeavePlanningCalendar) {
-		return getEarnCodesForDisplayWithEffectiveDate(principalId, TKUtils.getCurrentDate(), isLeavePlanningCalendar);
+		return getEarnCodesForDisplayWithEffectiveDate(principalId, LocalDate.now(), isLeavePlanningCalendar);
 	}
 
-    public List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String descr, String leavePlan, String accrualCategory, Date fromEffdt, Date toEffdt, String active, String showHist) {
+    public List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String descr, String leavePlan, String accrualCategory, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
         return earnCodeDao.getEarnCodes(earnCode, ovtEarnCode, descr, leavePlan, accrualCategory, fromEffdt, toEffdt, active, showHist);
     }
 
     @Override
-    public Map<String, String> getEarnCodesForDisplayWithEffectiveDate(String principalId, Date asOfDate, boolean isLeavePlanningCalendar) {
+    public Map<String, String> getEarnCodesForDisplayWithEffectiveDate(String principalId, LocalDate asOfDate, boolean isLeavePlanningCalendar) {
         List<EarnCode> earnCodes = this.getEarnCodesForPrincipal(principalId, asOfDate, isLeavePlanningCalendar);
 
-        Date currentDate = TKUtils.getCurrentDate();
-        boolean futureDate = asOfDate.after(currentDate);
+        boolean futureDate = asOfDate.isAfter(LocalDate.now());
         List<EarnCode> copyList = new ArrayList<EarnCode>();
         copyList.addAll(earnCodes);
         for (EarnCode earnCode : copyList) {

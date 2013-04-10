@@ -21,6 +21,7 @@ import java.sql.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
@@ -114,11 +115,11 @@ public class BalanceTransferForm extends KualiTransactionalDocumentFormBase {
 	}
 
 	public AccrualCategory getCreditedAccrualCategory() {
-		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
+		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, LocalDate.fromDateFields(effectiveDate));
 	}
 
 	public AccrualCategory getDebitedAccrualCategory() {
-		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
+		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, LocalDate.fromDateFields(effectiveDate));
 	}
 	
     @Override
