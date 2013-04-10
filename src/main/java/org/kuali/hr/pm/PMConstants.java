@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class PMConstants {
 	
+	 public static final String WILDCARD_CHARACTER = "*";
+	
 	 public static final class PSTN_QLFR_TYPE_VALUE {
 	        public static final String TEXT = "T";
 	        public static final String NUMBER = "n";

@@ -11,7 +11,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.pm.positionreportcat.PositionReportCategory;
-import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.pm.util.PmValidationUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import com.google.common.collect.ImmutableList;
@@ -37,19 +37,19 @@ public class PositionReportCatDaoObjImpl extends PlatformAwareDaoBaseOjb impleme
 		Criteria root = new Criteria();
 		
 		if(StringUtils.isNotEmpty(positionReportCat) 
-				&& !StringUtils.equals(positionReportCat, TkConstants.WILDCARD_CHARACTER)) {
+				&& !PmValidationUtils.isWildCard(positionReportCat)) {
 			root.addEqualTo("positionReportCat", positionReportCat);  
 		}
 		if(StringUtils.isNotEmpty(positionReportType) 
-				&& !StringUtils.equals(positionReportType, TkConstants.WILDCARD_CHARACTER)) {
+				&& !PmValidationUtils.isWildCard(positionReportType)) {
 			root.addEqualTo("positionReportType", positionReportType);  
 		}
 		if(StringUtils.isNotEmpty(institution) 
-				&& !StringUtils.equals(institution, TkConstants.WILDCARD_CHARACTER)) {
+				&& !PmValidationUtils.isWildCard(institution)) {
 			root.addEqualTo("institution", institution); 
 		}
 		if(StringUtils.isNotEmpty(campus) 
-				&& !StringUtils.equals(campus, TkConstants.WILDCARD_CHARACTER)) {
+				&& !PmValidationUtils.isWildCard(campus)) {
 			root.addEqualTo("campus", campus); 
 		}
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportCategory.class, asOfDate, PRG_EQUAL_TO_FIELDS, false));

@@ -184,7 +184,7 @@
  	<bean id="SalaryGroup-benefitsEligible-parentBean" abstract="true" parent="AttributeDefinition">
  		<property name="required" value="true" />
  		<property name="controlField">
-	      	<bean parent="Uif-VerticalRadioControl">
+	      	<bean parent="Uif-HorizontalRadioControl">
 		        <property name="options">
 		          <list>
 		            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
@@ -201,7 +201,7 @@
  	<bean id="SalaryGroup-leaveEligible-parentBean" abstract="true" parent="AttributeDefinition">
  		<property name="required" value="true" />
    		<property name="controlField">
-	      	<bean parent="Uif-VerticalRadioControl">
+	      	<bean parent="Uif-HorizontalRadioControl">
 		        <property name="options">
 		          <list>
 		            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>

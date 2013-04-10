@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.paygrade.PayGrade;
+import org.kuali.hr.pm.PMConstants;
 import org.kuali.hr.pm.institution.Institution;
 import org.kuali.hr.pm.positionreportcat.PositionReportCategory;
 import org.kuali.hr.pm.positionreportgroup.PositionReportGroup;
@@ -28,7 +29,7 @@ public class PmValidationUtils {
 	 */
 	public static boolean validateInstitution(String institutionCode, Date asOfDate) {
 		boolean valid = false;
-		if (StringUtils.equals(institutionCode, TkConstants.WILDCARD_CHARACTER)) {
+		if (PmValidationUtils.isWildCard(institutionCode)) {
 			valid = true;
 		} else if (asOfDate != null) {
 			Institution inst = PmServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
@@ -48,7 +49,7 @@ public class PmValidationUtils {
 	 */
 	public static boolean validateCampus(String campusCode) {
 		boolean valid = false;
-		if (StringUtils.equals(campusCode, TkConstants.WILDCARD_CHARACTER)) {
+		if (PmValidationUtils.isWildCard(campusCode)) {
 			valid = true;
 		} else {
 			Campus campusObj = LocationApiServiceLocator.getCampusService().getCampus(campusCode);
@@ -84,7 +85,7 @@ public class PmValidationUtils {
 	public static boolean validateInstitutionWithPRT(String positionReportType, String institutionCode, Date asOfDate) {
 		if (asOfDate != null) {
 			List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService()
-				.getPositionReportTypeList(positionReportType, institutionCode, TkConstants.WILDCARD_CHARACTER, asOfDate);
+				.getPositionReportTypeList(positionReportType, institutionCode, PMConstants.WILDCARD_CHARACTER, asOfDate);
 			return CollectionUtils.isNotEmpty(prtList);
 		} 
 		return false;
@@ -162,6 +163,11 @@ public class PmValidationUtils {
 	public static boolean validatePayGrade(String payGrade) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public static boolean isWildCard(String aString) {
+		return (StringUtils.equals(aString, TkConstants.WILDCARD_CHARACTER) ||
+					StringUtils.equals(aString,PMConstants.WILDCARD_CHARACTER));
 	}
 	
 	
