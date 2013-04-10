@@ -232,7 +232,7 @@
 					<para>Select whether or not Accruals will be prorated</para>
 				</listitem>
 				<listitem>
-					<para>Selec the unit of time for accruals under this category.</para>
+					<para>Select the unit of time for accruals under this category.</para>
 				</listitem>
 				<listitem>
 					<para>Enter the Min Percent Worked to Earn Accrual</para>
@@ -638,129 +638,129 @@
 			<section>
 				<title>Conjunctive Rules</title>
 				<para>When combined with a maximum balance rule, a maximum carry over limit may vary its behavior based on the frequency of the balance transaction:</para>
-				<itemizedlist>
-					<listitem>
-						<para>When defined with a Leave-Approve Action, the adjustment amounts for both carryover and leave-approve actions are calculated relative to the same ending balance;
-							the balance as of the last day of the leave plan’s calendar year. Up to four adjustment leave blocks are created with status requested, a maximum of three coming from 
-							the balance transaction and the fourth coming from the carryover adjustment.</para>
-						<para>If the max balance action is approved, the requested leave block containing the adjustment amount for carryover is re-calculated to reflect the resulting balance. 
-						If the max balance action is disapproved, the requested adjustment amount for carryover needs no correction.</para>
-						<para>Example:</para>
-						<mediaobject>
-							<imageobject>
-								<imagedata fileref="../images/lm/conjunctiveruledef.jpg" format="JPG" scale="50"/>
-							</imageobject>
-							<textobject>
-								<phrase>Max Carry Over / Leave Approve Max Balance Action rule</phrase>
-							</textobject>
-							<caption>Example of a Max Carry Over rule defined with a Leave Approve Max Balance rule.<note>MAX-CO is the accrual category on this rule, with earn code MAX-EC. MAX-BAL-TFR displays earn code MAXBAL-TRF on leave calendars.</note></caption>
-						</mediaobject>
-						<mediaobject>
-							<imageobject>
-								<imagedata fileref="../images/lm/conjunctiverule1.jpg" format="JPG" scale="42"/>
-							</imageobject>
-							<textobject>
-								<phrase>Balances as of the final day of the leave plan's calendar year.</phrase>
-							</textobject>
-							<caption>Note the accrued balance for MAX-CO. These are the balances as of the last day of the leave plan's year.</caption>
-						</mediaobject>
-						<mediaobject>
-							<imageobject>
-								<imagedata fileref="../images/lm/conjunctiverulecarryoverblock.jpg" format="JPG" scale="42"/>
-							</imageobject>
-							<textobject>
-								<phrase>Carry over leave block created during calendar submission</phrase>
-							</textobject>
-							<caption>The amount of the carry over leave block created upon calendar submission is relative to an accrued balance of 32</caption>
-						</mediaobject>
-						<mediaobject>
-							<imageobject>
-								<imagedata fileref="../images/lm/conjunctiveruletransferblock.jpg" format="JPG" scale="42"/>
-							</imageobject>
-							<textobject>
-								<phrase>Transfer leave block created during calendar submission</phrase>
-							</textobject>
-							<caption>The amount of the transfer leave block created upon calendar submission is also relative to an accrued balance of 32</caption>
-						</mediaobject>
-						<mediaobject>
-							<imageobject>
-								<imagedata fileref="../images/lm/conjunctiveruletransferdoc.jpg" format="JPG" scale="50"/>
-							</imageobject>
-							<textobject>
-								<phrase>Approved Transfer Doc</phrase>
-							</textobject>
-							<caption>The Balance Transfer Document is approved</caption>
-						</mediaobject>
-						<mediaobject>
-							<imageobject>
-								<imagedata fileref="../images/lm/conjunctiveruletransferblockapproved.jpg" format="JPG" scale="42"/>
-							</imageobject>
-							<textobject>
-								<phrase>Transfer block is approved</phrase>
-							</textobject>
-							<caption>The status of the leave block created through the Balance Transfer document changes to approved.</caption>
-						</mediaobject>
-						<mediaobject>
-							<imageobject>
-								<imagedata fileref="../images/lm/conjunctiverulecarryoverblockadjust.jpg" format="JPG" scale="42"/>
-							</imageobject>
-							<textobject>
-								<phrase>Carry over block is adjusted with the resulting balance.</phrase>
-							</textobject>
-							<caption>The amount of the leave block created via the carry over rule adjusts to the new balance.</caption>
-						</mediaobject>
-					</listitem>
-					<listitem>
-						<para>When defined with a Year-End Action, any amount in excess of the carryover limit and up to the maximum balance limit will be included in the year-end balance transaction. 
-						</para>
-						<para>Example:</para>
-						<mediaobject>
-							<imageobject>
-								<imagedata fileref="../images/lm/yeconjunctiveruledef" format="JPG" scale="50"/>
-							</imageobject>
-							<textobject>
-								<phrase>A Year End conjunctive rule definition</phrase>
-							</textobject>
-							<caption>This rule defines a carry over trigger as well as a year end max balance action.<note>MAXB is the accrual category of this rule, with earn code MAXB-A. MAX-BAL-TFR displays earn code MAXBAL-TRF on leave calendars.</note></caption>
-						</mediaobject>
-						<mediaobject>
-							<imageobject>
-								<imagedata fileref="../images/lm/conjunctiverule1.jpg" format="JPG" scale="42"/>
-							</imageobject>
-							<textobject>
-								<phrase>The balances for the accrual category</phrase>
-							</textobject>
-							<caption>Note the accrued balance for MAXB</caption>
-						</mediaobject>
-						<mediaobject>
-							<imageobject>
-								<imagedata fileref="../images/lm/yeconjunctiveruletransferblock" format="JPG" scale="42"/>
-							</imageobject>
-							<textobject>
-								<phrase>The requested leave blocks created from the conjunctive rule.</phrase>
-							</textobject>
-							<caption>The requested amount in the leave blocks created for the balance transfer include the carry over adjustment</caption>
-						</mediaobject>
-						<mediaobject>
-							<imageobject>
-								<imagedata fileref="../images/lm/yeconjunctiverulexfdocapproved.jpg" format="JPG" scale="50"/>
-							</imageobject>
-							<textobject>
-								<phrase>Year end transfer document approved</phrase>
-							</textobject>
-							<caption>The Transfer doc for the Year-End action is approved.</caption>
-						</mediaobject>
-						<mediaobject>
-							<imageobject>
-								<imagedata fileref="../images/lm/yeconjunctiverulexferblockapproved.jpg" format="JPG" scale="42"/>
-							</imageobject>
-							<textobject>
-								<phrase>Corresponding leave blocks move to approved status.</phrase>
-							</textobject>
-							<caption>Both leave blocks move to approved status</caption>
-						</mediaobject>
-					</listitem>				
-				</itemizedlist>
+				<section>
+					<title>Leave-Approve Max Balance with Max Annual Carryover</title>
+					<para>When defined with a Leave-Approve Action, the adjustment amounts for both carryover and leave-approve actions are calculated relative to the same ending balance;
+						the balance as of the last day of the leave plan’s calendar year. Up to four adjustment leave blocks are created with status requested, a maximum of three coming from 
+						the balance transaction and the fourth coming from the carryover adjustment.</para>
+					<para>If the max balance action is approved, the requested leave block containing the adjustment amount for carryover is re-calculated to reflect the resulting balance. 
+					If the max balance action is disapproved, the requested adjustment amount for carryover needs no correction.</para>
+					<para>Example:</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/conjunctiveruledef.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>Max Carry Over / Leave Approve Max Balance Action rule</phrase>
+						</textobject>
+						<caption>Example of a Max Carry Over rule defined with a Leave Approve Max Balance rule.<note>MAX-CO is the accrual category on this rule, with earn code MAX-EC. MAX-BAL-TFR displays earn code MAXBAL-TRF on leave calendars.</note></caption>
+					</mediaobject>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/conjunctiverule1.jpg" format="JPG" scale="42"/>
+						</imageobject>
+						<textobject>
+							<phrase>Balances as of the final day of the leave plan's calendar year.</phrase>
+						</textobject>
+						<caption>Note the accrued balance for MAX-CO. These are the balances as of the last day of the leave plan's year.</caption>
+					</mediaobject>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/conjunctiverulecarryoverblock.jpg" format="JPG" scale="42"/>
+						</imageobject>
+						<textobject>
+							<phrase>Carry over leave block created during calendar submission</phrase>
+						</textobject>
+						<caption>The amount of the carry over leave block created upon calendar submission is relative to an accrued balance of 32</caption>
+					</mediaobject>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/conjunctiveruletransferblock.jpg" format="JPG" scale="42"/>
+						</imageobject>
+						<textobject>
+							<phrase>Transfer leave block created during calendar submission</phrase>
+						</textobject>
+						<caption>The amount of the transfer leave block created upon calendar submission is also relative to an accrued balance of 32</caption>
+					</mediaobject>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/conjunctiveruletransferdoc.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>Approved Transfer Doc</phrase>
+						</textobject>
+						<caption>The Balance Transfer Document is approved</caption>
+					</mediaobject>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/conjunctiveruletransferblockapproved.jpg" format="JPG" scale="42"/>
+						</imageobject>
+						<textobject>
+							<phrase>Transfer block is approved</phrase>
+						</textobject>
+						<caption>The status of the leave block created through the Balance Transfer document changes to approved.</caption>
+					</mediaobject>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/conjunctiverulecarryoverblockadjust.jpg" format="JPG" scale="42"/>
+						</imageobject>
+						<textobject>
+							<phrase>Carry over block is adjusted with the resulting balance.</phrase>
+						</textobject>
+						<caption>The amount of the leave block created via the carry over rule adjusts to the new balance.</caption>
+					</mediaobject>
+				</section>
+				<section>
+					<title>Year-End Max Balance with Max Annual Carryover</title>
+					<para>When defined with a Year-End Action, any amount in excess of the carryover limit and up to the maximum balance limit will be included in the year-end balance transaction. 
+					</para>
+					<para>Example:</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/yeconjunctiveruledef.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>A Year End conjunctive rule definition</phrase>
+						</textobject>
+						<caption>This rule defines a carry over trigger as well as a year end max balance action.<note>MAXB is the accrual category of this rule, with earn code MAXB-A. MAX-BAL-TFR displays earn code MAXBAL-TRF on leave calendars.</note></caption>
+					</mediaobject>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/conjunctiverule1.jpg" format="JPG" scale="42"/>
+						</imageobject>
+						<textobject>
+							<phrase>The balances for the accrual category</phrase>
+						</textobject>
+						<caption>Note the accrued balance for MAXB</caption>
+					</mediaobject>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/yeconjunctiveruletransferblock.jpg" format="JPG" scale="42"/>
+						</imageobject>
+						<textobject>
+							<phrase>The requested leave blocks created from the conjunctive rule.</phrase>
+						</textobject>
+						<caption>The requested amount in the leave blocks created for the balance transfer include the carry over adjustment</caption>
+					</mediaobject>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/yeconjunctiverulexferdocapproved.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>Year end transfer document approved</phrase>
+						</textobject>
+						<caption>The Transfer doc for the Year-End action is approved.</caption>
+					</mediaobject>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/yeconjunctiverulexferblockapproved.jpg" format="JPG" scale="42"/>
+						</imageobject>
+						<textobject>
+							<phrase>Corresponding leave blocks move to approved status.</phrase>
+						</textobject>
+						<caption>Both leave blocks move to approved status</caption>
+					</mediaobject>
+				</section>
 			</section>
 		</section>	
 		<section>
@@ -783,8 +783,8 @@
 				<caption>This accrual category has three rules defined.</caption>
 			</mediaobject>
 			<para>The first rule defines a LOSE action with frequency leave approve if the balance exceeds 6 hours. It is in effect from the date of hire of an employee up to the end of their second month of service.</para>
-			<para>The second rule defines a TRANSFER action with frequency LEAVE APPROVE if the balance exceeds 10 hours. It is in effect starting with the third month of service up to the end of the fourth month of service</para>
-			<para>The third rule defines a TRANSFER action with frequency ON-DEMAND if the balance exceeds 14 hours. It is in effect starting with the employee's fifth month of service, extending through the remainder of service.</para>
+			<para>The second rule defines a TRANSFER action with frequency LEAVE APPROVE if the balance exceeds 10 hours. It goes into effect at the start of the third month of service and remains in effect up to the end of the fourth month of service</para>
+			<para>The third rule defines a TRANSFER action with frequency ON-DEMAND if the balance exceeds 14 hours. It goes into effect at the start of the employee's fifth month of service, extending through the remainder of service.</para>
 		</section>
 	</section>
 	<section>
