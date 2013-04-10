@@ -170,6 +170,103 @@
 			</textobject>
 			<caption>Field Summary for <link xlink:href="https://wiki.kuali.org/display/KPME/Accrual+Category+v2">Accrual Category</link></caption>
 		</mediaobject>
+		<section>
+			<title>Basic Accrual Category Configuration</title>
+			<para>This section gives an example configuration for a basic accrual category. Leave Plan and Earn Code objects should be available for use before configuring an Accrual Category</para>
+			<orderedlist>
+				<listitem>
+					<para>Navigate to the Accrual Category Lookup via the link provided in the Leave Managment section of the Maintenance Tab.</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/accrualcategorylink.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>The Create New Button</phrase>
+						</textobject>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Within the Accrual Category Lookup View, click 
+					<inlinemediaobject>
+							<imageobject>
+								<imagedata fileref="../images/createnewbutton.jpg" format="JPG" scale="50"/>
+							</imageobject>
+							<textobject>
+								<phrase>create new</phrase>
+							</textobject>
+						</inlinemediaobject>, located:
+					</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/accrualcatdocdesc.jpg" format="JPG" scale="50" />
+						</imageobject>
+						<textobject>
+							<phrase>The Create New Button</phrase>
+						</textobject>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Enter the required description in the Document Overview</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/accrualcatcreatenew.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>Accrual Category Document Overview Description</phrase>
+						</textobject>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Select the effective Date</para>
+				</listitem>
+				<listitem>
+					<para>In Accrual Category, enter a short identifier, i.e. SICK, VAC ...</para>
+				</listitem>
+				<listitem>
+					<para>Use the quick finder icon to select the Leave Plan this accrual category belongs to.</para>
+				</listitem>
+				<listitem>
+					<para>Select the Accrual Earn Interval</para>
+				</listitem>
+				<listitem>
+					<para>Select whether or not Accruals will be prorated</para>
+				</listitem>
+				<listitem>
+					<para>Selec the unit of time for accruals under this category.</para>
+				</listitem>
+				<listitem>
+					<para>Enter the Min Percent Worked to Earn Accrual</para>
+				</listitem>
+				<listitem>
+					<para>Select if donations are accepted for the Accrual Category</para>
+				</listitem>
+				<listitem>
+					<para>Select if the Accrual Category should show on the Employee's Leave Summary.</para>
+				</listitem>
+				<listitem>
+					<para>Locate or enter the default Earn Code associated with the Accrual Category.</para>
+				</listitem>
+				<listitem>
+					<para>Select No for Category Has Rules</para>
+				</listitem>
+				<listitem>
+					<para>Make sure the "Active" box is checked.</para>
+					<para>The basic Accrual Category should look something like this:</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/accrualcatcomplete.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>A Complete Basic Accrual Category</phrase>
+						</textobject>
+						<caption>A basic accrual category configuration with monthly accruals in units of hours, prorated for partial service and without a service minimum, that does not accept donations, has no rules, and will appear on employees leave calendars.</caption>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Submit / Blanket Approve the document</para>
+				</listitem>
+			</orderedlist>
+		</section>
 	</section>
 	<section>
 		<title>Accrual Category Rule Configuration</title>
@@ -706,7 +803,7 @@
 		</mediaobject>
 		<mediaobject>
 			<imageobject>
-				<imagedata fileref="../images/req-ssto.jpg" format="JPG" scale="50"/>
+				<imagedata fileref="../images/req-ssto.jpg" format="JPG" scale="47"/>
 			</imageobject>
 			<textobject>
 				<phrase>System Scheduled Time Off Field Summary</phrase>
@@ -715,7 +812,8 @@
 		</mediaobject>
 		<section>
 			<title>Configuration</title>
-			<para>This example will move through configuring a system scheduled time off.</para>
+			<para>This example will move through configuring a system scheduled time off.<note>System Scheduled Time Off requires use of an Earn Code from which some of its properties are derived.
+			For instruction on Earn Code configuration, see the chapter "Basic Configuration"</note></para>
 			<orderedlist>
 				<listitem>
 					<para>Navigate to the System Scheduled Time Off Lookup via the link provided in the Leave Managment section of the Maintenance Tab.</para>
@@ -756,9 +854,20 @@
 				</listitem>
 				<listitem>
 					<para>Enter or use the quick finder to return an earn code for the Earn Code field.</para>
+					<note>
+						When using the quick finder, the earn code returned will auto-populate the Accrual Category and Leave Plan fields from the values defined on that Earn Code.
+					</note>
 				</listitem>
 				<listitem>
 					<para>Select the Accrued Date.</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/sstoearncode.jpg" format="JPG" scale="45"/>
+						</imageobject>
+						<textobject>
+							<phrase>System Scheduled Time Off accrued date defined</phrase>
+						</textobject>
+					</mediaobject>
 				</listitem>
 				<listitem>
 					<para>Enter the Location or use the quick finder to return a location.</para>
@@ -777,6 +886,15 @@
 				</listitem>
 				<listitem>
 					<para>Ensure that the "Active" box is checked</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/sstocomplete.jpg" format="JPG" scale="45" />
+						</imageobject>
+						<textobject>
+							<phrase>Completed System Scheduled Time Off Maintenance Document</phrase>
+						</textobject>
+						<caption>A Basic Completed System Scheduled Time Off Maintenance Document</caption>
+					</mediaobject>
 				</listitem>
 				<listitem>
 					<para>Finally, Submit the document.</para>
@@ -920,6 +1038,7 @@
 			<para>With the exception of the Lose action, all balance transactions must go through the approval process. When a max balance action is taken by an employee,
 				KPME automatically routes the document to the employee's approver. At that time, the document will become available in the approvers action list, as well as in document search. 
 			</para>
+			<para>Balance Transfer and Leave Payout Documents (Max Balance Transaction Maintenance Documents) must be approved or disapproved before the calendar on which they reside can be approved.</para>
 			<para>To take system administrative action on a transaction document:</para>
 			<note>Department admins can locate pending balance transaction documents in their action list.</note>
 			<orderedlist>
