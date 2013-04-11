@@ -198,7 +198,7 @@
 	    <property name="control">
             <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
 	    </property>
-	    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter" />
+	    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
     </bean>
 
     <bean id="Department-active" parent="Department-active-parentBean" />
