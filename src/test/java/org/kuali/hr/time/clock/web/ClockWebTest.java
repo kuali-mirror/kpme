@@ -33,7 +33,6 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -198,7 +197,7 @@ public class ClockWebTest extends KPMETestCase {
         KRADServiceLocator.getBusinessObjectService().deleteMatching(ClockLog.class, Collections.singletonMap("principalId", "admin"));
         GracePeriodRule gpr = new GracePeriodRule();
         //gpr.setTkGracePeriodRuleId("1");
-        gpr.setEffectiveDate(TKUtils.createDate(1, 1, 2010, 0, 0, 0));
+        gpr.setEffectiveLocalDate(new LocalDate(2010, 1, 1));
         gpr.setHourFactor(new BigDecimal(3));
         gpr.setTimestamp(new Timestamp(System.currentTimeMillis()));
         

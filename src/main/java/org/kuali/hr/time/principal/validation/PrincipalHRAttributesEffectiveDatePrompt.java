@@ -15,18 +15,24 @@
  */
 package org.kuali.hr.time.principal.validation;
 
-
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class PrincipalHRAttributesEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
-    @Override
+    
+	@Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
-        PrincipalHRAttributes phrAttr = (PrincipalHRAttributes)pbo;
+    	boolean futureEffectiveDateExists = false;
+    	
+        PrincipalHRAttributes phrAttr = (PrincipalHRAttributes) pbo;
         PrincipalHRAttributes lastPHRAttr = TkServiceLocator.getPrincipalHRAttributeService().getMaxTimeStampPrincipalHRAttributes(phrAttr.getPrincipalId());
-        return lastPHRAttr != null && TKUtils.getTimelessDate(lastPHRAttr.getEffectiveDate()).after(TKUtils.getTimelessDate(phrAttr.getEffectiveDate()));
+        if (lastPHRAttr != null && lastPHRAttr.getEffectiveLocalDate() != null && phrAttr.getEffectiveLocalDate() != null) {
+        	futureEffectiveDateExists = lastPHRAttr.getEffectiveLocalDate().isAfter(phrAttr.getEffectiveLocalDate());
+        }
+        
+        return futureEffectiveDateExists;
     }
+	
 }

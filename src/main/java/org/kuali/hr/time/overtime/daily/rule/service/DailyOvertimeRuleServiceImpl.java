@@ -156,7 +156,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
 		for(Assignment assignment : timesheetDocument.getAssignments()) {
 			Job job = assignment.getJob();
-			DailyOvertimeRule dailyOvertimeRule = getDailyOvertimeRule(job.getLocation(), job.getHrPayType(), job.getDept(), assignment.getWorkArea(), LocalDate.fromDateFields(timesheetDocument.getAsOfDate()));
+			DailyOvertimeRule dailyOvertimeRule = getDailyOvertimeRule(job.getLocation(), job.getHrPayType(), job.getDept(), assignment.getWorkArea(), timesheetDocument.getAsOfDate());
 
 			if(dailyOvertimeRule !=null) {
 				if(mapDailyOvtRulesToAssignment.containsKey(dailyOvertimeRule)){
@@ -185,7 +185,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 			// 1: ... bucketing by (DailyOvertimeRule -> List<TimeBlock>)
 			Map<DailyOvertimeRule,List<TimeBlock>> dailyOvtRuleToDayTotals = new HashMap<DailyOvertimeRule,List<TimeBlock>>();
 			for(TimeBlock timeBlock : dayTimeBlocks) {
-				Assignment assign = this.getIdentifyingKey(timeBlock, LocalDate.fromDateFields(timesheetDocument.getAsOfDate()), timesheetDocument.getPrincipalId());
+				Assignment assign = this.getIdentifyingKey(timeBlock, timesheetDocument.getAsOfDate(), timesheetDocument.getPrincipalId());
 				for(Map.Entry<DailyOvertimeRule, List<Assignment>> entry : mapDailyOvtRulesToAssignment.entrySet()){
 					List<Assignment> lstAssign = entry.getValue();
 

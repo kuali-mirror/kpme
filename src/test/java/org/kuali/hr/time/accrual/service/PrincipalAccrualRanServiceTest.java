@@ -15,10 +15,11 @@
  */
 package org.kuali.hr.time.accrual.service;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.lm.accrual.PrincipalAccrualRan;
@@ -50,7 +51,7 @@ public class PrincipalAccrualRanServiceTest extends KPMETestCase {
 		par = TkServiceLocator.getPrincipalAccrualRanService().getLastPrincipalAccrualRan("testUser");
 		aDate = new Date(par.getLastRanTs().getTime());
 		Assert.assertTrue("Date of the original entry in PrincipalAccrualRan for 'testUser' should be current date"
-				, formatter.format(aDate).equals(formatter.format(TKUtils.getCurrentDate())));
+				, formatter.format(aDate).equals(formatter.format(LocalDate.now().toDate())));
 		
 	}
 

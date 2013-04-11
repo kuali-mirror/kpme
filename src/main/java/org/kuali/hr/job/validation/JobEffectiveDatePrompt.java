@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.job.validation;
 
-
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -23,10 +22,18 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class JobEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
-    @Override
+    
+	@Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
-        Job job = (Job)pbo;
+    	boolean futureEffectiveDateExists = false;
+    	
+        Job job = (Job) pbo;
         Job lastJob = TkServiceLocator.getJobService().getJob(job.getPrincipalId(), job.getJobNumber(), TKUtils.END_OF_TIME);
-        return lastJob != null && TKUtils.getTimelessDate(lastJob.getEffectiveDate()).after(TKUtils.getTimelessDate(job.getEffectiveDate()));
+        if (lastJob != null && lastJob.getEffectiveLocalDate() != null && job.getEffectiveLocalDate() != null) {
+        	futureEffectiveDateExists = lastJob.getEffectiveLocalDate().isAfter(job.getEffectiveLocalDate());
+        }
+        
+        return futureEffectiveDateExists;
     }
+	
 }

@@ -15,13 +15,12 @@
  */
 package org.kuali.hr.core.document.calendar;
 
+import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntry;
-
-import java.sql.Date;
-import java.util.List;
 
 public interface CalendarDocumentContract {
     /**
@@ -50,5 +49,5 @@ public interface CalendarDocumentContract {
      *
      * @return asOfDate
      */
-    Date getAsOfDate();
+    LocalDate getAsOfDate();
 }

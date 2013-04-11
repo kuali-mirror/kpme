@@ -25,9 +25,15 @@ public class TimeCollectionRuleEffectiveDatePrompt extends KpmeEffectiveDateProm
 	
     @Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
+    	boolean futureEffectiveDateExists = false;
+    	
         TimeCollectionRule timeCollectionRule = (TimeCollectionRule) pbo;
         TimeCollectionRule lastTimeCollectionRule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(timeCollectionRule.getDept(), timeCollectionRule.getWorkArea(), timeCollectionRule.getPayType(), TKUtils.END_OF_TIME);
-        return lastTimeCollectionRule != null && TKUtils.getTimelessDate(lastTimeCollectionRule.getEffectiveDate()).after(TKUtils.getTimelessDate(timeCollectionRule.getEffectiveDate()));
+        if (lastTimeCollectionRule != null && lastTimeCollectionRule.getEffectiveLocalDate() != null && timeCollectionRule.getEffectiveLocalDate() != null) {
+        	futureEffectiveDateExists = lastTimeCollectionRule.getEffectiveLocalDate().isAfter(timeCollectionRule.getEffectiveLocalDate());
+        }
+        
+        return futureEffectiveDateExists;
     }
     
 }

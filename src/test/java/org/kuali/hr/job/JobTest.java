@@ -17,6 +17,7 @@ package org.kuali.hr.job;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -74,10 +75,10 @@ public class JobTest extends KPMETestCase {
 		cal.set(java.util.Calendar.DATE, 1);
 		cal.set(java.util.Calendar.YEAR, 2010);
 
-		payCalendarDates.setBeginPeriodDateTime(new java.sql.Date(cal.getTime().getTime()));
+		payCalendarDates.setBeginPeriodDateTime(cal.getTime());
 		payCalendarDates.setCalendarName(CALENDAR_GROUP);
 		cal.set(java.util.Calendar.DATE, 14);
-		payCalendarDates.setEndPeriodDateTime(new java.sql.Date(cal.getTime().getTime()));
+		payCalendarDates.setEndPeriodDateTime(cal.getTime());
 
 		KRADServiceLocator.getBusinessObjectService().save(payCalendarDates);
 		Assert.assertTrue(TkServiceLocator.getCalendarEntryService().getCalendarEntry(payCalendarDates.getHrCalendarEntryId()) != null);
@@ -93,7 +94,7 @@ public class JobTest extends KPMETestCase {
 		payType.setHrPayTypeId("1001");
 		payType.setPayType("BW");
 		payType.setRegEarnCode("RGN");
-		payType.setEffectiveDate(new java.sql.Date(currentTimestamp));
+		payType.setEffectiveDate(new Date(currentTimestamp));
 		payType.setTimestamp(new Timestamp(currentTimestamp));
 
 		KRADServiceLocator.getBusinessObjectService().save(payType);

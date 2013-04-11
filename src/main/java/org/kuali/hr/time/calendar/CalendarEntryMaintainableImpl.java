@@ -15,6 +15,9 @@
  */
 package org.kuali.hr.time.calendar;
 
+import java.sql.Date;
+import java.sql.Time;
+
 import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
@@ -29,33 +32,33 @@ public class CalendarEntryMaintainableImpl extends KualiMaintainableImpl {
 		CalendarEntry calendarEntry = (CalendarEntry) super.getBusinessObject();
 		
 		if (calendarEntry.getBeginPeriodDateTime() != null) {
-			calendarEntry.setBeginPeriodDate(new java.sql.Date(calendarEntry.getBeginPeriodDateTime().getTime()));
-			calendarEntry.setBeginPeriodTime(new java.sql.Time(calendarEntry.getBeginPeriodDateTime().getTime()));
+			calendarEntry.setBeginPeriodDate(new Date(calendarEntry.getBeginPeriodDateTime().getTime()));
+			calendarEntry.setBeginPeriodTime(new Time(calendarEntry.getBeginPeriodDateTime().getTime()));
 		}
 		
 		if (calendarEntry.getEndPeriodDateTime() != null) {
-			calendarEntry.setEndPeriodDate(new java.sql.Date(calendarEntry.getEndPeriodDateTime().getTime()));
-			calendarEntry.setEndPeriodTime(new java.sql.Time(calendarEntry.getEndPeriodDateTime().getTime()));
+			calendarEntry.setEndPeriodDate(new Date(calendarEntry.getEndPeriodDateTime().getTime()));
+			calendarEntry.setEndPeriodTime(new Time(calendarEntry.getEndPeriodDateTime().getTime()));
 		}
 		
 		if (calendarEntry.getBatchInitiateDateTime() != null) {
-			calendarEntry.setBatchInitiateDate(new java.sql.Date(calendarEntry.getBatchInitiateDateTime().getTime()));
-			calendarEntry.setBatchInitiateTime(new java.sql.Time(calendarEntry.getBatchInitiateDateTime().getTime()));
+			calendarEntry.setBatchInitiateDate(new Date(calendarEntry.getBatchInitiateDateTime().getTime()));
+			calendarEntry.setBatchInitiateTime(new Time(calendarEntry.getBatchInitiateDateTime().getTime()));
 		}
 		
 		if (calendarEntry.getBatchEndPayPeriodDateTime() != null) {
-			calendarEntry.setBatchEndPayPeriodDate(new java.sql.Date(calendarEntry.getBatchEndPayPeriodDateTime().getTime()));
-			calendarEntry.setBatchEndPayPeriodTime(new java.sql.Time(calendarEntry.getBatchEndPayPeriodDateTime().getTime()));
+			calendarEntry.setBatchEndPayPeriodDate(new Date(calendarEntry.getBatchEndPayPeriodDateTime().getTime()));
+			calendarEntry.setBatchEndPayPeriodTime(new Time(calendarEntry.getBatchEndPayPeriodDateTime().getTime()));
 		}
 		
 		if (calendarEntry.getBatchEmployeeApprovalDateTime() != null) {
-			calendarEntry.setBatchEmployeeApprovalDate(new java.sql.Date(calendarEntry.getBatchEmployeeApprovalDateTime().getTime()));
-			calendarEntry.setBatchEmployeeApprovalTime(new java.sql.Time(calendarEntry.getBatchEmployeeApprovalDateTime().getTime()));
+			calendarEntry.setBatchEmployeeApprovalDate(new Date(calendarEntry.getBatchEmployeeApprovalDateTime().getTime()));
+			calendarEntry.setBatchEmployeeApprovalTime(new Time(calendarEntry.getBatchEmployeeApprovalDateTime().getTime()));
 		}
 		
 		if (calendarEntry.getBatchSupervisorApprovalDateTime() != null) {
-			calendarEntry.setBatchSupervisorApprovalDate(new java.sql.Date(calendarEntry.getBatchSupervisorApprovalDateTime().getTime()));
-			calendarEntry.setBatchSupervisorApprovalTime(new java.sql.Time(calendarEntry.getBatchSupervisorApprovalDateTime().getTime()));
+			calendarEntry.setBatchSupervisorApprovalDate(new Date(calendarEntry.getBatchSupervisorApprovalDateTime().getTime()));
+			calendarEntry.setBatchSupervisorApprovalTime(new Time(calendarEntry.getBatchSupervisorApprovalDateTime().getTime()));
 		}
 		
 		return calendarEntry;

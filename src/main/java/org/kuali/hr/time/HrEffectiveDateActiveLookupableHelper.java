@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.lookup.KPMELookupableHelper;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
@@ -102,7 +102,7 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KPMELookupab
 		}
 		
 		
-		Date currDate = TKUtils.getCurrentDate();
+		Date currDate = LocalDate.now().toDate();
 		//Active = Both and Show History = Yes
 		//return all results
 		if(StringUtils.isEmpty(active) && StringUtils.equals("Y", showHistory)){

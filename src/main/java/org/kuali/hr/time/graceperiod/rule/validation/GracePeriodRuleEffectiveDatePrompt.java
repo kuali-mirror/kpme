@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.graceperiod.rule.validation;
 
-
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -23,10 +22,18 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class GracePeriodRuleEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
-    @Override
+    
+	@Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
-        GracePeriodRule gracePeriodRule = (GracePeriodRule)pbo;
+    	boolean futureEffectiveDateExists = false;
+    	
+        GracePeriodRule gracePeriodRule = (GracePeriodRule) pbo;
         GracePeriodRule lastGracePeriodRule = TkServiceLocator.getGracePeriodService().getGracePeriodRule(TKUtils.END_OF_TIME);
-        return lastGracePeriodRule != null && TKUtils.getTimelessDate(lastGracePeriodRule.getEffectiveDate()).after(TKUtils.getTimelessDate(gracePeriodRule.getEffectiveDate()));
+        if (lastGracePeriodRule != null && lastGracePeriodRule.getEffectiveLocalDate() != null && gracePeriodRule.getEffectiveLocalDate() != null) {
+        	futureEffectiveDateExists = lastGracePeriodRule.getEffectiveLocalDate().isAfter(gracePeriodRule.getEffectiveLocalDate());
+        }
+        
+        return futureEffectiveDateExists;
     }
+	
 }

@@ -30,7 +30,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.Interval;
-import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -128,7 +127,7 @@ public class LeaveCalendarSubmitAction extends TkAction {
             }
         }
         ActionRedirect rd = new ActionRedirect(mapping.findForward("leaveCalendarRedirect"));
-        TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(document, LocalDate.fromDateFields(document.getAsOfDate()));
+        TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(document, document.getAsOfDate());
         rd.addParameter("documentId", documentId);
 
         return rd;

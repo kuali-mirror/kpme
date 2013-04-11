@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,7 +31,6 @@ import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.util.TKUtils;
 
 public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 	
@@ -297,17 +297,17 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		List<LeaveBlock> leaveBlocs = new ArrayList<LeaveBlock>();
 		LeaveBlock lbA = new LeaveBlock();
 		lbA.setEarnCode("ECA");
-		lbA.setLeaveDate(TKUtils.getCurrentDate());
+		lbA.setLeaveDate(LocalDate.now().toDate());
 		leaveBlocs.add(lbA);
 
 		LeaveBlock lbB = new LeaveBlock();
 		lbB.setEarnCode("ECB");
-		lbB.setLeaveDate(TKUtils.getCurrentDate());
+		lbB.setLeaveDate(LocalDate.now().toDate());
 		leaveBlocs.add(lbB);
 
 		LeaveBlock lbC = new LeaveBlock();
 		lbC.setEarnCode("ECC");
-		lbC.setLeaveDate(TKUtils.getCurrentDate());
+		lbC.setLeaveDate(LocalDate.now().toDate());
 		leaveBlocs.add(lbC);
 
 		Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocs);
@@ -349,7 +349,7 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		cal.add(Calendar.MONTH, 2);
 		Date to = cal.getTime();
 		Map<String,Set<String>> allMessages = new HashMap<String, Set<String>>();
-		allMessages.putAll(LeaveCalendarValidationUtil.validatePendingTransactions("admin", new java.sql.Date(from.getTime()), new java.sql.Date(to.getTime())));
+		allMessages.putAll(LeaveCalendarValidationUtil.validatePendingTransactions("admin", LocalDate.fromDateFields(from), LocalDate.fromDateFields(to)));
 		
 		Assert.assertTrue(allMessages.get("actionMessages").size() > 0);
 		Set<String> actionMessages = allMessages.get("actionMessage");
@@ -370,7 +370,7 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 				"BalanceTransferDocumentType",KRADConstants.MAINTENANCE_NEW_ACTION);
 
         String personName = (principalName != null  && principalName.getDefaultName() != null) ? principalName.getDefaultName().getCompositeName() : StringUtils.EMPTY;
-        String date = TKUtils.formatDate(new java.sql.Date(balanceTransfer.getEffectiveDate().getTime()));
+        String date = TKUtils.formatDate(balanceTransfer.getEffectiveLocalDate());
         document.getDocumentHeader().setDocumentDescription(personName + " (" + balanceTransfer.getPrincipalId() + ")  - " + date);
 		Map<String,String[]> params = new HashMap<String,String[]>();
 		

@@ -256,7 +256,7 @@ public class LeaveCalendarValidationUtil {
     	if(earnCodeObj != null && earnCodeObj.getAllowNegativeAccrualBalance().equals("N")) {
     		AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), endDate);
     		if(accrualCategory != null) {
-				java.util.Date nextIntervalDate = TkServiceLocator.getAccrualService().getNextAccrualIntervalDate(accrualCategory.getAccrualEarnInterval(), endDate.toDate());
+				java.util.Date nextIntervalDate = TkServiceLocator.getAccrualService().getNextAccrualIntervalDate(accrualCategory.getAccrualEarnInterval(), endDate);
 				// get the usage checking cut off Date, normally it's the day before the next interval date
 				java.util.Date usageEndDate = nextIntervalDate;
 				if(nextIntervalDate.compareTo(endDate.toDate()) > 0) {

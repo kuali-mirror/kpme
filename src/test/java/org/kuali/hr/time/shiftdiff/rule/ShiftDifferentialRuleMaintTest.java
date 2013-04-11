@@ -16,8 +16,8 @@
 package org.kuali.hr.time.shiftdiff.rule;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;

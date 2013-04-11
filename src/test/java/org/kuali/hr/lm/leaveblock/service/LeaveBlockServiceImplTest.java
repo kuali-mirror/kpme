@@ -28,7 +28,6 @@ import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 
 public class LeaveBlockServiceImplTest extends KPMETestCase {
 	
@@ -64,7 +63,7 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 	public void testGetLeaveBlocks(){
 		// 03/01/2012 to 03/02/2012
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(TKUtils.getTimelessDate(null));
+		cal.setTime(LocalDate.now().toDate());
 		cal.set(Calendar.YEAR, 2012);
 		cal.set(Calendar.MONTH, 2);
 		cal.set(Calendar.DATE, 1);
@@ -99,7 +98,7 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 	public void testGetLeaveBlocksForTimeCalendar() {
 		// 03/01/2012 to 03/06/2012
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(TKUtils.getTimelessDate(null));
+		cal.setTime(LocalDate.now().toDate());
 		cal.set(Calendar.YEAR, 2012);
 		cal.set(Calendar.MONTH, 2);
 		cal.set(Calendar.DATE, 1);
@@ -129,7 +128,7 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 	public void testGetLeaveBlocksForLeaveCalendar() {
 		// 03/01/2012 to 03/06/2012
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(TKUtils.getTimelessDate(null));
+		cal.setTime(LocalDate.now().toDate());
 		cal.set(Calendar.YEAR, 2012);
 		cal.set(Calendar.MONTH, 2);
 		cal.set(Calendar.DATE, 1);

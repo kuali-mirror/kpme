@@ -15,8 +15,6 @@
  */
 package org.kuali.hr.lm.balancetransfer.validation;
 
-import java.sql.Date;
-
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,9 +27,9 @@ public class BalanceTransferValidationUtilsTest extends KPMETestCase {
 
 	@Test
 	public void TestValidateSstoTranser() {
-		Date leaveDate = new Date((new DateTime(2013, 1, 11, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		DateTime leaveDate = new DateTime(2013, 1, 11, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		BalanceTransfer bt = new BalanceTransfer();
-		bt.setEffectiveDate(leaveDate);
+		bt.setEffectiveLocalDate(leaveDate.toLocalDate());
 		bt.setPrincipalId("testUser");
 		
 		boolean flag = BalanceTransferValidationUtils.validateSstoTranser(bt);
@@ -62,8 +60,8 @@ public class BalanceTransferValidationUtilsTest extends KPMETestCase {
 		Assert.assertTrue("There should be 1 error messages",  GlobalVariables.getMessageMap().getErrorCount() == 1);
 		Assert.assertTrue("There should be error messages for Accrual categories does not exist", GlobalVariables.getMessageMap().containsMessageKey("balanceTransfer.transferSSTO.acDoesNotExist"));
 		
-		leaveDate = new Date((new DateTime(2013, 2, 11, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		bt.setEffectiveDate(leaveDate);
+		leaveDate = new DateTime(2013, 2, 11, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		bt.setEffectiveLocalDate(leaveDate.toLocalDate());
 		GlobalVariables.getMessageMap().clearErrorMessages();
 		flag = BalanceTransferValidationUtils.validateSstoTranser(bt);
 		Assert.assertTrue("Validation should be true", flag);

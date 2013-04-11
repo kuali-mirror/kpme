@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.position.validation;
 
-
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -23,10 +22,18 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class PositionEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
-    @Override
+    
+	@Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
-        Position position = (Position)pbo;
+    	boolean futureEffectiveDateExists = false;
+    	
+        Position position = (Position) pbo;
         Position lastPosition = TkServiceLocator.getPositionService().getPosition(position.getPositionNumber(), TKUtils.END_OF_TIME);
-        return lastPosition != null && TKUtils.getTimelessDate(lastPosition.getEffectiveDate()).after(TKUtils.getTimelessDate(position.getEffectiveDate()));
+        if (lastPosition != null && lastPosition.getEffectiveLocalDate() != null && position.getEffectiveLocalDate() != null) {
+        	futureEffectiveDateExists = lastPosition.getEffectiveLocalDate().isAfter(position.getEffectiveLocalDate());
+        }
+        
+        return futureEffectiveDateExists;
     }
+	
 }

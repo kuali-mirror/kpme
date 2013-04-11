@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.paytype.validation;
 
-
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -23,10 +22,18 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class PayTypeEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
-    @Override
+    
+	@Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
-        PayType payType = (PayType)pbo;
+    	boolean futureEffectiveDateExists = false;
+    	
+        PayType payType = (PayType) pbo;
         PayType lastPayType = TkServiceLocator.getPayTypeService().getPayType(payType.getPayType(), TKUtils.END_OF_TIME);
-        return lastPayType != null && TKUtils.getTimelessDate(lastPayType.getEffectiveDate()).after(TKUtils.getTimelessDate(payType.getEffectiveDate()));
+        if (lastPayType != null && lastPayType.getEffectiveLocalDate() != null && payType.getEffectiveLocalDate() != null) {
+        	futureEffectiveDateExists = lastPayType.getEffectiveLocalDate().isAfter(payType.getEffectiveLocalDate());
+        }
+        
+        return futureEffectiveDateExists;
     }
+	
 }

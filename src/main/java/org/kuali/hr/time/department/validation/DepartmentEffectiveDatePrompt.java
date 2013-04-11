@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.department.validation;
 
-
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -23,10 +22,18 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class DepartmentEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
-    @Override
+    
+	@Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
-        Department department = (Department)pbo;
+    	boolean futureEffectiveDateExists = false;
+    	
+        Department department = (Department) pbo;
         Department lastDepartment = TkServiceLocator.getDepartmentService().getDepartment(department.getDept(), TKUtils.END_OF_TIME);
-        return lastDepartment != null && TKUtils.getTimelessDate(lastDepartment.getEffectiveDate()).after(TKUtils.getTimelessDate(department.getEffectiveDate()));
+        if (lastDepartment != null && lastDepartment.getEffectiveLocalDate() != null && department.getEffectiveLocalDate() != null) {
+        	futureEffectiveDateExists = lastDepartment.getEffectiveLocalDate().isAfter(department.getEffectiveLocalDate());
+        }
+        
+        return futureEffectiveDateExists;
     }
+	
 }

@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.department.earncode;
 
-import java.sql.Date;
 import java.util.Collection;
 import java.util.Collections;
 import org.apache.commons.lang.StringUtils;
@@ -33,8 +32,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
-	private static final java.sql.Date TEST_DATE_OLD = new Date((new DateTime(2009, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-	private static final java.sql.Date TEST_DATE_NEW = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+	private static final DateTime TEST_DATE_OLD = new DateTime(2009, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+	private static final DateTime TEST_DATE_NEW = new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	private static final String EARN_CODE = "RGN";
 	private static final String DEPT = "TEST-DEPT";
 	private static final String SAL_GROUP = "SD1";
@@ -135,7 +134,7 @@ public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
 		deptEarnCode.setDept(DEPT);
 		deptEarnCode.setHrSalGroup(SAL_GROUP);
 		deptEarnCode.setEmployee(false);
-		deptEarnCode.setEffectiveDate(TEST_DATE_OLD);
+		deptEarnCode.setEffectiveLocalDate(TEST_DATE_OLD.toLocalDate());
 		deptEarnCode.setLocation("BL");
 		deptEarnCode.setEarnCodeType("T");
 		deptEarnCode = KRADServiceLocator.getBusinessObjectService().save(deptEarnCode);
@@ -149,7 +148,7 @@ public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
 		deptEarnCode.setDept(DEPT);
 		deptEarnCode.setHrSalGroup(SAL_GROUP);
 		deptEarnCode.setEmployee(false);
-		deptEarnCode.setEffectiveDate(TEST_DATE_NEW);
+		deptEarnCode.setEffectiveLocalDate(TEST_DATE_NEW.toLocalDate());
 		deptEarnCode.setLocation("test");
 		deptEarnCode.setEarnCodeType("T");
         deptEarnCode = KRADServiceLocator.getBusinessObjectService().save(deptEarnCode);

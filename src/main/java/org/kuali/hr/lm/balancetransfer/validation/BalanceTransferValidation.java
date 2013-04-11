@@ -28,7 +28,6 @@ import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -86,7 +85,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 
 	//Effective date not more than one year in advance
 	private boolean validateEffectiveDate(LocalDate date) {
-		if(DateUtils.addYears(TKUtils.getCurrentDate(), 1).compareTo(date.toDate()) > 0)
+		if(DateUtils.addYears(LocalDate.now().toDate(), 1).compareTo(date.toDate()) > 0)
 			return true;
 		else
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.effectiveDate", "balanceTransfer.effectiveDate.error");

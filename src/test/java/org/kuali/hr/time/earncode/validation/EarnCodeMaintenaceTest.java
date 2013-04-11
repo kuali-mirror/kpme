@@ -16,10 +16,8 @@
 package org.kuali.hr.time.earncode.validation;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.List;
 
-import com.gargoylesoftware.htmlunit.html.*;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,8 +28,14 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
+import com.gargoylesoftware.htmlunit.html.DomElement;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
+import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
+
 public class EarnCodeMaintenaceTest extends KPMETestCase {
-	private static final java.sql.Date TEST_DATE = new Date((new DateTime(2009, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+	private static final DateTime TEST_DATE = new DateTime(2009, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	private static final String EARN_CODE = "RGN";
 	private static String hrEarnCodeId;
 	
@@ -41,7 +45,7 @@ public class EarnCodeMaintenaceTest extends KPMETestCase {
 		EarnCode earnCode = new EarnCode();
 		earnCode.setActive(true);
 		earnCode.setEarnCode(EARN_CODE);
-		earnCode.setEffectiveDate(TEST_DATE);
+		earnCode.setEffectiveLocalDate(TEST_DATE.toLocalDate());
 		earnCode.setRecordMethod("T");
 		earnCode.setFractionalTimeAllowed("99");
 		earnCode.setRoundingOption("T");

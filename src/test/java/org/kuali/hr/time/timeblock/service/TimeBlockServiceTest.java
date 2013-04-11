@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time.timeblock.service;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -33,8 +34,8 @@ public class TimeBlockServiceTest extends KPMETestCase {
 	public void testIsTimeBlockEditableAdmin() throws Exception {
 		TimeBlock tb = new TimeBlock();
 		tb.setJobNumber(new Long(30));
-		tb.setBeginDate(new java.sql.Date(DATE_FORMAT.parse("01/01/2010").getTime()));
-		tb.setEndDate(new java.sql.Date(DATE_FORMAT.parse("01/01/2010").getTime()));
+		tb.setBeginTimestamp(new Timestamp(DATE_FORMAT.parse("01/01/2010").getTime()));
+		tb.setEndTimestamp(new Timestamp(DATE_FORMAT.parse("01/01/2010").getTime()));
 		
 		GlobalVariables.getUserSession().setBackdoorUser("admin");
 		
@@ -56,8 +57,8 @@ public class TimeBlockServiceTest extends KPMETestCase {
 	public void testIsTimeBlockEditableUser() throws Exception {
 		TimeBlock tb = new TimeBlock();
 		tb.setJobNumber(new Long(1));
-		tb.setBeginDate(new java.sql.Date(DATE_FORMAT.parse("08/12/2010").getTime()));
-		tb.setEndDate(new java.sql.Date(DATE_FORMAT.parse("08/12/2010").getTime()));
+		tb.setBeginTimestamp(new Timestamp(DATE_FORMAT.parse("08/12/2010").getTime()));
+		tb.setEndTimestamp(new Timestamp(DATE_FORMAT.parse("08/12/2010").getTime()));
 		
 		GlobalVariables.getUserSession().setBackdoorUser("eric");
 		

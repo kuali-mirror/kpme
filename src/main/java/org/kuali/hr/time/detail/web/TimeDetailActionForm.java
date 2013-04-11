@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.time.calendar.TkCalendar;
@@ -143,7 +144,7 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     
 
     public boolean isCurrentTimesheet() {
-    	return (TKUtils.getCurrentDate().compareTo(this.getBeginPeriodDateTime()) >= 0 && TKUtils.getCurrentDate().compareTo(this.getEndPeriodDateTime()) < 0 );
+    	return (LocalDate.now().toDate().compareTo(this.getBeginPeriodDateTime()) >= 0 && LocalDate.now().toDate().compareTo(this.getEndPeriodDateTime()) < 0 );
     }
 
 	public String getDocEditable() {

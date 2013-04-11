@@ -26,7 +26,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
@@ -38,7 +37,6 @@ import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -104,40 +102,39 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 				leaveBlocks.addAll(TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceLocalDate(), asOfDate.plusDays(1), accrualCategory.getAccrualCategory()));
 				accruedBalance.put(accrualCategory.getLmAccrualCategoryId(), BigDecimal.ZERO);
 /*	Un-comment to consider service interval end-point changes. i.e. when defining a new action frequency - "ON_SERVICE_MILESTONE"
- * 
- * 				List<AccrualCategoryRule> accrualRules = TkServiceLocator.getAccrualCategoryRuleService().getActiveAccrualCategoryRules(accrualCategory.getLmAccrualCategoryId());
+				List<AccrualCategoryRule> accrualRules = TkServiceLocator.getAccrualCategoryRuleService().getActiveAccrualCategoryRules(accrualCategory.getLmAccrualCategoryId());
 				for(AccrualCategoryRule rule : accrualRules) {
 					String serviceUnits = rule.getServiceUnitOfTime();
-					Date rollOverDate = null;
+					LocalDate rollOverDate = null;
 					//TODO: Accrual Category Rules' start and end field allow only whole integer values. This should be reflected in storage.
 					if(StringUtils.equals(serviceUnits, "M")) {
-						rollOverDate = new java.sql.Date(DateUtils.addMonths(pha.getServiceDate(), (new BigDecimal(rule.getEnd()).intValue())).getTime());
+						rollOverDate = pha.getServiceLocalDate().plusMonths(rule.getEnd().intValue());
 					}
 					else if(StringUtils.equals(serviceUnits, "Y")) {
-						rollOverDate = new java.sql.Date(DateUtils.addYears(pha.getServiceDate(), (new BigDecimal(rule.getEnd()).intValue())).getTime());
+						rollOverDate = pha.getServiceLocalDate().plusYears(rule.getEnd().intValue());
 					}
 					if(ObjectUtils.isNotNull(rollOverDate)) {
-						if(thisEntryInterval.contains(DateUtils.addDays(rollOverDate,-1).getTime())) {
+						if(thisEntryInterval.contains(rollOverDate.minusDays(1).toDate().getTime())) {
 							//Add a max balance allocation leave block.
 							LeaveBlock allocation = new LeaveBlock();
 							allocation.setAccrualCategory(accrualCategory.getAccrualCategory());
-							allocation.setLeaveDate(new java.sql.Date(DateUtils.addDays(rollOverDate,-1).getTime()));
+							allocation.setLeaveLocalDate(rollOverDate.minusDays(1));
 							allocation.setLeaveAmount(BigDecimal.ZERO);
 							allocation.setPrincipalId(principalId);
 							leaveBlocks.add(allocation);
 						}
 					}
 				}
-				*/
+*/
 
 				//Add a max balance allocation leave block.
 				LeaveBlock allocation = new LeaveBlock();
 				allocation.setAccrualCategory(accrualCategory.getAccrualCategory());
 				
-				if(thisEntryInterval.contains(TKUtils.getCurrentDate().getTime()))
-					allocation.setLeaveDate(TKUtils.getCurrentDate());
+				if(thisEntryInterval.contains(LocalDate.now().toDate().getTime()))
+					allocation.setLeaveLocalDate(LocalDate.now());
 				else
-					allocation.setLeaveDate(new java.sql.Date(DateUtils.addDays(entry.getEndPeriodDate(),-1).getTime()));
+					allocation.setLeaveLocalDate(entry.getEndPeriodFullDateTime().toLocalDate().minusDays(1));
 				
 				allocation.setLeaveAmount(BigDecimal.ZERO);
 				allocation.setPrincipalId(principalId);
@@ -151,7 +148,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 						//the block created above.
 						allocation = new LeaveBlock();
 						allocation.setAccrualCategory(accrualCategory.getAccrualCategory());
-						allocation.setLeaveDate(new java.sql.Date(DateUtils.addDays(leaveLeaveEntry.getEndPeriodDate(),-1).getTime()));
+						allocation.setLeaveLocalDate(leaveLeaveEntry.getEndPeriodFullDateTime().toLocalDate().minusDays(1));
 						allocation.setLeaveAmount(BigDecimal.ZERO);
 						allocation.setPrincipalId(principalId);
 						allocation.setLeaveBlockType("allocation");

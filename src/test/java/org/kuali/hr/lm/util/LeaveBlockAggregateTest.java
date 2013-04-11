@@ -36,7 +36,7 @@ public class LeaveBlockAggregateTest extends KPMETestCase {
 	public void testGetLeaveBlockAggregate(){
 		// 03/01/2012 to 03/15/2012
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(TKUtils.getTimelessDate(null));
+		cal.setTime(LocalDate.now().toDate());
 		cal.set(Calendar.YEAR, 2012);
 		cal.set(Calendar.MONTH, 2);
 		cal.set(Calendar.DATE, 1);

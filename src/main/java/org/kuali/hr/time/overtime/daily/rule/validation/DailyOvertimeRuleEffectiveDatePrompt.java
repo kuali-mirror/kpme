@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.overtime.daily.rule.validation;
 
-
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -23,10 +22,18 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class DailyOvertimeRuleEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
-    @Override
+    
+	@Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
-        DailyOvertimeRule dor = (DailyOvertimeRule)pbo;
+    	boolean futureEffectiveDateExists = false;
+    	
+        DailyOvertimeRule dor = (DailyOvertimeRule) pbo;
         DailyOvertimeRule lastDor = TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRule(dor.getLocation(), dor.getPaytype(), dor.getDept(), dor.getWorkArea(), TKUtils.END_OF_TIME);
-        return lastDor != null && TKUtils.getTimelessDate(lastDor.getEffectiveDate()).after(TKUtils.getTimelessDate(dor.getEffectiveDate()));
+        if (lastDor != null && lastDor.getEffectiveLocalDate() != null && dor.getEffectiveLocalDate() != null) {
+        	futureEffectiveDateExists = lastDor.getEffectiveLocalDate().isAfter(dor.getEffectiveLocalDate());
+        }
+        
+        return futureEffectiveDateExists;
     }
+	
 }

@@ -443,8 +443,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			return "No previous clock information";
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-		String dateTime = sdf.format(new java.sql.Date(cl.getClockTimestamp()
-				.getTime()));
+		String dateTime = sdf.format(cl.getClockTimestamp());
 		if (StringUtils.equals(cl.getClockAction(), TkConstants.CLOCK_IN)) {
 			return "Clocked in since: " + dateTime;
 		} else if (StringUtils.equals(cl.getClockAction(),

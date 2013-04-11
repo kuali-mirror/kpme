@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
@@ -112,12 +113,12 @@ public class TimesheetDocument implements CalendarDocumentContract, Serializable
 	}
 
     @Override
-	public java.sql.Date getAsOfDate(){
-		return new java.sql.Date(getCalendarEntry().getBeginPeriodDateTime().getTime());
+	public LocalDate getAsOfDate(){
+		return getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
 	}
     
-    public java.sql.Date getDocEndDate(){
-		return new java.sql.Date(getCalendarEntry().getEndPeriodDateTime().getTime());
+    public LocalDate getDocEndDate(){
+		return getCalendarEntry().getEndPeriodFullDateTime().toLocalDate();
 	}
 
 	public String getDocumentId(){

@@ -16,8 +16,8 @@
 package org.kuali.hr.time.graceperiod.service;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;

@@ -15,8 +15,6 @@
  */
 package org.kuali.hr.time.workarea;
 
-import java.sql.Date;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
@@ -41,7 +39,7 @@ public class WorkAreaMaintenanceDocumentTest extends KPMETestCase {
 	final String ERROR_ROLE_MESSAGE = "Cannot define both Principal Id and Position Number for Role.";
 	final String SUCCESS_MESSAGE = "Document was successfully submitted.";
 	private static final String TEST_CODE_DEPARTMENT_VALID = "_TEST";
-	private static final Date TEST_DATE = new Date((new DateTime(2011,1,1,1,0,0,0,TKUtils.getSystemDateTimeZone())).getMillis());
+	private static final DateTime TEST_DATE = new DateTime(2011,1,1,1,0,0,0,TKUtils.getSystemDateTimeZone());
 
     @Before
     public void setUp() throws Exception {
@@ -52,7 +50,7 @@ public class WorkAreaMaintenanceDocumentTest extends KPMETestCase {
 		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
 		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
 		department.setLocation("BL");
-		department.setEffectiveDate(TEST_DATE);
+		department.setEffectiveLocalDate(TEST_DATE.toLocalDate());
 		department.setActive(true);
 		KRADServiceLocator.getBusinessObjectService().save(department);
     }

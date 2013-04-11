@@ -16,7 +16,7 @@
 package org.kuali.hr.lm.balancetransfer.web;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 

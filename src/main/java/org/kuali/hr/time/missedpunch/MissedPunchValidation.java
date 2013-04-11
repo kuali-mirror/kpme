@@ -21,11 +21,11 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -146,7 +146,7 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         
         DateTime clockLogDateTime = new DateTime(lastClock.getClockTimestamp().getTime());
         DateTime boundaryMax = clockLogDateTime.plusDays(1);
-        DateTime nowTime = new DateTime(TKUtils.getCurrentDate());
+        DateTime nowTime = new DateTime(LocalDate.now().toDate());
         long offset = TkServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
         long dateTimeLocal = new LocalTime(mp.getActionTime()).getMillisOfDay() + mp.getActionDate().getTime() - offset;
 

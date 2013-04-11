@@ -16,7 +16,6 @@
 package org.kuali.hr.time.util;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +64,7 @@ public class ActionFormUtilsTest extends KPMETestCase {
 		lb.setEarnCode("EarnCode");
 		lb.setLmLeaveBlockId("1111");
 		lb.setLeaveAmount(new BigDecimal(3));
-		lb.setLeaveDate(new Date((new DateTime(2012, 2, 20, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));
+		lb.setLeaveLocalDate(new DateTime(2012, 2, 20, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).toLocalDate());
 		lb.setAccrualGenerated(false);
 		lbList.add(lb);
 		

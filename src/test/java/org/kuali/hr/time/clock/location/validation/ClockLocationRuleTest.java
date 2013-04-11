@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.clock.location.validation;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -59,7 +58,7 @@ public class ClockLocationRuleTest extends KPMETestCase {
 
     public ClockLocationRule createClr(String ipAddress, Long workArea, String principalId, Long jobNumber ) {
     	Timestamp ts_now = new Timestamp(System.currentTimeMillis());
-    	Date date_now = new Date(System.currentTimeMillis());
+    	LocalDate date_now = LocalDate.now();
     	ClockLocationRule clr = new ClockLocationRule();
     	clr.setDept("TEST");
     	clr.setWorkArea(1234L);
@@ -67,7 +66,7 @@ public class ClockLocationRuleTest extends KPMETestCase {
     	clr.setJobNumber(0L);
     	clr.setActive(true);
     	clr.setTimestamp(ts_now);
-    	clr.setEffectiveDate(date_now);
+    	clr.setEffectiveLocalDate(date_now);
     	ClockLocationRuleIpAddress anIp = new ClockLocationRuleIpAddress();
     	anIp.setIpAddress(ipAddress);
     	List<ClockLocationRuleIpAddress> aList = new ArrayList<ClockLocationRuleIpAddress>();
@@ -94,12 +93,12 @@ public class ClockLocationRuleTest extends KPMETestCase {
     public void testSave() throws Exception {
     	ClockLocationRule clr = new ClockLocationRule();
     	Timestamp ts_now = new Timestamp(System.currentTimeMillis());
-    	Date date_now = new Date(System.currentTimeMillis());
+    	LocalDate date_now = LocalDate.now();
     	clr.setPrincipalId("12345");
     	clr.setJobNumber(0L);
     	clr.setActive(true);
     	clr.setTimestamp(ts_now);
-    	clr.setEffectiveDate(date_now);
+    	clr.setEffectiveLocalDate(date_now);
     	ClockLocationRuleIpAddress anIp = new ClockLocationRuleIpAddress();
     	anIp.setIpAddress(IP_ADDRESS_ONE);
     	List<ClockLocationRuleIpAddress> aList = new ArrayList<ClockLocationRuleIpAddress>();

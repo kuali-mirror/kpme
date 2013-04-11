@@ -34,8 +34,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class TimeCollectionRuleMaintTest extends KPMETestCase {
 
 	private static final String TEST_CODE = "X";
-	private static final java.sql.Date TEST_DATE = new java.sql.Date(Calendar
-			.getInstance().getTimeInMillis());
+	private static final LocalDate TEST_DATE = LocalDate.now();
 	private static final String TEST_CODE_DEPARTMENT_VALID = "_test";
 
 	private static String timeCollectionRuleId;
@@ -134,13 +133,13 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
 		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
 		department.setLocation("BL");
-		department.setEffectiveDate(TEST_DATE);
+		department.setEffectiveLocalDate(TEST_DATE);
         department.setActive(Boolean.TRUE);
 		department = KRADServiceLocator.getBusinessObjectService().save(department);
 		
 		TimeCollectionRule timeCollectionRule = new TimeCollectionRule();
 		timeCollectionRule.setDept(TEST_CODE_DEPARTMENT_VALID);
-		timeCollectionRule.setEffectiveDate(TEST_DATE);
+		timeCollectionRule.setEffectiveLocalDate(TEST_DATE);
 		timeCollectionRule.setHrsDistributionF(true);
 		timeCollectionRule.setTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 		timeCollectionRule.setUserPrincipalId(TEST_CODE);
@@ -162,7 +161,7 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 		}
 		timeCollectionRuleWIthInvalidWorkArea
 				.setDept(TEST_CODE_DEPARTMENT_VALID);
-		timeCollectionRuleWIthInvalidWorkArea.setEffectiveDate(TEST_DATE);
+		timeCollectionRuleWIthInvalidWorkArea.setEffectiveLocalDate(TEST_DATE);
 		timeCollectionRuleWIthInvalidWorkArea.setHrsDistributionF(true);
         timeCollectionRuleWIthInvalidWorkArea.setActive(true);
 		timeCollectionRuleWIthInvalidWorkArea.setTimestamp(new Timestamp(

@@ -137,7 +137,7 @@ public class LeaveCalendarAction extends TkAction {
 		if(StringUtils.equals(runAccrualFlag, "true")) {
 			// run accrual for future dates only, use planning month of leave plan for accrual period
 			// only run the accrual if the calendar entry contains future dates
-			if(calendarEntry != null && calendarEntry.getEndPeriodDate().after(TKUtils.getCurrentDate())) {
+			if(calendarEntry != null && calendarEntry.getEndPeriodDate().after(LocalDate.now().toDate())) {
 				if(TkServiceLocator.getLeaveAccrualService().statusChangedSinceLastRun(viewPrincipal)) {
 					TkServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
 				}
@@ -239,8 +239,8 @@ public class LeaveCalendarAction extends TkAction {
 	        Interval calendarInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(), calendarEntry.getEndPeriodDate().getTime());
 	        Map<String,Set<LeaveBlock>> maxBalInfractions = new HashMap<String,Set<LeaveBlock>>();
 	        
-	        Date effectiveDate = TKUtils.getCurrentDate();
-	        if(!calendarInterval.contains(TKUtils.getCurrentDate().getTime()))
+	        Date effectiveDate = LocalDate.now().toDate();
+	        if(!calendarInterval.contains(effectiveDate.getTime()))
 	        	effectiveDate = calendarEntry.getEndPeriodDate();
 	        
             if(ObjectUtils.isNotNull(principalCalendar)) {
@@ -647,7 +647,7 @@ public class LeaveCalendarAction extends TkAction {
 	        calEntry = lcd.getCalendarEntry();
 		}
 	// -- put condition if it is after current period
-		boolean isFutureDate = calEntry != null && TKUtils.getTimelessDate(null).compareTo(calEntry.getEndPeriodDateTime()) <= 0;
+		boolean isFutureDate = calEntry != null && LocalDate.now().toDate().compareTo(calEntry.getEndPeriodDateTime()) <= 0;
 		
 		// fetch previous entry
         if (calEntry != null) {

@@ -25,9 +25,15 @@ public class WorkAreaEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
 	
     @Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
+    	boolean futureEffectiveDateExists = false;
+    	
         WorkArea workArea = (WorkArea) pbo;
         WorkArea lastWorkArea = TkServiceLocator.getWorkAreaService().getWorkArea(workArea.getWorkArea(), TKUtils.END_OF_TIME);
-        return lastWorkArea != null && TKUtils.getTimelessDate(lastWorkArea.getEffectiveDate()).after(TKUtils.getTimelessDate(workArea.getEffectiveDate()));
+        if (lastWorkArea != null && lastWorkArea.getEffectiveLocalDate() != null && workArea.getEffectiveLocalDate() != null) {
+        	futureEffectiveDateExists = lastWorkArea.getEffectiveLocalDate().isAfter(workArea.getEffectiveLocalDate());
+        }
+        
+        return futureEffectiveDateExists;
     }
     
 }

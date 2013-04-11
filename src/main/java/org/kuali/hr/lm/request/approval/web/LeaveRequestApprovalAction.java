@@ -15,9 +15,6 @@
  */
 package org.kuali.hr.lm.request.approval.web;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -40,6 +37,8 @@ import org.apache.struts.action.ActionMapping;
 import org.hsqldb.lib.StringUtil;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.core.role.KPMERole;
@@ -367,8 +366,8 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 			aRow.setRequestedDate(TKUtils.formatDate(lb.getLeaveLocalDate()));
 			aRow.setRequestedHours(lb.getLeaveAmount().toString());
 			aRow.setDescription(lrd.getDescription());
-			DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-			aRow.setSubmittedTime(df.format( new Date(lrd.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis())));
+			DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
+			aRow.setSubmittedTime(formatter.print(lrd.getDocumentHeader().getWorkflowDocument().getDateCreated()));
 			rowList.add(aRow);
 		}
 		// sort list by date

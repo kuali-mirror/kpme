@@ -16,10 +16,10 @@
 package org.kuali.hr.time.base.web;
 
 import java.security.GeneralSecurityException;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -212,7 +212,7 @@ public class TkInquirableImpl extends KualiInquirableImpl {
 
             if (keyValue == null) {
                 keyValue = "";
-            } else if (keyValue instanceof java.sql.Date) { //format the date for passing in url
+            } else if (keyValue instanceof Date) { //format the date for passing in url
                 if (Formatter.findFormatter(keyValue.getClass()) != null) {
                     Formatter formatter = Formatter.getFormatter(keyValue.getClass());
                     keyValue = (String) formatter.format(keyValue);

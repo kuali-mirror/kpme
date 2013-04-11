@@ -251,7 +251,7 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		//could also simply change the accrual amount.
 		LeaveBlock usage = new LeaveBlock();
 		usage.setAccrualCategory(YE_XFER_MAC);
-		usage.setLeaveDate(new java.sql.Date(DateUtils.addDays(janStart,5).getTime()));
+		usage.setLeaveDate(DateUtils.addDays(janStart,5));
 		usage.setLeaveAmount(new BigDecimal(-18));
 		usage.setPrincipalId(USER_ID);
 		usage.setAccrualGenerated(false);
@@ -268,7 +268,7 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		BalanceTransfer bt = new BalanceTransfer();
 		janLCD = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(JAN_ID);
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janLCD.getCalendarEntry());
-		java.sql.Date effectiveDate = new java.sql.Date(DateUtils.addDays(janStart,3).getTime());
+		Date effectiveDate = DateUtils.addDays(janStart,3);
 		bt = TkServiceLocator.getBalanceTransferService().initializeTransfer(USER_ID, YE_XFER_MAC, aRow.getAccruedBalance(), effectiveDate);
 		assertEquals("transferOnDemand transfer amount", (new BigDecimal(4)).longValue(), bt.getTransferAmount().longValue());
 		assertEquals("transferOnDemand forfeited amount", (new BigDecimal(0)).longValue(), bt.getForfeitedAmount().longValue());

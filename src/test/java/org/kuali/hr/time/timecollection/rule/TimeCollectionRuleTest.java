@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.timecollection.rule;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -54,7 +53,7 @@ public class TimeCollectionRuleTest extends KPMETestCase{
 		TimeCollectionRule timeCollectionRule = new TimeCollectionRule();
 		timeCollectionRule.setDept("TEST-DEPT");
 		timeCollectionRule.setWorkArea(1234L);
-		timeCollectionRule.setEffectiveDate(new Date(System.currentTimeMillis()));
+		timeCollectionRule.setEffectiveLocalDate(LocalDate.now());
 		timeCollectionRule.setActive(true);
 		timeCollectionRule.setTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 		KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule);
@@ -62,7 +61,7 @@ public class TimeCollectionRuleTest extends KPMETestCase{
 		TimeCollectionRule timeCollectionRule2 = new TimeCollectionRule();
 		timeCollectionRule2.setDept("TEST-ME");
 		timeCollectionRule2.setWorkArea(234L);
-		timeCollectionRule2.setEffectiveDate(new Date(System.currentTimeMillis()));
+		timeCollectionRule2.setEffectiveLocalDate(LocalDate.now());
 		timeCollectionRule2.setActive(true);
 		timeCollectionRule2.setTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 		KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule2);

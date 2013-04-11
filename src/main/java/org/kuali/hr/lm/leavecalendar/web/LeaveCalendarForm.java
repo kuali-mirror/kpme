@@ -17,6 +17,7 @@ package org.kuali.hr.lm.leavecalendar.web;
 
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
@@ -25,8 +26,6 @@ import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.base.web.TkCommonCalendarForm;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.calendar.LeaveCalendar;
-import org.kuali.hr.time.util.TKUtils;
-
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.List;
@@ -69,7 +68,7 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 	private String endTime;
     
     public boolean isCurrentLeavePeriod () {
-    	return (TKUtils.getCurrentDate().compareTo(calendarEntry.getBeginPeriodDate()) >= 0 && TKUtils.getCurrentDate().compareTo(calendarEntry.getEndPeriodDate()) < 0);
+    	return (LocalDate.now().toDate().compareTo(calendarEntry.getBeginPeriodDate()) >= 0 && LocalDate.now().toDate().compareTo(calendarEntry.getEndPeriodDate()) < 0);
     }
 	public DateTime getCurrentPayCalStart() {
 		return currentPayCalStart;

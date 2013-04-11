@@ -277,7 +277,7 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 		//could also simply change the accrual amount.
 		LeaveBlock usage = new LeaveBlock();
 		usage.setAccrualCategory(YE_XFER_MAC);
-		usage.setLeaveDate(new java.sql.Date(DateUtils.addDays(janStart,5).getTime()));
+		usage.setLeaveLocalDate(LocalDate effectiveDate = janStart.plusDays(5););
 		usage.setLeaveAmount(new BigDecimal(-18));
 		usage.setPrincipalId(USER_ID);
 		usage.setAccrualGenerated(false);
@@ -294,7 +294,7 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 		LeavePayout lp = new LeavePayout();
 		janLCD = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(JAN_ID);
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janLCD.getCalendarEntry());
-		java.sql.Date effectiveDate = new java.sql.Date(DateUtils.addDays(janStart,3).getTime());
+		LocalDate effectiveDate = LocalDate effectiveDate = janStart.plusDays(3);
 		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_XFER_MAC, aRow.getAccruedBalance(), effectiveDate);
 		assertEquals("payoutOnDemand payout amount", (new BigDecimal(4)).longValue(), lp.getPayoutAmount().longValue());
 		assertEquals("payoutOnDemand forfeited amount", (new BigDecimal(0)).longValue(), lp.getForfeitedAmount().longValue());

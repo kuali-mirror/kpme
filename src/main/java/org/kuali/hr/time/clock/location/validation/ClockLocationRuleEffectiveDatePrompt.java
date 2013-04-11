@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.clock.location.validation;
 
-
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
@@ -25,10 +24,12 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import java.util.List;
 
 public class ClockLocationRuleEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
-    @Override
+    
+	@Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
-        ClockLocationRule clr = (ClockLocationRule)pbo;
+        ClockLocationRule clr = (ClockLocationRule) pbo;
         List<ClockLocationRule> lastClr = TkServiceLocator.getClockLocationRuleService().getNewerVersionClockLocationRule(clr.getDept(), clr.getWorkArea(), clr.getPrincipalId(), clr.getJobNumber(), clr.getEffectiveLocalDate());
         return CollectionUtils.isNotEmpty(lastClr);
     }
+	
 }

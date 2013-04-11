@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.lm.permission.service;
 
+import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,7 +25,6 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class LMPermissionServiceTest extends KPMETestCase {
@@ -57,13 +57,13 @@ public class LMPermissionServiceTest extends KPMETestCase {
 		// leave block 6000 is a bankable ssto usage block that is on current leave calendar, 
 		// ssto 2000's unused time is "B"
 		LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock("6000");
-		lb.setLeaveDate(TKUtils.getCurrentDate());
+		lb.setLeaveDate(LocalDate.now().toDate());
 		boolean deleteFlag = TkServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), lb);
 		Assert.assertTrue("Leave Block 6000 should be deletable", deleteFlag);
 		
 		// leave block 6001 is a ssto usage block that can be transferred, ssto 2001's unused time is "T"
 		lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock("6001");
-		lb.setLeaveDate(TKUtils.getCurrentDate());
+		lb.setLeaveDate(LocalDate.now().toDate());
 		deleteFlag = TkServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), lb);
 		Assert.assertTrue("Leave Block 6001 should be deletable", deleteFlag);
 		
@@ -74,7 +74,7 @@ public class LMPermissionServiceTest extends KPMETestCase {
 		
 		// leave block 6003 is a ssto accrual block, not a usage, it's leave amount is 8
 		lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock("6003");
-		lb.setLeaveDate(TKUtils.getCurrentDate());
+		lb.setLeaveDate(LocalDate.now().toDate());
 		deleteFlag = TkServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), lb);
 		Assert.assertFalse("Leave Block 6003 should NOT be deletable", deleteFlag);
 		

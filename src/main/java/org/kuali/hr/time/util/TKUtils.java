@@ -17,12 +17,12 @@ package org.kuali.hr.time.util;
 
 import java.math.BigDecimal;
 import java.net.UnknownHostException;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -50,10 +50,6 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 public class TKUtils {
 
     private static final Logger LOG = Logger.getLogger(TKUtils.class);
-
-    public static java.sql.Date getCurrentDate() {
-        return getTimelessDate(null);
-    }
 
     /**
      * @param dateString the format has to be mm/dd/yyyy
@@ -93,24 +89,6 @@ public class TKUtils {
     	Property month = LocalDate.now().monthOfYear();
     	Property day = LocalDate.now().dayOfMonth();
         END_OF_TIME = new LocalDate(year.getMaximumValueOverall(), month.getMaximumValueOverall(), day.getMaximumValueOverall());
-    }
-
-    /**
-     * Returns a enforced timeless version of the provided date, if the date is
-     * null the current date is returned.
-     *
-     * @param date
-     * @return A java.sql.Date version of the provided date, if provided date is
-     *         null, the current date is returned.
-     */
-    public static java.sql.Date getTimelessDate(java.util.Date date) {
-        java.sql.Date jsd = null;
-        if (date == null) {
-            jsd = new java.sql.Date(System.currentTimeMillis());
-        } else {
-            jsd = new java.sql.Date(date.getTime());
-        }
-        return jsd;
     }
 
     public static long getDaysBetween(Calendar startDate, Calendar endDate) {
@@ -355,11 +333,6 @@ public class TKUtils {
         return ip;
     }
 
-    public static Date createDate(int month, int day, int year, int hours, int minutes, int seconds) {
-        DateTime dt = new DateTime(year, month, day, hours, minutes, seconds, 0);
-        return new Date(dt.getMillis());
-    }
-
     public static String getIPNumber() {
         try {
             return java.net.InetAddress.getLocalHost().getHostAddress();
@@ -372,12 +345,6 @@ public class TKUtils {
         DateTime dt = new DateTime(originalTimestamp);
         dt = dt.minusSeconds(1);
         return new Timestamp(dt.getMillis());
-    }
-
-    public static Date subtractOneMillisecondFromDate(java.util.Date date) {
-        DateTime dt = new DateTime(date);
-        dt = dt.minusMillis(1);
-        return new Date(dt.getMillis());
     }
 
     public static String formatDate(LocalDate localDate) {

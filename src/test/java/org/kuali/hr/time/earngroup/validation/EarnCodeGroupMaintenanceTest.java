@@ -18,6 +18,7 @@ package org.kuali.hr.time.earngroup.validation;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -40,7 +41,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
     private static final Logger LOG = Logger.getLogger(EarnCodeGroupMaintenanceTest.class);
-    private static final java.sql.Date TEST_DATE = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
+    private static final Date TEST_DATE = new Date(Calendar.getInstance().getTimeInMillis());
     private static final String EARN_CODE = "RGN";
     private static String hrEarnGroupId;
     private static String hrEarnCodeId;

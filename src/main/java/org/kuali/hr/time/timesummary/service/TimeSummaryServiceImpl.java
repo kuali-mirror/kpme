@@ -84,7 +84,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate));
 
         List<EarnGroupSection> earnGroupSections = getEarnGroupSections(tkTimeBlockAggregate, timeSummary.getSummaryHeader().size()+1, 
-        			dayArrangements, LocalDate.fromDateFields(timesheetDocument.getAsOfDate()), LocalDate.fromDateFields(timesheetDocument.getDocEndDate()));
+        			dayArrangements, timesheetDocument.getAsOfDate(), timesheetDocument.getDocEndDate());
         timeSummary.setSections(earnGroupSections);
         
         try {

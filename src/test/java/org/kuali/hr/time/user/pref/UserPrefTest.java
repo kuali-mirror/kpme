@@ -21,12 +21,12 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.util.TKUtils;
 
 public class UserPrefTest extends KPMETestCase{
 	@Test
@@ -38,8 +38,8 @@ public class UserPrefTest extends KPMETestCase{
 	@Test
 	public void testTimeZoneTranslate() throws Exception{
 		TimeBlock tb = new TimeBlock();
-		tb.setBeginTimestamp(new Timestamp(TKUtils.getCurrentDate().getTime()));
-		tb.setEndTimestamp(new Timestamp(TKUtils.getCurrentDate().getTime()));
+		tb.setBeginTimestamp(new Timestamp(LocalDate.now().toDate().getTime()));
+		tb.setEndTimestamp(new Timestamp(LocalDate.now().toDate().getTime()));
 		
 		List<TimeBlock> tbs = new ArrayList<TimeBlock>();
 		tbs.add(tb);

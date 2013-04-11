@@ -25,9 +25,15 @@ public class SalGroupEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
 	
     @Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
+    	boolean futureEffectiveDateExists = false;
+    	
         SalGroup salGroup = (SalGroup) pbo;
         SalGroup lastSalGroup = TkServiceLocator.getSalGroupService().getSalGroup(salGroup.getHrSalGroup(), TKUtils.END_OF_TIME);
-        return lastSalGroup != null && TKUtils.getTimelessDate(lastSalGroup.getEffectiveDate()).after(TKUtils.getTimelessDate(salGroup.getEffectiveDate()));
+        if (lastSalGroup != null && lastSalGroup.getEffectiveLocalDate() != null && salGroup.getEffectiveLocalDate() != null) {
+        	futureEffectiveDateExists = lastSalGroup.getEffectiveLocalDate().isAfter(salGroup.getEffectiveLocalDate());
+        }
+        
+        return futureEffectiveDateExists;
     }
     
 }

@@ -15,8 +15,9 @@
  */
 package org.kuali.hr.time.calendar;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.LocalDate;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -26,15 +27,13 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
-import java.util.List;
-
 public class TimeHourDetailRenderer {
     private TimeHourDetail timeHourDetail;
     private boolean overtimeEarnCode;
 
     public TimeHourDetailRenderer(TimeHourDetail d) {
         this.timeHourDetail = d;
-        List<String> ovtEarnCodes = TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(LocalDate.fromDateFields(TKContext.getCurrentTimesheetDocument().getAsOfDate()));
+        List<String> ovtEarnCodes = TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDocument().getAsOfDate());
         setOvertimeEarnCode(ovtEarnCodes.contains(d.getEarnCode()));
     }
 

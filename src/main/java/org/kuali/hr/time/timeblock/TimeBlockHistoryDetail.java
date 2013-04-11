@@ -15,6 +15,8 @@
  */
 package org.kuali.hr.time.timeblock;
 
+import java.sql.Date;
+
 import org.kuali.rice.kim.api.identity.Person;
 
 public class TimeBlockHistoryDetail extends TimeHourDetail{
@@ -89,7 +91,7 @@ public class TimeBlockHistoryDetail extends TimeHourDetail{
 		this.userPrincipal = userPrincipal;
 	}
 
-	public java.sql.Date getBeginDate() {
+	public Date getBeginDate() {
 		return timeBlockHistory.getBeginDate();
 	}
 

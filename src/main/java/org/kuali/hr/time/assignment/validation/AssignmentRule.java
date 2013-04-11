@@ -15,8 +15,8 @@
  */
 package org.kuali.hr.time.assignment.validation;
 
-import java.sql.Date;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;

@@ -16,7 +16,6 @@
 package org.kuali.hr.lm.leaveblock.service;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -64,10 +63,10 @@ public class LeaveBlockHistoryServiceImplTest extends KPMETestCase {
 	public void testGetLeaveBlockHistoriesForLeaveDisplay() {
 		Calendar currCal = Calendar.getInstance();
 		currCal.set(2012, 0, 1);
-		Date beginDate = TKUtils.getTimelessDate(currCal.getTime());
+		LocalDate beginDate = LocalDate.fromCalendarFields(currCal);
 		currCal.set(2012, 11, 31);
-		Date endDate = TKUtils.getTimelessDate(currCal.getTime());
-        List<LeaveBlockHistory> leaveBlockHistories= leaveBlockHistoryService.getLeaveBlockHistoriesForLeaveDisplay("admin", LocalDate.fromDateFields(beginDate), LocalDate.fromDateFields(endDate), Boolean.TRUE);
+		LocalDate endDate = LocalDate.fromCalendarFields(currCal);
+        List<LeaveBlockHistory> leaveBlockHistories= leaveBlockHistoryService.getLeaveBlockHistoriesForLeaveDisplay("admin", beginDate, endDate, Boolean.TRUE);
         Assert.assertNotNull("Leave Block histories for leavedisplay  not found ", leaveBlockHistories);
 	}
 	@Test

@@ -203,7 +203,7 @@ public class ActionFormUtils {
             timeBlockMap.put("earnCode", timeBlock.getEarnCode());
             timeBlockMap.put("earnCodeDesc", TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), LocalDate.now()).getDescription());
             //TODO: need to cache this or pre-load it when the app boots up
-            // EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
+            // EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), timeBlock.getBeginDateTime().toLocalDate());
             timeBlockMap.put("earnCodeType", timeBlock.getEarnCodeType());
 
             // TODO: Cleanup the start / end time related properties. We certainly don't need all of them.

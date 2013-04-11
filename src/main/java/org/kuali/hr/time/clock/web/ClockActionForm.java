@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
@@ -35,7 +36,6 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 public class ClockActionForm extends TimesheetActionForm {
@@ -133,7 +133,7 @@ public class ClockActionForm extends TimesheetActionForm {
 	}
 	
 	public String getUserSystemOffsetServerTime(){
-		DateTime dt = new DateTime(TKUtils.getCurrentDate().getTime()+getUserTimezoneOffset());
+		DateTime dt = new DateTime(LocalDate.now().toDate().getTime()+getUserTimezoneOffset());
 		return String.valueOf(dt.getMillis());
 	}
 	

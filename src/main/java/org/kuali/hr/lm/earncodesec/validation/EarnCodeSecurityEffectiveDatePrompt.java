@@ -15,17 +15,18 @@
  */
 package org.kuali.hr.lm.earncodesec.validation;
 
-
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class EarnCodeSecurityEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
-    @Override
+    
+	@Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
-        EarnCodeSecurity earnCodeSecurity = (EarnCodeSecurity)pbo;
+        EarnCodeSecurity earnCodeSecurity = (EarnCodeSecurity) pbo;
         int numberOfNewer = TkServiceLocator.getEarnCodeSecurityService().getNewerEarnCodeSecurityCount(earnCodeSecurity.getEarnCode(), earnCodeSecurity.getEffectiveLocalDate());
         return numberOfNewer > 0;
     }
+	
 }

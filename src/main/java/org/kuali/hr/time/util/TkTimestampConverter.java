@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 
 import org.apache.ojb.broker.accesslayer.conversions.ConversionException;
 import org.apache.ojb.broker.accesslayer.conversions.FieldConversion;
+import org.joda.time.LocalDate;
 
 public class TkTimestampConverter implements FieldConversion{
 
@@ -30,7 +31,7 @@ public class TkTimestampConverter implements FieldConversion{
 	@Override
 	public Object javaToSql(Object arg0) throws ConversionException {
 		if(arg0 == null){
-			return new Timestamp(TKUtils.getCurrentDate().getTime());
+			return new Timestamp(LocalDate.now().toDate().getTime());
 		}
 		return arg0;
 	}

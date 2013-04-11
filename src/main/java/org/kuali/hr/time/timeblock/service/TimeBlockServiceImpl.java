@@ -26,7 +26,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
-import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
@@ -196,7 +195,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
     public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean clockLogCreated, Boolean lunchDeleted, String userPrincipalId) {
         DateTimeZone timezone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-        EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, LocalDate.fromDateFields(timesheetDocument.getAsOfDate()));
+        EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, timesheetDocument.getAsOfDate());
 
         TimeBlock tb = new TimeBlock();
         tb.setDocumentId(timesheetDocument.getDocumentHeader().getDocumentId());

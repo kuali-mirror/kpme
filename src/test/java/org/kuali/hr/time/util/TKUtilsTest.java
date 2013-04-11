@@ -16,9 +16,9 @@
 package org.kuali.hr.time.util;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;

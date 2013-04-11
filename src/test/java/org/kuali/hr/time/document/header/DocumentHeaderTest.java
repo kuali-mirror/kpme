@@ -17,6 +17,7 @@ package org.kuali.hr.time.document.header;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -24,7 +25,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.test.TkTestUtils;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -69,24 +69,24 @@ public class DocumentHeaderTest extends KPMETestCase {
 		TimesheetDocumentHeader tdh = new TimesheetDocumentHeader();
 		tdh.setDocumentId("1234");
 		tdh.setPrincipalId("admin");
-		tdh.setBeginDate(TKUtils.getCurrentDate());
-		tdh.setEndDate(TKUtils.getCurrentDate());
+		tdh.setBeginDate(LocalDate.now().toDate());
+		tdh.setEndDate(LocalDate.now().toDate());
 		
 		KRADServiceLocator.getBusinessObjectService().save(tdh);
 		
 		tdh = new TimesheetDocumentHeader();
 		tdh.setDocumentId("1000");
 		tdh.setPrincipalId("admin");
-		tdh.setBeginDate(TKUtils.getCurrentDate());
-		tdh.setEndDate(TKUtils.getCurrentDate());
+		tdh.setBeginDate(LocalDate.now().toDate());
+		tdh.setEndDate(LocalDate.now().toDate());
 		
 		KRADServiceLocator.getBusinessObjectService().save(tdh);
 		
 		tdh = new TimesheetDocumentHeader();
 		tdh.setDocumentId("2345");
 		tdh.setPrincipalId("admin");
-		tdh.setBeginDate(TKUtils.getCurrentDate());
-		tdh.setEndDate(TKUtils.getCurrentDate());
+		tdh.setBeginDate(LocalDate.now().toDate());
+		tdh.setEndDate(LocalDate.now().toDate());
 		
 		KRADServiceLocator.getBusinessObjectService().save(tdh);
 	}

@@ -33,7 +33,6 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
-import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -165,7 +164,7 @@ public class TimesheetSubmitAction extends TkAction {
             }
         }
         
-        TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(document, LocalDate.fromDateFields(document.getAsOfDate()));
+        TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(document, document.getAsOfDate());
         ActionRedirect rd = new ActionRedirect(mapping.findForward("timesheetRedirect"));
         rd.addParameter("documentId", tsaf.getDocumentId());
 

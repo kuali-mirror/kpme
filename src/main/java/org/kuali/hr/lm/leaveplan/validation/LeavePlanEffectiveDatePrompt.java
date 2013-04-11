@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.lm.leaveplan.validation;
 
-
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -23,10 +22,18 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class LeavePlanEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
-    @Override
+    
+	@Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
-        LeavePlan leavePlan = (LeavePlan)pbo;
+    	boolean futureEffectiveDateExists = false;
+    	
+        LeavePlan leavePlan = (LeavePlan) pbo;
         LeavePlan lastLeavePlan = TkServiceLocator.getLeavePlanService().getLeavePlan(leavePlan.getLeavePlan(), TKUtils.END_OF_TIME);
-        return lastLeavePlan != null && TKUtils.getTimelessDate(lastLeavePlan.getEffectiveDate()).after(TKUtils.getTimelessDate(leavePlan.getEffectiveDate()));
+        if (lastLeavePlan != null && lastLeavePlan.getEffectiveLocalDate() != null && leavePlan.getEffectiveLocalDate() != null) {
+        	futureEffectiveDateExists = lastLeavePlan.getEffectiveLocalDate().isAfter(leavePlan.getEffectiveLocalDate());
+        }
+        
+        return futureEffectiveDateExists;
     }
+	
 }

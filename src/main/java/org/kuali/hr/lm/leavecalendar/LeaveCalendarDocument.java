@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
@@ -93,8 +94,8 @@ public class LeaveCalendarDocument implements CalendarDocumentContract, Serializ
 	}
 
     @Override
-    public java.sql.Date getAsOfDate(){
-        return new java.sql.Date(getCalendarEntry().getBeginPeriodDateTime().getTime());
+    public LocalDate getAsOfDate(){
+        return getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
     }
 	
 	

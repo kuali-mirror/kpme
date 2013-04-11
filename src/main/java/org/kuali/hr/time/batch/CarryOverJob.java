@@ -15,6 +15,14 @@
  */
 package org.kuali.hr.time.batch;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -36,7 +44,6 @@ import org.kuali.hr.time.calendar.service.CalendarEntryService;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.service.PrincipalHRAttributesService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.api.identity.principal.Principal;
@@ -45,9 +52,6 @@ import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-
-import java.sql.Timestamp;
-import java.util.*;
 
 public class CarryOverJob implements Job{
 
@@ -231,7 +235,7 @@ public class CarryOverJob implements Job{
 
                 LeaveBlock leaveBlock = new LeaveBlock();
                 leaveBlock.setAccrualCategory(lsr.getAccrualCategory());
-                leaveBlock.setLeaveDate(TKUtils.getTimelessDate(prevCalEndDate.toDateMidnight().toDate()));
+                leaveBlock.setLeaveLocalDate(prevCalEndDate.toLocalDate());
                 leaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER);
 
                 //More than one earn code can be associated with an accrual category. Which one does this get?

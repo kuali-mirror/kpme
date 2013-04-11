@@ -27,12 +27,9 @@ import org.kuali.hr.util.filter.TestAutoLoginFilter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-import java.sql.Date;
-
-
 public abstract class LeaveCalendarWebTestBase extends KPMETestCase {
     private static final Logger LOG = Logger.getLogger(LeaveCalendarWebTestBase.class);
-    public static final Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+    public static final DateTime JAN_AS_OF_DATE = new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
     public static final String USER_PRINCIPAL_ID = "admin";
 
     private String baseDetailURL = ""; // moved to setUp() method -- initialization order for TkTestConstants problem.

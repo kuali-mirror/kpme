@@ -73,7 +73,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         JSONArray errorMsgList = new JSONArray();
         List<String> errors;
         
-    	EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), LocalDate.fromDateFields(tdaf.getTimesheetDocument().getAsOfDate()));
+    	EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument().getAsOfDate());
     	if(ec != null 
     			&& (ec.getLeavePlan() != null || ec.getEligibleForAccrual().equals("N"))) {	// leave blocks changes
     		errors = this.validateLeaveEntry(tdaf);
@@ -136,7 +136,7 @@ public class TimeDetailWSAction extends TimesheetAction {
                 if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
                         assignment.getWorkArea().compareTo(key.getWorkArea()) == 0 &&
                         assignment.getTask().compareTo(key.getTask()) == 0) {
-                    List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, LocalDate.fromDateFields(tdaf.getTimesheetDocument().getAsOfDate()));
+                    List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, tdaf.getTimesheetDocument().getAsOfDate());
                     for (EarnCode earnCode : earnCodes) {
                         Map<String, Object> earnCodeMap = new HashMap<String, Object>();
                         earnCodeMap.put("assignment", assignment.getAssignmentKey());

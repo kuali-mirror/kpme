@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.earncode.validation;
 
-
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -23,10 +22,18 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class EarnCodeEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
-    @Override
+    
+	@Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
-        EarnCode earnCode = (EarnCode)pbo;
+    	boolean futureEffectiveDateExists = false;
+    	
+        EarnCode earnCode = (EarnCode) pbo;
         EarnCode lastEarnCode = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode.getEarnCode(), TKUtils.END_OF_TIME);
-        return lastEarnCode != null && TKUtils.getTimelessDate(lastEarnCode.getEffectiveDate()).after(TKUtils.getTimelessDate(earnCode.getEffectiveDate()));
+        if (lastEarnCode != null && lastEarnCode.getEffectiveLocalDate() != null && earnCode.getEffectiveLocalDate() != null) {
+        	futureEffectiveDateExists = lastEarnCode.getEffectiveLocalDate().isAfter(earnCode.getEffectiveLocalDate());
+        }
+        
+        return futureEffectiveDateExists;
     }
+	
 }

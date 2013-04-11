@@ -16,7 +16,6 @@
 package org.kuali.hr.time.shiftdiff.rule.service;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +49,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 
 
 	public static final String USER_PRINCIPAL_ID = "admin";
-	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+	private DateTime JAN_AS_OF_DATE = new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
 
 	/**
@@ -383,7 +382,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		sdr.setMaxGap(maxGap);
 		sdr.setActive(true);
 		sdr.setUserPrincipalId(USER_PRINCIPAL_ID);
-		sdr.setEffectiveDate(JAN_AS_OF_DATE);
+		sdr.setEffectiveLocalDate(JAN_AS_OF_DATE.toLocalDate());
 		sdr.setLocation(location);
 		sdr.setPayGrade(payGrade);
 		sdr.setHrSalGroup(hrSalGroup);

@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.lm.accrual.validation;
 
-
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -23,10 +22,18 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class AccrualCategoryEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
-    @Override
+    
+	@Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
-        AccrualCategory accrualCategory = (AccrualCategory)pbo;
+    	boolean futureEffectiveDateExists = false;
+    	
+        AccrualCategory accrualCategory = (AccrualCategory) pbo;
         AccrualCategory latestAccrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory.getAccrualCategory(), TKUtils.END_OF_TIME);
-        return latestAccrualCategory != null && TKUtils.getTimelessDate(latestAccrualCategory.getEffectiveDate()).after(TKUtils.getTimelessDate(accrualCategory.getEffectiveDate()));
+        if (latestAccrualCategory != null && latestAccrualCategory.getEffectiveLocalDate() != null && accrualCategory.getEffectiveLocalDate() != null) {
+        	futureEffectiveDateExists = latestAccrualCategory.getEffectiveLocalDate().isAfter(accrualCategory.getEffectiveLocalDate());
+        }
+        
+        return futureEffectiveDateExists;
     }
+	
 }

@@ -15,8 +15,8 @@
  */
 package org.kuali.hr.lm.employeeoverride;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
@@ -34,7 +34,7 @@ public class EmployeeOverrideInquirableTest extends KPMETestCase {
 		EmployeeOverride eo = new EmployeeOverride();
 		eo.setAccrualCategory("testAC");
 		eo.setLeavePlan("testLeavePlan");
-		Date aDate = new java.sql.Date(new SimpleDateFormat("MM/dd/yyyy").parse("03/04/2012").getTime());
+		Date aDate = new SimpleDateFormat("MM/dd/yyyy").parse("03/04/2012");
 		eo.setEffectiveDate(aDate);
 		
 		HtmlData hd = (HtmlData) new TkInquirableImpl().getInquiryUrl(eo, "accrualCategory", false);

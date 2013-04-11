@@ -15,8 +15,6 @@
  */
 package org.kuali.hr.time.workarea;
 
-import java.sql.Date;
-
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
@@ -46,7 +44,7 @@ public class WorkAreaMaintenanceTest extends KPMETestCase {
 		workArea.setTkWorkAreaId("1111");
 		workArea.setWorkArea(4444L);
 		workArea.setOvertimeEditRole("Employee");
-		workArea.setEffectiveDate(new Date(System.currentTimeMillis()));
+		workArea.setEffectiveLocalDate(LocalDate.now());
 		KRADServiceLocator.getBusinessObjectService().save(workArea);
 	}
 

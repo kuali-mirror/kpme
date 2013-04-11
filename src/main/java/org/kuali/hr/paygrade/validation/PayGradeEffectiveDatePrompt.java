@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.paygrade.validation;
 
-
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -23,10 +22,18 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class PayGradeEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
-    @Override
+    
+	@Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
-        PayGrade payGrade = (PayGrade)pbo;
+    	boolean futureEffectiveDateExists = false;
+    	
+        PayGrade payGrade = (PayGrade) pbo;
         PayGrade lastPayGrade = TkServiceLocator.getPayGradeService().getPayGrade(payGrade.getPayGrade(), TKUtils.END_OF_TIME);
-        return lastPayGrade != null && TKUtils.getTimelessDate(lastPayGrade.getEffectiveDate()).after(TKUtils.getTimelessDate(payGrade.getEffectiveDate()));
+        if (lastPayGrade != null && lastPayGrade.getEffectiveLocalDate() != null && payGrade.getEffectiveLocalDate() != null) {
+        	futureEffectiveDateExists = lastPayGrade.getEffectiveLocalDate().isAfter(payGrade.getEffectiveLocalDate());
+        }
+        
+        return futureEffectiveDateExists;
     }
+	
 }

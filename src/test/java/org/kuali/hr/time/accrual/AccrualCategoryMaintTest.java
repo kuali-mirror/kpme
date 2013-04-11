@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.time.accrual;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -33,7 +33,7 @@ public class AccrualCategoryMaintTest extends KPMETestCase {
 
 	private static final String TEST_CODE = "_T";
 	private static String accrualCategoryId;
-	private static final Date TEST_DATE = new Date(Calendar.getInstance().getTimeInMillis());
+	private static final LocalDate TEST_DATE = LocalDate.now();
 	private static final Timestamp TEST_TIMESTAMP = new Timestamp(Calendar.getInstance().getTimeInMillis());
 
 	@Test
@@ -53,7 +53,7 @@ public class AccrualCategoryMaintTest extends KPMETestCase {
 		accrualCategory.setAccrualCategory(TEST_CODE);
 		accrualCategory.setActive(true);
 		accrualCategory.setDescr(TEST_CODE);
-		accrualCategory.setEffectiveDate(TEST_DATE);
+		accrualCategory.setEffectiveLocalDate(TEST_DATE);
 		accrualCategory.setTimestamp(TEST_TIMESTAMP);
         accrualCategory.setLeavePlan("");
         accrualCategory.setAccrualEarnInterval("");

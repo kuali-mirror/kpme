@@ -16,7 +16,6 @@
 package org.kuali.hr.time.overtime.weekly.rule.service;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -101,7 +100,6 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		DateTime start = new DateTime(2010, 3, 29, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		DateTime beginPeriodDate = new DateTime(2010, 3, 15, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		DateTime endPeriodDate = new DateTime(2010, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-        Date calEntryEndDate = new Date(new DateTime(2010, 4, 1, 0, 0, 0).getMillis());
 		CalendarEntry endOfMarch = TkServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfMarch);
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), beginPeriodDate.toLocalDate());
@@ -275,7 +273,7 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		weeklyOvertimeRule.setMaxHoursEarnGroup(maxHoursEarnGroup);
 		weeklyOvertimeRule.setStep(new BigDecimal(step));
 		weeklyOvertimeRule.setMaxHours(maxHours);
-		weeklyOvertimeRule.setEffectiveDate(new java.sql.Date(effectiveDate.toDate().getTime()));
+		weeklyOvertimeRule.setEffectiveLocalDate(effectiveDate);
 		
 		weeklyOvertimeRule.setTkWeeklyOvertimeRuleGroupId(1L);
 		

@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.assignment.Assignment;
@@ -85,7 +84,7 @@ public class TkWorkflowLeaveCalendarAttribute extends AbstractRoleAttribute {
 		List<Id> principals = new ArrayList<Id>();
 		String routeHeaderId = routeContext.getDocument().getDocumentId();
 		LeaveCalendarDocument leaveCalendarDocument = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(routeHeaderId);
-		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, LocalDate.fromDateFields(leaveCalendarDocument.getAsOfDate()));
+		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leaveCalendarDocument.getAsOfDate());
 
 		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 		

@@ -40,7 +40,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
       * Returns valid TimeCollectionRule based on dept,workArea, and asOfDate
       * dept and work area are wildcardable values
       * @see org.kuali.hr.time.timecollection.rule.dao.TimeCollectionRuleDaoService#getTimeCollectionRule(java.lang.String dept,
-      * java.lang.Long workArea, java.sql.Date asOfDate)
+      * java.lang.Long workArea, org.joda.time.LocalDate asOfDate)
       */
 
     @Override

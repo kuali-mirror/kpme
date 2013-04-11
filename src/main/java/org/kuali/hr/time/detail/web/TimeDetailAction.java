@@ -241,7 +241,7 @@ public class TimeDetailAction extends TimesheetAction {
         tdaf.setTimeBlockString(ActionFormUtils.getTimeBlocksJson(tbAggregate.getFlattenedTimeBlockList()));
         tdaf.setLeaveBlockString(ActionFormUtils.getLeaveBlocksJson(lbAggregate.getFlattenedLeaveBlockList()));
 
-        tdaf.setOvertimeEarnCodes(TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(LocalDate.fromDateFields(TKContext.getCurrentTimesheetDocument().getAsOfDate())));
+        tdaf.setOvertimeEarnCodes(TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDocument().getAsOfDate()));
 
         if (StringUtils.equals(TKContext.getCurrentTimesheetDocument().getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())) {
         	tdaf.setWorkingOnItsOwn("true");
@@ -406,7 +406,7 @@ public class TimeDetailAction extends TimesheetAction {
         	this.removeOldLeaveBlock(tdaf.getLmLeaveBlockId());
         }
         if(StringUtils.isNotEmpty(tdaf.getSelectedEarnCode())) {
-        	EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), LocalDate.fromDateFields(tdaf.getTimesheetDocument().getAsOfDate()));
+        	EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument().getAsOfDate());
         	if(ec != null && (ec.getLeavePlan() != null || ec.getEligibleForAccrual().equals("N"))) {	// leave blocks changes
         		this.changeLeaveBlocks(tdaf);
         	} else {	// time blocks changes

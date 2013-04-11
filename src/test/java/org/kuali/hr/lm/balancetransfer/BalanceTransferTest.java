@@ -18,7 +18,6 @@ package org.kuali.hr.lm.balancetransfer;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 
 import junit.framework.Assert;
 
@@ -45,7 +44,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class BalanceTransferTest extends LeaveCalendarWebTestBase {
     private static final Logger LOG = Logger.getLogger(BalanceTransferTest.class);
     public static final String USER_PRINCIPAL_ID = "admin";
-	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 	private BalanceTransfer balanceTransfer;
 	
 	@Override

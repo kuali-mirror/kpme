@@ -40,7 +40,7 @@ public interface AccrualService {
 	 * @param earnInterval
 	 * @return boolean
 	 */
-	public boolean isDateAtEarnInterval(java.util.Date aDate, String earnInterval);
+	public boolean isDateAtEarnInterval(Date aDate, String earnInterval);
 	
 	/**
 	 * build a RateRangeAggregate with given parameters
@@ -74,7 +74,7 @@ public interface AccrualService {
 	 * @param aDate
 	 * @return
 	 */
-	public Date getPreviousAccrualIntervalDate(String earnInterval, Date aDate);
+	public Date getPreviousAccrualIntervalDate(String earnInterval, LocalDate aDate);
 	
 	/**
 	 * get the accrual interval date of the next accrual period with given parameters
@@ -82,7 +82,7 @@ public interface AccrualService {
 	 * @param aDate
 	 * @return
 	 */
-	public Date getNextAccrualIntervalDate(String earnInterval, Date aDate);
+	public Date getNextAccrualIntervalDate(String earnInterval, LocalDate aDate);
 
 	/**
 	 * calculate # of work days in an accrual period
@@ -90,7 +90,7 @@ public interface AccrualService {
 	 * @param aDate
 	 * @return	int
 	 */
-	public int getWorkDaysInAccrualInterval(String earnInterval, Date aDate);
+	public int getWorkDaysInAccrualInterval(String earnInterval, LocalDate aDate);
 	
 	public boolean statusChangedSinceLastRun(String principalId);
 	

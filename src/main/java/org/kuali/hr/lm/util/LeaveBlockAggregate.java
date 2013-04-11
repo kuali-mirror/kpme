@@ -86,13 +86,13 @@ public class LeaveBlockAggregate {
 		for(Interval dayInt : dayIntervals){
 			List<LeaveBlock> dayLeaveBlocks = new ArrayList<LeaveBlock>();
 			DateTime localTime = (new DateTime(dayInt.getStart())).toLocalDateTime().toDateTime();
-			String intervalStartDateString = TKUtils.getTimelessDate(localTime.toDate()).toString();
+			String intervalStartDateString = localTime.toLocalDate().toString();
 			
 			for(LeaveBlock leaveBlock : leaveBlocks){
 				// if the interval end time is 0, ie the beginning of a day, use the date string of the interval start time
 				// to check if the leave block should go into this interval. Leave blocks only have leaveDate, there's no leave time
 				if(dayInt.getEnd().getHourOfDay() == 0) {
-					String lbDateString = TKUtils.getTimelessDate(leaveBlock.getLeaveDate()).toString();
+					String lbDateString = leaveBlock.getLeaveLocalDate().toString();
 					if(intervalStartDateString.equals(lbDateString)) {
 						dayLeaveBlocks.add(leaveBlock);
 					}

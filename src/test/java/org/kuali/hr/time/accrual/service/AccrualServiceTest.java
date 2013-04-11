@@ -16,8 +16,8 @@
 package org.kuali.hr.time.accrual.service;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -151,7 +151,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		
 		aCal.add(Calendar.MONTH, 18);
 		
-		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		Date endDate = new Date(aCal.getTime().getTime());
 		// lookup future leave blocks up to 18 months in the future
 		List<LeaveBlock> leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, currentDate, LocalDate.fromCalendarFields(aCal));
 		
@@ -160,7 +160,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		
 		aCal.setTime(currentDate.toDate());
 		aCal.add(Calendar.MONTH, -5);
-		Date startDate = new java.sql.Date(aCal.getTime().getTime());
+		Date startDate = new Date(aCal.getTime().getTime());
 		// lookup leave blocks including past and future
 		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, LocalDate.fromDateFields(startDate), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There should be  " + allSize + " leave blocks for employee 'testUser', not " + leaveBlockList.size(), leaveBlockList.size()== allSize);
@@ -177,7 +177,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 Calendar aCal = Calendar.getInstance();
 		 aCal.setTime(START_DATE.toDate());
 		 aCal.add(Calendar.MONTH, 15);
-		 Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		 Date endDate = new Date(aCal.getTime().getTime());
 		 
 		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
@@ -430,7 +430,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 Calendar aCal = Calendar.getInstance();
 		 aCal.setTime(START_DATE.toDate());
 		 aCal.add(Calendar.MONTH, 18);
-		 Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		 Date endDate = new Date(aCal.getTime().getTime());
 		 
 		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
@@ -479,7 +479,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(START_DATE.toDate());
 		aCal.add(Calendar.MONTH, 18);
-		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		Date endDate = new Date(aCal.getTime().getTime());
 		 
 		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
@@ -525,7 +525,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(START_DATE.toDate());
 		aCal.add(Calendar.MONTH, 18);
-		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		Date endDate = new Date(aCal.getTime().getTime());
 		 
 		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
@@ -572,7 +572,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(START_DATE.toDate());
 		aCal.add(Calendar.MONTH, 18);
-		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		Date endDate = new Date(aCal.getTime().getTime());
 		 
 		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
@@ -623,7 +623,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 Calendar aCal = Calendar.getInstance();
 		 aCal.setTime(START_DATE.toDate());	// 02/10/2012	
 		 aCal.add(Calendar.MONTH, 10);	// 12/10/2012
-		 Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		 Date endDate = new Date(aCal.getTime().getTime());
 		 
 		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
@@ -686,7 +686,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		Calendar aCal = Calendar.getInstance();
 		 aCal.setTime(START_DATE.toDate());	// 02/20/2012	
 		 aCal.add(Calendar.MONTH, 5);	// 7/20/2012
-		 Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		 Date endDate = new Date(aCal.getTime().getTime());
 		 
 		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There should be 4 leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.size() == 4);
@@ -757,7 +757,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		Calendar aCal = Calendar.getInstance();
 		 aCal.setTime(START_DATE.toDate());	// 02/20/2012	
 		 aCal.add(Calendar.MONTH, 6);	// 8/20/2012
-		 Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		 Date endDate = new Date(aCal.getTime().getTime());
 		 
 		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
@@ -805,7 +805,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(START_DATE.toDate());
 		aCal.add(Calendar.MONTH, 6);
-		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		Date endDate = new Date(aCal.getTime().getTime());
 		 
 		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
@@ -836,7 +836,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(START_DATE.toDate());
 		aCal.add(Calendar.MONTH, 6);
-		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		Date endDate = new Date(aCal.getTime().getTime());
 		 
 		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
@@ -889,7 +889,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(START_DATE.toDate());
 		aCal.add(Calendar.MONTH, 6);
-		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		Date endDate = new Date(aCal.getTime().getTime());
 		 
 		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
@@ -941,7 +941,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(START_DATE.toDate());
 		aCal.add(Calendar.MONTH, 6);
-		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		Date endDate = new Date(aCal.getTime().getTime());
 		 
 		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
@@ -992,7 +992,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(START_DATE.toDate());
 		aCal.add(Calendar.MONTH, 18);
-		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		Date endDate = new Date(aCal.getTime().getTime());
 		 
 		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
@@ -1022,7 +1022,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(START_DATE.toDate());
 		aCal.add(Calendar.MONTH, 3);
-		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		Date endDate = new Date(aCal.getTime().getTime());
 		 
 		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
@@ -1064,7 +1064,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(START_DATE.toDate());
 		aCal.add(Calendar.MONTH, 3);
-		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		Date endDate = new Date(aCal.getTime().getTime());
 		 
 		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There should be 1 leave blocks for princiapl id before runAccrual" + principal_id, leaveBlockList.size() == 2);

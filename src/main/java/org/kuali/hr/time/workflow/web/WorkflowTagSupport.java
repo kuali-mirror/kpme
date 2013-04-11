@@ -15,13 +15,13 @@
  */
 package org.kuali.hr.time.workflow.web;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
@@ -29,7 +29,6 @@ import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.doctype.SecuritySession;
@@ -57,8 +56,8 @@ public class WorkflowTagSupport {
     
     public boolean isDisplayingCurrentPeriodRouteButtonWithNoDelinquencies() {
     	LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
-    	if (TKUtils.getCurrentDate().after(DateUtils.addMilliseconds(doc.getCalendarEntry().getBeginPeriodDate(),1)) &&
-    			TKUtils.getCurrentDate().before(DateUtils.addMilliseconds(doc.getCalendarEntry().getEndPeriodDate(), -1))) {
+    	if (LocalDate.now().toDate().after(DateUtils.addMilliseconds(doc.getCalendarEntry().getBeginPeriodDate(),1)) &&
+    			LocalDate.now().toDate().before(DateUtils.addMilliseconds(doc.getCalendarEntry().getEndPeriodDate(), -1))) {
     		if (!isDelinquent(doc) && isDisplayingRouteButton(doc)) {
     			return true;
     		} else {
@@ -71,8 +70,8 @@ public class WorkflowTagSupport {
     
     public boolean isDisplayingCurrentPeriodTimesheetRouteButtonWithNoDelinquencies() {
     	TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
-    	if (TKUtils.getCurrentDate().after(DateUtils.addMilliseconds(doc.getCalendarEntry().getBeginPeriodDate(),1)) &&
-    			TKUtils.getCurrentDate().before(DateUtils.addMilliseconds(doc.getCalendarEntry().getEndPeriodDate(), -1))) {
+    	if (LocalDate.now().toDate().after(DateUtils.addMilliseconds(doc.getCalendarEntry().getBeginPeriodDate(),1)) &&
+    			LocalDate.now().toDate().before(DateUtils.addMilliseconds(doc.getCalendarEntry().getEndPeriodDate(), -1))) {
     		if (isDisplayingRouteButton(doc)) {
     			return true;
     		} else {
@@ -129,9 +128,8 @@ public class WorkflowTagSupport {
      */
     public boolean isRouteLeaveButtonEnabled() {
         LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
-        Date asOfDate = TKUtils.getTimelessDate(null);
         return isRouteButtonEnabled(doc) && !isDelinquent(doc) 
-        		&& (TkServiceLocator.getLMPermissionService().canViewLeaveTabsWithEStatus() && asOfDate.compareTo(doc.getDocumentHeader().getEndDate()) > 0);
+        		&& (TkServiceLocator.getLMPermissionService().canViewLeaveTabsWithEStatus() && LocalDate.now().toDate().compareTo(doc.getDocumentHeader().getEndDate()) > 0);
     }
 
     private boolean isRouteButtonEnabled(CalendarDocumentContract doc) {

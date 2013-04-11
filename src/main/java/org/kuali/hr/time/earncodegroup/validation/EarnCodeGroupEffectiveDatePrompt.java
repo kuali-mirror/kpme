@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.earncodegroup.validation;
 
-
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -23,10 +22,18 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class EarnCodeGroupEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
-    @Override
+    
+	@Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
-        EarnCodeGroup earnCodeGroup = (EarnCodeGroup)pbo;
+    	boolean futureEffectiveDateExists = false;
+    	
+        EarnCodeGroup earnCodeGroup = (EarnCodeGroup) pbo;
         EarnCodeGroup lastEarnCodeGroup = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(earnCodeGroup.getEarnCodeGroup(), TKUtils.END_OF_TIME);
-        return lastEarnCodeGroup != null && TKUtils.getTimelessDate(lastEarnCodeGroup.getEffectiveDate()).after(TKUtils.getTimelessDate(earnCodeGroup.getEffectiveDate()));
+        if (lastEarnCodeGroup != null && lastEarnCodeGroup.getEffectiveLocalDate() != null && earnCodeGroup.getEffectiveLocalDate() != null) {
+        	futureEffectiveDateExists = lastEarnCodeGroup.getEffectiveLocalDate().isAfter(earnCodeGroup.getEffectiveLocalDate());
+        }
+        
+        return futureEffectiveDateExists;
     }
+	
 }
