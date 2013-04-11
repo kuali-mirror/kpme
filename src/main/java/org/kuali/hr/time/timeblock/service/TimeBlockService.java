@@ -135,7 +135,6 @@ public interface TimeBlockService {
 	 */
 	public List<TimeBlock> getTimeBlocksForClockLogBeginId(String tkClockLogId);
 	
-	public List<TimeBlock> getTimeBlocks();
 	public List<TimeBlock> getLatestEndTimestampForEarnCode(String earnCode);
 
     /**

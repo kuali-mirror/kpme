@@ -50,7 +50,6 @@ public interface TimeBlockDao {
 	 */
 	public List<TimeBlock> getTimeBlocksForClockLogBeginId(String tkClockLogId);
 	
-	public List<TimeBlock> getTimeBlocks();
 	public List<TimeBlock> getLatestEndTimestampForEarnCode(String earnCode);
 
     List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId);
