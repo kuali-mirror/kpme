@@ -197,7 +197,7 @@ public class Account extends PersistableBusinessObjectBase implements Inactivata
      * Note that this logic ignores all time components when doing the comparison. It only does the before/after comparison based on
      * date values, not time-values.
      * 
-     * @param testDate - java.util.Date instance with the date to test the Account's Expiration Date against. This is most commonly
+     * @param testDate - Date instance with the date to test the Account's Expiration Date against. This is most commonly
      *        set to today's date.
      * @return true or false based on the logic outlined above
      */

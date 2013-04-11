@@ -143,7 +143,7 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
         return getBeginPeriodFullDateTime().toLocalDateTime();
     }
     
-    public java.util.Date getEndPeriodDateTime() {
+    public Date getEndPeriodDateTime() {
         return endPeriodDateTime;
     }
 

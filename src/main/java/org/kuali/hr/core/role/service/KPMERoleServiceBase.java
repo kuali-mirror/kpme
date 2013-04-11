@@ -9,7 +9,6 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.lessThanOrEqual;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -107,8 +106,8 @@ public abstract class KPMERoleServiceBase {
 		
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		predicates.add(equal(KimConstants.PrimaryKeyConstants.SUB_ROLE_ID, roleId));
-		predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate.toDate())));
-		predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new Date())));
+		predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
+		predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new DateTime())));
 		
 		LookupCustomizer.Builder<RoleMemberBo> builder = LookupCustomizer.Builder.create();
 		builder.setPredicateTransform(AttributeTransform.getInstance());
@@ -239,8 +238,8 @@ public abstract class KPMERoleServiceBase {
 				List<Predicate> predicates = new ArrayList<Predicate>();
 				predicates.add(equal(KimConstants.PrimaryKeyConstants.SUB_ROLE_ID, role.getId()));
 				if (getActiveOnly) {
-					predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate.toDate())));
-					predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new Date())));
+					predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
+					predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new DateTime())));
 				}
 				
 				LookupCustomizer.Builder<RoleMemberBo> builder = LookupCustomizer.Builder.create();
@@ -489,8 +488,8 @@ public abstract class KPMERoleServiceBase {
 		predicates.add(or(principalPredicate, rolePredicate, groupPredicate));
 		
 		if (getActiveOnly) {
-			predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate.toDate())));
-			predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new Date())));
+			predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
+			predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new DateTime())));
 		}
 		
 		return getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates(predicates.toArray(new Predicate[] {}))).getResults();

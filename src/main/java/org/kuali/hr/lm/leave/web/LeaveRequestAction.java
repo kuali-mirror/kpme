@@ -64,7 +64,7 @@ public class LeaveRequestAction extends TkAction {
             leaveForm.setYear(leaveForm.getYear() - 1);
         }
         currentCalendar.set(leaveForm.getYear(), 0, 1);
-//        java.util.Date serviceDate = (principalHRAttributes != null) ? principalHRAttributes.getServiceDate() : TKUtils.getTimelessDate(currentCalendar.getTime());
+//        Date serviceDate = (principalHRAttributes != null) ? principalHRAttributes.getServiceDate() : TKUtils.getTimelessDate(currentCalendar.getTime());
         LocalDate beginDate = LocalDate.fromCalendarFields(currentCalendar);
         currentCalendar.set(leaveForm.getYear(), 11, 31);
         LocalDate endDate = LocalDate.fromCalendarFields(currentCalendar);

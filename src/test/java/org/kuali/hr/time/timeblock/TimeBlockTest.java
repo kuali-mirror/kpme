@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -67,8 +68,8 @@ public class TimeBlockTest extends KPMETestCase {
 	@Test
 	public void testTimeBlockBuilding() throws Exception {
 		CalendarEntry payCalendarEntry = new CalendarEntry();
-		java.util.Date beginDateTime = new java.util.Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		java.util.Date endDateTime = new java.util.Date((new DateTime(2010, 1, 15, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		Date beginDateTime = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		Date endDateTime = new Date((new DateTime(2010, 1, 15, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		payCalendarEntry.setBeginPeriodDateTime(beginDateTime);
 		payCalendarEntry.setEndPeriodDateTime(endDateTime);
 		
@@ -151,8 +152,8 @@ public class TimeBlockTest extends KPMETestCase {
 		Calendar payCalendar = new Calendar();
 		
 		CalendarEntry payCalendarEntry = new CalendarEntry();
-		java.util.Date beginDateTime = new java.util.Date(beginTime.getMillis());
-		java.util.Date endDateTime = new java.util.Date(endTime.getMillis());
+		Date beginDateTime = new Date(beginTime.getMillis());
+		Date endDateTime = new Date(endTime.getMillis());
 		payCalendarEntry.setBeginPeriodDateTime(beginDateTime);
 		payCalendarEntry.setEndPeriodDateTime(endDateTime);
 		

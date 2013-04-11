@@ -175,8 +175,8 @@ public class TimeBlockHistoryDetailLookupableHelperServiceImpl extends KualiLook
     public boolean inDateRange(Date asOfDate, String dateString) {
 		try {
 			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-			java.util.Date dateFrom = df.parse(TKUtils.getFromDateString(dateString));
-			java.util.Date dateTo = df.parse(TKUtils.getToDateString(dateString));;
+			Date dateFrom = df.parse(TKUtils.getFromDateString(dateString));
+			Date dateTo = df.parse(TKUtils.getToDateString(dateString));;
 			
 			if(dateString.indexOf("..") == 10) {
 				if(asOfDate != null) {

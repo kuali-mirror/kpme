@@ -17,6 +17,7 @@ package org.kuali.hr.time.batch;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -48,7 +49,7 @@ public class CarryOverSchedulerJob extends QuartzJobBean {
         		// schedule batch job for all LeavePlans who fall in leave polling window.
         		for(LeavePlan leavePlan : leavePlans) {
         			if(leavePlan.getBatchPriorYearCarryOverStartDate() != null  && leavePlan.getBatchPriorYearCarryOverStartTime() != null ) {
-        				java.util.Date batchDate = getBatchJobStartDateTime(leavePlan);
+        				Date batchDate = getBatchJobStartDateTime(leavePlan);
         				DateTime batchDateTime = new DateTime(batchDate.getTime());
         				if(batchDateTime.compareTo(windowStart) >= 0 && batchDateTime.compareTo(windowEnd) <= 0) {
         					getBatchJobService().scheduleLeaveCarryOverJobs(leavePlan);
@@ -77,7 +78,7 @@ public class CarryOverSchedulerJob extends QuartzJobBean {
 		CarryOverSchedulerJob.batchJobService = batchJobService;
 	}
 	
-	private java.util.Date getBatchJobStartDateTime(LeavePlan leavePlan) {
+	private Date getBatchJobStartDateTime(LeavePlan leavePlan) {
 		
 		String batchJobDate = leavePlan.getBatchPriorYearCarryOverStartDate();
 		
@@ -86,7 +87,7 @@ public class CarryOverSchedulerJob extends QuartzJobBean {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
 		sdf.setLenient(false);
 		
-		java.util.Date batchJobStart = null;
+		Date batchJobStart = null;
 		
 		try {
 			batchJobStart = sdf.parse(batchJobDate);

@@ -17,6 +17,7 @@ package org.kuali.hr.time.batch.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -329,7 +330,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 		batchJobTimeCal.setTimeInMillis(leavePlan.getBatchPriorYearCarryOverStartTime().getTime());
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
 		sdf.setLenient(false);
-		java.util.Date batchJobStart = null;
+		Date batchJobStart = null;
 		
 		try {
 			batchJobStart = sdf.parse(batchJobDate);

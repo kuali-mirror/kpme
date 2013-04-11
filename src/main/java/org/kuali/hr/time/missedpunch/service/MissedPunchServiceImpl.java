@@ -41,6 +41,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MissedPunchServiceImpl implements MissedPunchService {
@@ -60,7 +61,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 
     @Override
     public void updateClockLogAndTimeBlockIfNecessary(MissedPunchDocument missedPunch) {
-        java.util.Date actionDate = missedPunch.getActionDate();
+        Date actionDate = missedPunch.getActionDate();
         java.sql.Time actionTime = missedPunch.getActionTime();
 
         LocalTime actionTimeLocal = new LocalTime(actionTime.getTime());
@@ -107,14 +108,14 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 
     @Override
     public void addClockLogForMissedPunch(MissedPunchDocument missedPunch) {
-        java.util.Date actionDate = missedPunch.getActionDate();
+        Date actionDate = missedPunch.getActionDate();
         java.sql.Time actionTime = missedPunch.getActionTime();
 
         LocalTime actionTimeLocal = new LocalTime(actionTime.getTime());
         DateTime actionDateTime = new DateTime(actionDate.getTime());
 
         actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
-        missedPunch.setActionDate(new java.util.Date(actionDateTime.getMillis()));
+        missedPunch.setActionDate(new Date(actionDateTime.getMillis()));
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(tdoc, missedPunch.getAssignment());
         // Need to build a clock log entry.
@@ -144,14 +145,14 @@ public class MissedPunchServiceImpl implements MissedPunchService {
     // is called by updateClockLogAndTimeBlockIfNecessary when approver changes time on approving an existing missed punch doc
 
     public void addClockLogForMissedPunch(MissedPunchDocument missedPunch, String logEndId, String logBeginId) {
-        java.util.Date actionDate = missedPunch.getActionDate();
+        Date actionDate = missedPunch.getActionDate();
         java.sql.Time actionTime = missedPunch.getActionTime();
 
         LocalTime actionTimeLocal = new LocalTime(actionTime.getTime());
         DateTime actionDateTime = new DateTime(actionDate.getTime());
 
         actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
-        missedPunch.setActionDate(new java.util.Date(actionDateTime.getMillis()));
+        missedPunch.setActionDate(new Date(actionDateTime.getMillis()));
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(tdoc, missedPunch.getAssignment());
         // Need to build a clock log entry.

@@ -15,6 +15,8 @@
  */
 package org.kuali.hr.time;
 
+import java.util.Date;
+
 import javax.servlet.ServletContextEvent;
 
 import org.apache.log4j.LogManager;
@@ -40,7 +42,7 @@ public class ApplicationInitializeListener extends KualiInitializeListener {
 		throw new RuntimeException("Failed to start TK app lifecycle", e);
         }
         super.contextInitialized(servletContextEvent);
-        Formatter.registerFormatter(java.util.Date.class, DateFormatter.class);
+        Formatter.registerFormatter(Date.class, DateFormatter.class);
         LOG.info("\n\n\n\n\nTimekeeping started.  Have a nice day :)\n\n\n\n\n\n");
     }
 

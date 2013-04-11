@@ -17,6 +17,7 @@ package org.kuali.hr.time.missedpunch;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Date;
 
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 
@@ -29,7 +30,7 @@ public class MissedPunchDocument extends TransactionalDocumentBase {
 	
 	private String principalId;
 	private String clockAction;
-	private java.util.Date actionDate;
+	private Date actionDate;
 	private Time actionTime;
     private String timesheetDocumentId;
 	private String documentStatus;
@@ -52,10 +53,10 @@ public class MissedPunchDocument extends TransactionalDocumentBase {
 	public void setClockAction(String clockAction) {
 		this.clockAction = clockAction;
 	}
-	public java.util.Date getActionDate() {
+	public Date getActionDate() {
 		return actionDate;
 	}
-	public void setActionDate(java.util.Date actionDate) {
+	public void setActionDate(Date actionDate) {
 		this.actionDate = actionDate;
 	}
 	public Time getActionTime() {

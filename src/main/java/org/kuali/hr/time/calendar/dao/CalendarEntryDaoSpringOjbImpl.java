@@ -20,6 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -231,9 +232,9 @@ public class CalendarEntryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imple
         try {
 	    	 crit.addEqualTo("hrCalendarId", hrCalendarId);
 	    	 DateFormat df = new SimpleDateFormat("yyyy");
-	    	 java.util.Date cYear = df.parse(year);
+	    	 Date cYear = df.parse(year);
 	    	 String nextYear = Integer.toString((Integer.parseInt(year) + 1));
-	    	 java.util.Date nYear = df.parse(nextYear);
+	    	 Date nYear = df.parse(nextYear);
 	    	 
 	    	 crit.addGreaterOrEqualThan("beginPeriodDateTime", cYear);
 	    	 crit.addLessThan("beginPeriodDateTime", nYear );

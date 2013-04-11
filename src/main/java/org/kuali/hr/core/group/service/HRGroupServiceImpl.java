@@ -7,7 +7,6 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.lessThanOrEqual;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,7 +34,7 @@ public class HRGroupServiceImpl implements HRGroupService {
 			List<Predicate> predicates = new ArrayList<Predicate>();
 			predicates.add(equal("groupId", group.getId()));
 			predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
-			predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new Date())));
+			predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new DateTime())));
 			
 			List<GroupMember> groupMembers = getGroupService().findGroupMembers(QueryByCriteria.Builder.fromPredicates(predicates.toArray(new Predicate[] {}))).getResults();
 	

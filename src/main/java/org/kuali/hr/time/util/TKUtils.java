@@ -122,7 +122,7 @@ public class TKUtils {
 
 
 
-    public static int getNumberOfWeeks(java.util.Date beginDate, java.util.Date endDate) {
+    public static int getNumberOfWeeks(Date beginDate, Date endDate) {
 
         DateTime beginTime = new DateTime(beginDate);
         DateTime endTime = new DateTime(endDate);
@@ -211,7 +211,7 @@ public class TKUtils {
      * @return A List of Intervals of 7 day spans. The last Interval in the list
      *         may be less than seven days.
      */
-    public static List<Interval> getWeekIntervals(java.util.Date beginDate, java.util.Date endDate) {
+    public static List<Interval> getWeekIntervals(Date beginDate, Date endDate) {
         List<Interval> intervals = new ArrayList<Interval>();
         DateTime beginTime = new DateTime(beginDate);
         DateTime endTime = new DateTime(endDate);
@@ -491,7 +491,7 @@ public class TKUtils {
         return dayIntervals;
     }
     
-    public static java.util.Date removeTime(java.util.Date date) {    
+    public static Date removeTime(Date date) {    
         Calendar cal = Calendar.getInstance();  
         cal.setTime(date);  
         cal.set(Calendar.HOUR_OF_DAY, 0);  
@@ -501,7 +501,7 @@ public class TKUtils {
         return cal.getTime(); 
     }
     
-    public static int getWorkDays(java.util.Date startDate, java.util.Date endDate) {
+    public static int getWorkDays(Date startDate, Date endDate) {
     	int dayCounts = 0;
     	if(startDate.after(endDate)) {
     		return 0;
@@ -521,7 +521,7 @@ public class TKUtils {
     	return dayCounts;
     }
     
-    public static boolean isWeekend(java.util.Date aDate) {
+    public static boolean isWeekend(Date aDate) {
     	Calendar cal = Calendar.getInstance();
 		cal.setTime(aDate);
     	if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY 
@@ -531,14 +531,14 @@ public class TKUtils {
     	return false;
     }
     
-    public static java.util.Date addDates(java.util.Date aDate, int aNumber) {
+    public static Date addDates(Date aDate, int aNumber) {
     	Calendar gc = new GregorianCalendar();
 		gc.setTime(aDate);
 		gc.add(Calendar.DAY_OF_YEAR, aNumber);
 		return gc.getTime();
     }
     
-    public static java.util.Date addMonths(java.util.Date aDate, int aNumber) {
+    public static Date addMonths(Date aDate, int aNumber) {
     	Calendar gc = new GregorianCalendar();
 		gc.setTime(aDate);
 		gc.add(Calendar.MONTH, aNumber);

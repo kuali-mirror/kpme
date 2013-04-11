@@ -23,6 +23,7 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -47,8 +48,8 @@ public class TimesheetActionForm extends TkCommonCalendarForm {
 	private String calNav;
 	private String documentId;
 
-	private java.util.Date beginPeriodDateTime;
-	private java.util.Date endPeriodDateTime;
+	private Date beginPeriodDateTime;
+	private Date endPeriodDateTime;
 
     private String prevDocumentId;
     private String nextDocumentId;
@@ -116,11 +117,11 @@ public class TimesheetActionForm extends TkCommonCalendarForm {
 		this.calNav = calNav;
 	}
 
-	public java.util.Date getBeginPeriodDateTime() {
+	public Date getBeginPeriodDateTime() {
 		return getPayCalendarDates().getBeginPeriodDateTime();
 	}
 
-	public java.util.Date getEndPeriodDateTime() {
+	public Date getEndPeriodDateTime() {
 		return getPayCalendarDates().getEndPeriodDateTime();
 	}
 

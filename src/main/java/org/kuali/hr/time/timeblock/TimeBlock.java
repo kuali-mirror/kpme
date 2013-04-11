@@ -320,7 +320,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     /**
      * Helper to call DateTime.toDate().
      *
-     * @return a java.util.Date representing the getBeginTimeDisplay() DateTime.
+     * @return a date representing the getBeginTimeDisplay() DateTime.
      */
     public Date getBeginTimeDisplayDate() {
         return getBeginTimeDisplay().toDate();
@@ -371,7 +371,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     /**
      * Helper to call DateTime.toDate().
      *
-     * @return a java.util.Date representing the getEndTimeDisplay() DateTime.
+     * @return a date representing the getEndTimeDisplay() DateTime.
      */
     public Date getEndTimeDisplayDate() {
         return getEndTimeDisplay().toDate();
