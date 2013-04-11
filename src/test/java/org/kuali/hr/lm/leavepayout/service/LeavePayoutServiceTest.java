@@ -20,7 +20,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 import org.joda.time.LocalDate;
 import org.junit.After;
@@ -51,9 +50,7 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	private CalendarEntry decEntry;
 	
 	private LocalDate janStart;
-	private Date janEnd;
 	private LocalDate decStart;
-	private Date decEnd;
 	
 	private final String JAN_ID = "5001";
 	private final String DEC_ID = "5000";
@@ -72,13 +69,6 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	private CalendarEntry endDecTSDEntry;
 	private TimesheetDocument midDecTSD;
 	private CalendarEntry midDecTSDEntry;
-	
-	private Date midJanStart;
-	private Date midJanEnd;
-	private Date endDecStart;
-	private Date endDecEnd;
-	private Date midDecStart;
-	private Date midDecEnd;
 	
 	private final String TSD_MID_DEC_PERIOD_ID = "5000";
 	private final String TSD_END_DEC_PERIOD_ID = "5001";
@@ -114,11 +104,9 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 		janLCD = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(JAN_ID);
 		janEntry = janLCD.getCalendarEntry();
 		janStart = janEntry.getBeginPeriodFullDateTime().toLocalDate();
-		janEnd = janEntry.getEndPeriodDate();
 		decLCD = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(DEC_ID);
 		decEntry = decLCD.getCalendarEntry();
 		decStart = decEntry.getBeginPeriodFullDateTime().toLocalDate();
-		decEnd = decEntry.getEndPeriodDate();
 	}
 	
 	@After

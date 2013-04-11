@@ -18,7 +18,6 @@ package org.kuali.hr.time.approval.service;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -356,18 +355,16 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	/**
 	 * Get pay calendar labels for approval tab
 	 */
-	public List<String> getPayCalendarLabelsForApprovalTab(Date payBeginDate,
-			Date payEndDate) {
+	public List<String> getPayCalendarLabelsForApprovalTab(DateTime payBeginDate,
+			DateTime payEndDate) {
 		// :)
 		// http://stackoverflow.com/questions/111933/why-shouldnt-i-use-hungarian-notation
 		List<String> lstPayCalendarLabels = new ArrayList<String>();
-		DateTime payBegin = new DateTime(payBeginDate.getTime());
-		DateTime payEnd = new DateTime(payEndDate.getTime());
-		DateTime currTime = payBegin;
+		DateTime currTime = payBeginDate;
 		int dayCounter = 1;
 		int weekCounter = 1;
 
-		while (currTime.isBefore(payEnd)) {
+		while (currTime.isBefore(payEndDate)) {
 			String labelForDay = createLabelForDay(currTime);
 			lstPayCalendarLabels.add(labelForDay);
 			currTime = currTime.plusDays(1);

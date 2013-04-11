@@ -17,7 +17,6 @@ package org.kuali.hr.time.graceperiod.service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -36,7 +35,7 @@ public class GracePeriodRuleServiceTest extends KPMETestCase{
 	public void testGracePeriodRuleFetch() throws Exception{
 		GracePeriodRule gpr = new GracePeriodRule();
 		gpr.setActive(true);
-		gpr.setEffectiveDate(new Date(System.currentTimeMillis()));
+		gpr.setEffectiveLocalDate(LocalDate.now());
 		gpr.setHourFactor(new BigDecimal(0.1));
 		
 		KRADServiceLocator.getBusinessObjectService().save(gpr);
@@ -60,7 +59,7 @@ public class GracePeriodRuleServiceTest extends KPMETestCase{
 	public void testGracePeriodRuleTest() throws Exception{
 		GracePeriodRule gpr = new GracePeriodRule();
 		gpr.setActive(true);
-		gpr.setEffectiveDate(new Date(System.currentTimeMillis()));
+		gpr.setEffectiveLocalDate(LocalDate.now());
 		gpr.setHourFactor(new BigDecimal(3));
 		
 		KRADServiceLocator.getBusinessObjectService().save(gpr);

@@ -16,7 +16,6 @@
 package org.kuali.hr.time.approval.service;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
@@ -55,7 +54,7 @@ public interface TimeApproveService {
 //	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<String> principalIds);
 
     @Cacheable(value= KPMEConstants.KPME_GLOBAL_CACHE_NAME, key="'{PayCalendarLabelsForApprovalTab}' + 'payBeginDate=' + #p0 + '|' + 'payEndDate=' + #p1")
-	public List<String> getPayCalendarLabelsForApprovalTab(Date payBeginDate, Date payEndDate);
+	public List<String> getPayCalendarLabelsForApprovalTab(DateTime payBeginDate, DateTime payEndDate);
 
     /**
      * Method to obtain all of the active Pay Calendar Group names for the current

@@ -16,9 +16,8 @@
 package org.kuali.hr.time.shiftdiff.rule;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
 
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -96,14 +95,12 @@ public class ShiftDifferentialRuleMaintTest extends KPMETestCase{
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-        Calendar yesterday = Calendar.getInstance();
-        yesterday.add(Calendar.DATE, -1);
-        Date testDate = new Date(yesterday.getTimeInMillis());
+
 		ShiftDifferentialRule shiftDifferentialRule = new ShiftDifferentialRule();
 		shiftDifferentialRule.setActive(true);
 		//shiftDifferentialRule.setBeginTime(TEST_TIME);
 		shiftDifferentialRule.setEarnCode(TEST_CODE);
-		shiftDifferentialRule.setEffectiveDate(testDate);
+		shiftDifferentialRule.setEffectiveLocalDate(LocalDate.now().minusDays(1));
 		//shiftDifferentialRule.setEndTime(TEST_TIME);
 		shiftDifferentialRule.setLocation(TEST_CODE);
 		shiftDifferentialRule.setMaxGap(new BigDecimal(2));

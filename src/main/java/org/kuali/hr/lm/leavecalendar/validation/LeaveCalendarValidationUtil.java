@@ -15,6 +15,14 @@
  */
 package org.kuali.hr.lm.leavecalendar.validation;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -41,10 +49,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.math.BigDecimal;
-import java.util.*;
-
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 
@@ -256,27 +260,19 @@ public class LeaveCalendarValidationUtil {
     	if(earnCodeObj != null && earnCodeObj.getAllowNegativeAccrualBalance().equals("N")) {
     		AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), endDate);
     		if(accrualCategory != null) {
-				Date nextIntervalDate = TkServiceLocator.getAccrualService().getNextAccrualIntervalDate(accrualCategory.getAccrualEarnInterval(), endDate);
+    			LocalDate nextIntervalDate = TkServiceLocator.getAccrualService().getNextAccrualIntervalDate(accrualCategory.getAccrualEarnInterval(), endDate);
 				// get the usage checking cut off Date, normally it's the day before the next interval date
-				Date usageEndDate = nextIntervalDate;
-				if(nextIntervalDate.compareTo(endDate.toDate()) > 0) {
-					Calendar aCal = Calendar.getInstance();
-					aCal.setTime(nextIntervalDate);
-					aCal.add(Calendar.DAY_OF_YEAR, -1);
-					usageEndDate = aCal.getTime();
+    			LocalDate usageEndDate = nextIntervalDate;
+				if (nextIntervalDate.compareTo(endDate) > 0) {
+					usageEndDate = nextIntervalDate.minusDays(1);
 				}
 				// use the end of the year as the interval date for usage checking of no-accrual hours,
 				// normally no-accrual hours are from banked/transferred system scheduled time offs
 				if(accrualCategory.getAccrualEarnInterval().equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.NO_ACCRUAL)) {
-					Calendar aCal = Calendar.getInstance();
-					aCal.setTime(endDate.toDate());
-					aCal.set(Calendar.MONTH, Calendar.DECEMBER);
-					aCal.set(Calendar.DAY_OF_MONTH, 31);
-					nextIntervalDate = aCal.getTime();
-					usageEndDate = nextIntervalDate;
+					usageEndDate = endDate.withMonthOfYear(DateTimeConstants.DECEMBER).withDayOfMonth(31);
 				}
 				BigDecimal availableBalance = TkServiceLocator.getLeaveSummaryService()
-							.getLeaveBalanceForAccrCatUpToDate(TKContext.getTargetPrincipalId(), startDate, endDate, accrualCategory.getAccrualCategory(), LocalDate.fromDateFields(usageEndDate));
+							.getLeaveBalanceForAccrCatUpToDate(TKContext.getTargetPrincipalId(), startDate, endDate, accrualCategory.getAccrualCategory(), usageEndDate);
 
 				if(oldAmount!=null) {
 					if(!earnCodeChanged ||

@@ -15,8 +15,6 @@
  */
 package org.kuali.hr.lm.util;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -35,17 +33,10 @@ public class LeaveBlockAggregateTest extends KPMETestCase {
 	@Test
 	public void testGetLeaveBlockAggregate(){
 		// 03/01/2012 to 03/15/2012
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(LocalDate.now().toDate());
-		cal.set(Calendar.YEAR, 2012);
-		cal.set(Calendar.MONTH, 2);
-		cal.set(Calendar.DATE, 1);
-		
-		Date beginDate = cal.getTime();
-		cal.add(Calendar.DATE,14);
-		Date endDate = cal.getTime();
+		LocalDate beginDate = new LocalDate(2012, 3, 1);
+		LocalDate endDate = beginDate.plusDays(14);
 		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("55");
-		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(TEST_USER, LocalDate.fromDateFields(beginDate), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(TEST_USER, beginDate, endDate);
 		
 		// get leaveBlockAggaregate with leaveBlocks, calendarEntry and intervals
 		LeaveBlockAggregate lbAgg = new LeaveBlockAggregate(leaveBlocks, ce, TKUtils.getFullWeekDaySpanForCalendarEntry(ce));

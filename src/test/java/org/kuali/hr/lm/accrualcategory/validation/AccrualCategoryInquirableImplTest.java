@@ -15,10 +15,8 @@
  */
 package org.kuali.hr.lm.accrualcategory.validation;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -35,8 +33,7 @@ public class AccrualCategoryInquirableImplTest extends KPMETestCase {
 		AccrualCategory ac = new AccrualCategory();
 		ac.setAccrualCategory("testAC");
 		ac.setLeavePlan("testLeavePlan");
-		Date aDate = new SimpleDateFormat("MM/dd/yyyy").parse("03/04/2012");
-		ac.setEffectiveDate(aDate);
+		ac.setEffectiveLocalDate(new LocalDate(2012, 3, 4));
 		
 		HtmlData hd = (HtmlData) new AccrualCategoryInquirableImpl().getInquiryUrl(ac, "leavePlan", false);
 		Assert.assertNotNull("No HtmlData found", hd);

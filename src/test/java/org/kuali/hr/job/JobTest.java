@@ -17,12 +17,12 @@ package org.kuali.hr.job;
 
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import junit.framework.Assert;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.calendar.Calendar;
@@ -87,15 +87,12 @@ public class JobTest extends KPMETestCase {
 
 	@Test
 	public void testInsertPayType() throws Exception {
-
-		long currentTimestamp = java.util.Calendar.getInstance().getTime().getTime();
-
 		PayType payType = new PayType();
 		payType.setHrPayTypeId("1001");
 		payType.setPayType("BW");
 		payType.setRegEarnCode("RGN");
-		payType.setEffectiveDate(new Date(currentTimestamp));
-		payType.setTimestamp(new Timestamp(currentTimestamp));
+		payType.setEffectiveLocalDate(LocalDate.now());
+		payType.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
 		KRADServiceLocator.getBusinessObjectService().save(payType);
 		Assert.assertTrue(TkServiceLocator.getPayTypeService().getPayType(payType.getPayType(), payType.getEffectiveLocalDate()) != null);

@@ -102,7 +102,7 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KPMELookupab
 		}
 		
 		
-		Date currDate = LocalDate.now().toDate();
+		LocalDate currDate = LocalDate.now();
 		//Active = Both and Show History = Yes
 		//return all results
 		if(StringUtils.isEmpty(active) && StringUtils.equals("Y", showHistory)){
@@ -113,7 +113,7 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KPMELookupab
 		else if(StringUtils.isEmpty(active) && StringUtils.equals("N", showHistory)){
 			for(List<HrBusinessObject> lstHrBusiness : hrBusinessMap.values()){
 				for(HrBusinessObject hrBus : lstHrBusiness){
-					if(hrBus.getEffectiveDate().before(currDate)){
+					if(hrBus.getEffectiveLocalDate().isBefore(currDate)){
 						finalBusinessObjectList.add(hrBus);
 						break;
 					} else {
@@ -128,11 +128,11 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KPMELookupab
 		else if(StringUtils.equals(active, "Y") && StringUtils.equals("N", showHistory)){
 			for(List<HrBusinessObject> lstHrBus : hrBusinessMap.values()){
 				for(HrBusinessObject hrBusinessObject : lstHrBus){
-					if(!hrBusinessObject.isActive() && hrBusinessObject.getEffectiveDate().before(currDate)){
+					if(!hrBusinessObject.isActive() && hrBusinessObject.getEffectiveLocalDate().isBefore(currDate)){
 						break;
 					}
 					else {
-						if(hrBusinessObject.getEffectiveDate().before(currDate)){
+						if(hrBusinessObject.getEffectiveLocalDate().isBefore(currDate)){
 							finalBusinessObjectList.add(hrBusinessObject);
 							break;
 						} else {
@@ -150,7 +150,7 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KPMELookupab
 		else if(StringUtils.equals(active, "Y") && StringUtils.equals("Y", showHistory)){
 			for(List<HrBusinessObject> lstHrBus : hrBusinessMap.values()){
 				for(HrBusinessObject hrBus : lstHrBus){
-					if(!hrBus.isActive() && hrBus.getEffectiveDate().before(currDate)){
+					if(!hrBus.isActive() && hrBus.getEffectiveLocalDate().isBefore(currDate)){
 						break;
 					}
 					else if(hrBus.isActive()){
@@ -175,7 +175,7 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KPMELookupab
 		else if(StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "N")){
 			for(List<HrBusinessObject> lstHrBusiness : hrBusinessMap.values()){
 				for(HrBusinessObject hrBus : lstHrBusiness){
-					if(hrBus.getEffectiveDate().before(currDate)){
+					if(hrBus.getEffectiveLocalDate().isBefore(currDate)){
 						if(!hrBus.isActive()){
 							finalBusinessObjectList.add(hrBus);
 						} 

@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -68,10 +67,10 @@ public class TimeBlockTest extends KPMETestCase {
 	@Test
 	public void testTimeBlockBuilding() throws Exception {
 		CalendarEntry payCalendarEntry = new CalendarEntry();
-		Date beginDateTime = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		Date endDateTime = new Date((new DateTime(2010, 1, 15, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		payCalendarEntry.setBeginPeriodDateTime(beginDateTime);
-		payCalendarEntry.setEndPeriodDateTime(endDateTime);
+		DateTime beginDateTime = new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime endDateTime = new DateTime(2010, 1, 15, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		payCalendarEntry.setBeginPeriodDateTime(beginDateTime.toDate());
+		payCalendarEntry.setEndPeriodDateTime(endDateTime.toDate());
 		
 		List<Interval> dayInterval = TKUtils.getDaySpanForCalendarEntry(payCalendarEntry);
 		Timestamp beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
@@ -152,10 +151,8 @@ public class TimeBlockTest extends KPMETestCase {
 		Calendar payCalendar = new Calendar();
 		
 		CalendarEntry payCalendarEntry = new CalendarEntry();
-		Date beginDateTime = new Date(beginTime.getMillis());
-		Date endDateTime = new Date(endTime.getMillis());
-		payCalendarEntry.setBeginPeriodDateTime(beginDateTime);
-		payCalendarEntry.setEndPeriodDateTime(endDateTime);
+		payCalendarEntry.setBeginPeriodDateTime(beginTime.toDate());
+		payCalendarEntry.setEndPeriodDateTime(endTime.toDate());
 		
 		List<TimeBlock> lstTimeBlocks = setupTimeBlocks(beginTime, endTime, payCalendarEntry);
 		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(lstTimeBlocks, payCalendarEntry, payCalendar);

@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.lm.accrual.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -40,7 +39,7 @@ public interface AccrualService {
 	 * @param earnInterval
 	 * @return boolean
 	 */
-	public boolean isDateAtEarnInterval(Date aDate, String earnInterval);
+	public boolean isDateAtEarnInterval(LocalDate aDate, String earnInterval);
 	
 	/**
 	 * build a RateRangeAggregate with given parameters
@@ -74,7 +73,7 @@ public interface AccrualService {
 	 * @param aDate
 	 * @return
 	 */
-	public Date getPreviousAccrualIntervalDate(String earnInterval, LocalDate aDate);
+	public LocalDate getPreviousAccrualIntervalDate(String earnInterval, LocalDate aDate);
 	
 	/**
 	 * get the accrual interval date of the next accrual period with given parameters
@@ -82,7 +81,7 @@ public interface AccrualService {
 	 * @param aDate
 	 * @return
 	 */
-	public Date getNextAccrualIntervalDate(String earnInterval, LocalDate aDate);
+	public LocalDate getNextAccrualIntervalDate(String earnInterval, LocalDate aDate);
 
 	/**
 	 * calculate # of work days in an accrual period

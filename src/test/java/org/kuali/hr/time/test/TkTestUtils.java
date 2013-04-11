@@ -20,7 +20,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -110,11 +109,6 @@ public class TkTestUtils {
 		} catch (WorkflowException e) {
 			throw new RuntimeException("Problem fetching document");
 		}
-	}
-
-	//TODO populate this
-	public static void createEarnGroup(String earnGroup, List<String> earnCodes, Date asOfDate){
-
 	}
 
 	/**
@@ -459,12 +453,6 @@ public class TkTestUtils {
 
 		return dateToHoursMap;
 	}
-
-	public static Date createDate(int month, int day, int year, int hours, int minutes, int seconds){
-		DateTime dt = new DateTime(year, month, day, hours, minutes, seconds, 0);
-		return new Date(dt.getMillis());
-	}
-
 
     /**
      * Method to obtain the HREF onclick='' value from the button when

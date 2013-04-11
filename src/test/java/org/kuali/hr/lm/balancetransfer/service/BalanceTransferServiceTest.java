@@ -20,7 +20,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 import org.joda.time.LocalDate;
 import org.junit.After;
@@ -50,9 +49,7 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 	private CalendarEntry decEntry;
 	
 	private LocalDate janStart;
-	private Date janEnd;
 	private LocalDate decStart;
-	private Date decEnd;
 	
 	private final String JAN_ID = "5001";
 	private final String DEC_ID = "5000";
@@ -88,11 +85,9 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		janLCD = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(JAN_ID);
 		janEntry = janLCD.getCalendarEntry();
 		janStart = janEntry.getBeginPeriodFullDateTime().toLocalDate();
-		janEnd = janEntry.getEndPeriodDate();
 		decLCD = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(DEC_ID);
 		decEntry = decLCD.getCalendarEntry();
 		decStart = decEntry.getBeginPeriodFullDateTime().toLocalDate();
-		decEnd = decEntry.getEndPeriodDate();
 	}
 	
 	@After

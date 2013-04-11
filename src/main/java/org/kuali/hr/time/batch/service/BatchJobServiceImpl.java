@@ -15,9 +15,6 @@
  */
 package org.kuali.hr.time.batch.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +24,8 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
@@ -325,27 +324,9 @@ public class BatchJobServiceImpl implements BatchJobService {
 	
 	@Override
 	public void scheduleLeaveCarryOverJobs(LeavePlan leavePlan) throws SchedulerException {
-		String batchJobDate = leavePlan.getBatchPriorYearCarryOverStartDate();
-		java.util.Calendar batchJobTimeCal = java.util.Calendar.getInstance();
-		batchJobTimeCal.setTimeInMillis(leavePlan.getBatchPriorYearCarryOverStartTime().getTime());
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
-		sdf.setLenient(false);
-		Date batchJobStart = null;
-		
-		try {
-			batchJobStart = sdf.parse(batchJobDate);
-		} catch (ParseException e) {
-		}
-		
-		java.util.Calendar batchJobStartDateTime = java.util.Calendar.getInstance();
-		batchJobStartDateTime.setTime(batchJobStart);
-		batchJobStartDateTime.set(java.util.Calendar.YEAR,java.util.Calendar.getInstance().get(java.util.Calendar.YEAR));
-		batchJobStartDateTime.set(java.util.Calendar.HOUR_OF_DAY,batchJobTimeCal.get(java.util.Calendar.HOUR_OF_DAY));
-		batchJobStartDateTime.set(java.util.Calendar.MINUTE,batchJobTimeCal.get(java.util.Calendar.MINUTE));
-		batchJobStartDateTime.set(java.util.Calendar.SECOND, 0);
-		batchJobStartDateTime.set(java.util.Calendar.MILLISECOND, 0);
-		
-		scheduleLeaveCarryOverJob(leavePlan, new DateTime(batchJobStartDateTime));
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd");
+		DateTime scheduleDate = formatter.parseDateTime(leavePlan.getBatchPriorYearCarryOverStartDate()).plus(leavePlan.getBatchPriorYearCarryOverStartTime().getTime());
+		scheduleLeaveCarryOverJob(leavePlan, scheduleDate);
 	}
 	
 	@Override

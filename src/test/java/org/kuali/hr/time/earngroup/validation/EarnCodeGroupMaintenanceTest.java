@@ -17,12 +17,11 @@ package org.kuali.hr.time.earngroup.validation;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -41,7 +40,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
     private static final Logger LOG = Logger.getLogger(EarnCodeGroupMaintenanceTest.class);
-    private static final Date TEST_DATE = new Date(Calendar.getInstance().getTimeInMillis());
+    private static final LocalDate TEST_DATE = LocalDate.now();
     private static final String EARN_CODE = "RGN";
     private static String hrEarnGroupId;
     private static String hrEarnCodeId;
@@ -58,7 +57,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         EarnCodeGroup earnGroup = new EarnCodeGroup();
         earnGroup.setEarnCodeGroup("testGroup");
         earnGroup.setDescr("test");
-        earnGroup.setEffectiveDate(TEST_DATE);
+        earnGroup.setEffectiveLocalDate(TEST_DATE);
         earnGroup.setShowSummary(true);
         earnGroup.setActive(true);
         earnGroup.setEarnCodeGroups(earnGroups);
@@ -69,7 +68,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         EarnCode earnCode = new EarnCode();
         earnCode.setActive(true);
         earnCode.setEarnCode("RGG");
-        earnCode.setEffectiveDate(TEST_DATE);
+        earnCode.setEffectiveLocalDate(TEST_DATE);
         earnCode.setRecordMethod("T");
         earnCode.setFractionalTimeAllowed("99");
         earnCode.setRoundingOption("T");
@@ -90,7 +89,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         EarnCodeGroup earnGroupRGG = new EarnCodeGroup();
         earnGroupRGG.setEarnCodeGroup("RGG");
         earnGroupRGG.setDescr("test RGG");
-        earnGroupRGG.setEffectiveDate(TEST_DATE);
+        earnGroupRGG.setEffectiveLocalDate(TEST_DATE);
         earnGroupRGG.setShowSummary(true);
         earnGroupRGG.setActive(true);
         KRADServiceLocator.getBusinessObjectService().save(earnGroupRGG);

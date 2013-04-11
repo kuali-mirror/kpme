@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.lm.leaveadjustment.service;
 
-import java.util.Date;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -28,6 +27,7 @@ import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl{
@@ -69,9 +69,9 @@ public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMain
 				&& StringUtils.isNotEmpty(fieldValues.get("principalId"))
 				&& fieldValues.containsKey("effectiveDate")
 				&& StringUtils.isNotEmpty(fieldValues.get("effectiveDate"))) {
-			Date effDate = new Date(fieldValues.get("effectiveDate"));
+			LocalDate effDate = TKUtils.formatDateString(fieldValues.get("effectiveDate"));
 			PrincipalHRAttributes principalHRAttrObj = TkServiceLocator.getPrincipalHRAttributeService()
-						.getPrincipalCalendar(fieldValues.get("principalId"), LocalDate.fromDateFields(effDate));
+						.getPrincipalCalendar(fieldValues.get("principalId"), effDate);
 			String lpString = (principalHRAttrObj != null) ? principalHRAttrObj.getLeavePlan() : "";
 			fieldValues.put("leavePlan", lpString);
 		}

@@ -24,7 +24,6 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -46,8 +45,8 @@ public class DocumentHeaderTest extends KPMETestCase {
 		timeHeader.setDocumentId("1");
 		timeHeader.setPrincipalId("admin");
 		timeHeader.setDocumentStatus("F");
-		timeHeader.setBeginDate(TkTestUtils.createDate(1, 1, 2011, 0, 0, 0));
-		timeHeader.setEndDate(TkTestUtils.createDate(1, 15, 2011, 0, 0, 0));
+		timeHeader.setBeginDateTime(new DateTime(2011, 1, 1, 0, 0, 0));
+		timeHeader.setEndDateTime(new DateTime(2011, 1, 15, 0, 0, 0));
 		KRADServiceLocator.getBusinessObjectService().save(timeHeader);
         DateTime dateTime = new DateTime(2011,1,15,0,0,0,0);
 		TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader("admin", dateTime);

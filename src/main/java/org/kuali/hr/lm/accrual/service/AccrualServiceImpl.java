@@ -31,6 +31,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.hr.job.Job;
@@ -152,22 +153,22 @@ public class AccrualServiceImpl implements AccrualService {
 				
 					// check if accrual category rule changed
 					if(currentAcRule != null) {
-						Date ruleStartDate = getRuleStartDate(currentAcRule.getServiceUnitOfTime(), phra.getServiceLocalDate(), currentAcRule.getStart());
-						Date previousIntervalDay = this.getPrevIntervalDate(LocalDate.fromDateFields(ruleStartDate), anAC.getAccrualEarnInterval(), phra.getPayCalendar(), rrAggregate.getCalEntryMap());
-						Date nextIntervalDay = this.getNextIntervalDate(LocalDate.fromDateFields(ruleStartDate), anAC.getAccrualEarnInterval(), phra.getPayCalendar(), rrAggregate.getCalEntryMap());
+						LocalDate ruleStartDate = getRuleStartDate(currentAcRule.getServiceUnitOfTime(), phra.getServiceLocalDate(), currentAcRule.getStart());
+						LocalDate previousIntervalDay = this.getPrevIntervalDate(ruleStartDate, anAC.getAccrualEarnInterval(), phra.getPayCalendar(), rrAggregate.getCalEntryMap());
+						LocalDate nextIntervalDay = this.getNextIntervalDate(ruleStartDate, anAC.getAccrualEarnInterval(), phra.getPayCalendar(), rrAggregate.getCalEntryMap());
 						
-						RateRange previousRange = rrAggregate.getRateOnDate(previousIntervalDay);
+						RateRange previousRange = rrAggregate.getRateOnDate(previousIntervalDay.toDate());
 						AccrualCategoryRule previousAcRule = null;
 						if(previousRange != null) {
 							previousAcRule = this.getRuleForAccrualCategory(previousRange.getAcRuleList(), anAC);
 						}
 						// rule changed
 						if(previousAcRule != null && !previousAcRule.getLmAccrualCategoryRuleId().equals(currentAcRule.getLmAccrualCategoryRuleId())) {
-							if(TKUtils.removeTime(currentDate).compareTo(TKUtils.removeTime(previousIntervalDay)) >= 0 
-									&& TKUtils.removeTime(currentDate).compareTo(TKUtils.removeTime(nextIntervalDay)) <= 0) {
-								int workDaysInBetween = TKUtils.getWorkDays(ruleStartDate, nextIntervalDay);
+							if(TKUtils.removeTime(currentDate).compareTo(TKUtils.removeTime(previousIntervalDay.toDate())) >= 0 
+									&& TKUtils.removeTime(currentDate).compareTo(TKUtils.removeTime(nextIntervalDay.toDate())) <= 0) {
+								int workDaysInBetween = TKUtils.getWorkDays(ruleStartDate.toDate(), nextIntervalDay.toDate());
 								boolean minReachedFlag = minimumPercentageReachedForPayPeriod(anAC.getMinPercentWorked(), 
-												anAC.getAccrualEarnInterval(), workDaysInBetween, LocalDate.fromDateFields(nextIntervalDay),
+												anAC.getAccrualEarnInterval(), workDaysInBetween, nextIntervalDay,
 												phra.getPayCalendar(), rrAggregate.getCalEntryMap());
 								if(prorationFlag) {
 									if(minReachedFlag) {
@@ -193,12 +194,12 @@ public class AccrualServiceImpl implements AccrualService {
 					}
 					
 					// check for first pay period of principal attributes considering minimum percentage and proration	
-					Date firstIntervalDate = this.getNextIntervalDate(phra.getEffectiveLocalDate(), anAC.getAccrualEarnInterval(), phra.getPayCalendar(), rrAggregate.getCalEntryMap());
+					LocalDate firstIntervalDate = this.getNextIntervalDate(phra.getEffectiveLocalDate(), anAC.getAccrualEarnInterval(), phra.getPayCalendar(), rrAggregate.getCalEntryMap());
 					if(!TKUtils.removeTime(currentDate).before(TKUtils.removeTime(phra.getEffectiveDate())) 
-							&& !TKUtils.removeTime(currentDate).after(TKUtils.removeTime(firstIntervalDate))) {
-						int workDaysInBetween = TKUtils.getWorkDays(phra.getEffectiveDate(), firstIntervalDate);
+							&& !TKUtils.removeTime(currentDate).after(TKUtils.removeTime(firstIntervalDate.toDate()))) {
+						int workDaysInBetween = TKUtils.getWorkDays(phra.getEffectiveDate(), firstIntervalDate.toDate());
 						boolean minReachedFlag = minimumPercentageReachedForPayPeriod(anAC.getMinPercentWorked(),  anAC.getAccrualEarnInterval(), 
-									workDaysInBetween, LocalDate.fromDateFields(firstIntervalDate),
+									workDaysInBetween, firstIntervalDate,
 									phra.getPayCalendar(), rrAggregate.getCalEntryMap());
 						
 						if(prorationFlag) {
@@ -226,14 +227,14 @@ public class AccrualServiceImpl implements AccrualService {
 					}
 					// last accrual interval
 					if(endPhra != null) {	// the employment is going to end on the effectiveDate of enPhra
-						Date previousIntervalDate = this.getPrevIntervalDate(endPhra.getEffectiveLocalDate(), anAC.getAccrualEarnInterval(), phra.getPayCalendar(), rrAggregate.getCalEntryMap());
+						LocalDate previousIntervalDate = this.getPrevIntervalDate(endPhra.getEffectiveLocalDate(), anAC.getAccrualEarnInterval(), phra.getPayCalendar(), rrAggregate.getCalEntryMap());
 						// currentDate is between the end date and the last interval date, so we are in the last interval
 						if(!TKUtils.removeTime(currentDate).after(TKUtils.removeTime(endPhra.getEffectiveDate())) 
-								&& TKUtils.removeTime(currentDate).after(TKUtils.removeTime(previousIntervalDate))) {
-							Date lastIntervalDate = this.getNextIntervalDate(endPhra.getEffectiveLocalDate(), anAC.getAccrualEarnInterval(),  phra.getPayCalendar(), rrAggregate.getCalEntryMap());
-							int workDaysInBetween = TKUtils.getWorkDays(previousIntervalDate, endPhra.getEffectiveDate());
+								&& TKUtils.removeTime(currentDate).after(TKUtils.removeTime(previousIntervalDate.toDate()))) {
+							LocalDate lastIntervalDate = this.getNextIntervalDate(endPhra.getEffectiveLocalDate(), anAC.getAccrualEarnInterval(),  phra.getPayCalendar(), rrAggregate.getCalEntryMap());
+							int workDaysInBetween = TKUtils.getWorkDays(previousIntervalDate.toDate(), endPhra.getEffectiveDate());
 							boolean minReachedFlag = minimumPercentageReachedForPayPeriod(anAC.getMinPercentWorked(),  anAC.getAccrualEarnInterval(), 
-										workDaysInBetween, LocalDate.fromDateFields(lastIntervalDate),
+										workDaysInBetween, lastIntervalDate,
 										phra.getPayCalendar(), rrAggregate.getCalEntryMap());
 							if(prorationFlag) {
 								if(minReachedFlag) {
@@ -287,7 +288,7 @@ public class AccrualServiceImpl implements AccrualService {
 					}					
 					//Determine if we are at the accrual earn interval in the span, if so add leave block for accumulated accrual amount to list
 					//and reset accumulatedAccrualCatToAccrualAmounts and accumulatedAccrualCatToNegativeAccrualAmounts for this accrual category
-					if(this.isDateAnIntervalDate(currentDate, anAC.getAccrualEarnInterval(), phra.getPayCalendar(), rrAggregate.getCalEntryMap())) {
+					if(this.isDateAnIntervalDate(LocalDate.fromDateFields(currentDate), anAC.getAccrualEarnInterval(), phra.getPayCalendar(), rrAggregate.getCalEntryMap())) {
 						BigDecimal acHours = accumulatedAccrualCatToAccrualAmounts.get(anAC.getLmAccrualCategoryId());
 						
 						if(acHours != null) {
@@ -475,7 +476,7 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 	}
 	
-	private boolean isDateAnIntervalDate(Date aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
+	private boolean isDateAnIntervalDate(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL)) {
 			return isDateAtPayCalInterval(aDate, earnInterval, payCalName, aMap);
 		} else {
@@ -483,7 +484,7 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 	}
 	
-	private boolean isDateAtPayCalInterval(Date aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
+	private boolean isDateAtPayCalInterval(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(StringUtils.isNotEmpty(payCalName) 
 				&& !aMap.isEmpty()
 				&& earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL)) {	// only used for ac earn interval == pay calendar
@@ -491,7 +492,7 @@ public class AccrualServiceImpl implements AccrualService {
 			if(CollectionUtils.isNotEmpty(entryList)) {
 				for(CalendarEntry anEntry : entryList) {
 					// endPeriodDate of calendar entry is the beginning hour of the next day, so we need to substract one day from it to get the real end date
-					Date endDate = TKUtils.addDates(anEntry.getEndPeriodDate(), -1);
+					LocalDate endDate = anEntry.getEndPeriodFullDateTime().toLocalDate().minusDays(1);
 					if(aDate.compareTo(endDate) == 0) {
 						return true;
 					}
@@ -502,35 +503,32 @@ public class AccrualServiceImpl implements AccrualService {
 	}
 	
 	@Override
-	public boolean isDateAtEarnInterval(Date aDate, String earnInterval) {
+	public boolean isDateAtEarnInterval(LocalDate aDate, String earnInterval) {
 		boolean atEarnInterval = false;
-		if(LMConstants.ACCRUAL_EARN_INTERVAL_MAP.containsKey(earnInterval)) {
-			Calendar aCal = Calendar.getInstance();
-			aCal.setTime(aDate);
-			
-			if(earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.DAILY)) {
+		if (LMConstants.ACCRUAL_EARN_INTERVAL_MAP.containsKey(earnInterval)) {
+			if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.DAILY)) {
 				atEarnInterval = true;
 			} else if(earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.WEEKLY)) {
 				// figure out if the day is a Saturday
-				if(aCal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+				if (aDate.getDayOfWeek() == DateTimeConstants.SATURDAY) {
 					atEarnInterval = true;
 				}
 			} else if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.SEMI_MONTHLY)) {
 				// either the 15th or the last day of the month
-				if(aCal.get(Calendar.DAY_OF_MONTH) == 15 || aCal.get(Calendar.DAY_OF_MONTH) == aCal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+				if (aDate.getDayOfMonth() == 15 || aDate.getDayOfMonth() == aDate.dayOfMonth().getMaximumValue()) {
 					atEarnInterval = true;
 				}
 			} else if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.MONTHLY)) {
 				// the last day of the month
-				if(aCal.get(Calendar.DAY_OF_MONTH) == aCal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+				if (aDate.getDayOfMonth() == aDate.dayOfMonth().getMaximumValue()) {
 					atEarnInterval = true;
 				}
 			} else if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.YEARLY)) {
 				// the last day of the year
-				if(aCal.get(Calendar.DAY_OF_YEAR) == aCal.getActualMaximum(Calendar.DAY_OF_YEAR)) {
+				if (aDate.getDayOfYear() == aDate.dayOfYear().getMaximumValue()) {
 					atEarnInterval = true;
 				}
-			}else if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.NO_ACCRUAL)) {
+			} else if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.NO_ACCRUAL)) {
 				// no calculation
 			}
 		}
@@ -912,7 +910,7 @@ public class AccrualServiceImpl implements AccrualService {
 		return false;	
 	}
 
-	private Date getPrevIntervalDate(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
+	private LocalDate getPrevIntervalDate(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL)) {
 			return this.getPrevPayCalIntervalDate(aDate, earnInterval, payCalName, aMap);
 		} else {
@@ -921,35 +919,34 @@ public class AccrualServiceImpl implements AccrualService {
 	}
 	
 	@Override
-	public Date getPreviousAccrualIntervalDate(String earnInterval, LocalDate aDate) {
-		Calendar aCal = Calendar.getInstance();
-		aCal.setTime(aDate.toDate());
+	public LocalDate getPreviousAccrualIntervalDate(String earnInterval, LocalDate aDate) {
+		LocalDate previousAccrualIntervalDate = null;
 
-		if(earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.DAILY)) {
-			aCal.add(Calendar.DAY_OF_YEAR, -1);
+		if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.DAILY)) {
+			previousAccrualIntervalDate = aDate.minusDays(1);
 		} else if(earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.WEEKLY)) {
-			aCal.add(Calendar.WEEK_OF_YEAR, -1);
-			aCal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);	// set to the Saturday of previous week
+			previousAccrualIntervalDate = aDate.minusWeeks(1).withDayOfWeek(DateTimeConstants.SATURDAY);
 		} else if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.SEMI_MONTHLY)) {
-			aCal.add(Calendar.DAY_OF_YEAR, -15);
-			if(aCal.get(Calendar.DAY_OF_MONTH) <=15) {
-				aCal.set(Calendar.DAY_OF_MONTH, 15);
+			previousAccrualIntervalDate = aDate.minusDays(15);
+			if (previousAccrualIntervalDate.getDayOfMonth() <= 15) {
+				previousAccrualIntervalDate = previousAccrualIntervalDate.withDayOfMonth(15);
 			} else {
-				aCal.set(Calendar.DAY_OF_MONTH, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+				previousAccrualIntervalDate = previousAccrualIntervalDate.withDayOfMonth(previousAccrualIntervalDate.dayOfMonth().getMaximumValue());
 			}
 		} else if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.MONTHLY)) {
-			aCal.add(Calendar.MONTH, -1);
-			aCal.set(Calendar.DAY_OF_MONTH, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			previousAccrualIntervalDate = aDate.minusMonths(1);
+			previousAccrualIntervalDate = previousAccrualIntervalDate.withDayOfMonth(previousAccrualIntervalDate.dayOfMonth().getMaximumValue());
 		} else if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.YEARLY)) {
-			aCal.add(Calendar.YEAR, -1);
-			aCal.set(Calendar.DAY_OF_YEAR, aCal.getActualMaximum(Calendar.DAY_OF_YEAR));
+			previousAccrualIntervalDate = aDate.minusYears(1);
+			previousAccrualIntervalDate = previousAccrualIntervalDate.withDayOfYear(previousAccrualIntervalDate.dayOfYear().getMaximumValue());
 		} else if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.NO_ACCRUAL)) {
-			// no change to calendar
-		} 
-		return aCal.getTime();
+			previousAccrualIntervalDate = aDate;
+		}
+		
+		return previousAccrualIntervalDate;
 	}
 	
-	private Date getPrevPayCalIntervalDate(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
+	private LocalDate getPrevPayCalIntervalDate(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(StringUtils.isNotEmpty(payCalName) 
 				&& !aMap.isEmpty()
 				&& earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL)) {	// only used for ac earn interval == pay calendar
@@ -960,16 +957,16 @@ public class AccrualServiceImpl implements AccrualService {
 					Date endDate = TKUtils.addDates(anEntry.getEndPeriodDate(), -1);
 					if(anEntry.getBeginPeriodDate().compareTo(aDate.toDate()) <= 0 && endDate.compareTo(aDate.toDate()) >= 0) {
 						// the day before the beginning date of the cal entry that contains the passed in date is the endDate of previous calendar entry
-						Date prevIntvDate = TKUtils.addDates(anEntry.getBeginPeriodDate(), -1);
+						LocalDate prevIntvDate = anEntry.getBeginPeriodFullDateTime().toLocalDate().minusDays(1);
 						return prevIntvDate;
 					}
 				}
 			}
 		}
-		return aDate.toDate();
+		return aDate;
 	}
 	
-	private Date getNextIntervalDate(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
+	private LocalDate getNextIntervalDate(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL)) {
 			return this.getNextPayCalIntervalDate(aDate, earnInterval, payCalName, aMap);
 		} else {
@@ -977,7 +974,7 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 	}
 	
-	private Date getNextPayCalIntervalDate(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
+	private LocalDate getNextPayCalIntervalDate(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(StringUtils.isNotEmpty(payCalName) 
 				&& !aMap.isEmpty()
 				&& earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL)) {	// only used for ac earn interval == pay calendar
@@ -985,44 +982,44 @@ public class AccrualServiceImpl implements AccrualService {
 			if(CollectionUtils.isNotEmpty(entryList)) {
 				for(CalendarEntry anEntry : entryList) {
 					// endPeriodDate of calendar entry is the beginning hour of the next day, so we need to substract one day from it to get the real end date
-					Date endDate = TKUtils.addDates(anEntry.getEndPeriodDate(), -1);
-					if(anEntry.getBeginPeriodDate().compareTo(aDate.toDate()) <= 0 && endDate.compareTo(aDate.toDate()) >= 0) {
+					LocalDate endDate = anEntry.getEndPeriodFullDateTime().toLocalDate().minusDays(1);
+					if(anEntry.getBeginPeriodDate().compareTo(aDate.toDate()) <= 0 && endDate.compareTo(aDate) >= 0) {
 						// the endDate of the cal entry that contains the passed in date is the next pay calendar interval date
 						return endDate;
 					}
 				}
 			}
 		}
-		return aDate.toDate();
+		return aDate;
 	}
 	
 	@Override
-	public Date getNextAccrualIntervalDate(String earnInterval, LocalDate aDate) {
-		Calendar aCal = Calendar.getInstance();
-		aCal.setTime(aDate.toDate());
+	public LocalDate getNextAccrualIntervalDate(String earnInterval, LocalDate aDate) {
+		LocalDate nextAccrualIntervalDate = null;
 		
-		if(earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.DAILY)) {
-			// no change to calendar
+		if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.DAILY)) {
+			nextAccrualIntervalDate = aDate;
 		} else if(earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.WEEKLY)) {
-			if(aCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
-				aCal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);	// set to the Saturday of previous week
+			if (aDate.getDayOfWeek() != DateTimeConstants.SATURDAY) {
+				nextAccrualIntervalDate = aDate.withDayOfWeek(DateTimeConstants.SATURDAY);
 			} else {
-				aCal.add(Calendar.WEEK_OF_YEAR, 1);
+				nextAccrualIntervalDate = aDate.withWeekOfWeekyear(1);
 			}
 		} else if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.SEMI_MONTHLY)) {
-			if(aCal.get(Calendar.DAY_OF_MONTH) <=15) {
-				aCal.set(Calendar.DAY_OF_MONTH, 15);
+			if(aDate.getDayOfMonth() <= 15) {
+				nextAccrualIntervalDate = aDate.withDayOfMonth(15);
 			} else {
-				aCal.set(Calendar.DAY_OF_MONTH, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+				nextAccrualIntervalDate = aDate.withDayOfMonth(aDate.dayOfMonth().getMaximumValue());
 			}
 		} else if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.MONTHLY)) {
-			aCal.set(Calendar.DAY_OF_MONTH, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			nextAccrualIntervalDate = aDate.withDayOfMonth(aDate.dayOfMonth().getMaximumValue());
 		} else if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.YEARLY)) {
-			aCal.set(Calendar.DAY_OF_YEAR, aCal.getActualMaximum(Calendar.DAY_OF_YEAR));
+			nextAccrualIntervalDate = aDate.withDayOfYear(aDate.dayOfYear().getMaximumValue());
 		} else if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.NO_ACCRUAL)) {
-			// no change to calendar
-		} 
-		return aCal.getTime();
+			nextAccrualIntervalDate = aDate;
+		}
+		
+		return nextAccrualIntervalDate;
 	}
 
 	private int getWorkDaysInInterval(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
@@ -1092,23 +1089,23 @@ public class AccrualServiceImpl implements AccrualService {
 		return 0;
 	}
 	
-	public Date getRuleStartDate(String earnInterval, LocalDate serviceDate, Long startAcc) {
-		Calendar aCal = Calendar.getInstance();
-		aCal.setTime(serviceDate.toDate());
+	public LocalDate getRuleStartDate(String earnInterval, LocalDate serviceDate, Long startAcc) {
+		LocalDate ruleStartDate = null;
+		
 		String intervalValue = TkConstants.SERVICE_UNIT_OF_TIME.get(earnInterval);
-		int startInt = startAcc.intValue();
 		
 		if (intervalValue.equals("Months")) {
-			aCal.add(Calendar.MONTH, startInt);
-			if(aCal.get(Calendar.DAY_OF_MONTH) > aCal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-				aCal.set(Calendar.DAY_OF_MONTH, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			ruleStartDate = serviceDate.plusMonths(startAcc.intValue());
+			if (ruleStartDate.getDayOfMonth() > ruleStartDate.dayOfMonth().getMaximumValue()) {
+				ruleStartDate = ruleStartDate.withDayOfMonth(ruleStartDate.dayOfMonth().getMaximumValue());
 			}
 		} else if (intervalValue.equals("Years")) {
-			aCal.set(Calendar.YEAR, startInt);
-		}else {
-			// no change to calendar
+			ruleStartDate = serviceDate.withYear(startAcc.intValue());
+		} else {
+			ruleStartDate = serviceDate;
 		}
-		return aCal.getTime();
+		
+		return ruleStartDate;
 	}
 	
 	public boolean getProrationFlag(String proration) {

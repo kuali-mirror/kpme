@@ -21,7 +21,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,11 +58,6 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 	private LeaveCalendarDocument decLCD;
 	private CalendarEntry decEntry;
 	
-	private Date janStart;
-	private Date janEnd;
-	private Date decStart;
-	private Date decEnd;
-	
 	private final String JAN_ID = "5001";
 	private final String DEC_ID = "5000";
 	
@@ -81,13 +75,6 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 	private CalendarEntry endDecTSDEntry;
 	private TimesheetDocument midDecTSD;
 	private CalendarEntry midDecTSDEntry;
-	
-	private Date midJanStart;
-	private Date midJanEnd;
-	private Date endDecStart;
-	private Date endDecEnd;
-	private Date midDecStart;
-	private Date midDecEnd;
 	
 	private final String TSD_MID_DEC_PERIOD_ID = "5000";
 	private final String TSD_END_DEC_PERIOD_ID = "5001";
@@ -122,12 +109,8 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		TkServiceLocator.getAccrualService().runAccrual(USER_ID,LM_FROM.toDateTimeAtStartOfDay(),LM_TO.toDateTimeAtStartOfDay(),true,USER_ID);
 		janLCD = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(JAN_ID);
 		janEntry = janLCD.getCalendarEntry();
-		janStart = janEntry.getBeginPeriodDate();
-		janEnd = janEntry.getEndPeriodDate();
 		decLCD = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(DEC_ID);
 		decEntry = decLCD.getCalendarEntry();
-		decStart = decEntry.getBeginPeriodDate();
-		decEnd = decEntry.getEndPeriodDate();
 	}
 	
 	@After

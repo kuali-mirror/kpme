@@ -17,8 +17,8 @@ package org.kuali.hr.time.overtime.weekly.rule;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
-import java.util.Date;
 
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -34,7 +34,7 @@ public class WeeklyOvertimeRuleMaintenanceTest extends KPMETestCase {
 	protected static final String TEST_CODE="TST";
 	private static final BigDecimal TEST_NO=new BigDecimal(10);
 	private static String weeklyOvertimeRuleId;	
-	private static final Date TEST_DATE = new Date(Calendar.getInstance().getTimeInMillis());
+	private static final LocalDate TEST_DATE = LocalDate.now();
 	private static final java.sql.Timestamp TEST_TIME_STAMP=new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
 	
 	@Test
@@ -65,7 +65,7 @@ public class WeeklyOvertimeRuleMaintenanceTest extends KPMETestCase {
 		weeklyOvertimeRule.setActive(true);
 		weeklyOvertimeRule.setConvertFromEarnGroup(TEST_CODE);
 		weeklyOvertimeRule.setConvertToEarnCode(TEST_CODE);
-		weeklyOvertimeRule.setEffectiveDate(TEST_DATE);
+		weeklyOvertimeRule.setEffectiveLocalDate(TEST_DATE);
 		weeklyOvertimeRule.setMaxHours(TEST_NO);
 		weeklyOvertimeRule.setMaxHoursEarnGroup(TEST_CODE);
 		weeklyOvertimeRule.setStep(TEST_NO);
