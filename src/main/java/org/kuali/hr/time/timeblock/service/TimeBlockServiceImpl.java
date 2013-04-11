@@ -384,8 +384,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		return timeBlockDao.getTimeBlocks();
 	}
 	
-	public List<TimeBlock> getLatestEndTimestamp(){
-		return timeBlockDao.getLatestEndTimestamp();
+	public List<TimeBlock> getLatestEndTimestampForEarnCode(String earnCode){
+		return timeBlockDao.getLatestEndTimestampForEarnCode(earnCode);
 	}
 
     @Override

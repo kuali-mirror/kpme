@@ -117,7 +117,7 @@ public class TimeBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
     }
 
     @Override
-    public List<TimeBlock> getLatestEndTimestamp() { //KPME937
+    public List<TimeBlock> getLatestEndTimestampForEarnCode(String earnCode) { //KPME937
         List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
         Criteria root = new Criteria();
         Criteria crit = new Criteria();
@@ -126,7 +126,7 @@ public class TimeBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
         endTimestampSubQuery.setAttributes(new String[]{"max(endTimestamp)"});
 
         root.addEqualTo("endTimestamp", endTimestampSubQuery);
-
+        root.addEqualTo("earnCode", earnCode);
         Query query = QueryFactory.newQuery(TimeBlock.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 

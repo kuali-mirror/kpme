@@ -33,7 +33,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 
-	boolean validateSalGroup(EarnCodeSecurity departmentEarnCode ) {
+	private boolean validateSalGroup(EarnCodeSecurity departmentEarnCode ) {
 		if (!ValidationUtils.validateSalGroup(departmentEarnCode.getHrSalGroup(), departmentEarnCode.getEffectiveDate())) {
 			this.putFieldError("hrSalGroup", "error.existence", "Salgroup '" + departmentEarnCode.getHrSalGroup()+ "'");
 			return false;
@@ -42,7 +42,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 
-	boolean validateDept(EarnCodeSecurity clr) {
+	private boolean validateDept(EarnCodeSecurity clr) {
 		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveDate()) && !StringUtils.equals(clr.getDept(), TkConstants.WILDCARD_CHARACTER)) {
 			this.putFieldError("dept", "error.existence", "department '" + clr.getDept() + "'");
 			return false;
@@ -51,7 +51,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 
-	boolean validateEarnCode(EarnCodeSecurity departmentEarnCode ) {
+	private boolean validateEarnCode(EarnCodeSecurity departmentEarnCode ) {
 		if (!ValidationUtils.validateEarnCode(departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveDate())) {
 			this.putFieldError("earnCode", "error.existence", "Earncode '" + departmentEarnCode.getEarnCode()+ "'");
 			return false;
@@ -60,7 +60,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 
-	boolean validateDuplication(EarnCodeSecurity departmentEarnCode) {
+	private boolean validateDuplication(EarnCodeSecurity departmentEarnCode) {
 		if(ValidationUtils.duplicateDeptEarnCodeExists(departmentEarnCode)) {
 			this.putFieldError("effectiveDate", "deptEarncode.duplicate.exists");
 			return false;
@@ -69,7 +69,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 
-	boolean validateLocation(EarnCodeSecurity departmentEarnCode) {
+	private boolean validateLocation(EarnCodeSecurity departmentEarnCode) {
 		if (departmentEarnCode.getLocation() != null
 				&& !ValidationUtils.validateLocation(departmentEarnCode.getLocation(), null) && 
 				!StringUtils.equals(departmentEarnCode.getLocation(), TkConstants.WILDCARD_CHARACTER)) {
@@ -81,7 +81,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 	
-	boolean validateDepartmentCurrentUser(EarnCodeSecurity departmentEarnCode) {
+	private boolean validateDepartmentCurrentUser(EarnCodeSecurity departmentEarnCode) {
 		if (!TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin() && !TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getOrgAdminDepartments().contains(departmentEarnCode.getDept())) {
 			this.putFieldError("dept", "error.department.permissions", departmentEarnCode.getDept());
 			return false;
@@ -90,19 +90,14 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 	
-	boolean isEarnCodeUsedByActiveTimeBlocks(EarnCodeSecurity departmentEarnCode){
-		// KPME-1106 can not inactivation of a department earn code if it used in active time blocks
+	private boolean isEarnCodeUsedByActiveTimeBlocks(EarnCodeSecurity departmentEarnCode){
+		// KPME-1106 can not deactivate a department earn code if it used in active time blocks
 		boolean valid = true;
-		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestamp();
+		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestampForEarnCode(departmentEarnCode.getEarnCode());
 		
-		if ( !departmentEarnCode.isActive() && departmentEarnCode.getEffectiveDate().before(latestEndTimestampTimeBlocks.get(0).getEndDate()) ){
-			List<TimeBlock> activeTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks();
-			for(TimeBlock activeTimeBlock : activeTimeBlocks){
-				if ( departmentEarnCode.getEarnCode().equals(activeTimeBlock.getEarnCode())){
-					this.putFieldError("active", "deptEarncode.deptEarncode.inactivate", departmentEarnCode.getEarnCode());
-					return  false;
-				}
-			}
+		if ( !departmentEarnCode.isActive() && !latestEndTimestampTimeBlocks.isEmpty() && departmentEarnCode.getEffectiveDate().before(latestEndTimestampTimeBlocks.get(0).getEndDate()) ){
+			this.putFieldError("active", "deptEarncode.deptEarncode.inactivate", departmentEarnCode.getEarnCode());
+			return false;
 		} 
 		
 		return valid;
