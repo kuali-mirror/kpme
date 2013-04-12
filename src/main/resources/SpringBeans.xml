@@ -389,7 +389,9 @@
 
  	<bean id="positionFlagDao" class="org.kuali.hr.pm.positionflag.dao.PositionFlagDaoObjImpl" parent="platformAwareDao" />
  	
- 	<bean id="pstnQlfrTypeDao" class="org.kuali.hr.pm.pstnqlfrtype.dao.PstnQlfrTypeDaoObjImpl" parent="platformAwareDao" /> 	
+ 	<bean id="pstnQlfrTypeDao" class="org.kuali.hr.pm.pstnqlfrtype.dao.PstnQlfrTypeDaoObjImpl" parent="platformAwareDao" /> 
+ 	
+ 	<bean id="pstnQlfctnVlDao" class="org.kuali.hr.pm.pstnqlfctnvl.dao.PositionQualificationValueDaoObjImpl" parent="platformAwareDao" />	
  	
     <!-- Time Services for Business Logic -->
     <bean id="missedPunchService" class="org.kuali.hr.time.missedpunch.service.MissedPunchServiceImpl">
@@ -696,6 +698,10 @@
     
     <bean id="pstnQlfrTypeService" class="org.kuali.hr.pm.pstnqlfrtype.service.PstnQlfrTypeServiceImpl">
         <property name="pstnQlfrTypeDao" ref="pstnQlfrTypeDao"/>
+    </bean>
+    
+    <bean id="pstnQlfctnVlService" class="org.kuali.hr.pm.pstnqlfctnvl.service.PositionQualificationValueServiceImpl">
+    	<property name="pstnQlfctnVlDao" ref="pstnQlfctnVlDao"/>
     </bean>
     
     <bean id="accrualCategoryMaxCarryOverService" class="org.kuali.hr.lm.accrual.service.AccrualCategoryMaxCarryOverServiceImpl">

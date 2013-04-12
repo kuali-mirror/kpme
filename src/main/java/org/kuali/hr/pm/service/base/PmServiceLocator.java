@@ -8,6 +8,7 @@ import org.kuali.hr.pm.positionreportgroup.service.PositionReportGroupService;
 import org.kuali.hr.pm.positionreportsubcat.service.PositionReportSubCatService;
 import org.kuali.hr.pm.positionreporttype.service.PositionReportTypeService;
 import org.kuali.hr.pm.positiontype.service.PositionTypeService;
+import org.kuali.hr.pm.pstnqlfctnvl.service.PositionQualificationValueService;
 import org.kuali.hr.pm.pstnqlfrtype.service.PstnQlfrTypeService;
 import org.kuali.hr.pm.pstnrptgrpsubcat.service.PstnRptGrpSubCatService;
 import org.springframework.beans.BeansException;
@@ -27,6 +28,7 @@ public class PmServiceLocator implements ApplicationContextAware {
     public static final String PM_POSITION_TYPE_SERVICE = "positionTypeService";
     public static final String PM_POSITION_FLAG_SERVICE = "positionFlagService";
     public static final String PM_POSITION_QUALIFIER_TYPE_SERVICE = "pstnQlfrTypeService";
+    public static final String PM_POSITION_QUALIFICATION_VALUE_SERVICE = "pstnQlfctnVlService";
     
     public static InstitutionService getInstitutionService() {
     	return (InstitutionService) CONTEXT.getBean(PM_INSTITUTION_SERVICE);
@@ -66,6 +68,10 @@ public class PmServiceLocator implements ApplicationContextAware {
 	
 	public static PstnQlfrTypeService getPstnQlfrTypeServiceService() {
 		return (PstnQlfrTypeService) CONTEXT.getBean(PM_POSITION_QUALIFIER_TYPE_SERVICE);
+	}
+	
+	public static PositionQualificationValueService getPositionQualificationValueServiceService() {
+		return (PositionQualificationValueService) CONTEXT.getBean(PM_POSITION_QUALIFICATION_VALUE_SERVICE);
 	}
 	
 	@Override
