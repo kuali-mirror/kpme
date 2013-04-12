@@ -18,6 +18,7 @@ package org.kuali.hr.time.earngroup.validation;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -105,7 +106,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         KRADServiceLocator.getBusinessObjectService().delete(earnGroupObjRGG);
 
         if (StringUtils.isNotBlank(hrEarnCodeId)) {
-            EarnCode earnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCode.class, hrEarnCodeId);
+            EarnCode earnCodeObj = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(EarnCode.class, Collections.singletonMap("hrEarnCodeId", hrEarnCodeId));
             KRADServiceLocator.getBusinessObjectService().delete(earnCodeObj);
         }
         super.tearDown();
