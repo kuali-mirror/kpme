@@ -213,7 +213,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
 
         //add an earn code that is not being used, submit, should get success message
         text = (HtmlTextInput) page3.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "add.earnCodeGroups.earnCode");
-        text.setValueAttribute("SDR");
+        text.setValueAttribute("XZZ");
         element = HtmlUnitUtil.getInputContainingText(page3, "methodToCall.addLine.earnCodeGroups");
         page1 = element.click();
         LOG.error("page1 click >>> adding SDR to earn code group >>>" + page1.asXml());
