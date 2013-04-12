@@ -1,5 +1,283 @@
-<?xml version='1.0' encoding='UTF-8'?> 
+<?xml version='1.0' encoding='UTF-8'?>
 <chapter xml:id="lm-admin" xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns="http://docbook.org/ns/docbook" version="5.0">
-    <title>Leave Management Administrative Tools</title>
+	xmlns="http://docbook.org/ns/docbook" version="5.0">
+	<title>Leave Management Administrative Tools</title>
+	<section>
+		<title>Employee Override</title>
+		<para>
+			The system will allow for the ability to override the Accrual
+			Category limits, such as usage, carryover, transfer or payout, for an
+			individual employee.
+			The system will check to see if the employee has
+			an exception every time
+			the logic is executed for
+			<itemizedlist>
+				<listitem>
+					<para>Max Balance</para>
+				</listitem>
+				<listitem>
+					<para>Max Transfer Amount</para>
+				</listitem>
+				<listitem>
+					<para>Max Payout Amount</para>
+				</listitem>
+				<listitem>
+					<para>Max Usage</para>
+				</listitem>
+				<listitem>
+					<para>Max Annual Carryover</para>
+				</listitem>
+				<listitem>
+					<para>Max Balance</para>
+				</listitem>
+			</itemizedlist>
+		</para>
+		<table frame="none">
+			<title>Employee Override fields :</title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="2.00*" />
+				<colspec colname="c2" colnum="2" colwidth="4.00*" />
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry>
+							Date the override will go into effect.
+						</entry>
+					</row>
+					<row>
+						<entry>Principal ID</entry>
+						<entry>
+							Identifier of the employee.
+						</entry>
+					</row>
+
+					<row>
+						<entry>Leave Plan</entry>
+
+						<entry>Leave Plan
+							associated with the Principal ID and
+							Accrual
+							Category.
+						</entry>
+					</row>
+					<row>
+						<entry>Accrual Category</entry>
+
+						<entry>
+							Text field used to identify the Accrual Category the
+							override will be
+							applied too.
+						</entry>
+					</row>
+					<row>
+						<entry>Type of Override</entry>
+						<entry>Accrual Category limit that should be used for the
+							Employee.
+						</entry>
+					</row>
+					<row>
+						<entry>Override Value</entry>
+						<entry>The new limit value to be used for the Accrual
+							Category.
+						</entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry>Text field used to describe the reason for the
+							override.
+						</entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>
+							Status of the Override.
+						</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		<note>
+			<para>
+				Access will be restricted to System Admins.
+			</para>
+		</note>
+	</section>
+	<section>
+		<title>Leave Adjustment</title>
+		<para>
+			Ability to modify a employee’s earn code accrual balance.
+			Restricted to
+			System Admins or Department Admins with options to
+			either create new
+			or view existing donation records.
+			On submit a leave
+			block will be generated and displayed on their leave
+			calendar.
+		</para>
+
+		<table frame="none">
+			<title>Leave Adjustment fields :</title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="2.00*" />
+				<colspec colname="c2" colnum="2" colwidth="4.00*" />
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry>
+							Date the adjustment will go into effect.
+						</entry>
+					</row>
+					<row>
+						<entry>Principal ID</entry>
+						<entry>
+							Identifier of the employee.
+						</entry>
+					</row>
+					<row>
+						<entry>Leave Plan</entry>
+						<entry>Leave Plan associated with the Principal ID and Accrual
+							Category.
+						</entry>
+					</row>
+					<row>
+						<entry>Accrual Category</entry>
+						<entry>
+							Text field used to identify the Accrual Category the
+							adjustment will be.
+						</entry>
+					</row>
+					<row>
+						<entry>Earn Code</entry>
+						<entry>Earn Code associated with the Accrual Category and leave
+							adjustment.
+						</entry>
+					</row>
+					<row>
+						<entry>Adjustment Amount</entry>
+						<entry>The value of the leave adjustment, positive or negative
+						</entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry>Text field used to describe the reason for the
+							adjustment.
+						</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		<note>
+			<para>
+				An employee will not have ability to modify their own leave
+				balances.
+			</para>
+		</note>
+	</section>
+	<section>
+		<title>Leave Donation</title>
+		<para>
+			Employee's may donate leave to another employee.
+			The donation
+			transaction is done by the system admin with option to
+			create new or
+			view existing donation records.
+			On submit leave blocks are generated
+			for both recipient and donor that
+			will display on their leave
+			calendar.
+			Leave donation may or may not be prorated according to the
+			donor and
+			recipient's salary.
+			Amount Donated and Amount Received must
+			be manually entered and is what
+			will be removed/added from the
+			designated Accrual Categories.
+		</para>
+		<table frame="none">
+			<title>Leave Donation fields :</title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="2.00*" />
+				<colspec colname="c2" colnum="2" colwidth="4.00*" />
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry>
+							Date the Donation transaction will go into effect.
+						</entry>
+					</row>
+					<row>
+						<entry>Donor's Principal ID</entry>
+						<entry>
+							Identifier of the employee donating leave.
+						</entry>
+					</row>
+					<row>
+						<entry>Donation Accrual Category</entry>
+						<entry>Accrual Category associated with the donated Leave.
+						</entry>
+					</row>
+					<row>
+						<entry>Donation Earn Code</entry>
+						<entry>
+							A leave block indicating the amount donated will be
+							recorded with this earn code
+						</entry>
+					</row>
+					<row>
+						<entry>Amount Donated</entry>
+						<entry>The amount of accrued leave to be donated. Subtracted from
+							the Donated Leave Accrual Category.
+						</entry>
+					</row>
+					<row>
+						<entry>Recipient's Principal ID</entry>
+						<entry>Identifier of the employee receiving the donated leave.
+						</entry>
+					</row>
+					<row>
+						<entry>Recipient's Accrual Category</entry>
+						<entry>Accrual Category the donated Leave will be accrued to
+						</entry>
+					</row>
+					<row>
+						<entry>Recipient's Earn Code </entry>
+						<entry>The donation accrual leave block will be recorded with this
+							earn code
+						</entry>
+					</row>
+					<row>
+						<entry>Amount Received</entry>
+						<entry>The amount of accrued leave to be received. Added to the
+							Recipient's Leave Accrual Category.
+						</entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry>Text field used to describe the reason for the
+							Leave
+							Donation.
+						</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>		
+	</section>
 </chapter>
