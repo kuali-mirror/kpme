@@ -83,7 +83,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         earnCode.setOvtEarnCode(false);
         earnCode.setInflateMinHours(BigDecimal.ZERO);
         earnCode.setInflateFactor(BigDecimal.ZERO);
-        KRADServiceLocator.getBusinessObjectService().save(earnCode);
+        earnCode = KRADServiceLocator.getBusinessObjectService().save(earnCode);
         hrEarnCodeId = earnCode.getHrEarnCodeId();
 
         // Set up earn group RGG in tk-earn_group_t
@@ -93,7 +93,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         earnGroupRGG.setEffectiveDate(TEST_DATE);
         earnGroupRGG.setShowSummary(true);
         earnGroupRGG.setActive(true);
-        KRADServiceLocator.getBusinessObjectService().save(earnGroupRGG);
+        earnGroupRGG = KRADServiceLocator.getBusinessObjectService().save(earnGroupRGG);
         hrEarnGroupIdRGG = earnGroupRGG.getHrEarnCodeGroupId();
     }
 
@@ -216,6 +216,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         text.setValueAttribute("SDR");
         element = HtmlUnitUtil.getInputContainingText(page3, "methodToCall.addLine.earnCodeGroups");
         page1 = element.click();
+        LOG.error("page1 click >>> adding SDR to earn code group >>>" + page1.asXml());
         Assert.assertFalse("Page contains Error", page1.asText().contains("error"));
         element = page1.getElementByName("methodToCall.route");
         finalPage = element.click();
