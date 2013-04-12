@@ -82,7 +82,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         earnCode.setOvtEarnCode(false);
         earnCode.setInflateMinHours(BigDecimal.ZERO);
         earnCode.setInflateFactor(BigDecimal.ZERO);
-        KRADServiceLocator.getBusinessObjectService().save(earnCode);
+        earnCode = KRADServiceLocator.getBusinessObjectService().save(earnCode);
         hrEarnCodeId = earnCode.getHrEarnCodeId();
 
         // Set up earn group RGG in tk-earn_group_t
