@@ -108,7 +108,7 @@ public class TimeBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
         List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
         Criteria root = new Criteria();
         Criteria crit = new Criteria();
-
+        crit.addEqualTo("earnCode", earnCode);
         ReportQueryByCriteria endTimestampSubQuery = QueryFactory.newReportQuery(TimeBlock.class, crit);
         endTimestampSubQuery.setAttributes(new String[]{"max(endTimestamp)"});
 

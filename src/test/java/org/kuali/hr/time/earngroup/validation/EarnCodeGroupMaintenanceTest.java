@@ -201,7 +201,6 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         page1 = element.click();
         Assert.assertTrue("Maintenance Page contains error messages", page1.asText().contains(EARN_CODE + " is already a part of this earngroup."));
 
-
         element = page1.getElementByName("methodToCall.route");
         HtmlPage finalPage = element.click();
         // error for earn code that is being used by another earn group

@@ -149,14 +149,10 @@ public class EarnCodeMaintenaceTest extends KPMETestCase {
 		HtmlCheckBoxInput active = (HtmlCheckBoxInput) maintPage.getHtmlElementById("document.newMaintainableObject.active");
 		active.setChecked(false);
 		HtmlTextInput effectiveDate = (HtmlTextInput) maintPage.getHtmlElementById("document.newMaintainableObject.effectiveDate");
-		effectiveDate.setValueAttribute("2010-01-02");
+		effectiveDate.setValueAttribute("01/02/2010");
 		HtmlElement element = maintPage.getElementByName("methodToCall.route");
         HtmlPage finalPage = element.click();
-        //Assert.assertTrue("Maintenance Page does not return warning about active timeblock existence.", finalPage.asText().contains("Can not inactivate earn code 'RGN'. It is used in active time blocks"));
-        Assert.assertTrue("Maintenance Page doesn't return warning about later effective date", finalPage.asText().contains("A record for this object exists with a later effective date"));
-        HtmlElement yesButton = finalPage.getElementByName("methodToCall.processAnswer.button0");
-        finalPage = yesButton.click();
-        Assert.assertTrue("Maintenance Page contains error messages", finalPage.asText().contains("There is a newer version of this Earn Code."));
+        Assert.assertTrue("Maintenance Page does not return warning about active timeblock existence.", finalPage.asText().contains("Can not inactivate earn code 'RGN'. It is used in active time blocks"));
 	}
 	
 	@Test
@@ -182,11 +178,10 @@ public class EarnCodeMaintenaceTest extends KPMETestCase {
 		HtmlCheckBoxInput active = (HtmlCheckBoxInput) maintPage.getHtmlElementById("document.newMaintainableObject.active");
 		active.setChecked(false);
 		HtmlTextInput effectiveDate = (HtmlTextInput) maintPage.getHtmlElementById("document.newMaintainableObject.effectiveDate");
-		effectiveDate.setValueAttribute("2010-01-04");
+		effectiveDate.setValueAttribute("01/04/2010");
 		HtmlElement element = maintPage.getElementByName("methodToCall.route");
         HtmlPage finalPage = element.click();
         Assert.assertTrue("Maintenance Page should not return warning about active timeblock existence.", !finalPage.asText().contains("Can not inactivate earn code 'RGN'. It is used in active time blocks"));
-        Assert.assertTrue("Maintenance Page doesn't return warning about later effective date", finalPage.asText().contains("A record for this object exists with a later effective date"));
 	}
 	
 }
