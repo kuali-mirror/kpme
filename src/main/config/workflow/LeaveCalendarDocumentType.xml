@@ -23,7 +23,6 @@
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
             <name>LeaveCalendarDocument</name>
-<<<<<<< .working
 			<parent>RiceDocument</parent>
 			<superUserGroupName namespace="KPME-HR">System Administrator</superUserGroupName>
 			<blanketApproveGroupName namespace="KPME-HR">System Administrator</blanketApproveGroupName>
