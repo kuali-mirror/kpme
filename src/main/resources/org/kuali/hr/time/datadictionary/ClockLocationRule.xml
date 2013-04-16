@@ -323,12 +323,12 @@
 							<bean parent="FieldDefinition" p:attributeName="ipAddressesString" />
 						</list>
 					</property>
-					<property name="title" value="ClockLocationRule" />
+					<property name="title" value="Clock Location Rule" />
 				</bean>
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="ClockLocationRule Inquiry" />
+		<property name="title" value="Clock Location Rule Inquiry" />
 	</bean>
   <!--  Look up Definitions  -->
 

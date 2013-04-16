@@ -146,12 +146,12 @@
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
-					<property name="title" value="GracePeriodRule" />
+					<property name="title" value="Grace Period Rule" />
 				</bean>
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="GracePeriodRule Inquiry" />
+		<property name="title" value="Grace Period Rule Inquiry" />
 	</bean>
 
 

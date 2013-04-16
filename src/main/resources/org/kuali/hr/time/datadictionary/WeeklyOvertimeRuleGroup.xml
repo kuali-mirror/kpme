@@ -56,7 +56,7 @@
 				<bean parent="FieldDefinition" p:attributeName="tkWeeklyOvertimeRuleGroupId" />				
 			</list>
 		</property>
-		<property name="title" value="Weekly OverTime Rule Group Lookup" />
+		<property name="title" value="Weekly Overtime Rule Group Lookup" />
 	</bean>
 	
 	<bean id="WeeklyOvertimeRuleGroup-inquiryDefinition" parent="WeeklyOvertimeRuleGroup-inquiryDefinition-parentBean" />
@@ -85,7 +85,7 @@
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="Weekly OverTime Rule Group Inquiry" />
+		<property name="title" value="Weekly Overtime Rule Group Inquiry" />
 	</bean>
 
 </beans>

@@ -400,12 +400,12 @@
 							<bean parent="FieldDefinition" p:attributeName="fromEarnGroup" />
 						</list>
 					</property>
-					<property name="title" value="DailyOvertimeRule" />
+					<property name="title" value="Daily Overtime Rule" />
 				</bean>
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="DailyOvertimeRule Inquiry" />
+		<property name="title" value="Daily Overtime Rule Inquiry" />
 	</bean>
 	
 	<!--  Look up Definitions  -->
@@ -439,6 +439,6 @@
         		<bean parent="FieldDefinition" p:attributeName="earnCode" />
 			</list>
 		</property>
-		<property name="title" value="DailyOvertimeRule Lookup" />
+		<property name="title" value="Daily Overtime Rule Lookup" />
 	</bean>
 </beans>

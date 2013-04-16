@@ -25,7 +25,7 @@
             <name>EmployeeOverrideDocumentType</name>
             <parent>RiceDocument</parent>
             <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-            <label>EmployeeOverrideDocument</label>
+            <label>Employee Override Document</label>
         </documentType>
      </documentTypes>
 </data>

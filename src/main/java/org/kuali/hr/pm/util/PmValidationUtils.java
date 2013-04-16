@@ -110,7 +110,7 @@ public class PmValidationUtils {
 	
 	public static boolean validatePayGradeWithSalaryGroup(String salaryGroup, String payGrade, LocalDate asOfDate) {
 		if (asOfDate != null) {
-			PayGrade grade = TkServiceLocator.getPayGradeService().getPayGrade(payGrade, asOfDate);
+			PayGrade grade = TkServiceLocator.getPayGradeService().getPayGrade(payGrade, salaryGroup, asOfDate);
 			if(grade != null && StringUtils.isNotBlank(grade.getSalGroup())) 
 				return StringUtils.equals(grade.getSalGroup(), salaryGroup);
 		}

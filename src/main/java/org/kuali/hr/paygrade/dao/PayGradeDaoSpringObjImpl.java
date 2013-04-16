@@ -32,13 +32,15 @@ import com.google.common.collect.ImmutableList;
 public class PayGradeDaoSpringObjImpl  extends PlatformAwareDaoBaseOjb implements PayGradeDao {
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("payGrade")
+            .add("salGroup")
             .build();
 
 	@Override
-	public PayGrade getPayGrade(String payGrade, LocalDate asOfDate) {
+	public PayGrade getPayGrade(String payGrade, String salGroup, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 
 		root.addEqualTo("payGrade", payGrade);
+		root.addEqualTo("salGroup", salGroup);
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PayGrade.class, asOfDate, EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PayGrade.class, EQUAL_TO_FIELDS, false));
 

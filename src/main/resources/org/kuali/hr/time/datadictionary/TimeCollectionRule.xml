@@ -293,11 +293,11 @@
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
-					<property name="title" value="TimeCollectionRule" />
+					<property name="title" value="Time Collection Rule" />
 				</bean>
 			</list>
 		</property>
-		<property name="title" value="TimeCollectionRule Inquiry" />
+		<property name="title" value="Time Collection Rule Inquiry" />
 	</bean>
 
 	<!--  Look up Definitions  -->
@@ -327,6 +327,6 @@
                 <bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
-		<property name="title" value="TimeCollectionRule Lookup" />
+		<property name="title" value="Time Collection Rule Lookup" />
 	</bean>
 </beans>

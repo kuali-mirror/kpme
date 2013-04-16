@@ -162,7 +162,7 @@
 			<bean parent="TextControlDefinition" p:size="5" />
 		</property>
 		<property name="name" value="subAcctNbr" />
-		<property name="label" value="SubAccount Number" />
+		<property name="label" value="Sub-Account Number" />
 	</bean>
 
 	<bean id="AssignmentAccount-finObjectCd" parent="AssignmentAccount-finObjectCd-parentBean" />
@@ -315,7 +315,7 @@
 				<bean parent="FieldDefinition" p:attributeName="percent" />
 			</list>
 		</property>
-		<property name="title" value="AssignmentAccount Lookup" />
+		<property name="title" value="Assignment Account Lookup" />
 	</bean>
 
 </beans>

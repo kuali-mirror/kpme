@@ -17,6 +17,7 @@ package org.kuali.hr.time.earngroup.validation;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -92,7 +93,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         earnGroupRGG.setEffectiveLocalDate(TEST_DATE);
         earnGroupRGG.setShowSummary(true);
         earnGroupRGG.setActive(true);
-        KRADServiceLocator.getBusinessObjectService().save(earnGroupRGG);
+        earnGroupRGG = KRADServiceLocator.getBusinessObjectService().save(earnGroupRGG);
         hrEarnGroupIdRGG = earnGroupRGG.getHrEarnCodeGroupId();
     }
 
@@ -105,7 +106,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         KRADServiceLocator.getBusinessObjectService().delete(earnGroupObjRGG);
 
         if (StringUtils.isNotBlank(hrEarnCodeId)) {
-            EarnCode earnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCode.class, hrEarnCodeId);
+            EarnCode earnCodeObj = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(EarnCode.class, Collections.singletonMap("hrEarnCodeId", hrEarnCodeId));
             KRADServiceLocator.getBusinessObjectService().delete(earnCodeObj);
         }
         super.tearDown();
@@ -200,7 +201,6 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         page1 = element.click();
         Assert.assertTrue("Maintenance Page contains error messages", page1.asText().contains(EARN_CODE + " is already a part of this earngroup."));
 
-
         element = page1.getElementByName("methodToCall.route");
         HtmlPage finalPage = element.click();
         // error for earn code that is being used by another earn group
@@ -213,9 +213,10 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
 
         //add an earn code that is not being used, submit, should get success message
         text = (HtmlTextInput) page3.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "add.earnCodeGroups.earnCode");
-        text.setValueAttribute("SDR");
+        text.setValueAttribute("XZZ");
         element = HtmlUnitUtil.getInputContainingText(page3, "methodToCall.addLine.earnCodeGroups");
         page1 = element.click();
+        LOG.error("page1 click >>> adding SDR to earn code group >>>" + page1.asXml());
         Assert.assertFalse("Page contains Error", page1.asText().contains("error"));
         element = page1.getElementByName("methodToCall.route");
         finalPage = element.click();

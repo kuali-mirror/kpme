@@ -351,6 +351,13 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
 	                }
                 }
             }
+            
+            
+            //KPME-2264 -
+            // EE's should be able to remove timeblocks added via the time detail calendar only after checking prior conditions,
+            if (principalId.equals(TKContext.getTargetPrincipalId())) {
+            	return true;
+            }      
 
             List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
                     .getEarnCodeSecurityService().getEarnCodeSecurities(

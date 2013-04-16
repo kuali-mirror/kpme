@@ -346,12 +346,12 @@
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
-					<property name="title" value="EarnCodeSecurity" />
+					<property name="title" value="Earn Code Security" />
 				</bean>
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="EarnCodeSecurity Inquiry" />
+		<property name="title" value="Earn Code Security Inquiry" />
 	</bean>
 
 	<!-- Look up Definitions  -->

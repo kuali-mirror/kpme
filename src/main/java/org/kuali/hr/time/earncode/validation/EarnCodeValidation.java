@@ -137,15 +137,11 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 			return false;
 		}
 		
-		// kpme-937 can not inactivation of a earn code if it used in active timeblocks
-		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestamp();
-		
-		if ( !earnCode.isActive() && earnCode.getEffectiveDate().before(latestEndTimestampTimeBlocks.get(0).getEndDate()) ){
-			List<TimeBlock> activeTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksWithEarnCode(earnCode.getEarnCode(), earnCode.getEffectiveLocalDate().toDateTimeAtStartOfDay());
-			if(activeTimeBlocks != null && !activeTimeBlocks.isEmpty()) {
-				this.putFieldError("earnCode", "earncode.earncode.inactivate", earnCode.getEarnCode());
-				return false;
-			}
+		// kpme-937 can not deactivate an earn code if it used in active timeblocks
+		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestampForEarnCode(earnCode.getEarnCode());
+		if ( !earnCode.isActive() && !latestEndTimestampTimeBlocks.isEmpty() && earnCode.getEffectiveDate().before(latestEndTimestampTimeBlocks.get(0).getEndDate()) ){
+			this.putFieldError("earnCode", "earncode.earncode.inactivate", earnCode.getEarnCode());
+			return false;
 		}
 		
 		if(!(this.validateDefaultAmountOfTime(earnCode.getDefaultAmountofTime()))) {

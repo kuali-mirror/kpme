@@ -28,7 +28,9 @@ import org.kuali.hr.time.calendar.dao.CalendarDao;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CalendarServiceImpl implements CalendarService {
 
@@ -53,6 +55,9 @@ public class CalendarServiceImpl implements CalendarService {
         PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, payEndDate.toLocalDate());
         
         Calendar calendar = null;
+        if(ObjectUtils.isNull(principalCalendar)) {
+        	return null;
+        }
         if (StringUtils.equalsIgnoreCase(calendarType, TkConstants.PAY_CALENDAR_TYPE)) {
         	calendar = getCalendarByGroup(principalCalendar.getPayCalendar());
         } else if (StringUtils.equalsIgnoreCase(calendarType, LMConstants.LEAVE_CALENDAR_TYPE)) {
@@ -60,7 +65,9 @@ public class CalendarServiceImpl implements CalendarService {
         }
         
         CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate(calendar.getHrCalendarId(), payEndDate);
-        calendarEntry.setCalendarObj(calendar);
+        
+        if(ObjectUtils.isNotNull(calendarEntry))
+        	calendarEntry.setCalendarObj(calendar);
         
         return calendarEntry;
     }

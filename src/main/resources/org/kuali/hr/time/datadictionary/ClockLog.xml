@@ -316,12 +316,12 @@
 							
 						</list>
 					</property>
-					<property name="title" value="ClockLog" />
+					<property name="title" value="Clock Log" />
 				</bean>
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="ClockLog Inquiry" />
+		<property name="title" value="Clock Log Inquiry" />
 	</bean>
 
 	<!-- Look up Definitions  -->

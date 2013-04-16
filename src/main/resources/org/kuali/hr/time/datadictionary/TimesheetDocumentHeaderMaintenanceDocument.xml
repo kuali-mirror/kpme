@@ -46,7 +46,7 @@
 
 	<bean id="TimesheetDocumentHeaderMaintenanceDocument-TimesheetDocumentHeaderMaintenance-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="title" value="TimesheetDocumentHeader Maintenance" />
+		<property name="title" value="Timesheet Document Header Maintenance" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="documentId"

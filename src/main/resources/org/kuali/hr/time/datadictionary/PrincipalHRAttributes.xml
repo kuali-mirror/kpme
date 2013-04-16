@@ -106,7 +106,7 @@
             <bean parent="TextControlDefinition" p:size="40" />
         </property>
         <property name="name" value="hrPrincipalAttributeId" />
-        <property name="label" value="HR Attr Id" />
+        <property name="label" value="HR Attribute Id" />
     </bean>
 
 	<bean id="PrincipalHRAttributes-principalId" parent="PrincipalHRAttributes-principalId-parentBean" />
@@ -345,12 +345,12 @@
 							<bean parent="FieldDefinition" p:attributeName="workersCompEligible" />
 						</list>
 					</property>
-					<property name="title" value="PrincipalHRAttributes" />
+					<property name="title" value="Principal HR Attributes" />
 				</bean>
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="PrincipalHRAttributes Inquiry" />
+		<property name="title" value="Principal HR Attributes Inquiry" />
 	</bean>
 
 	<!-- Look up Definitions  -->

@@ -103,30 +103,17 @@ public class TimeBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
         return (List<TimeBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlock.class, crit));
     }
 
-    public List<TimeBlock> getTimeBlocks() { //KPME937
-        List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
-        Criteria crit = new Criteria();
-
-        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlock.class, crit));
-
-        if (c != null) {
-            timeBlocks.addAll(c);
-        }
-
-        return timeBlocks;
-    }
-
     @Override
-    public List<TimeBlock> getLatestEndTimestamp() { //KPME937
+    public List<TimeBlock> getLatestEndTimestampForEarnCode(String earnCode) { //KPME937
         List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
         Criteria root = new Criteria();
         Criteria crit = new Criteria();
-
+        crit.addEqualTo("earnCode", earnCode);
         ReportQueryByCriteria endTimestampSubQuery = QueryFactory.newReportQuery(TimeBlock.class, crit);
         endTimestampSubQuery.setAttributes(new String[]{"max(endTimestamp)"});
 
         root.addEqualTo("endTimestamp", endTimestampSubQuery);
-
+        root.addEqualTo("earnCode", earnCode);
         Query query = QueryFactory.newQuery(TimeBlock.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 

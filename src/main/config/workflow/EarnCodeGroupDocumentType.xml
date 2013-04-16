@@ -24,7 +24,7 @@
 		<documentType>
 			<name>EarnCodeGroupDocumentType</name>
 			<parent>RiceDocument</parent>
-			<label>EarnCodeGroupDocument</label>
+			<label>Earn Code Group Document</label>
 			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 		</documentType>
 	</documentTypes>

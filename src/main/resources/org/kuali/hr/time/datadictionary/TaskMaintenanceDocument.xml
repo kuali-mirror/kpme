@@ -48,7 +48,7 @@
 
 	<bean id="TaskMaintenanceDocument-TaskMaintenance-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="title" value="Work Area Maintenance" />
+		<property name="title" value="Task Maintenance" />
 		<property name="maintainableItems">
 			<list>
 			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"  p:required="true"/>

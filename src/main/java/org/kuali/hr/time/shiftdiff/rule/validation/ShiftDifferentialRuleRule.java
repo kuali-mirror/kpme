@@ -74,7 +74,7 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 				&& !StringUtils.equals(shiftDifferentialRule.getPayGrade(),
 						TkConstants.WILDCARD_CHARACTER)
 				&& !ValidationUtils.validatePayGrade(shiftDifferentialRule
-						.getPayGrade(), shiftDifferentialRule
+						.getPayGrade(), shiftDifferentialRule.getHrSalGroup(), shiftDifferentialRule
 						.getEffectiveLocalDate())) {
 			this.putFieldError("payGrade", "error.existence", "pay grade '"
 					+ shiftDifferentialRule.getPayGrade() + "'");

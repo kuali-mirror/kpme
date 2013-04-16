@@ -529,12 +529,12 @@
 							
 						</list>
 					</property>
-					<property name="title" value="EarnCode" />
+					<property name="title" value="Earn Code" />
 				</bean>
 			</list>
 		</property>
 		<property name="translateCodes" value="false" />
-		<property name="title" value="EarnCode Inquiry" />
+		<property name="title" value="Earn Code Inquiry" />
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
@@ -575,6 +575,6 @@
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
-		<property name="title" value="EarnCode Lookup" />
+		<property name="title" value="Earn Code Lookup" />
 	</bean>
 </beans>

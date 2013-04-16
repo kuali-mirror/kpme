@@ -25,7 +25,7 @@
 			<name>TimesheetDocumentHeaderDocumentType</name>
 			<parent>RiceDocument</parent>
 			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-			<label>TimesheetDocumentHeaderDocument</label>
+			<label>Timesheet Document Header Document</label>
 		</documentType>
 	</documentTypes>
 </data>

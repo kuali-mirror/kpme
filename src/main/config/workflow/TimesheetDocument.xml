@@ -28,7 +28,7 @@
 			<blanketApproveGroupName namespace="KPME-HR">System Administrator</blanketApproveGroupName>
 			<defaultExceptionGroupName namespace="KPME-HR">System Administrator</defaultExceptionGroupName>
 			<description>Timesheet Document</description>
-			<label>TimesheetDocument</label>
+			<label>Timesheet Document</label>
             <docHandler>${kuali.docHandler.url.prefix}/Timesheet.do?methodToCall=docHandler</docHandler>
             <postProcessorName>org.kuali.hr.time.workflow.postprocessor.TkPostProcessor</postProcessorName>
             <active>true</active>

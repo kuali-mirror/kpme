@@ -100,7 +100,7 @@
 			<bean parent="Uif-TextControl" p:size="20" />
 		</property>
 		<property name="name" value="payGrade" />
-		<property name="label" value="PayGrade" />
+		<property name="label" value="Pay Grade" />
 	</bean>
 
 	<bean id="PayGrade-salGroup" parent="PayGrade-salGroup-parentBean" />

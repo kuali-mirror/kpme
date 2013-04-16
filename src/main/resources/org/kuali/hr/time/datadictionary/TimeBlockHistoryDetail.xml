@@ -357,12 +357,12 @@
                             <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.timestamp"/>
                         </list>
                     </property>
-                    <property name="title" value="TimeBlockHistoryDetail"/>
+                    <property name="title" value="Time Block History Detail"/>
 
                 </bean>
             </list>
         </property>
-        <property name="title" value="TimeBlockHistoryDetail Inquiry"/>
+        <property name="title" value="Time Block History Detail Inquiry"/>
         <property name="translateCodes" value="false"/>
     </bean>
 
@@ -411,6 +411,6 @@
                  <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.timestamp"/>
             </list>
         </property>
-        <property name="title" value="TimeBlockHistoryDetail Lookup"/>
+        <property name="title" value="Time Block History Detail Lookup"/>
     </bean>
 </beans>

@@ -21,12 +21,12 @@ import org.kuali.hr.paygrade.dao.PayGradeDao;
 
 import java.util.List;
 
-public class PayGradeServiceImpl implements PayGradeService{
+public class PayGradeServiceImpl implements PayGradeService {
 
 	private PayGradeDao payGradeDao;
 	@Override
-	public PayGrade getPayGrade(String payGrade, LocalDate asOfDate) {
-		return payGradeDao.getPayGrade(payGrade, asOfDate);
+	public PayGrade getPayGrade(String payGrade, String salGroup, LocalDate asOfDate) {
+		return payGradeDao.getPayGrade(payGrade, salGroup, asOfDate);
 	}
  
 	public void setPayGradeDao(PayGradeDao payGradeDao) {
@@ -47,9 +47,4 @@ public class PayGradeServiceImpl implements PayGradeService{
         return payGradeDao.getPayGrades(payGrade, payGradeDescr, active);
     }
 
-	@Override
-	public List<PayGrade> getPayGradesForSalaryGroup(String salaryGroup,
-			LocalDate asOfDate) {
-		return payGradeDao.getPayGradesForSalaryGroup(salaryGroup, asOfDate);
-	}
 }

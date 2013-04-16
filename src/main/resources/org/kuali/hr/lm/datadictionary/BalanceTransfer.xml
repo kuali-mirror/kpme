@@ -274,12 +274,12 @@
 							<bean parent="FieldDefinition" p:attributeName="toAccrualCategory"/>						
 						</list>
 					</property>
-					<property name="title" value="BalanceTransfer" />
+					<property name="title" value="Balance Transfer" />
 				</bean>
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="BalanceTransfer Inquiry" />
+		<property name="title" value="Balance Transfer Inquiry" />
 	</bean>
 
 	<!--  Look up Definitions  -->
@@ -312,7 +312,7 @@
 				<bean parent="FieldDefinition" p:attributeName="forfeitedAmount" />
 			</list>
 		</property>
-		<property name="title" value="BalanceTransfer Lookup" />
+		<property name="title" value="Balance Transfer Lookup" />
 	</bean>
 
 </beans>

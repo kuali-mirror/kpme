@@ -25,7 +25,7 @@
 			<name>AccrualCategoryDocumentType</name>
 			<parent>RiceDocument</parent>
 			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-			<label>AccrualCategoryDocument</label>
+			<label>Accrual Category Document</label>
 		</documentType>   
      </documentTypes>
 </data>

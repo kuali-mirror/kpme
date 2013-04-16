@@ -25,7 +25,7 @@
 			<name>SystemLunchRuleDocumentType</name>
 			<parent>RiceDocument</parent>
 			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-			<label>SystemLunchRuleMaintenanceDocument</label>
+			<label>System Lunch Rule Document</label>
 		</documentType>
 	</documentTypes>
 </data>

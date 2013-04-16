@@ -379,12 +379,9 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		return timeBlockDao.getTimeBlocksForClockLogBeginId(tkClockLogId);
 	}
 
-	public List<TimeBlock> getTimeBlocks(){
-		return timeBlockDao.getTimeBlocks();
-	}
-	
-	public List<TimeBlock> getLatestEndTimestamp(){
-		return timeBlockDao.getLatestEndTimestamp();
+	@Override
+	public List<TimeBlock> getLatestEndTimestampForEarnCode(String earnCode){
+		return timeBlockDao.getLatestEndTimestampForEarnCode(earnCode);
 	}
 
     @Override

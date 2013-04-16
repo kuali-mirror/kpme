@@ -28,10 +28,9 @@
 			<blanketApproveGroupName namespace="KPME-HR">System Administrator</blanketApproveGroupName>
 			<defaultExceptionGroupName namespace="KPME-HR">System Administrator</defaultExceptionGroupName>
 			<description>Balance Transfer Document</description>
-			<label>BalanceTransferDocument</label>
+			<label>Balance Transfer Document</label>
             <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
             <applicationId>KPME</applicationId>
-            <active>true</active>
             <routingVersion>1</routingVersion>
 			<routePaths>
 				<routePath>

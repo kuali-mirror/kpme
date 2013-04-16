@@ -273,7 +273,7 @@
 			</list>
 		</property>
 		<property name="translateCodes" value="false" />
-		<property name="title" value="LeavePlan Inquiry" />
+		<property name="title" value="Leave Plan Inquiry" />
 	</bean>
 
 	<!-- Look up Definitions -->

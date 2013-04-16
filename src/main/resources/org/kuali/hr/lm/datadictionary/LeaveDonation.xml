@@ -253,7 +253,7 @@
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="donorsPrincipalID" />
-		<property name="label" value="Donor's PrincipalID" />
+		<property name="label" value="Donor's Principal ID" />
 	</bean>
 	
 	<!-- recipientsPrincipalID -->
@@ -271,7 +271,7 @@
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="recipientsPrincipalID" />
-		<property name="label" value="Recipient's PrincipalID" />
+		<property name="label" value="Recipient's Principal ID" />
 	</bean>
 	
 	<!-- description -->
@@ -380,7 +380,7 @@
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="LeaveDonation Inquiry" />
+		<property name="title" value="Leave Donation Inquiry" />
 	</bean>
 
 	<!--  Look up Definitions  -->

@@ -25,11 +25,12 @@ public interface PayGradeService {
 	/**
 	 * Pulls back a particular paygrade as of a particular date
 	 * @param payGrade
+	 * @param salGroup 
 	 * @param asOfDate
 	 * @return
 	 */
-    @Cacheable(value= PayGrade.CACHE_NAME, key="'payGrade=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public PayGrade getPayGrade(String payGrade, LocalDate asOfDate);
+    @Cacheable(value= PayGrade.CACHE_NAME, key="'payGrade=' + #p0 + '|' + 'salGroup=' + #p1 + '|' + 'asOfDate=' + #p2")
+	public PayGrade getPayGrade(String payGrade, String salGroup, LocalDate asOfDate);
 	/**
 	 * Get pay grade by a unique id
 	 * @param hrPayGradeId
@@ -45,11 +46,5 @@ public interface PayGradeService {
 	public int getPayGradeCount(String payGrade);
 	
     List<PayGrade> getPayGrades(String payGrade, String payGradeDescr, String active);
-    /**
-     * Returns the list of pay grades active on the given salary group as of a specific date.
-     * @param salaryGroup
-     * @param asOfDate
-     * @return
-     */
-    public List<PayGrade> getPayGradesForSalaryGroup(String salaryGroup, LocalDate asOfDate);
+
 }

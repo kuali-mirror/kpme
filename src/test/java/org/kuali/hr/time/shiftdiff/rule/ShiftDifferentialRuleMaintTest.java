@@ -35,6 +35,17 @@ public class ShiftDifferentialRuleMaintTest extends KPMETestCase{
 		
 	private static final BigDecimal TEST_NO=new BigDecimal(2);
 	private static String shiftDifferentialRuleId;
+
+	
+	
+	@Test
+	public void testShiftDifferentialRuleMaint() throws Exception {	 
+		HtmlPage shiftDifferentialRuleLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.SHIFT_DIFFERENTIAL_RULE_MAINT_URL);
+		shiftDifferentialRuleLookup = HtmlUnitUtil.clickInputContainingText(shiftDifferentialRuleLookup, "search");
+		Assert.assertTrue("Page contains test Shift Differential Rule", shiftDifferentialRuleLookup.asText().contains(TEST_CODE.toString()));
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(shiftDifferentialRuleLookup, "edit",shiftDifferentialRuleId.toString());
+		Assert.assertTrue("Maintenance Page contains test ShiftDifferentialRule",maintPage.asText().contains(TEST_CODE));	 
+	}
 	
 	@Test
 	public void testRequiredFields() throws Exception {
@@ -71,7 +82,7 @@ public class ShiftDifferentialRuleMaintTest extends KPMETestCase{
 	  	Assert.assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
 	    errorMessage = "Location (Location) is a required field.";
 	    Assert.assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
-	    errorMessage = "Sal. Group (Sal. Group) is a required field.";
+	    errorMessage = "Salary Group (Salary Group) is a required field.";
 	    Assert.assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
 	    errorMessage = "Pay Grade (Pay Grade) is a required field.";
 	    Assert.assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));

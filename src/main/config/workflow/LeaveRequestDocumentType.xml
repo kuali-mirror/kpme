@@ -28,7 +28,7 @@
 			<blanketApproveGroupName namespace="KPME-HR">System Administrator</blanketApproveGroupName>
 			<defaultExceptionGroupName namespace="KPME-HR">System Administrator</defaultExceptionGroupName>
 			<description>Leave Request Document</description>
-			<label>LeaveRequestDocument</label>
+			<label>Leave Request Document</label>
             <docHandler>${kuali.docHandler.url.prefix}/LeaveRequestApproval.do</docHandler>
             <postProcessorName>org.kuali.hr.lm.workflow.postprocessor.LeaveRequestPostProcessor</postProcessorName>
             <applicationId>KPME</applicationId>

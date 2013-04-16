@@ -28,7 +28,7 @@
 			<blanketApproveGroupName namespace="KPME-HR">System Administrator</blanketApproveGroupName>
 			<defaultExceptionGroupName namespace="KPME-HR">System Administrator</defaultExceptionGroupName>
 			<description>Leave Payout Document</description>
-			<label>LeavePayoutDocument</label>
+			<label>Leave Payout Document</label>
             <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
             <active>true</active>
             <applicationId>KPME</applicationId>
