@@ -421,8 +421,4 @@
             </build>
         </profile>
     </profiles>
-
-    <properties>
-
-    </properties>
 </project>

@@ -37,8 +37,9 @@
     <modules>
         <module>db</module>
         <module>hr-core</module>
+        <module>tk-lm</module>
         <module>pm</module>
-
+        <module>web</module>
     </modules>
 
     <properties>
@@ -370,7 +371,7 @@
     </dependencies>
 
     <build>
-        <resources>
+<!--        <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
@@ -525,8 +526,8 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
+            </plugin>-->
+<!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
@@ -557,16 +558,13 @@
                         <scope>runtime</scope>
                     </dependency>
                 </dependencies>
-            </plugin>
+            </plugin>-->
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <forkMode>once</forkMode>
-                    <!--<additionalClasspathElements>
-                        <additionalClasspathElement>${mysql-connector-java.jar.location}</additionalClasspathElement>
-                        <additionalClasspathElement>${ojdbc14.jar.location}</additionalClasspathElement>
-                    </additionalClasspathElements> -->
                     <useManifestOnlyJar>false</useManifestOnlyJar>
                     <argLine>-Xms512m -Xmx2048m -XX:MaxPermSize=512m</argLine>
                     <useManifestOnlyJar>false</useManifestOnlyJar>
