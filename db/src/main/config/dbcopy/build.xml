@@ -15,7 +15,7 @@
     limitations under the License.
 
 -->
-<project name="DBCopy" default="mysql" basedir=".">
+<project name="DBCopy" default="mysql" basedir="">
     
     <!-- 
          Welcome to the KPME Database Copy Program.
@@ -66,12 +66,12 @@
     <target name="mysql" depends="mysql-init,mysql-server,mysql-client,mysql-clean" description="Updates all MySQL environment databases" />
 	    
     <target name="mysql-init" description="Initializes the build">
-        <copy todir="." flatten="true">
+        <copy todir="" flatten="true">
             <resources>
                 <url url="http://ci.kpme.kuali.org/public/extracts/mysql_${db.version}.zip"/>
             </resources>
         </copy>
-	    <unzip src="mysql_${db.version}.zip" dest="."/>
+	    <unzip src="mysql_${db.version}.zip" dest=""/>
     </target>
 	
     <target name="mysql-server" description="Updates the server database">
@@ -82,7 +82,7 @@
     	    	</tokenfilter>
     	    </filterchain>
     	</loadfile>
-        <exec executable="${mysql.location}" dir="." inputstring="${mysql.server.reset}">
+        <exec executable="${mysql.location}" dir="" inputstring="${mysql.server.reset}">
             <arg value="-b"/>
             <arg value="-n"/>
             <arg value="-f"/>
@@ -109,7 +109,7 @@
                  </tokenfilter>
              </filterchain>
          </loadfile>
-        <exec executable="${mysql.location}" dir="." inputstring="${mysql.client.reset}">
+        <exec executable="${mysql.location}" dir="" inputstring="${mysql.client.reset}">
             <arg value="-b"/>
             <arg value="-n"/>
             <arg value="-f"/>
@@ -141,16 +141,16 @@
     <target name="oracle" depends="oracle-server,oracle-client,oracle-clean" description="updates all oracle development databases" />
     
     <target name="oracle-init" description="Initializes the build">
-        <copy todir="." flatten="true">
+        <copy todir="" flatten="true">
             <resources>
                 <url url="http://ci.kpme.kuali.org/public/extracts/oracle_${db.version}.zip"/>
             </resources>
         </copy>
-        <unzip src="oracle_${db.version}.zip" dest="."/>
+        <unzip src="oracle_${db.version}.zip" dest=""/>
     </target>
 	
     <target name="oracle-server" depends="oracle-init" description="updates the embedded server database">
-        <exec executable="${sqlplus.location}" dir=".">
+        <exec executable="${sqlplus.location}" dir="">
             <arg line="${server.username}/${server.password}@//${db.host}/${db.sid} @reset_oracle.sql"/>
         </exec>
     	<exec executable="${sqlplus.location}" dir="oracle">
@@ -159,7 +159,7 @@
     </target>
     
     <target name="oracle-client" depends="oracle-init" description="updates the embedded client database">
-        <exec executable="${sqlplus.location}" dir=".">
+        <exec executable="${sqlplus.location}" dir="">
             <arg line="${client.username}/${client.password}@//${db.host}/${db.sid} @reset_oracle.sql"/>
         </exec>
     	<exec executable="${sqlplus.location}" dir="oracle">
