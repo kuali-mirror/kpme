@@ -26,45 +26,50 @@
     </parent>
     <artifactId>hr-core-api</artifactId>
     <dependencies>
-        <dependency>
+<!--        <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-core-api</artifactId>
-            <version>${rice.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-kew-api</artifactId>
-            <version>${rice.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-kim-api</artifactId>
-            <version>${rice.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-ken-api</artifactId>
-            <version>${rice.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-krms-api</artifactId>
-            <version>${rice.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-core-service-api</artifactId>
-            <version>${rice.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-location-api</artifactId>
-            <version>${rice.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-ksb-api</artifactId>
-            <version>${rice.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-krad-app-framework</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-krad-web-framework</artifactId>
+        </dependency>-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

@@ -26,6 +26,13 @@
     </parent>
     <artifactId>kpme-db</artifactId>
     <packaging>pom</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
     <build>
         <pluginManagement>
             <plugins>
