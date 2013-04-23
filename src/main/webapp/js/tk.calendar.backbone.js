@@ -771,9 +771,9 @@ $(function () {
                 $(fieldSections[4]).show();
 
                 if (checkFlag == CONSTANTS.EARNCODE_UNIT.DAY) {
-            		$('#unitOfTime').text('* Leave Days');
+            		$('#unitOfTime').text('* Days');
             	} else if (checkFlag == CONSTANTS.EARNCODE_UNIT.HOUR) {
-            		$('#unitOfTime').text('* Leave Hours');
+            		$('#unitOfTime').text('* Hours');
             	} else if (earnCodeUnit == CONSTANTS.EARNCODE_UNIT.TIME) {
 					$(
 							_.without(fieldSections, ".clockInSection",
