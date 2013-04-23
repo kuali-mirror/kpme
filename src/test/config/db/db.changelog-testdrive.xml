@@ -72,10 +72,10 @@
             <column name="id" value="10021" />
         </insert>
         <insert tableName="hr_earn_code_security_s">
-            <column name="id" value="10861" />
+            <column name="id" value="10867" />
         </insert>
         <insert tableName="hr_earn_code_s">
-            <column name="id" value="10156" />
+            <column name="id" value="10167" />
         </insert>
         <insert tableName="hr_earn_code_group_def_s">
             <column name="id" value="12059" />
@@ -133,10 +133,10 @@
     
     <changeSet id="7" author="kbtaylor" context="kpme-client-testdrive" dbms="mysql">
         <insert tableName="lm_accrual_category_rules_s">
-            <column name="id" value="10000" />
+            <column name="id" value="10005" />
         </insert>
         <insert tableName="lm_accrual_category_s">
-            <column name="id" value="10000" />
+            <column name="id" value="10005" />
         </insert>
         <insert tableName="lm_leave_plan_s">
             <column name="id" value="10001" />
