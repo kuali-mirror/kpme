@@ -63,10 +63,10 @@
     
     <changeSet id="5" author="kbtaylor" context="kpme-client-testdrive" dbms="mysql">
         <insert tableName="hr_calendar_entries_s">
-            <column name="id" value="10417" />
+            <column name="id" value="11015" />
         </insert>
         <insert tableName="hr_calendar_s">
-            <column name="id" value="10000" />
+            <column name="id" value="10002" />
         </insert>
         <insert tableName="hr_dept_s">
             <column name="id" value="10021" />
@@ -75,7 +75,7 @@
             <column name="id" value="10861" />
         </insert>
         <insert tableName="hr_earn_code_s">
-            <column name="id" value="10153" />
+            <column name="id" value="10156" />
         </insert>
         <insert tableName="hr_earn_code_group_def_s">
             <column name="id" value="12059" />
@@ -132,13 +132,21 @@
     </changeSet>
     
     <changeSet id="7" author="kbtaylor" context="kpme-client-testdrive" dbms="mysql">
+        <insert tableName="lm_accrual_category_rules_s">
+            <column name="id" value="10000" />
+        </insert>
         <insert tableName="lm_accrual_category_s">
-            <column name="id" value="10002" />
+            <column name="id" value="10000" />
+        </insert>
+        <insert tableName="lm_leave_plan_s">
+            <column name="id" value="10001" />
         </insert>
     </changeSet>
     
     <changeSet id="8" author="kbtaylor" context="kpme-client-testdrive">
+        <loadData tableName="lm_accrual_category_rules_t" file="src/test/config/db/testdrive/lm_accrual_category_rules_t.csv" />
         <loadData tableName="lm_accrual_category_t" file="src/test/config/db/testdrive/lm_accrual_category_t.csv" />
+        <loadData tableName="lm_leave_plan_t" file="src/test/config/db/testdrive/lm_leave_plan_t.csv" />
     </changeSet>
     
     <changeSet id="9" author="kbtaylor" context="kpme-client-testdrive" dbms="mysql">
