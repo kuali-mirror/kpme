@@ -20,7 +20,7 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.leave.employeeoverride.EmployeeOverride;
+import org.kuali.hr.tklm.leave.override.EmployeeOverride;
 import org.kuali.hr.tklm.time.base.web.TkInquirableImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;

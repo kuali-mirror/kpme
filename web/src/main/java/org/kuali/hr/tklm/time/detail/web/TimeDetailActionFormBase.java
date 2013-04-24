@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.hr.tklm.leave.balancetransfer.BalanceTransfer;
+import org.kuali.hr.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.hr.tklm.time.timesheet.web.TimesheetActionForm;
 
 /**

@@ -28,7 +28,7 @@ import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.LeaveBlockHistory;
-import org.kuali.hr.tklm.leave.employeeoverride.EmployeeOverride;
+import org.kuali.hr.tklm.leave.override.EmployeeOverride;
 import org.kuali.hr.tklm.leave.payout.LeavePayout;
 import org.kuali.hr.tklm.leave.payout.dao.LeavePayoutDao;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;

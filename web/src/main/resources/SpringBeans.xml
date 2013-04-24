@@ -345,7 +345,7 @@
   	
     <bean id="accrualCategoryRuleDao" class="org.kuali.hr.core.accrualcategory.rule.dao.AccrualCategoryRuleDaoSpringOjbImpl" parent="platformAwareDao" />
     
-    <bean id="balanceTransferDao" class="org.kuali.hr.tklm.leave.balancetransfer.dao.BalanceTransferDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="balanceTransferDao" class="org.kuali.hr.tklm.leave.transfer.dao.BalanceTransferDaoSpringOjbImpl" parent="platformAwareDao" />
 
     <bean id="leavePayoutDao" class="org.kuali.hr.tklm.leave.payout.dao.LeavePayoutDaoSpringOjbImpl" parent="platformAwareDao" />
 
@@ -363,7 +363,7 @@
 
     <bean id="leaveCalendarDao" class="org.kuali.hr.tklm.leave.calendar.dao.LeaveCalendarDaoImpl" parent="platformAwareDao" />
     
-    <bean id="employeeOverrideDao" class="org.kuali.hr.tklm.leave.employeeoverride.dao.EmployeeOverrideDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="employeeOverrideDao" class="org.kuali.hr.tklm.leave.override.dao.EmployeeOverrideDaoSpringOjbImpl" parent="platformAwareDao" />
     
     <bean id="leaveAdjustmentDao" class="org.kuali.hr.tklm.leave.adjustment.dao.LeaveAdjustmentDaoSpringOjbImpl" parent="platformAwareDao" />
     
@@ -562,7 +562,7 @@
     <bean id="accrualService" class="org.kuali.hr.tklm.leave.accrual.service.AccrualServiceImpl">
     </bean>
     
-    <bean id="balanceTransferService" class="org.kuali.hr.tklm.leave.balancetransfer.service.BalanceTransferServiceImpl">
+    <bean id="balanceTransferService" class="org.kuali.hr.tklm.leave.transfer.service.BalanceTransferServiceImpl">
     	<property name="balanceTransferDao" ref="balanceTransferDao"/>
     </bean>
     
@@ -600,7 +600,7 @@
         <property name="leaveCalendarDocumentHeaderDao" ref="leaveCalendarDocumentHeaderDao"/>
     </bean>
     
-    <bean id="employeeOverrideService" class="org.kuali.hr.tklm.leave.employeeoverride.service.EmployeeOverrideServiceImpl">
+    <bean id="employeeOverrideService" class="org.kuali.hr.tklm.leave.override.service.EmployeeOverrideServiceImpl">
         <property name="employeeOverrideDao" ref="employeeOverrideDao"/>
     </bean>
     
@@ -801,7 +801,7 @@
 
     <bean id="balanceTransferLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
-    		<bean class="org.kuali.hr.tklm.leave.balancetransfer.service.BalanceTransferLookupableHelper"/>
+    		<bean class="org.kuali.hr.tklm.leave.transfer.service.BalanceTransferLookupableHelper"/>
     	</property>    
     </bean>
     <bean id="leavePayoutLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
@@ -1001,7 +1001,7 @@
     </bean> 
     <bean id="employeeOverrideLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.tklm.leave.employeeoverride.service.EmployeeOverrideLookupableHelper"/>
+            <bean class="org.kuali.hr.tklm.leave.override.service.EmployeeOverrideLookupableHelper"/>
         </property>
     </bean>
     <bean id="institutionLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">

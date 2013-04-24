@@ -44,7 +44,7 @@ import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.service.LeaveBlockService;
-import org.kuali.hr.tklm.leave.employeeoverride.EmployeeOverride;
+import org.kuali.hr.tklm.leave.override.EmployeeOverride;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
 import org.kuali.hr.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;

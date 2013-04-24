@@ -32,8 +32,8 @@ import org.kuali.hr.core.principal.service.PrincipalHRAttributesService;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.service.LeaveBlockService;
-import org.kuali.hr.tklm.leave.employeeoverride.EmployeeOverride;
-import org.kuali.hr.tklm.leave.employeeoverride.service.EmployeeOverrideService;
+import org.kuali.hr.tklm.leave.override.EmployeeOverride;
+import org.kuali.hr.tklm.leave.override.service.EmployeeOverrideService;
 import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.util.TKUtils;
 

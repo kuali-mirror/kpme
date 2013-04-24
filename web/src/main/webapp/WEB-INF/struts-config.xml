@@ -52,7 +52,7 @@
 		<form-bean name="LeaveCalendarWSForm" type="org.kuali.hr.tklm.leave.web.LeaveCalendarWSForm"/>
 		<form-bean name="LeaveApprovalActionForm" type="org.kuali.hr.tklm.leave.approval.web.LeaveApprovalActionForm"/>
         <form-bean name="LeaveApprovalWSActionForm" type="org.kuali.hr.tklm.leave.approval.web.LeaveApprovalWSActionForm"/>
-        <form-bean name="BalanceTransferForm" type="org.kuali.hr.tklm.leave.balancetransfer.web.BalanceTransferForm"/>
+        <form-bean name="BalanceTransferForm" type="org.kuali.hr.tklm.leave.transfer.web.BalanceTransferForm"/>
         <form-bean name="LeavePayoutForm" type="org.kuali.hr.tklm.leave.payout.web.LeavePayoutForm"/>
         <form-bean name="TkForm" type="org.kuali.hr.tklm.time.base.web.TkForm"/>
     </form-beans>
@@ -201,7 +201,7 @@
         </action>
         
         <action path="/BalanceTransfer" name="BalanceTransferForm" scope="request" input="/WEB-INF/jsp/balanceTransfer.jsp"
-                type="org.kuali.hr.tklm.leave.balancetransfer.web.BalanceTransferAction" parameter="methodToCall"
+                type="org.kuali.hr.tklm.leave.transfer.web.BalanceTransferAction" parameter="methodToCall"
                 validate="false" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/balanceTransfer.jsp"/>
             <forward name="leaveCalendarTransferSuccess" path="/LeaveCalendarSubmit.do"/>

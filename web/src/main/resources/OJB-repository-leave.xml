@@ -84,7 +84,7 @@
     </class-descriptor>
     
     <!-- Balance Transfer -->
-    <class-descriptor class="org.kuali.hr.tklm.leave.balancetransfer.BalanceTransfer" table="LM_BALANCE_TRANSFER_T">
+    <class-descriptor class="org.kuali.hr.tklm.leave.transfer.BalanceTransfer" table="LM_BALANCE_TRANSFER_T">
         <field-descriptor name="balanceTransferId"      column="LM_BALANCE_TRANSFER_ID"   		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_BALANCE_TRANSFER_S" />
         <field-descriptor name="accrualCategoryRule"	column="LM_ACCRUAL_CATEGORY_RULES_ID"	jdbc-type="VARCHAR"		length="60"	/>
         <field-descriptor name="principalId"      		column="PRINCIPAL_ID"					jdbc-type="VARCHAR"     length="50" nullable="false"/>
@@ -235,7 +235,7 @@
         <field-descriptor name="versionNumber"              column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.hr.tklm.leave.employeeoverride.EmployeeOverride" table="LM_EMPLOYEE_OVERRIDE_T">
+    <class-descriptor class="org.kuali.hr.tklm.leave.override.EmployeeOverride" table="LM_EMPLOYEE_OVERRIDE_T">
         <field-descriptor name="lmEmployeeOverrideId"   column="LM_EMPLOYEE_OVERRIDE_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_EMPLOYEE_OVERRIDE_S" />
         <field-descriptor name="principalId"            column="PRINCIPAL_ID"               jdbc-type="VARCHAR"     length="40" nullable="false" />
         <field-descriptor name="accrualCategory"        column="ACCRUAL_CAT"                jdbc-type="VARCHAR"     length="60" nullable="false" />

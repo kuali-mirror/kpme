@@ -28,10 +28,10 @@
   <bean id="BalanceTransferMaintenanceDocument" parent="BalanceTransferMaintenanceDocument-parentBean"/>
 
   <bean id="BalanceTransferMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
-  		p:businessObjectClass="org.kuali.hr.tklm.leave.balancetransfer.BalanceTransfer"
-  	    p:businessRulesClass="org.kuali.hr.tklm.leave.balancetransfer.validation.BalanceTransferValidation"
-  		p:maintainableClass="org.kuali.hr.tklm.leave.balancetransfer.service.BalanceTransferMaintainableImpl"
-        p:documentAuthorizerClass="org.kuali.hr.tklm.leave.balancetransfer.authorization.BalanceTransferAuthorizer">
+  		p:businessObjectClass="org.kuali.hr.tklm.leave.transfer.BalanceTransfer"
+  	    p:businessRulesClass="org.kuali.hr.tklm.leave.transfer.validation.BalanceTransferValidation"
+  		p:maintainableClass="org.kuali.hr.tklm.leave.transfer.service.BalanceTransferMaintainableImpl"
+        p:documentAuthorizerClass="org.kuali.hr.tklm.leave.transfer.authorization.BalanceTransferAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="BalanceTransferMaintenanceDocument-BalanceTransferMaintenance"/>

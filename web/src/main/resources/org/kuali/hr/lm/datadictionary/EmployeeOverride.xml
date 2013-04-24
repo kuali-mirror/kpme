@@ -23,7 +23,7 @@
 	<bean name="EmployeeOverride" parent="EmployeeOverride-parentBean" />
 
 	<bean id="EmployeeOverride-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.tklm.leave.employeeoverride.EmployeeOverride" />
+		<property name="businessObjectClass" value="org.kuali.hr.tklm.leave.override.EmployeeOverride" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="employeeOverride" />
 		<property name="inquiryDefinition">

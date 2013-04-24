@@ -24,7 +24,7 @@ import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
-import org.kuali.hr.tklm.leave.employeeoverride.EmployeeOverride;
+import org.kuali.hr.tklm.leave.override.EmployeeOverride;
 import org.kuali.hr.tklm.leave.payout.LeavePayout;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKContext;
