@@ -25,9 +25,9 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.tklm.leave.leave.web.LeaveCalendarWSForm;
 import org.kuali.hr.tklm.leave.leaveSummary.LeaveSummary;
 import org.kuali.hr.tklm.leave.leavecalendar.LeaveCalendarDocument;
+import org.kuali.hr.tklm.leave.web.LeaveCalendarWSForm;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.hr.tklm.time.util.TkConstants;
 

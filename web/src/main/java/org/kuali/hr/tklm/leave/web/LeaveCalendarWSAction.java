@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.hr.tklm.leave.leave.web;
+package org.kuali.hr.tklm.leave.web;
 
 import java.util.HashMap;
 import java.util.LinkedList;

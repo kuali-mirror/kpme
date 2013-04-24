@@ -646,7 +646,7 @@
     
     <bean id="leaveSummaryService" class="org.kuali.hr.tklm.leave.leaveSummary.service.LeaveSummaryServiceImpl"/>
     
-    <bean id="leaveApprovalService" class="org.kuali.hr.tklm.leave.leave.approval.service.LeaveApprovalServiceImpl">
+    <bean id="leaveApprovalService" class="org.kuali.hr.tklm.leave.approval.service.LeaveApprovalServiceImpl">
         <property name="principalHRAttributesDao" ref="principalHRAttributesDao"/>
     </bean>
     
