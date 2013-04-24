@@ -24,12 +24,14 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestUtils;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.timeblock.TimeBlock;
+import org.kuali.hr.tklm.time.timeblock.TimeBlockHistory;
+import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.hr.tklm.time.util.TKContext;
+import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.time.util.TkConstants;
 
 public class TimeBlockHistoryTest extends KPMETestCase {
 

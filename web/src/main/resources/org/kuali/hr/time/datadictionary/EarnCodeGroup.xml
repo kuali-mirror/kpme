@@ -23,7 +23,7 @@
 
 	<bean id="EarnCodeGroup" parent="EarnCodeGroup-parentBean" />
 	<bean id="EarnCodeGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.time.earncodegroup.EarnCodeGroup" />
+		<property name="businessObjectClass" value="org.kuali.hr.core.earncodegroup.EarnCodeGroup" />
 		<property name="titleAttribute" value="hrEarnCodeGroupId" />
 		<property name="objectLabel" value="earnCodeGroup" />
 		<property name="inquiryDefinition">
@@ -152,7 +152,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Show History" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkHistoryKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="history" />
@@ -208,7 +208,7 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="InquiryCollectionDefinition" p:attributeName="earnCodeGroups"
-								p:businessObjectClass="org.kuali.hr.time.earncodegroup.EarnCodeGroupDefinition">
+								p:businessObjectClass="org.kuali.hr.core.earncodegroup.EarnCodeGroupDefinition">
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="earnCode" />

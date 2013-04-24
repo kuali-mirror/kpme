@@ -28,7 +28,7 @@
 
 	<bean id="TimesheetDocumentHeaderMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" 
-		p:businessObjectClass="org.kuali.hr.time.workflow.TimesheetDocumentHeader"
+		p:businessObjectClass="org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader"
 		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"
 		p:allowsNewOrCopy="false">
 		<property name="maintainableSections">

@@ -24,9 +24,9 @@
 
     <bean id="LocationMaintenanceDocument" parent="LocationMaintenanceDocument-parentBean" />
     <bean id="LocationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		  p:businessObjectClass="org.kuali.hr.location.Location"
-  		  p:documentAuthorizerClass="org.kuali.hr.location.authorization.LocationAuthorizer"
-  		  p:maintainableClass="org.kuali.hr.location.service.LocationMaintainableImpl">
+  		  p:businessObjectClass="org.kuali.hr.core.location.Location"
+  		  p:documentAuthorizerClass="org.kuali.hr.core.location.authorization.LocationAuthorizer"
+  		  p:maintainableClass="org.kuali.hr.core.location.service.LocationMaintainableImpl">
 
         <property name="documentTypeName" value="LocationMaintenanceDocumentType" />
         <property name="maintainableSections">
@@ -41,7 +41,7 @@
                 <value>location</value>
             </list>
         </property>
-        <property name="promptBeforeValidationClass" value="org.kuali.hr.location.validation.LocationEffectiveDatePrompt" />
+        <property name="promptBeforeValidationClass" value="org.kuali.hr.core.location.validation.LocationEffectiveDatePrompt" />
     </bean>
 
     <bean id="LocationMaintenanceDocument-LocationMaintenance" parent="LocationMaintenanceDocument-LocationMaintenance-parentBean" />

@@ -27,10 +27,10 @@
 	<bean id="PrincipalHRAttributesMaintenanceDocument" parent="PrincipalHRAttributesMaintenanceDocument-parentBean" />
 
 	<bean id="PrincipalHRAttributesMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.principal.PrincipalHRAttributes"
-		p:businessRulesClass="org.kuali.hr.time.principal.validation.PrincipalHRAttributesRule"
-		p:maintainableClass="org.kuali.hr.time.principal.service.PrincipalHRAttributesMaintainableImpl"
-		p:documentAuthorizerClass="org.kuali.hr.time.principal.authorization.PrincipalHRAttributesAuthorizer">
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.core.principal.PrincipalHRAttributes"
+		p:businessRulesClass="org.kuali.hr.core.principal.validation.PrincipalHRAttributesRule"
+		p:maintainableClass="org.kuali.hr.core.principal.service.PrincipalHRAttributesMaintainableImpl"
+		p:documentAuthorizerClass="org.kuali.hr.core.principal.authorization.PrincipalHRAttributesAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance" />
@@ -42,7 +42,7 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="PrincipalHRAttributesMaintenanceDocumentType" />
-        <property name="promptBeforeValidationClass" value="org.kuali.hr.time.principal.validation.PrincipalHRAttributesEffectiveDatePrompt"/>
+        <property name="promptBeforeValidationClass" value="org.kuali.hr.core.principal.validation.PrincipalHRAttributesEffectiveDatePrompt"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->

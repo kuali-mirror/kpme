@@ -17,7 +17,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 <c:set var="Form" value="${TimeApprovalActionForm}" scope="request"/>
-<jsp:useBean id="tagSupport" class="org.kuali.hr.time.util.TagSupport"/>
+<jsp:useBean id="tagSupport" class="org.kuali.hr.tklm.time.util.TagSupport"/>
 
 <tk:tkHeader tabId="approvals">
 <html:form action="/TimeApproval.do" method="POST">

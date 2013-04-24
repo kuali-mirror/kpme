@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
-<jsp:useBean id="tagSupport" class="org.kuali.hr.time.util.TagSupport"/>
+<jsp:useBean id="tagSupport" class="org.kuali.hr.tklm.time.util.TagSupport"/>
 <%@ attribute name="assignments" required="true" type="java.util.Map"%>
 
 <c:choose>

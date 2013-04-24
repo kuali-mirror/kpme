@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.core.assignment.AssignmentAccount;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;

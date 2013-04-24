@@ -240,13 +240,13 @@
 			        <bean parent="Uif-InputField" p:propertyName="campus" p:required="true" />
 					<bean parent="Uif-InputField" p:propertyName="salaryGroup" p:required="true">
 						<property name="quickfinder">
-				            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.time.salgroup.SalGroup"
+				            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.salgroup.SalGroup"
 				                  p:fieldConversions="hrSalGroup:salGroup"/>
 				        </property>
 					</bean>
 					<bean parent="Uif-InputField" p:propertyName="payGrade" p:required="true">
 						<property name="quickfinder">
-				            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.paygrade.PayGrade"
+				            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.paygrade.PayGrade"
 				                  p:fieldConversions="payGrade:payGrade"/>
 				        </property>
 					</bean>
@@ -266,7 +266,7 @@
 						</property>
 					</bean>
 					<bean parent="Uif-InputField" p:propertyName="serviceUnit"
-					p:optionsFinderClass="org.kuali.hr.lm.util.ServiceUnitKeyValueFinder" >
+					p:optionsFinderClass="org.kuali.hr.tklm.leave.util.ServiceUnitKeyValueFinder" >
 						<property name="control">
 							<bean parent="Uif-VerticalRadioControl"/>
 						</property>
@@ -295,13 +295,13 @@
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus"/>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="salaryGroup">
 			<property name="quickfinder">
-	            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.time.salgroup.SalGroup"
+	            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.salgroup.SalGroup"
 	                  p:fieldConversions="hrSalGroup:salGroup"/>
 	        </property>
 		</bean>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="payGrade">
 			<property name="quickfinder">
-	            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.paygrade.PayGrade"
+	            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.paygrade.PayGrade"
 	                  p:fieldConversions="payGrade:payGrade"/>
 	        </property>
 		</bean>

@@ -20,11 +20,11 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.calendar.CalendarEntry;
-import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
+import org.kuali.hr.tklm.leave.leavecalendar.LeaveCalendarDocument;
+import org.kuali.hr.tklm.time.calendar.CalendarEntry;
+import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public class LeaveCalendarServiceTest extends KPMETestCase {

@@ -3,7 +3,7 @@ package org.kuali.hr.pm.institution.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.core.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 

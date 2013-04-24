@@ -28,10 +28,10 @@
 	<bean id="LeaveAdjustmentMaintenanceDocument" parent="LeaveAdjustmentMaintenanceDocument-parentBean" />
 
 	<bean id="LeaveAdjustmentMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
-		p:businessObjectClass="org.kuali.hr.lm.leaveadjustment.LeaveAdjustment"
-		p:businessRulesClass="org.kuali.hr.lm.leaveadjustment.validation.LeaveAdjustmentValidation"
-		p:maintainableClass="org.kuali.hr.lm.leaveadjustment.service.LeaveAdjustmentMaintainableServiceImpl"
-		p:documentAuthorizerClass="org.kuali.hr.lm.leaveadjustment.authorization.LeaveAdjustmentAuthorizer">
+		p:businessObjectClass="org.kuali.hr.tklm.leave.leaveadjustment.LeaveAdjustment"
+		p:businessRulesClass="org.kuali.hr.tklm.leave.leaveadjustment.validation.LeaveAdjustmentValidation"
+		p:maintainableClass="org.kuali.hr.tklm.leave.leaveadjustment.service.LeaveAdjustmentMaintainableServiceImpl"
+		p:documentAuthorizerClass="org.kuali.hr.tklm.leave.leaveadjustment.authorization.LeaveAdjustmentAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="LeaveAdjustmentMaintenanceDocument-LeaveAdjustmentMaintenance" />

@@ -28,7 +28,7 @@
   <bean id="AssignmentAccountMaintenanceDocument" parent="AssignmentAccountMaintenanceDocument-parentBean"/>
 
   <bean id="AssignmentAccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
-  		p:businessObjectClass="org.kuali.hr.time.assignment.AssignmentAccount"
+  		p:businessObjectClass="org.kuali.hr.core.assignment.AssignmentAccount"
   		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
     <property name="maintainableSections">
       <list>

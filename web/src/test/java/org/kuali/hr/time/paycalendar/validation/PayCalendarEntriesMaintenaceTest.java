@@ -42,7 +42,7 @@ public class PayCalendarEntriesMaintenaceTest extends KPMETestCase {
     // ignorning for now.  page changed to not have text field for calendarName, only lookup...
 	//tests PayCalendarEntriesRule
 	public void testSubmitPayCalendarEntriesMaint() throws Exception {
-    	//String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.paycalendar.PayCalendarEntry&methodToCall=start";
+    	//String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.tklm.time.paycalendar.PayCalendarEntry&methodToCall=start";
 		String baseUrl = TkTestConstants.Urls.PAY_CALENDAR_ENTRY_MAINT_NEW_URL;
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
     	Assert.assertNotNull(page);

@@ -23,7 +23,7 @@
 	<bean id="Job" parent="Job-parentBean" />
 
 	<bean id="Job-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.job.Job" />
+		<property name="businessObjectClass" value="org.kuali.hr.core.job.Job" />
 		<property name="inquiryDefinition">
 			<ref bean="Job-inquiryDefinition" />
 		</property>
@@ -456,7 +456,7 @@
 	<bean id="Job-history-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Show History" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkHistoryKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="history" />
@@ -495,7 +495,7 @@
 		<property name="shortLabel" value="FLSA Status" />
 		<property name="control">
 			<bean parent="RadioControlDefinition"
-				p:valuesFinderClass="org.kuali.hr.time.util.TkFlsaStatusKeyValueFinder">
+				p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkFlsaStatusKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="flsaStatus" />

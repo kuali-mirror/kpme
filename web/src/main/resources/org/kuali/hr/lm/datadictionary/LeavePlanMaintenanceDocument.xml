@@ -28,17 +28,17 @@
   <bean id="LeavePlanMaintenanceDocument" parent="LeavePlanMaintenanceDocument-parentBean"/>
 
   <bean id="LeavePlanMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.hr.lm.leaveplan.LeavePlan"
-  		p:businessRulesClass="org.kuali.hr.lm.leaveplan.validation.LeavePlanValidation"
-  		p:maintainableClass="org.kuali.hr.lm.leaveplan.service.LeavePlanMaintainableServiceImpl"
-  		p:documentAuthorizerClass="org.kuali.hr.lm.leaveplan.authorization.LeavePlanAuthorizer">
+  		p:businessObjectClass="org.kuali.hr.core.leaveplan.LeavePlan"
+  		p:businessRulesClass="org.kuali.hr.core.leaveplan.validation.LeavePlanValidation"
+  		p:maintainableClass="org.kuali.hr.core.leaveplan.service.LeavePlanMaintainableServiceImpl"
+  		p:documentAuthorizerClass="org.kuali.hr.core.leaveplan.authorization.LeavePlanAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="LeavePlanMaintenanceDocument-LeavePlanMaintenance"/>
       </list>
     </property>
     <property name="documentTypeName" value="LeavePlanDocumentType"/>
-    <property name="promptBeforeValidationClass" value="org.kuali.hr.lm.leaveplan.validation.LeavePlanEffectiveDatePrompt"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.hr.core.leaveplan.validation.LeavePlanEffectiveDatePrompt"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->

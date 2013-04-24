@@ -21,8 +21,8 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 
 public class ClockLogServiceTest extends KPMETestCase {
 	

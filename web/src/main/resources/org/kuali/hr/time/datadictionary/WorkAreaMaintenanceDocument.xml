@@ -24,10 +24,10 @@
 
 	<bean id="WorkAreaMaintenanceDocument" parent="WorkAreaMaintenanceDocument-parentBean" />
 	<bean id="WorkAreaMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-		  p:businessObjectClass="org.kuali.hr.time.workarea.WorkArea"
-		  p:businessRulesClass="org.kuali.hr.time.workarea.web.WorkAreaMaintenanceDocumentRule"
-          p:documentAuthorizerClass="org.kuali.hr.time.workarea.authorization.WorkAreaAuthorizer"
-		  p:maintainableClass="org.kuali.hr.time.workarea.WorkAreaMaintainableImpl">
+		  p:businessObjectClass="org.kuali.hr.core.workarea.WorkArea"
+		  p:businessRulesClass="org.kuali.hr.core.workarea.web.WorkAreaMaintenanceDocumentRule"
+          p:documentAuthorizerClass="org.kuali.hr.core.workarea.authorization.WorkAreaAuthorizer"
+		  p:maintainableClass="org.kuali.hr.core.workarea.WorkAreaMaintainableImpl">
 		
 		<property name="documentTypeName" value="WorkAreaMaintenanceDocumentType" />
 		<property name="maintainableSections">
@@ -50,7 +50,7 @@
 				<value>workArea</value>
 			</list>
 		</property>
-		<property name="promptBeforeValidationClass" value="org.kuali.hr.time.workflow.validation.WorkAreaEffectiveDatePrompt" />
+		<property name="promptBeforeValidationClass" value="org.kuali.hr.tklm.time.workflow.validation.WorkAreaEffectiveDatePrompt" />
 	</bean>
 
 	<bean id="WorkAreaMaintenanceDocument-WorkAreaMaintenance" parent="WorkAreaMaintenanceDocument-WorkAreaMaintenance-parentBean" />
@@ -80,7 +80,7 @@
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="name" value="tasks" />
-					<property name="businessObjectClass" value="org.kuali.hr.time.task.Task" />
+					<property name="businessObjectClass" value="org.kuali.hr.core.task.Task" />
 					<property name="alwaysAllowCollectionDeletion" value="true" />
 					<property name="maintainableFields">
 						<list>

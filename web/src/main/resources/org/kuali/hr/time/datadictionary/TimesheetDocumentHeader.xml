@@ -24,7 +24,7 @@
 
   <bean id="TimesheetDocumentHeader" parent="TimesheetDocumentHeader-parentBean" />
   <bean id="TimesheetDocumentHeader-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.hr.time.workflow.TimesheetDocumentHeader" />
+    <property name="businessObjectClass" value="org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader" />
     <property name="objectLabel" value="TimesheetDocumentHeader" />
     <property name="lookupDefinition" >
       <ref bean="TimesheetDocumentHeader-lookupDefinition" />

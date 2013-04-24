@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
-<jsp:useBean id="tagSupport" class="org.kuali.hr.time.util.TagSupport"/>
+<jsp:useBean id="tagSupport" class="org.kuali.hr.tklm.time.util.TagSupport"/>
 
 <div id="time-approval">
 	<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do?methodToCall=loadApprovalTab" excludedParams="*"

@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;

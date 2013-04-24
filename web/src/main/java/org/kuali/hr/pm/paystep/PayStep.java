@@ -3,11 +3,11 @@ package org.kuali.hr.pm.paystep;
 
 import java.math.BigDecimal;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.paygrade.PayGrade;
+import org.kuali.hr.core.HrBusinessObject;
+import org.kuali.hr.core.paygrade.PayGrade;
+import org.kuali.hr.core.salgroup.SalGroup;
 import org.kuali.hr.pm.institution.Institution;
-import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.salgroup.SalGroup;
+import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
 public class PayStep extends HrBusinessObject implements Comparable {

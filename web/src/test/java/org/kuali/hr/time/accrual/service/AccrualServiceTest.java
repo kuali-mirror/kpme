@@ -24,12 +24,12 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.tklm.leave.LMConstants;
+import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
+import org.kuali.hr.tklm.leave.leaveblock.LeaveBlockHistory;
+import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.util.TKUtils;
 
 public class AccrualServiceTest extends KPMETestCase {
 	 DateTime START_DATE = new DateTime(2012, 2, 20, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());

@@ -23,15 +23,15 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.dept.lunch.DeptLunchRule;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestUtils;
-import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.timeblock.TimeHourDetail;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.tklm.time.dept.lunch.DeptLunchRule;
+import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.timeblock.TimeBlock;
+import org.kuali.hr.tklm.time.timeblock.TimeHourDetail;
+import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.hr.tklm.time.util.TKContext;
+import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class DepartmentLunchRuleTest extends KPMETestCase {

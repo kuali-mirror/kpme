@@ -18,9 +18,9 @@ package org.kuali.hr.core.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.hr.lm.leaveplan.LeavePlan;
-import org.kuali.hr.time.task.Task;
-import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.hr.core.leaveplan.LeavePlan;
+import org.kuali.hr.core.task.Task;
+import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.rice.krad.service.impl.ModuleServiceBase;
 
 

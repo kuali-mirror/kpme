@@ -21,11 +21,12 @@ import junit.framework.Assert;
 
 import org.joda.time.LocalDate;
 import org.junit.Test;
-import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.calendar.CalendarEntry;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
+import org.kuali.hr.tklm.leave.util.LeaveBlockAggregate;
+import org.kuali.hr.tklm.time.calendar.CalendarEntry;
+import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.util.TKUtils;
 
 public class LeaveBlockAggregateTest extends KPMETestCase {
 	private String TEST_USER = "admin";

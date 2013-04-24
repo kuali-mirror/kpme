@@ -24,10 +24,11 @@ import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.leave.LMConstants;
+import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
+import org.kuali.hr.tklm.leave.leaveblock.service.LeaveBlockService;
+import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 
 public class LeaveBlockServiceImplTest extends KPMETestCase {
 	

@@ -27,10 +27,10 @@
 	<bean id="PayTypeMaintenanceDocument" parent="PayTypeMaintenanceDocument-parentBean" />
 
 	<bean id="PayTypeMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.paytype.PayType"
-        p:businessRulesClass="org.kuali.hr.time.paytype.validation.PayTypeRule"
-		p:maintainableClass="org.kuali.hr.time.paytype.service.PayTypeMaintainableImpl"
-		p:documentAuthorizerClass="org.kuali.hr.time.paytype.authorization.PayTypeAuthorizer">
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.core.paytype.PayType"
+        p:businessRulesClass="org.kuali.hr.core.paytype.validation.PayTypeRule"
+		p:maintainableClass="org.kuali.hr.core.paytype.service.PayTypeMaintainableImpl"
+		p:documentAuthorizerClass="org.kuali.hr.core.paytype.authorization.PayTypeAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="PayTypeMaintenanceDocument-PayTypeMaintenance" />
@@ -42,7 +42,7 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="PayTypeDocumentType" />
-        <property name="promptBeforeValidationClass" value="org.kuali.hr.time.paytype.validation.PayTypeEffectiveDatePrompt"/>
+        <property name="promptBeforeValidationClass" value="org.kuali.hr.core.paytype.validation.PayTypeEffectiveDatePrompt"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->

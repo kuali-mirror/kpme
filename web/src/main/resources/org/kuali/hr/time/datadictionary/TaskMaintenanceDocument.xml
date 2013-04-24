@@ -27,7 +27,7 @@
 	<bean id="TaskMaintenanceDocument" parent="TaskMaintenanceDocument-parentBean" />
 
 	<bean id="TaskMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.task.Task"
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.core.task.Task"
 		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
 		<property name="maintainableSections">
 			<list>

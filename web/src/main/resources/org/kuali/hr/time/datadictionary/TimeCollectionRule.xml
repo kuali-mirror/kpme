@@ -24,7 +24,7 @@
 
 	<bean id="TimeCollectionRule-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.time.collection.rule.TimeCollectionRule" />
+		<property name="businessObjectClass" value="org.kuali.hr.tklm.time.collection.rule.TimeCollectionRule" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="TimeCollectionRule" />
 		<property name="inquiryDefinition">
@@ -140,7 +140,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-        <property name="formatterClass" value="org.kuali.hr.time.workarea.WorkAreaFormatter"/>
+        <property name="formatterClass" value="org.kuali.hr.core.workarea.WorkAreaFormatter"/>
 		<property name="name" value="workArea" />
 		<property name="label" value="Work Area" />
 	</bean>
@@ -264,7 +264,7 @@
 	<bean id="TimeCollectionRule-history-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Show History" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkHistoryKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="history" />

@@ -28,10 +28,10 @@
   <bean id="LeavePayoutMaintenanceDocument" parent="LeavePayoutMaintenanceDocument-parentBean"/>
 
   <bean id="LeavePayoutMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
-  		p:businessObjectClass="org.kuali.hr.lm.leavepayout.LeavePayout"
-  	    p:businessRulesClass="org.kuali.hr.lm.leavepayout.validation.LeavePayoutValidation"
-  		p:maintainableClass="org.kuali.hr.lm.leavepayout.service.LeavePayoutMaintainableImpl"
-  		p:documentAuthorizerClass="org.kuali.hr.lm.leavepayout.authorization.LeavePayoutAuthorizer">
+  		p:businessObjectClass="org.kuali.hr.tklm.leave.leavepayout.LeavePayout"
+  	    p:businessRulesClass="org.kuali.hr.tklm.leave.leavepayout.validation.LeavePayoutValidation"
+  		p:maintainableClass="org.kuali.hr.tklm.leave.leavepayout.service.LeavePayoutMaintainableImpl"
+  		p:documentAuthorizerClass="org.kuali.hr.tklm.leave.leavepayout.authorization.LeavePayoutAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="LeavePayoutMaintenanceDocument-LeavePayoutMaintenance"/>

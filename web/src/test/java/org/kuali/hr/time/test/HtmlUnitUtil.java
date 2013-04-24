@@ -106,6 +106,7 @@ public class HtmlUnitUtil {
 	}
 
 	public static HtmlPage clickAnchorContainingText(HtmlPage page, String... values) throws Exception {
+		LOG.info(page.asXml());
 		return (HtmlPage) getAnchorContainingText(page, values).click();
 	}
 
@@ -113,6 +114,7 @@ public class HtmlUnitUtil {
 	public static HtmlAnchor getAnchorContainingText(HtmlPage page, String... values) throws Exception {
 		for (Iterator iterator = page.getAnchors().iterator(); iterator.hasNext();) {
 			HtmlAnchor anchor = (HtmlAnchor) iterator.next();
+			LOG.info(anchor.asText());
 			if (elementContainsValues(anchor, values)) {
 				return anchor;
 			}

@@ -22,14 +22,14 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.syslunch.rule.SystemLunchRule;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.test.TkTestUtils;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.syslunch.rule.SystemLunchRule;
+import org.kuali.hr.tklm.time.util.TKContext;
+import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.time.util.TkConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 

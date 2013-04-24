@@ -27,9 +27,9 @@
 	<bean id="WeeklyOvertimeRuleGroupMaintenanceDocument" parent="WeeklyOvertimeRuleGroupMaintenanceDocument-parentBean" />
 
 	<bean id="WeeklyOvertimeRuleGroupMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRuleGroup"
-		p:maintainableClass="org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleGroupMaintainableImpl"
-		p:businessRulesClass="org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRuleValidation"
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.tklm.time.overtime.weekly.rule.WeeklyOvertimeRuleGroup"
+		p:maintainableClass="org.kuali.hr.tklm.time.overtime.weekly.rule.service.WeeklyOvertimeRuleGroupMaintainableImpl"
+		p:businessRulesClass="org.kuali.hr.tklm.time.overtime.weekly.rule.WeeklyOvertimeRuleValidation"
 		p:documentAuthorizerClass="org.kuali.hr.core.authorization.KPMEMaintenanceDocumentAuthorizerBase">
 		<property name="maintainableSections">
 			<list>
@@ -57,7 +57,7 @@
 			<list>
   		  	<bean parent="MaintainableCollectionDefinition">
          	 <property name="name" value="lstWeeklyOvertimeRules"/>
-         	 <property name="businessObjectClass" value="org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule"/>
+         	 <property name="businessObjectClass" value="org.kuali.hr.tklm.time.overtime.weekly.rule.WeeklyOvertimeRule"/>
           	<property name="alwaysAllowCollectionDeletion" value="true"/>
           	<property name="maintainableFields">
             	<list>

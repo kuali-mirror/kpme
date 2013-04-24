@@ -24,7 +24,7 @@
 
 	<bean id="BalanceTransfer-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.hr.lm.balancetransfer.BalanceTransfer" />
+			value="org.kuali.hr.tklm.leave.balancetransfer.BalanceTransfer" />
  		<property name="inquiryDefinition">
 			<ref bean="BalanceTransfer-inquiryDefinition" />
 		</property>
@@ -260,7 +260,7 @@
 	<bean id="BalanceTransfer-inquiryDefinition" parent="BalanceTransfer-inquiryDefinition-parentBean" />
 
 	<bean id="BalanceTransfer-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.lm.balancetransfer.BalanceTransferInquirableImpl">
+		parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.tklm.leave.balancetransfer.BalanceTransferInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

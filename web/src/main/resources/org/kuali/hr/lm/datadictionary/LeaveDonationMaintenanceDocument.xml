@@ -28,10 +28,10 @@
   <bean id="LeaveDonationMaintenanceDocument" parent="LeaveDonationMaintenanceDocument-parentBean"/>
 
   <bean id="LeaveDonationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.hr.lm.leavedonation.LeaveDonation"
-  		p:businessRulesClass="org.kuali.hr.lm.leavedonation.validation.LeaveDonationValidation"
-  		p:maintainableClass="org.kuali.hr.lm.leavedonation.service.LeaveDonationMaintainableServiceImpl"
-  		p:documentAuthorizerClass="org.kuali.hr.lm.leavedonation.authorization.LeaveDonationAuthorizer">
+  		p:businessObjectClass="org.kuali.hr.tklm.leave.leavedonation.LeaveDonation"
+  		p:businessRulesClass="org.kuali.hr.tklm.leave.leavedonation.validation.LeaveDonationValidation"
+  		p:maintainableClass="org.kuali.hr.tklm.leave.leavedonation.service.LeaveDonationMaintainableServiceImpl"
+  		p:documentAuthorizerClass="org.kuali.hr.tklm.leave.leavedonation.authorization.LeaveDonationAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="LeaveDonationMaintenanceDocument-LeaveDonationMaintenance"/>

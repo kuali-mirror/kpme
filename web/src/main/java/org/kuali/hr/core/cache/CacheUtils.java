@@ -16,7 +16,7 @@
 package org.kuali.hr.core.cache;
 
 
-import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator;
 
 import java.util.List;

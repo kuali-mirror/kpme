@@ -19,11 +19,11 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.core.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 

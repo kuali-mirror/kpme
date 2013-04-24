@@ -23,7 +23,7 @@
 
 	<bean id="PayGrade" parent="PayGrade-parentBean" />
 	<bean id="PayGrade-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="dataObjectClass" value="org.kuali.hr.paygrade.PayGrade" />
+		<property name="dataObjectClass" value="org.kuali.hr.core.paygrade.PayGrade" />
 		<property name="attributes">
 			<list>
 				<ref bean="PayGrade-hrPayGradeId" />
@@ -314,13 +314,13 @@
     <!-- Lookup View  -->
     <bean id="PayGrade-LookupView" parent="Uif-LookupView">
         <property name="headerText" value="Pay Grade Lookup"/>
-        <property name="dataObjectClassName" value="org.kuali.hr.paygrade.PayGrade"/>
+        <property name="dataObjectClassName" value="org.kuali.hr.core.paygrade.PayGrade"/>
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="payGrade"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="salGroup">
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.time.salgroup.SalGroup"
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.salgroup.SalGroup"
                               p:fieldConversions="hrSalGroup:salGroup"/>
                     </property>
                 </bean>
@@ -332,7 +332,7 @@
             <list>
                 <bean parent="Uif-InputField" p:propertyName="payGrade">
                     <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.hr.paygrade.PayGrade"
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.hr.core.paygrade.PayGrade"
                               p:inquiryParameters="hrPayGradeId:hrPayGradeId"/>
                     </property>
                 </bean>
@@ -352,7 +352,7 @@
     <!--  Pay Grade Inquiry View  -->
   	<bean id="PayGrade-InquiryView" parent="Uif-InquiryView" >
           <property name="headerText" value="Pay Grade Inquiry" />
-          <property name="dataObjectClassName" value="org.kuali.hr.paygrade.PayGrade"/>
+          <property name="dataObjectClassName" value="org.kuali.hr.core.paygrade.PayGrade"/>
           <property name="singlePageView" value="true"/>
           <property name="items">
               <list>
@@ -382,7 +382,7 @@
     <bean id="PayGrade-MaintenanceView" parent="PayGrade-MaintenanceView-ParentBean"/>
     <bean id="PayGrade-MaintenanceView-ParentBean" abstract="true" parent="Uif-MaintenanceView">
         <property name="headerText" value="Pay Grade Maintenance"/>
-        <property name="dataObjectClassName" value="org.kuali.hr.paygrade.PayGrade"/>
+        <property name="dataObjectClassName" value="org.kuali.hr.core.paygrade.PayGrade"/>
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-MaintenanceGridSection">
@@ -392,7 +392,7 @@
                             <bean parent="Uif-InputField" p:propertyName="payGrade"/>
                             <bean parent="Uif-InputField" p:propertyName="salGroup">
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.time.salgroup.SalGroup"
+                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.salgroup.SalGroup"
                                           p:fieldConversions="hrSalGroup:salGroup"/>
                                 </property>
                             </bean>

@@ -17,6 +17,7 @@ package org.kuali.hr.time.clock.location.validation;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.tklm.time.clock.location.validation.ClockLocationRuleRule;
 
 public class ClockLocationRuleRuleTest extends Assert {
 

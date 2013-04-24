@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
+import org.kuali.hr.core.assignment.Assignment;
+import org.kuali.hr.core.department.Department;
+import org.kuali.hr.core.department.service.DepartmentService;
 import org.kuali.hr.core.role.KPMERoleMemberAttribute;
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.department.service.DepartmentService;
-import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.hr.time.workarea.service.WorkAreaService;
+import org.kuali.hr.core.workarea.WorkArea;
+import org.kuali.hr.core.workarea.service.WorkAreaService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.KimConstants;
 

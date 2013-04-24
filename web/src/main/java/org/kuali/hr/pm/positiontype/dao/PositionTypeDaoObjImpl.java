@@ -11,7 +11,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.pm.positiontype.PositionType;
-import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import com.google.common.collect.ImmutableList;

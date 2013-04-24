@@ -22,6 +22,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.core.leaveplan.LeavePlan;
+import org.kuali.hr.core.leaveplan.LeavePlanInquirableImpl;
 import org.kuali.hr.test.KPMETestCase;
 
 public class LeavePlanInquirableImplTest extends KPMETestCase {

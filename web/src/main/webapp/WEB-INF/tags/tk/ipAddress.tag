@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 
-<jsp:useBean id="tagSupport" class="org.kuali.hr.time.util.TagSupport"/>
+<jsp:useBean id="tagSupport" class="org.kuali.hr.tklm.time.util.TagSupport"/>
 <%@ attribute name="selectedIpAdd" required="true" type="java.lang.String" %>
 <%@ attribute name="batchJobEntryId" required="true" type="java.lang.String" %>
 

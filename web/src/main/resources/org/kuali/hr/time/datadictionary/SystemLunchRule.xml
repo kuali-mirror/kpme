@@ -25,7 +25,7 @@
 	<bean id="SystemLaunchRule-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.hr.time.syslunch.rule.SystemLunchRule" />
+			value="org.kuali.hr.tklm.time.syslunch.rule.SystemLunchRule" />
 		<property name="titleAttribute" value="tkSystemLunchRuleId" />
 		<property name="objectLabel" value="System Lunch Rule" />
 		<property name="inquiryDefinition">
@@ -97,7 +97,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Show History" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkHistoryKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="history" />

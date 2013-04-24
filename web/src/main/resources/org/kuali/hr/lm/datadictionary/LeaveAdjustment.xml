@@ -23,7 +23,7 @@
 	<bean name="LeaveAdjustment" parent="LeaveAdjustment-parentBean" />
 
 	<bean id="LeaveAdjustment-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.lm.leaveadjustment.LeaveAdjustment" />
+		<property name="businessObjectClass" value="org.kuali.hr.tklm.leave.leaveadjustment.LeaveAdjustment" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="leaveadjustment" />
 		<property name="inquiryDefinition">
@@ -189,7 +189,7 @@
 	<!-- Inquiry Definitions -->
 	<bean id="LeaveAdjustment-inquiryDefinition" parent="LeaveAdjustment-inquiryDefinition-parentBean" />
 	<bean id="LeaveAdjustment-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"
-		 p:inquirableClass="org.kuali.hr.time.base.web.TkInquirableImpl">
+		 p:inquirableClass="org.kuali.hr.tklm.time.base.web.TkInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

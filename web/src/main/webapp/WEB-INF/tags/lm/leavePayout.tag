@@ -1,6 +1,6 @@
 
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-<%@ attribute name="leavePayout" required="true" type="org.kuali.hr.lm.leavepayout.LeavePayout"%>
+<%@ attribute name="leavePayout" required="true" type="org.kuali.hr.tklm.leave.leavepayout.LeavePayout"%>
 <div>
 <c:set var="payoutAttributes" value="${DataDictionary.LeavePayout.attributes}" />
 	<html:form action="/LeavePayout.do" method="POST">

@@ -22,8 +22,8 @@ import java.util.HashMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.test.KPMETestCase;
+import org.kuali.hr.tklm.leave.balancetransfer.BalanceTransfer;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 

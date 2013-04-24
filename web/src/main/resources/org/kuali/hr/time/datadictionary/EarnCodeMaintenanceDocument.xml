@@ -27,10 +27,10 @@
 
   <bean id="EarnCodeMaintenanceDocument" parent="EarnCodeMaintenanceDocument-parentBean"/>
   <bean id="EarnCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.hr.time.earncode.EarnCode"
-  		p:businessRulesClass="org.kuali.hr.time.earncode.validation.EarnCodeValidation"
-  		p:maintainableClass="org.kuali.hr.time.earncode.service.EarnCodeMaintainableServiceImpl"
-  		p:documentAuthorizerClass="org.kuali.hr.time.earncode.authorization.EarnCodeAuthorizer">
+  		p:businessObjectClass="org.kuali.hr.core.earncode.EarnCode"
+  		p:businessRulesClass="org.kuali.hr.core.earncode.validation.EarnCodeValidation"
+  		p:maintainableClass="org.kuali.hr.core.earncode.service.EarnCodeMaintainableServiceImpl"
+  		p:documentAuthorizerClass="org.kuali.hr.core.earncode.authorization.EarnCodeAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="EarnCodeMaintenanceDocument-EarnCodeMaintenance"/>
@@ -42,7 +42,7 @@
 			</list>
 		</property>
     <property name="documentTypeName" value="EarnCodeMaintenanceDocumentType"/>
-    <property name="promptBeforeValidationClass" value="org.kuali.hr.time.earncode.validation.EarnCodeEffectiveDatePrompt"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.hr.core.earncode.validation.EarnCodeEffectiveDatePrompt"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->

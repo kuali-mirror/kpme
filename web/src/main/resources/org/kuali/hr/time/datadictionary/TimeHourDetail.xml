@@ -22,7 +22,7 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="TimeHourDetail" parent="TimeHourDetail-parentBean" />
   <bean id="TimeHourDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value=" org.kuali.hr.time.timeblock.TimeHourDetail" />
+    <property name="businessObjectClass" value=" org.kuali.hr.tklm.time.timeblock.TimeHourDetail" />
 
     <property name="titleAttribute" value="tkTimeHourDetailId" />
     <property name="attributes" >

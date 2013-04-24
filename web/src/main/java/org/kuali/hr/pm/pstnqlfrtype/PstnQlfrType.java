@@ -1,6 +1,6 @@
 package org.kuali.hr.pm.pstnqlfrtype;
 
-import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.core.HrBusinessObject;
 
 public class PstnQlfrType extends HrBusinessObject {
 	private static final long serialVersionUID = 1L;

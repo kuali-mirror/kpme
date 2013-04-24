@@ -4,7 +4,7 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.tklm.time.util.TKUtils;
 
 public class PmValidationUtilsTest extends KPMETestCase {
 	

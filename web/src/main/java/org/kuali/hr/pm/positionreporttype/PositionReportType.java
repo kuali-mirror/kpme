@@ -1,7 +1,7 @@
 package org.kuali.hr.pm.positionreporttype;
 
+import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.pm.institution.Institution;
-import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
 public class PositionReportType extends HrBusinessObject {

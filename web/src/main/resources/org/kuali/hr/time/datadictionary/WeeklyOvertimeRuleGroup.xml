@@ -25,7 +25,7 @@
 	<bean id="WeeklyOvertimeRuleGroup-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRuleGroup" />
+			value="org.kuali.hr.tklm.time.overtime.weekly.rule.WeeklyOvertimeRuleGroup" />
 		<property name="titleAttribute" value="tkWeeklyOvertimeRuleGroupId" />
 		<property name="objectLabel" value="Weekly Overtime Rule Group" />
 		<property name="lookupDefinition">
@@ -67,7 +67,7 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="InquiryCollectionDefinition" p:attributeName="lstWeeklyOvertimeRules"
-								p:businessObjectClass="org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule">
+								p:businessObjectClass="org.kuali.hr.tklm.time.overtime.weekly.rule.WeeklyOvertimeRule">
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="maxHoursEarnGroup" />

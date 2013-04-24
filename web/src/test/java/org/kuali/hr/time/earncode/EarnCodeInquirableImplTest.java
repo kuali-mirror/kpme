@@ -22,6 +22,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.core.earncode.EarnCode;
+import org.kuali.hr.core.earncode.EarnCodeInquirableImpl;
 import org.kuali.hr.test.KPMETestCase;
 
 public class EarnCodeInquirableImplTest extends KPMETestCase {

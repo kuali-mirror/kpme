@@ -28,10 +28,10 @@
 
 	<bean id="AccrualCategoryMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" 
-		p:businessObjectClass="org.kuali.hr.lm.accrual.AccrualCategory"
-		p:businessRulesClass="org.kuali.hr.lm.accrual.validation.AccrualCategoryValidation"
-		p:maintainableClass="org.kuali.hr.lm.accrual.service.AccrualCategoryMaintainableServiceImpl"
-		p:documentAuthorizerClass="org.kuali.hr.lm.accrual.authorization.AccrualCategoryAuthorizer">
+		p:businessObjectClass="org.kuali.hr.core.accrualcategory.AccrualCategory"
+		p:businessRulesClass="org.kuali.hr.core.accrualcategory.validation.AccrualCategoryValidation"
+		p:maintainableClass="org.kuali.hr.core.accrualcategory.service.AccrualCategoryMaintainableServiceImpl"
+		p:documentAuthorizerClass="org.kuali.hr.core.accrualcategory.authorization.AccrualCategoryAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="AccrualCategoryMaintenanceDocument-AccrualCategoryMaintenance" />
@@ -44,7 +44,7 @@
       		</list>
     	</property>
 		<property name="documentTypeName" value="AccrualCategoryDocumentType" />
-        <property name="promptBeforeValidationClass" value="org.kuali.hr.lm.accrual.validation.AccrualCategoryEffectiveDatePrompt"/>
+        <property name="promptBeforeValidationClass" value="org.kuali.hr.core.accrualcategory.validation.AccrualCategoryEffectiveDatePrompt"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
@@ -100,7 +100,7 @@
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="name" value="accrualCategoryRules" />
 					<property name="businessObjectClass"
-						value="org.kuali.hr.lm.accrual.AccrualCategoryRule" />
+						value="org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule" />
 					<property name="alwaysAllowCollectionDeletion" value="true" />
 					<property name="maintainableFields">
 						<list>

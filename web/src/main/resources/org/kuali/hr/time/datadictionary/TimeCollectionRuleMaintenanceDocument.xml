@@ -28,10 +28,10 @@
   <bean id="TimeCollectionRuleMaintenanceDocument" parent="TimeCollectionRuleMaintenanceDocument-parentBean"/>
 
   <bean id="TimeCollectionRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.hr.time.collection.rule.TimeCollectionRule"
-  		p:businessRulesClass="org.kuali.hr.time.collection.rule.validation.TimeCollectionRuleRule"
-        p:documentAuthorizerClass="org.kuali.hr.time.timecollection.rule.authorization.TimeCollectionRuleAuthorizer"
-  		p:maintainableClass="org.kuali.hr.time.timecollection.rule.service.TimeCollectionRuleMaintainableImpl">
+  		p:businessObjectClass="org.kuali.hr.tklm.time.collection.rule.TimeCollectionRule"
+  		p:businessRulesClass="org.kuali.hr.tklm.time.collection.rule.validation.TimeCollectionRuleRule"
+        p:documentAuthorizerClass="org.kuali.hr.tklm.time.timecollection.rule.authorization.TimeCollectionRuleAuthorizer"
+  		p:maintainableClass="org.kuali.hr.tklm.time.timecollection.rule.service.TimeCollectionRuleMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="TimeCollectionRuleMaintenanceDocument-TimeCollectionRuleMaintenance"/>
@@ -43,7 +43,7 @@
       </list>
     </property>
     <property name="documentTypeName" value="TimeCollectionRuleDocumentType"/>
-    <property name="promptBeforeValidationClass" value="org.kuali.hr.time.timecollection.rule.validation.TimeCollectionRuleEffectiveDatePrompt"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.hr.tklm.time.timecollection.rule.validation.TimeCollectionRuleEffectiveDatePrompt"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->

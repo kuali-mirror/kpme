@@ -24,10 +24,10 @@
 
     <bean id="DepartmentMaintenanceDocument" parent="DepartmentMaintenanceDocument-parentBean" />
     <bean id="DepartmentMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
-  		  p:businessObjectClass="org.kuali.hr.time.department.Department"
-  		  p:businessRulesClass="org.kuali.hr.time.department.DepartmentMaintenanceDocumentRule"
-  		  p:documentAuthorizerClass="org.kuali.hr.time.department.authorization.DepartmentAuthorizer"
-  		  p:maintainableClass="org.kuali.hr.time.department.DepartmentMaintainableImpl">
+  		  p:businessObjectClass="org.kuali.hr.core.department.Department"
+  		  p:businessRulesClass="org.kuali.hr.core.department.DepartmentMaintenanceDocumentRule"
+  		  p:documentAuthorizerClass="org.kuali.hr.core.department.authorization.DepartmentAuthorizer"
+  		  p:maintainableClass="org.kuali.hr.core.department.DepartmentMaintainableImpl">
 
         <property name="documentTypeName" value="DepartmentMaintenanceDocumentType" />
 	    <property name="maintainableSections">
@@ -42,7 +42,7 @@
                 <value>dept</value>
             </list>
         </property>
-        <property name="promptBeforeValidationClass" value="org.kuali.hr.time.department.validation.DepartmentEffectiveDatePrompt" />
+        <property name="promptBeforeValidationClass" value="org.kuali.hr.core.department.validation.DepartmentEffectiveDatePrompt" />
     </bean>
 
     <bean id="DepartmentMaintenanceDocument-DepartmentMaintenance" parent="DepartmentMaintenanceDocument-DepartmentMaintenance-parentBean" />

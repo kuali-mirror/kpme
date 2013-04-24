@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
-<jsp:useBean id="tagSupport" class="org.kuali.hr.time.workflow.web.WorkflowTagSupport"/>
-<%@ attribute name="appRow" required="true" type="org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow"%>
+<jsp:useBean id="tagSupport" class="org.kuali.hr.tklm.time.workflow.web.WorkflowTagSupport"/>
+<%@ attribute name="appRow" required="true" type="org.kuali.hr.tklm.time.approval.web.ApprovalTimeSummaryRow"%>
 
 
 <div id="actions">

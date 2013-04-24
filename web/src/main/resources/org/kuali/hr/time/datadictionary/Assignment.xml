@@ -23,7 +23,7 @@
 	<bean id="Assignment" parent="Assignment-parentBean" />
 
 	<bean id="Assignment-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.time.assignment.Assignment" />
+		<property name="businessObjectClass" value="org.kuali.hr.core.assignment.Assignment" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="Assignment" />
 		<property name="inquiryDefinition">
@@ -290,7 +290,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Show History" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkHistoryKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="history" />
@@ -334,7 +334,7 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="InquiryCollectionDefinition" p:attributeName="assignmentAccounts"
-								p:businessObjectClass="org.kuali.hr.time.assignment.AssignmentAccount">
+								p:businessObjectClass="org.kuali.hr.core.assignment.AssignmentAccount">
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="finCoaCd" />

@@ -28,10 +28,10 @@
   <bean id="ClockLocationRuleMaintenanceDocument" parent="ClockLocationRuleMaintenanceDocument-parentBean"/>
 
   <bean id="ClockLocationRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.hr.time.clock.location.ClockLocationRule"
-  		p:businessRulesClass="org.kuali.hr.time.clock.location.validation.ClockLocationRuleRule"
-        p:documentAuthorizerClass="org.kuali.hr.time.clock.location.authorization.ClockLocationRuleAuthorizer"
-  		p:maintainableClass="org.kuali.hr.time.clock.location.service.ClockLocationMaintainableImpl">
+  		p:businessObjectClass="org.kuali.hr.tklm.time.clock.location.ClockLocationRule"
+  		p:businessRulesClass="org.kuali.hr.tklm.time.clock.location.validation.ClockLocationRuleRule"
+        p:documentAuthorizerClass="org.kuali.hr.tklm.time.clock.location.authorization.ClockLocationRuleAuthorizer"
+  		p:maintainableClass="org.kuali.hr.tklm.time.clock.location.service.ClockLocationMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="ClockLocationRuleMaintenanceDocument-ClockLocationRuleMaintenance"/>
@@ -39,7 +39,7 @@
       </list>
     </property>
     <property name="documentTypeName" value="ClockLocationRuleDocumentType"/>
-    <property name="promptBeforeValidationClass" value="org.kuali.hr.time.clock.location.validation.ClockLocationRuleEffectiveDatePrompt"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.hr.tklm.time.clock.location.validation.ClockLocationRuleEffectiveDatePrompt"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->
@@ -70,7 +70,7 @@
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="name" value="ipAddresses" />
-					<property name="businessObjectClass" value="org.kuali.hr.time.clock.location.ClockLocationRuleIpAddress" />
+					<property name="businessObjectClass" value="org.kuali.hr.tklm.time.clock.location.ClockLocationRuleIpAddress" />
 					<property name="alwaysAllowCollectionDeletion" value="true" />
 					<property name="maintainableFields">
 						<list>

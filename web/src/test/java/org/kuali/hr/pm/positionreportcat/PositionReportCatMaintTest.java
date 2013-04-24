@@ -11,7 +11,7 @@ import org.kuali.hr.pm.service.base.PmServiceLocator;
 import org.kuali.hr.pm.test.PmTestConstants;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.tklm.time.util.TKUtils;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;

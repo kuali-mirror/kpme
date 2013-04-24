@@ -23,18 +23,18 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Test;
+import org.kuali.hr.core.assignment.Assignment;
+import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.calendar.CalendarEntry;
-import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestUtils;
-import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.tklm.time.calendar.CalendarEntry;
+import org.kuali.hr.tklm.time.overtime.weekly.rule.WeeklyOvertimeRule;
+import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.timeblock.TimeBlock;
+import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.hr.tklm.time.util.TKContext;
+import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 /**

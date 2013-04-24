@@ -22,10 +22,10 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.lm.accrual.PrincipalAccrualRan;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.tklm.leave.accrual.PrincipalAccrualRan;
+import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.util.TKUtils;
 
 public class PrincipalAccrualRanServiceTest extends KPMETestCase {
 	

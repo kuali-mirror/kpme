@@ -28,17 +28,17 @@
   <bean id="JobMaintenanceDocument" parent="JobMaintenanceDocument-parentBean"/>
 
   <bean id="JobMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.hr.job.Job"
-  		p:businessRulesClass="org.kuali.hr.job.validation.JobValidation"
-  		p:maintainableClass="org.kuali.hr.job.service.JobMaintainableImpl"
-  		p:documentAuthorizerClass="org.kuali.hr.job.authorization.JobAuthorizer">
+  		p:businessObjectClass="org.kuali.hr.core.job.Job"
+  		p:businessRulesClass="org.kuali.hr.core.job.validation.JobValidation"
+  		p:maintainableClass="org.kuali.hr.core.job.service.JobMaintainableImpl"
+  		p:documentAuthorizerClass="org.kuali.hr.core.job.authorization.JobAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="JobMaintenanceDocument-JobMaintenance"/>
       </list>
     </property>
     <property name="documentTypeName" value="JobMaintenanceDocumentType"/>
-    <property name="promptBeforeValidationClass" value="org.kuali.hr.job.validation.JobEffectiveDatePrompt"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.hr.core.job.validation.JobEffectiveDatePrompt"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->
