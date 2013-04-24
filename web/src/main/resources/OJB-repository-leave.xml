@@ -99,7 +99,7 @@
     </class-descriptor>
 
     <!-- Leave Payout -->
-    <class-descriptor class="org.kuali.hr.tklm.leave.leavepayout.LeavePayout" table="LM_LEAVE_PAYOUT_T">
+    <class-descriptor class="org.kuali.hr.tklm.leave.payout.LeavePayout" table="LM_LEAVE_PAYOUT_T">
         <field-descriptor name="lmLeavePayoutId"        column="LM_LEAVE_PAYOUT_ID"       		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_PAYOUT_S" />
         <field-descriptor name="principalId"      		column="PRINCIPAL_ID"					jdbc-type="VARCHAR"     length="50" nullable="false"/>
         <field-descriptor name="earnCode"               column="EARN_CODE"                      jdbc-type="VARCHAR"     length="15" />
@@ -133,7 +133,7 @@
     </class-descriptor>
 
     <!--  Leave Block -->
-    <class-descriptor class="org.kuali.hr.tklm.leave.leaveblock.LeaveBlock" table="LM_LEAVE_BLOCK_T">
+    <class-descriptor class="org.kuali.hr.tklm.leave.block.LeaveBlock" table="LM_LEAVE_BLOCK_T">
         <field-descriptor name="lmLeaveBlockId"         column="LM_LEAVE_BLOCK_ID"      jdbc-type="VARCHAR"     length="60"  primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_BLOCK_S" />
         <field-descriptor name="leaveDate"              column="LEAVE_DATE"             jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="description"            column="DESCRIPTION"            jdbc-type="VARCHAR"     length="255" nullable="true" />
@@ -161,13 +161,13 @@
         <field-descriptor name="objectId"               column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
 
-        <collection-descriptor name="leaveBlockHistories" element-class-ref="org.kuali.hr.tklm.leave.leaveblock.LeaveBlockHistory" auto-retrieve="true" auto-update="false">
+        <collection-descriptor name="leaveBlockHistories" element-class-ref="org.kuali.hr.tklm.leave.block.LeaveBlockHistory" auto-retrieve="true" auto-update="false">
             <inverse-foreignkey field-ref="lmLeaveBlockId" />
         </collection-descriptor>
     </class-descriptor>
     
     <!-- Leave Block History -->
-    <class-descriptor class="org.kuali.hr.tklm.leave.leaveblock.LeaveBlockHistory" table="LM_LEAVE_BLOCK_HIST_T">
+    <class-descriptor class="org.kuali.hr.tklm.leave.block.LeaveBlockHistory" table="LM_LEAVE_BLOCK_HIST_T">
         <field-descriptor name="lmLeaveBlockHistoryId"  column="LM_LEAVE_BLOCK_HIST_ID" jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_BLOCK_S" />
         <field-descriptor name="lmLeaveBlockId"         column="LM_LEAVE_BLOCK_ID"      jdbc-type="VARCHAR"     length="60" nullable="false" />
         <field-descriptor name="leaveDate"              column="LEAVE_DATE"             jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
@@ -217,7 +217,7 @@
         </reference-descriptor>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.hr.tklm.leave.leavedonation.LeaveDonation" table="LM_LEAVE_DONATION_T">
+    <class-descriptor class="org.kuali.hr.tklm.leave.donation.LeaveDonation" table="LM_LEAVE_DONATION_T">
         <field-descriptor name="lmLeaveDonationId"          column="LM_LEAVE_DONATION_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_DONATION_S" />
         <field-descriptor name="donatedAccrualCategory"     column="DONATED_ACC_CAT"        jdbc-type="VARCHAR"     length="15" nullable="false" />
         <field-descriptor name="donatedEarnCode"            column="DONATED_ER_CODE"        jdbc-type="VARCHAR"     length="15" nullable="false" />
@@ -250,7 +250,7 @@
         <field-descriptor name="versionNumber"          column="VER_NBR"                    jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.hr.tklm.leave.leaveadjustment.LeaveAdjustment" table="LM_LEAVE_ADJUSTMENT_T">
+    <class-descriptor class="org.kuali.hr.tklm.leave.adjustment.LeaveAdjustment" table="LM_LEAVE_ADJUSTMENT_T">
         <field-descriptor name="lmLeaveAdjustmentId"    column="LM_LEAVE_ADJUSTMENT_ID" jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_ADJUSTMENT_S" />
         <field-descriptor name="principalId"            column="PRINCIPAL_ID"           jdbc-type="VARCHAR"     length="40" nullable="false" />
         <field-descriptor name="accrualCategory"        column="ACCRUAL_CAT"            jdbc-type="VARCHAR"     length="15" nullable="false" />

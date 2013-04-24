@@ -45,7 +45,7 @@ import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.accrual.PrincipalAccrualRan;
 import org.kuali.hr.tklm.leave.accrual.RateRange;
 import org.kuali.hr.tklm.leave.accrual.RateRangeAggregate;
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
+import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.tklm.time.calendar.CalendarEntry;

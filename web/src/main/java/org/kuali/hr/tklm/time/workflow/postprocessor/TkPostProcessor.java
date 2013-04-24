@@ -26,7 +26,7 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.tklm.leave.LMConstants;
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
+import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.time.calendar.Calendar;
 import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;

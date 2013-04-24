@@ -31,7 +31,7 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.assignment.dao.AssignmentDao;
 import org.kuali.hr.core.job.Job;
-import org.kuali.hr.tklm.leave.leavecalendar.LeaveCalendarDocument;
+import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;

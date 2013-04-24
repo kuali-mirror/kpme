@@ -23,7 +23,7 @@ import org.kuali.hr.core.accrualcategory.dao.AccrualCategoryDao;
 import org.kuali.hr.core.leaveplan.LeavePlan;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.tklm.leave.LMConstants;
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
+import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 
 import java.math.BigDecimal;

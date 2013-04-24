@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.tklm.leave.web;
 
-import org.kuali.hr.tklm.leave.leavecalendar.web.LeaveCalendarForm;
+import org.kuali.hr.tklm.leave.calendar.web.LeaveCalendarForm;
 
 public class LeaveCalendarWSForm extends LeaveCalendarForm {
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.tklm.time.calendar;
 
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
+import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 
 import java.util.ArrayList;

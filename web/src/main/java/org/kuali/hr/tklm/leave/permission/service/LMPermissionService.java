@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.kuali.hr.core.assignment.Assignment;
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
+import org.kuali.hr.tklm.leave.block.LeaveBlock;
 
 public interface LMPermissionService {
 

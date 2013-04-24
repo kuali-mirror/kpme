@@ -84,13 +84,13 @@ public final class TkTestConstants {
 		public static final String EMPLOYEE_OVERRIDE_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.tklm.leave.employeeoverride.EmployeeOverride&returnLocation="+
 		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
 		
-		public static final String LEAVE_ADJUSTMENT_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.tklm.leave.leaveadjustment.LeaveAdjustment&returnLocation="+
+		public static final String LEAVE_ADJUSTMENT_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.tklm.leave.adjustment.LeaveAdjustment&returnLocation="+
 		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
 		
 		public static final String TIME_OFF_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff&returnLocation="+
 		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
 		
-		public static final String LEAVE_DONATION_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.tklm.leave.leavedonation.LeaveDonation&returnLocation="+
+		public static final String LEAVE_DONATION_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.tklm.leave.donation.LeaveDonation&returnLocation="+
 		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
 
 		public static final String PAY_CALENDAR_ENTRY_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.tklm.time.calendar.CalendarEntry&methodToCall=start";
@@ -105,7 +105,7 @@ public final class TkTestConstants {
 
 		public static final String EMPLOYEE_OVERRIDE_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.tklm.leave.employeeoverride.EmployeeOverride&methodToCall=start";
 		
-		public static final String LEAVE_ADJUSTMENT_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.tklm.leave.leaveadjustment.LeaveAdjustment&methodToCall=start";
+		public static final String LEAVE_ADJUSTMENT_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.tklm.leave.adjustment.LeaveAdjustment&methodToCall=start";
 		
 		public static final String ACCURAL_CATEGORY_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.core.accrualcategory.AccrualCategory&methodToCall=start";
 
@@ -113,7 +113,7 @@ public final class TkTestConstants {
 		
 		public static final String PRIN_HR_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.core.principal.PrincipalHRAttributes&methodToCall=start";
 		
-		public static final String LEAVE_DONATION_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.tklm.leave.leavedonation.LeaveDonation&methodToCall=start";
+		public static final String LEAVE_DONATION_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.tklm.leave.donation.LeaveDonation&methodToCall=start";
 		
 		public static final String LEAVE_PLAN_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.core.leaveplan.LeavePlan&methodToCall=start";
 		
@@ -153,10 +153,10 @@ public final class TkTestConstants {
         public static final String BALANCE_TRANSFER_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.tklm.leave.balancetransfer.BalanceTransfer&returnLocation="+
         BASE_URL+"http://ci.kpme.kuali.org:80/kpme-trunk/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y";
 
-        public static final String LEAVE_PAYOUT_MAINT_NEW_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.tklm.leave.leavepayout.LeavePayout&returnLocation="+
+        public static final String LEAVE_PAYOUT_MAINT_NEW_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.tklm.leave.payout.LeavePayout&returnLocation="+
                 BASE_URL+"/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y";
 
-        public static final String LEAVE_PAYOUT_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.tklm.leave.leavepayout.LeavePayout&returnLocation="+
+        public static final String LEAVE_PAYOUT_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.tklm.leave.payout.LeavePayout&returnLocation="+
                 BASE_URL+"http://ci.kpme.kuali.org:80/kpme-trunk/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y";
         public static final String LOG_OUT_URL = BASE_URL + "/SessionInvalidateAction.do?methodToCall=userLogout";
     

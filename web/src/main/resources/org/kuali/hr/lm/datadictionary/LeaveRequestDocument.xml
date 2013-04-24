@@ -46,7 +46,7 @@
     <bean id="LeaveRequestDocument-actionCode" parent="LeaveRequestDocument-actionCode-parentBean"/>
     <bean id="LeaveRequestDocument-actionCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="actionCode" p:label="Action" p:shortLabel="Action" p:maxLength="1" p:required="false">
         <property name="control">
-            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.leave.leaverequest.LeaveRequestActionValuesFinder">
+            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.leave.request.LeaveRequestActionValuesFinder">
             </bean>
         </property>
     </bean>

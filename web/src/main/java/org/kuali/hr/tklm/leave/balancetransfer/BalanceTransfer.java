@@ -22,7 +22,7 @@ import java.util.List;
 import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
+import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;

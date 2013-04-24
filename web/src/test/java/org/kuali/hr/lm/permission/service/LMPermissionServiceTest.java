@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
+import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKContext;
 import org.kuali.rice.krad.service.KRADServiceLocator;

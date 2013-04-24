@@ -36,7 +36,7 @@ import org.joda.time.Interval;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.tklm.leave.LMConstants;
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
+import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.time.base.web.TkAction;
 import org.kuali.hr.tklm.time.calendar.Calendar;
 import org.kuali.hr.tklm.time.calendar.CalendarEntry;

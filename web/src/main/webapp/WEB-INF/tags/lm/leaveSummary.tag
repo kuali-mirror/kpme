@@ -3,7 +3,7 @@
 <jsp:useBean id="tagSupport" class="org.kuali.hr.tklm.time.util.TagSupport"/>
 <jsp:useBean id="workflowTagSupport" class="org.kuali.hr.tklm.time.workflow.web.WorkflowTagSupport"/>
 
-<%@ attribute name="leaveSummary" required="true" type="org.kuali.hr.tklm.leave.leaveSummary.LeaveSummary"%>
+<%@ attribute name="leaveSummary" required="true" type="org.kuali.hr.tklm.leave.summary.LeaveSummary"%>
  
 <div id="leave-summary">
 	<c:if test="${not empty leaveSummary.leaveSummaryRows}">

@@ -17,7 +17,7 @@ package org.kuali.hr.tklm.time.calendar;
 
 import org.joda.time.DateTime;
 import org.kuali.hr.core.earncode.EarnCode;
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
+import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.util.LeaveBlockAggregate;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;

@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.role.KPMERole;
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
+import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kew.api.identity.Id;

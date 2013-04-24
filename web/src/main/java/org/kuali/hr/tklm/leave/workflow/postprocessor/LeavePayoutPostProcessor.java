@@ -16,8 +16,8 @@
 package org.kuali.hr.tklm.leave.workflow.postprocessor;
 
 import org.kuali.hr.tklm.leave.LMConstants;
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
-import org.kuali.hr.tklm.leave.leavepayout.LeavePayout;
+import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.payout.LeavePayout;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKContext;
 import org.kuali.rice.kew.api.document.DocumentStatus;

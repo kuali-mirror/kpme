@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.tklm.leave.workflow;
 
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
+import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 

@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.role.KPMERole;
-import org.kuali.hr.tklm.leave.leavepayout.LeavePayout;
+import org.kuali.hr.tklm.leave.payout.LeavePayout;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.identity.Id;

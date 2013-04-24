@@ -27,8 +27,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.tklm.leave.LMConstants;
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlockHistory;
-import org.kuali.hr.tklm.leave.leaveblock.service.LeaveBlockHistoryService;
+import org.kuali.hr.tklm.leave.block.LeaveBlockHistory;
+import org.kuali.hr.tklm.leave.block.service.LeaveBlockHistoryService;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 

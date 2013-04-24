@@ -44,8 +44,8 @@
         <form-bean name="MissedPunchForm" type="org.kuali.hr.tklm.time.missedpunch.MissedPunchForm"/>
         <form-bean name="HelpActionForm" type="org.kuali.hr.tklm.time.help.web.HelpActionForm"/>
         <form-bean name="SessionInvalidateForm" type="org.kuali.hr.tklm.time.web.SessionInvalidateForm"/>
-		<form-bean name="LeaveCalendarForm" type="org.kuali.hr.tklm.leave.leavecalendar.web.LeaveCalendarForm"/>
-        <form-bean name="LeaveCalendarSubmitForm" type="org.kuali.hr.tklm.leave.leavecalendar.web.LeaveCalendarSubmitForm"/>
+		<form-bean name="LeaveCalendarForm" type="org.kuali.hr.tklm.leave.calendar.web.LeaveCalendarForm"/>
+        <form-bean name="LeaveCalendarSubmitForm" type="org.kuali.hr.tklm.leave.calendar.web.LeaveCalendarSubmitForm"/>
 		<form-bean name="LeaveBlockDisplayForm" type="org.kuali.hr.tklm.leave.web.LeaveBlockDisplayForm"/>
 		<form-bean name="LeaveRequestForm" type="org.kuali.hr.tklm.leave.web.LeaveRequestForm"/>
 		<form-bean name="LeaveRequestApprovalActionForm" type="org.kuali.hr.tklm.leave.request.approval.web.LeaveRequestApprovalActionForm"/>
@@ -53,7 +53,7 @@
 		<form-bean name="LeaveApprovalActionForm" type="org.kuali.hr.tklm.leave.approval.web.LeaveApprovalActionForm"/>
         <form-bean name="LeaveApprovalWSActionForm" type="org.kuali.hr.tklm.leave.approval.web.LeaveApprovalWSActionForm"/>
         <form-bean name="BalanceTransferForm" type="org.kuali.hr.tklm.leave.balancetransfer.web.BalanceTransferForm"/>
-        <form-bean name="LeavePayoutForm" type="org.kuali.hr.tklm.leave.leavepayout.web.LeavePayoutForm"/>
+        <form-bean name="LeavePayoutForm" type="org.kuali.hr.tklm.leave.payout.web.LeavePayoutForm"/>
         <form-bean name="TkForm" type="org.kuali.hr.tklm.time.base.web.TkForm"/>
     </form-beans>
 
@@ -212,7 +212,7 @@
         </action>
 
         <action path="/LeavePayout" name="LeavePayoutForm" input="/WEB-INF/jsp/leavePayout.jsp"
-                type="org.kuali.hr.tklm.leave.leavepayout.web.LeavePayoutAction"
+                type="org.kuali.hr.tklm.leave.payout.web.LeavePayoutAction"
                 scope="request" parameter="methodToCall" validate="false" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/leavePayout.jsp"/>
             <forward name="leaveCalendarPayoutSuccess" path="/LeaveCalendarSubmit.do"/>
@@ -234,13 +234,13 @@
         </action>
         
         <action path="/LeaveCalendar" name="LeaveCalendarForm" scope="request" input="/WEB-INF/jsp/leaveCalendar.jsp"
-                type="org.kuali.hr.tklm.leave.leavecalendar.web.LeaveCalendarAction" parameter="methodToCall" validate="false">
+                type="org.kuali.hr.tklm.leave.calendar.web.LeaveCalendarAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/leaveCalendar.jsp"/>
         </action>
 
         <action path="/LeaveCalendarSubmit" name="LeaveCalendarSubmitForm" scope="request"
                 input="/WEB-INF/jsp/leaveCalendar.jsp"
-                type="org.kuali.hr.tklm.leave.leavecalendar.web.LeaveCalendarSubmitAction" parameter="methodToCall" validate="false">
+                type="org.kuali.hr.tklm.leave.calendar.web.LeaveCalendarSubmitAction" parameter="methodToCall" validate="false">
             <forward name="leaveCalendarRedirect" path="/LeaveCalendar.do"/>
             <forward name="approverRedirect" path="/LeaveApproval.do"/>
             <forward name="transfer" path="/BalanceTransfer.do"/>

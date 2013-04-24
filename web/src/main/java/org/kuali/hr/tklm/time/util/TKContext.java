@@ -27,7 +27,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.role.KPMERole;
-import org.kuali.hr.tklm.leave.leavecalendar.LeaveCalendarDocument;
+import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;

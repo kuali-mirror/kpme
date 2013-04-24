@@ -22,8 +22,8 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.leave.leaveSummary.LeaveSummary;
-import org.kuali.hr.tklm.leave.leaveSummary.LeaveSummaryRow;
+import org.kuali.hr.tklm.leave.summary.LeaveSummary;
+import org.kuali.hr.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 

@@ -29,7 +29,7 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
+import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.time.approval.web.ApprovalLeaveSummaryRow;
 import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.person.TKPerson;

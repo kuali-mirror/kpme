@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlockHistory;
+import org.kuali.hr.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.hr.tklm.time.base.web.TkForm;
 
 public class LeaveBlockDisplayForm extends TkForm {

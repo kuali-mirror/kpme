@@ -16,8 +16,8 @@
 package org.kuali.hr.tklm.time.approval.web;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
-import org.kuali.hr.tklm.leave.leavecalendar.LeaveCalendarDocument;
+import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKContext;
 import org.kuali.hr.tklm.time.util.TkConstants;

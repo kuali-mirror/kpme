@@ -25,7 +25,7 @@ import org.kuali.hr.core.leaveplan.service.LeavePlanService;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.principal.service.PrincipalHRAttributesService;
 import org.kuali.hr.tklm.leave.accrual.service.AccrualService;
-import org.kuali.hr.tklm.leave.leavecalendar.service.LeaveCalendarServiceImpl;
+import org.kuali.hr.tklm.leave.calendar.service.LeaveCalendarServiceImpl;
 import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.api.identity.principal.Principal;

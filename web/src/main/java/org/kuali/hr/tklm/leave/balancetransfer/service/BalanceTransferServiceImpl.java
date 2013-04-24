@@ -31,9 +31,9 @@ import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.balancetransfer.BalanceTransfer;
 import org.kuali.hr.tklm.leave.balancetransfer.dao.BalanceTransferDao;
+import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.hr.tklm.leave.employeeoverride.EmployeeOverride;
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlock;
-import org.kuali.hr.tklm.leave.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 
