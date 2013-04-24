@@ -16,10 +16,10 @@
 package org.kuali.hr.core.accrualcategory.service;
 
 import org.kuali.hr.core.HrBusinessObject;
+import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**

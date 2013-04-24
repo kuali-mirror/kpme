@@ -17,12 +17,12 @@ package org.kuali.hr.core.assignment.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.HrBusinessObject;
+import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentAccount;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.paytype.PayType;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;

@@ -17,10 +17,10 @@ package org.kuali.hr.core.principal.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.HrBusinessObject;
+import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;

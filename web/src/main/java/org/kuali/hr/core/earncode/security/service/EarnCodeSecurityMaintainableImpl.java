@@ -18,9 +18,9 @@ package org.kuali.hr.core.earncode.security.service;
 import java.util.Map;
 
 import org.kuali.hr.core.HrBusinessObject;
+import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.core.earncode.security.EarnCodeSecurity;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.tklm.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;

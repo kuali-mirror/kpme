@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.hr.tklm.time.util;
+package org.kuali.hr.core;
 
 import org.joda.time.LocalDate;
-import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.cache.CacheUtils;
+import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 

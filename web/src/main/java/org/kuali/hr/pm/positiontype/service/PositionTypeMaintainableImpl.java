@@ -1,8 +1,8 @@
 package org.kuali.hr.pm.positiontype.service;
 
 import org.kuali.hr.core.HrBusinessObject;
+import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.pm.service.base.PmServiceLocator;
-import org.kuali.hr.tklm.time.util.HrBusinessObjectMaintainableImpl;
 
 public class PositionTypeMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	

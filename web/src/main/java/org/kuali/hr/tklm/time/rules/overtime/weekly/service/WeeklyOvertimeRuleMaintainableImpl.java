@@ -18,9 +18,9 @@ package org.kuali.hr.tklm.time.rules.overtime.weekly.service;
 import java.util.Map;
 
 import org.kuali.hr.core.HrBusinessObject;
+import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 

@@ -16,7 +16,7 @@
 package org.kuali.hr.tklm.leave.override.service;
 
 import org.kuali.hr.core.HrBusinessObject;
-import org.kuali.hr.tklm.time.util.HrBusinessObjectMaintainableImpl;
+import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 
 public class EmployeeOverrideMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl{
 

@@ -16,8 +16,8 @@
 package org.kuali.hr.core.earncode.service;
 
 import org.kuali.hr.core.HrBusinessObject;
+import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.HrBusinessObjectMaintainableImpl;
 
 public class EarnCodeMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl{
 
