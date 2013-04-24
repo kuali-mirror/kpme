@@ -39,7 +39,7 @@ import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.leave.LMConstants;
-import org.kuali.hr.tklm.time.collection.rule.TimeCollectionRule;
+import org.kuali.hr.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKContext;
 import org.kuali.hr.tklm.time.util.TkConstants;

@@ -24,7 +24,7 @@
 
 	<bean id="TimeCollectionRule-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.tklm.time.collection.rule.TimeCollectionRule" />
+		<property name="businessObjectClass" value="org.kuali.hr.tklm.time.rules.timecollection.TimeCollectionRule" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="TimeCollectionRule" />
 		<property name="inquiryDefinition">

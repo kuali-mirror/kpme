@@ -25,7 +25,7 @@
 	<bean id="DailyOvertimeRule-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.hr.tklm.time.overtime.daily.rule.DailyOvertimeRule" />
+			value="org.kuali.hr.tklm.time.rules.overtime.daily.DailyOvertimeRule" />
 		<property name="titleAttribute" value="tkDailyOvertimeRuleId" />
 		<property name="objectLabel" value="DailyOvertimeRule" />
 		<property name="inquiryDefinition">

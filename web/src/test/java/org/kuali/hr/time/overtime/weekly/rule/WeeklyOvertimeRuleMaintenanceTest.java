@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.tklm.time.overtime.weekly.rule.WeeklyOvertimeRule;
+import org.kuali.hr.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;

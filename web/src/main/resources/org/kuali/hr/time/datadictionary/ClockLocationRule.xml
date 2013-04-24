@@ -19,7 +19,7 @@
   <bean id="ClockLocationRule" parent="ClockLocationRule-parentBean"/>
 
   <bean id="ClockLocationRule-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.hr.tklm.time.clock.location.ClockLocationRule"/>
+    <property name="businessObjectClass" value="org.kuali.hr.tklm.time.rules.clocklocation.ClockLocationRule"/>
     <property name="titleAttribute" value="id"/>
     <property name="objectLabel" value="ClockLocationRule"/>
     <property name="inquiryDefinition">

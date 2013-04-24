@@ -28,7 +28,7 @@ import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.tklm.time.calendar.CalendarEntry;
-import org.kuali.hr.tklm.time.overtime.weekly.rule.WeeklyOvertimeRule;
+import org.kuali.hr.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;

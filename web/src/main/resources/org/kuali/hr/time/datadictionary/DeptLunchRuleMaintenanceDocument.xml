@@ -28,17 +28,17 @@
   <bean id="DeptLunchRuleMaintenanceDocument" parent="DeptLunchRuleMaintenanceDocument-parentBean"/>
 
   <bean id="DeptLunchRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.hr.tklm.time.dept.lunch.DeptLunchRule"
- 		p:businessRulesClass="org.kuali.hr.tklm.time.dept.lunch.validation.DeptLunchRuleRule"
-        p:documentAuthorizerClass="org.kuali.hr.tklm.time.dept.lunch.authorization.DepartmentLunchRuleAuthorizer"
-  		p:maintainableClass="org.kuali.hr.tklm.time.dept.lunch.service.DeptLunchRuleMaintainableImpl">
+  		p:businessObjectClass="org.kuali.hr.tklm.time.rules.lunch.department.DeptLunchRule"
+ 		p:businessRulesClass="org.kuali.hr.tklm.time.rules.lunch.department.validation.DeptLunchRuleRule"
+        p:documentAuthorizerClass="org.kuali.hr.tklm.time.rules.lunch.department.authorization.DepartmentLunchRuleAuthorizer"
+  		p:maintainableClass="org.kuali.hr.tklm.time.rules.lunch.department.service.DeptLunchRuleMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="DeptLunchRuleMaintenanceDocument-DeptLunchRuleMaintenance"/>
       </list>
     </property>
     <property name="documentTypeName" value="DeptLunchRuleDocumentType"/>
-    <property name="promptBeforeValidationClass" value="org.kuali.hr.tklm.time.dept.lunch.validation.DeptLunchRuleEffectiveDatePrompt"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.hr.tklm.time.rules.lunch.department.validation.DeptLunchRuleEffectiveDatePrompt"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->

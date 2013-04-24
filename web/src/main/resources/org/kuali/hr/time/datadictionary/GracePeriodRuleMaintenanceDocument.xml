@@ -28,9 +28,9 @@
   <bean id="GracePeriodRuleMaintenanceDocument" parent="GracePeriodRuleMaintenanceDocument-parentBean"/>
 
   <bean id="GracePeriodRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
-  		p:businessObjectClass="org.kuali.hr.tklm.time.graceperiod.rule.GracePeriodRule"
-  		p:businessRulesClass="org.kuali.hr.tklm.time.graceperiod.rule.validation.GracePeriodRuleValidation"
-   		p:maintainableClass=" org.kuali.hr.tklm.time.graceperiod.service.GracePeriodRuleMaintainableServiceImpl"
+  		p:businessObjectClass="org.kuali.hr.tklm.time.rules.graceperiod.GracePeriodRule"
+  		p:businessRulesClass="org.kuali.hr.tklm.time.rules.graceperiod.validation.GracePeriodRuleValidation"
+   		p:maintainableClass=" org.kuali.hr.tklm.time.rules.graceperiod.service.GracePeriodRuleMaintainableServiceImpl"
    		p:documentAuthorizerClass="org.kuali.hr.core.authorization.KPMEMaintenanceDocumentAuthorizerBase">
     <property name="maintainableSections">
       <list>
@@ -38,7 +38,7 @@
       </list>
     </property>
     <property name="documentTypeName" value="GracePeriodRuleDocumentType"/>
-    <property name="promptBeforeValidationClass" value="org.kuali.hr.tklm.time.graceperiod.rule.validation.GracePeriodRuleEffectiveDatePrompt"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.hr.tklm.time.rules.graceperiod.validation.GracePeriodRuleEffectiveDatePrompt"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->

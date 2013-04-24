@@ -26,7 +26,7 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.tklm.time.calendar.CalendarEntry;
-import org.kuali.hr.tklm.time.graceperiod.rule.GracePeriodRule;
+import org.kuali.hr.tklm.time.rules.graceperiod.GracePeriodRule;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timeblock.TimeHourDetail;

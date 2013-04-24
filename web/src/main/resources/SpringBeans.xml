@@ -301,9 +301,9 @@
 
     <bean id="timesheetDocumentHeaderDao" class="org.kuali.hr.tklm.time.workflow.dao.TimesheetDocumentHeaderDaoSpringOjbImpl" parent="platformAwareDao" />
 
-    <bean id="dailyOvertimeRuleDao" class="org.kuali.hr.tklm.time.overtime.daily.rule.dao.DailyOvertimeRuleDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="dailyOvertimeRuleDao" class="org.kuali.hr.tklm.time.rules.overtime.daily.dao.DailyOvertimeRuleDaoSpringOjbImpl" parent="platformAwareDao" />
 
-    <bean id="clockLocationDao" class="org.kuali.hr.tklm.time.clock.location.dao.ClockLocationDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="clockLocationDao" class="org.kuali.hr.tklm.time.rules.clocklocation.dao.ClockLocationDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="departmentDao" class="org.kuali.hr.core.department.dao.DepartmentDaoSpringOjbImpl" parent="platformAwareDao" />
 
@@ -311,21 +311,21 @@
 
     <bean id="earnCodeDao" class="org.kuali.hr.core.earncode.dao.EarnCodeDaoSpringOjbImpl" parent="platformAwareDao" />
 
-    <bean id="timeCollectionRuleDao" class="org.kuali.hr.tklm.time.timecollection.rule.dao.TimeCollectionRuleDaoServiceImpl" parent="platformAwareDao" />
+    <bean id="timeCollectionRuleDao" class="org.kuali.hr.tklm.time.rules.timecollection.dao.TimeCollectionRuleDaoServiceImpl" parent="platformAwareDao" />
 
     <bean id="earnCodeGroupDao" class="org.kuali.hr.core.earncode.group.dao.EarnCodeGroupDaoServiceImpl" parent="platformAwareDao" />
 
     <bean id="timeHourDetailDao" class="org.kuali.hr.tklm.time.timehourdetail.dao.TimeHourDetailDaoSpringOjbImpl" parent="platformAwareDao" />
 
-    <bean id="weeklyOvertimeRuleDao" class="org.kuali.hr.tklm.time.overtime.weekly.rule.dao.WeeklyOvertimeRuleDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="weeklyOvertimeRuleDao" class="org.kuali.hr.tklm.time.rules.overtime.weekly.dao.WeeklyOvertimeRuleDaoSpringOjbImpl" parent="platformAwareDao" />
 
-    <bean id="shiftDifferentialRuleDao" class="org.kuali.hr.tklm.time.shiftdiff.rule.dao.ShiftDifferentialRuleDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="shiftDifferentialRuleDao" class="org.kuali.hr.tklm.time.rules.shiftdifferential.dao.ShiftDifferentialRuleDaoSpringOjbImpl" parent="platformAwareDao" />
 
-    <bean id="gracePeriodDao" class="org.kuali.hr.tklm.time.graceperiod.dao.GracePeriodDaoImpl" parent="platformAwareDao" />
+    <bean id="gracePeriodDao" class="org.kuali.hr.tklm.time.rules.graceperiod.dao.GracePeriodDaoImpl" parent="platformAwareDao" />
 
-    <bean id="systemLunchRuleDao" class="org.kuali.hr.tklm.time.syslunch.dao.SystemLunchRuleDaoImpl" parent="platformAwareDao" />
+    <bean id="systemLunchRuleDao" class="org.kuali.hr.tklm.time.rules.lunch.sys.dao.SystemLunchRuleDaoImpl" parent="platformAwareDao" />
 
-    <bean id="deptLunchRuleDao" class="org.kuali.hr.tklm.time.dept.lunch.dao.DepartmentLunchRuleDaoImpl" parent="platformAwareDao" />
+    <bean id="deptLunchRuleDao" class="org.kuali.hr.tklm.time.rules.lunch.department.dao.DepartmentLunchRuleDaoImpl" parent="platformAwareDao" />
 
     <bean id="principalHRAttributesDao" class="org.kuali.hr.core.principal.dao.PrincipalHRAttributesDaoImpl" parent="platformAwareDao" />
     
@@ -398,15 +398,15 @@
         <property name="missedPunchDao" ref="missedPunchDao"/>
     </bean>
 
-    <bean id="deptLunchRuleService" class="org.kuali.hr.tklm.time.dept.lunch.service.DepartmentLunchRuleServiceImpl">
+    <bean id="deptLunchRuleService" class="org.kuali.hr.tklm.time.rules.lunch.department.service.DepartmentLunchRuleServiceImpl">
         <property name="deptLunchRuleDao" ref="deptLunchRuleDao"/>
     </bean>
 
-    <bean id="systemLunchRuleService" class="org.kuali.hr.tklm.time.syslunch.service.SystemLunchRuleServiceImpl">
+    <bean id="systemLunchRuleService" class="org.kuali.hr.tklm.time.rules.lunch.sys.service.SystemLunchRuleServiceImpl">
         <property name="systemLunchRuleDao" ref="systemLunchRuleDao"/>
     </bean>
 
-    <bean id="gracePeriodService" class="org.kuali.hr.tklm.time.graceperiod.service.GracePeriodServiceImpl">
+    <bean id="gracePeriodService" class="org.kuali.hr.tklm.time.rules.graceperiod.service.GracePeriodServiceImpl">
         <property name="gracePeriodDao" ref="gracePeriodDao"/>
     </bean>
 
@@ -418,27 +418,27 @@
         <property name="clockLogDao" ref="clockLogDao"/>
     </bean>
 
-    <bean id="clockLocationService" class="org.kuali.hr.tklm.time.clock.location.service.ClockLocationRuleServiceImpl">
+    <bean id="clockLocationService" class="org.kuali.hr.tklm.time.rules.clocklocation.service.ClockLocationRuleServiceImpl">
         <property name="clockLocationDao" ref="clockLocationDao"/>
     </bean>
 
     <bean id="weeklyOvertimeRuleService"
-          class="org.kuali.hr.tklm.time.overtime.weekly.rule.service.WeeklyOvertimeRuleServiceImpl">
+          class="org.kuali.hr.tklm.time.rules.overtime.weekly.service.WeeklyOvertimeRuleServiceImpl">
         <property name="weeklyOvertimeRuleDao" ref="weeklyOvertimeRuleDao"/>
     </bean>
 
     <bean id="shiftDifferentialRuleService"
-          class="org.kuali.hr.tklm.time.shiftdiff.rule.service.ShiftDifferentialRuleServiceImpl">
+          class="org.kuali.hr.tklm.time.rules.shiftdifferential.service.ShiftDifferentialRuleServiceImpl">
         <property name="shiftDifferentialRuleDao" ref="shiftDifferentialRuleDao"/>
     </bean>
 
     <bean id="dailyOvertimeRuleService"
-          class="org.kuali.hr.tklm.time.overtime.daily.rule.service.DailyOvertimeRuleServiceImpl">
+          class="org.kuali.hr.tklm.time.rules.overtime.daily.service.DailyOvertimeRuleServiceImpl">
         <property name="dailyOvertimeRuleDao" ref="dailyOvertimeRuleDao"/>
     </bean>
 
     <bean id="timeCollectionRuleService"
-          class="org.kuali.hr.tklm.time.timecollection.rule.service.TimeCollectionRuleServiceImpl">
+          class="org.kuali.hr.tklm.time.rules.timecollection.service.TimeCollectionRuleServiceImpl">
         <property name="timeCollectRuleDao" ref="timeCollectionRuleDao"/>
     </bean>
 
@@ -616,7 +616,7 @@
  	<bean id="pmServiceLocator" class="org.kuali.hr.pm.service.base.PmServiceLocator">
     </bean>
     
-    <bean id="tkRuleControllerService" class="org.kuali.hr.tklm.time.rule.TkRuleControllerServiceImpl"/>
+    <bean id="tkRuleControllerService" class="org.kuali.hr.tklm.time.rules.TkRuleControllerServiceImpl"/>
 
     <bean id="tkSearchableAttributeService" class="org.kuali.hr.tklm.time.docsearch.TkSearchableAttributeServiceImpl"/>
 
@@ -821,7 +821,7 @@
     </bean>
     <bean id="systemLunchRuleLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.tklm.time.syslunch.service.SystemLunchRuleLookupableHelper"/>
+            <bean class="org.kuali.hr.tklm.time.rules.lunch.sys.service.SystemLunchRuleLookupableHelper"/>
         </property>
     </bean>
 
@@ -857,7 +857,7 @@
     </bean>
     <bean id="dailyOvertimeRuleLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.tklm.time.overtime.daily.rule.service.DailyOvertimeRuleLookupableHelper"/>
+            <bean class="org.kuali.hr.tklm.time.rules.overtime.daily.service.DailyOvertimeRuleLookupableHelper"/>
         </property>
     </bean>
     <bean id="departmentLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
@@ -872,34 +872,34 @@
     </bean>
     <bean id="clockLocationRuleLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.tklm.time.clock.location.service.ClockLocationRuleLookupableHelper"/>
+            <bean class="org.kuali.hr.tklm.time.rules.clocklocation.service.ClockLocationRuleLookupableHelper"/>
         </property>
     </bean>
     <bean id="departmentLunchRuleLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.tklm.time.dept.lunch.service.DepartmentLunchRuleLookupableHelper"/>
+            <bean class="org.kuali.hr.tklm.time.rules.lunch.department.service.DepartmentLunchRuleLookupableHelper"/>
         </property>
     </bean>
     <bean id="gracePeriodRuleLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.tklm.time.graceperiod.service.GracePeriodRuleLookupableHelper"/>
+            <bean class="org.kuali.hr.tklm.time.rules.graceperiod.service.GracePeriodRuleLookupableHelper"/>
         </property>
     </bean>
     <bean id="shiftDifferentialRuleLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.tklm.time.shiftdiff.rule.service.ShiftDifferentialRuleLookupableHelper"/>
+            <bean class="org.kuali.hr.tklm.time.rules.shiftdifferential.service.ShiftDifferentialRuleLookupableHelper"/>
         </property>
     </bean>
 
     <bean id="weeklyOvertimeRuleLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.tklm.time.overtime.weekly.rule.service.WeeklyOvertimeRuleLookupableHelper"/>
+            <bean class="org.kuali.hr.tklm.time.rules.overtime.weekly.service.WeeklyOvertimeRuleLookupableHelper"/>
         </property>
     </bean>
 
     <bean id="timeCollectionRuleLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.tklm.time.timecollection.rule.service.TimeCollectionRuleLookupableHelper"/>
+            <bean class="org.kuali.hr.tklm.time.rules.timecollection.service.TimeCollectionRuleLookupableHelper"/>
         </property>
     </bean>
     <bean id="assignmentLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">

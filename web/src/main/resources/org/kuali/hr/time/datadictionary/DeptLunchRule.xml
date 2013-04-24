@@ -23,7 +23,7 @@
 	<bean id="DeptLunchRule" parent="DeptLunchRule-parentBean" />
 
 	<bean id="DeptLunchRule-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.tklm.time.dept.lunch.DeptLunchRule" />
+		<property name="businessObjectClass" value="org.kuali.hr.tklm.time.rules.lunch.department.DeptLunchRule" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="DeptLunchRule" />
 		<property name="inquiryDefinition">

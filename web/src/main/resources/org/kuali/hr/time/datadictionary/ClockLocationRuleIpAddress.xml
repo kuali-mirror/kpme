@@ -19,7 +19,7 @@
   <bean id="ClockLocationRuleIpAddress" parent="ClockLocationRuleIpAddress-parentBean"/>
 
   <bean id="ClockLocationRuleIpAddress-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.hr.tklm.time.clock.location.ClockLocationRuleIpAddress"/>
+    <property name="businessObjectClass" value="org.kuali.hr.tklm.time.rules.clocklocation.ClockLocationRuleIpAddress"/>
     <property name="titleAttribute" value="id"/>
     <property name="objectLabel" value="IP Address"/>
     <property name="attributes">

@@ -27,9 +27,9 @@
 	<bean id="DailyOvertimeRuleMaintenanceDocument" parent="DailyOvertimeRuleMaintenanceDocument-parentBean" />
 
 	<bean id="DailyOvertimeRuleMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.tklm.time.overtime.daily.rule.DailyOvertimeRule"
-		p:businessRulesClass="org.kuali.hr.tklm.time.overtime.daily.rule.validation.DailyOvertimeRuleRule"
-  		p:maintainableClass="org.kuali.hr.tklm.time.overtime.daily.rule.service.DailyOvertimeRuleMaintainableImpl"
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.tklm.time.rules.overtime.daily.DailyOvertimeRule"
+		p:businessRulesClass="org.kuali.hr.tklm.time.rules.overtime.daily.validation.DailyOvertimeRuleRule"
+  		p:maintainableClass="org.kuali.hr.tklm.time.rules.overtime.daily.service.DailyOvertimeRuleMaintainableImpl"
 		p:documentAuthorizerClass="org.kuali.hr.core.authorization.KPMEMaintenanceDocumentAuthorizerBase">
 		<property name="maintainableSections">
 			<list>
@@ -42,7 +42,7 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="DailyOvertimeRuleDocumentType" />
-        <property name="promptBeforeValidationClass" value="org.kuali.hr.tklm.time.overtime.daily.rule.validation.DailyOvertimeRuleEffectiveDatePrompt"/>
+        <property name="promptBeforeValidationClass" value="org.kuali.hr.tklm.time.rules.overtime.daily.validation.DailyOvertimeRuleEffectiveDatePrompt"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->	

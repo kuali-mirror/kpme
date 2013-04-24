@@ -43,7 +43,6 @@ import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.hr.tklm.time.approval.web.ApprovalLeaveSummaryRow;
 import org.kuali.hr.tklm.time.base.web.ApprovalAction;
 import org.kuali.hr.tklm.time.base.web.ApprovalForm;
 import org.kuali.hr.tklm.time.calendar.Calendar;

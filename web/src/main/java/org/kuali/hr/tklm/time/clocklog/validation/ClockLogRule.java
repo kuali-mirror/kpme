@@ -19,8 +19,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
-import org.kuali.hr.tklm.time.clock.location.validation.ClockLocationRuleRule;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
+import org.kuali.hr.tklm.time.rules.clocklocation.validation.ClockLocationRuleRule;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;

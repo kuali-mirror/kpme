@@ -31,7 +31,7 @@ import org.kuali.hr.time.timesheet.web.TimesheetWebTestBase;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.detail.web.TimeDetailActionFormBase;
-import org.kuali.hr.tklm.time.overtime.daily.rule.DailyOvertimeRule;
+import org.kuali.hr.tklm.time.rules.overtime.daily.DailyOvertimeRule;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.hr.tklm.time.util.*;

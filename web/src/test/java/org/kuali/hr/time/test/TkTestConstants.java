@@ -30,7 +30,7 @@ public final class TkTestConstants {
 		public static final String ASSIGNMENT_ACCOUNT_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.core.assignment.AssignmentAccount&returnLocation="+
 		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
 
-		public static final String TIME_COLLECTION_RULE_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.tklm.time.collection.rule.TimeCollectionRule&returnLocation="+
+		public static final String TIME_COLLECTION_RULE_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.tklm.time.rules.timecollection.rule.TimeCollectionRule&returnLocation="+
 		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
 
 		public static final String SHIFT_DIFFERENTIAL_RULE_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.tklm.time.shiftdiff.rule.ShiftDifferentialRule&returnLocation="+
@@ -160,7 +160,7 @@ public final class TkTestConstants {
                 BASE_URL+"http://ci.kpme.kuali.org:80/kpme-trunk/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y";
         public static final String LOG_OUT_URL = BASE_URL + "/SessionInvalidateAction.do?methodToCall=userLogout";
     
-        public static final String TIME_COLLECTION_RULE_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.tklm.time.collection.rule.TimeCollectionRule&methodToCall=start";
+        public static final String TIME_COLLECTION_RULE_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.tklm.time.rules.timecollection.rule.TimeCollectionRule&methodToCall=start";
 	
 		public static final String DAILY_OVERTIME_RULE_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.tklm.time.overtime.daily.rule.DailyOvertimeRule&methodToCall=start";
 	}

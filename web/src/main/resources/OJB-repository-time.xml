@@ -139,7 +139,7 @@
         <field-descriptor name="versionNumber"          column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.hr.tklm.time.clock.location.ClockLocationRule" table="TK_CLOCK_LOCATION_RL_T">
+    <class-descriptor class="org.kuali.hr.tklm.time.rules.clocklocation.ClockLocationRule" table="TK_CLOCK_LOCATION_RL_T">
         <field-descriptor name="tkClockLocationRuleId"  column="TK_CLOCK_LOC_RULE_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_CLOCK_LOCATION_RL_S" />
         <field-descriptor name="dept"                   column="DEPT"                   jdbc-type="VARCHAR"     length="21" />
         <field-descriptor name="workArea"               column="WORK_AREA"              jdbc-type="BIGINT"      precision="10" scale="0" nullable="false" primarykey="false" />
@@ -159,7 +159,7 @@
         -->
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.hr.tklm.time.clock.location.ClockLocationRuleIpAddress" table="TK_CLOCK_LOC_RL_IP_ADDR_T">
+    <class-descriptor class="org.kuali.hr.tklm.time.rules.clocklocation.ClockLocationRuleIpAddress" table="TK_CLOCK_LOC_RL_IP_ADDR_T">
         <field-descriptor name="tkClockLocationRuleIpId"    column="TK_CLOCK_LOC_RULE_IP_ID"    jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="TK_CLOCK_LOC_RL_IP_ADDR_S" />
         <field-descriptor name="tkClockLocationRuleId"      column="TK_CLOCK_LOC_RULE_ID"       jdbc-type="VARCHAR" length="60" />
         <field-descriptor name="ipAddress"                  column="IP_ADDRESS"                 jdbc-type="VARCHAR" length="15" nullable="false" primarykey="false" />
@@ -178,7 +178,7 @@
     </class-descriptor>    
 
     <!-- add grace period rule -->
-    <class-descriptor class="org.kuali.hr.tklm.time.graceperiod.rule.GracePeriodRule" table="TK_GRACE_PERIOD_RL_T">
+    <class-descriptor class="org.kuali.hr.tklm.time.rules.graceperiod.GracePeriodRule" table="TK_GRACE_PERIOD_RL_T">
         <field-descriptor name="tkGracePeriodRuleId"    column="TK_GRACE_PERIOD_RULE_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_GRACE_PERIOD_RL_S" />
         <field-descriptor name="hourFactor"             column="HOUR_FACTOR"                jdbc-type="NUMERIC"     precision="2" scale="0" nullable="false" primarykey="false" />
         <field-descriptor name="effectiveDate"          column="EFFDT"                      jdbc-type="DATE"        nullable="true" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
@@ -190,7 +190,7 @@
     </class-descriptor>
 
     <!--  Added for Department Lunch Table-->
-    <class-descriptor class="org.kuali.hr.tklm.time.dept.lunch.DeptLunchRule" table="TK_DEPT_LUNCH_RL_T">
+    <class-descriptor class="org.kuali.hr.tklm.time.rules.lunch.department.DeptLunchRule" table="TK_DEPT_LUNCH_RL_T">
         <field-descriptor name="tkDeptLunchRuleId"  column="TK_DEPT_LUNCH_RL_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_DEPT_LUNCH_RL_S" />
         <field-descriptor name="dept"               column="DEPT"                   jdbc-type="VARCHAR"     length="21" nullable="false" primarykey="false" />
         <field-descriptor name="workArea"           column="WORK_AREA"              jdbc-type="BIGINT" />
@@ -372,7 +372,7 @@
     </class-descriptor>
     
     <!-- Time Collection Rule -->
-    <class-descriptor class="org.kuali.hr.tklm.time.collection.rule.TimeCollectionRule" table="TK_TIME_COLLECTION_RL_T">
+    <class-descriptor class="org.kuali.hr.tklm.time.rules.timecollection.TimeCollectionRule" table="TK_TIME_COLLECTION_RL_T">
         <field-descriptor name="tkTimeCollectionRuleId" column="TK_TIME_COLL_RULE_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_TIME_COLLECTION_RL_S" />
         <field-descriptor name="dept"                   column="DEPT"                   jdbc-type="VARCHAR"     length="21" primarykey="true" />
         <field-descriptor name="workArea"               column="WORK_AREA"              jdbc-type="BIGINT"      nullable="false" primarykey="true" />
@@ -388,7 +388,7 @@
     </class-descriptor>
 
     <!-- System Launch Rule -->
-    <class-descriptor class="org.kuali.hr.tklm.time.syslunch.rule.SystemLunchRule" table="TK_SYSTEM_LUNCH_RL_T">
+    <class-descriptor class="org.kuali.hr.tklm.time.rules.lunch.sys.SystemLunchRule" table="TK_SYSTEM_LUNCH_RL_T">
         <field-descriptor name="tkSystemLunchRuleId"    column="TK_SYSTEM_LUNCH_RL_ID"  jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_SYSTEM_LUNCH_RL_S" />
         <field-descriptor name="effectiveDate"          column="EFFDT"                  jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="showLunchButton"        column="SHOW_LUNCH_BUTTON"      jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
@@ -400,7 +400,7 @@
     </class-descriptor>
 
     <!-- ShiftDifferentialRule -->
-    <class-descriptor class="org.kuali.hr.tklm.time.shiftdiff.rule.ShiftDifferentialRule" table="TK_SHIFT_DIFFERENTIAL_RL_T">
+    <class-descriptor class="org.kuali.hr.tklm.time.rules.shiftdifferential.ShiftDifferentialRule" table="TK_SHIFT_DIFFERENTIAL_RL_T">
         <field-descriptor name="tkShiftDiffRuleId"  column="TK_SHIFT_DIFF_RL_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_SHIFT_DIFFERENTIAL_RL_S" />
         <field-descriptor name="location"           column="LOCATION"               jdbc-type="VARCHAR"     length="30" />
         <field-descriptor name="hrSalGroup"         column="HR_SAL_GROUP"           jdbc-type="VARCHAR"     length="10" />
@@ -426,7 +426,7 @@
     </class-descriptor>
 
     <!-- Weekly Overtime Rule -->
-    <class-descriptor class="org.kuali.hr.tklm.time.overtime.weekly.rule.WeeklyOvertimeRule" table="TK_WEEKLY_OVERTIME_RL_T">
+    <class-descriptor class="org.kuali.hr.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule" table="TK_WEEKLY_OVERTIME_RL_T">
         <field-descriptor name="tkWeeklyOvertimeRuleId"         column="TK_WEEKLY_OVERTIME_RL_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_WEEKLY_OVERTIME_RL_S" />
         <field-descriptor name="maxHoursEarnGroup"              column="MAX_HRS_ERN_GROUP"          jdbc-type="VARCHAR"     length="3" />
         <field-descriptor name="convertFromEarnGroup"           column="CONVERT_FROM_ERN_GROUP"     jdbc-type="VARCHAR"     length="3" />
@@ -460,7 +460,7 @@
     </class-descriptor>
 
     <!-- DailyOvertimeRule -->
-    <class-descriptor class="org.kuali.hr.tklm.time.overtime.daily.rule.DailyOvertimeRule" table="TK_DAILY_OVERTIME_RL_T">
+    <class-descriptor class="org.kuali.hr.tklm.time.rules.overtime.daily.DailyOvertimeRule" table="TK_DAILY_OVERTIME_RL_T">
         <field-descriptor name="tkDailyOvertimeRuleId"  column="TK_DAILY_OVERTIME_RL_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_DAILY_OVERTIME_RL_S" />
         <field-descriptor name="location"               column="LOCATION"                   jdbc-type="VARCHAR"     length="30" />
         <field-descriptor name="paytype"                column="PAYTYPE"                    jdbc-type="VARCHAR"     length="4" />
@@ -534,10 +534,10 @@
         <field-descriptor name="timezone"       column="TIME_ZONE"      jdbc-type="VARCHAR" length="30" />
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.hr.tklm.time.overtime.weekly.rule.WeeklyOvertimeRuleGroup" table="TK_WEEKLY_OVT_GROUP_T">
+    <class-descriptor class="org.kuali.hr.tklm.time.rules.overtime.weekly.WeeklyOvertimeRuleGroup" table="TK_WEEKLY_OVT_GROUP_T">
         <field-descriptor name="tkWeeklyOvertimeRuleGroupId" column="TK_WEEKLY_OVERTIME_GROUP_ID" jdbc-type="BIGINT" primarykey="true" />
         
-        <collection-descriptor name="lstWeeklyOvertimeRules" element-class-ref="org.kuali.hr.tklm.time.overtime.weekly.rule.WeeklyOvertimeRule" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="lstWeeklyOvertimeRules" element-class-ref="org.kuali.hr.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="tkWeeklyOvertimeRuleGroupId" />
         </collection-descriptor>
     </class-descriptor>

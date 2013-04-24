@@ -27,8 +27,8 @@
 	<bean id="SystemLunchRuleMaintenanceDocument" parent="SystemLunchRuleMaintenanceDocument-parentBean" />
 
 	<bean id="SystemLunchRuleMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.tklm.time.syslunch.rule.SystemLunchRule"
-		p:maintainableClass="org.kuali.hr.tklm.time.syslunch.service.SystemLunchRuleMaintainableImpl"
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.tklm.time.rules.lunch.sys.SystemLunchRule"
+		p:maintainableClass="org.kuali.hr.tklm.time.rules.lunch.sys.service.SystemLunchRuleMaintainableImpl"
 		p:documentAuthorizerClass="org.kuali.hr.core.authorization.KPMEMaintenanceDocumentAuthorizerBase">
 		<property name="maintainableSections">
 			<list>

@@ -18,7 +18,7 @@ import org.kuali.hr.core.permission.service.KPMEPermissionServiceBase;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.workarea.WorkArea;
-import org.kuali.hr.tklm.time.collection.rule.TimeCollectionRule;
+import org.kuali.hr.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;

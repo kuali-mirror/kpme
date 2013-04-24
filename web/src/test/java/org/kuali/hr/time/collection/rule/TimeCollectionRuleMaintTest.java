@@ -25,7 +25,7 @@ import org.kuali.hr.core.department.Department;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.tklm.time.collection.rule.TimeCollectionRule;
+import org.kuali.hr.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 

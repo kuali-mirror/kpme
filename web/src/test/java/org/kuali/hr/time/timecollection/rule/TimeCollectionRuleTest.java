@@ -22,7 +22,7 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.time.collection.rule.TimeCollectionRule;
+import org.kuali.hr.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
