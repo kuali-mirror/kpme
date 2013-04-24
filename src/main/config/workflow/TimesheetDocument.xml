@@ -30,7 +30,7 @@
 			<description>Timesheet Document</description>
 			<label>Timesheet Document</label>
             <docHandler>${kuali.docHandler.url.prefix}/Timesheet.do?methodToCall=docHandler</docHandler>
-            <postProcessorName>org.kuali.hr.time.workflow.postprocessor.TkPostProcessor</postProcessorName>
+            <postProcessorName>org.kuali.hr.tklm.time.workflow.postprocessor.TkPostProcessor</postProcessorName>
             <active>true</active>
             <routingVersion>1</routingVersion>
 			<attributes>
