@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.core.earncode.EarnCode;
-import org.kuali.hr.core.earncodegroup.EarnCodeGroup;
+import org.kuali.hr.core.earncode.group.EarnCodeGroup;
 import org.kuali.hr.tklm.time.rule.TkRule;
 
 public class WeeklyOvertimeRule extends TkRule {

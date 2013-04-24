@@ -36,7 +36,7 @@ import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.earncode.EarnCode;
-import org.kuali.hr.core.earncodegroup.EarnCodeGroup;
+import org.kuali.hr.core.earncode.group.EarnCodeGroup;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;

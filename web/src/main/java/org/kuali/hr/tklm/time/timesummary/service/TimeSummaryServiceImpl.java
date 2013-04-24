@@ -27,7 +27,7 @@ import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.earncode.EarnCode;
-import org.kuali.hr.core.earncodegroup.EarnCodeGroup;
+import org.kuali.hr.core.earncode.group.EarnCodeGroup;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.leave.LMConstants;

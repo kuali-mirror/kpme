@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.core.department.Department;
 import org.kuali.hr.core.earncode.EarnCode;
-import org.kuali.hr.core.earncodegroup.EarnCodeGroup;
+import org.kuali.hr.core.earncode.group.EarnCodeGroup;
 import org.kuali.hr.core.location.Location;
 import org.kuali.hr.core.paytype.PayType;
 import org.kuali.hr.core.task.Task;

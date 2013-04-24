@@ -284,7 +284,7 @@
         <field-descriptor name="versionNumber"                  column="VER_NBR"                    jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.hr.core.earncodegroup.EarnCodeGroup" table="HR_EARN_CODE_GROUP_T">
+    <class-descriptor class="org.kuali.hr.core.earncode.group.EarnCodeGroup" table="HR_EARN_CODE_GROUP_T">
         <field-descriptor name="hrEarnCodeGroupId"  column="HR_EARN_CODE_GROUP_ID"  jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="HR_EARN_CODE_GROUP_S" />
         <field-descriptor name="earnCodeGroup"      column="EARN_CODE_GROUP"        jdbc-type="VARCHAR"     length="10" nullable="false" primarykey="false" />
         <field-descriptor name="active"             column="ACTIVE"                 jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
@@ -296,12 +296,12 @@
         <field-descriptor name="objectId"       column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"  column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
 
-        <collection-descriptor name="earnCodeGroups" element-class-ref="org.kuali.hr.core.earncodegroup.EarnCodeGroupDefinition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="false">
+        <collection-descriptor name="earnCodeGroups" element-class-ref="org.kuali.hr.core.earncode.group.EarnCodeGroupDefinition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="false">
             <inverse-foreignkey field-ref="hrEarnCodeGroupId" />
         </collection-descriptor>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.hr.core.earncodegroup.EarnCodeGroupDefinition" table="HR_EARN_CODE_GROUP_DEF_T">
+    <class-descriptor class="org.kuali.hr.core.earncode.group.EarnCodeGroupDefinition" table="HR_EARN_CODE_GROUP_DEF_T">
         <field-descriptor name="hrEarnCodeGroupDefId"   column="HR_EARN_CODE_GROUP_DEF_ID"  jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="HR_EARN_CODE_GROUP_DEF_S" />
         <field-descriptor name="earnCode"               column="EARN_CODE"                  jdbc-type="VARCHAR" length="15" nullable="false" primarykey="false" />
         <field-descriptor name="hrEarnCodeGroupId"      column="HR_EARN_CODE_GROUP_ID"      jdbc-type="VARCHAR" length="60" nullable="false" primarykey="false" />
@@ -443,7 +443,7 @@
     </class-descriptor>
 
     <!-- Earn Code Security -->
-    <class-descriptor class="org.kuali.hr.core.earncodesec.EarnCodeSecurity" table="HR_EARN_CODE_SECURITY_T">
+    <class-descriptor class="org.kuali.hr.core.earncode.security.EarnCodeSecurity" table="HR_EARN_CODE_SECURITY_T">
         <field-descriptor name="hrEarnCodeSecurityId"   column="HR_EARN_CODE_SECURITY_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="HR_EARN_CODE_SECURITY_S" />
         <field-descriptor name="dept"                   column="DEPT"                       jdbc-type="VARCHAR"     length="21" />
         <field-descriptor name="hrSalGroup"             column="HR_SAL_GROUP"               jdbc-type="VARCHAR"     length="10" />

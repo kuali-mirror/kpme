@@ -28,10 +28,10 @@
 
 	<bean id="EarnCodeGroupMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" 
-		p:businessObjectClass="org.kuali.hr.core.earncodegroup.EarnCodeGroup"
-		p:businessRulesClass="org.kuali.hr.core.earncodegroup.validation.EarnCodeGroupValidation"
-		p:maintainableClass="org.kuali.hr.core.earncodegroup.service.EarnCodeGroupMaintainableImpl"
-		p:documentAuthorizerClass="org.kuali.hr.core.earncodegroup.authorization.EarnCodeGroupAuthorizer">
+		p:businessObjectClass="org.kuali.hr.core.earncode.group.EarnCodeGroup"
+		p:businessRulesClass="org.kuali.hr.core.earncode.group.validation.EarnCodeGroupValidation"
+		p:maintainableClass="org.kuali.hr.core.earncode.group.service.EarnCodeGroupMaintainableImpl"
+		p:documentAuthorizerClass="org.kuali.hr.core.earncode.group.authorization.EarnCodeGroupAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="EarnCodeGroupMaintenanceDocument-EarnCodeGroupMaintenance" />
@@ -44,7 +44,7 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="EarnCodeGroupDocumentType" />
-        <property name="promptBeforeValidationClass" value="org.kuali.hr.core.earncodegroup.validation.EarnCodeGroupEffectiveDatePrompt"/>
+        <property name="promptBeforeValidationClass" value="org.kuali.hr.core.earncode.group.validation.EarnCodeGroupEffectiveDatePrompt"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
@@ -87,7 +87,7 @@
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="name" value="earnCodeGroups" />
 					<property name="businessObjectClass"
-						value="org.kuali.hr.core.earncodegroup.EarnCodeGroupDefinition" />
+						value="org.kuali.hr.core.earncode.group.EarnCodeGroupDefinition" />
 					<property name="alwaysAllowCollectionDeletion" value="true" />
 					<property name="maintainableFields">
 						<list>

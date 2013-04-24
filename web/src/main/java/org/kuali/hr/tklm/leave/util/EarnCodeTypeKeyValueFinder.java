@@ -18,7 +18,7 @@ package org.kuali.hr.tklm.leave.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.hr.core.earncodesec.EarnCodeType;
+import org.kuali.hr.core.earncode.security.EarnCodeType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;

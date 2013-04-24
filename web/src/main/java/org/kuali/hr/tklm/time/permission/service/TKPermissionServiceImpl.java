@@ -11,7 +11,7 @@ import org.kuali.hr.core.KPMENamespace;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.department.Department;
-import org.kuali.hr.core.earncodesec.EarnCodeSecurity;
+import org.kuali.hr.core.earncode.security.EarnCodeSecurity;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.paytype.PayType;
 import org.kuali.hr.core.permission.service.KPMEPermissionServiceBase;

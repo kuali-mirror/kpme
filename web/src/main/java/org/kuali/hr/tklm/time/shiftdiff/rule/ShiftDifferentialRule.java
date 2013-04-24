@@ -20,7 +20,7 @@ import java.sql.Time;
 
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.core.earncode.EarnCode;
-import org.kuali.hr.core.earncodegroup.EarnCodeGroup;
+import org.kuali.hr.core.earncode.group.EarnCodeGroup;
 import org.kuali.hr.core.location.Location;
 import org.kuali.hr.core.paygrade.PayGrade;
 import org.kuali.hr.core.salgroup.SalGroup;

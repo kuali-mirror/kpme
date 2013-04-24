@@ -307,13 +307,13 @@
 
     <bean id="departmentDao" class="org.kuali.hr.core.department.dao.DepartmentDaoSpringOjbImpl" parent="platformAwareDao" />
 
-    <bean id="earnCodeSecurityDao" class="org.kuali.hr.core.earncodesec.dao.EarnCodeSecurityDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="earnCodeSecurityDao" class="org.kuali.hr.core.earncode.security.dao.EarnCodeSecurityDaoSpringOjbImpl" parent="platformAwareDao" />
 
     <bean id="earnCodeDao" class="org.kuali.hr.core.earncode.dao.EarnCodeDaoSpringOjbImpl" parent="platformAwareDao" />
 
     <bean id="timeCollectionRuleDao" class="org.kuali.hr.tklm.time.timecollection.rule.dao.TimeCollectionRuleDaoServiceImpl" parent="platformAwareDao" />
 
-    <bean id="earnCodeGroupDao" class="org.kuali.hr.core.earncodegroup.dao.EarnCodeGroupDaoServiceImpl" parent="platformAwareDao" />
+    <bean id="earnCodeGroupDao" class="org.kuali.hr.core.earncode.group.dao.EarnCodeGroupDaoServiceImpl" parent="platformAwareDao" />
 
     <bean id="timeHourDetailDao" class="org.kuali.hr.tklm.time.timehourdetail.dao.TimeHourDetailDaoSpringOjbImpl" parent="platformAwareDao" />
 
@@ -508,7 +508,7 @@
     <bean id="timesheetService" class="org.kuali.hr.tklm.time.timesheet.service.TimesheetServiceImpl">
     </bean>
 
-    <bean id="earnCodeSecurityService" class="org.kuali.hr.core.earncodesec.service.EarnCodeSecurityServiceImpl">
+    <bean id="earnCodeSecurityService" class="org.kuali.hr.core.earncode.security.service.EarnCodeSecurityServiceImpl">
         <property name="earnCodeSecurityDao" ref="earnCodeSecurityDao"/>
     </bean>
 
@@ -520,7 +520,7 @@
         <property name="earnCodeDao" ref="earnCodeDao"/>
     </bean>
 
-    <bean id="earnCodeGroupService" class="org.kuali.hr.core.earncodegroup.service.EarnCodeGroupServiceImpl">
+    <bean id="earnCodeGroupService" class="org.kuali.hr.core.earncode.group.service.EarnCodeGroupServiceImpl">
         <property name="earnCodeGroupDao" ref="earnCodeGroupDao"/>
     </bean>
 
@@ -827,7 +827,7 @@
 
     <bean id="earnCodeSecurityLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.core.earncodesec.service.EarnCodeSecurityLookupableHelper"/>
+            <bean class="org.kuali.hr.core.earncode.security.service.EarnCodeSecurityLookupableHelper"/>
         </property>
     </bean>
     <bean id="earnCodeLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
@@ -837,7 +837,7 @@
     </bean>
     <bean id="earnCodeGroupLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.core.earncodegroup.service.EarnCodeGroupLookupableHelper"/>
+            <bean class="org.kuali.hr.core.earncode.group.service.EarnCodeGroupLookupableHelper"/>
         </property>
     </bean>
     <bean id="payTypeLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">

@@ -28,7 +28,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.earncode.EarnCode;
-import org.kuali.hr.core.earncodesec.EarnCodeSecurity;
+import org.kuali.hr.core.earncode.security.EarnCodeSecurity;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.paytype.PayType;
 import org.kuali.hr.core.role.KPMERole;
