@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.util.TKContext;
@@ -183,6 +184,13 @@ public abstract class TkMaintenanceDocumentAuthorizerBase implements Maintenance
         if (documentActions.contains(KRADConstants.KUALI_ACTION_PERFORM_ROUTE_REPORT) && !canPerformRouteReport(document,
                 user)) {
             documentActions.remove(KRADConstants.KUALI_ACTION_PERFORM_ROUTE_REPORT);
+        }
+        // looking at the document status
+        String documentStatus = document.getDocumentHeader().getWorkflowDocument().getStatus().name();
+
+        if (StringUtils.equals(documentStatus, "FINAL")) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_APPROVE);
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_DISAPPROVE);
         }
 
         return documentActions;

@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
@@ -352,6 +353,12 @@ public class SystemAdminAuthorizer implements MaintenanceDocumentAuthorizer, Doc
             documentActions.remove(KRADConstants.KUALI_ACTION_PERFORM_ROUTE_REPORT);
         }
 
+        String documentStatus = document.getDocumentHeader().getWorkflowDocument().getStatus().toString();
+
+        if (StringUtils.equals(documentStatus, "FINAL")) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_APPROVE);
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_DISAPPROVE);
+        }
         return documentActions;
 	}
 
