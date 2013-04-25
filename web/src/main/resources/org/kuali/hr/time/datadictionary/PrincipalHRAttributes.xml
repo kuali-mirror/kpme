@@ -214,7 +214,7 @@
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.timezone.service.TimeZoneKeyValue" p:includeKeyInLabel="false"/>
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.core.timezone.service.TimeZoneKeyValue" p:includeKeyInLabel="false"/>
 		</property>
 		<property name="name" value="timezone" />
 		<property name="label" value="Timezone" />

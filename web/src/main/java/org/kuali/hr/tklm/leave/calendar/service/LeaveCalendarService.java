@@ -16,8 +16,8 @@
 package org.kuali.hr.tklm.leave.calendar.service;
 
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface LeaveCalendarService {

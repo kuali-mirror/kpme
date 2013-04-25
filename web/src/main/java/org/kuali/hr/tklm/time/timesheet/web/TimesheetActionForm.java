@@ -16,9 +16,9 @@
 package org.kuali.hr.tklm.time.timesheet.web;
 
 import org.apache.struts.action.ActionMapping;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.hr.tklm.time.base.web.TkCommonCalendarForm;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 
 import javax.servlet.http.HttpServletRequest;

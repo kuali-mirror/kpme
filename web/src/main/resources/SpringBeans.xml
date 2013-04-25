@@ -295,9 +295,9 @@
 
     <bean id="payTypeDao" class="org.kuali.hr.core.paytype.dao.PayTypeDaoSpringOjbImpl" parent="platformAwareDao" />
 
-    <bean id="calendarDao" class="org.kuali.hr.tklm.time.calendar.dao.CalendarDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="calendarDao" class="org.kuali.hr.core.calendar.dao.CalendarDaoSpringOjbImpl" parent="platformAwareDao" />
 
-    <bean id="calendarEntryDao" class="org.kuali.hr.tklm.time.calendar.dao.CalendarEntryDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="calendarEntryDao" class="org.kuali.hr.core.calendar.dao.CalendarEntryDaoSpringOjbImpl" parent="platformAwareDao" />
 
     <bean id="timesheetDocumentHeaderDao" class="org.kuali.hr.tklm.time.workflow.dao.TimesheetDocumentHeaderDaoSpringOjbImpl" parent="platformAwareDao" />
 
@@ -487,11 +487,11 @@
         <property name="payTypeDao" ref="payTypeDao"/>
     </bean>
 
-    <bean id="calendarService" class="org.kuali.hr.tklm.time.calendar.service.CalendarServiceImpl">
+    <bean id="calendarService" class="org.kuali.hr.core.calendar.service.CalendarServiceImpl">
         <property name="calendarDao" ref="calendarDao"/>
     </bean>
 
-    <bean id="calendarEntryService" class="org.kuali.hr.tklm.time.calendar.service.CalendarEntryServiceImpl">
+    <bean id="calendarEntryService" class="org.kuali.hr.core.calendar.service.CalendarEntryServiceImpl">
         <property name="calendarEntryDao" ref="calendarEntryDao"/>
     </bean>
 
@@ -622,7 +622,7 @@
 
     <bean id="tkWarningService" class="org.kuali.hr.tklm.time.warning.TkWarningServiceImpl"/>
           
-    <bean id="timezoneService" class="org.kuali.hr.tklm.time.timezone.service.TimezoneServiceImpl"/>
+    <bean id="timezoneService" class="org.kuali.hr.core.timezone.service.TimezoneServiceImpl"/>
 
     <bean id="timeApproveService" class="org.kuali.hr.tklm.time.approval.service.TimeApproveServiceImpl"/>
 
@@ -811,7 +811,7 @@
     </bean>
     <bean id="calendarLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.tklm.time.calendar.service.CalendarLookupableHelper"/>
+            <bean class="org.kuali.hr.core.calendar.service.CalendarLookupableHelper"/>
         </property>
     </bean>
     <bean id="jobLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
@@ -920,7 +920,7 @@
     </bean>
     <bean id="calendarEntryLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.tklm.time.calendar.service.CalendarEntryLookupableHelper"/>
+            <bean class="org.kuali.hr.core.calendar.service.CalendarEntryLookupableHelper"/>
         </property>
     </bean>
     <bean id="payGradeLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
@@ -1072,7 +1072,7 @@
     
     <!-- Quartz Batch Jobs -->
     
-    <bean id="batchJobService" class="org.kuali.hr.tklm.time.batch.service.BatchJobServiceImpl">
+    <bean id="batchJobService" class="org.kuali.hr.core.batch.service.BatchJobServiceImpl">
         <property name="scheduler" ref="kpmeScheduler" />
         <property name="assignmentService" ref="assignmentService" />
         <property name="calendarService" ref="calendarService" />
@@ -1115,14 +1115,14 @@
         </property>
     </bean>
     
-    <bean id="accrualJob" class="org.kuali.hr.tklm.time.batch.AccrualJob" scope="singleton">
+    <bean id="accrualJob" class="org.kuali.hr.tklm.leave.batch.AccrualJob" scope="singleton">
         <property name="accrualService" ref="accrualService" />
         <property name="assignmentService" ref="assignmentService" />
         <property name="leavePlanService" ref="leavePlanService" />
         <property name="principalHRAttributesService" ref="principalHRAttributesService" />
     </bean>
     <bean id="accrualJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
-        <property name="jobClass" value="org.kuali.hr.tklm.time.batch.AccrualJob" />
+        <property name="jobClass" value="org.kuali.hr.tklm.leave.batch.AccrualJob" />
     </bean>
     <bean id="accrualTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="accrualJobBean" />
@@ -1131,13 +1131,13 @@
     
    	<!--  CarryOverSchedule Batch JOB -->
    	
-    <bean id="carryOverSchedulerJob" class="org.kuali.hr.tklm.time.batch.CarryOverSchedulerJob" scope="singleton">
+    <bean id="carryOverSchedulerJob" class="org.kuali.hr.tklm.leave.batch.CarryOverSchedulerJob" scope="singleton">
         <property name="leavePlanPollingWindow" value="${kpme.batch.leavePlanPollingWindow.days}" />
         <property name="batchJobService" ref="batchJobService" />
     </bean>
     
 	<bean id="carryOverSchedulerJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
-        <property name="jobClass" value="org.kuali.hr.tklm.time.batch.CarryOverSchedulerJob" />
+        <property name="jobClass" value="org.kuali.hr.tklm.leave.batch.CarryOverSchedulerJob" />
     </bean>
     
     <bean id="carryOverSchedulerTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
@@ -1146,13 +1146,13 @@
         <property name="repeatInterval" value="${kpme.batch.repeatInterval.milliseconds}" />
     </bean>
 
-    <bean id="calendarEntrySchedulerJob" class="org.kuali.hr.tklm.time.batch.CalendarEntrySchedulerJob" scope="singleton">
+    <bean id="calendarEntrySchedulerJob" class="org.kuali.hr.core.batch.CalendarEntrySchedulerJob" scope="singleton">
         <property name="calendarEntriesPollingWindow" value="${kpme.batch.calendarEntriesPollingWindow.days}" />
         <property name="batchJobService" ref="batchJobService" />
     </bean>
     
     <bean id="calendarEntrySchedulerJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
-        <property name="jobClass" value="org.kuali.hr.tklm.time.batch.CalendarEntrySchedulerJob" />
+        <property name="jobClass" value="org.kuali.hr.core.batch.CalendarEntrySchedulerJob" />
     </bean>
     
     <bean id="calendarEntrySchedulerTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
@@ -1161,7 +1161,7 @@
         <property name="repeatInterval" value="${kpme.batch.repeatInterval.milliseconds}" />
     </bean>
     
-    <bean id="leaveCalendarDelinquencyJob" class="org.kuali.hr.tklm.time.batch.LeaveCalendarDelinquencyJob" scope="singleton">
+    <bean id="leaveCalendarDelinquencyJob" class="org.kuali.hr.tklm.leave.batch.LeaveCalendarDelinquencyJob" scope="singleton">
         <property name="calendarEntriesPollingWindow" value="${kpme.batch.calendarEntriesPollingWindow.days}" />
         <property name="calendarEntryService" ref="calendarEntryService" />
         <property name="kpmeNotificationService" ref="kpmeNotificationService" />
@@ -1170,7 +1170,7 @@
     </bean>
     
     <bean id="leaveCalendarDelinquencyJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
-        <property name="jobClass" value="org.kuali.hr.tklm.time.batch.LeaveCalendarDelinquencyJob" />
+        <property name="jobClass" value="org.kuali.hr.tklm.leave.batch.LeaveCalendarDelinquencyJob" />
     </bean>
     <bean id="leaveCalendarDelinquencyTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="leaveCalendarDelinquencyJobBean" />

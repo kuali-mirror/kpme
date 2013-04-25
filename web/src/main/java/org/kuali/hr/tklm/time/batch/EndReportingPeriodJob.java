@@ -18,7 +18,7 @@ package org.kuali.hr.tklm.time.batch;
 import java.text.DateFormat;
 
 import org.joda.time.DateTime;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.quartz.Job;
 import org.quartz.JobDataMap;

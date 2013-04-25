@@ -17,7 +17,7 @@ package org.kuali.hr.tklm.leave.request.approval.web;
 
 import java.util.List;
 
-import org.kuali.hr.tklm.time.base.web.ApprovalForm;
+import org.kuali.hr.core.ApprovalForm;
 
 public class LeaveRequestApprovalActionForm extends ApprovalForm {
 	

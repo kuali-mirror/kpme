@@ -17,12 +17,12 @@ package org.kuali.hr.core.earncode.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.util.TkConstants;
-import org.kuali.hr.tklm.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 

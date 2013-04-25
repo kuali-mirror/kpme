@@ -24,11 +24,11 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
+import org.kuali.hr.core.calendar.Calendar;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.time.calendar.Calendar;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timeblock.TimeHourDetail;
@@ -89,6 +89,7 @@ public class TkPostProcessor extends DefaultPostProcessor {
 						if (accrualCategory != null) {
 							LocalDate leaveDate = LocalDate.fromDateFields(timeBlock.getBeginDate());
 							BigDecimal leaveAmount = timeBlock.getHours();
+							//What if [can] the units are [be] days?
 							
 							LeaveBlock.Builder builder = new LeaveBlock.Builder(leaveDate, null, principalId, overtimeEarnCode.getEarnCode(), leaveAmount)
 								.accrualCategory(accrualCategory.getAccrualCategory())
@@ -137,6 +138,7 @@ public class TkPostProcessor extends DefaultPostProcessor {
 			}
 		}
 		else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
+			// TODO: KPMEServiceLocator.getMaxCarryOverService.updateCarryOverLeaveBlockStatus(principalId, timesheetDocumentHeader.getBeginDateTime().toLocalDate(), endDate.toLocalDate());
 			//approve the carry over leave block.
 			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, timesheetDocumentHeader.getBeginDateTime().toLocalDate(), endDate.toLocalDate());
 			for(LeaveBlock lb : leaveBlocks) {

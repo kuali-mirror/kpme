@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 
-<%@ attribute name="day" required="true" type="org.kuali.hr.tklm.time.calendar.CalendarDay" %>
+<%@ attribute name="day" required="true" type="org.kuali.hr.core.calendar.CalendarDay" %>
 
 <%-- display time blocks for the day --%>
 <c:forEach var="block" items="${day.blockRenderers}" varStatus="status">

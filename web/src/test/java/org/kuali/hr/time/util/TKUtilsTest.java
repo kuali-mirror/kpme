@@ -25,7 +25,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.util.TKUtils;
 
 public class TKUtilsTest extends Assert {

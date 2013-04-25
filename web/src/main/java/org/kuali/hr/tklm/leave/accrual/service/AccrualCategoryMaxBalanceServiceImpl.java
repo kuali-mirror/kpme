@@ -30,12 +30,12 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.hr.core.calendar.Calendar;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
-import org.kuali.hr.tklm.time.calendar.Calendar;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 

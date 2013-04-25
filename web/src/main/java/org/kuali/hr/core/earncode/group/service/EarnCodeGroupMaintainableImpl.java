@@ -21,10 +21,10 @@ import java.util.Set;
 
 import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
+import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.earncode.group.EarnCodeGroup;
 import org.kuali.hr.core.earncode.group.EarnCodeGroupDefinition;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;

@@ -18,7 +18,7 @@ package org.kuali.hr.tklm.time.batch;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;

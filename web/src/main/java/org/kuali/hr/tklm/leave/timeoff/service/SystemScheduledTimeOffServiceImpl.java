@@ -87,4 +87,14 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
     	return systemScheduledTimeOffDao.getSystemScheduledTimeOffsForLeavePlan(fromAccruedDate, toAccruedDate, leavePlan);
     }
 
+	@Override
+	public String getSSTODescriptionForDate(String leavePlan,
+			LocalDate localDate) {
+		String description = "";
+		SystemScheduledTimeOff ssto = systemScheduledTimeOffDao.getSystemScheduledTimeOffByDate(leavePlan, localDate);
+		if(ssto != null)
+			description = ssto.getDescr();
+		return description;
+	}
+
 }

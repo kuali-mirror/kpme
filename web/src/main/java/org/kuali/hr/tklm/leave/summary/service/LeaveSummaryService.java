@@ -20,8 +20,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 
 public interface LeaveSummaryService {
 	public LeaveSummary getLeaveSummary(String principalId, CalendarEntry calendarEntry) throws Exception;

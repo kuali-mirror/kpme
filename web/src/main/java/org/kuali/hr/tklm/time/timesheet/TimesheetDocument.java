@@ -23,9 +23,9 @@ import java.util.Map;
 
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.assignment.Assignment;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.core.job.Job;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timesummary.TimeSummary;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;

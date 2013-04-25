@@ -504,7 +504,7 @@
     </class-descriptor>
     
     <!--  Calendar -->
-    <class-descriptor class="org.kuali.hr.tklm.time.calendar.CalendarEntry" table="HR_CALENDAR_ENTRIES_T">
+    <class-descriptor class="org.kuali.hr.core.calendar.CalendarEntry" table="HR_CALENDAR_ENTRIES_T">
         <field-descriptor name="hrCalendarEntryId"                column="HR_CALENDAR_ENTRY_ID"           jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="HR_CALENDAR_ENTRIES_S" />/>
         <field-descriptor name="hrCalendarId"                       column="HR_CALENDAR_ID"                 jdbc-type="VARCHAR"     length="60" />
         <field-descriptor name="calendarName"                       column="CALENDAR_NAME"                  jdbc-type="VARCHAR"     length="30" nullable="true" primarykey="true" />
@@ -516,7 +516,7 @@
         <field-descriptor name="batchSupervisorApprovalDateTime"    column="BATCH_SUPERVISOR_APPROVAL_DATE" jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.hr.tklm.time.calendar.Calendar" table="HR_CALENDAR_T">
+    <class-descriptor class="org.kuali.hr.core.calendar.Calendar" table="HR_CALENDAR_T">
         <field-descriptor name="hrCalendarId"           column="HR_CALENDAR_ID"         jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="HR_CALENDAR_S" />
         <field-descriptor name="calendarName"           column="CALENDAR_NAME"          jdbc-type="VARCHAR" length="15" nullable="true" primarykey="false" />
         <field-descriptor name="calendarDescriptions"   column="CALENDAR_DESCRIPTIONS"  jdbc-type="VARCHAR" length="50" nullable="true" primarykey="false" />
@@ -524,7 +524,7 @@
         <field-descriptor name="flsaBeginTime"          column="FLSA_BEGIN_TIME"        jdbc-type="TIME" />
         <field-descriptor name="calendarTypes"          column="CALENDAR_TYPES"         jdbc-type="VARCHAR" length="9" />
         
-        <collection-descriptor name="calendarEntries" element-class-ref="org.kuali.hr.tklm.time.calendar.CalendarEntry" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="calendarEntries" element-class-ref="org.kuali.hr.core.calendar.CalendarEntry" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="hrCalendarId" />
         </collection-descriptor>
     </class-descriptor>

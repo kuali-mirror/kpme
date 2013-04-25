@@ -15,6 +15,8 @@
  */
 package org.kuali.hr.tklm.time.calendar;
 
+import org.kuali.hr.core.calendar.CalendarWeek;
+
 public class TkCalendarWeek extends CalendarWeek {
 //	private List<TkCalendarDay> days = new ArrayList<TkCalendarDay>();
 //

@@ -24,6 +24,7 @@ import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.accrualcategory.rule.service.AccrualCategoryRuleService;
 import org.kuali.hr.core.accrualcategory.service.AccrualCategoryService;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.job.service.JobService;
 import org.kuali.hr.core.leaveplan.LeavePlan;
 import org.kuali.hr.core.leaveplan.service.LeavePlanService;
@@ -34,7 +35,6 @@ import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.service.LeaveBlockService;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
 import org.kuali.hr.tklm.leave.override.service.EmployeeOverrideService;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.util.TKUtils;
 
 import java.util.Collections;

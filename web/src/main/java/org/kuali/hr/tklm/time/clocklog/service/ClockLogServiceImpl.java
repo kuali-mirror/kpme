@@ -26,7 +26,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.assignment.Assignment;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
 import org.kuali.hr.tklm.time.clocklog.dao.ClockLogDao;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;

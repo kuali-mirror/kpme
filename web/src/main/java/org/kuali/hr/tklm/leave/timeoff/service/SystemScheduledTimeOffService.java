@@ -63,4 +63,12 @@ public interface SystemScheduledTimeOffService {
      * @return
      */
     public List<SystemScheduledTimeOff> getSystemScheduledTimeOffsForLeavePlan(LocalDate fromAccruedDate,LocalDate toAccruedDate, String leavePlan);
+
+    /**
+     * 
+     * @param leavePlan
+     * @param localDate
+     * @return Returns the description of the system scheduled time off for the given leave plan and date, or the empty string if no ssto exists.
+     */
+	public String getSSTODescriptionForDate(String leavePlan, LocalDate localDate);
 }

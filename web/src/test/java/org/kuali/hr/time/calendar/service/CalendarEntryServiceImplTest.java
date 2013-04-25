@@ -23,9 +23,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.calendar.service.CalendarEntryService;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
-import org.kuali.hr.tklm.time.calendar.service.CalendarEntryService;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 

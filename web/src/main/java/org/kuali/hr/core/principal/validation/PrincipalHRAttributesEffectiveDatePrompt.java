@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.core.principal.validation;
 
-import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
+import org.kuali.hr.core.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;

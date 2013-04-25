@@ -16,11 +16,18 @@
 package org.kuali.hr.tklm.time.calendar;
 
 import org.joda.time.DateTime;
+import org.kuali.hr.core.calendar.CalendarDay;
+import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.calendar.CalendarParent;
+import org.kuali.hr.core.calendar.CalendarWeek;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.block.LeaveBlockRenderer;
 import org.kuali.hr.tklm.leave.util.LeaveBlockAggregate;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
+import org.kuali.hr.tklm.time.timeblock.TimeBlockRenderer;
+import org.kuali.hr.tklm.time.timehourdetail.TimeHourDetailRenderer;
 import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.hr.tklm.time.util.TkTimeBlockAggregate;
 

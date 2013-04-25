@@ -19,8 +19,8 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.leaveplan.LeavePlan;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 import org.springframework.cache.annotation.Cacheable;
 
 public interface LeavePlanService {

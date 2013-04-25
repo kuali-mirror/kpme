@@ -20,8 +20,8 @@ import java.util.Date;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.KPMEConstants;
+import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.leaveplan.LeavePlan;
-import org.kuali.hr.tklm.time.calendar.Calendar;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 

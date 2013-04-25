@@ -37,6 +37,7 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.assignment.Assignment;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.leaveplan.LeavePlan;
@@ -48,7 +49,6 @@ import org.kuali.hr.tklm.leave.accrual.RateRangeAggregate;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKContext;
 import org.kuali.hr.tklm.time.util.TKUtils;
@@ -575,7 +575,7 @@ public class AccrualServiceImpl implements AccrualService {
 		// get all pay calendar entries for this employee. used to determine interval dates
 		Map<String, List<CalendarEntry>> calEntryMap = new HashMap<String, List<CalendarEntry>>();
 		for(String calName : calNameSet) {
-			org.kuali.hr.tklm.time.calendar.Calendar aCal = TkServiceLocator.getCalendarService().getCalendarByGroup(calName);
+			org.kuali.hr.core.calendar.Calendar aCal = TkServiceLocator.getCalendarService().getCalendarByGroup(calName);
 			if(aCal != null) {
 				List<CalendarEntry> aList = TkServiceLocator.getCalendarEntryService().getAllCalendarEntriesForCalendarId(aCal.getHrCalendarId());
 				Collections.sort(aList);

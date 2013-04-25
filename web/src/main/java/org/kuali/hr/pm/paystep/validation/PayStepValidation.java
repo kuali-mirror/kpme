@@ -1,9 +1,9 @@
 package org.kuali.hr.pm.paystep.validation;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.pm.paystep.PayStep;
 import org.kuali.hr.pm.util.PmValidationUtils;
-import org.kuali.hr.tklm.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 

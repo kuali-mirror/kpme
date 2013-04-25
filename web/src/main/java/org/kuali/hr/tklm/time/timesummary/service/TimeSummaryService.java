@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.tklm.time.timesummary.service;
 
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.hr.tklm.time.timesummary.TimeSummary;
 

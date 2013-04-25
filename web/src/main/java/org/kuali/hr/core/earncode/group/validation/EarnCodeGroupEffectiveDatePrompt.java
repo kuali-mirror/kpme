@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.core.earncode.group.validation;
 
-import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
+import org.kuali.hr.core.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.core.earncode.group.EarnCodeGroup;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;

@@ -17,10 +17,10 @@ package org.kuali.hr.tklm.leave.adjustment.validation;
 
 import java.math.BigDecimal;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.tklm.leave.adjustment.LeaveAdjustment;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;

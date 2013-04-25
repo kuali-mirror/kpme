@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.tklm.time.rules.graceperiod.validation;
 
-import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
+import org.kuali.hr.core.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.tklm.time.rules.graceperiod.GracePeriodRule;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;

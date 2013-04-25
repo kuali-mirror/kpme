@@ -19,8 +19,8 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.assignment.Assignment;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 
 public interface CalendarDocumentContract {
     /**

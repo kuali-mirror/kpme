@@ -15,8 +15,8 @@
  */
 package org.kuali.hr.core.paygrade.validation;
 
+import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.paygrade.PayGrade;
-import org.kuali.hr.tklm.time.util.ValidationUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;

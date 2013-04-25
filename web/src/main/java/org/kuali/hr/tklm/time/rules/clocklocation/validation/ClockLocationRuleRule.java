@@ -19,13 +19,13 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.tklm.time.authorization.AuthorizationValidationUtils;
 import org.kuali.hr.tklm.time.authorization.DepartmentalRule;
 import org.kuali.hr.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.kuali.hr.tklm.time.rules.clocklocation.ClockLocationRuleIpAddress;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TkConstants;
-import org.kuali.hr.tklm.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;

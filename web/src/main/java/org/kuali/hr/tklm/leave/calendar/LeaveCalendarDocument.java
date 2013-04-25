@@ -22,10 +22,10 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.assignment.Assignment;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 
 public class LeaveCalendarDocument implements CalendarDocumentContract, Serializable {
 

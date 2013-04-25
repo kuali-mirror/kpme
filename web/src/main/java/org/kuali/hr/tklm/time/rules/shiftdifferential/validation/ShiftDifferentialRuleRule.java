@@ -16,9 +16,9 @@
 package org.kuali.hr.tklm.time.rules.shiftdifferential.validation;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
 import org.kuali.hr.tklm.time.util.TkConstants;
-import org.kuali.hr.tklm.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;

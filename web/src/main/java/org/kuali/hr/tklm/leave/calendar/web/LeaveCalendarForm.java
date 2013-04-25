@@ -20,12 +20,12 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.tklm.leave.calendar.LeaveCalendar;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
 import org.kuali.hr.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.hr.tklm.time.base.web.TkCommonCalendarForm;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
-import org.kuali.hr.tklm.time.calendar.LeaveCalendar;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;

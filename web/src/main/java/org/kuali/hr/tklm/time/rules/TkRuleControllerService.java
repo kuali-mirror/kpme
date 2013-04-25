@@ -17,7 +17,7 @@ package org.kuali.hr.tklm.time.rules;
 
 import java.util.List;
 
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 

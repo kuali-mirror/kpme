@@ -18,8 +18,8 @@ package org.kuali.hr.tklm.leave.accrual.service;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.time.calendar.CalendarEntry;
 
 public interface AccrualCategoryMaxBalanceService {
 
