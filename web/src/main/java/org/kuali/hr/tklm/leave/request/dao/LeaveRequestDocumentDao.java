@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.tklm.leave.request.dao;
 
-import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
-
 import java.util.List;
+
+import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
 
 
 public interface LeaveRequestDocumentDao {

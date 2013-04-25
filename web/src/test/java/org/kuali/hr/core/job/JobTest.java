@@ -26,12 +26,11 @@ import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
-import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.paytype.PayType;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -61,7 +60,7 @@ public class JobTest extends KPMETestCase {
         payCalendar.setCalendarDescriptions("Test Description");
 
 		KRADServiceLocator.getBusinessObjectService().save(payCalendar);
-		Assert.assertTrue(TkServiceLocator.getCalendarService().getCalendar(payCalendar.getHrCalendarId()) != null);
+		Assert.assertTrue(HrServiceLocator.getCalendarService().getCalendar(payCalendar.getHrCalendarId()) != null);
 
 	}
 
@@ -82,7 +81,7 @@ public class JobTest extends KPMETestCase {
 		payCalendarDates.setEndPeriodDateTime(cal.getTime());
 
 		KRADServiceLocator.getBusinessObjectService().save(payCalendarDates);
-		Assert.assertTrue(TkServiceLocator.getCalendarEntryService().getCalendarEntry(payCalendarDates.getHrCalendarEntryId()) != null);
+		Assert.assertTrue(HrServiceLocator.getCalendarEntryService().getCalendarEntry(payCalendarDates.getHrCalendarEntryId()) != null);
 
 	}
 
@@ -96,7 +95,7 @@ public class JobTest extends KPMETestCase {
 		payType.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
 		KRADServiceLocator.getBusinessObjectService().save(payType);
-		Assert.assertTrue(TkServiceLocator.getPayTypeService().getPayType(payType.getPayType(), payType.getEffectiveLocalDate()) != null);
+		Assert.assertTrue(HrServiceLocator.getPayTypeService().getPayType(payType.getPayType(), payType.getEffectiveLocalDate()) != null);
 	}
 
 	@Test
@@ -114,7 +113,7 @@ public class JobTest extends KPMETestCase {
 	@Test
 	public void testGetJobs() {
 		DateTime payPeriodEndDate = new DateTime(2010,7,30,1,0,0,0, TKUtils.getSystemDateTimeZone());
-		List<Job> jobs = TkServiceLocator.getJobService().getJobs(TEST_USER, payPeriodEndDate.toLocalDate());
+		List<Job> jobs = HrServiceLocator.getJobService().getJobs(TEST_USER, payPeriodEndDate.toLocalDate());
 		Assert.assertNotNull("Jobs was null", jobs);
 		Assert.assertEquals("Incorrect number of jobs", 2, jobs.size());
 	}

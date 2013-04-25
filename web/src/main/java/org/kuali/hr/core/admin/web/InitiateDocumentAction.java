@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.base.web.TkAction;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TkConstants;
@@ -39,10 +40,10 @@ public class InitiateDocumentAction extends TkAction {
     	
     	if (StringUtils.isNotBlank(principalId) && StringUtils.isNotBlank(hrCalendarEntryId)) {
     		Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(principalId);
-    		CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
+    		CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
     		
     		if (principal != null && calendarEntry != null) {
-    			Calendar calendar = TkServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+    			Calendar calendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
     			
     			if (calendar != null) {
     				if (StringUtils.equals(calendar.getCalendarTypes(), TkConstants.CALENDAR_TYPE_PAY)) {

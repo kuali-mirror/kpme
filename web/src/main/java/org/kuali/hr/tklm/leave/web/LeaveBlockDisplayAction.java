@@ -35,6 +35,7 @@ import org.apache.struts.action.ActionMapping;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.LeaveBlockHistory;
@@ -54,7 +55,7 @@ public class LeaveBlockDisplayAction extends TkAction {
 		
 		LeaveBlockDisplayForm lbdf = (LeaveBlockDisplayForm) form;	
 
-		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(TKContext.getTargetPrincipalId(), LocalDate.now());
+		PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(TKContext.getTargetPrincipalId(), LocalDate.now());
 		String leavePlan = (principalHRAttributes != null) ? principalHRAttributes.getLeavePlan() : null;
 
 		Calendar currentCalendar = Calendar.getInstance();
@@ -125,7 +126,7 @@ public class LeaveBlockDisplayAction extends TkAction {
 	private List<AccrualCategory> getAccrualCategories(String leavePlan) {
 		List<AccrualCategory> accrualCategories = new ArrayList<AccrualCategory>();
 		
-		List<AccrualCategory> allAccrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, LocalDate.now());
+		List<AccrualCategory> allAccrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, LocalDate.now());
 		if (allAccrualCategories != null) {
 			for (AccrualCategory ac : allAccrualCategories) {
 				if (StringUtils.equalsIgnoreCase(ac.getShowOnGrid(), "Y")) {

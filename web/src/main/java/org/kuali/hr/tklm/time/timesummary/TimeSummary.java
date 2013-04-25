@@ -15,15 +15,15 @@
  */
 package org.kuali.hr.tklm.time.timesummary;
 
-import org.json.simple.JSONValue;
-import org.kuali.hr.tklm.leave.summary.LeaveSummaryRow;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.json.simple.JSONValue;
+import org.kuali.hr.tklm.leave.summary.LeaveSummaryRow;
 
 public class TimeSummary implements Serializable {
 	private List<String> summaryHeader = new ArrayList<String>();

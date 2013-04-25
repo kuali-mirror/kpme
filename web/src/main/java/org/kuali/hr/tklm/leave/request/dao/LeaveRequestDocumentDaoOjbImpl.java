@@ -16,14 +16,14 @@
 package org.kuali.hr.tklm.leave.request.dao;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class LeaveRequestDocumentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveRequestDocumentDao{
     @Override

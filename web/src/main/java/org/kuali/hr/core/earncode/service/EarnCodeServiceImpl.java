@@ -37,6 +37,7 @@ import org.kuali.hr.core.earncode.security.EarnCodeType;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.time.rules.timecollection.TimeCollectionRule;
@@ -99,13 +100,13 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         String accrualCategory;
 
         //  first make a list of the accrual categories available to the user's Leave Plan (yes, leave plan), for later comparison.
-        PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(job.getPrincipalId(), asOfDate);
+        PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(job.getPrincipalId(), asOfDate);
         boolean fmlaEligible = principalHRAttributes.isFmlaEligible();
         boolean workersCompEligible = principalHRAttributes.isWorkersCompEligible();
 
         String leavePlan = principalHRAttributes.getLeavePlan();
         if (leavePlan != null) {
-            for (AccrualCategory accrualCategories : TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, asOfDate)) {
+            for (AccrualCategory accrualCategories : HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, asOfDate)) {
                 accrualCategory = accrualCategories.getAccrualCategory();
                 if(accrualCategory != null) {
                     listAccrualCategories.add(accrualCategory);
@@ -114,7 +115,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         }
 
         //  get all earn codes by user security, then we'll filter on accrual category first as we process them.
-        List<EarnCodeSecurity> decs = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
+        List<EarnCodeSecurity> decs = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
         for (EarnCodeSecurity dec : decs) {
 
             boolean addEarnCode = addEarnCodeBasedOnEmployeeApproverSettings(dec, a, asOfDate);
@@ -184,13 +185,13 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         String accrualCategory;
 
         //  first make a list of the accrual categories available to the user's leave plan, for later comparison.
-        PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(job.getPrincipalId(), asOfDate);
+        PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(job.getPrincipalId(), asOfDate);
         boolean fmlaEligible = principalHRAttributes.isFmlaEligible();
         boolean workersCompEligible = principalHRAttributes.isWorkersCompEligible();
 
         String leavePlan = principalHRAttributes.getLeavePlan();
         if (leavePlan != null) {
-            for (AccrualCategory accrualCategories : TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, asOfDate)) {
+            for (AccrualCategory accrualCategories : HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, asOfDate)) {
                 accrualCategory = accrualCategories.getAccrualCategory();
                 if(accrualCategory != null) {
                     listAccrualCategories.add(accrualCategory);
@@ -199,7 +200,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         }
 
         //  get all earn codes by user security, then we'll filter on accrual category first as we process them.
-        List<EarnCodeSecurity> decs = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
+        List<EarnCodeSecurity> decs = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
         for (EarnCodeSecurity dec : decs) {
 
             boolean addEarnCode = addEarnCodeBasedOnEmployeeApproverSettings(dec, a, asOfDate);
@@ -274,7 +275,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
             workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
 
             for (Long wa : workAreas) {
-                WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
+                WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
                 if (workArea!= null && a.getWorkArea().compareTo(workArea.getWorkArea())==0) {
                     addEarnCode = true;
                     break;
@@ -299,7 +300,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
     @Override
     public List<EarnCode> getEarnCodesForPrincipal(String principalId, LocalDate asOfDate, boolean isLeavePlanningCalendar) {
         List<EarnCode> earnCodes = new LinkedList<EarnCode>();
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
         for (Assignment assignment : assignments) {
             List<EarnCode> assignmentEarnCodes = getEarnCodesForLeave(assignment, asOfDate, isLeavePlanningCalendar);
             //  the following list processing does work as hoped, comparing the objects' data, rather than their references to memory structures.

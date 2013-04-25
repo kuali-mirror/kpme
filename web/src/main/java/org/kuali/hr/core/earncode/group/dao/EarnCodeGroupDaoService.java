@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.core.earncode.group.dao;
 
+import java.util.List;
+
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.earncode.group.EarnCodeGroup;
-
-import java.util.List;
 
 public interface EarnCodeGroupDaoService {
 	public EarnCodeGroup getEarnCodeGroup(String earnCodeGroup, LocalDate asOfDate);

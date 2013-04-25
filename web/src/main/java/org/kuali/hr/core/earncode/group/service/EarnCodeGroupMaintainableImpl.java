@@ -24,7 +24,7 @@ import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.earncode.group.EarnCodeGroup;
 import org.kuali.hr.core.earncode.group.EarnCodeGroupDefinition;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -63,7 +63,7 @@ public class EarnCodeGroupMaintainableImpl extends HrBusinessObjectMaintainableI
 	@Override
     public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
 		EarnCodeGroup earnGroup = (EarnCodeGroup)this.getBusinessObject();
-		int count = TkServiceLocator.getEarnCodeGroupService().getNewerEarnCodeGroupCount(earnGroup.getEarnCodeGroup(), earnGroup.getEffectiveLocalDate());
+		int count = HrServiceLocator.getEarnCodeGroupService().getNewerEarnCodeGroupCount(earnGroup.getEarnCodeGroup(), earnGroup.getEffectiveLocalDate());
 		if(count > 0) {
 			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
 					"earngroup.effectiveDate.newr.exists");
@@ -72,7 +72,7 @@ public class EarnCodeGroupMaintainableImpl extends HrBusinessObjectMaintainableI
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(id);
+		return HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(id);
 	} 
 
     @Override

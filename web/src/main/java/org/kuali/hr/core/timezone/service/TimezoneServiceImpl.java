@@ -25,7 +25,7 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.location.Location;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.util.TKContext;
 import org.kuali.hr.tklm.time.util.TKUtils;
@@ -35,14 +35,14 @@ public class TimezoneServiceImpl implements TimezoneService {
 
     @Override
     public String getUserTimezone(String principalId) {
-        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, LocalDate.now());
+        PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, LocalDate.now());
         if(principalCalendar != null && principalCalendar.getTimezone() != null){
             return principalCalendar.getTimezone();
         }
-        List<Job> jobs = TkServiceLocator.getJobService().getJobs(TKContext.getPrincipalId(), LocalDate.now());
+        List<Job> jobs = HrServiceLocator.getJobService().getJobs(TKContext.getPrincipalId(), LocalDate.now());
         if (jobs.size() > 0) {
             // Grab the location off the first job in the list
-            Location location = TkServiceLocator.getLocationService().getLocation(jobs.get(0).getLocation(), LocalDate.now());
+            Location location = HrServiceLocator.getLocationService().getLocation(jobs.get(0).getLocation(), LocalDate.now());
             if (location!=null){
                 if(StringUtils.isNotBlank(location.getTimezone())){
                     return location.getTimezone();

@@ -15,12 +15,19 @@
  */
 package org.kuali.hr.tklm.time.missedpunch.service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
 import org.kuali.hr.core.assignment.Assignment;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
 import org.kuali.hr.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.tklm.time.missedpunch.dao.MissedPunchDao;
@@ -37,12 +44,6 @@ import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class MissedPunchServiceImpl implements MissedPunchService {
 	
@@ -117,7 +118,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
         missedPunch.setActionDate(new Date(actionDateTime.getMillis()));
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
-        Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(tdoc, missedPunch.getAssignment());
+        Assignment assign = HrServiceLocator.getAssignmentService().getAssignment(tdoc, missedPunch.getAssignment());
         // Need to build a clock log entry.
         //Timestamp clockTimestamp, String selectedAssign, TimesheetDocument timesheetDocument, String clockAction, String ip) {
         Timestamp ts = new Timestamp(missedPunch.getActionDate().getTime());
@@ -154,7 +155,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
         missedPunch.setActionDate(new Date(actionDateTime.getMillis()));
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
-        Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(tdoc, missedPunch.getAssignment());
+        Assignment assign = HrServiceLocator.getAssignmentService().getAssignment(tdoc, missedPunch.getAssignment());
         // Need to build a clock log entry.
         Timestamp ts = new Timestamp(missedPunch.getActionDate().getTime());
         ClockLog lastLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());

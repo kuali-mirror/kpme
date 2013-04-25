@@ -24,6 +24,7 @@ import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.role.KPMERoleMemberAttribute;
 import org.kuali.hr.core.role.workarea.WorkAreaPositionRoleMemberBo;
 import org.kuali.hr.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.core.workarea.dao.WorkAreaDao;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
@@ -101,7 +102,7 @@ public class WorkAreaServiceImpl implements WorkAreaService {
     }
     
 	private void populateWorkAreaTasks(WorkArea workArea) {
-		workArea.setTasks(TkServiceLocator.getTaskService().getTasks(null, null, String.valueOf(workArea.getWorkArea()), workArea.getEffectiveLocalDate(), null));
+		workArea.setTasks(HrServiceLocator.getTaskService().getTasks(null, null, String.valueOf(workArea.getWorkArea()), workArea.getEffectiveLocalDate(), null));
 	}
 
     private void populateWorkAreaRoleMembers(WorkArea workArea, LocalDate asOfDate) {

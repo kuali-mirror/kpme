@@ -37,6 +37,7 @@ import org.joda.time.DateTime;
 import org.json.simple.JSONValue;
 import org.kuali.hr.core.ApprovalForm;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.base.web.TkAction;
 import org.kuali.hr.tklm.time.person.TKPerson;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
@@ -82,7 +83,7 @@ public class TimeApprovalWSAction extends TkAction {
 				.getTimePrincipalIdsWithSearchCriteria(workAreaList, taaf.getSelectedPayCalendarGroup(),
 					endDate.toLocalDate(), beginDate.toLocalDate(), endDate.toLocalDate()); 
 	        
-	        List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
+	        List<TKPerson> persons = HrServiceLocator.getPersonService().getPersonCollection(principalIds);
 	        
 	        if (StringUtils.equals(taaf.getSearchField(), ApprovalForm.ORDER_BY_PRINCIPAL)) {
 	            for (String id : principalIds) {

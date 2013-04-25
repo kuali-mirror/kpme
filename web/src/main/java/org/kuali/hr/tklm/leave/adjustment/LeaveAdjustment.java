@@ -16,12 +16,13 @@
 package org.kuali.hr.tklm.leave.adjustment;
 
 import java.math.BigDecimal;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
@@ -72,7 +73,7 @@ public class LeaveAdjustment extends HrBusinessObject {
 	
 	public String getLeavePlan() {
 		if (!StringUtils.isEmpty(this.principalId)) {
-			principalHRAttrObj = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveLocalDate());
+			principalHRAttrObj = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveLocalDate());
 		}
 		return (principalHRAttrObj != null) ? principalHRAttrObj.getLeavePlan() : "";
 	}

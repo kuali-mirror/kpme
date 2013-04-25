@@ -48,6 +48,7 @@ import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
@@ -86,12 +87,12 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 		Map<String, CalendarEntry> pceMap = new HashMap<String, CalendarEntry>();
 		Set<String> principals = new HashSet<String>();
-		List<WorkArea> workAreasForDept = TkServiceLocator.getWorkAreaService()
+		List<WorkArea> workAreasForDept = HrServiceLocator.getWorkAreaService()
 				.getWorkAreas(dept, currentDate);
 		// Get all of the principals within our window of time.
 		for (WorkArea workArea : workAreasForDept) {
 			Long waNum = workArea.getWorkArea();
-			List<Assignment> assignments = TkServiceLocator
+			List<Assignment> assignments = HrServiceLocator
 					.getAssignmentService().getActiveAssignmentsForWorkArea(
 							waNum, currentDate);
 
@@ -100,7 +101,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 					principals.add(assignment.getPrincipalId());
 				}
 			} else {
-				assignments = TkServiceLocator.getAssignmentService()
+				assignments = HrServiceLocator.getAssignmentService()
 						.getActiveAssignmentsForWorkArea(waNum, windowDate);
 				if (assignments != null) {
 					for (Assignment assignment : assignments) {
@@ -113,11 +114,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		// Get the pay calendars
 		Set<Calendar> payCals = new HashSet<Calendar>();
 		for (String pid : principals) {
-			PrincipalHRAttributes pc = TkServiceLocator
+			PrincipalHRAttributes pc = HrServiceLocator
 					.getPrincipalHRAttributeService().getPrincipalCalendar(pid,
 							currentDate);
 			if (pc == null)
-				pc = TkServiceLocator.getPrincipalHRAttributeService()
+				pc = HrServiceLocator.getPrincipalHRAttributeService()
 						.getPrincipalCalendar(pid, windowDate);
 
 			if (pc != null) {
@@ -129,7 +130,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 		// Grab the pay calendar entries + groups
 		for (Calendar pc : payCals) {
-			CalendarEntry pce = TkServiceLocator
+			CalendarEntry pce = HrServiceLocator
 					.getCalendarEntryService()
 					.getCurrentCalendarEntryByCalendarId(
                             pc.getHrCalendarId(), new DateTime(currentDate));
@@ -156,7 +157,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 		// Get all of the principals within our window of time.
 		for (Long waNum : workAreas) {
-			List<Assignment> assignments = TkServiceLocator
+			List<Assignment> assignments = HrServiceLocator
 					.getAssignmentService().getActiveAssignmentsForWorkArea(
 							waNum, currentDate);
 
@@ -170,11 +171,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		// Get the pay calendars
 		Set<Calendar> payCals = new HashSet<Calendar>();
 		for (String pid : principals) {
-			PrincipalHRAttributes pc = TkServiceLocator
+			PrincipalHRAttributes pc = HrServiceLocator
 					.getPrincipalHRAttributeService().getPrincipalCalendar(pid,
                             currentDate);
 			if (pc == null)
-				pc = TkServiceLocator.getPrincipalHRAttributeService()
+				pc = HrServiceLocator.getPrincipalHRAttributeService()
 						.getPrincipalCalendar(pid, windowDate);
 
 			if (pc != null) {
@@ -186,7 +187,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 		// Grab the pay calendar entries + groups
 		for (Calendar pc : payCals) {
-			CalendarEntry pce = TkServiceLocator
+			CalendarEntry pce = HrServiceLocator
 					.getCalendarEntryService()
 					.getCurrentCalendarEntryByCalendarId(
                             pc.getHrCalendarId(), new DateTime(currentDate));
@@ -208,7 +209,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 		for (Long workArea : workAreas) {
 			if (workArea != null) {
-				assignments.addAll(TkServiceLocator.getAssignmentService()
+				assignments.addAll(HrServiceLocator.getAssignmentService()
 						.getActiveAssignmentsForWorkArea(workArea,
 								payBeginDate.toLocalDate()));
 			}
@@ -220,7 +221,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 						.getTimesheetDocumentHeaderService().getDocumentHeader(
 								principalId, payBeginDate, payEndDate);
 				if (tdh != null) {
-					String pyCalendarGroup = TkServiceLocator
+					String pyCalendarGroup = HrServiceLocator
 							.getPrincipalHRAttributeService()
 							.getPrincipalCalendar(principalId, tdh.getBeginDateTime().toLocalDate())
 							.getCalendar().getCalendarName();
@@ -241,7 +242,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		Map<String, TimesheetDocumentHeader> principalDocumentHeader = getPrincipalDocumehtHeader(
 				persons, payBeginDate, payEndDate);
 
-		Calendar payCalendar = TkServiceLocator.getCalendarService()
+		Calendar payCalendar = HrServiceLocator.getCalendarService()
 				.getCalendar(payCalendarEntry.getHrCalendarId());
 		DateTimeZone dateTimeZone = TkServiceLocator.getTimezoneService()
 				.getUserTimezoneWithFallback();
@@ -390,9 +391,9 @@ public class TimeApproveServiceImpl implements TimeApproveService {
       if (eligibilities != null) {
           for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
         	  for(LeaveBlock lb : entry.getValue()) {
-        		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+        		  AccrualCategoryRule rule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
         		  if (rule != null) {
-        			  AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
+        			  AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
         			  if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER)) {
         				  //Todo: add link to balance transfer
         				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");   //warningMessages
@@ -674,7 +675,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
 
 		for (Long workArea : workAreas) {
-			List<Assignment> assignments = TkServiceLocator
+			List<Assignment> assignments = HrServiceLocator
 					.getAssignmentService().getActiveAssignmentsForWorkArea(
 							workArea, asOfDate);
 			List<String> principalIds = new ArrayList<String>();
@@ -686,7 +687,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			}
 
 			for (String principalId : principalIds) {
-				PrincipalHRAttributes principalCal = TkServiceLocator
+				PrincipalHRAttributes principalCal = HrServiceLocator
 						.getPrincipalHRAttributeService().getPrincipalCalendar(
 								principalId, asOfDate);
 				if (StringUtils.equals(principalCal.getPayCalendar(),
@@ -708,7 +709,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     	if (CollectionUtils.isEmpty(workAreaList)) {
     		return new ArrayList<String>();
   	    }
-  		List<Assignment> assignmentList = TkServiceLocator.getAssignmentService().getAssignments(workAreaList, effdt, beginDate, endDate);
+  		List<Assignment> assignmentList = HrServiceLocator.getAssignmentService().getAssignments(workAreaList, effdt, beginDate, endDate);
   		List<Assignment> tempList = this.removeNoTimeAssignment(assignmentList);
   		Set<String> pids = new HashSet<String>();
         for(Assignment anAssignment : tempList) {
@@ -723,7 +724,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
   			return new ArrayList<String>();
   		}
   		// use unique principalIds and selected calendarGroup to get unique ids from principalHRAttributes table
-  		List<String> idList = TkServiceLocator.getPrincipalHRAttributeService()
+  		List<String> idList = HrServiceLocator.getPrincipalHRAttributeService()
   				.getActiveEmployeesIdForTimeCalendarAndIdList(calendarGroup, ids, endDate); 
   		if(CollectionUtils.isEmpty(idList)) {
   			return new ArrayList<String>();
@@ -775,7 +776,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 		// Get all of the principals within our window of time.
 		for (Long waNum : workAreas) {
-			List<Assignment> assignments = TkServiceLocator
+			List<Assignment> assignments = HrServiceLocator
 					.getAssignmentService().getActiveAssignmentsForWorkArea(waNum, currentDate);
 
 			if (assignments != null) {

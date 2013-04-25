@@ -16,6 +16,7 @@
 package org.kuali.hr.core.calendar.dao;
 
 import java.sql.Time;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +31,6 @@ import org.joda.time.DateTime;
 import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import java.text.ParseException;
 
 public class CalendarDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb  implements CalendarDao {
 

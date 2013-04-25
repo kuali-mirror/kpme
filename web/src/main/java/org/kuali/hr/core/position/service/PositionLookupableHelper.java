@@ -22,7 +22,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.core.position.Position;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -68,7 +68,7 @@ public class PositionLookupableHelper extends KPMELookupableHelper {
             positionNum = "";
         }
         
-        return TkServiceLocator.getPositionService().getPositions(positionNum, description, TKUtils.formatDateString(fromEffdt),
+        return HrServiceLocator.getPositionService().getPositions(positionNum, description, TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHist);
     }
 

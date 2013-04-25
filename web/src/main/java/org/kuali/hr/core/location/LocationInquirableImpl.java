@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -35,11 +35,11 @@ public class LocationInquirableImpl extends KualiInquirableImpl {
 		Location locationObj = null;
 		
 		if (StringUtils.isNotBlank((String) fieldValues.get("hrLocationId"))) {
-			locationObj = TkServiceLocator.getLocationService().getLocation((String) fieldValues.get("hrLocationId"));
+			locationObj = HrServiceLocator.getLocationService().getLocation((String) fieldValues.get("hrLocationId"));
         } else if (fieldValues.containsKey("location") && fieldValues.containsKey("effectiveDate")) {
             String location = (String) fieldValues.get("location");
             LocalDate effectiveDate = TKUtils.formatDateString((String) fieldValues.get("effectiveDate"));
-            locationObj = TkServiceLocator.getLocationService().getLocation(location, effectiveDate);
+            locationObj = HrServiceLocator.getLocationService().getLocation(location, effectiveDate);
         } else {
         	locationObj = (Location) super.getBusinessObject(fieldValues);
         }

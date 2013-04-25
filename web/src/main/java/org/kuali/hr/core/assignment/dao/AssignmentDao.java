@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.core.assignment.dao;
 
+import java.util.List;
+
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.assignment.Assignment;
-
-import java.util.List;
 
 public interface AssignmentDao {
 

@@ -18,7 +18,6 @@ package org.kuali.hr.time.missedpunch.validation;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import com.gargoylesoftware.htmlunit.html.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,6 +28,12 @@ import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.DomElement;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlOption;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSelect;
+import com.gargoylesoftware.htmlunit.html.HtmlTableDataCell;
 import com.google.common.collect.Lists;
 
 public class MissedPunchDocumentTest extends KPMETestCase {

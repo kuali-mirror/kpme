@@ -21,7 +21,7 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.job.Job;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -41,7 +41,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 
 	private boolean validateJobNumber(Job job) {
 		if (job.getJobNumber() != null) {
-			Job jobObj = TkServiceLocator.getJobService().getJob(
+			Job jobObj = HrServiceLocator.getJobService().getJob(
 					job.getPrincipalId(), job.getJobNumber(),
 					job.getEffectiveLocalDate(), false);
 			if (jobObj != null) {
@@ -121,7 +121,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 			if(oldJob!=null && oldJob.getPrimaryIndicator()!=null && oldJob.getPrimaryIndicator()){
 				return valid;
 			}
-			Job existingJob = TkServiceLocator.getJobService().getPrimaryJob(job.getPrincipalId(), LocalDate.now());
+			Job existingJob = HrServiceLocator.getJobService().getPrimaryJob(job.getPrincipalId(), LocalDate.now());
 			if (existingJob != null && existingJob.getPrimaryIndicator()) {
 				this.putFieldError("primaryIndicator", "error.primary.job.already.exist", job.getPrincipalId());
 				valid = false;
@@ -138,7 +138,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 		// If the list is not null, there are active assignments and the job can't be inactivated, so return false, otherwise true
 		if(!job.isActive()) {
 			//this has to use the effective date of the job passed in
-			List<Assignment> aList = TkServiceLocator.getAssignmentService().getActiveAssignmentsForJob(job.getPrincipalId(), job.getJobNumber(), job.getEffectiveLocalDate());
+			List<Assignment> aList = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(job.getPrincipalId(), job.getJobNumber(), job.getEffectiveLocalDate());
 			if (aList != null && aList.size() > 0) {
 				// error.job.inactivate=Can not inactivate job number {0}.  It is used in active assignments.
 				this.putFieldError("active", "error.job.inactivate", job.getJobNumber().toString());

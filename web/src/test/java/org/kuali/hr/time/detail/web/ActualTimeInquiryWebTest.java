@@ -23,6 +23,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
@@ -43,7 +44,7 @@ public class ActualTimeInquiryWebTest extends KPMETestCase {
     public void setUp() throws Exception {
         super.setUp();
 
-        CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
+        CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
         TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", calendarEntry);
         documentId = timesheetDocument.getDocumentId();
     }

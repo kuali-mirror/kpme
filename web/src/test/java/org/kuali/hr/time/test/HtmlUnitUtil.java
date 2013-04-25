@@ -15,11 +15,6 @@
  */
 package org.kuali.hr.time.test;
 
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.*;
-import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.StringReader;
@@ -27,6 +22,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class HtmlUnitUtil {
     private static final Logger LOG = Logger.getLogger(HtmlUnitUtil.class);
@@ -61,6 +66,7 @@ public class HtmlUnitUtil {
     }
 
 	public static HtmlPage clickInputContainingText(HtmlPage page, String...values) throws Exception {
+		LOG.info(page.asXml());
 		page = (HtmlPage)getInputContainingText(page, values).click();
 		return page;
 	}
@@ -114,7 +120,7 @@ public class HtmlUnitUtil {
 	public static HtmlAnchor getAnchorContainingText(HtmlPage page, String... values) throws Exception {
 		for (Iterator iterator = page.getAnchors().iterator(); iterator.hasNext();) {
 			HtmlAnchor anchor = (HtmlAnchor) iterator.next();
-			LOG.info(anchor.asText());
+			LOG.info(anchor.asXml());
 			if (elementContainsValues(anchor, values)) {
 				return anchor;
 			}

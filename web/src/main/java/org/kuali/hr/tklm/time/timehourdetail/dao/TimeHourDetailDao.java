@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.tklm.time.timehourdetail.dao;
 
-import org.kuali.hr.tklm.time.timeblock.TimeHourDetail;
-
 import java.util.List;
+
+import org.kuali.hr.tklm.time.timeblock.TimeHourDetail;
 
 
 public interface TimeHourDetailDao{

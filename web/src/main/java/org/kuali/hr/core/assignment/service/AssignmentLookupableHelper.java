@@ -21,7 +21,7 @@ import java.util.Properties;
 
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.lookup.KPMELookupableHelper;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -65,7 +65,7 @@ public class AssignmentLookupableHelper extends KPMELookupableHelper {
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        return TkServiceLocator.getAssignmentService().searchAssignments(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), principalId, 
+        return HrServiceLocator.getAssignmentService().searchAssignments(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), principalId, 
         		jobNumber, dept, workArea, active, showHist);
     }
 

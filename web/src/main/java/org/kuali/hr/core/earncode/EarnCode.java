@@ -103,7 +103,7 @@ public class EarnCode extends HrBusinessObject {
 	public String getLeavePlan() {
 //		AccrualCategory myAccrualCategoryObj = new AccrualCategory();
 //		if(this.accrualCategory != null) {
-//			myAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, getEffectiveDate());
+//			myAccrualCategoryObj =  HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, getEffectiveDate());
 //	    }
 //		this.leavePlan =(myAccrualCategoryObj != null) ? myAccrualCategoryObj.getLeavePlan() : ""; 
 	    return leavePlan;
@@ -317,7 +317,7 @@ public class EarnCode extends HrBusinessObject {
 //    	String unitTime = null;
 //    	AccrualCategory acObj = null;
 //    	if(this.accrualCategory != null) {
-//    		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, this.effectiveDate);
+//    		acObj = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, this.effectiveDate);
 //    	}
 //    	unitTime = (acObj!= null ? acObj.getUnitOfTime() : this.recordMethod) ;
 //        return hrEarnCodeId + ":" + unitTime;

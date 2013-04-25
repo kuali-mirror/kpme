@@ -16,12 +16,15 @@
 package org.kuali.hr.time.collection.rule;
 
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Random;
 
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.core.department.Department;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
@@ -153,7 +156,7 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 		Random randomObj = new Random();
 		for (;;) {
 			long workAreaIndex = randomObj.nextInt();
-			int count = TkServiceLocator.getWorkAreaService().getWorkAreaCount(null, workAreaIndex);
+			int count = HrServiceLocator.getWorkAreaService().getWorkAreaCount(null, workAreaIndex);
 
 			if (count == 0) {
 				TEST_CODE_INVALID_WORKAREA = new Long(workAreaIndex);
@@ -194,7 +197,7 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 		KRADServiceLocator.getBusinessObjectService().delete(
 				timeCollectionRuleObj);
 
-		Department deptObj = TkServiceLocator.getDepartmentService().getDepartment(TEST_CODE_DEPARTMENT_VALID, LocalDate.now());
+		Department deptObj = HrServiceLocator.getDepartmentService().getDepartment(TEST_CODE_DEPARTMENT_VALID, LocalDate.now());
 		KRADServiceLocator.getBusinessObjectService().delete(deptObj);
 		super.tearDown();
 	}

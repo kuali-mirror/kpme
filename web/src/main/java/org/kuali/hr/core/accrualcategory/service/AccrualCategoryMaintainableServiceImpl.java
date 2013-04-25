@@ -19,7 +19,7 @@ import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
@@ -61,7 +61,7 @@ public class AccrualCategoryMaintainableServiceImpl extends HrBusinessObjectMain
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(id);
+		return HrServiceLocator.getAccrualCategoryService().getAccrualCategory(id);
 	}
 
 }

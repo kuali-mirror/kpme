@@ -22,6 +22,7 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.adjustment.LeaveAdjustment;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
@@ -70,7 +71,7 @@ public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMain
 				&& fieldValues.containsKey("effectiveDate")
 				&& StringUtils.isNotEmpty(fieldValues.get("effectiveDate"))) {
 			LocalDate effDate = TKUtils.formatDateString(fieldValues.get("effectiveDate"));
-			PrincipalHRAttributes principalHRAttrObj = TkServiceLocator.getPrincipalHRAttributeService()
+			PrincipalHRAttributes principalHRAttrObj = HrServiceLocator.getPrincipalHRAttributeService()
 						.getPrincipalCalendar(fieldValues.get("principalId"), effDate);
 			String lpString = (principalHRAttrObj != null) ? principalHRAttrObj.getLeavePlan() : "";
 			fieldValues.put("leavePlan", lpString);

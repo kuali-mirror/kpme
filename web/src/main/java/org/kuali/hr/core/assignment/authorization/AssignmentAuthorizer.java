@@ -7,7 +7,7 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
 import org.kuali.hr.core.department.Department;
 import org.kuali.hr.core.role.KPMERoleMemberAttribute;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 
 @SuppressWarnings("deprecation")
 public class AssignmentAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
@@ -23,7 +23,7 @@ public class AssignmentAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase 
 			Assignment assignmentObj = (Assignment) dataObject;
 			
 			if (assignmentObj != null) {
-				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(assignmentObj.getDept(), assignmentObj.getEffectiveLocalDate());
+				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(assignmentObj.getDept(), assignmentObj.getEffectiveLocalDate());
 				
 				if (departmentObj != null) {
 					location = departmentObj.getLocation();

@@ -24,9 +24,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.calendar.CalendarEntryPeriodType;
 import org.kuali.hr.core.calendar.service.CalendarEntryService;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.base.web.TkAction;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CalendarEntryAction extends TkAction {
@@ -48,7 +47,7 @@ public class CalendarEntryAction extends TkAction {
         CalendarEntryPeriodType periodType = ceaf.getCalendarEntryPeriodType() == null ?
                                                 CalendarEntryPeriodType.BI_WEEKLY :
                                                 CalendarEntryPeriodType.fromCode(ceaf.getCalendarEntryPeriodType());
-        CalendarEntryService calendarEntryService = TkServiceLocator.getCalendarEntryService();
+        CalendarEntryService calendarEntryService = HrServiceLocator.getCalendarEntryService();
 		CalendarEntry calendarEntry = calendarEntryService.getCalendarEntry(
                 ceaf.getHrPyCalendarEntryId().toString());
 		if (calendarEntry == null) {

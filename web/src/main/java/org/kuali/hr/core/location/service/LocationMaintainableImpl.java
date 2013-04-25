@@ -28,7 +28,7 @@ import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.core.location.Location;
 import org.kuali.hr.core.role.KPMERoleMemberAttribute;
 import org.kuali.hr.core.role.location.LocationPrincipalRoleMemberBo;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
@@ -48,7 +48,7 @@ public class LocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return TkServiceLocator.getLocationService().getLocation(id);
+		return HrServiceLocator.getLocationService().getLocation(id);
 	}
 	
 	@Override
@@ -71,12 +71,12 @@ public class LocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         Location oldMaintainableObject = (Location) document.getOldMaintainableObject().getBusinessObject();
         Location newMaintainableObject = (Location) document.getNewMaintainableObject().getBusinessObject();
         
-        Location oldLocation = TkServiceLocator.getLocationService().getLocation(oldMaintainableObject.getLocation(), oldMaintainableObject.getEffectiveLocalDate());
+        Location oldLocation = HrServiceLocator.getLocationService().getLocation(oldMaintainableObject.getLocation(), oldMaintainableObject.getEffectiveLocalDate());
 
         oldMaintainableObject.setRoleMembers(oldLocation.getRoleMembers());
         oldMaintainableObject.setInactiveRoleMembers(oldLocation.getInactiveRoleMembers());
         
-        Location newLocation = TkServiceLocator.getLocationService().getLocation(newMaintainableObject.getLocation(), newMaintainableObject.getEffectiveLocalDate());
+        Location newLocation = HrServiceLocator.getLocationService().getLocation(newMaintainableObject.getLocation(), newMaintainableObject.getEffectiveLocalDate());
 
         newMaintainableObject.setRoleMembers(newLocation.getRoleMembers());
         newMaintainableObject.setInactiveRoleMembers(newLocation.getInactiveRoleMembers());

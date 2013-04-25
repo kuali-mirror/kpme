@@ -20,17 +20,17 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.core.earncode.group.EarnCodeGroup;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class EarnCodeGroupServiceTest extends KPMETestCase{
 	@Test
 	public void testEarnGroupFetch() throws Exception{
-		EarnCodeGroup earnGroup = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroup("REG", LocalDate.now());
+		EarnCodeGroup earnGroup = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup("REG", LocalDate.now());
 		Assert.assertTrue("Test Earn Group fetch failed", earnGroup!=null && StringUtils.equals("REG", earnGroup.getEarnCodeGroup()));
 		Assert.assertTrue("Test earn group def fetch failed", earnGroup.getEarnCodeGroups()!=null && earnGroup.getEarnCodeGroups().get(0).getHrEarnCodeGroupId().equals("100"));
 	}
@@ -42,7 +42,7 @@ public class EarnCodeGroupServiceTest extends KPMETestCase{
 		HtmlUnitUtil.createTempFile(earnCodeLookUp);
 		Assert.assertTrue("Page contains REG entry", earnCodeLookUp.asText().contains("REG"));	
 		
-		EarnCodeGroup earnGroup = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroup("REG", LocalDate.now());
+		EarnCodeGroup earnGroup = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup("REG", LocalDate.now());
 		String earnGroupId = earnGroup.getHrEarnCodeGroupId().toString();
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnCodeLookUp, "edit", earnGroupId);		
 		HtmlUnitUtil.createTempFile(maintPage);

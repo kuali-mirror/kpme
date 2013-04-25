@@ -26,6 +26,6 @@ public class NextUniquePositionNumberFinder implements ValueFinder {
         //making this work without the dumbness of what was done before. Still, this class shouldn't exist.  We don't need
         // a value finder for a sequence value....
         return KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("hr_position_s", Position.class).toString();
-        //return TkServiceLocator.getPositionService().getNextUniquePositionNumber();
+        //return HrServiceLocator.getPositionService().getNextUniquePositionNumber();
     }
 }

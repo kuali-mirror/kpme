@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.tklm.time.timehourdetail.service;
 
+import java.util.List;
+
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timeblock.TimeHourDetail;
-
-import java.util.List;
 
 
 public interface TimeHourDetailService{

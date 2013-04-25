@@ -18,6 +18,7 @@ package org.kuali.hr.tklm.leave.block;
 import java.sql.Timestamp;
 
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.task.Task;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
@@ -96,12 +97,12 @@ public class LeaveBlockHistory extends LeaveBlock {
 		LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(super.getLmLeaveBlockId());
 		if(lb != null){
 			if (lb.getWorkArea() != null) {
-				WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(
+				WorkArea wa = HrServiceLocator.getWorkAreaService().getWorkArea(
 					lb.getWorkArea(), LocalDate.now());
 				if (wa != null) {
 					b.append(wa.getDescription());
 				}
-				Task task = TkServiceLocator.getTaskService().getTask(
+				Task task = HrServiceLocator.getTaskService().getTask(
 						this.getTask(), this.getLeaveLocalDate());
 				if (task != null) {
 					// do not display task description if the task is the default

@@ -17,6 +17,7 @@ package org.kuali.hr.time.department.earncode;
 
 import java.util.Collection;
 import java.util.Collections;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.junit.Assert;

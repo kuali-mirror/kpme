@@ -15,32 +15,12 @@
  */
 package org.kuali.hr.tklm.time.service.base;
 
-import org.kuali.hr.core.accrualcategory.rule.service.AccrualCategoryRuleService;
-import org.kuali.hr.core.accrualcategory.service.AccrualCategoryService;
 import org.kuali.hr.core.assignment.dao.AssignmentDao;
-import org.kuali.hr.core.assignment.service.AssignmentService;
-import org.kuali.hr.core.batch.service.BatchJobService;
-import org.kuali.hr.core.calendar.service.CalendarEntryService;
-import org.kuali.hr.core.calendar.service.CalendarService;
-import org.kuali.hr.core.department.service.DepartmentService;
-import org.kuali.hr.core.earncode.group.service.EarnCodeGroupService;
-import org.kuali.hr.core.earncode.security.service.EarnCodeSecurityService;
-import org.kuali.hr.core.earncode.service.EarnCodeService;
 import org.kuali.hr.core.group.service.HRGroupService;
-import org.kuali.hr.core.job.service.JobService;
-import org.kuali.hr.core.leaveplan.service.LeavePlanService;
-import org.kuali.hr.core.location.service.LocationService;
 import org.kuali.hr.core.notification.service.KPMENotificationService;
-import org.kuali.hr.core.paygrade.service.PayGradeService;
-import org.kuali.hr.core.paytype.service.PayTypeService;
 import org.kuali.hr.core.permission.service.HRPermissionService;
-import org.kuali.hr.core.position.service.PositionService;
-import org.kuali.hr.core.principal.service.PrincipalHRAttributesService;
 import org.kuali.hr.core.role.service.HRRoleService;
-import org.kuali.hr.core.salgroup.service.SalGroupService;
-import org.kuali.hr.core.task.service.TaskService;
 import org.kuali.hr.core.timezone.service.TimezoneService;
-import org.kuali.hr.core.workarea.service.WorkAreaService;
 import org.kuali.hr.tklm.leave.accrual.service.AccrualCategoryMaxBalanceService;
 import org.kuali.hr.tklm.leave.accrual.service.AccrualCategoryMaxCarryOverService;
 import org.kuali.hr.tklm.leave.accrual.service.AccrualService;
@@ -65,7 +45,6 @@ import org.kuali.hr.tklm.time.clocklog.service.ClockLogService;
 import org.kuali.hr.tklm.time.docsearch.TkSearchableAttributeService;
 import org.kuali.hr.tklm.time.missedpunch.service.MissedPunchService;
 import org.kuali.hr.tklm.time.permission.service.TKPermissionService;
-import org.kuali.hr.tklm.time.person.service.PersonService;
 import org.kuali.hr.tklm.time.role.service.TKRoleService;
 import org.kuali.hr.tklm.time.rules.TkRuleControllerService;
 import org.kuali.hr.tklm.time.rules.clocklocation.service.ClockLocationRuleService;
@@ -143,34 +122,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String LM_ACCRUAL_CATEGORY_MAX_CARRY_OVER_SERVICE = "accrualCategoryMaxCarryOverService";
     public static final String LM_LEAVE_PAYOUT_SERVICE = "leavePayoutService";
 	public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
-    public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";
-
-    /**
-     * These constants are moving to the core service locator
-     */
-	public static final String TK_PAY_CALENDAR_SERVICE = "calendarService";
-	public static final String TK_PAY_CALENDAR_ENTRY_SERVICE = "calendarEntryService";
-	public static final String hr_sal_group_SERVICE = "salGroupService";
-	public static final String TK_ACCRUAL_CATEGORY_SERVICE = "accrualCategoryService";
-	public static final String TK_ACCRUAL_CATEGORY_RULE_SERVICE = "accrualCategoryRuleService";
-    public static final String TK_TASK_SERVICE = "taskService";
-    public static final String TK_LOCATION_SERVICE = "locationService";
-    public static final String TK_PAY_GRADE_SERVICE = "payGradeService";
-    public static final String TK_PERSON_SERVICE = "tkPersonService";
-    public static final String TK_BATCH_JOB_SERVICE = "batchJobService";
-    public static final String TK_BATCH_JOB_ENTRY_SERVICE = "batchJobEntryService";
-    public static final String HR_POSITION_SERVICE = "positionService";
-    public static final String LM_ACCRUAL_CATEGORY_SERVICE = "leaveAccrualCategoryService";
-    public static final String LM_LEAVE_PLAN_SERVICE = "leavePlanService";
-	public static final String TK_PRINCIPAL_HR_ATTRIBUTES_SERVICE = "principalHRAttributesService";
-	public static final String TK_ASSIGNMENT_SERVICE = "assignmentService";
-	public static final String TK_JOB_SERVICE = "jobService";
-	public static final String TK_PAY_TYPE_SERVICE = "payTypeService";
-	public static final String TK_WORK_AREA_SERVICE = "workAreaService";
-	public static final String TK_DEPARTMENT_SERVICE = "departmentService";
-	public static final String TK_EARN_CODE_SECURITY = "earnCodeSecurityService";
-	public static final String TK_EARN_CODE = "earnCodeService";
-    
+    public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";    
     
     public static final String HR_GROUP_SERVICE = "hrGroupService";
     public static final String HR_PERMISSION_SERVICE = "hrPermissionService";
@@ -409,98 +361,5 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static JdbcTemplate getRiceJdbcTemplate() {
 		return (JdbcTemplate) CONTEXT.getBean("riceJdbcTemplate");
 	}
-    
 
-    /**
-     * These stubs are moving to the core service locator.
-     * @return
-     */
-    public static TaskService getTaskService() {
-        return (TaskService) CONTEXT.getBean(TK_TASK_SERVICE);
-    }
-
-	public static SalGroupService getSalGroupService() {
-		return (SalGroupService) CONTEXT.getBean(hr_sal_group_SERVICE);
-	}
-
-	public static DepartmentService getDepartmentService() {
-		return (DepartmentService) CONTEXT.getBean(TK_DEPARTMENT_SERVICE);
-	}
-
-	public static WorkAreaService getWorkAreaService() {
-	    return (WorkAreaService)CONTEXT.getBean(TK_WORK_AREA_SERVICE);
-	}
-	public static AssignmentService getAssignmentService(){
-	    return (AssignmentService)CONTEXT.getBean(TK_ASSIGNMENT_SERVICE);
-	}
-
-	public static JobService getJobService() {
-		return (JobService)CONTEXT.getBean(TK_JOB_SERVICE);
-	}
-
-	public static PayTypeService getPayTypeService() {
-		return (PayTypeService)CONTEXT.getBean(TK_PAY_TYPE_SERVICE);
-	}
-
-	public static EarnCodeSecurityService getEarnCodeSecurityService() {
-		return (EarnCodeSecurityService) CONTEXT.getBean(TK_EARN_CODE_SECURITY);
-	}
-
-	public static EarnCodeService getEarnCodeService() {
-		return (EarnCodeService) CONTEXT.getBean(TK_EARN_CODE);
-	}
-
-	public static EarnCodeGroupService getEarnCodeGroupService(){
-		return (EarnCodeGroupService) CONTEXT.getBean(TK_TIME_EARN_CODE_GROUP_SERVICE);
-	}
-
-	public static AccrualCategoryService getAccrualCategoryService() {
-	    return (AccrualCategoryService)CONTEXT.getBean(TK_ACCRUAL_CATEGORY_SERVICE);
-	}
-	
-	public static AccrualCategoryRuleService getAccrualCategoryRuleService() {
-	    return (AccrualCategoryRuleService)CONTEXT.getBean(TK_ACCRUAL_CATEGORY_RULE_SERVICE);
-	}
-	
-	public static LocationService getLocationService() {
-	    return (LocationService)CONTEXT.getBean(TK_LOCATION_SERVICE);
-	}
-
-	public static PayGradeService getPayGradeService() {
-	    return (PayGradeService)CONTEXT.getBean(TK_PAY_GRADE_SERVICE);
-	}
-
-	public static BatchJobService getBatchJobService(){
-		return (BatchJobService)CONTEXT.getBean(TK_BATCH_JOB_SERVICE);
-	}
-	
-	public static PositionService getPositionService(){
-		return (PositionService) CONTEXT.getBean(HR_POSITION_SERVICE);
-	}
-	
-	public static AccrualCategoryService getLeaveAccrualCategoryService(){
-		return (AccrualCategoryService)CONTEXT.getBean(LM_ACCRUAL_CATEGORY_SERVICE);
-	}
-	
-	public static LeavePlanService getLeavePlanService(){
-		return (LeavePlanService)CONTEXT.getBean(LM_LEAVE_PLAN_SERVICE);
-	}
-    
-    public static PrincipalHRAttributesService getPrincipalHRAttributeService(){
-    	return (PrincipalHRAttributesService)CONTEXT.getBean(TK_PRINCIPAL_HR_ATTRIBUTES_SERVICE);
-    }
-    
-	public static CalendarService getCalendarService() {
-		return (CalendarService)CONTEXT.getBean(TK_PAY_CALENDAR_SERVICE);
-	}
-	
-	public static CalendarEntryService getCalendarEntryService() {
-		return (CalendarEntryService)CONTEXT.getBean(TK_PAY_CALENDAR_ENTRY_SERVICE);
-	}
-
-	public static PersonService getPersonService(){
-		return (PersonService)CONTEXT.getBean(TK_PERSON_SERVICE);
-	}
-
-    
 }

@@ -22,7 +22,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 import org.kuali.hr.core.KPMEConstants;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
@@ -66,7 +66,7 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     private Calendar calendarObj;
 
     public String getHrCalendarId() {
-        calendarObj = TkServiceLocator.getCalendarService().getCalendarByGroup(this.getCalendarName());
+        calendarObj = HrServiceLocator.getCalendarService().getCalendarByGroup(this.getCalendarName());
         if (calendarObj != null) {
             this.setHrCalendarId(calendarObj.getHrCalendarId());
         }

@@ -15,18 +15,19 @@
  */
 package org.kuali.hr.core.earncode.validation;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.earncode.EarnCode;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-
-import java.util.List;
 
 public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 	
@@ -79,7 +80,7 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 			}
 			
 			if (earnCode.getEffectiveDate() != null && StringUtils.isNotBlank(earnCode.getAccrualCategory())) {
-				AccrualCategory myTestAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), earnCode.getEffectiveLocalDate());
+				AccrualCategory myTestAccrualCategoryObj =  HrServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), earnCode.getEffectiveLocalDate());
 				if(myTestAccrualCategoryObj != null) {
 					if (!myTestAccrualCategoryObj.getLeavePlan().equals(earnCode.getLeavePlan())) {
 						this.putFieldError("leavePlan", "error.leaveCode.leavePlanMismatch", myTestAccrualCategoryObj.getLeavePlan());
@@ -131,7 +132,7 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 		}
 		
 		// check if there's a newer version of the Earn Code
-		int count = TkServiceLocator.getEarnCodeService().getNewerEarnCodeCount(earnCode.getEarnCode(), earnCode.getEffectiveLocalDate());
+		int count = HrServiceLocator.getEarnCodeService().getNewerEarnCodeCount(earnCode.getEarnCode(), earnCode.getEffectiveLocalDate());
 		if(count > 0) {
 			this.putFieldError("effectiveDate", "earncode.effectiveDate.newer.exists");
 			return false;

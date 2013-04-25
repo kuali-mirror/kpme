@@ -43,6 +43,7 @@ import org.joda.time.LocalDate.Property;
 import org.joda.time.Period;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.task.Task;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -164,7 +165,7 @@ public class TKUtils {
        				+ assignment.getJob().getCompRate().setScale(TkConstants.BIG_DECIMAL_SCALE) 
        				+ " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
        if(assignment.getTask()!= null) {
-	       	Task aTask = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveLocalDate());
+	       	Task aTask = HrServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveLocalDate());
 	       	if(aTask != null) {
 	       		// do not display task description if the task is the default one
 	        	// default task is created in getTask() of TaskService

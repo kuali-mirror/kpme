@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.core.paygrade.service;
 
+import java.util.List;
+
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.paygrade.PayGrade;
 import org.springframework.cache.annotation.Cacheable;
-
-import java.util.List;
 
 public interface PayGradeService {
 	/**

@@ -22,9 +22,9 @@ import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.job.Job;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.tklm.leave.timeoff.dao.SystemScheduledTimeOffDao;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.hr.tklm.time.util.TkConstants;
 
@@ -60,7 +60,7 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
 	}	
 	@Override
 	public Assignment getAssignmentToApplyHolidays(TimesheetDocument timesheetDocument, LocalDate payEndDate) {
-		Job primaryJob = TkServiceLocator.getJobService().getPrimaryJob(timesheetDocument.getPrincipalId(), payEndDate);
+		Job primaryJob = HrServiceLocator.getJobService().getPrimaryJob(timesheetDocument.getPrincipalId(), payEndDate);
 		for(Assignment assign : timesheetDocument.getAssignments()){
 			if(assign.getJobNumber().equals(primaryJob.getJobNumber())){
 				return assign;

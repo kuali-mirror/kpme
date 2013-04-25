@@ -37,6 +37,7 @@ import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.principal.dao.PrincipalHRAttributesDao;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.approval.web.ApprovalLeaveSummaryRow;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
@@ -145,9 +146,9 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
     		for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
     			for(LeaveBlock block : entry.getValue()) {
 
-    				AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
+    				AccrualCategoryRule rule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
     				if (rule != null) {
-    					AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
+    					AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
     					if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER)) {
     						//Todo: add link to balance transfer
     						allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");   //warningMessages
@@ -231,9 +232,9 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			Map<Date, Map<String, BigDecimal>> accrualCategoryLeaveHours = getAccrualCategoryLeaveHours(leaveBlocks, leaveSummaryDates);
 
 			//get all accrual categories of this employee
-			PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate.toLocalDate());
+			PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate.toLocalDate());
 			if(pha != null) {
-				List<AccrualCategory> acList = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), endDate.toLocalDate());
+				List<AccrualCategory> acList = HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), endDate.toLocalDate());
 				for(AccrualCategory ac : acList) {
 					List<BigDecimal> acDayDetails = new ArrayList<BigDecimal>();
 					Map<String, Object> displayMap = new HashMap<String, Object>();
@@ -282,7 +283,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		for (LeaveBlock lb : leaveBlocks) {
 			DateTime leaveDate = new DateTime(lb.getLeaveDate()).toLocalDate().toDateTimeAtStartOfDay();
 			
-			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveLocalDate());
+			AccrualCategory ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveLocalDate());
 			if (ac != null && ac.getShowOnGrid().equals("Y")) {
 				if (accrualCategoryLeaveHours.get(leaveDate.toDate()) != null) {
 					Map<String, BigDecimal> leaveHours = accrualCategoryLeaveHours.get(leaveDate.toDate());
@@ -315,7 +316,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 
 		// Get all of the principals within our window of time.
 		for (Long waNum : workAreas) {
-			List<Assignment> assignments = TkServiceLocator
+			List<Assignment> assignments = HrServiceLocator
 					.getAssignmentService().getActiveAssignmentsForWorkArea(waNum, currentDate);
 
 			if (assignments != null) {
@@ -347,7 +348,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			idList.addAll(principalIds);
 	     	for(String principalId: idList) {
 	     		boolean leaveFlag = false;
-	     		List<Assignment> activeAssignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
+	     		List<Assignment> activeAssignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
 	     		if(CollectionUtils.isNotEmpty(activeAssignments)) {
 	         		for(Assignment assignment : activeAssignments) {
 	         			if(assignment != null && assignment.getJob() != null && assignment.getJob().isEligibleForLeave()) {
@@ -369,7 +370,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	      return new ArrayList<String>();
 	    }
 		
-		List<String> principalIds = TkServiceLocator.getAssignmentService().getPrincipalIds(workAreaList, effdt, beginDate, endDate);
+		List<String> principalIds = HrServiceLocator.getAssignmentService().getPrincipalIds(workAreaList, effdt, beginDate, endDate);
 		TkServiceLocator.getLeaveApprovalService().removeNonLeaveEmployees(principalIds);
 
 		if(CollectionUtils.isEmpty(principalIds)) {
@@ -378,7 +379,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		// use unique principalIds and selected calendarGroup to get unique ids from principalHRAttributes table
 		List<String> idList = CollectionUtils.isEmpty(principalIds) ? 
 			new ArrayList<String> () 
-			: TkServiceLocator.getPrincipalHRAttributeService()
+			: HrServiceLocator.getPrincipalHRAttributeService()
 				.getActiveEmployeesIdForLeaveCalendarAndIdList(calendarGroup, principalIds, endDate); 
 		
 		return idList;
@@ -402,7 +403,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			String flsaStatus, boolean chkForLeaveEligible) {
 		boolean isActiveAssFound = false;
 		LocalDate asOfDate = LocalDate.now();
-		List<Assignment> activeAssignments = TkServiceLocator
+		List<Assignment> activeAssignments = HrServiceLocator
 				.getAssignmentService().getAssignments(principalId, asOfDate);
 		if (activeAssignments != null && !activeAssignments.isEmpty()) {
 			for (Assignment assignment : activeAssignments) {

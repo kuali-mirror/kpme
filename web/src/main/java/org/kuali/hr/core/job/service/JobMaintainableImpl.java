@@ -15,16 +15,16 @@
  */
 package org.kuali.hr.core.job.service;
 
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.core.job.Job;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-
-import java.util.Map;
 
 /**
  * Hooks in to Rice to over-ride the way we are saving our Business Objects.  We
@@ -41,7 +41,7 @@ public class JobMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	
 	public void setJobNumber(Job job) {
 		Long jobNumber = new Long("0");
-		Job maxJob = TkServiceLocator.getJobService().getMaxJob(job.getPrincipalId());
+		Job maxJob = HrServiceLocator.getJobService().getMaxJob(job.getPrincipalId());
 		
 		if(maxJob != null) {
 			// get the max of job number of the collection
@@ -68,7 +68,7 @@ public class JobMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 		if(StringUtils.equals(getMaintenanceAction(),"New")){
 			if (!fieldValues.containsKey("jobNumber") || StringUtils.isEmpty(fieldValues.get("jobNumber"))) {
 				if (fieldValues.containsKey("principalId") && StringUtils.isNotEmpty(fieldValues.get("principalId"))) {
-					Job maxJob = TkServiceLocator.getJobService().getMaxJob(fieldValues.get("principalId"));
+					Job maxJob = HrServiceLocator.getJobService().getMaxJob(fieldValues.get("principalId"));
 					if(maxJob != null) {
 						fieldValues.put("jobNumber", Long.toString(maxJob.getJobNumber() +1));
 					} else {
@@ -84,7 +84,7 @@ public class JobMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject)TkServiceLocator.getJobService().getJob(id);
+		return (HrBusinessObject)HrServiceLocator.getJobService().getJob(id);
 	}
 
 	@Override

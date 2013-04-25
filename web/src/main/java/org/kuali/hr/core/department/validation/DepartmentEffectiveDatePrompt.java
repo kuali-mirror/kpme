@@ -17,7 +17,7 @@ package org.kuali.hr.core.department.validation;
 
 import org.kuali.hr.core.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.core.department.Department;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
@@ -28,7 +28,7 @@ public class DepartmentEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
     	boolean futureEffectiveDateExists = false;
     	
         Department department = (Department) pbo;
-        Department lastDepartment = TkServiceLocator.getDepartmentService().getDepartment(department.getDept(), TKUtils.END_OF_TIME);
+        Department lastDepartment = HrServiceLocator.getDepartmentService().getDepartment(department.getDept(), TKUtils.END_OF_TIME);
         if (lastDepartment != null && lastDepartment.getEffectiveLocalDate() != null && department.getEffectiveLocalDate() != null) {
         	futureEffectiveDateExists = lastDepartment.getEffectiveLocalDate().isAfter(department.getEffectiveLocalDate());
         }

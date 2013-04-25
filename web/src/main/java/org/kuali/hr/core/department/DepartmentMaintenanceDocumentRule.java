@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.role.department.DepartmentPrincipalRoleMemberBo;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
@@ -61,7 +61,7 @@ public class DepartmentMaintenanceDocumentRule extends MaintenanceDocumentRuleBa
 
 		if (department.getHrDeptId() == null) {
 			if (department.getDept() != null && department.getEffectiveDate() != null) {
-				Department existingDept = TkServiceLocator.getDepartmentService().getDepartment(department.getDept(), department.getEffectiveLocalDate());
+				Department existingDept = HrServiceLocator.getDepartmentService().getDepartment(department.getDept(), department.getEffectiveLocalDate());
 				
 				if (existingDept != null) {
 					if (StringUtils.equalsIgnoreCase(department.getDept(), existingDept.getDept())

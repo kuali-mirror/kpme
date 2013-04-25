@@ -15,6 +15,16 @@
  */
 package org.kuali.hr.tklm.time.timesummary.service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -31,6 +41,7 @@ import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.earncode.group.EarnCodeGroup;
 import org.kuali.hr.core.job.Job;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
@@ -50,10 +61,6 @@ import org.kuali.hr.tklm.time.timesummary.TimeSummary;
 import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.hr.tklm.time.util.TkTimeBlockAggregate;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.*;
-
 public class TimeSummaryServiceImpl implements TimeSummaryService {
 	private static final String OTHER_EARN_GROUP = "Other";
 	private static final Logger LOG = Logger.getLogger(TimeSummaryServiceImpl.class);
@@ -69,7 +76,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         List<Boolean> dayArrangements = new ArrayList<Boolean>();
 
 		timeSummary.setSummaryHeader(getHeaderForSummary(timesheetDocument.getCalendarEntry(), dayArrangements));
-		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), timesheetDocument.getCalendarEntry(), TkServiceLocator.getCalendarService().getCalendar(timesheetDocument.getCalendarEntry().getHrCalendarId()), true);
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), timesheetDocument.getCalendarEntry(), HrServiceLocator.getCalendarService().getCalendar(timesheetDocument.getCalendarEntry().getHrCalendarId()), true);
 
         List<Assignment> timeAssignments = timesheetDocument.getAssignments();
         List<String> tAssignmentKeys = new ArrayList<String>();
@@ -118,14 +125,14 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
                 	LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, leaveDate.plusDays(1));
                 	LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
             		if(row != null) {
-            			//AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(row.getAccrualCategoryId());
-                    	//AccrualCategoryRule currentRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, asOfDate, pha.getServiceDate());
+            			//AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(row.getAccrualCategoryId());
+                    	//AccrualCategoryRule currentRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, asOfDate, pha.getServiceDate());
                     	if(calendarEntryInterval.contains(leaveDate.toDate().getTime())) {
                     		//do not allow the on-demand max balance action if the rule the action occurs under is no longer in effect,
                     		//or if the infraction did not occur within this interval. ( if it occurred during the previous interval, 
                     		//the employee will have the option to take action in that interval up to & including the end date of that interval. )
 	            			row.setInfractingLeaveBlockId(lb.getAccrualCategoryRuleId());
-	            			AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+	            			AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
 	            			
 	            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.TRANSFER))
 	            				row.setTransferable(true);
@@ -190,7 +197,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 							if(earnCodeSection == null){
 								earnCodeSection = new EarnCodeSection();
 								earnCodeSection.setEarnCode(thd.getEarnCode());
-								EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(thd.getEarnCode(), asOfDate);
+								EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(thd.getEarnCode(), asOfDate);
 								earnCodeSection.setDescription(earnCodeObj.getDescription());
 								earnCodeSection.setIsAmountEarnCode((earnCodeObj.getRecordMethod()!= null && earnCodeObj.getRecordMethod().equalsIgnoreCase(TkConstants.EARN_CODE_AMOUNT)) ? true : false);
 								for(int i = 0;i<(numEntries-1);i++){
@@ -204,20 +211,20 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 							if(assignRow == null){
 								assignRow = new AssignmentRow();
 								assignRow.setAssignmentKey(assignKey);
-								AssignmentDescriptionKey assignmentKey = TkServiceLocator.getAssignmentService().getAssignmentDescriptionKey(assignKey);
-								Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, asOfDate);
+								AssignmentDescriptionKey assignmentKey = HrServiceLocator.getAssignmentService().getAssignmentDescriptionKey(assignKey);
+								Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, asOfDate);
 								// some assignment may not be effective at the beginning of the pay period, use the end date of the period to find it
 								if(assignment == null) {
-									assignment = TkServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, asOfDate);
+									assignment = HrServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, asOfDate);
 								}
 								//TODO push this up to the assignment fetch/fully populated instead of like this
 								if(assignment != null){
 									if(assignment.getJob() == null){
-										Job aJob = TkServiceLocator.getJobService().getJob(assignment.getPrincipalId(),assignment.getJobNumber(), assignment.getEffectiveLocalDate());
+										Job aJob = HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(),assignment.getJobNumber(), assignment.getEffectiveLocalDate());
 										assignment.setJob(aJob);
 									}
 									if(assignment.getWorkAreaObj() == null){
-										WorkArea aWorkArea = TkServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), assignment.getEffectiveLocalDate());
+										WorkArea aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), assignment.getEffectiveLocalDate());
 										assignment.setWorkAreaObj(aWorkArea);
 									}
 									assignRow.setDescr(assignment.getAssignmentDescription());
@@ -250,7 +257,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 		//now create all teh earn group sections and aggregate accordingly
 		for(EarnCodeSection earnCodeSection : earnCodeToEarnCodeSection.values()){
 			String earnCode = earnCodeSection.getEarnCode();
-			EarnCodeGroup earnGroupObj = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroupSummaryForEarnCode(earnCode, asOfDate);
+			EarnCodeGroup earnGroupObj = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupSummaryForEarnCode(earnCode, asOfDate);
 			String earnGroup = null;
 			if(earnGroupObj == null){
 				earnGroup = OTHER_EARN_GROUP;
@@ -476,7 +483,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         Calendar cal = null;
 
         if (calEntry != null) {
-            cal = TkServiceLocator.getCalendarService().getCalendar(calEntry.getHrCalendarId());
+            cal = HrServiceLocator.getCalendarService().getCalendar(calEntry.getHrCalendarId());
         }
 
         return cal;

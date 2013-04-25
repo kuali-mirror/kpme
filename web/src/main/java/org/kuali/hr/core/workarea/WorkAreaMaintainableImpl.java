@@ -31,8 +31,8 @@ import org.kuali.hr.core.role.PositionRoleMemberBo;
 import org.kuali.hr.core.role.PrincipalRoleMemberBo;
 import org.kuali.hr.core.role.workarea.WorkAreaPositionRoleMemberBo;
 import org.kuali.hr.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.task.Task;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
@@ -52,7 +52,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	@Override
     public HrBusinessObject getObjectById(String id) {
-        return TkServiceLocator.getWorkAreaService().getWorkArea(id);
+        return HrServiceLocator.getWorkAreaService().getWorkArea(id);
     }
     
 	@Override
@@ -75,7 +75,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         WorkArea workArea = (WorkArea) this.getBusinessObject();
         
         if (workArea.getWorkArea() == null) {
-            workArea.setWorkArea(TkServiceLocator.getWorkAreaService().getNextWorkAreaKey());
+            workArea.setWorkArea(HrServiceLocator.getWorkAreaService().getNextWorkAreaKey());
         }
         
         super.processAfterNew(document, parameters);
@@ -86,7 +86,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         WorkArea oldMaintainableObject = (WorkArea) document.getOldMaintainableObject().getBusinessObject();
         WorkArea newMaintainableObject = (WorkArea) document.getNewMaintainableObject().getBusinessObject();
         
-        WorkArea oldWorkArea = TkServiceLocator.getWorkAreaService().getWorkArea(oldMaintainableObject.getWorkArea(), oldMaintainableObject.getEffectiveLocalDate());
+        WorkArea oldWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(oldMaintainableObject.getWorkArea(), oldMaintainableObject.getEffectiveLocalDate());
 
         oldMaintainableObject.setTasks(oldWorkArea.getTasks());
         oldMaintainableObject.setPrincipalRoleMembers(oldWorkArea.getPrincipalRoleMembers());
@@ -94,7 +94,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         oldMaintainableObject.setPositionRoleMembers(oldWorkArea.getPositionRoleMembers());
         oldMaintainableObject.setInactivePositionRoleMembers(oldWorkArea.getInactivePositionRoleMembers());
         
-        WorkArea newWorkArea = TkServiceLocator.getWorkAreaService().getWorkArea(newMaintainableObject.getWorkArea(), newMaintainableObject.getEffectiveLocalDate());
+        WorkArea newWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(newMaintainableObject.getWorkArea(), newMaintainableObject.getEffectiveLocalDate());
 
         newMaintainableObject.setTasks(newWorkArea.getTasks());
         newMaintainableObject.setPrincipalRoleMembers(newWorkArea.getPrincipalRoleMembers());
@@ -142,7 +142,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         	PositionRoleMemberBo roleMember = (PositionRoleMemberBo) newCollectionLines.get(collectionName);
             if (roleMember != null) {
             	if (!StringUtils.isEmpty(roleMember.getPositionNumber())) {
-            		Position position = TkServiceLocator.getPositionService().getPosition(roleMember.getPositionNumber(), workArea.getEffectiveLocalDate());
+            		Position position = HrServiceLocator.getPositionService().getPosition(roleMember.getPositionNumber(), workArea.getEffectiveLocalDate());
             		if (position == null) {
             			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"positionRoleMembers", 
                 				"error.role.positionNumber.notexist", roleMember.getPositionNumber());
@@ -172,7 +172,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         }
         workArea.setTasks(tasks);
 
-        TkServiceLocator.getTaskService().saveTasks(tasks);
+        HrServiceLocator.getTaskService().saveTasks(tasks);
     }
     
     private void saveRoleMembers(WorkArea workArea) {

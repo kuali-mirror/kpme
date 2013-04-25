@@ -24,11 +24,11 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.core.job.Job;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.task.Task;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.hr.tklm.time.rules.timecollection.TimeCollectionRule;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -88,7 +88,7 @@ public class Assignment extends HrBusinessObject {
 
 	public Job getJob() {
 		if(job == null && this.getJobNumber() != null) {
-			this.setJob(TkServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveLocalDate()));
+			this.setJob(HrServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveLocalDate()));
 		}
 		return job;
 	}
@@ -145,9 +145,9 @@ public class Assignment extends HrBusinessObject {
 		if(this.getJobNumber()!= null) {
 			if(this.getJob() == null || !this.getJobNumber().equals(this.getJob().getJobNumber())) {
 				if(this.getEffectiveDate()!=null){
-					this.setJob(TkServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveLocalDate(), false));
+					this.setJob(HrServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveLocalDate(), false));
 				}else{
-					this.setJob(TkServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), LocalDate.now(), false));
+					this.setJob(HrServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), LocalDate.now(), false));
 				}
 			}
 			setDept((this.getJob() != null) ? this.getJob().getDept() : "");
@@ -161,7 +161,7 @@ public class Assignment extends HrBusinessObject {
 
 	public WorkArea getWorkAreaObj() {
 		if(workAreaObj == null && workArea != null) {
-			this.setWorkAreaObj(TkServiceLocator.getWorkAreaService().getWorkArea(this.getWorkArea(), this.getEffectiveLocalDate()));
+			this.setWorkAreaObj(HrServiceLocator.getWorkAreaService().getWorkArea(this.getWorkArea(), this.getEffectiveLocalDate()));
 		}
 		return workAreaObj;
 	}

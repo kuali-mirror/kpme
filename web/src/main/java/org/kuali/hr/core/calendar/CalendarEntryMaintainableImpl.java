@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.sql.Time;
 
 import org.kuali.hr.core.cache.CacheUtils;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
@@ -68,7 +68,7 @@ public class CalendarEntryMaintainableImpl extends KualiMaintainableImpl {
 	public void saveBusinessObject() {
 		CalendarEntry calendarEntry = (CalendarEntry) super.getBusinessObject();
 		
-		Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByGroup(calendarEntry.getCalendarName());
+		Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByGroup(calendarEntry.getCalendarName());
 		calendarEntry.setHrCalendarId(calendar.getHrCalendarId());
 		
 		super.saveBusinessObject();

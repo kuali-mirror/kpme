@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.lm.leaveCalendar.LeaveCalendarWebTestBase;
 import org.kuali.hr.lm.util.LeaveCalendarTestUtils;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -136,7 +137,7 @@ public class BalanceTransferTest extends LeaveCalendarWebTestBase {
 		DateTime startDate = new DateTime(2012, 1, 1, 0, 0, 0, 1, TKUtils.getSystemDateTimeZone());
         DateTime asOfDate = new DateTime(2012, 11, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         TkServiceLocator.getAccrualService().runAccrual(USER_PRINCIPAL_ID,startDate,asOfDate,false);
-        CalendarEntry pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(USER_PRINCIPAL_ID, asOfDate);
+        CalendarEntry pcd = HrServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(USER_PRINCIPAL_ID, asOfDate);
         Assert.assertNotNull("No CalendarEntry", pcd);
 
         //opens a leave calendar document and initiates a workflow document. Sets document status to Initiated.

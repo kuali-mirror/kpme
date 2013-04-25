@@ -30,6 +30,7 @@ import org.junit.Test;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.earncode.EarnCode;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.timesheet.web.TimesheetWebTestBase;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
@@ -70,7 +71,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
 
         String userId = "fred";
 
-        CalendarEntry pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDates(userId, asOfDate);
+        CalendarEntry pcd = HrServiceLocator.getCalendarService().getCurrentCalendarDates(userId, asOfDate);
         Assert.assertNotNull("No PayCalendarDates", pcd);
         fredsDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(userId, pcd);
         String tdocId = fredsDocument.getDocumentId();
@@ -84,10 +85,10 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         Assert.assertNotNull(form);
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(userId, JAN_AS_OF_DATE.toLocalDate());
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(userId, JAN_AS_OF_DATE.toLocalDate());
         Assignment assignment = assignments.get(0);
 
-        List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());
+        List<EarnCode> earnCodes = HrServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());
         EarnCode earnCode = earnCodes.get(0);
         Assert.assertEquals("There should be no existing time blocks.", 0, fredsDocument.getTimeBlocks().size());
 
@@ -159,10 +160,10 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         Assert.assertNotNull(form);
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments("fred", JAN_AS_OF_DATE.toLocalDate());
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments("fred", JAN_AS_OF_DATE.toLocalDate());
         Assignment assignment = assignments.get(0);
 
-        List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());
+        List<EarnCode> earnCodes = HrServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());
         EarnCode earnCode = earnCodes.get(0);
 
         Assert.assertEquals("There should be one existing time block.", 1, fredsDocument.getTimeBlocks().size());
@@ -206,10 +207,10 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         Assert.assertNotNull(form);
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments("fred", JAN_AS_OF_DATE.toLocalDate());
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments("fred", JAN_AS_OF_DATE.toLocalDate());
         Assignment assignment = assignments.get(0);
 
-        List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());
+        List<EarnCode> earnCodes = HrServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());
         EarnCode earnCode = earnCodes.get(0);
 
         Assert.assertEquals("There should be one existing time block.", 1, fredsDocument.getTimeBlocks().size());

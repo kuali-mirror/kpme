@@ -16,11 +16,13 @@
 package org.kuali.hr.tklm.leave.payout.validation;
 
 import java.math.BigDecimal;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
 import org.kuali.hr.tklm.leave.payout.LeavePayout;
@@ -37,13 +39,13 @@ public class LeavePayoutValidationUtils {
 		LocalDate effectiveDate = leavePayout.getEffectiveLocalDate();
 		String fromAccrualCategory = leavePayout.getFromAccrualCategory();
 		String payoutEarnCode = leavePayout.getEarnCode();
-		AccrualCategory fromCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
-		AccrualCategory toCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(payoutEarnCode, effectiveDate);
-		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
+		AccrualCategory fromCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
+		AccrualCategory toCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(payoutEarnCode, effectiveDate);
+		PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
 		
 		if(ObjectUtils.isNotNull(pha)) {
 			if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
-				AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat, effectiveDate, pha.getServiceLocalDate());
+				AccrualCategoryRule acr = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat, effectiveDate, pha.getServiceLocalDate());
 				if(ObjectUtils.isNotNull(acr)) {
 					if(ObjectUtils.isNotNull(acr.getMaxBalFlag())
 							&& StringUtils.isNotBlank(acr.getMaxBalFlag())
@@ -100,7 +102,7 @@ public class LeavePayoutValidationUtils {
 			AccrualCategory fromCat, AccrualCategory toCat, String principalId,
 			LocalDate effectiveDate, AccrualCategoryRule accrualRule) {
 
-		BigDecimal balance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(principalId, fromCat, effectiveDate);
+		BigDecimal balance = HrServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(principalId, fromCat, effectiveDate);
 		//transfer amount must be less than the max transfer amount defined in the accrual category rule.
 		//it cannot be negative.
 		boolean isValid = true;
@@ -109,7 +111,7 @@ public class LeavePayoutValidationUtils {
 		BigDecimal adjustedMaxPayoutAmount = null;
 		if(ObjectUtils.isNotNull(accrualRule.getMaxPayoutAmount())) {
 			maxPayoutAmount = new BigDecimal(accrualRule.getMaxPayoutAmount());
-			BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
+			BigDecimal fullTimeEngagement = HrServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
 			adjustedMaxPayoutAmount = maxPayoutAmount.multiply(fullTimeEngagement);
 		}
 		

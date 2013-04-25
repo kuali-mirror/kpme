@@ -21,7 +21,7 @@ import java.util.Properties;
 
 import org.kuali.hr.core.earncode.group.EarnCodeGroup;
 import org.kuali.hr.core.lookup.KPMELookupableHelper;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -63,7 +63,7 @@ public class EarnCodeGroupLookupableHelper extends KPMELookupableHelper {
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        return TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroups(earnCodeGroup, descr, TKUtils.formatDateString(fromEffdt),
+        return HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroups(earnCodeGroup, descr, TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHist);
     }
 	

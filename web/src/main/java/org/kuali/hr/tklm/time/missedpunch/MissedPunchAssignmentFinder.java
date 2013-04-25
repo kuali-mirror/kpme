@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.hr.tklm.time.util.TKContext;
@@ -75,7 +76,7 @@ public class MissedPunchAssignmentFinder extends KeyValuesBase {
         
         if (tdocId != null) {
             TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdocId);
-            Map<String,String> adMap = TkServiceLocator.getAssignmentService().getAssignmentDescriptions(tdoc, true); // Grab clock only assignments
+            Map<String,String> adMap = HrServiceLocator.getAssignmentService().getAssignmentDescriptions(tdoc, true); // Grab clock only assignments
 
             for (Map.Entry entry : adMap.entrySet()) {
                 labels.add(new ConcreteKeyValue((String)entry.getKey(), (String)entry.getValue()));

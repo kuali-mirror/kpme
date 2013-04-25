@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.tklm.time.person.service;
 
-import org.kuali.hr.tklm.time.person.TKPerson;
-
 import java.util.List;
+
+import org.kuali.hr.tklm.time.person.TKPerson;
 
 public interface PersonService {
 

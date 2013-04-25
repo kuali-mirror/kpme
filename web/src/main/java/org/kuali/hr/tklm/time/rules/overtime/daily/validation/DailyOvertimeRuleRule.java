@@ -17,8 +17,8 @@ package org.kuali.hr.tklm.time.rules.overtime.daily.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.ValidationUtils;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.rules.overtime.daily.DailyOvertimeRule;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -35,7 +35,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 					+ ruleObj.getWorkArea() + "'");
 			valid = false;
 		} else if (!ruleObj.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
-			int count= TkServiceLocator.getWorkAreaService().getWorkAreaCount(ruleObj.getDept(), ruleObj.getWorkArea());
+			int count= HrServiceLocator.getWorkAreaService().getWorkAreaCount(ruleObj.getDept(), ruleObj.getWorkArea());
 			valid = (count > 0);
 			if (!valid) {
 				this.putFieldError("workArea", "dept.workarea.invalid.sync",

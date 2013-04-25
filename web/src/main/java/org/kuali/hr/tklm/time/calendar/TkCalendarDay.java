@@ -15,14 +15,14 @@
  */
 package org.kuali.hr.tklm.time.calendar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.hr.core.calendar.CalendarDay;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.LeaveBlockRenderer;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timeblock.TimeBlockRenderer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TkCalendarDay extends CalendarDay{
 	private List<TimeBlock> timeblocks = new ArrayList<TimeBlock>();

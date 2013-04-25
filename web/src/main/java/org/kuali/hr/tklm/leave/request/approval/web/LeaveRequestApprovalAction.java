@@ -44,6 +44,7 @@ import org.json.simple.JSONValue;
 import org.kuali.hr.core.ApprovalAction;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
@@ -73,7 +74,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		List<Long> workAreas = TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);
 		List<String> principalIds = new ArrayList<String>();
         for (Long workArea : workAreas) {
-            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
+            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
             for (Assignment a : assignments) {
                 principalIds.add(a.getPrincipalId());
             }
@@ -113,7 +114,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
         
         	List<Long> workAreas = TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);	        List<String> principalIds = new ArrayList<String>();
 	        for (Long workArea : workAreas) {
-	            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
+	            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
 	            for (Assignment a : assignments) {
 	                principalIds.add(a.getPrincipalId());
 	            }
@@ -141,7 +142,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 	        	lraaForm.setSelectedDept(lraaForm.getDepartments().get(0));
 	        	lraaForm.getWorkAreaDescr().clear();
 	        	
-	        	List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), currentDate);
+	        	List<WorkArea> workAreaObjs = HrServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), currentDate);
 	            for (WorkArea workAreaObj : workAreaObjs) {
 	            	Long workArea = workAreaObj.getWorkArea();
 	            	String description = workAreaObj.getDescription();
@@ -182,7 +183,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		lraaForm.getWorkAreaDescr().clear();
 		
 		String principalId = GlobalVariables.getUserSession().getPrincipalId();
-    	List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), LocalDate.now());
+    	List<WorkArea> workAreaObjs = HrServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), LocalDate.now());
         for (WorkArea workAreaObj : workAreaObjs) {
         	Long workArea = workAreaObj.getWorkArea();
         	String description = workAreaObj.getDescription();

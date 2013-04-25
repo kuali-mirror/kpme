@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.lm.leaveCalendar;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -26,6 +25,8 @@ import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.hr.util.filter.TestAutoLoginFilter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public abstract class LeaveCalendarWebTestBase extends KPMETestCase {
     private static final Logger LOG = Logger.getLogger(LeaveCalendarWebTestBase.class);

@@ -22,6 +22,7 @@ import java.util.List;
 import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TkConstants;
@@ -131,11 +132,11 @@ public class BalanceTransfer extends HrBusinessObject {
 	}
 
 	public AccrualCategory getCreditedAccrualCategory() {
-		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, getEffectiveLocalDate());
+		return HrServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, getEffectiveLocalDate());
 	}
 
 	public AccrualCategory getDebitedAccrualCategory() {
-		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, getEffectiveLocalDate());
+		return HrServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, getEffectiveLocalDate());
 	}
 
 	public String getLeaveCalendarDocumentId() {
@@ -159,7 +160,7 @@ public class BalanceTransfer extends HrBusinessObject {
 	 */
 	public BalanceTransfer adjust(BigDecimal transferAmount) {
 		BigDecimal difference = this.transferAmount.subtract(transferAmount);
-		AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRule);
+		AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRule);
 		//technically if there is forfeiture, then the transfer amount has already been maximized
 		//via BalanceTransferService::initializeTransfer(...)
 		//i.o.w. transfer amount cannot be increased.

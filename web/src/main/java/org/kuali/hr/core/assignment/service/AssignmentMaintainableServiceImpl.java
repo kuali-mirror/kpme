@@ -15,6 +15,10 @@
  */
 package org.kuali.hr.core.assignment.service;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
@@ -22,17 +26,13 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentAccount;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.paytype.PayType;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Override the Maintenance page behavior for Assignment object
@@ -94,9 +94,9 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 				&& assignment.getPrincipalId() != null 
 				&& assignment.getJobNumber() != null 
 				&& assignment.getEffectiveDate() != null) {
-			  Job job = TkServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveLocalDate(), false);
+			  Job job = HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveLocalDate(), false);
 			  if(job != null) {
-					PayType payType = TkServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), assignment.getEffectiveLocalDate());
+					PayType payType = HrServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), assignment.getEffectiveLocalDate());
 					fieldValues.put("assignmentAccounts.earnCode", (payType != null) ? payType.getRegEarnCode() : "");
 				}
 			}
@@ -126,7 +126,7 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return TkServiceLocator.getAssignmentService().getAssignment(id);
+		return HrServiceLocator.getAssignmentService().getAssignment(id);
 	}
 
 	@Override

@@ -17,7 +17,7 @@ package org.kuali.hr.core.salgroup.service;
 
 import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 
 public class SalGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -28,7 +28,7 @@ public class SalGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return TkServiceLocator.getSalGroupService().getSalGroup(id);
+		return HrServiceLocator.getSalaryGroupService().getSalGroup(id);
 	}
 
 }

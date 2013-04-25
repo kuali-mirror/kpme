@@ -16,10 +16,10 @@
 package org.kuali.hr.core.cache;
 
 
+import java.util.List;
+
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator;
-
-import java.util.List;
 
 public class CacheUtils {
     public static void flushCache(String cacheName) {

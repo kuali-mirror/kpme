@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKContext;
@@ -74,7 +75,7 @@ public class TkClockActionValuesFinder extends KeyValuesBase {
             } 
             //#KPME-2178 nullity checked.
             if(lastClock != null){
-            	String dept = TkServiceLocator.getJobService().getJob(targetPerson, lastClock.getJobNumber(), LocalDate.now()).getDept();
+            	String dept = HrServiceLocator.getJobService().getJob(targetPerson, lastClock.getJobNumber(), LocalDate.now()).getDept();
 	            Long workArea = lastClock.getWorkArea();
 	            Long jobNumber = lastClock.getJobNumber();
 	

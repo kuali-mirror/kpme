@@ -21,7 +21,7 @@ import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.earncode.security.EarnCodeSecurity;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -36,7 +36,7 @@ public class EarnCodeSecurityMaintainableImpl extends HrBusinessObjectMaintainab
 	@Override
     public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
 		EarnCodeSecurity departmentEarnCode = (EarnCodeSecurity) this.getBusinessObject();
-		int count = TkServiceLocator.getEarnCodeSecurityService().getNewerEarnCodeSecurityCount(departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveLocalDate());
+		int count = HrServiceLocator.getEarnCodeSecurityService().getNewerEarnCodeSecurityCount(departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveLocalDate());
 		if(count > 0) {
 			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(
 					KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
@@ -52,6 +52,6 @@ public class EarnCodeSecurityMaintainableImpl extends HrBusinessObjectMaintainab
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurity(id);
+		return HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurity(id);
 	}
 }

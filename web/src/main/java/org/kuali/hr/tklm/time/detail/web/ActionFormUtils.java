@@ -41,6 +41,7 @@ import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.leaveplan.LeavePlan;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
@@ -58,7 +59,7 @@ public class ActionFormUtils {
    // }
 
     public static void addWarningTextFromEarnGroup(TimeDetailActionFormBase tdaf) throws Exception {
-        List<String> warningMessages = TkServiceLocator.getEarnCodeGroupService().warningTextFromEarnCodeGroupsOfDocument(tdaf.getTimesheetDocument());
+        List<String> warningMessages = HrServiceLocator.getEarnCodeGroupService().warningTextFromEarnCodeGroupsOfDocument(tdaf.getTimesheetDocument());
         addUniqueWarningsToForm(tdaf, warningMessages);
     }
 
@@ -163,7 +164,7 @@ public class ActionFormUtils {
         for (TimeBlock timeBlock : timeBlocks) {
             Map<String, Object> timeBlockMap = new LinkedHashMap<String, Object>();
 
-            WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), timeBlock.getEndDateTime().toLocalDate());
+            WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), timeBlock.getEndDateTime().toLocalDate());
             String workAreaDesc = workArea.getDescription();
 
             String principalId = GlobalVariables.getUserSession().getPrincipalId();
@@ -201,9 +202,9 @@ public class ActionFormUtils {
             timeBlockMap.put("documentId", timeBlock.getDocumentId());
             timeBlockMap.put("title", workAreaDesc);
             timeBlockMap.put("earnCode", timeBlock.getEarnCode());
-            timeBlockMap.put("earnCodeDesc", TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), LocalDate.now()).getDescription());
+            timeBlockMap.put("earnCodeDesc", HrServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), LocalDate.now()).getDescription());
             //TODO: need to cache this or pre-load it when the app boots up
-            // EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), timeBlock.getBeginDateTime().toLocalDate());
+            // EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), timeBlock.getBeginDateTime().toLocalDate());
             timeBlockMap.put("earnCodeType", timeBlock.getEarnCodeType());
 
             // TODO: Cleanup the start / end time related properties. We certainly don't need all of them.
@@ -314,7 +315,7 @@ public class ActionFormUtils {
     		PrincipalHRAttributes principalHRAttributes = null;
     		
     		if(viewPrincipal != null) {
-    			principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, asOfDate.toLocalDate());
+    			principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, asOfDate.toLocalDate());
     		} else {
     			pMap.put(pce.getHrCalendarEntryId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format((DateUtils.addMilliseconds(pce.getEndPeriodDate(),-1))));
     		}
@@ -340,7 +341,7 @@ public class ActionFormUtils {
     // detect if the passed-in calendar entry is the current one
     public static boolean getOnCurrentPeriodFlag(CalendarEntry pce) {
     	String viewPrincipal = TKContext.getTargetPrincipalId();
-        CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
+        CalendarEntry calendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 
         if(pce != null && calendarEntry != null && calendarEntry.equals(pce)) {
     		return true;
@@ -351,7 +352,7 @@ public class ActionFormUtils {
     public static String getUnitOfTimeForEarnCode(EarnCode earnCode) {
 //    	AccrualCategory acObj = null;
 //    	if(earnCode.getAccrualCategory() != null) {
-//    		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
+//    		acObj = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
 //    	}
 //    	String unitTime = (acObj!= null ? acObj.getUnitOfTime() : earnCode.getRecordMethod()) ;
     	String unitTime = earnCode.getRecordMethod() ;
@@ -360,12 +361,12 @@ public class ActionFormUtils {
     
     public static int getPlanningMonthsForEmployee(String principalid) {
 		int plannningMonths = 0;
-		PrincipalHRAttributes principalHRAttributes = TkServiceLocator
+		PrincipalHRAttributes principalHRAttributes = HrServiceLocator
 				.getPrincipalHRAttributeService().getPrincipalCalendar(
 						principalid, LocalDate.now());
 		if (principalHRAttributes != null
 				&& principalHRAttributes.getLeavePlan() != null) {
-			LeavePlan lp = TkServiceLocator.getLeavePlanService()
+			LeavePlan lp = HrServiceLocator.getLeavePlanService()
 					.getLeavePlan(principalHRAttributes.getLeavePlan(),
 							LocalDate.now());
 			if (lp != null && lp.getPlanningMonths() != null) {

@@ -38,6 +38,7 @@ import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.earncode.group.EarnCodeGroup;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
@@ -84,9 +85,9 @@ public class LeaveCalendarValidationUtil {
     			}
     		}
     		LocalDate aDate = TKUtils.formatDateString(leaveEndDateString);
-	    	EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, aDate);
+	    	EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, aDate);
 	    	if(earnCodeObj != null) {
-	    		AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), aDate);
+	    		AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), aDate);
 	    		if(accrualCategory != null) {
 	    			List<LeaveSummaryRow> rows = ls.getLeaveSummaryRows();
 	    			for(LeaveSummaryRow aRow : rows) {
@@ -211,9 +212,9 @@ public class LeaveCalendarValidationUtil {
 
         if (CollectionUtils.isNotEmpty(leaveBlocks)) {
             for(LeaveBlock lb : leaveBlocks) {
-                EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
+                EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
                 if(ec != null) {
-                    EarnCodeGroup eg = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroupForEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
+                    EarnCodeGroup eg = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupForEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
                     if(eg != null && !StringUtils.isEmpty(eg.getWarningText())) {
                         warningMessages.add(eg.getWarningText());
                     }
@@ -256,9 +257,9 @@ public class LeaveCalendarValidationUtil {
 		LocalDate startDate = TKUtils.formatDateString(leaveStartDateString);
 		LocalDate endDate = TKUtils.formatDateString(leaveEndDateString);
 		long daysSpan = TKUtils.getDaysBetween(startDate,endDate);
-    	EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, endDate);
+    	EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, endDate);
     	if(earnCodeObj != null && earnCodeObj.getAllowNegativeAccrualBalance().equals("N")) {
-    		AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), endDate);
+    		AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), endDate);
     		if(accrualCategory != null) {
     			LocalDate nextIntervalDate = TkServiceLocator.getAccrualService().getNextAccrualIntervalDate(accrualCategory.getAccrualEarnInterval(), endDate);
 				// get the usage checking cut off Date, normally it's the day before the next interval date
@@ -330,9 +331,9 @@ public class LeaveCalendarValidationUtil {
 //			Date startDate = TKUtils.formatDateString(leaveStartDateString);
 //			Date endDate = TKUtils.formatDateString(leaveEndDateString);
 //			long daysSpan = TKUtils.getDaysBetween(startDate,endDate);
-//	    	EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, endDate);
+//	    	EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, endDate);
 //	    	if(earnCodeObj != null && earnCodeObj.getAllowNegativeAccrualBalance().equals("N")) {
-//	    		AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), endDate);
+//	    		AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), endDate);
 //	    		if(accrualCategory != null) {
 //	    			LeaveSummaryRow validationRow = ls.getLeaveSummaryRowForAccrualCategory(accrualCategory.getLmAccrualCategoryId());
 //    				if(ObjectUtils.isNotNull(validationRow)) {
@@ -371,7 +372,7 @@ public class LeaveCalendarValidationUtil {
     public static List<String> validateSpanningWeeks(LeaveCalendarWSForm lcf) {
     	boolean spanningWeeks = lcf.getSpanningWeeks().equalsIgnoreCase("y");
         LocalDate startDate = TKUtils.formatDateString(lcf.getStartDate());
-        EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(lcf.getSelectedEarnCode(), startDate);
+        EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(lcf.getSelectedEarnCode(), startDate);
         DateTime startTemp, endTemp;
 
         if (ec != null && !ec.getRecordMethod().equals(LMConstants.RECORD_METHOD.TIME)) {
@@ -404,7 +405,7 @@ public class LeaveCalendarValidationUtil {
     public static List<String> validateParametersForLeaveEntry(String selectedEarnCode, CalendarEntry leaveCalEntry, String startDateS, String endDateS, String startTimeS, String endTimeS, String selectedAssignment, LeaveCalendarDocument leaveCalendarDocument, String leaveBlockId) {
     	List<String> errors = new ArrayList<String>();
     	if (StringUtils.isNotBlank(selectedEarnCode)) {
-    		EarnCode  earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, leaveCalEntry.getEndPeriodFullDateTime().toLocalDate());
+    		EarnCode  earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, leaveCalEntry.getEndPeriodFullDateTime().toLocalDate());
 	    	
     		if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(TkConstants.EARN_CODE_TIME)) {
     			
@@ -437,8 +438,8 @@ public class LeaveCalendarValidationUtil {
 		        if (errors.size() > 0) return errors;
 		        
 		        //Check that assignment is valid for both days
-		        AssignmentDescriptionKey assignKey = TkServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssignment);
-		        Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(assignKey, startTemp.toLocalDate());
+		        AssignmentDescriptionKey assignKey = HrServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssignment);
+		        Assignment assign = HrServiceLocator.getAssignmentService().getAssignment(assignKey, startTemp.toLocalDate());
 		        
 		        if ((startTime.compareTo(endTime) > 0 || endTime.compareTo(startTime) < 0)) {
 		            errors.add("The time or date is not valid.");
@@ -479,7 +480,7 @@ public class LeaveCalendarValidationUtil {
         String viewPrincipal = TKContext.getTargetPrincipalId();
         
         dayInt.add(addedTimeblockInterval);
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
 		List<String> assignmentKeys = new ArrayList<String>();
         for(Assignment assign : assignments) {
         	assignmentKeys.add(assign.getAssignmentKey());

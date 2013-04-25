@@ -36,6 +36,7 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.time.base.web.TkAction;
 import org.kuali.hr.tklm.time.base.web.TkForm;
@@ -114,14 +115,14 @@ public class ApprovalAction extends TkAction{
 		taf.setPayBeginDate(payCalendarEntry.getBeginPeriodDateTime());
 		taf.setPayEndDate(DateUtils.addMilliseconds(payCalendarEntry.getEndPeriodDateTime(),-1));
 		
-		CalendarEntry prevPayCalendarEntry = TkServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(taf.getHrPyCalendarId(), payCalendarEntry);
+		CalendarEntry prevPayCalendarEntry = HrServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(taf.getHrPyCalendarId(), payCalendarEntry);
 		if (prevPayCalendarEntry != null) {
 		    taf.setPrevPayCalendarId(prevPayCalendarEntry.getHrCalendarEntryId());
 		} else {
 		    taf.setPrevPayCalendarId(null);
 		}
 		
-		CalendarEntry nextPayCalendarEntry = TkServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(taf.getHrPyCalendarId(), payCalendarEntry);
+		CalendarEntry nextPayCalendarEntry = HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(taf.getHrPyCalendarId(), payCalendarEntry);
 		if (nextPayCalendarEntry != null) {
 		    taf.setNextPayCalendarId(nextPayCalendarEntry.getHrCalendarEntryId());
 		} else {
@@ -139,7 +140,7 @@ public class ApprovalAction extends TkAction{
 		    	if (StringUtils.isEmpty(taf.getSelectedDept()))
 		    		taf.setSelectedDept(taf.getDepartments().get(0));
 		        
-		    	List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(taf.getSelectedDept(), LocalDate.fromDateFields(taf.getPayBeginDate()));
+		    	List<WorkArea> workAreaObjs = HrServiceLocator.getWorkAreaService().getWorkAreas(taf.getSelectedDept(), LocalDate.fromDateFields(taf.getPayBeginDate()));
 		        for (WorkArea workAreaObj : workAreaObjs) {
 		        	Long workArea = workAreaObj.getWorkArea();
 		        	String description = workAreaObj.getDescription();
@@ -160,8 +161,8 @@ public class ApprovalAction extends TkAction{
     	String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));         
     	ApprovalForm taf = (ApprovalForm) form;
     	DateTime currentDate = new LocalDate().toDateTimeAtStartOfDay();
-        Calendar currentPayCalendar = TkServiceLocator.getCalendarService().getCalendarByGroup(taf.getSelectedPayCalendarGroup());
-        CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(currentPayCalendar.getHrCalendarId(), currentDate);
+        Calendar currentPayCalendar = HrServiceLocator.getCalendarService().getCalendarByGroup(taf.getSelectedPayCalendarGroup());
+        CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(currentPayCalendar.getHrCalendarId(), currentDate);
         taf.setPayCalendarEntry(payCalendarEntry);
         taf.setSelectedCalendarYear(new SimpleDateFormat("yyyy").format(payCalendarEntry.getBeginPeriodDate()));
         taf.setSelectedPayPeriod(payCalendarEntry.getHrCalendarEntryId());
@@ -188,7 +189,7 @@ public class ApprovalAction extends TkAction{
       ApprovalForm taf = (ApprovalForm) form;
   	  if(!StringUtils.isEmpty(request.getParameter("selectedPP"))) {
   		  taf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
-  		  CalendarEntry pce = TkServiceLocator.getCalendarEntryService()
+  		  CalendarEntry pce = HrServiceLocator.getCalendarEntryService()
   		  	.getCalendarEntry(request.getParameter("selectedPP").toString());
   		  if(pce != null) {
   			  taf.setPayCalendarEntry(pce);

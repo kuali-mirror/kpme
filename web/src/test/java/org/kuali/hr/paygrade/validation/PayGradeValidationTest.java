@@ -15,7 +15,8 @@
  */
 package org.kuali.hr.paygrade.validation;
 
-import com.gargoylesoftware.htmlunit.html.*;
+import java.util.List;
+
 import junit.framework.Assert;
 
 import org.apache.commons.lang.StringUtils;
@@ -24,7 +25,12 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 
-import java.util.List;
+import com.gargoylesoftware.htmlunit.html.FrameWindow;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class PayGradeValidationTest extends KPMETestCase{
 	@Test
@@ -36,11 +42,19 @@ public class PayGradeValidationTest extends KPMETestCase{
         page = HtmlUnitUtil.clickAnchorContainingText(page,"Pay Grade");
         HtmlUnitUtil.createTempFile(page);
         List<HtmlAnchor> anchors = page.getAnchors();
+        List<FrameWindow> frames = page.getFrames();
+        for (FrameWindow frame : frames) {
+            if (StringUtils.equals(frame.getName(), "iframeportlet")) {
+               page = frame.getEnclosingPage();
+            }
+        }
+        page.initialize();
         page = HtmlUnitUtil.clickAnchorContainingText(page,"Create");
+        
         HtmlUnitUtil.createTempFile(page);
         page.initialize();
         Assert.assertNotNull(page);
-        List<FrameWindow> frames = page.getFrames();
+        frames = page.getFrames();
         for (FrameWindow frame : frames) {
             if (StringUtils.equals(frame.getName(), "iframeportlet")) {
                page = frame.getEnclosingPage();

@@ -29,6 +29,7 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.tklm.leave.approval.web.ApprovalLeaveSummaryRow;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
@@ -41,11 +42,11 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 	
 	@Test
 	public void testGetLeaveApprovalSummaryRows() {
-		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		List<String> ids = new ArrayList<String>();
 		ids.add("admin");
-		List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(ids);
+		List<TKPerson> persons = HrServiceLocator.getPersonService().getPersonCollection(ids);
 		
 		List<ApprovalLeaveSummaryRow> rows = TkServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows(persons, ce, leaveSummaryDates);
 		Assert.assertTrue("Rows should not be empty. ", CollectionUtils.isNotEmpty(rows));
@@ -57,7 +58,7 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 	
 	@Test
 	public void testGetEarnCodeLeaveHours() throws Exception {
-		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodFullDateTime().toLocalDate(), ce.getEndPeriodFullDateTime().toLocalDate());
@@ -72,7 +73,7 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 	
 	@Test
 	public void testGetAccrualCategoryLeaveHours() throws Exception {
-		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodFullDateTime().toLocalDate(), ce.getEndPeriodFullDateTime().toLocalDate());

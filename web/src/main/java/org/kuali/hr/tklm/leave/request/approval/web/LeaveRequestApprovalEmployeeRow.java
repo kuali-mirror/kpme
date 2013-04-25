@@ -15,12 +15,12 @@
  */
 package org.kuali.hr.tklm.leave.request.approval.web;
 
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class LeaveRequestApprovalEmployeeRow implements Comparable<LeaveRequestApprovalEmployeeRow>, Serializable {
 	

@@ -15,17 +15,20 @@
  */
 package org.kuali.hr.core.job.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.job.dao.JobDao;
 import org.kuali.hr.core.paytype.PayType;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 /**
  * Represents an implementation of {@link JobService}.
@@ -53,7 +56,7 @@ public class JobServiceImpl implements JobService {
         List<Job> jobs = jobDao.getJobs(principalId, asOfDate);
 
         for (Job job : jobs) {
-            PayType payType = TkServiceLocator.getPayTypeService().getPayType(
+            PayType payType = HrServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), asOfDate);
             job.setPayTypeObj(payType);
         }
@@ -84,7 +87,7 @@ public class JobServiceImpl implements JobService {
             if (StringUtils.isBlank(hrPayType)) {
                 throw new RuntimeException("No pay type for this job!");
             }
-            PayType payType = TkServiceLocator.getPayTypeService().getPayType(
+            PayType payType = HrServiceLocator.getPayTypeService().getPayType(
                     hrPayType, asOfDate);
             if (payType == null)
                 throw new RuntimeException("No paytypes defined for this job!");

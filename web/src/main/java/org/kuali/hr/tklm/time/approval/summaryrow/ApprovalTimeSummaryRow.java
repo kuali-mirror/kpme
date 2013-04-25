@@ -15,6 +15,14 @@
  */
 package org.kuali.hr.tklm.time.approval.summaryrow;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
@@ -29,10 +37,6 @@ import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.*;
 
 public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow>, Serializable {
 	private String name;

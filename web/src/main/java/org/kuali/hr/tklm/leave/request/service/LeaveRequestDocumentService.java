@@ -16,9 +16,9 @@
 package org.kuali.hr.tklm.leave.request.service;
 
 
-import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
-
 import java.util.List;
+
+import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
 
 public interface LeaveRequestDocumentService {
     LeaveRequestDocument getLeaveRequestDocument(String documentId);

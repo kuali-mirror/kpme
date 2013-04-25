@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.tklm.time.warning;
 
-import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
-
 import java.util.List;
+
+import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 
 public interface TkWarningService {
 

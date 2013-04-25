@@ -29,6 +29,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.assignment.Assignment;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
 import org.kuali.hr.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
@@ -211,7 +212,7 @@ public class ClockActionForm extends TimesheetActionForm {
 
     public String getCurrentAssignmentDescription() {
     	if(currentAssignmentDescription == null && this.getCurrentTimeBlock() != null) {
-    		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(this.getTimesheetDocument(), this.getCurrentTimeBlock().getAssignmentKey());
+    		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(this.getTimesheetDocument(), this.getCurrentTimeBlock().getAssignmentKey());
     		if(assignment != null) {
     			this.setCurrentAssignmentDescription(assignment.getAssignmentDescription());
     		}
@@ -306,7 +307,7 @@ public class ClockActionForm extends TimesheetActionForm {
 						 }
 					 }
 				 }
-				 List<Assignment> assignmentList = TkServiceLocator.getAssignmentService().getAssignments(pId, null);
+				 List<Assignment> assignmentList = HrServiceLocator.getAssignmentService().getAssignments(pId, null);
 				 List<String> aList = new ArrayList<String>();
 				 Map<String, List<TimeBlock>> tbMap = new HashMap<String, List<TimeBlock>>();
 				 Map<String, String> map2 = new HashMap<String, String>();

@@ -18,7 +18,6 @@ package org.kuali.hr.lm.accrualcategory.validation;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gargoylesoftware.htmlunit.html.*;
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -27,6 +26,11 @@ import org.kuali.hr.core.accrualcategory.validation.AccrualCategoryValidation;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 
 public class AccrualCategoryValidationTest extends KPMETestCase{

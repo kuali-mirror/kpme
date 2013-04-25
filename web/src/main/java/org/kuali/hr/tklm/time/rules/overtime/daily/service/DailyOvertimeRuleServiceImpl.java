@@ -29,9 +29,9 @@ import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.job.Job;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.rules.overtime.daily.DailyOvertimeRule;
 import org.kuali.hr.tklm.time.rules.overtime.daily.dao.DailyOvertimeRuleDao;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timeblock.TimeHourDetail;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
@@ -140,7 +140,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	}
 
 	private Assignment getIdentifyingKey(TimeBlock block, LocalDate asOfDate, String principalId) {
-		List<Assignment> lstAssign = TkServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
+		List<Assignment> lstAssign = HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
 
 		for(Assignment assign : lstAssign){
 			if((assign.getJobNumber().compareTo(block.getJobNumber()) == 0) && (assign.getWorkArea().compareTo(block.getWorkArea()) == 0)){
@@ -208,7 +208,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 			}
 
 			for(DailyOvertimeRule dr : mapDailyOvtRulesToAssignment.keySet() ){
-				Set<String> fromEarnGroup = TkServiceLocator.getEarnCodeGroupService().getEarnCodeListForEarnCodeGroup(dr.getFromEarnGroup(), timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
+				Set<String> fromEarnGroup = HrServiceLocator.getEarnCodeGroupService().getEarnCodeListForEarnCodeGroup(dr.getFromEarnGroup(), timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
 				List<TimeBlock> blocksForRule = dailyOvtRuleToDayTotals.get(dr);
 				if (blocksForRule == null || blocksForRule.size() == 0)
 					continue; // skip to next rule and check for valid blocks.

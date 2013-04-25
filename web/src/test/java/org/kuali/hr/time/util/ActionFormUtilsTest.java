@@ -16,19 +16,19 @@
 package org.kuali.hr.time.util;
 
 import java.math.BigDecimal;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.core.earncode.EarnCode;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.time.detail.web.ActionFormUtils;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.hr.tklm.time.util.TKUtils;
 
@@ -46,11 +46,11 @@ public class ActionFormUtilsTest extends KPMETestCase {
 	@Test
 	public void testGetUnitOfTimeForEarnCode() throws Exception {
 		// earn code with an existing Accrual category
-		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById("5000");
+		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCodeById("5000");
 		String unitOfTime = ActionFormUtils.getUnitOfTimeForEarnCode(earnCode);
 		Assert.assertTrue("Unit of Time should be 'H', not " + unitOfTime, unitOfTime.equals("H"));
 		// earn code without an existing accrual category
-		earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById("5002");
+		earnCode = HrServiceLocator.getEarnCodeService().getEarnCodeById("5002");
 		unitOfTime = ActionFormUtils.getUnitOfTimeForEarnCode(earnCode);
 		Assert.assertTrue("Unit of Time should be 'H', not " + unitOfTime, unitOfTime.equals("H"));
 		

@@ -23,9 +23,8 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.core.job.Job;
-import org.kuali.hr.core.job.service.JobService;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 
 public class JobServiceImplTest extends KPMETestCase {
@@ -38,7 +37,7 @@ public class JobServiceImplTest extends KPMETestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		jobService=TkServiceLocator.getJobService();
+		jobService=HrServiceLocator.getJobService();
 	}
 	
 	@Test

@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.hr.tklm.time.rules.lunch.department.dao.DepartmentLunchRuleDao;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
@@ -68,7 +69,7 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
                 continue;
             }
 			TimesheetDocumentHeader doc = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(timeBlock.getDocumentId());
-			String dept = TkServiceLocator.getJobService().getJob(doc.getPrincipalId(), timeBlock.getJobNumber(), timeBlock.getBeginDateTime().toLocalDate()).getDept();
+			String dept = HrServiceLocator.getJobService().getJob(doc.getPrincipalId(), timeBlock.getJobNumber(), timeBlock.getBeginDateTime().toLocalDate()).getDept();
 			
 			DeptLunchRule deptLunchRule = getDepartmentLunchRule(dept, timeBlock.getWorkArea(), doc.getPrincipalId(), timeBlock.getJobNumber(), timeBlock.getBeginDateTime().toLocalDate());
 			if(timeBlock.getClockLogCreated() && deptLunchRule!= null && deptLunchRule.getDeductionMins() != null && timeBlock.getHours().compareTo(deptLunchRule.getShiftHours()) >= 0) {

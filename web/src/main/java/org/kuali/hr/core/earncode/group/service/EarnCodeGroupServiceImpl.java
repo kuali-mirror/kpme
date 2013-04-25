@@ -15,6 +15,11 @@
  */
 package org.kuali.hr.core.earncode.group.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.earncode.EarnCode;
@@ -23,11 +28,6 @@ import org.kuali.hr.core.earncode.group.EarnCodeGroupDefinition;
 import org.kuali.hr.core.earncode.group.dao.EarnCodeGroupDaoService;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class EarnCodeGroupServiceImpl implements EarnCodeGroupService {
     private EarnCodeGroupDaoService earnCodeGroupDao;

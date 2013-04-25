@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.core.earncode.dao;
 
+import java.util.List;
+
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.earncode.EarnCode;
-
-import java.util.List;
 
 public interface EarnCodeDao {
 

@@ -24,6 +24,7 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.leaveplan.LeavePlan;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -41,7 +42,7 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 		// plan can't be inactivated, so return false otherwise true
 		if (!leavePlan.isActive()) {
 			// this has to use the effective date of the job passed in
-			List<PrincipalHRAttributes> pList = TkServiceLocator
+			List<PrincipalHRAttributes> pList = HrServiceLocator
 					.getPrincipalHRAttributeService()
 					.getActiveEmployeesForLeavePlan(leavePlan.getLeavePlan(),
 							leavePlan.getEffectiveLocalDate());

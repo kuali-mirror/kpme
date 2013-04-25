@@ -23,8 +23,8 @@ import junit.framework.Assert;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 
 public class PrincipalHRAttributeServiceTest extends KPMETestCase {
@@ -36,16 +36,16 @@ public class PrincipalHRAttributeServiceTest extends KPMETestCase {
         String leavePlan = "";
 		
 		// show both active and inactive, show history
-		phraList = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("testUser", leavePlan, fromEffDate, toEffDate, "B", "Y");
+		phraList = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("testUser", leavePlan, fromEffDate, toEffDate, "B", "Y");
 		Assert.assertEquals("Incorrect number of PrincipalHRAttributes", 3, phraList.size());
 		// active="Y", show history
-		phraList = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("testUser", leavePlan, fromEffDate, toEffDate, "Y", "Y");
+		phraList = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("testUser", leavePlan, fromEffDate, toEffDate, "Y", "Y");
 		Assert.assertEquals("Incorrect number of PrincipalHRAttributes", 2, phraList.size());
 		// active="N", show history
-		phraList = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("testUser", leavePlan, fromEffDate, toEffDate, "N", "Y");
+		phraList = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("testUser", leavePlan, fromEffDate, toEffDate, "N", "Y");
 		Assert.assertEquals("Incorrect number of PrincipalHRAttributes", 1, phraList.size());
 		// active = "Y", do not show history
-		phraList = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("testUser", leavePlan, fromEffDate, toEffDate, "N", "N");
+		phraList = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("testUser", leavePlan, fromEffDate, toEffDate, "N", "N");
 		Assert.assertEquals("Incorrect number of PrincipalHRAttributes", 1, phraList.size());
 	}
 }

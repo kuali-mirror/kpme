@@ -15,8 +15,6 @@
  */
 package org.kuali.hr.tklm.time.mobile.service;
 
-import org.kuali.rice.core.api.util.jaxb.MultiValuedStringMapAdapter;
-
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +22,8 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.kuali.rice.core.api.util.jaxb.MultiValuedStringMapAdapter;
 
 @WebService(name = "TkMobileService", targetNamespace = "http://service.mobile.time.hr.kuali.org/")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)

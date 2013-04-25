@@ -22,6 +22,7 @@ import junit.framework.Assert;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.util.LeaveBlockAggregate;
@@ -36,7 +37,7 @@ public class LeaveBlockAggregateTest extends KPMETestCase {
 		// 03/01/2012 to 03/15/2012
 		LocalDate beginDate = new LocalDate(2012, 3, 1);
 		LocalDate endDate = beginDate.plusDays(14);
-		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(TEST_USER, beginDate, endDate);
 		
 		// get leaveBlockAggaregate with leaveBlocks, calendarEntry and intervals

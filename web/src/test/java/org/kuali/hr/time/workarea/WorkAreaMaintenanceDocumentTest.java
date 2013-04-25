@@ -21,11 +21,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.core.department.Department;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -106,7 +106,7 @@ public class WorkAreaMaintenanceDocumentTest extends KPMETestCase {
         Assert.assertTrue("Page contains test Earn Code", searchPage.asText().contains(workArea.toString()));
 		
 		DateTime aDate = new DateTime(2011, 5, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, aDate.toLocalDate());
+		WorkArea wa = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, aDate.toLocalDate());
 		String workAreaId = wa.getTkWorkAreaId().toString();
 		
 		// when open the new work area, role should be show up
@@ -116,13 +116,13 @@ public class WorkAreaMaintenanceDocumentTest extends KPMETestCase {
     }
     
 	public Long maxWorkArea() {
-		return TkServiceLocator.getWorkAreaService().getNextWorkAreaKey();
+		return HrServiceLocator.getWorkAreaService().getNextWorkAreaKey();
 
 	}
 	
 	@Override
 	public void tearDown() throws Exception {
-		Department deptObj = TkServiceLocator.getDepartmentService().getDepartment(TEST_CODE_DEPARTMENT_VALID, LocalDate.now());
+		Department deptObj = HrServiceLocator.getDepartmentService().getDepartment(TEST_CODE_DEPARTMENT_VALID, LocalDate.now());
 		KRADServiceLocator.getBusinessObjectService().delete(deptObj);
 		super.tearDown();
 	}

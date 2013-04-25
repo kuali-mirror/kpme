@@ -6,12 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
@@ -54,7 +55,7 @@ public class MissedPunchRoleAttribute extends GenericRoleAttribute {
         if (timesheetDocumentId != null && assignmentString != null) {
             TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
             if (tdoc != null) {
-                Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdoc, assignmentString);
+                Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(tdoc, assignmentString);
                 roleNameQualifiers.add(String.valueOf(assignment.getWorkArea()));
             }
         }

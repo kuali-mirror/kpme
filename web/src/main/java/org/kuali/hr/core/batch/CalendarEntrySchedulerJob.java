@@ -21,7 +21,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.batch.service.BatchJobService;
 import org.kuali.hr.core.calendar.CalendarEntry;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerException;
@@ -36,7 +36,7 @@ public class CalendarEntrySchedulerJob extends QuartzJobBean {
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		DateTime asOfDate = new LocalDate().toDateTimeAtStartOfDay();
-        List<CalendarEntry> calendarEntries = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
+        List<CalendarEntry> calendarEntries = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
 
         try {
 	        for (CalendarEntry calendarEntry : calendarEntries) {

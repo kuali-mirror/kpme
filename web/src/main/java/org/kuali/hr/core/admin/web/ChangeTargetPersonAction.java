@@ -32,6 +32,7 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.department.Department;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.base.web.TkAction;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKContext;
@@ -84,7 +85,7 @@ public class ChangeTargetPersonAction extends TkAction {
     }
     
     private boolean isReviewerForPerson(String principalId) {
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
         for (Assignment assignment : assignments) {
             if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), assignment.getWorkArea(), new DateTime())) {
@@ -95,7 +96,7 @@ public class ChangeTargetPersonAction extends TkAction {
     }
 
     private boolean isApproverForPerson(String principalId) {
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
         for (Assignment assignment : assignments) {
         	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime())
@@ -108,12 +109,12 @@ public class ChangeTargetPersonAction extends TkAction {
     }
 
     private boolean isViewOnlyForPerson(String principalId) {
-        List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId, LocalDate.now());
+        List<Job> jobs = HrServiceLocator.getJobService().getJobs(principalId, LocalDate.now());
         
         for (Job job : jobs) {
         	String department = job != null ? job.getDept() : null;
 			
-			Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
+			Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 
             if (TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
@@ -128,12 +129,12 @@ public class ChangeTargetPersonAction extends TkAction {
     }
     
     private boolean isAdministratorForPerson(String principalId) {
-        List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId, LocalDate.now());
+        List<Job> jobs = HrServiceLocator.getJobService().getJobs(principalId, LocalDate.now());
         
         for (Job job : jobs) {
 			String department = job != null ? job.getDept() : null;
 			
-			Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
+			Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 			
         	if (TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())

@@ -15,12 +15,18 @@
  */
 package org.kuali.hr.core;
 
-import org.springframework.web.util.UrlPathHelper;
+import java.io.IOException;
 
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import java.io.IOException;
+
+import org.springframework.web.util.UrlPathHelper;
 
 public class DummyLoginFilter implements Filter{
 	private static final String LOGGED_IN_USER_KEY = "_LOGGED_IN_USER";

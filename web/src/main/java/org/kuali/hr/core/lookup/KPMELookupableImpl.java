@@ -15,12 +15,12 @@
  */
 package org.kuali.hr.core.lookup;
 
+import java.util.Properties;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
-
-import java.util.Properties;
 
 
 public class KPMELookupableImpl extends KualiLookupableImpl {

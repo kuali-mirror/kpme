@@ -21,7 +21,7 @@ import java.util.Properties;
 
 import org.kuali.hr.core.department.Department;
 import org.kuali.hr.core.lookup.KPMELookupableHelper;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -60,6 +60,6 @@ public class DepartmentLookupableHelper extends KPMELookupableHelper {
         String descr = fieldValues.get("description");
         String active = fieldValues.get("active");
 
-        return TkServiceLocator.getDepartmentService().getDepartments(dept, location, descr, active);
+        return HrServiceLocator.getDepartmentService().getDepartments(dept, location, descr, active);
     }
 }

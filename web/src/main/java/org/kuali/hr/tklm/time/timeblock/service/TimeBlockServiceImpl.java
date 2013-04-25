@@ -32,6 +32,7 @@ import org.kuali.hr.core.earncode.security.EarnCodeSecurity;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.paytype.PayType;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timeblock.TimeBlockHistory;
@@ -195,7 +196,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
     public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean clockLogCreated, Boolean lunchDeleted, String userPrincipalId) {
         DateTimeZone timezone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-        EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, timesheetDocument.getAsOfDate());
+        EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, timesheetDocument.getAsOfDate());
 
         TimeBlock tb = new TimeBlock();
         tb.setDocumentId(timesheetDocument.getDocumentHeader().getDocumentId());
@@ -294,7 +295,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     	List<TimeBlock> timeBlocks = timeBlockDao.getTimeBlocks(documentId);
         TkServiceLocator.getTimezoneService().translateForTimezone(timeBlocks);
         for(TimeBlock tb : timeBlocks) {
-            String earnCodeType = TkServiceLocator.getEarnCodeService().getEarnCodeType(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
+            String earnCodeType = HrServiceLocator.getEarnCodeService().getEarnCodeType(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
             tb.setEarnCodeType(earnCodeType);
         }
 
@@ -308,7 +309,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     	}
     	TkServiceLocator.getTimezoneService().translateForTimezone(timeBlocks);
     	 for(TimeBlock tb : timeBlocks) {
-             String earnCodeType = TkServiceLocator.getEarnCodeService().getEarnCodeType(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
+             String earnCodeType = HrServiceLocator.getEarnCodeService().getEarnCodeType(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
              tb.setEarnCodeType(earnCodeType);
          }
     	return timeBlocks;
@@ -335,13 +336,13 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(userId, KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
         			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(userId, KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime())) {
 
-				Job job = TkServiceLocator.getJobService().getJob(TKContext.getTargetPrincipalId(),timeBlock.getJobNumber(), timeBlock.getEndDateTime().toLocalDate());
-				PayType payType = TkServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
+				Job job = HrServiceLocator.getJobService().getJob(TKContext.getTargetPrincipalId(),timeBlock.getJobNumber(), timeBlock.getEndDateTime().toLocalDate());
+				PayType payType = HrServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
 				if(StringUtils.equals(payType.getRegEarnCode(), timeBlock.getEarnCode())){
 					return true;
 				}
 
-				List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), timeBlock.getEndDateTime().toLocalDate());
+				List<EarnCodeSecurity> deptEarnCodes = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), timeBlock.getEndDateTime().toLocalDate());
 				for(EarnCodeSecurity dec : deptEarnCodes){
 					if(dec.isApprover() && StringUtils.equals(dec.getEarnCode(), timeBlock.getEarnCode())){
 						return true;
@@ -350,13 +351,13 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			}
 
 			if(userId.equals(TKContext.getTargetPrincipalId())) {
-				Job job = TkServiceLocator.getJobService().getJob(TKContext.getTargetPrincipalId(),timeBlock.getJobNumber(), timeBlock.getEndDateTime().toLocalDate());
-				PayType payType = TkServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
+				Job job = HrServiceLocator.getJobService().getJob(TKContext.getTargetPrincipalId(),timeBlock.getJobNumber(), timeBlock.getEndDateTime().toLocalDate());
+				PayType payType = HrServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
 				if(StringUtils.equals(payType.getRegEarnCode(), timeBlock.getEarnCode())){
 					return true;
 				}
 
-				List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), timeBlock.getEndDateTime().toLocalDate());
+				List<EarnCodeSecurity> deptEarnCodes = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), timeBlock.getEndDateTime().toLocalDate());
 				for(EarnCodeSecurity dec : deptEarnCodes){
 					if(dec.isEmployee() && StringUtils.equals(dec.getEarnCode(), timeBlock.getEarnCode())){
 						return true;

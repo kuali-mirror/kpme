@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.tklm.time.timehourdetail.service;
 
+import java.util.List;
+
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timeblock.TimeHourDetail;
 import org.kuali.hr.tklm.time.timehourdetail.dao.TimeHourDetailDao;
-
-import java.util.List;
 
 public class TimeHourDetailServiceImpl implements TimeHourDetailService {
 

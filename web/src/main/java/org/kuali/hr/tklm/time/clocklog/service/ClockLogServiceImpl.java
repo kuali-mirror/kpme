@@ -130,8 +130,8 @@ public class ClockLogServiceImpl implements ClockLogService {
 
         ClockLog clockLog = new ClockLog();
         clockLog.setPrincipalId(principalId);
-        //        AssignmentDescriptionKey assignmentDesc = TkServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssign);
-        //        Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(timesheetDocument, selectedAssign);
+        //        AssignmentDescriptionKey assignmentDesc = HrServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssign);
+        //        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(timesheetDocument, selectedAssign);
         clockLog.setJob(timesheetDocument.getJob(assignment.getJobNumber()));
         clockLog.setJobNumber(assignment.getJobNumber());
         clockLog.setWorkArea(assignment.getWorkArea());

@@ -25,8 +25,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.calendar.service.CalendarEntryService;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 
 public class CalendarEntryServiceImplTest extends KPMETestCase {
@@ -34,7 +34,7 @@ public class CalendarEntryServiceImplTest extends KPMETestCase {
 	@Before
 	public void setUp() throws Exception{
 		super.setUp();
-		ceService = TkServiceLocator.getCalendarEntryService();
+		ceService = HrServiceLocator.getCalendarEntryService();
 	}
 
 	@After

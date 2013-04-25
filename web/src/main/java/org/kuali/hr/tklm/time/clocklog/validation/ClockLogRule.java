@@ -19,9 +19,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
 import org.kuali.hr.tklm.time.rules.clocklocation.validation.ClockLocationRuleRule;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -56,7 +56,7 @@ public class ClockLogRule  extends MaintenanceDocumentRuleBase {
 	protected boolean validateWorkArea(ClockLog clockLog ) {
 		boolean valid = false;
 		LOG.debug("Validating workarea: " + clockLog.getWorkArea());
-		int count = TkServiceLocator.getWorkAreaService().getWorkAreaCount(null, clockLog.getWorkArea());
+		int count = HrServiceLocator.getWorkAreaService().getWorkAreaCount(null, clockLog.getWorkArea());
 		if (count >0 ) {
 			valid = true;
 			LOG.debug("found workarea.");
@@ -70,7 +70,7 @@ public class ClockLogRule  extends MaintenanceDocumentRuleBase {
 	protected boolean validateTask(ClockLog clockLog ) {
 		boolean valid = false;
 		LOG.debug("Validating task: " + clockLog.getTask());
-		int count = TkServiceLocator.getTaskService().getTaskCount(clockLog.getTask());
+		int count = HrServiceLocator.getTaskService().getTaskCount(clockLog.getTask());
 		if (count >0 ) {
 			valid = true;
 			LOG.debug("found task.");

@@ -26,9 +26,8 @@ import org.kuali.hr.core.calendar.dao.CalendarDao;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.paytype.PayType;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.LMConstants;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -52,7 +51,7 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public CalendarEntry getCalendarDatesByPayEndDate(String principalId, DateTime payEndDate, String calendarType) {
-        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, payEndDate.toLocalDate());
+        PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, payEndDate.toLocalDate());
         
         Calendar calendar = null;
         if(ObjectUtils.isNull(principalCalendar)) {
@@ -64,7 +63,7 @@ public class CalendarServiceImpl implements CalendarService {
         	calendar = getCalendarByGroup(principalCalendar.getLeaveCalendar());
         }
         
-        CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate(calendar.getHrCalendarId(), payEndDate);
+        CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate(calendar.getHrCalendarId(), payEndDate);
         
         if(ObjectUtils.isNotNull(calendarEntry))
         	calendarEntry.setCalendarObj(calendar);
@@ -77,7 +76,7 @@ public class CalendarServiceImpl implements CalendarService {
 		CalendarEntry pcd = null;
         Calendar calendar = getCalendarByPrincipalIdAndDate(principalId, currentDate.toLocalDate(), false);
         if(calendar != null) {
-		    pcd = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), currentDate);
+		    pcd = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), currentDate);
 		    if(pcd != null) {
 		    	pcd.setCalendarObj(calendar);
 		    }
@@ -90,7 +89,7 @@ public class CalendarServiceImpl implements CalendarService {
         CalendarEntry pcd = null;
         Calendar calendar = getCalendarByPrincipalIdAndDate(principalId, beginDate.toLocalDate(), endDate.toLocalDate(), false);
         if(calendar != null) {
-            pcd = TkServiceLocator.getCalendarEntryService().getCalendarEntryByCalendarIdAndDateRange(calendar.getHrCalendarId(), beginDate, endDate);
+            pcd = HrServiceLocator.getCalendarEntryService().getCalendarEntryByCalendarIdAndDateRange(calendar.getHrCalendarId(), beginDate, endDate);
             if(pcd != null) {
                 pcd.setCalendarObj(calendar);
             }
@@ -106,7 +105,7 @@ public class CalendarServiceImpl implements CalendarService {
     @Override
     public Calendar getCalendarByPrincipalIdAndDate(String principalId, LocalDate beginDate, LocalDate endDate, boolean findLeaveCal) {
         Calendar pcal = null;
-        List<Job> currentJobs = TkServiceLocator.getJobService().getJobs(principalId, endDate);
+        List<Job> currentJobs = HrServiceLocator.getJobService().getJobs(principalId, endDate);
         if(currentJobs.size() < 1){
             return pcal;
         }
@@ -119,7 +118,7 @@ public class CalendarServiceImpl implements CalendarService {
                 throw new RuntimeException("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
             }
 
-            PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, beginDate);
+            PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, beginDate);
             if(principalCalendar == null){
             	return null;
                 //throw new RuntimeException("No principal hr attribute setup for "+principalId);
@@ -146,7 +145,7 @@ public class CalendarServiceImpl implements CalendarService {
 	@Override
 	public Calendar getCalendarByPrincipalIdAndDate(String principalId, LocalDate asOfDate, boolean findLeaveCal) {
 		Calendar pcal = null;
-        List<Job> currentJobs = TkServiceLocator.getJobService().getJobs(principalId, asOfDate);
+        List<Job> currentJobs = HrServiceLocator.getJobService().getJobs(principalId, asOfDate);
         if(currentJobs.size() < 1){
            return pcal;
         }
@@ -159,7 +158,7 @@ public class CalendarServiceImpl implements CalendarService {
                 throw new RuntimeException("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
             }
 
-            PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+            PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
             if(principalCalendar == null){
                 throw new RuntimeException("No principal hr attribute setup for "+principalId);
             }
@@ -188,7 +187,7 @@ public class CalendarServiceImpl implements CalendarService {
 		CalendarEntry pcd = null;
         Calendar calendar = getCalendarByPrincipalIdAndDate(principalId, currentDate.toLocalDate(), true);
         if(calendar != null) {
-		    pcd = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), currentDate);
+		    pcd = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), currentDate);
 		    if(pcd != null) {
 		    	pcd.setCalendarObj(calendar);
 		    }
@@ -201,7 +200,7 @@ public class CalendarServiceImpl implements CalendarService {
         CalendarEntry pcd = null;
         Calendar calendar = getCalendarByPrincipalIdAndDate(principalId, beginDate.toLocalDate(), endDate.toLocalDate(), true);
         if(calendar != null) {
-            pcd = TkServiceLocator.getCalendarEntryService().getCalendarEntryByCalendarIdAndDateRange(calendar.getHrCalendarId(), beginDate, endDate);
+            pcd = HrServiceLocator.getCalendarEntryService().getCalendarEntryByCalendarIdAndDateRange(calendar.getHrCalendarId(), beginDate, endDate);
             if(pcd != null) {
                 pcd.setCalendarObj(calendar);
             }

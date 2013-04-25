@@ -37,6 +37,7 @@ import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
 import org.kuali.hr.core.ApprovalForm;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.tklm.time.base.web.TkAction;
 import org.kuali.hr.tklm.time.person.TKPerson;
@@ -86,7 +87,7 @@ public class LeaveApprovalWSAction extends TkAction {
         			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, laaf.getSelectedPayCalendarGroup(),
         					endDate, beginDate, endDate); 
 		        
-		        List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
+		        List<TKPerson> persons = HrServiceLocator.getPersonService().getPersonCollection(principalIds);
 		        
 		        if (StringUtils.equals(laaf.getSearchField(), ApprovalForm.ORDER_BY_PRINCIPAL)) {
 		            for (String id : principalIds) {

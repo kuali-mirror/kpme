@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.tklm.time.person.service;
 
+import java.util.List;
+
 import org.kuali.hr.tklm.time.person.TKPerson;
 import org.kuali.hr.tklm.time.person.dao.PersonDao;
-
-import java.util.List;
 
 
 public class PersonServiceImpl implements PersonService { 

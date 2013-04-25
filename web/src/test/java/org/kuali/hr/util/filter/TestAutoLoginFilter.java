@@ -15,8 +15,6 @@
  */
 package org.kuali.hr.util.filter;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -27,6 +25,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krad.web.filter.AutoLoginFilter;
 
 /**
  * Automatically logs in with the user specified via filter init parameter {@link AutoLoginFilter#USER_PARAM_NAME}.

@@ -21,7 +21,7 @@ import java.util.Properties;
 
 import org.kuali.hr.core.location.Location;
 import org.kuali.hr.core.lookup.KPMELookupableHelper;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -60,7 +60,7 @@ public class LocationLookupableHelper extends KPMELookupableHelper {
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        return TkServiceLocator.getLocationService().searchLocations(location, descr, active, showHist);
+        return HrServiceLocator.getLocationService().searchLocations(location, descr, active, showHist);
     }
     
 }

@@ -35,6 +35,7 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.earncode.EarnCode;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.tklm.leave.calendar.web.LeaveCalendarForm;
@@ -74,20 +75,20 @@ public class LeaveCalendarWSAction extends TkAction {
             calendarEntry = lcd.getCalendarEntry();
         } else if (StringUtils.isNotBlank(calendarEntryId)) {
             // do further procedure
-            calendarEntry = TkServiceLocator.getCalendarEntryService()
+            calendarEntry = HrServiceLocator.getCalendarEntryService()
                     .getCalendarEntry(calendarEntryId);
             lcd = TkServiceLocator.getLeaveCalendarService()
                     .getLeaveCalendarDocument(viewPrincipal, calendarEntry);
         } else {
             // Default to whatever is active for "today".
-            calendarEntry = TkServiceLocator.getCalendarService()
+            calendarEntry = HrServiceLocator.getCalendarService()
                     .getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
             lcd = TkServiceLocator.getLeaveCalendarService()
                     .openLeaveCalendarDocument(viewPrincipal, calendarEntry);
         }
 
         lcf.setCalendarEntry(calendarEntry);
-        lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
+        lcf.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
 
         if (lcd != null) {
             setupDocumentOnFormContext(lcf, lcd);
@@ -107,7 +108,7 @@ public class LeaveCalendarWSAction extends TkAction {
     public ActionForward getEarnCodeInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
         LOG.info(lcf.toString());
-        EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById(lcf.getSelectedEarnCode());
+        EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCodeById(lcf.getSelectedEarnCode());
     	String unitTime = ActionFormUtils.getUnitOfTimeForEarnCode(earnCode);
         Map<String, Object> earnCodeMap = new HashMap<String, Object>();
         earnCodeMap.put("unitOfTime", unitTime);
@@ -124,7 +125,7 @@ public class LeaveCalendarWSAction extends TkAction {
 
         if(request.getParameter("selectedPayPeriod") != null) {
             lcf.setSelectedPayPeriod(request.getParameter("selectedPayPeriod"));
-            CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry(request.getParameter("selectedPayPeriod"));
+            CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry(request.getParameter("selectedPayPeriod"));
             lcf.setCalendarEntry(ce);
         }
         lcf.setPrincipalId(TKContext.getTargetPrincipalId());
@@ -140,7 +141,7 @@ public class LeaveCalendarWSAction extends TkAction {
             	if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
                         assignment.getWorkArea().compareTo(key.getWorkArea()) == 0 &&
                         assignment.getTask().compareTo(key.getTask()) == 0) {
-                	List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, TKUtils.formatDateTimeString(lcf.getStartDate()).toLocalDate(), lcf.isLeavePlanningCalendar());
+                	List<EarnCode> earnCodes = HrServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, TKUtils.formatDateTimeString(lcf.getStartDate()).toLocalDate(), lcf.isLeavePlanningCalendar());
                     for (EarnCode earnCode : earnCodes) {
                         Map<String, Object> earnCodeMap = new HashMap<String, Object>();
                         earnCodeMap.put("assignment", assignment.getAssignmentKey());

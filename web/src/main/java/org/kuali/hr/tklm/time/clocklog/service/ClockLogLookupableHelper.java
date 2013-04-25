@@ -29,6 +29,7 @@ import org.kuali.hr.core.department.Department;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
 import org.kuali.hr.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
@@ -121,10 +122,10 @@ public class ClockLogLookupableHelper extends KPMELookupableHelper {
 					}
 				}
 				
-				Job job = TkServiceLocator.getJobService().getJob(cl.getPrincipalId(), cl.getJobNumber(), LocalDate.now(), false);
+				Job job = HrServiceLocator.getJobService().getJob(cl.getPrincipalId(), cl.getJobNumber(), LocalDate.now(), false);
 				String department = job != null ? job.getDept() : null;
 				
-				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
+				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 				String location = departmentObj != null ? departmentObj.getLocation() : null;
 				
 				boolean valid = false;

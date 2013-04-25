@@ -18,7 +18,7 @@ package org.kuali.hr.core.assignment.validation;
 import org.kuali.hr.core.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
@@ -30,7 +30,7 @@ public class AssignmentEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
     	
         Assignment assignment = (Assignment) pbo;
         AssignmentDescriptionKey key = new AssignmentDescriptionKey(assignment);
-        Assignment lastAssignment = TkServiceLocator.getAssignmentService().getAssignment(assignment.getPrincipalId(), key, TKUtils.END_OF_TIME);
+        Assignment lastAssignment = HrServiceLocator.getAssignmentService().getAssignment(assignment.getPrincipalId(), key, TKUtils.END_OF_TIME);
         if (lastAssignment != null && lastAssignment.getEffectiveLocalDate() != null && assignment.getEffectiveLocalDate() != null) {
         	futureEffectiveDateExists = lastAssignment.getEffectiveLocalDate().isAfter(assignment.getEffectiveLocalDate());
         }

@@ -6,8 +6,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
 import org.kuali.hr.core.department.Department;
 import org.kuali.hr.core.role.KPMERoleMemberAttribute;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.rules.clocklocation.ClockLocationRule;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 
 @SuppressWarnings("deprecation")
 public class ClockLocationRuleAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
@@ -26,7 +26,7 @@ public class ClockLocationRuleAuthorizer extends KPMEMaintenanceDocumentAuthoriz
 			if (clockLocationRuleObj != null) {
 				department = clockLocationRuleObj.getDept();
 				
-				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, clockLocationRuleObj.getEffectiveLocalDate());
+				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, clockLocationRuleObj.getEffectiveLocalDate());
 			
 				if (departmentObj != null) {
 					location = departmentObj.getLocation();

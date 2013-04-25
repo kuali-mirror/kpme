@@ -524,7 +524,7 @@
         <property name="earnCodeGroupDao" ref="earnCodeGroupDao"/>
     </bean>
 
-    <bean id="salGroupService" class="org.kuali.hr.core.salgroup.service.SalGroupServiceImpl">
+    <bean id="salaryGroupService" class="org.kuali.hr.core.salgroup.service.SalGroupServiceImpl">
         <property name="salGroupDao" ref="salGroupDao"/>
     </bean>
 
@@ -615,6 +615,8 @@
 
  	<bean id="pmServiceLocator" class="org.kuali.hr.pm.service.base.PmServiceLocator">
     </bean>
+    
+    <bean id="hrServiceLocator" class="org.kuali.hr.core.service.HrServiceLocator"/>
     
     <bean id="tkRuleControllerService" class="org.kuali.hr.tklm.time.rules.TkRuleControllerServiceImpl"/>
 

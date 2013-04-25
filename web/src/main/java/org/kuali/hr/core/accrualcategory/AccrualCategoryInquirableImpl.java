@@ -19,8 +19,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.base.web.TkInquirableImpl;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 
@@ -30,13 +30,13 @@ public class AccrualCategoryInquirableImpl extends TkInquirableImpl {
 	public BusinessObject getBusinessObject(Map fieldValues) {
 		AccrualCategory ac = null;
 		if(StringUtils.isNotBlank((String)fieldValues.get("lmAccrualCategoryId"))) {
-			ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory((String)fieldValues.get("lmAccrualCategoryId"));
+			ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory((String)fieldValues.get("lmAccrualCategoryId"));
 			
 		} else if(StringUtils.isNotBlank((String)fieldValues.get("accrualCategory"))
 					&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
 			String accrualCategory = (String)fieldValues.get("accrualCategory");
 			LocalDate effectiveDate = TKUtils.formatDateString((String)fieldValues.get("effectiveDate"));
-		    ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory((String)fieldValues.get("accrualCategory"), effectiveDate);
+		    ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory((String)fieldValues.get("accrualCategory"), effectiveDate);
 		} else {
 			ac = (AccrualCategory) super.getBusinessObject(fieldValues);
 		}

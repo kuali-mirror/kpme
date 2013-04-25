@@ -37,6 +37,7 @@ import org.kuali.hr.core.leaveplan.LeavePlan;
 import org.kuali.hr.core.leaveplan.service.LeavePlanService;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.principal.service.PrincipalHRAttributesService;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.service.LeaveBlockService;
@@ -147,7 +148,7 @@ public class CarryOverJob implements Job{
 
 	private AccrualCategoryService getAccrualCategoryService() {
         if (accrualCategoryService == null) {
-            accrualCategoryService = TkServiceLocator.getAccrualCategoryService();
+            accrualCategoryService = HrServiceLocator.getAccrualCategoryService();
         }
 		return accrualCategoryService;
 	}
@@ -158,7 +159,7 @@ public class CarryOverJob implements Job{
 
 	private AssignmentService getAssignmentService() {
 		if (assignmentService == null) {
-            assignmentService = TkServiceLocator.getAssignmentService();
+            assignmentService = HrServiceLocator.getAssignmentService();
         }
 		return assignmentService;
 	}
@@ -169,7 +170,7 @@ public class CarryOverJob implements Job{
 
 	public LeavePlanService getLeavePlanService() {
         if (leavePlanService == null) {
-		    leavePlanService = TkServiceLocator.getLeavePlanService();
+		    leavePlanService = HrServiceLocator.getLeavePlanService();
         }
 		return leavePlanService;
 	}
@@ -180,7 +181,7 @@ public class CarryOverJob implements Job{
 
 	private PrincipalHRAttributesService getPrincipalHRAttributesService() {
         if (principalHRAttributesService == null) {
-		    principalHRAttributesService = TkServiceLocator.getPrincipalHRAttributeService();
+		    principalHRAttributesService = HrServiceLocator.getPrincipalHRAttributeService();
         }
 		return principalHRAttributesService;
 	}
@@ -202,7 +203,7 @@ public class CarryOverJob implements Job{
 
 	private CalendarEntryService getCalendarEntryService() {
         if (calendarEntryService == null) {
-		    calendarEntryService = TkServiceLocator.getCalendarEntryService();
+		    calendarEntryService = HrServiceLocator.getCalendarEntryService();
         }
 		return calendarEntryService;
 	}

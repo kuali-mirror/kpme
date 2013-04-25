@@ -43,6 +43,7 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
 import org.kuali.hr.tklm.time.detail.web.ActionFormUtils;
@@ -69,7 +70,7 @@ public class TimeApprovalAction extends ApprovalAction{
     	taaf.setSearchField("principalId");
         List<String> principalIds = new ArrayList<String>();
         principalIds.add(taaf.getSearchTerm());
-        List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
+        List<TKPerson> persons = HrServiceLocator.getPersonService().getPersonCollection(principalIds);
         if (persons.isEmpty()) {
         	taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
         	taaf.setResultSize(0);
@@ -77,11 +78,11 @@ public class TimeApprovalAction extends ApprovalAction{
         	taaf.setResultSize(persons.size());	
 	        taaf.setApprovalRows(getApprovalRows(taaf, persons));
 	        
-        	CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrPyCalendarEntryId());
+        	CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrPyCalendarEntryId());
    	        taaf.setPayCalendarEntry(payCalendarEntry);
    	        taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntry, new ArrayList<Boolean>()));
         	
-	        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(taaf.getSearchTerm(), payCalendarEntry.getEndPeriodFullDateTime().toLocalDate());
+	        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(taaf.getSearchTerm(), payCalendarEntry.getEndPeriodFullDateTime().toLocalDate());
 	        if(!assignments.isEmpty()){
 	        	 for(Long wa : taaf.getWorkAreaDescr().keySet()){
 	        		for (Assignment assign : assignments) {
@@ -118,12 +119,12 @@ public class TimeApprovalAction extends ApprovalAction{
 		taaf.setSearchTerm(null);
 		taaf.getWorkAreaDescr().clear();
 		
-        CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrPyCalendarEntryId());
+        CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrPyCalendarEntryId());
         taaf.setPayCalendarEntry(payCalendarEntry);
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntry, new ArrayList<Boolean>()));
 
 		String principalId = GlobalVariables.getUserSession().getPrincipalId();
-    	List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), LocalDate.fromDateFields(taaf.getPayBeginDate()));
+    	List<WorkArea> workAreaObjs = HrServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), LocalDate.fromDateFields(taaf.getPayBeginDate()));
         for (WorkArea workAreaObj : workAreaObjs) {
         	Long workArea = workAreaObj.getWorkArea();
         	String description = workAreaObj.getDescription();
@@ -141,7 +142,7 @@ public class TimeApprovalAction extends ApprovalAction{
     		taaf.setResultSize(0);
     	}
     	else {
-	        List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
+	        List<TKPerson> persons = HrServiceLocator.getPersonService().getPersonCollection(principalIds);
 	        Collections.sort(persons);
 	        taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, persons)));
 	        taaf.setResultSize(persons.size());
@@ -158,7 +159,7 @@ public class TimeApprovalAction extends ApprovalAction{
 		taaf.setSearchField(null);
 		taaf.setSearchTerm(null);
 
-	    CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrPyCalendarEntryId());
+	    CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrPyCalendarEntryId());
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntry, new ArrayList<Boolean>()));
         
         List<String> principalIds = this.getPrincipalIdsToPopulateTable(taaf); 
@@ -167,7 +168,7 @@ public class TimeApprovalAction extends ApprovalAction{
 			taaf.setResultSize(0);
 		}
 		else {
-	        List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
+	        List<TKPerson> persons = HrServiceLocator.getPersonService().getPersonCollection(principalIds);
 	        Collections.sort(persons);
 	        taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, persons)));
 	        taaf.setResultSize(persons.size());
@@ -191,7 +192,7 @@ public class TimeApprovalAction extends ApprovalAction{
         	resetState(form, request);
         }
         // Set calendar groups
-        List<String> calGroups = TkServiceLocator.getPrincipalHRAttributeService().getUniqueTimePayGroups();
+        List<String> calGroups = HrServiceLocator.getPrincipalHRAttributeService().getUniqueTimePayGroups();
         taaf.setPayCalendarGroups(calGroups);
 
         if (StringUtils.isBlank(taaf.getSelectedPayCalendarGroup())) {
@@ -200,11 +201,11 @@ public class TimeApprovalAction extends ApprovalAction{
         
         // Set current pay calendar entries if present. Decide if the current date should be today or the end period date
         if (taaf.getHrPyCalendarEntryId() != null) {
-        	payCalendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrPyCalendarEntryId());
+        	payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrPyCalendarEntryId());
         } else {
             currentDate = new LocalDate().toDateTimeAtStartOfDay();
-            currentPayCalendar = TkServiceLocator.getCalendarService().getCalendarByGroup(taaf.getSelectedPayCalendarGroup());
-            payCalendarEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(currentPayCalendar.getHrCalendarId(), currentDate);
+            currentPayCalendar = HrServiceLocator.getCalendarService().getCalendarByGroup(taaf.getSelectedPayCalendarGroup());
+            payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(currentPayCalendar.getHrCalendarId(), currentDate);
         }
         taaf.setPayCalendarEntry(payCalendarEntry);
         
@@ -227,7 +228,7 @@ public class TimeApprovalAction extends ApprovalAction{
 			taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
 			taaf.setResultSize(0);
 		} else {
-		    List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
+		    List<TKPerson> persons = HrServiceLocator.getPersonService().getPersonCollection(principalIds);
 		    List<ApprovalTimeSummaryRow> approvalRows = getApprovalRows(taaf, getSubListPrincipalIds(request, persons));
 		    
 		    final String sortField = request.getParameter("sortField");

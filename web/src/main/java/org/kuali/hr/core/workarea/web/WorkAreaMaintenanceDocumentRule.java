@@ -27,11 +27,11 @@ import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.role.KPMERoleMemberBo;
 import org.kuali.hr.core.role.PositionRoleMemberBo;
 import org.kuali.hr.core.role.PrincipalRoleMemberBo;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.task.Task;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.time.authorization.AuthorizationValidationUtils;
 import org.kuali.hr.tklm.time.authorization.DepartmentalRule;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -190,7 +190,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		boolean valid = true;
 		
 		if(!workArea.isActive()){
-			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
+			List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
 			for(Assignment assignment: assignments){
 				if(assignment.getWorkArea().equals(workArea.getWorkArea())){
 					this.putGlobalError("workarea.active.required");
@@ -207,7 +207,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 			}
 			
 			if(!inactiveTasks.isEmpty()){
-				List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
+				List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
 				for(Assignment assignment : assignments){
 					for(Long inactiveTask : inactiveTasks){
 						if(inactiveTask.equals(assignment.getTask())){
@@ -237,7 +237,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 	private Long getMaxTaskNumber(WorkArea workArea) {
 		Long task = new Long("100");
 		
-		Task maxTask = TkServiceLocator.getTaskService().getMaxTask();
+		Task maxTask = HrServiceLocator.getTaskService().getMaxTask();
 		
 		if (maxTask != null) {
 			task = maxTask.getTask() + 1;

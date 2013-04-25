@@ -24,6 +24,7 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
 import org.kuali.hr.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
@@ -42,7 +43,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 			AccrualCategory fromAccrualCategory, AccrualCategory toAccrualCategory, LocalDate effectiveDate) {
 		boolean isValid = true;
 		
-		List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), effectiveDate);
+		List<AccrualCategory> accrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), effectiveDate);
 		if(accrualCategories.size() > 0) {
 			boolean isFromInLeavePlan = false;
 			boolean isToInLeavePlan = false;
@@ -95,14 +96,14 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	private boolean validateTransferFromAccrualCategory(AccrualCategory accrualCategory, String principalId,
 			LocalDate effectiveDate, AccrualCategoryRule acr) {
 		//accrualCategory has rules
-		//PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, effectiveDate);
+		//PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, effectiveDate);
 		
 		return true;
 	}
 	
 	//Transfer to accrual category should match the value defined in the accrual category rule
 	private boolean validateTransferToAccrualCategory(AccrualCategory accrualCategory, String principalId, LocalDate effectiveDate, AccrualCategoryRule acr) {
-		AccrualCategory maxBalTranToAccCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(acr.getMaxBalanceTransferToAccrualCategory(),effectiveDate);
+		AccrualCategory maxBalTranToAccCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(acr.getMaxBalanceTransferToAccrualCategory(),effectiveDate);
 		if(!StringUtils.equals(maxBalTranToAccCat.getLmAccrualCategoryId(),accrualCategory.getLmAccrualCategoryId())) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.toAccrualCategory", "balanceTransfer.toAccrualCategory.noMatch",accrualCategory.getAccrualCategory());
 			return false;
@@ -133,7 +134,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 					else
 						maxTransferAmount = new BigDecimal(eo.getOverrideValue());
 				else {
-					BigDecimal fteSum = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
+					BigDecimal fteSum = HrServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
 					maxTransferAmount = maxTransferAmount.multiply(fteSum);
 				}
 				if(transferAmount.compareTo(maxTransferAmount) > 0) {
@@ -177,9 +178,9 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 				LocalDate effectiveDate = balanceTransfer.getEffectiveLocalDate();
 				String fromAccrualCategory = balanceTransfer.getFromAccrualCategory();
 				String toAccrualCategory = balanceTransfer.getToAccrualCategory();
-				AccrualCategory fromCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
-				AccrualCategory toCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
-				PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
+				AccrualCategory fromCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
+				AccrualCategory toCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
+				PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
 				
 				boolean isDeptAdmin = TKContext.isDepartmentAdmin();
 				boolean isSysAdmin = TKContext.isSystemAdmin();
@@ -189,7 +190,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 				else {
 					if(ObjectUtils.isNotNull(pha)) {
 						if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
-							AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat,
+							AccrualCategoryRule acr = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat,
 									effectiveDate, pha.getServiceLocalDate());
 							if(ObjectUtils.isNotNull(acr)) {
 								if(StringUtils.isNotBlank(acr.getMaxBalFlag())

@@ -24,9 +24,9 @@ import java.util.List;
 import javax.persistence.Transient;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
@@ -35,6 +35,7 @@ import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.task.Task;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.leave.LMConstants;
@@ -97,9 +98,9 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private String transactionalDocId;
 
 	public String getAccrualCategoryRuleId() {
-		AccrualCategory category = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, getLeaveLocalDate());
-		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, getLeaveLocalDate());
-		AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(category, getLeaveLocalDate(), pha.getServiceLocalDate());
+		AccrualCategory category = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, getLeaveLocalDate());
+		PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, getLeaveLocalDate());
+		AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(category, getLeaveLocalDate(), pha.getServiceLocalDate());
 		return ObjectUtils.isNull(aRule) ? null : aRule.getLmAccrualCategoryRuleId();
 	}
 	
@@ -408,12 +409,12 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		StringBuilder b = new StringBuilder();
 
 		if (this.workArea != null) {
-			WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(
+			WorkArea wa = HrServiceLocator.getWorkAreaService().getWorkArea(
 					this.workArea, LocalDate.now());
 			if (wa != null) {
 				b.append(wa.getDescription());
 			}
-			Task task = TkServiceLocator.getTaskService().getTask(
+			Task task = HrServiceLocator.getTaskService().getTask(
 					this.getTask(), this.getLeaveLocalDate());
 			if (task != null) {
 				// do not display task description if the task is the default
@@ -433,13 +434,13 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	}
 
 	public String getCalendarId() {
-		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(this.principalId, LocalDate.now());
+		PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(this.principalId, LocalDate.now());
 		Calendar pcal= null;
 		if(principalHRAttributes != null) {
 			//pcal = principalHRAttributes.getCalendar() != null ? principalHRAttributes.getCalendar() : principalHRAttributes.getLeaveCalObj() ;
 			pcal = principalHRAttributes.getLeaveCalObj() != null ? principalHRAttributes.getLeaveCalObj() : principalHRAttributes.getCalendar();
             if(pcal!= null) {
-				CalendarEntry calEntries = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(pcal.getHrCalendarId(), new DateTime(this.leaveDate));
+				CalendarEntry calEntries = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(pcal.getHrCalendarId(), new DateTime(this.leaveDate));
 				if(calEntries != null) {
 					this.calendarId = calEntries.getHrCalendarEntryId();
 				}
@@ -463,7 +464,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	public String getEarnCodeDescription() {
 		String earnCodeDescription = "";
 		
-		EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, getLeaveLocalDate());
+		EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, getLeaveLocalDate());
 		if (earnCodeObj != null) {
 			earnCodeDescription = earnCodeObj.getDescription();
 		}

@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.core.department.dao;
 
+import java.util.List;
+
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.department.Department;
-
-import java.util.List;
 
 public interface DepartmentDao {
 	public void saveOrUpdate(Department dept);

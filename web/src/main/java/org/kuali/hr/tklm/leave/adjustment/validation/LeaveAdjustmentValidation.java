@@ -16,11 +16,12 @@
 package org.kuali.hr.tklm.leave.adjustment.validation;
 
 import java.math.BigDecimal;
+
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.earncode.EarnCode;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.adjustment.LeaveAdjustment;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -70,7 +71,7 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 	private boolean validateFraction(String earnCode, BigDecimal amount, LocalDate asOfDate) {
 		boolean valid = true;
 		if (!ValidationUtils.validateEarnCodeFraction(earnCode, amount, asOfDate)) {
-			EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+			EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
 			if(ec != null && ec.getFractionalTimeAllowed() != null) {
 				BigDecimal fracAllowed = new BigDecimal(ec.getFractionalTimeAllowed());
 				String[] parameters = new String[2];

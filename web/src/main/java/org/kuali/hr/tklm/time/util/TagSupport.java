@@ -15,12 +15,12 @@
  */
 package org.kuali.hr.tklm.time.util;
 
-import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class TagSupport {
 

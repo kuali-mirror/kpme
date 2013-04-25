@@ -24,18 +24,18 @@ import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.leaveplan.LeavePlan;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.base.web.TkAction;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 
 public class CarryOverBatchJobAction extends TkAction {
 
     public ActionForward runCarryOverBatchJob(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	CarryOverBatchJobActionForm cobjaf = (CarryOverBatchJobActionForm) form;
 
-    	LeavePlan leavePlan = TkServiceLocator.getLeavePlanService().getLeavePlan(cobjaf.getLeavePlan(), LocalDate.now());
+    	LeavePlan leavePlan = HrServiceLocator.getLeavePlanService().getLeavePlan(cobjaf.getLeavePlan(), LocalDate.now());
     	DateTime scheduleDate = new DateTime();
     	
-    	TkServiceLocator.getBatchJobService().scheduleLeaveCarryOverJobs(leavePlan, scheduleDate);
+    	HrServiceLocator.getBatchJobService().scheduleLeaveCarryOverJobs(leavePlan, scheduleDate);
     	
     	return mapping.findForward("basic");
     }

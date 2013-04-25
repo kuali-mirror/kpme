@@ -16,11 +16,17 @@
 package org.kuali.hr.tklm.leave.request.service;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.job.Job;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.request.LeaveRequestActionValue;
@@ -31,7 +37,11 @@ import org.kuali.hr.tklm.time.util.TKContext;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.action.*;
+import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.action.ActionType;
+import org.kuali.rice.kew.api.action.DocumentActionParameters;
+import org.kuali.rice.kew.api.action.ValidActions;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
@@ -40,11 +50,6 @@ import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.exception.UnknownDocumentIdException;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentService {
     private static final Logger LOG = Logger.getLogger(LeaveRequestDocumentServiceImpl.class);
@@ -234,13 +239,13 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         List<String> salGroups = new ArrayList<String>();
         CalendarEntry ce = getCalendarEntry(leaveBlock);
         if (ce != null) {
-            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(leaveBlock.getPrincipalId(), ce);
+            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(leaveBlock.getPrincipalId(), ce);
 
             for(Assignment assign: assignments){
                 if(!workAreas.contains(assign.getWorkArea())){
                     workAreas.add(assign.getWorkArea());
                 }
-                Job job = TkServiceLocator.getJobService().getJob(assign.getPrincipalId(), assign.getJobNumber(), leaveBlock.getLeaveLocalDate());
+                Job job = HrServiceLocator.getJobService().getJob(assign.getPrincipalId(), assign.getJobNumber(), leaveBlock.getLeaveLocalDate());
 
                 if(!salGroups.contains(job.getHrSalGroup())){
                     salGroups.add(job.getHrSalGroup());
@@ -248,7 +253,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
             }
         }
         for(Long workArea : workAreas){
-            WorkArea workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, leaveBlock.getLeaveLocalDate());
+            WorkArea workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, leaveBlock.getLeaveLocalDate());
             if(deptToListOfWorkAreas.containsKey(workAreaObj.getDept())){
                 List<Long> deptWorkAreas = deptToListOfWorkAreas.get(workAreaObj.getDept());
                 deptWorkAreas.add(workArea);
@@ -281,7 +286,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
     }
 
     private CalendarEntry getCalendarEntry(LeaveBlock leaveBlock) {
-        return TkServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
+        return HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
     }
     
     public List<String> getApproverIdList(String documentId) {

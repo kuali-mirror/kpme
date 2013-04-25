@@ -24,6 +24,7 @@ import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
 import org.kuali.hr.tklm.leave.payout.LeavePayout;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
@@ -40,7 +41,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 	private boolean validateAgainstLeavePlan(PrincipalHRAttributes pha, AccrualCategory fromAccrualCategory, LocalDate effectiveDate) {
 		boolean isValid = true;
 
-		List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), effectiveDate);
+		List<AccrualCategory> accrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), effectiveDate);
 		if(accrualCategories.size() > 0) {
 			boolean isFromInLeavePlan = false;
 			for(AccrualCategory activeAccrualCategory : accrualCategories) {
@@ -81,7 +82,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.transferAmount", "leavePayout.amount.negative");
 			return false;
 		}
-		//TkServiceLocator.getAccrualCategoryService().getCurrentBalanceForPrincipal(principalId, debitedAccrualCategory, effectiveDate);
+		//HrServiceLocator.getAccrualCategoryService().getCurrentBalanceForPrincipal(principalId, debitedAccrualCategory, effectiveDate);
 
 		return true;
 	}
@@ -112,7 +113,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 	private boolean validateTransferFromAccrualCategory(AccrualCategory accrualCategory, String principalId,
 			LocalDate effectiveDate, AccrualCategoryRule acr) {
 		//accrualCategory has rules
-		//PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, effectiveDate);
+		//PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, effectiveDate);
 		
 		return true;
 	}
@@ -143,7 +144,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 					else
 						maxPayoutAmount = new BigDecimal(eo.getOverrideValue());
 				else {
-					BigDecimal fteSum = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
+					BigDecimal fteSum = HrServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
 					maxPayoutAmount = maxPayoutAmount.multiply(fteSum);
 				}
 				if(payoutAmount.compareTo(maxPayoutAmount) > 0) {
@@ -180,8 +181,8 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 			LocalDate effectiveDate = leavePayout.getEffectiveLocalDate();
 			String fromAccrualCategory = leavePayout.getFromAccrualCategory();
 			EarnCode payoutEarnCode = leavePayout.getEarnCodeObj();
-			AccrualCategory fromCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
-			PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
+			AccrualCategory fromCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
+			PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
 			
 			boolean isDeptAdmin = TKContext.isDepartmentAdmin();
 			boolean isSysAdmin = TKContext.isSystemAdmin();
@@ -191,7 +192,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 			else {
 				if(ObjectUtils.isNotNull(pha)) {
 					if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
-						AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat, effectiveDate, pha.getServiceLocalDate());
+						AccrualCategoryRule acr = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat, effectiveDate, pha.getServiceLocalDate());
 						if(ObjectUtils.isNotNull(acr)) {
 							if(ObjectUtils.isNotNull(acr.getMaxBalFlag())
 									&& StringUtils.isNotBlank(acr.getMaxBalFlag())

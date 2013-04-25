@@ -18,8 +18,8 @@ package org.kuali.hr.tklm.time.rules.lunch.department.validation;
 import java.math.BigDecimal;
 
 import org.kuali.hr.core.ValidationUtils;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.rules.lunch.department.DeptLunchRule;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -38,7 +38,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 			valid = false;
 		} else if (ruleObj.getWorkArea() != null
 				&& !ruleObj.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
-			int count = TkServiceLocator.getWorkAreaService().getWorkAreaCount(ruleObj.getDept(), ruleObj.getWorkArea());
+			int count = HrServiceLocator.getWorkAreaService().getWorkAreaCount(ruleObj.getDept(), ruleObj.getWorkArea());
 			valid = (count > 0);
 			if (!valid) {
 				this.putFieldError("workArea", "dept.workarea.invalid.sync",
@@ -62,7 +62,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 		if (ruleObj.getJobNumber() == null) {
 			valid = false;
 		} else if (!ruleObj.getJobNumber().equals(TkConstants.WILDCARD_LONG)) {
-			int count = TkServiceLocator.getJobService().getJobCount(ruleObj.getPrincipalId(), ruleObj.getJobNumber(), null);
+			int count = HrServiceLocator.getJobService().getJobCount(ruleObj.getPrincipalId(), ruleObj.getJobNumber(), null);
 			valid = (count > 0);
 			if (!valid) {
 				this.putFieldError("jobNumber", "principalid.job.invalid.sync",

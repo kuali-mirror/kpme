@@ -21,7 +21,7 @@ import java.util.Properties;
 
 import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.core.paygrade.PayGrade;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -60,7 +60,7 @@ public class PayGradeLookupableHelper extends KPMELookupableHelper {
         String descr = fieldValues.get("description");
         String active = fieldValues.get("active");
 
-        return TkServiceLocator.getPayGradeService().getPayGrades(payGrade, descr, active);
+        return HrServiceLocator.getPayGradeService().getPayGrades(payGrade, descr, active);
     }
     
 }

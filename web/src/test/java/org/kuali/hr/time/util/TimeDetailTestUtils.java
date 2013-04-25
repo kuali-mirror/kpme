@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.List;
 
-import com.gargoylesoftware.htmlunit.WebClient;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -31,11 +30,12 @@ import org.kuali.hr.tklm.time.detail.validation.TimeDetailValidationUtil;
 import org.kuali.hr.tklm.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.util.filter.TestAutoLoginFilter;
 
+import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import org.kuali.hr.util.filter.TestAutoLoginFilter;
 
 public class TimeDetailTestUtils {
 

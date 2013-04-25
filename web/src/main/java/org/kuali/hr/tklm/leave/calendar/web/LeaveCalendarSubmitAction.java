@@ -32,6 +32,7 @@ import org.apache.struts.action.ActionRedirect;
 import org.joda.time.Interval;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
@@ -82,14 +83,14 @@ public class LeaveCalendarSubmitAction extends TkAction {
             		for(LeaveBlock lb : entry.getValue()) {
             			if(interval.contains(lb.getLeaveDate().getTime())) {
 	            			//maxBalanceViolations should, if a violation exists, return a leave block with leave date either current date, or the end period date - 1 days.
-                    		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), lb.getLeaveLocalDate());
-	        				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+                    		PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), lb.getLeaveLocalDate());
+	        				AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
 	
 	            			if(ObjectUtils.isNotNull(aRule)
 	            					&& !StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) {
 	            				if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)
 	            						|| (StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)
-	            								&& TkServiceLocator.getLeavePlanService().isLastCalendarPeriodOfLeavePlan(document.getCalendarEntry(),pha.getLeavePlan(),lb.getLeaveLocalDate())))
+	            								&& HrServiceLocator.getLeavePlanService().isLastCalendarPeriodOfLeavePlan(document.getCalendarEntry(),pha.getLeavePlan(),lb.getLeaveLocalDate())))
 			            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.PAYOUT)) {
 			            				eligiblePayouts.add(lb);
 			            			}

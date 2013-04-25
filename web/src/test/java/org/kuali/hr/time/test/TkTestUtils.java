@@ -37,6 +37,7 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.job.Job;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.flsa.FlsaDay;
 import org.kuali.hr.tklm.time.flsa.FlsaWeek;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
@@ -68,7 +69,7 @@ public class TkTestUtils {
 	public static TimesheetDocument populateBlankTimesheetDocument(DateTime calDate) {
 		try {
 			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getTargetPrincipalId(),
-							TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getTargetPrincipalId(),
+							HrServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getTargetPrincipalId(),
                                     calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
@@ -83,7 +84,7 @@ public class TkTestUtils {
 	public static TimesheetDocument populateTimesheetDocument(DateTime calDate) {
 		try {
 			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getTargetPrincipalId(),
-							TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getTargetPrincipalId(),
+							HrServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getTargetPrincipalId(),
 									calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
@@ -91,7 +92,7 @@ public class TkTestUtils {
 
 			//refetch clean document
 			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getTargetPrincipalId(),
-					TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getTargetPrincipalId(),
+					HrServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getTargetPrincipalId(),
 							new DateTime(calDate)));
 			List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 			for(int i = 0;i<5;i++){
@@ -202,7 +203,7 @@ public class TkTestUtils {
 	}
 
 	public static List<Job> getJobs(LocalDate calDate){
-		return TkServiceLocator.getJobService().getJobs(TKContext.getPrincipalId(), calDate);
+		return HrServiceLocator.getJobService().getJobs(TKContext.getPrincipalId(), calDate);
 	}
 	/**
 	 *

@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;
@@ -34,7 +35,7 @@ public class MissedPunchApprovalJob implements Job {
 
 		String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
 
-		CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
+		CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
 
 		DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
 		DateTime endDate = calendarEntry.getEndPeriodFullDateTime();

@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -31,13 +31,13 @@ public class LeavePlanInquirableImpl extends KualiInquirableImpl {
 		
 		LeavePlan lp = null;
 		if(StringUtils.isNotBlank((String)fieldValues.get("lmLeavePlanId"))) {
-			lp = TkServiceLocator.getLeavePlanService().getLeavePlan((String)fieldValues.get("lmLeavePlanId"));
+			lp = HrServiceLocator.getLeavePlanService().getLeavePlan((String)fieldValues.get("lmLeavePlanId"));
 			
 		} else if(StringUtils.isNotBlank((String)fieldValues.get("leavePlan"))
 					&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
 			String leavePlan = (String)fieldValues.get("leavePlan");
 			LocalDate effectiveDate = TKUtils.formatDateString((String)fieldValues.get("effectiveDate"));
-			lp = TkServiceLocator.getLeavePlanService().getLeavePlan(leavePlan, effectiveDate);
+			lp = HrServiceLocator.getLeavePlanService().getLeavePlan(leavePlan, effectiveDate);
 		} else {
 			lp = (LeavePlan) super.getBusinessObject(fieldValues);
 		}

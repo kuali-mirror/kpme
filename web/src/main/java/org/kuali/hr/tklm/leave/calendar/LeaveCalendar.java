@@ -29,6 +29,7 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.calendar.CalendarParent;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TkConstants;
@@ -129,7 +130,7 @@ public class LeaveCalendar extends CalendarParent {
         }
 
         boolean isPlanningCal = TkServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
-        Map<String, String> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForDisplay(principalId, isPlanningCal);
+        Map<String, String> earnCodes = HrServiceLocator.getEarnCodeService().getEarnCodesForDisplay(principalId, isPlanningCal);
         setEarnCodeList(earnCodes);
     }
 

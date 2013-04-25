@@ -16,12 +16,13 @@
 package org.kuali.hr.tklm.leave.donation.validation;
 
 import java.math.BigDecimal;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.earncode.EarnCode;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.donation.LeaveDonation;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -83,7 +84,7 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 	boolean validateEarnCode(String principalAC, String formEarnCode, String forPerson, LocalDate asOfDate) {
 		boolean valid = true;
 
-		EarnCode testEarnCode = TkServiceLocator.getEarnCodeService().getEarnCode(formEarnCode, asOfDate);
+		EarnCode testEarnCode = HrServiceLocator.getEarnCodeService().getEarnCode(formEarnCode, asOfDate);
 //		LeaveCode testLeaveCode = TkServiceLocator.getLeaveCodeService().getLeaveCode(formEarnCode, asOfDate);
 		String formEarnCodeAC = "NullAccrualCategoryPlaceholder";
 		if (testEarnCode != null && testEarnCode.getAccrualCategory() != null) {
@@ -101,7 +102,7 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 	private boolean validateFraction(String earnCode, BigDecimal amount, LocalDate asOfDate, String fieldName) {
 		boolean valid = true;
 		if (!ValidationUtils.validateEarnCodeFraction(earnCode, amount, asOfDate)) {
-			EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+			EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
 			if(ec != null && ec.getFractionalTimeAllowed() != null) {
 				BigDecimal fracAllowed = new BigDecimal(ec.getFractionalTimeAllowed());
 				String[] parameters = new String[2];

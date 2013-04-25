@@ -23,8 +23,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.core.earncode.security.EarnCodeSecurity;
 import org.kuali.hr.core.earncode.security.service.EarnCodeSecurityService;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 
 public class EarnCodeSecurityServiceImplTest extends KPMETestCase {
 
@@ -39,7 +39,7 @@ public class EarnCodeSecurityServiceImplTest extends KPMETestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		earnCodeSecurityService=TkServiceLocator.getEarnCodeSecurityService();
+		earnCodeSecurityService=HrServiceLocator.getEarnCodeSecurityService();
 	}
 	
 	@Test

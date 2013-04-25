@@ -19,8 +19,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -36,12 +36,12 @@ public class WorkAreaInquirableImpl extends KualiInquirableImpl {
         WorkArea workAreaObj = null;
         
         if (StringUtils.isNotBlank((String) fieldValues.get("tkWorkAreaId"))) {
-            workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea((String) fieldValues.get("tkWorkAreaId"));
+            workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea((String) fieldValues.get("tkWorkAreaId"));
         } else if (fieldValues.containsKey("workArea") && fieldValues.containsKey("effectiveDate")) {
             String workAreaVal = (String) fieldValues.get("workArea");
             Long workArea = workAreaVal != null ? Long.valueOf(workAreaVal) : null;
             LocalDate effectiveDate = TKUtils.formatDateString((String) fieldValues.get("effectiveDate"));
-            workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, effectiveDate);
+            workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, effectiveDate);
         } else {
 	    	 workAreaObj = (WorkArea) super.getBusinessObject(fieldValues);
         }

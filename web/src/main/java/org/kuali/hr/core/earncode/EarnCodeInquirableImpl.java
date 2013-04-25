@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -30,13 +30,13 @@ public class EarnCodeInquirableImpl extends KualiInquirableImpl {
 	public BusinessObject getBusinessObject(Map fieldValues) {
 		EarnCode ec = null;
 		if(StringUtils.isNotBlank((String)fieldValues.get("hrEarnCodeId"))) {
-			ec = TkServiceLocator.getEarnCodeService().getEarnCodeById((String)fieldValues.get("hrEarnCodeId"));
+			ec = HrServiceLocator.getEarnCodeService().getEarnCodeById((String)fieldValues.get("hrEarnCodeId"));
 			
 		} else if(StringUtils.isNotBlank((String)fieldValues.get("earnCode"))
 					&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
 			String earnCode = (String)fieldValues.get("earnCode");
 			LocalDate effectiveDate = TKUtils.formatDateString(fieldValues.get("effectiveDate").toString());
-			ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, effectiveDate);
+			ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, effectiveDate);
 		} else {
 			ec = (EarnCode) super.getBusinessObject(fieldValues);
 		}

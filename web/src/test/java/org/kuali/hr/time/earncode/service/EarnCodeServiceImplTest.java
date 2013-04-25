@@ -26,17 +26,17 @@ import org.junit.Test;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.earncode.service.EarnCodeService;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSelect;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class EarnCodeServiceImplTest extends KPMETestCase {
 
@@ -56,13 +56,13 @@ public class EarnCodeServiceImplTest extends KPMETestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		earnCodeService=TkServiceLocator.getEarnCodeService();
+		earnCodeService=HrServiceLocator.getEarnCodeService();
 	}
 
 	@Test
 	public void getEarnCodes() throws Exception {
         LocalDate asOfDate = LocalDate.now();
-		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TEST_USER, asOfDate);
+		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(TEST_USER, asOfDate);
 		Assert.assertNotNull(assignments);
 		Assert.assertTrue("Emtpy assignment list", !assignments.isEmpty());
 

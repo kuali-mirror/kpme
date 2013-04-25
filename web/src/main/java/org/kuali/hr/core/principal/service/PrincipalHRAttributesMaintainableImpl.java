@@ -15,17 +15,17 @@
  */
 package org.kuali.hr.core.principal.service;
 
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-
-import java.util.Map;
 
 public class PrincipalHRAttributesMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	private static final long serialVersionUID = 1L;
@@ -56,7 +56,7 @@ public class PrincipalHRAttributesMaintainableImpl extends HrBusinessObjectMaint
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes(id);
+		return HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes(id);
 	}
 	
 	

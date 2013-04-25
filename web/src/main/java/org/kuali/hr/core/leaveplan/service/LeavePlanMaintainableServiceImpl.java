@@ -17,7 +17,7 @@ package org.kuali.hr.core.leaveplan.service;
 
 import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 
 public class LeavePlanMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -28,6 +28,6 @@ public class LeavePlanMaintainableServiceImpl extends HrBusinessObjectMaintainab
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return TkServiceLocator.getLeavePlanService().getLeavePlan(id);
+		return HrServiceLocator.getLeavePlanService().getLeavePlan(id);
 	}
 }

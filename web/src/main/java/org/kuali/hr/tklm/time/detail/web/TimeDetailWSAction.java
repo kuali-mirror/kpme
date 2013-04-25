@@ -37,6 +37,7 @@ import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.job.Job;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
@@ -73,7 +74,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         JSONArray errorMsgList = new JSONArray();
         List<String> errors;
         
-    	EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument().getAsOfDate());
+    	EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument().getAsOfDate());
     	if(ec != null 
     			&& (ec.getLeavePlan() != null || ec.getEligibleForAccrual().equals("N"))) {	// leave blocks changes
     		errors = this.validateLeaveEntry(tdaf);
@@ -119,7 +120,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         String principalId = (String) request.getAttribute("principalId");
         Long jobNumber = (Long) request.getAttribute("jobNumber");
 
-        Job job = TkServiceLocator.getJobService().getJob(principalId, jobNumber, LocalDate.now());
+        Job job = HrServiceLocator.getJobService().getJob(principalId, jobNumber, LocalDate.now());
         kualiForm.setAnnotation(job.getDept());
 
         return mapping.findForward("ws");
@@ -136,7 +137,7 @@ public class TimeDetailWSAction extends TimesheetAction {
                 if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
                         assignment.getWorkArea().compareTo(key.getWorkArea()) == 0 &&
                         assignment.getTask().compareTo(key.getTask()) == 0) {
-                    List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, tdaf.getTimesheetDocument().getAsOfDate());
+                    List<EarnCode> earnCodes = HrServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, tdaf.getTimesheetDocument().getAsOfDate());
                     for (EarnCode earnCode : earnCodes) {
                         Map<String, Object> earnCodeMap = new HashMap<String, Object>();
                         earnCodeMap.put("assignment", assignment.getAssignmentKey());
@@ -162,7 +163,7 @@ public class TimeDetailWSAction extends TimesheetAction {
 
     public ActionForward getOvertimeEarnCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailWSActionForm tdaf = (TimeDetailWSActionForm) form;
-        List<EarnCode> overtimeEarnCodes = TkServiceLocator.getEarnCodeService().getOvertimeEarnCodes(LocalDate.now());
+        List<EarnCode> overtimeEarnCodes = HrServiceLocator.getEarnCodeService().getOvertimeEarnCodes(LocalDate.now());
         List<Map<String, Object>> overtimeEarnCodeList = new LinkedList<Map<String, Object>>();
 
         for (EarnCode earnCode : overtimeEarnCodes) {

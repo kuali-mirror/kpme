@@ -31,6 +31,7 @@ import org.kuali.hr.core.assignment.AssignmentAccount;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.paytype.PayType;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.task.Task;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
@@ -53,7 +54,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 						+ assignment.getWorkArea() + "'");
 				valid = false;
 			} else {
-				int count = TkServiceLocator.getWorkAreaService().getWorkAreaCount(assignment.getDept(), assignment.getWorkArea());
+				int count = HrServiceLocator.getWorkAreaService().getWorkAreaCount(assignment.getDept(), assignment.getWorkArea());
 				valid = (count > 0);
 				if (!valid) {
 					this.putFieldError("workArea", "dept.workarea.invalid.sync");
@@ -67,7 +68,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		boolean valid = true;
 		//task by default is zero so if non zero validate against existing taskss
 		if (assignment.getTask() != null && !assignment.getTask().equals(0L)) {
-			Task task = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveLocalDate());
+			Task task = HrServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveLocalDate());
 			if(task != null) {
 				if(task.getWorkArea() == null || !task.getWorkArea().equals(assignment.getWorkArea())) {
 					this.putFieldError("task", "task.workarea.invalid.sync");
@@ -81,7 +82,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	protected boolean validateDepartment(Assignment assignment) {
 		boolean valid = true;
 		if (assignment.getDept() != null) {
-				int count = TkServiceLocator.getJobService().getJobCount(null, assignment.getJobNumber(), assignment.getDept());
+				int count = HrServiceLocator.getJobService().getJobCount(null, assignment.getJobNumber(), assignment.getDept());
 				valid = (count > 0);
 				if (!valid) {
 					this.putFieldError("dept", "dept.jobnumber.invalid.sync");
@@ -94,7 +95,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	protected boolean validateJob(Assignment assignment) {
 		boolean valid = false;
 		LOG.debug("Validating job: " + assignment.getPrincipalId() +" Job number: "+assignment.getJobNumber());
-		Job job = TkServiceLocator.getJobService().getJob(
+		Job job = HrServiceLocator.getJobService().getJob(
 				assignment.getPrincipalId(), assignment.getJobNumber(),
 				assignment.getEffectiveLocalDate(), false);
 		// Job job =
@@ -158,7 +159,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	protected boolean validateEarnCode(AssignmentAccount assignmentAccount) {
 		boolean valid = false;
 		LOG.debug("Validating EarnCode: " + assignmentAccount.getEarnCode());
-		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(
+		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(
 				assignmentAccount.getEarnCode(), LocalDate.now());
 		if (earnCode != null) {
 
@@ -177,9 +178,9 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		LOG.debug("Validating Regular pay EarnCodes: " + assignment.getAssignmentAccounts().size());
 		for(AssignmentAccount assignmentAccount : assignment.getAssignmentAccounts()){
 			if(assignment.getJobNumber()!=null && assignment.getPrincipalId()!=null){
-				Job job = TkServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveLocalDate(), false);
+				Job job = HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveLocalDate(), false);
 				if(job !=null){
-					PayType payType = TkServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), assignment.getEffectiveLocalDate());
+					PayType payType = HrServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), assignment.getEffectiveLocalDate());
 					if(StringUtils.equals(assignmentAccount.getEarnCode(), payType.getRegEarnCode())){
 						valid = true;
 						break;

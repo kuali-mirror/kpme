@@ -23,8 +23,8 @@ import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.core.position.Position;
 import org.kuali.hr.core.role.KPMERoleMemberAttribute;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -41,13 +41,13 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 
     @Override
     public HrBusinessObject getObjectById(String id) {
-        return TkServiceLocator.getPositionService().getPosition(id);
+        return HrServiceLocator.getPositionService().getPosition(id);
     }
 
     @Override
     public void saveBusinessObject() {
         Position position = (Position) this.getBusinessObject();
-        //String nextUniqueNumber = TkServiceLocator.getPositionService().getNextUniquePositionNumber();
+        //String nextUniqueNumber = HrServiceLocator.getPositionService().getNextUniquePositionNumber();
         //position.setPositionNumber(nextUniqueNumber);
 
         KRADServiceLocator.getBusinessObjectService().save(position);
@@ -74,7 +74,7 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
             	Map<String, String> attributes = roleMember.getAttributes();
             	if (attributes.containsKey(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName())) {
     				Long workArea = Long.valueOf(attributes.get(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName()));
-    				WorkArea workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, roleMember.getActiveFromDate().toLocalDate());
+    				WorkArea workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, roleMember.getActiveFromDate().toLocalDate());
     			
     				if (workAreaObj == null) {
             			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 

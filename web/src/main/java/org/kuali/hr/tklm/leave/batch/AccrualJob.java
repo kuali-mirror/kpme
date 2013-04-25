@@ -15,6 +15,8 @@
  */
 package org.kuali.hr.tklm.leave.batch;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -33,8 +35,6 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-
-import java.util.List;
 
 public class AccrualJob implements Job {
 

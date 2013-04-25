@@ -21,6 +21,7 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
@@ -31,7 +32,7 @@ public class LeaveCalendarServiceTest extends KPMETestCase {
 	
 	@Test
 	public void testOpenLeaveCalendarDocument() throws WorkflowException {
-		CalendarEntry calEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
+		CalendarEntry calEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
 		DateTime beginDate = calEntry.getBeginPeriodFullDateTime();
 		DateTime endDate = calEntry.getEndPeriodFullDateTime();
 		
@@ -51,7 +52,7 @@ public class LeaveCalendarServiceTest extends KPMETestCase {
 	@Test
 	public void testShouldCreateLeaveDocument(){
 		// no jobs found for assignment of testUser1 with flsa_status = exempt and leave_eligible = yes
-		CalendarEntry calEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry("5001");
+		CalendarEntry calEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("5001");
 		boolean flag = TkServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument("testUser1", calEntry);
 		Assert.assertFalse("Should NOT create leave document for 'testUser1'", flag);
 		

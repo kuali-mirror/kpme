@@ -37,6 +37,7 @@ import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.time.base.web.TkAction;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
@@ -70,10 +71,10 @@ public class PersonInfoAction extends TkAction {
             // set name
             personForm.setName(name.getDefaultName() != null ? name.getDefaultName().getCompositeName() : StringUtils.EMPTY);
         }
-		personForm.setJobs(TkServiceLocator.getJobService().getJobs(TKContext.getTargetPrincipalId(), LocalDate.now()));
+		personForm.setJobs(HrServiceLocator.getJobService().getJobs(TKContext.getTargetPrincipalId(), LocalDate.now()));
 		
 		//KPME-1441
-		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(personForm.getPrincipalId(), LocalDate.now());
+		PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(personForm.getPrincipalId(), LocalDate.now());
 		if ( principalHRAttributes != null && principalHRAttributes.getServiceDate() != null ){
 			personForm.setServiceDate(principalHRAttributes.getServiceDate().toString());
 		} else {
@@ -87,10 +88,10 @@ public class PersonInfoAction extends TkAction {
 		    Map<String, String> accrualEarnIntervals = new HashMap<String, String>();
 		    Map<String, String> unitOfTime = new HashMap<String, String>();
 			
-			List<AccrualCategory> allAccrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalHRAttributes.getLeavePlan(), LocalDate.now());
+			List<AccrualCategory> allAccrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalHRAttributes.getLeavePlan(), LocalDate.now());
 		    for (AccrualCategory accrualCategory : allAccrualCategories) {
 				if (StringUtils.equalsIgnoreCase(accrualCategory.getHasRules(), "Y")) {
-					AccrualCategoryRule accrualCategoryRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, LocalDate.now(), principalHRAttributes.getServiceLocalDate());
+					AccrualCategoryRule accrualCategoryRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, LocalDate.now(), principalHRAttributes.getServiceLocalDate());
 					if (accrualCategoryRule != null) {
 						accrualCategories.add(accrualCategory);
 						
@@ -120,7 +121,7 @@ public class PersonInfoAction extends TkAction {
 		
 		setupRolesOnForm(personForm);
 
-		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), LocalDate.now());
+		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), LocalDate.now());
 		
 		Map<Long,List<Assignment>> jobNumberToListAssignments = new HashMap<Long,List<Assignment>>();
 		Map<Long,List<Person>> workAreaToApproverPerson = new HashMap<Long, List<Person>>();

@@ -15,12 +15,17 @@
  */
 package org.kuali.hr.tklm.time.calendar;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.joda.time.DateTime;
 import org.kuali.hr.core.calendar.CalendarDay;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.calendar.CalendarParent;
 import org.kuali.hr.core.calendar.CalendarWeek;
 import org.kuali.hr.core.earncode.EarnCode;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.LeaveBlockRenderer;
 import org.kuali.hr.tklm.leave.util.LeaveBlockAggregate;
@@ -30,10 +35,6 @@ import org.kuali.hr.tklm.time.timeblock.TimeBlockRenderer;
 import org.kuali.hr.tklm.time.timehourdetail.TimeHourDetailRenderer;
 import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.hr.tklm.time.util.TkTimeBlockAggregate;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class TkCalendar extends CalendarParent {
     private CalendarEntry payCalEntry;
@@ -156,7 +157,7 @@ public class TkCalendar extends CalendarParent {
         for (TimeBlockRenderer tbr : day.getBlockRenderers()) {
             for (TimeHourDetailRenderer thdr : tbr.getDetailRenderers()) {
                 if (thdr.getTitle().equals(TkConstants.LUNCH_EARN_CODE)) {
-                    ec = TkServiceLocator.getEarnCodeService().getEarnCode(thdr.getTitle(), tbr.getTimeBlock().getBeginDateTime().toLocalDate());
+                    ec = HrServiceLocator.getEarnCodeService().getEarnCode(thdr.getTitle(), tbr.getTimeBlock().getBeginDateTime().toLocalDate());
                     if (ec != null) {
                         label = ec.getDescription() + " : " + thdr.getHours() + " hours";
                         id = thdr.getTkTimeHourDetailId();

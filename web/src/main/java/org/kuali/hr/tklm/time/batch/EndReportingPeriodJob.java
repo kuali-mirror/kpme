@@ -19,6 +19,7 @@ import java.text.DateFormat;
 
 import org.joda.time.DateTime;
 import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
@@ -33,7 +34,7 @@ public class EndReportingPeriodJob implements Job {
 		String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
 		String principalId = jobDataMap.getString("principalId");
 		
-		CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
+		CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
 		DateTime endPeriodDateTime = new DateTime(calendarEntry.getEndPeriodDateTime());
 		
 		String subject = "End of Reporting Period Reminder";

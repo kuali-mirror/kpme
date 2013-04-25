@@ -26,6 +26,7 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
@@ -45,7 +46,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 		if(lastClockLog != null){
 			clockEntryInfo.setLastClockLogDescription(getLastClockLogDescription(principalId));
 		}
-		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
+		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
 		for(Assignment assignment : assignments){
 			if(assignment.isSynchronous()){
@@ -67,8 +68,8 @@ public class TkMobileServiceImpl implements TkMobileService {
         // This is primary for getting the assignment, since we get the assignment by using the target principal id on the context
         TKContext.setTargetPrincipalId(principalId);
 
-		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(new AssignmentDescriptionKey(assignmentKey), LocalDate.now());
-        CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, new LocalDate().toDateTimeAtStartOfDay());
+		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(new AssignmentDescriptionKey(assignmentKey), LocalDate.now());
+        CalendarEntry calendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, new LocalDate().toDateTimeAtStartOfDay());
         TimesheetDocument td;
 		try {
 			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, calendarEntry);

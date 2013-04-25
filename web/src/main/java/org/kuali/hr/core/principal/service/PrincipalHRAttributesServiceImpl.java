@@ -15,12 +15,12 @@
  */
 package org.kuali.hr.core.principal.service;
 
+import java.util.List;
+
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.principal.dao.PrincipalHRAttributesDao;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-
-import java.util.List;
+import org.kuali.hr.core.service.HrServiceLocator;
 
 public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesService {
 	private PrincipalHRAttributesDao principalHRAttributesDao;
@@ -32,8 +32,8 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
 	public PrincipalHRAttributes getPrincipalCalendar(String principalId, LocalDate asOfDate){
 		PrincipalHRAttributes pc =  this.principalHRAttributesDao.getPrincipalCalendar(principalId, asOfDate);
 		if(pc != null) {
-			pc.setCalendar(TkServiceLocator.getCalendarService().getCalendarByGroup(pc.getPayCalendar()));
-			pc.setLeaveCalObj(TkServiceLocator.getCalendarService().getCalendarByGroup(pc.getLeaveCalendar()));
+			pc.setCalendar(HrServiceLocator.getCalendarService().getCalendarByGroup(pc.getPayCalendar()));
+			pc.setLeaveCalObj(HrServiceLocator.getCalendarService().getCalendarByGroup(pc.getLeaveCalendar()));
 		}
 		return pc;
 	}

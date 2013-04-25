@@ -24,6 +24,7 @@ import org.joda.time.DateTime;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
@@ -53,7 +54,7 @@ public class LeaveRequestWorkflowAttribute extends AbstractRoleAttribute {
         if (leaveRequestDocument != null) {
             LeaveBlock leaveBlock = leaveRequestDocument.getLeaveBlock();
             CalendarEntry ce = getCalendarEntry(leaveBlock);
-            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(leaveBlock.getPrincipalId(), ce);
+            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(leaveBlock.getPrincipalId(), ce);
             for (Assignment assignment : assignments) {
                 String roleStr = roleName + "_" + assignment.getWorkArea();
                 if (!roles.contains(roleStr)) {
@@ -88,7 +89,7 @@ public class LeaveRequestWorkflowAttribute extends AbstractRoleAttribute {
         String routeHeaderId = routeContext.getDocument().getDocumentId();
         LeaveRequestDocument leaveRequestDocument = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(routeHeaderId);
         LeaveBlock leaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveRequestDocument.getLmLeaveBlockId());
-        WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leaveBlock.getLeaveLocalDate());
+        WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leaveBlock.getLeaveLocalDate());
 
         List<RoleMember> roleMembers = new ArrayList<RoleMember>();
         
@@ -117,6 +118,6 @@ public class LeaveRequestWorkflowAttribute extends AbstractRoleAttribute {
     }
 
     private CalendarEntry getCalendarEntry(LeaveBlock leaveBlock) {
-        return TkServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
+        return HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
     }
 }

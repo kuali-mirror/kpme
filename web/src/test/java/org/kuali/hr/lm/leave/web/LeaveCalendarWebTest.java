@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
@@ -39,14 +40,14 @@ public class LeaveCalendarWebTest extends KPMETestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		
-		CalendarEntry firstCalendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry("202");
+		CalendarEntry firstCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("202");
         LeaveCalendarDocument firstLeaveCalendarDocument = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", firstCalendarEntry);
         documentId = firstLeaveCalendarDocument.getDocumentId();
         
-        CalendarEntry secondCalendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry("203");
+        CalendarEntry secondCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("203");
         TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", secondCalendarEntry);
         
-        CalendarEntry thirdCalendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry("204");
+        CalendarEntry thirdCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("204");
         TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", thirdCalendarEntry);
 	}
 

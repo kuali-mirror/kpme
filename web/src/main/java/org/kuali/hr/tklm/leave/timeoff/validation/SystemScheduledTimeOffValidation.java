@@ -16,12 +16,13 @@
 package org.kuali.hr.tklm.leave.timeoff.validation;
 
 import java.math.BigDecimal;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.earncode.EarnCode;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -108,7 +109,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
     private boolean validateFraction(String earnCode, BigDecimal amount, LocalDate asOfDate, String fieldName) {
         boolean valid = true;
         if (!ValidationUtils.validateEarnCodeFraction(earnCode, amount, asOfDate)) {
-            EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+            EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
             if(ec != null && ec.getFractionalTimeAllowed() != null) {
                 BigDecimal fracAllowed = new BigDecimal(ec.getFractionalTimeAllowed());
                 String[] parameters = new String[2];

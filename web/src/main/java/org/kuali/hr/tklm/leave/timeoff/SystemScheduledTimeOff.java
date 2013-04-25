@@ -26,7 +26,7 @@ import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.leaveplan.LeavePlan;
 import org.kuali.hr.core.location.Location;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 
 public class SystemScheduledTimeOff extends HrBusinessObject {
 
@@ -68,7 +68,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 		}
 		if (this.earnCodeObj == null && 
 				(!StringUtils.isEmpty(this.earnCode) && getEffectiveDate() != null)) {		
-			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveLocalDate());
+			earnCodeObj =  HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveLocalDate());
 		}
 		leavePlan = (earnCodeObj != null) ? earnCodeObj.getLeavePlan() : "";
 		return leavePlan;
@@ -84,7 +84,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
         }
 		if (this.earnCodeObj == null &&
 				(!StringUtils.isEmpty(this.earnCode) && getEffectiveDate() != null)) {
-			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveLocalDate());
+			earnCodeObj =  HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveLocalDate());
 		}
 		accrualCategory = (earnCodeObj != null) ? earnCodeObj.getAccrualCategory() : "";
 		return accrualCategory;

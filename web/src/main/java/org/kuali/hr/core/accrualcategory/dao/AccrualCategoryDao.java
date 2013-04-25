@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.core.accrualcategory.dao;
 
+import java.util.List;
+
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
-
-import java.util.List;
 
 public interface AccrualCategoryDao {
 

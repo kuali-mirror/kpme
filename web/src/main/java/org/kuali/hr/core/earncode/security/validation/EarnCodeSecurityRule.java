@@ -24,6 +24,7 @@ import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.department.Department;
 import org.kuali.hr.core.earncode.security.EarnCodeSecurity;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.util.TKContext;
@@ -89,7 +90,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		
 		String principalId = GlobalVariables.getUserSession().getPrincipalId();
 		String department = departmentEarnCode.getDept();
-		Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
+		Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 		String location = departmentObj != null ? departmentObj.getLocation() : null;
 		
 		if (!TKContext.isSystemAdmin() 

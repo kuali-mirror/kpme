@@ -15,12 +15,12 @@
  */
 package org.kuali.hr.core.calendar;
 
-import org.joda.time.DateTime;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.joda.time.DateTime;
+import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 
 public abstract class CalendarParent implements Serializable {
     private List<CalendarWeek> weeks = new ArrayList<CalendarWeek>();

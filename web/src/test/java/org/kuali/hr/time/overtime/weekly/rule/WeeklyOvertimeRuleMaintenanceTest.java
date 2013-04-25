@@ -53,7 +53,7 @@ public class WeeklyOvertimeRuleMaintenanceTest extends KPMETestCase {
 		setFieldValue(newMaintPage, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.step", "1");
 		setFieldValue(newMaintPage, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.maxHours", "8");
 //		HtmlPage finalPage = HtmlUnitUtil.clickInputContainingText(newMaintPage, "add");
-		HtmlElement element = (HtmlElement)newMaintPage.getElementById("methodToCall.addLine.lstWeeklyOvertimeRules.(!!org.kuali.hr.tklm.time.overtime.weekly.rule.WeeklyOvertimeRule!!)");
+		HtmlElement element = (HtmlElement)newMaintPage.getElementById("methodToCall.addLine.lstWeeklyOvertimeRules.(!!org.kuali.hr.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule!!)");
         HtmlPage finalPage = element.click();
 		Assert.assertTrue("Maintenance Page should contains EarnCodeGroup has overtime earn code error",
 				finalPage.asText().contains("Earn Group 'OVT' has overtime earn codes."));

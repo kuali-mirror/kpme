@@ -6,8 +6,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
 import org.kuali.hr.core.department.Department;
 import org.kuali.hr.core.role.KPMERoleMemberAttribute;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.rules.lunch.department.DeptLunchRule;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 
 @SuppressWarnings("deprecation")
 public class DepartmentLunchRuleAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
@@ -26,7 +26,7 @@ public class DepartmentLunchRuleAuthorizer extends KPMEMaintenanceDocumentAuthor
 			if (departmentLunchRuleObj != null) {
 				department = departmentLunchRuleObj.getDept();
 				
-				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, departmentLunchRuleObj.getEffectiveLocalDate());
+				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, departmentLunchRuleObj.getEffectiveLocalDate());
 			
 				if (departmentObj != null) {
 					location = departmentObj.getLocation();

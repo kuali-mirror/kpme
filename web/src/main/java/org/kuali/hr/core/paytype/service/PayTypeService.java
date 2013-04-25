@@ -15,12 +15,12 @@
  */
 package org.kuali.hr.core.paytype.service;
 
+import java.util.List;
+
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.paytype.PayType;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-
-import java.util.List;
 
 public interface PayTypeService {
 	/**

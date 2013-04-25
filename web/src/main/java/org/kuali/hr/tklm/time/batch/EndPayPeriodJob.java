@@ -23,6 +23,7 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
@@ -49,8 +50,8 @@ public class EndPayPeriodJob implements Job {
 			String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
 			String tkClockLogId = jobDataMap.getString("tkClockLogId");
 			
-	        CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
-	        Calendar calendar = TkServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+	        CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
+	        Calendar calendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
 	        calendarEntry.setCalendarObj(calendar);
 	        
 	        DateTime beginPeriodDateTime = calendarEntry.getBeginPeriodFullDateTime();
@@ -63,7 +64,7 @@ public class EndPayPeriodJob implements Job {
 	        if (timesheetDocumentHeader != null) {
 	            TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
 	            String assignmentKey = new AssignmentDescriptionKey(openClockLog.getJobNumber(), openClockLog.getWorkArea(), openClockLog.getTask()).toAssignmentKeyString();
-	            Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(timesheetDocument, assignmentKey);
+	            Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(timesheetDocument, assignmentKey);
 	    		
 	            TkServiceLocator.getClockLogService().processClockLog(new Timestamp(endPeriodDateTime.toDate().getTime()), assignment, calendarEntry, ipAddress, 
 	            		endPeriodDateTime.toLocalDate(), timesheetDocument, TkConstants.CLOCK_OUT, principalId, batchUserPrincipalId);

@@ -29,6 +29,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKContext;
@@ -438,7 +439,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 
     public String getAssignmentDescription() {
         AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber().toString(), this.getWorkArea().toString(), this.getTask().toString());
-        Assignment anAssignment = TkServiceLocator.getAssignmentService().getAssignment(adk, this.getBeginDateTime().toLocalDate());
+        Assignment anAssignment = HrServiceLocator.getAssignmentService().getAssignment(adk, this.getBeginDateTime().toLocalDate());
         return anAssignment == null ? this.getAssignmentKey() : anAssignment.getAssignmentDescription();
     }
 

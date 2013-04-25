@@ -20,11 +20,11 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.time.authorization.AuthorizationValidationUtils;
 import org.kuali.hr.tklm.time.authorization.DepartmentalRule;
 import org.kuali.hr.tklm.time.authorization.TkAuthorizedLookupableHelperBase;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -84,7 +84,7 @@ public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 			workArea = "";
 		}
 		
-		return TkServiceLocator.getWorkAreaService().getWorkAreas(dept, workArea, description, TKUtils.formatDateString(fromEffdt), 
+		return HrServiceLocator.getWorkAreaService().getWorkAreas(dept, workArea, description, TKUtils.formatDateString(fromEffdt), 
 				TKUtils.formatDateString(toEffdt), active, showHist);
 	}
 

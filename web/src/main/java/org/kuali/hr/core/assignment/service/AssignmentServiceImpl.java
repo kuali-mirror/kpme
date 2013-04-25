@@ -32,6 +32,7 @@ import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.assignment.dao.AssignmentDao;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.job.Job;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
@@ -130,8 +131,8 @@ public class AssignmentServiceImpl implements AssignmentService {
                 || payCalendarEntry == null) {
             return Collections.emptyList();
         }
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalendarEntry);
-    	List<Assignment> results = TkServiceLocator.getAssignmentService().filterAssignments(assignments, TkConstants.FLSA_STATUS_NON_EXEMPT, false);
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalendarEntry);
+    	List<Assignment> results = HrServiceLocator.getAssignmentService().filterAssignments(assignments, TkConstants.FLSA_STATUS_NON_EXEMPT, false);
     	return results;
     }
     
@@ -140,8 +141,8 @@ public class AssignmentServiceImpl implements AssignmentService {
                 || payCalendarEntry == null) {
             return Collections.emptyList();
         }
-    	List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalendarEntry);
-    	List<Assignment> results = TkServiceLocator.getAssignmentService().filterAssignments(assignments, null, true);
+    	List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalendarEntry);
+    	List<Assignment> results = HrServiceLocator.getAssignmentService().filterAssignments(assignments, null, true);
     	return results;
     }
 
@@ -265,9 +266,9 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     private void populateAssignment(Assignment assignment, LocalDate asOfDate) {
-        assignment.setJob(TkServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate));
+        assignment.setJob(HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate));
         assignment.setTimeCollectionRule(TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(),asOfDate));
-        assignment.setWorkAreaObj(TkServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), asOfDate));
+        assignment.setWorkAreaObj(HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), asOfDate));
         assignment.setDeptLunchRule(TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(assignment.getJob().getDept(),
                 assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate));
     }
@@ -310,7 +311,7 @@ public class AssignmentServiceImpl implements AssignmentService {
             throw new RuntimeException("leave document is null.");
         }
         List<Assignment> assignments = lcd.getAssignments();
-        return TkServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments);
+        return HrServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments);
     }
     
     public Map<String, String> getAssignmentDescriptionsForAssignments(List<Assignment>  assignments) {
@@ -355,7 +356,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
     
 	public Assignment getAssignmentToApplyScheduledTimeOff(TimesheetDocument timesheetDocument, LocalDate payEndDate) {
-		Job primaryJob = TkServiceLocator.getJobService().getPrimaryJob(timesheetDocument.getPrincipalId(), payEndDate);
+		Job primaryJob = HrServiceLocator.getJobService().getPrimaryJob(timesheetDocument.getPrincipalId(), payEndDate);
 		for(Assignment assign : timesheetDocument.getAssignments()){
 			if(assign.getJobNumber().equals(primaryJob.getJobNumber())){
 				return assign;

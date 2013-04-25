@@ -15,16 +15,16 @@
  */
 package org.kuali.hr.tklm.time.timeblock;
 
-import org.apache.commons.lang.StringUtils;
-import org.joda.time.LocalDate;
-import org.kuali.hr.core.task.Task;
-import org.kuali.hr.core.workarea.WorkArea;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.timehourdetail.TimeHourDetailRenderer;
-import org.kuali.hr.tklm.time.util.TkConstants;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
+import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.core.task.Task;
+import org.kuali.hr.core.workarea.WorkArea;
+import org.kuali.hr.tklm.time.timehourdetail.TimeHourDetailRenderer;
+import org.kuali.hr.tklm.time.util.TkConstants;
 
 /**
  * Render helper to handle timeblock and time hour details display
@@ -66,9 +66,9 @@ public class TimeBlockRenderer {
     public String getTitle() {
         StringBuilder b = new StringBuilder();
 
-        WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), LocalDate.now());
+        WorkArea wa = HrServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), LocalDate.now());
         b.append(wa.getDescription());
-        Task task = TkServiceLocator.getTaskService().getTask(timeBlock.getTask(), timeBlock.getBeginDateTime().toLocalDate());
+        Task task = HrServiceLocator.getTaskService().getTask(timeBlock.getTask(), timeBlock.getBeginDateTime().toLocalDate());
         if(task != null) {
         	// do not display task description if the task is the default one
         	// default task is created in getTask() of TaskService

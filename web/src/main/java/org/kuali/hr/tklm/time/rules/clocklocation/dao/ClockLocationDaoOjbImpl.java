@@ -19,19 +19,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.kuali.hr.tklm.time.rules.clocklocation.ClockLocationRuleIpAddress;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.common.collect.ImmutableList;
 
 public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements ClockLocationDao{
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
@@ -154,7 +155,7 @@ public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
         if (StringUtils.isNotBlank(dept)) {
             Criteria workAreaCriteria = new Criteria();
             LocalDate asOfDate = toEffdt != null ? toEffdt : LocalDate.now();
-            Collection<WorkArea> workAreasForDept = TkServiceLocator.getWorkAreaService().getWorkAreas(dept,asOfDate);
+            Collection<WorkArea> workAreasForDept = HrServiceLocator.getWorkAreaService().getWorkAreas(dept,asOfDate);
             if (CollectionUtils.isNotEmpty(workAreasForDept)) {
                 List<Long> longWorkAreas = new ArrayList<Long>();
                 for(WorkArea cwa : workAreasForDept){

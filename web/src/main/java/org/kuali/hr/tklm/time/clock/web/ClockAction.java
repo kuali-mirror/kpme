@@ -40,6 +40,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
 import org.kuali.hr.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
@@ -86,7 +87,7 @@ public class ClockAction extends TimesheetAction {
         caf.setCurrentServerTime(String.valueOf(new Date().getTime()));
         caf.getUserSystemOffsetServerTime();
         caf.setShowLunchButton(TkServiceLocator.getSystemLunchRuleService().isShowLunchButton());
-        caf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(caf.getTimesheetDocument(), true));
+        caf.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptions(caf.getTimesheetDocument(), true));
         if (caf.isShowLunchButton()) {
             // We don't need to worry about the assignments and lunch rules
             // if the global lunch rule is turned off.
@@ -166,8 +167,8 @@ public class ClockAction extends TimesheetAction {
             // if the current clock action is clock out, displays only the clocked-in assignment
             String selectedAssignment = new AssignmentDescriptionKey(lastClockLog.getJobNumber(), lastClockLog.getWorkArea(), lastClockLog.getTask()).toAssignmentKeyString();
             caf.setSelectedAssignment(selectedAssignment);
-            Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(), selectedAssignment);
-            Map<String, String> assignmentDesc = TkServiceLocator.getAssignmentService().getAssignmentDescriptions(assignment);
+            Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(), selectedAssignment);
+            Map<String, String> assignmentDesc = HrServiceLocator.getAssignmentService().getAssignmentDescriptions(assignment);
             caf.setAssignmentDescriptions(assignmentDesc);
 
         }
@@ -219,9 +220,9 @@ public class ClockAction extends TimesheetAction {
             return mapping.findForward("basic");
         }
         String ip = TKUtils.getIPAddressFromRequest(request);
-        Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(), caf.getSelectedAssignment());
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(), caf.getSelectedAssignment());
         
-        List<Assignment> lstAssingmentAsOfToday = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), LocalDate.now());
+        List<Assignment> lstAssingmentAsOfToday = HrServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), LocalDate.now());
         boolean foundValidAssignment = false;
         for(Assignment assign : lstAssingmentAsOfToday){
         	if((assign.getJobNumber().compareTo(assignment.getJobNumber()) ==0) &&
@@ -298,7 +299,7 @@ public class ClockAction extends TimesheetAction {
 			Timestamp beginTS = TKUtils.convertDateStringToTimestamp(beginDates[i], beginTimes[i]);
 			Timestamp endTS = TKUtils.convertDateStringToTimestamp(endDates[i], endTimes[i]);
 			String assignString = assignments[i];
-			Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(assignString);
+			Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(assignString);
 			
 			TimesheetDocument tsDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocId);
 			

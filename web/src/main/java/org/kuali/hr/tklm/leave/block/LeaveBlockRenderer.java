@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TkConstants;
@@ -123,7 +124,7 @@ public class LeaveBlockRenderer {
         StringBuilder b = new StringBuilder();
 
         if(leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp() != null) {
-        	String earnCodeType = TkServiceLocator.getEarnCodeService().getEarnCodeType(leaveBlock.getEarnCode(), new DateTime(leaveBlock.getBeginTimestamp()).toLocalDate());
+        	String earnCodeType = HrServiceLocator.getEarnCodeService().getEarnCodeType(leaveBlock.getEarnCode(), new DateTime(leaveBlock.getBeginTimestamp()).toLocalDate());
         	if(StringUtils.equals(earnCodeType, TkConstants.EARN_CODE_TIME)) {
 	        	DateTime start = new DateTime(leaveBlock.getBeginTimestamp().getTime());
 	        	DateTime end = new DateTime(leaveBlock.getEndTimestamp().getTime());

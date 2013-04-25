@@ -22,7 +22,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.core.salgroup.SalGroup;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -68,7 +68,7 @@ public class SalaryGroupLookupableHelper extends KPMELookupableHelper {
             hrSalGroup = "";
         }
         
-        return TkServiceLocator.getSalGroupService().getSalGroups(hrSalGroup, descr, TKUtils.formatDateString(fromEffdt),
+        return HrServiceLocator.getSalaryGroupService().getSalGroups(hrSalGroup, descr, TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHist);
     }
 

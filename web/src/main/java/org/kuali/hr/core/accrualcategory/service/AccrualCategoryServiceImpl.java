@@ -15,6 +15,9 @@
  */
 package org.kuali.hr.core.accrualcategory.service;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
@@ -22,12 +25,10 @@ import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.dao.AccrualCategoryDao;
 import org.kuali.hr.core.leaveplan.LeavePlan;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 
@@ -71,7 +72,7 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
    
 
 	public void runAccrual(String principalId, LocalDate asOfDate){
-		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+		PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
 		if(principalHRAttributes == null){
 			throw new RuntimeException("Cannot find principal hr attributes for "+principalId);
 		}
@@ -85,7 +86,7 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 		if(StringUtils.isBlank(leavePlanStr)){
 			throw new RuntimeException("Cannot find leave plan for "+principalId);
 		}
-		LeavePlan leavePlan = TkServiceLocator.getLeavePlanService().getLeavePlan(leavePlanStr, asOfDate);
+		LeavePlan leavePlan = HrServiceLocator.getLeavePlanService().getLeavePlan(leavePlanStr, asOfDate);
 		if(leavePlan == null){
 			throw new RuntimeException("Cannot find leave plan object for leave plan " + leavePlanStr);
 		}
@@ -124,7 +125,7 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 	public BigDecimal getAccruedBalanceForPrincipal(String principalId,
 			AccrualCategory accrualCategory, LocalDate asOfDate) {
     	BigDecimal balance = new BigDecimal(0);
-    	PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+    	PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
     	if(pha == null)
     		return BigDecimal.ZERO;
     	
@@ -147,7 +148,7 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 	public BigDecimal getApprovedBalanceForPrincipal(String principalId,
 			AccrualCategory accrualCategory, LocalDate asOfDate) {
     	BigDecimal balance = new BigDecimal(0);
-    	PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+    	PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
     	List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceLocalDate(), asOfDate, accrualCategory.getAccrualCategory());
     	for(LeaveBlock block : leaveBlocks) {
     		if(StringUtils.equals(block.getRequestStatus(),LMConstants.REQUEST_STATUS.APPROVED)) {

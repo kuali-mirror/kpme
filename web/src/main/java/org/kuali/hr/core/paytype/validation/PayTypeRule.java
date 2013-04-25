@@ -21,7 +21,7 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.paytype.PayType;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -47,7 +47,7 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 
 	boolean validateActive(String hrPayType, LocalDate asOfDate) {
 		boolean valid = true;
-		List<Job> jobs = TkServiceLocator.getJobService()
+		List<Job> jobs = HrServiceLocator.getJobService()
 				.getActiveJobsForPayType(hrPayType, asOfDate);
 		if (jobs != null && !jobs.isEmpty()) {
 			this.putFieldError("active", "paytype.inactivate.locked", hrPayType);

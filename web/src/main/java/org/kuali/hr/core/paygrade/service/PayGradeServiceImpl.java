@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.core.paygrade.service;
 
+import java.util.List;
+
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.paygrade.PayGrade;
 import org.kuali.hr.core.paygrade.dao.PayGradeDao;
-
-import java.util.List;
 
 public class PayGradeServiceImpl implements PayGradeService {
 

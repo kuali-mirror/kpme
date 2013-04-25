@@ -25,7 +25,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public class KPMEServiceLocator implements ApplicationContextAware {
+public class HrServiceLocator implements ApplicationContextAware {
 
 	public static String SPRING_BEANS = "classpath:SpringBeans.xml";
 	public static ApplicationContext CONTEXT;
@@ -57,7 +57,7 @@ public class KPMEServiceLocator implements ApplicationContextAware {
         return (TaskService) CONTEXT.getBean(HR_TASK_SERVICE);
     }
 
-	public static SalGroupService getSalGroupService() {
+	public static SalGroupService getSalaryGroupService() {
 		return (SalGroupService) CONTEXT.getBean(HR_SALARY_GROUP_SERVICE);
 	}
 
@@ -114,10 +114,6 @@ public class KPMEServiceLocator implements ApplicationContextAware {
 	
 	public static PositionService getPositionService(){
 		return (PositionService) CONTEXT.getBean(HR_POSITION_SERVICE);
-	}
-	
-	public static AccrualCategoryService getLeaveAccrualCategoryService(){
-		return (AccrualCategoryService)CONTEXT.getBean(HR_ACCRUAL_CATEGORY_SERVICE);
 	}
 	
 	public static LeavePlanService getLeavePlanService(){

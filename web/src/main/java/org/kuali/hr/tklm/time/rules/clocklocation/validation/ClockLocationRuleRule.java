@@ -20,11 +20,11 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.core.ValidationUtils;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.authorization.AuthorizationValidationUtils;
 import org.kuali.hr.tklm.time.authorization.DepartmentalRule;
 import org.kuali.hr.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.kuali.hr.tklm.time.rules.clocklocation.ClockLocationRuleIpAddress;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -78,7 +78,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 			valid = false;
 		} else if (clr.getWorkArea() != null
 				&& !clr.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
-			int count = TkServiceLocator.getWorkAreaService().getWorkAreaCount(clr.getDept(), clr.getWorkArea());
+			int count = HrServiceLocator.getWorkAreaService().getWorkAreaCount(clr.getDept(), clr.getWorkArea());
 			valid = (count > 0);
 			if (!valid) {
 				this.putFieldError("workArea", "dept.workarea.invalid.sync",
@@ -109,7 +109,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 		if (clr.getJobNumber() == null) {
 			valid = false;
 		} else if (!clr.getJobNumber().equals(TkConstants.WILDCARD_LONG)) {
-			int count = TkServiceLocator.getJobService().getJobCount(clr.getPrincipalId(), clr.getJobNumber(),null);
+			int count = HrServiceLocator.getJobService().getJobCount(clr.getPrincipalId(), clr.getJobNumber(),null);
 			valid = (count > 0);
 			if (!valid) {
 				this.putFieldError("jobNumber", "principalid.job.invalid.sync",

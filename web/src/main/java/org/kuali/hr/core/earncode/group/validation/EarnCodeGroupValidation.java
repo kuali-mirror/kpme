@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.earncode.group.EarnCodeGroup;
 import org.kuali.hr.core.earncode.group.EarnCodeGroupDefinition;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -57,7 +57,7 @@ public class EarnCodeGroupValidation  extends MaintenanceDocumentRuleBase{
 			earnCodes.add(earnGroupDef.getEarnCode());
 			index++;
 		}
-		int count = TkServiceLocator.getEarnCodeGroupService().getNewerEarnCodeGroupCount(earnGroup.getEarnCodeGroup(), earnGroup.getEffectiveLocalDate());
+		int count = HrServiceLocator.getEarnCodeGroupService().getNewerEarnCodeGroupCount(earnGroup.getEarnCodeGroup(), earnGroup.getEffectiveLocalDate());
 		if(count > 0) {
 			this.putFieldError("effectiveDate", "earngroup.effectiveDate.newr.exists");
 			return false;
