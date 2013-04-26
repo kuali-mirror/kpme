@@ -33,18 +33,19 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.kuali.hr.core.TkAction;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.time.base.web.TkAction;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -74,10 +75,10 @@ public class TimesheetSubmitAction extends TkAction {
             if (DocumentStatus.INITIATED.getCode().equals(document.getDocumentHeader().getDocumentStatus())
                     || DocumentStatus.SAVED.getCode().equals(document.getDocumentHeader().getDocumentStatus())) {
             	
-            	boolean nonExemptLE = TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(document.getPrincipalId(),
+            	boolean nonExemptLE = LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(document.getPrincipalId(),
             				TkConstants.FLSA_STATUS_NON_EXEMPT, true);
             	if(nonExemptLE) {
-            		Map<String,Set<LeaveBlock>> eligibilities = TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(document.getCalendarEntry(), document.getPrincipalId());
+            		Map<String,Set<LeaveBlock>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(document.getCalendarEntry(), document.getPrincipalId());
             		PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), document.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
 					Calendar cal = pha.getLeaveCalObj();
 					if(cal == null) {

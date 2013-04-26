@@ -18,7 +18,7 @@ package org.kuali.hr.core.workarea.validation;
 import org.kuali.hr.core.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
-import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class WorkAreaEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {

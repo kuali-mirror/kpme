@@ -24,6 +24,7 @@ import org.kuali.hr.core.location.Location;
 import org.kuali.hr.core.location.dao.LocationDao;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.role.location.LocationPrincipalRoleMemberBo;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
@@ -72,8 +73,8 @@ public class LocationServiceImpl implements LocationService {
     	if (location != null && asOfDate != null) {
 	    	roleMembers.addAll(TkServiceLocator.getTKRoleService().getRoleMembersInLocation(KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
 	    	roleMembers.addAll(TkServiceLocator.getTKRoleService().getRoleMembersInLocation(KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
-	    	roleMembers.addAll(TkServiceLocator.getLMRoleService().getRoleMembersInLocation(KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
-	    	roleMembers.addAll(TkServiceLocator.getLMRoleService().getRoleMembersInLocation(KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(LmServiceLocator.getLMRoleService().getRoleMembersInLocation(KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(LmServiceLocator.getLMRoleService().getRoleMembersInLocation(KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
 	
 	    	for (RoleMember roleMember : roleMembers) {
 	    		RoleMemberBo roleMemberBo = RoleMemberBo.from(roleMember);

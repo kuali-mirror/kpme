@@ -28,15 +28,16 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.TkAction;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.department.Department;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.service.HrServiceLocator;
-import org.kuali.hr.tklm.time.base.web.TkAction;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TkConstants;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -118,9 +119,9 @@ public class ChangeTargetPersonAction extends TkAction {
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 
             if (TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
-            		|| TkServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
+            		|| LmServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
             		|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())
-            		|| TkServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())) {
+            		|| LmServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())) {
                 return true;
             }
         }
@@ -138,9 +139,9 @@ public class ChangeTargetPersonAction extends TkAction {
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 			
         	if (TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-        			|| TkServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+        			|| LmServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
         			|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
-        			|| TkServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {
+        			|| LmServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {
                 return true;
             }
         }

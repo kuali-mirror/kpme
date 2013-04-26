@@ -25,9 +25,10 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kew.api.identity.Id;
 import org.kuali.rice.kew.api.identity.PrincipalId;
 import org.kuali.rice.kew.api.rule.RoleName;
@@ -48,7 +49,7 @@ public class TkWorkflowLeaveCalendarAttribute extends AbstractRoleAttribute {
 	public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
 		List<String> roles = new ArrayList<String>();
 		String routeHeaderId = documentContent.getRouteContext().getDocument().getDocumentId();
-		LeaveCalendarDocument leaveDocument = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(routeHeaderId);
+		LeaveCalendarDocument leaveDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(routeHeaderId);
 
 		if (leaveDocument != null) {
 			List<Assignment> assignments = leaveDocument.getAssignments();
@@ -84,7 +85,7 @@ public class TkWorkflowLeaveCalendarAttribute extends AbstractRoleAttribute {
 
 		List<Id> principals = new ArrayList<Id>();
 		String routeHeaderId = routeContext.getDocument().getDocumentId();
-		LeaveCalendarDocument leaveCalendarDocument = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(routeHeaderId);
+		LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(routeHeaderId);
 		WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leaveCalendarDocument.getAsOfDate());
 
 		List<RoleMember> roleMembers = new ArrayList<RoleMember>();

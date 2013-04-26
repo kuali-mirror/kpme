@@ -21,8 +21,8 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.task.Task;
 import org.kuali.hr.core.workarea.WorkArea;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TkConstants;
+import org.kuali.hr.tklm.common.TkConstants;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 
 public class LeaveBlockHistory extends LeaveBlock {
 
@@ -94,7 +94,7 @@ public class LeaveBlockHistory extends LeaveBlock {
 
 	public String getAssignmentTitle() {
 		StringBuilder b = new StringBuilder();
-		LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(super.getLmLeaveBlockId());
+		LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(super.getLmLeaveBlockId());
 		if(lb != null){
 			if (lb.getWorkArea() != null) {
 				WorkArea wa = HrServiceLocator.getWorkAreaService().getWorkArea(

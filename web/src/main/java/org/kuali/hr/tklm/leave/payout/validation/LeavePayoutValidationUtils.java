@@ -23,11 +23,11 @@ import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
 import org.kuali.hr.tklm.leave.payout.LeavePayout;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TkConstants;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -116,7 +116,7 @@ public class LeavePayoutValidationUtils {
 		}
 		
 		//use override if one exists.
-		EmployeeOverride maxPayoutAmountOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromCat.getLeavePlan(), fromCat.getAccrualCategory(), "MPA", effectiveDate);
+		EmployeeOverride maxPayoutAmountOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromCat.getLeavePlan(), fromCat.getAccrualCategory(), "MPA", effectiveDate);
 		if(ObjectUtils.isNotNull(maxPayoutAmountOverride))
 			adjustedMaxPayoutAmount = new BigDecimal(maxPayoutAmountOverride.getOverrideValue());
 				

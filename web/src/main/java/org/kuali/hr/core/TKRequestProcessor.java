@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.hr.tklm.time.web;
+package org.kuali.hr.core;
 
 import java.io.IOException;
 import java.util.Date;
@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.hr.tklm.time.util.TKContext;
+import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.rice.kns.web.struts.action.KualiRequestProcessor;
 
 public class TKRequestProcessor extends KualiRequestProcessor {

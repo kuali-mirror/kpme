@@ -23,10 +23,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
+import org.kuali.hr.core.TkAction;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.service.HrServiceLocator;
-import org.kuali.hr.tklm.time.base.web.TkAction;
-import org.kuali.hr.tklm.time.util.TkConstants;
+import org.kuali.hr.tklm.common.TkConstants;
 
 public class BatchJobAction extends TkAction {
     

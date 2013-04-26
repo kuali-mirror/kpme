@@ -36,10 +36,11 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
 import org.kuali.hr.core.ApprovalForm;
+import org.kuali.hr.core.TkAction;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.hr.tklm.time.base.web.TkAction;
 import org.kuali.hr.tklm.time.person.TKPerson;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -49,9 +50,9 @@ public class LeaveApprovalWSAction extends TkAction {
 	 public ActionForward getLeaveSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	LeaveApprovalWSActionForm laaf = (LeaveApprovalWSActionForm) form;
     	String docId = laaf.getDocumentId();
-    	LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(docId);
+    	LeaveCalendarDocumentHeader lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(docId);
     	if(lcdh != null) {
-    		List<Map<String, Object>> detailMap = TkServiceLocator.getLeaveApprovalService().getLeaveApprovalDetailSections(lcdh);
+    		List<Map<String, Object>> detailMap = LmServiceLocator.getLeaveApprovalService().getLeaveApprovalDetailSections(lcdh);
     		
     		String jsonString = JSONValue.toJSONString(detailMap);
     		laaf.setOutputString(jsonString);
@@ -83,7 +84,7 @@ public class LeaveApprovalWSAction extends TkAction {
 		        } else {
 		        	workAreaList.add(laaf.getSelectedWorkArea());
 		        } 
-		        List<String> principalIds = TkServiceLocator.getLeaveApprovalService()
+		        List<String> principalIds = LmServiceLocator.getLeaveApprovalService()
         			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, laaf.getSelectedPayCalendarGroup(),
         					endDate, beginDate, endDate); 
 		        
@@ -100,7 +101,7 @@ public class LeaveApprovalWSAction extends TkAction {
 		            }
 		        } else if (StringUtils.equals(laaf.getSearchField(), ApprovalForm.ORDER_BY_DOCID)) {
 		            Map<String, LeaveCalendarDocumentHeader> principalDocumentHeaders =
-		                    TkServiceLocator.getLeaveApprovalService().getPrincipalDocumehtHeader(persons, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
+		                    LmServiceLocator.getLeaveApprovalService().getPrincipalDocumehtHeader(persons, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
 	
 		            for (Map.Entry<String,LeaveCalendarDocumentHeader> entry : principalDocumentHeaders.entrySet()) {
 		                if (StringUtils.contains(entry.getValue().getDocumentId(), laaf.getSearchTerm())) {

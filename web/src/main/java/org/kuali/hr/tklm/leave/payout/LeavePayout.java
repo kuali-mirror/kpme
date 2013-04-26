@@ -26,7 +26,7 @@ import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
@@ -195,13 +195,13 @@ public class LeavePayout extends HrBusinessObject {
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 
 		if (getForfeitedLeaveBlockId() != null) {
-		    leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(forfeitedLeaveBlockId));
+		    leaveBlocks.add(LmServiceLocator.getLeaveBlockService().getLeaveBlock(forfeitedLeaveBlockId));
         }
         if (getPayoutFromLeaveBlockId() != null) {
-		    leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(payoutFromLeaveBlockId));
+		    leaveBlocks.add(LmServiceLocator.getLeaveBlockService().getLeaveBlock(payoutFromLeaveBlockId));
         }
         if (getPayoutLeaveBlockId() != null) {
-		    leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(payoutLeaveBlockId));
+		    leaveBlocks.add(LmServiceLocator.getLeaveBlockService().getLeaveBlock(payoutLeaveBlockId));
         }
         return leaveBlocks;
     }

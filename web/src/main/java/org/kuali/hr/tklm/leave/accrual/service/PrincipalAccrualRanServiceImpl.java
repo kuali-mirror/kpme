@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.tklm.leave.accrual.service;
 
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.accrual.PrincipalAccrualRan;
 import org.kuali.hr.tklm.leave.accrual.dao.PrincipalAccrualRanDao;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class PrincipalAccrualRanServiceImpl implements PrincipalAccrualRanService{

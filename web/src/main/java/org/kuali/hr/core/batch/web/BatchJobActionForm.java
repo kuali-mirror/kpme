@@ -18,8 +18,8 @@ package org.kuali.hr.core.batch.web;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.hr.tklm.time.base.web.TkForm;
-import org.kuali.hr.tklm.time.util.TkConstants;
+import org.kuali.hr.core.TkForm;
+import org.kuali.hr.tklm.common.TkConstants;
 
 public class BatchJobActionForm extends TkForm {
 

@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<c:set var="systemAdmin" value='<%=org.kuali.hr.tklm.time.util.TKContext.isSystemAdmin()%>' />
+<c:set var="systemAdmin" value='<%=org.kuali.hr.tklm.common.TKContext.isSystemAdmin()%>' />
 
 <c:if test="${systemAdmin}">
     <channel:portalChannelTop channelTitle="Delete Timesheet / Leave Calendar" />

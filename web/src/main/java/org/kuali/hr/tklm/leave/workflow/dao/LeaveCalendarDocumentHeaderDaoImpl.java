@@ -26,8 +26,8 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.DateTime;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb implements LeaveCalendarDocumentHeaderDao {

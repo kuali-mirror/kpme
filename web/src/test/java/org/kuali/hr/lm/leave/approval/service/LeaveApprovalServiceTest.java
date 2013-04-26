@@ -33,8 +33,8 @@ import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.tklm.leave.approval.web.ApprovalLeaveSummaryRow;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.person.TKPerson;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 
 public class LeaveApprovalServiceTest extends KPMETestCase {
 	
@@ -43,12 +43,12 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 	@Test
 	public void testGetLeaveApprovalSummaryRows() {
 		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
-		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
+		List<Date> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		List<String> ids = new ArrayList<String>();
 		ids.add("admin");
 		List<TKPerson> persons = HrServiceLocator.getPersonService().getPersonCollection(ids);
 		
-		List<ApprovalLeaveSummaryRow> rows = TkServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows(persons, ce, leaveSummaryDates);
+		List<ApprovalLeaveSummaryRow> rows = LmServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows(persons, ce, leaveSummaryDates);
 		Assert.assertTrue("Rows should not be empty. ", CollectionUtils.isNotEmpty(rows));
 		
 		ApprovalLeaveSummaryRow aRow = rows.get(0);
@@ -59,11 +59,11 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 	@Test
 	public void testGetEarnCodeLeaveHours() throws Exception {
 		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
-		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
+		List<Date> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
-		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodFullDateTime().toLocalDate(), ce.getEndPeriodFullDateTime().toLocalDate());
+		List<LeaveBlock> lbList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodFullDateTime().toLocalDate(), ce.getEndPeriodFullDateTime().toLocalDate());
 		Assert.assertTrue("Leave Block list should not be empty. ", CollectionUtils.isNotEmpty(lbList));
-		Map<Date, Map<String, BigDecimal>> aMap = TkServiceLocator.getLeaveApprovalService().getEarnCodeLeaveHours(lbList, leaveSummaryDates);
+		Map<Date, Map<String, BigDecimal>> aMap = LmServiceLocator.getLeaveApprovalService().getEarnCodeLeaveHours(lbList, leaveSummaryDates);
 		
 		Assert.assertTrue("Map should have 14 entries, not " + aMap.size(), aMap.size() == 14);
 		Map<String, BigDecimal> dayMap = aMap.get(DATE_FORMAT.parse("03/05/2012"));
@@ -74,11 +74,11 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 	@Test
 	public void testGetAccrualCategoryLeaveHours() throws Exception {
 		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
-		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
+		List<Date> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
-		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodFullDateTime().toLocalDate(), ce.getEndPeriodFullDateTime().toLocalDate());
+		List<LeaveBlock> lbList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodFullDateTime().toLocalDate(), ce.getEndPeriodFullDateTime().toLocalDate());
 		Assert.assertTrue("Leave Block list should not be empty. ", CollectionUtils.isNotEmpty(lbList));
-		Map<Date, Map<String, BigDecimal>> aMap = TkServiceLocator.getLeaveApprovalService().getAccrualCategoryLeaveHours(lbList, leaveSummaryDates);
+		Map<Date, Map<String, BigDecimal>> aMap = LmServiceLocator.getLeaveApprovalService().getAccrualCategoryLeaveHours(lbList, leaveSummaryDates);
 		
 		Assert.assertTrue("Map should have 14 entries, not " + aMap.size(), aMap.size() == 14);
 		Map<String, BigDecimal> dayMap = aMap.get(DATE_FORMAT.parse("03/05/2012"));
@@ -93,13 +93,13 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 		LocalDate beginDate = LocalDate.fromDateFields(DATE_FORMAT.parse("03/01/2012"));
 		LocalDate endDate = LocalDate.fromDateFields(DATE_FORMAT.parse("03/30/2012"));
 		
-		List<String> idList = TkServiceLocator.getLeaveApprovalService()
+		List<String> idList = LmServiceLocator.getLeaveApprovalService()
 			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, calendarGroup, endDate, beginDate, endDate);		
 		Assert.assertTrue("There should be 0 principal ids when searching with empty workarea list, not " + idList.size(), idList.isEmpty());
 		
 		workAreaList.add("1111");
 		workAreaList.add("2222");
-		idList = TkServiceLocator.getLeaveApprovalService()
+		idList = LmServiceLocator.getLeaveApprovalService()
 			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, calendarGroup, endDate, beginDate, endDate);		
 		Assert.assertTrue("There should be 2 principal ids when searching with both workareas, not " + idList.size(), idList.size() == 2);
 		// there's an principal id '1033' in setup that is not eligible for leave, so it should not be in the search results
@@ -111,14 +111,14 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 		
 		workAreaList = new ArrayList<String>();
 		workAreaList.add("1111");
-		idList = TkServiceLocator.getLeaveApprovalService()
+		idList = LmServiceLocator.getLeaveApprovalService()
 			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, calendarGroup, endDate, beginDate, endDate);		
 		Assert.assertTrue("There should be 1 principal ids for workArea '1111', not " + idList.size(), idList.size() == 1);
 		Assert.assertTrue("Principal id for workArea '1111' should be principalA, not " + idList.get(0), idList.get(0).equals("1011"));
 		
 		workAreaList = new ArrayList<String>();
 		workAreaList.add("2222");
-		idList = TkServiceLocator.getLeaveApprovalService()
+		idList = LmServiceLocator.getLeaveApprovalService()
 			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, calendarGroup, endDate, beginDate, endDate);		
 		Assert.assertTrue("There should be 1 principal ids for workArea '2222', not " + idList.size(), idList.size() == 1);
 		Assert.assertTrue("Principal id for workArea '2222' should be principalB, not " + idList.get(0), idList.get(0).equals("1022"));

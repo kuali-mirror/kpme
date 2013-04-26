@@ -31,20 +31,20 @@ import org.apache.struts.action.ActionMapping;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
+import org.kuali.hr.core.TkAction;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.tklm.leave.calendar.web.LeaveCalendarForm;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
-import org.kuali.hr.tklm.time.base.web.TkAction;
 import org.kuali.hr.tklm.time.detail.web.ActionFormUtils;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TKUtils;
 
 public class LeaveCalendarWSAction extends TkAction {
 
@@ -70,20 +70,20 @@ public class LeaveCalendarWSAction extends TkAction {
         // methods, we would first fetch the current document, and then fetch
         // the next one instead of doing it in the single action.
         if (StringUtils.isNotBlank(documentId)) {
-            lcd = TkServiceLocator.getLeaveCalendarService()
+            lcd = LmServiceLocator.getLeaveCalendarService()
                     .getLeaveCalendarDocument(documentId);
             calendarEntry = lcd.getCalendarEntry();
         } else if (StringUtils.isNotBlank(calendarEntryId)) {
             // do further procedure
             calendarEntry = HrServiceLocator.getCalendarEntryService()
                     .getCalendarEntry(calendarEntryId);
-            lcd = TkServiceLocator.getLeaveCalendarService()
+            lcd = LmServiceLocator.getLeaveCalendarService()
                     .getLeaveCalendarDocument(viewPrincipal, calendarEntry);
         } else {
             // Default to whatever is active for "today".
             calendarEntry = HrServiceLocator.getCalendarService()
                     .getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
-            lcd = TkServiceLocator.getLeaveCalendarService()
+            lcd = LmServiceLocator.getLeaveCalendarService()
                     .openLeaveCalendarDocument(viewPrincipal, calendarEntry);
         }
 
@@ -129,7 +129,7 @@ public class LeaveCalendarWSAction extends TkAction {
             lcf.setCalendarEntry(ce);
         }
         lcf.setPrincipalId(TKContext.getTargetPrincipalId());
-        boolean isPlanningCal = TkServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(lcf.getPrincipalId(), lcf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), lcf.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
+        boolean isPlanningCal = LmServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(lcf.getPrincipalId(), lcf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), lcf.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
         lcf.setLeavePlanningCalendar(isPlanningCal);
 
         List<Map<String, Object>> earnCodeList = new LinkedList<Map<String, Object>>();
@@ -179,7 +179,7 @@ public class LeaveCalendarWSAction extends TkAction {
     	JSONArray errorMsgList = new JSONArray();
 
     	if(lcf.getLeaveSummary() == null && lcf.getCalendarEntry() != null) {
-    		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
+    		LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
 		    lcf.setLeaveSummary(ls);
     	}
     	

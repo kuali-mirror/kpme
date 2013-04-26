@@ -19,7 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
-import org.kuali.hr.tklm.time.util.TkConstants;
+import org.kuali.hr.tklm.common.TkConstants;
 
 public class AssignmentDescriptionKey {
 	private static final Logger LOG = Logger.getLogger(AssignmentDescriptionKey.class);

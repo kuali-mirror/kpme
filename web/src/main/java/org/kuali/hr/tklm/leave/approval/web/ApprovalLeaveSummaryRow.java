@@ -24,11 +24,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.doctype.SecuritySession;
@@ -60,17 +61,17 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
     	boolean isEnroute =  StringUtils.equals(getApprovalStatus(), "ENROUTE") ;
 
         if(isEnroute){
-            LeaveCalendarDocument doc = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(this.documentId);
+            LeaveCalendarDocument doc = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(this.documentId);
             //is there a pending bt doc?
-            if (!TkServiceLocator.getLeaveCalendarService().isReadyToApprove(doc)) {
+            if (!LmServiceLocator.getLeaveCalendarService().isReadyToApprove(doc)) {
                 return false;
             }
         	DocumentRouteHeaderValue routeHeader = TkServiceLocator.getTimeApproveService().getRouteHeader(this.getDocumentId());
 //            // check if there are any pending calendars are there
-//        	LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getMinBeginDatePendingLeaveCalendar(this.principalId);
+//        	LeaveCalendarDocumentHeader lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getMinBeginDatePendingLeaveCalendar(this.principalId);
 //            if (lcdh != null){             //if there were any pending document
 //                //check to see if it's before the current document. if it is, then this document is not approvable.
-//                if (TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(this.documentId).getBeginDate().compareTo(lcdh.getEndDate()) >= 0){
+//                if (LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(this.documentId).getBeginDate().compareTo(lcdh.getEndDate()) >= 0){
 //                    return false;
 //                }
 //            }
@@ -193,7 +194,7 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 
 	public Boolean getExemptEmployee() {
 		if(this.exemptEmployee == null) {
-			this.exemptEmployee = TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(this.principalId,TkConstants.FLSA_STATUS_EXEMPT, true);
+			this.exemptEmployee = LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(this.principalId,TkConstants.FLSA_STATUS_EXEMPT, true);
 		}
 		return exemptEmployee;
 	}

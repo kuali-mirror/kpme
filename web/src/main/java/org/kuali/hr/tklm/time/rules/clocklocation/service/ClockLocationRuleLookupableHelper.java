@@ -20,12 +20,12 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.time.authorization.AuthorizationValidationUtils;
 import org.kuali.hr.tklm.time.authorization.DepartmentalRule;
 import org.kuali.hr.tklm.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;

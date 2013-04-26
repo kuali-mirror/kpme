@@ -13,23 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.hr.tklm.time.util;
+package org.kuali.hr.tklm.common;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Timestamp;
 
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.apache.ojb.broker.accesslayer.conversions.ConversionException;
+import org.apache.ojb.broker.accesslayer.conversions.FieldConversion;
+import org.joda.time.LocalDate;
 
-public class TkFlsaStatusKeyValueFinder extends KeyValuesBase {
+public class TkTimestampConverter implements FieldConversion{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Override
-	public List getKeyValues() {
-		List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue(TkConstants.FLSA_STATUS_NON_EXEMPT, "Non-Exempt"));     		
-        keyValues.add(new ConcreteKeyValue(TkConstants.FLSA_STATUS_EXEMPT, "Exempt"));     		
-        return keyValues;
+	public Object javaToSql(Object arg0) throws ConversionException {
+		if(arg0 == null){
+			return new Timestamp(LocalDate.now().toDate().getTime());
+		}
+		return arg0;
+	}
+
+	@Override
+	public Object sqlToJava(Object arg0) throws ConversionException {
+		return arg0;
 	}
 
 }

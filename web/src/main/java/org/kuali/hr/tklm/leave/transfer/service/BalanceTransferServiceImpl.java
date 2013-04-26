@@ -27,14 +27,14 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.hr.tklm.leave.transfer.dao.BalanceTransferDao;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -120,7 +120,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				adjustedMaxCarryOver = maxCarryOver;
 			}
 
-			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, effectiveDate);
+			List<EmployeeOverride> overrides = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, effectiveDate);
 			for(EmployeeOverride override : overrides) {
 				if(StringUtils.equals(override.getAccrualCategory(),fromAccrualCategory.getAccrualCategory())) {
 					//Do not pro-rate override values for FTE.
@@ -250,7 +250,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					// save history
 					LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
 					lbh.setAction(LMConstants.ACTION.ADD);
-					TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
+					LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 					leaveBlocks.add(aLeaveBlock);
 				}
 			}
@@ -280,7 +280,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					// save history
 					LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
 					lbh.setAction(LMConstants.ACTION.ADD);
-					TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
+					LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 
 					leaveBlocks.add(aLeaveBlock);
 				}
@@ -313,7 +313,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					// save history
 					LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
 					lbh.setAction(LMConstants.ACTION.ADD);
-					TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
+					LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 
 					leaveBlocks.add(aLeaveBlock);
 				}
@@ -362,7 +362,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		btObj.setAmountTransferred(balanceTransfer.getAmountTransferred());
 		btObj.setSstoId(balanceTransfer.getSstoId());
 		btObj.setDocumentHeaderId(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
-/*        TkServiceLocator.getBalanceTransferService().saveOrUpdate(btObj);
+/*        LmServiceLocator.getBalanceTransferService().saveOrUpdate(btObj);
 		document.getNewMaintainableObject().setDataObject(btObj);*/
 		KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
 		document.getDocumentHeader().getWorkflowDocument().saveDocument("");
@@ -376,7 +376,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		if(ObjectUtils.isNull(balanceTransfer))
 			throw new RuntimeException("did not supply a valid BalanceTransfer object.");
 		else {
-			List<LeaveBlock> sstoLbList = TkServiceLocator.getLeaveBlockService().getSSTOLeaveBlocks(balanceTransfer.getPrincipalId(), balanceTransfer.getSstoId(), balanceTransfer.getEffectiveLocalDate());
+			List<LeaveBlock> sstoLbList = LmServiceLocator.getLeaveBlockService().getSSTOLeaveBlocks(balanceTransfer.getPrincipalId(), balanceTransfer.getSstoId(), balanceTransfer.getEffectiveLocalDate());
 			String leaveDocId = "";
 			if(CollectionUtils.isNotEmpty(sstoLbList)) {
 				leaveDocId = sstoLbList.get(0).getDocumentId();
@@ -398,7 +398,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			aLeaveBlock.setDocumentId(leaveDocId);
 			
 			lbList.add(aLeaveBlock);
-			TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(lbList);
+			LmServiceLocator.getLeaveBlockService().saveLeaveBlocks(lbList);
 
 	    	balanceTransfer.setAccruedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());	
 			return balanceTransfer;

@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
-import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 

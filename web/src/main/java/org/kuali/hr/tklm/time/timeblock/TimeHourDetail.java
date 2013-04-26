@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.kuali.hr.tklm.time.util.TkConstants;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class TimeHourDetail extends PersistableBusinessObjectBase{

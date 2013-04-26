@@ -16,7 +16,7 @@
 package org.kuali.hr.tklm.leave.workflow;
 
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 
 public class LeaveRequestDocument extends TransactionalDocumentBase {
@@ -62,6 +62,6 @@ public class LeaveRequestDocument extends TransactionalDocumentBase {
     }
 
     public LeaveBlock getLeaveBlock() {
-        return getLmLeaveBlockId() == null ? null : TkServiceLocator.getLeaveBlockService().getLeaveBlock(getLmLeaveBlockId());
+        return getLmLeaveBlockId() == null ? null : LmServiceLocator.getLeaveBlockService().getLeaveBlock(getLmLeaveBlockId());
     }
 }

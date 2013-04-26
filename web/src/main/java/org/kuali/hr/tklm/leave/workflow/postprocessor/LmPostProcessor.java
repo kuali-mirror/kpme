@@ -23,11 +23,11 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.framework.postprocessor.ProcessDocReport;
@@ -39,7 +39,7 @@ public class LmPostProcessor extends DefaultPostProcessor {
 	public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {		
 		ProcessDocReport pdr = null;
 		Long documentId = new Long(statusChangeEvent.getDocumentId());
-		LeaveCalendarDocumentHeader document = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId.toString());
+		LeaveCalendarDocumentHeader document = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId.toString());
 		if (document != null) {
 			pdr = super.doRouteStatusChange(statusChangeEvent);
 			// Only update the status if it's different.
@@ -57,7 +57,7 @@ public class LmPostProcessor extends DefaultPostProcessor {
 	
 	private void updateLeaveCalendarDocumentHeaderStatus(LeaveCalendarDocumentHeader leaveCalendarDocumentHeader, DocumentStatus newDocumentStatus) {
 		leaveCalendarDocumentHeader.setDocumentStatus(newDocumentStatus.getCode());
-		TkServiceLocator.getLeaveCalendarDocumentHeaderService().saveOrUpdate(leaveCalendarDocumentHeader);
+		LmServiceLocator.getLeaveCalendarDocumentHeaderService().saveOrUpdate(leaveCalendarDocumentHeader);
 	}
 	
 	private void calculateMaxCarryOver(LeaveCalendarDocumentHeader leaveCalendarDocumentHeader, DocumentStatus newDocumentStatus) {
@@ -72,16 +72,16 @@ public class LmPostProcessor extends DefaultPostProcessor {
 			if (calendar != null) {
 				CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate(calendar.getHrCalendarId(), new DateTime(endDate));
 				
-				TkServiceLocator.getAccrualCategoryMaxCarryOverService().calculateMaxCarryOver(documentId, principalId, calendarEntry, endDate.toLocalDate());
+				LmServiceLocator.getAccrualCategoryMaxCarryOverService().calculateMaxCarryOver(documentId, principalId, calendarEntry, endDate.toLocalDate());
 			}
 		}
 		else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
 			//approve the carry over leave block.
-			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, leaveCalendarDocumentHeader.getBeginDateTime().toLocalDate(), endDate.toLocalDate());
+			List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, leaveCalendarDocumentHeader.getBeginDateTime().toLocalDate(), endDate.toLocalDate());
 			for(LeaveBlock lb : leaveBlocks) {
 				if(StringUtils.equals(lb.getDescription(),"Max carry over adjustment")) {
 					lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
-					TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
+					LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
 				}
 			}
 		}

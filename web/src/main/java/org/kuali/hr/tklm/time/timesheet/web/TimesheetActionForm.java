@@ -23,8 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.tklm.common.TkCommonCalendarForm;
 import org.kuali.hr.tklm.leave.transfer.BalanceTransfer;
-import org.kuali.hr.tklm.time.base.web.TkCommonCalendarForm;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 
 public class TimesheetActionForm extends TkCommonCalendarForm {

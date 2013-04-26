@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.hr.tklm.time.base.web;
+package org.kuali.hr.core;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +23,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
-import org.kuali.hr.tklm.time.util.TKContext;
+import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
 

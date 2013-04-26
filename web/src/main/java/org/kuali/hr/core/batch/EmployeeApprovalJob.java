@@ -19,11 +19,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -55,14 +56,14 @@ public class EmployeeApprovalJob implements Job {
 	            }
 			}
 		} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
-			LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
+			LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
 			if (leaveCalendarDocumentHeader != null) {
-				LeaveCalendarDocument leaveCalendarDocument = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
+				LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
 				String documentStatus = KEWServiceLocator.getRouteHeaderService().getDocumentStatus(leaveCalendarDocument.getDocumentId());
 				String principalId = leaveCalendarDocument.getPrincipalId();
 				
 				if (DocumentStatus.INITIATED.getCode().equals(documentStatus) || DocumentStatus.SAVED.getCode().equals(documentStatus)) {
-					TkServiceLocator.getLeaveCalendarService().routeLeaveCalendar(principalId, leaveCalendarDocument, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE);
+					LmServiceLocator.getLeaveCalendarService().routeLeaveCalendar(principalId, leaveCalendarDocument, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE);
 				}
 			}
 		}

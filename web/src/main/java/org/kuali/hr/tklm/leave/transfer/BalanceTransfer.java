@@ -23,9 +23,9 @@ import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TkConstants;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -199,13 +199,13 @@ public class BalanceTransfer extends HrBusinessObject {
 	public List<LeaveBlock> getLeaveBlocks() {
 		List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 		if (getForfeitedLeaveBlockId() != null) {
-		    leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(forfeitedLeaveBlockId));
+		    leaveBlocks.add(LmServiceLocator.getLeaveBlockService().getLeaveBlock(forfeitedLeaveBlockId));
         }
         if (getAccruedLeaveBlockId() != null) {
-		    leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(accruedLeaveBlockId));
+		    leaveBlocks.add(LmServiceLocator.getLeaveBlockService().getLeaveBlock(accruedLeaveBlockId));
         }
         if (getDebitedLeaveBlockId() != null) {
-		    leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(debitedLeaveBlockId));
+		    leaveBlocks.add(LmServiceLocator.getLeaveBlockService().getLeaveBlock(debitedLeaveBlockId));
         }
 
 		return leaveBlocks;
@@ -220,7 +220,7 @@ public class BalanceTransfer extends HrBusinessObject {
 	}
 
 	public void disapprove() {
-		TkServiceLocator.getLeaveBlockService().updateLeaveBlock(null, principalId);
+		LmServiceLocator.getLeaveBlockService().updateLeaveBlock(null, principalId);
 		setStatus(TkConstants.ROUTE_STATUS.DISAPPROVED);
 	}
 

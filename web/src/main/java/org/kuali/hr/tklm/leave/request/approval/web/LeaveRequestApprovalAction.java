@@ -46,11 +46,12 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionItem;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
@@ -83,7 +84,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
         // Set calendar groups
         List<String> calGroups =  new ArrayList<String>();
         if (CollectionUtils.isNotEmpty(principalIds)) {
-            calGroups = TkServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroupsForPrincipalIds(principalIds);
+            calGroups = LmServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroupsForPrincipalIds(principalIds);
         }
         lraaForm.setPayCalendarGroups(calGroups);		
 		
@@ -122,7 +123,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 	        // Set calendar groups
 	        List<String> calGroups =  new ArrayList<String>();
 	        if (CollectionUtils.isNotEmpty(principalIds)) {
-	            calGroups = TkServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroupsForPrincipalIds(principalIds);
+	            calGroups = LmServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroupsForPrincipalIds(principalIds);
 	        }
 	        lraaForm.setPayCalendarGroups(calGroups);
 	        if (StringUtils.isBlank(lraaForm.getSelectedPayCalendarGroup())
@@ -224,14 +225,14 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		List<ActionItem> resultsList = new ArrayList<ActionItem>();
 
 		LocalDate currentDate = LocalDate.now();
-		List<String> principalIds = TkServiceLocator.getLeaveApprovalService()
+		List<String> principalIds = LmServiceLocator.getLeaveApprovalService()
  			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, calGroup, currentDate, currentDate, currentDate);    
 		
 		if(CollectionUtils.isNotEmpty(principalIds)) {
 			for(ActionItem anAction : actionList) {
 				String docId = anAction.getDocumentId();
 				if(anAction.getDocName().equals(LeaveRequestDocument.LEAVE_REQUEST_DOCUMENT_TYPE)) {
-					LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
+					LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
 					if(lrd != null) {
 						LeaveBlock lb = lrd.getLeaveBlock();
 						if(lb != null) {
@@ -278,7 +279,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 				String[] fields = eachAction.split(ID_SEPARATOR);
 				String docId = fields[0];	// leave request document id
 				String reasonString = fields.length > 1 ? fields[1] : ""; 	// approve reason text, could be empty
-				TkServiceLocator.getLeaveRequestDocumentService().approveLeave(docId, TKContext.getPrincipalId(), reasonString);
+				LmServiceLocator.getLeaveRequestDocumentService().approveLeave(docId, TKContext.getPrincipalId(), reasonString);
 				// leave block's status is changed to "approved" in postProcessor of LeaveRequestDocument
 			}
 		}
@@ -288,7 +289,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 				String[] fields = eachAction.split(ID_SEPARATOR);
 				String docId = fields[0];	// leave request document id
 				String reasonString = fields.length > 1 ? fields[1] : ""; 	// disapprove reason
-				TkServiceLocator.getLeaveRequestDocumentService().disapproveLeave(docId, TKContext.getPrincipalId(), reasonString);
+				LmServiceLocator.getLeaveRequestDocumentService().disapproveLeave(docId, TKContext.getPrincipalId(), reasonString);
 				// leave block's status is changed to "disapproved" in postProcessor of LeaveRequestDocument	
 			}
 		}
@@ -298,7 +299,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 				String[] fields = eachAction.split(ID_SEPARATOR);
 				String docId = fields[0];	// leave request document id
 				String reasonString =  fields.length > 1 ? fields[1] : ""; 	// defer reason
-				TkServiceLocator.getLeaveRequestDocumentService().deferLeave(docId, TKContext.getPrincipalId(), reasonString);
+				LmServiceLocator.getLeaveRequestDocumentService().deferLeave(docId, TKContext.getPrincipalId(), reasonString);
 				// leave block's status is changed to "deferred" in postProcessor of LeaveRequestDocument	
 			}
 		}
@@ -311,7 +312,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		for(ActionItem action : actionList) {
 			if(action.getDocName().equals(LeaveRequestDocument.LEAVE_REQUEST_DOCUMENT_TYPE)) {
 				String docId = action.getDocumentId();
-				LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
+				LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
 				if(lrd != null) {
 					LeaveBlock lb = lrd.getLeaveBlock();
 					if(lb != null) {
@@ -399,12 +400,12 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 				for(String eachAction : approveList){
 					String[] fields = eachAction.split(ID_SEPARATOR);
 					String docId = fields[0];	// leave request document id
-					LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
+					LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
 					if(lrd == null) {
 						errors.add(DOC_NOT_FOUND + docId);
 						break;
 					} else {
-						LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
+						LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
 						if(lb == null) {
 							errors.add(LEAVE_BLOCK_NOT_FOUND + docId);
 							break;
@@ -422,12 +423,12 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 						errors.add("Reason is required for Disapprove action");
 						break;
 					} else {
-						LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
+						LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
 						if(lrd == null) {
 							errors.add(DOC_NOT_FOUND + docId);
 							break;
 						}else {
-							LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
+							LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
 							if(lb == null) {
 								errors.add(LEAVE_BLOCK_NOT_FOUND + docId);
 								break;
@@ -446,12 +447,12 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 						errors.add("Reason is required for Defer action");
 						break;
 					} else {
-						LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
+						LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
 						if(lrd == null) {
 							errors.add(DOC_NOT_FOUND + docId);
 							break;
 						}else {
-							LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
+							LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
 							if(lb == null) {
 								errors.add(LEAVE_BLOCK_NOT_FOUND + docId);
 								break;

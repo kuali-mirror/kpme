@@ -25,11 +25,11 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.time.test.HtmlUnitUtil;
+import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
 import org.kuali.hr.tklm.leave.web.LeaveCalendarWSForm;
-import org.kuali.hr.tklm.time.util.TKUtils;
-import org.kuali.hr.tklm.time.util.TkConstants;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;

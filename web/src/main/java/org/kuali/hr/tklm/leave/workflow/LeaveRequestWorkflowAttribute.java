@@ -26,9 +26,10 @@ import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kew.api.identity.Id;
 import org.kuali.rice.kew.api.identity.PrincipalId;
 import org.kuali.rice.kew.api.rule.RoleName;
@@ -49,7 +50,7 @@ public class LeaveRequestWorkflowAttribute extends AbstractRoleAttribute {
     public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
         List<String> roles = new ArrayList<String>();
         String documentNumber = documentContent.getRouteContext().getDocument().getDocumentId();
-        LeaveRequestDocument leaveRequestDocument = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(documentNumber);
+        LeaveRequestDocument leaveRequestDocument = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(documentNumber);
 
         if (leaveRequestDocument != null) {
             LeaveBlock leaveBlock = leaveRequestDocument.getLeaveBlock();
@@ -87,8 +88,8 @@ public class LeaveRequestWorkflowAttribute extends AbstractRoleAttribute {
 
         List<Id> principals = new ArrayList<Id>();
         String routeHeaderId = routeContext.getDocument().getDocumentId();
-        LeaveRequestDocument leaveRequestDocument = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(routeHeaderId);
-        LeaveBlock leaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveRequestDocument.getLmLeaveBlockId());
+        LeaveRequestDocument leaveRequestDocument = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(routeHeaderId);
+        LeaveBlock leaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leaveRequestDocument.getLmLeaveBlockId());
         WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leaveBlock.getLeaveLocalDate());
 
         List<RoleMember> roleMembers = new ArrayList<RoleMember>();

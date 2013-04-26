@@ -24,7 +24,6 @@ import java.util.Map;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.job.Job;
-import org.kuali.hr.tklm.time.base.web.TkForm;
 import org.kuali.rice.kim.api.identity.Person;
 
 public class PersonInfoActionForm extends TkForm {

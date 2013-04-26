@@ -27,7 +27,7 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.role.KPMERole;
-import org.kuali.hr.tklm.time.base.web.TkCommonCalendarForm;
+import org.kuali.hr.tklm.common.TkCommonCalendarForm;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.hr.tklm.time.base.web;
+package org.kuali.hr.core;
 
 import java.security.GeneralSecurityException;
 import java.text.SimpleDateFormat;

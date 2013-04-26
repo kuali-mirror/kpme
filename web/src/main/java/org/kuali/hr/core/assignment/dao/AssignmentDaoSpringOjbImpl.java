@@ -33,7 +33,7 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.core.workarea.WorkArea;
-import org.kuali.hr.tklm.time.util.TKContext;
+import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import com.google.common.collect.ImmutableList;

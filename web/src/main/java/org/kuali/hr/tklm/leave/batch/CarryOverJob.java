@@ -38,14 +38,14 @@ import org.kuali.hr.core.leaveplan.service.LeavePlanService;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.principal.service.PrincipalHRAttributesService;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.service.LeaveBlockService;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
 import org.kuali.hr.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.hr.tklm.leave.summary.service.LeaveSummaryService;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -192,7 +192,7 @@ public class CarryOverJob implements Job{
 
 	private LeaveSummaryService getLeaveSummaryService() {
         if (leaveSummaryService == null) {
-		    leaveSummaryService = TkServiceLocator.getLeaveSummaryService();
+		    leaveSummaryService = LmServiceLocator.getLeaveSummaryService();
         }
 		return leaveSummaryService;
 	}
@@ -214,7 +214,7 @@ public class CarryOverJob implements Job{
 
 	private LeaveBlockService getLeaveBlockService() {
         if (leaveBlockService == null) {
-		    leaveBlockService = TkServiceLocator.getLeaveBlockService();
+		    leaveBlockService = LmServiceLocator.getLeaveBlockService();
         }
 		return leaveBlockService;
 	}

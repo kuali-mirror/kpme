@@ -33,18 +33,18 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.TkAction;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.LeaveBlockHistory;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
 import org.kuali.hr.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.hr.tklm.time.base.web.TkAction;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
 import org.kuali.rice.kew.api.KewApiConstants;
 
 public class LeaveBlockDisplayAction extends TkAction {
@@ -75,7 +75,7 @@ public class LeaveBlockDisplayAction extends TkAction {
 		lbdf.setAccrualCategories(getAccrualCategories(leavePlan));
 		lbdf.setLeaveEntries(getLeaveEntries(TKContext.getTargetPrincipalId(), serviceDate, beginDate, endDate, lbdf.getAccrualCategories()));
 
-		List<LeaveBlockHistory> correctedLeaveEntries = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistoriesForLeaveDisplay(TKContext.getTargetPrincipalId(), beginDate, endDate, Boolean.TRUE);
+		List<LeaveBlockHistory> correctedLeaveEntries = LmServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistoriesForLeaveDisplay(TKContext.getTargetPrincipalId(), beginDate, endDate, Boolean.TRUE);
 		if (correctedLeaveEntries != null) {
 			for (LeaveBlockHistory leaveBlockHistory : correctedLeaveEntries) {
 				if (leaveBlockHistory.getAction() != null && leaveBlockHistory.getAction().equalsIgnoreCase(LMConstants.ACTION.DELETE)) {
@@ -90,7 +90,7 @@ public class LeaveBlockDisplayAction extends TkAction {
 		}
 		lbdf.setCorrectedLeaveEntries(correctedLeaveEntries);
 		
-		List<LeaveBlockHistory> inActiveLeaveEntries = TkServiceLocator.getLeaveBlockHistoryService() .getLeaveBlockHistoriesForLeaveDisplay(TKContext.getTargetPrincipalId(), beginDate, endDate, Boolean.FALSE);
+		List<LeaveBlockHistory> inActiveLeaveEntries = LmServiceLocator.getLeaveBlockHistoryService() .getLeaveBlockHistoriesForLeaveDisplay(TKContext.getTargetPrincipalId(), beginDate, endDate, Boolean.FALSE);
 		List<LeaveBlockHistory> leaveEntries = null;
 		if (inActiveLeaveEntries != null) {
 			leaveEntries = new ArrayList<LeaveBlockHistory>();
@@ -147,7 +147,7 @@ public class LeaveBlockDisplayAction extends TkAction {
 	private List<LeaveBlockDisplay> getLeaveEntries(String principalId, LocalDate serviceDate, LocalDate beginDate, LocalDate endDate, List<AccrualCategory> accrualCategories) {
 		List<LeaveBlockDisplay> leaveEntries = new ArrayList<LeaveBlockDisplay>();
 		
-		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
+		List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
 		
 		for (LeaveBlock leaveBlock : leaveBlocks) {
             if (!leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER)) {
@@ -185,7 +185,7 @@ public class LeaveBlockDisplayAction extends TkAction {
 	private SortedMap<String, BigDecimal> getPreviousAccrualBalances(String principalId, LocalDate serviceDate, LocalDate beginDate, List<AccrualCategory> accrualCategories) {
 		SortedMap<String, BigDecimal> previousAccrualBalances = new TreeMap<String, BigDecimal>();
 
-        LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(principalId, beginDate);
+        LeaveSummary leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(principalId, beginDate);
 
         for (LeaveSummaryRow row : leaveSummary.getLeaveSummaryRows()) {
             previousAccrualBalances.put(row.getAccrualCategory(), row.getLeaveBalance());
@@ -197,7 +197,7 @@ public class LeaveBlockDisplayAction extends TkAction {
 	private void assignDocumentStatusToLeaveBlock(LeaveBlock leaveBlock) {
 		//lookup document associated with this leave block and assign document status
 		if(StringUtils.isNotEmpty(leaveBlock.getDocumentId())) {
-			LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(leaveBlock.getDocumentId());
+			LeaveCalendarDocumentHeader lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(leaveBlock.getDocumentId());
 			if(lcdh != null ) {
 				leaveBlock.setDocumentStatus(KewApiConstants.DOCUMENT_STATUSES.get(lcdh.getDocumentStatus()));
 			}

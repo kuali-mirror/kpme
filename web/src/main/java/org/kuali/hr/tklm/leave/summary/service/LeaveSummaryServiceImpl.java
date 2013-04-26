@@ -43,15 +43,16 @@ import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.leaveplan.LeavePlan;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.service.LeaveBlockService;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
 import org.kuali.hr.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeaveSummaryServiceImpl implements LeaveSummaryService {
@@ -112,7 +113,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
             }
             // get all leave blocks from the requested date to the usageEndDate
             List<LeaveBlock> futureLeaveBlocks = getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, endDate, usageEndDate, accrualCategory);
-            EmployeeOverride maxUsageOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), accrualCategory, "MU", usageEndDate);
+            EmployeeOverride maxUsageOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), accrualCategory, "MU", usageEndDate);
 
             //get max balances
             AccrualCategoryRule acRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(ac, LocalDate.now(), pha.getServiceLocalDate());
@@ -204,7 +205,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                 String aString = formatter.print(startDate) + " - " + formatter2.print(entryEndDate);
                 ls.setPendingDatesString(aString);
 
-                LeaveCalendarDocumentHeader approvedLcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getMaxEndDateApprovedLeaveCalendar(principalId);
+                LeaveCalendarDocumentHeader approvedLcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getMaxEndDateApprovedLeaveCalendar(principalId);
                 if(approvedLcdh != null) {
                     DateTime endApprovedDate = approvedLcdh.getEndDateTime();
                     LocalDateTime aLocalTime = new DateTime(approvedLcdh.getEndDate()).toLocalDateTime();
@@ -253,7 +254,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             AccrualCategoryRule acRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(ac, endDate, pha.getServiceLocalDate());
                             //accrual category rule id set on a leave summary row will be useful in generating a relevant balance transfer
                             //document from the leave calendar display. Could put this id in the request for balance transfer document.
-                            EmployeeOverride maxUsageOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), ac.getAccrualCategory(), "MU", endDate);
+                            EmployeeOverride maxUsageOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), ac.getAccrualCategory(), "MU", endDate);
 
                             lsr.setAccrualCategoryRuleId(acRule == null ? null : acRule.getLmAccrualCategoryRuleId());
                             if(acRule != null &&
@@ -433,7 +434,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     			BigDecimal maxBalance = accrualCategoryRule.getMaxBalance();
     			BigDecimal fte = HrServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, LocalDate.now());
     			BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
-    			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, LocalDate.now());
+    			List<EmployeeOverride> overrides = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, LocalDate.now());
     			for(EmployeeOverride override : overrides) {
     				if(StringUtils.equals(override.getOverrideType(),TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MB"))
     						&& override.isActive()) {
@@ -468,7 +469,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     			BigDecimal maxBalance = accrualCategoryRule.getMaxBalance();
     			BigDecimal fte = HrServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, LocalDate.now());
     			BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
-    			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, LocalDate.now());
+    			List<EmployeeOverride> overrides = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, LocalDate.now());
     			for(EmployeeOverride override : overrides) {
     				if(StringUtils.equals(override.getOverrideType(),TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MB"))
     						&& override.isActive()) {
@@ -626,7 +627,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 
     protected LeaveBlockService getLeaveBlockService() {
         if (leaveBlockService == null) {
-            leaveBlockService = TkServiceLocator.getLeaveBlockService();
+            leaveBlockService = LmServiceLocator.getLeaveBlockService();
         }
         return leaveBlockService;
     }

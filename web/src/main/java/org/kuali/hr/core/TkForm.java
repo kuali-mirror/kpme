@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.hr.tklm.time.base.web;
+package org.kuali.hr.core;
 
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -70,7 +71,7 @@ public class TkForm extends KualiForm {
     
     public boolean getLeaveEnabled() {
     	boolean canViewLeaveTab= false;
-        canViewLeaveTab = this.getViewLeaveTabsWithNEStatus() || TkServiceLocator.getLMPermissionService().canViewLeaveTabsWithEStatus();
+        canViewLeaveTab = this.getViewLeaveTabsWithNEStatus() || LmServiceLocator.getLMPermissionService().canViewLeaveTabsWithEStatus();
         return canViewLeaveTab; 
     }
     
@@ -83,6 +84,6 @@ public class TkForm extends KualiForm {
 	}
  
     public boolean getViewLeaveTabsWithNEStatus() {
-    	return TkServiceLocator.getLMPermissionService().canViewLeaveTabsWithNEStatus();
+    	return LmServiceLocator.getLMPermissionService().canViewLeaveTabsWithNEStatus();
     }
 }

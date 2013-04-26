@@ -44,17 +44,17 @@ import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.leaveplan.LeavePlan;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.accrual.PrincipalAccrualRan;
 import org.kuali.hr.tklm.leave.accrual.RateRange;
 import org.kuali.hr.tklm.leave.accrual.RateRangeAggregate;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TKUtils;
-import org.kuali.hr.tklm.time.util.TkConstants;
 
 public class AccrualServiceImpl implements AccrualService {
     private static final Logger LOG = Logger.getLogger(AccrualServiceImpl.class);
@@ -349,17 +349,17 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 		
 		//Save accrual leave blocks at the very end
-		TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(accrualLeaveBlocks);
+		LmServiceLocator.getLeaveBlockService().saveLeaveBlocks(accrualLeaveBlocks);
 		
 		// record timestamp of this accrual run in database
 		if(recordRanData) {
-			TkServiceLocator.getPrincipalAccrualRanService().updatePrincipalAccrualRanInfo(principalId);
+			LmServiceLocator.getPrincipalAccrualRanService().updatePrincipalAccrualRanInfo(principalId);
 		}
 		
 	}
 	
 	private void deactivateOldAccruals(String principalId, DateTime startDate, DateTime endDate, String runAsPrincipalId) {
-		List<LeaveBlock> previousLB = TkServiceLocator.getLeaveBlockService().getAccrualGeneratedLeaveBlocks(principalId, startDate.toLocalDate(), endDate.toLocalDate());
+		List<LeaveBlock> previousLB = LmServiceLocator.getLeaveBlockService().getAccrualGeneratedLeaveBlocks(principalId, startDate.toLocalDate(), endDate.toLocalDate());
 		List<LeaveBlock> sstoAccrualList = new ArrayList<LeaveBlock>();
 		List<LeaveBlock> sstoUsageList = new ArrayList<LeaveBlock>();
 		
@@ -371,7 +371,7 @@ public class AccrualServiceImpl implements AccrualService {
 					sstoUsageList.add(lb);
 				}
 			} else {
-				TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), runAsPrincipalId);
+				LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), runAsPrincipalId);
 			}
 		}
 		
@@ -380,8 +380,8 @@ public class AccrualServiceImpl implements AccrualService {
 				// both usage and accrual ssto leave blocks are there, so the ssto accural is not banked, removed both leave blocks
 				// if this is no ssto usage leave block, it means the user has banked this ssto hours. Don't delete this ssto accrual leave block
 				if(accrualLb.getScheduleTimeOffId().equals(usageLb.getScheduleTimeOffId())) {	
-					TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(accrualLb.getLmLeaveBlockId(), runAsPrincipalId);
-					TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(usageLb.getLmLeaveBlockId(), runAsPrincipalId);
+					LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(accrualLb.getLmLeaveBlockId(), runAsPrincipalId);
+					LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(usageLb.getLmLeaveBlockId(), runAsPrincipalId);
 				}
 			}
 		}
@@ -391,7 +391,7 @@ public class AccrualServiceImpl implements AccrualService {
 	private BigDecimal getNotEligibleForAccrualHours(String principalId, LocalDate currentDate) {
 		BigDecimal hours = BigDecimal.ZERO;
 		// check if there's any manual not-eligible-for-accrual leave blocks, use the hours of the leave block to adjust accrual calculation 
-		List<LeaveBlock> lbs = TkServiceLocator.getLeaveBlockService().getNotAccrualGeneratedLeaveBlocksForDate(principalId, currentDate);
+		List<LeaveBlock> lbs = LmServiceLocator.getLeaveBlockService().getNotAccrualGeneratedLeaveBlocksForDate(principalId, currentDate);
 		for(LeaveBlock lb : lbs) {
 			EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), currentDate);
 			if(ec == null) {
@@ -592,7 +592,7 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 		List<SystemScheduledTimeOff> sstoList = new ArrayList<SystemScheduledTimeOff>();
 		for(String lpString : lpStringSet) {
-			List<SystemScheduledTimeOff> aList =TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffsForLeavePlan(startDate.toLocalDate(), endDate.toLocalDate(), lpString);
+			List<SystemScheduledTimeOff> aList =LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffsForLeavePlan(startDate.toLocalDate(), endDate.toLocalDate(), lpString);
 			if(CollectionUtils.isNotEmpty(aList)) {
 				sstoList.addAll(aList);
 			}
@@ -622,7 +622,7 @@ public class AccrualServiceImpl implements AccrualService {
 			inactiveRuleList.addAll(aRuleList);
 		}
 		
-		List<LeaveCalendarDocumentHeader> lcDocList = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getAllDocumentHeadersInRangeForPricipalId(principalId, startDate, endDate);
+		List<LeaveCalendarDocumentHeader> lcDocList = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getAllDocumentHeadersInRangeForPricipalId(principalId, startDate, endDate);
 		
 		BigDecimal previousFte = null;
 		List<Job> jobs = new ArrayList<Job>();
@@ -677,7 +677,7 @@ public class AccrualServiceImpl implements AccrualService {
 						// if there exists a ssto accrualed leave block with this ssto id, it means the ssto hours has been banked or transferred by the employee
 						// this logic depends on the deactivateOldAccruals() runs before buildRateRangeAggregate()
 						// because deactivateOldAccruals() removes accrued ssto leave blocks unless they are banked/transferred
-						List<LeaveBlock> sstoLbList = TkServiceLocator.getLeaveBlockService().getSSTOLeaveBlocks(principalId, ssto.getLmSystemScheduledTimeOffId(), ssto.getAccruedLocalDate());
+						List<LeaveBlock> sstoLbList = LmServiceLocator.getLeaveBlockService().getSSTOLeaveBlocks(principalId, ssto.getLmSystemScheduledTimeOffId(), ssto.getAccruedLocalDate());
 						if(CollectionUtils.isEmpty(sstoLbList)) {
 							rateRange.setSysScheTimeOff(ssto);
 						}
@@ -1117,7 +1117,7 @@ public class AccrualServiceImpl implements AccrualService {
 	
 	@Override
 	public boolean statusChangedSinceLastRun(String principalId) {
-		PrincipalAccrualRan par = TkServiceLocator.getPrincipalAccrualRanService().getLastPrincipalAccrualRan(principalId);
+		PrincipalAccrualRan par = LmServiceLocator.getPrincipalAccrualRanService().getLastPrincipalAccrualRan(principalId);
 		if(par == null) {
 			return true;
 		}
@@ -1137,7 +1137,7 @@ public class AccrualServiceImpl implements AccrualService {
 			return true;
 		}
 		// if there are leave blocks created for earn codes with eligible-for-accrual = no since the last accrual run, it should trigger recalculation 
-		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getABELeaveBlocksSinceTime(principalId, par.getLastRanTs());
+		List<LeaveBlock> lbList = LmServiceLocator.getLeaveBlockService().getABELeaveBlocksSinceTime(principalId, par.getLastRanTs());
 		if(CollectionUtils.isNotEmpty(lbList)) {
 			return true;
 		}		

@@ -8,7 +8,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.pm.paystep.PayStep;
-import org.kuali.hr.tklm.time.util.TkConstants;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import com.google.common.collect.ImmutableList;

@@ -17,8 +17,8 @@ package org.kuali.hr.tklm.time.timesheet;
 
 
 import org.apache.cxf.common.util.StringUtils;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TkConstants;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 public class TimesheetDocumentIdValueFinder implements ValueFinder {

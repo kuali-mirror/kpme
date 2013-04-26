@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.hr.tklm.time.web;
+package org.kuali.hr.core;
 
 import java.io.IOException;
 
@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 public class TkLoginFilter implements Filter {

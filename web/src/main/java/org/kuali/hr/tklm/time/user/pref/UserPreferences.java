@@ -17,7 +17,7 @@ package org.kuali.hr.tklm.time.user.pref;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.KPMEConstants;
-import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class UserPreferences extends PersistableBusinessObjectBase {

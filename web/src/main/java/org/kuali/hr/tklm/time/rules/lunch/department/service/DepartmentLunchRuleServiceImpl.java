@@ -21,13 +21,13 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.hr.tklm.time.rules.lunch.department.dao.DepartmentLunchRuleDao;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timeblock.TimeHourDetail;
-import org.kuali.hr.tklm.time.util.TKUtils;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;
 
 public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleService {

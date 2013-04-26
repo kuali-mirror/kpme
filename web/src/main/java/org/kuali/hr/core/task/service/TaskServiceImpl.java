@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.task.Task;
 import org.kuali.hr.core.task.dao.TaskDao;
-import org.kuali.hr.tklm.time.util.TkConstants;
+import org.kuali.hr.tklm.common.TkConstants;
 
 public class TaskServiceImpl implements TaskService {
 

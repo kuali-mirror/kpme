@@ -36,14 +36,15 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.hr.tklm.leave.block.dao.LeaveBlockDao;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -153,7 +154,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         // save history
         LeaveBlockHistory lbh = new LeaveBlockHistory(leaveBlock);
         lbh.setAction(LMConstants.ACTION.MODIFIED);
-        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
+        LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
         
     }
 
@@ -200,7 +201,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         List<LeaveBlock> currentLeaveBlocks = getLeaveBlocks(principalId, calBeginDateTime.toLocalDate(), calEndDateTime.toLocalDate());
     
         // use the current calendar's begin and end date to figure out if this pay period has a leaveDocument
-        LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService()
+        LeaveCalendarDocumentHeader lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService()
         		.getDocumentHeader(principalId, ce.getBeginPeriodLocalDateTime().toDateTime(), ce.getEndPeriodLocalDateTime().toDateTime());
         String docId = lcdh == null ? null : lcdh.getDocumentId();
         
@@ -224,7 +225,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                     DateTime leaveBlockDate = new DateTime(leaveBlockInt.getStartMillis());
                     
                     String requestStatus = LMConstants.REQUEST_STATUS.USAGE;
-                    if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
+                    if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
                     	TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveBlockDate);
                     	if (tdh != null) {
      	            	   if (DateUtils.isSameDay(leaveBlockDate.toDate(), tdh.getEndDate()) || leaveBlockDate.isAfter(new DateTime(tdh.getEndDate()))) {

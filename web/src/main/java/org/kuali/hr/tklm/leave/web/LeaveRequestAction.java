@@ -31,17 +31,17 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.TkAction;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.hr.tklm.leave.request.service.LeaveRequestDocumentService;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
-import org.kuali.hr.tklm.time.base.web.TkAction;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 
@@ -78,7 +78,7 @@ public class LeaveRequestAction extends TkAction {
 
         CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, new DateTime(beginDate), new DateTime(endDate));
         Boolean checkLeaveEligible = true;
-        Boolean nonExemptLeaveEligible = TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT,checkLeaveEligible);
+        Boolean nonExemptLeaveEligible = LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT,checkLeaveEligible);
         if(nonExemptLeaveEligible && calendarEntry != null && payCalendarEntry != null) {
             if ( payCalendarEntry.getEndPeriodDate().before(calendarEntry.getEndPeriodDate()) ) {
                 calendarEntry = payCalendarEntry;
@@ -106,7 +106,7 @@ public class LeaveRequestAction extends TkAction {
 
 
     private List<LeaveBlock> getLeaveBlocksWithRequestStatus(String principalId, LocalDate beginDate, LocalDate endDate, String requestStatus) {
-        List<LeaveBlock> plannedLeaves = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, requestStatus, beginDate, endDate);
+        List<LeaveBlock> plannedLeaves = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, requestStatus, beginDate, endDate);
 
         Collections.sort(plannedLeaves, new Comparator<LeaveBlock>() {
             @Override
@@ -119,7 +119,7 @@ public class LeaveRequestAction extends TkAction {
     }
     
     private List<LeaveBlockHistory> getDisapprovedLeaveBlockHistory(String principalId, LocalDate currentDate) {
-        List<LeaveBlockHistory> historyList = TkServiceLocator.getLeaveBlockHistoryService()
+        List<LeaveBlockHistory> historyList = LmServiceLocator.getLeaveBlockHistoryService()
         	.getLeaveBlockHistories(principalId, LMConstants.REQUEST_STATUS.DISAPPROVED, LMConstants.ACTION.DELETE, currentDate);
 
         Collections.sort(historyList, new Comparator<LeaveBlockHistory>() {
@@ -138,8 +138,8 @@ public class LeaveRequestAction extends TkAction {
 		for(LeaveBlock leaveBlock : lf.getPlannedLeaves()) {
 			// check if check box is checked
 			if(leaveBlock.getSubmit()) {
-                LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().createLeaveRequestDocument(leaveBlock.getLmLeaveBlockId());
-                TkServiceLocator.getLeaveRequestDocumentService().requestLeave(lrd.getDocumentNumber());
+                LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().createLeaveRequestDocument(leaveBlock.getLmLeaveBlockId());
+                LmServiceLocator.getLeaveRequestDocumentService().requestLeave(lrd.getDocumentNumber());
 		    }
 		}
 	    return mapping.findForward("basic");
@@ -183,7 +183,7 @@ public class LeaveRequestAction extends TkAction {
 
     private LeaveRequestDocumentService getLeaveRequestDocumentService() {
         if (leaveRequestDocumentService == null) {
-            leaveRequestDocumentService = TkServiceLocator.getLeaveRequestDocumentService();
+            leaveRequestDocumentService = LmServiceLocator.getLeaveRequestDocumentService();
         }
         return leaveRequestDocumentService;
     }

@@ -35,11 +35,12 @@ import org.kuali.hr.core.department.Department;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.tklm.time.timeblock.TimeBlockHistoryDetail;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 
@@ -151,9 +152,9 @@ public class TimeBlockHistoryDetailLookupableHelperServiceImpl extends KualiLook
 					|| TkServiceLocator.getHRGroupService().isMemberOfSystemViewOnlyGroup(TKContext.getPrincipalId(), new DateTime())
 					|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
 					|| TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(TKContext.getPrincipalId(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-					|| TkServiceLocator.getLMRoleService().principalHasRoleInDepartment(TKContext.getPrincipalId(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+					|| LmServiceLocator.getLMRoleService().principalHasRoleInDepartment(TKContext.getPrincipalId(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
 					|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(TKContext.getPrincipalId(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
-					|| TkServiceLocator.getLMRoleService().principalHasRoleInLocation(TKContext.getPrincipalId(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {	
+					|| LmServiceLocator.getLMRoleService().principalHasRoleInLocation(TKContext.getPrincipalId(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {	
 				valid = true;
 			}
 			

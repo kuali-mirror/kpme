@@ -30,9 +30,10 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.calendar.CalendarParent;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;
 
 import com.google.common.collect.HashMultimap;
@@ -58,7 +59,7 @@ public class LeaveCalendar extends CalendarParent {
 
         LeaveCalendarWeek leaveCalendarWeek = new LeaveCalendarWeek();
         Integer dayNumber = 0;
-        List<LeaveBlock> blocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
+        List<LeaveBlock> blocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
         Map<String, List<LeaveBlock>> leaveBlockMap = new HashMap<String, List<LeaveBlock>>();
         for (LeaveBlock lb : blocks) {
             String key = new LocalDate(lb.getLeaveDate()).toString();
@@ -91,13 +92,13 @@ public class LeaveCalendar extends CalendarParent {
                }
                // use given assignmentKeys to control leave blocks displayed on the calendar
                if(CollectionUtils.isNotEmpty(lbs) && CollectionUtils.isNotEmpty(assignmentKeys)) {
-            	   List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().filterLeaveBlocksForLeaveCalendar(lbs, assignmentKeys);
+            	   List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().filterLeaveBlocksForLeaveCalendar(lbs, assignmentKeys);
             	   leaveCalendarDay.setLeaveBlocks(leaveBlocks);
                } else {
             	   leaveCalendarDay.setLeaveBlocks(lbs);
                }
                
-               if (TkServiceLocator.getLMPermissionService().canViewLeaveTabsWithNEStatus()) {
+               if (LmServiceLocator.getLMPermissionService().canViewLeaveTabsWithNEStatus()) {
 	               TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveDate.toDateTimeAtStartOfDay());
 	               if (tdh != null) {
 	            	   if (DateUtils.isSameDay(leaveDate.toDate(), tdh.getEndDate()) || leaveDate.isAfter(LocalDate.fromDateFields(tdh.getEndDate()))) {
@@ -129,7 +130,7 @@ public class LeaveCalendar extends CalendarParent {
             getWeeks().add(leaveCalendarWeek);
         }
 
-        boolean isPlanningCal = TkServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
+        boolean isPlanningCal = LmServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
         Map<String, String> earnCodes = HrServiceLocator.getEarnCodeService().getEarnCodesForDisplay(principalId, isPlanningCal);
         setEarnCodeList(earnCodes);
     }
@@ -141,7 +142,7 @@ public class LeaveCalendar extends CalendarParent {
     }
     
     private Multimap<Date, LeaveBlock> leaveBlockAggregator(String documentId) {
-        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(documentId);
+        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(documentId);
         Multimap<Date, LeaveBlock> leaveBlockAggregrate = HashMultimap.create();
         for (LeaveBlock leaveBlock : leaveBlocks) {
             leaveBlockAggregrate.put(leaveBlock.getLeaveDate(), leaveBlock);

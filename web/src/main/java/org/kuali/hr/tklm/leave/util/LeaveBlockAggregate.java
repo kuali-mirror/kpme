@@ -24,9 +24,9 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendar;
-import org.kuali.hr.tklm.time.util.TKUtils;
 
 public class LeaveBlockAggregate {
 	public List<List<LeaveBlock>> dayLeaveBlockList = new ArrayList<List<LeaveBlock>>();

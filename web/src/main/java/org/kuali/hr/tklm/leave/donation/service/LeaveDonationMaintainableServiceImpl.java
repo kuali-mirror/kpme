@@ -24,7 +24,7 @@ import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.donation.LeaveDonation;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 
 public class LeaveDonationMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -32,7 +32,7 @@ public class LeaveDonationMaintainableServiceImpl extends HrBusinessObjectMainta
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return TkServiceLocator.getLeaveDonationService().getLeaveDonation(id);
+		return LmServiceLocator.getLeaveDonationService().getLeaveDonation(id);
 	}
 	
 	@Override
@@ -72,6 +72,6 @@ public class LeaveDonationMaintainableServiceImpl extends HrBusinessObjectMainta
 		aLeaveBlock.setBlockId(0L);
 		lbList.add(aLeaveBlock);
 		
-		TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(lbList);
+		LmServiceLocator.getLeaveBlockService().saveLeaveBlocks(lbList);
 	}
 }

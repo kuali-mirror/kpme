@@ -46,9 +46,13 @@ import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.hr.tklm.leave.transfer.validation.BalanceTransferValidationUtils;
 import org.kuali.hr.tklm.leave.util.LeaveBlockAggregate;
@@ -63,9 +67,6 @@ import org.kuali.hr.tklm.time.timesummary.AssignmentRow;
 import org.kuali.hr.tklm.time.timesummary.EarnCodeSection;
 import org.kuali.hr.tklm.time.timesummary.EarnGroupSection;
 import org.kuali.hr.tklm.time.timesummary.TimeSummary;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TKUtils;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.hr.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -116,9 +117,9 @@ public class TimeDetailAction extends TimesheetAction {
         for(Assignment assign : timeAssignments) {
         	tAssignmentKeys.add(assign.getAssignmentKey());
         }
-        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(TKContext.getCurrentTimesheetDocument().getPrincipalId(), 
+        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(TKContext.getCurrentTimesheetDocument().getPrincipalId(), 
         					payCalendarEntry.getBeginPeriodFullDateTime().toLocalDate(), payCalendarEntry.getEndPeriodFullDateTime().toLocalDate(), tAssignmentKeys);
-        List<LeaveBlock> balanceTransferLeaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(TKContext.getCurrentTimesheetDocument().getPrincipalId(),
+        List<LeaveBlock> balanceTransferLeaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(TKContext.getCurrentTimesheetDocument().getPrincipalId(),
         		 payCalendarEntry.getBeginPeriodFullDateTime().toLocalDate(), payCalendarEntry.getEndPeriodFullDateTime().toLocalDate(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
         
 //        List<String> warnings = tdaf.getWarnings();
@@ -137,14 +138,14 @@ public class TimeDetailAction extends TimesheetAction {
         // add warning messages based on max carry over balances for each accrual category for non-exempt leave users
         String viewPrincipal = TKContext.getTargetPrincipalId();
         List<BalanceTransfer> losses = new ArrayList<BalanceTransfer>();
-        if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(viewPrincipal, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
+        if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(viewPrincipal, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
             PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, payCalendarEntry.getEndPeriodFullDateTime().toLocalDate());
 
 	        Interval calendarInterval = new Interval(payCalendarEntry.getBeginPeriodDate().getTime(), payCalendarEntry.getEndPeriodDate().getTime());
 	        Map<String,Set<LeaveBlock>> maxBalInfractions = new HashMap<String,Set<LeaveBlock>>();
 	        
             if(ObjectUtils.isNotNull(principalCalendar)) {
-    	        maxBalInfractions = TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(payCalendarEntry, viewPrincipal);
+    	        maxBalInfractions = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(payCalendarEntry, viewPrincipal);
     	        
     	        for(Entry<String,Set<LeaveBlock>> entry : maxBalInfractions.entrySet()) {
     	        	for(LeaveBlock lb : entry.getValue()) {
@@ -167,7 +168,7 @@ public class TimeDetailAction extends TimesheetAction {
 					    			AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
 					    			BigDecimal accruedBalance = HrServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(viewPrincipal, accrualCategory, lb.getLeaveLocalDate());
 						        	
-						        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveLocalDate());
+						        	BalanceTransfer loseTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveLocalDate());
 						        	boolean valid = BalanceTransferValidationUtils.validateTransfer(loseTransfer);
 						        	if(valid)
 						        		losses.add(loseTransfer);
@@ -196,7 +197,7 @@ public class TimeDetailAction extends TimesheetAction {
 					
 					List<AccrualCategory> accrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalCalendar.getLeavePlan(), LocalDate.fromDateFields(tdaf.getEndPeriodDateTime()));
 					for (AccrualCategory accrualCategory : accrualCategories) {
-						if (TkServiceLocator.getAccrualCategoryMaxCarryOverService().exceedsAccrualCategoryMaxCarryOver(accrualCategory.getAccrualCategory(), viewPrincipal, leaveCalendarEntries, LocalDate.fromDateFields(tdaf.getEndPeriodDateTime()))) {
+						if (LmServiceLocator.getAccrualCategoryMaxCarryOverService().exceedsAccrualCategoryMaxCarryOver(accrualCategory.getAccrualCategory(), viewPrincipal, leaveCalendarEntries, LocalDate.fromDateFields(tdaf.getEndPeriodDateTime()))) {
 							String message = "Your pending leave balance is greater than the annual max carry over for accrual category '" + accrualCategory.getAccrualCategory() + "' and upon approval, the excess balance will be lost.";
 							if (!warnings.contains(message)) {
 								warnings.add(message);
@@ -440,9 +441,9 @@ public class TimeDetailAction extends TimesheetAction {
     
     private void removeOldLeaveBlock(String lbId) {
   	  if (lbId != null) {
-  	      LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lbId);
+  	      LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lbId);
   	      if (lb != null) {
-  	          TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lbId, TKContext.getPrincipalId());
+  	          LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(lbId, TKContext.getPrincipalId());
   	      }
   	  }
     }
@@ -466,7 +467,7 @@ public class TimeDetailAction extends TimesheetAction {
 		String desc = "";	// there's no description field in time calendar pop window
 		String spanningWeeks = tdaf.getSpanningWeeks();
 		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), tdaf.getSelectedAssignment());
-		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, tdaf.getPayCalendarDates(), selectedEarnCode, leaveAmount, desc, assignment, 
+		LmServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, tdaf.getPayCalendarDates(), selectedEarnCode, leaveAmount, desc, assignment, 
 				spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR, TKContext.getTargetPrincipalId());
 	}
 	
@@ -640,9 +641,9 @@ public class TimeDetailAction extends TimesheetAction {
 	  TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
 	  String leaveBlockId = tdaf.getLmLeaveBlockId();
 
-      LeaveBlock blockToDelete = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
-      if (blockToDelete != null && TkServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), blockToDelete)) {
-		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, TKContext.getPrincipalId());
+      LeaveBlock blockToDelete = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
+      if (blockToDelete != null && LmServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), blockToDelete)) {
+		    LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, TKContext.getPrincipalId());
       }
       
       // if the leave block is NOT eligible for accrual, rerun accrual service for the leave calendar the leave block is on
@@ -651,7 +652,7 @@ public class TimeDetailAction extends TimesheetAction {
     	  CalendarEntry ce = HrServiceLocator.getCalendarService()
 					.getCurrentCalendarDatesForLeaveCalendar(blockToDelete.getPrincipalId(), new DateTime(blockToDelete.getLeaveDate()));
     	  if(ce != null) {
-    		  TkServiceLocator.getLeaveAccrualService().runAccrual(blockToDelete.getPrincipalId(), ce.getBeginPeriodFullDateTime().toDateTime(), ce.getEndPeriodFullDateTime().toDateTime(), false);
+    		  LmServiceLocator.getLeaveAccrualService().runAccrual(blockToDelete.getPrincipalId(), ce.getBeginPeriodFullDateTime().toDateTime(), ce.getEndPeriodFullDateTime().toDateTime(), false);
     	  }
       }
 		

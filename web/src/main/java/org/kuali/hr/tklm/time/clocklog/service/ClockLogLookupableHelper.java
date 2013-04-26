@@ -30,10 +30,11 @@ import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
 import org.kuali.hr.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.hr.tklm.time.workflow.service.TimesheetDocumentHeaderService;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -132,9 +133,9 @@ public class ClockLogLookupableHelper extends KPMELookupableHelper {
 				if (TkServiceLocator.getHRGroupService().isMemberOfSystemAdministratorGroup(TKContext.getPrincipalId(), new DateTime())
 						|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), cl.getWorkArea(), new DateTime())
 						|| TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(TKContext.getPrincipalId(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-						|| TkServiceLocator.getLMRoleService().principalHasRoleInDepartment(TKContext.getPrincipalId(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+						|| LmServiceLocator.getLMRoleService().principalHasRoleInDepartment(TKContext.getPrincipalId(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
 						|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(TKContext.getPrincipalId(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
-						|| TkServiceLocator.getLMRoleService().principalHasRoleInLocation(TKContext.getPrincipalId(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {
+						|| LmServiceLocator.getLMRoleService().principalHasRoleInLocation(TKContext.getPrincipalId(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {
 						valid = true;
 				}
 				

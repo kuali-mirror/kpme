@@ -43,12 +43,13 @@ import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timeblock.TimeHourDetail;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ActionFormUtils {
@@ -279,7 +280,7 @@ public class ActionFormUtils {
         	DateTime leaveDate = new DateTime(leaveBlock.getLeaveDate());
         	leaveBlockMap.put("leaveDate", leaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
         	leaveBlockMap.put("id", leaveBlock.getLmLeaveBlockId());
-        	leaveBlockMap.put("canTransfer", TkServiceLocator.getLMPermissionService().canTransferSSTOUsage(leaveBlock));
+        	leaveBlockMap.put("canTransfer", LmServiceLocator.getLMPermissionService().canTransferSSTOUsage(leaveBlock));
         	leaveBlockMap.put("startDate", leaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
         	leaveBlockMap.put("endDate", leaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
         	

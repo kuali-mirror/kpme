@@ -25,7 +25,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.hr.tklm.time.util.TKContext;
+import org.kuali.hr.tklm.common.TKContext;
 
 public class TkMobileFilter implements Filter {
 

@@ -24,10 +24,10 @@ import org.junit.Test;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.util.LeaveBlockAggregate;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
 
 public class LeaveBlockAggregateTest extends KPMETestCase {
 	private String TEST_USER = "admin";
@@ -38,7 +38,7 @@ public class LeaveBlockAggregateTest extends KPMETestCase {
 		LocalDate beginDate = new LocalDate(2012, 3, 1);
 		LocalDate endDate = beginDate.plusDays(14);
 		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
-		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(TEST_USER, beginDate, endDate);
+		List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(TEST_USER, beginDate, endDate);
 		
 		// get leaveBlockAggaregate with leaveBlocks, calendarEntry and intervals
 		LeaveBlockAggregate lbAgg = new LeaveBlockAggregate(leaveBlocks, ce, TKUtils.getFullWeekDaySpanForCalendarEntry(ce));

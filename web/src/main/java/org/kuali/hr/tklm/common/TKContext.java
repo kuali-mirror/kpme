@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.hr.tklm.time.util;
+package org.kuali.hr.tklm.common;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,6 +29,7 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -94,32 +95,32 @@ public class TKContext {
 	
 	public static boolean isLocationAdmin() {
         return TkServiceLocator.getTKRoleService().principalHasRole(getPrincipalId(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime())
-        		|| TkServiceLocator.getLMRoleService().principalHasRole(getPrincipalId(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime());
+        		|| LmServiceLocator.getLMRoleService().principalHasRole(getPrincipalId(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime());
 	}
 	
 	public static boolean isTargetLocationAdmin() {
         return TkServiceLocator.getTKRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime())
-        		|| TkServiceLocator.getLMRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime());
+        		|| LmServiceLocator.getLMRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime());
 	}
 	
 	public static boolean isDepartmentAdmin() {
     	return TkServiceLocator.getTKRoleService().principalHasRole(getPrincipalId(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime())
-    			|| TkServiceLocator.getLMRoleService().principalHasRole(getPrincipalId(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime());
+    			|| LmServiceLocator.getLMRoleService().principalHasRole(getPrincipalId(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime());
 	}
 	
 	public static boolean isTargetDepartmentAdmin() {
     	return TkServiceLocator.getTKRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime())
-    			|| TkServiceLocator.getLMRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime());
+    			|| LmServiceLocator.getLMRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime());
 	}
 	
 	public static boolean isDepartmentViewOnly() {
     	return TkServiceLocator.getTKRoleService().principalHasRole(getPrincipalId(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime())
-    			|| TkServiceLocator.getLMRoleService().principalHasRole(getPrincipalId(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime());
+    			|| LmServiceLocator.getLMRoleService().principalHasRole(getPrincipalId(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime());
 	}
 	
 	public static boolean isTargetDepartmentViewOnly() {
     	return TkServiceLocator.getTKRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime())
-    			|| TkServiceLocator.getLMRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime());
+    			|| LmServiceLocator.getLMRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime());
 	}
 	
 	public static boolean isAnyApprover() {

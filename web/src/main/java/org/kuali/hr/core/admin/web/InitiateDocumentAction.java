@@ -22,12 +22,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.hr.core.TkAction;
 import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.service.HrServiceLocator;
-import org.kuali.hr.tklm.time.base.web.TkAction;
+import org.kuali.hr.tklm.common.TkConstants;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
@@ -49,7 +50,7 @@ public class InitiateDocumentAction extends TkAction {
     				if (StringUtils.equals(calendar.getCalendarTypes(), TkConstants.CALENDAR_TYPE_PAY)) {
     					TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, calendarEntry);
     				} else if (StringUtils.equals(calendar.getCalendarTypes(), TkConstants.CALENDAR_TYPE_LEAVE)) {
-    					TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(principalId, calendarEntry);
+    					LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(principalId, calendarEntry);
     				}
     			}
     		}

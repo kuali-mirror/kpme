@@ -28,8 +28,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
-import org.kuali.hr.tklm.time.base.web.TkAction;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.TkAction;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
@@ -51,10 +51,10 @@ public class CalculateLeaveAccrualsAction extends TkAction {
     			DateTime endDate = new DateTime(parsedEndDate);
     	
     			LOG.debug("AccrualServiceImpl.runAccrual() called with Principal: " + principal.getPrincipalName() + " Start: " + startDate.toString() + " End: " + endDate.toString());
-    			TkServiceLocator.getLeaveAccrualService().runAccrual(principal.getPrincipalId(), startDate, endDate, true);
+    			LmServiceLocator.getLeaveAccrualService().runAccrual(principal.getPrincipalId(), startDate, endDate, true);
     		} else {
     			LOG.debug("AccrualServiceImpl.runAccrual() called with Principal: " + principal.getPrincipalName());
-    			TkServiceLocator.getLeaveAccrualService().runAccrual(principal.getPrincipalId());
+    			LmServiceLocator.getLeaveAccrualService().runAccrual(principal.getPrincipalId());
     		}
 		}
     	return mapping.findForward("basic");

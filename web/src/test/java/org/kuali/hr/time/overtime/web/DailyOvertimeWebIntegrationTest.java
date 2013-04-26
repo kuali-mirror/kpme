@@ -33,11 +33,11 @@ import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.time.timesheet.web.TimesheetWebTestBase;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TKUtils;
 
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;

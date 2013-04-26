@@ -24,12 +24,13 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
@@ -107,7 +108,7 @@ public class WorkflowTagSupport {
 	        DocumentStatus documentStatus = DocumentStatus.fromCode(leaveCalendarDocument.getDocumentHeader().getDocumentStatus());
 	        
 	        if (ObjectUtils.equals(documentStatus, DocumentStatus.INITIATED) || ObjectUtils.equals(documentStatus, DocumentStatus.SAVED)) {
-	        	isDisplayingRouteButton = TkServiceLocator.getLMPermissionService().canSubmitLeaveCalendar(principalId, documentId);
+	        	isDisplayingRouteButton = LmServiceLocator.getLMPermissionService().canSubmitLeaveCalendar(principalId, documentId);
 	        }
     	}
     	
@@ -129,7 +130,7 @@ public class WorkflowTagSupport {
     public boolean isRouteLeaveButtonEnabled() {
         LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
         return isRouteButtonEnabled(doc) && !isDelinquent(doc) 
-        		&& (TkServiceLocator.getLMPermissionService().canViewLeaveTabsWithEStatus() && LocalDate.now().toDate().compareTo(doc.getDocumentHeader().getEndDate()) > 0);
+        		&& (LmServiceLocator.getLMPermissionService().canViewLeaveTabsWithEStatus() && LocalDate.now().toDate().compareTo(doc.getDocumentHeader().getEndDate()) > 0);
     }
 
     private boolean isRouteButtonEnabled(CalendarDocumentContract doc) {
@@ -145,7 +146,7 @@ public class WorkflowTagSupport {
      */
     private boolean isDelinquent(LeaveCalendarDocument doc) {
         String principalId = doc.getDocumentHeader().getPrincipalId();
-        List<LeaveCalendarDocumentHeader> lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getSubmissionDelinquentDocumentHeaders(principalId, new DateTime(doc.getAsOfDate()).plusSeconds(1));
+        List<LeaveCalendarDocumentHeader> lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getSubmissionDelinquentDocumentHeaders(principalId, new DateTime(doc.getAsOfDate()).plusSeconds(1));
         if (lcdh.isEmpty()){
             return false;        // no delinquncy
         } else
@@ -188,8 +189,8 @@ public class WorkflowTagSupport {
 	        boolean tookActionAlready = KEWServiceLocator.getActionTakenService().hasUserTakenAction(principalId, documentId);
 	        
 	        if (!ObjectUtils.equals(documentStatus, DocumentStatus.FINAL) && !tookActionAlready) {
-	        	isDisplayingApprovalButtons = TkServiceLocator.getLMPermissionService().canApproveLeaveCalendar(principalId, documentId)
-	        			|| TkServiceLocator.getLMPermissionService().canSuperUserAdministerLeaveCalendar(principalId, documentId);
+	        	isDisplayingApprovalButtons = LmServiceLocator.getLMPermissionService().canApproveLeaveCalendar(principalId, documentId)
+	        			|| LmServiceLocator.getLMPermissionService().canSuperUserAdministerLeaveCalendar(principalId, documentId);
 	        }
     	}
     	
@@ -203,7 +204,7 @@ public class WorkflowTagSupport {
 
     public boolean isApprovalLeaveButtonsEnabled() {
         LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
-        return isApprovalButtonsEnabled(doc) && TkServiceLocator.getLeaveCalendarService().isReadyToApprove(doc);
+        return isApprovalButtonsEnabled(doc) && LmServiceLocator.getLeaveCalendarService().isReadyToApprove(doc);
     }
 
     private boolean isApprovalButtonsEnabled(CalendarDocumentContract doc) {

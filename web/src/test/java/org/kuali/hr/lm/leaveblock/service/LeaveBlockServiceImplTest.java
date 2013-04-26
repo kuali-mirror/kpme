@@ -32,7 +32,7 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.service.LeaveBlockService;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 
 public class LeaveBlockServiceImplTest extends KPMETestCase {
 	
@@ -42,7 +42,7 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 	@Before
 	public void setUp() throws Exception{
 		super.setUp();
-		leaveBlockService = TkServiceLocator.getLeaveBlockService();
+		leaveBlockService = LmServiceLocator.getLeaveBlockService();
 	}
 
 	@After
@@ -121,9 +121,9 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 		Assert.assertNotNull("Leave blocks not found for user ", leaveBlocks);
 		Assert.assertTrue("There should be 2 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 2);
 		
-		LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock("1001");
+		LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock("1001");
 		lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
-		TkServiceLocator.getLeaveBlockService().saveLeaveBlock(lb, TEST_USER);
+		LmServiceLocator.getLeaveBlockService().saveLeaveBlock(lb, TEST_USER);
 		leaveBlocks = leaveBlockService.getLeaveBlocksForTimeCalendar(TEST_USER, LocalDate.fromDateFields(beginDate), LocalDate.fromDateFields(endDate), assignmentKeys);
 		Assert.assertTrue("There should be 3 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 3);
 		Assert.assertTrue("Approved leave block should be in the list", leaveBlocks.contains(lb));

@@ -28,7 +28,7 @@ import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 
 public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 
@@ -129,7 +129,7 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
     	if(pha == null)
     		return BigDecimal.ZERO;
     	
-    	List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceLocalDate(), asOfDate, accrualCategory.getAccrualCategory());
+    	List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceLocalDate(), asOfDate, accrualCategory.getAccrualCategory());
     	for(LeaveBlock block : leaveBlocks) {
     		if(!(StringUtils.equals(block.getRequestStatus(),LMConstants.REQUEST_STATUS.DEFERRED)
     				|| StringUtils.equals(block.getRequestStatus(),LMConstants.REQUEST_STATUS.DISAPPROVED))) {
@@ -149,7 +149,7 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 			AccrualCategory accrualCategory, LocalDate asOfDate) {
     	BigDecimal balance = new BigDecimal(0);
     	PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
-    	List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceLocalDate(), asOfDate, accrualCategory.getAccrualCategory());
+    	List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceLocalDate(), asOfDate, accrualCategory.getAccrualCategory());
     	for(LeaveBlock block : leaveBlocks) {
     		if(StringUtils.equals(block.getRequestStatus(),LMConstants.REQUEST_STATUS.APPROVED)) {
 				balance = balance.add(block.getLeaveAmount());

@@ -17,7 +17,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
-<jsp:useBean id="form" class="org.kuali.hr.tklm.time.base.web.TkForm"/>
+<jsp:useBean id="form" class="org.kuali.hr.core.TkForm"/>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>

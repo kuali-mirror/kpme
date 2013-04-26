@@ -25,11 +25,11 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.LeaveBlockHistory;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 
 public class AccrualServiceTest extends KPMETestCase {
 	 DateTime START_DATE = new DateTime(2012, 2, 20, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
@@ -42,36 +42,36 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testRunAccrualForStatusChange() {
 		 String principal_id = "testUser";
-		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), END_DATE.toLocalDate());
+		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), END_DATE.toLocalDate());
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		 
 		 // first time to run accrual from 02/20/2012 to 05/03/2012
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, END_DATE, false);
+		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, END_DATE, false);
 		 verifyLeaveBlocksForStatusChange();
 		 
-		 List<LeaveBlockHistory> historyList = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories(principal_id, null);
+		 List<LeaveBlockHistory> historyList = LmServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories(principal_id, null);
 		 Assert.assertTrue("There should be 5 leave block history for emplyee " + principal_id + ", not " + historyList.size(), historyList.size()== 5);
 		 LeaveBlockHistory lbh = historyList.get(0);
 		 Assert.assertTrue("Leave Block Type of leave block history should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lbh.getLeaveBlockType()
 					, lbh.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
 		 
 		 // second time to run accrual from 02/20/2012 to 05/03/2012, should get the same results as first run
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, END_DATE, false);
+		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, END_DATE, false);
 		 verifyLeaveBlocksForStatusChange();
 		 
-		 historyList = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories(principal_id, null);
+		 historyList = LmServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories(principal_id, null);
 		 Assert.assertTrue("There should be 15 leave block history for employee " + principal_id + ", not " + historyList.size(), historyList.size()== 15);
 	}
 	private void verifyLeaveBlocksForStatusChange() {
 		String principal_id = "testUser";
 		List<LeaveBlock> leaveBlockList;
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), END_DATE.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), END_DATE.toLocalDate());
 		Assert.assertFalse("No leave blocks created by runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		Assert.assertTrue("There should be 5 leave blocks for emplyee 'testUser', not " + leaveBlockList.size(), leaveBlockList.size()== 5);
 		 
 		// there should be one leave block of 16 hours on 03/31/2012
 		DateTime intervalDate = new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for date 03/31/2012.", leaveBlockList.size()==1);
 		LeaveBlock lb = leaveBlockList.get(0);
 		Assert.assertTrue("Hours of the leave block for date 03/31/2012 should be 16, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(16)));
@@ -84,7 +84,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		// employee changed status on 04/01, fte is changed from 1 to 0.5
 		// there should be an empty leave block for status change on 04/01/2012
 		intervalDate = new DateTime(2012, 4, 01, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for date 04/01/2012.", leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);
 		Assert.assertTrue("Hours of the leave block for date 04/01/2012 should be 0, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(BigDecimal.ZERO));
@@ -98,7 +98,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		
 		// there should be two holiday leave blocks of 4 hours on 04/10/2012, one positive, one negative
 		intervalDate = new DateTime(2012, 4, 10, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 2 leave block for date 04/10/2012.", leaveBlockList.size()==2);
 		for(LeaveBlock aLeaveBlock : leaveBlockList) {
 			Assert.assertNotNull("lm_sys_schd_timeoff_id should NOT be null for holiday accrual leave block", aLeaveBlock.getScheduleTimeOffId());
@@ -113,12 +113,12 @@ public class AccrualServiceTest extends KPMETestCase {
 		
 		// the disabled system scheduled time off on 04/20/2012 should not generate accruals
 		intervalDate = new DateTime(2012, 4, 20, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 0 leave block for date 04/20/2012.", leaveBlockList.isEmpty());
 		
 		// there should be 1 leave blocks on 04/30/2012, regular accrual of 8 hours
 		intervalDate = new DateTime(2012, 4, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for date 04/30/2012.", leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);
 		Assert.assertTrue("Hours of the regular accrual leave block for date 04/30/2012 should be 8, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(8)));
@@ -139,7 +139,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		String principal_id = "testUser";
 		// the planning month of this leave plan is set to 12
 		LocalDate currentDate = LocalDate.now();		
-		TkServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(principal_id, LocalDate.now());		
+		LmServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(principal_id, LocalDate.now());		
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(currentDate.toDate());
 		int futureSize = 12;
@@ -153,7 +153,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		
 		Date endDate = new Date(aCal.getTime().getTime());
 		// lookup future leave blocks up to 18 months in the future
-		List<LeaveBlock> leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, currentDate, LocalDate.fromCalendarFields(aCal));
+		List<LeaveBlock> leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, currentDate, LocalDate.fromCalendarFields(aCal));
 		
 		Assert.assertFalse("No leave blocks created by calculateF?utureAccrualUsingPlanningMonth for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		Assert.assertTrue("There should be " + futureSize + " leave blocks for employee 'testUser', not " + leaveBlockList.size(), leaveBlockList.size()== futureSize);
@@ -162,7 +162,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		aCal.add(Calendar.MONTH, -5);
 		Date startDate = new Date(aCal.getTime().getTime());
 		// lookup leave blocks including past and future
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, LocalDate.fromDateFields(startDate), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, LocalDate.fromDateFields(startDate), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There should be  " + allSize + " leave blocks for employee 'testUser', not " + leaveBlockList.size(), leaveBlockList.size()== allSize);
 	}
 	
@@ -179,17 +179,17 @@ public class AccrualServiceTest extends KPMETestCase {
 		 aCal.add(Calendar.MONTH, 15);
 		 Date endDate = new Date(aCal.getTime().getTime());
 		 
-		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
 		 
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There should be 14 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 14);
 		 
 		 // July of 2012 is the 5th month of this user's employment, the accrual rate should be 16
 		 DateTime intervalDate = new DateTime(2012, 7, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date 07/31/2012.", leaveBlockList.size()==1);
 		 LeaveBlock lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Hours of the leave block on date 07/31/2012 for employee " + principal_id + " should be 16, not " + lb.getLeaveAmount().toString()
@@ -197,7 +197,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 
 		 // August of 2012 is the 6th month of this user's employment, the accrual rate should be 24 from now on
 		 intervalDate = new DateTime(2012, 8, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date 08/31/2012.", leaveBlockList.size()==1);
 		 lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Hours of the leave block for date 08/31/2012 for employee " + principal_id + " should be 24, not " + lb.getLeaveAmount().toString()
@@ -211,11 +211,11 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testRunAccrualWithDifferentAccrualIntervals() {
 		 String principal_id = "testUser3";
-		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), END_DATE.toLocalDate());
+		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), END_DATE.toLocalDate());
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		 
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, END_DATE, false);
-		 leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), END_DATE.toLocalDate());
+		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, END_DATE, false);
+		 leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), END_DATE.toLocalDate());
 		 Assert.assertTrue("There should be 6 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 6);
 		 
 		 DateTime semiMonthlyDate = new DateTime(2012, 3, 15, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
@@ -229,7 +229,7 @@ public class AccrualServiceTest extends KPMETestCase {
 	}
 	public void verifyLeaveBlocksWithDifferentAccrualIntervals(DateTime semiMonthlyDate, DateTime monthlyDate) {
 		 String principal_id = "testUser3";
-		 List<LeaveBlock> leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, semiMonthlyDate.toLocalDate());
+		 List<LeaveBlock> leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, semiMonthlyDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for date " + semiMonthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==1);
 		 LeaveBlock lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Hours of the leave block on date " + semiMonthlyDate.toString() + " should be 8, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(8)));
@@ -237,7 +237,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 Assert.assertTrue("accrual_category of the leave block on date " + semiMonthlyDate.toString() + " should be testAC3, not " + lb.getAccrualCategory(), lb.getAccrualCategory().equals("testAC3"));
 		
 		
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		 Assert.assertTrue("There should be 2 leave block for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==2);
 		 for(LeaveBlock aLeaveBlock : leaveBlockList) {
 			 if(aLeaveBlock.getAccrualCategory().equals("testAC3")) {
@@ -266,15 +266,15 @@ public class AccrualServiceTest extends KPMETestCase {
 	public void testMinNotReachedProrationTrueFirstLastPeriod() {
 		 String principal_id = "testUser4";
 		 DateTime end = new DateTime(2012, 9, 25, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), end.toLocalDate());
+		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), end.toLocalDate());
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		 
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, end, false);
-		 leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), end.toLocalDate());
+		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, end, false);
+		 leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), end.toLocalDate());
 		 Assert.assertTrue("There should be 10 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 10);
 		 
 		 DateTime monthlyDate = new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==1);
 		 LeaveBlock lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Leave block on date " + monthlyDate.toString() + " should have accrual_category testAC6, not " + lb.getAccrualCategory()
@@ -283,12 +283,12 @@ public class AccrualServiceTest extends KPMETestCase {
 				 , lb.getLeaveAmount().equals(new BigDecimal(7)));
 		
 		 monthlyDate = new DateTime(2012, 4, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		 Assert.assertTrue("There should be 2 leave block for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==2);
 		 
 // should the accrual of the last days show up on the end day or the interval day of the last pay period?????
 		 monthlyDate = new DateTime(2012, 8, 8, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==1);
 		 lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Leave block on date " + monthlyDate.toString() + " should have accrual_category testAC6, not " + lb.getAccrualCategory()
@@ -297,7 +297,7 @@ public class AccrualServiceTest extends KPMETestCase {
 				 , lb.getLeaveAmount().equals(new BigDecimal(4)));
 		 
 		 monthlyDate = new DateTime(2012, 8, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		 Assert.assertTrue("There should NOT be any leave blocks for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==0);
 	}
 	@Test
@@ -309,36 +309,36 @@ public class AccrualServiceTest extends KPMETestCase {
 	public void testMinReachedProrationTrueFirstLastPeriod() {
 		String principal_id = "testUser9";
 		DateTime end = new DateTime(2012, 9, 25, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), end.toLocalDate());
+		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), end.toLocalDate());
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		 
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, end, false);
-		 leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), end.toLocalDate());
+		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, end, false);
+		 leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), end.toLocalDate());
 		 Assert.assertTrue("There should be 6 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 6);
 		 
 		 DateTime monthlyDate = new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==1);
 		 LeaveBlock lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Leave block on date " + monthlyDate.toString() + " should have 5 hours, not " + lb.getLeaveAmount()
 				 , lb.getLeaveAmount().equals(new BigDecimal(5)));
 		
 		 monthlyDate = new DateTime(2012, 4, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==1);
 		 lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Leave block on date " + monthlyDate.toString() + " should have 8 hours, not " + lb.getLeaveAmount()
 				 , lb.getLeaveAmount().equals(new BigDecimal(8)));
 		 
 		 monthlyDate = new DateTime(2012, 8, 20, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==1);
 		 lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Leave block on date " + monthlyDate.toString() + " should have 5 hours, not " + lb.getLeaveAmount()
 				 , lb.getLeaveAmount().equals(new BigDecimal(5)));
 		 
 		 monthlyDate = new DateTime(2012, 8, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		 Assert.assertTrue("There should NOT be any leave blocks for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==0);
 	}
 	@Test
@@ -350,36 +350,36 @@ public class AccrualServiceTest extends KPMETestCase {
 	public void testMinReachedProrationFalseFirstLastPeriod() {
 		String principal_id = "testUser10";
 		DateTime end = new DateTime(2012, 9, 25, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), end.toLocalDate());
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), end.toLocalDate());
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 			 
-		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, end, false);
-		leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), end.toLocalDate());
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, end, false);
+		leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), end.toLocalDate());
 		Assert.assertTrue("There should be 6 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 6);
 			 
 		DateTime monthlyDate = new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==1);
 		LeaveBlock lb = leaveBlockList.get(0);
 		Assert.assertTrue("Leave block on date " + monthlyDate.toString() + " should have 8 hours, not " + lb.getLeaveAmount()
 			 , lb.getLeaveAmount().equals(new BigDecimal(8)));
 		
 		monthlyDate = new DateTime(2012, 4, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);
 		Assert.assertTrue("Leave block on date " + monthlyDate.toString() + " should have 8 hours, not " + lb.getLeaveAmount()
 			 , lb.getLeaveAmount().equals(new BigDecimal(8)));
 		
 		monthlyDate = new DateTime(2012, 8, 20, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);
 		Assert.assertTrue("Leave block on date " + monthlyDate.toString() + " should have 8 hours, not " + lb.getLeaveAmount()
 				, lb.getLeaveAmount().equals(new BigDecimal(8)));
 			 
 		monthlyDate = new DateTime(2012, 8, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		Assert.assertTrue("There should NOT be any leave blocks for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==0);		
 	}
 	
@@ -392,30 +392,30 @@ public class AccrualServiceTest extends KPMETestCase {
 	public void testMinNotReachedProrationFalseFirstLastPeriod() {
 		String principal_id = "testUser11";
 		DateTime end = new DateTime(2012, 9, 25, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), end.toLocalDate());
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), end.toLocalDate());
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 			 
-		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, end, false);
-		leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), end.toLocalDate());
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, end, false);
+		leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), end.toLocalDate());
 		Assert.assertTrue("There should be 4 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 4);
 			 
 		DateTime monthlyDate = new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		Assert.assertTrue("There should be 0 leave block for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.isEmpty());
 		
 		monthlyDate = new DateTime(2012, 4, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==1);
 		LeaveBlock lb = leaveBlockList.get(0);
 		Assert.assertTrue("Leave block on date " + monthlyDate.toString() + " should have 8 hours, not " + lb.getLeaveAmount()
 			 , lb.getLeaveAmount().equals(new BigDecimal(8)));
 		
 		monthlyDate = new DateTime(2012, 8, 20, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		Assert.assertTrue("There should be 0 leave block for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.isEmpty());
 					 
 		monthlyDate = new DateTime(2012, 8, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, monthlyDate.toLocalDate());
 		Assert.assertTrue("There should NOT be any leave blocks for date " + monthlyDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==0);		
 	}
 	@Test
@@ -432,18 +432,18 @@ public class AccrualServiceTest extends KPMETestCase {
 		 aCal.add(Calendar.MONTH, 18);
 		 Date endDate = new Date(aCal.getTime().getTime());
 		 
-		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
 		 
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There should be 17 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 17);
 		 
 		 // 03/31/2012 is the first accrual interval date, service starts on 2012-03-10, so minimum percentage is reached for that month
 		 // since proration is false, the whole accrual rate is created for the first pay period
 		 DateTime intervalDate = new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for date " + intervalDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==1);
 		 LeaveBlock lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Leave block on date " + intervalDate.toString() + " should have 16 hours, not " + lb.getLeaveAmount()
@@ -451,7 +451,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 
 		 // 02/28/2013 is the 12th month of this user's employment, the accrual rate should be 16
 		 intervalDate = new DateTime(2013, 2, 28, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date 02/28/2013.", leaveBlockList.size()==1);
 		 lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Hours of the leave block on date " + intervalDate.toString() + " should be 16, not " + lb.getLeaveAmount().toString()
@@ -460,7 +460,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 // 03/31/2013 is the 13th month of this user's employment, since the minimum percentage of days is meet for
 		 // that month (03/10 - 03/31) and proration = false, the accrual rate should be 24 from now on
 		 intervalDate = new DateTime(2013, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		 lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
@@ -481,16 +481,16 @@ public class AccrualServiceTest extends KPMETestCase {
 		aCal.add(Calendar.MONTH, 18);
 		Date endDate = new Date(aCal.getTime().getTime());
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
 		 
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There should be 17 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 17);
 		 // 08/31/2013 
 		 DateTime intervalDate = new DateTime(2012, 8, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		 LeaveBlock lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 16, not " + lb.getLeaveAmount().toString()
@@ -498,7 +498,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 
 		 // 09/30/2012 is the 6th month of this user's employment, since minimum percentage is not reached, the accrual rate should be 16
 		 intervalDate = new DateTime(2012, 9, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for date " + intervalDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==1);
 		 lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Leave block on date " + intervalDate.toString() + " should have 16 hours, not " + lb.getLeaveAmount()
@@ -506,7 +506,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 
 		 // 10/31/2013 
 		 intervalDate = new DateTime(2012, 10, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		 lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Hours of the leave block on date " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
@@ -527,16 +527,16 @@ public class AccrualServiceTest extends KPMETestCase {
 		aCal.add(Calendar.MONTH, 18);
 		Date endDate = new Date(aCal.getTime().getTime());
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
 		 
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There should be 17 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 17);
 		// 08/31/2013 
 		DateTime intervalDate = new DateTime(2012, 8, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		LeaveBlock lb = leaveBlockList.get(0);
 		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 16, not " + lb.getLeaveAmount().toString()
@@ -545,7 +545,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		// 09/30/2012 is the 6th month of this user's employment, since minimum percentage is reached, the accrual rate is 16 for 6 work days
 		// and 24 hrs for 14 work days, so the final accrual hrs is 22
 		intervalDate = new DateTime(2012, 9, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for date " + intervalDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);
 		Assert.assertTrue("Leave block on date " + intervalDate.toString() + " should have 22 hours, not " + lb.getLeaveAmount()
@@ -553,7 +553,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 
 		// 10/31/2013 
 		intervalDate = new DateTime(2012, 10, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);
 		Assert.assertTrue("Hours of the leave block on date " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
@@ -574,22 +574,22 @@ public class AccrualServiceTest extends KPMETestCase {
 		aCal.add(Calendar.MONTH, 18);
 		Date endDate = new Date(aCal.getTime().getTime());
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
 		// only 16 leave blocks since the first interval 03/31/2012 does not have accruals due to minimum not reached
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There should be 16 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 16);
 		
 		// 03/31/2013 
 		DateTime intervalDate = new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 0 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.isEmpty());
 			
 		// 08/31/2013 
 		intervalDate = new DateTime(2012, 8, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		LeaveBlock lb = leaveBlockList.get(0);
 		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 16, not " + lb.getLeaveAmount().toString()
@@ -597,7 +597,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 
 		// 09/30/2012 is the 6th month of this user's employment, since minimum percentage is NOT reached, the accrual rate should be 16
 		intervalDate = new DateTime(2012, 9, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for date " + intervalDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);
 		Assert.assertTrue("Leave block on date " + intervalDate.toString() + " should have 16 hours, not " + lb.getLeaveAmount()
@@ -605,7 +605,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 
 		// 10/31/2013 
 		intervalDate = new DateTime(2012, 10, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);
 		Assert.assertTrue("Hours of the leave block on date " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
@@ -625,23 +625,23 @@ public class AccrualServiceTest extends KPMETestCase {
 		 aCal.add(Calendar.MONTH, 10);	// 12/10/2012
 		 Date endDate = new Date(aCal.getTime().getTime());
 		 
-		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
 		 
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There should be 17 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 17);
 		 
 		 // 03/31/2012 is the first accrual interval date, since minimum percentage is not reached (03/25-03/31) and proration=false
 		 // there should not be leave blocks
 		 DateTime intervalDate =new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 0 leave block for date " + intervalDate.toString(), leaveBlockList.isEmpty());
 		 
 		 // 04/15/2012 should have the first leave block for testUser6 and the accrual hours should be the full 16 
 		 intervalDate = new DateTime(2012, 4, 15, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for date " + intervalDate.toString() + " for emplyee " + principal_id, leaveBlockList.size()==1);
 		 LeaveBlock lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Leave block on date " + intervalDate.toString() + " should have 16 hours, not " + lb.getLeaveAmount()
@@ -649,7 +649,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 
 		 // accrual rate for 09/15/2012 should still be 16
 		 intervalDate = new DateTime(2012, 9, 15, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		 lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Hours of the leave block on date " + intervalDate.toString() + " should be 16, not " + lb.getLeaveAmount().toString()
@@ -658,7 +658,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 // 09/30/2013 is the first pay interval of rule 2, since the minimum percentage is not reached (09/25-09/30)
 		 // the accrual rate should still be 16
 		 intervalDate = new DateTime(2012, 9, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		 lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 16, not " + lb.getLeaveAmount().toString()
@@ -666,7 +666,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 
 		 // 10/15/2013, should use new rate of 24
 		 intervalDate = new DateTime(2012, 10, 15, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		 lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
@@ -688,17 +688,17 @@ public class AccrualServiceTest extends KPMETestCase {
 		 aCal.add(Calendar.MONTH, 5);	// 7/20/2012
 		 Date endDate = new Date(aCal.getTime().getTime());
 		 
-		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There should be 4 leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.size() == 4);
 		
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
 		 
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There should be 10 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 10);
 		 
 		 // 03/31/2012, 
 		 DateTime intervalDate = new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for date " + intervalDate.toString(), leaveBlockList.size() == 1);
 		 LeaveBlock lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 22, not " + lb.getLeaveAmount().toString()
@@ -706,7 +706,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 
 		 // 04/30/2012, 
 		 intervalDate = new DateTime(2012, 4, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for date " + intervalDate.toString(), leaveBlockList.size() == 1);
 		 lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 32, not " + lb.getLeaveAmount().toString()
@@ -714,7 +714,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 
 		 //05/31/2012
 		 intervalDate = new DateTime(2012, 5, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 2 leave block for date " + intervalDate.toString(), leaveBlockList.size() == 2);
 		 for(LeaveBlock aLeaveBlock : leaveBlockList) {
 			 if(aLeaveBlock.getLeaveAmount().equals(new BigDecimal(-1))) {
@@ -730,7 +730,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 
 		 //06/30/2012
 		 intervalDate = new DateTime(2012, 6, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 2 leave block for date " + intervalDate.toString(), leaveBlockList.size() == 2);
 		 for(LeaveBlock aLeaveBlock : leaveBlockList) {
 			 if(aLeaveBlock.getLeaveAmount().equals(new BigDecimal(-3))) {
@@ -759,17 +759,17 @@ public class AccrualServiceTest extends KPMETestCase {
 		 aCal.add(Calendar.MONTH, 6);	// 8/20/2012
 		 Date endDate = new Date(aCal.getTime().getTime());
 		 
-		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
 		 
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		 Assert.assertTrue("There should be 5 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 5);		 
 		 
 		 // 03/31/2012, 
 		 DateTime intervalDate = new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for date " + intervalDate.toString(), leaveBlockList.size() == 1);
 		 LeaveBlock lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 11, not " + lb.getLeaveAmount().toString()
@@ -777,7 +777,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 
 		 // 04/30/2012, 
 		 intervalDate = new DateTime(2012, 4, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for date " + intervalDate.toString(), leaveBlockList.size() == 1);
 		 lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 16, not " + lb.getLeaveAmount().toString()
@@ -785,7 +785,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		 
 		 //05/31/2012
 		 intervalDate = new DateTime(2012, 5, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 1 leave block for date " + intervalDate.toString(), leaveBlockList.size() == 1);
 		 lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 32, not " + lb.getLeaveAmount().toString()
@@ -807,14 +807,14 @@ public class AccrualServiceTest extends KPMETestCase {
 		aCal.add(Calendar.MONTH, 6);
 		Date endDate = new Date(aCal.getTime().getTime());
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
 		
 		// 04/30/2012 
 		DateTime intervalDate = new DateTime(2012, 4, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		LeaveBlock lb = leaveBlockList.get(0);
 		Assert.assertTrue("DocumentId of the leave block for date  " + intervalDate.toString() + " should be 5000, not " + lb.getDocumentId()
@@ -838,17 +838,17 @@ public class AccrualServiceTest extends KPMETestCase {
 		aCal.add(Calendar.MONTH, 6);
 		Date endDate = new Date(aCal.getTime().getTime());
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
 		
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There should be 11 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 11);	
 		
 		// 03/31/2012, testAC19 has proration= false, minimum percentage = 0, so whole FTE of 24 hours is given to the first interval
 		DateTime intervalDate = new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		LeaveBlock lb = leaveBlockList.get(0);		
 		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
@@ -856,22 +856,22 @@ public class AccrualServiceTest extends KPMETestCase {
 		
 		// 04/28/2012
 		intervalDate = new DateTime(2012, 4, 28, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);		
 		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
 				 , lb.getLeaveAmount().equals(new BigDecimal(24)));
 		// 05/12/2012
 		intervalDate = new DateTime(2012, 5, 12, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		// 08/04/2012
 		intervalDate = new DateTime(2012, 8, 4, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		// 08/18/2012
 		intervalDate = new DateTime(2012, 8, 18, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 	}
 	
@@ -891,17 +891,17 @@ public class AccrualServiceTest extends KPMETestCase {
 		aCal.add(Calendar.MONTH, 6);
 		Date endDate = new Date(aCal.getTime().getTime());
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
 		
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There should be 11 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 11);	
 		
 		// 03/31/2012, testAC20 has proration= true, minimum percentage = 0.5, so only 12 hours is given to the first interval
 		DateTime intervalDate = new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		LeaveBlock lb = leaveBlockList.get(0);		
 		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 12, not " + lb.getLeaveAmount().toString()
@@ -909,22 +909,22 @@ public class AccrualServiceTest extends KPMETestCase {
 		
 		// 04/28/2012
 		intervalDate = new DateTime(2012, 4, 28, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);		
 		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
 				 , lb.getLeaveAmount().equals(new BigDecimal(24)));
 		// 05/12/2012
 		intervalDate = new DateTime(2012, 5, 12, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		// 08/04/2012
 		intervalDate = new DateTime(2012, 8, 4, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		// 08/18/2012
 		intervalDate = new DateTime(2012, 8, 18, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 	}
 
@@ -943,38 +943,38 @@ public class AccrualServiceTest extends KPMETestCase {
 		aCal.add(Calendar.MONTH, 6);
 		Date endDate = new Date(aCal.getTime().getTime());
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
 		
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There should be 22 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 22);	
 		
 		// 03/24/2012
 		DateTime intervalDate = new DateTime(2012, 3, 24, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		LeaveBlock lb = leaveBlockList.get(0);		
 		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
 				 , lb.getLeaveAmount().equals(new BigDecimal(24)));		
 		// 03/31/2012
 		intervalDate = new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);		
 		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
 				 , lb.getLeaveAmount().equals(new BigDecimal(24)));
 		// 08/11/2012
 		intervalDate = new DateTime(2012, 8, 11, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);		
 		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
 				 , lb.getLeaveAmount().equals(new BigDecimal(24)));
 		// 08/18/2012
 		intervalDate = new DateTime(2012, 8, 18, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);		
 		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
@@ -994,17 +994,17 @@ public class AccrualServiceTest extends KPMETestCase {
 		aCal.add(Calendar.MONTH, 18);
 		Date endDate = new Date(aCal.getTime().getTime());
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
 		
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There should be 1 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 1);
 		
 		// 12/31/2013
 		DateTime intervalDate = new DateTime(2012, 12, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		LeaveBlock lb = leaveBlockList.get(0);		
 		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 100, not " + lb.getLeaveAmount().toString()
@@ -1024,17 +1024,17 @@ public class AccrualServiceTest extends KPMETestCase {
 		aCal.add(Calendar.MONTH, 3);
 		Date endDate = new Date(aCal.getTime().getTime());
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
 		
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There should be 44 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 44);
 		
 		// 03/20/2012
 		DateTime intervalDate = new DateTime(2012, 3, 20, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		LeaveBlock lb = leaveBlockList.get(0);		
 		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 2, not " + lb.getLeaveAmount().toString()
@@ -1042,7 +1042,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		
 		// 05/28/2012
 		intervalDate = new DateTime(2012, 5, 18, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);		
 		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 2, not " + lb.getLeaveAmount().toString()
@@ -1066,17 +1066,17 @@ public class AccrualServiceTest extends KPMETestCase {
 		aCal.add(Calendar.MONTH, 3);
 		Date endDate = new Date(aCal.getTime().getTime());
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There should be 1 leave blocks for princiapl id before runAccrual" + principal_id, leaveBlockList.size() == 2);
 		
-		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
 		
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
 		Assert.assertTrue("There should be 4 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 4);
 		
 		// 04/10/2012
 		DateTime intervalDate = new DateTime(2012, 4, 10, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		LeaveBlock lb = leaveBlockList.get(0);		
 		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 8, not " + lb.getLeaveAmount().toString()
@@ -1086,7 +1086,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		
 		// 04/15/2012
 		intervalDate = new DateTime(2012, 4, 15, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);		
 		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 4, not " + lb.getLeaveAmount().toString()

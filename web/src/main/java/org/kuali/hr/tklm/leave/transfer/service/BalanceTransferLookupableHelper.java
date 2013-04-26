@@ -20,9 +20,9 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.hr.core.lookup.KPMELookupableHelper;
+import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.transfer.BalanceTransfer;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -65,7 +65,7 @@ public class BalanceTransferLookupableHelper extends KPMELookupableHelper {
         String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
 
-        return TkServiceLocator.getBalanceTransferService().getBalanceTransfers(principalId, fromAccrualCategory, transferAmount, toAccrualCategory, 
+        return LmServiceLocator.getBalanceTransferService().getBalanceTransfers(principalId, fromAccrualCategory, transferAmount, toAccrualCategory, 
         		amountTransferred, forfeitedAmount, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt));
     }
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.core.calendar.web;
 
-import org.kuali.hr.tklm.time.base.web.TkForm;
+import org.kuali.hr.core.TkForm;
 
 public class CalendarEntryActionForm extends TkForm {
 

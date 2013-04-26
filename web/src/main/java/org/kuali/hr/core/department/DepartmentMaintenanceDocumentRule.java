@@ -23,7 +23,7 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.role.department.DepartmentPrincipalRoleMemberBo;
 import org.kuali.hr.core.service.HrServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kim.api.role.Role;

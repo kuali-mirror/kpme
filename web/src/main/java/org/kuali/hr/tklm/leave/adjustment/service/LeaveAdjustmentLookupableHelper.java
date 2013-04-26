@@ -20,9 +20,9 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.hr.core.lookup.KPMELookupableHelper;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.adjustment.LeaveAdjustment;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -62,7 +62,7 @@ public class LeaveAdjustmentLookupableHelper extends KPMELookupableHelper {
         String accrualCategory = fieldValues.get("accrualCategory");
         String earnCode = fieldValues.get("earnCode");
         
-        return TkServiceLocator.getLeaveAdjustmentService().getLeaveAdjustments(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), 
+        return LmServiceLocator.getLeaveAdjustmentService().getLeaveAdjustments(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), 
         		principalId, accrualCategory, earnCode);
     }
 	

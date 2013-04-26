@@ -39,17 +39,18 @@ import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.earncode.group.EarnCodeGroup;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
 import org.kuali.hr.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.hr.tklm.leave.web.LeaveCalendarWSForm;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TKUtils;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 
@@ -59,7 +60,7 @@ public class LeaveCalendarValidationUtil {
     public static List<String> validateLeaveAccrualRuleMaxUsage(LeaveCalendarWSForm lcf) {
     	LeaveBlock updatedLeaveBlock = null;
     	if(lcf.getLeaveBlockId() != null) {
-    		updatedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lcf.getLeaveBlockId());
+    		updatedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lcf.getLeaveBlockId());
     	}
     	return validateLeaveAccrualRuleMaxUsage(lcf.getLeaveSummary(), lcf.getSelectedEarnCode(), lcf.getStartDate(),
     			lcf.getEndDate(), lcf.getLeaveAmount(), updatedLeaveBlock);
@@ -93,7 +94,7 @@ public class LeaveCalendarValidationUtil {
 	    			for(LeaveSummaryRow aRow : rows) {
 	    				if(aRow.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
 	    					//Does employee have overrides in place?
-	    					List<EmployeeOverride> employeeOverrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId,TKUtils.formatDateString(leaveEndDateString));
+	    					List<EmployeeOverride> employeeOverrides = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId,TKUtils.formatDateString(leaveEndDateString));
 	    					String leavePlan = accrualCategory.getLeavePlan();
 	    					BigDecimal maxUsage = aRow.getUsageLimit();
 	    					for(EmployeeOverride eo : employeeOverrides) {
@@ -149,7 +150,7 @@ public class LeaveCalendarValidationUtil {
         Set<String> infoMessages = new HashSet<String>();
         Set<String> warningMessages = new HashSet<String>();
         
-        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(principalId, fromDate, toDate, LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
+        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(principalId, fromDate, toDate, LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
         Set<String> workflowDocIds = new HashSet<String>();
         for(LeaveBlock lb : leaveBlocks) {
         	if(lb.getTransactionalDocId() != null) {
@@ -174,7 +175,7 @@ public class LeaveCalendarValidationUtil {
             }
         }
         
-        leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(principalId, fromDate, toDate, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT);
+        leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(principalId, fromDate, toDate, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT);
         workflowDocIds = new HashSet<String>();
         for(LeaveBlock lb : leaveBlocks) {
         	if(lb.getTransactionalDocId() != null) {
@@ -232,7 +233,7 @@ public class LeaveCalendarValidationUtil {
     public static List<String> validateAvailableLeaveBalance(LeaveCalendarWSForm lcf) {
     	LeaveBlock updatedLeaveBlock = null;
     	if(lcf.getLeaveBlockId() != null) {
-			updatedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lcf.getLeaveBlockId());
+			updatedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lcf.getLeaveBlockId());
     	}
     	return validateAvailableLeaveBalanceForUsage(lcf.getSelectedEarnCode(), lcf.getStartDate(), lcf.getEndDate(), lcf.getLeaveAmount(), updatedLeaveBlock);
     }
@@ -261,7 +262,7 @@ public class LeaveCalendarValidationUtil {
     	if(earnCodeObj != null && earnCodeObj.getAllowNegativeAccrualBalance().equals("N")) {
     		AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), endDate);
     		if(accrualCategory != null) {
-    			LocalDate nextIntervalDate = TkServiceLocator.getAccrualService().getNextAccrualIntervalDate(accrualCategory.getAccrualEarnInterval(), endDate);
+    			LocalDate nextIntervalDate = LmServiceLocator.getAccrualService().getNextAccrualIntervalDate(accrualCategory.getAccrualEarnInterval(), endDate);
 				// get the usage checking cut off Date, normally it's the day before the next interval date
     			LocalDate usageEndDate = nextIntervalDate;
 				if (nextIntervalDate.compareTo(endDate) > 0) {
@@ -272,7 +273,7 @@ public class LeaveCalendarValidationUtil {
 				if(accrualCategory.getAccrualEarnInterval().equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.NO_ACCRUAL)) {
 					usageEndDate = endDate.withMonthOfYear(DateTimeConstants.DECEMBER).withDayOfMonth(31);
 				}
-				BigDecimal availableBalance = TkServiceLocator.getLeaveSummaryService()
+				BigDecimal availableBalance = LmServiceLocator.getLeaveSummaryService()
 							.getLeaveBalanceForAccrCatUpToDate(TKContext.getTargetPrincipalId(), startDate, endDate, accrualCategory.getAccrualCategory(), usageEndDate);
 
 				if(oldAmount!=null) {
@@ -338,7 +339,7 @@ public class LeaveCalendarValidationUtil {
 //	    			LeaveSummaryRow validationRow = ls.getLeaveSummaryRowForAccrualCategory(accrualCategory.getLmAccrualCategoryId());
 //    				if(ObjectUtils.isNotNull(validationRow)) {
 //    					BigDecimal availableBalance = validationRow.getLeaveBalance();
-//    					LeaveSummary ytdSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(TKContext.getTargetPrincipalId(), startDate, accrualCategory.getAccrualCategory());
+//    					LeaveSummary ytdSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(TKContext.getTargetPrincipalId(), startDate, accrualCategory.getAccrualCategory());
 //    					if(ytdSummary != null) {
 //    						LeaveSummaryRow ytdSummaryRow = ytdSummary.getLeaveSummaryRowForAccrualCategory(accrualCategory.getLmAccrualCategoryId());
 //    						if(ytdSummaryRow != null)
@@ -486,7 +487,7 @@ public class LeaveCalendarValidationUtil {
         	assignmentKeys.add(assign.getAssignmentKey());
         }
         
-        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), assignmentKeys);
+        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), assignmentKeys);
         for (LeaveBlock leaveBlock : leaveBlocks) {
         	 if (errors.size() == 0 && StringUtils.equals(earnCodeType, TkConstants.EARN_CODE_TIME) && leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp()!= null) {
                 Interval leaveBlockInterval = new Interval(leaveBlock.getBeginTimestamp().getTime(), leaveBlock.getEndTimestamp().getTime());

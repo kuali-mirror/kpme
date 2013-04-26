@@ -20,9 +20,9 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.hr.core.lookup.KPMELookupableHelper;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.donation.LeaveDonation;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -67,7 +67,7 @@ public class LeaveDonationLookupableHelper extends KPMELookupableHelper {
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
         
-        return TkServiceLocator.getLeaveDonationService().getLeaveDonations(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), 
+        return LmServiceLocator.getLeaveDonationService().getLeaveDonations(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), 
         		donorsPrincipalId, donatedAccrualCategory, amountDonated, recipientsPrincipalId, recipientsAccrualCategory, amountReceived, active, showHist);
     }
 

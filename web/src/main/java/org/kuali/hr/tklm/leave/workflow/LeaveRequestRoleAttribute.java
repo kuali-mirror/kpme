@@ -15,6 +15,7 @@ import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kew.api.identity.Id;
 import org.kuali.rice.kew.api.identity.PrincipalId;
@@ -47,7 +48,7 @@ public class LeaveRequestRoleAttribute extends GenericRoleAttribute {
 		Set<String> roleNameQualifiers = new HashSet<String>();
 		
 		Long routeHeaderId = new Long(documentContent.getRouteContext().getDocument().getDocumentId());
-        LeaveRequestDocument leaveRequestDocument = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(routeHeaderId.toString());
+        LeaveRequestDocument leaveRequestDocument = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(routeHeaderId.toString());
 		
         if (leaveRequestDocument != null) {
             LeaveBlock leaveBlock = leaveRequestDocument.getLeaveBlock();

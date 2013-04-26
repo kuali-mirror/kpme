@@ -31,15 +31,16 @@ import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TKUtils;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -161,12 +162,12 @@ public class TimesheetServiceImpl implements TimesheetService {
     public void loadHolidaysOnTimesheet(TimesheetDocument timesheetDocument, String principalId, LocalDate beginDate, LocalDate endDate) {
         PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, beginDate);
         if (principalCalendar != null && StringUtils.isNotEmpty(principalCalendar.getLeavePlan())) {
-        	List<SystemScheduledTimeOff> sstoList = TkServiceLocator.getSysSchTimeOffService()
+        	List<SystemScheduledTimeOff> sstoList = LmServiceLocator.getSysSchTimeOffService()
         		.getSystemScheduledTimeOffForPayPeriod(principalCalendar.getLeavePlan(), beginDate, endDate);
         	Assignment sstoAssign = HrServiceLocator.getAssignmentService().getAssignmentToApplyScheduledTimeOff(timesheetDocument, endDate);
         	if (sstoAssign != null) {
         		for(SystemScheduledTimeOff ssto : sstoList) {
-                  BigDecimal sstoCalcHours = TkServiceLocator.getSysSchTimeOffService().calculateSysSchTimeOffHours(sstoAssign.getJob(), ssto.getAmountofTime());
+                  BigDecimal sstoCalcHours = LmServiceLocator.getSysSchTimeOffService().calculateSysSchTimeOffHours(sstoAssign.getJob(), ssto.getAmountofTime());
                   TimeBlock timeBlock = TkServiceLocator.getTimeBlockService().createTimeBlock(timesheetDocument, new Timestamp(ssto.getScheduledTimeOffDate().getTime()),
                           new Timestamp(ssto.getScheduledTimeOffDate().getTime()), sstoAssign, TkConstants.HOLIDAY_EARN_CODE, sstoCalcHours, BigDecimal.ZERO, false, false, TKContext.getPrincipalId());
                   timesheetDocument.getTimeBlocks().add(timeBlock);
@@ -197,7 +198,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         loadTimesheetDocumentData(timesheetDocument, principalId, calendarEntry);
         TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(timesheetDocument, payEndDate.toLocalDate());
 
-        if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
+        if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
         	deleteNonApprovedLeaveBlocks(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
         }
         
@@ -208,11 +209,11 @@ public class TimesheetServiceImpl implements TimesheetService {
     	String batchUserPrincipalId = getBatchUserPrincipalId();
         
         if (batchUserPrincipalId != null) {
-	    	List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
+	    	List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
 	
 	    	for (LeaveBlock leaveBlock : leaveBlocks) {
 	    		if (!StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.APPROVED)) {
-	    			TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), batchUserPrincipalId);
+	    			LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), batchUserPrincipalId);
 	    		}
 	    	}
         } else {
@@ -298,9 +299,9 @@ public class TimesheetServiceImpl implements TimesheetService {
         if (document == null) {
             return false;
         }
-        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
+        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
         		document.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), document.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
-        leaveBlocks.addAll(TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
+        leaveBlocks.addAll(LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
         		document.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), document.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT));
         for(LeaveBlock lb : leaveBlocks) {
         	if(!StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.APPROVED) &&
@@ -308,7 +309,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         		return false;
         }
         return true;
-/*        List<BalanceTransfer> balanceTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(document.getPrincipalId(),
+/*        List<BalanceTransfer> balanceTransfers = LmServiceLocator.getBalanceTransferService().getBalanceTransfers(document.getPrincipalId(),
                 document.getCalendarEntry().getBeginPeriodDate(),
                 document.getCalendarEntry().getEndPeriodDate());
         if (!CollectionUtils.isEmpty(balanceTransfers))   {
@@ -321,7 +322,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 	            }
 	        }
         }
-        List<LeavePayout> leavePayouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(document.getPrincipalId(),
+        List<LeavePayout> leavePayouts = LmServiceLocator.getLeavePayoutService().getLeavePayouts(document.getPrincipalId(),
         		document.getCalendarEntry().getBeginPeriodDate(),
         		document.getCalendarEntry().getEndPeriodDate());
         if (!CollectionUtils.isEmpty(leavePayouts)) {

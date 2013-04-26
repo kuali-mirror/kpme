@@ -20,9 +20,9 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.hr.core.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -62,7 +62,7 @@ public class EmployeeOverrideLookupableHelper extends HrEffectiveDateActiveLooku
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String active = fieldValues.get("active");
 
-        return TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, leavePlan, accrualCategory, overrideType, 
+        return LmServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, leavePlan, accrualCategory, overrideType, 
         		TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active);
     }
 	

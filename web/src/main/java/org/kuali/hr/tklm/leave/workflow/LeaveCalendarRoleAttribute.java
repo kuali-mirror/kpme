@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kew.api.identity.Id;
 import org.kuali.rice.kew.api.identity.PrincipalId;
@@ -45,7 +46,7 @@ public class LeaveCalendarRoleAttribute extends GenericRoleAttribute {
 		Set<String> roleNameQualifiers = new HashSet<String>();
 		
 		Long routeHeaderId = new Long(documentContent.getRouteContext().getDocument().getDocumentId());
-		LeaveCalendarDocument leaveCalendarDocument = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(routeHeaderId.toString());
+		LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(routeHeaderId.toString());
 
 		if (leaveCalendarDocument != null) {
 			List<Assignment> assignments = leaveCalendarDocument.getAssignments();

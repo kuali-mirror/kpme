@@ -39,11 +39,11 @@ import org.kuali.hr.lm.util.LeaveCalendarTestUtils;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.test.TkTestUtils;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.web.LeaveCalendarWSForm;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.hr.util.filter.TestAutoLoginFilter;
 
 import com.gargoylesoftware.htmlunit.html.HtmlButtonInput;
@@ -73,7 +73,7 @@ public class LeaveCalendarWorkflowIntegrationTest extends LeaveCalendarWebTestBa
         DateTime asOfDate = new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         CalendarEntry pcd = HrServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(USER_PRINCIPAL_ID, asOfDate);
         Assert.assertNotNull("No CalendarEntry", pcd);
-        LeaveCalendarDocument tdoc = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(USER_PRINCIPAL_ID, pcd);
+        LeaveCalendarDocument tdoc = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(USER_PRINCIPAL_ID, pcd);
         String tdocId = tdoc.getDocumentId();
         HtmlPage page = loginAndGetLeaveCalendarHtmlPage("admin", tdocId, true);
 
@@ -199,7 +199,7 @@ public class LeaveCalendarWorkflowIntegrationTest extends LeaveCalendarWebTestBa
         Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
         CalendarEntry pcd = HrServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(USER_PRINCIPAL_ID, asOfDate);
         Assert.assertNotNull("No CalendarEntry", pcd);
-        LeaveCalendarDocument tdoc = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(USER_PRINCIPAL_ID, pcd);
+        LeaveCalendarDocument tdoc = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(USER_PRINCIPAL_ID, pcd);
         String tdocId = tdoc.getDocumentId();
 
         // Build an action form - we're using it as a POJO, it ties into the

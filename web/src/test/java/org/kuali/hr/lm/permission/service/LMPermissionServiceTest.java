@@ -23,9 +23,9 @@ import org.junit.Test;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
+import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class LMPermissionServiceTest extends KPMETestCase {
@@ -57,26 +57,26 @@ public class LMPermissionServiceTest extends KPMETestCase {
 	public void testCanDeleteLeaveBlockForSSTOUsageLB() {
 		// leave block 6000 is a bankable ssto usage block that is on current leave calendar, 
 		// ssto 2000's unused time is "B"
-		LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock("6000");
+		LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock("6000");
 		lb.setLeaveDate(LocalDate.now().toDate());
-		boolean deleteFlag = TkServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), lb);
+		boolean deleteFlag = LmServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), lb);
 		Assert.assertTrue("Leave Block 6000 should be deletable", deleteFlag);
 		
 		// leave block 6001 is a ssto usage block that can be transferred, ssto 2001's unused time is "T"
-		lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock("6001");
+		lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock("6001");
 		lb.setLeaveDate(LocalDate.now().toDate());
-		deleteFlag = TkServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), lb);
+		deleteFlag = LmServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), lb);
 		Assert.assertTrue("Leave Block 6001 should be deletable", deleteFlag);
 		
 		// leave block 6002 is a ssto usage block that is not on current leave calendar
-		lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock("6002");
-		deleteFlag = TkServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), lb);
+		lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock("6002");
+		deleteFlag = LmServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), lb);
 		Assert.assertFalse("Leave Block 6002 should NOT be deletable", deleteFlag);
 		
 		// leave block 6003 is a ssto accrual block, not a usage, it's leave amount is 8
-		lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock("6003");
+		lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock("6003");
 		lb.setLeaveDate(LocalDate.now().toDate());
-		deleteFlag = TkServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), lb);
+		deleteFlag = LmServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), lb);
 		Assert.assertFalse("Leave Block 6003 should NOT be deletable", deleteFlag);
 		
 		

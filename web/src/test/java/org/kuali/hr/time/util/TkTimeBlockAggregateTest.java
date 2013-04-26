@@ -27,10 +27,10 @@ import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.TkTestUtils;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.time.flsa.FlsaWeek;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.hr.tklm.time.util.TkTimeBlockAggregate;
 
 public class TkTimeBlockAggregateTest extends KPMETestCase {

@@ -23,8 +23,8 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.task.Task;
 import org.kuali.hr.core.workarea.WorkArea;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.time.timehourdetail.TimeHourDetailRenderer;
-import org.kuali.hr.tklm.time.util.TkConstants;
 
 /**
  * Render helper to handle timeblock and time hour details display

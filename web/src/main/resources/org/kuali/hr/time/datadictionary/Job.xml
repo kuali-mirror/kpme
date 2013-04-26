@@ -495,7 +495,7 @@
 		<property name="shortLabel" value="FLSA Status" />
 		<property name="control">
 			<bean parent="RadioControlDefinition"
-				p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkFlsaStatusKeyValueFinder">
+				p:valuesFinderClass="org.kuali.hr.tklm.time.flsa.TkFlsaStatusKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="flsaStatus" />

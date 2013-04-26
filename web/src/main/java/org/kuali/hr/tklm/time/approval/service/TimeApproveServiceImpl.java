@@ -50,9 +50,12 @@ import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
+import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
 import org.kuali.hr.tklm.time.flsa.FlsaDay;
@@ -61,8 +64,6 @@ import org.kuali.hr.tklm.time.person.TKPerson;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.hr.tklm.time.util.TKUtils;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.hr.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -386,7 +387,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
       Map<String, Set<LeaveBlock>> eligibilities;
 
-  	 eligibilities = TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, principalId);
+  	 eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, principalId);
 
       if (eligibilities != null) {
           for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {

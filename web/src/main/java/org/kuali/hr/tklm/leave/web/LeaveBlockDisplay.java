@@ -26,8 +26,8 @@ import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
 
 public class LeaveBlockDisplay implements Serializable {
@@ -76,7 +76,7 @@ public class LeaveBlockDisplay implements Serializable {
 		String documentStatus = null;
 		
 		if (StringUtils.isNotBlank(leaveBlock.getDocumentId())) {
-			LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(leaveBlock.getDocumentId());
+			LeaveCalendarDocumentHeader lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(leaveBlock.getDocumentId());
 			if (lcdh != null ) {
 				documentStatus = KewApiConstants.DOCUMENT_STATUSES.get(lcdh.getDocumentStatus());
 			}

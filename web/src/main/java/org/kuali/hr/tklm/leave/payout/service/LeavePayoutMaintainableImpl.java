@@ -25,7 +25,7 @@ import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.payout.LeavePayout;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -43,7 +43,7 @@ public class LeavePayoutMaintainableImpl extends
     public void saveBusinessObject() {
 		LeavePayout bt = (LeavePayout) this.getBusinessObject();
 		
-		LeavePayout existingBt = TkServiceLocator.getLeavePayoutService().getLeavePayoutById(bt.getId());
+		LeavePayout existingBt = LmServiceLocator.getLeavePayoutService().getLeavePayoutById(bt.getId());
 		
 		if(ObjectUtils.isNotNull(existingBt)) {
 			if(existingBt.getPayoutAmount().compareTo(bt.getPayoutAmount()) != 0) {
@@ -59,7 +59,7 @@ public class LeavePayoutMaintainableImpl extends
     @Override
     public HrBusinessObject getObjectById(String id) {
         // TODO Auto-generated method stub
-        return TkServiceLocator.getLeavePayoutService().getLeavePayoutById(id);
+        return LmServiceLocator.getLeavePayoutService().getLeavePayoutById(id);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class LeavePayoutMaintainableImpl extends
             try {
                 MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
 
-                payout = TkServiceLocator.getLeavePayoutService().payout(payout);
+                payout = LmServiceLocator.getLeavePayoutService().payout(payout);
                 md.getNewMaintainableObject().setDataObject(payout);
                 documentService.saveDocument(md);
             }
@@ -90,7 +90,7 @@ public class LeavePayoutMaintainableImpl extends
             for(LeaveBlock lb : payout.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
                     lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);
-                    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), routedByPrincipalId);
+                    LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), routedByPrincipalId);
                 }
             }
             //update status of document and associated leave blocks.
@@ -99,11 +99,11 @@ public class LeavePayoutMaintainableImpl extends
             for(LeaveBlock lb : payout.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
                     lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
-                    TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
+                    LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
                 }
             }
             
-            List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(documentId);
+            List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(documentId);
             LeaveBlock carryOverBlock = null;
             for(LeaveBlock lb : leaveBlocks) {
             	if(StringUtils.equals(lb.getAccrualCategory(),payout.getFromAccrualCategory())
@@ -120,7 +120,7 @@ public class LeavePayoutMaintainableImpl extends
             		adjustment = adjustment.add(payout.getForfeitedAmount().abs());
             	BigDecimal adjustedLeaveAmount = carryOverBlock.getLeaveAmount().abs().subtract(adjustment);
             	carryOverBlock.setLeaveAmount(adjustedLeaveAmount.negate());
-        		TkServiceLocator.getLeaveBlockService().updateLeaveBlock(carryOverBlock, routedByPrincipalId);
+        		LmServiceLocator.getLeaveBlockService().updateLeaveBlock(carryOverBlock, routedByPrincipalId);
             }
             
         } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
@@ -128,7 +128,7 @@ public class LeavePayoutMaintainableImpl extends
             for(LeaveBlock lb : payout.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
                     lb.setRequestStatus(LMConstants.REQUEST_STATUS.DEFERRED);
-                    TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
+                    LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
                 }
             }
         }

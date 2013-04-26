@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.tklm.leave.workflow.postprocessor;
 
+import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.payout.LeavePayout;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.framework.postprocessor.ProcessDocReport;
@@ -47,7 +47,7 @@ public class LeavePayoutPostProcessor extends DefaultPostProcessor {
 				DocumentStatus newDocumentStatus = DocumentStatus.fromCode(statusChangeEvent.getNewRouteStatus());
 				if (DocumentStatus.ENROUTE.equals(newDocumentStatus)) {
 					//when payout document is routed, initiate the leave payout - creating the leave blocks
-					leavePayout = TkServiceLocator.getLeavePayoutService().payout(leavePayout);
+					leavePayout = LmServiceLocator.getLeavePayoutService().payout(leavePayout);
 					//leavePayout now holds the associated leave block ids that were created during payout.
 					//encapsulate this information for later document status changes.
 					document.getNewMaintainableObject().setDataObject(leavePayout);
@@ -59,7 +59,7 @@ public class LeavePayoutPostProcessor extends DefaultPostProcessor {
 					for(LeaveBlock lb : leavePayout.getLeaveBlocks()) {
 						if(ObjectUtils.isNotNull(lb)) {
 							lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);
-							TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), TKContext.getPrincipalId());
+							LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), TKContext.getPrincipalId());
 						}
 					}
 					//update status of document and associated leave blocks.
@@ -68,7 +68,7 @@ public class LeavePayoutPostProcessor extends DefaultPostProcessor {
 					for(LeaveBlock lb : leavePayout.getLeaveBlocks()) {
 						if(ObjectUtils.isNotNull(lb)) {
 							lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
-							TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
+							LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
 						}
 					}
 				} else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
@@ -76,7 +76,7 @@ public class LeavePayoutPostProcessor extends DefaultPostProcessor {
 					for(LeaveBlock lb : leavePayout.getLeaveBlocks()) {
 						if(ObjectUtils.isNotNull(lb)) {
 							lb.setRequestStatus(LMConstants.REQUEST_STATUS.DEFERRED);
-							TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
+							LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
 						}
 					}
 				}

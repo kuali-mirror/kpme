@@ -1,15 +1,15 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 
 <c:if test="${!empty UserSession.loggedInUserPrincipalName}">
-    <c:set var="systemAdmin" value='<%=org.kuali.hr.tklm.time.util.TKContext.isSystemAdmin()%>' />
-    <c:set var="locationAdmin" value='<%=org.kuali.hr.tklm.time.util.TKContext.isLocationAdmin()%>' />
-    <c:set var="departmentAdmin" value='<%=org.kuali.hr.tklm.time.util.TKContext.isDepartmentAdmin()%>' />
-    <c:set var="globalViewOnly" value='<%=org.kuali.hr.tklm.time.util.TKContext.isGlobalViewOnly()%>' />
-    <c:set var="targetSystemAdmin" value='<%=org.kuali.hr.tklm.time.util.TKContext.isTargetSystemAdmin()%>' />
-    <c:set var="targetTimesheetApprover" value='<%=org.kuali.hr.tklm.time.util.TKContext.isTargetAnyApprover()%>' />
-    <c:set var="targetTimesheetReviewer" value='<%=org.kuali.hr.tklm.time.util.TKContext.isTargetReviewer()%>' />   
-    <c:set var="targetActiveEmployee" value='<%=org.kuali.hr.tklm.time.util.TKContext.isTargetActiveEmployee()%>' />
-    <c:set var="targetSynchronous" value='<%=org.kuali.hr.tklm.time.util.TKContext.isTargetSynchronous()%>' />
+    <c:set var="systemAdmin" value='<%=org.kuali.hr.tklm.common.TKContext.isSystemAdmin()%>' />
+    <c:set var="locationAdmin" value='<%=org.kuali.hr.tklm.common.TKContext.isLocationAdmin()%>' />
+    <c:set var="departmentAdmin" value='<%=org.kuali.hr.tklm.common.TKContext.isDepartmentAdmin()%>' />
+    <c:set var="globalViewOnly" value='<%=org.kuali.hr.tklm.common.TKContext.isGlobalViewOnly()%>' />
+    <c:set var="targetSystemAdmin" value='<%=org.kuali.hr.tklm.common.TKContext.isTargetSystemAdmin()%>' />
+    <c:set var="targetTimesheetApprover" value='<%=org.kuali.hr.tklm.common.TKContext.isTargetAnyApprover()%>' />
+    <c:set var="targetTimesheetReviewer" value='<%=org.kuali.hr.tklm.common.TKContext.isTargetReviewer()%>' />   
+    <c:set var="targetActiveEmployee" value='<%=org.kuali.hr.tklm.common.TKContext.isTargetActiveEmployee()%>' />
+    <c:set var="targetSynchronous" value='<%=org.kuali.hr.tklm.common.TKContext.isTargetSynchronous()%>' />
 </c:if>
 
 <div id="tab-section">

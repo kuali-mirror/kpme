@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.quartz.Job;
@@ -41,7 +42,7 @@ public class InitiateJob implements Job {
 			if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
 				TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, calendarEntry);
 			} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
-				TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(principalId, calendarEntry);
+				LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(principalId, calendarEntry);
 			}
 		} catch (WorkflowException we) {
 			throw new JobExecutionException("Failure to execute job due to WorkflowException", we);

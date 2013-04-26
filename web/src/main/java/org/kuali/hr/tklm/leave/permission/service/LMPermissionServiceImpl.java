@@ -15,16 +15,16 @@ import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.permission.service.KPMEPermissionServiceBase;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.calendar.service.LeaveCalendarService;
 import org.kuali.hr.tklm.leave.request.service.LeaveRequestDocumentService;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.action.ValidActions;
@@ -187,7 +187,7 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
                 return false;
             }
             if (StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, requestStatus)) {
-            	List<LeaveRequestDocument> docList= TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(leaveBlock.getLmLeaveBlockId());
+            	List<LeaveRequestDocument> docList= LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(leaveBlock.getLmLeaveBlockId());
             	if(CollectionUtils.isEmpty(docList)) {
             		return false;	// not a leave request. if this is a leave request, do further checking on it
             	}            	
@@ -213,7 +213,7 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
             	if(TKContext.isSystemAdmin()) {
             		return true;
             	}
-            	SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(leaveBlock.getScheduleTimeOffId());
+            	SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(leaveBlock.getScheduleTimeOffId());
             	if(ssto != null && !StringUtils.equals(LMConstants.UNUSED_TIME.NO_UNUSED, ssto.getUnusedTime())) {
             		return true;
             	}
@@ -232,7 +232,7 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
     		return true;
     	}
         if (StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, leaveBlock.getRequestStatus())) {
-        	List<LeaveRequestDocument> docList= TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(leaveBlock.getLmLeaveBlockId());
+        	List<LeaveRequestDocument> docList= LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(leaveBlock.getLmLeaveBlockId());
         	if(CollectionUtils.isEmpty(docList)) {
         		return false;	// not a leave request
         	}
@@ -253,7 +253,7 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
  	   if(lb.getAccrualGenerated() 
 			   && StringUtils.isNotEmpty(lb.getScheduleTimeOffId()) 
 			   && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) < 0) {
-		   SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
+		   SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
 		   if(ssto != null && StringUtils.equals(ssto.getUnusedTime(), LMConstants.UNUSED_TIME.BANK)) {
 			   String viewPrincipal = TKContext.getTargetPrincipalId();
 			   CalendarEntry ce = HrServiceLocator.getCalendarService()
@@ -274,7 +274,7 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
 	   if(lb.getAccrualGenerated() 
 			   && StringUtils.isNotEmpty(lb.getScheduleTimeOffId()) 
 			   && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) < 0) {
-		   SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
+		   SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
 		   if(ssto != null && ssto.getUnusedTime().equals(LMConstants.UNUSED_TIME.TRANSFER)) {
 			   String viewPrincipal = TKContext.getTargetPrincipalId();
 			   CalendarEntry ce = HrServiceLocator.getCalendarService()

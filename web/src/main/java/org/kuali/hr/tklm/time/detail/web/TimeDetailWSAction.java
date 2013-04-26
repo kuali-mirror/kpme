@@ -38,13 +38,13 @@ import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
 import org.kuali.hr.tklm.time.detail.validation.TimeDetailValidationUtil;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.web.TimesheetAction;
-import org.kuali.hr.tklm.time.util.TKContext;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -93,10 +93,10 @@ public class TimeDetailWSAction extends TimesheetAction {
     	List<String> errorMsgList = new ArrayList<String>();
     	CalendarEntry payCalendarEntry = tdaf.getPayCalendarDates();
     	if(ObjectUtils.isNotNull(payCalendarEntry)) {
-			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), tdaf.getPayCalendarDates());
+			LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), tdaf.getPayCalendarDates());
 			LeaveBlock lb = null;
 			if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
-				lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(tdaf.getLmLeaveBlockId());
+				lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(tdaf.getLmLeaveBlockId());
 			}
 			
 			// Validate LeaveBlock timings and all that

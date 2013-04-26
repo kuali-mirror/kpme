@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.hr.tklm.time.base.web;
+package org.kuali.hr.tklm.common;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.kuali.hr.core.TkForm;
 
 public class TkCommonCalendarForm extends TkForm {
 	private static final long serialVersionUID = 1L;

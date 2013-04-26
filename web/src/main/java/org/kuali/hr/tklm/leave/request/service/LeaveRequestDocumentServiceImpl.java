@@ -28,13 +28,13 @@ import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.request.LeaveRequestActionValue;
 import org.kuali.hr.tklm.leave.request.dao.LeaveRequestDocumentDao;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionTaken;
@@ -193,7 +193,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         }
         
         EntityNamePrincipalName person = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
-        LeaveBlock leaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
+        LeaveBlock leaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
 
         String principalName = person != null && person.getDefaultName() != null ? person.getDefaultName().getCompositeName() : StringUtils.EMPTY;
         String leaveRequestDateString = leaveBlock != null ? TKUtils.formatDate(leaveBlock.getLeaveLocalDate()) : StringUtils.EMPTY;

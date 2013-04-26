@@ -16,7 +16,7 @@
 package org.kuali.hr.tklm.leave.calendar.web;
 
 
-import org.kuali.hr.tklm.time.base.web.TkCommonCalendarForm;
+import org.kuali.hr.tklm.common.TkCommonCalendarForm;
 
 public class LeaveCalendarSubmitForm extends TkCommonCalendarForm {
     private String action;

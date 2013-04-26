@@ -30,16 +30,17 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.Interval;
+import org.kuali.hr.core.TkAction;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
-import org.kuali.hr.tklm.time.base.web.TkAction;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -54,7 +55,7 @@ public class LeaveCalendarSubmitAction extends TkAction {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         String documentId = lcf.getDocumentId();
         
-        if (!TkServiceLocator.getLMPermissionService().canEditLeaveCalendar(principalId, documentId)) {
+        if (!LmServiceLocator.getLMPermissionService().canEditLeaveCalendar(principalId, documentId)) {
             throw new AuthorizationException(principalId, "LeaveCalendarSubmitAction", "");
         }
     }
@@ -62,7 +63,7 @@ public class LeaveCalendarSubmitAction extends TkAction {
     public ActionForward approveLeaveCalendar(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	String documentId = request.getParameter("documentId");
     	String action = request.getParameter("action");
-        LeaveCalendarDocument document = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
+        LeaveCalendarDocument document = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
 
         // Switched to grab the target (chain, resolution: target -> backdoor -> actual) user.
         // Approvals still using backdoor > actual
@@ -70,7 +71,7 @@ public class LeaveCalendarSubmitAction extends TkAction {
             if (DocumentStatus.INITIATED.getCode().equals(document.getDocumentHeader().getDocumentStatus())
                     || DocumentStatus.SAVED.getCode().equals(document.getDocumentHeader().getDocumentStatus())) {
             	
-        		Map<String,Set<LeaveBlock>> eligibilities = TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(document.getCalendarEntry(), document.getPrincipalId());
+        		Map<String,Set<LeaveBlock>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(document.getCalendarEntry(), document.getPrincipalId());
         		
         		ActionRedirect transferRedirect = new ActionRedirect();
         		ActionRedirect payoutRedirect = new ActionRedirect();
@@ -112,19 +113,19 @@ public class LeaveCalendarSubmitAction extends TkAction {
             		request.getSession().setAttribute("eligibilities", eligiblePayouts);
             		return payoutRedirect;           			
         		}
-                TkServiceLocator.getLeaveCalendarService().routeLeaveCalendar(TKContext.getTargetPrincipalId(), document);
+                LmServiceLocator.getLeaveCalendarService().routeLeaveCalendar(TKContext.getTargetPrincipalId(), document);
             }
         } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
-            if (TkServiceLocator.getLeaveCalendarService().isReadyToApprove(document)) {
+            if (LmServiceLocator.getLeaveCalendarService().isReadyToApprove(document)) {
                 if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
-                    TkServiceLocator.getLeaveCalendarService().approveLeaveCalendar(TKContext.getPrincipalId(), document);
+                    LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(TKContext.getPrincipalId(), document);
                 }
             } else {
                 //ERROR!!!!
             }
         } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
-                TkServiceLocator.getLeaveCalendarService().disapproveLeaveCalendar(TKContext.getPrincipalId(), document);
+                LmServiceLocator.getLeaveCalendarService().disapproveLeaveCalendar(TKContext.getPrincipalId(), document);
             }
         }
         ActionRedirect rd = new ActionRedirect(mapping.findForward("leaveCalendarRedirect"));
@@ -136,19 +137,19 @@ public class LeaveCalendarSubmitAction extends TkAction {
 
     public ActionForward approveApprovalTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LeaveCalendarSubmitForm lcf = (LeaveCalendarSubmitForm)form;
-        LeaveCalendarDocument document = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcf.getDocumentId());
+        LeaveCalendarDocument document = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcf.getDocumentId());
 
         // Switched to grab the target (chain, resolution: target -> backdoor -> actual) user.
         // Approvals still using backdoor > actual
         if (StringUtils.equals(lcf.getAction(), TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.INITIATED.getCode())) {
-                TkServiceLocator.getLeaveCalendarService().routeLeaveCalendar(TKContext.getTargetPrincipalId(), document);
+                LmServiceLocator.getLeaveCalendarService().routeLeaveCalendar(TKContext.getTargetPrincipalId(), document);
             }
         } else if (StringUtils.equals(lcf.getAction(), TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
             //Todo:  check for unfinalized BalanceTransfer on current leave calendar.
-            if (TkServiceLocator.getLeaveCalendarService().isReadyToApprove(document)) {
+            if (LmServiceLocator.getLeaveCalendarService().isReadyToApprove(document)) {
                 if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
-                    TkServiceLocator.getLeaveCalendarService().approveLeaveCalendar(TKContext.getPrincipalId(), document);
+                    LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(TKContext.getPrincipalId(), document);
                 }
             } else {
                 //ERROR!!!!
@@ -156,7 +157,7 @@ public class LeaveCalendarSubmitAction extends TkAction {
 
         } else if (StringUtils.equals(lcf.getAction(), TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
-                TkServiceLocator.getLeaveCalendarService().disapproveLeaveCalendar(TKContext.getPrincipalId(), document);
+                LmServiceLocator.getLeaveCalendarService().disapproveLeaveCalendar(TKContext.getPrincipalId(), document);
             }
         }
 

@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.core;
 
-import org.kuali.hr.tklm.time.base.web.TkForm;
 
 public class SessionInvalidateForm extends TkForm {
 

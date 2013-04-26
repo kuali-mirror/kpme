@@ -17,8 +17,8 @@ package org.kuali.hr.tklm.leave.workflow.postprocessor;
 
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.framework.postprocessor.ProcessDocReport;
@@ -30,9 +30,9 @@ public class LeaveRequestPostProcessor extends DefaultPostProcessor {
 	public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {		
 		ProcessDocReport pdr = new ProcessDocReport(true, "");
 		String documentId = statusChangeEvent.getDocumentId();
-        LeaveRequestDocument document = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(documentId);
+        LeaveRequestDocument document = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(documentId);
 
-		//LeaveCalendarDocument document = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
+		//LeaveCalendarDocument document = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
 		if (document != null) {
 			pdr = super.doRouteStatusChange(statusChangeEvent);
             LeaveBlock lb = document.getLeaveBlock();
@@ -54,11 +54,11 @@ public class LeaveRequestPostProcessor extends DefaultPostProcessor {
 	                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DEFERRED);
 	                    lb.setLeaveRequestDocumentId("");
 	                }
-	                TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, document.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId());
+	                LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, document.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId());
 	                if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
 		                // delete leave block from leave block table when leave request gets disapproved 
 	                    // leave request page gets disapproved leave block list from leave block history table
-	                    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), document.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId());
+	                    LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), document.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId());
 	                }
 				}
 	       }

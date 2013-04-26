@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.cache.CacheUtils;
-import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 

@@ -18,9 +18,9 @@ package org.kuali.hr.tklm.time.rules.lunch.sys.service;
 import java.sql.Timestamp;
 
 import org.kuali.hr.core.cache.CacheUtils;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.time.rules.lunch.sys.SystemLunchRule;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 

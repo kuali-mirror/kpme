@@ -23,12 +23,12 @@ import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.adjustment.LeaveAdjustment;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl{
@@ -59,7 +59,7 @@ public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMain
 		aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
 		aLeaveBlock.setBlockId(0L);
 		
-		TkServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock, TKContext.getPrincipalId());		
+		LmServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock, TKContext.getPrincipalId());		
 	}
 	
 	@SuppressWarnings("rawtypes")

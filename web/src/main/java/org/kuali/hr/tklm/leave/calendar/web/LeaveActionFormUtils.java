@@ -25,10 +25,11 @@ import org.json.simple.JSONValue;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TkConstants;
 
 public class LeaveActionFormUtils {
 
@@ -81,7 +82,7 @@ public class LeaveActionFormUtils {
             LeaveBlockMap.put("leaveBlockType", leaveBlock.getLeaveBlockType());
             LeaveBlockMap.put("editable", leaveBlock.isEditable());
             LeaveBlockMap.put("requestStatus", leaveBlock.getRequestStatus());
-            LeaveBlockMap.put("canTransfer", TkServiceLocator.getLMPermissionService().canTransferSSTOUsage(leaveBlock));
+            LeaveBlockMap.put("canTransfer", LmServiceLocator.getLMPermissionService().canTransferSSTOUsage(leaveBlock));
             leaveBlockList.add(LeaveBlockMap);
         }
 

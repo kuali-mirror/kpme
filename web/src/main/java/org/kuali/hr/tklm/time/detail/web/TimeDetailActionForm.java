@@ -26,11 +26,11 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.time.calendar.TkCalendar;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timesummary.TimeSummary;
-import org.kuali.hr.tklm.time.util.TKUtils;
 
 public class TimeDetailActionForm extends TimeDetailActionFormBase {
 

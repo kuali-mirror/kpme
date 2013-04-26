@@ -26,6 +26,7 @@ import org.kuali.hr.core.calendar.CalendarParent;
 import org.kuali.hr.core.calendar.CalendarWeek;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.LeaveBlockRenderer;
 import org.kuali.hr.tklm.leave.util.LeaveBlockAggregate;
@@ -33,7 +34,6 @@ import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timeblock.TimeBlockRenderer;
 import org.kuali.hr.tklm.time.timehourdetail.TimeHourDetailRenderer;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.hr.tklm.time.util.TkTimeBlockAggregate;
 
 public class TkCalendar extends CalendarParent {

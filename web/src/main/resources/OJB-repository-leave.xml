@@ -25,7 +25,7 @@
         <field-descriptor name="descr"              column="DESCR"              jdbc-type="VARCHAR"     length="50" nullable="false" />
         <field-descriptor name="planningMonths"     column="PLANNING_MONTHS"    jdbc-type="VARCHAR"     length="3" nullable="false" />
         <field-descriptor name="effectiveDate"      column="EFFDT"              jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
-        <field-descriptor name="timestamp"          column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.tklm.time.util.TkTimestampConverter" />
+        <field-descriptor name="timestamp"          column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.tklm.common.TkTimestampConverter" />
         <field-descriptor name="active"             column="ACTIVE"             jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
  		<field-descriptor name="batchPriorYearCarryOverStartDate"    column="BATCH_CARRY_OVER_START_DATE"   jdbc-type="VARCHAR"     length="5" />
  		<field-descriptor name="batchPriorYearCarryOverStartTime"    column="BATCH_CARRY_OVER_START_TIME"   jdbc-type="TIME" />
@@ -42,7 +42,7 @@
         <field-descriptor name="unitOfTime"           column="UNIT_OF_TIME"           jdbc-type="VARCHAR"     length="5" nullable="false" />
         <field-descriptor name="descr"                column="DESCR"                  jdbc-type="VARCHAR"     length="50" />
         <field-descriptor name="effectiveDate"        column="EFFDT"                  jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
-        <field-descriptor name="timestamp"            column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.tklm.time.util.TkTimestampConverter" />
+        <field-descriptor name="timestamp"            column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.tklm.common.TkTimestampConverter" />
         <field-descriptor name="active"               column="ACTIVE"                 jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="proration"            column="PRORATION"              jdbc-type="VARCHAR"     length="1" nullable="false" />
         <field-descriptor name="donation"             column="DONATION"               jdbc-type="VARCHAR"     length="1" nullable="false" />
@@ -77,7 +77,7 @@
         <field-descriptor name="maxUsage"                               column="MAX_USAGE"                      jdbc-type="BIGINT"      length="20" />
         <field-descriptor name="maxCarryOver"                           column="MAX_CARRY_OVER"                 jdbc-type="BIGINT"      length="20" />
         <field-descriptor name="lmAccrualCategoryId"                    column="LM_ACCRUAL_CATEGORY_ID"         jdbc-type="VARCHAR"     length="60" />
-        <field-descriptor name="timestamp"                              column="TIMESTAMP"                      jdbc-type="TIMESTAMP"   conversion="org.kuali.hr.tklm.time.util.TkTimestampConverter" />
+        <field-descriptor name="timestamp"                              column="TIMESTAMP"                      jdbc-type="TIMESTAMP"   conversion="org.kuali.hr.tklm.common.TkTimestampConverter" />
         <field-descriptor name="active"                                 column="ACTIVE"                         jdbc-type="VARCHAR"     length="1" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="objectId"                               column="OBJ_ID"                         jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"                          column="VER_NBR"                        jdbc-type="BIGINT"      locking="true" />
@@ -126,7 +126,7 @@
         <field-descriptor name="transfertoEarnCode"           column="TRANSFER_TO_EARN_CODE"  jdbc-type="VARCHAR"     length="15" nullable="false" />
      	<field-descriptor name="premiumHoliday"               column="PREMIUM_HOLIDAY"        jdbc-type="VARCHAR"     length="5" nullable="false" />
         <field-descriptor name="effectiveDate"                column="EFFDT"                  jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
-        <field-descriptor name="timestamp"                    column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.tklm.time.util.TkTimestampConverter" />
+        <field-descriptor name="timestamp"                    column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.tklm.common.TkTimestampConverter" />
         <field-descriptor name="active"                       column="ACTIVE"                 jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="objectId"                     column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"                column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
@@ -148,7 +148,7 @@
         <field-descriptor name="leaveAmount"            column="LEAVE_AMOUNT"           jdbc-type="NUMERIC"     nullable="false" />
         <field-descriptor name="documentId"             column="DOCUMENT_ID"            jdbc-type="VARCHAR"     length="40" nullable="true" />
         <field-descriptor name="principalIdModified"    column="PRINCIPAL_ID_MODIFIED"  jdbc-type="VARCHAR"     length="40" nullable="true" />
-        <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="true" conversion="org.kuali.hr.tklm.time.util.TkTimestampConverter" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="true" conversion="org.kuali.hr.tklm.common.TkTimestampConverter" />
         <field-descriptor name="accrualGenerated"       column="ACCRUAL_GENERATED"      jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="blockId"                column="BLOCK_ID"               jdbc-type="BIGINT"      nullable="true" />
         <field-descriptor name="requestStatus"          column="REQUEST_STATUS"         jdbc-type="VARCHAR"     length="1" nullable="false"     />
@@ -181,13 +181,13 @@
         <field-descriptor name="leaveAmount"            column="LEAVE_AMOUNT"           jdbc-type="NUMERIC"     nullable="false" />
         <field-descriptor name="documentId"             column="DOCUMENT_ID"            jdbc-type="VARCHAR"     length="40" nullable="true" />
         <field-descriptor name="principalIdModified"    column="PRINCIPAL_ID_MODIFIED"  jdbc-type="VARCHAR"     length="40" nullable="true" />
-        <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="true" conversion="org.kuali.hr.tklm.time.util.TkTimestampConverter" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="true" conversion="org.kuali.hr.tklm.common.TkTimestampConverter" />
         <field-descriptor name="accrualGenerated"       column="ACCRUAL_GENERATED"      jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="blockId"                column="BLOCK_ID"               jdbc-type="BIGINT"      nullable="true" />
         <field-descriptor name="requestStatus"          column="REQUEST_STATUS"         jdbc-type="VARCHAR"     length="1" nullable="false"     />
         <field-descriptor name="action"                 column="ACTION"                 jdbc-type="VARCHAR"     length="1"  />
         <field-descriptor name="principalIdDeleted"     column="PRINCIPAL_ID_DELETED"   jdbc-type="VARCHAR"     length="40" nullable="true" />
-        <field-descriptor name="timestampDeleted"       column="TIMESTAMP_DELETED"      jdbc-type="TIMESTAMP"   nullable="true" conversion="org.kuali.hr.tklm.time.util.TkTimestampConverter" />
+        <field-descriptor name="timestampDeleted"       column="TIMESTAMP_DELETED"      jdbc-type="TIMESTAMP"   nullable="true" conversion="org.kuali.hr.tklm.common.TkTimestampConverter" />
         <field-descriptor name="leaveBlockType"         column="LEAVE_BLOCK_TYPE"       jdbc-type="VARCHAR"     length="5" nullable="false" />
         <field-descriptor name="objectId"               column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
@@ -229,7 +229,7 @@
         <field-descriptor name="recipientsPrincipalID"      column="RECEPIENT"              jdbc-type="VARCHAR"     length="20" nullable="false" />
         <field-descriptor name="description"                column="DESCR"                  jdbc-type="VARCHAR"     length="50" nullable="false" />
         <field-descriptor name="effectiveDate"              column="EFFDT"                  jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
-        <field-descriptor name="timestamp"                  column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.tklm.time.util.TkTimestampConverter" />
+        <field-descriptor name="timestamp"                  column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.tklm.common.TkTimestampConverter" />
         <field-descriptor name="active"                     column="ACTIVE"                 jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="objectId"                   column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"              column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
@@ -244,7 +244,7 @@
         <field-descriptor name="overrideValue"          column="OVERRIDE_VALUE"             jdbc-type="BIGINT"      nullable="true" />
         <field-descriptor name="description"            column="DESCRIPTION"                jdbc-type="VARCHAR"     length="50" nullable="true" />
         <field-descriptor name="active"                 column="ACTIVE"                     jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="timestamp"              column="TIMESTAMP"                  jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.tklm.time.util.TkTimestampConverter" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"                  jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.tklm.common.TkTimestampConverter" />
         <field-descriptor name="effectiveDate"          column="EFFDT"                      jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="objectId"               column="OBJ_ID"                     jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"                    jdbc-type="BIGINT"      locking="true" />
@@ -258,7 +258,7 @@
         <field-descriptor name="earnCode"               column="EARN_CODE"              jdbc-type="VARCHAR"     length="15" nullable="false" />
         <field-descriptor name="adjustmentAmount"       column="ADJUSTMENT_AMOUNT"      jdbc-type="DECIMAL"     nullable="false" />
         <field-descriptor name="description"            column="DESCRIPTION"            jdbc-type="VARCHAR"     length="50" nullable="true" />
-        <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.tklm.time.util.TkTimestampConverter" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.tklm.common.TkTimestampConverter" />
         <field-descriptor name="effectiveDate"          column="EFFDT"                  jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="objectId"               column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
@@ -266,7 +266,7 @@
     
     <class-descriptor class="org.kuali.hr.tklm.leave.accrual.PrincipalAccrualRan" table="LM_PRIN_ACCR_RAN_T">
         <field-descriptor name="principalId" column="PRINCIPAL_ID"  jdbc-type="VARCHAR" length="40" primarykey="true" />
-        <field-descriptor name="lastRanTs"  column="LAST_RAN_TS"    jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.tklm.time.util.TkTimestampConverter" />        
+        <field-descriptor name="lastRanTs"  column="LAST_RAN_TS"    jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.tklm.common.TkTimestampConverter" />        
     </class-descriptor>
 
 </descriptor-repository>

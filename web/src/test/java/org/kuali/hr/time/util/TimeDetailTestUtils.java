@@ -26,10 +26,10 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.time.test.HtmlUnitUtil;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.time.detail.validation.TimeDetailValidationUtil;
 import org.kuali.hr.tklm.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.hr.util.filter.TestAutoLoginFilter;
 
 import com.gargoylesoftware.htmlunit.WebClient;

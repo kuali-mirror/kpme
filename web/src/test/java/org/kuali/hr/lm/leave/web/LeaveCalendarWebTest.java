@@ -25,7 +25,7 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -41,14 +41,14 @@ public class LeaveCalendarWebTest extends KPMETestCase {
 		super.setUp();
 		
 		CalendarEntry firstCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("202");
-        LeaveCalendarDocument firstLeaveCalendarDocument = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", firstCalendarEntry);
+        LeaveCalendarDocument firstLeaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", firstCalendarEntry);
         documentId = firstLeaveCalendarDocument.getDocumentId();
         
         CalendarEntry secondCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("203");
-        TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", secondCalendarEntry);
+        LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", secondCalendarEntry);
         
         CalendarEntry thirdCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("204");
-        TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", thirdCalendarEntry);
+        LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", thirdCalendarEntry);
 	}
 
 	@After

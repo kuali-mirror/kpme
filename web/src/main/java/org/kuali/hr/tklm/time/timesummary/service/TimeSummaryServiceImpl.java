@@ -43,8 +43,10 @@ import org.kuali.hr.core.earncode.group.EarnCodeGroup;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
 import org.kuali.hr.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.hr.tklm.leave.util.LeaveBlockAggregate;
@@ -58,7 +60,6 @@ import org.kuali.hr.tklm.time.timesummary.AssignmentRow;
 import org.kuali.hr.tklm.time.timesummary.EarnCodeSection;
 import org.kuali.hr.tklm.time.timesummary.EarnGroupSection;
 import org.kuali.hr.tklm.time.timesummary.TimeSummary;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.hr.tklm.time.util.TkTimeBlockAggregate;
 
 public class TimeSummaryServiceImpl implements TimeSummaryService {
@@ -83,7 +84,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         for(Assignment assign : timeAssignments) {
             tAssignmentKeys.add(assign.getAssignmentKey());
         }
-        List<LeaveBlock> leaveBlocks =  TkServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(timesheetDocument.getPrincipalId(),
+        List<LeaveBlock> leaveBlocks =  LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(timesheetDocument.getPrincipalId(),
                 timesheetDocument.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate(), tAssignmentKeys);
         LeaveBlockAggregate leaveBlockAggregate = new LeaveBlockAggregate(leaveBlocks, timesheetDocument.getCalendarEntry());
         tkTimeBlockAggregate = combineTimeAndLeaveAggregates(tkTimeBlockAggregate, leaveBlockAggregate);
@@ -109,9 +110,9 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 			CalendarEntry calendarEntry, String principalId) throws Exception {
     	List<LeaveSummaryRow> maxedLeaveRows = new ArrayList<LeaveSummaryRow>();
     	
-    	if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
+    	if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
     		
-        	Map<String,Set<LeaveBlock>> eligibilities = TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry,principalId);
+        	Map<String,Set<LeaveBlock>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry,principalId);
         	Set<LeaveBlock> onDemandTransfers = eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
 
         	Interval calendarEntryInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(),calendarEntry.getEndPeriodDate().getTime());
@@ -122,7 +123,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         	if(!onDemandTransfers.isEmpty()) {
             	for(LeaveBlock lb : onDemandTransfers) {
             		LocalDate leaveDate = lb.getLeaveLocalDate();
-                	LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, leaveDate.plusDays(1));
+                	LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, leaveDate.plusDays(1));
                 	LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
             		if(row != null) {
             			//AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(row.getAccrualCategoryId());

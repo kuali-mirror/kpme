@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.tklm.leave.payout;
 
-import org.kuali.hr.tklm.time.base.web.TkInquirableImpl;
+import org.kuali.hr.core.TkInquirableImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 

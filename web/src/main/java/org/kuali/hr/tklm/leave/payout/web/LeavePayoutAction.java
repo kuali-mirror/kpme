@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.TkAction;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.calendar.CalendarEntry;
@@ -38,8 +39,8 @@ import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.payout.LeavePayout;
 import org.kuali.hr.tklm.leave.payout.validation.LeavePayoutValidationUtils;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.hr.tklm.time.base.web.TkAction;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;
@@ -68,7 +69,7 @@ public class LeavePayoutAction extends TkAction {
 			
 			String documentId = leavePayout.getLeaveCalendarDocumentId();
 			TimesheetDocumentHeader tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
-			LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
+			LeaveCalendarDocumentHeader lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
 			CalendarEntry calendarEntry = null;
 			String strutsActionForward = "";
 			String methodToCall = "approveLeaveCalendar";
@@ -83,7 +84,7 @@ public class LeavePayoutAction extends TkAction {
 				methodToCall = "approveTimesheet";
 			}
 			else {
-				LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
+				LeaveCalendarDocument lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
 				calendarEntry = lcd.getCalendarEntry();
 				strutsActionForward = "leaveCalendarPayoutSuccess";
 				methodToCall = "approveLeaveCalendar";
@@ -97,7 +98,7 @@ public class LeavePayoutAction extends TkAction {
 			AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 			BigDecimal accruedBalance = HrServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(leavePayout.getPrincipalId(), accrualCategory, leavePayout.getEffectiveLocalDate());
 
-			LeavePayout defaultBT = TkServiceLocator.getLeavePayoutService().initializePayout(leavePayout.getPrincipalId(), accrualRuleId, accruedBalance, leavePayout.getEffectiveLocalDate());
+			LeavePayout defaultBT = LmServiceLocator.getLeavePayoutService().initializePayout(leavePayout.getPrincipalId(), accrualRuleId, accruedBalance, leavePayout.getEffectiveLocalDate());
 			if(leavePayout.getPayoutAmount().compareTo(defaultBT.getPayoutAmount()) != 0) {
 				//employee changed the payout amount, recalculate forfeiture.
 				//Note: payout form has been validated.
@@ -110,7 +111,7 @@ public class LeavePayoutAction extends TkAction {
 				leavePayout.setLeaveCalendarDocumentId(documentId);
 			}
 
-			TkServiceLocator.getLeavePayoutService().submitToWorkflow(leavePayout);
+			LmServiceLocator.getLeavePayoutService().submitToWorkflow(leavePayout);
 			
 			if(ObjectUtils.isNotNull(documentId)) {
 				if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
@@ -148,7 +149,7 @@ public class LeavePayoutAction extends TkAction {
 				
 				String documentId = leavePayout.getLeaveCalendarDocumentId();
 				TimesheetDocumentHeader tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
-				LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
+				LeaveCalendarDocumentHeader lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
 				String strutsActionForward = "";
 				if(ObjectUtils.isNull(tsdh) && ObjectUtils.isNull(lcdh)) {
 					strutsActionForward = "/";
@@ -206,7 +207,7 @@ public class LeavePayoutAction extends TkAction {
 						calendarEntry = tsd.getCalendarEntry();
 					}
 					else {
-						lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
+						lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
 						principalId = lcd.getPrincipalId();
 						calendarEntry = lcd.getCalendarEntry();
 					}
@@ -215,20 +216,20 @@ public class LeavePayoutAction extends TkAction {
 					AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 					BigDecimal accruedBalance = HrServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(principalId, accrualCategory, LocalDate.now());
 
-					LeavePayout leavePayout = TkServiceLocator.getLeavePayoutService().initializePayout(principalId, leaveBlockId, accruedBalance, LocalDate.now());
+					LeavePayout leavePayout = LmServiceLocator.getLeavePayoutService().initializePayout(principalId, leaveBlockId, accruedBalance, LocalDate.now());
 					leavePayout.setLeaveCalendarDocumentId(documentId);
 					if(ObjectUtils.isNotNull(leavePayout)) {
 						if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {	
 							// this particular combination of action / action frequency does not particularly make sense
 							// unless for some reason users still need to be prompted to submit the loss.
 							// For now, we treat as though it is a valid use-case.
-							//TkServiceLocator.getLeavePayoutService().submitToWorkflow(leavePayout);
+							//LmServiceLocator.getLeavePayoutService().submitToWorkflow(leavePayout);
 							// May need to update to save the business object to KPME's tables for record keeping.
-							leavePayout = TkServiceLocator.getLeavePayoutService().payout(leavePayout);
+							leavePayout = LmServiceLocator.getLeavePayoutService().payout(leavePayout);
 							// May need to update to save the business object to KPME's tables for record keeping.
-							LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leavePayout.getForfeitedLeaveBlockId());
+							LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leavePayout.getForfeitedLeaveBlockId());
 							forfeitedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
-							TkServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, principalId);
+							LmServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, principalId);
 							return mapping.findForward("closeLeavePayoutDoc");
 						}
 						else {
@@ -278,7 +279,7 @@ public class LeavePayoutAction extends TkAction {
 
 			String leaveCalendarDocumentId = request.getParameter("documentId");
 			ActionForward forward = new ActionForward(mapping.findForward("basic"));
-			LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocumentId);
+			LeaveCalendarDocument lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocumentId);
 			
 			LeaveBlock leaveBlock = eligiblePayouts.get(0);
 			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
@@ -288,7 +289,7 @@ public class LeavePayoutAction extends TkAction {
 				AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 				BigDecimal accruedBalance = HrServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(lcd.getPrincipalId(), accrualCategory, effectiveDate);
 			
-				LeavePayout leavePayout = TkServiceLocator.getLeavePayoutService().initializePayout(lcd.getPrincipalId(), accrualCategoryRuleId, accruedBalance, effectiveDate);
+				LeavePayout leavePayout = LmServiceLocator.getLeavePayoutService().initializePayout(lcd.getPrincipalId(), accrualCategoryRuleId, accruedBalance, effectiveDate);
 				leavePayout.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 	
 				if(ObjectUtils.isNotNull(leavePayout)) {
@@ -296,13 +297,13 @@ public class LeavePayoutAction extends TkAction {
 				if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
 					//payouts should never contain losses.
 					//losses are treated as a special case of transfer
-					//TkServiceLocator.getLeavePayoutService().submitToWorkflow(leavePayout);
-					leavePayout = TkServiceLocator.getLeavePayoutService().payout(leavePayout);
+					//LmServiceLocator.getLeavePayoutService().submitToWorkflow(leavePayout);
+					leavePayout = LmServiceLocator.getLeavePayoutService().payout(leavePayout);
 					// May need to update to save the business object to KPME's tables for record keeping.
-					LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leavePayout.getForfeitedLeaveBlockId());
+					LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leavePayout.getForfeitedLeaveBlockId());
 					KRADServiceLocator.getBusinessObjectService().save(leavePayout);
 					forfeitedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
-					TkServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, lcd.getPrincipalId());
+					LmServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, lcd.getPrincipalId());
 					
 					if(ObjectUtils.isNotNull(leaveCalendarDocumentId)) {
 						if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
@@ -367,7 +368,7 @@ public class LeavePayoutAction extends TkAction {
 				AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 				BigDecimal accruedBalance = HrServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(tsd.getPrincipalId(), accrualCategory, effectiveDate);
 
-				LeavePayout leavePayout = TkServiceLocator.getLeavePayoutService().initializePayout(tsd.getPrincipalId(), accrualCategoryRuleId, accruedBalance, effectiveDate);
+				LeavePayout leavePayout = LmServiceLocator.getLeavePayoutService().initializePayout(tsd.getPrincipalId(), accrualCategoryRuleId, accruedBalance, effectiveDate);
 				leavePayout.setLeaveCalendarDocumentId(timesheetDocumentId);
 	
 				if(ObjectUtils.isNotNull(leavePayout)) {
@@ -375,13 +376,13 @@ public class LeavePayoutAction extends TkAction {
 					if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
 						// TODO: Redirect user to prompt stating excess leave will be forfeited and ask for confirmation.
 						// Do not submit the object to workflow for this max balance action.
-						leavePayout = TkServiceLocator.getLeavePayoutService().payout(leavePayout);
+						leavePayout = LmServiceLocator.getLeavePayoutService().payout(leavePayout);
 						KRADServiceLocator.getBusinessObjectService().save(leavePayout);
 	
 						// May need to update to save the business object to KPME's tables for record keeping.
-						LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leavePayout.getForfeitedLeaveBlockId());
+						LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leavePayout.getForfeitedLeaveBlockId());
 						forfeitedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
-						TkServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, tsd.getPrincipalId());
+						LmServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, tsd.getPrincipalId());
 
 						if(ObjectUtils.isNotNull(timesheetDocumentId)) {
 							if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||

@@ -26,9 +26,9 @@ import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.location.Location;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimezoneServiceImpl implements TimezoneService {

@@ -19,9 +19,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.TkInquirableImpl;
 import org.kuali.hr.core.service.HrServiceLocator;
-import org.kuali.hr.tklm.time.base.web.TkInquirableImpl;
-import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 public class AccrualCategoryInquirableImpl extends TkInquirableImpl {

@@ -36,14 +36,14 @@ import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
 import org.kuali.hr.tklm.time.rules.shiftdifferential.dao.ShiftDifferentialRuleDao;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timeblock.TimeHourDetail;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.hr.tklm.time.util.TKUtils;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.hr.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;
 

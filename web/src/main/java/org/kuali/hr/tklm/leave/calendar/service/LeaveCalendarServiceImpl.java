@@ -26,15 +26,16 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.calendar.dao.LeaveCalendarDao;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -56,7 +57,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     @Override
     public LeaveCalendarDocument getLeaveCalendarDocument(String documentId) {
         LeaveCalendarDocument lcd = null;
-        LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
+        LeaveCalendarDocumentHeader lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
 
         if (lcdh != null) {
             lcd = new LeaveCalendarDocument(lcdh);
@@ -66,7 +67,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             throw new RuntimeException("Could not find LeaveCalendarDocumentHeader for DocumentID: " + documentId);
         }
 
-        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(documentId);
+        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(documentId);
         lcd.setLeaveBlocks(leaveBlocks);
 
         // Fetching assignments
@@ -83,7 +84,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         DateTime begin = calEntry.getBeginPeriodFullDateTime();
         DateTime end = calEntry.getEndPeriodFullDateTime();
 
-        LeaveCalendarDocumentHeader header = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, begin, end);
+        LeaveCalendarDocumentHeader header = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, begin, end);
         if (header == null) {
             EntityNamePrincipalName person = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
             String principalName = person != null && person.getDefaultName() != null ? person.getDefaultName().getCompositeName() : StringUtils.EMPTY;
@@ -106,7 +107,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             return false;
         }
         
-        boolean isPlanningCalendar = TkServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(principalId, calEntry.getBeginPeriodFullDateTime().toLocalDate(), calEntry.getEndPeriodFullDateTime().toLocalDate());
+        boolean isPlanningCalendar = LmServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(principalId, calEntry.getBeginPeriodFullDateTime().toLocalDate(), calEntry.getEndPeriodFullDateTime().toLocalDate());
     	if (isPlanningCalendar) {
     		return false;
     	}
@@ -143,32 +144,32 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     }
     
     private void updateLeaveBlockDocumentIds(String principalId, LocalDate beginDate, LocalDate endDate, String documentId) {
-        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
+        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
         
         for (LeaveBlock leaveBlock : leaveBlocks) {
         	leaveBlock.setDocumentId(documentId);
         }
         
-        TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(leaveBlocks);
+        LmServiceLocator.getLeaveBlockService().saveLeaveBlocks(leaveBlocks);
     }
     
     private void updatePlannedLeaveBlocks(String principalId, LocalDate beginDate, LocalDate endDate) {
         String batchUserPrincipalId = getBatchUserPrincipalId();
         
         if (batchUserPrincipalId != null) {
-	    	List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
+	    	List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
 	
 	    	for (LeaveBlock leaveBlock : leaveBlocks) {
 	    		if (StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.PLANNED) 
 	    				|| StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.DEFERRED)) {
-	    			TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), batchUserPrincipalId);
+	    			LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), batchUserPrincipalId);
 	    		} else if (StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.REQUESTED)) {
 	    	        if (StringUtils.equals(getInitiateLeaveRequestAction(), LMConstants.INITIATE_LEAVE_REQUEST_ACTION_OPTIONS.DELETE)) {
-	    	        	TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), batchUserPrincipalId);
+	    	        	LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), batchUserPrincipalId);
 	    	        } else if (StringUtils.equals(getInitiateLeaveRequestAction(), LMConstants.INITIATE_LEAVE_REQUEST_ACTION_OPTIONS.APPROVE)) {
-	    	        	List<LeaveRequestDocument> leaveRequestDocuments = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(leaveBlock.getLmLeaveBlockId());
+	    	        	List<LeaveRequestDocument> leaveRequestDocuments = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(leaveBlock.getLmLeaveBlockId());
 	    	        	for (LeaveRequestDocument leaveRequestDocument : leaveRequestDocuments) {
-	    	        		TkServiceLocator.getLeaveRequestDocumentService().suBlanketApproveLeave(leaveRequestDocument.getDocumentNumber(), batchUserPrincipalId);
+	    	        		LmServiceLocator.getLeaveRequestDocumentService().suBlanketApproveLeave(leaveRequestDocument.getDocumentNumber(), batchUserPrincipalId);
 	    	        	}
 	    	        }
 	    		}
@@ -197,7 +198,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
      * @param calEntry
      */
     protected void loadLeaveCalendarDocumentData(LeaveCalendarDocument ldoc, String principalId, CalendarEntry calEntry) {
-        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(ldoc.getDocumentId());
+        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(ldoc.getDocumentId());
         ldoc.setLeaveBlocks(leaveBlocks);
         List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calEntry);
         ldoc.setAssignments(assignments);
@@ -254,9 +255,9 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         if (document == null) {
             return false;
         }
-        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
+        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
         		document.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), document.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
-        leaveBlocks.addAll(TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
+        leaveBlocks.addAll(LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
         		document.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), document.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT));
         for(LeaveBlock lb : leaveBlocks) {
         	if(!StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.APPROVED) &&
@@ -264,16 +265,16 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         		return false;
         }
         // check if there are any pending calendars are there
-        LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getMinBeginDatePendingLeaveCalendar(document.getPrincipalId());
+        LeaveCalendarDocumentHeader lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getMinBeginDatePendingLeaveCalendar(document.getPrincipalId());
         if (lcdh != null){             //if there were any pending document
             //check to see if it's before the current document. if it is, then this document is not approvable.
-            if (TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(document.getDocumentId()).getBeginDate().compareTo(lcdh.getEndDate()) >= 0){
+            if (LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(document.getDocumentId()).getBeginDate().compareTo(lcdh.getEndDate()) >= 0){
                 return false;
             }
         }
 
         return true;
-/*        List<BalanceTransfer> balanceTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(document.getPrincipalId(),
+/*        List<BalanceTransfer> balanceTransfers = LmServiceLocator.getBalanceTransferService().getBalanceTransfers(document.getPrincipalId(),
                 document.getCalendarEntry().getBeginPeriodDate(),
                 document.getCalendarEntry().getEndPeriodDate());
         if (!CollectionUtils.isEmpty(balanceTransfers))   {
@@ -286,7 +287,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 	            }
 	        }
         }
-        List<LeavePayout> leavePayouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(document.getPrincipalId(),
+        List<LeavePayout> leavePayouts = LmServiceLocator.getLeavePayoutService().getLeavePayouts(document.getPrincipalId(),
         		document.getCalendarEntry().getBeginPeriodDate(),
         		document.getCalendarEntry().getEndPeriodDate());
         if (!CollectionUtils.isEmpty(leavePayouts)) {
@@ -318,8 +319,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             	
             	wd.route("Batch job routing leave calendar");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
-                if (TkServiceLocator.getLMPermissionService().canSuperUserAdministerLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid) 
-                		&& !TkServiceLocator.getLMPermissionService().canApproveLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid)) {
+                if (LmServiceLocator.getLMPermissionService().canSuperUserAdministerLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid) 
+                		&& !LmServiceLocator.getLMPermissionService().canApproveLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid)) {
                     wd.superUserBlanketApprove("Superuser approving timesheet.");
                 } else {
                     wd.approve("Approving timesheet.");
@@ -332,8 +333,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             	
             	wd.superUserBlanketApprove("Batch job approving leave calendar");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
-                if (TkServiceLocator.getLMPermissionService().canSuperUserAdministerLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid) 
-                		&& !TkServiceLocator.getLMPermissionService().canApproveLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid)) {
+                if (LmServiceLocator.getLMPermissionService().canSuperUserAdministerLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid) 
+                		&& !LmServiceLocator.getLMPermissionService().canApproveLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid)) {
                     wd.superUserDisapprove("Superuser disapproving leave calendar.");
                 } else {
                     wd.disapprove("Disapproving timesheet.");

@@ -20,9 +20,9 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.hr.core.lookup.KPMELookupableHelper;
+import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -66,7 +66,7 @@ public class SystemScheduledTimeOffLookupableHelper extends KPMELookupableHelper
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        return TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffs(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), 
+        return LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffs(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), 
         		earnCode, TKUtils.formatDateString(fromAccruedDate), TKUtils.formatDateString(toAccruedDate), TKUtils.formatDateString(fromSchTimeOffDate), 
         		TKUtils.formatDateString(toSchTimeOffDate), active, showHist);
     }

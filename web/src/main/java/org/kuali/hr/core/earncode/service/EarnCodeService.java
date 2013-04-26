@@ -32,7 +32,7 @@ public interface EarnCodeService {
      * @param isLeavePlanningCalendar
      * @return
      */
-    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForLeaveAndTime}' + 'principalId=' + T(org.kuali.hr.tklm.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.tklm.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'isLeavePlanningCalendar=' +#p2")
+    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForLeaveAndTime}' + 'principalId=' + T(org.kuali.hr.tklm.common.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.tklm.common.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'isLeavePlanningCalendar=' +#p2")
     public List<EarnCode> getEarnCodesForLeaveAndTime(Assignment a, LocalDate asOfDate, boolean isLeavePlanningCalendar);
 
     /**
@@ -41,7 +41,7 @@ public interface EarnCodeService {
      * @param asOfDate
      * @return
      */
-    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForTime}' + 'principalId=' + T(org.kuali.hr.tklm.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.tklm.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
+    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForTime}' + 'principalId=' + T(org.kuali.hr.tklm.common.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.tklm.common.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
     public List<EarnCode> getEarnCodesForTime(Assignment a, LocalDate asOfDate);
 
 	/**
@@ -51,7 +51,7 @@ public interface EarnCodeService {
      * @param isLeavePlanningCalendar
 	 * @return
 	 */
-    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForLeave}' + 'principalId=' + T(org.kuali.hr.tklm.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.tklm.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'isLeavePlanningCalendar=' +#p2")
+    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForLeave}' + 'principalId=' + T(org.kuali.hr.tklm.common.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.tklm.common.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'isLeavePlanningCalendar=' +#p2")
     public List<EarnCode> getEarnCodesForLeave(Assignment a, LocalDate asOfDate, boolean isLeavePlanningCalendar);
 
     /**

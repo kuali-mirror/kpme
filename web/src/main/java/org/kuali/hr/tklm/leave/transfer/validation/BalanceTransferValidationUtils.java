@@ -23,12 +23,12 @@ import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.tklm.leave.transfer.BalanceTransfer;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -154,7 +154,7 @@ public class BalanceTransferValidationUtils {
 		}
 		
 		//use override if one exists.
-		EmployeeOverride maxTransferAmountOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromCat.getLeavePlan(), fromCat.getAccrualCategory(), "MTA", effectiveDate);
+		EmployeeOverride maxTransferAmountOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromCat.getLeavePlan(), fromCat.getAccrualCategory(), "MTA", effectiveDate);
 		if(ObjectUtils.isNotNull(maxTransferAmountOverride))
 			adjustedMaxTransferAmount = new BigDecimal(maxTransferAmountOverride.getOverrideValue());
 				
@@ -185,7 +185,7 @@ public class BalanceTransferValidationUtils {
 	
 	public static boolean validateSstoTranser(BalanceTransfer bt) {
 		// make sure from accrual category is consistent with the ssto's
-		SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(bt.getSstoId());
+		SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(bt.getSstoId());
 		if(ssto == null) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "balanceTransfer.transferSSTO.sstoDoesNotExis", bt.getSstoId());
 			return false;

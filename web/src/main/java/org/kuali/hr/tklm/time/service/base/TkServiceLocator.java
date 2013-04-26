@@ -21,25 +21,6 @@ import org.kuali.hr.core.notification.service.KPMENotificationService;
 import org.kuali.hr.core.permission.service.HRPermissionService;
 import org.kuali.hr.core.role.service.HRRoleService;
 import org.kuali.hr.core.timezone.service.TimezoneService;
-import org.kuali.hr.tklm.leave.accrual.service.AccrualCategoryMaxBalanceService;
-import org.kuali.hr.tklm.leave.accrual.service.AccrualCategoryMaxCarryOverService;
-import org.kuali.hr.tklm.leave.accrual.service.AccrualService;
-import org.kuali.hr.tklm.leave.accrual.service.PrincipalAccrualRanService;
-import org.kuali.hr.tklm.leave.adjustment.service.LeaveAdjustmentService;
-import org.kuali.hr.tklm.leave.approval.service.LeaveApprovalService;
-import org.kuali.hr.tklm.leave.block.service.LeaveBlockHistoryService;
-import org.kuali.hr.tklm.leave.block.service.LeaveBlockService;
-import org.kuali.hr.tklm.leave.calendar.service.LeaveCalendarService;
-import org.kuali.hr.tklm.leave.donation.service.LeaveDonationService;
-import org.kuali.hr.tklm.leave.override.service.EmployeeOverrideService;
-import org.kuali.hr.tklm.leave.payout.service.LeavePayoutService;
-import org.kuali.hr.tklm.leave.permission.service.LMPermissionService;
-import org.kuali.hr.tklm.leave.request.service.LeaveRequestDocumentService;
-import org.kuali.hr.tklm.leave.role.service.LMRoleService;
-import org.kuali.hr.tklm.leave.summary.service.LeaveSummaryService;
-import org.kuali.hr.tklm.leave.timeoff.service.SystemScheduledTimeOffService;
-import org.kuali.hr.tklm.leave.transfer.service.BalanceTransferService;
-import org.kuali.hr.tklm.leave.workflow.service.LeaveCalendarDocumentHeaderService;
 import org.kuali.hr.tklm.time.approval.service.TimeApproveService;
 import org.kuali.hr.tklm.time.clocklog.service.ClockLogService;
 import org.kuali.hr.tklm.time.docsearch.TkSearchableAttributeService;
@@ -98,40 +79,26 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_DEPT_LUNCH_RULE_SERVICE = "deptLunchRuleService";
 	public static final String TK_PRINCIPAL_CALENDAR_SERVICE = "principalCalendarService";
 	public static final String TK_USER_PREF_SERVICE = "userPrefService";
-	public static final String TK_TIME_ZONE_SERVICE = "timezoneService";
 	public static final String TK_TIME_OFF_ACCRUAL_SERVICE = "timeOffAccrualService";
     public static final String TK_APPROVE_SERVICE = "timeApproveService";
     public static final String TK_MISSED_PUNCH_SERVICE = "missedPunchService";
     public static final String TK_WARNINGS_SERVICE = "tkWarningService";
     public static final String TK_SEARCH_ATTR_SERVICE = "tkSearchableAttributeService";
-    public static final String LM_ACCRUAL_SERVICE = "accrualService";
-    public static final String LM_LEAVE_DONATION_SERVICE = "leaveDonationService";
-    public static final String LM_SYS_SCH_TIMEOFF_SERVICE = "systemScheduledTimeOffService";
-    public static final String LM_LEAVE_BLOCK_SERVICE = "leaveBlockService";
-    public static final String LM_LEAVE_CALENDAR_SERVICE = "leaveCalendarService";
-    public static final String LM_LEAVE_CALENDAR_DOCUMENT_HEADER_SERVICE = "leaveCalendarDocumentHeaderService";
-    public static final String LM_EMPLOYEE_OVERRIDE_SERVICE = "employeeOverrideService";
-	public static final String LM_LEAVE_ADJUSTMENT_SERVICE = "leaveAdjustmentService";
-	public static final String LM_LEAVE_BLOCK_HISTORY_SERVICE = "leaveBlockHistoryService";
-	public static final String LM_PRINCIPAL_ACCRUAL_RAN_SERVICE = "principalAccrualRanService";
-	public static final String LM_LEAVE_SUMMARY_SERVICE = "leaveSummaryService";
-	public static final String LM_LEAVE_APPROVAL_SERVICE = "leaveApprovalService";
-    public static final String LM_BALANCE_TRANSFER_SERVICE = "balanceTransferService";
-    public static final String LM_ACCRUAL_CATEGORY_MAX_BALANCE_SERVICE = "accrualCategoryMaxBalanceService";
-    public static final String LM_LEAVE_REQUEST_DOC_SERVICE = "leaveRequestDocumentService";
-	public static final String LM_ACCRUAL_CATEGORY_MAX_CARRY_OVER_SERVICE = "accrualCategoryMaxCarryOverService";
-    public static final String LM_LEAVE_PAYOUT_SERVICE = "leavePayoutService";
+
+    //Move to [Sys|Hr]ServiceLocator
 	public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
     public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";    
     
+    //Move to HrServiceLocator
     public static final String HR_GROUP_SERVICE = "hrGroupService";
     public static final String HR_PERMISSION_SERVICE = "hrPermissionService";
     public static final String HR_ROLE_SERVICE = "hrRoleService";
+
+	public static final String TK_TIME_ZONE_SERVICE = "timezoneService";
+
     
     public static final String TK_PERMISSION_SERVICE = "tkPermissionService";
-    public static final String LM_PERMISSION_SERVICE = "lmPermissionService";
     public static final String TK_ROLE_SERVICE = "tkRoleService";
-    public static final String LM_ROLE_SERVICE = "lmRoleService";
     
     public static MissedPunchService getMissedPunchService() {
         return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
@@ -224,10 +191,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static TimezoneService getTimezoneService(){
 		return (TimezoneService) CONTEXT.getBean(TK_TIME_ZONE_SERVICE);
 	}
-	
-	public static AccrualService getAccrualService() {
-	    return (AccrualService)CONTEXT.getBean(LM_ACCRUAL_SERVICE);
-	}
 
 	public static TimeApproveService getTimeApproveService(){
 		return (TimeApproveService)CONTEXT.getBean(TK_APPROVE_SERVICE);
@@ -248,65 +211,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static TransactionTemplate getTransactionTemplate() {
 		return new TransactionTemplate(getPlatformTransactionManager());
 	}
-	
-	public static AccrualService getLeaveAccrualService(){
-		return (AccrualService) CONTEXT.getBean(LM_ACCRUAL_SERVICE);
-	}
-	
-	/*public static AccrualCategoryRuleService getLeaveAccrualCategoryRuleService(){
-		return (AccrualCategoryRuleService)CONTEXT.getBean(LM_ACCRUAL_CATEGORY_RULE_SERVICE);
-	}*/
-	
-	public static LeaveDonationService getLeaveDonationService(){
-		return (LeaveDonationService)CONTEXT.getBean(LM_LEAVE_DONATION_SERVICE);
-	}
-	
-	public static SystemScheduledTimeOffService getSysSchTimeOffService(){
-		return (SystemScheduledTimeOffService)CONTEXT.getBean(LM_SYS_SCH_TIMEOFF_SERVICE);
-	}
 
-    public static LeaveBlockService getLeaveBlockService(){
-		return (LeaveBlockService)CONTEXT.getBean(LM_LEAVE_BLOCK_SERVICE);
-	}
-
-    public static LeaveBlockHistoryService getLeaveBlockHistoryService(){
-		return (LeaveBlockHistoryService)CONTEXT.getBean(LM_LEAVE_BLOCK_HISTORY_SERVICE);
-	}
-    
-    public static LeaveCalendarService getLeaveCalendarService(){
-		return (LeaveCalendarService)CONTEXT.getBean(LM_LEAVE_CALENDAR_SERVICE);
-	}
-
-    public static LeaveCalendarDocumentHeaderService getLeaveCalendarDocumentHeaderService(){
-		return (LeaveCalendarDocumentHeaderService)CONTEXT.getBean(LM_LEAVE_CALENDAR_DOCUMENT_HEADER_SERVICE);
-	}
-    
-    public static EmployeeOverrideService getEmployeeOverrideService(){
-		return (EmployeeOverrideService)CONTEXT.getBean(LM_EMPLOYEE_OVERRIDE_SERVICE);
-	}
-    
-    public static LeaveAdjustmentService getLeaveAdjustmentService(){
-		return (LeaveAdjustmentService)CONTEXT.getBean(LM_LEAVE_ADJUSTMENT_SERVICE);
-	}
-	
-	public static PrincipalAccrualRanService getPrincipalAccrualRanService() {
-		return (PrincipalAccrualRanService)CONTEXT.getBean(LM_PRINCIPAL_ACCRUAL_RAN_SERVICE);
-	}
-	public static LeaveSummaryService getLeaveSummaryService() {
-		return (LeaveSummaryService)CONTEXT.getBean(LM_LEAVE_SUMMARY_SERVICE);
-	}
-	public static LeaveApprovalService getLeaveApprovalService() {
-		return (LeaveApprovalService)CONTEXT.getBean(LM_LEAVE_APPROVAL_SERVICE);
-	}
-    public static BalanceTransferService getBalanceTransferService() {
-    	return (BalanceTransferService) CONTEXT.getBean(LM_BALANCE_TRANSFER_SERVICE);
-    }
-    public static AccrualCategoryMaxBalanceService getAccrualCategoryMaxBalanceService() {
-    	return (AccrualCategoryMaxBalanceService) CONTEXT.getBean(LM_ACCRUAL_CATEGORY_MAX_BALANCE_SERVICE);
-    }
-    public static LeavePayoutService getLeavePayoutService() {
-        return (LeavePayoutService) CONTEXT.getBean(LM_LEAVE_PAYOUT_SERVICE);
-    }
     public static KPMENotificationService getKPMENotificationService() {
     	return (KPMENotificationService) CONTEXT.getBean(KPME_NOTIFICATION_SERVICE);
     }
@@ -324,22 +229,11 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static TKPermissionService getTKPermissionService() {
     	return (TKPermissionService) CONTEXT.getBean(TK_PERMISSION_SERVICE);
     }
-    public static LMPermissionService getLMPermissionService() {
-    	return (LMPermissionService) CONTEXT.getBean(LM_PERMISSION_SERVICE);
-    }
+
     public static TKRoleService getTKRoleService() {
     	return (TKRoleService) CONTEXT.getBean(TK_ROLE_SERVICE);
     }
-    public static LMRoleService getLMRoleService() {
-    	return (LMRoleService) CONTEXT.getBean(LM_ROLE_SERVICE);
-    }
-    
-    public static LeaveRequestDocumentService getLeaveRequestDocumentService() {
-        return (LeaveRequestDocumentService) CONTEXT.getBean(LM_LEAVE_REQUEST_DOC_SERVICE);
-    }
-    public static AccrualCategoryMaxCarryOverService getAccrualCategoryMaxCarryOverService() {
-    	return (AccrualCategoryMaxCarryOverService) CONTEXT.getBean(LM_ACCRUAL_CATEGORY_MAX_CARRY_OVER_SERVICE);
-    }
+
 	
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {

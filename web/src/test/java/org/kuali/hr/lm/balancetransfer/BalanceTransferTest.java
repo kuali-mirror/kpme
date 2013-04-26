@@ -30,15 +30,15 @@ import org.kuali.hr.lm.leaveCalendar.LeaveCalendarWebTestBase;
 import org.kuali.hr.lm.util.LeaveCalendarTestUtils;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.calendar.web.LeaveCalendarSubmitForm;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
 import org.kuali.hr.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.hr.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.hr.tklm.leave.web.LeaveCalendarWSForm;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
-import org.kuali.hr.tklm.time.util.TkConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -136,18 +136,18 @@ public class BalanceTransferTest extends LeaveCalendarWebTestBase {
 		//Leave summary is created on the fly
 		DateTime startDate = new DateTime(2012, 1, 1, 0, 0, 0, 1, TKUtils.getSystemDateTimeZone());
         DateTime asOfDate = new DateTime(2012, 11, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-        TkServiceLocator.getAccrualService().runAccrual(USER_PRINCIPAL_ID,startDate,asOfDate,false);
+        LmServiceLocator.getAccrualService().runAccrual(USER_PRINCIPAL_ID,startDate,asOfDate,false);
         CalendarEntry pcd = HrServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(USER_PRINCIPAL_ID, asOfDate);
         Assert.assertNotNull("No CalendarEntry", pcd);
 
         //opens a leave calendar document and initiates a workflow document. Sets document status to Initiated.
-        LeaveCalendarDocument tdoc = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(USER_PRINCIPAL_ID, pcd);
+        LeaveCalendarDocument tdoc = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(USER_PRINCIPAL_ID, pcd);
         String tdocId = tdoc.getDocumentId();
 
         // Build an action form - we're using it as a POJO, it ties into the
         // existing TK validation setup
         //Can be removed if LeaveCalendarService.openLeaveCalendarDocument takes on the task.
-        ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_PRINCIPAL_ID, pcd);
+        ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_PRINCIPAL_ID, pcd);
         LeaveCalendarWSForm tdaf = LeaveCalendarTestUtils.buildLeaveCalendarFormForSubmission(tdoc, ls);
         LeaveCalendarSubmitForm lcsf = new LeaveCalendarSubmitForm();
         lcsf.setAction(TkConstants.DOCUMENT_ACTIONS.ROUTE);

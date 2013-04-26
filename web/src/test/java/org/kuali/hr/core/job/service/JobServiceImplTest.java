@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.common.TKUtils;
 
 public class JobServiceImplTest extends KPMETestCase {
 

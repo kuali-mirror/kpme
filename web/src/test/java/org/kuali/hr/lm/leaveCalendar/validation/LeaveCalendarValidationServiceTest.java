@@ -387,7 +387,7 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		btObj.setAmountTransferred(balanceTransfer.getAmountTransferred());
 		btObj.setSstoId(balanceTransfer.getSstoId());
 		btObj.setDocumentHeaderId(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
-        //TkServiceLocator.getBalanceTransferService().saveOrUpdate(btObj);
+        //LmServiceLocator.getBalanceTransferService().saveOrUpdate(btObj);
 		document.getNewMaintainableObject().setDataObject(btObj);
 		try {
 			KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
@@ -397,7 +397,7 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		}
 		document.getDocumentHeader().getWorkflowDocument().saveDocument("");
 		
-		balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(btObj);
+		balanceTransfer = LmServiceLocator.getBalanceTransferService().transfer(btObj);
 
 	}*/
 		

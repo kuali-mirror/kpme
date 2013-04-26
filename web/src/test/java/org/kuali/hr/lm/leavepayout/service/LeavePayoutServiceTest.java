@@ -27,14 +27,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.test.KPMETestCase;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.payout.LeavePayout;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
 import org.kuali.hr.tklm.leave.summary.LeaveSummaryRow;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeavePayoutServiceTest extends KPMETestCase {
@@ -100,11 +100,11 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		TkServiceLocator.getAccrualService().runAccrual(USER_ID,LM_FROM.toDateTimeAtStartOfDay(),LM_TO.toDateTimeAtStartOfDay(),true,USER_ID);
-		janLCD = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(JAN_ID);
+		LmServiceLocator.getAccrualService().runAccrual(USER_ID,LM_FROM.toDateTimeAtStartOfDay(),LM_TO.toDateTimeAtStartOfDay(),true,USER_ID);
+		janLCD = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(JAN_ID);
 		janEntry = janLCD.getCalendarEntry();
 		janStart = janEntry.getBeginPeriodFullDateTime().toLocalDate();
-		decLCD = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(DEC_ID);
+		decLCD = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(DEC_ID);
 		decEntry = decLCD.getCalendarEntry();
 		decStart = decEntry.getBeginPeriodFullDateTime().toLocalDate();
 	}
@@ -127,7 +127,7 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 		LeavePayout lp = new LeavePayout();
 
 		LocalDate effectiveDate = decStart.plusDays(3);
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, null, BigDecimal.ZERO, effectiveDate);
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, null, BigDecimal.ZERO, effectiveDate);
 		assertNull(lp);
 	}
 	
@@ -135,24 +135,24 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	public void testInitializePayoutNullLeaveSummary() throws Exception {
 		LeavePayout lp = new LeavePayout();
 
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, OD_XFER, null, LocalDate.now());
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, OD_XFER, null, LocalDate.now());
 		assertNull(lp);
 	}
 	
 	@Test
 	public void testInitializePayoutNullAccrualRuleNullLeaveSummary() {
 		LeavePayout lp = new LeavePayout();
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, null, null, LocalDate.now());
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, null, null, LocalDate.now());
 		assertNull(lp);
 	}
 	
 	@Test
 	public void testInitializePayoutOnDemand() throws Exception {
 		LeavePayout lp = new LeavePayout();
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
+		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
 		LeaveSummaryRow aRow = summary.getLeaveSummaryRowForAccrualCategory(OD_XFER);
 		LocalDate effectiveDate = decStart.plusDays(3);
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, OD_XFER, aRow.getAccruedBalance(), effectiveDate);
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, OD_XFER, aRow.getAccruedBalance(), effectiveDate);
 		assertEquals("payoutOnDemand payout amount", (new BigDecimal(1)).longValue(), lp.getPayoutAmount().longValue());
 		assertEquals("payoutOnDemand forfeited amount",(new BigDecimal(0)).longValue(), lp.getForfeitedAmount().longValue());
 		////assertEquals("payoutOnDemand amount payoutred", (new BigDecimal(0.5)).longValue(), lp.getAmountPayoutred().longValue());
@@ -161,10 +161,10 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	@Test
 	public void testInitializePayoutOnDemandWithForfeiture() throws Exception {
 		LeavePayout lp = new LeavePayout();
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
+		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
 		LeaveSummaryRow aRow = summary.getLeaveSummaryRowForAccrualCategory(OD_XFER);
 		LocalDate effectiveDate = janStart.plusDays(3);
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, OD_XFER, aRow.getAccruedBalance(), effectiveDate);
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, OD_XFER, aRow.getAccruedBalance(), effectiveDate);
 		assertEquals("payoutOnDemand payout amount", (new BigDecimal(10)).longValue(), lp.getPayoutAmount().longValue());
 		assertEquals("payoutOnDemand forfeited amount", (new BigDecimal(7)).longValue(), lp.getForfeitedAmount().longValue());
 		//assertEquals("payoutOnDemand amount payoutred", (new BigDecimal(5)).longValue(), lp.getAmountPayoutred().longValue());
@@ -173,11 +173,11 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	@Test
 	public void testInitializePayoutOnYearEnd() throws Exception {
 		LeavePayout lp = new LeavePayout();
-		TkServiceLocator.getLeaveBlockService().deleteLeaveBlocksForDocumentId(DEC_ID);
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
+		LmServiceLocator.getLeaveBlockService().deleteLeaveBlocksForDocumentId(DEC_ID);
+		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
 		LeaveSummaryRow aRow = summary.getLeaveSummaryRowForAccrualCategory(YE_XFER);
 		LocalDate effectiveDate = janStart.plusDays(3);
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_XFER, aRow.getAccruedBalance(), effectiveDate);
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_XFER, aRow.getAccruedBalance(), effectiveDate);
 		assertEquals("payoutOnDemand payout amount", (new BigDecimal(1)).longValue(), lp.getPayoutAmount().longValue());
 		assertEquals("payoutOnDemand forfeited amount",(new BigDecimal(0)).longValue(), lp.getForfeitedAmount().longValue());
 		//assertEquals("payoutOnDemand amount payoutred", (new BigDecimal(0.5)).longValue(), lp.getAmountPayoutred().longValue());
@@ -186,10 +186,10 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	@Test
 	public void testInitializePayoutOnYearEndWithForfeiture() throws Exception {
 		LeavePayout lp = new LeavePayout();
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
+		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
 		LeaveSummaryRow aRow = summary.getLeaveSummaryRowForAccrualCategory(YE_XFER);
 		LocalDate effectiveDate = janStart.plusDays(3);
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_XFER, aRow.getAccruedBalance(), effectiveDate);
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_XFER, aRow.getAccruedBalance(), effectiveDate);
 		assertEquals("payoutOnDemand payout amount", (new BigDecimal(10)).longValue(), lp.getPayoutAmount().longValue());
 		assertEquals("payoutOnDemand forfeited amount", (new BigDecimal(7)).longValue(), lp.getForfeitedAmount().longValue());
 		//assertEquals("payoutOnDemand amount payoutred", (new BigDecimal(5)).longValue(), lp.getAmountPayoutred().longValue());
@@ -198,10 +198,10 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	@Test
 	public void testInitializePayoutOnLeaveApprove() throws Exception {
 		LeavePayout lp = new LeavePayout();
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
+		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
 		LeaveSummaryRow aRow = summary.getLeaveSummaryRowForAccrualCategory(LA_XFER);
 		LocalDate effectiveDate = decStart.plusDays(3);
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, LA_XFER, aRow.getAccruedBalance(), effectiveDate);
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, LA_XFER, aRow.getAccruedBalance(), effectiveDate);
 		assertEquals("payoutOnDemand payout amount", (new BigDecimal(1)).longValue(), lp.getPayoutAmount().longValue());
 		assertEquals("payoutOnDemand forfeited amount",(new BigDecimal(0)).longValue(), lp.getForfeitedAmount().longValue());
 		//assertEquals("payoutOnDemand amount payoutred", (new BigDecimal(0.5)).longValue(), lp.getAmountPayoutred().longValue());
@@ -210,10 +210,10 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	@Test
 	public void testInitializePayoutOnLeaveApproveWithForfeiture() throws Exception {
 		LeavePayout lp = new LeavePayout();
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
+		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
 		LeaveSummaryRow aRow = summary.getLeaveSummaryRowForAccrualCategory(LA_XFER);
 		LocalDate effectiveDate = janStart.plusDays(3);
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, LA_XFER, aRow.getAccruedBalance(), effectiveDate);
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, LA_XFER, aRow.getAccruedBalance(), effectiveDate);
 		assertEquals("payoutOnDemand payout amount", (new BigDecimal(10)).longValue(), lp.getPayoutAmount().longValue());
 		assertEquals("payoutOnDemand forfeited amount", (new BigDecimal(7)).longValue(), lp.getForfeitedAmount().longValue());
 		//assertEquals("payoutOnDemand amount payoutred", (new BigDecimal(5)).longValue(), lp.getAmountPayoutred().longValue());
@@ -223,10 +223,10 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	public void testInitializePayoutOnDemandMaxCarryOver() throws Exception {
 		//N/A - Max Carry Over on Year End payouts.
 		LeavePayout lp = new LeavePayout();
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
+		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
 		LeaveSummaryRow aRow = summary.getLeaveSummaryRowForAccrualCategory(OD_XFER_MAC);
 		LocalDate effectiveDate = decStart.plusDays(3);
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, OD_XFER_MAC, aRow.getAccruedBalance(), effectiveDate);
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, OD_XFER_MAC, aRow.getAccruedBalance(), effectiveDate);
 		assertEquals("payoutOnDemand payout amount", (new BigDecimal(1)).longValue(), lp.getPayoutAmount().longValue());
 		assertEquals("payoutOnDemand forfeited amount",(new BigDecimal(0)).longValue(), lp.getForfeitedAmount().longValue());
 		//assertEquals("payoutOnDemand amount payoutred", (new BigDecimal(0.5)).longValue(), lp.getAmountPayoutred().longValue());
@@ -248,10 +248,10 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 		 * 
 		 */
 		LeavePayout lp = new LeavePayout();
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
+		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
 		LeaveSummaryRow aRow = summary.getLeaveSummaryRowForAccrualCategory(YE_XFER_MAC);
 		LocalDate effectiveDate = decStart.plusDays(3);
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_XFER_MAC, aRow.getAccruedBalance(), effectiveDate);
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_XFER_MAC, aRow.getAccruedBalance(), effectiveDate);
 		assertEquals("payoutOnDemand payout amount", (new BigDecimal(6)).longValue(), lp.getPayoutAmount().longValue());
 		assertEquals("payoutOnDemand forfeited amount", (new BigDecimal(0)).longValue(), lp.getForfeitedAmount().longValue());
 		//assertEquals("payoutOnDemand amount payoutred", (new BigDecimal(3)).longValue(), lp.getAmountPayoutred().longValue());
@@ -277,13 +277,13 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 		usage.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR);
 		List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 		leaveBlocks.add(usage);
-		TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(leaveBlocks);
+		LmServiceLocator.getLeaveBlockService().saveLeaveBlocks(leaveBlocks);
 		
 		LeavePayout lp = new LeavePayout();
-		janLCD = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(JAN_ID);
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janLCD.getCalendarEntry());
+		janLCD = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(JAN_ID);
+		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janLCD.getCalendarEntry());
 		LocalDate effectiveDate = LocalDate effectiveDate = janStart.plusDays(3);
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_XFER_MAC, aRow.getAccruedBalance(), effectiveDate);
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_XFER_MAC, aRow.getAccruedBalance(), effectiveDate);
 		assertEquals("payoutOnDemand payout amount", (new BigDecimal(4)).longValue(), lp.getPayoutAmount().longValue());
 		assertEquals("payoutOnDemand forfeited amount", (new BigDecimal(0)).longValue(), lp.getForfeitedAmount().longValue());
 		//assertEquals("payoutOnDemand amount payoutred", (new BigDecimal(2)).longValue(), lp.getAmountPayoutred().longValue());
@@ -293,10 +293,10 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	public void testInitializePayoutOnYearEndMaxCarryOverWithForfeiture() throws Exception {
 		//max bal limit reached and max annual carry over triggererd.
 		LeavePayout lp = new LeavePayout();
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
+		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
 		LeaveSummaryRow aRow = summary.getLeaveSummaryRowForAccrualCategory(YE_XFER_MAC);
 		LocalDate effectiveDate = janStart.plusDays(3);
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_XFER_MAC, aRow.getAccruedBalance(), effectiveDate);
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_XFER_MAC, aRow.getAccruedBalance(), effectiveDate);
 		assertEquals("payoutOnDemand payout amount", (new BigDecimal(10)).longValue(), lp.getPayoutAmount().longValue());
 		assertEquals("payoutOnDemand forfeited amount", (new BigDecimal(12)).longValue(), lp.getForfeitedAmount().longValue());
 		//assertEquals("payoutOnDemand amount payoutred", (new BigDecimal(5)).longValue(), lp.getAmountPayoutred().longValue());
@@ -305,10 +305,10 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	@Test
 	public void testInitializePayoutOnLeaveApproveMaxCarryOver() throws Exception {
 		LeavePayout lp = new LeavePayout();
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
+		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
 		LeaveSummaryRow aRow = summary.getLeaveSummaryRowForAccrualCategory(LA_XFER_MAC);
 		LocalDate effectiveDate = decStart.plusDays(3);
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, LA_XFER_MAC, aRow.getAccruedBalance(), effectiveDate);
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, LA_XFER_MAC, aRow.getAccruedBalance(), effectiveDate);
 		assertEquals("payoutOnDemand payout amount", (new BigDecimal(1)).longValue(), lp.getPayoutAmount().longValue());
 		assertEquals("payoutOnDemand forfeited amount",(new BigDecimal(0)).longValue(), lp.getForfeitedAmount().longValue());
 		//assertEquals("payoutOnDemand amount payoutred", (new BigDecimal(0.5)).longValue(), lp.getAmountPayoutred().longValue());
@@ -317,10 +317,10 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	@Test
 	public void testInitializePayoutWithOverrides() throws Exception {
 		LeavePayout lp = new LeavePayout();
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
+		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
 		LeaveSummaryRow aRow = summary.getLeaveSummaryRowForAccrualCategory(YE_XFER_EO);
 		LocalDate effectiveDate = janStart.plusDays(3);
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_XFER_EO, aRow.getAccruedBalance(), effectiveDate);
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_XFER_EO, aRow.getAccruedBalance(), effectiveDate);
 		assertEquals("payoutOnDemand payout amount", (new BigDecimal(7)).longValue(), lp.getPayoutAmount().longValue());
 		assertEquals("payoutOnDemand forfeited amount",(new BigDecimal(20)).longValue(), lp.getForfeitedAmount().longValue());
 		// max balance payout conversion factor is undefined for YE_XFER_EO
@@ -334,7 +334,7 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	public void testPayoutNullLeavePayout() {
 		LeavePayout LeavePayout = null;
 		try {
-			LeavePayout = TkServiceLocator.getLeavePayoutService().payout(LeavePayout);
+			LeavePayout = LmServiceLocator.getLeavePayoutService().payout(LeavePayout);
 		} catch (RuntimeException re) {
 			assertTrue(re.getMessage().contains("did not supply a valid LeavePayout object"));
 		}
@@ -343,15 +343,15 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	@Test
 	public void testPayoutWithZeroPayoutAmount() throws Exception {
 		LeavePayout lp = new LeavePayout();
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
+		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
 		LeaveSummaryRow aRow = summary.getLeaveSummaryRowForAccrualCategory(YE_LOSE);
 		LocalDate effectiveDate = janStart.plusDays(3);
-		//lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_LOSE, aRow.getAccruedBalance(), effectiveDate);
+		//lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_LOSE, aRow.getAccruedBalance(), effectiveDate);
 		lp.setPayoutAmount(BigDecimal.ZERO);
-		lp = TkServiceLocator.getLeavePayoutService().payout(lp);
-		LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getForfeitedLeaveBlockId());
-		LeaveBlock payoutLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getPayoutLeaveBlockId());
-		LeaveBlock payoutFromLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getPayoutFromLeaveBlockId());
+		lp = LmServiceLocator.getLeavePayoutService().payout(lp);
+		LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getForfeitedLeaveBlockId());
+		LeaveBlock payoutLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getPayoutLeaveBlockId());
+		LeaveBlock payoutFromLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getPayoutFromLeaveBlockId());
 		assertTrue("forfeited leave block should not exist", ObjectUtils.isNull(forfeitedLeaveBlock));
 		assertTrue("accrued leave block should not exist",ObjectUtils.isNull(payoutLeaveBlock));
 		assertTrue("debited leave block should not exist",ObjectUtils.isNull(payoutFromLeaveBlock));
@@ -360,14 +360,14 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	@Test
 	public void testPayoutWithZeroForfeiture() throws Exception {
 		LeavePayout lp = new LeavePayout();
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
+		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
 		LeaveSummaryRow aRow = summary.getLeaveSummaryRowForAccrualCategory(OD_XFER);
 		LocalDate effectiveDate = decStart.plusDays(3);
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, OD_XFER, aRow.getAccruedBalance(), effectiveDate);
-		lp = TkServiceLocator.getLeavePayoutService().payout(lp);
-		LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getForfeitedLeaveBlockId());
-		LeaveBlock payoutLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getPayoutLeaveBlockId());
-		LeaveBlock payoutFromLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getPayoutFromLeaveBlockId());
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, OD_XFER, aRow.getAccruedBalance(), effectiveDate);
+		lp = LmServiceLocator.getLeavePayoutService().payout(lp);
+		LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getForfeitedLeaveBlockId());
+		LeaveBlock payoutLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getPayoutLeaveBlockId());
+		LeaveBlock payoutFromLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getPayoutFromLeaveBlockId());
 		assertEquals("accrued leave block leave amount incorrect", (new BigDecimal(1)).longValue(), payoutLeaveBlock.getLeaveAmount().longValue());
 		assertTrue("forfeited leave block should not exist",ObjectUtils.isNull(forfeitedLeaveBlock));
 		assertEquals("payouted leave block leave amount incorrect", (new BigDecimal(-1)).longValue(), payoutFromLeaveBlock.getLeaveAmount().longValue());
@@ -376,14 +376,14 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	@Test
 	public void testPayoutWithThreeLeaveBlocks() throws Exception {
 		LeavePayout lp = new LeavePayout();
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
+		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
 		LeaveSummaryRow aRow = summary.getLeaveSummaryRowForAccrualCategory(YE_XFER);
 		LocalDate effectiveDate = janStart.plusDays(3);
-		lp = TkServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_XFER, aRow.getAccruedBalance(), effectiveDate);
-		lp = TkServiceLocator.getLeavePayoutService().payout(lp);
-		LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getForfeitedLeaveBlockId());
-		LeaveBlock payoutLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getPayoutLeaveBlockId());
-		LeaveBlock payoutFromLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getPayoutFromLeaveBlockId());
+		lp = LmServiceLocator.getLeavePayoutService().initializePayout(USER_ID, YE_XFER, aRow.getAccruedBalance(), effectiveDate);
+		lp = LmServiceLocator.getLeavePayoutService().payout(lp);
+		LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getForfeitedLeaveBlockId());
+		LeaveBlock payoutLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getPayoutLeaveBlockId());
+		LeaveBlock payoutFromLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lp.getPayoutFromLeaveBlockId());
 		assertEquals("forfeited leave block leave amount incorrect", (new BigDecimal(-7)).longValue(), forfeitedLeaveBlock.getLeaveAmount().longValue());
 		assertEquals((new BigDecimal(10)).longValue(), payoutLeaveBlock.getLeaveAmount().longValue());
 		assertEquals((new BigDecimal(-10)).longValue(), payoutFromLeaveBlock.getLeaveAmount().longValue());

@@ -48,6 +48,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.hr.core.TkAction;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.assignment.Assignment;
@@ -56,11 +57,15 @@ import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendar;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
 import org.kuali.hr.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.hr.tklm.leave.transfer.BalanceTransfer;
@@ -68,12 +73,8 @@ import org.kuali.hr.tklm.leave.transfer.validation.BalanceTransferValidationUtil
 import org.kuali.hr.tklm.leave.util.LeaveBlockAggregate;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
-import org.kuali.hr.tklm.time.base.web.TkAction;
 import org.kuali.hr.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TKUtils;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -94,7 +95,7 @@ public class LeaveCalendarAction extends TkAction {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         String documentId = TKContext.getCurrentLeaveCalendarDocumentId();
         
-        if (documentId != null && !TkServiceLocator.getLMPermissionService().canViewLeaveCalendar(principalId, documentId)) {
+        if (documentId != null && !LmServiceLocator.getLMPermissionService().canViewLeaveCalendar(principalId, documentId)) {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "LeaveCalendarAction: docid: " + documentId, "");
         }
     }
@@ -127,7 +128,7 @@ public class LeaveCalendarAction extends TkAction {
 		// methods, we would first fetch the current document, and then fetch
 		// the next one instead of doing it in the single action.
 		if (StringUtils.isNotBlank(documentId)) {
-			lcd = TkServiceLocator.getLeaveCalendarService()
+			lcd = LmServiceLocator.getLeaveCalendarService()
 					.getLeaveCalendarDocument(documentId);
 			calendarEntry = lcd.getCalendarEntry();
 		} else if (StringUtils.isNotBlank(calendarEntryId)) {
@@ -149,21 +150,21 @@ public class LeaveCalendarAction extends TkAction {
 			// run accrual for future dates only, use planning month of leave plan for accrual period
 			// only run the accrual if the calendar entry contains future dates
 			if(calendarEntry != null && calendarEntry.getEndPeriodDate().after(LocalDate.now().toDate())) {
-				if(TkServiceLocator.getLeaveAccrualService().statusChangedSinceLastRun(viewPrincipal)) {
-					TkServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
+				if(LmServiceLocator.getLeaveAccrualService().statusChangedSinceLastRun(viewPrincipal)) {
+					LmServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
 				}
 			}
 		}
 		
 		if(lcd == null) {
 			// use jobs to find out if this leave calendar should have a document created or not
-			boolean createFlag = TkServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(viewPrincipal, calendarEntry);
+			boolean createFlag = LmServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(viewPrincipal, calendarEntry);
 			if(createFlag) {
-				lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
+				lcd = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 			} else {
-				LeaveCalendarDocumentHeader header = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
+				LeaveCalendarDocumentHeader header = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
 				if(header != null) {
-					lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(header.getDocumentId());
+					lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(header.getDocumentId());
 				}
 			}
 		}
@@ -197,9 +198,9 @@ public class LeaveCalendarAction extends TkAction {
 		// KPME-1447
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         if (lcdh != null && lcdh.getPrincipalId() != null && lcdh.getBeginDate() != null && lcdh.getEndDate() != null) {
-            leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(lcdh.getPrincipalId(), LocalDate.fromDateFields(lcdh.getBeginDate()), LocalDate.fromDateFields(lcdh.getEndDate()), assignmentKeys);
+            leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(lcdh.getPrincipalId(), LocalDate.fromDateFields(lcdh.getBeginDate()), LocalDate.fromDateFields(lcdh.getEndDate()), assignmentKeys);
         } else if(calendarEntry != null){
-            leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), assignmentKeys);
+            leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), assignmentKeys);
         } 
         
         // leave summary
@@ -212,12 +213,12 @@ public class LeaveCalendarAction extends TkAction {
                 DateTime calEntryEndDate = new DateTime(calendarEntry.getEndPeriodDate());
 	            if (calEntryEndDate.getMillis() > currentYearBeginDate.getMillis()) {
 	            	//current or future year
-	                LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
+	                LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
 	                lcf.setLeaveSummary(ls);
                 } else {
                     //current year roll over date has been passed, all previous calendars belong to the previous leave plan calendar year.
                     DateTime effDate = HrServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalCal.getLeavePlan(), calEntryEndDate.minusDays(1).toLocalDate());
-                    LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(viewPrincipal, effDate.toLocalDate());
+                    LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(viewPrincipal, effDate.toLocalDate());
                     //override title element (based on date passed in)
                     DateFormat formatter = new SimpleDateFormat("MMMM d");
                     DateFormat formatter2 = new SimpleDateFormat("MMMM d yyyy");
@@ -255,7 +256,7 @@ public class LeaveCalendarAction extends TkAction {
 	        	effectiveDate = calendarEntry.getEndPeriodDate();
 	        
             if(ObjectUtils.isNotNull(principalCalendar)) {
-    	        maxBalInfractions = TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, viewPrincipal);
+    	        maxBalInfractions = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, viewPrincipal);
     	        
 		        LeaveSummary summary = lcf.getLeaveSummary();
     	        for(Entry<String,Set<LeaveBlock>> entry : maxBalInfractions.entrySet()) {
@@ -278,7 +279,7 @@ public class LeaveCalendarAction extends TkAction {
 				    			AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
 				    			BigDecimal accruedBalance = HrServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(viewPrincipal, accrualCategory, lb.getLeaveLocalDate());
 					        	
-					        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveLocalDate());
+					        	BalanceTransfer loseTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveLocalDate());
 					        	boolean valid = BalanceTransferValidationUtils.validateTransfer(loseTransfer);
 					        	if(valid)
 					        		losses.add(loseTransfer);
@@ -337,7 +338,7 @@ public class LeaveCalendarAction extends TkAction {
 			if (principalCalendar != null) {
 				List<AccrualCategory> accrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalCalendar.getLeavePlan(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 				for (AccrualCategory accrualCategory : accrualCategories) {
-					if (TkServiceLocator.getAccrualCategoryMaxCarryOverService().exceedsAccrualCategoryMaxCarryOver(accrualCategory.getAccrualCategory(), viewPrincipal, calendarEntry, calendarEntry.getEndPeriodFullDateTime().toLocalDate())) {
+					if (LmServiceLocator.getAccrualCategoryMaxCarryOverService().exceedsAccrualCategoryMaxCarryOver(accrualCategory.getAccrualCategory(), viewPrincipal, calendarEntry, calendarEntry.getEndPeriodFullDateTime().toLocalDate())) {
 						String message = "Your pending leave balance is greater than the annual max carry over for accrual category '" + accrualCategory.getAccrualCategory() + "' and upon approval, the excess balance will be lost.";
 						if (!allMessages.get("warningMessages").contains(message)) {
                             allMessages.get("warningMessages").add(message);
@@ -477,7 +478,7 @@ public class LeaveCalendarAction extends TkAction {
 			assignment = HrServiceLocator.getAssignmentService().getAssignment(assignments, selectedAssignment, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
 		}
 
-		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, calendarEntry, selectedEarnCode, hours, desc, assignment, spanningWeeks, 
+		LmServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, calendarEntry, selectedEarnCode, hours, desc, assignment, spanningWeeks, 
 				LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, targetPrincipalId);
 
 		generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntryId());
@@ -492,7 +493,7 @@ public class LeaveCalendarAction extends TkAction {
 		 }
 		// recalculate summary
 		if (calendarEntry != null) {
-			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
+			LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
 		    lcf.setLeaveSummary(ls);
 		}
 		
@@ -511,17 +512,17 @@ public class LeaveCalendarAction extends TkAction {
 		
 		String documentId = lcd != null ? lcd.getDocumentId() : "";
 
-        LeaveBlock blockToDelete = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
-        if (blockToDelete != null && TkServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), blockToDelete)) {
+        LeaveBlock blockToDelete = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
+        if (blockToDelete != null && LmServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), blockToDelete)) {
         	//if leave block is a pending leave request, cancel the leave request document
         	if(blockToDelete.getRequestStatus().equals(LMConstants.REQUEST_STATUS.REQUESTED)) {
-        		List<LeaveRequestDocument> lrdList = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(blockToDelete.getLmLeaveBlockId());
+        		List<LeaveRequestDocument> lrdList = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(blockToDelete.getLmLeaveBlockId());
         		if(CollectionUtils.isNotEmpty(lrdList)) {
         			for(LeaveRequestDocument lrd : lrdList) { 
         				DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(lrd.getDocumentNumber());
         				if(DocumentStatus.ENROUTE.getCode().equals(status.getCode())) {
         					// cancel the leave request document as the employee.
-        					TkServiceLocator.getLeaveRequestDocumentService().recallAndCancelLeave(lrd.getDocumentNumber(), targetPrincipalId, "Leave block deleted by user " + principalId);
+        					LmServiceLocator.getLeaveRequestDocumentService().recallAndCancelLeave(lrd.getDocumentNumber(), targetPrincipalId, "Leave block deleted by user " + principalId);
         				}
         			}
         		}
@@ -530,19 +531,19 @@ public class LeaveCalendarAction extends TkAction {
         	List<String> approverList = new ArrayList<String>();
         	//if leave block is an approved leave request, get list of approver's id
         	if(blockToDelete.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)) {
-        		List<LeaveRequestDocument> lrdList = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(blockToDelete.getLmLeaveBlockId());
+        		List<LeaveRequestDocument> lrdList = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(blockToDelete.getLmLeaveBlockId());
         		if(CollectionUtils.isNotEmpty(lrdList)) {
         			for(LeaveRequestDocument lrd : lrdList) { 
         				DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(lrd.getDocumentNumber());
         				if(DocumentStatus.FINAL.getCode().equals(status.getCode())) {
         					// get approver's id for sending out email notification later
-        					approverList = TkServiceLocator.getLeaveRequestDocumentService().getApproverIdList(lrd.getDocumentNumber());
+        					approverList = LmServiceLocator.getLeaveRequestDocumentService().getApproverIdList(lrd.getDocumentNumber());
         				}
         			}
         		}
         	}
 
-        	TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, principalId);
+        	LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, principalId);
 		    generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntryId());
 		    if(CollectionUtils.isNotEmpty(approverList)) {
 		    	this.generateLeaveBlockDeletionNotification(approverList, targetPrincipalId, principalId, TKUtils.formatDate(blockToDelete.getLeaveLocalDate()), blockToDelete.getLeaveAmount().toString());
@@ -555,7 +556,7 @@ public class LeaveCalendarAction extends TkAction {
         }
 		// recalculate summary
 		if(lcf.getCalendarEntry() != null) {
-			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
+			LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
 		    lcf.setLeaveSummary(ls);
 		}
 		return mapping.findForward("basic");
@@ -574,7 +575,7 @@ public class LeaveCalendarAction extends TkAction {
 		if(ec != null && ec.getEligibleForAccrual().equals("N")) {
 			if(startDate != null && endDate != null) {
 				// since we are only recalculating accrual for this pay period, we use "false" to not record the accrual run data
-				TkServiceLocator.getLeaveAccrualService().runAccrual(TKContext.getTargetPrincipalId(), startDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay(), false);
+				LmServiceLocator.getLeaveAccrualService().runAccrual(TKContext.getTargetPrincipalId(), startDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay(), false);
 			}
 		}
 	}
@@ -593,7 +594,7 @@ public class LeaveCalendarAction extends TkAction {
 		String documentId = lcd != null ? lcd.getDocumentId() : "";
 		
 		LeaveBlock updatedLeaveBlock = null;
-		updatedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
+		updatedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
         if (updatedLeaveBlock.isEditable()) {
             if (StringUtils.isNotBlank(lcf.getDescription())) {
                 updatedLeaveBlock.setDescription(lcf.getDescription().trim());
@@ -623,7 +624,7 @@ public class LeaveCalendarAction extends TkAction {
                 updatedLeaveBlock.setEarnCode(earnCode.getEarnCode());
             }
             
-            TkServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock, principalId);
+            LmServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock, principalId);
             generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntryId());
             
             lcf.setLeaveAmount(null);
@@ -631,7 +632,7 @@ public class LeaveCalendarAction extends TkAction {
             lcf.setSelectedEarnCode(null);
     		// recalculate summary
     		if(lcf.getCalendarEntry() != null) {
-    			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
+    			LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
     		    lcf.setLeaveSummary(ls);
     		}
         }
@@ -795,9 +796,9 @@ public class LeaveCalendarAction extends TkAction {
 	
 		LeaveCalendarDocument lcd = null;
 		// use jobs to find out if this leave calendar should have a document created or not
-		boolean createFlag = TkServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(viewPrincipal, calendarEntry);
+		boolean createFlag = LmServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(viewPrincipal, calendarEntry);
 		if(createFlag) {
-			 lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
+			 lcd = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 		}
 		if (lcd != null) {
 			lcf.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
@@ -831,9 +832,9 @@ public class LeaveCalendarAction extends TkAction {
 				lcf.setCalEntryId(ce.getHrCalendarEntryId());
 				LeaveCalendarDocument lcd = null;
 				// use jobs to find out if this leave calendar should have a document created or not
-				boolean createFlag = TkServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(viewPrincipal, ce);
+				boolean createFlag = LmServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(viewPrincipal, ce);
 				if(createFlag) {
-					 lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, ce);
+					 lcd = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, ce);
 				}
 				if(lcd != null) {
 					lcf.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
@@ -939,7 +940,7 @@ public class LeaveCalendarAction extends TkAction {
         
     	if (StringUtils.equals(command, "displayDocSearchView") || StringUtils.equals(command, "displayActionListView")) {
         	String docId = (String) request.getParameter("docId");
-        	LeaveCalendarDocument leaveCalendarDocument = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(docId);
+        	LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(docId);
         	String timesheetPrincipalName = KimApiServiceLocator.getPersonService().getPerson(leaveCalendarDocument.getPrincipalId()).getPrincipalName();
         	
         	String principalId = TKContext.getTargetPrincipalId();

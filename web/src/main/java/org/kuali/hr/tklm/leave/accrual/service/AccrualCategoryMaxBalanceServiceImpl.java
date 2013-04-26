@@ -38,7 +38,7 @@ import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxBalanceService {
@@ -99,7 +99,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 			Map<String, BigDecimal> accruedBalance = new HashMap<String, BigDecimal>();
 
 			for(AccrualCategory accrualCategory : accrualCategories) {
-				leaveBlocks.addAll(TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceLocalDate(), asOfDate.plusDays(1), accrualCategory.getAccrualCategory()));
+				leaveBlocks.addAll(LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceLocalDate(), asOfDate.plusDays(1), accrualCategory.getAccrualCategory()));
 				accruedBalance.put(accrualCategory.getLmAccrualCategoryId(), BigDecimal.ZERO);
 /*	Un-comment to consider service interval end-point changes. i.e. when defining a new action frequency - "ON_SERVICE_MILESTONE"
 				List<AccrualCategoryRule> accrualRules = HrServiceLocator.getAccrualCategoryRuleService().getActiveAccrualCategoryRules(accrualCategory.getLmAccrualCategoryId());
@@ -201,7 +201,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 									adjustedMaxAnnualCarryOver = maxAnnualCarryOver.multiply(fte);
 								}
 
-								List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, lb.getLeaveLocalDate());
+								List<EmployeeOverride> overrides = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, lb.getLeaveLocalDate());
 								for(EmployeeOverride override : overrides) {
 									if(StringUtils.equals(override.getAccrualCategory(),lb.getAccrualCategory())) {
 										//Do not pro-rate override values for FTE.

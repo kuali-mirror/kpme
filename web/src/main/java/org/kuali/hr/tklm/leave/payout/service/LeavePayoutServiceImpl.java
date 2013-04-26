@@ -26,14 +26,14 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
 import org.kuali.hr.tklm.leave.payout.LeavePayout;
 import org.kuali.hr.tklm.leave.payout.dao.LeavePayoutDao;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -127,9 +127,9 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 				adjustedMaxCarryOver = maxCarryOver;
 			}
 			
-			EmployeeOverride maxBalanceOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MB", effectiveDate);
-			EmployeeOverride maxPayoutAmountOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MPA", effectiveDate);
-			EmployeeOverride maxAnnualCarryOverOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MAC", effectiveDate);
+			EmployeeOverride maxBalanceOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MB", effectiveDate);
+			EmployeeOverride maxPayoutAmountOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MPA", effectiveDate);
+			EmployeeOverride maxAnnualCarryOverOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MAC", effectiveDate);
 			//Do not pro-rate override values for FTE.
 			if(maxBalanceOverride != null)
 				adjustedMaxBalance = new BigDecimal(maxBalanceOverride.getOverrideValue());
@@ -244,7 +244,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 			        // save history
 			        LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
 			        lbh.setAction(LMConstants.ACTION.ADD);
-			        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
+			        LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 					leaveBlocks.add(aLeaveBlock);
 					
 					//Create leave block that removes the correct transfer amount from the originating accrual category.
@@ -271,7 +271,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 			        // save history
 			        lbh = new LeaveBlockHistory(aLeaveBlock);
 			        lbh.setAction(LMConstants.ACTION.ADD);
-			        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
+			        LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 					
 					leaveBlocks.add(aLeaveBlock);
 				}
@@ -305,7 +305,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 			        // save history
 			        LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
 			        lbh.setAction(LMConstants.ACTION.ADD);
-			        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
+			        LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 					
 					leaveBlocks.add(aLeaveBlock);
 				}

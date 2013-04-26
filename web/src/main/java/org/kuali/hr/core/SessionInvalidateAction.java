@@ -21,8 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.hr.tklm.time.base.web.TkAction;
-import org.kuali.hr.tklm.time.util.TKContext;
+import org.kuali.hr.tklm.common.TKContext;
 
 public class SessionInvalidateAction extends TkAction {
 

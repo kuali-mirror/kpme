@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.time.authorization.TkAuthorizedLookupableHelperBase;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;

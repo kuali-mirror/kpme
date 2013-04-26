@@ -616,6 +616,8 @@
  	<bean id="pmServiceLocator" class="org.kuali.hr.pm.service.base.PmServiceLocator">
     </bean>
     
+    <bean id="lmServiceLocator" class="org.kuali.hr.tklm.leave.service.base.LmServiceLocator"/>
+    
     <bean id="hrServiceLocator" class="org.kuali.hr.core.service.HrServiceLocator"/>
     
     <bean id="tkRuleControllerService" class="org.kuali.hr.tklm.time.rules.TkRuleControllerServiceImpl"/>

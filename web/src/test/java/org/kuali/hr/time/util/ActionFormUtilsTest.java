@@ -27,10 +27,10 @@ import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.TkTestUtils;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.hr.tklm.time.util.TKUtils;
 
 public class ActionFormUtilsTest extends KPMETestCase {
 	

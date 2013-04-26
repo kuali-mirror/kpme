@@ -28,13 +28,14 @@ import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timeblock.TimeHourDetail;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -76,7 +77,7 @@ public class TkPostProcessor extends DefaultPostProcessor {
 			String principalId = timesheetDocumentHeader.getPrincipalId();
 			DateTime endDate = timesheetDocumentHeader.getEndDateTime();
 			
-			if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
+			if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
 				List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(documentId);
 				
 				List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
@@ -102,7 +103,7 @@ public class TkPostProcessor extends DefaultPostProcessor {
 					}
 				}
 				
-				TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(leaveBlocks);
+				LmServiceLocator.getLeaveBlockService().saveLeaveBlocks(leaveBlocks);
 			}
 		}
 	}
@@ -135,17 +136,17 @@ public class TkPostProcessor extends DefaultPostProcessor {
 			if (calendar != null) {
 				List<CalendarEntry> calendarEntries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(calendar.getHrCalendarId(), new DateTime(beginDate), new DateTime(endDate));
 				
-				TkServiceLocator.getAccrualCategoryMaxCarryOverService().calculateMaxCarryOver(documentId, principalId, calendarEntries, endDate.toLocalDate());
+				LmServiceLocator.getAccrualCategoryMaxCarryOverService().calculateMaxCarryOver(documentId, principalId, calendarEntries, endDate.toLocalDate());
 			}
 		}
 		else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
 			// TODO: HrServiceLocator.getMaxCarryOverService.updateCarryOverLeaveBlockStatus(principalId, timesheetDocumentHeader.getBeginDateTime().toLocalDate(), endDate.toLocalDate());
 			//approve the carry over leave block.
-			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, timesheetDocumentHeader.getBeginDateTime().toLocalDate(), endDate.toLocalDate());
+			List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, timesheetDocumentHeader.getBeginDateTime().toLocalDate(), endDate.toLocalDate());
 			for(LeaveBlock lb : leaveBlocks) {
 				if(StringUtils.equals(lb.getDescription(),"Max carry over adjustment")) {
 					lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
-					TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
+					LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
 				}
 			}
 		}

@@ -54,7 +54,7 @@
         <form-bean name="LeaveApprovalWSActionForm" type="org.kuali.hr.tklm.leave.approval.web.LeaveApprovalWSActionForm"/>
         <form-bean name="BalanceTransferForm" type="org.kuali.hr.tklm.leave.transfer.web.BalanceTransferForm"/>
         <form-bean name="LeavePayoutForm" type="org.kuali.hr.tklm.leave.payout.web.LeavePayoutForm"/>
-        <form-bean name="TkForm" type="org.kuali.hr.tklm.time.base.web.TkForm"/>
+        <form-bean name="TkForm" type="org.kuali.hr.core.TkForm"/>
     </form-beans>
 
     <global-exceptions>
@@ -131,7 +131,7 @@
             <forward name="basic" path="/portal.jsp"/>
         </action>
 
-        <action path="/DepartmentAdmin" name="TkForm" type="org.kuali.hr.tklm.time.base.web.TkAction">
+        <action path="/DepartmentAdmin" name="TkForm" type="org.kuali.hr.core.TkAction">
             <forward name="basic" path="/WEB-INF/jsp/departmentAdmin.jsp"/>
         </action>
         
@@ -282,6 +282,6 @@
         </action>
     </action-mappings>
 
-    <controller processorClass="org.kuali.hr.tklm.time.web.TKRequestProcessor"/>
+    <controller processorClass="org.kuali.hr.core.TKRequestProcessor"/>
     <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" />
 </struts-config>                    

@@ -27,7 +27,7 @@ import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.calendar.service.CalendarEntryService;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.common.TKUtils;
 
 public class CalendarEntryServiceImplTest extends KPMETestCase {
 	private CalendarEntryService ceService;

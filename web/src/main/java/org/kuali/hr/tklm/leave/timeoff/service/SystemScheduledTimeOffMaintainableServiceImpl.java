@@ -17,7 +17,7 @@ package org.kuali.hr.tklm.leave.timeoff.service;
 
 import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 
 public class SystemScheduledTimeOffMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -28,6 +28,6 @@ public class SystemScheduledTimeOffMaintainableServiceImpl extends HrBusinessObj
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(id);
+		return LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(id);
 	}
 }

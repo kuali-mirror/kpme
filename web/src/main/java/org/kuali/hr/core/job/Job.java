@@ -25,7 +25,7 @@ import org.kuali.hr.core.paygrade.PayGrade;
 import org.kuali.hr.core.paytype.PayType;
 import org.kuali.hr.core.position.Position;
 import org.kuali.hr.core.salgroup.SalGroup;
-import org.kuali.hr.tklm.time.util.TkConstants;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;

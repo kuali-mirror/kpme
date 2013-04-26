@@ -25,11 +25,11 @@ import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
 import org.kuali.hr.tklm.leave.payout.LeavePayout;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TkConstants;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -137,7 +137,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 				maxPayoutAmount = new BigDecimal(accrualRule.getMaxTransferAmount());
 			}
 			if(ObjectUtils.isNotNull(maxPayoutAmount)) {
-				EmployeeOverride eo = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, leavePlan, accrualCategory, TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MPA"), effectiveDate);
+				EmployeeOverride eo = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, leavePlan, accrualCategory, TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MPA"), effectiveDate);
 				if(ObjectUtils.isNotNull(eo))
 					if(ObjectUtils.isNull(eo.getOverrideValue()))
 						maxPayoutAmount = new BigDecimal(Long.MAX_VALUE);

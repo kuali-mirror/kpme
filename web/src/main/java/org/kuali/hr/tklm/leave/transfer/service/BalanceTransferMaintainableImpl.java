@@ -25,12 +25,12 @@ import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.transfer.BalanceTransfer;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TKUtils;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -53,7 +53,7 @@ public class BalanceTransferMaintainableImpl extends
 	
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return TkServiceLocator.getBalanceTransferService().getBalanceTransferById(id);
+		return LmServiceLocator.getBalanceTransferService().getBalanceTransferById(id);
 	}
 
 
@@ -72,7 +72,7 @@ public class BalanceTransferMaintainableImpl extends
         	if(StringUtils.isNotEmpty(balanceTransfer.getSstoId())) {
         		try {
 	                MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
-	                balanceTransfer = TkServiceLocator.getBalanceTransferService().transferSsto(balanceTransfer);
+	                balanceTransfer = LmServiceLocator.getBalanceTransferService().transferSsto(balanceTransfer);
 	                md.getNewMaintainableObject().setDataObject(balanceTransfer);
 	                documentService.saveDocument(md);
 	            }
@@ -85,7 +85,7 @@ public class BalanceTransferMaintainableImpl extends
 	            try {
 	                MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
 	
-	                balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
+	                balanceTransfer = LmServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
 	                md.getNewMaintainableObject().setDataObject(balanceTransfer);
 	                documentService.saveDocument(md);
 	            }
@@ -103,13 +103,13 @@ public class BalanceTransferMaintainableImpl extends
             if(StringUtils.isNotEmpty(balanceTransfer.getSstoId())) {
         		// put two accrual service generated leave blocks back, one accrued, one usage
         		List<LeaveBlock> lbList = buildSstoLeaveBlockList(balanceTransfer);    			
-    			TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(lbList);
+    			LmServiceLocator.getLeaveBlockService().saveLeaveBlocks(lbList);
         	}
             //When transfer document is disapproved, set all leave block's request statuses to disapproved.
             for(LeaveBlock lb : balanceTransfer.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
                     lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);
-                    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), routedByPrincipalId);
+                    LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), routedByPrincipalId);
                 }
             }
             //update status of document and associated leave blocks.
@@ -119,10 +119,10 @@ public class BalanceTransferMaintainableImpl extends
                 if(ObjectUtils.isNotNull(lb)) {
                 	//TODO: What happens when an approver edits the fields in the transfer doc before approving?
                     lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
-                    TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
+                    LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
                 }
             }
-            List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveLocalDate());
+            List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveLocalDate());
             LeaveBlock carryOverBlock = null;
             for(LeaveBlock lb : leaveBlocks) {
             	if(StringUtils.equals(lb.getAccrualCategory(),balanceTransfer.getFromAccrualCategory())
@@ -138,7 +138,7 @@ public class BalanceTransferMaintainableImpl extends
             		adjustment = adjustment.add(balanceTransfer.getForfeitedAmount().abs());
             	BigDecimal adjustedLeaveAmount = carryOverBlock.getLeaveAmount().abs().subtract(adjustment);
             	carryOverBlock.setLeaveAmount(adjustedLeaveAmount.negate());
-        		TkServiceLocator.getLeaveBlockService().updateLeaveBlock(carryOverBlock, routedByPrincipalId);
+        		LmServiceLocator.getLeaveBlockService().updateLeaveBlock(carryOverBlock, routedByPrincipalId);
             }
         } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
             //When transfer document is canceled, set all leave block's request statuses to deferred
@@ -146,7 +146,7 @@ public class BalanceTransferMaintainableImpl extends
             for(LeaveBlock lb : balanceTransfer.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
                     lb.setRequestStatus(LMConstants.REQUEST_STATUS.DEFERRED);
-                    TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
+                    LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
                 }
             }
         }

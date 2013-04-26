@@ -22,8 +22,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.hr.core.TkAction;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.hr.tklm.time.base.web.TkAction;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;
 
@@ -35,14 +36,14 @@ public class DeleteDocumentAction extends TkAction {
 
     	if (StringUtils.isNotBlank(documentId)) {
             TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
-            LeaveCalendarDocumentHeader ldh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
+            LeaveCalendarDocumentHeader ldh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
             
             if(tdh != null) {
                 TkServiceLocator.getTimeBlockService().deleteTimeBlocksAssociatedWithDocumentId(documentId);
     		    TkServiceLocator.getTimesheetService().deleteTimesheet(documentId);
             } else if (ldh != null) {
-            	TkServiceLocator.getLeaveBlockService().deleteLeaveBlocksForDocumentId(documentId);
-                TkServiceLocator.getLeaveCalendarDocumentHeaderService().deleteLeaveCalendarHeader(documentId);
+            	LmServiceLocator.getLeaveBlockService().deleteLeaveBlocksForDocumentId(documentId);
+                LmServiceLocator.getLeaveCalendarDocumentHeaderService().deleteLeaveCalendarHeader(documentId);
             }
     	}
     	

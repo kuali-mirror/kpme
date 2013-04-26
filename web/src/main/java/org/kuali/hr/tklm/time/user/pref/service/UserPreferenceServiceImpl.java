@@ -15,10 +15,10 @@
  */
 package org.kuali.hr.tklm.time.user.pref.service;
 
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.time.user.pref.UserPreferences;
 import org.kuali.hr.tklm.time.user.pref.dao.UserPreferenceDao;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TKUtils;
 
 public class UserPreferenceServiceImpl implements UserPreferenceService {
 	private UserPreferenceDao userPrefDao;

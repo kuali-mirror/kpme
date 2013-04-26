@@ -9,6 +9,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.joda.time.DateTime;
 import org.kuali.hr.core.role.PrincipalRoleMemberBo;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -60,7 +61,7 @@ public class DepartmentPrincipalRoleMemberBo extends PrincipalRoleMemberBo {
 		String roleId = TkServiceLocator.getTKRoleService().getRoleIdByName(roleName);
 		
 		if (roleId == null) {
-			roleId = TkServiceLocator.getLMRoleService().getRoleIdByName(roleName);
+			roleId = LmServiceLocator.getLMRoleService().getRoleIdByName(roleName);
 		}
 		
 		setRoleId(roleId);

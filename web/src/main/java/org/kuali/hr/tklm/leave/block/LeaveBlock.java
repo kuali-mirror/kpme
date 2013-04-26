@@ -38,12 +38,12 @@ import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.task.Task;
 import org.kuali.hr.core.workarea.WorkArea;
+import org.kuali.hr.tklm.common.TKContext;
+import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.LMConstants;
+import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
-import org.kuali.hr.tklm.time.util.TKContext;
-import org.kuali.hr.tklm.time.util.TKUtils;
-import org.kuali.hr.tklm.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -481,11 +481,11 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	}
 
     public boolean isEditable() {
-        return TkServiceLocator.getLMPermissionService().canEditLeaveBlock(TKContext.getPrincipalId(), this);
+        return LmServiceLocator.getLMPermissionService().canEditLeaveBlock(TKContext.getPrincipalId(), this);
     }
 
     public boolean isDeletable() {
-        return TkServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), this);
+        return LmServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), this);
     }
     
     public String getAssignmentKey() {
@@ -560,7 +560,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
     
     public String getPlanningDescription() {
     	if(this.getRequestStatus().equals(LMConstants.REQUEST_STATUS.DEFERRED)) {
-    		List<LeaveRequestDocument> lrdList = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(this.getLmLeaveBlockId());
+    		List<LeaveRequestDocument> lrdList = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(this.getLmLeaveBlockId());
     		if(CollectionUtils.isNotEmpty(lrdList)) {
     			for(LeaveRequestDocument lrd : lrdList) {    				
     				DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(lrd.getDocumentNumber());

@@ -18,7 +18,7 @@ package org.kuali.hr.core.paygrade.validation;
 import org.kuali.hr.core.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.core.paygrade.PayGrade;
 import org.kuali.hr.core.service.HrServiceLocator;
-import org.kuali.hr.tklm.time.util.TKUtils;
+import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class PayGradeEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {

@@ -17,7 +17,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 <c:set var="Form" value="${LeaveApprovalActionForm}" scope="request"/>
-<jsp:useBean id="tagSupport" class="org.kuali.hr.tklm.time.util.TagSupport"/>
+<jsp:useBean id="tagSupport" class="org.kuali.hr.tklm.common.TagSupport"/>
 
 <tk:tkHeader tabId="leaveApprovals">
 <html:form action="/LeaveApproval.do" method="POST">

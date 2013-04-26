@@ -15,9 +15,9 @@
 --%>
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 <c:if test="${!empty UserSession.loggedInUserPrincipalName}">
-    <c:set var="systemAdmin" value='<%=org.kuali.hr.tklm.time.util.TKContext.isSystemAdmin()%>' />
-    <c:set var="globalViewOnly" value='<%=org.kuali.hr.tklm.time.util.TKContext.isGlobalViewOnly()%>' />
-    <c:set var="locationAdmin" value='<%=org.kuali.hr.tklm.time.util.TKContext.isLocationAdmin()%>' />
+    <c:set var="systemAdmin" value='<%=org.kuali.hr.tklm.common.TKContext.isSystemAdmin()%>' />
+    <c:set var="globalViewOnly" value='<%=org.kuali.hr.tklm.common.TKContext.isGlobalViewOnly()%>' />
+    <c:set var="locationAdmin" value='<%=org.kuali.hr.tklm.common.TKContext.isLocationAdmin()%>' />
 </c:if>
 <c:if test="${not systemAdmin && not globalViewOnly && not locationAdmin}">
     <jsp:forward page="portal.do?selectedTab=main"/>

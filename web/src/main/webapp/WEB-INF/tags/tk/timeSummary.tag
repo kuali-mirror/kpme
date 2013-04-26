@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
-<jsp:useBean id="tagSupport" class="org.kuali.hr.tklm.time.util.TagSupport"/>
+<jsp:useBean id="tagSupport" class="org.kuali.hr.tklm.common.TagSupport"/>
 <jsp:useBean id="workflowTagSupport" class="org.kuali.hr.core.WorkflowTagSupport"/>
 <%@ attribute name="timeSummary" required="true" type="org.kuali.hr.tklm.time.timesummary.TimeSummary"%>
 <c:set var="headerLength" value="${fn:length(timeSummary.summaryHeader)}"/>  
