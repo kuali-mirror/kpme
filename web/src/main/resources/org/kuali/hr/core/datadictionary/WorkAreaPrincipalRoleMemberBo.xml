@@ -23,7 +23,7 @@
 
 	<bean id="WorkAreaPrincipalRoleMemberBo" parent="WorkAreaPrincipalRoleMemberBo-parentBean" />
 	<bean id="WorkAreaPrincipalRoleMemberBo-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.core.role.workarea.WorkAreaPrincipalRoleMemberBo" />
+		<property name="businessObjectClass" value="org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo" />
 		<property name="objectLabel" value="Principal Role Member" />
 		<property name="attributes">
             <list>
@@ -59,7 +59,7 @@
         <property name="name" value="roleName" />
         <property name="control">
             <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.hr.core.role.workarea.WorkAreaRoleValuesFinder"
+                  p:valuesFinderClass="org.kuali.kpme.core.role.workarea.WorkAreaRoleValuesFinder"
                   p:includeKeyInLabel="false" />
         </property>
     </bean>

@@ -23,14 +23,14 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.core.bo.earncode.EarnCode;
-import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.TkTestUtils;
-import org.kuali.hr.tklm.common.TKUtils;
-import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.time.detail.web.ActionFormUtils;
-import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.kpme.core.bo.earncode.EarnCode;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
+import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 
 public class ActionFormUtilsTest extends KPMETestCase {
 	

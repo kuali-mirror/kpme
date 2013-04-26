@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
-<jsp:useBean id="tagSupport" class="org.kuali.hr.core.WorkflowTagSupport"/>
-<%@ attribute name="appRow" required="true" type="org.kuali.hr.tklm.leave.approval.web.ApprovalLeaveSummaryRow"%>
+<jsp:useBean id="tagSupport" class="org.kuali.kpme.core.WorkflowTagSupport"/>
+<%@ attribute name="appRow" required="true" type="org.kuali.kpme.tklm.leave.approval.web.ApprovalLeaveSummaryRow"%>
 
 <div id="actions">
         <!-- Need to set the document ID so that TimesheetSubmit can find it -->

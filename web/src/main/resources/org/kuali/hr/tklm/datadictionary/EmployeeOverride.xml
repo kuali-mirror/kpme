@@ -23,7 +23,7 @@
 	<bean name="EmployeeOverride" parent="EmployeeOverride-parentBean" />
 
 	<bean id="EmployeeOverride-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.tklm.leave.override.EmployeeOverride" />
+		<property name="businessObjectClass" value="org.kuali.kpme.tklm.leave.override.EmployeeOverride" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="employeeOverride" />
 		<property name="inquiryDefinition">
@@ -144,7 +144,7 @@
 	<bean id="EmployeeOverride-overrideType-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Override Type" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.leave.override.valuesfinder.EmployeeOverrideTypeKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.leave.override.valuesfinder.EmployeeOverrideTypeKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="overrideType" />
@@ -191,7 +191,7 @@
 	<!-- Inquiry Definitions -->
 	<bean id="EmployeeOverride-inquiryDefinition" parent="EmployeeOverride-inquiryDefinition-parentBean" />
 	<bean id="EmployeeOverride-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" 
-	 	p:inquirableClass="org.kuali.hr.core.KPMEInquirableImpl">  
+	 	p:inquirableClass="org.kuali.kpme.core.KPMEInquirableImpl">  
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

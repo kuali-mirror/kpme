@@ -24,7 +24,7 @@
 
 	<bean id="LeaveDonation-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.tklm.leave.donation.LeaveDonation" />
+		<property name="businessObjectClass" value="org.kuali.kpme.tklm.leave.donation.LeaveDonation" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="leaveDonation" />
 		<property name="inquiryDefinition">
@@ -330,7 +330,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Show History" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkHistoryKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="history" />

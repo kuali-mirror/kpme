@@ -25,15 +25,15 @@ import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.common.TKUtils;
-import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
-import org.kuali.hr.tklm.leave.service.LmServiceLocator;
-import org.kuali.hr.tklm.leave.summary.LeaveSummary;
-import org.kuali.hr.tklm.leave.summary.LeaveSummaryRow;
-import org.kuali.hr.tklm.leave.transfer.BalanceTransfer;
+import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
+import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
+import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
+import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BalanceTransferServiceTest extends KPMETestCase {

@@ -19,9 +19,9 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.common.TKUtils;
-import org.kuali.hr.tklm.leave.transfer.BalanceTransfer;
-import org.kuali.hr.tklm.leave.transfer.validation.BalanceTransferValidationUtils;
+import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
+import org.kuali.kpme.tklm.leave.transfer.validation.BalanceTransferValidationUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class BalanceTransferValidationUtilsTest extends KPMETestCase {

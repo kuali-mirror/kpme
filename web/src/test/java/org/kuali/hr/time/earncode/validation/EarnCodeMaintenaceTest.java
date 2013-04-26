@@ -24,12 +24,12 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.core.bo.earncode.EarnCode;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.tklm.common.TKUtils;
-import org.kuali.hr.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.core.bo.earncode.EarnCode;
+import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.DomElement;

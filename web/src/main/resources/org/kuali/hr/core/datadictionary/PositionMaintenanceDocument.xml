@@ -28,10 +28,10 @@
   <bean id="PositionMaintenanceDocument" parent="PositionMaintenanceDocument-parentBean"/>
 
   <bean id="PositionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.hr.core.bo.position.Position"
-  		p:businessRulesClass="org.kuali.hr.core.bo.position.validation.PositionValidation"
-  		p:maintainableClass="org.kuali.hr.core.bo.position.service.PositionMaintainableServiceImpl"
-  		p:documentAuthorizerClass="org.kuali.hr.core.bo.position.authorization.PositionAuthorizer">
+  		p:businessObjectClass="org.kuali.kpme.core.bo.position.Position"
+  		p:businessRulesClass="org.kuali.kpme.core.bo.position.validation.PositionValidation"
+  		p:maintainableClass="org.kuali.kpme.core.bo.position.service.PositionMaintainableServiceImpl"
+  		p:documentAuthorizerClass="org.kuali.kpme.core.bo.position.authorization.PositionAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="PositionMaintenanceDocument-PositionMaintenance"/>
@@ -43,7 +43,7 @@
         </list>
     </property>
     <property name="documentTypeName" value="PositionMaintenanceDocumentType"/>
-    <property name="promptBeforeValidationClass" value="org.kuali.hr.core.bo.position.validation.PositionEffectiveDatePrompt"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.bo.position.validation.PositionEffectiveDatePrompt"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->

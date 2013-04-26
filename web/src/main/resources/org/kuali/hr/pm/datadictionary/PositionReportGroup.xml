@@ -23,7 +23,7 @@
 	<bean id="PositionReportGroup" parent="PositionReportGroup-parentBean" />
 
 	<bean id="PositionReportGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.pm.positionreportgroup.PositionReportGroup" />
+		<property name="businessObjectClass" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" />
 		<property name="inquiryDefinition">
 			<ref bean="PositionReportGroup-inquiryDefinition" />
 		</property>
@@ -226,7 +226,7 @@
 
   <bean id="PositionReportGroup-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="PositionReportGroup Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.hr.pm.positionreportgroup.PositionReportGroup" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" />
     <property name="criteriaFields">
       <list>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportGroup" />

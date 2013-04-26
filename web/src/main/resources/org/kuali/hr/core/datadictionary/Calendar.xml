@@ -21,7 +21,7 @@
 
   <bean id="Calendar" parent="Calendar-parentBean"/>
   <bean id="Calendar-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.hr.core.bo.calendar.Calendar"/>
+    <property name="businessObjectClass" value="org.kuali.kpme.core.bo.calendar.Calendar"/>
     <property name="titleAttribute" value="hrCalendarId"/>
     <property name="objectLabel" value="Calendar"/>
     <property name="lookupDefinition">
@@ -88,7 +88,7 @@
  		<bean parent="AlphaNumericValidationPattern"/>
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.flsa.FlsaDayKeyValue" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.flsa.FlsaDayKeyValue" p:includeKeyInLabel="false"/>
     </property>
     <property name="name" value="flsaBeginDay"/>
     <property name="label" value="Flsa Begin Day"/>
@@ -101,7 +101,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="formatterClass" value="org.kuali.hr.tklm.time.rice.kns.web.format.SqlTimeFormatter"/>
+    <property name="formatterClass" value="org.kuali.kpme.tklm.time.rice.kns.web.format.SqlTimeFormatter"/>
     <property name="name" value="flsaBeginTime"/>
     <property name="label" value="Flsa Begin Time (00:00 AM)"/>
   </bean>
@@ -110,7 +110,7 @@
   <bean id="Calendar-calendarTypes-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Calendar Types"/>    
     <property name="control">
-		<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.core.bo.calendar.CalendarTypesKeyValue">
+		<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.bo.calendar.CalendarTypesKeyValue">
 		</bean>
 	</property> 
     <property name="name" value="calendarTypes"/>

@@ -19,15 +19,15 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.core.KPMEInquirableImpl;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.leave.override.EmployeeOverride;
+import org.kuali.kpme.core.KPMEInquirableImpl;
+import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 
 public class EmployeeOverrideInquirableTest extends KPMETestCase {
 
-	private String INQUIRY_URL = "inquiry.do?businessObjectClassName=org.kuali.hr.core.bo.accrualcategory.AccrualCategory&methodToCall=start&effectiveDate=03%2F04%2F2012&accrualCategory=testAC&leavePlan=testLeavePlan&lmAccrualCategoryId=";
+	private String INQUIRY_URL = "inquiry.do?businessObjectClassName=org.kuali.kpme.core.bo.accrualcategory.AccrualCategory&methodToCall=start&effectiveDate=03%2F04%2F2012&accrualCategory=testAC&leavePlan=testLeavePlan&lmAccrualCategoryId=";
 	@Test
 	public void testGetInquiryUrl() throws Exception {
 		EmployeeOverride eo = new EmployeeOverride();

@@ -24,7 +24,7 @@
 	
 	<bean id="PositionQualifierType" parent="PositionQualifierType-parentBean"/>
  	<bean id="PositionQualifierType-parentBean" abstract="true" parent="BusinessObjectEntry">
-	    <property name="dataObjectClass" value="org.kuali.hr.pm.pstnqlfrtype.PstnQlfrType"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType"/>
 	    <property name="attributes">
 	      <list>
 	        <ref bean="PositionQualifierType-pmPstnQlfrTypeId"/>
@@ -112,7 +112,7 @@
 	      	<bean parent="Uif-HorizontalRadioControl" />
     	</property>
     	<property name="optionsFinder">
-			<bean class="org.kuali.hr.pm.util.PstnQlfrTypeValueKeyValueFinder"/>
+			<bean class="org.kuali.kpme.pm.util.PstnQlfrTypeValueKeyValueFinder"/>
 		</property>
 		<property name="name" value="value" />
 		<property name="label" value="Value" />
@@ -146,7 +146,7 @@
  
   <bean id="PositionQualifierType-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="Position Qualifier Type Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.hr.pm.pstnqlfrtype.PstnQlfrType" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType" />
     <property name="criteriaFields">
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
@@ -162,7 +162,7 @@
       <list>
      	<bean parent="Uif-InputField" p:propertyName="code">
         	<property name="inquiry">
-      			 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.hr.pm.pstnqlfrtype.PstnQlfrType" 
+      			 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType" 
        			 	p:inquiryParameters="pmPstnQlfrTypeId:pmPstnQlfrTypeId"/>
   			</property>
         </bean>
@@ -179,7 +179,7 @@
  <!-- Position Qualifier Type Inquiry View -->
   <bean id="PositionQualifierType-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Position Qualifier Type Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.hr.pm.pstnqlfrtype.PstnQlfrType"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType"/>
     <property name="singlePageView" value="true"/>
     <property name="items">
       <list>
@@ -206,7 +206,7 @@
   <bean id="PositionQualifierType-MaintenanceView" parent="PositionQualifierType-MaintenanceView-parentBean"/>
   <bean id="PositionQualifierType-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
     <property name="headerText" value="Position Qualifier Type Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.hr.pm.pstnqlfrtype.PstnQlfrType"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType"/>
     <property name="items">
       <list merge="true">
         <bean parent="Uif-MaintenanceGridSection">
@@ -225,7 +225,7 @@
 <!-- 			         	<bean parent="Uif-Disclosure-TableCollectionSection"> -->
 <!-- 						  <property name="headerText" value="Add Values" /> -->
 <!-- 						  <property name="collectionObjectClass" -->
-<!-- 						            value="org.kuali.hr.pm.pstnqlfctnvl.PositionQualificationValue" /> -->
+<!-- 						            value="org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue" /> -->
 <!-- 						  <property name="propertyName" value="valueList" /> -->
 <!-- 						  <property name="layoutManager.generateAutoSequence" value="true" /> -->
 <!-- 						  <property name="layoutManager.richTable.render" value="true" /> -->
@@ -233,7 +233,7 @@
 <!-- 						    <list> -->
 <!-- 						      <bean parent="Uif-InputField" p:label="Value Name" p:propertyName="vlName"> -->
 <!-- 							    <property name="quickfinder"> -->
-<!-- 							       	<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.pm.pstnqlfctnvl.PositionQualificationValue"  -->
+<!-- 							       	<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue"  -->
 <!-- 							       		p:fieldConversions="vlName:vlName"/> -->
 <!-- 							   	</property> -->
 <!-- 						      </bean> -->
@@ -243,7 +243,7 @@
 			         	
 			         	 <bean parent="Uif-InputField" p:propertyName="selectValues" p:constraintText="Required if Value is Select.">
 <!-- 			         	 	<property name="quickfinder"> -->
-<!-- 						       	<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.pm.pstnqlfctnvl.PositionQualificationValue"  -->
+<!-- 						       	<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue"  -->
 <!-- 						       		p:fieldConversions="vlName:selectValues"/> -->
 <!-- 						   	</property> -->
 				       		<property name="caseConstraint">

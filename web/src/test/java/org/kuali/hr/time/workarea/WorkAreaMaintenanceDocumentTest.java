@@ -20,13 +20,13 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.hr.core.bo.department.Department;
-import org.kuali.hr.core.bo.workarea.WorkArea;
-import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.kpme.core.bo.department.Department;
+import org.kuali.kpme.core.bo.workarea.WorkArea;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.common.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;

@@ -25,7 +25,7 @@
 	<bean id="ShiftDifferentialRule-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.hr.tklm.time.rules.shiftdifferential.ShiftDifferentialRule" />
+			value="org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule" />
 		<property name="titleAttribute" value="tkShiftDiffRuleId" />
 		<property name="objectLabel" value="Shift Differential Rule" />
 		<property name="inquiryDefinition">
@@ -162,7 +162,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Show History" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkHistoryKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="history" />
@@ -269,7 +269,7 @@
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.hr.tklm.time.rice.kns.web.format.SqlTimeFormatter" />
+			value="org.kuali.kpme.tklm.time.rice.kns.web.format.SqlTimeFormatter" />
 		<property name="name" value="beginTime" />
 		<property name="label" value="Begin Time (00:00 AM)" />
 	</bean>
@@ -288,7 +288,7 @@
 				p:validationErrorMessageKey="MISSING" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.hr.tklm.time.rice.kns.web.format.SqlTimeFormatter" />
+			value="org.kuali.kpme.tklm.time.rice.kns.web.format.SqlTimeFormatter" />
 		<property name="name" value="endTime" />
 		<property name="label" value="End Time (00:00 AM)" />
 	</bean>

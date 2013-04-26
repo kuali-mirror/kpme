@@ -23,7 +23,7 @@
 	<bean id="SystemScheduledTimeOff" parent="SystemScheduledTimeOff-parentBean" />
 
 	<bean id="SystemScheduledTimeOff-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff" />
+		<property name="businessObjectClass" value="org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="SystemScheduledTimeOff" />
 		<property name="inquiryDefinition">
@@ -256,7 +256,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Unused Time" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.leave.timeoff.valuesfinder.UnusedTimeKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.leave.timeoff.valuesfinder.UnusedTimeKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="unusedTime" />
@@ -306,7 +306,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Premium Holiday" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkHistoryKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="premiumHoliday" />
@@ -351,7 +351,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Show History" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkHistoryKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="history" />

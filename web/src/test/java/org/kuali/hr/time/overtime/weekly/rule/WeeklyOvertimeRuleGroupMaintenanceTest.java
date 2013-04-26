@@ -31,7 +31,7 @@ public class WeeklyOvertimeRuleGroupMaintenanceTest extends WeeklyOvertimeRuleMa
 	@Test
 	//tests WeeklyOvertimeRuleValidation
 	public void testSubmitWeeklyOvertimeRuleGroupMaint() throws Exception {
-    	String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.tklm.time.rules.overtime.weekly.WeeklyOvertimeRuleGroup&methodToCall=edit";
+    	String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.tklm.time.rules.overtime.weekly.WeeklyOvertimeRuleGroup&methodToCall=edit";
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
     	Assert.assertNotNull(page);
 
@@ -54,7 +54,7 @@ public class WeeklyOvertimeRuleGroupMaintenanceTest extends WeeklyOvertimeRuleMa
 		setFieldValue(page, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.convertToEarnCode", OVERTIME_EARN_GROUP);
 		setFieldValue(page, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.maxHours", "5");
 		setFieldValue(page, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.step", "10");
-        element = (HtmlElement)page.getElementById("methodToCall.addLine.lstWeeklyOvertimeRules.(!!org.kuali.hr.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule!!)");
+        element = (HtmlElement)page.getElementById("methodToCall.addLine.lstWeeklyOvertimeRules.(!!org.kuali.kpme.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule!!)");
         Assert.assertNotNull("Missing Add Line button", element);
 
         HtmlPage addPage = element.click();

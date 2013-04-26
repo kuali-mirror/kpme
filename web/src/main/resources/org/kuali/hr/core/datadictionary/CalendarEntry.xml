@@ -21,7 +21,7 @@
 
   <bean id="CalendarEntry" parent="CalendarEntry-parentBean"/>
   <bean id="CalendarEntry-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.hr.core.bo.calendar.entry.CalendarEntry"/>
+    <property name="businessObjectClass" value="org.kuali.kpme.core.bo.calendar.entry.CalendarEntry"/>
     <property name="titleAttribute" value="hrCalendarEntryId"/>
     <property name="objectLabel" value="CalendarEntry"/>
     <property name="lookupDefinition">
@@ -159,7 +159,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="formatterClass" value="org.kuali.hr.tklm.time.rice.kns.web.format.SqlTimeFormatter"/>
+    <property name="formatterClass" value="org.kuali.kpme.tklm.time.rice.kns.web.format.SqlTimeFormatter"/>
     <property name="name" value="beginPeriodTime"/>
     <property name="label" value="Begin Pay Period Time (00:00 AM)"/>
   </bean>
@@ -201,7 +201,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="formatterClass" value="org.kuali.hr.tklm.time.rice.kns.web.format.SqlTimeFormatter"/>
+    <property name="formatterClass" value="org.kuali.kpme.tklm.time.rice.kns.web.format.SqlTimeFormatter"/>
     <property name="name" value="endPeriodTime"/>
     <property name="label" value="End Pay Period Time (00:00 AM)"/>
   </bean>
@@ -243,7 +243,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="formatterClass" value="org.kuali.hr.tklm.time.rice.kns.web.format.SqlTimeFormatter"/>
+    <property name="formatterClass" value="org.kuali.kpme.tklm.time.rice.kns.web.format.SqlTimeFormatter"/>
     <property name="name" value="batchInitiateTime"/>
     <property name="label" value="Batch Initiate Time (00:00 AM)"/>
   </bean>
@@ -285,7 +285,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="formatterClass" value="org.kuali.hr.tklm.time.rice.kns.web.format.SqlTimeFormatter"/>
+    <property name="formatterClass" value="org.kuali.kpme.tklm.time.rice.kns.web.format.SqlTimeFormatter"/>
     <property name="name" value="batchEndPayPeriodTime"/>
     <property name="label" value="Batch End Pay Period Time (00:00 AM)"/>
   </bean>
@@ -327,7 +327,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="formatterClass" value="org.kuali.hr.tklm.time.rice.kns.web.format.SqlTimeFormatter"/>
+    <property name="formatterClass" value="org.kuali.kpme.tklm.time.rice.kns.web.format.SqlTimeFormatter"/>
     <property name="name" value="batchEmployeeApprovalTime"/>
     <property name="label" value="Batch Employee Approval Time (00:00 AM)"/>
   </bean>
@@ -369,7 +369,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="formatterClass" value="org.kuali.hr.tklm.time.rice.kns.web.format.SqlTimeFormatter"/>
+    <property name="formatterClass" value="org.kuali.kpme.tklm.time.rice.kns.web.format.SqlTimeFormatter"/>
     <property name="name" value="batchSupervisorApprovalTime"/>
     <property name="label" value="Batch Supervisor Approval Time (00:00 AM)"/>
   </bean>

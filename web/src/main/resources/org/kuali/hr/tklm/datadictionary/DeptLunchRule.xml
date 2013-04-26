@@ -23,7 +23,7 @@
 	<bean id="DeptLunchRule" parent="DeptLunchRule-parentBean" />
 
 	<bean id="DeptLunchRule-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.tklm.time.rules.lunch.department.DeptLunchRule" />
+		<property name="businessObjectClass" value="org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="DeptLunchRule" />
 		<property name="inquiryDefinition">
@@ -136,7 +136,7 @@
 		</property>
 		<property name="name" value="workArea" />
 		<property name="label" value="Work Area" />
-		<property name="formatterClass" value="org.kuali.hr.core.bo.workarea.WorkAreaFormatter"/>
+		<property name="formatterClass" value="org.kuali.kpme.core.bo.workarea.WorkAreaFormatter"/>
 	</bean>
 
 	<!-- 
@@ -175,7 +175,7 @@
 		</property>
 		<property name="name" value="jobNumber" />
 		<property name="label" value="Job Number" />
-		<property name="formatterClass" value="org.kuali.hr.core.bo.job.JobNumberFormatter"/>
+		<property name="formatterClass" value="org.kuali.kpme.core.bo.job.JobNumberFormatter"/>
 	</bean>
 
 	<bean id="DeptLunchRule-deductionMins" parent="DeptLunchRule-deductionMins-parentBean" />

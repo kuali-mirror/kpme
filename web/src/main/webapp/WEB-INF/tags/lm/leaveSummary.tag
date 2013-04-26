@@ -1,9 +1,9 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
-<jsp:useBean id="tagSupport" class="org.kuali.hr.tklm.common.TagSupport"/>
-<jsp:useBean id="workflowTagSupport" class="org.kuali.hr.core.WorkflowTagSupport"/>
+<jsp:useBean id="tagSupport" class="org.kuali.kpme.tklm.common.TagSupport"/>
+<jsp:useBean id="workflowTagSupport" class="org.kuali.kpme.core.WorkflowTagSupport"/>
 
-<%@ attribute name="leaveSummary" required="true" type="org.kuali.hr.tklm.leave.summary.LeaveSummary"%>
+<%@ attribute name="leaveSummary" required="true" type="org.kuali.kpme.tklm.leave.summary.LeaveSummary"%>
  
 <div id="leave-summary">
 	<c:if test="${not empty leaveSummary.leaveSummaryRows}">

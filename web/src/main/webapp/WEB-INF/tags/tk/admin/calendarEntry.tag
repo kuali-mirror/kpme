@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<c:set var="systemAdmin" value='<%=org.kuali.hr.tklm.common.TKContext.isSystemAdmin()%>' />
+<c:set var="systemAdmin" value='<%=org.kuali.kpme.tklm.common.TKContext.isSystemAdmin()%>' />
 
 <c:if test="${systemAdmin}">
     <channel:portalChannelTop channelTitle="Create Calendar Entry" />
@@ -35,7 +35,7 @@
                             <html:text property="hrPyCalendarEntryId" />
                         </td>
                         <td>
-                            <kul:lookup boClassName="org.kuali.hr.core.bo.calendar.entry.CalendarEntry" fieldConversions="hrCalendarEntryId:hrPyCalendarEntryId" />
+                            <kul:lookup boClassName="org.kuali.kpme.core.bo.calendar.entry.CalendarEntry" fieldConversions="hrCalendarEntryId:hrPyCalendarEntryId" />
                         </td>
                     </tr>
                     <tr>

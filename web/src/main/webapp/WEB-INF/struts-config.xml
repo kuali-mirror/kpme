@@ -26,35 +26,35 @@
         <form-bean name="KualiLogoutForm" type="org.kuali.rice.kns.web.struts.form.KualiLogoutForm" />
         <!-- Rice content End -->
         
-        <form-bean name="ChangeTargetPersonForm" type="org.kuali.hr.core.admin.web.ChangeTargetPersonForm"/>
-        <form-bean name="InitiateDocumentForm" type="org.kuali.hr.core.admin.web.InitiateDocumentForm"/>
-        <form-bean name="DeleteDocumentForm" type="org.kuali.hr.core.admin.web.DeleteDocumentForm"/>
-        <form-bean name="CalculateLeaveAccrualsForm" type="org.kuali.hr.core.admin.web.CalculateLeaveAccrualsForm"/>
-        <form-bean name="BatchJobActionForm" type="org.kuali.hr.core.web.BatchJobActionForm"/>
-        <form-bean name="CarryOverBatchJobActionForm" type="org.kuali.hr.tklm.leave.batch.web.CarryOverBatchJobActionForm"/>
-        <form-bean name="CalendarEntryActionForm" type="org.kuali.hr.core.bo.calendar.entry.web.CalendarEntryActionForm"/>
-        <form-bean name="ClockActionForm" type="org.kuali.hr.tklm.time.clock.web.ClockActionForm"/>
-        <form-bean name="TimeDetailActionForm" type="org.kuali.hr.tklm.time.detail.web.TimeDetailActionForm"/>
-        <form-bean name="TimeDetailWSActionForm" type="org.kuali.hr.tklm.time.detail.web.TimeDetailWSActionForm"/>
-        <form-bean name="TimeApprovalActionForm" type="org.kuali.hr.tklm.time.approval.web.TimeApprovalActionForm"/>
-        <form-bean name="TimeApprovalWSActionForm" type="org.kuali.hr.tklm.time.approval.web.TimeApprovalWSActionForm"/>
-        <form-bean name="PersonInfoActionForm" type="org.kuali.hr.core.web.PersonInfoActionForm"/>
-        <form-bean name="TimesheetActionForm" type="org.kuali.hr.tklm.time.timesheet.web.TimesheetActionForm"/>
-        <form-bean name="TimesheetSubmitActionForm" type="org.kuali.hr.tklm.time.detail.web.TimesheetSubmitActionForm"/>
-        <form-bean name="MissedPunchForm" type="org.kuali.hr.tklm.time.missedpunch.MissedPunchForm"/>
-        <form-bean name="HelpActionForm" type="org.kuali.hr.tklm.time.help.web.HelpActionForm"/>
-        <form-bean name="SessionInvalidateForm" type="org.kuali.hr.core.web.SessionInvalidateForm"/>
-		<form-bean name="LeaveCalendarForm" type="org.kuali.hr.tklm.leave.calendar.web.LeaveCalendarForm"/>
-        <form-bean name="LeaveCalendarSubmitForm" type="org.kuali.hr.tklm.leave.calendar.web.LeaveCalendarSubmitForm"/>
-		<form-bean name="LeaveBlockDisplayForm" type="org.kuali.hr.tklm.leave.web.LeaveBlockDisplayForm"/>
-		<form-bean name="LeaveRequestForm" type="org.kuali.hr.tklm.leave.web.LeaveRequestForm"/>
-		<form-bean name="LeaveRequestApprovalActionForm" type="org.kuali.hr.tklm.leave.request.approval.web.LeaveRequestApprovalActionForm"/>
-		<form-bean name="LeaveCalendarWSForm" type="org.kuali.hr.tklm.leave.web.LeaveCalendarWSForm"/>
-		<form-bean name="LeaveApprovalActionForm" type="org.kuali.hr.tklm.leave.approval.web.LeaveApprovalActionForm"/>
-        <form-bean name="LeaveApprovalWSActionForm" type="org.kuali.hr.tklm.leave.approval.web.LeaveApprovalWSActionForm"/>
-        <form-bean name="BalanceTransferForm" type="org.kuali.hr.tklm.leave.transfer.web.BalanceTransferForm"/>
-        <form-bean name="LeavePayoutForm" type="org.kuali.hr.tklm.leave.payout.web.LeavePayoutForm"/>
-        <form-bean name="TkForm" type="org.kuali.hr.core.web.HrForm"/>
+        <form-bean name="ChangeTargetPersonForm" type="org.kuali.kpme.core.admin.web.ChangeTargetPersonForm"/>
+        <form-bean name="InitiateDocumentForm" type="org.kuali.kpme.core.admin.web.InitiateDocumentForm"/>
+        <form-bean name="DeleteDocumentForm" type="org.kuali.kpme.core.admin.web.DeleteDocumentForm"/>
+        <form-bean name="CalculateLeaveAccrualsForm" type="org.kuali.kpme.core.admin.web.CalculateLeaveAccrualsForm"/>
+        <form-bean name="BatchJobActionForm" type="org.kuali.kpme.core.web.BatchJobActionForm"/>
+        <form-bean name="CarryOverBatchJobActionForm" type="org.kuali.kpme.tklm.leave.batch.web.CarryOverBatchJobActionForm"/>
+        <form-bean name="CalendarEntryActionForm" type="org.kuali.kpme.core.bo.calendar.entry.web.CalendarEntryActionForm"/>
+        <form-bean name="ClockActionForm" type="org.kuali.kpme.tklm.time.clock.web.ClockActionForm"/>
+        <form-bean name="TimeDetailActionForm" type="org.kuali.kpme.tklm.time.detail.web.TimeDetailActionForm"/>
+        <form-bean name="TimeDetailWSActionForm" type="org.kuali.kpme.tklm.time.detail.web.TimeDetailWSActionForm"/>
+        <form-bean name="TimeApprovalActionForm" type="org.kuali.kpme.tklm.time.approval.web.TimeApprovalActionForm"/>
+        <form-bean name="TimeApprovalWSActionForm" type="org.kuali.kpme.tklm.time.approval.web.TimeApprovalWSActionForm"/>
+        <form-bean name="PersonInfoActionForm" type="org.kuali.kpme.core.web.PersonInfoActionForm"/>
+        <form-bean name="TimesheetActionForm" type="org.kuali.kpme.tklm.time.timesheet.web.TimesheetActionForm"/>
+        <form-bean name="TimesheetSubmitActionForm" type="org.kuali.kpme.tklm.time.detail.web.TimesheetSubmitActionForm"/>
+        <form-bean name="MissedPunchForm" type="org.kuali.kpme.tklm.time.missedpunch.MissedPunchForm"/>
+        <form-bean name="HelpActionForm" type="org.kuali.kpme.tklm.time.help.web.HelpActionForm"/>
+        <form-bean name="SessionInvalidateForm" type="org.kuali.kpme.core.web.SessionInvalidateForm"/>
+		<form-bean name="LeaveCalendarForm" type="org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarForm"/>
+        <form-bean name="LeaveCalendarSubmitForm" type="org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarSubmitForm"/>
+		<form-bean name="LeaveBlockDisplayForm" type="org.kuali.kpme.tklm.leave.web.LeaveBlockDisplayForm"/>
+		<form-bean name="LeaveRequestForm" type="org.kuali.kpme.tklm.leave.web.LeaveRequestForm"/>
+		<form-bean name="LeaveRequestApprovalActionForm" type="org.kuali.kpme.tklm.leave.request.approval.web.LeaveRequestApprovalActionForm"/>
+		<form-bean name="LeaveCalendarWSForm" type="org.kuali.kpme.tklm.leave.web.LeaveCalendarWSForm"/>
+		<form-bean name="LeaveApprovalActionForm" type="org.kuali.kpme.tklm.leave.approval.web.LeaveApprovalActionForm"/>
+        <form-bean name="LeaveApprovalWSActionForm" type="org.kuali.kpme.tklm.leave.approval.web.LeaveApprovalWSActionForm"/>
+        <form-bean name="BalanceTransferForm" type="org.kuali.kpme.tklm.leave.transfer.web.BalanceTransferForm"/>
+        <form-bean name="LeavePayoutForm" type="org.kuali.kpme.tklm.leave.payout.web.LeavePayoutForm"/>
+        <form-bean name="TkForm" type="org.kuali.kpme.core.web.HrForm"/>
     </form-beans>
 
     <global-exceptions>
@@ -103,40 +103,40 @@
         </action>
         <!-- Rice content End -->
         
-        <action path="/changeTargetPerson" name="ChangeTargetPersonForm" type="org.kuali.hr.core.admin.web.ChangeTargetPersonAction">
+        <action path="/changeTargetPerson" name="ChangeTargetPersonForm" type="org.kuali.kpme.core.admin.web.ChangeTargetPersonAction">
             <forward name="basic" path="/portal.jsp"/>
         </action>
         
-        <action path="/initiateDocument" name="InitiateDocumentForm" type="org.kuali.hr.core.admin.web.InitiateDocumentAction">
+        <action path="/initiateDocument" name="InitiateDocumentForm" type="org.kuali.kpme.core.admin.web.InitiateDocumentAction">
             <forward name="basic" path="/portal.jsp"/>
         </action>
         
-        <action path="/deleteDocument" name="DeleteDocumentForm" type="org.kuali.hr.core.admin.web.DeleteDocumentAction">
+        <action path="/deleteDocument" name="DeleteDocumentForm" type="org.kuali.kpme.core.admin.web.DeleteDocumentAction">
             <forward name="basic" path="/portal.jsp"/>
         </action>
         
-        <action path="/calculateLeaveAccruals" name="CalculateLeaveAccrualsForm" type="org.kuali.hr.core.admin.web.CalculateLeaveAccrualsAction">
+        <action path="/calculateLeaveAccruals" name="CalculateLeaveAccrualsForm" type="org.kuali.kpme.core.admin.web.CalculateLeaveAccrualsAction">
             <forward name="basic" path="/portal.jsp"/>
         </action>
         
-        <action path="/batchJob" name="BatchJobActionForm" type="org.kuali.hr.core.web.BatchJobAction">
+        <action path="/batchJob" name="BatchJobActionForm" type="org.kuali.kpme.core.web.BatchJobAction">
             <forward name="basic" path="/portal.jsp"/>
         </action>
         
-        <action path="/carryOverBatchJob" name="CarryOverBatchJobActionForm" type="org.kuali.hr.tklm.leave.batch.web.CarryOverBatchJobAction">
+        <action path="/carryOverBatchJob" name="CarryOverBatchJobActionForm" type="org.kuali.kpme.tklm.leave.batch.web.CarryOverBatchJobAction">
             <forward name="basic" path="/portal.jsp"/>
         </action>
         
-        <action path="/calendarEntry" name="CalendarEntryActionForm" type="org.kuali.hr.core.bo.calendar.entry.web.CalendarEntryAction">
+        <action path="/calendarEntry" name="CalendarEntryActionForm" type="org.kuali.kpme.core.bo.calendar.entry.web.CalendarEntryAction">
             <forward name="basic" path="/portal.jsp"/>
         </action>
 
-        <action path="/DepartmentAdmin" name="TkForm" type="org.kuali.hr.core.web.HrAction">
+        <action path="/DepartmentAdmin" name="TkForm" type="org.kuali.kpme.core.web.HrAction">
             <forward name="basic" path="/WEB-INF/jsp/departmentAdmin.jsp"/>
         </action>
         
         <action path="/Clock" name="ClockActionForm" scope="request" input="/WEB-INF/jsp/clock.jsp"
-                type="org.kuali.hr.tklm.time.clock.web.ClockAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.time.clock.web.ClockAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/clock.jsp"/>
             <forward name="tb" path="/WEB-INF/jsp/timeDistribute.jsp"/>
             <forward name="et" path="/WEB-INF/jsp/editTimeBlock.jsp"/>
@@ -146,13 +146,13 @@
         
         <action path="/Timesheet" name="TimesheetActionForm" scope="request"
                 input="/WEB-INF/jsp/timeDetail.jsp"
-                type="org.kuali.hr.tklm.time.timesheet.web.TimesheetAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.time.timesheet.web.TimesheetAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/timeDetail.jsp"/>
         </action>
         
         <action path="/TimesheetSubmit" name="TimesheetSubmitActionForm" scope="request"
                 input="/WEB-INF/jsp/timeDetail.jsp"
-                type="org.kuali.hr.tklm.time.detail.web.TimesheetSubmitAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.time.detail.web.TimesheetSubmitAction" parameter="methodToCall" validate="false">
             <forward name="timesheetRedirect" path="/TimeDetail.do"/>
             <forward name="approverRedirect" path="/TimeApproval.do"/>
             <forward name="transfer" path="/BalanceTransfer.do"/>
@@ -160,48 +160,48 @@
         </action>
 
         <action path="/TimeDetail" name="TimeDetailActionForm" scope="request" input="/WEB-INF/jsp/timeDetail.jsp"
-                type="org.kuali.hr.tklm.time.detail.web.TimeDetailAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.time.detail.web.TimeDetailAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/timeDetail.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
             <forward name="ati" path="/WEB-INF/jsp/actualTimeInquiry.jsp"/>
         </action>
 
         <action path="/TimeDetailWS" name="TimeDetailWSActionForm" scope="request" input="/WEB-INF/jsp/webService.jsp"
-                type="org.kuali.hr.tklm.time.detail.web.TimeDetailWSAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.time.detail.web.TimeDetailWSAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/webService.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>
 
         <action path="/TimeApproval" name="TimeApprovalActionForm" scope="session" input="/WEB-INF/jsp/timeApproval.jsp"
-                type="org.kuali.hr.tklm.time.approval.web.TimeApprovalAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.time.approval.web.TimeApprovalAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/timeApproval.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>
 
         <action path="/TimeApprovalWS" name="TimeApprovalWSActionForm" scope="request" input="/WEB-INF/jsp/webService.jsp"
-                type="org.kuali.hr.tklm.time.approval.web.TimeApprovalWSAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.time.approval.web.TimeApprovalWSAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/webService.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>
         
         <action path="/Time" name="TkForm" scope="request" input="/WEB-INF/jsp/dummy_login.jsp"
-                type="org.kuali.hr.tklm.time.web.TimeAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.time.web.TimeAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/dummy_login.jsp"/>
         </action>
         
         <action path="/PersonInfo" name="PersonInfoActionForm" scope="request" input="/WEB-INF/jsp/personInfo.jsp"
-                type="org.kuali.hr.core.web.PersonInfoAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.core.web.PersonInfoAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/personInfo.jsp"/>
         </action>
 
         <action path="/missedPunch" name="MissedPunchForm" input="/WEB-INF/jsp/missedPunch.jsp"
-                type="org.kuali.hr.tklm.time.missedpunch.MissedPunchAction"
+                type="org.kuali.kpme.tklm.time.missedpunch.MissedPunchAction"
                 scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/missedPunch.jsp"/>
         </action>
         
         <action path="/BalanceTransfer" name="BalanceTransferForm" scope="request" input="/WEB-INF/jsp/balanceTransfer.jsp"
-                type="org.kuali.hr.tklm.leave.transfer.web.BalanceTransferAction" parameter="methodToCall"
+                type="org.kuali.kpme.tklm.leave.transfer.web.BalanceTransferAction" parameter="methodToCall"
                 validate="false" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/balanceTransfer.jsp"/>
             <forward name="leaveCalendarTransferSuccess" path="/LeaveCalendarSubmit.do"/>
@@ -212,7 +212,7 @@
         </action>
 
         <action path="/LeavePayout" name="LeavePayoutForm" input="/WEB-INF/jsp/leavePayout.jsp"
-                type="org.kuali.hr.tklm.leave.payout.web.LeavePayoutAction"
+                type="org.kuali.kpme.tklm.leave.payout.web.LeavePayoutAction"
                 scope="request" parameter="methodToCall" validate="false" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/leavePayout.jsp"/>
             <forward name="leaveCalendarPayoutSuccess" path="/LeaveCalendarSubmit.do"/>
@@ -223,24 +223,24 @@
         </action>
 
         <action path="/Help" name="HelpActionForm" scope="request" input="/WEB-INF/jsp/help.jsp"
-                type="org.kuali.hr.tklm.time.help.web.HelpAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.time.help.web.HelpAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/help.jsp"/>
         </action>
 
         <action path="/SessionInvalidateAction" name="SessionInvalidateForm" scope="request"
                 input="/WEB-INF/jsp/sessionInvalidate.jsp"
-                type="org.kuali.hr.core.web.SessionInvalidateAction" parameter="methodToCall" validate="true">
+                type="org.kuali.kpme.core.web.SessionInvalidateAction" parameter="methodToCall" validate="true">
             <forward name="basic" path="/WEB-INF/jsp/sessionInvalidate.jsp"/>
         </action>
         
         <action path="/LeaveCalendar" name="LeaveCalendarForm" scope="request" input="/WEB-INF/jsp/leaveCalendar.jsp"
-                type="org.kuali.hr.tklm.leave.calendar.web.LeaveCalendarAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/leaveCalendar.jsp"/>
         </action>
 
         <action path="/LeaveCalendarSubmit" name="LeaveCalendarSubmitForm" scope="request"
                 input="/WEB-INF/jsp/leaveCalendar.jsp"
-                type="org.kuali.hr.tklm.leave.calendar.web.LeaveCalendarSubmitAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarSubmitAction" parameter="methodToCall" validate="false">
             <forward name="leaveCalendarRedirect" path="/LeaveCalendar.do"/>
             <forward name="approverRedirect" path="/LeaveApproval.do"/>
             <forward name="transfer" path="/BalanceTransfer.do"/>
@@ -248,40 +248,40 @@
         </action>
         
         <action path="/LeaveRequest" name="LeaveRequestForm" scope="session" input="/WEB-INF/jsp/leaveRequest.jsp"
-                type="org.kuali.hr.tklm.leave.web.LeaveRequestAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.leave.web.LeaveRequestAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/leaveRequest.jsp"/>
         </action>
 
 		<action path="/LeaveRequestApproval" name="LeaveRequestApprovalActionForm" scope="session" input="/WEB-INF/jsp/leaveRequestApproval.jsp"
-                type="org.kuali.hr.tklm.leave.request.approval.web.LeaveRequestApprovalAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.leave.request.approval.web.LeaveRequestApprovalAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/leaveRequestApproval.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>
 
 		<action path="/LeaveBlockDisplay" name="LeaveBlockDisplayForm" scope="request" input="/WEB-INF/jsp/leaveBlockDisplay.jsp"
-                type="org.kuali.hr.tklm.leave.web.LeaveBlockDisplayAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.leave.web.LeaveBlockDisplayAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/leaveBlockDisplay.jsp"/>
         </action>
 
 		<action path="/LeaveCalendarWS" name="LeaveCalendarWSForm" scope="request" input="/WEB-INF/jsp/webService.jsp"
-                type="org.kuali.hr.tklm.leave.web.LeaveCalendarWSAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.leave.web.LeaveCalendarWSAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/webService.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>
         
         <action path="/LeaveApproval" name="LeaveApprovalActionForm" scope="session" input="/WEB-INF/jsp/leaveApproval.jsp"
-                type="org.kuali.hr.tklm.leave.approval.web.LeaveApprovalAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.leave.approval.web.LeaveApprovalAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/leaveApproval.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>
 
         <action path="/LeaveApprovalWS" name="LeaveApprovalWSActionForm" scope="request" input="/WEB-INF/jsp/webService.jsp"
-                type="org.kuali.hr.tklm.leave.approval.web.LeaveApprovalWSAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.leave.approval.web.LeaveApprovalWSAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/webService.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>
     </action-mappings>
 
-    <controller processorClass="org.kuali.hr.core.KPMERequestProcessor"/>
+    <controller processorClass="org.kuali.kpme.core.KPMERequestProcessor"/>
     <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" />
 </struts-config>                    

@@ -7,11 +7,12 @@ import junit.framework.Assert;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.junit.Test;
-import org.kuali.hr.pm.service.base.PmServiceLocator;
 import org.kuali.hr.pm.test.PmTestConstants;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.tklm.common.TKUtils;
+import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
+import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.kuali.kpme.tklm.common.TKUtils;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;

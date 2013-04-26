@@ -23,7 +23,7 @@
 
 	<bean id="PrincipalRoleMemberBo" parent="PrincipalRoleMemberBo-parentBean" />
 	<bean id="PrincipalRoleMemberBo-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.core.role.PrincipalRoleMemberBo" />
+		<property name="businessObjectClass" value="org.kuali.kpme.core.role.PrincipalRoleMemberBo" />
 		<property name="objectLabel" value="Principal Role Member" />
 		<property name="attributes">
             <list>

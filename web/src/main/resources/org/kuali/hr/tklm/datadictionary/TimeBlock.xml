@@ -22,7 +22,7 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="TimeBlock" parent="TimeBlock-parentBean" />
   <bean id="TimeBlock-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.hr.tklm.time.timeblock.TimeBlock" />
+    <property name="businessObjectClass" value="org.kuali.kpme.tklm.time.timeblock.TimeBlock" />
     <property name="inquiryDefinition" >
       <ref bean="TimeBlock-inquiryDefinition" />
     </property>
@@ -344,7 +344,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="timeHourDetails"/>
-                <property name="businessObjectClass" value="org.kuali.hr.tklm.time.timeblock.TimeHourDetail"/>
+                <property name="businessObjectClass" value="org.kuali.kpme.tklm.time.timeblock.TimeHourDetail"/>
                 <property name="numberOfColumns" value="1"/>
                 <property name="inquiryFields">
                    <list>

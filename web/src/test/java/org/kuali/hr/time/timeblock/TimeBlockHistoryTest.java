@@ -25,13 +25,13 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.TkTestUtils;
-import org.kuali.hr.tklm.common.TKContext;
-import org.kuali.hr.tklm.common.TKUtils;
-import org.kuali.hr.tklm.common.TkConstants;
-import org.kuali.hr.tklm.time.service.TkServiceLocator;
-import org.kuali.hr.tklm.time.timeblock.TimeBlock;
-import org.kuali.hr.tklm.time.timeblock.TimeBlockHistory;
-import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.kpme.tklm.common.TKContext;
+import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
+import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 
 public class TimeBlockHistoryTest extends KPMETestCase {
 

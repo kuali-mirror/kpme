@@ -9,9 +9,9 @@
 
   <bean id="PstnRptGrpSubCatMaintenanceDocument" parent="PstnRptGrpSubCatMaintenanceDocument-parentBean"/>
   <bean id="PstnRptGrpSubCatMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
-    <property name="dataObjectClass" value="org.kuali.hr.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory"/>
-    <property name="maintainableClass" value="org.kuali.hr.pm.pstnrptgrpsubcat.service.PstnRptGrpSubCatMaintainableImpl"/>  
+    <property name="dataObjectClass" value="org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory"/>
+    <property name="maintainableClass" value="org.kuali.kpme.pm.pstnrptgrpsubcat.service.PstnRptGrpSubCatMaintainableImpl"/>  
     <property name="documentTypeName" value="PstnRptGrpSubCatMaintenanceDocumentType"/>
-    <property name="businessRulesClass" value="org.kuali.hr.pm.pstnrptgrpsubcat.validation.PstnRptGrpSubCatValidation"/>
+    <property name="businessRulesClass" value="org.kuali.kpme.pm.pstnrptgrpsubcat.validation.PstnRptGrpSubCatValidation"/>
   </bean>
 </beans>

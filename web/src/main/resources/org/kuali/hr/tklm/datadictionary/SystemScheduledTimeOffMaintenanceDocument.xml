@@ -28,10 +28,10 @@
 
 	<bean id="SystemScheduledTimeOffMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" 
-		p:businessObjectClass="org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff"
-		p:businessRulesClass="org.kuali.hr.tklm.leave.timeoff.validation.SystemScheduledTimeOffValidation"
-		p:maintainableClass="org.kuali.hr.tklm.leave.timeoff.service.SystemScheduledTimeOffMaintainableServiceImpl"
-		p:documentAuthorizerClass="org.kuali.hr.tklm.leave.timeoff.authorization.SystemScheduledTimeOffAuthorizer">
+		p:businessObjectClass="org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff"
+		p:businessRulesClass="org.kuali.kpme.tklm.leave.timeoff.validation.SystemScheduledTimeOffValidation"
+		p:maintainableClass="org.kuali.kpme.tklm.leave.timeoff.service.SystemScheduledTimeOffMaintainableServiceImpl"
+		p:documentAuthorizerClass="org.kuali.kpme.tklm.leave.timeoff.authorization.SystemScheduledTimeOffAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="SystemScheduledTimeOffMaintenanceDocument-SystemScheduledTimeOffMaintenance" />

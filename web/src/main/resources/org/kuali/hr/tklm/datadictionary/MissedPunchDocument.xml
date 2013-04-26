@@ -26,9 +26,9 @@
 		parent="TransactionalDocumentEntry">
 		<property name="documentTypeName" value="MissedPunchDocumentType" />
 		<property name="documentClass"
-			value="org.kuali.hr.tklm.time.missedpunch.MissedPunchDocument" />
-		<property name="businessRulesClass" value="org.kuali.hr.tklm.time.missedpunch.MissedPunchValidation"/>		
-		<property name="documentAuthorizerClass" value="org.kuali.hr.tklm.time.missedpunch.MissedPunchAuthorizer" />	
+			value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument" />
+		<property name="businessRulesClass" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchValidation"/>		
+		<property name="documentAuthorizerClass" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchAuthorizer" />	
 		<property name="attributes">
 			<list>
 				<ref bean="MissedPunchDocument-principalId" />
@@ -54,7 +54,7 @@
 			</bean>
 		</property>
 		<property name="control">
-		  <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.missedpunch.MissedPunchAssignmentFinder" p:includeKeyInLabel="false"/>
+		  <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.missedpunch.MissedPunchAssignmentFinder" p:includeKeyInLabel="false"/>
 		</property>
 		<property name="name" value="assignment" />
 		<property name="label" value="Assignment" />
@@ -89,7 +89,7 @@
             </bean>
         </property>
         <property name="control">
-            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.clocklog.TkClockActionValuesFinder" p:includeKeyInLabel="false"/>
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.clocklog.TkClockActionValuesFinder" p:includeKeyInLabel="false"/>
         </property>
         <property name="name" value="clockAction" />
         <property name="label" value="Missed Clock Action" />
@@ -119,7 +119,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="required" value="true"/>
-        <property name="formatterClass" value="org.kuali.hr.tklm.time.rice.kns.web.format.SqlTimeFormatter"/>
+        <property name="formatterClass" value="org.kuali.kpme.tklm.time.rice.kns.web.format.SqlTimeFormatter"/>
         <property name="name" value="actionTime"/>
         <property name="label" value="Missed Action Time (00:00 AM)"/>
     </bean>

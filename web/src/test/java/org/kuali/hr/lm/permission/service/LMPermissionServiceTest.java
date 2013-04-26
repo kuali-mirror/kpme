@@ -20,12 +20,12 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.hr.core.bo.principal.PrincipalHRAttributes;
-import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.common.TKContext;
-import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.common.TKContext;
+import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class LMPermissionServiceTest extends KPMETestCase {

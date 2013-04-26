@@ -23,7 +23,7 @@
 	<bean name="PayType" parent="PayType-parentBean" />
 
 	<bean id="PayType-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.core.bo.paytype.PayType" />
+		<property name="businessObjectClass" value="org.kuali.kpme.core.bo.paytype.PayType" />
 		<property name="titleAttribute" value="payTypeId" />
 		<property name="objectLabel" value="Pay Type" />
 		<property name="inquiryDefinition">
@@ -157,7 +157,7 @@
 				p:validationErrorMessageKey="MISSING" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.hr.tklm.time.rice.kns.web.format.SqlTimeFormatter" />
+			value="org.kuali.kpme.tklm.time.rice.kns.web.format.SqlTimeFormatter" />
 		<property name="name" value="timestamp" />
 		<property name="label" value="Timestamp" />
 	</bean>
@@ -168,7 +168,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Show History" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkHistoryKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="history" />

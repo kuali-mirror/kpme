@@ -29,10 +29,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.leave.block.service.LeaveBlockService;
-import org.kuali.hr.tklm.leave.service.LmServiceLocator;
-import org.kuali.hr.tklm.leave.util.LMConstants;
+import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.service.LeaveBlockService;
+import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.leave.util.LMConstants;
 
 public class LeaveBlockServiceImplTest extends KPMETestCase {
 	

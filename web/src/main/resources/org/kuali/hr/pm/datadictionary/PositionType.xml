@@ -6,7 +6,7 @@
 	
 	<bean id="PositionType" parent="PositionType-parentBean"/>
  	<bean id="PositionType-parentBean" abstract="true" parent="BusinessObjectEntry">
-	    <property name="dataObjectClass" value="org.kuali.hr.pm.positiontype.PositionType"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positiontype.PositionType"/>
 	    <property name="attributes">
 	      <list>
 	        <ref bean="PositionType-pmPositionTypeId"/>
@@ -134,14 +134,14 @@
  
   <bean id="PositionType-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="Position Type Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.hr.pm.positiontype.PositionType" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positiontype.PositionType" />
     <property name="criteriaFields">
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionType" />       
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 	         <property name="quickfinder">
-	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.bo.institution.Institution" 
+	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
 	        		 p:fieldConversions="institutionCode:institution"/>
 	   		 </property>
         </bean>
@@ -154,7 +154,7 @@
         <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
         <bean parent="Uif-InputField" p:propertyName="positionType" >
         	<property name="inquiry">
-	       		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.hr.pm.positiontype.PositionType" 
+	       		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positiontype.PositionType" 
 	        	p:inquiryParameters="pmPositionTypeId:pmPositionTypeId"/>
     		</property>
         </bean>
@@ -168,7 +168,7 @@
  <!-- Position Type Inquiry View -->
   <bean id="PositionType-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Position Type Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.hr.pm.positiontype.PositionType"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positiontype.PositionType"/>
     <property name="singlePageView" value="true"/>
     <property name="items">
       <list>
@@ -194,7 +194,7 @@
   <bean id="PositionType-MaintenanceView" parent="PositionType-MaintenanceView-parentBean"/>
   <bean id="PositionType-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
     <property name="headerText" value="Position Type Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.hr.pm.positiontype.PositionType"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positiontype.PositionType"/>
     <property name="items">
       <list merge="true">
         <bean parent="Uif-MaintenanceGridSection">
@@ -205,7 +205,7 @@
 		        <bean parent="Uif-InputField" p:propertyName="description" />
 		        <bean parent="Uif-InputField" p:propertyName="institution" >
 			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.bo.institution.Institution" 
+		       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
 		        			 p:fieldConversions="institutionCode:institution"/>
 		   			</property>
 		        </bean>

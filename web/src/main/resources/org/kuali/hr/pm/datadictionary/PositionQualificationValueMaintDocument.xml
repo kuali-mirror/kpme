@@ -9,9 +9,9 @@
 
   <bean id="PositionQualificationValueMaintenanceDocument" parent="PositionQualificationValueMaintenanceDocument-parentBean"/>
   <bean id="PositionQualificationValueMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
-    <property name="dataObjectClass" value="org.kuali.hr.pm.pstnqlfctnvl.PositionQualificationValue"/>
-<!--     <property name="maintainableClass" value="org.kuali.hr.pm.pstnqlfctnvl.service.PositionQualificationValueMaintainableImpl"/>   -->
+    <property name="dataObjectClass" value="org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue"/>
+<!--     <property name="maintainableClass" value="org.kuali.kpme.pm.pstnqlfctnvl.service.PositionQualificationValueMaintainableImpl"/>   -->
     <property name="documentTypeName" value="PstnQlfctnVlMaintenanceDocumentType"/>
-    <property name="businessRulesClass" value="org.kuali.hr.pm.pstnqlfctnvl.validation.PositionQualificationValueValidation"/>
+    <property name="businessRulesClass" value="org.kuali.kpme.pm.pstnqlfctnvl.validation.PositionQualificationValueValidation"/>
   </bean>
 </beans>

@@ -23,7 +23,7 @@
 	<bean id="AccrualCategory" parent="AccrualCategory-parentBean" />
 
 	<bean id="AccrualCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.core.bo.accrualcategory.AccrualCategory" />
+		<property name="businessObjectClass" value="org.kuali.kpme.core.bo.accrualcategory.AccrualCategory" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="AccrualCategory" />
 		<property name="inquiryDefinition">
@@ -160,7 +160,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Accrual Earn Interval" />
 				<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.core.bo.accrualcategory.valuesfinder.AccrualEarnIntervalKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.bo.accrualcategory.valuesfinder.AccrualEarnIntervalKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="accrualEarnInterval" />
@@ -173,7 +173,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Unit Of Time" />
 				<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.core.bo.accrualcategory.valuesfinder.UnitOfTimeKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.bo.accrualcategory.valuesfinder.UnitOfTimeKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="unitOfTime" />
@@ -218,7 +218,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Show History" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkHistoryKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="history" />
@@ -244,7 +244,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Proration" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.core.SwitchKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.SwitchKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="proration" />
@@ -257,7 +257,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Donation" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkHistoryKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="donation" />
@@ -270,7 +270,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Category Has Rules" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkHistoryKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="hasRules" />
@@ -283,7 +283,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Show On Grid" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkHistoryKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="showOnGrid" />
@@ -330,7 +330,7 @@
 	<bean id="AccrualCategory-inquiryDefinition" parent="AccrualCategory-inquiryDefinition-parentBean" />
 
 	<bean id="AccrualCategory-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.core.bo.accrualcategory.AccrualCategoryInquirableImpl">
+		parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.bo.accrualcategory.AccrualCategoryInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
@@ -357,7 +357,7 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="InquiryCollectionDefinition" p:attributeName="accrualCategoryRules"
-								p:businessObjectClass="org.kuali.hr.core.bo.accrualcategory.rule.AccrualCategoryRule">
+								p:businessObjectClass="org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule">
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="serviceUnitOfTime"/>

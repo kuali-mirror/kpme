@@ -27,10 +27,10 @@
 
   <bean id="SalaryGroupMaintenanceDocument" parent="SalaryGroupMaintenanceDocument-parentBean"/>
   <bean id="SalaryGroupMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
-    <property name="dataObjectClass" value="org.kuali.hr.core.bo.salarygroup.SalGroup"/>
-    <property name="maintainableClass" value="org.kuali.hr.core.bo.salarygroup.service.SalGroupMaintainableImpl"/>  
+    <property name="dataObjectClass" value="org.kuali.kpme.core.bo.salarygroup.SalGroup"/>
+    <property name="maintainableClass" value="org.kuali.kpme.core.bo.salarygroup.service.SalGroupMaintainableImpl"/>  
     <property name="documentTypeName" value="SalaryGroupMaintenanceDocumentType"/>
-    <property name="documentAuthorizerClass" value="org.kuali.hr.core.bo.salarygroup.authorization.SalaryGroupAuthorizer"/>
-    <property name="businessRulesClass" value="org.kuali.hr.core.bo.salarygroup.validation.SalaryGroupValidation"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kpme.core.bo.salarygroup.authorization.SalaryGroupAuthorizer"/>
+    <property name="businessRulesClass" value="org.kuali.kpme.core.bo.salarygroup.validation.SalaryGroupValidation"/>
   </bean>
 </beans>

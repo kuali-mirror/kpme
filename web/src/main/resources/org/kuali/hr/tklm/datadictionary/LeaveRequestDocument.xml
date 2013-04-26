@@ -26,7 +26,7 @@
 
   <bean id="LeaveRequestDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="documentTypeName" value="LeaveRequestDocument"/>
-    <property name="documentClass" value="org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument"/>
+    <property name="documentClass" value="org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument"/>
     <property name="attributes">
       <list>
         <ref bean="LeaveRequestDocument-lmLeaveBlockId"/>
@@ -46,7 +46,7 @@
     <bean id="LeaveRequestDocument-actionCode" parent="LeaveRequestDocument-actionCode-parentBean"/>
     <bean id="LeaveRequestDocument-actionCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="actionCode" p:label="Action" p:shortLabel="Action" p:maxLength="1" p:required="false">
         <property name="control">
-            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.leave.request.LeaveRequestActionValuesFinder">
+            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.leave.request.LeaveRequestActionValuesFinder">
             </bean>
         </property>
     </bean>

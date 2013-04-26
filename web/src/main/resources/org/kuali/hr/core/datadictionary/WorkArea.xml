@@ -23,7 +23,7 @@
 
 	<bean id="WorkArea" parent="WorkArea-parentBean" />
 	<bean id="WorkArea-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.core.bo.workarea.WorkArea" />
+		<property name="businessObjectClass" value="org.kuali.kpme.core.bo.workarea.WorkArea" />
 		<property name="titleAttribute" value="tkWorkAreaId" />
 		<property name="objectLabel" value="Work Area" />
 		<property name="attributes">
@@ -139,7 +139,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.hr.core.role.workarea.WorkAreaOvertimeRoleValuesFinder"
+                  p:valuesFinderClass="org.kuali.kpme.core.role.workarea.WorkAreaOvertimeRoleValuesFinder"
 				  p:includeKeyInLabel="false" />
 		</property>
 	</bean>
@@ -211,7 +211,7 @@
         <property name="label" value="Show History" />
         <property name="shortLabel" value="Show History" />
         <property name="control">
-            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.util.TkHistoryKeyValueFinder" />
+            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder" />
         </property>
     </bean>
 	
@@ -250,7 +250,7 @@
 	<!-- Business Object Inquiry Definition -->
 	
 	<bean id="WorkArea-inquiryDefinition" parent="WorkArea-inquiryDefinition-parentBean" />
-	<bean id="WorkArea-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.core.bo.workarea.web.WorkAreaInquirableImpl">
+	<bean id="WorkArea-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.bo.workarea.web.WorkAreaInquirableImpl">
 		<property name="title" value="Work Area Inquiry" />
 		<property name="translateCodes" value="false" />
 		<property name="inquirySections">
@@ -274,7 +274,7 @@
 				<bean parent="InquirySectionDefinition" p:title="Tasks">
 					<property name="inquiryFields">
 						<list>
-							<bean parent="InquiryCollectionDefinition" p:attributeName="tasks" p:businessObjectClass="org.kuali.hr.core.bo.task.Task">
+							<bean parent="InquiryCollectionDefinition" p:attributeName="tasks" p:businessObjectClass="org.kuali.kpme.core.bo.task.Task">
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" />
@@ -291,7 +291,7 @@
 				<bean parent="InquirySectionDefinition" p:title="Principal Role Members">
 					<property name="inquiryFields">
 						<list>
-							<bean parent="InquiryCollectionDefinition" p:attributeName="principalRoleMembers" p:businessObjectClass="org.kuali.hr.core.role.workarea.WorkAreaPrincipalRoleMemberBo">
+							<bean parent="InquiryCollectionDefinition" p:attributeName="principalRoleMembers" p:businessObjectClass="org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo">
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" />
@@ -309,7 +309,7 @@
 				<bean parent="InquirySectionDefinition" p:title="Inactive Principal Role Members">
 					<property name="inquiryFields">
 						<list>
-							<bean parent="InquiryCollectionDefinition" p:attributeName="inactivePrincipalRoleMembers" p:businessObjectClass="org.kuali.hr.core.role.workarea.WorkAreaPrincipalRoleMemberBo">
+							<bean parent="InquiryCollectionDefinition" p:attributeName="inactivePrincipalRoleMembers" p:businessObjectClass="org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo">
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" />
@@ -327,7 +327,7 @@
 				<bean parent="InquirySectionDefinition" p:title="Position Role Members">
                     <property name="inquiryFields">
                         <list>
-                            <bean parent="InquiryCollectionDefinition" p:attributeName="positionRoleMembers" p:businessObjectClass="org.kuali.hr.core.role.workarea.WorkAreaPositionRoleMemberBo">
+                            <bean parent="InquiryCollectionDefinition" p:attributeName="positionRoleMembers" p:businessObjectClass="org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo">
                                 <property name="inquiryFields">
                                     <list>
                                         <bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" />
@@ -344,7 +344,7 @@
                 <bean parent="InquirySectionDefinition" p:title="Inactive Position Role Members">
                     <property name="inquiryFields">
                         <list>
-                            <bean parent="InquiryCollectionDefinition" p:attributeName="inactivePositionRoleMembers" p:businessObjectClass="org.kuali.hr.core.role.workarea.WorkAreaPositionRoleMemberBo">
+                            <bean parent="InquiryCollectionDefinition" p:attributeName="inactivePositionRoleMembers" p:businessObjectClass="org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo">
                                 <property name="inquiryFields">
                                     <list>
                                         <bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" />

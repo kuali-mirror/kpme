@@ -28,9 +28,9 @@
   <bean id="PositionReportGroupMaintenanceDocument" parent="PositionReportGroupMaintenanceDocument-parentBean"/>
 
   <bean id="PositionReportGroupMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.hr.pm.positionreportgroup.PositionReportGroup"
-  		p:businessRulesClass="org.kuali.hr.pm.positionreportgroup.validation.PositionReportGroupValidation"
-  		p:maintainableClass="org.kuali.hr.pm.positionreportgroup.service.PositionReportGroupMaintainableImpl">
+  		p:businessObjectClass="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup"
+  		p:businessRulesClass="org.kuali.kpme.pm.positionreportgroup.validation.PositionReportGroupValidation"
+  		p:maintainableClass="org.kuali.kpme.pm.positionreportgroup.service.PositionReportGroupMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="PositionReportGroupMaintenanceDocument-PositionReportGroupMaintenance"/>

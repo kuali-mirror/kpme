@@ -23,13 +23,13 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.hr.core.bo.assignment.Assignment;
-import org.kuali.hr.core.bo.earncode.EarnCode;
-import org.kuali.hr.core.bo.earncode.service.EarnCodeService;
-import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.kpme.core.bo.assignment.Assignment;
+import org.kuali.kpme.core.bo.earncode.EarnCode;
+import org.kuali.kpme.core.bo.earncode.service.EarnCodeService;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 

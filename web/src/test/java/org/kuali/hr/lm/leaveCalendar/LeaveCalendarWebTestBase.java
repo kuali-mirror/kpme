@@ -21,8 +21,8 @@ import org.junit.Assert;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.util.filter.TestAutoLoginFilter;
+import org.kuali.kpme.tklm.common.TKUtils;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 

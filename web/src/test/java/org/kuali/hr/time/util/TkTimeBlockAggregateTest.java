@@ -23,15 +23,15 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
-import org.kuali.hr.core.bo.calendar.Calendar;
-import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.TkTestUtils;
-import org.kuali.hr.tklm.common.TKUtils;
-import org.kuali.hr.tklm.time.flsa.FlsaWeek;
-import org.kuali.hr.tklm.time.service.TkServiceLocator;
-import org.kuali.hr.tklm.time.timeblock.TimeBlock;
-import org.kuali.hr.tklm.time.util.TkTimeBlockAggregate;
+import org.kuali.kpme.core.bo.calendar.Calendar;
+import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 
 public class TkTimeBlockAggregateTest extends KPMETestCase {
 

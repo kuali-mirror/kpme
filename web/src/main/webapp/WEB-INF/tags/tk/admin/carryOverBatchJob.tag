@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<c:set var="systemAdmin" value='<%=org.kuali.hr.tklm.common.TKContext.isSystemAdmin()%>' />
+<c:set var="systemAdmin" value='<%=org.kuali.kpme.tklm.common.TKContext.isSystemAdmin()%>' />
 
 <c:if test="${systemAdmin}">
     <channel:portalChannelTop channelTitle="Run Carry Over Batch Job" />
@@ -29,7 +29,7 @@
                             <html:text property="leavePlan" />
                         </td>
                         <td>
-                        	<kul:lookup boClassName="org.kuali.hr.core.bo.leaveplan.LeavePlan" fieldConversions="leavePlan:leavePlan" />
+                        	<kul:lookup boClassName="org.kuali.kpme.core.bo.leaveplan.LeavePlan" fieldConversions="leavePlan:leavePlan" />
                         </td>
                     </tr>
                     <tr>

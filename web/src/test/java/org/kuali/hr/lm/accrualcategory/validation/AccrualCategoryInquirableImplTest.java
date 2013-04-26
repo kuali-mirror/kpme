@@ -19,15 +19,15 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.core.bo.accrualcategory.AccrualCategory;
-import org.kuali.hr.core.bo.accrualcategory.AccrualCategoryInquirableImpl;
 import org.kuali.hr.test.KPMETestCase;
+import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.bo.accrualcategory.AccrualCategoryInquirableImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 
 public class AccrualCategoryInquirableImplTest extends KPMETestCase {
 
-	private String INQUIRY_URL = "inquiry.do?businessObjectClassName=org.kuali.hr.core.bo.leaveplan.LeavePlan&lmLeavePlanId=&methodToCall=start&leavePlan=testLeavePlan&effectiveDate=03%2F04%2F2012";
+	private String INQUIRY_URL = "inquiry.do?businessObjectClassName=org.kuali.kpme.core.bo.leaveplan.LeavePlan&lmLeavePlanId=&methodToCall=start&leavePlan=testLeavePlan&effectiveDate=03%2F04%2F2012";
 	@Test
 	public void testGetInquiryUrl() throws Exception {
 		AccrualCategory ac = new AccrualCategory();

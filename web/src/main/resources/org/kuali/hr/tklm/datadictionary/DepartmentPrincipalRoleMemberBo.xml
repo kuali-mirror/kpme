@@ -23,7 +23,7 @@
 
 	<bean id="DepartmentPrincipalRoleMemberBo" parent="DepartmentPrincipalRoleMemberBo-parentBean" />
 	<bean id="DepartmentPrincipalRoleMemberBo-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.core.role.department.DepartmentPrincipalRoleMemberBo" />
+		<property name="businessObjectClass" value="org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo" />
 		<property name="objectLabel" value="Role Member" />
 		<property name="attributes">
             <list>
@@ -59,7 +59,7 @@
         <property name="name" value="roleName" />
         <property name="control">
             <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.hr.core.role.department.DepartmentRoleValuesFinder"
+                  p:valuesFinderClass="org.kuali.kpme.core.role.department.DepartmentRoleValuesFinder"
                   p:includeKeyInLabel="false" />
         </property>
     </bean>

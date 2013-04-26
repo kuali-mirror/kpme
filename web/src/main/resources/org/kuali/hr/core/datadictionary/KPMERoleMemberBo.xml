@@ -23,7 +23,7 @@
 
 	<bean id="KPMERoleMemberBo" parent="KPMERoleMemberBo-parentBean" />
 	<bean id="KPMERoleMemberBo-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.core.role.KPMERoleMemberBo" />
+		<property name="businessObjectClass" value="org.kuali.kpme.core.role.KPMERoleMemberBo" />
 		<property name="objectLabel" value="KPME Role Member" />
 		<property name="attributes">
             <list>
@@ -61,7 +61,7 @@
         <property name="forceUppercase" value="false" />
         <property name="control">
             <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.hr.core.role.KPMERoleValuesFinder"
+                  p:valuesFinderClass="org.kuali.kpme.core.role.KPMERoleValuesFinder"
                   p:includeKeyInLabel="false" />
         </property>
     </bean>

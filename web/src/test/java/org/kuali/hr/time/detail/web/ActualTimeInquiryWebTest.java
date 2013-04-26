@@ -22,16 +22,16 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
-import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.tklm.time.rules.graceperiod.GracePeriodRule;
-import org.kuali.hr.tklm.time.service.TkServiceLocator;
-import org.kuali.hr.tklm.time.timeblock.TimeBlock;
-import org.kuali.hr.tklm.time.timeblock.TimeHourDetail;
-import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.time.rules.graceperiod.GracePeriodRule;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;

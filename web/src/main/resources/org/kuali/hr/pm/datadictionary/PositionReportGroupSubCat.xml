@@ -6,7 +6,7 @@
 	
 	<bean id="PositionReportGroupSubCat" parent="PositionReportGroupSubCat-parentBean"/>
  	<bean id="PositionReportGroupSubCat-parentBean" abstract="true" parent="BusinessObjectEntry">
-	    <property name="dataObjectClass" value="org.kuali.hr.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory"/>
 	    <property name="attributes">
 	      <list>
 	        <ref bean="PositionReportGroupSubCat-pmPstnRptGrpSubCatId"/>
@@ -150,26 +150,26 @@
  
   <bean id="PositionReportGroupSubCat-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="Position Report Group Sub Category Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.hr.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory" />
     <property name="criteriaFields">
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="pstnRptGrpSubCat" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportGroup" >
         	<property name="quickfinder">
-	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.pm.positionreportgroup.PositionReportGroup" 
+	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" 
 	        		 p:fieldConversions="positionReportGroup:positionReportGroup"/>
 	   		</property>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportSubCat">
        		<property name="quickfinder">
-	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory" 
+	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" 
 	        		 p:fieldConversions="positionReportSubCat:positionReportSubCat"/>
 	   		 </property>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 	         <property name="quickfinder">
-	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.bo.institution.Institution" 
+	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
 	        		 p:fieldConversions="institutionCode:institution"/>
 	   		 </property>
         </bean>
@@ -182,7 +182,7 @@
         <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
         <bean parent="Uif-InputField" p:propertyName="pstnRptGrpSubCat">
         	<property name="inquiry">
-	       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.hr.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory" 
+	       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory" 
 	        	 p:inquiryParameters="pmPstnRptGrpSubCatId:pmPstnRptGrpSubCatId"/>
     		</property>
         </bean>
@@ -198,7 +198,7 @@
  <!-- Position Reporting Group Sub Category Inquiry View -->
   <bean id="PositionReportGroupSubCat-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Position Report Group Sub Category Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.hr.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory"/>
     <property name="singlePageView" value="true"/>
     <property name="items">
       <list>
@@ -226,7 +226,7 @@
   <bean id="PositionReportGroupSubCat-MaintenanceView" parent="PositionReportGroupSubCat-MaintenanceView-parentBean"/>
   <bean id="PositionReportGroupSubCat-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
     <property name="headerText" value="PositionReportGroupSubCat Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.hr.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory"/>
     <property name="items">
       <list merge="true">
         <bean parent="Uif-MaintenanceGridSection">
@@ -237,19 +237,19 @@
 		        <bean parent="Uif-InputField" p:propertyName="description" />
 		        <bean parent="Uif-InputField" p:propertyName="positionReportGroup">
 			        <property name="quickfinder">
-			       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.pm.positionreportgroup.PositionReportGroup" 
+			       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" 
 			        		 p:fieldConversions="positionReportGroup:positionReportGroup"/>
 		   		 	</property>
 		        </bean>
 		        <bean parent="Uif-InputField" p:propertyName="positionReportSubCat">
 			        <property name="quickfinder">
-		       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory" 
+		       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" 
 		        		 p:fieldConversions="positionReportSubCat:positionReportSubCat"/>
 		   		 </property>
 	       		</bean>
 		        <bean parent="Uif-InputField" p:propertyName="institution" >
 			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.bo.institution.Institution" 
+		       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
 		        			 p:fieldConversions="institutionCode:institution"/>
 		   			</property>
 		        </bean>

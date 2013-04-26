@@ -23,7 +23,7 @@
 
     <bean id="Task" parent="Task-parentBean" />
     <bean id="Task-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.hr.core.bo.task.Task" />
+        <property name="businessObjectClass" value="org.kuali.kpme.core.bo.task.Task" />
         <property name="inquiryDefinition">
             <ref bean="Task-inquiryDefinition" />
         </property>
@@ -192,7 +192,7 @@
 
     <bean id="Task-inquiryDefinition" parent="Task-inquiryDefinition-parentBean" />
     <bean id="Task-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"
-          p:inquirableClass="org.kuali.hr.core.bo.task.TaskInquirableImpl">
+          p:inquirableClass="org.kuali.kpme.core.bo.task.TaskInquirableImpl">
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">

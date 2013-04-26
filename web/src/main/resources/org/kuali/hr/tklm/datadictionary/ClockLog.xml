@@ -23,7 +23,7 @@
 	<bean name="ClockLog" parent="ClockLog-parentBean" />
 
 	<bean id="ClockLog-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.tklm.time.clocklog.ClockLog" />
+		<property name="businessObjectClass" value="org.kuali.kpme.tklm.time.clocklog.ClockLog" />
 		<property name="titleAttribute" value="tkClockLogId" />
 		<property name="objectLabel" value="Clock Log" />
 		<property name="inquiryDefinition">
@@ -217,7 +217,7 @@
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.tklm.time.clocklog.FlsaClocklogKeyValue" p:includeKeyInLabel="false">
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.clocklog.FlsaClocklogKeyValue" p:includeKeyInLabel="false">
 			</bean>
 		</property>
 		<property name="name" value="clockAction" />

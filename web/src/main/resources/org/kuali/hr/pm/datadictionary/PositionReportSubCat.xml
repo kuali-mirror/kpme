@@ -23,7 +23,7 @@
 	<bean id="PositionReportSubCat" parent="PositionReportSubCat-parentBean" />
 
 	<bean id="PositionReportSubCat-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory" />
+		<property name="businessObjectClass" value="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" />
 		<property name="inquiryDefinition">
 			<ref bean="PositionReportSubCat-inquiryDefinition" />
 		</property>
@@ -265,7 +265,7 @@
   <!-- KRAD Lookup View Definition -->
   <bean id="PositionReportSubCat-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="PositionReportSubCat Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" />
     <property name="criteriaFields">
       <list>				
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportSubCat" />

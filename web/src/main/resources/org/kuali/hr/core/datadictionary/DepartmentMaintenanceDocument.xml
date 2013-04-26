@@ -24,10 +24,10 @@
 
     <bean id="DepartmentMaintenanceDocument" parent="DepartmentMaintenanceDocument-parentBean" />
     <bean id="DepartmentMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
-  		  p:businessObjectClass="org.kuali.hr.core.bo.department.Department"
-  		  p:businessRulesClass="org.kuali.hr.core.bo.department.DepartmentMaintenanceDocumentRule"
-  		  p:documentAuthorizerClass="org.kuali.hr.core.bo.department.authorization.DepartmentAuthorizer"
-  		  p:maintainableClass="org.kuali.hr.core.bo.department.DepartmentMaintainableImpl">
+  		  p:businessObjectClass="org.kuali.kpme.core.bo.department.Department"
+  		  p:businessRulesClass="org.kuali.kpme.core.bo.department.DepartmentMaintenanceDocumentRule"
+  		  p:documentAuthorizerClass="org.kuali.kpme.core.bo.department.authorization.DepartmentAuthorizer"
+  		  p:maintainableClass="org.kuali.kpme.core.bo.department.DepartmentMaintainableImpl">
 
         <property name="documentTypeName" value="DepartmentMaintenanceDocumentType" />
 	    <property name="maintainableSections">
@@ -42,7 +42,7 @@
                 <value>dept</value>
             </list>
         </property>
-        <property name="promptBeforeValidationClass" value="org.kuali.hr.core.bo.department.validation.DepartmentEffectiveDatePrompt" />
+        <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.bo.department.validation.DepartmentEffectiveDatePrompt" />
     </bean>
 
     <bean id="DepartmentMaintenanceDocument-DepartmentMaintenance" parent="DepartmentMaintenanceDocument-DepartmentMaintenance-parentBean" />
@@ -70,14 +70,14 @@
             <list>
 		        <bean parent="MaintainableCollectionDefinition">
 		            <property name="name" value="roleMembers" />
-		            <property name="businessObjectClass" value="org.kuali.hr.core.role.department.DepartmentPrincipalRoleMemberBo" />
+		            <property name="businessObjectClass" value="org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo" />
 		            <property name="alwaysAllowCollectionDeletion" value="true" />
 		            <property name="maintainableFields">
 		                <list>
 		                    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
 		                    <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="principalName" p:unconditionallyReadOnly="true" />
-		                    <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:defaultValueFinderClass="org.kuali.hr.core.role.department.DepartmentDefaultRoleMemberValueFinder" />
+		                    <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:defaultValueFinderClass="org.kuali.kpme.core.role.department.DepartmentDefaultRoleMemberValueFinder" />
 		                    <bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false" />
 		                    <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
 		                </list>
@@ -96,7 +96,7 @@
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="name" value="inactiveRoleMembers" />
-					<property name="businessObjectClass" value="org.kuali.hr.core.role.department.DepartmentPrincipalRoleMemberBo" />
+					<property name="businessObjectClass" value="org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo" />
 					<property name="alwaysAllowCollectionDeletion" value="false" />
 					<property name="includeAddLine" value="false" />
 					<property name="maintainableFields">

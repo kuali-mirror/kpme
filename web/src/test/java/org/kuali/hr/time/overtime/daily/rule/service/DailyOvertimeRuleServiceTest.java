@@ -23,17 +23,17 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
-import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.TkTestUtils;
-import org.kuali.hr.tklm.common.TKUtils;
-import org.kuali.hr.tklm.time.rules.overtime.daily.DailyOvertimeRule;
-import org.kuali.hr.tklm.time.rules.overtime.daily.service.DailyOvertimeRuleService;
-import org.kuali.hr.tklm.time.service.TkServiceLocator;
-import org.kuali.hr.tklm.time.timeblock.TimeBlock;
-import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.hr.tklm.time.util.TkTimeBlockAggregate;
+import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule;
+import org.kuali.kpme.tklm.time.rules.overtime.daily.service.DailyOvertimeRuleService;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 
 public class DailyOvertimeRuleServiceTest extends KPMETestCase {
 

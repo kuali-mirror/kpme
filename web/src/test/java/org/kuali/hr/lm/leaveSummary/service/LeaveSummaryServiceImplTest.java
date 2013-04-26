@@ -21,12 +21,12 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
-import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.leave.service.LmServiceLocator;
-import org.kuali.hr.tklm.leave.summary.LeaveSummary;
-import org.kuali.hr.tklm.leave.summary.LeaveSummaryRow;
+import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
+import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 
 public class LeaveSummaryServiceImplTest extends KPMETestCase {
 	

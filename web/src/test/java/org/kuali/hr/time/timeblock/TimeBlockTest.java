@@ -25,13 +25,13 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.core.bo.calendar.Calendar;
-import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.common.TKUtils;
-import org.kuali.hr.tklm.time.timeblock.TimeBlock;
-import org.kuali.hr.tklm.time.timeblock.TimeHourDetail;
-import org.kuali.hr.tklm.time.util.TkTimeBlockAggregate;
+import org.kuali.kpme.core.bo.calendar.Calendar;
+import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeHourDetail;
+import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 
 public class TimeBlockTest extends KPMETestCase {
 	

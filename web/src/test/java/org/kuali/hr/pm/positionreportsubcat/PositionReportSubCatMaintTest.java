@@ -3,10 +3,11 @@ package org.kuali.hr.pm.positionreportsubcat;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.kuali.hr.pm.service.base.PmServiceLocator;
 import org.kuali.hr.pm.test.PmTestConstants;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
+import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory;
+import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;

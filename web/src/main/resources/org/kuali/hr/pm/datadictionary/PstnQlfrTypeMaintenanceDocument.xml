@@ -9,8 +9,8 @@
 
   <bean id="PstnQlfrTypeMaintenanceDocument" parent="PstnQlfrTypeMaintenanceDocument-parentBean"/>
   <bean id="PstnQlfrTypeMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
-    <property name="dataObjectClass" value="org.kuali.hr.pm.pstnqlfrtype.PstnQlfrType"/>
-    <property name="maintainableClass" value="org.kuali.hr.pm.pstnqlfrtype.service.PstnQlfrTypeMaintainableImpl"/>  
+    <property name="dataObjectClass" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType"/>
+    <property name="maintainableClass" value="org.kuali.kpme.pm.pstnqlfrtype.service.PstnQlfrTypeMaintainableImpl"/>  
     <property name="documentTypeName" value="PstnQlfrTypeMaintenanceDocumentType"/>
   </bean>
 </beans>

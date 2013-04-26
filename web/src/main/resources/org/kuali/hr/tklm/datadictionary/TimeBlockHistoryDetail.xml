@@ -22,7 +22,7 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="TimeBlockHistoryDetail" parent="TimeBlockHistoryDetail-parentBean"/>
     <bean id="TimeBlockHistoryDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.hr.tklm.time.timeblock.TimeBlockHistoryDetail"/>
+        <property name="businessObjectClass" value="org.kuali.kpme.tklm.time.timeblock.TimeBlockHistoryDetail"/>
         <property name="inquiryDefinition">
             <ref bean="TimeBlockHistoryDetail-inquiryDefinition"/>
         </property>
@@ -283,7 +283,7 @@
         </property>
         <property name="name" value="timeBlockHistory.actionHistory"/>
         <property name="label" value="Action History"/>
-        <property name="formatterClass" value="org.kuali.hr.tklm.time.timeblock.service.TimeBlockActionHistoryFormatter"/>
+        <property name="formatterClass" value="org.kuali.kpme.tklm.time.timeblock.service.TimeBlockActionHistoryFormatter"/>
     </bean>
 
     <bean id="TimeBlockHistoryDetail-hours" parent="TimeBlockHistoryDetail-hours-parentBean"/>

@@ -27,10 +27,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
-import org.kuali.hr.tklm.leave.summary.LeaveSummary;
-import org.kuali.hr.tklm.leave.summary.LeaveSummaryRow;
+import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
+import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
+import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 
 public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 	

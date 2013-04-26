@@ -6,7 +6,7 @@
 	
 	<bean id="PositionQualificationValue" parent="PositionQualificationValue-parentBean"/>
  	<bean id="PositionQualificationValue-parentBean" abstract="true" parent="BusinessObjectEntry">
-	    <property name="dataObjectClass" value="org.kuali.hr.pm.pstnqlfctnvl.PositionQualificationValue"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue"/>
 	    <property name="attributes">
 	      <list>
 	        <ref bean="PositionQualificationValue-pmPstnQlfctnVlId"/>
@@ -51,7 +51,7 @@
  
   <bean id="PositionQualificationValue-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="Position Qualification Value Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.hr.pm.pstnqlfctnvl.PositionQualificationValue" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue" />
     <property name="criteriaFields">
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="vlName" /> 
@@ -68,7 +68,7 @@
  <!-- Position Qualification Value Inquiry View -->
   <bean id="PositionQualificationValue-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Position Qualification Value Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.hr.pm.pstnqlfctnvl.PositionQualificationValue"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue"/>
     <property name="singlePageView" value="true"/>
     <property name="items">
       <list>
@@ -90,7 +90,7 @@
   <bean id="PositionQualificationValue-MaintenanceView" parent="PositionQualificationValue-MaintenanceView-parentBean"/>
   <bean id="PositionQualificationValue-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
     <property name="headerText" value="Position Qualification Value Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.hr.pm.pstnqlfctnvl.PositionQualificationValue"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue"/>
     <property name="items">
       <list merge="true">
         <bean parent="Uif-MaintenanceGridSection">

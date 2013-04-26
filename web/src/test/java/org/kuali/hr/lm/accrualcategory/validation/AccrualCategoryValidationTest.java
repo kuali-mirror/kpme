@@ -21,11 +21,11 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.kuali.hr.core.bo.accrualcategory.rule.AccrualCategoryRule;
-import org.kuali.hr.core.bo.accrualcategory.validation.AccrualCategoryValidation;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.bo.accrualcategory.validation.AccrualCategoryValidation;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;

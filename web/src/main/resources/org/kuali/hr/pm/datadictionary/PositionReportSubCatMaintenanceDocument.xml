@@ -28,9 +28,9 @@
   <bean id="PositionReportSubCatMaintenanceDocument" parent="PositionReportSubCatMaintenanceDocument-parentBean"/>
 
   <bean id="PositionReportSubCatMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory"
-  		p:businessRulesClass="org.kuali.hr.pm.positionreportsubcat.validation.PositionReportSubCatValidation"
-  		p:maintainableClass="org.kuali.hr.pm.positionreportsubcat.service.PositionReportSubCatMaintainableImpl">
+  		p:businessObjectClass="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory"
+  		p:businessRulesClass="org.kuali.kpme.pm.positionreportsubcat.validation.PositionReportSubCatValidation"
+  		p:maintainableClass="org.kuali.kpme.pm.positionreportsubcat.service.PositionReportSubCatMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="PositionReportSubCatMaintenanceDocument-PositionReportSubCatMaintenance"/>

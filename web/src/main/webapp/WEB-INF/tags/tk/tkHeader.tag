@@ -2,8 +2,8 @@
 
 <%@ attribute name="tabId" required="false"%>
 <%@ attribute name="nocache" required="false"%>
-<jsp:useBean id="tagSupport" class="org.kuali.hr.tklm.common.TagSupport" />
-<jsp:useBean id="form" class="org.kuali.hr.core.web.HrForm" />
+<jsp:useBean id="tagSupport" class="org.kuali.kpme.tklm.common.TagSupport" />
+<jsp:useBean id="form" class="org.kuali.kpme.core.web.HrForm" />
 
 <c:if test="${nocache == 'true'}">
     <%
@@ -27,7 +27,7 @@
 	<c:if test="${!empty UserSession.loggedInUserPrincipalName}">
 		<c:set var="employeeName" value="${UserSession.person.name}" />
 		<c:set var="backdoorInUse" value="${UserSession.backdoorInUse == 'true'}" />
-		<c:set var="targetInUse" value='<%=org.kuali.hr.tklm.common.TKContext.isTargetInUse()%>' />
+		<c:set var="targetInUse" value='<%=org.kuali.kpme.tklm.common.TKContext.isTargetInUse()%>' />
 	</c:if>
 
 	<c:if test="${backdoorInUse}">
@@ -37,11 +37,11 @@
 	</c:if>
 	<c:if test="${targetInUse}">
 		<c:set var="targetuser" value="targetuser" />
-		<c:set var="targetName" value='<%=org.kuali.hr.tklm.common.TKContext.getTargetName()%>' />
+		<c:set var="targetName" value='<%=org.kuali.kpme.tklm.common.TKContext.getTargetName()%>' />
 	</c:if>
 	
-	<c:set var="systemAdmin" value='<%=org.kuali.hr.tklm.common.TKContext.isSystemAdmin()%>' />
-    <c:set var="locationAdmin" value='<%=org.kuali.hr.tklm.common.TKContext.isLocationAdmin()%>' />
+	<c:set var="systemAdmin" value='<%=org.kuali.kpme.tklm.common.TKContext.isSystemAdmin()%>' />
+    <c:set var="locationAdmin" value='<%=org.kuali.kpme.tklm.common.TKContext.isLocationAdmin()%>' />
 
 
 	<input type="hidden" id="tabId" value="${tabId}" />

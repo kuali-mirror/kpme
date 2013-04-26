@@ -128,11 +128,11 @@
     </listener>-->
 
 	<listener>
-		<listener-class>org.kuali.hr.sys.ApplicationInitializeListener</listener-class>
+		<listener-class>org.kuali.kpme.sys.ApplicationInitializeListener</listener-class>
 	</listener>
 
 	<listener>
-		<listener-class>org.kuali.hr.sys.SessionLoggingListener</listener-class>
+		<listener-class>org.kuali.kpme.sys.SessionLoggingListener</listener-class>
 	</listener>
 	
 	<listener>

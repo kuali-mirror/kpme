@@ -28,8 +28,8 @@
   <bean id="AccrualCategoryRuleMaintenanceDocument" parent="AccrualCategoryRuleMaintenanceDocument-parentBean"/>
 
   <bean id="AccrualCategoryRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
-  		p:businessObjectClass="org.kuali.hr.core.bo.accrualcategory.rule.AccrualCategoryRule"
-  	    p:businessRulesClass="org.kuali.hr.core.bo.accrualcategory.validation.AccrualCategoryValidation"
+  		p:businessObjectClass="org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule"
+  	    p:businessRulesClass="org.kuali.kpme.core.bo.accrualcategory.validation.AccrualCategoryValidation"
   		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
     <property name="maintainableSections">
       <list>
