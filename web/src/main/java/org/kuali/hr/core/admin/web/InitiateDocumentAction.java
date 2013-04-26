@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.hr.core.TkAction;
+import org.kuali.hr.core.HrAction;
 import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.service.HrServiceLocator;
@@ -32,7 +32,7 @@ import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-public class InitiateDocumentAction extends TkAction {
+public class InitiateDocumentAction extends HrAction {
 
     public ActionForward initiateDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	InitiateDocumentForm initiateDocumentForm = (InitiateDocumentForm) form;

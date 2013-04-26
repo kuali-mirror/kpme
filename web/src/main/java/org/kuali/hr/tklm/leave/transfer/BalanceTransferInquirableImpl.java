@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.tklm.leave.transfer;
 
-import org.kuali.hr.core.TkInquirableImpl;
+import org.kuali.hr.core.KPMEInquirableImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 
-public class BalanceTransferInquirableImpl extends TkInquirableImpl {
+public class BalanceTransferInquirableImpl extends KPMEInquirableImpl {
 
 	/**
 	 * 

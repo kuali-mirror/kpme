@@ -23,11 +23,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.hr.core.TkAction;
+import org.kuali.hr.core.HrAction;
 import org.kuali.hr.core.leaveplan.LeavePlan;
 import org.kuali.hr.core.service.HrServiceLocator;
 
-public class CarryOverBatchJobAction extends TkAction {
+public class CarryOverBatchJobAction extends HrAction {
 
     public ActionForward runCarryOverBatchJob(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	CarryOverBatchJobActionForm cobjaf = (CarryOverBatchJobActionForm) form;

@@ -36,7 +36,7 @@ import org.hsqldb.lib.StringUtil;
 import org.joda.time.DateTime;
 import org.json.simple.JSONValue;
 import org.kuali.hr.core.ApprovalForm;
-import org.kuali.hr.core.TkAction;
+import org.kuali.hr.core.HrAction;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.person.TKPerson;
@@ -46,7 +46,7 @@ import org.kuali.hr.tklm.time.timesummary.TimeSummary;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class TimeApprovalWSAction extends TkAction {
+public class TimeApprovalWSAction extends HrAction {
 
     private static final Logger LOG = Logger.getLogger(TimeApprovalWSAction.class);
 

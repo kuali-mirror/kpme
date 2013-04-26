@@ -19,6 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.hr.core.HrConstants;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
@@ -35,7 +36,7 @@ public class TagSupport {
     }
 
     public Map<String, String> getDocumentStatus() {
-        return TkConstants.DOCUMENT_STATUS;
+        return HrConstants.DOCUMENT_STATUS;
     }
 
     private List<String> ipAddresses = new LinkedList<String>();

@@ -22,17 +22,18 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.common.TkConstants;
-import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.calendar.dao.LeaveCalendarDao;
 import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
+import org.kuali.hr.tklm.leave.util.LMConstants;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
@@ -127,7 +128,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         LeaveCalendarDocumentHeader documentHeader = new LeaveCalendarDocumentHeader(workflowDocument.getDocumentId(), principalId, payBeginDate.toDate(), payEndDate.toDate(), status);
 
         documentHeader.setDocumentId(workflowDocument.getDocumentId());
-        documentHeader.setDocumentStatus(TkConstants.ROUTE_STATUS.INITIATED);
+        documentHeader.setDocumentStatus(HrConstants.ROUTE_STATUS.INITIATED);
 
         KRADServiceLocator.getBusinessObjectService().save(documentHeader);
         
@@ -228,7 +229,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
     @Override
     public void routeLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument) {
-        leaveCalendarDocumentAction(TkConstants.DOCUMENT_ACTIONS.ROUTE, principalId, leaveCalendarDocument);
+        leaveCalendarDocumentAction(HrConstants.DOCUMENT_ACTIONS.ROUTE, principalId, leaveCalendarDocument);
     }
     
     @Override
@@ -238,7 +239,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
     @Override
     public void approveLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument) {
-        leaveCalendarDocumentAction(TkConstants.DOCUMENT_ACTIONS.APPROVE, principalId, leaveCalendarDocument);
+        leaveCalendarDocumentAction(HrConstants.DOCUMENT_ACTIONS.APPROVE, principalId, leaveCalendarDocument);
     }
     
     @Override
@@ -248,7 +249,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
     @Override
     public void disapproveLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument) {
-        leaveCalendarDocumentAction(TkConstants.DOCUMENT_ACTIONS.DISAPPROVE, principalId, leaveCalendarDocument);
+        leaveCalendarDocumentAction(HrConstants.DOCUMENT_ACTIONS.DISAPPROVE, principalId, leaveCalendarDocument);
     }
 
     public boolean isReadyToApprove(LeaveCalendarDocument document) {
@@ -279,7 +280,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
                 document.getCalendarEntry().getEndPeriodDate());
         if (!CollectionUtils.isEmpty(balanceTransfers))   {
 	        for(BalanceTransfer balanceTransfer : balanceTransfers) {
-	        	if(StringUtils.equals(TkConstants.DOCUMENT_STATUS.get(balanceTransfer.getStatus()), TkConstants.ROUTE_STATUS.ENROUTE))
+	        	if(StringUtils.equals(HrConstants.DOCUMENT_STATUS.get(balanceTransfer.getStatus()), HrConstants.ROUTE_STATUS.ENROUTE))
 	        		return false;
 	            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, balanceTransfer.getStatus())
 	                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, balanceTransfer.getStatus())) {
@@ -292,7 +293,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         		document.getCalendarEntry().getEndPeriodDate());
         if (!CollectionUtils.isEmpty(leavePayouts)) {
         	for(LeavePayout payout : leavePayouts) {
-	        	if(StringUtils.equals(TkConstants.DOCUMENT_STATUS.get(payout.getStatus()), TkConstants.ROUTE_STATUS.ENROUTE))
+	        	if(StringUtils.equals(HrConstants.DOCUMENT_STATUS.get(payout.getStatus()), HrConstants.ROUTE_STATUS.ENROUTE))
 	        		return false;
 	            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, payout.getStatus())
 	                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, payout.getStatus())) {
@@ -309,30 +310,30 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             String rhid = leaveCalendarDocument.getDocumentId();
             wd = WorkflowDocumentFactory.loadDocument(principalId, rhid);
 
-            if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
+            if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.ROUTE)) {
                 wd.route("Routing for Approval");
-            } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE)) {
+            } else if (StringUtils.equals(action, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE)) {
                 Note.Builder builder = Note.Builder.create(rhid, principalId);
                 builder.setCreateDate(new DateTime());
                 builder.setText("Routed via Employee Approval batch job");
             	KewApiServiceLocator.getNoteService().createNote(builder.build());
             	
             	wd.route("Batch job routing leave calendar");
-            } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
+            } else if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.APPROVE)) {
                 if (LmServiceLocator.getLMPermissionService().canSuperUserAdministerLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid) 
                 		&& !LmServiceLocator.getLMPermissionService().canApproveLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid)) {
                     wd.superUserBlanketApprove("Superuser approving timesheet.");
                 } else {
                     wd.approve("Approving timesheet.");
                 }
-            } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE)) {
+            } else if (StringUtils.equals(action, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE)) {
             	 Note.Builder builder = Note.Builder.create(rhid, principalId);
             	 builder.setCreateDate(new DateTime());
             	 builder.setText("Approved via Supervisor Approval batch job");
             	 KewApiServiceLocator.getNoteService().createNote(builder.build());
             	
             	wd.superUserBlanketApprove("Batch job approving leave calendar");
-            } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
+            } else if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
                 if (LmServiceLocator.getLMPermissionService().canSuperUserAdministerLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid) 
                 		&& !LmServiceLocator.getLMPermissionService().canApproveLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid)) {
                     wd.superUserDisapprove("Superuser disapproving leave calendar.");

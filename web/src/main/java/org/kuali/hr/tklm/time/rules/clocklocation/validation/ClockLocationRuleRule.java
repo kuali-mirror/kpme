@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.common.TkConstants;
@@ -39,15 +40,15 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 		if(ip == null) {
 			return false;
 		}
-		if(ip.isEmpty() || ip.length() > 15 || ip.endsWith(TkConstants.IP_SEPERATOR) || ip.startsWith(TkConstants.IP_SEPERATOR)) {
+		if(ip.isEmpty() || ip.length() > 15 || ip.endsWith(KPMEConstants.IP_SEPARATOR) || ip.startsWith(KPMEConstants.IP_SEPARATOR)) {
 			return false;
 		}
-		String[] lst =  StringUtils.split(ip, TkConstants.IP_SEPERATOR);
+		String[] lst =  StringUtils.split(ip, KPMEConstants.IP_SEPARATOR);
 		if(lst.length > 4 || (lst.length <4 && ip.indexOf(TkConstants.WILDCARD_CHARACTER)< 0)) {
 			return false;
 		}
 		for(String str : lst) {
-			if(!str.matches(TkConstants.IP_WILDCARD_PATTERN)) {
+			if(!str.matches(KPMEConstants.IP_WILDCARD_PATTERN)) {
 				return false;
 			}
 		}

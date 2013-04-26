@@ -1,0 +1,420 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="PayGrade" parent="PayGrade-parentBean" />
+	<bean id="PayGrade-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="dataObjectClass" value="org.kuali.hr.core.paygrade.PayGrade" />
+		<property name="attributes">
+			<list>
+				<ref bean="PayGrade-hrPayGradeId" />
+				<ref bean="PayGrade-payGrade" />
+				<ref bean="PayGrade-salGroup" />
+				<ref bean="PayGrade-description" />
+                <ref bean="PayGrade-institution" />
+                <ref bean="PayGrade-campus" />
+                <ref bean="PayGrade-minRate" />
+                <ref bean="PayGrade-maxRate" />
+                <ref bean="PayGrade-midPointRate" />
+                <ref bean="PayGrade-maxHiringRate" />
+                <ref bean="PayGrade-rateType" />
+				<ref bean="PayGrade-effectiveDate" />
+				<ref bean="PayGrade-active" />
+				<ref bean="PayGrade-userPrincipalId" />
+				<ref bean="PayGrade-timestamp" />
+			</list>
+		</property>	 
+		<property name="relationships">
+			<list>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="campusObj" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="campus"
+                                  p:targetName="code"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="institutionObj" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="institution"
+                                  p:targetName="institutionCode"/>
+                        </list>
+                    </property>
+                </bean>
+			</list>
+		</property>
+        <property name="objectLabel" value="PayGrade"/>
+    </bean>
+
+	<!-- Attribute Definitions -->
+	<bean id="PayGrade-hrPayGradeId" parent="PayGrade-hrPayGradeId-parentBean" />
+	<bean id="PayGrade-hrPayGradeId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="PayGrade Id" />
+		<property name="maxLength" value="60" />
+
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="60" />
+		</property>
+		<property name="name" value="hrPayGradeId" />
+		<property name="label" value="Pay Grade Id" />
+	</bean>
+
+	<bean id="PayGrade-payGrade" parent="PayGrade-payGrade-parentBean" />
+	<bean id="PayGrade-payGrade-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="payGrade" />
+        <property name="required" value="true" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="20" />
+		</property>
+		<property name="name" value="payGrade" />
+		<property name="label" value="Pay Grade" />
+	</bean>
+
+	<bean id="PayGrade-salGroup" parent="PayGrade-salGroup-parentBean" />
+	<bean id="PayGrade-salGroup-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Sal Group" />
+        <property name="required" value="true"/>
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
+		<property name="name" value="salGroup" />
+		<property name="label" value="Salary Group" />
+	</bean>
+
+	<bean id="PayGrade-description" parent="PayGrade-description-parentBean" />
+	<bean id="PayGrade-description-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="100" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="40" />
+		</property>
+		<property name="name" value="description" />
+		<property name="label" value="Description" />
+	</bean>
+
+    <bean id="PayGrade-institution" parent="PayGrade-institution-parentBean" />
+    <bean id="PayGrade-institution-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="Institution" />
+        <property name="maxLength" value="15" />
+        <property name="required" value="true"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="15" />
+        </property>
+        <property name="name" value="institution" />
+        <property name="label" value="Institution" />
+    </bean>
+
+    <bean id="PayGrade-minRate" parent="PayGrade-minRate-parentBean" />
+    <bean id="PayGrade-minRate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Min Rate" />
+        <property name="maxLength" value="11" />
+        <property name="constraintText" value="Maximum of 2 decimal points"/>
+        <property name="validCharactersConstraint">
+            <bean parent="FixedPointPatternConstraint" p:allowNegative="false"  p:precision="8" p:scale="2"  />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="11" />
+        </property>
+        <property name="name" value="minRate" />
+        <property name="label" value="Minimum Rate" />
+    </bean>
+
+    <bean id="PayGrade-maxRate" parent="PayGrade-maxRate-parentBean" />
+    <bean id="PayGrade-maxRate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Max Rate" />
+        <property name="maxLength" value="11" />
+        <property name="constraintText" value="Maximum of 2 decimal points"/>
+        <property name="validCharactersConstraint">
+            <bean parent="FixedPointPatternConstraint"  p:allowNegative="false" p:precision="8" p:scale="2"  />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="11" />
+        </property>
+        <property name="name" value="maxRate" />
+        <property name="label" value="Maximum Rate" />
+    </bean>
+
+    <bean id="PayGrade-midPointRate" parent="PayGrade-midPointRate-parentBean" />
+    <bean id="PayGrade-midPointRate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Mid Point Rate" />
+        <property name="maxLength" value="11" />
+        <property name="constraintText" value="Maximum of 2 decimal points"/>
+        <property name="validCharactersConstraint">
+            <bean parent="FixedPointPatternConstraint"  p:allowNegative="false" p:precision="8" p:scale="2"  />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="11" />
+        </property>
+        <property name="name" value="midPointRate" />
+        <property name="label" value="Mid Point Rate" />
+    </bean>
+
+    <bean id="PayGrade-maxHiringRate" parent="PayGrade-maxHiringRate-parentBean" />
+    <bean id="PayGrade-maxHiringRate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Maximum Hiring Rate" />
+        <property name="maxLength" value="11" />
+        <property name="constraintText" value="Maximum of 2 decimal points"/>
+        <property name="validCharactersConstraint">
+            <bean parent="FixedPointPatternConstraint"  p:allowNegative="false" p:precision="8" p:scale="2" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="11" />
+        </property>
+        <property name="name" value="maxHiringRate" />
+        <property name="label" value="Maximum Hiring Rate" />
+    </bean>
+
+    <bean id="PayGrade-campus" parent="PayGrade-campus-parentBean" />
+    <bean id="PayGrade-campus-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Campus" />
+        <property name="required" value="true"/>
+        <property name="maxLength" value="10" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10" />
+        </property>
+        <property name="name" value="campus" />
+        <property name="label" value="Campus" />
+    </bean>
+
+    <bean id="PayGrade-rateType" parent="PayGrade-rateType-parentBean" />
+    <bean id="PayGrade-rateType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Rate Type" />
+        <property name="controlField">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="H" p:value="Hour"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="W" p:value="Week"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="S" p:value="Semi-Month"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="M" p:value="Month"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Year"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="name" value="rateType" />
+        <property name="label" value="Rate Type" />
+    </bean>
+
+	<bean id="PayGrade-effectiveDate" parent="PayGrade-effectiveDate-parentBean" />
+	<bean id="PayGrade-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="required" value="true"/>
+		<property name="shortLabel" value="Effective Date" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-DateControl" p:size="10" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+
+	<bean id="PayGrade-active" parent="PayGrade-active-parentBean" />
+	<bean id="PayGrade-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
+		<property name="name" value="active" />
+		<property name="required" value="false" />
+	</bean>
+
+
+	<bean id="PayGrade-userPrincipalId" parent="PayGrade-userPrincipalId-parentBean" />
+	<bean id="PayGrade-userPrincipalId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="User Principal Id" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="name" value="userPrincipalId" />
+		<property name="label" value="User Principal Id" />
+	</bean>
+
+
+	<bean id="PayGrade-timestamp" parent="PayGrade-timestamp-parentBean" />
+	<bean id="PayGrade-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
+
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
+
+
+    <!--***************************************************************************
+                                Views
+    ***************************************************************************-->
+    <!-- Lookup View  -->
+    <bean id="PayGrade-LookupView" parent="Uif-LookupView">
+        <property name="headerText" value="Pay Grade Lookup"/>
+        <property name="dataObjectClassName" value="org.kuali.hr.core.paygrade.PayGrade"/>
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="payGrade"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="salGroup">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.salgroup.SalGroup"
+                              p:fieldConversions="hrSalGroup:salGroup"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="payGrade">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.hr.core.paygrade.PayGrade"
+                              p:inquiryParameters="hrPayGradeId:hrPayGradeId"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="salGroup"/>
+                <bean parent="Uif-InputField" p:propertyName="description" />
+                <bean parent="Uif-InputField" p:propertyName="minRate" />
+                <bean parent="Uif-InputField" p:propertyName="midPointRate" />
+                <bean parent="Uif-InputField" p:propertyName="maxRate" />
+                <bean parent="Uif-InputField" p:propertyName="rateType" />
+                <bean parent="Uif-InputField" p:propertyName="timestamp" />
+                <bean parent="Uif-InputField" p:propertyName="effectiveDate"/>
+                <bean parent="Uif-InputField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--  Pay Grade Inquiry View  -->
+  	<bean id="PayGrade-InquiryView" parent="Uif-InquiryView" >
+          <property name="headerText" value="Pay Grade Inquiry" />
+          <property name="dataObjectClassName" value="org.kuali.hr.core.paygrade.PayGrade"/>
+          <property name="singlePageView" value="true"/>
+          <property name="items">
+              <list>
+                  <bean id="PayGrade-InquiryView-General" parent="Uif-Disclosure-GridSection">
+                      <property name="layoutManager.numberOfColumns" value="2"/>
+                      <property name="items">
+                          <list>
+                              <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
+                              <bean parent="Uif-DataField" p:propertyName="payGrade"/>
+                              <bean parent="Uif-DataField" p:propertyName="description"/>
+                              <bean parent="Uif-DataField" p:propertyName="salGroup"/>
+                              <bean parent="Uif-DataField" p:propertyName="minRate" />
+                              <bean parent="Uif-DataField" p:propertyName="midPointRate" />
+                              <bean parent="Uif-DataField" p:propertyName="maxRate" />
+                              <bean parent="Uif-DataField" p:propertyName="maxHiringRate" />
+                              <bean parent="Uif-DataField" p:propertyName="rateType" />
+                              <bean parent="Uif-DataField" p:propertyName="active"/>
+                          </list>
+                      </property>
+                      <property name="title" value="Pay Grade Information" />
+                  </bean>
+              </list>
+          </property>
+  	</bean>
+
+    <!-- Pay Grade Maintenance View-->
+    <bean id="PayGrade-MaintenanceView" parent="PayGrade-MaintenanceView-ParentBean"/>
+    <bean id="PayGrade-MaintenanceView-ParentBean" abstract="true" parent="Uif-MaintenanceView">
+        <property name="headerText" value="Pay Grade Maintenance"/>
+        <property name="dataObjectClassName" value="org.kuali.hr.core.paygrade.PayGrade"/>
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-MaintenanceGridSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="effectiveDate"/>
+                            <bean parent="Uif-InputField" p:propertyName="payGrade"/>
+                            <bean parent="Uif-InputField" p:propertyName="salGroup">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.salgroup.SalGroup"
+                                          p:fieldConversions="hrSalGroup:salGroup"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="description"/>
+                            <bean parent="Uif-InputField" p:propertyName="institution" >
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.institution.Institution"
+                                          p:fieldConversions="institutionCode:institution"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="campus" />
+                            <bean parent="Uif-InputField" p:propertyName="active"/>
+                            <bean parent="Uif-InputField" p:propertyName="minRate"/>
+                            <bean parent="Uif-InputField" p:propertyName="maxRate"/>
+                            <bean parent="Uif-InputField" p:propertyName="midPointRate"/>
+                            <bean parent="Uif-InputField" p:propertyName="maxHiringRate"/>
+                            <bean parent="Uif-InputField" p:propertyName="rateType"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>
+

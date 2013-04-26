@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.tklm.leave.payout;
 
-import org.kuali.hr.core.TkInquirableImpl;
+import org.kuali.hr.core.KPMEInquirableImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 
-public class LeavePayoutInquirableImpl extends TkInquirableImpl {
+public class LeavePayoutInquirableImpl extends KPMEInquirableImpl {
 
     private static final long serialVersionUID = 1L;
 

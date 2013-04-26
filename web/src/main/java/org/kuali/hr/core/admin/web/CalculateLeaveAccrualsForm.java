@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.core.admin.web;
 
-import org.kuali.hr.core.TkForm;
+import org.kuali.hr.core.HrForm;
 
-public class CalculateLeaveAccrualsForm extends TkForm {
+public class CalculateLeaveAccrualsForm extends HrForm {
 
 	private static final long serialVersionUID = -841015862054021534L;
 	

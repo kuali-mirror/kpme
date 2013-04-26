@@ -27,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.ValidationUtils;
 import org.kuali.hr.core.assignment.Assignment;
-import org.kuali.hr.core.assignment.AssignmentAccount;
+import org.kuali.hr.core.assignment.account.AssignmentAccount;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.paytype.PayType;

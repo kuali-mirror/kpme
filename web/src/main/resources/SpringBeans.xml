@@ -108,8 +108,8 @@
         </property>
         <property name="dataDictionaryPackages">
             <list>
-                <value>org/kuali/hr/time/datadictionary</value>
-                <value>org/kuali/hr/lm/datadictionary</value>
+                <value>org/kuali/hr/core/datadictionary</value>
+                <value>org/kuali/hr/tklm/datadictionary</value>
                 <value>org/kuali/hr/pm/datadictionary</value>
                 <value>org/kuali/kfs/coa/datadictionary</value>
             </list>
@@ -371,7 +371,7 @@
 
     <bean id="leaveRequestDocumentDao" class="org.kuali.hr.tklm.leave.request.dao.LeaveRequestDocumentDaoOjbImpl" parent="platformAwareDao" />
     
-    <bean id="institutionDao" class="org.kuali.hr.pm.institution.dao.InstitutionDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="institutionDao" class="org.kuali.hr.core.institution.dao.InstitutionDaoOjbImpl" parent="platformAwareDao" />
     
     <bean id="positionReportTypeDao" class="org.kuali.hr.pm.positionreporttype.dao.PositionReportTypeDaoObjImpl" parent="platformAwareDao" />
     
@@ -383,7 +383,7 @@
     
     <bean id="pstnRptGrpSubCatDao" class="org.kuali.hr.pm.pstnrptgrpsubcat.dao.PstnRptGrpSubCatDaoObjImpl" parent="platformAwareDao" />
      
-    <bean id="payStepDao" class="org.kuali.hr.pm.paystep.dao.PayStepDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="payStepDao" class="org.kuali.hr.core.paystep.dao.PayStepDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="positionTypeDao" class="org.kuali.hr.pm.positiontype.dao.PositionTypeDaoObjImpl" parent="platformAwareDao" />
 
@@ -664,7 +664,7 @@
         <property name="leaveRequestDocumentDao" ref="leaveRequestDocumentDao"/>
     </bean>
     
-    <bean id="institutionService" class="org.kuali.hr.pm.institution.service.InstitutionServiceImpl">
+    <bean id="institutionService" class="org.kuali.hr.core.institution.service.InstitutionServiceImpl">
         <property name="institutionDao" ref="institutionDao"/>
     </bean>
     
@@ -688,7 +688,7 @@
         <property name="pstnRptGrpSubCatDao" ref="pstnRptGrpSubCatDao"/>
     </bean>
     
-    <bean id="payStepService" class="org.kuali.hr.pm.paystep.service.PayStepServiceImpl">
+    <bean id="payStepService" class="org.kuali.hr.core.paystep.service.PayStepServiceImpl">
         <property name="payStepDao" ref="payStepDao"/>
     </bean>
 
@@ -733,7 +733,7 @@
         <property name="workAreaService" ref="workAreaService" />
     </bean>
     
-    <bean id="lmPermissionService" class="org.kuali.hr.tklm.leave.permission.service.LMPermissionServiceImpl">
+    <bean id="lmPermissionService" class="org.kuali.hr.tklm.leave.service.permission.LMPermissionServiceImpl">
         <property name="departmentService" ref="departmentService" />
         <property name="permissionService" ref="kimPermissionService" />
         <property name="leaveCalendarService" ref="leaveCalendarService" />
@@ -757,7 +757,7 @@
         <property name="workAreaService" ref="workAreaService" />
     </bean>
     
-    <bean id="lmRoleService" class="org.kuali.hr.tklm.leave.role.service.LMRoleServiceImpl">
+    <bean id="lmRoleService" class="org.kuali.hr.tklm.leave.service.role.LMRoleServiceImpl">
         <property name="departmentService" ref="departmentService" />
         <property name="groupService" ref="kimGroupService" />
         <property name="kimTypeInfoService" ref="kimTypeInfoService" />
@@ -1010,7 +1010,7 @@
     </bean>
     <bean id="institutionLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
-    		<bean class="org.kuali.hr.pm.institution.service.InstitutionLookupableHelper"/>
+    		<bean class="org.kuali.hr.core.institution.service.InstitutionLookupableHelper"/>
     	</property>    
     </bean>
  	<bean id="positionReportTypeLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
@@ -1039,7 +1039,7 @@
 
     <bean id="payStepLookupable" class="org.kuali.hr.core.lookup.KPMELookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
-    		<bean class="org.kuali.hr.pm.paystep.service.PayStepLookupableHelper"/>
+    		<bean class="org.kuali.hr.core.paystep.service.PayStepLookupableHelper"/>
     	</property>    
     </bean>
     

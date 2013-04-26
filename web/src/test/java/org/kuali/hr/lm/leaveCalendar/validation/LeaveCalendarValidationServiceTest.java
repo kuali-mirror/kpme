@@ -360,7 +360,7 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 
 	private void mockSubmitToWorkflow(BalanceTransfer balanceTransfer) {
 		// TODO Auto-generated method stub
-		//balanceTransfer.setStatus(TkConstants.ROUTE_STATUS.ENROUTE);
+		//balanceTransfer.setStatus(HrConstants.ROUTE_STATUS.ENROUTE);
         EntityNamePrincipalName principalName = null;
         if (balanceTransfer.getPrincipalId() != null) {
             principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(balanceTransfer.getPrincipalId());

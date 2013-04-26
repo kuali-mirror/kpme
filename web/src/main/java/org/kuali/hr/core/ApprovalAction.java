@@ -45,12 +45,12 @@ import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class ApprovalAction extends TkAction{
+public class ApprovalAction extends HrAction{
 
 	@Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if (form instanceof TkForm) {
-           String methodToCall = ((TkForm)form).getMethodToCall();
+        if (form instanceof HrForm) {
+           String methodToCall = ((HrForm)form).getMethodToCall();
            if(StringUtils.isEmpty(methodToCall)) {
         	   super.execute(mapping, form, request, response);
         	   return loadApprovalTab(mapping, form, request, response); 
@@ -64,23 +64,23 @@ public class ApprovalAction extends TkAction{
 	}
 	
 	protected List<TKPerson> getSubListPrincipalIds(HttpServletRequest request, List<TKPerson> assignmentPrincipalIds) {
-	    String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
+	    String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
 	    // The paging index begins from 1, but the sublist index begins from 0.
 	    // So the logic below sets the sublist begin index to 0 if the page number is null or equals 1
-	    Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : (Integer.parseInt(page) - 1)*TkConstants.PAGE_SIZE;
-	    Integer endIndex = beginIndex + TkConstants.PAGE_SIZE > assignmentPrincipalIds.size() ? assignmentPrincipalIds.size() : beginIndex + TkConstants.PAGE_SIZE;
+	    Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : (Integer.parseInt(page) - 1)*HrConstants.PAGE_SIZE;
+	    Integer endIndex = beginIndex + HrConstants.PAGE_SIZE > assignmentPrincipalIds.size() ? assignmentPrincipalIds.size() : beginIndex + HrConstants.PAGE_SIZE;
 	
 	    return assignmentPrincipalIds.subList(beginIndex, endIndex);
 	}
 
 	protected Boolean isAscending(HttpServletRequest request) {
 	    // returned value 1 = ascending; 2 = descending
-	    String ascending = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_ORDER)));
+	    String ascending = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_ORDER)));
 	    return StringUtils.equals(ascending, "1") ? true : false;
 	}
 
 	protected String getSortField(HttpServletRequest request) {
-	    return request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_SORT)));
+	    return request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_SORT)));
 	}
 	
 	protected void checkTKAuthorization(ActionForm form, String methodToCall)
@@ -156,7 +156,7 @@ public class ApprovalAction extends TkAction{
 	
     public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	
-    	String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));         
+    	String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));         
     	ApprovalForm taf = (ApprovalForm) form;
     	DateTime currentDate = new LocalDate().toDateTimeAtStartOfDay();
         Calendar currentPayCalendar = HrServiceLocator.getCalendarService().getCalendarByGroup(taf.getSelectedPayCalendarGroup());
@@ -183,7 +183,7 @@ public class ApprovalAction extends TkAction{
 
     // Triggered by changes of pay period drop down list, reloads the whole page based on the selected pay period
     public ActionForward changePayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-      String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
+      String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
       ApprovalForm taf = (ApprovalForm) form;
   	  if(!StringUtils.isEmpty(request.getParameter("selectedPP"))) {
   		  taf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());

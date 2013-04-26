@@ -18,7 +18,7 @@
 <descriptor-repository version="1.0">
 
     <!-- Institution -->
-    <class-descriptor class="org.kuali.hr.pm.institution.Institution" table="PM_INSTITUTION_T">
+    <class-descriptor class="org.kuali.hr.core.institution.Institution" table="PM_INSTITUTION_T">
         <field-descriptor name="pmInstitutionId"      	column="PM_INSTITUTION_ID"  jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_INSTITUTION_S" />
         <field-descriptor name="institutionCode"        column="INSTITUTION_CODE"   jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="description"  			column="DESCRIPTION"     	jdbc-type="VARCHAR"     length="50"  		nullable="true" />
@@ -27,7 +27,7 @@
         <field-descriptor name="timestamp"				column="TIMESTAMP"			jdbc-type="TIMESTAMP"	nullable="false"	conversion="org.kuali.hr.tklm.common.TkTimestampConverter" />
     </class-descriptor>
 
-	<class-descriptor class="org.kuali.hr.pm.paystep.PayStep" table="PM_PAY_STEP_T">
+	<class-descriptor class="org.kuali.hr.core.paystep.PayStep" table="PM_PAY_STEP_T">
 		<field-descriptor name="pmPayStepId"    		column="PM_PAY_STEP_ID"			 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PAY_STEP_S"  />
         <field-descriptor name="payStep"    			column="PAY_STEP"				 jdbc-type="VARCHAR"     length="10"		nullable="false" />
         <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />

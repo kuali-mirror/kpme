@@ -47,13 +47,13 @@ import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.common.TkConstants;
-import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.accrual.PrincipalAccrualRan;
 import org.kuali.hr.tklm.leave.accrual.RateRange;
 import org.kuali.hr.tklm.leave.accrual.RateRangeAggregate;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff;
+import org.kuali.hr.tklm.leave.util.LMConstants;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 
 public class AccrualServiceImpl implements AccrualService {

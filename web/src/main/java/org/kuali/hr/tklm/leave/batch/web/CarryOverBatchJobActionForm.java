@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.tklm.leave.batch.web;
 
-import org.kuali.hr.core.TkForm;
+import org.kuali.hr.core.HrForm;
 
-public class CarryOverBatchJobActionForm extends TkForm {
+public class CarryOverBatchJobActionForm extends HrForm {
 
 	private static final long serialVersionUID = 244583075214705760L;
 	

@@ -29,6 +29,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.calendar.Calendar;
@@ -40,9 +41,8 @@ import org.kuali.hr.core.task.Task;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.hr.tklm.common.TKUtils;
-import org.kuali.hr.tklm.common.TkConstants;
-import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
+import org.kuali.hr.tklm.leave.util.LMConstants;
 import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -421,7 +421,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 				// one
 				// default task is created in getTask() of TaskService
 				if (!task.getDescription()
-						.equals(TkConstants.TASK_DEFAULT_DESP)) {
+						.equals(HrConstants.TASK_DEFAULT_DESP)) {
 					b.append("-" + task.getDescription());
 				}
 			}

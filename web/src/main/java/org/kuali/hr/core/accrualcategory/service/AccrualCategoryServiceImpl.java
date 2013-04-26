@@ -26,9 +26,9 @@ import org.kuali.hr.core.accrualcategory.dao.AccrualCategoryDao;
 import org.kuali.hr.core.leaveplan.LeavePlan;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
-import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
+import org.kuali.hr.tklm.leave.util.LMConstants;
 
 public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 

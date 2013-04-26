@@ -44,7 +44,7 @@ public abstract class LeaveCalendarWebTestBase extends KPMETestCase {
     @Override
     public void tearDown() throws Exception {
         super.tearDown();
-        //TkLoginFilter.TEST_ID = "admin";
+        //KPMELoginFilter.TEST_ID = "admin";
         TestAutoLoginFilter.OVERRIDE_ID = "";
     }
 

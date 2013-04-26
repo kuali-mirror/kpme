@@ -40,6 +40,7 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.assignment.Assignment;
@@ -52,10 +53,10 @@ import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.common.TkConstants;
-import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
+import org.kuali.hr.tklm.leave.util.LMConstants;
 import org.kuali.hr.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
 import org.kuali.hr.tklm.time.flsa.FlsaDay;
@@ -266,7 +267,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 			if (principalDocumentHeader.containsKey(person.getPrincipalId())) {
 				approvalSummaryRow
-						.setApprovalStatus(TkConstants.DOC_ROUTE_STATUS.get(tdh
+						.setApprovalStatus(HrConstants.DOC_ROUTE_STATUS.get(tdh
 								.getDocumentStatus()));
 			}
 

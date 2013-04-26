@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.hr.core.HrBusinessObject;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.service.HrServiceLocator;
-import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
@@ -221,17 +221,17 @@ public class BalanceTransfer extends HrBusinessObject {
 
 	public void disapprove() {
 		LmServiceLocator.getLeaveBlockService().updateLeaveBlock(null, principalId);
-		setStatus(TkConstants.ROUTE_STATUS.DISAPPROVED);
+		setStatus(HrConstants.ROUTE_STATUS.DISAPPROVED);
 	}
 
 	public void approve() {
 
-		setStatus(TkConstants.ROUTE_STATUS.FINAL);
+		setStatus(HrConstants.ROUTE_STATUS.FINAL);
 	}
 
 	public void cancel() {
 
-		setStatus(TkConstants.ROUTE_STATUS.CANCEL);
+		setStatus(HrConstants.ROUTE_STATUS.CANCEL);
 	}
 
 	public String getAccruedLeaveBlockId() {

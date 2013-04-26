@@ -28,7 +28,7 @@ import org.kuali.hr.core.paytype.PayType;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.common.TkConstants;
-import org.kuali.hr.tklm.leave.LMConstants;
+import org.kuali.hr.tklm.leave.util.LMConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CalendarServiceImpl implements CalendarService {

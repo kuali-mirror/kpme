@@ -41,6 +41,8 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDate.Property;
 import org.joda.time.Period;
+import org.kuali.hr.core.HrConstants;
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.service.HrServiceLocator;
@@ -64,13 +66,13 @@ public class TKUtils {
     public static String getSystemTimeZone() {
         String configTimezone = TimeZone.getDefault().getID();
         if (ConfigContext.getCurrentContextConfig() != null
-                && StringUtils.isNotBlank(ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.KPME_SYSTEM_TIMEZONE).trim())) {
-            String tempTimeZoneId = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.KPME_SYSTEM_TIMEZONE);
+                && StringUtils.isNotBlank(ConfigContext.getCurrentContextConfig().getProperty(KPMEConstants.ConfigSettings.KPME_SYSTEM_TIMEZONE).trim())) {
+            String tempTimeZoneId = ConfigContext.getCurrentContextConfig().getProperty(KPMEConstants.ConfigSettings.KPME_SYSTEM_TIMEZONE);
 
             if (TimeZone.getTimeZone(tempTimeZoneId) != null) {
-                configTimezone = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.KPME_SYSTEM_TIMEZONE);
+                configTimezone = ConfigContext.getCurrentContextConfig().getProperty(KPMEConstants.ConfigSettings.KPME_SYSTEM_TIMEZONE);
             } else {
-                LOG.error("Timezone set by configuration parameter " + TkConstants.ConfigSettings.KPME_SYSTEM_TIMEZONE + " is not a valid time zone id.  Using the systems default time zone instead.");
+                LOG.error("Timezone set by configuration parameter " + KPMEConstants.ConfigSettings.KPME_SYSTEM_TIMEZONE + " is not a valid time zone id.  Using the systems default time zone instead.");
             }
         }
 
@@ -169,7 +171,7 @@ public class TKUtils {
 	       	if(aTask != null) {
 	       		// do not display task description if the task is the default one
 	        	// default task is created in getTask() of TaskService
-	        	if(!aTask.getDescription().equals(TkConstants.TASK_DEFAULT_DESP)) {
+	        	if(!aTask.getDescription().equals(HrConstants.TASK_DEFAULT_DESP)) {
 	        		stringTemp += " " +  aTask.getDescription();
 	        	}
 	       	} 
@@ -430,9 +432,9 @@ public class TKUtils {
      * Get the session timeout time. If it's not defined in the (local) config file, give it a default time.
      */
     public static int getSessionTimeoutTime() {
-        return StringUtils.isBlank(ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.SESSION_TIMEOUT))
+        return StringUtils.isBlank(ConfigContext.getCurrentContextConfig().getProperty(KPMEConstants.ConfigSettings.SESSION_TIMEOUT))
                 ? 2700 :
-                Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.SESSION_TIMEOUT));
+                Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty(KPMEConstants.ConfigSettings.SESSION_TIMEOUT));
     }
     
     public static Timestamp getCurrentTimestamp() {

@@ -38,6 +38,7 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.service.HrServiceLocator;
@@ -113,8 +114,8 @@ public class ClockAction extends TimesheetAction {
             return mapping.findForward("basic");
         }
         //if the timesheet document is enroute aor final, don't allow clock action
-        if(caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE)
-                || caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL)) {
+        if(caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.ENROUTE)
+                || caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL)) {
             caf.setErrorMessage("Your current timesheet is already submitted for Approval. Clock action is not allowed on this timesheet.");
             return mapping.findForward("basic");
         }
@@ -122,8 +123,8 @@ public class ClockAction extends TimesheetAction {
 
         this.assignShowDistributeButton(caf);
         // if the time sheet document is final or enroute, do not allow missed punch
-        if(caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE)
-        		|| caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL)) {
+        if(caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.ENROUTE)
+        		|| caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL)) {
         	caf.setShowMissedPunchButton(false);
         } else {
         	caf.setShowMissedPunchButton(true);

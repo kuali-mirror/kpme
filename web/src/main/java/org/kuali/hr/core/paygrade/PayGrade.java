@@ -19,8 +19,8 @@ import java.math.BigDecimal;
 
 import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.KPMEConstants;
+import org.kuali.hr.core.institution.Institution;
 import org.kuali.hr.core.salgroup.SalGroup;
-import org.kuali.hr.pm.institution.Institution;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
 public class PayGrade extends HrBusinessObject {

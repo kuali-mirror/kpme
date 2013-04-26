@@ -15,9 +15,9 @@ public final class PmTestConstants {
 		
 		public static final String POSITION_REPORT_SUB_CAT_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory&methodToCall=start";
 		
-		public static final String INSTITUTION_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.pm.institution.Institution&methodToCall=start";
+		public static final String INSTITUTION_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.core.institution.Institution&methodToCall=start";
 
-		public static final String PAY_STEP_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.pm.paystep.PayStep&methodToCall=start";
+		public static final String PAY_STEP_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.core.paystep.PayStep&methodToCall=start";
 
 		
 	}

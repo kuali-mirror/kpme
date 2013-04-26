@@ -18,10 +18,10 @@ package org.kuali.hr.core.batch.web;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.hr.core.TkForm;
-import org.kuali.hr.tklm.common.TkConstants;
+import org.kuali.hr.core.HrConstants;
+import org.kuali.hr.core.HrForm;
 
-public class BatchJobActionForm extends TkForm {
+public class BatchJobActionForm extends HrForm {
 
 	private static final long serialVersionUID = -8603015460600023900L;
 
@@ -32,12 +32,12 @@ public class BatchJobActionForm extends TkForm {
     private String leavePlan;
     
     static {
-    	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.INITIATE);
-    	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.END_PAY_PERIOD);
-    	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.END_REPORTING_PERIOD);
-    	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.EMPLOYEE_APPROVAL);
-    	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL);
-    	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.MISSED_PUNCH_APPROVAL);
+    	BATCH_JOB_NAMES.add(HrConstants.BATCH_JOB_NAMES.INITIATE);
+    	BATCH_JOB_NAMES.add(HrConstants.BATCH_JOB_NAMES.END_PAY_PERIOD);
+    	BATCH_JOB_NAMES.add(HrConstants.BATCH_JOB_NAMES.END_REPORTING_PERIOD);
+    	BATCH_JOB_NAMES.add(HrConstants.BATCH_JOB_NAMES.EMPLOYEE_APPROVAL);
+    	BATCH_JOB_NAMES.add(HrConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL);
+    	BATCH_JOB_NAMES.add(HrConstants.BATCH_JOB_NAMES.MISSED_PUNCH_APPROVAL);
     }
 
     public List<String> getBatchJobNames() {

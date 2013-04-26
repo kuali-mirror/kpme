@@ -1,7 +1,7 @@
 package org.kuali.hr.pm.service.base;
 
-import org.kuali.hr.pm.institution.service.InstitutionService;
-import org.kuali.hr.pm.paystep.service.PayStepService;
+import org.kuali.hr.core.institution.service.InstitutionService;
+import org.kuali.hr.core.paystep.service.PayStepService;
 import org.kuali.hr.pm.positionflag.service.PositionFlagService;
 import org.kuali.hr.pm.positionreportcat.service.PositionReportCatService;
 import org.kuali.hr.pm.positionreportgroup.service.PositionReportGroupService;

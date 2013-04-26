@@ -16,6 +16,6 @@
 package org.kuali.hr.core;
 
 
-public class SessionInvalidateForm extends TkForm {
+public class SessionInvalidateForm extends HrForm {
 
 }

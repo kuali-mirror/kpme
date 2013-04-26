@@ -28,7 +28,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.hr.core.TkAction;
+import org.kuali.hr.core.HrAction;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.department.Department;
 import org.kuali.hr.core.job.Job;
@@ -42,7 +42,7 @@ import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class ChangeTargetPersonAction extends TkAction {
+public class ChangeTargetPersonAction extends HrAction {
 	
 	private static final Logger LOG = Logger.getLogger(ChangeTargetPersonAction.class);
 	

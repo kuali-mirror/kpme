@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.core.assignment.Assignment;
-import org.kuali.hr.core.assignment.AssignmentAccount;
+import org.kuali.hr.core.assignment.account.AssignmentAccount;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.paytype.PayType;
 import org.kuali.hr.core.service.HrServiceLocator;

@@ -45,7 +45,7 @@
         <field-descriptor name="versionNumber"  column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
         <field-descriptor name="timestamp"      column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" primarykey="false" conversion="org.kuali.hr.tklm.common.TkTimestampConverter" />
         
-        <collection-descriptor name="assignmentAccounts" element-class-ref="org.kuali.hr.core.assignment.AssignmentAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="assignmentAccounts" element-class-ref="org.kuali.hr.core.assignment.account.AssignmentAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="tkAssignmentId" />
         </collection-descriptor>
     </class-descriptor>
@@ -354,7 +354,7 @@
     </class-descriptor>
 
     <!-- Assignment Account -->
-    <class-descriptor class="org.kuali.hr.core.assignment.AssignmentAccount" table="TK_ASSIGN_ACCT_T">
+    <class-descriptor class="org.kuali.hr.core.assignment.account.AssignmentAccount" table="TK_ASSIGN_ACCT_T">
         <field-descriptor name="tkAssignAcctId" column="TK_ASSIGN_ACCT_ID"  jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="TK_ASSIGN_ACCT_S" />
         <field-descriptor name="finCoaCd"       column="FIN_COA_CD"         jdbc-type="VARCHAR" length="2" />
         <field-descriptor name="accountNbr"     column="ACCOUNT_NBR"        jdbc-type="VARCHAR" length="7" />

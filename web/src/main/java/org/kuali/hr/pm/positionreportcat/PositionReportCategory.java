@@ -1,7 +1,7 @@
 package org.kuali.hr.pm.positionreportcat;
 
 import org.kuali.hr.core.HrBusinessObject;
-import org.kuali.hr.pm.institution.Institution;
+import org.kuali.hr.core.institution.Institution;
 import org.kuali.hr.pm.positionreporttype.PositionReportType;
 import org.kuali.rice.location.impl.campus.CampusBo;
 

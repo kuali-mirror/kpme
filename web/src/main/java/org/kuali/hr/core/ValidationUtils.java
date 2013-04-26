@@ -39,7 +39,7 @@ import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.task.Task;
 import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.common.TkConstants;
-import org.kuali.hr.tklm.leave.LMConstants;
+import org.kuali.hr.tklm.leave.util.LMConstants;
 import org.kuali.hr.tklm.time.authorization.DepartmentalRule;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.rice.kim.api.identity.principal.Principal;

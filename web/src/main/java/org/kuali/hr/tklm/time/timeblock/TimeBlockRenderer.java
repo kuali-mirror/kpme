@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.task.Task;
 import org.kuali.hr.core.workarea.WorkArea;
@@ -72,7 +73,7 @@ public class TimeBlockRenderer {
         if(task != null) {
         	// do not display task description if the task is the default one
         	// default task is created in getTask() of TaskService
-        	if(!task.getDescription().equals(TkConstants.TASK_DEFAULT_DESP)) {
+        	if(!task.getDescription().equals(HrConstants.TASK_DEFAULT_DESP)) {
         		b.append("-" + task.getDescription());
         	}
         }

@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.core.admin.web;
 
-import org.kuali.hr.core.TkForm;
+import org.kuali.hr.core.HrForm;
 
-public class ChangeTargetPersonForm extends TkForm {
+public class ChangeTargetPersonForm extends HrForm {
 
 	private static final long serialVersionUID = -8307585413793442914L;
 

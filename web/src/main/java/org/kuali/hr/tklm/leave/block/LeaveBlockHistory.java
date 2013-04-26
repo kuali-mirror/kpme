@@ -18,10 +18,10 @@ package org.kuali.hr.tklm.leave.block;
 import java.sql.Timestamp;
 
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.task.Task;
 import org.kuali.hr.core.workarea.WorkArea;
-import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 
 public class LeaveBlockHistory extends LeaveBlock {
@@ -109,7 +109,7 @@ public class LeaveBlockHistory extends LeaveBlock {
 					// one
 					// default task is created in getTask() of TaskService
 					if (!task.getDescription()
-						.equals(TkConstants.TASK_DEFAULT_DESP)) {
+						.equals(HrConstants.TASK_DEFAULT_DESP)) {
 						b.append("-" + task.getDescription());
 					}
 				}

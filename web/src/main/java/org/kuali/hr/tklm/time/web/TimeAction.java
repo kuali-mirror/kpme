@@ -23,18 +23,18 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
-import org.kuali.hr.core.TkAction;
-import org.kuali.hr.core.TkForm;
+import org.kuali.hr.core.HrAction;
+import org.kuali.hr.core.HrForm;
 import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class TimeAction extends TkAction {
+public class TimeAction extends HrAction {
 
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        TkForm tkForm = (TkForm) form;
+        HrForm hrForm = (HrForm) form;
 
         if (StringUtils.equals(methodToCall, "targetEmployee") || StringUtils.equals(methodToCall, "changeEmployee") || StringUtils.equals(methodToCall, "clearBackdoor") || StringUtils.equals(methodToCall, "clearChangeUser")) {
             // Handle security validation in targetEmployee action, we may need
@@ -47,8 +47,8 @@ public class TimeAction extends TkAction {
         			&& !TKContext.isDepartmentAdmin()
         			&& !TKContext.isGlobalViewOnly()
         			&& !TKContext.isDepartmentViewOnly()
-        			&& (tkForm.getDocumentId() != null && !TkServiceLocator.getTKPermissionService().canApproveTimesheet(principalId, tkForm.getDocumentId()))
-        			&& (tkForm.getDocumentId() != null && !TkServiceLocator.getTKPermissionService().canViewTimesheet(principalId, tkForm.getDocumentId())))  {
+        			&& (hrForm.getDocumentId() != null && !TkServiceLocator.getTKPermissionService().canApproveTimesheet(principalId, hrForm.getDocumentId()))
+        			&& (hrForm.getDocumentId() != null && !TkServiceLocator.getTKPermissionService().canViewTimesheet(principalId, hrForm.getDocumentId())))  {
                 throw new AuthorizationException("", "TimeAction", "");
             }
         }

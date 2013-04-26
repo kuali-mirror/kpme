@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
@@ -65,8 +66,8 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
     	boolean valid = true;
     	TimesheetDocument tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(mp.getTimesheetDocumentId());
     	if(tsd != null 
-    			&& (tsd.getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE) 
-    					|| tsd.getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL))) {
+    			&& (tsd.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.ENROUTE) 
+    					|| tsd.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL))) {
     		GlobalVariables.getMessageMap().putError("document.timesheetDocumentId", "clock.mp.invalid.timesheet");
     		valid = false;
     	}

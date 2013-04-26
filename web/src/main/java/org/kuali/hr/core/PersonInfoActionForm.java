@@ -26,7 +26,7 @@ import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.job.Job;
 import org.kuali.rice.kim.api.identity.Person;
 
-public class PersonInfoActionForm extends TkForm {
+public class PersonInfoActionForm extends HrForm {
 
     private static final long serialVersionUID = 2258434545502362548L;
     

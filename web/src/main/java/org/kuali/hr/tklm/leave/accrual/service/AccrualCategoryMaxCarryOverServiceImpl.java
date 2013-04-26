@@ -32,11 +32,11 @@ import org.kuali.hr.core.leaveplan.service.LeavePlanService;
 import org.kuali.hr.core.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.principal.service.PrincipalHRAttributesService;
 import org.kuali.hr.tklm.common.TKUtils;
-import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.service.LeaveBlockService;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
 import org.kuali.hr.tklm.leave.override.service.EmployeeOverrideService;
+import org.kuali.hr.tklm.leave.util.LMConstants;
 
 public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMaxCarryOverService {
 	

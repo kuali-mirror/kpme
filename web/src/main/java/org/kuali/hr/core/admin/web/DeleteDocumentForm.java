@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.core.admin.web;
 
-import org.kuali.hr.core.TkForm;
+import org.kuali.hr.core.HrForm;
 
-public class DeleteDocumentForm extends TkForm {
+public class DeleteDocumentForm extends HrForm {
 
 	private static final long serialVersionUID = 3121271193055358638L;
 	

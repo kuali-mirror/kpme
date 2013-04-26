@@ -31,7 +31,7 @@ import org.apache.struts.action.ActionMapping;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
-import org.kuali.hr.core.TkAction;
+import org.kuali.hr.core.HrAction;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.calendar.CalendarEntry;
@@ -46,7 +46,7 @@ import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
 import org.kuali.hr.tklm.time.detail.web.ActionFormUtils;
 
-public class LeaveCalendarWSAction extends TkAction {
+public class LeaveCalendarWSAction extends HrAction {
 
     private static final Logger LOG = Logger.getLogger(LeaveCalendarWSAction.class);
 

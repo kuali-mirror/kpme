@@ -24,7 +24,7 @@
 
 	<bean id="Institution-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.pm.institution.Institution" />
+		<property name="businessObjectClass" value="org.kuali.hr.core.institution.Institution" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="institution" />
 		<property name="inquiryDefinition">
@@ -165,7 +165,7 @@
  
   <bean id="Institution-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="Institution Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.hr.pm.institution.Institution" />
+    <property name="dataObjectClassName" value="org.kuali.hr.core.institution.Institution" />
     <property name="criteriaFields">
       <list>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />

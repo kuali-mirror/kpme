@@ -16,10 +16,10 @@
 package org.kuali.hr.core.batch;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.service.HrServiceLocator;
-import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
@@ -52,7 +52,7 @@ public class EmployeeApprovalJob implements Job {
 				String principalId = timesheetDocument.getPrincipalId();
 				
 				if (DocumentStatus.INITIATED.getCode().equals(documentStatus) || DocumentStatus.SAVED.getCode().equals(documentStatus)) {
-					TkServiceLocator.getTimesheetService().routeTimesheet(principalId, timesheetDocument, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE);
+					TkServiceLocator.getTimesheetService().routeTimesheet(principalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE);
 	            }
 			}
 		} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
@@ -63,7 +63,7 @@ public class EmployeeApprovalJob implements Job {
 				String principalId = leaveCalendarDocument.getPrincipalId();
 				
 				if (DocumentStatus.INITIATED.getCode().equals(documentStatus) || DocumentStatus.SAVED.getCode().equals(documentStatus)) {
-					LmServiceLocator.getLeaveCalendarService().routeLeaveCalendar(principalId, leaveCalendarDocument, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE);
+					LmServiceLocator.getLeaveCalendarService().routeLeaveCalendar(principalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE);
 				}
 			}
 		}

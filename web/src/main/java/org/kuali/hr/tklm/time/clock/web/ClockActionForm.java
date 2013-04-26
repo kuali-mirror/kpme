@@ -28,10 +28,10 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.common.TKContext;
-import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
 import org.kuali.hr.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
@@ -298,7 +298,7 @@ public class ClockActionForm extends TimesheetActionForm {
 		 String pId = this.getPrincipalId();
 		 if(pId != null) {
 			 TimesheetDocument td = this.getTimesheetDocument();
-			 if(td != null && !td.getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL)) {
+			 if(td != null && !td.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL)) {
 				 List<TimeBlock> tbList = new ArrayList<TimeBlock>();
 				 if(td != null) {
 					 for(TimeBlock tbTemp : td.getTimeBlocks()) {

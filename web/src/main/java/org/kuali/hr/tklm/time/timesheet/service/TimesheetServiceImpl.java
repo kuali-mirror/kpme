@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.job.Job;
@@ -34,10 +35,10 @@ import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.common.TkConstants;
-import org.kuali.hr.tklm.leave.LMConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff;
+import org.kuali.hr.tklm.leave.util.LMConstants;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
@@ -59,7 +60,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
     @Override
     public void routeTimesheet(String principalId, TimesheetDocument timesheetDocument) {
-        routeTimesheet(principalId, timesheetDocument, TkConstants.DOCUMENT_ACTIONS.ROUTE);
+        routeTimesheet(principalId, timesheetDocument, HrConstants.DOCUMENT_ACTIONS.ROUTE);
     }
 
     @Override
@@ -69,7 +70,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
     @Override
     public void approveTimesheet(String principalId, TimesheetDocument timesheetDocument) {
-        timesheetAction(TkConstants.DOCUMENT_ACTIONS.APPROVE, principalId, timesheetDocument);
+        timesheetAction(HrConstants.DOCUMENT_ACTIONS.APPROVE, principalId, timesheetDocument);
     }
 
     @Override
@@ -79,7 +80,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
     @Override
     public void disapproveTimesheet(String principalId, TimesheetDocument timesheetDocument) {
-        timesheetAction(TkConstants.DOCUMENT_ACTIONS.DISAPPROVE, principalId, timesheetDocument);
+        timesheetAction(HrConstants.DOCUMENT_ACTIONS.DISAPPROVE, principalId, timesheetDocument);
     }
 
     protected void timesheetAction(String action, String principalId, TimesheetDocument timesheetDocument) {
@@ -88,30 +89,30 @@ public class TimesheetServiceImpl implements TimesheetService {
             String rhid = timesheetDocument.getDocumentId();
             wd = WorkflowDocumentFactory.loadDocument(principalId, rhid);
 
-            if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
+            if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.ROUTE)) {
                 wd.route("Routing for Approval");
-            } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE)) {
+            } else if (StringUtils.equals(action, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE)) {
             	Note.Builder builder = Note.Builder.create(rhid, principalId);
                 builder.setCreateDate(new DateTime());
                 builder.setText("Routed via Employee Approval batch job");
             	KewApiServiceLocator.getNoteService().createNote(builder.build());
             	
             	wd.route("Batch job routing timesheet");
-            } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
+            } else if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.APPROVE)) {
                 if (TkServiceLocator.getTKPermissionService().canSuperUserAdministerTimesheet(GlobalVariables.getUserSession().getPrincipalId(), rhid) 
                 		&& !TkServiceLocator.getTKPermissionService().canApproveTimesheet(GlobalVariables.getUserSession().getPrincipalId(), rhid)) {
                     wd.superUserBlanketApprove("Superuser approving timesheet.");
                 } else {
                     wd.approve("Approving timesheet.");
                 }
-            } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE)) {
+            } else if (StringUtils.equals(action, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE)) {
             	Note.Builder builder = Note.Builder.create(rhid, principalId);
            	 	builder.setCreateDate(new DateTime());
            	 	builder.setText("Approved via Supervisor Approval batch job");
            	 	KewApiServiceLocator.getNoteService().createNote(builder.build());
             	
             	wd.superUserBlanketApprove("Batch job approving timesheet.");
-            } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
+            } else if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
                 if (TkServiceLocator.getTKPermissionService().canSuperUserAdministerTimesheet(GlobalVariables.getUserSession().getPrincipalId(), rhid) 
                 		&& !TkServiceLocator.getTKPermissionService().canApproveTimesheet(GlobalVariables.getUserSession().getPrincipalId(), rhid)) {
                     wd.superUserDisapprove("Superuser disapproving timesheet.");
@@ -314,7 +315,7 @@ public class TimesheetServiceImpl implements TimesheetService {
                 document.getCalendarEntry().getEndPeriodDate());
         if (!CollectionUtils.isEmpty(balanceTransfers))   {
 	        for(BalanceTransfer balanceTransfer : balanceTransfers) {
-	        	if(StringUtils.equals(TkConstants.DOCUMENT_STATUS.get(balanceTransfer.getStatus()), TkConstants.ROUTE_STATUS.ENROUTE))
+	        	if(StringUtils.equals(HrConstants.DOCUMENT_STATUS.get(balanceTransfer.getStatus()), HrConstants.ROUTE_STATUS.ENROUTE))
 	        		return false;
 	            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, balanceTransfer.getStatus())
 	                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, balanceTransfer.getStatus())) {
@@ -327,7 +328,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         		document.getCalendarEntry().getEndPeriodDate());
         if (!CollectionUtils.isEmpty(leavePayouts)) {
         	for(LeavePayout payout : leavePayouts) {
-	        	if(StringUtils.equals(TkConstants.DOCUMENT_STATUS.get(payout.getStatus()), TkConstants.ROUTE_STATUS.ENROUTE))
+	        	if(StringUtils.equals(HrConstants.DOCUMENT_STATUS.get(payout.getStatus()), HrConstants.ROUTE_STATUS.ENROUTE))
 	        		return false;
 	            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, payout.getStatus())
 	                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, payout.getStatus())) {

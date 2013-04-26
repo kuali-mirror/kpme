@@ -20,4 +20,14 @@ public class KPMEConstants {
     public static final String APPLICATION_NAMESPACE_CODE = "KPME";
     public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
     public static final String KPME_GLOBAL_CACHE_NAME = APPLICATION_NAMESPACE_CODE + "/Global";
+    
+
+    public static class ConfigSettings {
+        public static final String SESSION_TIMEOUT = "session.timeout";
+        public static final String KPME_SYSTEM_TIMEZONE = "kpme.system.timezone";
+    }
+
+    public static final String IP_SEPARATOR = ".";
+    public static final String IP_WILDCARD_PATTERN = "(%|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))";
+    
 }

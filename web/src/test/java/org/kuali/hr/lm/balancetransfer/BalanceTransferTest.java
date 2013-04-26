@@ -24,6 +24,7 @@ import junit.framework.Assert;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.junit.Test;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.lm.leaveCalendar.LeaveCalendarWebTestBase;
@@ -31,7 +32,6 @@ import org.kuali.hr.lm.util.LeaveCalendarTestUtils;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.tklm.common.TKUtils;
-import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.calendar.web.LeaveCalendarSubmitForm;
 import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
@@ -150,7 +150,7 @@ public class BalanceTransferTest extends LeaveCalendarWebTestBase {
         ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_PRINCIPAL_ID, pcd);
         LeaveCalendarWSForm tdaf = LeaveCalendarTestUtils.buildLeaveCalendarFormForSubmission(tdoc, ls);
         LeaveCalendarSubmitForm lcsf = new LeaveCalendarSubmitForm();
-        lcsf.setAction(TkConstants.DOCUMENT_ACTIONS.ROUTE);
+        lcsf.setAction(HrConstants.DOCUMENT_ACTIONS.ROUTE);
         lcsf.setDocumentId(tdaf.getDocumentId());
         for(LeaveSummaryRow lsRow : ls.getLeaveSummaryRows()) {
         	LOG.info("Accrued balance : " + lsRow.getAccruedBalance());

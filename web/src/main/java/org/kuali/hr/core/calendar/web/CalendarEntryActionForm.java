@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.core.calendar.web;
 
-import org.kuali.hr.core.TkForm;
+import org.kuali.hr.core.HrForm;
 
-public class CalendarEntryActionForm extends TkForm {
+public class CalendarEntryActionForm extends HrForm {
 
 	private static final long serialVersionUID = 385904747462568474L;
 	

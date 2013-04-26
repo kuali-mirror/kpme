@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.core.TkInquirableImpl;
+import org.kuali.hr.core.KPMEInquirableImpl;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -35,7 +35,7 @@ public class EmployeeOverrideInquirableTest extends KPMETestCase {
 		eo.setLeavePlan("testLeavePlan");
 		eo.setEffectiveLocalDate(new LocalDate(2012, 3, 4));
 		
-		HtmlData hd = (HtmlData) new TkInquirableImpl().getInquiryUrl(eo, "accrualCategory", false);
+		HtmlData hd = (HtmlData) new KPMEInquirableImpl().getInquiryUrl(eo, "accrualCategory", false);
 		Assert.assertNotNull("No HtmlData found", hd);
 		String inquiryUrl = ((AnchorHtmlData) hd).getHref();
 		Assert.assertTrue("Inquiry url is wrong", StringUtils.contains(inquiryUrl, INQUIRY_URL));

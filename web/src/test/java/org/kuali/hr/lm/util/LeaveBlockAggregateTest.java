@@ -26,8 +26,8 @@ import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
+import org.kuali.hr.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
-import org.kuali.hr.tklm.leave.util.LeaveBlockAggregate;
 
 public class LeaveBlockAggregateTest extends KPMETestCase {
 	private String TEST_USER = "admin";

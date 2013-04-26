@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.core.admin.web;
 
-import org.kuali.hr.core.TkForm;
+import org.kuali.hr.core.HrForm;
 
-public class InitiateDocumentForm extends TkForm {
+public class InitiateDocumentForm extends HrForm {
 
 	private static final long serialVersionUID = -2480158541329523905L;
 	

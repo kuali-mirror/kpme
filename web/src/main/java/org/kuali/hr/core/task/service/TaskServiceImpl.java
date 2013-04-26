@@ -19,9 +19,9 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.core.task.Task;
 import org.kuali.hr.core.task.dao.TaskDao;
-import org.kuali.hr.tklm.common.TkConstants;
 
 public class TaskServiceImpl implements TaskService {
 
@@ -40,7 +40,7 @@ public class TaskServiceImpl implements TaskService {
         	taskObj.setActive(true);
         	taskObj.setEffectiveLocalDate(asOfDate);
         	taskObj.setTask(task);
-        	taskObj.setDescription(TkConstants.TASK_DEFAULT_DESP);
+        	taskObj.setDescription(HrConstants.TASK_DEFAULT_DESP);
         	taskObj.setTkTaskId("0");
         }
         return taskObj;

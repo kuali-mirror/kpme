@@ -25,7 +25,6 @@ import org.joda.time.LocalDate;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.tklm.common.TKContext;
-import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
@@ -135,8 +134,8 @@ public class WorkflowTagSupport {
 
     private boolean isRouteButtonEnabled(CalendarDocumentContract doc) {
         CalendarDocumentHeaderContract dh = doc.getDocumentHeader();
-        return dh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED)
-                || dh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.SAVED);
+        return dh.getDocumentStatus().equals(HrConstants.ROUTE_STATUS.INITIATED)
+                || dh.getDocumentStatus().equals(HrConstants.ROUTE_STATUS.SAVED);
     }
 
     /**
@@ -209,7 +208,7 @@ public class WorkflowTagSupport {
 
     private boolean isApprovalButtonsEnabled(CalendarDocumentContract doc) {
         CalendarDocumentHeaderContract dh = doc.getDocumentHeader();
-        boolean isEnroute = StringUtils.isNotBlank(dh.getDocumentStatus()) && dh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE);
+        boolean isEnroute = StringUtils.isNotBlank(dh.getDocumentStatus()) && dh.getDocumentStatus().equals(HrConstants.ROUTE_STATUS.ENROUTE);
         if(isEnroute){
             DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(dh.getDocumentId());
             boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(TKContext.getPrincipalId(), routeHeader, new SecuritySession(TKContext.getPrincipalId()));
@@ -219,7 +218,7 @@ public class WorkflowTagSupport {
         return false;
     }
 
-    public String getRouteAction() { return TkConstants.DOCUMENT_ACTIONS.ROUTE; }
-    public String getApproveAction() { return TkConstants.DOCUMENT_ACTIONS.APPROVE; }
-    public String getDisapproveAction() { return TkConstants.DOCUMENT_ACTIONS.DISAPPROVE; }
+    public String getRouteAction() { return HrConstants.DOCUMENT_ACTIONS.ROUTE; }
+    public String getApproveAction() { return HrConstants.DOCUMENT_ACTIONS.APPROVE; }
+    public String getDisapproveAction() { return HrConstants.DOCUMENT_ACTIONS.DISAPPROVE; }
 }

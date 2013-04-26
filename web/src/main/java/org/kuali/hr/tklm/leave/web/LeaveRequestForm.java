@@ -18,12 +18,12 @@ package org.kuali.hr.tklm.leave.web;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.hr.core.TkForm;
+import org.kuali.hr.core.HrForm;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;
 
-public class LeaveRequestForm extends TkForm {
+public class LeaveRequestForm extends HrForm {
 
     private int year;
     private String navString;

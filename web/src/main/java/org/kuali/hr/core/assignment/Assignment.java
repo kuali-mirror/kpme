@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.KPMEConstants;
+import org.kuali.hr.core.assignment.account.AssignmentAccount;
 import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.task.Task;

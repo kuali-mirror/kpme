@@ -23,7 +23,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.tklm.common.TKContext;
 
-public class SessionInvalidateAction extends TkAction {
+public class SessionInvalidateAction extends HrAction {
 
     public ActionForward invalidateUserSession (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 

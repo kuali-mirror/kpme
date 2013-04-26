@@ -21,12 +21,12 @@ import java.net.URLEncoder;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.core.earncode.EarnCode;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.tklm.common.TKUtils;
-import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.hr.tklm.leave.summary.LeaveSummary;
 import org.kuali.hr.tklm.leave.web.LeaveCalendarWSForm;
@@ -288,7 +288,7 @@ public class LeaveCalendarTestUtils {
         StringBuilder builder = new StringBuilder();
 
         try {
-        	builder.append("&action=").append(URLEncoder.encode(TkConstants.DOCUMENT_ACTIONS.ROUTE,"UTF-8"));
+        	builder.append("&action=").append(URLEncoder.encode(HrConstants.DOCUMENT_ACTIONS.ROUTE,"UTF-8"));
             builder.append("&methodToCall=").append(URLEncoder.encode(tdaf.getMethodToCall(), "UTF-8"));
             //add more post params.
         } catch (Exception e) {

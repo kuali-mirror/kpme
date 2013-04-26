@@ -21,14 +21,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.hr.core.TkAction;
+import org.kuali.hr.core.HrAction;
 import org.kuali.hr.core.calendar.CalendarEntry;
 import org.kuali.hr.core.calendar.CalendarEntryPeriodType;
 import org.kuali.hr.core.calendar.service.CalendarEntryService;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class CalendarEntryAction extends TkAction {
+public class CalendarEntryAction extends HrAction {
 
 	public ActionForward createCalendarEntry(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,

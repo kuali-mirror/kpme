@@ -19,7 +19,7 @@ package org.kuali.hr.core.timezone.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.hr.tklm.common.TkConstants;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -30,9 +30,9 @@ public class TimeZoneKeyValue extends KeyValuesBase{
 	@Override
 	public List getKeyValues(){
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        for(int i=0; i< TkConstants.TIME_ZONES.size(); i++)
+        for(int i=0; i < HrConstants.TIME_ZONES.size(); i++)
         {
-        	keyValues.add(new ConcreteKeyValue(TkConstants.TIME_ZONES.get(i),TkConstants.TIME_ZONES.get(i)));
+        	keyValues.add(new ConcreteKeyValue(HrConstants.TIME_ZONES.get(i),HrConstants.TIME_ZONES.get(i)));
         }        		
         return keyValues;
 	}

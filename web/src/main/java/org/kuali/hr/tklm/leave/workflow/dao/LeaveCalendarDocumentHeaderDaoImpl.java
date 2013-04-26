@@ -26,7 +26,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.DateTime;
-import org.kuali.hr.tklm.common.TkConstants;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -107,12 +107,12 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb 
         Criteria crit = new Criteria();
         
         crit.addEqualTo("principalId", principalId);
-        crit.addEqualTo("documentStatus", TkConstants.ROUTE_STATUS.FINAL);
+        crit.addEqualTo("documentStatus", HrConstants.ROUTE_STATUS.FINAL);
         ReportQueryByCriteria endDateSubQuery = QueryFactory.newReportQuery(LeaveCalendarDocumentHeader.class, crit);
         endDateSubQuery.setAttributes(new String[]{"max(endDate)"});
 
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("documentStatus", TkConstants.ROUTE_STATUS.FINAL);
+        root.addEqualTo("documentStatus", HrConstants.ROUTE_STATUS.FINAL);
         root.addEqualTo("endDate", endDateSubQuery);
 
         Query query = QueryFactory.newQuery(LeaveCalendarDocumentHeader.class, root);
@@ -124,9 +124,9 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb 
     	Criteria root = new Criteria();
         Criteria crit = new Criteria();
         List<String> pendingStatuses = new ArrayList<String>();
-        pendingStatuses.add(TkConstants.ROUTE_STATUS.ENROUTE);
-        pendingStatuses.add(TkConstants.ROUTE_STATUS.INITIATED);
-        pendingStatuses.add(TkConstants.ROUTE_STATUS.SAVED);        
+        pendingStatuses.add(HrConstants.ROUTE_STATUS.ENROUTE);
+        pendingStatuses.add(HrConstants.ROUTE_STATUS.INITIATED);
+        pendingStatuses.add(HrConstants.ROUTE_STATUS.SAVED);        
         
         crit.addEqualTo("principalId", principalId);
         crit.addIn("documentStatus", pendingStatuses);
@@ -161,9 +161,9 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb 
 
         crit.addEqualTo("principalId", principalId);
         crit.addLessThan("endDate", beforeDate.toDate());
-        crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.INITIATED);
-        crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.ENROUTE);
-        crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.FINAL);
+        crit.addNotEqualTo("documentStatus", HrConstants.ROUTE_STATUS.INITIATED);
+        crit.addNotEqualTo("documentStatus", HrConstants.ROUTE_STATUS.ENROUTE);
+        crit.addNotEqualTo("documentStatus", HrConstants.ROUTE_STATUS.FINAL);
         QueryByCriteria query = new QueryByCriteria(LeaveCalendarDocumentHeader.class, crit);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         if (c != null) {
@@ -178,8 +178,8 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb 
         List<LeaveCalendarDocumentHeader> lstDocumentHeaders = new ArrayList<LeaveCalendarDocumentHeader>();
 
         crit.addEqualTo("principalId", principalId);
-        crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.INITIATED);
-        crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.FINAL);
+        crit.addNotEqualTo("documentStatus", HrConstants.ROUTE_STATUS.INITIATED);
+        crit.addNotEqualTo("documentStatus", HrConstants.ROUTE_STATUS.FINAL);
         QueryByCriteria query = new QueryByCriteria(LeaveCalendarDocumentHeader.class, crit);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         if (c != null) {

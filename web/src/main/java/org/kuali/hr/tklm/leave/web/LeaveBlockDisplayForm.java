@@ -18,11 +18,11 @@ package org.kuali.hr.tklm.leave.web;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.hr.core.TkForm;
+import org.kuali.hr.core.HrForm;
 import org.kuali.hr.core.accrualcategory.AccrualCategory;
 import org.kuali.hr.tklm.leave.block.LeaveBlockHistory;
 
-public class LeaveBlockDisplayForm extends TkForm {
+public class LeaveBlockDisplayForm extends HrForm {
 
 	private static final long serialVersionUID = 1438955879572170167L;
 	

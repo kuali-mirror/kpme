@@ -40,6 +40,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.ApprovalAction;
 import org.kuali.hr.core.ApprovalForm;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.calendar.Calendar;
 import org.kuali.hr.core.calendar.CalendarEntry;
@@ -241,7 +242,7 @@ public class LeaveApprovalAction extends ApprovalAction{
         LocalDate currentDate = null;
         CalendarEntry payCalendarEntry = null;
         Calendar currentPayCalendar = null;
-        String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
+        String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
 
 
         //reset state
@@ -331,7 +332,7 @@ public class LeaveApprovalAction extends ApprovalAction{
 	
     public void resetState(ActionForm form, HttpServletRequest request) {
     	  LeaveApprovalActionForm laaf = (LeaveApprovalActionForm) form;
- 	      String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
+ 	      String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
  	      
  	      if (StringUtils.isBlank(page)) {
  			  laaf.getDepartments().clear();

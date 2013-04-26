@@ -36,7 +36,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
 import org.kuali.hr.core.ApprovalForm;
-import org.kuali.hr.core.TkAction;
+import org.kuali.hr.core.HrAction;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
@@ -45,7 +45,7 @@ import org.kuali.hr.tklm.time.person.TKPerson;
 import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class LeaveApprovalWSAction extends TkAction {
+public class LeaveApprovalWSAction extends HrAction {
 
 	 public ActionForward getLeaveSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	LeaveApprovalWSActionForm laaf = (LeaveApprovalWSActionForm) form;

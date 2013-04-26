@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.core.assignment.Assignment;
 import org.kuali.hr.core.assignment.service.AssignmentService;
 import org.kuali.hr.core.batch.BatchJobUtil;
@@ -100,7 +101,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 					
 					if (StringUtils.equalsIgnoreCase(job.getFlsaStatus(), TkConstants.FLSA_STATUS_EXEMPT)) {
 						TimesheetDocumentHeader timesheetDocumentHeader = getTimesheetDocumentHeaderService().getDocumentHeader(principalId, beginDate, endDate);
-						if (timesheetDocumentHeader == null || StringUtils.equals(timesheetDocumentHeader.getDocumentStatus(), TkConstants.ROUTE_STATUS.CANCEL)) {
+						if (timesheetDocumentHeader == null || StringUtils.equals(timesheetDocumentHeader.getDocumentStatus(), HrConstants.ROUTE_STATUS.CANCEL)) {
 							scheduleInitiateJob(calendarEntry, scheduleDate, assignment.getPrincipalId());
 						}
 					}
@@ -118,7 +119,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 					
 					if (job.isEligibleForLeave() && StringUtils.equalsIgnoreCase(job.getFlsaStatus(), TkConstants.FLSA_STATUS_NON_EXEMPT)) {
 						LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, beginDate, endDate);
-						if (leaveCalendarDocumentHeader == null || StringUtils.equals(leaveCalendarDocumentHeader.getDocumentStatus(), TkConstants.ROUTE_STATUS.CANCEL)) {
+						if (leaveCalendarDocumentHeader == null || StringUtils.equals(leaveCalendarDocumentHeader.getDocumentStatus(), HrConstants.ROUTE_STATUS.CANCEL)) {
 							scheduleInitiateJob(calendarEntry, scheduleDate, assignment.getPrincipalId());
 						}
 					}

@@ -19,12 +19,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.hr.core.TkInquirableImpl;
+import org.kuali.hr.core.KPMEInquirableImpl;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 
-public class AccrualCategoryInquirableImpl extends TkInquirableImpl {
+public class AccrualCategoryInquirableImpl extends KPMEInquirableImpl {
 	
 	@Override
 	public BusinessObject getBusinessObject(Map fieldValues) {
