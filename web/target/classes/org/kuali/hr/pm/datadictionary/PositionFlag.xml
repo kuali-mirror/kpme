@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<bean id="PositionFlag" parent="PositionFlag-parentBean"/>
+ 	<bean id="PositionFlag-parentBean" abstract="true" parent="BusinessObjectEntry">
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionflag.PositionFlag"/>
+	    <property name="attributes">
+	      <list>
+	        <ref bean="PositionFlag-pmPositionFlagId"/>
+	        <ref bean="PositionFlag-effectiveDate"/>
+	        <ref bean="PositionFlag-category"/>
+	        <ref bean="PositionFlag-positionFlagName"/>
+	        <ref bean="PositionFlag-active"/>
+		 </list>
+	    </property>
+	    <property name="objectLabel" value="PositionFlag"/>
+  	</bean>
+
+<!-- Attribute Definitions -->  
+	 <bean id="PositionFlag-pmPositionFlagId" parent="PositionFlag-pmPositionFlagId-parentBean"/>
+	 <bean id="PositionFlag-pmPositionFlagId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="required" value="false" />
+	    <property name="forceUppercase" value="false"/>
+	    <property name="shortLabel" value="id"/>
+	    <property name="controlField">
+	      <bean parent="Uif-TextControl" p:size="100"/>
+	    </property>
+
+	    <property name="name" value="pmPositionFlagId"/>
+	    <property name="label" value="Position Flag Id"/>
+	 </bean>   
+	 
+	<bean id="PositionFlag-effectiveDate" parent="PositionFlag-effectiveDate-parentBean" />
+	<bean id="PositionFlag-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Effective Date" />
+		<property name="controlField">
+			<bean parent="Uif-DateControl" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+	
+	<bean id="PositionFlag-category" parent="PositionFlag-category-parentBean" />
+	<bean id="PositionFlag-category-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Category" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
+		<property name="name" value="category" />
+		<property name="label" value="Category" />
+		<property name="description" value="Position Flag Category" />
+	</bean>	
+
+	<bean id="PositionFlag-positionFlagName" parent="PositionFlag-positionFlagName-parentBean" />
+	<bean id="PositionFlag-positionFlagName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="yes" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="100" />
+		</property>
+		<property name="name" value="positionFlagName" />
+		<property name="label" value="Name" />
+		<property name="description" value="Position Flag Name" />
+	</bean>
+
+    <bean id="PositionFlag-active" parent="PositionFlag-active-parentBean"/>
+ 	<bean id="PositionFlag-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
+   		<property name="name" value="active"/>
+  	</bean>  
+
+<!--*************************************************************************** 
+							Views
+ ***************************************************************************-->  	
+  	
+  <!-- Position Flag Lookup View -->
+ 
+  <bean id="PositionFlag-LookupView" parent="Uif-LookupView">
+    <property name="headerText" value="Position Flag Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionflag.PositionFlag" />
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="category" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionFlagName" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+     	<bean parent="Uif-InputField" p:propertyName="positionFlagName">
+        	<property name="inquiry">
+      			 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionflag.PositionFlag" 
+       			 	p:inquiryParameters="pmPositionFlagId:pmPositionFlagId"/>
+  			</property>
+        </bean>
+       	<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-InputField" p:propertyName="category" />
+        
+        <bean parent="Uif-InputField" p:propertyName="active"/>
+      </list>
+    </property>
+  </bean> 
+ 
+ <!-- Position Flag Inquiry View -->
+  <bean id="PositionFlag-InquiryView" parent="Uif-InquiryView">
+    <property name="headerText" value="Position Flag Inquiry"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionflag.PositionFlag"/>
+    <property name="singlePageView" value="true"/>
+    <property name="items">
+      <list>
+  			<bean parent="Uif-Disclosure-GridSection">
+		      <property name="layoutManager.numberOfColumns" value="2"/>
+		      <property name="items">
+	       	 	<list>
+	       	 		
+	        			
+		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+			       	<bean parent="Uif-DataField" p:propertyName="category" />
+			       	<bean parent="Uif-DataField" p:propertyName="positionFlagName" />
+			        <bean parent="Uif-DataField" p:propertyName="active"/>
+	        	</list>
+	     	 </property>
+	     	 <property name="title" value="Position Flag Inquiry"/>
+	   	   </bean>
+      </list>
+    </property>
+  </bean> 
+  
+<!--  Position Flag Maintenance View -->
+  <bean id="PositionFlag-MaintenanceView" parent="PositionFlag-MaintenanceView-parentBean"/>
+  <bean id="PositionFlag-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+    <property name="headerText" value="Position Flag Maintenance"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionflag.PositionFlag"/>
+    <property name="items">
+      <list merge="true">
+        <bean parent="Uif-MaintenanceGridSection">
+          <property name="items">
+            <list>
+	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+		       	<bean parent="Uif-InputField" p:propertyName="category" />
+        		<bean parent="Uif-InputField" p:propertyName="positionFlagName" />
+		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean> 
+</beans>

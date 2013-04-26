@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="SystemScheduledTimeOffMaintenanceDocument" parent="SystemScheduledTimeOffMaintenanceDocument-parentBean" />
+
+	<bean id="SystemScheduledTimeOffMaintenanceDocument-parentBean" abstract="true"
+		parent="MaintenanceDocumentEntry" 
+		p:businessObjectClass="org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff"
+		p:businessRulesClass="org.kuali.kpme.tklm.leave.timeoff.validation.SystemScheduledTimeOffValidation"
+		p:maintainableClass="org.kuali.kpme.tklm.leave.timeoff.service.SystemScheduledTimeOffMaintainableServiceImpl"
+		p:documentAuthorizerClass="org.kuali.kpme.tklm.leave.timeoff.authorization.SystemScheduledTimeOffAuthorizer">
+		<property name="maintainableSections">
+			<list>
+				<ref bean="SystemScheduledTimeOffMaintenanceDocument-SystemScheduledTimeOffMaintenance" />
+			</list>
+		</property>
+		<property name="webScriptFiles">
+     		<list>
+        		<value>../js/core.js</value>
+      		</list>
+    	</property>
+		<property name="documentTypeName" value="SystemScheduledTimeOffDocumentType" />
+	</bean>
+
+	<!-- Maintenance Section Definitions -->
+
+	<bean id="SystemScheduledTimeOffMaintenanceDocument-SystemScheduledTimeOffMaintenance"
+		parent="SystemScheduledTimeOffMaintenanceDocument-SystemScheduledTimeOffMaintenance-parentBean" />
+
+	<bean id="SystemScheduledTimeOffMaintenanceDocument-SystemScheduledTimeOffMaintenance-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="title" value="System Scheduled Time Off Maintenance" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
+					p:required="true" p:noLookup="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="earnCode"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="accrualCategory"
+					p:required="true" p:noLookup="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="leavePlan"
+					p:required="true" p:noLookup="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="accruedDate"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="scheduledTimeOffDate" />
+				<bean parent="MaintainableFieldDefinition" p:name="location"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="descr" 
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="amountofTime" 
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="unusedTime"/>
+				<bean parent="MaintainableFieldDefinition" p:name="transfertoEarnCode" />
+				<bean parent="MaintainableFieldDefinition" p:name="transferConversionFactor" />
+				<bean parent="MaintainableFieldDefinition" p:name="premiumHoliday"
+					p:required="true" p:defaultValue="N" />
+				<bean parent="MaintainableFieldDefinition" p:name="active"
+					p:required="true" p:defaultValue="true"/>
+			</list>
+		</property>
+	</bean>
+</beans>

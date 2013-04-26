@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="AccrualCategory" parent="AccrualCategory-parentBean" />
+
+	<bean id="AccrualCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kpme.core.bo.accrualcategory.AccrualCategory" />
+		<property name="titleAttribute" value="id" />
+		<property name="objectLabel" value="AccrualCategory" />
+		<property name="inquiryDefinition">
+			<ref bean="AccrualCategory-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="AccrualCategory-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="AccrualCategory-lmAccrualCategoryId" />
+				<ref bean="AccrualCategory-leavePlan" />
+				<ref bean="AccrualCategory-accrualCategory" />
+				<ref bean="AccrualCategory-descr" />
+				<ref bean="AccrualCategory-accrualEarnInterval" />
+				<ref bean="AccrualCategory-effectiveDate" />
+				<ref bean="AccrualCategory-timestamp" />
+				<ref bean="AccrualCategory-proration" />
+				<ref bean="AccrualCategory-donation" />
+				<ref bean="AccrualCategory-showOnGrid" />
+				<ref bean="AccrualCategory-unitOfTime" />
+				<ref bean="AccrualCategory-active" />
+				<ref bean="AccrualCategory-history" />
+				<ref bean="AccrualCategory-minPercentWorked" />
+				<ref bean="AccrualCategory-earnCode" />
+				<ref bean="AccrualCategory-hasRules" />
+				
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="leavePlanObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan"
+								p:targetName="leavePlan" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
+                                  p:targetName="effectiveDate" />
+						</list>
+					</property>
+				</bean>
+				<!-- KPME-1347 Kagata -->
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="earnCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode" p:targetName="earnCode" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+					</property>
+				</bean>		
+			</list>
+		</property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition" p:name="accrualCategoryRules"
+					p:label="AccrualCategoryRule Accounts" p:shortLabel="AccrualCategoryRule Accounts"
+					p:summary="AccrualCategoryRule Accounts" p:description="AccrualCategoryRule Accounts" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	<bean id="AccrualCategory-lmAccrualCategoryId" parent="AccrualCategory-lmAccrualCategoryId-parentBean" />
+	<bean id="AccrualCategory-lmAccrualCategoryId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="lmAccrualCategoryId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
+	
+<!-- 	leave plan -->
+	<bean id="AccrualCategory-leavePlan" parent="AccrualCategory-leavePlan-parentBean" />
+	<bean id="AccrualCategory-leavePlan-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Leave Plan" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="leavePlan" />
+		<property name="label" value="Leave Plan" />
+	</bean>
+
+<!-- accrual category -->
+	<bean id="AccrualCategory-accrualCategory" parent="AccrualCategory-accrualCategory-parentBean" />
+	<bean id="AccrualCategory-accrualCategory-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Accrual Category" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="15" />
+		</property>
+		<property name="name" value="accrualCategory" />
+		<property name="label" value="Accrual Category" />
+	</bean>
+
+
+<!-- description -->
+	<bean id="AccrualCategory-descr" parent="AccrualCategory-descr-parentBean" />
+	<bean id="AccrualCategory-descr-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Desc" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+		<property name="name" value="descr" />
+		<property name="label" value="Description" />
+	</bean>
+
+
+    <!-- accrualEarnInterval -->
+	<bean id="AccrualCategory-accrualEarnInterval" parent="AccrualCategory-accrualEarnInterval-parentBean" />
+	<bean id="AccrualCategory-accrualEarnInterval-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Accrual Earn Interval" />
+				<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.bo.accrualcategory.valuesfinder.AccrualEarnIntervalKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="accrualEarnInterval" />
+		<property name="label" value="Accrual Earn Interval" />
+	</bean>
+
+    <!-- unitOfTime -->
+	<bean id="AccrualCategory-unitOfTime" parent="AccrualCategory-unitOfTime-parentBean" />
+	<bean id="AccrualCategory-unitOfTime-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Unit Of Time" />
+				<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.bo.accrualcategory.valuesfinder.UnitOfTimeKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="unitOfTime" />
+		<property name="label" value="Unit Of Time" />
+	</bean>
+
+	<!-- effectiveDate -->
+	<bean id="AccrualCategory-effectiveDate" parent="AccrualCategory-effectiveDate-parentBean" />
+	<bean id="AccrualCategory-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+	
+	<!-- timeStamp -->
+	<bean id="AccrualCategory-timestamp" parent="AccrualCategory-timestamp-parentBean" />
+	<bean id="AccrualCategory-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
+	
+	<!-- history -->
+	<bean id="AccrualCategory-history" parent="AccrualCategory-history-parentBean" />
+	<bean id="AccrualCategory-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
+	
+	<!-- active -->
+	<bean id="AccrualCategory-active" parent="AccrualCategory-active-parentBean" />
+	<bean id="AccrualCategory-active-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Active" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+	</bean>
+
+	<!-- proration -->
+	<bean id="AccrualCategory-proration" parent="AccrualCategory-proration-parentBean" />
+	<bean id="AccrualCategory-proration-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Proration" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.SwitchKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="proration" />
+		<property name="label" value="Proration" />
+	</bean>
+	
+	<!-- donation -->
+	<bean id="AccrualCategory-donation" parent="AccrualCategory-donation-parentBean" />
+	<bean id="AccrualCategory-donation-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Donation" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="donation" />
+		<property name="label" value="Donation" />
+	</bean>
+	
+		<!-- hasRules -->
+	<bean id="AccrualCategory-hasRules" parent="AccrualCategory-hasRules-parentBean" />
+	<bean id="AccrualCategory-hasRules-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Category Has Rules" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="hasRules" />
+		<property name="label" value="Category Has Rules" />
+	</bean>
+	
+	<!-- showOnGrid -->
+	<bean id="AccrualCategory-showOnGrid" parent="AccrualCategory-showOnGrid-parentBean" />
+	<bean id="AccrualCategory-showOnGrid-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show On Grid" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="showOnGrid" />
+		<property name="label" value="Show On Grid" />
+	</bean>
+
+	<!-- minPercentWorked -->
+	<bean id="AccrualCategory-minPercentWorked" parent="AccrualCategory-minPercentWorked-parentBean" />
+	<bean id="AccrualCategory-minPercentWorked-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Min Percent Worked to Earn Accrual" />
+		<property name="maxLength" value="6" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+		<property name="name" value="minPercentWorked" />
+		<property name="label" value="Min Percent Worked to Earn Accrual" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern"  p:precision="3" p:scale="2"  />				 
+		</property>
+	</bean>
+	
+	<!-- KPME-1347 Kagata -->
+	<!-- earn code -->
+	<bean id="AccrualCategory-earnCode" parent="AccrualCategory-earnCode-parentBean" />
+	<bean id="AccrualCategory-earnCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Default Earn Code" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="earnCode" />
+		<property name="label" value="Default Earn Code" />
+	</bean>
+	
+	<!--  Inquiry Definitions  -->
+
+	<bean id="AccrualCategory-inquiryDefinition" parent="AccrualCategory-inquiryDefinition-parentBean" />
+
+	<bean id="AccrualCategory-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.bo.accrualcategory.AccrualCategoryInquirableImpl">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true"/>
+							<bean parent="FieldDefinition" p:attributeName="leavePlan" />
+							<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+							<bean parent="FieldDefinition" p:attributeName="descr" />
+							<bean parent="FieldDefinition" p:attributeName="accrualEarnInterval" />
+							<bean parent="FieldDefinition" p:attributeName="unitOfTime" />
+							<bean parent="FieldDefinition" p:attributeName="minPercentWorked" />
+							<bean parent="FieldDefinition" p:attributeName="proration" />
+							<bean parent="FieldDefinition" p:attributeName="donation" />
+							<bean parent="FieldDefinition" p:attributeName="showOnGrid" />	
+							<bean parent="FieldDefinition" p:attributeName="earnCode" />			
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="Accrual Category" />
+				</bean>
+				<bean parent="InquirySectionDefinition" p:title="Rules">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition" p:attributeName="accrualCategoryRules"
+								p:businessObjectClass="org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule">
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="serviceUnitOfTime"/>
+										<bean parent="FieldDefinition" p:attributeName="start"/>
+										<bean parent="FieldDefinition" p:attributeName="end"/>
+										<bean parent="FieldDefinition" p:attributeName="accrualRate"/>
+										<bean parent="FieldDefinition" p:attributeName="maxBalance"/>
+										<bean parent="FieldDefinition" p:attributeName="maxBalFlag"/>
+										<bean parent="FieldDefinition" p:attributeName="maxBalanceActionFrequency"/>
+										<bean parent="FieldDefinition" p:attributeName="actionAtMaxBalance"/>
+										<bean parent="FieldDefinition" p:attributeName="maxBalanceTransferToAccrualCategory"/>
+										<bean parent="FieldDefinition" p:attributeName="maxBalanceTransferConversionFactor"/>							
+										<bean parent="FieldDefinition" p:attributeName="maxTransferAmount"/>							
+										<bean parent="FieldDefinition" p:attributeName="maxPayoutAmount"/>							
+										<bean parent="FieldDefinition" p:attributeName="maxPayoutEarnCode"/>							
+										<bean parent="FieldDefinition" p:attributeName="maxUsage"/>							
+										<bean parent="FieldDefinition" p:attributeName="maxCarryOver"/>							
+										<bean parent="FieldDefinition" p:attributeName="active"/>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="translateCodes" value="false"/>
+		<property name="title" value="Accrual Category Inquiry" />
+	</bean>
+
+	<!--  Look up Definitions  -->
+
+
+	<bean id="AccrualCategory-lookupDefinition" parent="AccrualCategory-lookupDefinition-parentBean" />
+	<bean id="AccrualCategory-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupableID" value="accrualCategoryLookupable"></property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true"/>
+				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="descr" />
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
+				<bean parent="FieldDefinition" p:attributeName="accrualEarnInterval"/>
+				<bean parent="FieldDefinition" p:attributeName="unitOfTime" />
+				<bean parent="FieldDefinition" p:attributeName="minPercentWorked" />
+				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+			</list>
+
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
+				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="descr" />
+				<bean parent="FieldDefinition" p:attributeName="accrualEarnInterval" />
+				<bean parent="FieldDefinition" p:attributeName="unitOfTime" />
+				<bean parent="FieldDefinition" p:attributeName="minPercentWorked" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true"/>
+			</list>
+		</property>
+		<property name="title" value="Accrual Category Lookup" />
+	</bean>
+
+</beans>

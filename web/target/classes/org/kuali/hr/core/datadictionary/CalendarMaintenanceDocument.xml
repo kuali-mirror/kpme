@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:dd="http://rice.kuali.org/dd"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="CalendarMaintenanceDocument" parent="CalendarMaintenanceDocument-parentBean"/>
+
+  <bean id="CalendarMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  		p:businessObjectClass="org.kuali.kpme.core.bo.calendar.Calendar"
+  		p:businessRulesClass="org.kuali.kpme.core.bo.calendar.validation.CalendarRule"
+   		p:maintainableClass="org.kuali.kpme.core.bo.calendar.CalendarMaintainableImpl"
+   		p:documentAuthorizerClass="org.kuali.kpme.core.bo.calendar.authorization.CalendarAuthorizer">
+    <property name="maintainableSections">
+      <list>
+        <ref bean="CalendarMaintenanceDocument-CalendarMaintenance"/>
+      </list>
+    </property>
+    <property name="documentTypeName" value="PayCalendarDocumentType"/>
+    <!-- property name="additionalSectionsFile" value="/jsp/payCalendarDatesSection.jsp"/ -->
+  </bean>
+
+  <!-- Maintenance Section Definitions -->
+
+  <bean id="CalendarMaintenanceDocument-CalendarMaintenance" parent="CalendarMaintenanceDocument-CalendarMaintenance-parentBean"/>
+  <bean id="CalendarMaintenanceDocument-CalendarMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Calendar Maintenance"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="calendarName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="calendarDescriptions" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="calendarTypes" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="flsaBeginDay"/>        
+        <bean parent="MaintainableFieldDefinition" p:name="flsaBeginTime"/>        
+      </list>
+    </property>
+  </bean>
+
+</beans>

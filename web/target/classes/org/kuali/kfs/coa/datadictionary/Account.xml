@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="Account" parent="Account-parentBean"/>
+  <bean id="Account-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Account"/>
+    <property name="inquiryDefinition" ref="Account-inquiryDefinition"/>
+    <property name="lookupDefinition" ref="Account-lookupDefinition"/>
+    <property name="titleAttribute" value="accountNumber"/>
+    <property name="objectLabel" value="Account"/>
+    <property name="attributes">
+      <list>
+        <ref bean="Account-chartOfAccountsCode"/>
+        <ref bean="Account-accountNumber"/>
+        <ref bean="Account-accountName"/>
+        <ref bean="Account-organizationCode"/>
+        <ref bean="Account-accountCreateDate"/>
+        <ref bean="Account-accountEffectiveDate"/>
+        <ref bean="Account-accountExpirationDate"/>
+        <ref bean="Account-active"/>
+        <ref bean="Account-closed"/>
+      </list>
+    </property>
+<!--
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        WHAT IS THIS? 
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountType"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="acctIndirectCostRcvyType"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="budgetRecordingLevel"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialHigherEdFunction"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="postalZipCode"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountRestrictedStatus"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="subFundGroup"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="sufficientFundsCode"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountState"/>
+      </list>
+    </property>
+-->
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="Account-chartOfAccountsCode" parent="Account-chartOfAccountsCode-parentBean">
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  <bean id="Account-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode" />
+    
+  <bean id="Account-accountNumber" parent="Account-accountNumber-parentBean">
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+
+  <bean id="Account-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Account Number"/>
+    <property name="shortLabel" value="Account Number"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  
+  <bean id="Account-accountName" parent="Account-accountName-parentBean"/>
+    <bean id="Account-accountName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Account Name"/>
+    <property name="shortLabel" value="AcctName"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  
+  <bean id="Account-organizationCode" parent="Account-organizationCode-parentBean"/>
+  <bean id="Account-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode-parentBean"/>
+    
+  <bean id="Account-accountCreateDate" parent="Account-accountCreateDate-parentBean"/>
+  <bean id="Account-accountCreateDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
+    <property name="name" value="accountCreateDate"/>
+    <property name="label" value="Account Create Date"/>
+    <property name="shortLabel" value="CreateDate"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
+    </property>
+  </bean>
+  <bean id="Account-accountEffectiveDate" parent="Account-accountEffectiveDate-parentBean"/>
+
+  <bean id="Account-accountEffectiveDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
+    <property name="name" value="accountEffectiveDate"/>
+    <property name="label" value="Account Effective Date"/>
+    <property name="shortLabel" value="EffDate"/>
+    <property name="required" value="true"/>
+  </bean>
+  <bean id="Account-accountExpirationDate" parent="Account-accountExpirationDate-parentBean"/>
+
+  <bean id="Account-accountExpirationDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
+    <property name="name" value="accountExpirationDate"/>
+    <property name="label" value="Account Expiration Date"/>
+    <property name="shortLabel" value="ExpDate"/>
+  </bean>
+
+  <bean id="Account-active" parent="Account-active-parentBean"/>
+  <bean id="Account-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+    <property name="label" value="Active?"/>
+  </bean>
+  
+  <bean id="Account-closed" parent="Account-closed-parentBean"/>
+  
+  <bean id="Account-closed-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  	<property name="name" value="closed"/>
+  	<property name="label" value="Closed?"/>
+  </bean>
+  
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="Account-inquiryDefinition" parent="Account-inquiryDefinition-parentBean"/>
+
+  <bean id="Account-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Account Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Account Details">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="accountEffectiveDate"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="accountName"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+              <bean parent="FieldDefinition" p:attributeName="accountCreateDate"/>
+              <bean parent="FieldDefinition" p:attributeName="accountExpirationDate"/>
+              <bean parent="FieldDefinition" p:attributeName="closed"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="Account-lookupDefinition" parent="Account-lookupDefinition-parentBean"/>
+
+  <bean id="Account-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Account Lookup"/>
+    <property name="lookupableID" value="accountLookupable"></property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="accountName"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="closed"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="accountName"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="closed"/>
+        <bean parent="FieldDefinition" p:attributeName="accountCreateDate"/>
+        <bean parent="FieldDefinition" p:attributeName="accountExpirationDate"/>
+      </list>
+    </property>
+  </bean>
+</beans>

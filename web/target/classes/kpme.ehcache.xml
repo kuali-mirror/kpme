@@ -1,0 +1,61 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="false" monitoring="autodetect"
+         dynamicConfig="true" name="kpmeCacheManager">
+
+    <defaultCache eternal="false"
+                  overflowToDisk="false"
+                  copyOnRead="false"
+                  copyOnWrite="false"/>
+    <cache name="KPME/Global" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true"/>
+    <cache name="KPME/AccrualCategory" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/Assignment" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/Calendar" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/CalendarEntry" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/CalendarLocationRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/ClockLocationRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/DailyOvertimeRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/DeptLunchRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/Department" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/EarnCodeSecurity" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/EarnCode" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/GracePeriodRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/Job" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/LeaveCode" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/LeaveDonation" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/LeavePlan" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/Location" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/PayGrade" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/PayType" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/Position" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/PrincipalHRAttributes" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/SalGroup" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/ShiftDifferentialRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/SystemLunchRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/SystemScheduledTimeOff" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/Task" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/TimeCollectionRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/TimeOffAccrual" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/TkRoleGroup" maxEntriesLocalHeap="10000" timeToLiveSeconds="900" copyOnRead="true" copyOnWrite="true"/>
+    <cache name="KPME/TkRole" maxEntriesLocalHeap="10000" timeToLiveSeconds="900" copyOnRead="true" copyOnWrite="true"/>
+    <cache name="KPME/UserPreferences" maxEntriesLocalHeap="10000" timeToLiveSeconds="900" copyOnRead="true" copyOnWrite="true"/>
+    <cache name="KPME/WeeklyOvertimeRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/WorkArea" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+</ehcache>

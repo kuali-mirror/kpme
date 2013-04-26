@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="AccountMaintenanceDocument" parent="AccountMaintenanceDocument-parentBean"/>
+
+  <bean id="AccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kfs.coa.businessobject.Account" p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+    <property name="maintainableSections">
+      <list>
+        <ref bean="AccountMaintenanceDocument-AccountMaintenance"/>
+<!--         
+        <ref bean="AccountMaintenanceDocument-AccountResponsibility"/>
+        <ref bean="AccountMaintenanceDocument-AccountDescription"/>
+ -->        
+      </list>
+    </property>
+<!-- 
+    <property name="defaultExistenceChecks">
+        <list>
+	      	<bean parent="ReferenceDefinition" p:attributeName="organization" p:attributeToHighlightOnFail="organizationCode" /> 
+  	    </list>   
+    </property>
+    
+-->
+    <property name="lockingKeys">
+      <list>
+        <value>chartOfAccountsCode</value>
+        <value>accountNumber</value>
+      </list>
+    </property>
+    
+    <property name="documentTypeName" value="ACCT"/>
+
+<!-- <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.AccountPreRules"/>
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/SubFundGroupService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
+      </list>
+    </property 
+ 
+    <property name="workflowAttributes" ref="AccountMaintenanceDocument-workflowAttributes"/>
+-->    
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="AccountMaintenanceDocument-AccountMaintenance" parent="AccountMaintenanceDocument-AccountMaintenance-parentBean"/>
+
+  <bean id="AccountMaintenanceDocument-AccountMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Account Maintenance"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="accountEffectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountCreateDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountExpirationDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="closed"/>
+      </list>
+    </property>
+  </bean>
+  
+	<!-- workflow attributes -->
+<!-- 	
+  	<bean id="AccountMaintenanceDocument-workflowAttributes" parent="AccountMaintenanceDocument-workflowAttributes-parentBean"/>
+  
+  <bean id="AccountMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+		<property name="routingTypeDefinitions">
+    		<map>
+	    		<entry key="Account" value-ref="AccountMaintenanceDocument-RoutingType-Account"/>
+    			<entry key="OrganizationHierarchy" value-ref="AccountMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
+    			<entry key="Chart" value-ref="AccountMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
+    			<entry key="AccountSupervisor" value-ref="AccountMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
+    			<entry key="Award" value-ref="AccountMaintenanceDocument-RoutingType-Award"/>
+    			<entry key="SubFund" value-ref="AccountMaintenanceDocument-RoutingType-SubFund"/>
+    		</map>
+		</property>
+		
+		<property name="searchingTypeDefinitions">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
+    						<property name="attributeName" value="organizationCode"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.organizationCode</value>
+    					</list>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+	</bean>
+	
+	<bean id="AccountMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="chartOfAccountsCode"/>
+	</bean>
+	
+	<bean id="AccountMaintenanceDocument-RoutingAttribute-Account" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="accountNumber"/>
+	</bean>
+	
+	<bean id="AccountMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="organizationCode"/>
+	</bean>
+	
+	<bean id="AccountMaintenanceDocument-RoutingAttribute-SubFund" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="subFundGroupCode"/>
+	</bean>
+	
+   	<bean id="AccountMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+	   		<list>
+	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+	   			<value>newMaintainableObject.businessObject.organizationCode</value>
+	   		</list>
+   		</property>
+   	</bean>
+	
+	<bean id="AccountMaintenanceDocument-DocumentValuePathGroup-SubFund" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+	   		<list>
+	   			<value>newMaintainableObject.businessObject.subFundGroupCode</value>
+	   		</list>
+   		</property>
+   	</bean>
+   	
+	<bean id="AccountMaintenanceDocument-RoutingType-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Chart"/>
+		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Account"/>
+    		</list>
+    	</property>
+    </bean>
+   	
+   	<bean id="AccountMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Chart"/>
+    			<ref bean="AccountMaintenanceDocument-RoutingAttribute-Organization"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-ChartOrganization"/>
+    		</list>
+    	</property>
+    </bean>
+   	 
+	<bean id="AccountMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Chart"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-Chart"/>
+    		</list>
+    	</property>
+    </bean>
+
+ 
+	<bean id="AccountMaintenanceDocument-RoutingType-SubFund" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-SubFund"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-SubFund"/>
+    		</list>
+    	</property>
+    </bean>
+    
+ -->    
+</beans>

@@ -1,0 +1,89 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="KPMERoleMemberBo" parent="KPMERoleMemberBo-parentBean" />
+	<bean id="KPMERoleMemberBo-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kpme.core.role.KPMERoleMemberBo" />
+		<property name="objectLabel" value="KPME Role Member" />
+		<property name="attributes">
+            <list>
+                <ref bean="KPMERoleMemberBo-effectiveDate" />
+                <ref bean="KPMERoleMemberBo-roleName" />
+                <ref bean="KPMERoleMemberBo-expirationDate" />
+				<ref bean="KPMERoleMemberBo-active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+    <bean id="KPMERoleMemberBo-effectiveDate" parent="KPMERoleMemberBo-effectiveDate-parentBean" />
+    <bean id="KPMERoleMemberBo-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="effectiveDate" />
+        <property name="label" value="Effective Date" />
+        <property name="shortLabel" value="Effective Date" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern">
+            <bean parent="DateValidationPattern" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
+    </bean>
+    
+    <bean id="KPMERoleMemberBo-roleName" parent="KPMERoleMemberBo-roleName-parentBean" />
+    <bean id="KPMERoleMemberBo-roleName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="roleName" />
+        <property name="label" value="Role Name" />
+        <property name="shortLabel" value="Role Name" />
+        <property name="maxLength" value="80" />
+        <property name="forceUppercase" value="false" />
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kpme.core.role.KPMERoleValuesFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
+    </bean>
+
+    <bean id="KPMERoleMemberBo-expirationDate" parent="KPMERoleMemberBo-expirationDate-parentBean" />
+    <bean id="KPMERoleMemberBo-expirationDate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="expirationDate" />
+        <property name="label" value="Expiration Date" />
+        <property name="shortLabel" value="Expiration Date" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern">
+            <bean parent="DateValidationPattern" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
+    </bean>
+
+    <bean id="KPMERoleMemberBo-active" parent="KPMERoleMemberBo-active-parentBean" />
+    <bean id="KPMERoleMemberBo-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active" />
+        <property name="label" value="Active?" />
+    </bean>
+</beans>
