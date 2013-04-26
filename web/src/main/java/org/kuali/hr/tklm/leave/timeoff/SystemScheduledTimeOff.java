@@ -20,12 +20,12 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.KPMEConstants;
-import org.kuali.hr.core.accrualcategory.AccrualCategory;
-import org.kuali.hr.core.earncode.EarnCode;
-import org.kuali.hr.core.leaveplan.LeavePlan;
-import org.kuali.hr.core.location.Location;
+import org.kuali.hr.core.bo.HrBusinessObject;
+import org.kuali.hr.core.bo.accrualcategory.AccrualCategory;
+import org.kuali.hr.core.bo.earncode.EarnCode;
+import org.kuali.hr.core.bo.leaveplan.LeavePlan;
+import org.kuali.hr.core.bo.location.Location;
 import org.kuali.hr.core.service.HrServiceLocator;
 
 public class SystemScheduledTimeOff extends HrBusinessObject {

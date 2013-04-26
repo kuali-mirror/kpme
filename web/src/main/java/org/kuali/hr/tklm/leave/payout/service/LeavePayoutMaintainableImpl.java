@@ -20,11 +20,11 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.core.HrBusinessObject;
-import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
+import org.kuali.hr.core.bo.HrBusinessObject;
+import org.kuali.hr.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.payout.LeavePayout;
-import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
+import org.kuali.hr.tklm.leave.service.LmServiceLocator;
 import org.kuali.hr.tklm.leave.util.LMConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;

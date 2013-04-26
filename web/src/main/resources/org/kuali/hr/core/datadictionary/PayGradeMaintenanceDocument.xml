@@ -28,10 +28,10 @@
   <bean id="PayGradeMaintenanceDocument" parent="PayGradeMaintenanceDocument-parentBean"/>
 
   <bean id="PayGradeMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
-  		p:dataObjectClass="org.kuali.hr.core.paygrade.PayGrade"
-  		p:businessRulesClass="org.kuali.hr.core.paygrade.validation.PayGradeValidation"
-  		p:maintainableClass="org.kuali.hr.core.paygrade.service.PayGradeMaintainableServiceImpl"
+  		p:dataObjectClass="org.kuali.hr.core.bo.paygrade.PayGrade"
+  		p:businessRulesClass="org.kuali.hr.core.bo.paygrade.validation.PayGradeValidation"
+  		p:maintainableClass="org.kuali.hr.core.bo.paygrade.service.PayGradeMaintainableServiceImpl"
         p:documentTypeName="PayGradeMaintenanceDocumentType">
-    <!--<property name="promptBeforeValidationClass" value="org.kuali.hr.core.paygrade.validation.PayGradeEffectiveDatePrompt"/>-->
+    <!--<property name="promptBeforeValidationClass" value="org.kuali.hr.core.bo.paygrade.validation.PayGradeEffectiveDatePrompt"/>-->
   </bean>
 </beans>

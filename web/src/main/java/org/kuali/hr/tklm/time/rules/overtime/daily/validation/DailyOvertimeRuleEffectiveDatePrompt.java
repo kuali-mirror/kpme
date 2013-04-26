@@ -18,7 +18,7 @@ package org.kuali.hr.tklm.time.rules.overtime.daily.validation;
 import org.kuali.hr.core.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.time.rules.overtime.daily.DailyOvertimeRule;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class DailyOvertimeRuleEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {

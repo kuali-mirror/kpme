@@ -25,9 +25,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
+import org.kuali.hr.core.bo.workarea.WorkArea;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
-import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 

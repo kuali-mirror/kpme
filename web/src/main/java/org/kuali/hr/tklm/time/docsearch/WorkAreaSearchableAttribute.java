@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.core.assignment.Assignment;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.bo.assignment.Assignment;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.document.DocumentWithContent;
 import org.kuali.rice.kew.api.extension.ExtensionDefinition;

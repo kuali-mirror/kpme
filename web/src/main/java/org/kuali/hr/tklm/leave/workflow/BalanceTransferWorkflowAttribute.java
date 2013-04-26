@@ -21,13 +21,13 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-import org.kuali.hr.core.assignment.Assignment;
+import org.kuali.hr.core.bo.assignment.Assignment;
+import org.kuali.hr.core.bo.workarea.WorkArea;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.service.HrServiceLocator;
-import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.transfer.BalanceTransfer;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.identity.Id;
 import org.kuali.rice.kew.api.identity.PrincipalId;

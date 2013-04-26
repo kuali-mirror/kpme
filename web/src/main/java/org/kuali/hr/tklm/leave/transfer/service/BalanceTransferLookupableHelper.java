@@ -21,7 +21,7 @@ import java.util.Properties;
 
 import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.tklm.common.TKUtils;
-import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
+import org.kuali.hr.tklm.leave.service.LmServiceLocator;
 import org.kuali.hr.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;

@@ -33,7 +33,7 @@ import junit.framework.Assert;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.enhydra.jdbc.pool.StandardXAPoolDataSource;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;

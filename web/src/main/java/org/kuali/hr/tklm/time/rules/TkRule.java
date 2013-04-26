@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.tklm.time.rules;
 
-import org.kuali.hr.core.HrBusinessObject;
+import org.kuali.hr.core.bo.HrBusinessObject;
 
 public abstract class TkRule extends HrBusinessObject {
 	/**

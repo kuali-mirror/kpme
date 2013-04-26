@@ -26,7 +26,7 @@ import org.joda.time.LocalTime;
 import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;

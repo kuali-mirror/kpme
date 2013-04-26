@@ -18,7 +18,7 @@
 <descriptor-repository version="1.0">
 
     <!-- Leave Plan -->
-    <class-descriptor class="org.kuali.hr.core.leaveplan.LeavePlan" table="LM_LEAVE_PLAN_T">
+    <class-descriptor class="org.kuali.hr.core.bo.leaveplan.LeavePlan" table="LM_LEAVE_PLAN_T">
         <field-descriptor name="lmLeavePlanId"      column="LM_LEAVE_PLAN_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_PLAN_S" />
         <field-descriptor name="leavePlan"          column="LEAVE_PLAN"         jdbc-type="VARCHAR"     length="15" nullable="false" />
         <field-descriptor name="calendarYearStart"  column="CAL_YEAR_START"     jdbc-type="VARCHAR"     length="5"  nullable="false" />
@@ -34,7 +34,7 @@
     </class-descriptor>
 
     <!-- Accrual Category -->
-    <class-descriptor class="org.kuali.hr.core.accrualcategory.AccrualCategory" table="LM_ACCRUAL_CATEGORY_T">
+    <class-descriptor class="org.kuali.hr.core.bo.accrualcategory.AccrualCategory" table="LM_ACCRUAL_CATEGORY_T">
         <field-descriptor name="lmAccrualCategoryId"  column="LM_ACCRUAL_CATEGORY_ID" jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_ACCRUAL_CATEGORY_S" />
         <field-descriptor name="accrualCategory"      column="ACCRUAL_CATEGORY"       jdbc-type="VARCHAR"     length="15" nullable="false" />
         <field-descriptor name="leavePlan"            column="LEAVE_PLAN"             jdbc-type="VARCHAR"     length="15" nullable="false" />
@@ -53,13 +53,13 @@
         <field-descriptor name="objectId"             column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"        column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
         
-        <collection-descriptor name="accrualCategoryRules" element-class-ref="org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+        <collection-descriptor name="accrualCategoryRules" element-class-ref="org.kuali.hr.core.bo.accrualcategory.rule.AccrualCategoryRule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="lmAccrualCategoryId" />
         </collection-descriptor>
     </class-descriptor>
 
     <!-- Accrual Category Rules -->
-    <class-descriptor class="org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule" table="LM_ACCRUAL_CATEGORY_RULES_T">
+    <class-descriptor class="org.kuali.hr.core.bo.accrualcategory.rule.AccrualCategoryRule" table="LM_ACCRUAL_CATEGORY_RULES_T">
         <field-descriptor name="lmAccrualCategoryRuleId"                column="LM_ACCRUAL_CATEGORY_RULES_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_ACCRUAL_CATEGORY_RULES_S" />
         <field-descriptor name="serviceUnitOfTime"                      column="SERVICE_UNIT_OF_TIME"           jdbc-type="VARCHAR"     length="15" />
         <field-descriptor name="start"                                  column="START_ACC"                      jdbc-type="BIGINT"      length="5" nullable="false" />

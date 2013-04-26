@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.Interval;
-import org.kuali.hr.core.accrualcategory.AccrualCategory;
-import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
-import org.kuali.hr.core.job.Job;
-import org.kuali.hr.core.leaveplan.LeavePlan;
-import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.bo.accrualcategory.AccrualCategory;
+import org.kuali.hr.core.bo.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.hr.core.bo.job.Job;
+import org.kuali.hr.core.bo.leaveplan.LeavePlan;
+import org.kuali.hr.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff;
 
 public class RateRange {

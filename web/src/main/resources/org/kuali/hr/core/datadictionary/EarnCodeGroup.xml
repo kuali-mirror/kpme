@@ -23,7 +23,7 @@
 
 	<bean id="EarnCodeGroup" parent="EarnCodeGroup-parentBean" />
 	<bean id="EarnCodeGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.core.earncode.group.EarnCodeGroup" />
+		<property name="businessObjectClass" value="org.kuali.hr.core.bo.earncode.group.EarnCodeGroup" />
 		<property name="titleAttribute" value="hrEarnCodeGroupId" />
 		<property name="objectLabel" value="earnCodeGroup" />
 		<property name="inquiryDefinition">
@@ -208,7 +208,7 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="InquiryCollectionDefinition" p:attributeName="earnCodeGroups"
-								p:businessObjectClass="org.kuali.hr.core.earncode.group.EarnCodeGroupDefinition">
+								p:businessObjectClass="org.kuali.hr.core.bo.earncode.group.EarnCodeGroupDefinition">
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="earnCode" />

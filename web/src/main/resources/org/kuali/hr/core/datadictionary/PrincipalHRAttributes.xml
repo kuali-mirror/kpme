@@ -25,7 +25,7 @@
 
 	<bean id="PrincipalHRAttributes-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.core.principal.PrincipalHRAttributes" />
+		<property name="businessObjectClass" value="org.kuali.hr.core.bo.principal.PrincipalHRAttributes" />
 		<property name="titleAttribute" value="principalId" />
 		<property name="objectLabel" value="principalId" />
 		<property name="inquiryDefinition">
@@ -214,7 +214,7 @@
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.core.timezone.service.TimeZoneKeyValue" p:includeKeyInLabel="false"/>
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.core.bo.principal.valuesfinder.TimeZoneKeyValue" p:includeKeyInLabel="false"/>
 		</property>
 		<property name="name" value="timezone" />
 		<property name="label" value="Timezone" />
@@ -313,7 +313,7 @@
 	<bean id="PrincipalHRAttributes-recordLeave-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Record Leave" />
 				<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.core.principal.valuesfinder.RecordLeaveKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.core.bo.principal.valuesfinder.RecordLeaveKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="recordLeave" />

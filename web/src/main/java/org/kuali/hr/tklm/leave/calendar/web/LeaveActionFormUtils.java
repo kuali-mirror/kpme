@@ -22,14 +22,14 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.json.simple.JSONValue;
-import org.kuali.hr.core.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.core.bo.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.core.bo.workarea.WorkArea;
 import org.kuali.hr.core.service.HrServiceLocator;
-import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.leave.service.LmServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 
 public class LeaveActionFormUtils {
 

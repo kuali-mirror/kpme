@@ -1,6 +1,6 @@
 package org.kuali.hr.pm.pstnrptgrpsubcat;
 
-import org.kuali.hr.core.HrBusinessObject;
+import org.kuali.hr.core.bo.HrBusinessObject;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
 public class PositionReportGroupSubCategory extends HrBusinessObject {

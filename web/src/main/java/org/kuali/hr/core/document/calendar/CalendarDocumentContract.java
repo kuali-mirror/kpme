@@ -18,8 +18,8 @@ package org.kuali.hr.core.document.calendar;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.hr.core.assignment.Assignment;
-import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.bo.assignment.Assignment;
+import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 
 public interface CalendarDocumentContract {

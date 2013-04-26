@@ -19,8 +19,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.hr.core.assignment.Assignment;
-import org.kuali.hr.core.job.Job;
+import org.kuali.hr.core.bo.assignment.Assignment;
+import org.kuali.hr.core.bo.job.Job;
 import org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 import org.springframework.cache.annotation.Cacheable;

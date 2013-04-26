@@ -2,7 +2,7 @@ package org.kuali.hr.pm.positionclass;
 
 import java.math.BigDecimal;
 
-import org.kuali.hr.core.HrBusinessObject;
+import org.kuali.hr.core.bo.HrBusinessObject;
 
 public class PositionClass extends HrBusinessObject {
 

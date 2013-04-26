@@ -31,7 +31,7 @@
 	<bean name="LeavePlan" parent="LeavePlan-parentBean" />
 
 	<bean id="LeavePlan-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.core.leaveplan.LeavePlan" />
+		<property name="businessObjectClass" value="org.kuali.hr.core.bo.leaveplan.LeavePlan" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="leavePlan" />
 		<property name="inquiryDefinition">
@@ -253,7 +253,7 @@
 	<bean id="LeavePlan-inquiryDefinition" parent="LeavePlan-inquiryDefinition-parentBean" />
 
 	<bean id="LeavePlan-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.core.leaveplan.LeavePlanInquirableImpl">
+		parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.core.bo.leaveplan.LeavePlanInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
@@ -314,7 +314,7 @@
  
   <bean id="LeavePlan-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="LeavePlan Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.hr.core.leaveplan.LeavePlan" />
+    <property name="dataObjectClassName" value="org.kuali.hr.core.bo.leaveplan.LeavePlan" />
     <property name="criteriaFields">
       <list>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="leavePlan" />

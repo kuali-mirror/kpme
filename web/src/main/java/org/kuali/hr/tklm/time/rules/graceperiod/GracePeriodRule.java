@@ -17,8 +17,8 @@ package org.kuali.hr.tklm.time.rules.graceperiod;
 
 import java.math.BigDecimal;
 
-import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.KPMEConstants;
+import org.kuali.hr.core.bo.HrBusinessObject;
 
 public class GracePeriodRule extends HrBusinessObject {
 

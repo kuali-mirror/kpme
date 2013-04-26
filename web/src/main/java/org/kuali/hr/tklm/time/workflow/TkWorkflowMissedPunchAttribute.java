@@ -20,12 +20,12 @@ import java.util.Collections;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.kuali.hr.core.assignment.Assignment;
+import org.kuali.hr.core.bo.assignment.Assignment;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.time.missedpunch.MissedPunchDocument;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.identity.Id;
 import org.kuali.rice.kew.api.identity.PrincipalId;

@@ -16,11 +16,11 @@
 package org.kuali.hr.core.batch;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.core.calendar.Calendar;
-import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.bo.calendar.Calendar;
+import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.hr.core.service.HrServiceLocator;
-import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.leave.service.LmServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.quartz.Job;
 import org.quartz.JobDataMap;

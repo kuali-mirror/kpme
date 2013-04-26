@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.ValidationUtils;
-import org.kuali.hr.core.earncode.EarnCode;
+import org.kuali.hr.core.bo.earncode.EarnCode;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff;

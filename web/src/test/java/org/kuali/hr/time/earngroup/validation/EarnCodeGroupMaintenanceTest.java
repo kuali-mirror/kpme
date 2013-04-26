@@ -25,9 +25,9 @@ import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.core.earncode.EarnCode;
-import org.kuali.hr.core.earncode.group.EarnCodeGroup;
-import org.kuali.hr.core.earncode.group.EarnCodeGroupDefinition;
+import org.kuali.hr.core.bo.earncode.EarnCode;
+import org.kuali.hr.core.bo.earncode.group.EarnCodeGroup;
+import org.kuali.hr.core.bo.earncode.group.EarnCodeGroupDefinition;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
@@ -158,7 +158,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
     @Test
     //tests EarnCodeGroupValidation
     public void testSubmitEarnGroupMaint() throws Exception {
-        String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.core.earncode.group.EarnCodeGroup&methodToCall=start";
+        String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.core.bo.earncode.group.EarnCodeGroup&methodToCall=start";
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
         Assert.assertNotNull(page);
 
@@ -227,7 +227,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
 
     @Test
     public void testSubmitEarnGroupWithNewerVersionMaint() throws Exception {
-        String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.core.earncode.group.EarnCodeGroup&methodToCall=start";
+        String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.core.bo.earncode.group.EarnCodeGroup&methodToCall=start";
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
         Assert.assertNotNull(page);
 

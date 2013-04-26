@@ -1,6 +1,6 @@
 package org.kuali.hr.pm.positionreportsubcat.service;
 
-import org.kuali.hr.core.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.core.bo.HrEffectiveDateActiveLookupableHelper;
 
 public class PositionReportSubCatLookupableHelper  extends HrEffectiveDateActiveLookupableHelper {
 

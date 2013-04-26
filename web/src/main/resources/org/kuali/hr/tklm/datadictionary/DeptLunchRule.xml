@@ -136,7 +136,7 @@
 		</property>
 		<property name="name" value="workArea" />
 		<property name="label" value="Work Area" />
-		<property name="formatterClass" value="org.kuali.hr.core.workarea.WorkAreaFormatter"/>
+		<property name="formatterClass" value="org.kuali.hr.core.bo.workarea.WorkAreaFormatter"/>
 	</bean>
 
 	<!-- 
@@ -175,7 +175,7 @@
 		</property>
 		<property name="name" value="jobNumber" />
 		<property name="label" value="Job Number" />
-		<property name="formatterClass" value="org.kuali.hr.core.job.JobNumberFormatter"/>
+		<property name="formatterClass" value="org.kuali.hr.core.bo.job.JobNumberFormatter"/>
 	</bean>
 
 	<bean id="DeptLunchRule-deductionMins" parent="DeptLunchRule-deductionMins-parentBean" />

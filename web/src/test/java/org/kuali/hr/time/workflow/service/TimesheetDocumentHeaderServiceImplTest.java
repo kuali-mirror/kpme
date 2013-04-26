@@ -20,7 +20,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.tklm.common.TKUtils;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;
 
 public class TimesheetDocumentHeaderServiceImplTest extends KPMETestCase {

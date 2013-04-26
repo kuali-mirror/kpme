@@ -28,10 +28,10 @@
   <bean id="CalendarMaintenanceDocument" parent="CalendarMaintenanceDocument-parentBean"/>
 
   <bean id="CalendarMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
-  		p:businessObjectClass="org.kuali.hr.core.calendar.Calendar"
-  		p:businessRulesClass="org.kuali.hr.core.calendar.validation.CalendarRule"
-   		p:maintainableClass="org.kuali.hr.core.calendar.CalendarMaintainableImpl"
-   		p:documentAuthorizerClass="org.kuali.hr.core.calendar.authorization.CalendarAuthorizer">
+  		p:businessObjectClass="org.kuali.hr.core.bo.calendar.Calendar"
+  		p:businessRulesClass="org.kuali.hr.core.bo.calendar.validation.CalendarRule"
+   		p:maintainableClass="org.kuali.hr.core.bo.calendar.CalendarMaintainableImpl"
+   		p:documentAuthorizerClass="org.kuali.hr.core.bo.calendar.authorization.CalendarAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="CalendarMaintenanceDocument-CalendarMaintenance"/>

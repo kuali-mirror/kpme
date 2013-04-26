@@ -22,8 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.hr.core.accrualcategory.AccrualCategory;
-import org.kuali.hr.core.earncode.EarnCode;
+import org.kuali.hr.core.bo.accrualcategory.AccrualCategory;
+import org.kuali.hr.core.bo.earncode.EarnCode;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.payout.LeavePayout;
 import org.kuali.hr.tklm.leave.util.LMConstants;

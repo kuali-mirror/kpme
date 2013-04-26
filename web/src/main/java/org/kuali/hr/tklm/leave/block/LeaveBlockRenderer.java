@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.common.TkConstants;
-import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
+import org.kuali.hr.tklm.leave.service.LmServiceLocator;
 import org.kuali.hr.tklm.leave.util.LMConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 

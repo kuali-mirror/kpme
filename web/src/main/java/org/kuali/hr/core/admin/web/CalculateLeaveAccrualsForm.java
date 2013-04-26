@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.core.admin.web;
 
-import org.kuali.hr.core.HrForm;
+import org.kuali.hr.core.web.HrForm;
 
 public class CalculateLeaveAccrualsForm extends HrForm {
 

@@ -18,12 +18,12 @@ package org.kuali.hr.tklm.time.timehourdetail;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.hr.tklm.common.TkConstants;
-import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.leave.service.LmServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timeblock.TimeHourDetail;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;

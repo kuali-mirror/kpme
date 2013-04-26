@@ -15,9 +15,9 @@
  */
 package org.kuali.hr.tklm.time.rules.graceperiod.service;
 
-import org.kuali.hr.core.HrBusinessObject;
-import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.core.bo.HrBusinessObject;
+import org.kuali.hr.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 
 public class GracePeriodRuleMaintainableServiceImpl extends
 		HrBusinessObjectMaintainableImpl {

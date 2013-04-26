@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 
 import org.joda.time.LocalDate;
 import org.kuali.hr.core.ValidationUtils;
-import org.kuali.hr.core.earncode.EarnCode;
+import org.kuali.hr.core.bo.earncode.EarnCode;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.adjustment.LeaveAdjustment;
 import org.kuali.rice.kns.document.MaintenanceDocument;

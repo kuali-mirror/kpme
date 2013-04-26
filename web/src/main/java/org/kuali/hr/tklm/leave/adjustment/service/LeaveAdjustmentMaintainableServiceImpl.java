@@ -19,15 +19,15 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.hr.core.HrBusinessObject;
-import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
-import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.bo.HrBusinessObject;
+import org.kuali.hr.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.hr.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.adjustment.LeaveAdjustment;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
+import org.kuali.hr.tklm.leave.service.LmServiceLocator;
 import org.kuali.hr.tklm.leave.util.LMConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 

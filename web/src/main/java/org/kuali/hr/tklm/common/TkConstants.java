@@ -29,9 +29,9 @@ import java.util.TimeZone;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.kuali.hr.core.accrualcategory.AccrualCategory;
-import org.kuali.hr.core.earncode.EarnCode;
-import org.kuali.hr.core.leaveplan.LeavePlan;
+import org.kuali.hr.core.bo.accrualcategory.AccrualCategory;
+import org.kuali.hr.core.bo.earncode.EarnCode;
+import org.kuali.hr.core.bo.leaveplan.LeavePlan;
 
 public class TkConstants {
     public static final int DEFAULT_CACHE_TIME = 900;

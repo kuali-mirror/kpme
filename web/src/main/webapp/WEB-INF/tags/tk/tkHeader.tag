@@ -3,7 +3,7 @@
 <%@ attribute name="tabId" required="false"%>
 <%@ attribute name="nocache" required="false"%>
 <jsp:useBean id="tagSupport" class="org.kuali.hr.tklm.common.TagSupport" />
-<jsp:useBean id="form" class="org.kuali.hr.core.HrForm" />
+<jsp:useBean id="form" class="org.kuali.hr.core.web.HrForm" />
 
 <c:if test="${nocache == 'true'}">
     <%

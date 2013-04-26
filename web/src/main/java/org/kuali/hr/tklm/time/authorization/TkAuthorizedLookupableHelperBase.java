@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.hr.core.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.core.bo.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 public abstract class TkAuthorizedLookupableHelperBase extends HrEffectiveDateActiveLookupableHelper {

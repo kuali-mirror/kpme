@@ -28,7 +28,7 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.LeaveBlockHistory;
-import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
+import org.kuali.hr.tklm.leave.service.LmServiceLocator;
 import org.kuali.hr.tklm.leave.util.LMConstants;
 
 public class AccrualServiceTest extends KPMETestCase {

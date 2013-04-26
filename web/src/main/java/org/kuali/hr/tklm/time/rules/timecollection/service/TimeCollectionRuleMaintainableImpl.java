@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.time.rules.timecollection.TimeCollectionRule;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.krad.service.KRADServiceLocator;

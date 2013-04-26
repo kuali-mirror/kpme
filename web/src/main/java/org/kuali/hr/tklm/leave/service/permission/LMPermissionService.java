@@ -3,7 +3,7 @@ package org.kuali.hr.tklm.leave.service.permission;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.kuali.hr.core.assignment.Assignment;
+import org.kuali.hr.core.bo.assignment.Assignment;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 
 public interface LMPermissionService {

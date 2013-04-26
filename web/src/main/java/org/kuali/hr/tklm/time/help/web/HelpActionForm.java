@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.tklm.time.help.web;
 
-import org.kuali.hr.core.HrForm;
+import org.kuali.hr.core.web.HrForm;
 
 public class HelpActionForm extends HrForm {
 

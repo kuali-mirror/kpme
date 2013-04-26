@@ -16,9 +16,9 @@
 package org.kuali.hr.tklm.leave.override;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.core.HrBusinessObject;
-import org.kuali.hr.core.accrualcategory.AccrualCategory;
-import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.bo.HrBusinessObject;
+import org.kuali.hr.core.bo.accrualcategory.AccrualCategory;
+import org.kuali.hr.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;

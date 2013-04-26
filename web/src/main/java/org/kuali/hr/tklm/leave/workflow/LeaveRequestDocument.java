@@ -16,7 +16,7 @@
 package org.kuali.hr.tklm.leave.workflow;
 
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
+import org.kuali.hr.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 
 public class LeaveRequestDocument extends TransactionalDocumentBase {

@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.hr.core.HrForm;
+import org.kuali.hr.core.web.HrForm;
 
 public class TkCommonCalendarForm extends HrForm {
 	private static final long serialVersionUID = 1L;

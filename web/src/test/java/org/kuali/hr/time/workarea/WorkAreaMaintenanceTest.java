@@ -18,8 +18,8 @@ package org.kuali.hr.time.workarea;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.core.bo.workarea.WorkArea;
 import org.kuali.hr.core.service.HrServiceLocator;
-import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -30,7 +30,7 @@ public class WorkAreaMaintenanceTest extends KPMETestCase {
 
 	@Test
 	public void testWorkAreaMaintenanceScreen() throws Exception{
-    	String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.core.workarea.WorkArea&returnLocation=" + HtmlUnitUtil.getBaseURL() + "/portal.do&hideReturnLink=true&docFormKey=88888888";
+    	String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.core.bo.workarea.WorkArea&returnLocation=" + HtmlUnitUtil.getBaseURL() + "/portal.do&hideReturnLink=true&docFormKey=88888888";
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
     	setFieldValue(page,"workArea","30");
     	page = HtmlUnitUtil.clickInputContainingText(page, "search");

@@ -18,7 +18,7 @@ package org.kuali.hr.tklm.time.approval.web;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.hr.core.ApprovalForm;
+import org.kuali.hr.core.web.ApprovalForm;
 import org.kuali.hr.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
 
 public class TimeApprovalActionForm extends ApprovalForm {

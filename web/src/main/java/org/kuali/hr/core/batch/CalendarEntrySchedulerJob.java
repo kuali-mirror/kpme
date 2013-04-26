@@ -19,9 +19,9 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.hr.core.batch.service.BatchJobService;
-import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.core.service.batch.BatchJobService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerException;

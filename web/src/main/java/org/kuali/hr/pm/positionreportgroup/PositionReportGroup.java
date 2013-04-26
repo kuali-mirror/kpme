@@ -1,7 +1,7 @@
 package org.kuali.hr.pm.positionreportgroup;
 
-import org.kuali.hr.core.HrBusinessObject;
-import org.kuali.hr.core.institution.Institution;
+import org.kuali.hr.core.bo.HrBusinessObject;
+import org.kuali.hr.core.bo.institution.Institution;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
 public class PositionReportGroup extends HrBusinessObject {

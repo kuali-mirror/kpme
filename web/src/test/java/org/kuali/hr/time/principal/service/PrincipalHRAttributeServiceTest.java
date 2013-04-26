@@ -22,7 +22,7 @@ import junit.framework.Assert;
 
 import org.joda.time.LocalDate;
 import org.junit.Test;
-import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.tklm.common.TKUtils;

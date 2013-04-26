@@ -28,10 +28,10 @@
 
 	<bean id="AssignmentMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" 
-		p:businessObjectClass="org.kuali.hr.core.assignment.Assignment"
-		p:businessRulesClass="org.kuali.hr.core.assignment.validation.AssignmentRule"
-		p:maintainableClass="org.kuali.hr.core.assignment.service.AssignmentMaintainableServiceImpl"
-		p:documentAuthorizerClass="org.kuali.hr.core.assignment.authorization.AssignmentAuthorizer">
+		p:businessObjectClass="org.kuali.hr.core.bo.assignment.Assignment"
+		p:businessRulesClass="org.kuali.hr.core.bo.assignment.validation.AssignmentRule"
+		p:maintainableClass="org.kuali.hr.core.bo.assignment.service.AssignmentMaintainableServiceImpl"
+		p:documentAuthorizerClass="org.kuali.hr.core.bo.assignment.authorization.AssignmentAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="AssignmentMaintenanceDocument-AssignmentMaintenance" />
@@ -44,7 +44,7 @@
       		</list>
     	</property>
 		<property name="documentTypeName" value="AssignmentDocumentType" />
-        <property name="promptBeforeValidationClass" value="org.kuali.hr.core.assignment.validation.AssignmentEffectiveDatePrompt"/>
+        <property name="promptBeforeValidationClass" value="org.kuali.hr.core.bo.assignment.validation.AssignmentEffectiveDatePrompt"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
@@ -92,7 +92,7 @@
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="name" value="assignmentAccounts" />
 					<property name="businessObjectClass"
-						value="org.kuali.hr.core.assignment.account.AssignmentAccount" />
+						value="org.kuali.hr.core.bo.assignment.account.AssignmentAccount" />
 					<property name="alwaysAllowCollectionDeletion" value="true" />
 					<property name="maintainableFields">
 						<list>

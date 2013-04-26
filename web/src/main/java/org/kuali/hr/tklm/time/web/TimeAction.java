@@ -23,10 +23,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
-import org.kuali.hr.core.HrAction;
-import org.kuali.hr.core.HrForm;
+import org.kuali.hr.core.web.HrAction;
+import org.kuali.hr.core.web.HrForm;
 import org.kuali.hr.tklm.common.TKContext;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 

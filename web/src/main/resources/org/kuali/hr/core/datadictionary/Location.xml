@@ -24,7 +24,7 @@
 
     <bean id="Location" parent="Location-parentBean" />
 	<bean id="Location-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.core.location.Location" />
+		<property name="businessObjectClass" value="org.kuali.hr.core.bo.location.Location" />
 		<property name="titleAttribute" value="location" />
 		<property name="objectLabel" value="Location" />
 		<property name="attributes">
@@ -101,7 +101,7 @@
 		</property>
         <property name="control">
             <bean parent="SelectControlDefinition" 
-                  p:valuesFinderClass="org.kuali.hr.core.location.service.TimezoneKeyValueFinder" 
+                  p:valuesFinderClass="org.kuali.hr.core.bo.location.service.TimezoneKeyValueFinder" 
                   p:includeKeyInLabel="false" />
         </property>
 	</bean>
@@ -184,7 +184,7 @@
 	<!-- Business Object Inquiry Definition -->
   
   	<bean id="Location-inquiryDefinition" parent="Location-inquiryDefinition-parentBean" />
-	<bean id="Location-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.core.location.LocationInquirableImpl">
+	<bean id="Location-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.core.bo.location.LocationInquirableImpl">
 		<property name="title" value="Location Inquiry" />
 		<property name="translateCodes" value="false" />
 		<property name="inquirySections">

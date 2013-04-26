@@ -22,7 +22,7 @@
 
 	<bean id="PayStep" parent="PayStep-parentBean" />
 	<bean id="PayStep-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="dataObjectClass" value="org.kuali.hr.core.paystep.PayStep" />
+		<property name="dataObjectClass" value="org.kuali.hr.core.bo.paystep.PayStep" />
 		<property name="attributes">
 			<list>
 				<ref bean="PayStep-pmPayStepId" />
@@ -190,7 +190,7 @@
 	<!-- Business Object Inquiry Definition -->
 	<bean id="PayStep-InquiryView" parent="Uif-InquiryView">
 		<property name="headerText" value="Pay Step Inquiry"/>
-		<property name="dataObjectClassName" value="org.kuali.hr.core.paystep.PayStep"/>
+		<property name="dataObjectClassName" value="org.kuali.hr.core.bo.paystep.PayStep"/>
 		<property name="singlePageView" value="true"/>
 		<property name="items">
 			<list>
@@ -223,7 +223,7 @@
   <bean id="PayStepMaintenanceDocument-PayStepMaintenance" parent="PayStepMaintenanceDocument-PayStepMaintenance-parentBean"/>
   <bean id="PayStepMaintenanceDocument-PayStepMaintenance-parentBean" abstract="true" parent="Uif-MaintenanceView">
   	<property name="headerText" value= "Pay Step Maintenance"/>
-  	<property name="dataObjectClassName" value="org.kuali.hr.core.paystep.PayStep"/>
+  	<property name="dataObjectClassName" value="org.kuali.hr.core.bo.paystep.PayStep"/>
     <property name="items">
       <list merge="true">
       	<bean parent="Uif-MaintenanceGridSection">
@@ -233,20 +233,20 @@
 					<bean parent="Uif-InputField" p:propertyName="payStep" p:required="true"/>
 			        <bean parent="Uif-InputField" p:propertyName="institution" p:required="true">
 						<property name="quickfinder">
-				            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.institution.Institution"
+				            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.bo.institution.Institution"
 				                  p:fieldConversions="institutionCode:institution"/>
 				        </property>
 					</bean>
 			        <bean parent="Uif-InputField" p:propertyName="campus" p:required="true" />
 					<bean parent="Uif-InputField" p:propertyName="salaryGroup" p:required="true">
 						<property name="quickfinder">
-				            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.salgroup.SalGroup"
+				            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.bo.salarygroup.SalGroup"
 				                  p:fieldConversions="hrSalGroup:salGroup"/>
 				        </property>
 					</bean>
 					<bean parent="Uif-InputField" p:propertyName="payGrade" p:required="true">
 						<property name="quickfinder">
-				            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.paygrade.PayGrade"
+				            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.bo.paygrade.PayGrade"
 				                  p:fieldConversions="payGrade:payGrade"/>
 				        </property>
 					</bean>
@@ -266,7 +266,7 @@
 						</property>
 					</bean>
 					<bean parent="Uif-InputField" p:propertyName="serviceUnit"
-					p:optionsFinderClass="org.kuali.hr.core.paystep.valuesfinder.ServiceUnitKeyValueFinder" >
+					p:optionsFinderClass="org.kuali.hr.core.bo.paystep.valuesfinder.ServiceUnitKeyValueFinder" >
 						<property name="control">
 							<bean parent="Uif-VerticalRadioControl"/>
 						</property>
@@ -282,26 +282,26 @@
   <!-- KRAD Lookup View Definition -->
   <bean id="PayStep-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="Pay Step Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.hr.core.paystep.PayStep" />
+    <property name="dataObjectClassName" value="org.kuali.hr.core.bo.paystep.PayStep" />
     <property name="criteriaFields">
       <list>
       	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="payStep" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 			<property name="quickfinder">
-	            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.institution.Institution"
+	            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.bo.institution.Institution"
 	                  p:fieldConversions="institutionCode:institution"/>
 	        </property>
 		</bean>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus"/>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="salaryGroup">
 			<property name="quickfinder">
-	            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.salgroup.SalGroup"
+	            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.bo.salarygroup.SalGroup"
 	                  p:fieldConversions="hrSalGroup:salGroup"/>
 	        </property>
 		</bean>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="payGrade">
 			<property name="quickfinder">
-	            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.paygrade.PayGrade"
+	            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.bo.paygrade.PayGrade"
 	                  p:fieldConversions="payGrade:payGrade"/>
 	        </property>
 		</bean>

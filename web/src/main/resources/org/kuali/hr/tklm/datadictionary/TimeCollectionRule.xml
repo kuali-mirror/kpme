@@ -140,7 +140,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-        <property name="formatterClass" value="org.kuali.hr.core.workarea.WorkAreaFormatter"/>
+        <property name="formatterClass" value="org.kuali.hr.core.bo.workarea.WorkAreaFormatter"/>
 		<property name="name" value="workArea" />
 		<property name="label" value="Work Area" />
 	</bean>

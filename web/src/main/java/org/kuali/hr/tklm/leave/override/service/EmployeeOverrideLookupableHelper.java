@@ -19,10 +19,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.hr.core.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.core.bo.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.leave.override.EmployeeOverride;
-import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
+import org.kuali.hr.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;

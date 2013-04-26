@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
-import org.kuali.hr.core.assignment.Assignment;
-import org.kuali.hr.core.job.Job;
+import org.kuali.hr.core.bo.assignment.Assignment;
+import org.kuali.hr.core.bo.job.Job;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff;

@@ -23,9 +23,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.hr.core.HrAction;
-import org.kuali.hr.core.leaveplan.LeavePlan;
+import org.kuali.hr.core.bo.leaveplan.LeavePlan;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.core.web.HrAction;
 
 public class CarryOverBatchJobAction extends HrAction {
 

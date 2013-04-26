@@ -35,14 +35,14 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
-import org.kuali.hr.core.accrualcategory.AccrualCategory;
-import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
-import org.kuali.hr.core.assignment.Assignment;
-import org.kuali.hr.core.calendar.CalendarEntry;
-import org.kuali.hr.core.earncode.EarnCode;
-import org.kuali.hr.core.job.Job;
-import org.kuali.hr.core.leaveplan.LeavePlan;
-import org.kuali.hr.core.principal.PrincipalHRAttributes;
+import org.kuali.hr.core.bo.accrualcategory.AccrualCategory;
+import org.kuali.hr.core.bo.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.hr.core.bo.assignment.Assignment;
+import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.hr.core.bo.earncode.EarnCode;
+import org.kuali.hr.core.bo.job.Job;
+import org.kuali.hr.core.bo.leaveplan.LeavePlan;
+import org.kuali.hr.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.hr.tklm.common.TKUtils;
@@ -51,7 +51,7 @@ import org.kuali.hr.tklm.leave.accrual.PrincipalAccrualRan;
 import org.kuali.hr.tklm.leave.accrual.RateRange;
 import org.kuali.hr.tklm.leave.accrual.RateRangeAggregate;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
+import org.kuali.hr.tklm.leave.service.LmServiceLocator;
 import org.kuali.hr.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.tklm.leave.util.LMConstants;
 import org.kuali.hr.tklm.leave.workflow.LeaveCalendarDocumentHeader;
@@ -575,7 +575,7 @@ public class AccrualServiceImpl implements AccrualService {
 		// get all pay calendar entries for this employee. used to determine interval dates
 		Map<String, List<CalendarEntry>> calEntryMap = new HashMap<String, List<CalendarEntry>>();
 		for(String calName : calNameSet) {
-			org.kuali.hr.core.calendar.Calendar aCal = HrServiceLocator.getCalendarService().getCalendarByGroup(calName);
+			org.kuali.hr.core.bo.calendar.Calendar aCal = HrServiceLocator.getCalendarService().getCalendarByGroup(calName);
 			if(aCal != null) {
 				List<CalendarEntry> aList = HrServiceLocator.getCalendarEntryService().getAllCalendarEntriesForCalendarId(aCal.getHrCalendarId());
 				Collections.sort(aList);

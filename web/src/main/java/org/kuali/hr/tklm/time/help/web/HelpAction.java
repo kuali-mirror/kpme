@@ -16,7 +16,7 @@
 package org.kuali.hr.tklm.time.help.web;
 
 import org.apache.struts.action.ActionForm;
-import org.kuali.hr.core.HrAction;
+import org.kuali.hr.core.web.HrAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
 
 public class HelpAction extends HrAction {

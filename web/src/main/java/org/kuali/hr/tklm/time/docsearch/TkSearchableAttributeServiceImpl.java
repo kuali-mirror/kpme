@@ -22,12 +22,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
-import org.kuali.hr.core.assignment.Assignment;
+import org.kuali.hr.core.bo.assignment.Assignment;
+import org.kuali.hr.core.bo.job.Job;
+import org.kuali.hr.core.bo.workarea.WorkArea;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
-import org.kuali.hr.core.job.Job;
 import org.kuali.hr.core.service.HrServiceLocator;
-import org.kuali.hr.core.workarea.WorkArea;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.krad.util.GlobalVariables;

@@ -43,11 +43,11 @@ import org.joda.time.LocalDate.Property;
 import org.joda.time.Period;
 import org.kuali.hr.core.HrConstants;
 import org.kuali.hr.core.KPMEConstants;
-import org.kuali.hr.core.assignment.Assignment;
-import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.bo.assignment.Assignment;
+import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.hr.core.bo.task.Task;
 import org.kuali.hr.core.service.HrServiceLocator;
-import org.kuali.hr.core.task.Task;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 public class TKUtils {

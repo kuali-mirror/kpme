@@ -28,13 +28,13 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
-import org.kuali.hr.core.calendar.Calendar;
-import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.bo.calendar.Calendar;
+import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.time.flsa.FlsaDay;
 import org.kuali.hr.tklm.time.flsa.FlsaWeek;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.workflow.TimesheetDocumentHeader;
 

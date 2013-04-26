@@ -26,7 +26,7 @@ public class PayCalendarTest extends KPMETestCase {
 	
 	@Test
 	public void testPayCalendar() throws Exception{
-    	String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.core.calendar.Calendar&returnLocation=" + HtmlUnitUtil.getBaseURL() + "/portal.do&hideReturnLink=true&docFormKey=88888888";
+    	String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.core.bo.calendar.Calendar&returnLocation=" + HtmlUnitUtil.getBaseURL() + "/portal.do&hideReturnLink=true&docFormKey=88888888";
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
     	HtmlUnitUtil.createTempFile(page);
     	page = HtmlUnitUtil.clickInputContainingText(page, "search");

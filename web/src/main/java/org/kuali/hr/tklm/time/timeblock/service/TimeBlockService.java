@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.kuali.hr.core.assignment.Assignment;
+import org.kuali.hr.core.bo.assignment.Assignment;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;

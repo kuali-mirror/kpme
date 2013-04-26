@@ -23,7 +23,7 @@
 
 	<bean id="EarnCode" parent="EarnCode-parentBean" />
 	<bean id="EarnCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.core.earncode.EarnCode" />
+		<property name="businessObjectClass" value="org.kuali.hr.core.bo.earncode.EarnCode" />
 		<property name="inquiryDefinition">
 			<ref bean="EarnCode-inquiryDefinition" />
 		</property>
@@ -315,7 +315,7 @@
 		<property name="shortLabel" value="Accrual Balance Action" />
 		<property name="control">
 			<bean parent="RadioControlDefinition"
-				p:valuesFinderClass="org.kuali.hr.core.earncode.valuesfinder.AccrualBalanceActionKeyValueFinder">
+				p:valuesFinderClass="org.kuali.hr.core.bo.earncode.valuesfinder.AccrualBalanceActionKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="accrualBalanceAction" />
@@ -329,7 +329,7 @@
 		<property name="shortLabel" value="Fractional time allowed" />
 		<property name="control">
 			<bean parent="RadioControlDefinition"
-				p:valuesFinderClass="org.kuali.hr.core.earncode.valuesfinder.FractionOptionsKeyValueFinder">
+				p:valuesFinderClass="org.kuali.hr.core.bo.earncode.valuesfinder.FractionOptionsKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="fractionalTimeAllowed" />
@@ -343,7 +343,7 @@
 		<property name="shortLabel" value="Rounding Option" />
 		<property name="control">
 			<bean parent="RadioControlDefinition"
-				p:valuesFinderClass="org.kuali.hr.core.earncode.valuesfinder.RoundingOptionsKeyValueFinder">
+				p:valuesFinderClass="org.kuali.hr.core.bo.earncode.valuesfinder.RoundingOptionsKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="roundingOption" />
@@ -463,7 +463,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Record Method" />
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.core.earncode.valuesfinder.RecordMethodKeyValueFinder" />
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.core.bo.earncode.valuesfinder.RecordMethodKeyValueFinder" />
 		</property>
 		<property name="name" value="recordMethod" />
 		<property name="label" value="Record Method" />
@@ -475,7 +475,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Usage Limit" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.core.earncode.valuesfinder.UsageLimitKeyValueFinder" />
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.core.bo.earncode.valuesfinder.UsageLimitKeyValueFinder" />
 		</property>
 		<property name="name" value="usageLimit" />
 		<property name="label" value="Usage Limit" />
@@ -487,7 +487,7 @@
 	<bean id="EarnCode-inquiryDefinition" parent="EarnCode-inquiryDefinition-parentBean" />
 
 	<bean id="EarnCode-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.core.earncode.EarnCodeInquirableImpl">
+		parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.core.bo.earncode.EarnCodeInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

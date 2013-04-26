@@ -25,7 +25,7 @@
 	<bean id="EarnCodeSecurity-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.hr.core.earncode.security.EarnCodeSecurity" />
+			value="org.kuali.hr.core.bo.earncode.security.EarnCodeSecurity" />
 		<property name="titleAttribute" value="hrEarnCodeSecurityId" />
 		<property name="objectLabel" value="Earn -Code Security" />
 		<property name="inquiryDefinition">
@@ -316,7 +316,7 @@
 	<bean id="EarnCodeSecurity-earnCodeType-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Earn Code Type" />
 				<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.core.earncode.security.valuesfinder.EarnCodeTypeKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.core.bo.earncode.security.valuesfinder.EarnCodeTypeKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="earnCodeType" />

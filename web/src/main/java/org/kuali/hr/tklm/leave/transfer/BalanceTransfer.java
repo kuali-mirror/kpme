@@ -19,13 +19,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.HrConstants;
-import org.kuali.hr.core.accrualcategory.AccrualCategory;
-import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.hr.core.bo.HrBusinessObject;
+import org.kuali.hr.core.bo.accrualcategory.AccrualCategory;
+import org.kuali.hr.core.bo.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
-import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
+import org.kuali.hr.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.ObjectUtils;
 

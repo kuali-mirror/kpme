@@ -21,8 +21,8 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.hr.core.earncode.security.EarnCodeSecurity;
-import org.kuali.hr.core.earncode.security.service.EarnCodeSecurityService;
+import org.kuali.hr.core.bo.earncode.security.EarnCodeSecurity;
+import org.kuali.hr.core.bo.earncode.security.service.EarnCodeSecurityService;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.test.KPMETestCase;
 

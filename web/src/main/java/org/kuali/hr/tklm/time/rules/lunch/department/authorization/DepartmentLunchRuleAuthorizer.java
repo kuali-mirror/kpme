@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
-import org.kuali.hr.core.department.Department;
+import org.kuali.hr.core.bo.department.Department;
 import org.kuali.hr.core.role.KPMERoleMemberAttribute;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.time.rules.lunch.department.DeptLunchRule;

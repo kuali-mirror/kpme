@@ -18,13 +18,13 @@ package org.kuali.hr.tklm.time.authorization;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.hr.core.department.Department;
+import org.kuali.hr.core.bo.department.Department;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.core.service.HrServiceLocator;
 import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.hr.tklm.common.TkConstants;
-import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.leave.service.LmServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AuthorizationValidationUtils {

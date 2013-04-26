@@ -22,13 +22,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.hr.core.HrAction;
-import org.kuali.hr.core.calendar.Calendar;
-import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.bo.calendar.Calendar;
+import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.hr.core.service.HrServiceLocator;
+import org.kuali.hr.core.web.HrAction;
 import org.kuali.hr.tklm.common.TkConstants;
-import org.kuali.hr.tklm.leave.service.base.LmServiceLocator;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.leave.service.LmServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.businessobject.defaultvalue;
 
-import org.kuali.hr.core.position.Position;
+import org.kuali.hr.core.bo.position.Position;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.valuefinder.ValueFinder;
 

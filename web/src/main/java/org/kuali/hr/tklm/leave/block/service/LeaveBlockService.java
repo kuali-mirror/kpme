@@ -22,8 +22,8 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.hr.core.assignment.Assignment;
-import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.bo.assignment.Assignment;
+import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 
 public interface LeaveBlockService {

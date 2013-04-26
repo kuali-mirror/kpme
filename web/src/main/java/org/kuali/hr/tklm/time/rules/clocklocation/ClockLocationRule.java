@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.hr.core.KPMEConstants;
-import org.kuali.hr.core.department.Department;
-import org.kuali.hr.core.job.Job;
-import org.kuali.hr.core.workarea.WorkArea;
+import org.kuali.hr.core.bo.department.Department;
+import org.kuali.hr.core.bo.job.Job;
+import org.kuali.hr.core.bo.workarea.WorkArea;
 import org.kuali.hr.tklm.time.authorization.DepartmentalRule;
 import org.kuali.hr.tklm.time.rules.TkRule;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 
 public class ClockLocationRule extends TkRule implements DepartmentalRule {

@@ -34,7 +34,7 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.time.clocklog.ClockLog;
 import org.kuali.hr.tklm.time.rules.graceperiod.GracePeriodRule;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.hr.tklm.time.timeblock.TimeBlock;
 import org.kuali.hr.tklm.time.timeblock.TimeHourDetail;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;

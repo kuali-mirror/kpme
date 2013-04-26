@@ -18,10 +18,10 @@
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.core.HrBusinessObject;
-import org.kuali.hr.core.HrBusinessObjectMaintainableImpl;
+import org.kuali.hr.core.bo.HrBusinessObject;
+import org.kuali.hr.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.tklm.time.rules.lunch.department.DeptLunchRule;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 

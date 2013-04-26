@@ -17,7 +17,7 @@ package org.kuali.hr.tklm.time.timesummary.service;
 
 import java.util.List;
 
-import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.hr.tklm.time.timesummary.TimeSummary;
 

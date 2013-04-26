@@ -26,7 +26,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.time.rules.graceperiod.GracePeriodRule;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class GracePeriodRuleServiceTest extends KPMETestCase{

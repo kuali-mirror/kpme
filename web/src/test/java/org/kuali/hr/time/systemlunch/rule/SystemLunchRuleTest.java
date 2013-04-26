@@ -29,7 +29,7 @@ import org.kuali.hr.tklm.common.TKContext;
 import org.kuali.hr.tklm.common.TKUtils;
 import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.hr.tklm.time.rules.lunch.sys.SystemLunchRule;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 

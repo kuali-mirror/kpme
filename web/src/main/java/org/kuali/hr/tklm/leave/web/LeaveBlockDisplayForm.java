@@ -18,8 +18,8 @@ package org.kuali.hr.tklm.leave.web;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.hr.core.HrForm;
-import org.kuali.hr.core.accrualcategory.AccrualCategory;
+import org.kuali.hr.core.bo.accrualcategory.AccrualCategory;
+import org.kuali.hr.core.web.HrForm;
 import org.kuali.hr.tklm.leave.block.LeaveBlockHistory;
 
 public class LeaveBlockDisplayForm extends HrForm {

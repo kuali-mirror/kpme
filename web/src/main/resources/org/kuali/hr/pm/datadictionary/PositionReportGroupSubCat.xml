@@ -169,7 +169,7 @@
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 	         <property name="quickfinder">
-	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.institution.Institution" 
+	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.bo.institution.Institution" 
 	        		 p:fieldConversions="institutionCode:institution"/>
 	   		 </property>
         </bean>
@@ -249,7 +249,7 @@
 	       		</bean>
 		        <bean parent="Uif-InputField" p:propertyName="institution" >
 			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.institution.Institution" 
+		       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.core.bo.institution.Institution" 
 		        			 p:fieldConversions="institutionCode:institution"/>
 		   			</property>
 		        </bean>

@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.tklm.time.rules.clocklocation;
 
-import org.kuali.hr.core.HrBusinessObject;
+import org.kuali.hr.core.bo.HrBusinessObject;
 
 public class ClockLocationRuleIpAddress extends HrBusinessObject {
 

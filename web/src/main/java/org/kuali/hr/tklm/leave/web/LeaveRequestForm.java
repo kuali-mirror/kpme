@@ -18,7 +18,7 @@ package org.kuali.hr.tklm.leave.web;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.hr.core.HrForm;
+import org.kuali.hr.core.web.HrForm;
 import org.kuali.hr.tklm.leave.block.LeaveBlock;
 import org.kuali.hr.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.hr.tklm.leave.workflow.LeaveRequestDocument;

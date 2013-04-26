@@ -1,6 +1,6 @@
 package org.kuali.hr.pm.positionflag;
 
-import org.kuali.hr.core.HrBusinessObject;
+import org.kuali.hr.core.bo.HrBusinessObject;
 
 public class PositionFlag extends HrBusinessObject {
 	

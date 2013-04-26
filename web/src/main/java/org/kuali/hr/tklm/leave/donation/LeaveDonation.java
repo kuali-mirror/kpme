@@ -17,10 +17,10 @@ package org.kuali.hr.tklm.leave.donation;
 
 import java.math.BigDecimal;
 
-import org.kuali.hr.core.HrBusinessObject;
 import org.kuali.hr.core.KPMEConstants;
-import org.kuali.hr.core.accrualcategory.AccrualCategory;
-import org.kuali.hr.core.earncode.EarnCode;
+import org.kuali.hr.core.bo.HrBusinessObject;
+import org.kuali.hr.core.bo.accrualcategory.AccrualCategory;
+import org.kuali.hr.core.bo.earncode.EarnCode;
 import org.kuali.rice.kim.api.identity.Person;
 
 public class LeaveDonation extends HrBusinessObject {

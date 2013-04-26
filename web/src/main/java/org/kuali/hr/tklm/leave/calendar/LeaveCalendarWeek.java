@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.tklm.leave.calendar;
 
-import org.kuali.hr.core.calendar.CalendarWeek;
+import org.kuali.hr.core.bo.calendar.CalendarWeek;
 
 public class LeaveCalendarWeek extends CalendarWeek {
 }

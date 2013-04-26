@@ -19,9 +19,9 @@ import java.sql.Timestamp;
 
 import javax.persistence.Transient;
 
-import org.kuali.hr.core.job.Job;
-import org.kuali.hr.core.task.Task;
-import org.kuali.hr.core.workarea.WorkArea;
+import org.kuali.hr.core.bo.job.Job;
+import org.kuali.hr.core.bo.task.Task;
+import org.kuali.hr.core.bo.workarea.WorkArea;
 import org.kuali.hr.tklm.common.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;

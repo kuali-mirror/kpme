@@ -19,12 +19,12 @@ import java.math.BigDecimal;
 import java.sql.Time;
 
 import org.kuali.hr.core.KPMEConstants;
-import org.kuali.hr.core.calendar.Calendar;
-import org.kuali.hr.core.earncode.EarnCode;
-import org.kuali.hr.core.earncode.group.EarnCodeGroup;
-import org.kuali.hr.core.location.Location;
-import org.kuali.hr.core.paygrade.PayGrade;
-import org.kuali.hr.core.salgroup.SalGroup;
+import org.kuali.hr.core.bo.calendar.Calendar;
+import org.kuali.hr.core.bo.earncode.EarnCode;
+import org.kuali.hr.core.bo.earncode.group.EarnCodeGroup;
+import org.kuali.hr.core.bo.location.Location;
+import org.kuali.hr.core.bo.paygrade.PayGrade;
+import org.kuali.hr.core.bo.salarygroup.SalGroup;
 import org.kuali.hr.tklm.time.rules.TkRule;
 
 public class ShiftDifferentialRule extends TkRule {

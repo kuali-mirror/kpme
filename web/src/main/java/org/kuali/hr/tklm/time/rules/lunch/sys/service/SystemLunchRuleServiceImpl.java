@@ -20,7 +20,7 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.kuali.hr.tklm.time.rules.lunch.sys.SystemLunchRule;
 import org.kuali.hr.tklm.time.rules.lunch.sys.dao.SystemLunchRuleDao;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 
 public class SystemLunchRuleServiceImpl implements SystemLunchRuleService {
 	public SystemLunchRuleDao systemLunchRuleDao;

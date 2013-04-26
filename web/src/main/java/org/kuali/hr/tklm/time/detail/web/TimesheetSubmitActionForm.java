@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.tklm.time.detail.web;
 
-import org.kuali.hr.core.HrForm;
+import org.kuali.hr.core.web.HrForm;
 
 public class TimesheetSubmitActionForm extends HrForm {
 

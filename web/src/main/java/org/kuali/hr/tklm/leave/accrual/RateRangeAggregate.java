@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
 
 public class RateRangeAggregate {
 	private List<RateRange> rateRanges = new ArrayList<RateRange>();

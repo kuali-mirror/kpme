@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.tklm.leave.batch.web;
 
-import org.kuali.hr.core.HrForm;
+import org.kuali.hr.core.web.HrForm;
 
 public class CarryOverBatchJobActionForm extends HrForm {
 

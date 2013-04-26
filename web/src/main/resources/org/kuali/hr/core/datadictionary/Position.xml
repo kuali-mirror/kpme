@@ -22,7 +22,7 @@
 	<bean id="Position" parent="Position-parentBean" />
 
 	<bean id="Position-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.core.position.Position" />
+		<property name="businessObjectClass" value="org.kuali.hr.core.bo.position.Position" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="Position" />
 		<property name="inquiryDefinition">

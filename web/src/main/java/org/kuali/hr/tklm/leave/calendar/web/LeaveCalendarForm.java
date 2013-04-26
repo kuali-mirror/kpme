@@ -26,7 +26,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.kuali.hr.core.calendar.CalendarEntry;
+import org.kuali.hr.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.hr.tklm.common.TkCommonCalendarForm;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendar;
 import org.kuali.hr.tklm.leave.calendar.LeaveCalendarDocument;

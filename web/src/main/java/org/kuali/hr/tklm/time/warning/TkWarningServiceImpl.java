@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.hr.core.service.HrServiceLocator;
-import org.kuali.hr.tklm.time.service.base.TkServiceLocator;
+import org.kuali.hr.tklm.time.service.TkServiceLocator;
 import org.kuali.hr.tklm.time.timesheet.TimesheetDocument;
 
 public class TkWarningServiceImpl implements TkWarningService {

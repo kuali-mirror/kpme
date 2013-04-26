@@ -21,8 +21,8 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.kuali.hr.core.accrualcategory.rule.AccrualCategoryRule;
-import org.kuali.hr.core.accrualcategory.validation.AccrualCategoryValidation;
+import org.kuali.hr.core.bo.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.hr.core.bo.accrualcategory.validation.AccrualCategoryValidation;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
