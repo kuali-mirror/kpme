@@ -16,7 +16,6 @@ import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kew.api.identity.Id;
 import org.kuali.rice.kew.api.identity.PrincipalId;
 import org.kuali.rice.kew.api.rule.RoleName;
@@ -72,7 +71,7 @@ public class LeaveRequestRoleAttribute extends GenericRoleAttribute {
 		if (StringUtils.isNotBlank(roleName) && NumberUtils.isNumber(qualifier)) {
 			Long workArea = Long.valueOf(qualifier);
 	
-			List<RoleMember> roleMembers = TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(roleName, workArea, new DateTime(), true);
+			List<RoleMember> roleMembers = HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(roleName, workArea, new DateTime(), true);
 			
 	        for (RoleMember roleMember : roleMembers) {
 	        	recipients.add(new PrincipalId(roleMember.getMemberId()));

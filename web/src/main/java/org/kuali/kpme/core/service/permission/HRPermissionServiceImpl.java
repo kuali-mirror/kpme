@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.rice.kim.api.permission.PermissionService;
 
-public class HRPermissionServiceImpl extends KPMEPermissionServiceBase implements HRPermissionService {
+public class HRPermissionServiceImpl extends HrPermissionServiceBase implements HRPermissionService {
 	
 	private PermissionService permissionService;
 	

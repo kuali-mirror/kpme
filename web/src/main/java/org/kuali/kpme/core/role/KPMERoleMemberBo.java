@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
@@ -61,7 +61,7 @@ public abstract class KPMERoleMemberBo extends RoleMemberBo {
 	}
 	
 	public void setRoleName(String roleName) {
-		setRoleId(TkServiceLocator.getHRRoleService().getRoleIdByName(roleName));
+		setRoleId(HrServiceLocator.getHRRoleService().getRoleIdByName(roleName));
 	}
 
 }

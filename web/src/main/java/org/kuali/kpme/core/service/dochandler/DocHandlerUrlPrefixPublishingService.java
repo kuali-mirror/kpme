@@ -13,22 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.bo.salarygroup.service;
+package org.kuali.kpme.core.service.dochandler;
 
-import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
-import org.kuali.kpme.core.service.HrServiceLocator;
-
-public class SalGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	@Override
-	public HrBusinessObject getObjectById(String id) {
-		return HrServiceLocator.getSalaryGroupService().getSalGroup(id);
-	}
-
+/**
+ *  Publishes the DocHandler url prefix when the app starts up.
+ *  
+ *  Originally from Kuali Coeus.
+ *  
+ *  @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ */
+public interface DocHandlerUrlPrefixPublishingService {
+    
+    public void publishDocHandlerUrlPrefix();
+    
 }

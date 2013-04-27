@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.bo.salarygroup.SalGroup;
+import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.common.TKUtils;
@@ -40,8 +40,8 @@ public class SalaryGroupLookupableHelper extends KPMELookupableHelper {
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);		
 		
-		SalGroup salGroup = (SalGroup) businessObject;
-		String hrSalGroupId = salGroup.getHrSalGroupId();
+		SalaryGroup salaryGroup = (SalaryGroup) businessObject;
+		String hrSalGroupId = salaryGroup.getHrSalGroupId();
 		
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
@@ -68,7 +68,7 @@ public class SalaryGroupLookupableHelper extends KPMELookupableHelper {
             hrSalGroup = "";
         }
         
-        return HrServiceLocator.getSalaryGroupService().getSalGroups(hrSalGroup, descr, TKUtils.formatDateString(fromEffdt),
+        return HrServiceLocator.getSalaryGroupService().getSalaryGroups(hrSalGroup, descr, TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHist);
     }
 

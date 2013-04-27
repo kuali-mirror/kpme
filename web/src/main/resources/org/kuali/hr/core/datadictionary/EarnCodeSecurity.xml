@@ -70,7 +70,7 @@
 				</bean>
 				
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="salGroupObj" />
+					<property name="objectAttributeName" value="salaryGroupObj" />
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrSalGroup"

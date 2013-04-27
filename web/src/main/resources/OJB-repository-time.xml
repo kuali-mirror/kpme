@@ -322,7 +322,7 @@
         <field-descriptor name="objectId"                   column="OBJ_ID"             jdbc-type="VARCHAR" index="true" />
         <field-descriptor name="versionNumber"              column="VER_NBR"            jdbc-type="BIGINT" locking="true" />    </class-descriptor>
 
-    <class-descriptor class="org.kuali.kpme.core.bo.salarygroup.SalGroup" table="HR_SAL_GROUP_T">
+    <class-descriptor class="org.kuali.kpme.core.bo.salarygroup.SalaryGroup" table="HR_SAL_GROUP_T">
         <field-descriptor name="hrSalGroupId"   column="HR_SAL_GROUP_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="HR_SAL_GROUP_S" />
         <field-descriptor name="hrSalGroup"     column="HR_SAL_GROUP"       jdbc-type="VARCHAR"     length="10" nullable="false" />
         <field-descriptor name="descr"          column="DESCR"              jdbc-type="VARCHAR"     length="30" nullable="false" />

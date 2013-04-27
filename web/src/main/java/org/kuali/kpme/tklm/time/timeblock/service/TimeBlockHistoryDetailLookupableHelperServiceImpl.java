@@ -148,9 +148,9 @@ public class TimeBlockHistoryDetailLookupableHelperServiceImpl extends KualiLook
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 			
 			boolean valid = false;
-			if (TkServiceLocator.getHRGroupService().isMemberOfSystemAdministratorGroup(TKContext.getPrincipalId(), new DateTime())
-					|| TkServiceLocator.getHRGroupService().isMemberOfSystemViewOnlyGroup(TKContext.getPrincipalId(), new DateTime())
-					|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
+			if (HrServiceLocator.getHRGroupService().isMemberOfSystemAdministratorGroup(TKContext.getPrincipalId(), new DateTime())
+					|| HrServiceLocator.getHRGroupService().isMemberOfSystemViewOnlyGroup(TKContext.getPrincipalId(), new DateTime())
+					|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
 					|| TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(TKContext.getPrincipalId(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
 					|| LmServiceLocator.getLMRoleService().principalHasRoleInDepartment(TKContext.getPrincipalId(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
 					|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(TKContext.getPrincipalId(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())

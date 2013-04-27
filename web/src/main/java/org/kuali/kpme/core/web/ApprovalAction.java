@@ -40,9 +40,7 @@ import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.person.TKPerson;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -130,9 +128,9 @@ public class ApprovalAction extends HrAction{
 		if (StringUtils.isBlank(page)) {
 	        String principalId = GlobalVariables.getUserSession().getPrincipalId();
 			Set<String> departments = new TreeSet<String>();
-			departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
-			departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
-			departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+			departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
+			departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+			departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
 		    taf.setDepartments(new ArrayList<String>(departments));
 		    
 		    if (taf.getDepartments().size() == 1 || taf.getSelectedDept() != null) {
@@ -144,9 +142,9 @@ public class ApprovalAction extends HrAction{
 		        	Long workArea = workAreaObj.getWorkArea();
 		        	String description = workAreaObj.getDescription();
 		        	
-		        	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
-		        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
-		        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
+		        	if (HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
+		        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
+		        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
 		        		taf.getWorkAreaDescr().put(workArea, description + "(" + workArea + ")");
 		        	}
 		        }

@@ -42,7 +42,6 @@ import org.kuali.kpme.core.web.HrAction;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.person.TKPerson;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class LeaveApprovalWSAction extends HrAction {
@@ -75,8 +74,8 @@ public class LeaveApprovalWSAction extends HrAction {
 		        	String principalId = GlobalVariables.getUserSession().getPrincipalId();
 		        	
 		        	Set<Long> workAreas = new HashSet<Long>();
-		        	workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-		            workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+		        	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+		            workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
 
 		        	for(Long workArea : workAreas) {
 		        		workAreaList.add(workArea.toString());

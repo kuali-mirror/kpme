@@ -16,10 +16,13 @@ import org.kuali.kpme.core.bo.paygrade.service.PayGradeService;
 import org.kuali.kpme.core.bo.paytype.service.PayTypeService;
 import org.kuali.kpme.core.bo.position.service.PositionService;
 import org.kuali.kpme.core.bo.principal.service.PrincipalHRAttributesService;
-import org.kuali.kpme.core.bo.salarygroup.service.SalGroupService;
+import org.kuali.kpme.core.bo.salarygroup.service.SalaryGroupService;
 import org.kuali.kpme.core.bo.task.service.TaskService;
 import org.kuali.kpme.core.bo.workarea.service.WorkAreaService;
 import org.kuali.kpme.core.service.batch.BatchJobService;
+import org.kuali.kpme.core.service.group.HRGroupService;
+import org.kuali.kpme.core.service.permission.HRPermissionService;
+import org.kuali.kpme.core.service.role.HRRoleService;
 import org.kuali.kpme.tklm.time.person.service.PersonService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -53,12 +56,17 @@ public class HrServiceLocator implements ApplicationContextAware {
 	public static final String HR_EARN_CODE_SECURITY = "earnCodeSecurityService";
 	public static final String HR_TIME_EARN_CODE_GROUP_SERVICE = "earnCodeGroupService";
 
+    //Move to HrServiceLocator
+    public static final String HR_GROUP_SERVICE = "hrGroupService";
+    public static final String HR_PERMISSION_SERVICE = "hrPermissionService";
+    public static final String HR_ROLE_SERVICE = "hrRoleService";
+	
     public static TaskService getTaskService() {
         return (TaskService) CONTEXT.getBean(HR_TASK_SERVICE);
     }
 
-	public static SalGroupService getSalaryGroupService() {
-		return (SalGroupService) CONTEXT.getBean(HR_SALARY_GROUP_SERVICE);
+	public static SalaryGroupService getSalaryGroupService() {
+		return (SalaryGroupService) CONTEXT.getBean(HR_SALARY_GROUP_SERVICE);
 	}
 
 	public static DepartmentService getDepartmentService() {
@@ -134,8 +142,23 @@ public class HrServiceLocator implements ApplicationContextAware {
 
 	public static PersonService getPersonService(){
 		return (PersonService)CONTEXT.getBean(HR_PERSON_SERVICE);
-	}	
+	}
 
+	/* 
+	 * 
+	 * Group, Role and Permission Services
+	 * 
+	 */
+    public static HRGroupService getHRGroupService() {
+    	return (HRGroupService) CONTEXT.getBean(HR_GROUP_SERVICE);
+    }
+    public static HRPermissionService getHRPermissionService() {
+    	return (HRPermissionService) CONTEXT.getBean(HR_PERMISSION_SERVICE);
+    }
+    public static HRRoleService getHRRoleService() {
+    	return (HRRoleService) CONTEXT.getBean(HR_ROLE_SERVICE);
+    }
+	
 	@Override
 	public void setApplicationContext(ApplicationContext arg0)
 			throws BeansException {

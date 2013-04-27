@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.bo.calendar.entry;
+package org.kuali.kpme.core.bo.calendar.entry.service;
 
 import java.sql.Date;
 import java.sql.Time;
 
 import org.kuali.kpme.core.bo.calendar.Calendar;
+import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.cache.CacheUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;

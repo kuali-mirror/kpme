@@ -24,7 +24,7 @@ import org.kuali.kpme.core.bo.location.Location;
 import org.kuali.kpme.core.bo.paygrade.PayGrade;
 import org.kuali.kpme.core.bo.paytype.PayType;
 import org.kuali.kpme.core.bo.position.Position;
-import org.kuali.kpme.core.bo.salarygroup.SalGroup;
+import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
@@ -62,7 +62,7 @@ public class Job extends HrBusinessObject {
 	private PayType payTypeObj;
 	private transient Location locationObj;
     private transient PayGrade payGradeObj;
-    private transient SalGroup salGroupObj;
+    private transient SalaryGroup salaryGroupObj;
     private transient Position positionObj;
     
     private BigDecimal fte = new BigDecimal(0); //kpme1465, chen
@@ -278,12 +278,12 @@ public class Job extends HrBusinessObject {
 		this.payGradeObj = payGradeObj;
 	}
 
-	public SalGroup getSalGroupObj() {
-		return salGroupObj;
+	public SalaryGroup getSalaryGroupObj() {
+		return salaryGroupObj;
 	}
 
-	public void setSalGroupObj(SalGroup salGroupObj) {
-		this.salGroupObj = salGroupObj;
+	public void setSalaryGroupObj(SalaryGroup salaryGroupObj) {
+		this.salaryGroupObj = salaryGroupObj;
 	}
 
 	public void setPositionNumber(String positionNumber) {

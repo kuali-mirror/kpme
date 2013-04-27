@@ -21,11 +21,11 @@ import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
-public class SalGroup extends HrBusinessObject {
+public class SalaryGroup extends HrBusinessObject {
 
 	private static final long serialVersionUID = 8169672203236887348L;
 
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "SalGroup";
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "SalaryGroup";
 
 	private String hrSalGroupId;
 	private String hrSalGroup;

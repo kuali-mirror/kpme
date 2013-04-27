@@ -14,7 +14,7 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.service.permission.KPMEPermissionServiceBase;
+import org.kuali.kpme.core.service.permission.HrPermissionServiceBase;
 import org.kuali.kpme.tklm.common.TKContext;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
@@ -33,7 +33,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.util.KRADConstants;
 
-public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implements LMPermissionService {
+public class LMPermissionServiceImpl extends HrPermissionServiceBase implements LMPermissionService {
 	
 	private PermissionService permissionService;
 	private LeaveCalendarService leaveCalendarService;

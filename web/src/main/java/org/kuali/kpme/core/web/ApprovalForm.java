@@ -27,8 +27,8 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.role.KPMERole;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.common.TkCommonCalendarForm;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ApprovalForm extends TkCommonCalendarForm {
@@ -240,8 +240,8 @@ public class ApprovalForm extends TkCommonCalendarForm {
     	String principalId = GlobalVariables.getUserSession().getPrincipalId();
     	
     	Set<Long> workAreas = new HashSet<Long>();
-    	workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-        workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+    	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+        workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
 
         return new ArrayList<Long>(workAreas);
     }

@@ -48,13 +48,11 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.web.ApprovalAction;
 import org.kuali.kpme.core.web.ApprovalForm;
 import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.person.TKPerson;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class LeaveApprovalAction extends ApprovalAction{
@@ -133,9 +131,9 @@ public class LeaveApprovalAction extends ApprovalAction{
         	Long workArea = workAreaObj.getWorkArea();
         	String description = workAreaObj.getDescription();
         	
-        	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
-        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
-        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
+        	if (HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
+        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
+        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
         		laaf.getWorkAreaDescr().put(workArea, description + "(" + workArea + ")");
         	}
         }
@@ -259,7 +257,7 @@ public class LeaveApprovalAction extends ApprovalAction{
         } else {
             currentDate = LocalDate.now();
         }
-        List<Long> workAreas = TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);
+        List<Long> workAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);
         List<String> principalIds = new ArrayList<String>();
         for (Long workArea : workAreas) {
             List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);

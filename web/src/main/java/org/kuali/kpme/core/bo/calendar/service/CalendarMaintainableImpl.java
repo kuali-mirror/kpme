@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.bo.calendar;
+package org.kuali.kpme.core.bo.calendar.service;
 
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.cache.CacheUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;

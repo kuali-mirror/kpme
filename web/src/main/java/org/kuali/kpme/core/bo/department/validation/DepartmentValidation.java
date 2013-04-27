@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.bo.department;
+package org.kuali.kpme.core.bo.department.validation;
 
 import java.util.List;
 import java.util.ListIterator;
@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -35,7 +36,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 @SuppressWarnings("deprecation")
-public class DepartmentMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
+public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {

@@ -154,8 +154,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		LocalDate windowDate = minDt.toLocalDate();
 		
     	Set<Long> workAreas = new HashSet<Long>();
-    	workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-        workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+    	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+        workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
 
 		// Get all of the principals within our window of time.
 		for (Long waNum : workAreas) {
@@ -204,8 +204,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		SortedSet<String> pcg = new TreeSet<String>();
 
     	Set<Long> workAreas = new HashSet<Long>();
-    	workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-        workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+    	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+        workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
 
 		List<Assignment> assignments = new ArrayList<Assignment>();
 
@@ -673,8 +673,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 	public boolean doesApproverHavePrincipalsForCalendarGroup(LocalDate asOfDate, String calGroup) {
     	Set<Long> workAreas = new HashSet<Long>();
-    	workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-        workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+    	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+        workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
 
 		for (Long workArea : workAreas) {
 			List<Assignment> assignments = HrServiceLocator
@@ -773,8 +773,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		Set<String> principals = new HashSet<String>();
 		
     	Set<Long> workAreas = new HashSet<Long>();
-    	workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-        workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+    	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+        workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
 
 		// Get all of the principals within our window of time.
 		for (Long waNum : workAreas) {

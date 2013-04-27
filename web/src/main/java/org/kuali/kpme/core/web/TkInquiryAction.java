@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.rice.kns.web.struts.action;
+package org.kuali.kpme.core.web;
 
 import java.util.Map;
 
@@ -28,6 +28,7 @@ import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.inquiry.Inquirable;
+import org.kuali.rice.kns.web.struts.action.KualiInquiryAction;
 import org.kuali.rice.kns.web.struts.form.InquiryForm;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;

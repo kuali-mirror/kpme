@@ -188,7 +188,7 @@
     
     <bean id="commonDefaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
     
-    <bean id="docHandlerUrlPrefixPublishingService" class="org.kuali.kpme.core.service.DocHandlerUrlPrefixPublishingServiceImpl">
+    <bean id="docHandlerUrlPrefixPublishingService" class="org.kuali.kpme.core.service.dochandler.DocHandlerUrlPrefixPublishingServiceImpl">
         <property name="parameterApplicationId" value="KUALI" />
         <property name="parameterNamespaceCode" value="KR-WKFLW" />
         <property name="parameterTypeCode" value="CONFG" />
@@ -331,7 +331,7 @@
     
     <bean id="userPrefDao" class="org.kuali.kpme.tklm.time.user.pref.dao.UserPreferenceDaoImpl" parent="platformAwareDao" />
 
-    <bean id="salGroupDao" class="org.kuali.kpme.core.bo.salarygroup.dao.SalGroupDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="salaryGroupDao" class="org.kuali.kpme.core.bo.salarygroup.dao.SalaryGroupDaoSpringOjbImpl" parent="platformAwareDao" />
 
     <bean id="locationDao" class="org.kuali.kpme.core.bo.location.dao.LocationDaoSpringObjImpl" parent="platformAwareDao" />
 
@@ -524,8 +524,8 @@
         <property name="earnCodeGroupDao" ref="earnCodeGroupDao"/>
     </bean>
 
-    <bean id="salaryGroupService" class="org.kuali.kpme.core.bo.salarygroup.service.SalGroupServiceImpl">
-        <property name="salGroupDao" ref="salGroupDao"/>
+    <bean id="salaryGroupService" class="org.kuali.kpme.core.bo.salarygroup.service.SalaryGroupServiceImpl">
+        <property name="salaryGroupDao" ref="salaryGroupDao"/>
     </bean>
 
     <bean id="timeHourDetailService" class="org.kuali.kpme.tklm.time.timehourdetail.service.TimeHourDetailServiceImpl">

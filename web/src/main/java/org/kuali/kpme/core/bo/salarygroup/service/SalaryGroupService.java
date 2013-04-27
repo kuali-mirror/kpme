@@ -18,23 +18,23 @@ package org.kuali.kpme.core.bo.salarygroup.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.bo.salarygroup.SalGroup;
+import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 import org.springframework.cache.annotation.Cacheable;
 
-public interface SalGroupService {
+public interface SalaryGroupService {
 	/**
-	 * Fetch a SalGroup as of a particular date
+	 * Fetch a SalaryGroup as of a particular date
 	 * @param salGroup
 	 * @param asOfDate
 	 * @return
 	 */
-    @Cacheable(value= SalGroup.CACHE_NAME, key="'salGroup=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public SalGroup getSalGroup(String salGroup, LocalDate asOfDate);
+    @Cacheable(value= SalaryGroup.CACHE_NAME, key="'salGroup=' + #p0 + '|' + 'asOfDate=' + #p1")
+	public SalaryGroup getSalaryGroup(String salGroup, LocalDate asOfDate);
 
-    @Cacheable(value= SalGroup.CACHE_NAME, key="'hrSalGroupId=' + #p0")
-	public SalGroup getSalGroup(String hrSalGroupId);
+    @Cacheable(value= SalaryGroup.CACHE_NAME, key="'hrSalGroupId=' + #p0")
+	public SalaryGroup getSalaryGroup(String hrSalGroupId);
 	
 	public int getSalGroupCount(String salGroup);
 
-    List<SalGroup> getSalGroups(String salGroup, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
+    List<SalaryGroup> getSalaryGroups(String salGroup, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }

@@ -170,8 +170,8 @@ public class ActionFormUtils {
 
             String principalId = GlobalVariables.getUserSession().getPrincipalId();
             
-            boolean isAnyApprover = TkServiceLocator.getHRRoleService().principalHasRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime())
-					|| TkServiceLocator.getHRRoleService().principalHasRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime());
+            boolean isAnyApprover = HrServiceLocator.getHRRoleService().principalHasRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime())
+					|| HrServiceLocator.getHRRoleService().principalHasRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime());
             timeBlockMap.put("isApprover", isAnyApprover);
             timeBlockMap.put("isSynchronousUser", timeBlock.getClockLogCreated());
 

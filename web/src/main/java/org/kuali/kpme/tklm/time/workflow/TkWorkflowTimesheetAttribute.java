@@ -90,8 +90,8 @@ public class TkWorkflowTimesheetAttribute extends AbstractRoleAttribute {
 		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 		
 		if (TkConstants.ROLE_TK_APPROVER.equals(roleName)) {
-	        roleMembers.addAll(TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), workAreaNumber, new DateTime(), true));
-	        roleMembers.addAll(TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER_DELEGATE.getRoleName(), workAreaNumber, new DateTime(), true));
+	        roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), workAreaNumber, new DateTime(), true));
+	        roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER_DELEGATE.getRoleName(), workAreaNumber, new DateTime(), true));
 		}
 		
         for (RoleMember roleMember : roleMembers) {

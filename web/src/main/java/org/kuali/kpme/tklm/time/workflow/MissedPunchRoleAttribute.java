@@ -73,7 +73,7 @@ public class MissedPunchRoleAttribute extends GenericRoleAttribute {
 		if (StringUtils.isNotBlank(roleName) && NumberUtils.isNumber(qualifier)) {
 			Long workArea = Long.valueOf(qualifier);
 	
-			List<RoleMember> roleMembers = TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(roleName, workArea, new DateTime(), true);
+			List<RoleMember> roleMembers = HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(roleName, workArea, new DateTime(), true);
 			
 	        for (RoleMember roleMember : roleMembers) {
 	        	recipients.add(new PrincipalId(roleMember.getMemberId()));

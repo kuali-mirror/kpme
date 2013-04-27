@@ -70,8 +70,8 @@ public class TimeApprovalWSAction extends HrAction {
 	        	String principalId = GlobalVariables.getUserSession().getPrincipalId();
 	        	
 	        	Set<Long> workAreas = new HashSet<Long>();
-	        	workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-	            workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+	        	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+	            workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
 
 	        	for(Long workArea : workAreas) {
 	        		workAreaList.add(workArea.toString());

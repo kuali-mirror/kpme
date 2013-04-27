@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.institution.Institution;
 import org.kuali.kpme.core.bo.paygrade.PayGrade;
-import org.kuali.kpme.core.bo.salarygroup.SalGroup;
+import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
@@ -31,7 +31,7 @@ public class PayStep extends HrBusinessObject implements Comparable {
 	
 	private Institution institutionObj;
 	private CampusBo campusObj;
-	private SalGroup salaryGroupObj;
+	private SalaryGroup salaryGroupObj;
 	private PayGrade PayGradeObj;
 
 	@Override
@@ -193,11 +193,11 @@ public class PayStep extends HrBusinessObject implements Comparable {
 		this.campusObj = campusObj;
 	}
 
-	public SalGroup getSalaryGroupObj() {
+	public SalaryGroup getSalaryGroupObj() {
 		return salaryGroupObj;
 	}
 
-	public void setSalaryGroupObj(SalGroup salaryGroupObj) {
+	public void setSalaryGroupObj(SalaryGroup salaryGroupObj) {
 		this.salaryGroupObj = salaryGroupObj;
 	}
 

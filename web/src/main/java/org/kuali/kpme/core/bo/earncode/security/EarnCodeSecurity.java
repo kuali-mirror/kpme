@@ -25,7 +25,7 @@ import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.location.Location;
-import org.kuali.kpme.core.bo.salarygroup.SalGroup;
+import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 
 public class EarnCodeSecurity extends HrBusinessObject {
 
@@ -49,7 +49,7 @@ public class EarnCodeSecurity extends HrBusinessObject {
 	private String hrEarnCodeId;
 	private String hrLocationId;
 	
-	private SalGroup  salGroupObj;
+	private SalaryGroup  salaryGroupObj;
 	private Department departmentObj;
 	private EarnCode earnCodeObj;
     private Job jobObj;
@@ -72,12 +72,12 @@ public class EarnCodeSecurity extends HrBusinessObject {
 		this.earnCodeType = earnCodeType;
 	}
 
-	public SalGroup getSalGroupObj() {
-		return salGroupObj;
+	public SalaryGroup getSalaryGroupObj() {
+		return salaryGroupObj;
 	}
 
-	public void setSalGroupObj(SalGroup salGroupObj) {
-		this.salGroupObj = salGroupObj;
+	public void setSalaryGroupObj(SalaryGroup salaryGroupObj) {
+		this.salaryGroupObj = salaryGroupObj;
 	}
 
 	public Department getDepartmentObj() {

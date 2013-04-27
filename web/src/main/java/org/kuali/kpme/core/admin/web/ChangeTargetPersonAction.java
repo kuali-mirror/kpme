@@ -55,8 +55,8 @@ public class ChangeTargetPersonAction extends HrAction {
         	Principal targetPerson = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(changeTargetPersonForm.getPrincipalName());
         	
 	        if (targetPerson != null) {
-	            if (TkServiceLocator.getHRGroupService().isMemberOfSystemAdministratorGroup(GlobalVariables.getUserSession().getPrincipalId(), new DateTime())
-	                	|| TkServiceLocator.getHRGroupService().isMemberOfSystemViewOnlyGroup(GlobalVariables.getUserSession().getPrincipalId(), new DateTime())
+	            if (HrServiceLocator.getHRGroupService().isMemberOfSystemAdministratorGroup(GlobalVariables.getUserSession().getPrincipalId(), new DateTime())
+	                	|| HrServiceLocator.getHRGroupService().isMemberOfSystemViewOnlyGroup(GlobalVariables.getUserSession().getPrincipalId(), new DateTime())
 	                	|| isReviewerForPerson(targetPerson.getPrincipalId())
 	                	|| isApproverForPerson(targetPerson.getPrincipalId())
 	                	|| isViewOnlyForPerson(targetPerson.getPrincipalId())
@@ -89,7 +89,7 @@ public class ChangeTargetPersonAction extends HrAction {
         List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
         for (Assignment assignment : assignments) {
-            if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), assignment.getWorkArea(), new DateTime())) {
+            if (HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), assignment.getWorkArea(), new DateTime())) {
                 return true;
             }
         }
@@ -100,8 +100,8 @@ public class ChangeTargetPersonAction extends HrAction {
         List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
         for (Assignment assignment : assignments) {
-        	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime())
-        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime())) {
+        	if (HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime())
+        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime())) {
                 return true;
             }
         }

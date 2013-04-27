@@ -35,7 +35,7 @@ import org.kuali.kpme.core.bo.location.Location;
 import org.kuali.kpme.core.bo.paygrade.PayGrade;
 import org.kuali.kpme.core.bo.paytype.PayType;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
-import org.kuali.kpme.core.bo.salarygroup.SalGroup;
+import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -97,7 +97,7 @@ public class ValidationUtils {
 		if (StringUtils.equals(salGroup, TkConstants.WILDCARD_CHARACTER)) {
 			valid = true;
 		} else if (asOfDate != null) {
-			SalGroup sg = HrServiceLocator.getSalaryGroupService().getSalGroup(salGroup, asOfDate);
+			SalaryGroup sg = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salGroup, asOfDate);
 			valid = (sg != null);
 		} else {
 			int count = HrServiceLocator.getSalaryGroupService().getSalGroupCount(salGroup);

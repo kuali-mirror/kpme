@@ -332,9 +332,9 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 				return true;
 			}
 
-        	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(userId, KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
-        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(userId, KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
-        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(userId, KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime())) {
+        	if (HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(userId, KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
+        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(userId, KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
+        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(userId, KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime())) {
 
 				Job job = HrServiceLocator.getJobService().getJob(TKContext.getTargetPrincipalId(),timeBlock.getJobNumber(), timeBlock.getEndDateTime().toLocalDate());
 				PayType payType = HrServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());

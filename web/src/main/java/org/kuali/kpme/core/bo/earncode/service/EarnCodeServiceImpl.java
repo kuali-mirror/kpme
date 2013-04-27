@@ -43,7 +43,6 @@ import org.kuali.kpme.tklm.common.TKContext;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import com.google.common.collect.Ordering;
@@ -271,8 +270,8 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         	String principalId = GlobalVariables.getUserSession().getPrincipalId();
         	
         	Set<Long> workAreas = new HashSet<Long>();
-        	workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-            workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+        	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+            workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
 
             for (Long wa : workAreas) {
                 WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);

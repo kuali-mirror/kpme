@@ -14,7 +14,7 @@ import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.KimConstants;
 
-public abstract class KPMEPermissionServiceBase {
+public abstract class HrPermissionServiceBase {
 	
 	private DepartmentService departmentService;
 	private WorkAreaService workAreaService;

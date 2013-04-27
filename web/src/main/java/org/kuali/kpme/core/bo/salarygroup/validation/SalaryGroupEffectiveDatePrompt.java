@@ -16,21 +16,21 @@
 package org.kuali.kpme.core.bo.salarygroup.validation;
 
 import org.kuali.kpme.core.KpmeEffectiveDatePromptBase;
-import org.kuali.kpme.core.bo.salarygroup.SalGroup;
+import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.common.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
-public class SalGroupEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
+public class SalaryGroupEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
 	
     @Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
     	boolean futureEffectiveDateExists = false;
     	
-        SalGroup salGroup = (SalGroup) pbo;
-        SalGroup lastSalGroup = HrServiceLocator.getSalaryGroupService().getSalGroup(salGroup.getHrSalGroup(), TKUtils.END_OF_TIME);
-        if (lastSalGroup != null && lastSalGroup.getEffectiveLocalDate() != null && salGroup.getEffectiveLocalDate() != null) {
-        	futureEffectiveDateExists = lastSalGroup.getEffectiveLocalDate().isAfter(salGroup.getEffectiveLocalDate());
+        SalaryGroup salaryGroup = (SalaryGroup) pbo;
+        SalaryGroup lastSalaryGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salaryGroup.getHrSalGroup(), TKUtils.END_OF_TIME);
+        if (lastSalaryGroup != null && lastSalaryGroup.getEffectiveLocalDate() != null && salaryGroup.getEffectiveLocalDate() != null) {
+        	futureEffectiveDateExists = lastSalaryGroup.getEffectiveLocalDate().isAfter(salaryGroup.getEffectiveLocalDate());
         }
         
         return futureEffectiveDateExists;

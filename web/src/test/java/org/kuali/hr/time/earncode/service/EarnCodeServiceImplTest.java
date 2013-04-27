@@ -98,7 +98,7 @@ public class EarnCodeServiceImplTest extends KPMETestCase {
         List<EarnCode> earnCodes1lt= earnCodeService.getEarnCodesForLeaveAndTime(assignment1, asOfDate, false);
         Assert.assertEquals("Wrong number of earn codes returned.", 7, earnCodes1lt.size());
 
-        // Wildcard on SalGroup
+        // Wildcard on SalaryGroup
         List<EarnCode> earnCodes2t = earnCodeService.getEarnCodesForTime(assignment2, asOfDate);
 		Assert.assertEquals("Wrong number of earn codes returned.", 2, earnCodes2t.size());
         List<EarnCode> earnCodes2l = earnCodeService.getEarnCodesForLeave(assignment2, asOfDate, false);

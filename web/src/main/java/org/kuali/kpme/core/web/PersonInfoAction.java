@@ -161,11 +161,11 @@ public class PersonInfoAction extends HrAction {
 		String principalId = TKContext.getTargetPrincipalId();
 		
 		Set<Long> allApproverWorkAreas = new HashSet<Long>();
-		allApproverWorkAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
-		allApproverWorkAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+		allApproverWorkAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+		allApproverWorkAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
 		personInfoActionForm.setApproverWorkAreas(new ArrayList<Long>(allApproverWorkAreas));
 		
-		List<Long> reviewerWorkAreas = TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true);
+		List<Long> reviewerWorkAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true);
 		personInfoActionForm.setReviewerWorkAreas(reviewerWorkAreas);
 		
 		Set<String> allViewOnlyDepartments = new HashSet<String>();
@@ -187,8 +187,8 @@ public class PersonInfoAction extends HrAction {
 		allAdministratorLocations.addAll(LmServiceLocator.getLMRoleService().getLocationsForPrincipalInRole(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime(), true));
 		personInfoActionForm.setLocationAdminDepts(new ArrayList<String>(allAdministratorLocations));
 		
-		personInfoActionForm.setGlobalViewOnlyRoles(TkServiceLocator.getHRGroupService().isMemberOfSystemViewOnlyGroup(principalId, new DateTime()));
-		personInfoActionForm.setSystemAdmin(TkServiceLocator.getHRGroupService().isMemberOfSystemAdministratorGroup(principalId, new DateTime()));
+		personInfoActionForm.setGlobalViewOnlyRoles(HrServiceLocator.getHRGroupService().isMemberOfSystemViewOnlyGroup(principalId, new DateTime()));
+		personInfoActionForm.setSystemAdmin(HrServiceLocator.getHRGroupService().isMemberOfSystemAdministratorGroup(principalId, new DateTime()));
 	}
 
     private List<Person> getDeptartmentAdmins(String dept) {
@@ -211,7 +211,7 @@ public class PersonInfoAction extends HrAction {
 	private List<Person> getApprovers(Long workArea) {
 		List<Person> approvers = new ArrayList<Person>();
 		
-		List<RoleMember> roleMembers = TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), workArea, new DateTime(), true);
+		List<RoleMember> roleMembers = HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), workArea, new DateTime(), true);
 		
 		for (RoleMember roleMember : roleMembers) {
 			Person person = KimApiServiceLocator.getPersonService().getPerson(roleMember.getMemberId());

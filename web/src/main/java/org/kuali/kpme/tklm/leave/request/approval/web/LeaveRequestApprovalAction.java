@@ -51,7 +51,6 @@ import org.kuali.kpme.tklm.common.TKUtils;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionItem;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
@@ -72,7 +71,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
 		
 		LocalDate currentDate = LocalDate.now();
-		List<Long> workAreas = TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);
+		List<Long> workAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);
 		List<String> principalIds = new ArrayList<String>();
         for (Long workArea : workAreas) {
             List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
@@ -90,9 +89,9 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
 		Set<String> departments = new TreeSet<String>();
-		departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
-		departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
-		departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+		departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
+		departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+		departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
 	    lraaForm.setDepartments(new ArrayList<String>(departments));
 		
 		// build employee rows to display on the page
@@ -113,7 +112,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
         if(StringUtils.isEmpty(lraaForm.getSelectedDept())) {
         	resetState(form, request);
         
-        	List<Long> workAreas = TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);	        List<String> principalIds = new ArrayList<String>();
+        	List<Long> workAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);	        List<String> principalIds = new ArrayList<String>();
 	        for (Long workArea : workAreas) {
 	            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
 	            for (Assignment a : assignments) {
@@ -133,9 +132,9 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 	        
 	        String principalId = GlobalVariables.getUserSession().getPrincipalId();
 			Set<String> departments = new TreeSet<String>();
-			departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
-			departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
-			departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+			departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
+			departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+			departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
 		    lraaForm.setDepartments(new ArrayList<String>(departments));
 
 		    if (StringUtils.isBlank(lraaForm.getSelectedDept())
@@ -148,9 +147,9 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 	            	Long workArea = workAreaObj.getWorkArea();
 	            	String description = workAreaObj.getDescription();
 	            	
-	            	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
-	            			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
-	            			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
+	            	if (HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
+	            			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
+	            			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
 	            		lraaForm.getWorkAreaDescr().put(workArea, description + "(" + workArea + ")");
 	            	}
 	            }
@@ -189,9 +188,9 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
         	Long workArea = workAreaObj.getWorkArea();
         	String description = workAreaObj.getDescription();
         	
-        	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
-        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
-        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
+        	if (HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
+        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
+        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
         		lraaForm.getWorkAreaDescr().put(workArea, description + "(" + workArea + ")");
         	}
         }

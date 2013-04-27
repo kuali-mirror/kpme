@@ -1,7 +1,7 @@
 package org.kuali.kpme.core.bo.salarygroup.validation;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.bo.salarygroup.SalGroup;
+import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
@@ -11,7 +11,7 @@ public class SalaryGroupValidation  extends MaintenanceDocumentRuleBase{
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Salary Group");
-		SalGroup sg = (SalGroup) this.getNewDataObject();
+		SalaryGroup sg = (SalaryGroup) this.getNewDataObject();
 		
 		if (sg != null) {
 			valid = true;
@@ -21,7 +21,7 @@ public class SalaryGroupValidation  extends MaintenanceDocumentRuleBase{
 		return valid;
 	}
 	
-	private boolean validateInstitution(SalGroup sg) {
+	private boolean validateInstitution(SalaryGroup sg) {
 		if (StringUtils.isNotEmpty(sg.getInstitution())
 				&& !PmValidationUtils.validateInstitution(sg.getInstitution(), sg.getEffectiveLocalDate())) {
 			this.putFieldError("dataObject.institution", "error.existence", "Instituion '"
@@ -32,7 +32,7 @@ public class SalaryGroupValidation  extends MaintenanceDocumentRuleBase{
 		}
 	}
 	
-	private boolean validateCampus(SalGroup sg) {
+	private boolean validateCampus(SalaryGroup sg) {
 		if (StringUtils.isNotEmpty(sg.getCampus())
 				&& !PmValidationUtils.validateCampus(sg.getCampus())) {
 			this.putFieldError("dataObject.campus", "error.existence", "Campus '"

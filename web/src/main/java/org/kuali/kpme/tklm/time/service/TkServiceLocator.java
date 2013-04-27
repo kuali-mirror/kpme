@@ -16,10 +16,7 @@
 package org.kuali.kpme.tklm.time.service;
 
 import org.kuali.kpme.core.bo.assignment.dao.AssignmentDao;
-import org.kuali.kpme.core.service.group.HRGroupService;
 import org.kuali.kpme.core.service.notification.KPMENotificationService;
-import org.kuali.kpme.core.service.permission.HRPermissionService;
-import org.kuali.kpme.core.service.role.HRRoleService;
 import org.kuali.kpme.core.service.timezone.TimezoneService;
 import org.kuali.kpme.tklm.time.approval.service.TimeApproveService;
 import org.kuali.kpme.tklm.time.clocklog.service.ClockLogService;
@@ -89,13 +86,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
     public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";    
     
-    //Move to HrServiceLocator
-    public static final String HR_GROUP_SERVICE = "hrGroupService";
-    public static final String HR_PERMISSION_SERVICE = "hrPermissionService";
-    public static final String HR_ROLE_SERVICE = "hrRoleService";
-
 	public static final String TK_TIME_ZONE_SERVICE = "timezoneService";
-
     
     public static final String TK_PERMISSION_SERVICE = "tkPermissionService";
     public static final String TK_ROLE_SERVICE = "tkRoleService";
@@ -214,16 +205,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 
     public static KPMENotificationService getKPMENotificationService() {
     	return (KPMENotificationService) CONTEXT.getBean(KPME_NOTIFICATION_SERVICE);
-    }
-    
-    public static HRGroupService getHRGroupService() {
-    	return (HRGroupService) CONTEXT.getBean(HR_GROUP_SERVICE);
-    }
-    public static HRPermissionService getHRPermissionService() {
-    	return (HRPermissionService) CONTEXT.getBean(HR_PERMISSION_SERVICE);
-    }
-    public static HRRoleService getHRRoleService() {
-    	return (HRRoleService) CONTEXT.getBean(HR_ROLE_SERVICE);
     }
     
     public static TKPermissionService getTKPermissionService() {

@@ -18,13 +18,13 @@ package org.kuali.kpme.core.bo.salarygroup.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.bo.salarygroup.SalGroup;
+import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 
-public interface SalGroupDao {
-	public void saveOrUpdate(SalGroup salGroup);
-	public SalGroup getSalGroup(String salGroup, LocalDate asOfDate);
-	public SalGroup getSalGroup(String hrSalGroupId);
+public interface SalaryGroupDao {
+	public void saveOrUpdate(SalaryGroup salaryGroup);
+	public SalaryGroup getSalaryGroup(String salGroup, LocalDate asOfDate);
+	public SalaryGroup getSalaryGroup(String hrSalGroupId);
 	public int getSalGroupCount(String salGroup);
 
-    List<SalGroup> getSalGroups(String hrSalGroup, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
+    List<SalaryGroup> getSalaryGroups(String hrSalGroup, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }

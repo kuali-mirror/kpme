@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.institution.Institution;
-import org.kuali.kpme.core.bo.salarygroup.SalGroup;
+import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
 public class PayGrade extends HrBusinessObject {
@@ -42,7 +42,7 @@ public class PayGrade extends HrBusinessObject {
     private BigDecimal midPointRate;
     private BigDecimal maxHiringRate;
 
-	private SalGroup salGroupObj;
+	private SalaryGroup salaryGroupObj;
     private Institution institutionObj;
     private CampusBo campusObj;
 
@@ -111,12 +111,12 @@ public class PayGrade extends HrBusinessObject {
 		this.salGroup = salGroup;
 	}
 
-	public SalGroup getSalGroupObj() {
-		return salGroupObj;
+	public SalaryGroup getSalaryGroupObj() {
+		return salaryGroupObj;
 	}
 
-	public void setSalGroupObj(SalGroup salGroupObj) {
-		this.salGroupObj = salGroupObj;
+	public void setSalaryGroupObj(SalaryGroup salaryGroupObj) {
+		this.salaryGroupObj = salaryGroupObj;
 	}
 
     public String getInstitution() {

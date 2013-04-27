@@ -67,8 +67,8 @@ public class TkWorkflowMissedPunchAttribute extends AbstractRoleAttribute {
             		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
             		
             		if (TkConstants.ROLE_TK_APPROVER.equals(roleName)) {
-            	        roleMembers.addAll(TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime(), true));
-            	        roleMembers.addAll(TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime(), true));
+            	        roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime(), true));
+            	        roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime(), true));
             		}
         	
         	        for (RoleMember roleMember : roleMembers) {
