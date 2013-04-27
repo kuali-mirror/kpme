@@ -30,7 +30,7 @@
 			<description>Leave Calendar Document</description>
 			<label>Leave Calendar</label>
             <docHandler>${kuali.docHandler.url.prefix}/LeaveCalendar.do?methodToCall=docHandler</docHandler>
-            <postProcessorName>org.kuali.hr.tklm.leave.workflow.postprocessor.LmPostProcessor</postProcessorName>
+            <postProcessorName>org.kuali.kpme.tklm.leave.workflow.postprocessor.LmPostProcessor</postProcessorName>
             <applicationId>KPME</applicationId>
             <active>true</active>
             <routingVersion>1</routingVersion>
@@ -154,7 +154,7 @@
         </ruleAttribute>
         <ruleAttribute>
             <name>LeaveCalendarRoleAttribute</name>
-            <className>org.kuali.hr.tklm.leave.workflow.LeaveCalendarRoleAttribute</className>
+            <className>org.kuali.kpme.tklm.leave.workflow.LeaveCalendarRoleAttribute</className>
             <label>LeaveCalendarRoleAttribute</label>
             <description>LeaveCalendarRoleAttribute</description>
             <type>RuleAttribute</type>
@@ -186,13 +186,13 @@
             <forceAction>true</forceAction>
             <responsibilities>
                 <responsibility>
-                    <role>org.kuali.hr.tklm.leave.workflow.LeaveCalendarRoleAttribute!Approver</role>
+                    <role>org.kuali.kpme.tklm.leave.workflow.LeaveCalendarRoleAttribute!Approver</role>
                     <approvePolicy>F</approvePolicy>
                     <actionRequested>A</actionRequested>
                     <priority>1</priority>
                 </responsibility>
                 <responsibility>
-                    <role>org.kuali.hr.tklm.leave.workflow.LeaveCalendarRoleAttribute!Approver Delegate</role>
+                    <role>org.kuali.kpme.tklm.leave.workflow.LeaveCalendarRoleAttribute!Approver Delegate</role>
                     <approvePolicy>F</approvePolicy>
                     <actionRequested>A</actionRequested>
                     <priority>2</priority>

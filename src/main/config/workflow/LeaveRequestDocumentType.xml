@@ -30,7 +30,7 @@
 			<description>Leave Request Document</description>
 			<label>Leave Request Document</label>
             <docHandler>${kuali.docHandler.url.prefix}/LeaveRequestApproval.do</docHandler>
-            <postProcessorName>org.kuali.hr.tklm.leave.workflow.postprocessor.LeaveRequestPostProcessor</postProcessorName>
+            <postProcessorName>org.kuali.kpme.tklm.leave.workflow.postprocessor.LeaveRequestPostProcessor</postProcessorName>
             <applicationId>KPME</applicationId>
             <active>true</active>
             <routingVersion>1</routingVersion>
@@ -161,7 +161,7 @@
         </ruleAttribute>
         <ruleAttribute>
             <name>LeaveRequestRoleAttribute</name>
-            <className>org.kuali.hr.tklm.leave.workflow.LeaveRequestRoleAttribute</className>
+            <className>org.kuali.kpme.tklm.leave.workflow.LeaveRequestRoleAttribute</className>
             <label>LeaveRequestRoleAttribute</label>
             <description>LeaveRequestRoleAttribute</description>
             <type>RuleAttribute</type>
@@ -169,7 +169,7 @@
         </ruleAttribute>
         <ruleAttribute>
             <name>LeaveRequestCustomActionListAttribute</name>
-            <className>org.kuali.hr.tklm.leave.leaverequest.LeaveRequestCustomActionListAttribute</className>
+            <className>org.kuali.kpme.tklm.leave.leaverequest.LeaveRequestCustomActionListAttribute</className>
             <label>LeaveRequestCustomActionListAttribute</label>
             <description>LeaveRequestCustomActionListAttribute</description>
             <type>ActionListAttribute</type>
@@ -201,13 +201,13 @@
             <forceAction>true</forceAction>
             <responsibilities>
                 <responsibility>
-                    <role>org.kuali.hr.tklm.leave.workflow.LeaveRequestRoleAttribute!Approver</role>
+                    <role>org.kuali.kpme.tklm.leave.workflow.LeaveRequestRoleAttribute!Approver</role>
                     <approvePolicy>F</approvePolicy>
                     <actionRequested>A</actionRequested>
                     <priority>1</priority>
                 </responsibility>
                 <responsibility>
-                    <role>org.kuali.hr.tklm.leave.workflow.LeaveRequestRoleAttribute!Approver Delegate</role>
+                    <role>org.kuali.kpme.tklm.leave.workflow.LeaveRequestRoleAttribute!Approver Delegate</role>
                     <approvePolicy>F</approvePolicy>
                     <actionRequested>A</actionRequested>
                     <priority>2</priority>

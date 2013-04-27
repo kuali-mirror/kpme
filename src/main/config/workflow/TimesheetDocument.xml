@@ -30,7 +30,7 @@
 			<description>Timesheet Document</description>
 			<label>Timesheet Document</label>
             <docHandler>${kuali.docHandler.url.prefix}/Timesheet.do?methodToCall=docHandler</docHandler>
-            <postProcessorName>org.kuali.hr.tklm.time.workflow.postprocessor.TkPostProcessor</postProcessorName>
+            <postProcessorName>org.kuali.kpme.tklm.time.workflow.postprocessor.TkPostProcessor</postProcessorName>
             <active>true</active>
             <routingVersion>1</routingVersion>
 			<attributes>
@@ -153,7 +153,7 @@
         </ruleAttribute>
         <ruleAttribute>
             <name>TimesheetRoleAttribute</name>
-            <className>org.kuali.hr.time.workflow.TimesheetRoleAttribute</className>
+            <className>org.kuali.kpme.tklm.time.workflow.TimesheetRoleAttribute</className>
             <label>TimesheetRoleAttribute</label>
             <description>TimesheetRoleAttribute</description>
             <type>RuleAttribute</type>
@@ -185,13 +185,13 @@
             <forceAction>true</forceAction>
             <responsibilities>
                 <responsibility>
-                    <role>org.kuali.hr.time.workflow.TimesheetRoleAttribute!Approver</role>
+                    <role>org.kuali.kpme.tklm.time.workflow.TimesheetRoleAttribute!Approver</role>
                     <approvePolicy>F</approvePolicy>
                     <actionRequested>A</actionRequested>
                     <priority>1</priority>
                 </responsibility>
                 <responsibility>
-                    <role>org.kuali.hr.time.workflow.TimesheetRoleAttribute!Approver Delegate</role>
+                    <role>org.kuali.kpme.tklm.time.workflow.TimesheetRoleAttribute!Approver Delegate</role>
                     <approvePolicy>F</approvePolicy>
                     <actionRequested>A</actionRequested>
                     <priority>2</priority>

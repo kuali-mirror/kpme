@@ -6,7 +6,7 @@
 		<documentType>
 			<name>PositionFlagMaintenanceDocumentType</name>
 			<parent>RiceDocument</parent>
-			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.hr.pm.positionflag.PositionFlag
+			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.kpme.pm.positionflag.PositionFlag
 			</docHandler>
 			<label>PositionFlagMaintenanceDocument</label>
 		</documentType>   

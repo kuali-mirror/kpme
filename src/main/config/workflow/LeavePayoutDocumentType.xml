@@ -71,7 +71,7 @@
                     xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
         <ruleAttribute>
             <name>LeavePayoutRoleAttribute</name>
-            <className>org.kuali.hr.tklm.leave.workflow.LeavePayoutRoleAttribute</className>
+            <className>org.kuali.kpme.tklm.leave.workflow.LeavePayoutRoleAttribute</className>
             <label>LeavePayoutRoleAttribute</label>
             <description>LeavePayoutRoleAttribute</description>
             <type>RuleAttribute</type>
@@ -103,13 +103,13 @@
         	<forceAction>true</forceAction>
         	<responsibilities>
                 <responsibility>
-                    <role>org.kuali.hr.tklm.leave.workflow.LeavePayoutRoleAttribute!Approver</role>
+                    <role>org.kuali.kpme.tklm.leave.workflow.LeavePayoutRoleAttribute!Approver</role>
                     <approvePolicy>F</approvePolicy>
                     <actionRequested>A</actionRequested>
                     <priority>1</priority>
             	</responsibility>
                 <responsibility>
-                    <role>org.kuali.hr.tklm.leave.workflow.LeavePayoutRoleAttribute!Approver Delegate</role>
+                    <role>org.kuali.kpme.tklm.leave.workflow.LeavePayoutRoleAttribute!Approver Delegate</role>
                     <approvePolicy>F</approvePolicy>
                     <actionRequested>A</actionRequested>
                     <priority>2</priority>
