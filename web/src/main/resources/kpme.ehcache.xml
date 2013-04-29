@@ -46,7 +46,7 @@
     <cache name="KPME/PayType" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/Position" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/PrincipalHRAttributes" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
-    <cache name="KPME/SalGroup" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/SalaryGroup" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/ShiftDifferentialRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/SystemLunchRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/SystemScheduledTimeOff" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
