@@ -18,9 +18,9 @@ package org.kuali.kpme.core.web;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kpme.core.HrConstants;
+import org.kuali.kpme.core.util.HrConstants;
 
-public class BatchJobActionForm extends HrForm {
+public class BatchJobActionForm extends KPMEForm {
 
 	private static final long serialVersionUID = -8603015460600023900L;
 

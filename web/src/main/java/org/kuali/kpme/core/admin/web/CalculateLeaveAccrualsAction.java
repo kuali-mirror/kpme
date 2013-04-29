@@ -28,12 +28,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.web.HrAction;
+import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-public class CalculateLeaveAccrualsAction extends HrAction {
+public class CalculateLeaveAccrualsAction extends KPMEAction {
 	
 	private static final Logger LOG = Logger.getLogger(ChangeTargetPersonAction.class);
 	

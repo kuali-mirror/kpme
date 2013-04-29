@@ -33,7 +33,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.web.HrAction;
+import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.common.TKContext;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
@@ -45,7 +45,7 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 
-public class LeaveRequestAction extends HrAction {
+public class LeaveRequestAction extends KPMEAction {
     LeaveRequestDocumentService leaveRequestDocumentService;
 
 	@Override

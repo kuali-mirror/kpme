@@ -25,10 +25,10 @@ import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntryPeriodType;
 import org.kuali.kpme.core.bo.calendar.entry.service.CalendarEntryService;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.web.HrAction;
+import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class CalendarEntryAction extends HrAction {
+public class CalendarEntryAction extends KPMEAction {
 
 	public ActionForward createCalendarEntry(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,

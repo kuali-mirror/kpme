@@ -15,9 +15,9 @@
  */
 package org.kuali.kpme.core.admin.web;
 
-import org.kuali.kpme.core.web.HrForm;
+import org.kuali.kpme.core.web.KPMEForm;
 
-public class ChangeTargetPersonForm extends HrForm {
+public class ChangeTargetPersonForm extends KPMEForm {
 
 	private static final long serialVersionUID = -8307585413793442914L;
 

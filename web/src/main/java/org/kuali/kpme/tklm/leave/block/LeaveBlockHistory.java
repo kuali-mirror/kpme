@@ -18,10 +18,10 @@ package org.kuali.kpme.tklm.leave.block;
 import java.sql.Timestamp;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.HrConstants;
 import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
 public class LeaveBlockHistory extends LeaveBlock {

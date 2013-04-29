@@ -18,9 +18,9 @@ package org.kuali.kpme.core.bo.job.validation;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.ValidationUtils;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.job.Job;
+import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;

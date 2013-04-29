@@ -16,7 +16,7 @@
 package org.kuali.kpme.tklm.time.rules.overtime.weekly.validation;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.ValidationUtils;
+import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.kpme.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule;
 import org.kuali.kpme.tklm.time.rules.overtime.weekly.WeeklyOvertimeRuleGroup;
 import org.kuali.rice.kns.document.MaintenanceDocument;

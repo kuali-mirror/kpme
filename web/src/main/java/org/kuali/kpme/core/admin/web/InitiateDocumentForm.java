@@ -15,9 +15,9 @@
  */
 package org.kuali.kpme.core.admin.web;
 
-import org.kuali.kpme.core.web.HrForm;
+import org.kuali.kpme.core.web.KPMEForm;
 
-public class InitiateDocumentForm extends HrForm {
+public class InitiateDocumentForm extends KPMEForm {
 
 	private static final long serialVersionUID = -2480158541329523905L;
 	

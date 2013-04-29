@@ -189,7 +189,7 @@
 	<!-- Inquiry Definitions -->
 	<bean id="LeaveAdjustment-inquiryDefinition" parent="LeaveAdjustment-inquiryDefinition-parentBean" />
 	<bean id="LeaveAdjustment-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"
-		 p:inquirableClass="org.kuali.kpme.core.KPMEInquirableImpl">
+		 p:inquirableClass="org.kuali.kpme.core.inquirable.KPMEInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

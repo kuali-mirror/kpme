@@ -16,7 +16,7 @@
 package org.kuali.kpme.tklm.time.rules.timecollection.validation;
 
 import org.apache.cxf.common.util.StringUtils;
-import org.kuali.kpme.core.ValidationUtils;
+import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.rice.kns.document.MaintenanceDocument;

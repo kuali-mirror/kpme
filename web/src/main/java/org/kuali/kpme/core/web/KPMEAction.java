@@ -27,9 +27,9 @@ import org.kuali.kpme.tklm.common.TKContext;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
 
-public class HrAction extends KualiAction {
+public class KPMEAction extends KualiAction {
 
-    private static final Logger LOG = Logger.getLogger(HrAction.class);
+    private static final Logger LOG = Logger.getLogger(KPMEAction.class);
 
 
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
@@ -39,8 +39,8 @@ public class HrAction extends KualiAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {
             String methodToCall = null;
-            if (form instanceof HrForm) {
-                methodToCall = ((HrForm)form).getMethodToCall();
+            if (form instanceof KPMEForm) {
+                methodToCall = ((KPMEForm)form).getMethodToCall();
             }
             checkTKAuthorization(form, methodToCall);
         } catch (AuthorizationException e) {

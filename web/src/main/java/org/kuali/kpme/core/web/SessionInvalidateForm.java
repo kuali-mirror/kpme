@@ -16,6 +16,6 @@
 package org.kuali.kpme.core.web;
 
 
-public class SessionInvalidateForm extends HrForm {
+public class SessionInvalidateForm extends KPMEForm {
 
 }

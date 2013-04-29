@@ -19,7 +19,7 @@ package org.kuali.kpme.core.bo.principal.valuesfinder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kpme.core.HrConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;

@@ -191,7 +191,7 @@
 	<!-- Inquiry Definitions -->
 	<bean id="EmployeeOverride-inquiryDefinition" parent="EmployeeOverride-inquiryDefinition-parentBean" />
 	<bean id="EmployeeOverride-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" 
-	 	p:inquirableClass="org.kuali.kpme.core.KPMEInquirableImpl">  
+	 	p:inquirableClass="org.kuali.kpme.core.inquirable.KPMEInquirableImpl">  
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

@@ -21,7 +21,7 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
-public class HrForm extends KualiForm {
+public class KPMEForm extends KualiForm {
 
 	private static final long serialVersionUID = -3945893347262537122L;
 

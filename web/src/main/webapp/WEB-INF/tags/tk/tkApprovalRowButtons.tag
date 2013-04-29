@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
-<jsp:useBean id="tagSupport" class="org.kuali.kpme.core.WorkflowTagSupport"/>
+<jsp:useBean id="tagSupport" class="org.kuali.kpme.core.web.WorkflowTagSupport"/>
 <%@ attribute name="appRow" required="true" type="org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow"%>
 
 

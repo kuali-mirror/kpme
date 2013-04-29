@@ -19,9 +19,9 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.HrConstants;
 import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.task.dao.TaskDao;
+import org.kuali.kpme.core.util.HrConstants;
 
 public class TaskServiceImpl implements TaskService {
 

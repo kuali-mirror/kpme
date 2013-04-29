@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.rules.timecollection.validation;
 
-import org.kuali.kpme.core.KpmeEffectiveDatePromptBase;
+import org.kuali.kpme.core.web.KpmeEffectiveDatePromptBase;
 import org.kuali.kpme.tklm.common.TKUtils;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;

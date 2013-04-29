@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.rules.clocklocation.validation;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kpme.core.KpmeEffectiveDatePromptBase;
+import org.kuali.kpme.core.web.KpmeEffectiveDatePromptBase;
 import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;

@@ -17,10 +17,10 @@ package org.kuali.kpme.core.bo.earncode.security.service;
 
 import java.util.Map;
 
-import org.kuali.kpme.core.ValidationUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.bo.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;

@@ -15,9 +15,9 @@
  */
 package org.kuali.kpme.core.bo.principal.validation;
 
-import org.kuali.kpme.core.KpmeEffectiveDatePromptBase;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.web.KpmeEffectiveDatePromptBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class PrincipalHRAttributesEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {

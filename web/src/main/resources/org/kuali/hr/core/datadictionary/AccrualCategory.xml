@@ -244,7 +244,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Proration" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.SwitchKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.bo.utils.SwitchKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="proration" />

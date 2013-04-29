@@ -48,7 +48,7 @@ import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-public class PersonInfoAction extends HrAction {
+public class PersonInfoAction extends KPMEAction {
 
 
 

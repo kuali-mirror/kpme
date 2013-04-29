@@ -23,18 +23,18 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
-import org.kuali.kpme.core.web.HrAction;
-import org.kuali.kpme.core.web.HrForm;
+import org.kuali.kpme.core.web.KPMEAction;
+import org.kuali.kpme.core.web.KPMEForm;
 import org.kuali.kpme.tklm.common.TKContext;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class TimeAction extends HrAction {
+public class TimeAction extends KPMEAction {
 
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        HrForm hrForm = (HrForm) form;
+        KPMEForm kPMEForm = (KPMEForm) form;
 
         if (StringUtils.equals(methodToCall, "targetEmployee") || StringUtils.equals(methodToCall, "changeEmployee") || StringUtils.equals(methodToCall, "clearBackdoor") || StringUtils.equals(methodToCall, "clearChangeUser")) {
             // Handle security validation in targetEmployee action, we may need
@@ -47,8 +47,8 @@ public class TimeAction extends HrAction {
         			&& !TKContext.isDepartmentAdmin()
         			&& !TKContext.isGlobalViewOnly()
         			&& !TKContext.isDepartmentViewOnly()
-        			&& (hrForm.getDocumentId() != null && !TkServiceLocator.getTKPermissionService().canApproveTimesheet(principalId, hrForm.getDocumentId()))
-        			&& (hrForm.getDocumentId() != null && !TkServiceLocator.getTKPermissionService().canViewTimesheet(principalId, hrForm.getDocumentId())))  {
+        			&& (kPMEForm.getDocumentId() != null && !TkServiceLocator.getTKPermissionService().canApproveTimesheet(principalId, kPMEForm.getDocumentId()))
+        			&& (kPMEForm.getDocumentId() != null && !TkServiceLocator.getTKPermissionService().canViewTimesheet(principalId, kPMEForm.getDocumentId())))  {
                 throw new AuthorizationException("", "TimeAction", "");
             }
         }

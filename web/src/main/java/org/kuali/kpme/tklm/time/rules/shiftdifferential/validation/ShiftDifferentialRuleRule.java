@@ -16,7 +16,7 @@
 package org.kuali.kpme.tklm.time.rules.shiftdifferential.validation;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.ValidationUtils;
+import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
 import org.kuali.rice.kns.document.MaintenanceDocument;

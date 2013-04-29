@@ -26,7 +26,7 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.rice.kim.api.identity.Person;
 
-public class PersonInfoActionForm extends HrForm {
+public class PersonInfoActionForm extends KPMEForm {
 
     private static final long serialVersionUID = 2258434545502362548L;
     

@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.web.HrForm;
+import org.kuali.kpme.core.web.KPMEForm;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 
-public class LeaveBlockDisplayForm extends HrForm {
+public class LeaveBlockDisplayForm extends KPMEForm {
 
 	private static final long serialVersionUID = 1438955879572170167L;
 	

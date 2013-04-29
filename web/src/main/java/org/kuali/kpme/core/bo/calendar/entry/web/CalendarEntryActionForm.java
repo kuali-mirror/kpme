@@ -15,9 +15,9 @@
  */
 package org.kuali.kpme.core.bo.calendar.entry.web;
 
-import org.kuali.kpme.core.web.HrForm;
+import org.kuali.kpme.core.web.KPMEForm;
 
-public class CalendarEntryActionForm extends HrForm {
+public class CalendarEntryActionForm extends KPMEForm {
 
 	private static final long serialVersionUID = 385904747462568474L;
 	

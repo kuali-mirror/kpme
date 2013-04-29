@@ -36,7 +36,7 @@ import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.web.HrAction;
+import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.common.TKContext;
 import org.kuali.kpme.tklm.common.TKUtils;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
@@ -46,7 +46,7 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 
-public class LeaveCalendarWSAction extends HrAction {
+public class LeaveCalendarWSAction extends KPMEAction {
 
     private static final Logger LOG = Logger.getLogger(LeaveCalendarWSAction.class);
 

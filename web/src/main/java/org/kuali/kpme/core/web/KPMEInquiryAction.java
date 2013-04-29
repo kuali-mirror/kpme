@@ -34,9 +34,9 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
-public class TkInquiryAction extends KualiInquiryAction {
+public class KPMEInquiryAction extends KualiInquiryAction {
 	
-	private static final Logger LOG = Logger.getLogger(TkInquiryAction.class);
+	private static final Logger LOG = Logger.getLogger(KPMEInquiryAction.class);
 	
 	protected BusinessObject retrieveBOUsingKeyMap(Map<String, String> keyMap, Inquirable kualiInquirable) {
 		BusinessObject bo = kualiInquirable.getBusinessObject(keyMap);

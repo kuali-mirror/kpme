@@ -15,9 +15,9 @@
  */
 package org.kuali.kpme.core.admin.web;
 
-import org.kuali.kpme.core.web.HrForm;
+import org.kuali.kpme.core.web.KPMEForm;
 
-public class DeleteDocumentForm extends HrForm {
+public class DeleteDocumentForm extends KPMEForm {
 
 	private static final long serialVersionUID = 3121271193055358638L;
 	

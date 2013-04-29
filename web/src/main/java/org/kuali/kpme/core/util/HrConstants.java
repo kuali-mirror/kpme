@@ -1,4 +1,4 @@
-package org.kuali.kpme.core;
+package org.kuali.kpme.core.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;

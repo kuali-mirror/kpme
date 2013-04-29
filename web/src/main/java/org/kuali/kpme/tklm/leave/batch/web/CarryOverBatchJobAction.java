@@ -25,9 +25,9 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.web.HrAction;
+import org.kuali.kpme.core.web.KPMEAction;
 
-public class CarryOverBatchJobAction extends HrAction {
+public class CarryOverBatchJobAction extends KPMEAction {
 
     public ActionForward runCarryOverBatchJob(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	CarryOverBatchJobActionForm cobjaf = (CarryOverBatchJobActionForm) form;

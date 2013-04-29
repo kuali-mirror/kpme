@@ -15,8 +15,8 @@
  */
 package org.kuali.kpme.core.bo.calendar.entry.validation;
 
-import org.kuali.kpme.core.ValidationUtils;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 

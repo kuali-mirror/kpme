@@ -15,9 +15,9 @@
  */
 package org.kuali.kpme.core.bo.paytype.validation;
 
-import org.kuali.kpme.core.KpmeEffectiveDatePromptBase;
 import org.kuali.kpme.core.bo.paytype.PayType;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.web.KpmeEffectiveDatePromptBase;
 import org.kuali.kpme.tklm.common.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 

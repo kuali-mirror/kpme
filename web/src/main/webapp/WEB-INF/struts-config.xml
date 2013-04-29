@@ -54,7 +54,7 @@
         <form-bean name="LeaveApprovalWSActionForm" type="org.kuali.kpme.tklm.leave.approval.web.LeaveApprovalWSActionForm"/>
         <form-bean name="BalanceTransferForm" type="org.kuali.kpme.tklm.leave.transfer.web.BalanceTransferForm"/>
         <form-bean name="LeavePayoutForm" type="org.kuali.kpme.tklm.leave.payout.web.LeavePayoutForm"/>
-        <form-bean name="TkForm" type="org.kuali.kpme.core.web.HrForm"/>
+        <form-bean name="TkForm" type="org.kuali.kpme.core.web.KPMEForm"/>
     </form-beans>
 
     <global-exceptions>
@@ -131,7 +131,7 @@
             <forward name="basic" path="/portal.jsp"/>
         </action>
 
-        <action path="/DepartmentAdmin" name="TkForm" type="org.kuali.kpme.core.web.HrAction">
+        <action path="/DepartmentAdmin" name="TkForm" type="org.kuali.kpme.core.web.KPMEAction">
             <forward name="basic" path="/WEB-INF/jsp/departmentAdmin.jsp"/>
         </action>
         

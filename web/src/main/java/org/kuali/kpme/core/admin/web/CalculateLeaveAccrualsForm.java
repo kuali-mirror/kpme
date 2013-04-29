@@ -15,9 +15,9 @@
  */
 package org.kuali.kpme.core.admin.web;
 
-import org.kuali.kpme.core.web.HrForm;
+import org.kuali.kpme.core.web.KPMEForm;
 
-public class CalculateLeaveAccrualsForm extends HrForm {
+public class CalculateLeaveAccrualsForm extends KPMEForm {
 
 	private static final long serialVersionUID = -841015862054021534L;
 	

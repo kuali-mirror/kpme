@@ -382,7 +382,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Allow Scheduled Leave" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.SwitchKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.bo.utils.SwitchKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="allowScheduledLeave" />
@@ -394,7 +394,7 @@
 	<bean id="EarnCode-fmla-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="FMLA" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.SwitchKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.bo.utils.SwitchKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="fmla" />
@@ -407,7 +407,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Workman's Comp" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.SwitchKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.bo.utils.SwitchKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="workmansComp" />
@@ -433,7 +433,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Allow Negative Accrual Balance" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.SwitchKeyValueFinder" />
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.bo.utils.SwitchKeyValueFinder" />
 		</property>
 		<property name="name" value="allowNegativeAccrualBalance" />
 		<property name="label" value="Allow Negative Accrual Balance" />

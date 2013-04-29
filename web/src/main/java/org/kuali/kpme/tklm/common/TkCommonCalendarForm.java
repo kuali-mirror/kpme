@@ -20,9 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kpme.core.web.HrForm;
+import org.kuali.kpme.core.web.KPMEForm;
 
-public class TkCommonCalendarForm extends HrForm {
+public class TkCommonCalendarForm extends KPMEForm {
 	private static final long serialVersionUID = 1L;
 	
 	private List<String> calendarYears = new ArrayList<String>();

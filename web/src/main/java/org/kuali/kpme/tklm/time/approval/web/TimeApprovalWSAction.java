@@ -38,7 +38,7 @@ import org.json.simple.JSONValue;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.web.ApprovalForm;
-import org.kuali.kpme.core.web.HrAction;
+import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.time.person.TKPerson;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -46,7 +46,7 @@ import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class TimeApprovalWSAction extends HrAction {
+public class TimeApprovalWSAction extends KPMEAction {
 
     private static final Logger LOG = Logger.getLogger(TimeApprovalWSAction.class);
 

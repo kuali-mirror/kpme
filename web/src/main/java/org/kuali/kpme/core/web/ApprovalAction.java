@@ -33,23 +33,23 @@ import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.HrConstants;
 import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.common.TKContext;
 import org.kuali.kpme.tklm.time.person.TKPerson;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class ApprovalAction extends HrAction{
+public class ApprovalAction extends KPMEAction{
 
 	@Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if (form instanceof HrForm) {
-           String methodToCall = ((HrForm)form).getMethodToCall();
+        if (form instanceof KPMEForm) {
+           String methodToCall = ((KPMEForm)form).getMethodToCall();
            if(StringUtils.isEmpty(methodToCall)) {
         	   super.execute(mapping, form, request, response);
         	   return loadApprovalTab(mapping, form, request, response); 

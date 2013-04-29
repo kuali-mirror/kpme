@@ -1,8 +1,8 @@
 package org.kuali.kpme.core.bo.paystep.validation;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.ValidationUtils;
 import org.kuali.kpme.core.bo.paystep.PayStep;
+import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;

@@ -16,10 +16,10 @@
 package org.kuali.kpme.tklm.time.help.web;
 
 import org.apache.struts.action.ActionForm;
-import org.kuali.kpme.core.web.HrAction;
+import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
 
-public class HelpAction extends HrAction {
+public class HelpAction extends KPMEAction {
 
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {

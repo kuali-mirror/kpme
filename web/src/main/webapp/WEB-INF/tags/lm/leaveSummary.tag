@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
 <jsp:useBean id="tagSupport" class="org.kuali.kpme.tklm.common.TagSupport"/>
-<jsp:useBean id="workflowTagSupport" class="org.kuali.kpme.core.WorkflowTagSupport"/>
+<jsp:useBean id="workflowTagSupport" class="org.kuali.kpme.core.web.WorkflowTagSupport"/>
 
 <%@ attribute name="leaveSummary" required="true" type="org.kuali.kpme.tklm.leave.summary.LeaveSummary"%>
  

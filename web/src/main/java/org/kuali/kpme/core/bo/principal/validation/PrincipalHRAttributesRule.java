@@ -16,8 +16,8 @@
 package org.kuali.kpme.core.bo.principal.validation;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.ValidationUtils;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
