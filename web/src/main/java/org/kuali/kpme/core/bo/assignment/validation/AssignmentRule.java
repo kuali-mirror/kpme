@@ -25,13 +25,13 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.account.AssignmentAccount;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.job.Job;
+import org.kuali.kpme.core.bo.kfs.coa.businessobject.Account;
+import org.kuali.kpme.core.bo.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kpme.core.bo.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kpme.core.bo.paytype.PayType;
 import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.utils.ValidationUtils;

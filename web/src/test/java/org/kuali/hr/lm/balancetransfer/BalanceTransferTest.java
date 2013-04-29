@@ -31,7 +31,7 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarSubmitForm;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;

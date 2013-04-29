@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 public class KPMELoginFilter implements Filter {

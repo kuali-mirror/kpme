@@ -26,7 +26,7 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.web.LeaveCalendarWSForm;

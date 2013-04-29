@@ -19,7 +19,7 @@
     <bean id="GenericAttributes" parent="GenericAttributes-parentBean"/>
 
 	<bean id="GenericAttributes-parentBean" abstract="true" parent="BusinessObjectEntry">
-	  <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.GenericAttributes"/>
+	  <property name="businessObjectClass" value="org.kuali.kpme.core.bo.kfs.coa.businessobject.GenericAttributes"/>
       <property name="objectLabel" value="Generic Attributes"/>
 	  <property name="attributes">
 		<list>

@@ -17,14 +17,14 @@ package org.kuali.kpme.core.bo.assignment.account;
 
 import java.math.BigDecimal;
 
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.ProjectCode;
-import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
+import org.kuali.kpme.core.bo.kfs.coa.businessobject.Account;
+import org.kuali.kpme.core.bo.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kpme.core.bo.kfs.coa.businessobject.ProjectCode;
+import org.kuali.kpme.core.bo.kfs.coa.businessobject.SubAccount;
+import org.kuali.kpme.core.bo.kfs.coa.businessobject.SubObjectCode;
 
 public class AssignmentAccount extends HrBusinessObject {
 

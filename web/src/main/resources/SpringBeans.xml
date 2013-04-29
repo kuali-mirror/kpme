@@ -92,7 +92,7 @@
             <list>
                 <value>org.kuali.kpme.tklm.time.domain</value>
                 <value>org.kuali.kfs.coa.domain</value>
-                <value>org.kuali.kfs.coa.businessobject</value>
+                <value>org.kuali.kpme.core.bo.kfs.coa.businessobject</value>
                 <value>org.kuali.kpme.tklm.time</value>
                 <value>org.kuali.kpme.kfs</value>
                 <value>org.kuali.kpme</value>
@@ -213,7 +213,7 @@
         <property name="serviceName" value="dbPlatform" />
     </bean>
     
-    <bean name="springContext" class="org.kuali.kpme.sys.context.SpringContext" />
+    <bean name="springContext" class="org.kuali.kpme.core.sys.context.SpringContext" />
     
     <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
         <property name="localServiceName" value="KPME-Context"/>
@@ -939,37 +939,37 @@
     </bean>
     <bean id="accountLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kfs.coa.businessobject.service.AccountLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.bo.kfs.coa.businessobject.service.AccountLookupableHelper"/>
         </property>
     </bean>
     <bean id="chartLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kfs.coa.businessobject.service.ChartLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.bo.kfs.coa.businessobject.service.ChartLookupableHelper"/>
         </property>
     </bean>
     <bean id="objectCodeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kfs.coa.businessobject.service.ObjectCodeLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.bo.kfs.coa.businessobject.service.ObjectCodeLookupableHelper"/>
         </property>
     </bean>
     <bean id="organizationLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kfs.coa.businessobject.service.OrganizationLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.bo.kfs.coa.businessobject.service.OrganizationLookupableHelper"/>
         </property>
     </bean>
     <bean id="projectCodeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kfs.coa.businessobject.service.ProjectCodeLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.bo.kfs.coa.businessobject.service.ProjectCodeLookupableHelper"/>
         </property>
     </bean>
     <bean id="subAccountLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kfs.coa.businessobject.service.SubAccountLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.bo.kfs.coa.businessobject.service.SubAccountLookupableHelper"/>
         </property>
     </bean>
     <bean id="subObjectCodeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kfs.coa.businessobject.service.SubObjectCodeLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.bo.kfs.coa.businessobject.service.SubObjectCodeLookupableHelper"/>
         </property>
     </bean>
     <bean id="taskLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">

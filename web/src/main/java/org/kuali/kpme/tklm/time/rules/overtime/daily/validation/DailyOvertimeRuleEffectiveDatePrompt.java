@@ -15,8 +15,8 @@
  */
 package org.kuali.kpme.tklm.time.rules.overtime.daily.validation;
 
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.web.KpmeEffectiveDatePromptBase;
-import org.kuali.kpme.tklm.common.TKUtils;
 import org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;

@@ -20,13 +20,13 @@ import java.util.ListIterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kpme.core.bo.department.Department;
+import org.kuali.kpme.core.bo.kfs.coa.businessobject.Chart;
+import org.kuali.kpme.core.bo.kfs.coa.businessobject.Organization;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;

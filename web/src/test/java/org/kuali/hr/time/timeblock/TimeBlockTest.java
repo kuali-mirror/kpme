@@ -28,7 +28,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
-import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeHourDetail;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;

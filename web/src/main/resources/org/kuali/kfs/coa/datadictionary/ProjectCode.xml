@@ -19,7 +19,7 @@
   <bean id="ProjectCode" parent="ProjectCode-parentBean"/>
 
   <bean id="ProjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ProjectCode"/>
+    <property name="businessObjectClass" value="org.kuali.kpme.core.bo.kfs.coa.businessobject.ProjectCode"/>
     <property name="inquiryDefinition">
       <ref bean="ProjectCode-inquiryDefinition"/>
     </property>

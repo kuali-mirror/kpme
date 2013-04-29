@@ -20,10 +20,10 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.kfs.coa.businessobject.Chart;
+import org.kuali.kpme.core.bo.kfs.coa.businessobject.Organization;
 import org.kuali.kpme.core.bo.location.Location;
 import org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo;
 

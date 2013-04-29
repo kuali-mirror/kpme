@@ -31,7 +31,7 @@ import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.kpme.core.bo.leaveplan.service.LeavePlanService;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.bo.principal.service.PrincipalHRAttributesService;
-import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.service.LeaveBlockService;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;

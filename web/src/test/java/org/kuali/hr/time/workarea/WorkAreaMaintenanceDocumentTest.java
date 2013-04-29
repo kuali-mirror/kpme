@@ -26,7 +26,7 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;

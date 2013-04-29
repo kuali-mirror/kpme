@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.inquirable.KPMEInquirableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 public class AccrualCategoryInquirableImpl extends KPMEInquirableImpl {

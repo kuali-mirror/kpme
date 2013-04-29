@@ -30,7 +30,7 @@ import org.kuali.kpme.core.role.KPMERoleMemberBo;
 import org.kuali.kpme.core.role.PositionRoleMemberBo;
 import org.kuali.kpme.core.role.PrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.authorization.AuthorizationValidationUtils;
 import org.kuali.kpme.tklm.time.authorization.DepartmentalRule;
 import org.kuali.rice.kim.api.role.Role;

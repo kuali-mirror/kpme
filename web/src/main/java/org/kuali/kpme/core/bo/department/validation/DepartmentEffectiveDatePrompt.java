@@ -17,8 +17,8 @@ package org.kuali.kpme.core.bo.department.validation;
 
 import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.web.KpmeEffectiveDatePromptBase;
-import org.kuali.kpme.tklm.common.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class DepartmentEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {

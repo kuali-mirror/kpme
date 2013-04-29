@@ -19,7 +19,7 @@
   <bean id="ObjectCode" parent="ObjectCode-parentBean"/>
 
   <bean id="ObjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectCode"/>
+    <property name="businessObjectClass" value="org.kuali.kpme.core.bo.kfs.coa.businessobject.ObjectCode"/>
     <property name="inquiryDefinition">
       <ref bean="ObjectCode-inquiryDefinition"/>
     </property>
@@ -57,7 +57,7 @@
   <bean id="ObjectCode-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   	<property name="forceUppercase" value="true"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false" p:script="if ( typeof setReportsToChartCode == 'function' ) { setReportsToChartCode(); }"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.bo.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false" p:script="if ( typeof setReportsToChartCode == 'function' ) { setReportsToChartCode(); }"/>
     </property>
   </bean>
   <bean id="ObjectCode-financialObjectCode" parent="ObjectCode-financialObjectCode-parentBean"/>
@@ -159,7 +159,7 @@
     </property>
     <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition" p:required="true" p:attributeName="universityFiscalYear" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="universityFiscalYear" p:defaultValueFinderClass="org.kuali.kpme.core.bo.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
         <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
         <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
         <bean parent="FieldDefinition" p:attributeName="financialObjectCodeName"/>

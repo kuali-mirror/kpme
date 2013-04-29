@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.department.Department;
@@ -30,6 +29,7 @@ import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.bo.earncode.group.EarnCodeGroupDefinition;
 import org.kuali.kpme.core.bo.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.bo.kfs.coa.businessobject.Chart;
 import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.kpme.core.bo.location.Location;
 import org.kuali.kpme.core.bo.paygrade.PayGrade;

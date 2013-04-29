@@ -19,7 +19,7 @@
   <bean id="SubAccount" parent="SubAccount-parentBean"/>
 
   <bean id="SubAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubAccount"/>
+    <property name="businessObjectClass" value="org.kuali.kpme.core.bo.kfs.coa.businessobject.SubAccount"/>
     <property name="inquiryDefinition">
       <ref bean="SubAccount-inquiryDefinition"/>
     </property>

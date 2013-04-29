@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.tklm.leave.accrual.service;
 
-import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.accrual.PrincipalAccrualRan;
 import org.kuali.kpme.tklm.leave.accrual.dao.PrincipalAccrualRanDao;
 import org.kuali.rice.krad.service.KRADServiceLocator;

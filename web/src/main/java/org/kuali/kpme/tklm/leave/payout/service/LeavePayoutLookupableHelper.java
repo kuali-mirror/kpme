@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
-import org.kuali.kpme.tklm.common.TKUtils;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.payout.LeavePayout;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;

@@ -20,12 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.account.AssignmentAccount;
 import org.kuali.kpme.core.bo.job.Job;
+import org.kuali.kpme.core.bo.kfs.coa.businessobject.Account;
 import org.kuali.kpme.core.bo.paytype.PayType;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
