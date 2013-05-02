@@ -28,9 +28,9 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.missedpunch.dao.MissedPunchDao;
@@ -123,7 +123,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         //Timestamp clockTimestamp, String selectedAssign, TimesheetDocument timesheetDocument, String clockAction, String ip) {
         Timestamp ts = new Timestamp(missedPunch.getActionDate().getTime());
         ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
-        Long zoneOffset = TkServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(DateTimeZone.forID(lastClockLog.getClockTimestampTimezone()));
+        Long zoneOffset = HrServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(DateTimeZone.forID(lastClockLog.getClockTimestampTimezone()));
         Timestamp clockLogTime = new Timestamp(ts.getTime() - zoneOffset); // convert the action time to the system zone time
 
         ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(clockLogTime, clockLogTime,
@@ -159,7 +159,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         // Need to build a clock log entry.
         Timestamp ts = new Timestamp(missedPunch.getActionDate().getTime());
         ClockLog lastLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
-        Long zoneOffset = TkServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(DateTimeZone.forID(lastLog.getClockTimestampTimezone()));
+        Long zoneOffset = HrServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(DateTimeZone.forID(lastLog.getClockTimestampTimezone()));
         Timestamp clockLogTime = new Timestamp(ts.getTime() - zoneOffset); // convert the action time to the system zone time
 
         ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(clockLogTime, clockLogTime,

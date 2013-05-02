@@ -15,8 +15,8 @@
  */
 package org.kuali.kpme.tklm.time.user.pref.service;
 
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TKContext;
 import org.kuali.kpme.tklm.time.user.pref.UserPreferences;
 import org.kuali.kpme.tklm.time.user.pref.dao.UserPreferenceDao;
 

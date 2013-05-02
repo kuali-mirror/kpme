@@ -32,8 +32,8 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveBlockDao {

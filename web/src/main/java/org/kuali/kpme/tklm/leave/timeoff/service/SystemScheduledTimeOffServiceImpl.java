@@ -23,7 +23,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.leave.timeoff.dao.SystemScheduledTimeOffDao;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -71,8 +71,8 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
 
     @Override
     public BigDecimal calculateSysSchTimeOffHours(Job job, BigDecimal sstoHours) {
-        BigDecimal fte = job.getStandardHours().divide(new BigDecimal(40.0),TkConstants.BIG_DECIMAL_SCALE);
-        return fte.multiply(sstoHours).setScale(TkConstants.BIG_DECIMAL_SCALE);
+        BigDecimal fte = job.getStandardHours().divide(new BigDecimal(40.0),HrConstants.BIG_DECIMAL_SCALE);
+        return fte.multiply(sstoHours).setScale(HrConstants.BIG_DECIMAL_SCALE);
     }
 
     @Override

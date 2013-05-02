@@ -36,14 +36,15 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.core.web.KPMEAction;
-import org.kuali.kpme.tklm.common.TKContext;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.kew.api.KewApiConstants;
 
@@ -78,7 +79,7 @@ public class LeaveBlockDisplayAction extends KPMEAction {
 		List<LeaveBlockHistory> correctedLeaveEntries = LmServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistoriesForLeaveDisplay(TKContext.getTargetPrincipalId(), beginDate, endDate, Boolean.TRUE);
 		if (correctedLeaveEntries != null) {
 			for (LeaveBlockHistory leaveBlockHistory : correctedLeaveEntries) {
-				if (leaveBlockHistory.getAction() != null && leaveBlockHistory.getAction().equalsIgnoreCase(LMConstants.ACTION.DELETE)) {
+				if (leaveBlockHistory.getAction() != null && leaveBlockHistory.getAction().equalsIgnoreCase(HrConstants.ACTION.DELETE)) {
 					leaveBlockHistory.setPrincipalIdModified(leaveBlockHistory.getPrincipalIdDeleted());
 					leaveBlockHistory.setTimestamp(leaveBlockHistory.getTimestampDeleted());
 				}
@@ -97,10 +98,10 @@ public class LeaveBlockDisplayAction extends KPMEAction {
 			for (LeaveBlockHistory leaveBlockHistory:inActiveLeaveEntries) {
 				if (leaveBlockHistory.getAccrualGenerated() == null || !leaveBlockHistory.getAccrualGenerated()) {
 					if (leaveBlockHistory.getAction()!= null) {
-                        if (leaveBlockHistory.getAction().equalsIgnoreCase(LMConstants.ACTION.DELETE)) {
+                        if (leaveBlockHistory.getAction().equalsIgnoreCase(HrConstants.ACTION.DELETE)) {
                             leaveBlockHistory.setPrincipalIdModified(leaveBlockHistory.getPrincipalIdDeleted());
                             leaveBlockHistory.setTimestamp(leaveBlockHistory.getTimestampDeleted());
-                        } else if (leaveBlockHistory.getAction().equalsIgnoreCase(LMConstants.ACTION.MODIFIED)) {
+                        } else if (leaveBlockHistory.getAction().equalsIgnoreCase(HrConstants.ACTION.MODIFIED)) {
                             leaveBlockHistory.setPrincipalIdModified(leaveBlockHistory.getPrincipalIdDeleted());
                         }
                     }
@@ -112,7 +113,7 @@ public class LeaveBlockDisplayAction extends KPMEAction {
 						leaveBlockHistory.setDescription(this.retrieveDescriptionAccordingToLeaveType(leaveBlockHistory.getLeaveBlockType()));
 					}
 					if (StringUtils.isNotBlank(leaveBlockHistory.getRequestStatus())) {
-						leaveBlockHistory.setRequestStatus(LMConstants.REQUEST_STATUS_STRINGS.get(leaveBlockHistory.getRequestStatus()));
+						leaveBlockHistory.setRequestStatus(HrConstants.REQUEST_STATUS_STRINGS.get(leaveBlockHistory.getRequestStatus()));
 					}
 					leaveEntries.add(leaveBlockHistory);
 				}

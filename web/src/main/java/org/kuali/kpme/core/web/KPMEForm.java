@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.core.web;
 
-import org.kuali.kpme.tklm.common.TKContext;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;

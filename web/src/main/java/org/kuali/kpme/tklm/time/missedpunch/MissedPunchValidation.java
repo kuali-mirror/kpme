@@ -23,8 +23,9 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -148,7 +149,7 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         DateTime clockLogDateTime = new DateTime(lastClock.getClockTimestamp().getTime());
         DateTime boundaryMax = clockLogDateTime.plusDays(1);
         DateTime nowTime = new DateTime(LocalDate.now().toDate());
-        long offset = TkServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+        long offset = HrServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
         long dateTimeLocal = new LocalTime(mp.getActionTime()).getMillisOfDay() + mp.getActionDate().getTime() - offset;
 
         //this will be in system's timezone, but offset with user's timezone

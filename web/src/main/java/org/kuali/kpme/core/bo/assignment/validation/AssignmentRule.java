@@ -43,6 +43,7 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
+@SuppressWarnings("deprecation")
 public class AssignmentRule extends MaintenanceDocumentRuleBase {
 
 	protected boolean validateWorkArea(Assignment assignment) {
@@ -174,7 +175,6 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	
 	protected boolean validateRegPayEarnCode(Assignment assignment) {
 		boolean valid = false;
-		int index = 0;
 		LOG.debug("Validating Regular pay EarnCodes: " + assignment.getAssignmentAccounts().size());
 		for(AssignmentAccount assignmentAccount : assignment.getAssignmentAccounts()){
 			if(assignment.getJobNumber()!=null && assignment.getPrincipalId()!=null){
@@ -188,7 +188,6 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 					
 				}
 			}
-			index++;
 		}
 		if(!valid) {
 			this.putFieldError("assignmentAccounts", "earncode.regular.pay.required");

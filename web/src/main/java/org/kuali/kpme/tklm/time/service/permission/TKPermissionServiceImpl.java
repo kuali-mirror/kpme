@@ -19,9 +19,8 @@ import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.permission.HrPermissionServiceBase;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
@@ -400,9 +399,9 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             		|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime());
         } else {
             return TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-        			|| LmServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-        			|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
-        			|| LmServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime());
+        			|| HrServiceLocator.getHRRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+        			|| HrServiceLocator.getHRRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+        			|| HrServiceLocator.getHRRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime());
         }
     }
     
@@ -440,7 +439,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     public boolean canViewTimeTabs() {
     	boolean canViewTimeTabs = false;
     	LocalDate asOfDate = LocalDate.now();
-    	String flsaStatus = TkConstants.FLSA_STATUS_NON_EXEMPT;
+    	String flsaStatus = HrConstants.FLSA_STATUS_NON_EXEMPT;
     	// find active assignments as of currentDate
     	String principalId = TKContext.getTargetPrincipalId();
     	if(isActiveAssignmentFoundOnJobFlsaStatus(principalId, flsaStatus, false)) {

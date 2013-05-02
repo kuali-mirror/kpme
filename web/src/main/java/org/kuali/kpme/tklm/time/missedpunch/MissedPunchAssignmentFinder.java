@@ -21,8 +21,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.TkConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -52,7 +53,7 @@ public class MissedPunchAssignmentFinder extends KeyValuesBase {
         }
         
         if(StringUtils.isBlank(mpDocId)){
-           tdocId = TKContext.getHttpServletRequest().getParameter(TkConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);   
+           tdocId = TKContext.getHttpServletRequest().getParameter(HrConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);   
         }
         
         if(StringUtils.isNotBlank(mpDocId)){
@@ -71,7 +72,7 @@ public class MissedPunchAssignmentFinder extends KeyValuesBase {
         }
         
         if(StringUtils.isBlank(tdocId)) {
-        	tdocId = (String) TKContext.getHttpServletRequest().getAttribute(TkConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);   
+        	tdocId = (String) TKContext.getHttpServletRequest().getAttribute(HrConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);   
         }
         
         if (tdocId != null) {

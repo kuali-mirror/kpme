@@ -26,8 +26,8 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeHourDetail;
 
@@ -145,14 +145,14 @@ public class FlsaDay {
         // for the individual time block.
         Map<String,BigDecimal> localEarnCodeToHours = new HashMap<String,BigDecimal>();
 
-		if (zeroHoursTimeBlock || overlapHours.compareTo(BigDecimal.ZERO) > 0 || (flsaDateInterval.contains(beginDateTime) && StringUtils.equals(block.getEarnCodeType(),TkConstants.EARN_CODE_AMOUNT)))  {
+		if (zeroHoursTimeBlock || overlapHours.compareTo(BigDecimal.ZERO) > 0 || (flsaDateInterval.contains(beginDateTime) && StringUtils.equals(block.getEarnCodeType(),HrConstants.EARN_CODE_AMOUNT)))  {
 
             List<TimeHourDetail> details = block.getTimeHourDetails();
             for (TimeHourDetail thd : details) {
                 BigDecimal localEcHours = localEarnCodeToHours.containsKey(thd.getEarnCode()) ? localEarnCodeToHours.get(thd.getEarnCode()) : BigDecimal.ZERO;
                 //NOTE adding this in the last few hours before release.. remove if side effects are noticed
                 if (overlapHours.compareTo(localEcHours) >= 0 || thd.getAmount().compareTo(BigDecimal.ZERO) == 0) {
-                    localEcHours = localEcHours.add(thd.getHours(), TkConstants.MATH_CONTEXT);
+                    localEcHours = localEcHours.add(thd.getHours(), HrConstants.MATH_CONTEXT);
                     localEarnCodeToHours.put(thd.getEarnCode(), localEcHours);
                 }
             }

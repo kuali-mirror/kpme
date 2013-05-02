@@ -21,8 +21,9 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.TkConstants;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.kpme.tklm.time.rules.lunch.department.dao.DepartmentLunchRuleDao;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -85,16 +86,16 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
             TimeHourDetail detail = details.get(0);
 
             BigDecimal lunchHours = TKUtils.convertMinutesToHours(rule.getDeductionMins());
-            BigDecimal newHours = detail.getHours().subtract(lunchHours).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
+            BigDecimal newHours = detail.getHours().subtract(lunchHours).setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING);
             detail.setHours(newHours);
 
             TimeHourDetail lunchDetail = new TimeHourDetail();
             lunchDetail.setHours(lunchHours.multiply(TkConstants.BIG_DECIMAL_NEGATIVE_ONE));
-            lunchDetail.setEarnCode(TkConstants.LUNCH_EARN_CODE);
+            lunchDetail.setEarnCode(HrConstants.LUNCH_EARN_CODE);
             lunchDetail.setTkTimeBlockId(block.getTkTimeBlockId());
             
             //Deduct from total for worked hours
-            block.setHours(block.getHours().subtract(lunchHours,TkConstants.MATH_CONTEXT));
+            block.setHours(block.getHours().subtract(lunchHours,HrConstants.MATH_CONTEXT));
             
             details.add(lunchDetail);
         } else {

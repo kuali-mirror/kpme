@@ -10,8 +10,8 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.pm.positiontype.PositionType;
-import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import com.google.common.collect.ImmutableList;
@@ -39,15 +39,15 @@ public class PositionTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 		Criteria root = new Criteria();
 
 		if(StringUtils.isNotEmpty(positionType) 
-				&& !StringUtils.equals(positionType, TkConstants.WILDCARD_CHARACTER)) {
+				&& !StringUtils.equals(positionType, HrConstants.WILDCARD_CHARACTER)) {
 			root.addEqualTo("positionType", positionType);  
 		}
 		if(StringUtils.isNotEmpty(institution) 
-				&& !StringUtils.equals(institution, TkConstants.WILDCARD_CHARACTER)) {
+				&& !StringUtils.equals(institution, HrConstants.WILDCARD_CHARACTER)) {
 			root.addEqualTo("institution", institution); 
 		}
 		if(StringUtils.isNotEmpty(campus) 
-				&& !StringUtils.equals(campus, TkConstants.WILDCARD_CHARACTER)) {
+				&& !StringUtils.equals(campus, HrConstants.WILDCARD_CHARACTER)) {
 			root.addEqualTo("campus", campus); 
 		}
         

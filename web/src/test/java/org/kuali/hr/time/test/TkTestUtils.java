@@ -38,9 +38,9 @@ import org.junit.Assert;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -194,7 +194,7 @@ public class TkTestUtils {
 		timeBlock.setJobNumber(1L);
 		timeBlock.setWorkArea(1234L);
 		timeBlock.setTask(1L);
-		timeBlock.setHours((new BigDecimal(numHours)).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING));
+		timeBlock.setHours((new BigDecimal(numHours)).setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING));
 		cal.add(Calendar.HOUR, numHours);
 		timeBlock.setEndTimestamp(new Timestamp(cal.getTimeInMillis()));
 		timeBlock.setEndTimeDisplay(new DateTime(cal.getTimeInMillis()));
@@ -443,13 +443,13 @@ public class TkTestUtils {
 			nextDayAtMidnight = nextDayAtMidnight.millisOfSecond().setCopy(0);
 			Duration dur = new Duration(currentTime, nextDayAtMidnight);
 			long duration = dur.getStandardSeconds();
-			BigDecimal hrs = new BigDecimal(duration / 3600, TkConstants.MATH_CONTEXT);
+			BigDecimal hrs = new BigDecimal(duration / 3600, HrConstants.MATH_CONTEXT);
 			dateToHoursMap.put(new Timestamp(currentTime.getMillis()), hrs);
 			currentTime = nextDayAtMidnight;
 		}
 		Duration dur = new Duration(currentTime, endTime);
 		long duration = dur.getStandardSeconds();
-		BigDecimal hrs = new BigDecimal(duration / 3600, TkConstants.MATH_CONTEXT);
+		BigDecimal hrs = new BigDecimal(duration / 3600, HrConstants.MATH_CONTEXT);
 		dateToHoursMap.put(new Timestamp(currentTime.getMillis()), hrs);
 
 		return dateToHoursMap;

@@ -25,11 +25,11 @@ import org.json.simple.JSONValue;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 
 public class LeaveActionFormUtils {
 
@@ -47,7 +47,7 @@ public class LeaveActionFormUtils {
         }
 
         List<Map<String, Object>> leaveBlockList = new LinkedList<Map<String, Object>>();
-        String timezone = TkServiceLocator.getTimezoneService().getUserTimezone();
+        String timezone = HrServiceLocator.getTimezoneService().getUserTimezone();
 
         for (LeaveBlock leaveBlock : leaveBlocks) {
             Map<String, Object> LeaveBlockMap = new LinkedHashMap<String, Object>();
@@ -70,7 +70,7 @@ public class LeaveActionFormUtils {
             LeaveBlockMap.put("documentId", leaveBlock.getDocumentId());
             LeaveBlockMap.put("title", workAreaDesc);
             DateTime dtLeaveDate = new DateTime(leaveBlock.getLeaveDate());
-            LeaveBlockMap.put("leaveDate", dtLeaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+            LeaveBlockMap.put("leaveDate", dtLeaveDate.toString(HrConstants.DT_BASIC_DATE_FORMAT));
         		
             LeaveBlockMap.put("id", leaveBlock.getLmLeaveBlockId().toString());
             LeaveBlockMap.put("timezone", timezone);

@@ -24,8 +24,8 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LeaveBlockHistoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveBlockHistoryDao {
@@ -103,7 +103,7 @@ public class LeaveBlockHistoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb i
 		root.addEqualTo("principalId", principalId);
 		root.addGreaterOrEqualThan("leaveDate", beginDate.toDate());
 		root.addLessOrEqualThan("leaveDate", endDate.toDate());
-		root.addEqualTo("action",LMConstants.ACTION.MODIFIED);
+		root.addEqualTo("action",HrConstants.ACTION.MODIFIED);
 		if(considerModifiedUser) {
 			root.addNotEqualTo("principalIdModified", principalId);
 		} 
@@ -112,7 +112,7 @@ public class LeaveBlockHistoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb i
 		root1.addEqualTo("principalId", principalId);
 		root1.addGreaterOrEqualThan("leaveDate", beginDate.toDate());
 		root1.addLessOrEqualThan("leaveDate", endDate.toDate());
-		root1.addEqualTo("action",LMConstants.ACTION.DELETE);
+		root1.addEqualTo("action",HrConstants.ACTION.DELETE);
 		if(considerModifiedUser) {
 			root1.addNotEqualTo("principalIdDeleted", principalId);
 		} 

@@ -23,12 +23,13 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TKContext;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.adjustment.LeaveAdjustment;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl{
@@ -56,7 +57,7 @@ public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMain
 		aLeaveBlock.setLeaveAmount(la.getAdjustmentAmount());	// can be negative or positive.  leave as is.
 		aLeaveBlock.setAccrualGenerated(false);
 		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_ADJUSTMENT_MAINT);
-		aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+		aLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 		aLeaveBlock.setBlockId(0L);
 		
 		LmServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock, TKContext.getPrincipalId());		

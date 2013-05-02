@@ -23,11 +23,10 @@ import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.payout.LeavePayout;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -51,7 +50,7 @@ public class LeavePayoutValidationUtils {
 							&& StringUtils.isNotBlank(acr.getMaxBalFlag())
 							&& StringUtils.isNotEmpty(acr.getMaxBalFlag())
 							&& StringUtils.equals(acr.getMaxBalFlag(), "Y")) {
-						if(ObjectUtils.isNotNull(acr.getMaxPayoutEarnCode()) || StringUtils.equals(LMConstants.ACTION_AT_MAX_BAL.LOSE, acr.getActionAtMaxBalance())) {
+						if(ObjectUtils.isNotNull(acr.getMaxPayoutEarnCode()) || StringUtils.equals(HrConstants.ACTION_AT_MAX_BALANCE.LOSE, acr.getActionAtMaxBalance())) {
 /*							isValid &= validatePrincipal(pha,principalId);
 							isValid &= validateEffectiveDate(effectiveDate);
 							isValid &= validateAgainstLeavePlan(pha,fromCat,toCat,effectiveDate);
@@ -124,7 +123,7 @@ public class LeavePayoutValidationUtils {
 		if(ObjectUtils.isNotNull(adjustedMaxPayoutAmount)) {
 			if(payoutAmount.compareTo(adjustedMaxPayoutAmount) > 0) {
 				isValid &= false;
-				String fromUnitOfTime = TkConstants.UNIT_OF_TIME.get(fromCat.getUnitOfTime());
+				String fromUnitOfTime = HrConstants.UNIT_OF_TIME.get(fromCat.getUnitOfTime());
 				GlobalVariables.getMessageMap().putError("leavePayout.payoutAmount","leavePayout.payoutAmount.maxPayoutAmount",adjustedMaxPayoutAmount.toString(),fromUnitOfTime);
 			}
 		}

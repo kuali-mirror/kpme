@@ -21,13 +21,13 @@ import java.util.List;
 import javax.persistence.Transient;
 
 import org.kuali.kpme.core.KPMEConstants;
+import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
-import org.kuali.kpme.tklm.time.authorization.DepartmentalRule;
 
 public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 

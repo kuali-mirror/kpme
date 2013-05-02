@@ -29,10 +29,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.service.LeaveBlockService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 
 public class LeaveBlockServiceImplTest extends KPMETestCase {
 	
@@ -89,7 +90,7 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 	
 	@Test
 	public void testGetLeaveBlocksByLeaveRequestStatus(){
-		String requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
+		String requestStatus = HrConstants.REQUEST_STATUS.PLANNED;
 		List<LeaveBlock> leaveBlocks = leaveBlockService.getLeaveBlocks(TEST_USER, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, requestStatus, LocalDate.now());
 		Assert.assertNotNull("Leave Blocks not found of Request status", leaveBlocks);
 	}
@@ -122,7 +123,7 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 		Assert.assertTrue("There should be 2 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 2);
 		
 		LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock("1001");
-		lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+		lb.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 		LmServiceLocator.getLeaveBlockService().saveLeaveBlock(lb, TEST_USER);
 		leaveBlocks = leaveBlockService.getLeaveBlocksForTimeCalendar(TEST_USER, LocalDate.fromDateFields(beginDate), LocalDate.fromDateFields(endDate), assignmentKeys);
 		Assert.assertTrue("There should be 3 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 3);

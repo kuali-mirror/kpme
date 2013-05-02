@@ -20,9 +20,10 @@ import java.math.BigDecimal;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeaveBlockRenderer {
@@ -125,7 +126,7 @@ public class LeaveBlockRenderer {
 
         if(leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp() != null) {
         	String earnCodeType = HrServiceLocator.getEarnCodeService().getEarnCodeType(leaveBlock.getEarnCode(), new DateTime(leaveBlock.getBeginTimestamp()).toLocalDate());
-        	if(StringUtils.equals(earnCodeType, TkConstants.EARN_CODE_TIME)) {
+        	if(StringUtils.equals(earnCodeType, HrConstants.EARN_CODE_TIME)) {
 	        	DateTime start = new DateTime(leaveBlock.getBeginTimestamp().getTime());
 	        	DateTime end = new DateTime(leaveBlock.getEndTimestamp().getTime());
 	            b.append(start.toString(TkConstants.DT_BASIC_TIME_FORMAT));

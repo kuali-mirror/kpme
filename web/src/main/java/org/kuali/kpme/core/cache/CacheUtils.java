@@ -18,21 +18,21 @@ package org.kuali.kpme.core.cache;
 
 import java.util.List;
 
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator;
 
 public class CacheUtils {
     public static void flushCache(String cacheName) {
         //flush cache
         DistributedCacheManagerDecorator distributedCacheManagerDecorator =
-                TkServiceLocator.getDistributedCacheManager();
+                HrServiceLocator.getDistributedCacheManager();
         distributedCacheManagerDecorator.getCache(cacheName).clear();
     }
 
     public static void flushCaches(List<String> cacheNames) {
         //flush cache
         DistributedCacheManagerDecorator distributedCacheManagerDecorator =
-                TkServiceLocator.getDistributedCacheManager();
+                HrServiceLocator.getDistributedCacheManager();
         for (String cache : cacheNames) {
             distributedCacheManagerDecorator.getCache(cache).clear();
         }

@@ -21,10 +21,11 @@ import java.util.List;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.cache.CacheUtils;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.donation.LeaveDonation;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 
 public class LeaveDonationMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -54,7 +55,7 @@ public class LeaveDonationMaintainableServiceImpl extends HrBusinessObjectMainta
 		aLeaveBlock.setLeaveAmount(ld.getAmountDonated().negate());	// usage
 		aLeaveBlock.setAccrualGenerated(false);
 		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.DONATION_MAINT);
-		aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+		aLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 		aLeaveBlock.setBlockId(0L);
 		lbList.add(aLeaveBlock);
 		
@@ -68,7 +69,7 @@ public class LeaveDonationMaintainableServiceImpl extends HrBusinessObjectMainta
 		aLeaveBlock.setLeaveAmount(ld.getAmountReceived());
 		aLeaveBlock.setAccrualGenerated(false);
 		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.DONATION_MAINT);
-		aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+		aLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 		aLeaveBlock.setBlockId(0L);
 		lbList.add(aLeaveBlock);
 		

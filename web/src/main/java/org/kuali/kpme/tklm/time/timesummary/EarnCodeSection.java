@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 
 public class EarnCodeSection implements Serializable {
 	private String earnCode;
@@ -50,8 +50,8 @@ public class EarnCodeSection implements Serializable {
 	public void addAssignmentRow(AssignmentRow assignRow){
 		for(int i = 0;i<assignRow.getTotal().size()-1;i++){
 			
-			BigDecimal value = totals.get(i).add(assignRow.getTotal().get(i), TkConstants.MATH_CONTEXT);
-			totals.set(i, value.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING));
+			BigDecimal value = totals.get(i).add(assignRow.getTotal().get(i), HrConstants.MATH_CONTEXT);
+			totals.set(i, value.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING));
 		}
 		assignKeyToAssignmentRowMap.put(assignRow.getAssignmentKey(), assignRow);
 		assignmentsRows.add(assignRow);
@@ -61,11 +61,11 @@ public class EarnCodeSection implements Serializable {
 		
 		BigDecimal weeklyTotal = BigDecimal.ZERO;
 		for(int i = index; i >= (index-weekSize) && i >=0;i--){
-			weeklyTotal = weeklyTotal.add(getTotals().get(i), TkConstants.MATH_CONTEXT);
+			weeklyTotal = weeklyTotal.add(getTotals().get(i), HrConstants.MATH_CONTEXT);
 		}
 		getTotals().set(index,weeklyTotal);
 		BigDecimal periodTotal = getTotals().get(getTotals().size()-1);
-		periodTotal = periodTotal.add(weeklyTotal, TkConstants.MATH_CONTEXT);
+		periodTotal = periodTotal.add(weeklyTotal, HrConstants.MATH_CONTEXT);
 		getTotals().set(getTotals().size()-1,periodTotal);
 		
 		for(AssignmentRow ar : assignmentsRows){
@@ -95,13 +95,13 @@ public class EarnCodeSection implements Serializable {
 	
 	public void addToTotal(int index, BigDecimal hrs){
 		BigDecimal total = getTotals().get(index);
-		total = total.add(hrs, TkConstants.MATH_CONTEXT);
+		total = total.add(hrs, HrConstants.MATH_CONTEXT);
 		getTotals().set(index, total);
 	}
 	
 	public void addToAmount(int index, BigDecimal amount){
 		BigDecimal amtTotal = getTotals().get(index);
-		amtTotal = amtTotal.add(amount, TkConstants.MATH_CONTEXT);
+		amtTotal = amtTotal.add(amount, HrConstants.MATH_CONTEXT);
 		getTotals().set(index, amtTotal);
 	}
 	public EarnGroupSection getEarnGroupSection() {

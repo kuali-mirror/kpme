@@ -67,7 +67,7 @@ public interface BalanceTransferService {
 	 * Includes accrual categories for which ACTION_AT_MAX_BALANCE = LOSE.
 	 * 
 	 * @param document The LeaveCalendarDocument to use in gathering transfer eligible accrual categories.
-	 * @param actionFrequency One of LMConstants.MAX_BAL_ACTION_FREQ
+	 * @param actionFrequency One of HrConstants.MAX_BAL_ACTION_FREQ
 	 * @return A List of accrualCategoryRuleId's in {@param document}'s leave summary with MAX_BAL_ACTION_FREQUENCY = {@param actionFrequency} 
 	 * @throws Exception
 	 */

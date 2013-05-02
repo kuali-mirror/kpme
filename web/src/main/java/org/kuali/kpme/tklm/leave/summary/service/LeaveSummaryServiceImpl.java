@@ -43,16 +43,16 @@ import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.service.LeaveBlockService;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeaveSummaryServiceImpl implements LeaveSummaryService {
@@ -209,7 +209,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                 if(approvedLcdh != null) {
                     DateTime endApprovedDate = approvedLcdh.getEndDateTime();
                     LocalDateTime aLocalTime = new DateTime(approvedLcdh.getEndDate()).toLocalDateTime();
-                    DateTime endApprovedTime = aLocalTime.toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+                    DateTime endApprovedTime = aLocalTime.toDateTime(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
                     if(endApprovedTime.getHourOfDay() == 0) {
                         endApprovedDate = endApprovedDate.minusDays(1);
                     }
@@ -443,8 +443,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     				}
     			}
     			if(adjustedMaxBalance.compareTo(lsr.getAccruedBalance()) < 0) {
-    				if(StringUtils.equals(accrualCategoryRule.getActionAtMaxBalance(), LMConstants.ACTION_AT_MAX_BAL.TRANSFER) &&
-    						StringUtils.equals(accrualCategoryRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
+    				if(StringUtils.equals(accrualCategoryRule.getActionAtMaxBalance(), HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER) &&
+    						StringUtils.equals(accrualCategoryRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
     					transferable = true;
     			}
     		}
@@ -478,8 +478,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     				}
     			}
     			if(adjustedMaxBalance.compareTo(lsr.getAccruedBalance()) < 0) {
-    				if(StringUtils.equals(accrualCategoryRule.getActionAtMaxBalance(), LMConstants.ACTION_AT_MAX_BAL.PAYOUT) &&
-    						StringUtils.equals(accrualCategoryRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
+    				if(StringUtils.equals(accrualCategoryRule.getActionAtMaxBalance(), HrConstants.ACTION_AT_MAX_BALANCE.PAYOUT) &&
+    						StringUtils.equals(accrualCategoryRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
     					payoutable = true;
     			}
     		}
@@ -511,8 +511,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                 && StringUtils.equals(aLeaveBlock.getAccrualCategory(), accrualCategory))) {
                         if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0
                                 && !aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)) {
-                            if(!(StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
-                            		StringUtils.equals(LMConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
+                            if(!(StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
+                            		StringUtils.equals(HrConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
                                 if (aLeaveBlock.getLeaveDate().getTime() <= priorYearCutOff.getTime()) {
                                     String yearKey = getYearKey(aLeaveBlock.getLeaveLocalDate(), lp);
                                     BigDecimal co = yearlyAccrued.get(yearKey);
@@ -528,11 +528,11 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                         } else {
                             BigDecimal currentLeaveAmount = aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) > 0 ? aLeaveBlock.getLeaveAmount().negate() : aLeaveBlock.getLeaveAmount();
                             //we only want this for the current calendar!!!
-                            if(!(StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
-                            		StringUtils.equals(LMConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
+                            if(!(StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
+                            		StringUtils.equals(HrConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
                                 if (aLeaveBlock.getLeaveDate().getTime() > priorYearCutOff.getTime()) {
                                     EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveLocalDate());
-                                    if (ec != null && StringUtils.equals(ec.getAccrualBalanceAction(), LMConstants.ACCRUAL_BALANCE_ACTION.USAGE)){
+                                    if (ec != null && StringUtils.equals(ec.getAccrualBalanceAction(), HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)){
                                         approvedUsage = approvedUsage.add(currentLeaveAmount);
                                     }
                                     if(ec != null && ec.getFmla().equals("Y")) {

@@ -24,8 +24,8 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
@@ -167,7 +167,7 @@ public class BalanceTransferForm extends KualiTransactionalDocumentFormBase {
 	}
 
 	public boolean isOnLeaveApproval() {
-		if(StringUtils.equals(type, LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
+		if(StringUtils.equals(type, HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
 			return true;
 		else
 			return false;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.service.batch;
+package org.kuali.kpme.tklm.common;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,9 +27,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.batch.BatchJobUtil;
-import org.kuali.kpme.core.batch.EmployeeApprovalJob;
-import org.kuali.kpme.core.batch.InitiateJob;
-import org.kuali.kpme.core.batch.SupervisorApprovalJob;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.service.AssignmentService;
 import org.kuali.kpme.core.bo.calendar.Calendar;
@@ -41,13 +38,16 @@ import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.bo.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.TkConstants;
 import org.kuali.kpme.tklm.leave.batch.CarryOverJob;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.leave.workflow.service.LeaveCalendarDocumentHeaderService;
+import org.kuali.kpme.tklm.time.batch.EmployeeApprovalJob;
 import org.kuali.kpme.tklm.time.batch.EndPayPeriodJob;
 import org.kuali.kpme.tklm.time.batch.EndReportingPeriodJob;
+import org.kuali.kpme.tklm.time.batch.InitiateJob;
 import org.kuali.kpme.tklm.time.batch.MissedPunchApprovalJob;
+import org.kuali.kpme.tklm.time.batch.SupervisorApprovalJob;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.clocklog.service.ClockLogService;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
@@ -117,7 +117,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 				for (Assignment assignment : assignments) {
 					Job job = assignment.getJob();
 					
-					if (job.isEligibleForLeave() && StringUtils.equalsIgnoreCase(job.getFlsaStatus(), TkConstants.FLSA_STATUS_NON_EXEMPT)) {
+					if (job.isEligibleForLeave() && StringUtils.equalsIgnoreCase(job.getFlsaStatus(), HrConstants.FLSA_STATUS_NON_EXEMPT)) {
 						LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, beginDate, endDate);
 						if (leaveCalendarDocumentHeader == null || StringUtils.equals(leaveCalendarDocumentHeader.getDocumentStatus(), HrConstants.ROUTE_STATUS.CANCEL)) {
 							scheduleInitiateJob(calendarEntry, scheduleDate, assignment.getPrincipalId());

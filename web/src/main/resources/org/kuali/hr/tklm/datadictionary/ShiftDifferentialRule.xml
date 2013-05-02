@@ -269,7 +269,7 @@
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.kpme.tklm.time.rice.kns.web.format.SqlTimeFormatter" />
+			value="org.kuali.kpme.core.SqlTimeFormatter" />
 		<property name="name" value="beginTime" />
 		<property name="label" value="Begin Time (00:00 AM)" />
 	</bean>
@@ -288,7 +288,7 @@
 				p:validationErrorMessageKey="MISSING" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.kpme.tklm.time.rice.kns.web.format.SqlTimeFormatter" />
+			value="org.kuali.kpme.core.SqlTimeFormatter" />
 		<property name="name" value="endTime" />
 		<property name="label" value="End Time (00:00 AM)" />
 	</bean>

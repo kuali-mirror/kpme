@@ -26,9 +26,9 @@ import org.kuali.kpme.core.bo.accrualcategory.dao.AccrualCategoryDao;
 import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 
 public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 
@@ -95,7 +95,7 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 		List<AccrualCategory> accrualCategories = accrualCategoryDao.getActiveAccrualCategories(leavePlanStr, asOfDate); 
 		for(AccrualCategory accrualCat : accrualCategories){
 			//if no rules continue
-			if(StringUtils.equals(accrualCat.getAccrualEarnInterval(), LMConstants.ACCRUAL_EARN_INTERVAL.NO_ACCRUAL) 
+			if(StringUtils.equals(accrualCat.getAccrualEarnInterval(), HrConstants.ACCRUAL_EARN_INTERVAL.NO_ACCRUAL) 
 					|| accrualCat.getAccrualCategoryRules().isEmpty()){
 				continue;
 			}
@@ -131,13 +131,13 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
     	
     	List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceLocalDate(), asOfDate, accrualCategory.getAccrualCategory());
     	for(LeaveBlock block : leaveBlocks) {
-    		if(!(StringUtils.equals(block.getRequestStatus(),LMConstants.REQUEST_STATUS.DEFERRED)
-    				|| StringUtils.equals(block.getRequestStatus(),LMConstants.REQUEST_STATUS.DISAPPROVED))) {
+    		if(!(StringUtils.equals(block.getRequestStatus(),HrConstants.REQUEST_STATUS.DEFERRED)
+    				|| StringUtils.equals(block.getRequestStatus(),HrConstants.REQUEST_STATUS.DISAPPROVED))) {
     			balance = balance.add(block.getLeaveAmount());
 /*    			EarnCode code = accrualCategory.getEarnCodeObj();
-    			if(StringUtils.equals(LMConstants.ACCRUAL_BALANCE_ACTION_MAP.get(code.getAccrualBalanceAction()), "Usage"))
+    			if(StringUtils.equals(HrConstants.ACCRUAL_BALANCE_ACTION_MAP.get(code.getAccrualBalanceAction()), "Usage"))
     				balance = balance.subtract(block.getLeaveAmount().abs());
-    			if(StringUtils.equals(LMConstants.ACCRUAL_BALANCE_ACTION_MAP.get(code.getAccrualBalanceAction()), "Adjustment"))
+    			if(StringUtils.equals(HrConstants.ACCRUAL_BALANCE_ACTION_MAP.get(code.getAccrualBalanceAction()), "Adjustment"))
     				balance = balance.add(block.getLeaveAmount());*/
     		}
     	}
@@ -151,12 +151,12 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
     	PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
     	List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceLocalDate(), asOfDate, accrualCategory.getAccrualCategory());
     	for(LeaveBlock block : leaveBlocks) {
-    		if(StringUtils.equals(block.getRequestStatus(),LMConstants.REQUEST_STATUS.APPROVED)) {
+    		if(StringUtils.equals(block.getRequestStatus(),HrConstants.REQUEST_STATUS.APPROVED)) {
 				balance = balance.add(block.getLeaveAmount());
 /*    			EarnCode code = accrualCategory.getEarnCodeObj();
-    			if(StringUtils.equals(LMConstants.ACCRUAL_BALANCE_ACTION_MAP.get(code.getAccrualBalanceAction()), "Usage"))
+    			if(StringUtils.equals(HrConstants.ACCRUAL_BALANCE_ACTION_MAP.get(code.getAccrualBalanceAction()), "Usage"))
     				balance = balance.subtract(block.getLeaveAmount().abs());
-    			if(StringUtils.equals(LMConstants.ACCRUAL_BALANCE_ACTION_MAP.get(code.getAccrualBalanceAction()), "Adjustment"))
+    			if(StringUtils.equals(HrConstants.ACCRUAL_BALANCE_ACTION_MAP.get(code.getAccrualBalanceAction()), "Adjustment"))
     				balance = balance.add(block.getLeaveAmount());*/
     		}
     	}

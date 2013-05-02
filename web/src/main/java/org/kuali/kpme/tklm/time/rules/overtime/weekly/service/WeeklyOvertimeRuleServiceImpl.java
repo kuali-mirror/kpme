@@ -34,7 +34,7 @@ import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
 import org.kuali.kpme.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule;
@@ -67,7 +67,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 
 			for (List<FlsaWeek> flsaWeekParts : flsaWeeks) {
 				BigDecimal existingMaxHours = getMaxHours(flsaWeekParts, maxHoursEarnCodes);
-				BigDecimal newOvertimeHours = existingMaxHours.subtract(weeklyOvertimeRule.getMaxHours(), TkConstants.MATH_CONTEXT);
+				BigDecimal newOvertimeHours = existingMaxHours.subtract(weeklyOvertimeRule.getMaxHours(), HrConstants.MATH_CONTEXT);
 				
 				if (newOvertimeHours.compareTo(BigDecimal.ZERO) != 0) {
 					applyOvertimeToFlsaWeeks(flsaWeekParts, weeklyOvertimeRule, asOfDate, convertFromEarnCodes, newOvertimeHours);
@@ -92,7 +92,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 	protected List<List<FlsaWeek>> getFlsaWeeks(String principalId, DateTime beginDate, DateTime endDate, TkTimeBlockAggregate aggregate) {
 		List<List<FlsaWeek>> flsaWeeks = new ArrayList<List<FlsaWeek>>();
 		
-        DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
 		List<FlsaWeek> currentWeeks = aggregate.getFlsaWeeks(zone);
 		
 		for (ListIterator<FlsaWeek> weekIterator = currentWeeks.listIterator(); weekIterator.hasNext(); ) {
@@ -106,7 +106,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				if (timesheetDocumentHeader != null) { 
 					List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(timesheetDocumentHeader.getDocumentId());
 					if (CollectionUtils.isNotEmpty(timeBlocks)) {
-						CalendarEntry calendarEntry = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(principalId, new DateTime(timesheetDocumentHeader.getEndDate()), TkConstants.PAY_CALENDAR_TYPE);
+						CalendarEntry calendarEntry = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(principalId, new DateTime(timesheetDocumentHeader.getEndDate()), HrConstants.PAY_CALENDAR_TYPE);
 						TkTimeBlockAggregate previousAggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntry, calendarEntry.getCalendarObj(), true);
 						List<FlsaWeek> previousWeek = previousAggregate.getFlsaWeeks(zone);
 						if (CollectionUtils.isNotEmpty(previousWeek)) {
@@ -123,7 +123,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				if (timesheetDocumentHeader != null) { 
 					List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(timesheetDocumentHeader.getDocumentId());
 					if (CollectionUtils.isNotEmpty(timeBlocks)) {
-						CalendarEntry calendarEntry = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(principalId, new DateTime(timesheetDocumentHeader.getEndDate()), TkConstants.PAY_CALENDAR_TYPE);
+						CalendarEntry calendarEntry = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(principalId, new DateTime(timesheetDocumentHeader.getEndDate()), HrConstants.PAY_CALENDAR_TYPE);
 						TkTimeBlockAggregate nextAggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntry, calendarEntry.getCalendarObj(), true);
 						List<FlsaWeek> nextWeek = nextAggregate.getFlsaWeeks(zone);
 						if (CollectionUtils.isNotEmpty(nextWeek)) {
@@ -155,7 +155,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				for (TimeBlock timeBlock : flsaDay.getAppliedTimeBlocks()) {
 					for (TimeHourDetail timeHourDetail : timeBlock.getTimeHourDetails()) {
 						if (maxHoursEarnCodes.contains(timeHourDetail.getEarnCode())) {
-							maxHours = maxHours.add(timeHourDetail.getHours(), TkConstants.MATH_CONTEXT);
+							maxHours = maxHours.add(timeHourDetail.getHours(), HrConstants.MATH_CONTEXT);
 						}
 					}
 				}
@@ -338,11 +338,11 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				}
 				
 				EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(overtimeEarnCode, timeBlock.getEndDateTime().toLocalDate());
-				BigDecimal hours = earnCodeObj.getInflateFactor().multiply(applied, TkConstants.MATH_CONTEXT).setScale(TkConstants.BIG_DECIMAL_SCALE, BigDecimal.ROUND_HALF_UP);
+				BigDecimal hours = earnCodeObj.getInflateFactor().multiply(applied, HrConstants.MATH_CONTEXT).setScale(HrConstants.BIG_DECIMAL_SCALE, BigDecimal.ROUND_HALF_UP);
 				
 				TimeHourDetail overtimeTimeHourDetail = getTimeHourDetailByEarnCode(timeHourDetails, Collections.singletonList(overtimeEarnCode));
 				if (overtimeTimeHourDetail != null) {
-					overtimeTimeHourDetail.setHours(overtimeTimeHourDetail.getHours().add(hours, TkConstants.MATH_CONTEXT));
+					overtimeTimeHourDetail.setHours(overtimeTimeHourDetail.getHours().add(hours, HrConstants.MATH_CONTEXT));
 				} else {
 					TimeHourDetail newTimeHourDetail = new TimeHourDetail();
 					newTimeHourDetail.setTkTimeBlockId(timeBlock.getTkTimeBlockId());
@@ -352,7 +352,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 					newTimeHourDetails.add(newTimeHourDetail);
 				}
 				
-				timeHourDetail.setHours(timeHourDetail.getHours().subtract(applied, TkConstants.MATH_CONTEXT).setScale(TkConstants.BIG_DECIMAL_SCALE, BigDecimal.ROUND_HALF_UP));
+				timeHourDetail.setHours(timeHourDetail.getHours().subtract(applied, HrConstants.MATH_CONTEXT).setScale(HrConstants.BIG_DECIMAL_SCALE, BigDecimal.ROUND_HALF_UP));
 			}
 		}
 		
@@ -382,7 +382,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				TimeHourDetail overtimeTimeHourDetail = getTimeHourDetailByEarnCode(timeHourDetails, Collections.singletonList(overtimeEarnCode));
 			
 				if (overtimeTimeHourDetail != null) {
-					applied = overtimeTimeHourDetail.getHours().add(overtimeHours, TkConstants.MATH_CONTEXT);
+					applied = overtimeTimeHourDetail.getHours().add(overtimeHours, HrConstants.MATH_CONTEXT);
 					if (applied.compareTo(BigDecimal.ZERO) >= 0) {
 						applied = overtimeHours;
 					} else {
@@ -390,11 +390,11 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 					}
 					
 					EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(overtimeEarnCode, timeBlock.getEndDateTime().toLocalDate());
-					BigDecimal hours = earnCodeObj.getInflateFactor().multiply(applied, TkConstants.MATH_CONTEXT).setScale(TkConstants.BIG_DECIMAL_SCALE, BigDecimal.ROUND_HALF_DOWN);
+					BigDecimal hours = earnCodeObj.getInflateFactor().multiply(applied, HrConstants.MATH_CONTEXT).setScale(HrConstants.BIG_DECIMAL_SCALE, BigDecimal.ROUND_HALF_DOWN);
 					
-					overtimeTimeHourDetail.setHours(overtimeTimeHourDetail.getHours().add(hours, TkConstants.MATH_CONTEXT));
+					overtimeTimeHourDetail.setHours(overtimeTimeHourDetail.getHours().add(hours, HrConstants.MATH_CONTEXT));
 					
-					timeHourDetail.setHours(timeHourDetail.getHours().subtract(applied, TkConstants.MATH_CONTEXT).setScale(TkConstants.BIG_DECIMAL_SCALE, BigDecimal.ROUND_HALF_UP));
+					timeHourDetail.setHours(timeHourDetail.getHours().subtract(applied, HrConstants.MATH_CONTEXT).setScale(HrConstants.BIG_DECIMAL_SCALE, BigDecimal.ROUND_HALF_UP));
 				}
 			}
 		}

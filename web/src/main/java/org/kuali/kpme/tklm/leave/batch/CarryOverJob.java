@@ -38,14 +38,15 @@ import org.kuali.kpme.core.bo.leaveplan.service.LeavePlanService;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.bo.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.service.LeaveBlockService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.summary.service.LeaveSummaryService;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -260,7 +261,7 @@ public class CarryOverJob implements Job{
                 }
 
                 leaveBlock.setPrincipalId(principalId);
-                leaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+                leaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 
                 // Set EarnCode
                 if(leaveBlock.getLeaveAmount() != null && leaveBlock.getEarnCode() != null) {

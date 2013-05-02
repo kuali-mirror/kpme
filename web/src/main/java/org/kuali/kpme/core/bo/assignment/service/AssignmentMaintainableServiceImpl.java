@@ -62,7 +62,7 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
         // KPME-1139
 		// Commented due to KPME-1226 
       /* if (!fieldValues.containsKey("effectiveDate")) {
-            fieldValues.put("effectiveDate", new DateTime().toString(TkConstants.DT_BASIC_DATE_FORMAT));
+            fieldValues.put("effectiveDate", new DateTime().toString(HrConstants.DT_BASIC_DATE_FORMAT));
         }*/
        
 		return super.populateBusinessObject(fieldValues, maintenanceDocument,

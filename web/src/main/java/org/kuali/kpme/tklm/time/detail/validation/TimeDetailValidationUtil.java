@@ -34,9 +34,10 @@ import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -94,7 +95,7 @@ public class TimeDetailValidationUtil {
         if (StringUtils.isNotBlank(selectedEarnCode)) {
             earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, payCalEntry.getEndPeriodFullDateTime().toLocalDate());
 
-            if (earnCode != null && earnCode.getRecordMethod()!= null && earnCode.getRecordMethod().equalsIgnoreCase(TkConstants.EARN_CODE_TIME)) {
+            if (earnCode != null && earnCode.getRecordMethod()!= null && earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
                 if (startTimeS == null) errors.add("The start time is blank.");
                 if (endTimeS == null) errors.add("The end time is blank.");
                 if (startTime - endTime == 0) errors.add("Start time and end time cannot be equivalent");
@@ -156,7 +157,7 @@ public class TimeDetailValidationUtil {
         //------------------------
         // Amount cannot be zero
         //------------------------
-        if (amount != null && earnCode != null && StringUtils.equals(earnCode.getEarnCodeType(), TkConstants.EARN_CODE_AMOUNT)) {
+        if (amount != null && earnCode != null && StringUtils.equals(earnCode.getEarnCodeType(), HrConstants.EARN_CODE_AMOUNT)) {
             if (amount.equals(BigDecimal.ZERO)) {
                 errors.add("Amount cannot be zero.");
             }
@@ -170,7 +171,7 @@ public class TimeDetailValidationUtil {
         // check if the hours entered for hourly earn code is greater than 24 hours per day
         // Hours cannot be zero
         //------------------------
-        if (hours != null && earnCode != null && StringUtils.equals(earnCode.getEarnCodeType(), TkConstants.EARN_CODE_HOUR)) {
+        if (hours != null && earnCode != null && StringUtils.equals(earnCode.getEarnCodeType(), HrConstants.EARN_CODE_HOUR)) {
             if (hours.equals(BigDecimal.ZERO)) {
                 errors.add("Hours cannot be zero.");
             }
@@ -257,7 +258,7 @@ public class TimeDetailValidationUtil {
         }
 
         for (TimeBlock timeBlock : timesheetDocument.getTimeBlocks()) {
-            if (errors.size() == 0 && StringUtils.equals(timeBlock.getEarnCodeType(), TkConstants.EARN_CODE_TIME)) {
+            if (errors.size() == 0 && StringUtils.equals(timeBlock.getEarnCodeType(), HrConstants.EARN_CODE_TIME)) {
                 Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
                 for (Interval intv : dayInt) {
                     if (isRegularEarnCode && timeBlockInterval.overlaps(intv) && (timeblockId == null || timeblockId.compareTo(timeBlock.getTkTimeBlockId()) != 0)) {
@@ -288,7 +289,7 @@ public class TimeDetailValidationUtil {
         List<String> errors = new ArrayList<String>();
         LocalDateTime pcb_ldt = payCalEntry.getBeginPeriodLocalDateTime();
         LocalDateTime pce_ldt = payCalEntry.getEndPeriodLocalDateTime();
-        DateTimeZone utz = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTimeZone utz = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         DateTime p_cal_b_dt = pcb_ldt.toDateTime(utz);
         DateTime p_cal_e_dt = pce_ldt.toDateTime(utz);
 

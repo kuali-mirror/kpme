@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kpme.tklm.common.TKContext;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.rice.kns.web.struts.action.KualiRequestProcessor;
 
 public class KPMERequestProcessor extends KualiRequestProcessor {

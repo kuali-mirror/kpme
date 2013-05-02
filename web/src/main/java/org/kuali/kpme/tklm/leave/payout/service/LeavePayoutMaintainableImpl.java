@@ -22,10 +22,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.payout.LeavePayout;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -89,7 +89,7 @@ public class LeavePayoutMaintainableImpl extends
             //When payout document is disapproved, set all leave block's request statuses to disapproved.
             for(LeaveBlock lb : payout.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
-                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);
+                    lb.setRequestStatus(HrConstants.REQUEST_STATUS.DISAPPROVED);
                     LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), routedByPrincipalId);
                 }
             }
@@ -98,7 +98,7 @@ public class LeavePayoutMaintainableImpl extends
             //When payout document moves to final, set all leave block's request statuses to approved.
             for(LeaveBlock lb : payout.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
-                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+                    lb.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
                     LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
                 }
             }
@@ -127,7 +127,7 @@ public class LeavePayoutMaintainableImpl extends
             //When payout document is canceled, set all leave block's request statuses to deferred
             for(LeaveBlock lb : payout.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
-                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DEFERRED);
+                    lb.setRequestStatus(HrConstants.REQUEST_STATUS.DEFERRED);
                     LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
                 }
             }

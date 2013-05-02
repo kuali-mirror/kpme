@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.common;
+package org.kuali.kpme.core.util;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,17 +27,10 @@ import java.util.TimeZone;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.bo.earncode.EarnCode;
-import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 
 public class TkConstants {
     public static final int DEFAULT_CACHE_TIME = 900;
-    public static final String TK_TARGET_USER_RETURN = "tkTargetReturn";
     public static final String TK_TARGET_USER_PERSON = "tkTargetPerson";
-
-    public static final String WILDCARD_CHARACTER = "%";
-    public static final Long WILDCARD_LONG = -1L;
 
     //in days
     public static final Integer LENGTH_OF_WORK_SCHEDULE = 10;
@@ -56,38 +47,19 @@ public class TkConstants {
         ON_THE_CLOCK_CODES.add(LUNCH_IN);
     }
 
+    // Calendar Types
+    public static final String CALENDAR_TYPE_PAY = "Pay";
+    public static final String CALENDAR_TYPE_LEAVE = "Leave";
+    
+    public static final String EARN_CODE_CPE = "CPE";
+    
     // action history
     public static final String DELETE = "DELETE";
     public static final String ADD = "ADD";
     public static final String MODIFIED = "MODIFIED";
 
-    // earn code type
-    public static final String EARN_CODE_HOUR = "H";
-    public static final String EARN_CODE_TIME = "T";
-    public static final String EARN_CODE_AMOUNT = "A";
-    public static final String EARN_CODE_OVT = "OVT";
-    public static final String EARN_CODE_CPE = "CPE";
-    public static final String EARN_CODE_DAY = "D";
-    
-    public static final String GMT_TIME_ZONE_ID = "Etc/GMT";
-    public static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone(GMT_TIME_ZONE_ID);
-    //public static final String SYSTEM_TIME_ZONE = TimeZone.getDefault().getDisplayName();
-
-    //public static final DateTimeZone SYSTEM_DATE_TIME_ZONE = DateTimeZone.forID(TKUtils.getSystemTimeZone());
-    public static final  DateTimeFormatter DT_BASIC_TIME_FORMAT = DateTimeFormat.forPattern("hh:mm aa");
-    public static final DateTimeFormatter DT_MILITARY_TIME_FORMAT = DateTimeFormat.forPattern("H:mm");
-    public static final DateTimeFormatter DT_BASIC_DATE_FORMAT = DateTimeFormat.forPattern("MM/dd/yyyy");
-    public static final DateTimeFormatter DT_ABBREV_DATE_FORMAT = DateTimeFormat.forPattern("MM/dd");
-    public static final DateTimeFormatter DT_FULL_DATE_TIME_FORMAT = DateTimeFormat.forPattern("MM/dd/yyyy hh:mm aa");
-
-    public static DateTimeFormatter DT_JUST_DAY_FORMAT = DateTimeFormat.forPattern("dd");
-
-    public static final int BIG_DECIMAL_SCALE = 2;
-    public static final RoundingMode BIG_DECIMAL_SCALE_ROUNDING = RoundingMode.HALF_EVEN;
-    public static final BigDecimal BIG_DECIMAL_SCALED_ZERO = BigDecimal.ZERO.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
     public static final BigDecimal BIG_DECIMAL_NEGATIVE_ONE = new BigDecimal("-1");
 
-    public static final MathContext MATH_CONTEXT = new MathContext(5, BIG_DECIMAL_SCALE_ROUNDING);
     public static final BigDecimal BIG_DECIMAL_1000 = BigDecimal.TEN.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
     public static final BigDecimal BIG_DECIMAL_60 = BigDecimal.TEN.multiply(new BigDecimal("6"));
     public static final BigDecimal BIG_DECIMAL_MS_IN_H = BIG_DECIMAL_1000.multiply(BIG_DECIMAL_60).multiply(BIG_DECIMAL_60);
@@ -231,25 +203,16 @@ public class TkConstants {
         CLOCK_ACTION_STRINGS.put(LUNCH_OUT, "Lunch Out"); // Going to Lunch
     }
 
-
-
-    public static final String ASSIGNMENT_KEY_DELIMITER = "_";
-    public static final String HOLIDAY_EARN_CODE = "HOL";
-    // Special System earn code to represent lunch deductions.
-    public static final String LUNCH_EARN_CODE = "LUN";
-
     // calendar navigation
     public static final String NEXT_TIMESHEET = "next";
     public static final String PREV_TIMESHEET = "prev";
 
-    // Timesheet document ID request parameter name
-    public static final String TIMESHEET_DOCUMENT_ID_REQUEST_NAME = "tdocid";
     // document ID request parameter name
     public static final String DOCUMENT_ID_REQUEST_NAME = "docid";
     //Threshold in hours for clockin highlighting on approvers tab
     public static final Integer NUMBER_OF_HOURS_CLOCKED_IN_APPROVE_TAB_HIGHLIGHT = 12;
 
-
+/*
     public String getLUNCH_EARN_CODE() {
         return LUNCH_EARN_CODE;
     }
@@ -262,44 +225,20 @@ public class TkConstants {
         return HOLIDAY_EARN_CODE;
     }
 
-    public static final Map<String, String> SERVICE_UNIT_OF_TIME = new LinkedHashMap<String, String>(3);
+*/
 
-    static {
-        SERVICE_UNIT_OF_TIME.put("Y", "Years");
-        SERVICE_UNIT_OF_TIME.put("M", "Months");
-        //SERVICE_UNIT_OF_TIME.put("H", "Hours");
-    }
+    public static final String GMT_TIME_ZONE_ID = "Etc/GMT";
+    public static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone(GMT_TIME_ZONE_ID);
+    //public static final String SYSTEM_TIME_ZONE = TimeZone.getDefault().getDisplayName();
 
-    public static final Map<String, String> UNIT_OF_TIME = new LinkedHashMap<String, String>(2);
+    //public static final DateTimeZone SYSTEM_DATE_TIME_ZONE = DateTimeZone.forID(TKUtils.getSystemTimeZone());
+    public static final DateTimeFormatter DT_BASIC_TIME_FORMAT = DateTimeFormat.forPattern("hh:mm aa");
+    public static final DateTimeFormatter DT_MILITARY_TIME_FORMAT = DateTimeFormat.forPattern("H:mm");
+    public static final DateTimeFormatter DT_ABBREV_DATE_FORMAT = DateTimeFormat.forPattern("MM/dd");
+    public static final DateTimeFormatter DT_FULL_DATE_TIME_FORMAT = DateTimeFormat.forPattern("MM/dd/yyyy hh:mm aa");
 
-    static {
-        UNIT_OF_TIME.put("D", "Days");
-        UNIT_OF_TIME.put("H", "Hours");
-    }
-    public static final Map<String, String> MAX_BAL_FLAG = new LinkedHashMap<String, String>(2);
-
-    static {
-        MAX_BAL_FLAG.put("Y", "Yes");
-        MAX_BAL_FLAG.put("N", "No");
-    }
-
-    public static final Map<String, String> MAX_BALANCE_ACTION_FREQUENCY = new LinkedHashMap<String, String>(3);
-
-    static {
-        MAX_BALANCE_ACTION_FREQUENCY.put("LA", "Leave Approve");
-        MAX_BALANCE_ACTION_FREQUENCY.put("YE", "Year End");
-        MAX_BALANCE_ACTION_FREQUENCY.put("OD", "On Demand");
-        //MAX_BALANCE_ACTION_FREQUENCY.put("NA", "Not Applicable");
-    }
-
-    public static final Map<String, String> ACTION_AT_MAX_BALANCE = new LinkedHashMap<String, String>(3);
-
-    static {
-        ACTION_AT_MAX_BALANCE.put("T", "Transfer");
-        ACTION_AT_MAX_BALANCE.put("P", "Payout");
-        ACTION_AT_MAX_BALANCE.put("L", "Lose");
-        //ACTION_AT_MAX_BALANCE.put("NA", "Not Applicable");
-    }
+    public static DateTimeFormatter DT_JUST_DAY_FORMAT = DateTimeFormat.forPattern("dd");
+    
 
     public static final Map<String, String> EMPLOYEE_OVERRIDE_TYPE = new LinkedHashMap<String, String>(5);
 
@@ -313,33 +252,7 @@ public class TkConstants {
 
     public static final String DAILY_OVT_CODE = "DOT";
     
-    public static final Map<String, Set<String>> CLASS_INQUIRY_KEY_MAP = new HashMap<String, Set<String>>(4);
-
-    static {
-        Set<String> keys = new HashSet<String>();
-        keys.add("leavePlan");
-        keys.add("effectiveDate");
-        CLASS_INQUIRY_KEY_MAP.put(LeavePlan.class.getName(), keys);
-        
-        keys = new HashSet<String>();
-        keys.add("accrualCategory");
-        keys.add("effectiveDate");
-        CLASS_INQUIRY_KEY_MAP.put(AccrualCategory.class.getName(), keys);
-        
-        keys = new HashSet<String>();
-        keys.add("earnCode");
-        keys.add("effectiveDate");
-        CLASS_INQUIRY_KEY_MAP.put(EarnCode.class.getName(), keys);
-    }
-
-    public static final String FLSA_STATUS_NON_EXEMPT ="NE";
     public static final String FLSA_STATUS_EXEMPT ="E";
-    
-    public static final String PAY_CALENDAR_TYPE = "payCalendar";
-    
-    // Calendar Types
-    public static final String CALENDAR_TYPE_PAY = "Pay";
-    public static final String CALENDAR_TYPE_LEAVE = "Leave";
     
     public static final String BATCH_USER_PRINCIPAL_NAME = "kpme.batch.user.principalName";
 }

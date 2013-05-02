@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kpme.tklm.leave.util.LMConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -29,7 +29,7 @@ public class AccrualBalanceActionKeyValueFinder extends KeyValuesBase {
 	@Override
 	public List<KeyValue> getKeyValues() {
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
-		for (Map.Entry entry : LMConstants.ACCRUAL_BALANCE_ACTION_MAP.entrySet()) {
+		for (Map.Entry entry : HrConstants.ACCRUAL_BALANCE_ACTION_MAP.entrySet()) {
             keyValues.add(new ConcreteKeyValue((String) entry.getKey(), (String) entry.getValue()));
         }           
 		return keyValues;

@@ -16,4 +16,22 @@ public class TKRoleServiceImpl extends KPMERoleServiceBase implements TKRoleServ
 		return getRoleService().getRoleByNamespaceCodeAndName(KPMENamespace.KPME_TK.getNamespaceCode(), roleName);
 	}
 
+	@Override
+	public Role getTkRoleByName(String roleName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Role getLmRoleByName(String roleName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Role getPmRoleByName(String roleName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

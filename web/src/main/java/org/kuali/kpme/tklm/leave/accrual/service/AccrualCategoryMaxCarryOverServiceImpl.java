@@ -31,12 +31,13 @@ import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.kpme.core.bo.leaveplan.service.LeavePlanService;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.bo.principal.service.PrincipalHRAttributesService;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.service.LeaveBlockService;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.override.service.EmployeeOverrideService;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 
 public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMaxCarryOverService {
 	
@@ -172,7 +173,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 		AccrualCategoryRule accrualCategoryRule = getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, asOfDate, serviceDate);
 		
 		if (accrualCategoryRule != null) {
-			if (StringUtils.equals(accrualCategoryRule.getMaxBalFlag(), "N") || !StringUtils.equals(accrualCategoryRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+			if (StringUtils.equals(accrualCategoryRule.getMaxBalFlag(), "N") || !StringUtils.equals(accrualCategoryRule.getMaxBalanceActionFrequency(), HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 				maxCarryOverAccrualCategoryRule = accrualCategoryRule;
 			}
 		}
@@ -218,7 +219,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
         
 		for (LeaveBlock leaveBlock : leaveBlocks) {
             if (StringUtils.equals(leaveBlock.getAccrualCategory(), accrualCategory.getAccrualCategory())) {
-            	if (StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.APPROVED)) {
+            	if (StringUtils.equals(leaveBlock.getRequestStatus(), HrConstants.REQUEST_STATUS.APPROVED)) {
                 	accrualCategoryBalance = accrualCategoryBalance.add(leaveBlock.getLeaveAmount());
                 }
             }
@@ -233,7 +234,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
         	.description("Max carry over adjustment")
         	.accrualCategory(accrualCategory.getAccrualCategory())
         	.leaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER)
-        	.requestStatus(LMConstants.REQUEST_STATUS.REQUESTED)
+        	.requestStatus(HrConstants.REQUEST_STATUS.REQUESTED)
         	.principalIdModified(principalId)
         	.timestamp(TKUtils.getCurrentTimestamp())
         	.build();

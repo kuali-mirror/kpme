@@ -284,13 +284,13 @@ public class EarnCode extends HrBusinessObject {
 	 */
 	public String getEarnCodeType() {
 //		if(getRecordHours()) {
-//			return TkConstants.EARN_CODE_HOUR;
+//			return HrConstants.EARN_CODE_HOUR;
 //		}
 //		else if(getRecordTime()) {
-//			return TkConstants.EARN_CODE_TIME;
+//			return HrConstants.EARN_CODE_TIME;
 //		}
 //		else if(getRecordAmount()) {
-//			return TkConstants.EARN_CODE_AMOUNT;
+//			return HrConstants.EARN_CODE_AMOUNT;
 //		}
 //		else {
 //			return "";

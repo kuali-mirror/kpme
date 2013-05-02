@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.inquiry.Inquirable;
@@ -55,9 +55,9 @@ public class KPMEInquiryAction extends KualiInquiryAction {
     		throw new RuntimeException("Business object name not given.");
     	}
     	BusinessObject bo;
-    	if(TkConstants.CLASS_INQUIRY_KEY_MAP.containsKey(inquiryForm.getBusinessObjectClassName())) {
+    	if(HrConstants.CLASS_INQUIRY_KEY_MAP.containsKey(inquiryForm.getBusinessObjectClassName())) {
     		Map<String, String> keyMap = inquiryForm.retrieveInquiryDecryptedPrimaryKeys();
-    		for(String aKey : TkConstants.CLASS_INQUIRY_KEY_MAP.get(inquiryForm.getBusinessObjectClassName())) {
+    		for(String aKey : HrConstants.CLASS_INQUIRY_KEY_MAP.get(inquiryForm.getBusinessObjectClassName())) {
     			if(request.getParameter(aKey) != null) {
     				keyMap.put(aKey, request.getParameter(aKey).toString());
     			}

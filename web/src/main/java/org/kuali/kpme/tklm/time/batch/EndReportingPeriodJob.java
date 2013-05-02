@@ -20,7 +20,6 @@ import java.text.DateFormat;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -43,7 +42,7 @@ public class EndReportingPeriodJob implements Job {
 		message.append(DateFormat.getDateInstance(DateFormat.LONG).format(endPeriodDateTime.minusDays(1).toDate()));
 		message.append(", so it can be reviewed and approved by your supervisor.");
 		
-		TkServiceLocator.getKPMENotificationService().sendNotification(subject, message.toString(), principalId);
+		HrServiceLocator.getKPMENotificationService().sendNotification(subject, message.toString(), principalId);
 	}
 	
 }

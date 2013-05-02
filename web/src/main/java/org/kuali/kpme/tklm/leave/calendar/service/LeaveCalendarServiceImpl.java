@@ -28,12 +28,12 @@ import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.dao.LeaveCalendarDao;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -62,7 +62,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
         if (lcdh != null) {
             lcd = new LeaveCalendarDocument(lcdh);
-            CalendarEntry pce = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(lcdh.getPrincipalId(), new DateTime(lcdh.getEndDate()), LMConstants.LEAVE_CALENDAR_TYPE);
+            CalendarEntry pce = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(lcdh.getPrincipalId(), new DateTime(lcdh.getEndDate()), HrConstants.LEAVE_CALENDAR_TYPE);
             lcd.setCalendarEntry(pce);
         } else {
             throw new RuntimeException("Could not find LeaveCalendarDocumentHeader for DocumentID: " + documentId);
@@ -161,10 +161,10 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 	    	List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
 	
 	    	for (LeaveBlock leaveBlock : leaveBlocks) {
-	    		if (StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.PLANNED) 
-	    				|| StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.DEFERRED)) {
+	    		if (StringUtils.equals(leaveBlock.getRequestStatus(), HrConstants.REQUEST_STATUS.PLANNED) 
+	    				|| StringUtils.equals(leaveBlock.getRequestStatus(), HrConstants.REQUEST_STATUS.DEFERRED)) {
 	    			LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), batchUserPrincipalId);
-	    		} else if (StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.REQUESTED)) {
+	    		} else if (StringUtils.equals(leaveBlock.getRequestStatus(), HrConstants.REQUEST_STATUS.REQUESTED)) {
 	    	        if (StringUtils.equals(getInitiateLeaveRequestAction(), LMConstants.INITIATE_LEAVE_REQUEST_ACTION_OPTIONS.DELETE)) {
 	    	        	LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), batchUserPrincipalId);
 	    	        } else if (StringUtils.equals(getInitiateLeaveRequestAction(), LMConstants.INITIATE_LEAVE_REQUEST_ACTION_OPTIONS.APPROVE)) {
@@ -261,8 +261,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         leaveBlocks.addAll(LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
         		document.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), document.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT));
         for(LeaveBlock lb : leaveBlocks) {
-        	if(!StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.APPROVED) &&
-        			!StringUtils.equals(lb.getRequestStatus(), LMConstants.REQUEST_STATUS.DISAPPROVED))
+        	if(!StringUtils.equals(lb.getRequestStatus(),HrConstants.REQUEST_STATUS.APPROVED) &&
+        			!StringUtils.equals(lb.getRequestStatus(), HrConstants.REQUEST_STATUS.DISAPPROVED))
         		return false;
         }
         // check if there are any pending calendars are there
@@ -282,8 +282,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 	        for(BalanceTransfer balanceTransfer : balanceTransfers) {
 	        	if(StringUtils.equals(HrConstants.DOCUMENT_STATUS.get(balanceTransfer.getStatus()), HrConstants.ROUTE_STATUS.ENROUTE))
 	        		return false;
-	            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, balanceTransfer.getStatus())
-	                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, balanceTransfer.getStatus())) {
+	            if (!StringUtils.equals(HrConstants.REQUEST_STATUS.APPROVED, balanceTransfer.getStatus())
+	                    && !StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, balanceTransfer.getStatus())) {
 	                return false;
 	            }
 	        }
@@ -295,8 +295,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         	for(LeavePayout payout : leavePayouts) {
 	        	if(StringUtils.equals(HrConstants.DOCUMENT_STATUS.get(payout.getStatus()), HrConstants.ROUTE_STATUS.ENROUTE))
 	        		return false;
-	            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, payout.getStatus())
-	                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, payout.getStatus())) {
+	            if (!StringUtils.equals(HrConstants.REQUEST_STATUS.APPROVED, payout.getStatus())
+	                    && !StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, payout.getStatus())) {
 	                return false;
 	            }
         	}
@@ -352,7 +352,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             //  Check for Leave eligibility.
             if (job.isEligibleForLeave()) {
                 //  Check for Time (FLSA nonexempt) jobs. If one exists, then the Leave Calendar is always a Leave Planning Calendar
-                if (job.getFlsaStatus().equalsIgnoreCase(TkConstants.FLSA_STATUS_NON_EXEMPT)) {
+                if (job.getFlsaStatus().equalsIgnoreCase(HrConstants.FLSA_STATUS_NON_EXEMPT)) {
                     return true;
                 } else {
                     //  If leave eligible and FLSA exempt, then report leave in the Leave Calendar. Use the date to determine Planning vs Recording Calendars.

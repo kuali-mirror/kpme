@@ -14,16 +14,19 @@ import org.kuali.kpme.core.bo.leaveplan.service.LeavePlanService;
 import org.kuali.kpme.core.bo.location.service.LocationService;
 import org.kuali.kpme.core.bo.paygrade.service.PayGradeService;
 import org.kuali.kpme.core.bo.paytype.service.PayTypeService;
+import org.kuali.kpme.core.bo.person.service.PersonService;
 import org.kuali.kpme.core.bo.position.service.PositionService;
 import org.kuali.kpme.core.bo.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.bo.salarygroup.service.SalaryGroupService;
 import org.kuali.kpme.core.bo.task.service.TaskService;
 import org.kuali.kpme.core.bo.workarea.service.WorkAreaService;
-import org.kuali.kpme.core.service.batch.BatchJobService;
 import org.kuali.kpme.core.service.group.HRGroupService;
+import org.kuali.kpme.core.service.notification.KPMENotificationService;
 import org.kuali.kpme.core.service.permission.HRPermissionService;
 import org.kuali.kpme.core.service.role.HRRoleService;
-import org.kuali.kpme.tklm.time.person.service.PersonService;
+import org.kuali.kpme.core.service.timezone.TimezoneService;
+import org.kuali.kpme.tklm.common.BatchJobService;
+import org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -56,10 +59,16 @@ public class HrServiceLocator implements ApplicationContextAware {
 	public static final String HR_EARN_CODE_SECURITY = "earnCodeSecurityService";
 	public static final String HR_TIME_EARN_CODE_GROUP_SERVICE = "earnCodeGroupService";
 
-    //Move to HrServiceLocator
+	public static final String TK_TIME_ZONE_SERVICE = "timezoneService";
+	
     public static final String HR_GROUP_SERVICE = "hrGroupService";
     public static final String HR_PERMISSION_SERVICE = "hrPermissionService";
     public static final String HR_ROLE_SERVICE = "hrRoleService";
+    
+    //Move to [Sys|Hr]ServiceLocator
+	public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
+    public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";    
+    
 	
     public static TaskService getTaskService() {
         return (TaskService) CONTEXT.getBean(HR_TASK_SERVICE);
@@ -144,6 +153,10 @@ public class HrServiceLocator implements ApplicationContextAware {
 		return (PersonService)CONTEXT.getBean(HR_PERSON_SERVICE);
 	}
 
+	public static TimezoneService getTimezoneService(){
+		return (TimezoneService) CONTEXT.getBean(TK_TIME_ZONE_SERVICE);
+	}
+	
 	/* 
 	 * 
 	 * Group, Role and Permission Services
@@ -157,6 +170,15 @@ public class HrServiceLocator implements ApplicationContextAware {
     }
     public static HRRoleService getHRRoleService() {
     	return (HRRoleService) CONTEXT.getBean(HR_ROLE_SERVICE);
+    }
+    
+    
+    public static KPMENotificationService getKPMENotificationService() {
+    	return (KPMENotificationService) CONTEXT.getBean(KPME_NOTIFICATION_SERVICE);
+    }
+    
+    public static DistributedCacheManagerDecorator getDistributedCacheManager() {
+        return (DistributedCacheManagerDecorator)CONTEXT.getBean(KPME_DISTRIBUTED_CACHE_MANAGER);
     }
 	
 	@Override

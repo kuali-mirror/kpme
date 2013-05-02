@@ -26,7 +26,7 @@ import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.kpme.core.bo.leaveplan.service.LeavePlanService;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.bo.principal.service.PrincipalHRAttributesService;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.TkConstants;
 import org.kuali.kpme.tklm.leave.accrual.service.AccrualService;
 import org.kuali.kpme.tklm.leave.calendar.service.LeaveCalendarServiceImpl;
 import org.kuali.rice.core.api.config.property.ConfigContext;

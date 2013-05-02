@@ -40,18 +40,16 @@ import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.leave.web.LeaveCalendarWSForm;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 
@@ -271,7 +269,7 @@ public class LeaveCalendarValidationUtil {
 				}
 				// use the end of the year as the interval date for usage checking of no-accrual hours,
 				// normally no-accrual hours are from banked/transferred system scheduled time offs
-				if(accrualCategory.getAccrualEarnInterval().equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.NO_ACCRUAL)) {
+				if(accrualCategory.getAccrualEarnInterval().equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.NO_ACCRUAL)) {
 					usageEndDate = endDate.withMonthOfYear(DateTimeConstants.DECEMBER).withDayOfMonth(31);
 				}
 				BigDecimal availableBalance = LmServiceLocator.getLeaveSummaryService()
@@ -285,7 +283,7 @@ public class LeaveCalendarValidationUtil {
 				}
 				//multiply by days in span in case the user has also edited the start/end dates.
 				BigDecimal desiredUsage =null;
-				if(!TkConstants.EARN_CODE_TIME.equals(earnCodeObj.getRecordMethod())) {
+				if(!HrConstants.EARN_CODE_TIME.equals(earnCodeObj.getRecordMethod())) {
 					desiredUsage = leaveAmount.multiply(new BigDecimal(daysSpan+1));
 				} else {
 					desiredUsage = leaveAmount.multiply(new BigDecimal(daysSpan));
@@ -377,7 +375,7 @@ public class LeaveCalendarValidationUtil {
         EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(lcf.getSelectedEarnCode(), startDate);
         DateTime startTemp, endTemp;
 
-        if (ec != null && !ec.getRecordMethod().equals(LMConstants.RECORD_METHOD.TIME)) {
+        if (ec != null && !ec.getRecordMethod().equals(HrConstants.RECORD_METHOD.TIME)) {
             startTemp = new DateTime(startDate);
             endTemp = new DateTime(TKUtils.formatDateString(lcf.getEndDate()));
         } else {
@@ -409,7 +407,7 @@ public class LeaveCalendarValidationUtil {
     	if (StringUtils.isNotBlank(selectedEarnCode)) {
     		EarnCode  earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, leaveCalEntry.getEndPeriodFullDateTime().toLocalDate());
 	    	
-    		if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(TkConstants.EARN_CODE_TIME)) {
+    		if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
     			
 		    	errors.addAll(LeaveCalendarValidationUtil.validateDates(startDateS, endDateS));
 		        errors.addAll(LeaveCalendarValidationUtil.validateTimes(startTimeS, endTimeS));
@@ -461,7 +459,7 @@ public class LeaveCalendarValidationUtil {
         List<String> errors = new ArrayList<String>();
         LocalDateTime pcb_ldt = payCalEntry.getBeginPeriodLocalDateTime();
         LocalDateTime pce_ldt = payCalEntry.getEndPeriodLocalDateTime();
-        DateTimeZone utz = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTimeZone utz = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         DateTime p_cal_b_dt = pcb_ldt.toDateTime(utz);
         DateTime p_cal_e_dt = pce_ldt.toDateTime(utz);
 
@@ -490,7 +488,7 @@ public class LeaveCalendarValidationUtil {
         
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), assignmentKeys);
         for (LeaveBlock leaveBlock : leaveBlocks) {
-        	 if (errors.size() == 0 && StringUtils.equals(earnCodeType, TkConstants.EARN_CODE_TIME) && leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp()!= null) {
+        	 if (errors.size() == 0 && StringUtils.equals(earnCodeType, HrConstants.EARN_CODE_TIME) && leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp()!= null) {
                 Interval leaveBlockInterval = new Interval(leaveBlock.getBeginTimestamp().getTime(), leaveBlock.getEndTimestamp().getTime());
                 for (Interval intv : dayInt) {
                     if (isRegularEarnCode && leaveBlockInterval.overlaps(intv) && (lmLeaveBlockId == null || lmLeaveBlockId.compareTo(leaveBlock.getLmLeaveBlockId()) != 0)) {

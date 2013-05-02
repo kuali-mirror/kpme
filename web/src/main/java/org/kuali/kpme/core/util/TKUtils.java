@@ -46,8 +46,6 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 public class TKUtils {
@@ -118,9 +116,9 @@ public class TKUtils {
         BigDecimal hrsReminder = new BigDecimal((diff / 3600000.0) % 24);
         // if the hours is exact duplicate of 24 hours
         if (hrsReminder.compareTo(BigDecimal.ZERO) == 0 && diff > 0) {
-            return new BigDecimal(diff / 3600000.0).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING).abs();
+            return new BigDecimal(diff / 3600000.0).setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING).abs();
         }
-        return hrsReminder.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING).abs();
+        return hrsReminder.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING).abs();
     }
 
 
@@ -142,7 +140,7 @@ public class TKUtils {
     	String jobNumberString = ObjectUtils.toString(jobNumber, "0");
     	String workAreaString = ObjectUtils.toString(workArea, "0");
     	String taskString = ObjectUtils.toString(task, "0");
-        return jobNumberString + TkConstants.ASSIGNMENT_KEY_DELIMITER + workAreaString + TkConstants.ASSIGNMENT_KEY_DELIMITER + taskString;
+        return jobNumberString + HrConstants.ASSIGNMENT_KEY_DELIMITER + workAreaString + HrConstants.ASSIGNMENT_KEY_DELIMITER + taskString;
     }
 
     public static Map<String, String> formatAssignmentDescription(Assignment assignment) {
@@ -164,7 +162,7 @@ public class TKUtils {
         }
         
        String stringTemp = assignment.getWorkAreaObj().getDescription() + " : $" 
-       				+ assignment.getJob().getCompRate().setScale(TkConstants.BIG_DECIMAL_SCALE) 
+       				+ assignment.getJob().getCompRate().setScale(HrConstants.BIG_DECIMAL_SCALE) 
        				+ " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
        if(assignment.getTask()!= null) {
 	       	Task aTask = HrServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveLocalDate());
@@ -239,24 +237,24 @@ public class TKUtils {
     }
 
     public static long convertHoursToMillis(BigDecimal hours) {
-        return hours.multiply(TkConstants.BIG_DECIMAL_MS_IN_H, TkConstants.MATH_CONTEXT).longValue();
+        return hours.multiply(TkConstants.BIG_DECIMAL_MS_IN_H, HrConstants.MATH_CONTEXT).longValue();
     }
 
     public static BigDecimal convertMillisToHours(long millis) {
-        return (new BigDecimal(millis)).divide(TkConstants.BIG_DECIMAL_MS_IN_H, TkConstants.MATH_CONTEXT);
+        return (new BigDecimal(millis)).divide(TkConstants.BIG_DECIMAL_MS_IN_H, HrConstants.MATH_CONTEXT);
     }
 
     public static BigDecimal convertMillisToMinutes(long millis) {
-        return (new BigDecimal(millis)).divide(TkConstants.BIG_DECIMAL_MS_IN_M, TkConstants.MATH_CONTEXT);
+        return (new BigDecimal(millis)).divide(TkConstants.BIG_DECIMAL_MS_IN_M, HrConstants.MATH_CONTEXT);
     }
     
     public static BigDecimal convertMillisToDays(long millis) {
         BigDecimal hrs = convertMillisToHours(millis);
-        return hrs.divide(TkConstants.BIG_DECIMAL_HRS_IN_DAY, TkConstants.MATH_CONTEXT);
+        return hrs.divide(TkConstants.BIG_DECIMAL_HRS_IN_DAY, HrConstants.MATH_CONTEXT);
     }
 
     public static BigDecimal convertMinutesToHours(BigDecimal minutes) {
-        return minutes.divide(TkConstants.BIG_DECIMAL_60, TkConstants.MATH_CONTEXT);
+        return minutes.divide(TkConstants.BIG_DECIMAL_60, HrConstants.MATH_CONTEXT);
     }
 
     public static int convertMillisToWholeDays(long millis) {
@@ -287,7 +285,7 @@ public class TKUtils {
         String[] date = dateStr.split("/");
         String[] time = timeStr.split(":");
 
-        DateTimeZone dtz = DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimezone());
+        DateTimeZone dtz = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone());
 
         // this is from the jodattime javadoc:
         // DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)
@@ -377,7 +375,7 @@ public class TKUtils {
     
     public static DateTime formatDateTimeString(String dateTime) {
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        DateTimeZone dtz = DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimezone());
+        DateTimeZone dtz = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone());
     	try {
 			return new DateTime(sdf.parse(dateTime)).withZone(dtz);
 		} catch (ParseException e) {
@@ -458,11 +456,11 @@ public class TKUtils {
     }
     
     public static List<Interval> getDaySpanForCalendarEntry(CalendarEntry calendarEntry) {
-        return getDaySpanForCalendarEntry(calendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+        return getDaySpanForCalendarEntry(calendarEntry, HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
     }
 
     public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntry calendarEntry) {
-        return getFullWeekDaySpanForCalendarEntry(calendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+        return getFullWeekDaySpanForCalendarEntry(calendarEntry, HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
     }
     
     public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntry calendarEntry, DateTimeZone timeZone) {

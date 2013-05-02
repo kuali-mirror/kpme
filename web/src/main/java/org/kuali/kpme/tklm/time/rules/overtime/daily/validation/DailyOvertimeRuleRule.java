@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.rules.overtime.daily.validation;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -34,7 +34,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 			this.putFieldError("workArea", "error.existence", "workArea '"
 					+ ruleObj.getWorkArea() + "'");
 			valid = false;
-		} else if (!ruleObj.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
+		} else if (!ruleObj.getWorkArea().equals(HrConstants.WILDCARD_LONG)) {
 			int count= HrServiceLocator.getWorkAreaService().getWorkAreaCount(ruleObj.getDept(), ruleObj.getWorkArea());
 			valid = (count > 0);
 			if (!valid) {
@@ -47,7 +47,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 
 	boolean validateDepartment(DailyOvertimeRule ruleObj) {
 		if (ruleObj.getDept() != null
-				&& !ruleObj.getDept().equals(TkConstants.WILDCARD_CHARACTER)
+				&& !ruleObj.getDept().equals(HrConstants.WILDCARD_CHARACTER)
 				&& !ValidationUtils.validateDepartment(ruleObj.getDept(),
 						ruleObj.getEffectiveLocalDate())) {
 			this.putFieldError("dept", "error.existence", "department '"
@@ -111,7 +111,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 	boolean validatePayType(DailyOvertimeRule dailyOvertimeRule) {
 		if (dailyOvertimeRule.getPaytype() != null
 				&& !dailyOvertimeRule.getPaytype().equals(
-						TkConstants.WILDCARD_CHARACTER)
+						HrConstants.WILDCARD_CHARACTER)
 				&& !ValidationUtils.validatePayType(dailyOvertimeRule
 						.getPaytype(), dailyOvertimeRule.getEffectiveLocalDate())) {
 			this.putFieldError("paytype", "error.existence", "paytype '"

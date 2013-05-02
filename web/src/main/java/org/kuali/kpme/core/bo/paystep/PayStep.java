@@ -8,7 +8,7 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.institution.Institution;
 import org.kuali.kpme.core.bo.paygrade.PayGrade;
 import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
 public class PayStep extends HrBusinessObject implements Comparable {
@@ -62,13 +62,13 @@ public class PayStep extends HrBusinessObject implements Comparable {
 					&& StringUtils.equals(s.payGrade,payGrade)) {
 
 				Integer otherServiceTime = 0;
-				if(StringUtils.equals(s.serviceUnit,LMConstants.SERVICE_TIME_YEAR))
+				if(StringUtils.equals(s.serviceUnit,HrConstants.SERVICE_TIME_YEAR))
 					otherServiceTime = s.getServiceAmount() * 12;
 				else
 					otherServiceTime = s.getServiceAmount();
 				
 				Integer thisServiceTime = 0;
-				if(StringUtils.equals(serviceUnit, LMConstants.SERVICE_TIME_YEAR))
+				if(StringUtils.equals(serviceUnit, HrConstants.SERVICE_TIME_YEAR))
 					thisServiceTime = serviceAmount * 12;
 				else
 					thisServiceTime = serviceAmount;

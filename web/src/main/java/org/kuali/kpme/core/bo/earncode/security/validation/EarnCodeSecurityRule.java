@@ -25,9 +25,8 @@ import org.kuali.kpme.core.bo.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -36,6 +35,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 
+@SuppressWarnings("deprecation")
 public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 
 	private boolean validateSalGroup(EarnCodeSecurity departmentEarnCode ) {
@@ -48,7 +48,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 	}
 
 	private boolean validateDept(EarnCodeSecurity clr) {
-		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveLocalDate()) && !StringUtils.equals(clr.getDept(), TkConstants.WILDCARD_CHARACTER)) {
+		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveLocalDate()) && !StringUtils.equals(clr.getDept(), HrConstants.WILDCARD_CHARACTER)) {
 			this.putFieldError("dept", "error.existence", "department '" + clr.getDept() + "'");
 			return false;
 		} else {
@@ -77,7 +77,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 	private boolean validateLocation(EarnCodeSecurity departmentEarnCode) {
 		if (departmentEarnCode.getLocation() != null
 				&& !ValidationUtils.validateLocation(departmentEarnCode.getLocation(), null) && 
-				!StringUtils.equals(departmentEarnCode.getLocation(), TkConstants.WILDCARD_CHARACTER)) {
+				!StringUtils.equals(departmentEarnCode.getLocation(), HrConstants.WILDCARD_CHARACTER)) {
 			this.putFieldError("location", "error.existence", "location '"
 					+ departmentEarnCode.getLocation() + "'");
 			return false;
@@ -95,10 +95,10 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		String location = departmentObj != null ? departmentObj.getLocation() : null;
 		
 		if (!TKContext.isSystemAdmin() 
-				&& !TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-    			&& !LmServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-    			&& !TkServiceLocator.getTKRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
-    			&& !LmServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {
+				&& !HrServiceLocator.getHRRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+    			&& !HrServiceLocator.getHRRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+    			&& !HrServiceLocator.getHRRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+    			&& !HrServiceLocator.getHRRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {
 			this.putFieldError("dept", "error.department.permissions", department);
 			isValid = false;
 		}

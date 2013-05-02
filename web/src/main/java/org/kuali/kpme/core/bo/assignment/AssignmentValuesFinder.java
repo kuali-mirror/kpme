@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -54,7 +54,7 @@ public class AssignmentValuesFinder extends KeyValuesBase {
         
         String tdocId = TKContext.getCurrentTimesheetDocumentId();
         if (tdocId == null) {
-            tdocId = TKContext.getHttpServletRequest().getParameter(TkConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);
+            tdocId = TKContext.getHttpServletRequest().getParameter(HrConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);
         }
         if(tdocId == null){
         	KualiForm kualiForm = (KualiForm)TKContext.getHttpServletRequest().getAttribute("KualiForm");

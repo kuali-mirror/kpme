@@ -8,13 +8,13 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.institution.Institution;
 import org.kuali.kpme.core.bo.paygrade.PayGrade;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
 import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory;
 import org.kuali.kpme.pm.positionreporttype.PositionReportType;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.services.LocationApiServiceLocator;
 
@@ -102,7 +102,7 @@ public class PmValidationUtils {
 	public static boolean validateCampusWithPRT(String positionReportType, String campus, LocalDate asOfDate) {
 		if (asOfDate != null) {
 			List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService()
-				.getPositionReportTypeList(positionReportType, TkConstants.WILDCARD_CHARACTER, campus, asOfDate);
+				.getPositionReportTypeList(positionReportType, HrConstants.WILDCARD_CHARACTER, campus, asOfDate);
 			return CollectionUtils.isNotEmpty(prtList);
 		} 
 		return false;
@@ -166,7 +166,7 @@ public class PmValidationUtils {
 	}
 	
 	public static boolean isWildCard(String aString) {
-		return (StringUtils.equals(aString, TkConstants.WILDCARD_CHARACTER) ||
+		return (StringUtils.equals(aString, HrConstants.WILDCARD_CHARACTER) ||
 					StringUtils.equals(aString,PMConstants.WILDCARD_CHARACTER));
 	}
 	

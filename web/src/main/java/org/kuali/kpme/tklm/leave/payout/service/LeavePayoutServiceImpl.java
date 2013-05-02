@@ -26,14 +26,15 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.payout.LeavePayout;
 import org.kuali.kpme.tklm.leave.payout.dao.LeavePayoutDao;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -158,7 +159,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 			assert(adjustedMaxBalance.compareTo(accruedBalance.subtract(leavePayout.getPayoutAmount().add(leavePayout.getForfeitedAmount()))) == 0);
 			
 			// Max Carry Over logic for Year End transfers.
-			if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+			if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 				if(ObjectUtils.isNotNull(maxCarryOver)) {
 					
 					if(ObjectUtils.isNull(adjustedMaxCarryOver))
@@ -169,7 +170,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 					if(adjustedMaxBalance.compareTo(adjustedMaxCarryOver) > 0) {
 						BigDecimal carryOverDiff = adjustedMaxBalance.subtract(adjustedMaxCarryOver);
 						
-						if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)){
+						if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.LOSE)){
 							//add carry over excess to forfeiture.
 							leavePayout.setForfeitedAmount(leavePayout.getForfeitedAmount().add(carryOverDiff));
 						}
@@ -231,7 +232,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 					aLeaveBlock.setAccrualGenerated(true);
 					aLeaveBlock.setTransactionDocId(leavePayout.getDocumentHeaderId());
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT);
-					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+					aLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setDocumentId(leavePayout.getLeaveCalendarDocumentId());
 					aLeaveBlock.setBlockId(0L);
 
@@ -243,7 +244,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 			    	leavePayout.setPayoutLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
 			        // save history
 			        LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
-			        lbh.setAction(LMConstants.ACTION.ADD);
+			        lbh.setAction(HrConstants.ACTION.ADD);
 			        LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 					leaveBlocks.add(aLeaveBlock);
 					
@@ -258,7 +259,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 					aLeaveBlock.setAccrualGenerated(true);
 					aLeaveBlock.setTransactionDocId(leavePayout.getDocumentHeaderId());
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT);
-					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+					aLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setDocumentId(leavePayout.getLeaveCalendarDocumentId());
 					aLeaveBlock.setBlockId(0L);
 					
@@ -270,7 +271,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 			    	leavePayout.setPayoutFromLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
 			        // save history
 			        lbh = new LeaveBlockHistory(aLeaveBlock);
-			        lbh.setAction(LMConstants.ACTION.ADD);
+			        lbh.setAction(HrConstants.ACTION.ADD);
 			        LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 					
 					leaveBlocks.add(aLeaveBlock);
@@ -292,7 +293,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 					aLeaveBlock.setAccrualGenerated(true);
 					aLeaveBlock.setTransactionDocId(leavePayout.getDocumentHeaderId());
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT);
-					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+					aLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setDocumentId(leavePayout.getLeaveCalendarDocumentId());
 					aLeaveBlock.setBlockId(0L);
 					
@@ -304,7 +305,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 			    	leavePayout.setForfeitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
 			        // save history
 			        LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
-			        lbh.setAction(LMConstants.ACTION.ADD);
+			        lbh.setAction(HrConstants.ACTION.ADD);
 			        LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 					
 					leaveBlocks.add(aLeaveBlock);

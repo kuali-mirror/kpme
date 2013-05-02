@@ -25,7 +25,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
 import org.kuali.kpme.core.document.calendar.CalendarDocumentContract;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.tklm.common.TKContext;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;

@@ -36,13 +36,13 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.block.dao.LeaveBlockDao;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
@@ -110,7 +110,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     	List<LeaveBlockHistory> leaveBlockHistories = new ArrayList<LeaveBlockHistory>();
         for (LeaveBlock leaveBlock : leaveBlocks) {
         	LeaveBlockHistory lbh = new LeaveBlockHistory(leaveBlock);
-        	lbh.setAction(LMConstants.ACTION.ADD);
+        	lbh.setAction(HrConstants.ACTION.ADD);
         	leaveBlockHistories.add(lbh);
         }
         
@@ -128,7 +128,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         LeaveBlockHistory leaveBlockHistory = new LeaveBlockHistory(leaveBlock);
         leaveBlockHistory.setPrincipalIdDeleted(principalId);
         leaveBlockHistory.setTimestampDeleted(new Timestamp(System.currentTimeMillis()));
-        leaveBlockHistory.setAction(LMConstants.ACTION.DELETE);
+        leaveBlockHistory.setAction(HrConstants.ACTION.DELETE);
 
         // deleting leaveblock
         KRADServiceLocator.getBusinessObjectService().delete(leaveBlock);
@@ -153,7 +153,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 
         // save history
         LeaveBlockHistory lbh = new LeaveBlockHistory(leaveBlock);
-        lbh.setAction(LMConstants.ACTION.MODIFIED);
+        lbh.setAction(HrConstants.ACTION.MODIFIED);
         LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
         
     }
@@ -162,7 +162,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntry ce, String selectedEarnCode,
     		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType, String principalId) {
     	
-    	DateTimeZone timezone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+    	DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         DateTime calBeginDateTime = beginDate;
     	DateTime calEndDateTime = endDate;
     	
@@ -224,25 +224,25 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                     CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(ce.getHrCalendarId(), new LocalDate().toDateTimeAtStartOfDay());
                     DateTime leaveBlockDate = new DateTime(leaveBlockInt.getStartMillis());
                     
-                    String requestStatus = LMConstants.REQUEST_STATUS.USAGE;
-                    if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
+                    String requestStatus = HrConstants.REQUEST_STATUS.USAGE;
+                    if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, HrConstants.FLSA_STATUS_NON_EXEMPT, true)) {
                     	TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveBlockDate);
                     	if (tdh != null) {
      	            	   if (DateUtils.isSameDay(leaveBlockDate.toDate(), tdh.getEndDate()) || leaveBlockDate.isAfter(new DateTime(tdh.getEndDate()))) {
-     	            		  requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
+     	            		  requestStatus = HrConstants.REQUEST_STATUS.PLANNED;
      	            	   }
      	               } else {
-     	            	  requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
+     	            	  requestStatus = HrConstants.REQUEST_STATUS.PLANNED;
      	               }
                     } else {
                     	if (DateUtils.isSameDay(leaveBlockDate.toDate(), calendarEntry.getEndPeriodDateTime()) || leaveBlockDate.isAfter(calendarEntry.getEndPeriodFullDateTime())) {
-                    		requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
+                    		requestStatus = HrConstants.REQUEST_STATUS.PLANNED;
                     	}
                     }
                     
                     EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, ce.getEndPeriodLocalDateTime().toDateTime().toLocalDate());
                     
-                    if(earnCodeObj != null && earnCodeObj.getRecordMethod().equals(LMConstants.RECORD_METHOD.TIME)) {
+                    if(earnCodeObj != null && earnCodeObj.getRecordMethod().equals(HrConstants.RECORD_METHOD.TIME)) {
 	                    if (firstDay != null) {
 	                    	if(!leaveBlockInt.contains(endTimestamp.getTime())){
 	                    		beginTemp = new Timestamp(leaveBlockInt.getStartMillis());
@@ -348,7 +348,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         LeaveBlockHistory leaveBlockHistory = new LeaveBlockHistory(leaveBlock);
         leaveBlockHistory.setPrincipalIdDeleted(principalId);
         leaveBlockHistory.setTimestampDeleted(new Timestamp(System.currentTimeMillis()));
-        leaveBlockHistory.setAction(LMConstants.ACTION.MODIFIED);
+        leaveBlockHistory.setAction(HrConstants.ACTION.MODIFIED);
 
         KRADServiceLocator.getBusinessObjectService().save(leaveBlock);
         
@@ -419,7 +419,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 				} else if(StringUtils.isNotEmpty(lb.getAssignmentKey()) && assignmentKeys.contains(lb.getAssignmentKey())) {
 	    			if (StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)) {
 	    				// only add approved leave blocks that are created from leave calendar
-	    				if (StringUtils.equals(lb.getRequestStatus(), LMConstants.REQUEST_STATUS.APPROVED)) {	
+	    				if (StringUtils.equals(lb.getRequestStatus(), HrConstants.REQUEST_STATUS.APPROVED)) {	
 	    					results.add(lb);
 	    				}
 	    			} else if(StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR)) {

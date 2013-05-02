@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.service.batch;
+package org.kuali.kpme.tklm.common;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;

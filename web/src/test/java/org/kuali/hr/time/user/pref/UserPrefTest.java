@@ -25,6 +25,7 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.user.pref.UserPreferences;
@@ -45,7 +46,7 @@ public class UserPrefTest extends KPMETestCase{
 		List<TimeBlock> tbs = new ArrayList<TimeBlock>();
 		tbs.add(tb);
 		
-		TkServiceLocator.getTimezoneService().translateForTimezone(tbs, DateTimeZone.forID("America/Indianapolis"));
+		HrServiceLocator.getTimezoneService().translateForTimezone(tbs, DateTimeZone.forID("America/Indianapolis"));
 	}
 
 }

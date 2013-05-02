@@ -39,10 +39,9 @@ import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TKContext;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -352,7 +351,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	}
 
     public String getRequestStatusString() {
-        String status = LMConstants.REQUEST_STATUS_STRINGS.get(getRequestStatus());
+        String status = HrConstants.REQUEST_STATUS_STRINGS.get(getRequestStatus());
         return status == null ? "usage" : status;
     }
 
@@ -559,7 +558,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
     }
     
     public String getPlanningDescription() {
-    	if(this.getRequestStatus().equals(LMConstants.REQUEST_STATUS.DEFERRED)) {
+    	if(this.getRequestStatus().equals(HrConstants.REQUEST_STATUS.DEFERRED)) {
     		List<LeaveRequestDocument> lrdList = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(this.getLmLeaveBlockId());
     		if(CollectionUtils.isNotEmpty(lrdList)) {
     			for(LeaveRequestDocument lrd : lrdList) {    				

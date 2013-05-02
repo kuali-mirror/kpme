@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.tklm.time.authorization.AuthorizationValidationUtils;
-import org.kuali.kpme.tklm.time.authorization.DepartmentalRule;
+import org.kuali.kpme.core.authorization.AuthorizationValidationUtils;
+import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.tklm.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;

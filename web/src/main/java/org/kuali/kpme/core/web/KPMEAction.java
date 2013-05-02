@@ -23,7 +23,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
-import org.kuali.kpme.tklm.common.TKContext;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
 

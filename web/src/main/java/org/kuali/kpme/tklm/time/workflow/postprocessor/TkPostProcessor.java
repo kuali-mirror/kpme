@@ -28,11 +28,11 @@ import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeHourDetail;
@@ -77,7 +77,7 @@ public class TkPostProcessor extends DefaultPostProcessor {
 			String principalId = timesheetDocumentHeader.getPrincipalId();
 			DateTime endDate = timesheetDocumentHeader.getEndDateTime();
 			
-			if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
+			if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, HrConstants.FLSA_STATUS_NON_EXEMPT, true)) {
 				List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(documentId);
 				
 				List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
@@ -96,7 +96,7 @@ public class TkPostProcessor extends DefaultPostProcessor {
 							LeaveBlock.Builder builder = new LeaveBlock.Builder(leaveDate, null, principalId, overtimeEarnCode.getEarnCode(), leaveAmount)
 								.accrualCategory(accrualCategory.getAccrualCategory())
 								.leaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE)
-								.requestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+								.requestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 							
 							leaveBlocks.add(builder.build());
 						}
@@ -145,7 +145,7 @@ public class TkPostProcessor extends DefaultPostProcessor {
 			List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, timesheetDocumentHeader.getBeginDateTime().toLocalDate(), endDate.toLocalDate());
 			for(LeaveBlock lb : leaveBlocks) {
 				if(StringUtils.equals(lb.getDescription(),"Max carry over adjustment")) {
-					lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+					lb.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 					LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
 				}
 			}

@@ -33,14 +33,14 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.core.web.KPMEAction;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.request.service.LeaveRequestDocumentService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -78,7 +78,7 @@ public class LeaveRequestAction extends KPMEAction {
 
         CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, new DateTime(beginDate), new DateTime(endDate));
         Boolean checkLeaveEligible = true;
-        Boolean nonExemptLeaveEligible = LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT,checkLeaveEligible);
+        Boolean nonExemptLeaveEligible = LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, HrConstants.FLSA_STATUS_NON_EXEMPT,checkLeaveEligible);
         if(nonExemptLeaveEligible && calendarEntry != null && payCalendarEntry != null) {
             if ( payCalendarEntry.getEndPeriodDate().before(calendarEntry.getEndPeriodDate()) ) {
                 calendarEntry = payCalendarEntry;
@@ -93,11 +93,11 @@ public class LeaveRequestAction extends KPMEAction {
 				currentDate = calendarEntry.getEndPeriodFullDateTime();	// only show leave requests from planning calendars on leave request page
 			}
 		}
-        List<LeaveBlock> plannedLeaves = getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, LMConstants.REQUEST_STATUS.PLANNED);
-        plannedLeaves.addAll(getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, LMConstants.REQUEST_STATUS.DEFERRED));
+        List<LeaveBlock> plannedLeaves = getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, HrConstants.REQUEST_STATUS.PLANNED);
+        plannedLeaves.addAll(getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, HrConstants.REQUEST_STATUS.DEFERRED));
 		leaveForm.setPlannedLeaves(plannedLeaves);
-		leaveForm.setPendingLeaves(getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, LMConstants.REQUEST_STATUS.REQUESTED));
-		leaveForm.setApprovedLeaves(getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, LMConstants.REQUEST_STATUS.APPROVED));
+		leaveForm.setPendingLeaves(getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, HrConstants.REQUEST_STATUS.REQUESTED));
+		leaveForm.setApprovedLeaves(getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, HrConstants.REQUEST_STATUS.APPROVED));
 		leaveForm.setDisapprovedLeaves(getDisapprovedLeaveBlockHistory(principalId, currentDate.toLocalDate()));
 
         leaveForm.setDocuments(getLeaveRequestDocuments(leaveForm));
@@ -120,7 +120,7 @@ public class LeaveRequestAction extends KPMEAction {
     
     private List<LeaveBlockHistory> getDisapprovedLeaveBlockHistory(String principalId, LocalDate currentDate) {
         List<LeaveBlockHistory> historyList = LmServiceLocator.getLeaveBlockHistoryService()
-        	.getLeaveBlockHistories(principalId, LMConstants.REQUEST_STATUS.DISAPPROVED, LMConstants.ACTION.DELETE, currentDate);
+        	.getLeaveBlockHistories(principalId, HrConstants.REQUEST_STATUS.DISAPPROVED, HrConstants.ACTION.DELETE, currentDate);
 
         Collections.sort(historyList, new Comparator<LeaveBlockHistory>() {
             @Override

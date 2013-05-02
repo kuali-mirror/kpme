@@ -17,7 +17,7 @@ package org.kuali.kpme.tklm.time.rules.timecollection.validation;
 
 import org.apache.cxf.common.util.StringUtils;
 import org.kuali.kpme.core.bo.utils.ValidationUtils;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -46,7 +46,7 @@ public class TimeCollectionRuleValidation extends MaintenanceDocumentRuleBase {
 	
 	// JIRA1152
 	boolean validatePayType(TimeCollectionRule ruleObj) {
-		if(!StringUtils.isEmpty(ruleObj.getPayType()) && ruleObj.getPayType().equals(TkConstants.WILDCARD_CHARACTER)) {
+		if(!StringUtils.isEmpty(ruleObj.getPayType()) && ruleObj.getPayType().equals(HrConstants.WILDCARD_CHARACTER)) {
 			return true;
 		}		
 		if (!ValidationUtils.validatePayType(ruleObj.getPayType(), ruleObj.getEffectiveLocalDate())) {

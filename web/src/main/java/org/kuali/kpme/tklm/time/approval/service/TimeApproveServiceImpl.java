@@ -46,22 +46,21 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.bo.person.TKPerson;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
-import org.kuali.kpme.tklm.time.person.TKPerson;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -246,7 +245,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 		Calendar payCalendar = HrServiceLocator.getCalendarService()
 				.getCalendar(payCalendarEntry.getHrCalendarId());
-		DateTimeZone dateTimeZone = TkServiceLocator.getTimezoneService()
+		DateTimeZone dateTimeZone = HrServiceLocator.getTimezoneService()
 				.getUserTimezoneWithFallback();
 		List<Interval> dayIntervals = TKUtils
 				.getDaySpanForCalendarEntry(payCalendarEntry);
@@ -396,13 +395,13 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         		  AccrualCategoryRule rule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
         		  if (rule != null) {
         			  AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
-        			  if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER)) {
+        			  if (rule.getActionAtMaxBalance().equals(HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER)) {
         				  //Todo: add link to balance transfer
         				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");   //warningMessages
-        			  } else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+        			  } else if (rule.getActionAtMaxBalance().equals(HrConstants.ACTION_AT_MAX_BALANCE.LOSE)) {
         				  //Todo: compute and display amount of time lost.
         				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");      //warningMessages
-        			  } else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.PAYOUT)) {
+        			  } else if (rule.getActionAtMaxBalance().equals(HrConstants.ACTION_AT_MAX_BALANCE.PAYOUT)) {
         				  //Todo: display payout details.
         				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");      //warningMessages            				  
         			  }
@@ -491,13 +490,13 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 				// Fill in zeroes for days with 0 hours / no time blocks
 				for (int fill = hours.size(); fill <= day; fill++) {
-					hours.add(TkConstants.BIG_DECIMAL_SCALED_ZERO);
+					hours.add(HrConstants.BIG_DECIMAL_SCALED_ZERO);
 				}
 
 				// Add time from time block to existing time.
 				BigDecimal timeToAdd = hours.get(day);
 				timeToAdd = timeToAdd.add(block.getHours(),
-						TkConstants.MATH_CONTEXT);
+						HrConstants.MATH_CONTEXT);
 				hours.set(day, timeToAdd);
 			}
 		}
@@ -543,13 +542,13 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 						.contains(payCalendarLabel, "Total Hours")) {
 					hoursToPayLabelMap.put(payCalendarLabel, periodTotal);
 				} else {
-					BigDecimal dayTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+					BigDecimal dayTotal = HrConstants.BIG_DECIMAL_SCALED_ZERO;
 					if (dayCount < dayTotals.size())
 						dayTotal = dayTotals.get(dayCount);
 
 					hoursToPayLabelMap.put(payCalendarLabel, dayTotal);
 					weekTotal = weekTotal.add(dayTotal,
-							TkConstants.MATH_CONTEXT);
+							HrConstants.MATH_CONTEXT);
 					periodTotal = periodTotal.add(dayTotal);
 					dayCount++;
 				}
@@ -593,14 +592,14 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 					if (workArea != null) {
 						if (tb.getWorkArea().compareTo(workArea) == 0) {
 							total = total.add(tb.getHours(),
-									TkConstants.MATH_CONTEXT);
+									HrConstants.MATH_CONTEXT);
 						} else {
 							total = total.add(new BigDecimal("0"),
-									TkConstants.MATH_CONTEXT);
+									HrConstants.MATH_CONTEXT);
 						}
 					} else {
 						total = total.add(tb.getHours(),
-								TkConstants.MATH_CONTEXT);
+								HrConstants.MATH_CONTEXT);
 					}
 				}
 				dayTotals.add(total);
@@ -621,7 +620,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 					hoursToPayLabelMap.put(payCalendarLabel,
 							dayTotals.get(dayCount));
 					weekTotal = weekTotal.add(dayTotals.get(dayCount),
-							TkConstants.MATH_CONTEXT);
+							HrConstants.MATH_CONTEXT);
 					periodTotal = periodTotal.add(dayTotals.get(dayCount));
 					dayCount++;
 				}
@@ -655,12 +654,12 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 					for (TimeBlock timeBlock : flsaDay.getAppliedTimeBlocks()) {
 						if (workArea != null) {
 							if (timeBlock.getWorkArea().compareTo(workArea) == 0) {
-								weekTotal = weekTotal.add(timeBlock.getHours(), TkConstants.MATH_CONTEXT);
+								weekTotal = weekTotal.add(timeBlock.getHours(), HrConstants.MATH_CONTEXT);
 							} else {
-								weekTotal = weekTotal.add(new BigDecimal("0"), TkConstants.MATH_CONTEXT);
+								weekTotal = weekTotal.add(new BigDecimal("0"), HrConstants.MATH_CONTEXT);
 							}
 						} else {
-							weekTotal = weekTotal.add(timeBlock.getHours(),TkConstants.MATH_CONTEXT);
+							weekTotal = weekTotal.add(timeBlock.getHours(),HrConstants.MATH_CONTEXT);
 						}
 					}
 				}
@@ -741,7 +740,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
      			if(anAssignment != null 
 		    			&& anAssignment.getJob() != null 
 		    			&& anAssignment.getJob().getFlsaStatus() != null 
-		    			&& anAssignment.getJob().getFlsaStatus().equalsIgnoreCase(TkConstants.FLSA_STATUS_NON_EXEMPT)) {
+		    			&& anAssignment.getJob().getFlsaStatus().equalsIgnoreCase(HrConstants.FLSA_STATUS_NON_EXEMPT)) {
      				results.add(anAssignment);	
      			}
 	        }

@@ -25,10 +25,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.TkCommonCalendarForm;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkCommonCalendarForm;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ApprovalForm extends TkCommonCalendarForm {

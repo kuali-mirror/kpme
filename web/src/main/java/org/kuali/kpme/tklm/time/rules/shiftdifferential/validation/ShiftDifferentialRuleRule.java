@@ -17,7 +17,7 @@ package org.kuali.kpme.tklm.time.rules.shiftdifferential.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.utils.ValidationUtils;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -29,7 +29,7 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 	boolean validateSalGroup(ShiftDifferentialRule shiftDifferentialRule) {
 		if (shiftDifferentialRule.getHrSalGroup() != null
 				&& !StringUtils.equals(shiftDifferentialRule.getHrSalGroup(),
-						TkConstants.WILDCARD_CHARACTER)
+						HrConstants.WILDCARD_CHARACTER)
 				&& !ValidationUtils.validateSalGroup(shiftDifferentialRule
 						.getHrSalGroup(), shiftDifferentialRule
 						.getEffectiveLocalDate())) {
@@ -57,7 +57,7 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 	boolean validateLocation(ShiftDifferentialRule shiftDifferentialRule) {
 		if (shiftDifferentialRule.getLocation() != null
 				&& !StringUtils.equals(shiftDifferentialRule.getLocation(),
-						TkConstants.WILDCARD_CHARACTER)
+						HrConstants.WILDCARD_CHARACTER)
 				&& !ValidationUtils.validateLocation(shiftDifferentialRule
 						.getLocation(), shiftDifferentialRule
 						.getEffectiveLocalDate())) {
@@ -72,7 +72,7 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 	boolean validatePayGrade(ShiftDifferentialRule shiftDifferentialRule) {
 		if (shiftDifferentialRule.getPayGrade() != null
 				&& !StringUtils.equals(shiftDifferentialRule.getPayGrade(),
-						TkConstants.WILDCARD_CHARACTER)
+						HrConstants.WILDCARD_CHARACTER)
 				&& !ValidationUtils.validatePayGrade(shiftDifferentialRule
 						.getPayGrade(), shiftDifferentialRule.getHrSalGroup(), shiftDifferentialRule
 						.getEffectiveLocalDate())) {

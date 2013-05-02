@@ -25,11 +25,11 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
@@ -93,27 +93,27 @@ public class LeaveDonationMaintTest extends KPMETestCase{
 	  	LeaveBlock lb = leaveBlockList.get(0);
 	  	Assert.assertTrue("Hours of the leave block for donor 'testuser1' should be -10, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(-10)));
 	  	Assert.assertTrue("Request status of the leave block for donor 'testuser1' should be Approved, not " + lb.getRequestStatus()
-	  			, lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED));
+	  			, lb.getRequestStatus().equals(HrConstants.REQUEST_STATUS.APPROVED));
 	  	
 		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks("testuser2", START_DATE.toLocalDate(), END_DATE.toLocalDate());
 		Assert.assertTrue("There should be 1 leave blocks for emplyee 'testuser2', not " + leaveBlockList.size(), leaveBlockList.size()== 1);
 		lb = leaveBlockList.get(0);
 		Assert.assertTrue("Hours of the leave block for recipient 'testuser2' should be 8, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(8)));
 		Assert.assertTrue("Request status of the leave block for donor 'testuser2' should be Approved, not " + lb.getRequestStatus()
-	  			, lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED));
+	  			, lb.getRequestStatus().equals(HrConstants.REQUEST_STATUS.APPROVED));
 	  	
 		historyList = LmServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories("testuser1", null);
 		Assert.assertTrue("There should be 1 leave block histories for princiapl id testuser1"+ historyList.size(), historyList.size()== 1);
 		LeaveBlockHistory lbh = historyList.get(0);
 		Assert.assertTrue("Hours of the leave block history for donor 'testuser1' should be -10, not " + lbh.getLeaveAmount().toString(), lbh.getLeaveAmount().equals(new BigDecimal(-10)));
 		Assert.assertTrue("Request status of the leave block history for donor 'testuser1' should be Approved, not " + lbh.getRequestStatus()
-	  			, lbh.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED));
+	  			, lbh.getRequestStatus().equals(HrConstants.REQUEST_STATUS.APPROVED));
 		historyList = LmServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories("testuser2", null);
 		Assert.assertTrue("There should be 1 leave block histories for princiapl id testuser2"+ historyList.size(), historyList.size()== 1);
 		lbh = historyList.get(0);
 		Assert.assertTrue("Hours of the leave block history for recipient 'testuser2' should be 8, not " + lbh.getLeaveAmount().toString(), lbh.getLeaveAmount().equals(new BigDecimal(8)));
 		Assert.assertTrue("Request status of the leave block history for donor 'testuser2' should be Approved, not " + lbh.getRequestStatus()
-	  			, lbh.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED));
+	  			, lbh.getRequestStatus().equals(HrConstants.REQUEST_STATUS.APPROVED));
 	}
 	
 	@Test

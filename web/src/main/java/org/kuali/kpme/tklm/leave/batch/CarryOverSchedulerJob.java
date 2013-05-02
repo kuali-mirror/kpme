@@ -23,7 +23,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.service.batch.BatchJobService;
+import org.kuali.kpme.tklm.common.BatchJobService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerException;

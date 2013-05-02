@@ -43,8 +43,9 @@ import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -160,7 +161,7 @@ public class ActionFormUtils {
         }
 
         List<Map<String, Object>> timeBlockList = new LinkedList<Map<String, Object>>();
-        String timezone = TkServiceLocator.getTimezoneService().getUserTimezone();
+        String timezone = HrServiceLocator.getTimezoneService().getUserTimezone();
 
         for (TimeBlock timeBlock : timeBlocks) {
             Map<String, Object> timeBlockMap = new LinkedHashMap<String, Object>();
@@ -212,8 +213,8 @@ public class ActionFormUtils {
             // The ones which are used by the javascript are startDate, endDate, startTime, endTime, startTimeHourMinute, and endTimeHourMinute
             timeBlockMap.put("start", start.toString(ISODateTimeFormat.dateTimeNoMillis()));
             timeBlockMap.put("end", end.toString(ISODateTimeFormat.dateTimeNoMillis()));
-            timeBlockMap.put("startDate", start.toString(TkConstants.DT_BASIC_DATE_FORMAT));
-            timeBlockMap.put("endDate", end.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+            timeBlockMap.put("startDate", start.toString(HrConstants.DT_BASIC_DATE_FORMAT));
+            timeBlockMap.put("endDate", end.toString(HrConstants.DT_BASIC_DATE_FORMAT));
             timeBlockMap.put("startNoTz", start.toString(ISODateTimeFormat.dateHourMinuteSecond()));
             timeBlockMap.put("endNoTz", end.toString(ISODateTimeFormat.dateHourMinuteSecond()));
             // start / endTimeHourMinute fields are for only for the display purpose
@@ -278,11 +279,11 @@ public class ActionFormUtils {
         	leaveBlockMap.put("lmLeaveBlockId", leaveBlock.getLmLeaveBlockId());
         	leaveBlockMap.put("leaveAmount", leaveBlock.getLeaveAmount().toString());
         	DateTime leaveDate = new DateTime(leaveBlock.getLeaveDate());
-        	leaveBlockMap.put("leaveDate", leaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+        	leaveBlockMap.put("leaveDate", leaveDate.toString(HrConstants.DT_BASIC_DATE_FORMAT));
         	leaveBlockMap.put("id", leaveBlock.getLmLeaveBlockId());
         	leaveBlockMap.put("canTransfer", LmServiceLocator.getLMPermissionService().canTransferSSTOUsage(leaveBlock));
-        	leaveBlockMap.put("startDate", leaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
-        	leaveBlockMap.put("endDate", leaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+        	leaveBlockMap.put("startDate", leaveDate.toString(HrConstants.DT_BASIC_DATE_FORMAT));
+        	leaveBlockMap.put("endDate", leaveDate.toString(HrConstants.DT_BASIC_DATE_FORMAT));
         	
         	if(leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp() != null) {
 	            DateTime start = new DateTime(leaveBlock.getBeginTimestamp().getTime());
@@ -291,8 +292,8 @@ public class ActionFormUtils {
 	        	leaveBlockMap.put("endTimeHourMinute", end.toString(TkConstants.DT_BASIC_TIME_FORMAT));
 	        	leaveBlockMap.put("startTime", start.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
 	        	leaveBlockMap.put("endTime", end.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
-	        	leaveBlockMap.put("startDate", start.toString(TkConstants.DT_BASIC_DATE_FORMAT));
-	        	leaveBlockMap.put("endDate", end.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+	        	leaveBlockMap.put("startDate", start.toString(HrConstants.DT_BASIC_DATE_FORMAT));
+	        	leaveBlockMap.put("endDate", end.toString(HrConstants.DT_BASIC_DATE_FORMAT));
             }
         	
         	leaveBlockList.add(leaveBlockMap);

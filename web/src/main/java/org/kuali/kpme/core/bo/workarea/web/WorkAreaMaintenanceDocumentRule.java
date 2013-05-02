@@ -21,6 +21,8 @@ import java.util.ListIterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.authorization.AuthorizationValidationUtils;
+import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.utils.ValidationUtils;
@@ -31,8 +33,6 @@ import org.kuali.kpme.core.role.PositionRoleMemberBo;
 import org.kuali.kpme.core.role.PrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.time.authorization.AuthorizationValidationUtils;
-import org.kuali.kpme.tklm.time.authorization.DepartmentalRule;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;

@@ -250,7 +250,7 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		usage.setLeaveAmount(new BigDecimal(-18));
 		usage.setPrincipalId(USER_ID);
 		usage.setAccrualGenerated(false);
-		usage.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+		usage.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 		usage.setDocumentId(janLCD.getDocumentId());
 		usage.setLmLeaveBlockId("99999");
 		usage.setEarnCode("EC5");

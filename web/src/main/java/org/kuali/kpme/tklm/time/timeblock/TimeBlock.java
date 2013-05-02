@@ -30,8 +30,9 @@ import org.joda.time.DateTime;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
@@ -65,8 +66,8 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     private Time endTime;
 
     private Boolean clockLogCreated;
-    private BigDecimal hours = TkConstants.BIG_DECIMAL_SCALED_ZERO;
-    private BigDecimal amount = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+    private BigDecimal hours = HrConstants.BIG_DECIMAL_SCALED_ZERO;
+    private BigDecimal amount = HrConstants.BIG_DECIMAL_SCALED_ZERO;
     private String principalId;
     private String userPrincipalId;
     private Timestamp timestamp;
@@ -207,7 +208,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 
     public void setHours(BigDecimal hours) {
         if (hours != null) {
-            this.hours = hours.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
+            this.hours = hours.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING);
         } else {
             this.hours = hours;
         }
@@ -219,7 +220,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 
     public void setAmount(BigDecimal amount) {
         if (amount != null) {
-            this.amount = amount.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
+            this.amount = amount.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING);
         } else {
             this.amount = amount;
         }
@@ -331,7 +332,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     *   fix timezone issues caused by JScript, for GUI use only,
     */
     public String getBeginTimeDisplayDateOnlyString() {
-        return this.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT);
+        return this.getBeginTimeDisplay().toString(HrConstants.DT_BASIC_DATE_FORMAT);
     }
 
     public String getBeginTimeDisplayTimeOnlyString() {
@@ -339,7 +340,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     }
 
     public String getEndTimeDisplayDateOnlyString() {
-        return this.getEndTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT);
+        return this.getEndTimeDisplay().toString(HrConstants.DT_BASIC_DATE_FORMAT);
     }
 
     public String getEndTimeDisplayTimeOnlyString() {

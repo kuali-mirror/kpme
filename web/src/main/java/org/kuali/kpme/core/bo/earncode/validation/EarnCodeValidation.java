@@ -23,12 +23,13 @@ import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
+@SuppressWarnings("deprecation")
 public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 	
 	boolean validateRollupToEarnCode(String earnCode, LocalDate asOfDate) {
@@ -98,8 +99,8 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		EarnCode earnCode = (EarnCode)this.getNewBo();
 		EarnCode oldEarnCode = (EarnCode)this.getOldBo();
-		if ((StringUtils.equals(oldEarnCode.getEarnCode(), TkConstants.LUNCH_EARN_CODE) 
-				|| StringUtils.equals(oldEarnCode.getEarnCode(), TkConstants.HOLIDAY_EARN_CODE))
+		if ((StringUtils.equals(oldEarnCode.getEarnCode(), HrConstants.LUNCH_EARN_CODE) 
+				|| StringUtils.equals(oldEarnCode.getEarnCode(), HrConstants.HOLIDAY_EARN_CODE))
 					&& !earnCode.isActive()) {
 			this.putFieldError("active", "earncode.inactivate.locked", earnCode
 					.getEarnCode());

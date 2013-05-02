@@ -26,11 +26,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.block.service.LeaveBlockHistoryService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 
 public class LeaveBlockHistoryServiceImplTest extends KPMETestCase {
 
@@ -72,7 +72,7 @@ public class LeaveBlockHistoryServiceImplTest extends KPMETestCase {
 	@Test
 	public void testGetLeaveBlockHistoriesWithStatusAndAction() {
 		DateTime currentDate = new DateTime(2012, 3, 10, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		List<LeaveBlockHistory> leaveBlockHistories= leaveBlockHistoryService.getLeaveBlockHistories("admin", LMConstants.REQUEST_STATUS.DISAPPROVED, LMConstants.ACTION.DELETE, currentDate.toLocalDate());
+		List<LeaveBlockHistory> leaveBlockHistories= leaveBlockHistoryService.getLeaveBlockHistories("admin", HrConstants.REQUEST_STATUS.DISAPPROVED, HrConstants.ACTION.DELETE, currentDate.toLocalDate());
 		Assert.assertNotNull("Leave Block histories for leavedisplay  not found ", leaveBlockHistories);
 		Assert.assertTrue("There should be 1 leave block history found, not " + leaveBlockHistories.size() , leaveBlockHistories.size() == 1);
 	}

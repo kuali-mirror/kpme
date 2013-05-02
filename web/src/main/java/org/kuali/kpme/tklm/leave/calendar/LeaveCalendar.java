@@ -30,7 +30,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.calendar.CalendarParent;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -81,7 +81,7 @@ public class LeaveCalendar extends CalendarParent {
             } else {
                 // This is for the div id of the days on the calendar.
                 // It creates a day id like day_11/01/2011 which will make day parsing easier in the javascript.
-//                leaveCalendarDay.setDayNumberDelta(currDateTime.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+//                leaveCalendarDay.setDayNumberDelta(currDateTime.toString(HrConstants.DT_BASIC_DATE_FORMAT));
 //                leaveCalendarDay.setDayNumberDelta(currDateTime.getDayOfMonth());
                 leaveCalendarDay.setDayNumberDelta(dayNumber);
     
@@ -114,7 +114,7 @@ public class LeaveCalendar extends CalendarParent {
                dayNumber++;
             }
             leaveCalendarDay.setDayNumberString(currentDisplayDateTime.dayOfMonth().getAsShortText());
-            leaveCalendarDay.setDateString(currentDisplayDateTime.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+            leaveCalendarDay.setDateString(currentDisplayDateTime.toString(HrConstants.DT_BASIC_DATE_FORMAT));
 
             leaveCalendarWeek.getDays().add(leaveCalendarDay);
             

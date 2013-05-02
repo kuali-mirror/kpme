@@ -47,16 +47,16 @@ import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.kpme.tklm.leave.transfer.validation.BalanceTransferValidationUtils;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.time.calendar.TkCalendar;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
@@ -139,7 +139,7 @@ public class TimeDetailAction extends TimesheetAction {
         // add warning messages based on max carry over balances for each accrual category for non-exempt leave users
         String viewPrincipal = TKContext.getTargetPrincipalId();
         List<BalanceTransfer> losses = new ArrayList<BalanceTransfer>();
-        if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(viewPrincipal, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
+        if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(viewPrincipal, HrConstants.FLSA_STATUS_NON_EXEMPT, true)) {
             PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, payCalendarEntry.getEndPeriodFullDateTime().toLocalDate());
 
 	        Interval calendarInterval = new Interval(payCalendarEntry.getBeginPeriodDate().getTime(), payCalendarEntry.getEndPeriodDate().getTime());
@@ -153,9 +153,9 @@ public class TimeDetailAction extends TimesheetAction {
         				if(calendarInterval.contains(lb.getLeaveDate().getTime())) {
 	    	        		AccrualCategory accrualCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveLocalDate());
 				        	AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
-				        	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+				        	if(StringUtils.equals(aRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.LOSE)) {
 				        		DateTime aDate = null;
-				        		if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+				        		if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(), HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 				        			aDate = HrServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalCalendar.getLeavePlan(), lb.getLeaveLocalDate());
 				        		}
 				        		else {
@@ -331,7 +331,7 @@ public class TimeDetailAction extends TimesheetAction {
 	        List<CalendarEntry> payPeriodList = new ArrayList<CalendarEntry>();
 	        for(TimesheetDocumentHeader tdh : documentHeaders) {
 	        	if(sdf.format(tdh.getBeginDate()).equals(tdaf.getSelectedCalendarYear())) {
-                    CalendarEntry pe = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), new DateTime(tdh.getEndDate()), TkConstants.PAY_CALENDAR_TYPE);
+                    CalendarEntry pe = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), new DateTime(tdh.getEndDate()), HrConstants.PAY_CALENDAR_TYPE);
                     //CalendarEntries pe = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(tdh.getBeginDate(), tdh.getEndDate());
 	        		payPeriodList.add(pe);
 	        	}

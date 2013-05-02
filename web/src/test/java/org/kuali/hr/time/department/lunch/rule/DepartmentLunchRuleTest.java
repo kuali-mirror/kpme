@@ -24,9 +24,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.TkTestUtils;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
@@ -97,7 +97,7 @@ public class DepartmentLunchRuleTest extends KPMETestCase {
 			if(tb.getHours().compareTo(deptLunchRule.getShiftHours()) == 1) {
 				for(TimeHourDetail thd : tb.getTimeHourDetails()){
 					// 	this assumes the hours for the dummy timeblocks are always 10
-					if(!StringUtils.equals(thd.getEarnCode(), TkConstants.LUNCH_EARN_CODE)){
+					if(!StringUtils.equals(thd.getEarnCode(), HrConstants.LUNCH_EARN_CODE)){
 						Assert.assertEquals(new BigDecimal(9.50).setScale(2), tb.getHours());
 					}
 				}

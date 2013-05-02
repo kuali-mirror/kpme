@@ -26,11 +26,10 @@ import org.kuali.kpme.core.bo.calendar.CalendarWeek;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockRenderer;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockRenderer;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailRenderer;
@@ -156,7 +155,7 @@ public class TkCalendar extends CalendarParent {
         String id = "";
         for (TimeBlockRenderer tbr : day.getBlockRenderers()) {
             for (TimeHourDetailRenderer thdr : tbr.getDetailRenderers()) {
-                if (thdr.getTitle().equals(TkConstants.LUNCH_EARN_CODE)) {
+                if (thdr.getTitle().equals(HrConstants.LUNCH_EARN_CODE)) {
                     ec = HrServiceLocator.getEarnCodeService().getEarnCode(thdr.getTitle(), tbr.getTimeBlock().getBeginDateTime().toLocalDate());
                     if (ec != null) {
                         label = ec.getDescription() + " : " + thdr.getHours() + " hours";
@@ -203,8 +202,8 @@ public class TkCalendar extends CalendarParent {
     public void setPayCalEntry(CalendarEntry payCalEntry) {
         this.payCalEntry = payCalEntry;
         // Relative time, with time zone added.
-        this.beginDateTime = payCalEntry.getBeginPeriodLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
-        this.endDateTime = payCalEntry.getEndPeriodLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+        this.beginDateTime = payCalEntry.getBeginPeriodLocalDateTime().toDateTime(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+        this.endDateTime = payCalEntry.getEndPeriodLocalDateTime().toDateTime(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
     }
 
     public DateTime getBeginDateTime() {

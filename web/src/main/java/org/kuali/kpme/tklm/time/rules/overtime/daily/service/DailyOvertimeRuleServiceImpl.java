@@ -30,8 +30,8 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule;
 import org.kuali.kpme.tklm.time.rules.overtime.daily.dao.DailyOvertimeRuleDao;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
@@ -230,7 +230,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
                     applicationList.add(block);
 					for (TimeHourDetail thd : block.getTimeHourDetails())
 						if (fromEarnGroup.contains(thd.getEarnCode()))
-							hours = hours.add(thd.getHours(), TkConstants.MATH_CONTEXT);
+							hours = hours.add(thd.getHours(), HrConstants.MATH_CONTEXT);
 				}
 				// when we run out of blocks, we may have more to apply.
 				apply(hours, applicationList, dr, fromEarnGroup);
@@ -251,7 +251,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 		sortTimeBlocksInverse(blocks);
 		if (blocks != null && blocks.size() > 0)
 			if (hours.compareTo(rule.getMinHours()) >= 0) {
-                BigDecimal remaining = hours.subtract(rule.getMinHours(), TkConstants.MATH_CONTEXT);
+                BigDecimal remaining = hours.subtract(rule.getMinHours(), HrConstants.MATH_CONTEXT);
 				for (TimeBlock block : blocks) {
 					remaining = applyOvertimeToTimeBlock(block, rule.getEarnCode(), earnGroup, remaining);
                 }
@@ -284,7 +284,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 		for (TimeHourDetail detail : details) {
 			if (convertFromEarnCodes.contains(detail.getEarnCode())) {
 				// n = detailHours - otHours
-				BigDecimal n = detail.getHours().subtract(otHours, TkConstants.MATH_CONTEXT);
+				BigDecimal n = detail.getHours().subtract(otHours, HrConstants.MATH_CONTEXT);
 				// n >= 0 (meaning there are greater than or equal amount of Detail hours vs. OT hours, so apply all OT hours here)
 				// n < = (meaning there were more OT hours than Detail hours, so apply only the # of hours in detail and update applied.
 				if (n.compareTo(BigDecimal.ZERO) >= 0) {
@@ -301,7 +301,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 				timeHourDetail.setTkTimeBlockId(block.getTkTimeBlockId());
 
 				// Decrement existing matched FROM earn code.
-				detail.setHours(detail.getHours().subtract(applied, TkConstants.MATH_CONTEXT));
+				detail.setHours(detail.getHours().subtract(applied, HrConstants.MATH_CONTEXT));
 				addDetails.add(timeHourDetail);
 			}
 		}

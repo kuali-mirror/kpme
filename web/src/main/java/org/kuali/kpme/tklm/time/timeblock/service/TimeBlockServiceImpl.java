@@ -33,9 +33,10 @@ import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.paytype.PayType;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.TkConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
@@ -58,7 +59,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     public List<TimeBlock> buildTimeBlocksSpanDates(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument,
                                                     Timestamp beginTimestamp, Timestamp endTimestamp, BigDecimal hours, BigDecimal amount, 
                                                     Boolean isClockLogCreated, Boolean isLunchDeleted, String spanningWeeks, String userPrincipalId) {
-        DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         DateTime beginDt = new DateTime(beginTimestamp.getTime(), zone);
         DateTime endDt = beginDt.toLocalDate().toDateTime((new DateTime(endTimestamp.getTime(), zone)).toLocalTime(), zone);
         if (endDt.isBefore(beginDt)) endDt = endDt.plusDays(1);
@@ -195,7 +196,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
 
     public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean clockLogCreated, Boolean lunchDeleted, String userPrincipalId) {
-        DateTimeZone timezone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, timesheetDocument.getAsOfDate());
 
         TimeBlock tb = new TimeBlock();
@@ -227,7 +228,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         if (earnCodeObj.getInflateFactor() != null) {
             if ((earnCodeObj.getInflateFactor().compareTo(new BigDecimal(1.0)) != 0)
             		&& (earnCodeObj.getInflateFactor().compareTo(BigDecimal.ZERO)!= 0) ) {
-                hours = earnCodeObj.getInflateFactor().multiply(hours, TkConstants.MATH_CONTEXT).setScale(TkConstants.BIG_DECIMAL_SCALE);
+                hours = earnCodeObj.getInflateFactor().multiply(hours, HrConstants.MATH_CONTEXT).setScale(HrConstants.BIG_DECIMAL_SCALE);
             }
         }
 
@@ -293,7 +294,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     //
     public List<TimeBlock> getTimeBlocks(String documentId) {
     	List<TimeBlock> timeBlocks = timeBlockDao.getTimeBlocks(documentId);
-        TkServiceLocator.getTimezoneService().translateForTimezone(timeBlocks);
+        HrServiceLocator.getTimezoneService().translateForTimezone(timeBlocks);
         for(TimeBlock tb : timeBlocks) {
             String earnCodeType = HrServiceLocator.getEarnCodeService().getEarnCodeType(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
             tb.setEarnCodeType(earnCodeType);
@@ -307,7 +308,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     	if(assign != null) {
         	timeBlocks = timeBlockDao.getTimeBlocksForAssignment(assign);
     	}
-    	TkServiceLocator.getTimezoneService().translateForTimezone(timeBlocks);
+    	HrServiceLocator.getTimezoneService().translateForTimezone(timeBlocks);
     	 for(TimeBlock tb : timeBlocks) {
              String earnCodeType = HrServiceLocator.getEarnCodeService().getEarnCodeType(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
              tb.setEarnCodeType(earnCodeType);

@@ -23,12 +23,11 @@ import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -56,7 +55,7 @@ public class BalanceTransferValidationUtils {
 							&& StringUtils.isNotBlank(acr.getMaxBalFlag())
 							&& StringUtils.isNotEmpty(acr.getMaxBalFlag())
 							&& StringUtils.equals(acr.getMaxBalFlag(), "Y")) {
-						if(ObjectUtils.isNotNull(acr.getMaxBalanceTransferToAccrualCategory()) || StringUtils.equals(LMConstants.ACTION_AT_MAX_BAL.LOSE, acr.getActionAtMaxBalance())) {
+						if(ObjectUtils.isNotNull(acr.getMaxBalanceTransferToAccrualCategory()) || StringUtils.equals(HrConstants.ACTION_AT_MAX_BALANCE.LOSE, acr.getActionAtMaxBalance())) {
 /*							isValid &= validatePrincipal(pha,principalId);
 							isValid &= validateEffectiveDate(effectiveDate);
 							isValid &= validateAgainstLeavePlan(pha,fromCat,toCat,effectiveDate);
@@ -130,7 +129,7 @@ public class BalanceTransferValidationUtils {
 		Interval interval = new Interval(serviceDate.getTime(), effectiveDate.getTime());
 		for(AccrualCategoryRule rule : rules) {
 			String unitOfTime = rule.getServiceUnitOfTime();
-			if(StringUtils.equals(unitOfTime, LMConstants.SERVICE_TIME_MONTHS))
+			if(StringUtils.equals(unitOfTime, HrConstants.SERVICE_TIME_MONTHS))
 		}*/
 		return true;
 	}
@@ -161,7 +160,7 @@ public class BalanceTransferValidationUtils {
 		if(ObjectUtils.isNotNull(adjustedMaxTransferAmount)) {
 			if(transferAmount.compareTo(adjustedMaxTransferAmount) > 0) {
 				isValid &= false;
-				String fromUnitOfTime = TkConstants.UNIT_OF_TIME.get(fromCat.getUnitOfTime());
+				String fromUnitOfTime = HrConstants.UNIT_OF_TIME.get(fromCat.getUnitOfTime());
 				GlobalVariables.getMessageMap().putError("balanceTransfer.transferAmount","balanceTransfer.transferAmount.maxTransferAmount",adjustedMaxTransferAmount.toString(),fromUnitOfTime);
 			}
 		}

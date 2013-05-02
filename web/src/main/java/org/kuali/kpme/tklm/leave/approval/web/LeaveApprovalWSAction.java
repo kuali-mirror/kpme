@@ -35,13 +35,13 @@ import org.hsqldb.lib.StringUtil;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
+import org.kuali.kpme.core.bo.person.TKPerson;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.web.ApprovalForm;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.kpme.tklm.time.person.TKPerson;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class LeaveApprovalWSAction extends KPMEAction {

@@ -22,7 +22,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -49,7 +49,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 	
 	boolean validateLocation(String location) {
 		boolean valid = true;
-		if(!StringUtils.isEmpty(location) && location.equals(TkConstants.WILDCARD_CHARACTER)) {
+		if(!StringUtils.isEmpty(location) && location.equals(HrConstants.WILDCARD_CHARACTER)) {
 			return true;
 		}
 		if (!ValidationUtils.validateLocation(location, null)) {

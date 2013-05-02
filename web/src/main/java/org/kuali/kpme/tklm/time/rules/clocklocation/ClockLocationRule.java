@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kpme.core.KPMEConstants;
+import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
-import org.kuali.kpme.tklm.time.authorization.DepartmentalRule;
 import org.kuali.kpme.tklm.time.rules.TkRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;

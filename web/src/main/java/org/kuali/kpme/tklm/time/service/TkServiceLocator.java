@@ -16,8 +16,6 @@
 package org.kuali.kpme.tklm.time.service;
 
 import org.kuali.kpme.core.bo.assignment.dao.AssignmentDao;
-import org.kuali.kpme.core.service.notification.KPMENotificationService;
-import org.kuali.kpme.core.service.timezone.TimezoneService;
 import org.kuali.kpme.tklm.time.approval.service.TimeApproveService;
 import org.kuali.kpme.tklm.time.clocklog.service.ClockLogService;
 import org.kuali.kpme.tklm.time.docsearch.TkSearchableAttributeService;
@@ -42,7 +40,6 @@ import org.kuali.kpme.tklm.time.timesummary.service.TimeSummaryService;
 import org.kuali.kpme.tklm.time.user.pref.service.UserPreferenceService;
 import org.kuali.kpme.tklm.time.warning.TkWarningService;
 import org.kuali.kpme.tklm.time.workflow.service.TimesheetDocumentHeaderService;
-import org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -82,12 +79,6 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_WARNINGS_SERVICE = "tkWarningService";
     public static final String TK_SEARCH_ATTR_SERVICE = "tkSearchableAttributeService";
 
-    //Move to [Sys|Hr]ServiceLocator
-	public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
-    public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";    
-    
-	public static final String TK_TIME_ZONE_SERVICE = "timezoneService";
-    
     public static final String TK_PERMISSION_SERVICE = "tkPermissionService";
     public static final String TK_ROLE_SERVICE = "tkRoleService";
     
@@ -118,10 +109,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static ClockLogService getClockLogService(){
 	    return (ClockLogService)CONTEXT.getBean(TK_CLOCK_LOG_SERVICE);
 	}
-
-    public static DistributedCacheManagerDecorator getDistributedCacheManager() {
-        return (DistributedCacheManagerDecorator)CONTEXT.getBean(KPME_DISTRIBUTED_CACHE_MANAGER);
-    }
 
 	public static TimeBlockService getTimeBlockService(){
 		return (TimeBlockService)CONTEXT.getBean(TK_TIME_BLOCK_SERVICE);
@@ -179,10 +166,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (UserPreferenceService) CONTEXT.getBean(TK_USER_PREF_SERVICE);
 	}
 
-	public static TimezoneService getTimezoneService(){
-		return (TimezoneService) CONTEXT.getBean(TK_TIME_ZONE_SERVICE);
-	}
-
 	public static TimeApproveService getTimeApproveService(){
 		return (TimeApproveService)CONTEXT.getBean(TK_APPROVE_SERVICE);
 	}
@@ -202,10 +185,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static TransactionTemplate getTransactionTemplate() {
 		return new TransactionTemplate(getPlatformTransactionManager());
 	}
-
-    public static KPMENotificationService getKPMENotificationService() {
-    	return (KPMENotificationService) CONTEXT.getBean(KPME_NOTIFICATION_SERVICE);
-    }
     
     public static TKPermissionService getTKPermissionService() {
     	return (TKPermissionService) CONTEXT.getBean(TK_PERMISSION_SERVICE);

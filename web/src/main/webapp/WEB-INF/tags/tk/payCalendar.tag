@@ -4,7 +4,7 @@
 
 <%-- display time blocks for the day --%>
 <c:forEach var="block" items="${day.blockRenderers}" varStatus="status">
-    <c:if test="${block.timeBlock.earnCode ne TkConstants.LUNCH_EARN_CODE}">
+    <c:if test="${block.timeBlock.earnCode ne HrConstants.LUNCH_EARN_CODE}">
         <c:choose>
             <c:when test="${status.last}">
                 <c:set var="last" value="last-event"/>
@@ -42,9 +42,9 @@
             </div>
                 ${block.timeRange}
             <div>
-                <c:if test="${block.earnCodeType ne TkConstants.EARN_CODE_AMOUNT}">
+                <c:if test="${block.earnCodeType ne HrConstants.EARN_CODE_AMOUNT}">
                     <c:forEach var="thdr" items="${block.detailRenderers}">
-                        <c:if test="${thdr.title ne TkConstants.LUNCH_EARN_CODE}">
+                        <c:if test="${thdr.title ne HrConstants.LUNCH_EARN_CODE}">
                             <div id="${thdr.timeHourDetail.tkTimeHourDetailId}"
                                  class="event-content">
                                 <c:choose>
@@ -61,24 +61,24 @@
                                             </c:otherwise>
                                         </c:choose>
 
-                                        <c:if test="${thdr.title eq TkConstants.HOLIDAY_EARN_CODE}">
+                                        <c:if test="${thdr.title eq HrConstants.HOLIDAY_EARN_CODE}">
                                             <div><a id="holidayNameHelp"
                                                     title="${thdr.holidayName}"
                                                     style="color:white; cursor:pointer;">${title}
                                                 - ${thdr.hours} hours</a></div>
                                         </c:if>
-                                        <c:if test="${thdr.title ne TkConstants.HOLIDAY_EARN_CODE}">
+                                        <c:if test="${thdr.title ne HrConstants.HOLIDAY_EARN_CODE}">
                                             ${title} - ${thdr.hours} hours
                                         </c:if>
                                     </c:when>
                                     <c:otherwise>
-                                        <c:if test="${thdr.title eq TkConstants.HOLIDAY_EARN_CODE}">
+                                        <c:if test="${thdr.title eq HrConstants.HOLIDAY_EARN_CODE}">
                                             <div><a id="holidayNameHelp"
                                                     title="${thdr.holidayName}"
                                                     style="color:white; cursor:pointer;">${thdr.title}
                                                 - $${thdr.hours}</a></div>
                                         </c:if>
-                                        <c:if test="${thdr.title ne TkConstants.HOLIDAY_EARN_CODE}">
+                                        <c:if test="${thdr.title ne HrConstants.HOLIDAY_EARN_CODE}">
                                             ${thdr.title} - $${thdr.hours}
                                         </c:if>
                                     </c:otherwise>

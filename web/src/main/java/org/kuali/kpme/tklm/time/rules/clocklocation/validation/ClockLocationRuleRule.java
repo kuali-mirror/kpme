@@ -20,11 +20,11 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.KPMEConstants;
+import org.kuali.kpme.core.authorization.AuthorizationValidationUtils;
+import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.time.authorization.AuthorizationValidationUtils;
-import org.kuali.kpme.tklm.time.authorization.DepartmentalRule;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRuleIpAddress;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -44,7 +44,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 			return false;
 		}
 		String[] lst =  StringUtils.split(ip, KPMEConstants.IP_SEPARATOR);
-		if(lst.length > 4 || (lst.length <4 && ip.indexOf(TkConstants.WILDCARD_CHARACTER)< 0)) {
+		if(lst.length > 4 || (lst.length <4 && ip.indexOf(HrConstants.WILDCARD_CHARACTER)< 0)) {
 			return false;
 		}
 		for(String str : lst) {
@@ -78,7 +78,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 					+ clr.getWorkArea() + "'");
 			valid = false;
 		} else if (clr.getWorkArea() != null
-				&& !clr.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
+				&& !clr.getWorkArea().equals(HrConstants.WILDCARD_LONG)) {
 			int count = HrServiceLocator.getWorkAreaService().getWorkAreaCount(clr.getDept(), clr.getWorkArea());
 			valid = (count > 0);
 			if (!valid) {
@@ -109,7 +109,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 		boolean valid = true;
 		if (clr.getJobNumber() == null) {
 			valid = false;
-		} else if (!clr.getJobNumber().equals(TkConstants.WILDCARD_LONG)) {
+		} else if (!clr.getJobNumber().equals(HrConstants.WILDCARD_LONG)) {
 			int count = HrServiceLocator.getJobService().getJobCount(clr.getPrincipalId(), clr.getJobNumber(),null);
 			valid = (count > 0);
 			if (!valid) {
@@ -148,13 +148,13 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
             valid = false;
         }
 
-        if (StringUtils.equals(clr.getDept(), TkConstants.WILDCARD_CHARACTER) &&
+        if (StringUtils.equals(clr.getDept(), HrConstants.WILDCARD_CHARACTER) &&
                 !AuthorizationValidationUtils.canWildcardDepartment(clr)) {
             this.putFieldError("dept", "error.wc.dept.perm", "department '" + clr.getDept() + "'");
             valid = false;
         }
 
-        if (clr!= null && clr.getWorkArea() != null && clr.getWorkArea().equals(TkConstants.WILDCARD_LONG) &&
+        if (clr!= null && clr.getWorkArea() != null && clr.getWorkArea().equals(HrConstants.WILDCARD_LONG) &&
                 !AuthorizationValidationUtils.canWildcardWorkArea(clr)) {
             this.putFieldError("dept", "error.wc.wa.perm", "department '" + clr.getDept() + "'");
             valid = false;

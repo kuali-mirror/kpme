@@ -13,14 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.person.service;
+package org.kuali.kpme.core.bo.person.service;
 
 import java.util.List;
 
-import org.kuali.kpme.tklm.time.person.TKPerson;
+import org.kuali.kpme.core.bo.person.TKPerson;
+import org.kuali.kpme.core.bo.person.dao.PersonDao;
 
-public interface PersonService {
 
-	public List<TKPerson> getPersonCollection(List<String> principalIds);
+public class PersonServiceImpl implements PersonService { 
+	private PersonDao personDao;
+	
+	public void setPersonDao(PersonDao personDao) {
+		this.personDao = personDao;
+	}
 
+	@Override
+	public List<TKPerson> getPersonCollection(List<String> principalIds) {
+		return personDao.getPersonCollection(principalIds);
+	}
+	
 }

@@ -24,7 +24,7 @@ import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.TkConstants;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailRenderer;
 
 /**
@@ -55,7 +55,7 @@ public class TimeBlockRenderer {
 
     public String getTimeRange() {
         StringBuilder b = new StringBuilder();
-        if(StringUtils.equals(timeBlock.getEarnCodeType(), TkConstants.EARN_CODE_TIME)) {
+        if(StringUtils.equals(timeBlock.getEarnCodeType(), HrConstants.EARN_CODE_TIME)) {
             b.append(timeBlock.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_TIME_FORMAT));
             b.append(" - ");
             b.append(timeBlock.getEndTimeDisplay().toString(TkConstants.DT_BASIC_TIME_FORMAT));
@@ -81,7 +81,7 @@ public class TimeBlockRenderer {
     }
 
     public String getAmount() {
-    	if(StringUtils.equals(timeBlock.getEarnCodeType(), TkConstants.EARN_CODE_AMOUNT)) {
+    	if(StringUtils.equals(timeBlock.getEarnCodeType(), HrConstants.EARN_CODE_AMOUNT)) {
     		if(timeBlock.getAmount() != null) {
     			return timeBlock.getEarnCode() + ": $" + timeBlock.getAmount().toString();
     		} else {

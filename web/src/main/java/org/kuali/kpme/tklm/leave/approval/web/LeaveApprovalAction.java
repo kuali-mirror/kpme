@@ -41,18 +41,18 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.bo.person.TKPerson;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.core.web.ApprovalAction;
 import org.kuali.kpme.core.web.ApprovalForm;
-import org.kuali.kpme.tklm.common.TKContext;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
-import org.kuali.kpme.tklm.time.person.TKPerson;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class LeaveApprovalAction extends ApprovalAction{

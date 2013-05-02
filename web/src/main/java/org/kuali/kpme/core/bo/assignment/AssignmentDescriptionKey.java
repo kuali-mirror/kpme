@@ -19,7 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 
 public class AssignmentDescriptionKey {
 	private static final Logger LOG = Logger.getLogger(AssignmentDescriptionKey.class);
@@ -61,7 +61,7 @@ public class AssignmentDescriptionKey {
 			throw new RuntimeException("the format of the assignment key is wrong. it should be jobNumber_workArea_task");
 		}
 
-		String[] key = assignmentKey.split(TkConstants.ASSIGNMENT_KEY_DELIMITER);
+		String[] key = assignmentKey.split(HrConstants.ASSIGNMENT_KEY_DELIMITER);
 
 		this.jobNumber = Long.parseLong(key[0]);
 		this.workArea = Long.parseLong(key[1]);
@@ -97,11 +97,11 @@ public class AssignmentDescriptionKey {
     }
 
     public String toAssignmentKeyString() {
-        return jobNumber + TkConstants.ASSIGNMENT_KEY_DELIMITER + workArea + TkConstants.ASSIGNMENT_KEY_DELIMITER + task;
+        return jobNumber + HrConstants.ASSIGNMENT_KEY_DELIMITER + workArea + HrConstants.ASSIGNMENT_KEY_DELIMITER + task;
     }
 
 
     public static String getAssignmentKeyString(Assignment a) {
-        return a.getJobNumber() + TkConstants.ASSIGNMENT_KEY_DELIMITER + a.getWorkArea() + TkConstants.ASSIGNMENT_KEY_DELIMITER + a.getTask();
+        return a.getJobNumber() + HrConstants.ASSIGNMENT_KEY_DELIMITER + a.getWorkArea() + HrConstants.ASSIGNMENT_KEY_DELIMITER + a.getTask();
     }
 }

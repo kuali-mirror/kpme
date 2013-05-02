@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.core.service.HrServiceLocator;
 
 public abstract class CalendarParent implements Serializable {
     private List<CalendarWeek> weeks = new ArrayList<CalendarWeek>();
@@ -32,8 +32,8 @@ public abstract class CalendarParent implements Serializable {
     public CalendarParent(CalendarEntry calendarEntry) {
         this.calendarEntry = calendarEntry;
         if (calendarEntry != null) {
-            this.beginDateTime = calendarEntry.getBeginPeriodLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
-            this.endDateTime = calendarEntry.getEndPeriodLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+            this.beginDateTime = calendarEntry.getBeginPeriodLocalDateTime().toDateTime(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+            this.endDateTime = calendarEntry.getEndPeriodLocalDateTime().toDateTime(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
         }
     }
 

@@ -21,7 +21,8 @@ import javax.servlet.ServletContextEvent;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TkConstants;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.core.web.listener.KualiInitializeListener;
@@ -34,6 +35,7 @@ public class ApplicationInitializeListener extends KualiInitializeListener {
     
     public void contextInitialized(ServletContextEvent servletContextEvent) {
     	servletContextEvent.getServletContext().setAttribute("TkConstants", new TkConstants());
+    	servletContextEvent.getServletContext().setAttribute("HrConstants", new HrConstants());
         LOG.info("Started contextInitialized(ServletContextEvent servletContextEvent) Method");
         try{
             //TkServiceLocator.start();

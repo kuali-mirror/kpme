@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.missedpunch;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.kuali.kpme.tklm.common.TKContext;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.identity.Person;

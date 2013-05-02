@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.common;
+package org.kuali.kpme.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;

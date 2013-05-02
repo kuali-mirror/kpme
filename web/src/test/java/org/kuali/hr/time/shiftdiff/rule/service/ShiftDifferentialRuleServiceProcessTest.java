@@ -33,8 +33,8 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TKContext;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.service.ShiftDifferentialRuleService;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -109,7 +109,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 	@SuppressWarnings("serial")
 	@Test
 	public void testProcessTimesheetBoundaryCarryoverOverlapCase() throws Exception {
-        DateTimeZone tz = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTimeZone tz = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
 		// Create the Rule    Sun,   Mon,   Tue,  Wed,   Thu,  Fri,  Sat
 		boolean[] dayArray = {false, false, true, true, true, true, true};
 		// Matches HR Job ID #1 (job # 30)
@@ -221,7 +221,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		Long jobNumber = 30L;
 		Long workArea = 0L;
 
-        DateTimeZone tz = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTimeZone tz = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
 		this.createShiftDifferentialRule(
 				"BWS-CAL",
 				"REG",
@@ -422,7 +422,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 
 		ShiftDifferentialRule sdrBack = service.getShiftDifferentialRule(sdr.getTkShiftDiffRuleId());
 
-        DateTimeZone tz = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTimeZone tz = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         LocalTime orig_start = new LocalTime(sdr.getBeginTime(), tz);
 		LocalTime orig_end = new LocalTime(sdr.getEndTime(), tz);
 

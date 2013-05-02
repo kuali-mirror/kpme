@@ -157,7 +157,7 @@
 				p:validationErrorMessageKey="MISSING" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.kpme.tklm.time.rice.kns.web.format.SqlTimeFormatter" />
+			value="org.kuali.kpme.core.SqlTimeFormatter" />
 		<property name="name" value="timestamp" />
 		<property name="label" value="Timestamp" />
 	</bean>

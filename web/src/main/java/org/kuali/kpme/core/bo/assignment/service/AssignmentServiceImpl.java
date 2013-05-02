@@ -33,8 +33,8 @@ import org.kuali.kpme.core.bo.assignment.dao.AssignmentDao;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -132,7 +132,7 @@ public class AssignmentServiceImpl implements AssignmentService {
             return Collections.emptyList();
         }
         List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalendarEntry);
-    	List<Assignment> results = HrServiceLocator.getAssignmentService().filterAssignments(assignments, TkConstants.FLSA_STATUS_NON_EXEMPT, false);
+    	List<Assignment> results = HrServiceLocator.getAssignmentService().filterAssignments(assignments, HrConstants.FLSA_STATUS_NON_EXEMPT, false);
     	return results;
     }
     

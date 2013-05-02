@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 
 public class EarnGroupSection implements Serializable {
 	private String earnGroup;
@@ -43,8 +43,8 @@ public class EarnGroupSection implements Serializable {
 	public void addEarnCodeSection(EarnCodeSection earnCodeSection, List<Boolean> dayArrangements){
 		for(AssignmentRow assignRow : earnCodeSection.getAssignmentsRows()){
 			for(int i = 0;i<(assignRow.getTotal().size()-1);i++){
-				BigDecimal value = totals.get(i).add(assignRow.getTotal().get(i), TkConstants.MATH_CONTEXT);
-				totals.set(i, value.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING));
+				BigDecimal value = totals.get(i).add(assignRow.getTotal().get(i), HrConstants.MATH_CONTEXT);
+				totals.set(i, value.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING));
 			}
 		}
 		earnCodeToEarnCodeSectionMap.put(earnCodeSection.getEarnCode(), earnCodeSection);
@@ -53,7 +53,7 @@ public class EarnGroupSection implements Serializable {
 		BigDecimal periodTotal = BigDecimal.ZERO;
 		for(int i =0;i<totals.size()-2;i++){
 			if(dayArrangements.get(i)){
-				periodTotal = periodTotal.add(totals.get(i), TkConstants.MATH_CONTEXT);
+				periodTotal = periodTotal.add(totals.get(i), HrConstants.MATH_CONTEXT);
 			}
 		}
 		totals.set(totals.size()-1, periodTotal);
@@ -69,7 +69,7 @@ public class EarnGroupSection implements Serializable {
 	
 	public void addToTotal(int index, BigDecimal hrs){
 		BigDecimal total = getTotals().get(index);
-		total = total.add(hrs, TkConstants.MATH_CONTEXT);
+		total = total.add(hrs, HrConstants.MATH_CONTEXT);
 		getTotals().set(index, total);
 	}
 	public List<EarnCodeSection> getEarnCodeSections() {

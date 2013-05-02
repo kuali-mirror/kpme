@@ -33,13 +33,13 @@ import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.payout.LeavePayout;
 import org.kuali.kpme.tklm.leave.payout.validation.LeavePayoutValidationUtils;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -114,8 +114,8 @@ public class LeavePayoutAction extends KPMEAction {
 			LmServiceLocator.getLeavePayoutService().submitToWorkflow(leavePayout);
 			
 			if(ObjectUtils.isNotNull(documentId)) {
-				if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
-						StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+				if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
+						StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(), HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 					
 					ActionForward forward = new ActionForward(mapping.findForward(strutsActionForward));
 					forward.setPath(forward.getPath()+"?documentId="+documentId+"&action=R&methodToCall="+methodToCall);
@@ -141,11 +141,11 @@ public class LeavePayoutAction extends KPMEAction {
 		AccrualCategoryRule accrualRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
 		String actionFrequency = accrualRule.getMaxBalanceActionFrequency();
 		
-		if(StringUtils.equals(actionFrequency,LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
+		if(StringUtils.equals(actionFrequency,HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
 			return mapping.findForward("closeLeavePayoutDoc");
 		else 
-			if(StringUtils.equals(actionFrequency, LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
-					StringUtils.equals(actionFrequency, LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+			if(StringUtils.equals(actionFrequency, HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
+					StringUtils.equals(actionFrequency, HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 				
 				String documentId = leavePayout.getLeaveCalendarDocumentId();
 				TimesheetDocumentHeader tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
@@ -193,7 +193,7 @@ public class LeavePayoutAction extends KPMEAction {
 			AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(leaveBlockId);
 			if(ObjectUtils.isNotNull(aRule)) {
 				//should somewhat safegaurd against url fabrication.
-				if(!StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
+				if(!StringUtils.equals(aRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
 					throw new RuntimeException("attempted to execute on-demand balance payout for accrual category with action frequency " + aRule.getMaxBalanceActionFrequency());
 				else {
 					TimesheetDocument tsd = null;
@@ -219,7 +219,7 @@ public class LeavePayoutAction extends KPMEAction {
 					LeavePayout leavePayout = LmServiceLocator.getLeavePayoutService().initializePayout(principalId, leaveBlockId, accruedBalance, LocalDate.now());
 					leavePayout.setLeaveCalendarDocumentId(documentId);
 					if(ObjectUtils.isNotNull(leavePayout)) {
-						if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {	
+						if(StringUtils.equals(aRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.LOSE)) {	
 							// this particular combination of action / action frequency does not particularly make sense
 							// unless for some reason users still need to be prompted to submit the loss.
 							// For now, we treat as though it is a valid use-case.
@@ -228,7 +228,7 @@ public class LeavePayoutAction extends KPMEAction {
 							leavePayout = LmServiceLocator.getLeavePayoutService().payout(leavePayout);
 							// May need to update to save the business object to KPME's tables for record keeping.
 							LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leavePayout.getForfeitedLeaveBlockId());
-							forfeitedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+							forfeitedLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 							LmServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, principalId);
 							return mapping.findForward("closeLeavePayoutDoc");
 						}
@@ -294,7 +294,7 @@ public class LeavePayoutAction extends KPMEAction {
 	
 				if(ObjectUtils.isNotNull(leavePayout)) {
 	
-				if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+				if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.LOSE)) {
 					//payouts should never contain losses.
 					//losses are treated as a special case of transfer
 					//LmServiceLocator.getLeavePayoutService().submitToWorkflow(leavePayout);
@@ -302,12 +302,12 @@ public class LeavePayoutAction extends KPMEAction {
 					// May need to update to save the business object to KPME's tables for record keeping.
 					LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leavePayout.getForfeitedLeaveBlockId());
 					KRADServiceLocator.getBusinessObjectService().save(leavePayout);
-					forfeitedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+					forfeitedLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 					LmServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, lcd.getPrincipalId());
 					
 					if(ObjectUtils.isNotNull(leaveCalendarDocumentId)) {
-						if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
-								StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+						if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
+								StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(), HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 							ActionForward loseForward = new ActionForward(mapping.findForward("leaveCalendarPayoutSuccess"));
 							loseForward.setPath(loseForward.getPath()+"?documentId="+leaveCalendarDocumentId+"&action=R&methodToCall=approveLeaveCalendar");
 							return loseForward;
@@ -373,7 +373,7 @@ public class LeavePayoutAction extends KPMEAction {
 	
 				if(ObjectUtils.isNotNull(leavePayout)) {
 	
-					if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+					if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.LOSE)) {
 						// TODO: Redirect user to prompt stating excess leave will be forfeited and ask for confirmation.
 						// Do not submit the object to workflow for this max balance action.
 						leavePayout = LmServiceLocator.getLeavePayoutService().payout(leavePayout);
@@ -381,12 +381,12 @@ public class LeavePayoutAction extends KPMEAction {
 	
 						// May need to update to save the business object to KPME's tables for record keeping.
 						LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leavePayout.getForfeitedLeaveBlockId());
-						forfeitedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+						forfeitedLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 						LmServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, tsd.getPrincipalId());
 
 						if(ObjectUtils.isNotNull(timesheetDocumentId)) {
-							if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
-									StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+							if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
+									StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(), HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 								ActionForward loseForward = new ActionForward(mapping.findForward("timesheetPayoutSuccess"));
 								loseForward.setPath(loseForward.getPath()+"?documentId="+timesheetDocumentId+"&action=R&methodToCall=approveTimesheet");
 								return loseForward;

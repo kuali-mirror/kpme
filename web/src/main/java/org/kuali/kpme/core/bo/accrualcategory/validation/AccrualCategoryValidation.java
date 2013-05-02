@@ -27,12 +27,13 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.bo.utils.ValidationUtils;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+@SuppressWarnings("deprecation")
 public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 	private static final String ADD_LINE_LOCATION = "add.accrualCategoryRules.";
     private static final String OLD_LINE_LOCATION = "accrualCategoryRules";
@@ -194,11 +195,11 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
                     valid = false;
                 }
 
-                if (StringUtils.equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER,leaveAccrualCategoryRule.getActionAtMaxBalance())) {
+                if (StringUtils.equals(HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER,leaveAccrualCategoryRule.getActionAtMaxBalance())) {
                     valid &= validateMaxBalAccCat(leaveAccrualCategoryRule.getMaxBalanceTransferToAccrualCategory(),ADD_LINE_LOCATION);
                     valid &= validateMaxBalConvFact(leaveAccrualCategoryRule.getMaxBalanceTransferConversionFactor(),ADD_LINE_LOCATION);
                     valid &= validateMaxBalTransferAmount(leaveAccrualCategoryRule.getMaxTransferAmount(),ADD_LINE_LOCATION);
-                } else if (StringUtils.equals(LMConstants.ACTION_AT_MAX_BAL.PAYOUT,leaveAccrualCategoryRule.getActionAtMaxBalance())) {
+                } else if (StringUtils.equals(HrConstants.ACTION_AT_MAX_BALANCE.PAYOUT,leaveAccrualCategoryRule.getActionAtMaxBalance())) {
                     valid &= validateMaxPayoutAmount(leaveAccrualCategoryRule.getMaxPayoutAmount(),ADD_LINE_LOCATION);
                     valid &= validateMaxPayoutEarnCode(leaveAccrualCategoryRule.getMaxPayoutEarnCode(),ADD_LINE_LOCATION);
                 }
@@ -207,8 +208,8 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
             if (leaveAccrualCategoryRule != null&& leaveAccrualCategoryRule.getMaxBalFlag().equals("N")) {
                 BigDecimal noMaxBal = new BigDecimal(0);
                 leaveAccrualCategoryRule.setMaxBalance(noMaxBal);
-                leaveAccrualCategoryRule.setMaxBalanceActionFrequency(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
-                leaveAccrualCategoryRule.setActionAtMaxBalance(LMConstants.ACTION_AT_MAX_BAL.LOSE);
+                leaveAccrualCategoryRule.setMaxBalanceActionFrequency(HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
+                leaveAccrualCategoryRule.setActionAtMaxBalance(HrConstants.ACTION_AT_MAX_BALANCE.LOSE);
 
             }
 
@@ -249,11 +250,11 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
                         valid = false;
                     }
 
-                    if (StringUtils.equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER,leaveAccrualCategoryRule.getActionAtMaxBalance())) {
+                    if (StringUtils.equals(HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER,leaveAccrualCategoryRule.getActionAtMaxBalance())) {
                         valid &= validateMaxBalAccCat(leaveAccrualCategoryRule.getMaxBalanceTransferToAccrualCategory(),OLD_LINE_LOCATION+"["+ i +"].");
                         valid &= validateMaxBalConvFact(leaveAccrualCategoryRule.getMaxBalanceTransferConversionFactor(),OLD_LINE_LOCATION+"["+ i +"].");
                         valid &= validateMaxBalTransferAmount(leaveAccrualCategoryRule.getMaxTransferAmount(),OLD_LINE_LOCATION+"["+ i +"].");
-                    } else if (StringUtils.equals(LMConstants.ACTION_AT_MAX_BAL.PAYOUT,leaveAccrualCategoryRule.getActionAtMaxBalance())) {
+                    } else if (StringUtils.equals(HrConstants.ACTION_AT_MAX_BALANCE.PAYOUT,leaveAccrualCategoryRule.getActionAtMaxBalance())) {
                         valid &= validateMaxPayoutAmount(leaveAccrualCategoryRule.getMaxPayoutAmount(),OLD_LINE_LOCATION+"["+ i +"].");
                         valid &= validateMaxPayoutEarnCode(leaveAccrualCategoryRule.getMaxPayoutEarnCode(),OLD_LINE_LOCATION+"["+ i +"].");
                     }
@@ -262,8 +263,8 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
                 if (leaveAccrualCategoryRule != null&& leaveAccrualCategoryRule.getMaxBalFlag().equals("N")) {
                     BigDecimal noMaxBal = new BigDecimal(0);
                     leaveAccrualCategoryRule.setMaxBalance(noMaxBal);
-                    leaveAccrualCategoryRule.setMaxBalanceActionFrequency(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
-                    leaveAccrualCategoryRule.setActionAtMaxBalance(LMConstants.ACTION_AT_MAX_BAL.LOSE);
+                    leaveAccrualCategoryRule.setMaxBalanceActionFrequency(HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
+                    leaveAccrualCategoryRule.setActionAtMaxBalance(HrConstants.ACTION_AT_MAX_BALANCE.LOSE);
 
                 }
 

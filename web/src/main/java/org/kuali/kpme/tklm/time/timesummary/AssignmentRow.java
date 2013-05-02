@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 
 public class AssignmentRow implements Serializable {
 	private String descr;
@@ -61,7 +61,7 @@ public class AssignmentRow implements Serializable {
 	
 	public void addToTotal(int index, BigDecimal hrs){
 		BigDecimal total = getTotal().get(index);
-		total = total.add(hrs, TkConstants.MATH_CONTEXT);
+		total = total.add(hrs, HrConstants.MATH_CONTEXT);
 		getTotal().set(index, total);
 		getEarnCodeSection().addToTotal(index, hrs);
 	}
@@ -70,19 +70,19 @@ public class AssignmentRow implements Serializable {
 		BigDecimal weeklyTotal = BigDecimal.ZERO;
 		BigDecimal weeklyAmt = BigDecimal.ZERO;
 		for(int i = index; i >= (index-weekSize) && i >=0;i--){
-			weeklyTotal = weeklyTotal.add(getTotal().get(i), TkConstants.MATH_CONTEXT);
-			weeklyAmt = weeklyAmt.add(getAmount().get(i), TkConstants.MATH_CONTEXT);
+			weeklyTotal = weeklyTotal.add(getTotal().get(i), HrConstants.MATH_CONTEXT);
+			weeklyAmt = weeklyAmt.add(getAmount().get(i), HrConstants.MATH_CONTEXT);
 		}
 		getTotal().set(index,weeklyTotal);
 		getAmount().set(index, weeklyAmt);
 		
 		BigDecimal periodTotal = getTotal().get(getTotal().size()-1);
-		periodTotal = periodTotal.add(weeklyTotal, TkConstants.MATH_CONTEXT);
+		periodTotal = periodTotal.add(weeklyTotal, HrConstants.MATH_CONTEXT);
 		getTotal().set(getTotal().size()-1,periodTotal);
 		
 		//accumulate amount
 		BigDecimal amountTotal = getAmount().get(getTotal().size()-1);
-		amountTotal = amountTotal.add(weeklyAmt, TkConstants.MATH_CONTEXT);
+		amountTotal = amountTotal.add(weeklyAmt, HrConstants.MATH_CONTEXT);
 		getAmount().set(getAmount().size()-1, amountTotal);
 	}
 	public EarnCodeSection getEarnCodeSection() {
@@ -109,7 +109,7 @@ public class AssignmentRow implements Serializable {
 			return;
 		}
 		BigDecimal amtTotal = getAmount().get(index);
-		amtTotal = amtTotal.add(amount, TkConstants.MATH_CONTEXT);
+		amtTotal = amtTotal.add(amount, HrConstants.MATH_CONTEXT);
 		getAmount().set(index, amtTotal);
 	}
 }

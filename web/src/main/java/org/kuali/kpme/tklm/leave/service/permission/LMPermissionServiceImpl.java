@@ -15,15 +15,16 @@ import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.permission.HrPermissionServiceBase;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.service.LeaveCalendarService;
 import org.kuali.kpme.tklm.leave.request.service.LeaveRequestDocumentService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionType;
@@ -183,10 +184,10 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
         if (principalId != null) {
             String blockType = leaveBlock.getLeaveBlockType();
             String requestStatus = leaveBlock.getRequestStatus();
-            if (StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, requestStatus)) {
+            if (StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, requestStatus)) {
                 return false;
             }
-            if (StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, requestStatus)) {
+            if (StringUtils.equals(HrConstants.REQUEST_STATUS.APPROVED, requestStatus)) {
             	List<LeaveRequestDocument> docList= LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(leaveBlock.getLmLeaveBlockId());
             	if(CollectionUtils.isEmpty(docList)) {
             		return false;	// not a leave request. if this is a leave request, do further checking on it
@@ -225,13 +226,13 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 
     @Override
     public boolean canDeleteLeaveBlock(String principalId, LeaveBlock leaveBlock) {
-    	if(StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, leaveBlock.getRequestStatus()))  {
+    	if(StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, leaveBlock.getRequestStatus()))  {
             return false;
         }
     	if(canBankOrTransferSSTOUsage(leaveBlock)) {
     		return true;
     	}
-        if (StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, leaveBlock.getRequestStatus())) {
+        if (StringUtils.equals(HrConstants.REQUEST_STATUS.APPROVED, leaveBlock.getRequestStatus())) {
         	List<LeaveRequestDocument> docList= LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(leaveBlock.getLmLeaveBlockId());
         	if(CollectionUtils.isEmpty(docList)) {
         		return false;	// not a leave request
@@ -343,7 +344,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
     public boolean canViewLeaveTabsWithNEStatus() {
     	boolean canViewLeaveTabs = false;
     	LocalDate asOfDate = LocalDate.now();
-    	String flsaStatus = TkConstants.FLSA_STATUS_NON_EXEMPT;
+    	String flsaStatus = HrConstants.FLSA_STATUS_NON_EXEMPT;
     	// find active assignments as of currentDate
     	String principalId = TKContext.getTargetPrincipalId();
     	boolean activeAss = isActiveAssignmentFoundOnJobFlsaStatus(principalId, flsaStatus, true);

@@ -15,9 +15,9 @@
  */
 package org.kuali.kpme.tklm.leave.workflow.postprocessor;
 
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -45,13 +45,13 @@ public class LeaveRequestPostProcessor extends DefaultPostProcessor {
 	
 	                DocumentStatus newDocumentStatus = DocumentStatus.fromCode(statusChangeEvent.getNewRouteStatus());
 	                if (DocumentStatus.ENROUTE.equals(newDocumentStatus)) {
-	                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+	                    lb.setRequestStatus(HrConstants.REQUEST_STATUS.REQUESTED);
 	                } else if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
-	                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);	                                      
+	                    lb.setRequestStatus(HrConstants.REQUEST_STATUS.DISAPPROVED);	                                      
 	                } else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
-	                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+	                    lb.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 	                } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
-	                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DEFERRED);
+	                    lb.setRequestStatus(HrConstants.REQUEST_STATUS.DEFERRED);
 	                    lb.setLeaveRequestDocumentId("");
 	                }
 	                LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, document.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId());

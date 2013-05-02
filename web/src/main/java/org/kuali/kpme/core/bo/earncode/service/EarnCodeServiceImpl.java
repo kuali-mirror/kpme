@@ -39,9 +39,8 @@ import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -142,7 +141,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
                             if ( (fmlaEligible || ec.getFmla().equals("N")) ) {
                                 //only want usage accrual balance actions
-                                if (StringUtils.equals(ec.getAccrualBalanceAction(), LMConstants.ACCRUAL_BALANCE_ACTION.USAGE)) {
+                                if (StringUtils.equals(ec.getAccrualBalanceAction(), HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)) {
                                 // go on, we are allowing these three combinations: YY, YN, NN
 
                                     //  apply the same logic as FMLA to the Worker Compensation flags.
@@ -233,7 +232,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
                                     // go on, we are allowing these three combinations: YY, YN, NN.
 
                                     //accrual balance action needs to be usage
-                                    if (StringUtils.equals(ec.getAccrualBalanceAction(), LMConstants.ACCRUAL_BALANCE_ACTION.USAGE)) {
+                                    if (StringUtils.equals(ec.getAccrualBalanceAction(), HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)) {
                                         //  now process the scheduled leave flag, but only for the Planning Calendar, not for the Reporting Calendar.
                                         //  determine if the planning calendar is in effect.
                                         if (isLeavePlanningCalendar) {
@@ -285,7 +284,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
     }
 
     private boolean showEarnCodeIfHoliday(EarnCode earnCode, EarnCodeSecurity security) {
-        if (earnCode.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)) {
+        if (earnCode.getEarnCode().equals(HrConstants.HOLIDAY_EARN_CODE)) {
             if (security.isApprover() || TKContext.isSystemAdmin()) {
                 return true;
             } else {
@@ -352,7 +351,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
 	@Override
 	public BigDecimal roundHrsWithEarnCode(BigDecimal hours, EarnCode earnCode) {
-		String roundOption = LMConstants.ROUND_OPTION_MAP.get(earnCode.getRoundingOption());
+		String roundOption = HrConstants.ROUND_OPTION_MAP.get(earnCode.getRoundingOption());
 		BigDecimal fractScale = new BigDecimal(earnCode.getFractionalTimeAllowed());
 		if(roundOption == null) {
 			throw new RuntimeException("Rounding option of Earn Code " + earnCode.getEarnCode() + " is not recognized.");

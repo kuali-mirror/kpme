@@ -32,13 +32,13 @@ import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -170,7 +170,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         		for(SystemScheduledTimeOff ssto : sstoList) {
                   BigDecimal sstoCalcHours = LmServiceLocator.getSysSchTimeOffService().calculateSysSchTimeOffHours(sstoAssign.getJob(), ssto.getAmountofTime());
                   TimeBlock timeBlock = TkServiceLocator.getTimeBlockService().createTimeBlock(timesheetDocument, new Timestamp(ssto.getScheduledTimeOffDate().getTime()),
-                          new Timestamp(ssto.getScheduledTimeOffDate().getTime()), sstoAssign, TkConstants.HOLIDAY_EARN_CODE, sstoCalcHours, BigDecimal.ZERO, false, false, TKContext.getPrincipalId());
+                          new Timestamp(ssto.getScheduledTimeOffDate().getTime()), sstoAssign, HrConstants.HOLIDAY_EARN_CODE, sstoCalcHours, BigDecimal.ZERO, false, false, TKContext.getPrincipalId());
                   timesheetDocument.getTimeBlocks().add(timeBlock);
               }
 	            //If system scheduled time off are loaded will need to save them to the database
@@ -199,7 +199,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         loadTimesheetDocumentData(timesheetDocument, principalId, calendarEntry);
         TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(timesheetDocument, payEndDate.toLocalDate());
 
-        if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
+        if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, HrConstants.FLSA_STATUS_NON_EXEMPT, true)) {
         	deleteNonApprovedLeaveBlocks(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
         }
         
@@ -213,7 +213,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 	    	List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
 	
 	    	for (LeaveBlock leaveBlock : leaveBlocks) {
-	    		if (!StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.APPROVED)) {
+	    		if (!StringUtils.equals(leaveBlock.getRequestStatus(), HrConstants.REQUEST_STATUS.APPROVED)) {
 	    			LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), batchUserPrincipalId);
 	    		}
 	    	}
@@ -244,7 +244,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
         if (tdh != null) {
             timesheetDocument = new TimesheetDocument(tdh);
-            CalendarEntry pce = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), new DateTime(tdh.getEndDate()), TkConstants.PAY_CALENDAR_TYPE);
+            CalendarEntry pce = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), new DateTime(tdh.getEndDate()), HrConstants.PAY_CALENDAR_TYPE);
             loadTimesheetDocumentData(timesheetDocument, tdh.getPrincipalId(), pce);
 
             timesheetDocument.setCalendarEntry(pce);
@@ -280,7 +280,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     public TimeBlock resetWorkedHours(TimeBlock timeBlock) {
-        if (timeBlock.getBeginTime() != null && timeBlock.getEndTime() != null && StringUtils.equals(timeBlock.getEarnCodeType(), TkConstants.EARN_CODE_TIME)) {
+        if (timeBlock.getBeginTime() != null && timeBlock.getEndTime() != null && StringUtils.equals(timeBlock.getEarnCodeType(), HrConstants.EARN_CODE_TIME)) {
             BigDecimal hours = TKUtils.getHoursBetween(timeBlock.getBeginTime().getTime(), timeBlock.getEndTime().getTime());
             timeBlock.setHours(hours);
         }
@@ -305,8 +305,8 @@ public class TimesheetServiceImpl implements TimesheetService {
         leaveBlocks.addAll(LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
         		document.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), document.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT));
         for(LeaveBlock lb : leaveBlocks) {
-        	if(!StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.APPROVED) &&
-        			!StringUtils.equals(lb.getRequestStatus(), LMConstants.REQUEST_STATUS.DISAPPROVED))
+        	if(!StringUtils.equals(lb.getRequestStatus(),HrConstants.REQUEST_STATUS.APPROVED) &&
+        			!StringUtils.equals(lb.getRequestStatus(), HrConstants.REQUEST_STATUS.DISAPPROVED))
         		return false;
         }
         return true;
@@ -317,8 +317,8 @@ public class TimesheetServiceImpl implements TimesheetService {
 	        for(BalanceTransfer balanceTransfer : balanceTransfers) {
 	        	if(StringUtils.equals(HrConstants.DOCUMENT_STATUS.get(balanceTransfer.getStatus()), HrConstants.ROUTE_STATUS.ENROUTE))
 	        		return false;
-	            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, balanceTransfer.getStatus())
-	                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, balanceTransfer.getStatus())) {
+	            if (!StringUtils.equals(HrConstants.REQUEST_STATUS.APPROVED, balanceTransfer.getStatus())
+	                    && !StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, balanceTransfer.getStatus())) {
 	                return false;
 	            }
 	        }
@@ -330,8 +330,8 @@ public class TimesheetServiceImpl implements TimesheetService {
         	for(LeavePayout payout : leavePayouts) {
 	        	if(StringUtils.equals(HrConstants.DOCUMENT_STATUS.get(payout.getStatus()), HrConstants.ROUTE_STATUS.ENROUTE))
 	        		return false;
-	            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, payout.getStatus())
-	                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, payout.getStatus())) {
+	            if (!StringUtils.equals(HrConstants.REQUEST_STATUS.APPROVED, payout.getStatus())
+	                    && !StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, payout.getStatus())) {
 	                return false;
 	            }
         	}

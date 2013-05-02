@@ -36,8 +36,8 @@ import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.dao.ShiftDifferentialRuleDao;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -81,7 +81,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		if (prevBlocks.size() > 0) {
 			TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentHeader().getBeginDateTime().toDateTime());
 			if (prevTdh != null) {
-				CalendarEntry prevPayCalendarEntry = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(timesheetDocument.getPrincipalId(), new DateTime(prevTdh.getEndDate()), TkConstants.PAY_CALENDAR_TYPE);
+				CalendarEntry prevPayCalendarEntry = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(timesheetDocument.getPrincipalId(), new DateTime(prevTdh.getEndDate()), HrConstants.PAY_CALENDAR_TYPE);
 				TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry, prevPayCalendarEntry.getCalendarObj(), true);
 				List<List<TimeBlock>> dayBlocks = prevTimeAggregate.getDayTimeBlockList();
 				List<TimeBlock> previousPeriodLastDayBlocks = dayBlocks.get(dayBlocks.size() - 1);
@@ -134,7 +134,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
         if (block != null) {
             List<TimeHourDetail> details = block.getTimeHourDetails();
             for (TimeHourDetail detail : details) {
-                if (detail.getEarnCode().equals(TkConstants.LUNCH_EARN_CODE)) {
+                if (detail.getEarnCode().equals(HrConstants.LUNCH_EARN_CODE)) {
                     sum = sum.add(detail.getHours());
                 }
             }
@@ -145,7 +145,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 	@Override
 	public void processShiftDifferentialRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate) {
-        DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
 		List<List<TimeBlock>> blockDays = aggregate.getDayTimeBlockList();
 		DateTime periodStartDateTime = timesheetDocument.getCalendarEntry().getBeginPeriodLocalDateTime().toDateTime(zone);
 		Map<Long,List<ShiftDifferentialRule>> jobNumberToShifts = getJobNumberToShiftRuleMap(timesheetDocument);
@@ -539,7 +539,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
                         // Adjust hours on the block by the lunch sub hours, so we're not over applying.
                         BigDecimal hoursToApply = initialHours.min(pb.getHours().add(lunchSub));
                         addPremiumTimeHourDetail(pb, hoursToApply, earnCode);
-                        initialHours = initialHours.subtract(hoursToApply, TkConstants.MATH_CONTEXT);
+                        initialHours = initialHours.subtract(hoursToApply, HrConstants.MATH_CONTEXT);
                         if (initialHours.compareTo(BigDecimal.ZERO) <= 0)
                             break;
                     }
@@ -564,7 +564,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
                 BigDecimal hoursToApply = hours.min(hoursMax.add(lunchSub));
 
                 addPremiumTimeHourDetail(b, hoursToApply, earnCode);
-				hours = hours.subtract(hoursToApply, TkConstants.MATH_CONTEXT);
+				hours = hours.subtract(hoursToApply, HrConstants.MATH_CONTEXT);
 			}
 		}
 	}

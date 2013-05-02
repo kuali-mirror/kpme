@@ -25,7 +25,7 @@ import org.kuali.kpme.core.bo.paygrade.PayGrade;
 import org.kuali.kpme.core.bo.paytype.PayType;
 import org.kuali.kpme.core.bo.position.Position;
 import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -217,7 +217,7 @@ public class Job extends HrBusinessObject {
 
 	public void setCompRate(BigDecimal compRate) {
 		if(compRate != null){
-			this.compRate = compRate.setScale(TkConstants.BIG_DECIMAL_SCALE);
+			this.compRate = compRate.setScale(HrConstants.BIG_DECIMAL_SCALE);
 		} else {
 			this.compRate = compRate;
 		}

@@ -27,14 +27,15 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.kpme.tklm.leave.transfer.dao.BalanceTransferDao;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -134,7 +135,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			}
 			
 			BigDecimal transferAmount = accruedBalance.subtract(adjustedMaxBalance);
-			if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+			if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.LOSE)) {
 				//Move all time in excess of employee's fte adjusted max balance to forfeiture.
 				bt.setForfeitedAmount(transferAmount);
 				//There is no transfer to another accrual category.
@@ -145,7 +146,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				bt.setToAccrualCategory(fromAccrualCategory.getAccrualCategory());
 			}
 			else {
-				// ACTION_AT_MAX_BAL = TRANSFER
+				// ACTION_AT_MAX_BALANCE = TRANSFER
 				bt.setToAccrualCategory(toAccrualCategory.getAccrualCategory());
 				if(transferAmount.compareTo(adjustedMaxTransferAmount) > 0) {
 					//there's forfeiture.
@@ -166,14 +167,14 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			assert(adjustedMaxBalance.compareTo(accruedBalance.subtract(bt.getTransferAmount().add(bt.getForfeitedAmount()))) == 0);
 
 			// Max Carry Over logic for Year End transfers.
-			if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+			if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 
 				//At this point, transfer amount and forfeiture have been set so that the new accrued balance will be the
 				//adjusted max balance, so this amount is used to check against carry over.
 				if(adjustedMaxBalance.compareTo(adjustedMaxCarryOver) > 0) {
 					BigDecimal carryOverDiff = adjustedMaxBalance.subtract(adjustedMaxCarryOver);
 					
-					if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)){
+					if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.LOSE)){
 						//add carry over excess to forfeiture.
 						bt.setForfeitedAmount(bt.getForfeitedAmount().add(carryOverDiff));
 					}
@@ -238,7 +239,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setAccrualGenerated(true);
 					aLeaveBlock.setTransactionDocId(balanceTransfer.getDocumentHeaderId());
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
-					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+					aLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setBlockId(0L);
 
 					//Want to store the newly created leave block id on this maintainable object
@@ -249,7 +250,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					balanceTransfer.setAccruedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
 					// save history
 					LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
-					lbh.setAction(LMConstants.ACTION.ADD);
+					lbh.setAction(HrConstants.ACTION.ADD);
 					LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 					leaveBlocks.add(aLeaveBlock);
 				}
@@ -268,7 +269,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setAccrualGenerated(true);
 					aLeaveBlock.setTransactionDocId(balanceTransfer.getDocumentHeaderId());
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
-					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+					aLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setBlockId(0L);
 
 					//Want to store the newly created leave block id on this maintainable object.
@@ -279,7 +280,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					balanceTransfer.setDebitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
 					// save history
 					LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
-					lbh.setAction(LMConstants.ACTION.ADD);
+					lbh.setAction(HrConstants.ACTION.ADD);
 					LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 
 					leaveBlocks.add(aLeaveBlock);
@@ -301,7 +302,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setAccrualGenerated(true);
 					aLeaveBlock.setTransactionDocId(balanceTransfer.getDocumentHeaderId());
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
-					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+					aLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setBlockId(0L);
 
 					//Want to store the newly created leave block id on this maintainable object
@@ -312,7 +313,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					balanceTransfer.setForfeitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
 					// save history
 					LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
-					lbh.setAction(LMConstants.ACTION.ADD);
+					lbh.setAction(HrConstants.ACTION.ADD);
 					LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 
 					leaveBlocks.add(aLeaveBlock);
@@ -392,7 +393,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			aLeaveBlock.setLeaveAmount(balanceTransfer.getAmountTransferred());
 			aLeaveBlock.setAccrualGenerated(false);
 			aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
-			aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+			aLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.REQUESTED);
 			aLeaveBlock.setBlockId(0L);
 			aLeaveBlock.setScheduleTimeOffId(balanceTransfer.getSstoId());
 			aLeaveBlock.setDocumentId(leaveDocId);

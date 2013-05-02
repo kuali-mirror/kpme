@@ -24,9 +24,10 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.kew.api.KewApiConstants;
 
@@ -66,7 +67,7 @@ public class LeaveBlockDisplay implements Serializable {
 		String requestStatus = null;
 		
 		if (StringUtils.isNotBlank(leaveBlock.getRequestStatus())) {
-			requestStatus = LMConstants.REQUEST_STATUS_STRINGS.get(leaveBlock.getRequestStatus());
+			requestStatus = HrConstants.REQUEST_STATUS_STRINGS.get(leaveBlock.getRequestStatus());
 		}
 		
 		return requestStatus;

@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.department.Department;
@@ -39,9 +40,7 @@ import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
-import org.kuali.kpme.tklm.time.authorization.DepartmentalRule;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -62,8 +61,8 @@ public class ValidationUtils {
     public static boolean validateWorkAreaDeptWildcarding(DepartmentalRule dr) {
         boolean ret = true;
 
-        if (StringUtils.equals(dr.getDept(), TkConstants.WILDCARD_CHARACTER)) {
-            ret = dr.getWorkArea().equals(TkConstants.WILDCARD_LONG);
+        if (StringUtils.equals(dr.getDept(), HrConstants.WILDCARD_CHARACTER)) {
+            ret = dr.getWorkArea().equals(HrConstants.WILDCARD_LONG);
         }
 
         return ret;
@@ -94,7 +93,7 @@ public class ValidationUtils {
 	public static boolean validateSalGroup(String salGroup, LocalDate asOfDate) {
 		boolean valid = false;
 
-		if (StringUtils.equals(salGroup, TkConstants.WILDCARD_CHARACTER)) {
+		if (StringUtils.equals(salGroup, HrConstants.WILDCARD_CHARACTER)) {
 			valid = true;
 		} else if (asOfDate != null) {
 			SalaryGroup sg = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salGroup, asOfDate);
@@ -304,7 +303,7 @@ public class ValidationUtils {
 
 		if (workArea == null) {
 			valid = false;
-		} else if (workArea.equals(TkConstants.WILDCARD_LONG)) {
+		} else if (workArea.equals(HrConstants.WILDCARD_LONG)) {
 			valid = true;
 		} else if (asOfDate != null) {
 			WorkArea wa = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, asOfDate);
@@ -326,7 +325,7 @@ public class ValidationUtils {
 	public static boolean validateAccrualCategory(String accrualCategory, LocalDate asOfDate) {
 		boolean valid = false;
 
-		if (StringUtils.equals(accrualCategory, TkConstants.WILDCARD_CHARACTER)) {
+		if (StringUtils.equals(accrualCategory, HrConstants.WILDCARD_CHARACTER)) {
 			valid = true;
 		} else if (asOfDate != null) {
 			AccrualCategory ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
@@ -526,9 +525,9 @@ public class ValidationUtils {
 			AccrualCategory ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
 			if (ac != null
                     && ac.getUnitOfTime() != null) {
-                if (LMConstants.RECORD_METHOD.HOUR.equals(ac.getUnitOfTime())
-                        && (LMConstants.RECORD_METHOD.HOUR.equals(recordMethod))
-                            || LMConstants.RECORD_METHOD.TIME.equals(recordMethod)) {
+                if (HrConstants.RECORD_METHOD.HOUR.equals(ac.getUnitOfTime())
+                        && (HrConstants.RECORD_METHOD.HOUR.equals(recordMethod))
+                            || HrConstants.RECORD_METHOD.TIME.equals(recordMethod)) {
                     valid = true;
                 } else {
                     valid = StringUtils.equalsIgnoreCase(ac.getUnitOfTime(), recordMethod);

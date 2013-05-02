@@ -58,6 +58,11 @@ public class DepartmentPrincipalRoleMemberBo extends PrincipalRoleMemberBo {
     
     @Override
 	public void setRoleName(String roleName) {
+    	/**
+    	 * 
+    	 * KIMApiServiceLocator.getRoleService.getRole[Id]ByNamespace
+    	 * 
+    	 */
 		String roleId = TkServiceLocator.getTKRoleService().getRoleIdByName(roleName);
 		
 		if (roleId == null) {

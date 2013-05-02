@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class TimeHourDetail extends PersistableBusinessObjectBase{
@@ -31,8 +31,8 @@ public class TimeHourDetail extends PersistableBusinessObjectBase{
 	private String tkTimeHourDetailId;
 	private String tkTimeBlockId;
 	private String earnCode;
-	private BigDecimal hours = TkConstants.BIG_DECIMAL_SCALED_ZERO;
-	private BigDecimal amount = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+	private BigDecimal hours = HrConstants.BIG_DECIMAL_SCALED_ZERO;
+	private BigDecimal amount = HrConstants.BIG_DECIMAL_SCALED_ZERO;
 
     public TimeHourDetail() {
     }
@@ -65,7 +65,7 @@ public class TimeHourDetail extends PersistableBusinessObjectBase{
 
 	public void setHours(BigDecimal hours) {
 		if(hours != null){
-			this.hours = hours.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
+			this.hours = hours.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING);
 		} else {
 			this.hours = hours;
 		}
@@ -77,7 +77,7 @@ public class TimeHourDetail extends PersistableBusinessObjectBase{
 
 	public void setAmount(BigDecimal amount) {
 		if(amount != null){
-			this.amount = amount.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
+			this.amount = amount.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING);
 		} else {
 			this.amount = amount;
 		}

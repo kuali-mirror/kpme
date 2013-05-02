@@ -43,16 +43,15 @@ import org.kuali.kpme.core.bo.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeHourDetail;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -110,10 +109,10 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 			CalendarEntry calendarEntry, String principalId) throws Exception {
     	List<LeaveSummaryRow> maxedLeaveRows = new ArrayList<LeaveSummaryRow>();
     	
-    	if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
+    	if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, HrConstants.FLSA_STATUS_NON_EXEMPT, true)) {
     		
         	Map<String,Set<LeaveBlock>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry,principalId);
-        	Set<LeaveBlock> onDemandTransfers = eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
+        	Set<LeaveBlock> onDemandTransfers = eligibilities.get(HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
 
         	Interval calendarEntryInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(),calendarEntry.getEndPeriodDate().getTime());
         	
@@ -135,9 +134,9 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 	            			row.setInfractingLeaveBlockId(lb.getAccrualCategoryRuleId());
 	            			AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
 	            			
-	            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.TRANSFER))
+	            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER))
 	            				row.setTransferable(true);
-	            			else if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.PAYOUT))
+	            			else if(StringUtils.equals(aRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.PAYOUT))
 	            				row.setPayoutable(true);
 	            			
 	            			boolean exists = false;
@@ -165,7 +164,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      */
 	public List<EarnGroupSection> getEarnGroupSections(TkTimeBlockAggregate tkTimeBlockAggregate, int numEntries, List<Boolean> dayArrangements, LocalDate asOfDate, LocalDate docEndDate){
 		List<EarnGroupSection> earnGroupSections = new ArrayList<EarnGroupSection>();
-		List<FlsaWeek> flsaWeeks = tkTimeBlockAggregate.getFlsaWeeks(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+		List<FlsaWeek> flsaWeeks = tkTimeBlockAggregate.getFlsaWeeks(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
 		Map<String, EarnCodeSection> earnCodeToEarnCodeSection = new HashMap<String, EarnCodeSection>();
 		Map<String, EarnGroupSection> earnGroupToEarnGroupSection = new HashMap<String, EarnGroupSection>();
 		
@@ -191,7 +190,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 				for(List<TimeBlock> timeBlocks : earnCodeToTimeBlocks.values()){
 					for(TimeBlock timeBlock : timeBlocks){
 						for(TimeHourDetail thd : timeBlock.getTimeHourDetails()){
-							if(StringUtils.equals(TkConstants.LUNCH_EARN_CODE, thd.getEarnCode())){
+							if(StringUtils.equals(HrConstants.LUNCH_EARN_CODE, thd.getEarnCode())){
 								continue;
 							}
 							EarnCodeSection earnCodeSection = earnCodeToEarnCodeSection.get(thd.getEarnCode());
@@ -200,7 +199,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 								earnCodeSection.setEarnCode(thd.getEarnCode());
 								EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(thd.getEarnCode(), asOfDate);
 								earnCodeSection.setDescription(earnCodeObj.getDescription());
-								earnCodeSection.setIsAmountEarnCode((earnCodeObj.getRecordMethod()!= null && earnCodeObj.getRecordMethod().equalsIgnoreCase(TkConstants.EARN_CODE_AMOUNT)) ? true : false);
+								earnCodeSection.setIsAmountEarnCode((earnCodeObj.getRecordMethod()!= null && earnCodeObj.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_AMOUNT)) ? true : false);
 								for(int i = 0;i<(numEntries-1);i++){
 									earnCodeSection.getTotals().add(BigDecimal.ZERO);
 								}
@@ -368,15 +367,15 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      */
     private List<BigDecimal> getWorkedHours(TkTimeBlockAggregate aggregate) {
         List<BigDecimal> hours = new ArrayList<BigDecimal>();
-        BigDecimal periodTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
-        for (FlsaWeek week : aggregate.getFlsaWeeks(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback())) {
-            BigDecimal weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+        BigDecimal periodTotal = HrConstants.BIG_DECIMAL_SCALED_ZERO;
+        for (FlsaWeek week : aggregate.getFlsaWeeks(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback())) {
+            BigDecimal weeklyTotal = HrConstants.BIG_DECIMAL_SCALED_ZERO;
             for (FlsaDay day : week.getFlsaDays()) {
-                BigDecimal totalForDay = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+                BigDecimal totalForDay = HrConstants.BIG_DECIMAL_SCALED_ZERO;
                 for (TimeBlock block : day.getAppliedTimeBlocks()) {
-                    totalForDay = totalForDay.add(block.getHours(), TkConstants.MATH_CONTEXT);
-                    weeklyTotal = weeklyTotal.add(block.getHours(), TkConstants.MATH_CONTEXT);
-                    periodTotal = periodTotal.add(block.getHours(), TkConstants.MATH_CONTEXT);
+                    totalForDay = totalForDay.add(block.getHours(), HrConstants.MATH_CONTEXT);
+                    weeklyTotal = weeklyTotal.add(block.getHours(), HrConstants.MATH_CONTEXT);
+                    periodTotal = periodTotal.add(block.getHours(), HrConstants.MATH_CONTEXT);
                 }
                 hours.add(totalForDay);
             }

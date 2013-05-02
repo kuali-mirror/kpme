@@ -35,10 +35,10 @@ import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxBalanceService {
@@ -50,9 +50,9 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 		
 		Map<String, Set<LeaveBlock>> eligibilities = new HashMap<String, Set<LeaveBlock>>();
 		
-		eligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE, new HashSet<LeaveBlock>());
-		eligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END, new HashSet<LeaveBlock>());
-		eligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND, new HashSet<LeaveBlock>());
+		eligibilities.put(HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE, new HashSet<LeaveBlock>());
+		eligibilities.put(HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END, new HashSet<LeaveBlock>());
+		eligibilities.put(HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND, new HashSet<LeaveBlock>());
 		
 		Interval thisEntryInterval = new Interval(entry.getBeginPeriodDate().getTime(),entry.getEndPeriodDate().getTime());
 
@@ -170,7 +170,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 			}
 			
 			for(LeaveBlock lb : leaveBlocks) {
-				if(StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.DISAPPROVED) || StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.DEFERRED))
+				if(StringUtils.equals(lb.getRequestStatus(),HrConstants.REQUEST_STATUS.DISAPPROVED) || StringUtils.equals(lb.getRequestStatus(),HrConstants.REQUEST_STATUS.DEFERRED))
 					continue;
 				AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveLocalDate());
 				BigDecimal tally = accruedBalance.get(accrualCategory.getLmAccrualCategoryId());
@@ -213,7 +213,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 								}
 
 								boolean yearEndCandidate = false;
-								if(StringUtils.equals(asOfLeaveDateRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)
+								if(StringUtils.equals(asOfLeaveDateRule.getMaxBalanceActionFrequency(), HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)
 										&& adjustedMaxAnnualCarryOver != null) {
 									yearEndCandidate = true;
 								}
@@ -276,16 +276,16 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 		for(LeaveBlock block : eligibleLeaveBlocks) {
 			AccrualCategoryRule blockRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
 			if(StringUtils.equals(asOfLeaveDateRule.getLmAccrualCategoryRuleId(),blockRule.getLmAccrualCategoryRuleId())) {
-				if((StringUtils.equals(asOfLeaveDateRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)
-						&& StringUtils.equals(blockRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
+				if((StringUtils.equals(asOfLeaveDateRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)
+						&& StringUtils.equals(blockRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
 						|| ( leavePeriodInterval != null
 							&& leavePeriodInterval.contains(lb.getLeaveDate().getTime())
 							&& leavePeriodInterval.contains(block.getLeaveDate().getTime()))
 						|| (leavePeriodInterval == null
 							&& thisEntryInterval.contains(block.getLeaveDate().getTime())
 							&& thisEntryInterval.contains(lb.getLeaveDate().getTime()))
-						|| (StringUtils.equals(asOfLeaveDateRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)
-							&& StringUtils.equals(blockRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)
+						|| (StringUtils.equals(asOfLeaveDateRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)
+							&& StringUtils.equals(blockRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)
 							&& (yearEndPeriodInterval == null ||
 								(yearEndPeriodInterval.contains(block.getLeaveDate().getTime())
 										&& yearEndPeriodInterval.contains(lb.getLeaveDate().getTime())))
@@ -298,9 +298,9 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 				}
 			}
 			else
-				if(StringUtils.equals(blockRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)
+				if(StringUtils.equals(blockRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)
 						//always supersede on-demand action frequencies
-						|| (StringUtils.equals(blockRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)
+						|| (StringUtils.equals(blockRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)
 								&& ((leavePeriodInterval != null
 										&& leavePeriodInterval.contains(block.getLeaveDate().getTime())
 										&& leavePeriodInterval.contains(lb.getLeaveDate().getTime()))
@@ -308,7 +308,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 										&& thisEntryInterval.contains(block.getLeaveDate().getTime())
 										&& thisEntryInterval.contains(lb.getLeaveDate().getTime()))))
 						//leave approve is replaced only if the replacement lies within the same leave period.
-						|| (StringUtils.equals(blockRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)
+						|| (StringUtils.equals(blockRule.getMaxBalanceActionFrequency(), HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)
 								&& (yearEndPeriodInterval == null
 									|| (yearEndPeriodInterval.contains(block.getLeaveDate().getTime())
 										&& yearEndPeriodInterval.contains(lb.getLeaveDate().getTime()))))

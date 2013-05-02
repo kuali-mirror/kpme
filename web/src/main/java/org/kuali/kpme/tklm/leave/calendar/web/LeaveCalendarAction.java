@@ -57,10 +57,10 @@ import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.web.KPMEAction;
-import org.kuali.kpme.tklm.common.TKContext;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendar;
@@ -71,11 +71,9 @@ import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.kpme.tklm.leave.transfer.validation.BalanceTransferValidationUtils;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -264,9 +262,9 @@ public class LeaveCalendarAction extends KPMEAction {
     	        	for(LeaveBlock lb : entry.getValue()) {
     	        		AccrualCategory accrualCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveLocalDate());
 			        	AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
-			        	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+			        	if(StringUtils.equals(aRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.LOSE)) {
 			        		DateTime aDate = null;
-			        		if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+			        		if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(), HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 			        			aDate = HrServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalCalendar.getLeavePlan(), lb.getLeaveLocalDate());
 			        		}
 			        		else {
@@ -286,7 +284,7 @@ public class LeaveCalendarAction extends KPMEAction {
 					        		losses.add(loseTransfer);
 			        		}
 			        	}
-			        	else if(StringUtils.equals(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND, aRule.getMaxBalanceActionFrequency())) {
+			        	else if(StringUtils.equals(HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND, aRule.getMaxBalanceActionFrequency())) {
 				        	if(calendarInterval.contains(lb.getLeaveDate().getTime())) {
 					        	// accrual categories within the leave plan that are hidden from the leave summary will not appear.
 					        	List<LeaveSummaryRow> summaryRows = summary.getLeaveSummaryRows();
@@ -294,10 +292,10 @@ public class LeaveCalendarAction extends KPMEAction {
 					        	//AccrualCategoryRule currentRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCat, effectiveDate, principalCalendar.getServiceDate());
 					        	for(LeaveSummaryRow summaryRow : summaryRows) {
 					        		if(StringUtils.equals(summaryRow.getAccrualCategory(),accrualCat.getAccrualCategory())) {
-					        			if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.PAYOUT))
+					        			if(StringUtils.equals(aRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.PAYOUT))
 					        				summaryRow.setPayoutable(true);
 					        			else
-					        				if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.TRANSFER))
+					        				if(StringUtils.equals(aRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER))
 						        				summaryRow.setTransferable(true);
 
 					        			summaryRow.setInfractingLeaveBlockId(lb.getLmLeaveBlockId());
@@ -516,7 +514,7 @@ public class LeaveCalendarAction extends KPMEAction {
         LeaveBlock blockToDelete = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
         if (blockToDelete != null && LmServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), blockToDelete)) {
         	//if leave block is a pending leave request, cancel the leave request document
-        	if(blockToDelete.getRequestStatus().equals(LMConstants.REQUEST_STATUS.REQUESTED)) {
+        	if(blockToDelete.getRequestStatus().equals(HrConstants.REQUEST_STATUS.REQUESTED)) {
         		List<LeaveRequestDocument> lrdList = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(blockToDelete.getLmLeaveBlockId());
         		if(CollectionUtils.isNotEmpty(lrdList)) {
         			for(LeaveRequestDocument lrd : lrdList) { 
@@ -531,7 +529,7 @@ public class LeaveCalendarAction extends KPMEAction {
         	
         	List<String> approverList = new ArrayList<String>();
         	//if leave block is an approved leave request, get list of approver's id
-        	if(blockToDelete.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)) {
+        	if(blockToDelete.getRequestStatus().equals(HrConstants.REQUEST_STATUS.APPROVED)) {
         		List<LeaveRequestDocument> lrdList = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(blockToDelete.getLmLeaveBlockId());
         		if(CollectionUtils.isNotEmpty(lrdList)) {
         			for(LeaveRequestDocument lrd : lrdList) { 
@@ -608,7 +606,7 @@ public class LeaveCalendarAction extends KPMEAction {
     		DateTime endDate = null;
             
             EarnCode earnCode =  HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, updatedLeaveBlock.getLeaveLocalDate()); // selectedEarnCode = hrEarnCodeId
-            if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(TkConstants.EARN_CODE_TIME)) {
+            if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
             	if(lcf.getStartTime() != null && lcf.getEndTime() != null) {
         			beginDate = new DateTime(TKUtils.convertDateStringToTimestampWithoutZone(lcf.getStartDate(), lcf.getStartTime()).getTime());
         			endDate   = new DateTime(TKUtils.convertDateStringToTimestampWithoutZone(lcf.getEndDate(), lcf.getEndTime()).getTime());
@@ -729,8 +727,8 @@ public class LeaveCalendarAction extends KPMEAction {
 				CalendarEntry calendarEntry = HrServiceLocator.getCalendarService()
 						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 				if(calendarEntry != null) {
-					leaveForm.setCurrentPayCalStart(calendarEntry.getBeginPeriodLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback()));
-					leaveForm.setCurrentPayCalEnd(calendarEntry.getEndPeriodLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback()));
+					leaveForm.setCurrentPayCalStart(calendarEntry.getBeginPeriodLocalDateTime().toDateTime(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback()));
+					leaveForm.setCurrentPayCalEnd(calendarEntry.getEndPeriodLocalDateTime().toDateTime(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback()));
 				}
 			}
 		} else {
@@ -861,7 +859,7 @@ public class LeaveCalendarAction extends KPMEAction {
 				message.append(SystemUtils.LINE_SEPARATOR);
 				message.append(getLeaveCalendarURL(documentId, hrCalendarEntryId));
 				
-				TkServiceLocator.getKPMENotificationService().sendNotification(subject, message.toString(), targetPrincipalId);
+				HrServiceLocator.getKPMENotificationService().sendNotification(subject, message.toString(), targetPrincipalId);
 			}
 		}
 	}
@@ -879,7 +877,7 @@ public class LeaveCalendarAction extends KPMEAction {
 			message.append(" for ").append(employee.getDefaultName().getCompositeNameUnmasked()).append(" was deleted by ");
 			message.append(user.getDefaultName().getCompositeNameUnmasked());
 			for(String anId : approverIdList) {
-				TkServiceLocator.getKPMENotificationService().sendNotification(subject, message.toString(), anId);
+				HrServiceLocator.getKPMENotificationService().sendNotification(subject, message.toString(), anId);
 			}
 		}
 	}

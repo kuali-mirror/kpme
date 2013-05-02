@@ -27,8 +27,7 @@ import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.paytype.PayType;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.leave.util.LMConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CalendarServiceImpl implements CalendarService {
@@ -57,9 +56,9 @@ public class CalendarServiceImpl implements CalendarService {
         if(ObjectUtils.isNull(principalCalendar)) {
         	return null;
         }
-        if (StringUtils.equalsIgnoreCase(calendarType, TkConstants.PAY_CALENDAR_TYPE)) {
+        if (StringUtils.equalsIgnoreCase(calendarType, HrConstants.PAY_CALENDAR_TYPE)) {
         	calendar = getCalendarByGroup(principalCalendar.getPayCalendar());
-        } else if (StringUtils.equalsIgnoreCase(calendarType, LMConstants.LEAVE_CALENDAR_TYPE)) {
+        } else if (StringUtils.equalsIgnoreCase(calendarType, HrConstants.LEAVE_CALENDAR_TYPE)) {
         	calendar = getCalendarByGroup(principalCalendar.getLeaveCalendar());
         }
         
