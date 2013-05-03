@@ -16,7 +16,7 @@
 package org.kuali.kpme.tklm.leave.workflow.postprocessor;
 
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.payout.LeavePayout;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -59,7 +59,7 @@ public class LeavePayoutPostProcessor extends DefaultPostProcessor {
 					for(LeaveBlock lb : leavePayout.getLeaveBlocks()) {
 						if(ObjectUtils.isNotNull(lb)) {
 							lb.setRequestStatus(HrConstants.REQUEST_STATUS.DISAPPROVED);
-							LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), TKContext.getPrincipalId());
+							LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), HrContext.getPrincipalId());
 						}
 					}
 					//update status of document and associated leave blocks.
@@ -68,7 +68,7 @@ public class LeavePayoutPostProcessor extends DefaultPostProcessor {
 					for(LeaveBlock lb : leavePayout.getLeaveBlocks()) {
 						if(ObjectUtils.isNotNull(lb)) {
 							lb.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
-							LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
+							LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, HrContext.getPrincipalId());
 						}
 					}
 				} else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
@@ -76,7 +76,7 @@ public class LeavePayoutPostProcessor extends DefaultPostProcessor {
 					for(LeaveBlock lb : leavePayout.getLeaveBlocks()) {
 						if(ObjectUtils.isNotNull(lb)) {
 							lb.setRequestStatus(HrConstants.REQUEST_STATUS.DEFERRED);
-							LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
+							LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, HrContext.getPrincipalId());
 						}
 					}
 				}

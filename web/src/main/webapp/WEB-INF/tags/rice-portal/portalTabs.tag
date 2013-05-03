@@ -18,9 +18,9 @@
 <%@ attribute name="selectedTab" required="true"%>
 
 <c:if test="${!empty UserSession.loggedInUserPrincipalName}">
-    <c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.TKContext.isSystemAdmin()%>' />
-    <c:set var="globalViewOnly" value='<%=org.kuali.kpme.core.util.TKContext.isGlobalViewOnly()%>' />
-    <c:set var="locationAdmin" value='<%=org.kuali.kpme.core.util.TKContext.isLocationAdmin()%>' />
+    <c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isSystemAdmin()%>' />
+    <c:set var="globalViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isGlobalViewOnly()%>' />
+    <c:set var="locationAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isLocationAdmin()%>' />
 </c:if>
 <div id="tabs" class="tabposition">
 	<ul>

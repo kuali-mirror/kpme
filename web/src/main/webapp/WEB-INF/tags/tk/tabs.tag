@@ -1,15 +1,15 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 
 <c:if test="${!empty UserSession.loggedInUserPrincipalName}">
-    <c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.TKContext.isSystemAdmin()%>' />
-    <c:set var="locationAdmin" value='<%=org.kuali.kpme.core.util.TKContext.isLocationAdmin()%>' />
-    <c:set var="departmentAdmin" value='<%=org.kuali.kpme.core.util.TKContext.isDepartmentAdmin()%>' />
-    <c:set var="globalViewOnly" value='<%=org.kuali.kpme.core.util.TKContext.isGlobalViewOnly()%>' />
-    <c:set var="targetSystemAdmin" value='<%=org.kuali.kpme.core.util.TKContext.isTargetSystemAdmin()%>' />
-    <c:set var="targetTimesheetApprover" value='<%=org.kuali.kpme.core.util.TKContext.isTargetAnyApprover()%>' />
-    <c:set var="targetTimesheetReviewer" value='<%=org.kuali.kpme.core.util.TKContext.isTargetReviewer()%>' />   
-    <c:set var="targetActiveEmployee" value='<%=org.kuali.kpme.core.util.TKContext.isTargetActiveEmployee()%>' />
-    <c:set var="targetSynchronous" value='<%=org.kuali.kpme.core.util.TKContext.isTargetSynchronous()%>' />
+    <c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isSystemAdmin()%>' />
+    <c:set var="locationAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isLocationAdmin()%>' />
+    <c:set var="departmentAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isDepartmentAdmin()%>' />
+    <c:set var="globalViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isGlobalViewOnly()%>' />
+    <c:set var="targetSystemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isTargetSystemAdmin()%>' />
+    <c:set var="targetTimesheetApprover" value='<%=org.kuali.kpme.core.util.HrContext.isTargetAnyApprover()%>' />
+    <c:set var="targetTimesheetReviewer" value='<%=org.kuali.kpme.core.util.HrContext.isTargetReviewer()%>' />   
+    <c:set var="targetActiveEmployee" value='<%=org.kuali.kpme.core.util.HrContext.isTargetActiveEmployee()%>' />
+    <c:set var="targetSynchronous" value='<%=org.kuali.kpme.core.util.HrContext.isTargetSynchronous()%>' />
 </c:if>
 
 <div id="tab-section">

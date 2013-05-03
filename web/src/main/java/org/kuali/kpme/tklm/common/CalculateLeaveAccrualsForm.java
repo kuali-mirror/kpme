@@ -13,22 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.admin.web;
+package org.kuali.kpme.tklm.common;
 
 import org.kuali.kpme.core.web.KPMEForm;
 
-public class DeleteDocumentForm extends KPMEForm {
+public class CalculateLeaveAccrualsForm extends KPMEForm {
 
-	private static final long serialVersionUID = 3121271193055358638L;
+	private static final long serialVersionUID = -841015862054021534L;
 	
-	private String deleteDocumentId;
-
-	public String getDeleteDocumentId() {
-		return deleteDocumentId;
+	private String principalName;
+    private String startDate;
+	private String endDate;
+	
+    public String getPrincipalName() {
+		return principalName;
 	}
 
-	public void setDeleteDocumentId(String deleteDocumentId) {
-		this.deleteDocumentId = deleteDocumentId;
+	public void setPrincipalName(String principalName) {
+		this.principalName = principalName;
+	}
+	
+    public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 
 }

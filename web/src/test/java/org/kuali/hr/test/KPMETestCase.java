@@ -27,7 +27,7 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.ClearDatabaseLifecycle;
 import org.kuali.hr.time.util.DatabaseCleanupDataLifecycle;
 import org.kuali.hr.time.util.LoadDatabaseDataLifeCycle;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
@@ -100,7 +100,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	
 	    //lets try to create a user session
 	    GlobalVariables.setUserSession(new UserSession("admin"));
-	    TKContext.setHttpServletRequest(new MockHttpServletRequest());
+	    HrContext.setHttpServletRequest(new MockHttpServletRequest());
         setWebClient(new WebClient(BrowserVersion.FIREFOX_17));
         getWebClient().getOptions().setJavaScriptEnabled(true);
         getWebClient().getOptions().setTimeout(0);
@@ -111,7 +111,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	    // runs custom SQL at the end of each test.
 	    // useful for difficult to reset test additions, not handled by
 	    // our ClearDatabaseLifecycle.
-        TKContext.clearTargetUser();
+        HrContext.clearTargetUser();
         getWebClient().closeAllWindows();
 	    new DatabaseCleanupDataLifecycle(this.getClass()).start();
 	    

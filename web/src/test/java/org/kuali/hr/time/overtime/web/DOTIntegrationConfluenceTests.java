@@ -34,7 +34,7 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule;
@@ -149,7 +149,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         Assert.assertNotNull(form);
 
-        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(TKContext.getPrincipalId(), JAN_AS_OF_DATE.toLocalDate());
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(HrContext.getPrincipalId(), JAN_AS_OF_DATE.toLocalDate());
         Assignment assignment = assignments.get(0);
 
         List<EarnCode> earnCodes = HrServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());

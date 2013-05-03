@@ -101,7 +101,7 @@ public class LeavePayoutValidationUtils {
 			AccrualCategory fromCat, AccrualCategory toCat, String principalId,
 			LocalDate effectiveDate, AccrualCategoryRule accrualRule) {
 
-		BigDecimal balance = HrServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(principalId, fromCat, effectiveDate);
+		BigDecimal balance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, fromCat, effectiveDate);
 		//transfer amount must be less than the max transfer amount defined in the accrual category rule.
 		//it cannot be negative.
 		boolean isValid = true;

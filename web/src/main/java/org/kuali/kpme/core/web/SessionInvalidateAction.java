@@ -21,13 +21,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 
 public class SessionInvalidateAction extends KPMEAction {
 
     public ActionForward invalidateUserSession (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        TKContext.resetStorageMap();
+        HrContext.resetStorageMap();
 
         return mapping.findForward("basic");
     }

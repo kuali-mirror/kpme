@@ -42,9 +42,9 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -65,7 +65,7 @@ public class ClockAction extends TimesheetAction {
         super.checkTKAuthorization(form, methodToCall); // Checks for read access first.
 
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
-    	String documentId = TKContext.getCurrentTimesheetDocumentId();
+    	String documentId = HrContext.getCurrentTimesheetDocumentId();
 
         // Check for write access to Timeblock.
         if (StringUtils.equals(methodToCall, "clockAction") ||
@@ -103,7 +103,7 @@ public class ClockAction extends TimesheetAction {
             }
             caf.setAssignmentLunchMap(assignmentDeptLunchRuleMap);
         }
-        String principalId = TKContext.getTargetPrincipalId();
+        String principalId = HrContext.getTargetPrincipalId();
         if (principalId != null) {
             caf.setPrincipalId(principalId);
         }
@@ -215,7 +215,7 @@ public class ClockAction extends TimesheetAction {
             caf.setErrorMessage("No assignment selected.");
             return mapping.findForward("basic");
         }
-        ClockLog previousClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getTargetPrincipalId());
+        ClockLog previousClockLog = TkServiceLocator.getClockLogService().getLastClockLog(HrContext.getTargetPrincipalId());
         if(previousClockLog != null && StringUtils.equals(caf.getCurrentClockAction(), previousClockLog.getClockAction())){
         	caf.setErrorMessage("The operation is already performed.");
             return mapping.findForward("basic");
@@ -223,7 +223,7 @@ public class ClockAction extends TimesheetAction {
         String ip = TKUtils.getIPAddressFromRequest(request);
         Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(), caf.getSelectedAssignment());
         
-        List<Assignment> lstAssingmentAsOfToday = HrServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), LocalDate.now());
+        List<Assignment> lstAssingmentAsOfToday = HrServiceLocator.getAssignmentService().getAssignments(HrContext.getTargetPrincipalId(), LocalDate.now());
         boolean foundValidAssignment = false;
         for(Assignment assign : lstAssingmentAsOfToday){
         	if((assign.getJobNumber().compareTo(assignment.getJobNumber()) ==0) &&
@@ -241,7 +241,7 @@ public class ClockAction extends TimesheetAction {
         
                
         ClockLog clockLog = TkServiceLocator.getClockLogService().processClockLog(new Timestamp(System.currentTimeMillis()), assignment, caf.getPayCalendarDates(), ip,
-                LocalDate.now(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), TKContext.getTargetPrincipalId());
+                LocalDate.now(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), HrContext.getTargetPrincipalId());
 
         caf.setClockLog(clockLog);
 
@@ -274,7 +274,7 @@ public class ClockAction extends TimesheetAction {
             referenceTimeBlocks.add(tb.copy());
         }
         //call persist method that only saves added/deleted/changed timeblocks
-        TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, TKContext.getPrincipalId());
+        TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
 
         ActionForward forward = mapping.findForward("et");
 
@@ -304,7 +304,7 @@ public class ClockAction extends TimesheetAction {
 			
 			TimesheetDocument tsDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocId);
 			
-			TimeBlock tb = TkServiceLocator.getTimeBlockService().createTimeBlock(tsDoc, beginTS, endTS, assignment, earnCode, hours,BigDecimal.ZERO, false, false, TKContext.getPrincipalId());
+			TimeBlock tb = TkServiceLocator.getTimeBlockService().createTimeBlock(tsDoc, beginTS, endTS, assignment, earnCode, hours,BigDecimal.ZERO, false, false, HrContext.getPrincipalId());
 			newTbList.add(tb);
 		}
 		TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTbList);

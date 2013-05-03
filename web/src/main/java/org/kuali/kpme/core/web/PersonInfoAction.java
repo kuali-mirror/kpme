@@ -39,7 +39,7 @@ import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.role.RoleMember;
@@ -60,7 +60,7 @@ public class PersonInfoAction extends KPMEAction {
 		ActionForward actForw =  super.execute(mapping, form, request, response);
 		PersonInfoActionForm personForm = (PersonInfoActionForm)form;
 		
-		personForm.setPrincipalId(TKContext.getTargetPrincipalId());
+		personForm.setPrincipalId(HrContext.getTargetPrincipalId());
         EntityNamePrincipalName name = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(personForm.getPrincipalId());
 		//Person person = KimApiServiceLocator.getPersonService().getPerson(personForm.getPrincipalId());
 		if (name != null) {
@@ -68,7 +68,7 @@ public class PersonInfoAction extends KPMEAction {
             // set name
             personForm.setName(name.getDefaultName() != null ? name.getDefaultName().getCompositeName() : StringUtils.EMPTY);
         }
-		personForm.setJobs(HrServiceLocator.getJobService().getJobs(TKContext.getTargetPrincipalId(), LocalDate.now()));
+		personForm.setJobs(HrServiceLocator.getJobService().getJobs(HrContext.getTargetPrincipalId(), LocalDate.now()));
 		
 		//KPME-1441
 		PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(personForm.getPrincipalId(), LocalDate.now());
@@ -118,7 +118,7 @@ public class PersonInfoAction extends KPMEAction {
 		
 		setupRolesOnForm(personForm);
 
-		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), LocalDate.now());
+		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(HrContext.getTargetPrincipalId(), LocalDate.now());
 		
 		Map<Long,List<Assignment>> jobNumberToListAssignments = new HashMap<Long,List<Assignment>>();
 		Map<Long,List<Person>> workAreaToApproverPerson = new HashMap<Long, List<Person>>();
@@ -155,7 +155,7 @@ public class PersonInfoAction extends KPMEAction {
 	}
 	
 	private void setupRolesOnForm(PersonInfoActionForm personInfoActionForm) {
-		String principalId = TKContext.getTargetPrincipalId();
+		String principalId = HrContext.getTargetPrincipalId();
 		
 		Set<Long> allApproverWorkAreas = new HashSet<Long>();
 		allApproverWorkAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));

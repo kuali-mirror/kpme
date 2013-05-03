@@ -39,7 +39,7 @@ import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
@@ -480,11 +480,11 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	}
 
     public boolean isEditable() {
-        return LmServiceLocator.getLMPermissionService().canEditLeaveBlock(TKContext.getPrincipalId(), this);
+        return LmServiceLocator.getLMPermissionService().canEditLeaveBlock(HrContext.getPrincipalId(), this);
     }
 
     public boolean isDeletable() {
-        return LmServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), this);
+        return LmServiceLocator.getLMPermissionService().canDeleteLeaveBlock(HrContext.getPrincipalId(), this);
     }
     
     public String getAssignmentKey() {

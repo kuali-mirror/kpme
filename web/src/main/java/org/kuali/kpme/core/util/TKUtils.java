@@ -46,6 +46,7 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 public class TKUtils {

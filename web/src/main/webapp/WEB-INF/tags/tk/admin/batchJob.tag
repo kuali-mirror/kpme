@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.TKContext.isSystemAdmin()%>' />
+<c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isSystemAdmin()%>' />
 
 <c:if test="${systemAdmin}">
     <channel:portalChannelTop channelTitle="Run Batch Job" />

@@ -26,7 +26,7 @@ import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -94,7 +94,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 		String location = departmentObj != null ? departmentObj.getLocation() : null;
 		
-		if (!TKContext.isSystemAdmin() 
+		if (!HrContext.isSystemAdmin() 
 				&& !HrServiceLocator.getHRRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
     			&& !HrServiceLocator.getHRRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
     			&& !HrServiceLocator.getHRRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())

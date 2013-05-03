@@ -40,7 +40,7 @@ import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
@@ -68,7 +68,7 @@ public class LeaveCalendarValidationUtil {
 	public static List<String> validateLeaveAccrualRuleMaxUsage(LeaveSummary ls, String selectedEarnCode, String leaveStartDateString,
 			String leaveEndDateString, BigDecimal leaveAmount, LeaveBlock updatedLeaveBlock) {
     	List<String> errors = new ArrayList<String>();
-        String principalId = TKContext.getTargetPrincipalId();
+        String principalId = HrContext.getTargetPrincipalId();
     	long daysSpan = TKUtils.getDaysBetween(TKUtils.formatDateString(leaveStartDateString), TKUtils.formatDateString(leaveEndDateString));
     	if(leaveAmount == null) {
     		leaveAmount  = TKUtils.getHoursBetween(TKUtils.formatDateString(leaveStartDateString).toDate().getTime(), TKUtils.formatDateString(leaveEndDateString).toDate().getTime());
@@ -273,7 +273,7 @@ public class LeaveCalendarValidationUtil {
 					usageEndDate = endDate.withMonthOfYear(DateTimeConstants.DECEMBER).withDayOfMonth(31);
 				}
 				BigDecimal availableBalance = LmServiceLocator.getLeaveSummaryService()
-							.getLeaveBalanceForAccrCatUpToDate(TKContext.getTargetPrincipalId(), startDate, endDate, accrualCategory.getAccrualCategory(), usageEndDate);
+							.getLeaveBalanceForAccrCatUpToDate(HrContext.getTargetPrincipalId(), startDate, endDate, accrualCategory.getAccrualCategory(), usageEndDate);
 
 				if(oldAmount!=null) {
 					if(!earnCodeChanged ||
@@ -338,7 +338,7 @@ public class LeaveCalendarValidationUtil {
 //	    			LeaveSummaryRow validationRow = ls.getLeaveSummaryRowForAccrualCategory(accrualCategory.getLmAccrualCategoryId());
 //    				if(ObjectUtils.isNotNull(validationRow)) {
 //    					BigDecimal availableBalance = validationRow.getLeaveBalance();
-//    					LeaveSummary ytdSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(TKContext.getTargetPrincipalId(), startDate, accrualCategory.getAccrualCategory());
+//    					LeaveSummary ytdSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(HrContext.getTargetPrincipalId(), startDate, accrualCategory.getAccrualCategory());
 //    					if(ytdSummary != null) {
 //    						LeaveSummaryRow ytdSummaryRow = ytdSummary.getLeaveSummaryRowForAccrualCategory(accrualCategory.getLmAccrualCategoryId());
 //    						if(ytdSummaryRow != null)
@@ -477,7 +477,7 @@ public class LeaveCalendarValidationUtil {
         List<String> errors = new ArrayList<String>();
         Interval addedTimeblockInterval = new Interval(startTime, endTime);
         List<Interval> dayInt = new ArrayList<Interval>();
-        String viewPrincipal = TKContext.getTargetPrincipalId();
+        String viewPrincipal = HrContext.getTargetPrincipalId();
         
         dayInt.add(addedTimeblockInterval);
         List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);

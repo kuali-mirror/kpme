@@ -68,17 +68,5 @@ public interface AccrualCategoryService {
 
     
     public List <AccrualCategory> getInActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, LocalDate asOfDate);
-    
-    /**
-     * Retreives the principal's balance on the current calendar for the given accrual category through the date supplied.
-     * @param principalId The id of the principal 
-     * @param accrualCategory The accrual category the balance is being requested of
-     * @param asOfDate 
-     * @return
-     * @throws Exception 
-     */
-	public BigDecimal getAccruedBalanceForPrincipal(String principalId, AccrualCategory accrualCategory, LocalDate asOfDate);
-	
-	public BigDecimal getApprovedBalanceForPrincipal(String principalId, AccrualCategory accrualCategory, LocalDate asOfDate);
 	
 }

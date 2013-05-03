@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.core.web;
 
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -58,15 +58,15 @@ public class KPMEForm extends KualiForm {
 	}
 	
 	public String getDocumentIdFromContext(){
-		return TKContext.getCurrentTimesheetDocumentId();
+		return HrContext.getCurrentTimesheetDocumentId();
 	}
 
     public String getDocumentStatus() {
-        return TKContext.getCurrentTimesheetDocument().getDocumentHeader().getDocumentStatus();
+        return HrContext.getCurrentTimesheetDocument().getDocumentHeader().getDocumentStatus();
     }
 
     public String getLeaveCalendarDocumentStatus() {
-        return TKContext.getCurrentLeaveCalendarDocument().getDocumentHeader().getDocumentStatus();
+        return HrContext.getCurrentLeaveCalendarDocument().getDocumentHeader().getDocumentStatus();
     }
     
     public boolean getLeaveEnabled() {
@@ -80,7 +80,7 @@ public class KPMEForm extends KualiForm {
     }
     
     public String getLeaveDocumentIdFromContext(){
-		return TKContext.getCurrentLeaveCalendarDocumentId();
+		return HrContext.getCurrentLeaveCalendarDocumentId();
 	}
  
     public boolean getViewLeaveTabsWithNEStatus() {

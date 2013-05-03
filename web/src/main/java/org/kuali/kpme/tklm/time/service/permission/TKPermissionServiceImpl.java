@@ -20,7 +20,7 @@ import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.permission.HrPermissionServiceBase;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
@@ -149,11 +149,11 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
         if (principalId != null) {
 
         	// if the sys admin user is working on his own time block, do not grant edit permission without further checking
-            if (TKContext.isSystemAdmin()&& !timeBlock.getPrincipalId().equals(principalId)) {
+            if (HrContext.isSystemAdmin()&& !timeBlock.getPrincipalId().equals(principalId)) {
             	return true;
             }
             Job job = HrServiceLocator.getJobService().getJob(
-                    TKContext.getTargetPrincipalId(), timeBlock.getJobNumber(),
+                    HrContext.getTargetPrincipalId(), timeBlock.getJobNumber(),
                     timeBlock.getEndDateTime().toLocalDate());
             PayType payType = HrServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
@@ -185,12 +185,12 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
 					return false;
 			}
 
-            if (principalId.equals(TKContext.getTargetPrincipalId())) {
+            if (principalId.equals(HrContext.getTargetPrincipalId())) {
 
                 if (StringUtils.equals(payType.getRegEarnCode(), timeBlock.getEarnCode())) {
                     //If you are a clock user and you have only one assignment you should not be allowed to change the assignment
                     //TODO eventually move this logic to one concise place for editable portions of the timeblock
-                    List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(TKContext.getPrincipalId(),timeBlock.getBeginDateTime().toLocalDate());
+                    List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(HrContext.getPrincipalId(),timeBlock.getBeginDateTime().toLocalDate());
                     if (assignments.size() == 1) {
                     	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),job.getHrPayType(),timeBlock.getBeginDateTime().toLocalDate());
                     	
@@ -226,12 +226,12 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     public boolean canEditTimeBlockAllFields(String principalId, TimeBlock timeBlock) {
         if (principalId != null) {
 
-            if (TKContext.isSystemAdmin()) {
+            if (HrContext.isSystemAdmin()) {
                 return true;
             }
 
             Job job = HrServiceLocator.getJobService().getJob(
-                    TKContext.getTargetPrincipalId(), timeBlock.getJobNumber(),
+                    HrContext.getTargetPrincipalId(), timeBlock.getJobNumber(),
                     timeBlock.getEndDateTime().toLocalDate());
             PayType payType = HrServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
@@ -263,7 +263,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                 }
             }
 
-            if (principalId.equals(TKContext.getTargetPrincipalId())
+            if (principalId.equals(HrContext.getTargetPrincipalId())
                     && !timeBlock.getClockLogCreated()) {
                 if (StringUtils.equals(payType.getRegEarnCode(),
                 		timeBlock.getEarnCode())) {
@@ -293,11 +293,11 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
         if (principalId != null) {
 
         	// if the sys admin user is working on his own time block, do not grant delete permission without further checking
-            if (TKContext.isSystemAdmin()&& !timeBlock.getPrincipalId().equals(principalId)) {
+            if (HrContext.isSystemAdmin()&& !timeBlock.getPrincipalId().equals(principalId)) {
             	return true;
             }
             Job job = HrServiceLocator.getJobService().getJob(
-                    TKContext.getTargetPrincipalId(), timeBlock.getJobNumber(),
+                    HrContext.getTargetPrincipalId(), timeBlock.getJobNumber(),
                     timeBlock.getEndDateTime().toLocalDate());
             PayType payType = HrServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
@@ -326,12 +326,12 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
 
 //            // If the timeblock was created by the employee himeself and is a sync timeblock,
 //            // the user can't delete the timeblock
-//            if (userId.equals(TKContext.getTargetPrincipalId())
+//            if (userId.equals(HrContext.getTargetPrincipalId())
 //                    && tb.getClockLogCreated()) {
 //                return false;
 //            // But if the timeblock was created by the employee himeself and is an async timeblock,
 //            // the user should be able to delete that timeblock
-//            } else if (userId.equals(TKContext.getTargetPrincipalId()) && !tb.getClockLogCreated() ) {
+//            } else if (userId.equals(HrContext.getTargetPrincipalId()) && !tb.getClockLogCreated() ) {
 //                return true;
 //            } else {
             
@@ -345,7 +345,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),payType.getPayType(),timeBlock.getEndDateTime().toLocalDate());
             	
             	if (tcr == null || tcr.isClockUserFl()) {
-            		if (StringUtils.equals(principalId,TKContext.getTargetPrincipalId())) {
+            		if (StringUtils.equals(principalId,HrContext.getTargetPrincipalId())) {
 	                    return false;
 	                }  else {
 	                    return true;
@@ -356,7 +356,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             
             //KPME-2264 -
             // EE's should be able to remove timeblocks added via the time detail calendar only after checking prior conditions,
-            if (principalId.equals(TKContext.getTargetPrincipalId())) {
+            if (principalId.equals(HrContext.getTargetPrincipalId())) {
             	return true;
             }      
 
@@ -441,7 +441,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     	LocalDate asOfDate = LocalDate.now();
     	String flsaStatus = HrConstants.FLSA_STATUS_NON_EXEMPT;
     	// find active assignments as of currentDate
-    	String principalId = TKContext.getTargetPrincipalId();
+    	String principalId = HrContext.getTargetPrincipalId();
     	if(isActiveAssignmentFoundOnJobFlsaStatus(principalId, flsaStatus, false)) {
     		//find timecalendar defined
     		canViewTimeTabs = isCalendarDefined("payCalendar", principalId, asOfDate, false);

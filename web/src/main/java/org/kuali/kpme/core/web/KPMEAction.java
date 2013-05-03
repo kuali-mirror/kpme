@@ -23,7 +23,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
 
@@ -44,7 +44,7 @@ public class KPMEAction extends KualiAction {
             }
             checkTKAuthorization(form, methodToCall);
         } catch (AuthorizationException e) {
-            LOG.error("User: " + TKContext.getPrincipalId() + " Target: " + TKContext.getTargetPrincipalId(), e);
+            LOG.error("User: " + HrContext.getPrincipalId() + " Target: " + HrContext.getTargetPrincipalId(), e);
             return mapping.findForward("unauthorized");
         }
 
@@ -55,7 +55,7 @@ public class KPMEAction extends KualiAction {
     }
 
 	public ActionForward userLogout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TKContext.clear();
+        HrContext.clear();
 		request.getSession().invalidate();
         ActionRedirect redirect = new ActionRedirect();
         redirect.setPath("portal.do");

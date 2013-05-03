@@ -36,7 +36,7 @@ import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
@@ -61,7 +61,7 @@ public class LeaveCalendarWSAction extends KPMEAction {
 
         // Here - viewPrincipal will be the principal of the user we intend to
         // view, be it target user, backdoor or otherwise.
-        String viewPrincipal = TKContext.getTargetPrincipalId();
+        String viewPrincipal = HrContext.getTargetPrincipalId();
         CalendarEntry calendarEntry = null;
 
         LeaveCalendarDocument lcd = null;
@@ -128,7 +128,7 @@ public class LeaveCalendarWSAction extends KPMEAction {
             CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry(request.getParameter("selectedPayPeriod"));
             lcf.setCalendarEntry(ce);
         }
-        lcf.setPrincipalId(TKContext.getTargetPrincipalId());
+        lcf.setPrincipalId(HrContext.getTargetPrincipalId());
         boolean isPlanningCal = LmServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(lcf.getPrincipalId(), lcf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), lcf.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
         lcf.setLeavePlanningCalendar(isPlanningCal);
 
@@ -179,7 +179,7 @@ public class LeaveCalendarWSAction extends KPMEAction {
     	JSONArray errorMsgList = new JSONArray();
 
     	if(lcf.getLeaveSummary() == null && lcf.getCalendarEntry() != null) {
-    		LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
+    		LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(HrContext.getTargetPrincipalId(), lcf.getCalendarEntry());
 		    lcf.setLeaveSummary(ls);
     	}
     	

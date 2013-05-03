@@ -26,7 +26,7 @@ import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.location.Location;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -39,7 +39,7 @@ public class TimezoneServiceImpl implements TimezoneService {
         if(principalCalendar != null && principalCalendar.getTimezone() != null){
             return principalCalendar.getTimezone();
         }
-        List<Job> jobs = HrServiceLocator.getJobService().getJobs(TKContext.getPrincipalId(), LocalDate.now());
+        List<Job> jobs = HrServiceLocator.getJobService().getJobs(HrContext.getPrincipalId(), LocalDate.now());
         if (jobs.size() > 0) {
             // Grab the location off the first job in the list
             Location location = HrServiceLocator.getLocationService().getLocation(jobs.get(0).getLocation(), LocalDate.now());

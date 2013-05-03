@@ -45,7 +45,7 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.web.ApprovalAction;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
@@ -71,7 +71,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
 		
 		LocalDate currentDate = LocalDate.now();
-		List<Long> workAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);
+		List<Long> workAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(HrContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);
 		List<String> principalIds = new ArrayList<String>();
         for (Long workArea : workAreas) {
             List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
@@ -112,7 +112,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
         if(StringUtils.isEmpty(lraaForm.getSelectedDept())) {
         	resetState(form, request);
         
-        	List<Long> workAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);	        List<String> principalIds = new ArrayList<String>();
+        	List<Long> workAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(HrContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);	        List<String> principalIds = new ArrayList<String>();
 	        for (Long workArea : workAreas) {
 	            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
 	            for (Assignment a : assignments) {
@@ -219,7 +219,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 	}
 	
 	private List<ActionItem> filterActionsWithSeletedParameters(String calGroup, String dept, List<String> workAreaList) {
-		String principalId = TKContext.getTargetPrincipalId();
+		String principalId = HrContext.getTargetPrincipalId();
 		List<ActionItem> actionList = KewApiServiceLocator.getActionListService().getActionItemsForPrincipal(principalId);
 		List<ActionItem> resultsList = new ArrayList<ActionItem>();
 
@@ -278,7 +278,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 				String[] fields = eachAction.split(ID_SEPARATOR);
 				String docId = fields[0];	// leave request document id
 				String reasonString = fields.length > 1 ? fields[1] : ""; 	// approve reason text, could be empty
-				LmServiceLocator.getLeaveRequestDocumentService().approveLeave(docId, TKContext.getPrincipalId(), reasonString);
+				LmServiceLocator.getLeaveRequestDocumentService().approveLeave(docId, HrContext.getPrincipalId(), reasonString);
 				// leave block's status is changed to "approved" in postProcessor of LeaveRequestDocument
 			}
 		}
@@ -288,7 +288,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 				String[] fields = eachAction.split(ID_SEPARATOR);
 				String docId = fields[0];	// leave request document id
 				String reasonString = fields.length > 1 ? fields[1] : ""; 	// disapprove reason
-				LmServiceLocator.getLeaveRequestDocumentService().disapproveLeave(docId, TKContext.getPrincipalId(), reasonString);
+				LmServiceLocator.getLeaveRequestDocumentService().disapproveLeave(docId, HrContext.getPrincipalId(), reasonString);
 				// leave block's status is changed to "disapproved" in postProcessor of LeaveRequestDocument	
 			}
 		}
@@ -298,7 +298,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 				String[] fields = eachAction.split(ID_SEPARATOR);
 				String docId = fields[0];	// leave request document id
 				String reasonString =  fields.length > 1 ? fields[1] : ""; 	// defer reason
-				LmServiceLocator.getLeaveRequestDocumentService().deferLeave(docId, TKContext.getPrincipalId(), reasonString);
+				LmServiceLocator.getLeaveRequestDocumentService().deferLeave(docId, HrContext.getPrincipalId(), reasonString);
 				// leave block's status is changed to "deferred" in postProcessor of LeaveRequestDocument	
 			}
 		}

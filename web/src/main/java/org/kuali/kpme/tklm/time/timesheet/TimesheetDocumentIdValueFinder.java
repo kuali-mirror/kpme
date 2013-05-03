@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.timesheet;
 
 import org.apache.cxf.common.util.StringUtils;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 public class TimesheetDocumentIdValueFinder implements ValueFinder {
@@ -31,9 +31,9 @@ public class TimesheetDocumentIdValueFinder implements ValueFinder {
     public String getValue() {
         String val = null;
 
-        val = TKContext.getCurrentTimesheetDocumentId();
+        val = HrContext.getCurrentTimesheetDocumentId();
         if (StringUtils.isEmpty(val)) {
-            val = TKContext.getHttpServletRequest().getParameter(HrConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);
+            val = HrContext.getHttpServletRequest().getParameter(HrConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);
         }
 
         return val;

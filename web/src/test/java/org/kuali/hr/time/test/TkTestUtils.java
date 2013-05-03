@@ -39,7 +39,7 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
@@ -68,8 +68,8 @@ public class TkTestUtils {
 
 	public static TimesheetDocument populateBlankTimesheetDocument(DateTime calDate) {
 		try {
-			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getTargetPrincipalId(),
-							HrServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getTargetPrincipalId(),
+			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(HrContext.getTargetPrincipalId(),
+							HrServiceLocator.getCalendarService().getCurrentCalendarDates(HrContext.getTargetPrincipalId(),
                                     calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
@@ -83,16 +83,16 @@ public class TkTestUtils {
 
 	public static TimesheetDocument populateTimesheetDocument(DateTime calDate) {
 		try {
-			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getTargetPrincipalId(),
-							HrServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getTargetPrincipalId(),
+			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(HrContext.getTargetPrincipalId(),
+							HrServiceLocator.getCalendarService().getCurrentCalendarDates(HrContext.getTargetPrincipalId(),
 									calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
 			}
 
 			//refetch clean document
-			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getTargetPrincipalId(),
-					HrServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getTargetPrincipalId(),
+			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(HrContext.getTargetPrincipalId(),
+					HrServiceLocator.getCalendarService().getCurrentCalendarDates(HrContext.getTargetPrincipalId(),
 							new DateTime(calDate)));
 			List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 			for(int i = 0;i<5;i++){
@@ -203,7 +203,7 @@ public class TkTestUtils {
 	}
 
 	public static List<Job> getJobs(LocalDate calDate){
-		return HrServiceLocator.getJobService().getJobs(TKContext.getPrincipalId(), calDate);
+		return HrServiceLocator.getJobService().getJobs(HrContext.getPrincipalId(), calDate);
 	}
 	/**
 	 *
@@ -417,7 +417,7 @@ public class TkTestUtils {
 			Timestamp tsin = new Timestamp(ci.getMillis());
 			Timestamp tsout = new Timestamp(co.getMillis());
 
-			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, tsin, tsout, hours, amount, false, false, TKContext.getPrincipalId()));
+			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, tsin, tsout, hours, amount, false, false, HrContext.getPrincipalId()));
 		}
 
 		return blocks;

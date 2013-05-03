@@ -23,7 +23,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.core.web.KPMEForm;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -42,11 +42,11 @@ public class TimeAction extends KPMEAction {
             // necessarily be a system administrator.
         } else {
         	String principalId = GlobalVariables.getUserSession().getPrincipalId();
-            if (!TKContext.isSystemAdmin()
-        			&& !TKContext.isLocationAdmin()
-        			&& !TKContext.isDepartmentAdmin()
-        			&& !TKContext.isGlobalViewOnly()
-        			&& !TKContext.isDepartmentViewOnly()
+            if (!HrContext.isSystemAdmin()
+        			&& !HrContext.isLocationAdmin()
+        			&& !HrContext.isDepartmentAdmin()
+        			&& !HrContext.isGlobalViewOnly()
+        			&& !HrContext.isDepartmentViewOnly()
         			&& (kPMEForm.getDocumentId() != null && !TkServiceLocator.getTKPermissionService().canApproveTimesheet(principalId, kPMEForm.getDocumentId()))
         			&& (kPMEForm.getDocumentId() != null && !TkServiceLocator.getTKPermissionService().canViewTimesheet(principalId, kPMEForm.getDocumentId())))  {
                 throw new AuthorizationException("", "TimeAction", "");
@@ -59,19 +59,19 @@ public class TimeAction extends KPMEAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-        boolean synch = TKContext.isSynchronous();
-        if (TKContext.isSystemAdmin()) {
+        boolean synch = HrContext.isSynchronous();
+        if (HrContext.isSystemAdmin()) {
             return new ActionRedirect("/portal.do");
-        } else if (TKContext.isDepartmentAdmin()
+        } else if (HrContext.isDepartmentAdmin()
                 && !synch) {
             return new ActionRedirect("/portal.do");
-        } else if (TKContext.isAnyApprover()
+        } else if (HrContext.isAnyApprover()
                 && !synch) {
             return new ActionRedirect("/TimeApproval.do");
-        } else if (TKContext.isReviewer()
+        } else if (HrContext.isReviewer()
                 && !synch) {
             return new ActionRedirect("/TimeApproval.do");
-        } else if (TKContext.isActiveEmployee()
+        } else if (HrContext.isActiveEmployee()
                 && !synch) {
             return new ActionRedirect("/TimeDetail.do");
         } else if (synch) {

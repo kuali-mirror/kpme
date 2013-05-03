@@ -19,8 +19,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.util.TKContext;
-import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.leave.workflow.dao.LeaveCalendarDocumentHeaderDao;
@@ -55,7 +55,7 @@ public class LeaveCalendarDocumentHeaderServiceImpl implements LeaveCalendarDocu
 	@Override
 	public LeaveCalendarDocumentHeader getPrevOrNextDocumentHeader(
 			String prevOrNext, String principalId) {
-		    LeaveCalendarDocument currentLeaveCalendar = TKContext.getCurrentLeaveCalendarDocument();
+		    LeaveCalendarDocument currentLeaveCalendar = HrContext.getCurrentLeaveCalendarDocument();
 	        LeaveCalendarDocumentHeader lcdh;
 	        if (StringUtils.equals(prevOrNext, TkConstants.PREV_TIMESHEET)) {
 	        	lcdh = leaveCalendarDocumentHeaderDao.getPreviousDocumentHeader(principalId, currentLeaveCalendar.getDocumentHeader().getBeginDateTime());

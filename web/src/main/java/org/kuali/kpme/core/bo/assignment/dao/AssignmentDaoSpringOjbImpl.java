@@ -33,7 +33,7 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import com.google.common.collect.ImmutableList;
@@ -103,7 +103,7 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         root.addEqualTo("task", task);
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, asOfDate, ASSIGNMENT_EQUAL_TO_FIELD, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, ASSIGNMENT_EQUAL_TO_FIELD, false));
-        root.addEqualTo("principalId", TKContext.getTargetPrincipalId());
+        root.addEqualTo("principalId", HrContext.getTargetPrincipalId());
         //root.addEqualTo("active", true);
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity

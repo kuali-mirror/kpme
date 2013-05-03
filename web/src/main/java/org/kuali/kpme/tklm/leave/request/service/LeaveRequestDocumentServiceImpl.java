@@ -28,7 +28,7 @@ import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.request.LeaveRequestActionValue;
@@ -96,7 +96,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
 
     @Override
     public LeaveRequestDocument createLeaveRequestDocument(String leaveBlockId) {
-        LeaveRequestDocument lrd = initiateLeaveRequestDocument(TKContext.getTargetPrincipalId(), leaveBlockId);
+        LeaveRequestDocument lrd = initiateLeaveRequestDocument(HrContext.getTargetPrincipalId(), leaveBlockId);
 
         return saveLeaveRequestDocument(lrd);
     }

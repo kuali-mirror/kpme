@@ -22,7 +22,7 @@ import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AuthorizationValidationUtils {
@@ -40,7 +40,7 @@ public class AuthorizationValidationUtils {
     public static boolean canWildcardWorkArea(DepartmentalRule departmentalRule) {
     	boolean canWildcardWorkArea = false;
     	
-    	if (TKContext.isSystemAdmin()) {
+    	if (HrContext.isSystemAdmin()) {
         	return true;
     	}
     	
@@ -69,13 +69,13 @@ public class AuthorizationValidationUtils {
      * @return true if so, false otherwise.
      */
     public static boolean canWildcardDepartment(DepartmentalRule departmentalRule) {
-        return TKContext.isSystemAdmin();
+        return HrContext.isSystemAdmin();
     }
     
     public static boolean hasAccessToWrite(DepartmentalRule departmentalRule) {
         boolean hasAccessToWrite = false;
         
-        if (TKContext.isSystemAdmin()) {
+        if (HrContext.isSystemAdmin()) {
         	return true;
     	}
         
@@ -107,7 +107,7 @@ public class AuthorizationValidationUtils {
     public static boolean hasAccessToRead(DepartmentalRule departmentalRule) {
         boolean hasAccessToRead = false;
         
-        if (TKContext.isSystemAdmin() || TKContext.isGlobalViewOnly())
+        if (HrContext.isSystemAdmin() || HrContext.isGlobalViewOnly())
             return true;
 
         if (departmentalRule != null) {
@@ -128,7 +128,7 @@ public class AuthorizationValidationUtils {
             
             if (HrConstants.WILDCARD_CHARACTER.equals(department) && HrConstants.WILDCARD_LONG.equals(workArea)) {
                 // case 1
-            	hasAccessToRead = TKContext.isAnyApprover() || TKContext.isDepartmentAdmin() || TKContext.isLocationAdmin();
+            	hasAccessToRead = HrContext.isAnyApprover() || HrContext.isDepartmentAdmin() || HrContext.isLocationAdmin();
             } else if (HrConstants.WILDCARD_CHARACTER.equals(department)) {
                 // case 2 *
                 // Should not encounter this case.

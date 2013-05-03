@@ -142,7 +142,7 @@ public class BalanceTransferValidationUtils {
 		//it cannot be negative.
 		boolean isValid = true;
 		
-		BigDecimal balance = HrServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(principalId, fromCat, effectiveDate);
+		BigDecimal balance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, fromCat, effectiveDate);
 		
 		BigDecimal maxTransferAmount = null;
 		BigDecimal adjustedMaxTransferAmount = null;

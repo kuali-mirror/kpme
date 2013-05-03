@@ -40,7 +40,7 @@ import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -79,7 +79,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         TimeCollectionRule tcr = a.getTimeCollectionRule();
         
         boolean isClockUser = tcr == null || tcr.isClockUserFl();
-        boolean isUsersTimesheet = StringUtils.equals(TKContext.getPrincipalId(),a.getPrincipalId());
+        boolean isUsersTimesheet = StringUtils.equals(HrContext.getPrincipalId(),a.getPrincipalId());
 
         // Reg earn codes will typically not be defined in the earn code security table
         EarnCode regularEarnCode = getEarnCode(job.getPayTypeObj().getRegEarnCode(), asOfDate);
@@ -261,7 +261,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
     private boolean addEarnCodeBasedOnEmployeeApproverSettings(EarnCodeSecurity security, Assignment a, LocalDate asOfDate) {
         boolean addEarnCode = false;
         if (security.isEmployee() &&
-                (StringUtils.equals(TKContext.getTargetPrincipalId(), GlobalVariables.getUserSession().getPrincipalId()))) {
+                (StringUtils.equals(HrContext.getTargetPrincipalId(), GlobalVariables.getUserSession().getPrincipalId()))) {
             addEarnCode = true;
         }
         // Check approver flag
@@ -285,7 +285,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
     private boolean showEarnCodeIfHoliday(EarnCode earnCode, EarnCodeSecurity security) {
         if (earnCode.getEarnCode().equals(HrConstants.HOLIDAY_EARN_CODE)) {
-            if (security.isApprover() || TKContext.isSystemAdmin()) {
+            if (security.isApprover() || HrContext.isSystemAdmin()) {
                 return true;
             } else {
                 return false;

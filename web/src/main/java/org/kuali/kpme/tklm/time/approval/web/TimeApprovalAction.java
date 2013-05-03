@@ -45,7 +45,7 @@ import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.ApprovalAction;
 import org.kuali.kpme.core.web.ApprovalForm;
 import org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
@@ -105,7 +105,7 @@ public class TimeApprovalAction extends ApprovalAction{
             if (ar.isApprovable() && StringUtils.equals(ar.getSelected(), "on")) {
                 String documentNumber = ar.getDocumentId();
                 TimesheetDocument tDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentNumber);
-                TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getPrincipalId(), tDoc);
+                TkServiceLocator.getTimesheetService().approveTimesheet(HrContext.getPrincipalId(), tDoc);
             }
         }
         return mapping.findForward("basic");
@@ -327,7 +327,7 @@ public class TimeApprovalAction extends ApprovalAction{
 		
 		List<CalendarEntry> pcListForYear = new ArrayList<CalendarEntry>();
 		List<CalendarEntry> pceList = TkServiceLocator.getTimeApproveService()
-			.getAllPayCalendarEntriesForApprover(TKContext.getPrincipalId(), LocalDate.now());
+			.getAllPayCalendarEntriesForApprover(HrContext.getPrincipalId(), LocalDate.now());
 	    for(CalendarEntry pce : pceList) {
 	    	yearSet.add(sdf.format(pce.getBeginPeriodDate()));
 	    	if(sdf.format(pce.getBeginPeriodDate()).equals(taaf.getSelectedCalendarYear())) {

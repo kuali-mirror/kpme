@@ -121,7 +121,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     public void deleteLeaveBlock(String leaveBlockId, String principalId) {
         LeaveBlock leaveBlock = getLeaveBlock(leaveBlockId);
         
-//        leaveBlock.setPrincipalIdModified(TKContext.getTargetPrincipalId());
+//        leaveBlock.setPrincipalIdModified(HrContext.getTargetPrincipalId());
 //        leaveBlock.setTimestamp(TKUtils.getCurrentTimestamp());
         
         // Make entry into LeaveBlockHistory table

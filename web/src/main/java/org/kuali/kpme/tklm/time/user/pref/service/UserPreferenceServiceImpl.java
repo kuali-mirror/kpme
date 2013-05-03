@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.user.pref.service;
 
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.user.pref.UserPreferences;
 import org.kuali.kpme.tklm.time.user.pref.dao.UserPreferenceDao;
@@ -28,7 +28,7 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
 	public UserPreferences getUserPreferences(String principalId) {
 		UserPreferences userPref = userPrefDao.getUserPreferences(principalId);
 		if(userPref == null){
-			return new UserPreferences(TKContext.getPrincipalId(), TKUtils.getSystemTimeZone());
+			return new UserPreferences(HrContext.getPrincipalId(), TKUtils.getSystemTimeZone());
 		}
 		return userPref;
 	}

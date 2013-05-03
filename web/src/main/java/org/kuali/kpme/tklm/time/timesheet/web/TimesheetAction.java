@@ -27,9 +27,9 @@ import org.apache.struts.action.ActionRedirect;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKContext;
-import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -45,7 +45,7 @@ public class TimesheetAction extends KPMEAction {
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
     	String principalId = GlobalVariables.getUserSession().getPrincipalId();
-    	String documentId = TKContext.getCurrentTimesheetDocumentId();
+    	String documentId = HrContext.getCurrentTimesheetDocumentId();
     	
         if (!TkServiceLocator.getTKPermissionService().canViewTimesheet(principalId, documentId)) {
             throw new AuthorizationException(principalId, "TimesheetAction: docid: " + documentId, "");
@@ -66,7 +66,7 @@ public class TimesheetAction extends KPMEAction {
 
         // Here - viewPrincipal will be the principal of the user we intend to
         // view, be it target user, backdoor or otherwise.
-        String viewPrincipal = TKContext.getTargetPrincipalId();
+        String viewPrincipal = HrContext.getTargetPrincipalId();
 		CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 
         // By handling the prev/next in the execute method, we are saving one
@@ -84,7 +84,7 @@ public class TimesheetAction extends KPMEAction {
             td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, payCalendarEntry);
         }
 
-        // Set the TKContext for the current timesheet document id.
+        // Set the HrContext for the current timesheet document id.
         if (td != null) {
            setupDocumentOnFormContext(taForm, td);
         } else {
@@ -107,7 +107,7 @@ public class TimesheetAction extends KPMEAction {
         	TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
         	String timesheetPrincipalName = KimApiServiceLocator.getPersonService().getPerson(timesheetDocument.getPrincipalId()).getPrincipalName();
         	
-        	String principalId = TKContext.getTargetPrincipalId();
+        	String principalId = HrContext.getTargetPrincipalId();
         	String principalName = KimApiServiceLocator.getPersonService().getPerson(principalId).getPrincipalName();
         	
         	StringBuilder builder = new StringBuilder();
@@ -136,9 +136,9 @@ public class TimesheetAction extends KPMEAction {
     }
 
     protected void setupDocumentOnFormContext(TimesheetActionForm taForm, TimesheetDocument td) throws Exception{
-    	String viewPrincipal = TKContext.getTargetPrincipalId();
-    	TKContext.setCurrentTimesheetDocumentId(td.getDocumentId());
-        TKContext.setCurrentTimesheetDocument(td);
+    	String viewPrincipal = HrContext.getTargetPrincipalId();
+    	HrContext.setCurrentTimesheetDocumentId(td.getDocumentId());
+        HrContext.setCurrentTimesheetDocument(td);
 	    taForm.setTimesheetDocument(td);
 	    taForm.setDocumentId(td.getDocumentId());
         TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET, viewPrincipal);

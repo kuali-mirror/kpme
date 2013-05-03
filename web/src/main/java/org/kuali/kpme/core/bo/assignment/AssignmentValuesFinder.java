@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -52,12 +52,12 @@ public class AssignmentValuesFinder extends KeyValuesBase {
         // was set up, we may need to look in two different places. Primarily
         // we look directly at the context's function.
         
-        String tdocId = TKContext.getCurrentTimesheetDocumentId();
+        String tdocId = HrContext.getCurrentTimesheetDocumentId();
         if (tdocId == null) {
-            tdocId = TKContext.getHttpServletRequest().getParameter(HrConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);
+            tdocId = HrContext.getHttpServletRequest().getParameter(HrConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);
         }
         if(tdocId == null){
-        	KualiForm kualiForm = (KualiForm)TKContext.getHttpServletRequest().getAttribute("KualiForm");
+        	KualiForm kualiForm = (KualiForm)HrContext.getHttpServletRequest().getAttribute("KualiForm");
         	if(kualiForm instanceof KualiMaintenanceForm){
         		tdocId = ((KualiMaintenanceForm)kualiForm).getDocId();
         	}
@@ -66,6 +66,7 @@ public class AssignmentValuesFinder extends KeyValuesBase {
         
         if (tdocId != null) {
             TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdocId);
+            
             Map<String,String> adMap = HrServiceLocator.getAssignmentService().getAssignmentDescriptions(tdoc, true); // Grab clock only assignments
 
             for (Map.Entry entry : adMap.entrySet()) {

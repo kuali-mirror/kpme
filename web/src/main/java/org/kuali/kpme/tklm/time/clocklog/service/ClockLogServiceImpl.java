@@ -28,8 +28,8 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKContext;
-import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.clocklog.dao.ClockLogDao;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -50,7 +50,7 @@ public class ClockLogServiceImpl implements ClockLogService {
 
     @Override
     public ClockLog processClockLog(Timestamp clockTimeStamp, Assignment assignment,CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, String principalId) {
-        return processClockLog(clockTimeStamp, assignment, pe, ip, asOfDate, td, clockAction, principalId, TKContext.getPrincipalId());
+        return processClockLog(clockTimeStamp, assignment, pe, ip, asOfDate, td, clockAction, principalId, HrContext.getPrincipalId());
     }
 
     @Override
@@ -122,7 +122,7 @@ public class ClockLogServiceImpl implements ClockLogService {
 
     @Override
     public ClockLog buildClockLog(Timestamp clockTimestamp, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip) {
-        return buildClockLog(clockTimestamp, originalTimestamp, assignment, timesheetDocument, clockAction, ip, TKContext.getPrincipalId());
+        return buildClockLog(clockTimestamp, originalTimestamp, assignment, timesheetDocument, clockAction, ip, HrContext.getPrincipalId());
     }
 
     @Override

@@ -23,8 +23,8 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKContext;
-import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -39,17 +39,17 @@ public class TkClockActionValuesFinder extends KeyValuesBase {
 	public List<KeyValue> getKeyValues() {
 		List<KeyValue> keyLabels = new LinkedList<KeyValue>();
         // get the missed punch doc Id if this is an existing document
-        String mpDocId = (String)TKContext.getHttpServletRequest().getParameter(TkConstants.DOCUMENT_ID_REQUEST_NAME);
+        String mpDocId = (String)HrContext.getHttpServletRequest().getParameter(TkConstants.DOCUMENT_ID_REQUEST_NAME);
         if(StringUtils.isBlank(mpDocId)) {
-        	mpDocId = (String)TKContext.getHttpServletRequest().getAttribute(TkConstants.DOCUMENT_ID_REQUEST_NAME);
+        	mpDocId = (String)HrContext.getHttpServletRequest().getAttribute(TkConstants.DOCUMENT_ID_REQUEST_NAME);
         	if(StringUtils.isBlank(mpDocId)){
-            	KualiForm kualiForm = (KualiForm)TKContext.getHttpServletRequest().getAttribute("KualiForm");
+            	KualiForm kualiForm = (KualiForm)HrContext.getHttpServletRequest().getAttribute("KualiForm");
             	if(kualiForm instanceof KualiTransactionalDocumentFormBase){
             		mpDocId = ((KualiTransactionalDocumentFormBase)kualiForm).getDocId();
             	}
             }
         	if(StringUtils.isBlank(mpDocId)){
-        		 mpDocId = (String)TKContext.getHttpServletRequest().getParameter("docId");
+        		 mpDocId = (String)HrContext.getHttpServletRequest().getParameter("docId");
             }
         }
         // if the user is working on an existing missed punch doc, only return available actions based on the initial clock action
@@ -65,7 +65,7 @@ public class TkClockActionValuesFinder extends KeyValuesBase {
         		}
         	}
         } else {
-            String targetPerson = TKContext.getTargetPrincipalId();
+            String targetPerson = HrContext.getTargetPrincipalId();
             ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(targetPerson);
             Set<String> validEntries = lastClock != null ?
                     TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(lastClock.getClockAction()) :

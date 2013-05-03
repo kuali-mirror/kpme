@@ -34,7 +34,7 @@ import org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
@@ -112,19 +112,19 @@ public class LeaveCalendarSubmitAction extends KPMEAction {
             		request.getSession().setAttribute("eligibilities", eligiblePayouts);
             		return payoutRedirect;           			
         		}
-                LmServiceLocator.getLeaveCalendarService().routeLeaveCalendar(TKContext.getTargetPrincipalId(), document);
+                LmServiceLocator.getLeaveCalendarService().routeLeaveCalendar(HrContext.getTargetPrincipalId(), document);
             }
         } else if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.APPROVE)) {
             if (LmServiceLocator.getLeaveCalendarService().isReadyToApprove(document)) {
                 if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
-                    LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(TKContext.getPrincipalId(), document);
+                    LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(HrContext.getPrincipalId(), document);
                 }
             } else {
                 //ERROR!!!!
             }
         } else if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
-                LmServiceLocator.getLeaveCalendarService().disapproveLeaveCalendar(TKContext.getPrincipalId(), document);
+                LmServiceLocator.getLeaveCalendarService().disapproveLeaveCalendar(HrContext.getPrincipalId(), document);
             }
         }
         ActionRedirect rd = new ActionRedirect(mapping.findForward("leaveCalendarRedirect"));
@@ -142,13 +142,13 @@ public class LeaveCalendarSubmitAction extends KPMEAction {
         // Approvals still using backdoor > actual
         if (StringUtils.equals(lcf.getAction(), HrConstants.DOCUMENT_ACTIONS.ROUTE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.INITIATED.getCode())) {
-                LmServiceLocator.getLeaveCalendarService().routeLeaveCalendar(TKContext.getTargetPrincipalId(), document);
+                LmServiceLocator.getLeaveCalendarService().routeLeaveCalendar(HrContext.getTargetPrincipalId(), document);
             }
         } else if (StringUtils.equals(lcf.getAction(), HrConstants.DOCUMENT_ACTIONS.APPROVE)) {
             //Todo:  check for unfinalized BalanceTransfer on current leave calendar.
             if (LmServiceLocator.getLeaveCalendarService().isReadyToApprove(document)) {
                 if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
-                    LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(TKContext.getPrincipalId(), document);
+                    LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(HrContext.getPrincipalId(), document);
                 }
             } else {
                 //ERROR!!!!
@@ -156,11 +156,11 @@ public class LeaveCalendarSubmitAction extends KPMEAction {
 
         } else if (StringUtils.equals(lcf.getAction(), HrConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
-                LmServiceLocator.getLeaveCalendarService().disapproveLeaveCalendar(TKContext.getPrincipalId(), document);
+                LmServiceLocator.getLeaveCalendarService().disapproveLeaveCalendar(HrContext.getPrincipalId(), document);
             }
         }
 
-        TKContext.clearTargetUser();
+        HrContext.clearTargetUser();
         return new ActionRedirect(mapping.findForward("approverRedirect"));
 
     }

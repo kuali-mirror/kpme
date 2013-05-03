@@ -26,8 +26,8 @@ import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
-import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
@@ -64,7 +64,7 @@ public class LeaveActionFormUtils {
             WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(leaveBlock.getWorkArea(), leaveBlock.getLeaveLocalDate());
             String workAreaDesc = workArea == null ? "" : workArea.getDescription();
             // Roles
-            Boolean isAnyApprover = TKContext.isAnyApprover();
+            Boolean isAnyApprover = HrContext.isAnyApprover();
             LeaveBlockMap.put("isApprover", isAnyApprover);
            
             LeaveBlockMap.put("documentId", leaveBlock.getDocumentId());

@@ -22,8 +22,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
-import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -44,16 +44,16 @@ public class MissedPunchAssignmentFinder extends KeyValuesBase {
     public List getKeyValues() {
         List<KeyValue> labels = new ArrayList<KeyValue>();
         String tdocId = "";
-        String mpDocId = (String)TKContext.getHttpServletRequest().getParameter(TkConstants.DOCUMENT_ID_REQUEST_NAME);
+        String mpDocId = (String)HrContext.getHttpServletRequest().getParameter(TkConstants.DOCUMENT_ID_REQUEST_NAME);
         if(StringUtils.isBlank(mpDocId)){
-        	KualiForm kualiForm = (KualiForm)TKContext.getHttpServletRequest().getAttribute("KualiForm");
+        	KualiForm kualiForm = (KualiForm)HrContext.getHttpServletRequest().getAttribute("KualiForm");
         	if(kualiForm instanceof KualiTransactionalDocumentFormBase){
         		mpDocId = ((KualiTransactionalDocumentFormBase)kualiForm).getDocId();
         	}
         }
         
         if(StringUtils.isBlank(mpDocId)){
-           tdocId = TKContext.getHttpServletRequest().getParameter(HrConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);   
+           tdocId = HrContext.getHttpServletRequest().getParameter(HrConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);   
         }
         
         if(StringUtils.isNotBlank(mpDocId)){
@@ -63,7 +63,7 @@ public class MissedPunchAssignmentFinder extends KeyValuesBase {
         	}
         }
         
-        mpDocId = (String)TKContext.getHttpServletRequest().getParameter("docId");
+        mpDocId = (String)HrContext.getHttpServletRequest().getParameter("docId");
         if(StringUtils.isNotBlank(mpDocId)){
         	MissedPunchDocument mp = TkServiceLocator.getMissedPunchService().getMissedPunchByRouteHeader(mpDocId);
         	if(mp != null) {
@@ -72,7 +72,7 @@ public class MissedPunchAssignmentFinder extends KeyValuesBase {
         }
         
         if(StringUtils.isBlank(tdocId)) {
-        	tdocId = (String) TKContext.getHttpServletRequest().getAttribute(HrConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);   
+        	tdocId = (String) HrContext.getHttpServletRequest().getAttribute(HrConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);   
         }
         
         if (tdocId != null) {

@@ -28,9 +28,9 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.missedpunch.dao.MissedPunchDao;
@@ -130,7 +130,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
                 assign,
                 tdoc,
                 missedPunch.getClockAction(),
-                TKUtils.getIPAddressFromRequest(TKContext.getHttpServletRequest()));
+                TKUtils.getIPAddressFromRequest(HrContext.getHttpServletRequest()));
 
         TkServiceLocator.getClockLogService().saveClockLog(clockLog);
         missedPunch.setTkClockLogId(clockLog.getTkClockLogId());
@@ -166,7 +166,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
                 assign,
                 tdoc,
                 missedPunch.getClockAction(),
-                TKUtils.getIPAddressFromRequest(TKContext.getHttpServletRequest()));
+                TKUtils.getIPAddressFromRequest(HrContext.getHttpServletRequest()));
         TkServiceLocator.getClockLogService().saveClockLog(clockLog);
         missedPunch.setTkClockLogId(clockLog.getTkClockLogId());
 //        MissedPunchDocument doc = TkServiceLocator.getMissedPunchService().getMissedPunchByRouteHeader(missedPunch.getDocumentNumber());
@@ -213,7 +213,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         // Add TimeBlocks after we store our reference object!
         List<TimeBlock> blocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(
                 assignment, earnCode, tdoc, beginTimestamp,
-                endTimestamp, BigDecimal.ZERO, BigDecimal.ZERO, true, false, TKContext.getPrincipalId());
+                endTimestamp, BigDecimal.ZERO, BigDecimal.ZERO, true, false, HrContext.getPrincipalId());
 
 
         // Add the clock log IDs to the time blocks that were just created.
@@ -233,7 +233,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
                 tdoc, tdoc.getPrincipalId()
         );
 
-        TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, TKContext.getPrincipalId());
+        TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
     }
     public MissedPunchDocument getMissedPunchByClockLogId(String clockLogId){
     	return missedPunchDao.getMissedPunchByClockLogId(clockLogId);

@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.rice.kns.web.struts.action.KualiRequestProcessor;
 
 public class KPMERequestProcessor extends KualiRequestProcessor {
@@ -41,8 +41,8 @@ public class KPMERequestProcessor extends KualiRequestProcessor {
 		
 		Date startTime = new Date();
 		
-		TKContext.clear();
-		TKContext.setHttpServletRequest(request);
+		HrContext.clear();
+		HrContext.setHttpServletRequest(request);
 		super.process(request, response);
 
 		String header = " Browser: " + request.getHeader("User-Agent");

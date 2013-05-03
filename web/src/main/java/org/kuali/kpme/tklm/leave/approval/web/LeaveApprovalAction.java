@@ -46,7 +46,7 @@ import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.ApprovalAction;
 import org.kuali.kpme.core.web.ApprovalForm;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
@@ -105,7 +105,7 @@ public class LeaveApprovalAction extends ApprovalAction{
             if (ar.isApprovable() && StringUtils.equals(ar.getSelected(), "on")) {
                 String documentNumber = ar.getDocumentId();
                 LeaveCalendarDocument lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentNumber);
-                LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(TKContext.getPrincipalId(), lcd);
+                LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(HrContext.getPrincipalId(), lcd);
             }
         }  
         
@@ -257,7 +257,7 @@ public class LeaveApprovalAction extends ApprovalAction{
         } else {
             currentDate = LocalDate.now();
         }
-        List<Long> workAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);
+        List<Long> workAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(HrContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);
         List<String> principalIds = new ArrayList<String>();
         for (Long workArea : workAreas) {
             List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
@@ -358,7 +358,7 @@ public class LeaveApprovalAction extends ApprovalAction{
 		List<CalendarEntry> pcListForYear = new ArrayList<CalendarEntry>();
 		List<CalendarEntry> pceList =  new ArrayList<CalendarEntry>();
 		pceList.addAll(LmServiceLocator.getLeaveApprovalService()
-			.getAllLeavePayCalendarEntriesForApprover(TKContext.getPrincipalId(), LocalDate.now()));
+			.getAllLeavePayCalendarEntriesForApprover(HrContext.getPrincipalId(), LocalDate.now()));
 		
 	    for(CalendarEntry pce : pceList) {
 	    	yearSet.add(sdf.format(pce.getBeginPeriodDate()));

@@ -26,7 +26,7 @@ import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
@@ -171,7 +171,7 @@ public class BalanceTransferMaintainableImpl extends
 		accruedLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE);
 		accruedLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 		accruedLeaveBlock.setDocumentId(leaveDocId);
-		accruedLeaveBlock.setPrincipalIdModified(TKContext.getPrincipalId());
+		accruedLeaveBlock.setPrincipalIdModified(HrContext.getPrincipalId());
 		lbList.add(accruedLeaveBlock);
 		
 		LeaveBlock usageLeaveBlock = new LeaveBlock();
@@ -187,7 +187,7 @@ public class BalanceTransferMaintainableImpl extends
 		usageLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE);
 		usageLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 		usageLeaveBlock.setDocumentId(leaveDocId);
-		usageLeaveBlock.setPrincipalIdModified(TKContext.getPrincipalId());
+		usageLeaveBlock.setPrincipalIdModified(HrContext.getPrincipalId());
 		lbList.add(usageLeaveBlock);
 		
 		return lbList;

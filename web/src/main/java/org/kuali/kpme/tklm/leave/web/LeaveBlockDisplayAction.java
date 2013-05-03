@@ -37,7 +37,7 @@ import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
@@ -56,7 +56,7 @@ public class LeaveBlockDisplayAction extends KPMEAction {
 		
 		LeaveBlockDisplayForm lbdf = (LeaveBlockDisplayForm) form;	
 
-		PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(TKContext.getTargetPrincipalId(), LocalDate.now());
+		PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(HrContext.getTargetPrincipalId(), LocalDate.now());
 		String leavePlan = (principalHRAttributes != null) ? principalHRAttributes.getLeavePlan() : null;
 
 		Calendar currentCalendar = Calendar.getInstance();
@@ -74,9 +74,9 @@ public class LeaveBlockDisplayAction extends KPMEAction {
 		LocalDate endDate = LocalDate.fromCalendarFields(currentCalendar);
 
 		lbdf.setAccrualCategories(getAccrualCategories(leavePlan));
-		lbdf.setLeaveEntries(getLeaveEntries(TKContext.getTargetPrincipalId(), serviceDate, beginDate, endDate, lbdf.getAccrualCategories()));
+		lbdf.setLeaveEntries(getLeaveEntries(HrContext.getTargetPrincipalId(), serviceDate, beginDate, endDate, lbdf.getAccrualCategories()));
 
-		List<LeaveBlockHistory> correctedLeaveEntries = LmServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistoriesForLeaveDisplay(TKContext.getTargetPrincipalId(), beginDate, endDate, Boolean.TRUE);
+		List<LeaveBlockHistory> correctedLeaveEntries = LmServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistoriesForLeaveDisplay(HrContext.getTargetPrincipalId(), beginDate, endDate, Boolean.TRUE);
 		if (correctedLeaveEntries != null) {
 			for (LeaveBlockHistory leaveBlockHistory : correctedLeaveEntries) {
 				if (leaveBlockHistory.getAction() != null && leaveBlockHistory.getAction().equalsIgnoreCase(HrConstants.ACTION.DELETE)) {
@@ -91,7 +91,7 @@ public class LeaveBlockDisplayAction extends KPMEAction {
 		}
 		lbdf.setCorrectedLeaveEntries(correctedLeaveEntries);
 		
-		List<LeaveBlockHistory> inActiveLeaveEntries = LmServiceLocator.getLeaveBlockHistoryService() .getLeaveBlockHistoriesForLeaveDisplay(TKContext.getTargetPrincipalId(), beginDate, endDate, Boolean.FALSE);
+		List<LeaveBlockHistory> inActiveLeaveEntries = LmServiceLocator.getLeaveBlockHistoryService() .getLeaveBlockHistoriesForLeaveDisplay(HrContext.getTargetPrincipalId(), beginDate, endDate, Boolean.FALSE);
 		List<LeaveBlockHistory> leaveEntries = null;
 		if (inActiveLeaveEntries != null) {
 			leaveEntries = new ArrayList<LeaveBlockHistory>();

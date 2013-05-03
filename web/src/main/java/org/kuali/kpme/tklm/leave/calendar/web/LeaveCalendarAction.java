@@ -57,7 +57,7 @@ import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.common.LMConstants;
@@ -92,7 +92,7 @@ public class LeaveCalendarAction extends KPMEAction {
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
-        String documentId = TKContext.getCurrentLeaveCalendarDocumentId();
+        String documentId = HrContext.getCurrentLeaveCalendarDocumentId();
         
         if (documentId != null && !LmServiceLocator.getLMPermissionService().canViewLeaveCalendar(principalId, documentId)) {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "LeaveCalendarAction: docid: " + documentId, "");
@@ -116,7 +116,7 @@ public class LeaveCalendarAction extends KPMEAction {
 		
 		// Here - viewPrincipal will be the principal of the user we intend to
 		// view, be it target user, backdoor or otherwise.
-		String viewPrincipal = TKContext.getTargetPrincipalId();
+		String viewPrincipal = HrContext.getTargetPrincipalId();
 		CalendarEntry calendarEntry = null;
 
 		LeaveCalendarDocument lcd = null;
@@ -276,7 +276,7 @@ public class LeaveCalendarAction extends KPMEAction {
 			        		if(calendarInterval.contains(aDate.getMillis()) && aDate.toDate().compareTo(calendarEntry.getEndPeriodDate()) <= 0) {
 				        		//may want to calculate summary for all rows, displayable or not, and determine displayability via tags.
 				    			AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
-				    			BigDecimal accruedBalance = HrServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(viewPrincipal, accrualCategory, lb.getLeaveLocalDate());
+				    			BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(viewPrincipal, accrualCategory, lb.getLeaveLocalDate());
 					        	
 					        	BalanceTransfer loseTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveLocalDate());
 					        	boolean valid = BalanceTransferValidationUtils.validateTransfer(loseTransfer);
@@ -389,11 +389,11 @@ public class LeaveCalendarAction extends KPMEAction {
 	}
 	
 	private void populateCalendarAndPayPeriodLists(HttpServletRequest request, LeaveCalendarForm lcf) {
-		String viewPrincipal = TKContext.getTargetPrincipalId();
+		String viewPrincipal = HrContext.getTargetPrincipalId();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         // find all the calendar entries up to the planning months of this employee
         List<CalendarEntry> ceList = lcf.getCalendarEntry() == null ? new ArrayList<CalendarEntry>() : HrServiceLocator.getCalendarEntryService()
-        	.getAllCalendarEntriesForCalendarIdUpToPlanningMonths(lcf.getCalendarEntry().getHrCalendarId(), TKContext.getTargetPrincipalId());
+        	.getAllCalendarEntriesForCalendarIdUpToPlanningMonths(lcf.getCalendarEntry().getHrCalendarId(), HrContext.getTargetPrincipalId());
         
         if(lcf.getCalendarYears().isEmpty()) {
         	// get calendar year drop down list contents
@@ -434,8 +434,8 @@ public class LeaveCalendarAction extends KPMEAction {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
 		
-		String principalId = TKContext.getPrincipalId();
-		String targetPrincipalId = TKContext.getTargetPrincipalId();
+		String principalId = HrContext.getPrincipalId();
+		String targetPrincipalId = HrContext.getTargetPrincipalId();
 		CalendarEntry calendarEntry = lcf.getCalendarEntry();
 		String selectedAssignment = lcf.getSelectedAssignment();
 		
@@ -504,15 +504,15 @@ public class LeaveCalendarAction extends KPMEAction {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
 
-		String principalId = TKContext.getPrincipalId();
-		String targetPrincipalId = TKContext.getTargetPrincipalId();
+		String principalId = HrContext.getPrincipalId();
+		String targetPrincipalId = HrContext.getTargetPrincipalId();
 		CalendarEntry calendarEntry = lcf.getCalendarEntry();
 		String leaveBlockId = lcf.getLeaveBlockId();
 		
 		String documentId = lcd != null ? lcd.getDocumentId() : "";
 
         LeaveBlock blockToDelete = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
-        if (blockToDelete != null && LmServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), blockToDelete)) {
+        if (blockToDelete != null && LmServiceLocator.getLMPermissionService().canDeleteLeaveBlock(HrContext.getPrincipalId(), blockToDelete)) {
         	//if leave block is a pending leave request, cancel the leave request document
         	if(blockToDelete.getRequestStatus().equals(HrConstants.REQUEST_STATUS.REQUESTED)) {
         		List<LeaveRequestDocument> lrdList = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(blockToDelete.getLmLeaveBlockId());
@@ -574,7 +574,7 @@ public class LeaveCalendarAction extends KPMEAction {
 		if(ec != null && ec.getEligibleForAccrual().equals("N")) {
 			if(startDate != null && endDate != null) {
 				// since we are only recalculating accrual for this pay period, we use "false" to not record the accrual run data
-				LmServiceLocator.getLeaveAccrualService().runAccrual(TKContext.getTargetPrincipalId(), startDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay(), false);
+				LmServiceLocator.getLeaveAccrualService().runAccrual(HrContext.getTargetPrincipalId(), startDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay(), false);
 			}
 		}
 	}
@@ -584,8 +584,8 @@ public class LeaveCalendarAction extends KPMEAction {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
 		
-		String principalId = TKContext.getPrincipalId();
-		String targetPrincipalId = TKContext.getTargetPrincipalId();
+		String principalId = HrContext.getPrincipalId();
+		String targetPrincipalId = HrContext.getTargetPrincipalId();
 		CalendarEntry calendarEntry = lcf.getCalendarEntry();
 		String selectedEarnCode = lcf.getSelectedEarnCode();
 		String leaveBlockId = lcf.getLeaveBlockId();
@@ -640,7 +640,7 @@ public class LeaveCalendarAction extends KPMEAction {
 	protected void setupDocumentOnFormContext(LeaveCalendarForm leaveForm,
 			LeaveCalendarDocument lcd) {
 		CalendarEntry futureCalEntry = null;
-		String viewPrincipal = TKContext.getTargetPrincipalId();
+		String viewPrincipal = HrContext.getTargetPrincipalId();
 		CalendarEntry calEntry = leaveForm.getCalendarEntry();
 		
 		Date startCalDate = null;
@@ -648,11 +648,11 @@ public class LeaveCalendarAction extends KPMEAction {
 		// some leave calendar may not have leaveCalendarDocument created based on the jobs status of this employee
 		if(lcd != null) {
 			if (lcd.getDocumentHeader() != null) {
-				TKContext.setCurrentLeaveCalendarDocumentId(lcd.getDocumentId());
+				HrContext.setCurrentLeaveCalendarDocumentId(lcd.getDocumentId());
 				leaveForm.setDocumentId(lcd.getDocumentId());
 			}
-			TKContext.setCurrentLeaveCalendarDocument(lcd);
-	        TKContext.setCurrentLeaveCalendarDocumentId(lcd.getDocumentId());
+			HrContext.setCurrentLeaveCalendarDocument(lcd);
+	        HrContext.setCurrentLeaveCalendarDocumentId(lcd.getDocumentId());
 			leaveForm.setLeaveCalendarDocument(lcd);
 	        leaveForm.setDocumentId(lcd.getDocumentId());
 	        calEntry = lcd.getCalendarEntry();
@@ -746,27 +746,27 @@ public class LeaveCalendarAction extends KPMEAction {
     	leaveForm.setDocEditable(false);
     	if(lcd == null) {
     		// working on own calendar
-    		 if(TKContext.getTargetPrincipalId().equals(GlobalVariables.getUserSession().getPrincipalId())) {
+    		 if(HrContext.getTargetPrincipalId().equals(GlobalVariables.getUserSession().getPrincipalId())) {
     			 leaveForm.setDocEditable(true); 
     		 } else {
-    			 if(TKContext.isSystemAdmin()
-                     || TKContext.isLocationAdmin()
-                     || TKContext.isReviewer()
-                     || TKContext.isAnyApprover()) {
+    			 if(HrContext.isSystemAdmin()
+                     || HrContext.isLocationAdmin()
+                     || HrContext.isReviewer()
+                     || HrContext.isAnyApprover()) {
     				 	leaveForm.setDocEditable(true);
     			 }
              }
     	} else {
-	        if (TKContext.isSystemAdmin() && !StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())) {
+	        if (HrContext.isSystemAdmin() && !StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())) {
 	            leaveForm.setDocEditable(true);
 	        } else {
 	            boolean docFinal = lcd.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL);
 	            if (!docFinal) {
 	                if(StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
-	                        || TKContext.isSystemAdmin()
-	                        || TKContext.isLocationAdmin()
-	                        || TKContext.isReviewer()
-	                        || TKContext.isAnyApprover()) {
+	                        || HrContext.isSystemAdmin()
+	                        || HrContext.isLocationAdmin()
+	                        || HrContext.isReviewer()
+	                        || HrContext.isAnyApprover()) {
 	                    leaveForm.setDocEditable(true);
 	                }
 	
@@ -785,7 +785,7 @@ public class LeaveCalendarAction extends KPMEAction {
 	
 	public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
-		String viewPrincipal = TKContext.getTargetPrincipalId();
+		String viewPrincipal = HrContext.getTargetPrincipalId();
 		CalendarEntry calendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 		lcf.setCalendarEntry(calendarEntry);
 		if(calendarEntry != null) {
@@ -827,7 +827,7 @@ public class LeaveCalendarAction extends KPMEAction {
 	        CalendarEntry ce = HrServiceLocator.getCalendarEntryService()
 				.getCalendarEntry(request.getParameter("selectedPP").toString());
 			if(ce != null) {
-				String viewPrincipal = TKContext.getTargetPrincipalId();
+				String viewPrincipal = HrContext.getTargetPrincipalId();
 				lcf.setCalEntryId(ce.getHrCalendarEntryId());
 				LeaveCalendarDocument lcd = null;
 				// use jobs to find out if this leave calendar should have a document created or not
@@ -942,7 +942,7 @@ public class LeaveCalendarAction extends KPMEAction {
         	LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(docId);
         	String timesheetPrincipalName = KimApiServiceLocator.getPersonService().getPerson(leaveCalendarDocument.getPrincipalId()).getPrincipalName();
         	
-        	String principalId = TKContext.getTargetPrincipalId();
+        	String principalId = HrContext.getTargetPrincipalId();
         	String principalName = KimApiServiceLocator.getPersonService().getPerson(principalId).getPrincipalName();
         	
         	StringBuilder builder = new StringBuilder();

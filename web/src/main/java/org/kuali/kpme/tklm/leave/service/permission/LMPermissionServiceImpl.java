@@ -16,9 +16,9 @@ import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.permission.HrPermissionServiceBase;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
-import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.common.LMConstants;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.service.LeaveCalendarService;
@@ -196,14 +196,14 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
             if (StringUtils.isBlank(blockType)
                     || StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, blockType)
                     || StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR, blockType)) {
-            	if (!TKContext.isDepartmentAdmin()) {
+            	if (!HrContext.isDepartmentAdmin()) {
             		return true;
             	}
             } else if (LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER.equals(blockType)
                     || LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT.equals(blockType)
                     || LMConstants.LEAVE_BLOCK_TYPE.DONATION_MAINT.equals(blockType)
                     || LMConstants.LEAVE_BLOCK_TYPE.LEAVE_ADJUSTMENT_MAINT.equals(blockType)) {
-                if (TKContext.isSystemAdmin()) {
+                if (HrContext.isSystemAdmin()) {
                     return true;
                 }
             }
@@ -211,7 +211,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
             if(StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE, blockType)
             		&& StringUtils.isNotEmpty(leaveBlock.getScheduleTimeOffId())
             		&& leaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) == -1) {
-            	if(TKContext.isSystemAdmin()) {
+            	if(HrContext.isSystemAdmin()) {
             		return true;
             	}
             	SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(leaveBlock.getScheduleTimeOffId());
@@ -256,7 +256,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 			   && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) < 0) {
 		   SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
 		   if(ssto != null && StringUtils.equals(ssto.getUnusedTime(), LMConstants.UNUSED_TIME.BANK)) {
-			   String viewPrincipal = TKContext.getTargetPrincipalId();
+			   String viewPrincipal = HrContext.getTargetPrincipalId();
 			   CalendarEntry ce = HrServiceLocator.getCalendarService()
 						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 			   if(ce != null) {
@@ -277,7 +277,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 			   && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) < 0) {
 		   SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
 		   if(ssto != null && ssto.getUnusedTime().equals(LMConstants.UNUSED_TIME.TRANSFER)) {
-			   String viewPrincipal = TKContext.getTargetPrincipalId();
+			   String viewPrincipal = HrContext.getTargetPrincipalId();
 			   CalendarEntry ce = HrServiceLocator.getCalendarService()
 						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 			   if(ce != null) {
@@ -331,7 +331,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
     @Override
     public boolean canViewLeaveTabsWithEStatus() {
     	boolean canViewLeaveTabs = false;
-    	String principalId = TKContext.getTargetPrincipalId();
+    	String principalId = HrContext.getTargetPrincipalId();
     	LocalDate asOfDate = LocalDate.now();
     	boolean leaveCalNPlanDefined = isCalendarDefined("leaveCalendar", principalId, asOfDate, true);
     	String flsaStatus = TkConstants.FLSA_STATUS_EXEMPT;
@@ -346,7 +346,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
     	LocalDate asOfDate = LocalDate.now();
     	String flsaStatus = HrConstants.FLSA_STATUS_NON_EXEMPT;
     	// find active assignments as of currentDate
-    	String principalId = TKContext.getTargetPrincipalId();
+    	String principalId = HrContext.getTargetPrincipalId();
     	boolean activeAss = isActiveAssignmentFoundOnJobFlsaStatus(principalId, flsaStatus, true);
     	// chk leave plan defined
     	boolean leaveCalNPlanDefined = isCalendarDefined("leaveCalendar", principalId, asOfDate, true);

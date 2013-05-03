@@ -27,9 +27,9 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -66,7 +66,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 
         // Set person on the context
         // This is primary for getting the assignment, since we get the assignment by using the target principal id on the context
-        TKContext.setTargetPrincipalId(principalId);
+        HrContext.setTargetPrincipalId(principalId);
 
 		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(new AssignmentDescriptionKey(assignmentKey), LocalDate.now());
         CalendarEntry calendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, new LocalDate().toDateTimeAtStartOfDay());
@@ -77,7 +77,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 			throw new RuntimeException("Could not open timesheet");
 		}
         
-		String ip = TKUtils.getIPAddressFromRequest(TKContext.getHttpServletRequest());
+		String ip = TKUtils.getIPAddressFromRequest(HrContext.getHttpServletRequest());
         Timestamp currentTs = new Timestamp(System.currentTimeMillis());
 
         // processClockLog is the correct method to use. It creates and persists a clock log and a time block if necessary.
@@ -130,7 +130,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 	}
 
     private String getCurrentClockAction() {
-        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getTargetPrincipalId());
+        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(HrContext.getTargetPrincipalId());
         String currentClockAction = "";
         if(lastClockLog != null){
 			if(StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_IN)){

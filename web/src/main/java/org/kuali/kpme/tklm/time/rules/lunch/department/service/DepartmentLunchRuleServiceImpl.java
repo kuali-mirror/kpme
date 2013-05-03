@@ -23,7 +23,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.kpme.tklm.time.rules.lunch.department.dao.DepartmentLunchRuleDao;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;

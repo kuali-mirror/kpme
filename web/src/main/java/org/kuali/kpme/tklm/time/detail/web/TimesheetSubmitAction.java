@@ -39,7 +39,7 @@ import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -149,19 +149,19 @@ public class TimesheetSubmitAction extends KPMEAction {
                 		return payoutRedirect;           			
             		}
             	}
-                TkServiceLocator.getTimesheetService().routeTimesheet(TKContext.getTargetPrincipalId(), document);
+                TkServiceLocator.getTimesheetService().routeTimesheet(HrContext.getTargetPrincipalId(), document);
             }
         } else if (StringUtils.equals(tsaf.getAction(), HrConstants.DOCUMENT_ACTIONS.APPROVE)) {
         	if(TkServiceLocator.getTimesheetService().isReadyToApprove(document)) {
 	            if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
-	                TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getPrincipalId(), document);
+	                TkServiceLocator.getTimesheetService().approveTimesheet(HrContext.getPrincipalId(), document);
 	            }
         	} else {
         		//ERROR!!!
         	}
         } else if (StringUtils.equals(tsaf.getAction(), HrConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
-                TkServiceLocator.getTimesheetService().disapproveTimesheet(TKContext.getPrincipalId(), document);
+                TkServiceLocator.getTimesheetService().disapproveTimesheet(HrContext.getPrincipalId(), document);
             }
         }
         
@@ -180,22 +180,22 @@ public class TimesheetSubmitAction extends KPMEAction {
         // Approvals still using backdoor > actual
         if (StringUtils.equals(tsaf.getAction(), HrConstants.DOCUMENT_ACTIONS.ROUTE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.INITIATED.getCode())) {
-                TkServiceLocator.getTimesheetService().routeTimesheet(TKContext.getTargetPrincipalId(), document);
+                TkServiceLocator.getTimesheetService().routeTimesheet(HrContext.getTargetPrincipalId(), document);
             }
         } else if (StringUtils.equals(tsaf.getAction(), HrConstants.DOCUMENT_ACTIONS.APPROVE)) {
         	if(TkServiceLocator.getTimesheetService().isReadyToApprove(document)) {
 	            if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
-	                TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getPrincipalId(), document);
+	                TkServiceLocator.getTimesheetService().approveTimesheet(HrContext.getPrincipalId(), document);
 	            }
         	} else {
         		//ERROR!!!
         	}
         } else if (StringUtils.equals(tsaf.getAction(), HrConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
-                TkServiceLocator.getTimesheetService().disapproveTimesheet(TKContext.getPrincipalId(), document);
+                TkServiceLocator.getTimesheetService().disapproveTimesheet(HrContext.getPrincipalId(), document);
             }
         }
-        TKContext.clearTargetUser();
+        HrContext.clearTargetUser();
         return new ActionRedirect(mapping.findForward("approverRedirect"));
 
 

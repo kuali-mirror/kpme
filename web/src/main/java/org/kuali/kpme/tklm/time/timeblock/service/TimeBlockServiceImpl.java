@@ -34,9 +34,9 @@ import org.kuali.kpme.core.bo.paytype.PayType;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
@@ -329,7 +329,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
     	if(userId != null) {
 
-			if(TKContext.isSystemAdmin()) {
+			if(HrContext.isSystemAdmin()) {
 				return true;
 			}
 
@@ -337,7 +337,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(userId, KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
         			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(userId, KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime())) {
 
-				Job job = HrServiceLocator.getJobService().getJob(TKContext.getTargetPrincipalId(),timeBlock.getJobNumber(), timeBlock.getEndDateTime().toLocalDate());
+				Job job = HrServiceLocator.getJobService().getJob(HrContext.getTargetPrincipalId(),timeBlock.getJobNumber(), timeBlock.getEndDateTime().toLocalDate());
 				PayType payType = HrServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
 				if(StringUtils.equals(payType.getRegEarnCode(), timeBlock.getEarnCode())){
 					return true;
@@ -351,8 +351,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 				}
 			}
 
-			if(userId.equals(TKContext.getTargetPrincipalId())) {
-				Job job = HrServiceLocator.getJobService().getJob(TKContext.getTargetPrincipalId(),timeBlock.getJobNumber(), timeBlock.getEndDateTime().toLocalDate());
+			if(userId.equals(HrContext.getTargetPrincipalId())) {
+				Job job = HrServiceLocator.getJobService().getJob(HrContext.getTargetPrincipalId(),timeBlock.getJobNumber(), timeBlock.getEndDateTime().toLocalDate());
 				PayType payType = HrServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
 				if(StringUtils.equals(payType.getRegEarnCode(), timeBlock.getEarnCode())){
 					return true;

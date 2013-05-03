@@ -25,9 +25,9 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.test.TkTestUtils;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.lunch.sys.SystemLunchRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 
@@ -78,12 +78,12 @@ public class SystemLunchRuleTest extends KPMETestCase {
         //Thread.sleep(3000);
     	Assert.assertTrue("The return from lunch button didn't appear", page.asXml().contains("lunchIn"));
     	Thread.sleep(3000);
-    	Assert.assertEquals(TkConstants.LUNCH_OUT, TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getPrincipalId()).getClockAction());
+    	Assert.assertEquals(TkConstants.LUNCH_OUT, TkServiceLocator.getClockLogService().getLastClockLog(HrContext.getPrincipalId()).getClockAction());
         //Thread.sleep(3000);
     	// the lunch out button should display after lunching in
     	page = TkTestUtils.clickLunchInOrOutButton(page, "LI");
     	Thread.sleep(3000);
-    	Assert.assertEquals(TkConstants.LUNCH_IN, TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getPrincipalId()).getClockAction());
+    	Assert.assertEquals(TkConstants.LUNCH_IN, TkServiceLocator.getClockLogService().getLastClockLog(HrContext.getPrincipalId()).getClockAction());
     	
 	}
 }

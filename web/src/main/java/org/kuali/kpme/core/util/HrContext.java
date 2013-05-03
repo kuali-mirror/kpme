@@ -28,6 +28,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -35,7 +36,7 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class TKContext {
+public class HrContext {
 
     private static final String TDOC_OBJ_KEY = "_TDOC_O_KEY";
     private static final String TDOC_KEY = "_TDOC_ID_KEY";
@@ -194,35 +195,35 @@ public class TKContext {
     }
 
     public static TimesheetDocument getCurrentTimesheetDocument() {
-        return (TimesheetDocument)TKContext.getStorageMap().get(TDOC_OBJ_KEY);
+        return (TimesheetDocument)HrContext.getStorageMap().get(TDOC_OBJ_KEY);
     }
 
     public static void setCurrentTimesheetDocument(TimesheetDocument tdoc) {
-        TKContext.getStorageMap().put(TDOC_OBJ_KEY, tdoc);
+        HrContext.getStorageMap().put(TDOC_OBJ_KEY, tdoc);
     }
 
     public static String getCurrentTimesheetDocumentId() {
-        return (String)TKContext.getStorageMap().get(TDOC_KEY);
+        return (String)HrContext.getStorageMap().get(TDOC_KEY);
     }
 
     public static void setCurrentTimesheetDocumentId(String timesheetDocumentId) {
-        TKContext.getStorageMap().put(TDOC_KEY, timesheetDocumentId);
+        HrContext.getStorageMap().put(TDOC_KEY, timesheetDocumentId);
     }
 
     public static LeaveCalendarDocument getCurrentLeaveCalendarDocument() {
-        return  (LeaveCalendarDocument)TKContext.getStorageMap().get(LDOC_OBJ_KEY);
+        return  (LeaveCalendarDocument)HrContext.getStorageMap().get(LDOC_OBJ_KEY);
     }
 
     public static void setCurrentLeaveCalendarDocument(LeaveCalendarDocument ldoc) {
-        TKContext.getStorageMap().put(LDOC_OBJ_KEY, ldoc);
+        HrContext.getStorageMap().put(LDOC_OBJ_KEY, ldoc);
     }
 
     public static String getCurrentLeaveCalendarDocumentId() {
-        return (String)TKContext.getStorageMap().get(LDOC_KEY);
+        return (String)HrContext.getStorageMap().get(LDOC_KEY);
     }
 
     public static void setCurrentLeaveCalendarDocumentId(String leaveCalendarDocumentId) {
-        TKContext.getStorageMap().put(LDOC_KEY, leaveCalendarDocumentId);
+        HrContext.getStorageMap().put(LDOC_KEY, leaveCalendarDocumentId);
     }	
 
 	public static HttpServletRequest getHttpServletRequest() {

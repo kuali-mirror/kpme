@@ -34,7 +34,7 @@ import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -60,7 +60,7 @@ public class ChangeTargetPersonAction extends KPMEAction {
 	                	|| isViewOnlyForPerson(targetPerson.getPrincipalId())
 	                	|| isAdministratorForPerson(targetPerson.getPrincipalId())) {
 		                	
-	            	TKContext.setTargetPrincipalId(targetPerson.getPrincipalId());
+	            	HrContext.setTargetPrincipalId(targetPerson.getPrincipalId());
 	
 		            if (StringUtils.isNotEmpty(changeTargetPersonForm.getReturnUrl())) {
 		            	GlobalVariables.getUserSession().addObject(HrConstants.TK_TARGET_USER_RETURN, changeTargetPersonForm.getReturnUrl());
@@ -148,7 +148,7 @@ public class ChangeTargetPersonAction extends KPMEAction {
     }
     
     public ActionForward clearTargetPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	TKContext.clearTargetUser();
+    	HrContext.clearTargetUser();
         
         String returnAction = "PersonInfo.do";
         if (StringUtils.isNotBlank((String) GlobalVariables.getUserSession().retrieveObject(HrConstants.TK_TARGET_USER_RETURN))) {

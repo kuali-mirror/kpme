@@ -40,7 +40,7 @@ import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -84,9 +84,9 @@ public class ApprovalAction extends KPMEAction{
 	
 	protected void checkTKAuthorization(ActionForm form, String methodToCall)
 			throws AuthorizationException {
-			    if (!TKContext.isReviewer() && !TKContext.isAnyApprover() && !TKContext.isSystemAdmin()
-			    		&& !TKContext.isLocationAdmin() && !TKContext.isGlobalViewOnly() && !TKContext.isDepartmentViewOnly()
-			    		&& !TKContext.isDepartmentAdmin()) {
+			    if (!HrContext.isReviewer() && !HrContext.isAnyApprover() && !HrContext.isSystemAdmin()
+			    		&& !HrContext.isLocationAdmin() && !HrContext.isGlobalViewOnly() && !HrContext.isDepartmentViewOnly()
+			    		&& !HrContext.isDepartmentAdmin()) {
 			        throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "ApprovalAction", "");
 			    }
 			}

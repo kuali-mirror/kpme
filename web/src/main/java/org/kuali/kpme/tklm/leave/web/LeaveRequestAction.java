@@ -34,7 +34,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
@@ -52,7 +52,7 @@ public class LeaveRequestAction extends KPMEAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = super.execute(mapping, form, request, response);
 		LeaveRequestForm leaveForm = (LeaveRequestForm) form;
-		String principalId = TKContext.getTargetPrincipalId();
+		String principalId = HrContext.getTargetPrincipalId();
 		DateTime currentDate = LocalDate.now().toDateTimeAtStartOfDay();
 
         Calendar currentCalendar = Calendar.getInstance();

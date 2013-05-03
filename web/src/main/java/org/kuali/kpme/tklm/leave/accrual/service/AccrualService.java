@@ -15,10 +15,12 @@
  */
 package org.kuali.kpme.tklm.leave.accrual.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.tklm.leave.accrual.RateRangeAggregate;
 
 public interface AccrualService {
@@ -92,5 +94,17 @@ public interface AccrualService {
 	public int getWorkDaysInAccrualInterval(String earnInterval, LocalDate aDate);
 	
 	public boolean statusChangedSinceLastRun(String principalId);
+
+    /**
+     * Retreives the principal's balance on the current calendar for the given accrual category through the date supplied.
+     * @param principalId The id of the principal 
+     * @param accrualCategory The accrual category the balance is being requested of
+     * @param asOfDate 
+     * @return
+     * @throws Exception 
+     */
+	public BigDecimal getAccruedBalanceForPrincipal(String principalId, AccrualCategory accrualCategory, LocalDate asOfDate);
+	
+	public BigDecimal getApprovedBalanceForPrincipal(String principalId, AccrualCategory accrualCategory, LocalDate asOfDate);
 	
 }

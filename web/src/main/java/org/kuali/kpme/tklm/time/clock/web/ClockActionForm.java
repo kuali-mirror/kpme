@@ -31,7 +31,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -86,7 +86,7 @@ public class ClockActionForm extends TimesheetActionForm {
 	private String outputString;
 	
     public String getTargetUserTimezone() {
-        return HrServiceLocator.getTimezoneService().getUserTimezone(TKContext.getTargetPrincipalId());
+        return HrServiceLocator.getTimezoneService().getUserTimezone(HrContext.getTargetPrincipalId());
     }
 
     public Date getLastClockTimeWithZone() {

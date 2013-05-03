@@ -25,7 +25,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
 import org.kuali.kpme.core.document.calendar.CalendarDocumentContract;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
@@ -40,23 +40,23 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class WorkflowTagSupport {
 
     public String getTimesheetDocumentId() {
-        return TKContext.getCurrentTimesheetDocumentId();
+        return HrContext.getCurrentTimesheetDocumentId();
     }
 
     public String getLeaveCalendarDocumentId() {
-        return TKContext.getCurrentLeaveCalendarDocumentId();
+        return HrContext.getCurrentLeaveCalendarDocumentId();
     }
 
     public boolean isDisplayingTimesheetRouteButton() {
-    	return isDisplayingRouteButton(TKContext.getCurrentTimesheetDocument());
+    	return isDisplayingRouteButton(HrContext.getCurrentTimesheetDocument());
     }
 
     public boolean isDisplayingLeaveRouteButton() {
-    	return isDisplayingRouteButton(TKContext.getCurrentLeaveCalendarDocument());
+    	return isDisplayingRouteButton(HrContext.getCurrentLeaveCalendarDocument());
     }
     
     public boolean isDisplayingCurrentPeriodRouteButtonWithNoDelinquencies() {
-    	LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
+    	LeaveCalendarDocument doc = HrContext.getCurrentLeaveCalendarDocument();
     	if (LocalDate.now().toDate().after(DateUtils.addMilliseconds(doc.getCalendarEntry().getBeginPeriodDate(),1)) &&
     			LocalDate.now().toDate().before(DateUtils.addMilliseconds(doc.getCalendarEntry().getEndPeriodDate(), -1))) {
     		if (!isDelinquent(doc) && isDisplayingRouteButton(doc)) {
@@ -70,7 +70,7 @@ public class WorkflowTagSupport {
     }
     
     public boolean isDisplayingCurrentPeriodTimesheetRouteButtonWithNoDelinquencies() {
-    	TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
+    	TimesheetDocument doc = HrContext.getCurrentTimesheetDocument();
     	if (LocalDate.now().toDate().after(DateUtils.addMilliseconds(doc.getCalendarEntry().getBeginPeriodDate(),1)) &&
     			LocalDate.now().toDate().before(DateUtils.addMilliseconds(doc.getCalendarEntry().getEndPeriodDate(), -1))) {
     		if (isDisplayingRouteButton(doc)) {
@@ -120,7 +120,7 @@ public class WorkflowTagSupport {
      * @return true if the route button should render as enabled.
      */
     public boolean isRouteTimesheetButtonEnabled() {
-        return isRouteButtonEnabled(TKContext.getCurrentTimesheetDocument());
+        return isRouteButtonEnabled(HrContext.getCurrentTimesheetDocument());
     }
 
     /**
@@ -128,7 +128,7 @@ public class WorkflowTagSupport {
      * @return true if the route button should render as enabled.
      */
     public boolean isRouteLeaveButtonEnabled() {
-        LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
+        LeaveCalendarDocument doc = HrContext.getCurrentLeaveCalendarDocument();
         return isRouteButtonEnabled(doc) && !isDelinquent(doc) 
         		&& (LmServiceLocator.getLMPermissionService().canViewLeaveTabsWithEStatus() && LocalDate.now().toDate().compareTo(doc.getDocumentHeader().getEndDate()) > 0);
     }
@@ -154,11 +154,11 @@ public class WorkflowTagSupport {
     }
     
     public boolean isDisplayingTimesheetApprovalButtons() {
-        return isDisplayingApprovalButtons(TKContext.getCurrentTimesheetDocument());
+        return isDisplayingApprovalButtons(HrContext.getCurrentTimesheetDocument());
     }
 
     public boolean isDisplayingLeaveApprovalButtons() {
-        return isDisplayingApprovalButtons(TKContext.getCurrentLeaveCalendarDocument());
+        return isDisplayingApprovalButtons(HrContext.getCurrentLeaveCalendarDocument());
     }
 
     private boolean isDisplayingApprovalButtons(TimesheetDocument timesheetDocument) {
@@ -198,12 +198,12 @@ public class WorkflowTagSupport {
     }
 
     public boolean isApprovalTimesheetButtonsEnabled() {
-        TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
+        TimesheetDocument doc = HrContext.getCurrentTimesheetDocument();
         return isApprovalButtonsEnabled(doc);
     }
 
     public boolean isApprovalLeaveButtonsEnabled() {
-        LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
+        LeaveCalendarDocument doc = HrContext.getCurrentLeaveCalendarDocument();
         return isApprovalButtonsEnabled(doc) && LmServiceLocator.getLeaveCalendarService().isReadyToApprove(doc);
     }
 
@@ -212,8 +212,8 @@ public class WorkflowTagSupport {
         boolean isEnroute = StringUtils.isNotBlank(dh.getDocumentStatus()) && dh.getDocumentStatus().equals(HrConstants.ROUTE_STATUS.ENROUTE);
         if(isEnroute){
             DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(dh.getDocumentId());
-            boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(TKContext.getPrincipalId(), routeHeader, new SecuritySession(TKContext.getPrincipalId()));
-            boolean tookActionAlready = KEWServiceLocator.getActionTakenService().hasUserTakenAction(TKContext.getPrincipalId(), dh.getDocumentId());
+            boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(HrContext.getPrincipalId(), routeHeader, new SecuritySession(HrContext.getPrincipalId()));
+            boolean tookActionAlready = KEWServiceLocator.getActionTakenService().hasUserTakenAction(HrContext.getPrincipalId(), dh.getDocumentId());
             return !tookActionAlready && authorized;
         }
         return false;

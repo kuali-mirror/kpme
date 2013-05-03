@@ -28,8 +28,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKContext;
-import org.kuali.kpme.core.util.TkConstants;
+import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.clocklog.TkClockActionValuesFinder;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -62,7 +62,7 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
                 mpDoc.getDocumentHeader().setDocumentDescription("Missed Punch: " + timesheetDocument.getPrincipalId());
             }
 
-            lastClock = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getTargetPrincipalId());
+            lastClock = TkServiceLocator.getClockLogService().getLastClockLog(HrContext.getTargetPrincipalId());
             if (lastClock != null) {
                 MissedPunchDocument lastDoc = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lastClock.getTkClockLogId());
                 if (lastDoc != null) {    // last action was a missed punch
@@ -75,7 +75,7 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         }
         if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
                 || StringUtils.equals(request.getParameter("command"), "displayActionListView")) {
-            TKContext.setTargetPrincipalId(mpDoc.getPrincipalId());
+            HrContext.setTargetPrincipalId(mpDoc.getPrincipalId());
             mpForm.setDocId(mpDoc.getDocumentNumber());
         }
 //      mpForm.setAssignmentReadOnly(true);
