@@ -70,7 +70,7 @@ public class PmServiceLocator implements ApplicationContextAware {
 		return (PstnQlfrTypeService) CONTEXT.getBean(PM_POSITION_QUALIFIER_TYPE_SERVICE);
 	}
 	
-	public static PositionQualificationValueService getPositionQualificationValueServiceService() {
+	public static PositionQualificationValueService getPositionQualificationValueService() {
 		return (PositionQualificationValueService) CONTEXT.getBean(PM_POSITION_QUALIFICATION_VALUE_SERVICE);
 	}
 	

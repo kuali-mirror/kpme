@@ -9,5 +9,11 @@ public interface PositionQualificationValueService {
 	 * @return
 	 */
 	public PositionQualificationValue getPositionQualificationValueByValue(String value);
+	/**
+	 * retrieve the PositionQualificationValue with given id
+	 * @param id
+	 * @return
+	 */
+	public PositionQualificationValue getPositionQualificationValueById(String id);
 
 }

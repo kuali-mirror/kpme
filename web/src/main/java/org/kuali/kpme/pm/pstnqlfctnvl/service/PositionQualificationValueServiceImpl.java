@@ -20,5 +20,10 @@ public class PositionQualificationValueServiceImpl implements PositionQualificat
 		this.pstnQlfctnVlDao = pstnQlfctnVlDao;
 	}
 
+	@Override
+	public PositionQualificationValue getPositionQualificationValueById(String id) {
+		return pstnQlfctnVlDao.getPositionQualificationValueById(id);
+	}
+
 	
 }

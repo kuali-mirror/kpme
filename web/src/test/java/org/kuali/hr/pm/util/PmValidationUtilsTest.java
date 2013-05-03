@@ -181,5 +181,13 @@ public class PmValidationUtilsTest extends KPMETestCase {
 		Assert.assertTrue(results);
 	}
 	
+	public void testValidatePositionQualificationValue() {
+		boolean results = PmValidationUtils.validatePositionQualificationValue("non-exist");
+		Assert.assertFalse(results);
+		
+		results = PmValidationUtils.validatePositionQualificationValue("existing");
+		Assert.assertTrue(results);
+	}
+	
 
 }

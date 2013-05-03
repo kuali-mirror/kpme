@@ -8,8 +8,8 @@ public class PstnQlfrType extends HrBusinessObject {
 	private String pmPstnQlfrTypeId;
 	private String code;
 	private String type;
-	private String desc;
-	private String value;
+	private String descr;
+	private String typeValue;
 //	private PriorityQueue<String> selectValues;
 	private String selectValues;
 	
@@ -51,29 +51,29 @@ public class PstnQlfrType extends HrBusinessObject {
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-	public String getDesc() {
-		return desc;
-	}
-
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
-
+	
 	public String getSelectValues() {
 		return selectValues;
 	}
 
 	public void setSelectValues(String selectValues) {
 		this.selectValues = selectValues;
+	}
+
+	public String getTypeValue() {
+		return typeValue;
+	}
+
+	public void setTypeValue(String typeValue) {
+		this.typeValue = typeValue;
+	}
+
+	public String getDescr() {
+		return descr;
+	}
+
+	public void setDescr(String descr) {
+		this.descr = descr;
 	}
 
 	

@@ -9,9 +9,18 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 public class PositionQualificationValueDaoObjImpl extends PlatformAwareDaoBaseOjb implements PositionQualificationValueDao {
 
 	@Override
-	public PositionQualificationValue getPositionQualificationValueByValue(String value) {
+	public PositionQualificationValue getPositionQualificationValueByValue(String vlName) {
 		Criteria crit = new Criteria();
-        crit.addEqualTo("value", value);
+        crit.addEqualTo("vlName", vlName);
+
+        Query query = QueryFactory.newQuery(PositionQualificationValue.class, crit);
+        return (PositionQualificationValue) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+	
+	@Override
+	public PositionQualificationValue getPositionQualificationValueById(String id) {
+		Criteria crit = new Criteria();
+        crit.addEqualTo("pmPstnQlfctnVlId", id);
 
         Query query = QueryFactory.newQuery(PositionQualificationValue.class, crit);
         return (PositionQualificationValue) this.getPersistenceBrokerTemplate().getObjectByQuery(query);

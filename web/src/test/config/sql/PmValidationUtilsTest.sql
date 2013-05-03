@@ -4,6 +4,7 @@ delete from PM_PSTN_RPT_TYP_T where pm_pstn_rpt_typ_id >= 5000;
 delete from PM_PSTN_RPT_CAT_T where pm_pstn_rpt_cat_id >= 5000;
 delete from PM_PSTN_RPT_SUB_CAT_T where pm_pstn_rpt_sub_cat_id >= 5000;
 delete from PM_PSTN_RPT_GRP_T where pm_pstn_rpt_grp_id >= 5000;
+delete from PM_PSTN_QLFCTN_VL_T where PM_PSTN_QLFCTN_VL_ID >= 5000;
 
 insert into PM_INSTITUTION_T (`pm_institution_id`, `effdt`, `institution_code`, `description`, `active`, `timestamp`) values ('5000', '2012-01-01', 'testInst', 'test', 'Y', now());
 insert into KRLC_CMP_T(`campus_cd`, `campus_nm`, `campus_shrt_nm`, `campus_typ_cd`, `obj_id`, `ver_nbr`, `actv_ind`) values ('TS', 'testCam', 'testCam', null, uuid(), '1', 'Y');
@@ -11,3 +12,4 @@ insert into PM_PSTN_RPT_TYP_T (`pm_pstn_rpt_typ_id`, `pstn_rpt_typ`, `descriptio
 insert into PM_PSTN_RPT_CAT_T (`pm_pstn_rpt_cat_id`, `pstn_rpt_cat`, `pstn_rpt_type`, `description`, `institution`, `campus`, `effdt`, `active`,  `timestamp`, `obj_id`, `ver_nbr` ) values ('5000', 'testPRC', 'testPRT', null, 'testInst', 'TS', '2012-01-01', 'Y', now(), uuid(), '1');
 insert into PM_PSTN_RPT_SUB_CAT_T (`pm_pstn_rpt_sub_cat_id`, `pstn_rpt_sub_cat`, `pstn_rpt_cat`, `pstn_rpt_type`, `description`, `institution`, `campus`, `effdt`, `active`,  `timestamp`, `obj_id`, `ver_nbr` ) values ('5000', 'testPRSC', 'testPRC', 'testPRT', null, 'testInst', 'TS', '2012-01-01', 'Y', now(), uuid(), '1');
 insert into PM_PSTN_RPT_GRP_T (`pm_pstn_rpt_grp_id`, `pstn_rpt_grp`, `description`, `institution`, `campus`, `effdt`, `active`,  `timestamp`, `obj_id`, `ver_nbr` ) values ('5000', 'testPRG', null, 'testInst', 'TS', '2012-01-01', 'Y', now(), uuid(), '1');
+insert into PM_PSTN_QLFCTN_VL_T(`PM_PSTN_QLFCTN_VL_ID`, `VL_NM`, `OBJ_ID`, `VER_NBR`) values ('5000', 'existing', uuid(), '1');

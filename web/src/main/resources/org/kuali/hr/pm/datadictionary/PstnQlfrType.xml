@@ -31,8 +31,8 @@
 	        <ref bean="PositionQualifierType-effectiveDate"/>
 	        <ref bean="PositionQualifierType-code"/>
 	        <ref bean="PositionQualifierType-type"/>
-	        <ref bean="PositionQualifierType-desc"/>
-	        <ref bean="PositionQualifierType-value"/>
+	        <ref bean="PositionQualifierType-descr"/>
+	        <ref bean="PositionQualifierType-typeValue"/>
 	        <ref bean="PositionQualifierType-selectValues"/>	       
 	        <ref bean="PositionQualifierType-active"/>
 		 </list>
@@ -94,19 +94,19 @@
 		<property name="description" value="Type" />
 	</bean>
 
-	<bean id="PositionQualifierType-desc" parent="PositionQualifierType-desc-parentBean" />
-	<bean id="PositionQualifierType-desc-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="PositionQualifierType-descr" parent="PositionQualifierType-descr-parentBean" />
+	<bean id="PositionQualifierType-descr-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="false" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="100" />
 		</property>
-		<property name="name" value="desc" />
+		<property name="name" value="descr" />
 		<property name="label" value="Description" />
 		<property name="description" value="Description" />
 	</bean>
 
-	<bean id="PositionQualifierType-value" parent="PositionQualifierType-value-parentBean" />
-	<bean id="PositionQualifierType-value-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="PositionQualifierType-typeValue" parent="PositionQualifierType-typeValue-parentBean" />
+	<bean id="PositionQualifierType-typeValue-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
 		<property name="controlField">
 	      	<bean parent="Uif-HorizontalRadioControl" />
@@ -114,9 +114,9 @@
     	<property name="optionsFinder">
 			<bean class="org.kuali.kpme.pm.util.PstnQlfrTypeValueKeyValueFinder"/>
 		</property>
-		<property name="name" value="value" />
-		<property name="label" value="Value" />
-		<property name="description" value="Value" />
+		<property name="name" value="typeValue" />
+		<property name="label" value="Type Value" />
+		<property name="description" value="Type Value" />
 	</bean>
 
 	<bean id="PositionQualifierType-selectValues" parent="PositionQualifierType-selectValues-parentBean" />
@@ -152,8 +152,8 @@
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="type" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="desc" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="value" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeValue" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="selectValues" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="true"/>
       </list>
@@ -168,8 +168,8 @@
         </bean>
        	<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
         <bean parent="Uif-InputField" p:propertyName="type" />
-        <bean parent="Uif-InputField" p:propertyName="desc" />
-        <bean parent="Uif-InputField" p:propertyName="value" />
+        <bean parent="Uif-InputField" p:propertyName="descr" />
+        <bean parent="Uif-InputField" p:propertyName="typeValue" />
         <bean parent="Uif-InputField" p:propertyName="selectValues" />
         <bean parent="Uif-InputField" p:propertyName="active"/>
       </list>
@@ -190,8 +190,8 @@
 		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
 			       	<bean parent="Uif-DataField" p:propertyName="code" />
 			       	<bean parent="Uif-DataField" p:propertyName="type" />
-			       	<bean parent="Uif-DataField" p:propertyName="desc" />
-			       	<bean parent="Uif-DataField" p:propertyName="value" />
+			       	<bean parent="Uif-DataField" p:propertyName="descr" />
+			       	<bean parent="Uif-DataField" p:propertyName="typeValue" />
 			       	<bean parent="Uif-DataField" p:propertyName="selectValues" />
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
 	        	</list>
@@ -215,8 +215,8 @@
 	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
 	            <bean parent="Uif-InputField" p:propertyName="code" />
 		        <bean parent="Uif-InputField" p:propertyName="type" />
-		        <bean parent="Uif-InputField" p:propertyName="desc" />
-		        <bean parent="Uif-InputField" p:propertyName="value" />
+		        <bean parent="Uif-InputField" p:propertyName="descr" />
+		        <bean parent="Uif-InputField" p:propertyName="typeValue" />
 	
 <!-- 		        <bean parent="Uif-HorizontalFieldGroup"> -->
 <!-- 		         	<property name="items"> -->
@@ -241,14 +241,14 @@
 <!-- 						  </property> -->
 <!-- 						</bean> -->
 			         	
-			         	 <bean parent="Uif-InputField" p:propertyName="selectValues" p:constraintText="Required if Value is Select.">
+			         	 <bean parent="Uif-InputField" p:propertyName="selectValues" p:constraintText="Comma delimited list of qualification values.">
 <!-- 			         	 	<property name="quickfinder"> -->
 <!-- 						       	<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue"  -->
 <!-- 						       		p:fieldConversions="vlName:selectValues"/> -->
 <!-- 						   	</property> -->
 				       		<property name="caseConstraint">
 						        <bean parent="CaseConstraint">
-						        	<property name="propertyName" value="value" />
+						        	<property name="propertyName" value="typeValue" />
 									<property name="whenConstraint">
 							  			<list>
 								          <bean parent="WhenConstraint">

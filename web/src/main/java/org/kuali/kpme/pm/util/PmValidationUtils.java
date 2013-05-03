@@ -14,6 +14,7 @@ import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
 import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory;
 import org.kuali.kpme.pm.positionreporttype.PositionReportType;
+import org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.services.LocationApiServiceLocator;
@@ -156,6 +157,16 @@ public class PmValidationUtils {
 		if(asOfDate != null) {
 			List<PositionReportGroup> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(PstnRptGrp, institution, campus, asOfDate);
 			return CollectionUtils.isNotEmpty(prgList);
+		}
+		return false;
+	}
+	
+	public static boolean validatePositionQualificationValue(String qValue) {
+		if(StringUtils.isNotEmpty(qValue)) {
+			PositionQualificationValue aPqv = PmServiceLocator.getPositionQualificationValueService().getPositionQualificationValueByValue(qValue);
+			if(aPqv != null) {
+				return true;
+			}
 		}
 		return false;
 	}
