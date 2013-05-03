@@ -35,7 +35,7 @@ public class ApplicationInitializeListener extends KualiInitializeListener {
     
     public void contextInitialized(ServletContextEvent servletContextEvent) {
     	servletContextEvent.getServletContext().setAttribute("TkConstants", new TkConstants());
-    	servletContextEvent.getServletContext().setAttribute("HrConstants", new HrConstants());
+    	//servletContextEvent.getServletContext().setAttribute("HrConstants", new HrConstants());
         LOG.info("Started contextInitialized(ServletContextEvent servletContextEvent) Method");
         try{
             //TkServiceLocator.start();
