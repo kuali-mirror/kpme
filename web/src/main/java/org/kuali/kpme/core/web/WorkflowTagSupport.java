@@ -24,6 +24,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
 import org.kuali.kpme.core.document.calendar.CalendarDocumentContract;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
@@ -130,7 +131,7 @@ public class WorkflowTagSupport {
     public boolean isRouteLeaveButtonEnabled() {
         LeaveCalendarDocument doc = HrContext.getCurrentLeaveCalendarDocument();
         return isRouteButtonEnabled(doc) && !isDelinquent(doc) 
-        		&& (LmServiceLocator.getLMPermissionService().canViewLeaveTabsWithEStatus() && LocalDate.now().toDate().compareTo(doc.getDocumentHeader().getEndDate()) > 0);
+        		&& (HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithEStatus() && LocalDate.now().toDate().compareTo(doc.getDocumentHeader().getEndDate()) > 0);
     }
 
     private boolean isRouteButtonEnabled(CalendarDocumentContract doc) {

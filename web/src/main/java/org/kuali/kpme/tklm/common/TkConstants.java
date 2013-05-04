@@ -29,8 +29,6 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 public class TkConstants {
-    public static final int DEFAULT_CACHE_TIME = 900;
-    public static final String TK_TARGET_USER_PERSON = "tkTargetPerson";
 
     //in days
     public static final Integer LENGTH_OF_WORK_SCHEDULE = 10;

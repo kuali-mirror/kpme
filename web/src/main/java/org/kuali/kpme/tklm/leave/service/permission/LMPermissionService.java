@@ -255,10 +255,6 @@ public interface LMPermissionService {
 	boolean canEditLeaveBlock(String principalId, LeaveBlock leaveBlock);
 
 	boolean canDeleteLeaveBlock(String principalId, LeaveBlock leaveBlock);
-
-	boolean canViewLeaveTabsWithEStatus();
-
-	boolean canViewLeaveTabsWithNEStatus();
 	
 	/**
 	 * Determine if given leave block is a accrual generated System Scheduled Timeoff usage that can be banked/transferred

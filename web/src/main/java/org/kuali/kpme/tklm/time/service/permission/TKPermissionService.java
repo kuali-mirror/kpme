@@ -212,6 +212,4 @@ public interface TKPermissionService {
 
 	boolean canEditRegEarnCode(TimeBlock timeBlock);
 
-	boolean canViewTimeTabs();
-
 }

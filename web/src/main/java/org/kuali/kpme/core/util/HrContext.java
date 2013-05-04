@@ -28,7 +28,6 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -85,7 +84,7 @@ public class HrContext {
 	}
 
     public static String getTargetPrincipalId() {
-        String principalId = (String) GlobalVariables.getUserSession().retrieveObject(TkConstants.TK_TARGET_USER_PERSON);
+        String principalId = (String) GlobalVariables.getUserSession().retrieveObject(HrConstants.TK_TARGET_USER_PERSON);
         if (principalId == null) {
         	principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
         }
@@ -97,15 +96,15 @@ public class HrContext {
     }
     
 	public static void setTargetPrincipalId(String principalId) {
-		GlobalVariables.getUserSession().addObject(TkConstants.TK_TARGET_USER_PERSON, principalId);
+		GlobalVariables.getUserSession().addObject(HrConstants.TK_TARGET_USER_PERSON, principalId);
 	}
     
 	public static boolean isTargetInUse() {
-		return GlobalVariables.getUserSession().retrieveObject(TkConstants.TK_TARGET_USER_PERSON) != null;
+		return GlobalVariables.getUserSession().retrieveObject(HrConstants.TK_TARGET_USER_PERSON) != null;
 	}
     
 	public static void clearTargetUser() {
-		GlobalVariables.getUserSession().removeObject(TkConstants.TK_TARGET_USER_PERSON);
+		GlobalVariables.getUserSession().removeObject(HrConstants.TK_TARGET_USER_PERSON);
 	}
 	
 	public static boolean isSystemAdmin() {

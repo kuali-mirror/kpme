@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.web;
 
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -71,12 +72,12 @@ public class KPMEForm extends KualiForm {
     
     public boolean getLeaveEnabled() {
     	boolean canViewLeaveTab= false;
-        canViewLeaveTab = this.getViewLeaveTabsWithNEStatus() || LmServiceLocator.getLMPermissionService().canViewLeaveTabsWithEStatus();
+        canViewLeaveTab = this.getViewLeaveTabsWithNEStatus() || HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithEStatus();
         return canViewLeaveTab; 
     }
     
     public boolean getTimeEnabled() {
-    	return TkServiceLocator.getTKPermissionService().canViewTimeTabs();
+    	return HrServiceLocator.getHRPermissionService().canViewTimeTabs();
     }
     
     public String getLeaveDocumentIdFromContext(){
@@ -84,6 +85,6 @@ public class KPMEForm extends KualiForm {
 	}
  
     public boolean getViewLeaveTabsWithNEStatus() {
-    	return LmServiceLocator.getLMPermissionService().canViewLeaveTabsWithNEStatus();
+    	return HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithNEStatus();
     }
 }

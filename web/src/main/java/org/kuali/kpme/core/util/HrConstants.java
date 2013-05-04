@@ -20,12 +20,15 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 
 public class HrConstants {
-
+	
 	/**
 	 * The following were moved up from TkConstants
 	 * @author dgodfrey
 	 *
 	 */
+	
+    public static final int DEFAULT_CACHE_TIME = 900;
+    public static final String TK_TARGET_USER_PERSON = "tkTargetPerson";
 
 	public static final class DOCUMENT_ACTIONS {
 		public static final String ROUTE = "R";

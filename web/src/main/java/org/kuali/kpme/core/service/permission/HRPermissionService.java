@@ -128,4 +128,10 @@ public interface HRPermissionService {
 	 */
 	boolean isAuthorizedByTemplateInLocation(String principalId, String namespaceCode, String permissionTemplateName, String location, DateTime asOfDate);
 
+	boolean canViewTimeTabs();
+
+	boolean canViewLeaveTabsWithEStatus();
+
+	boolean canViewLeaveTabsWithNEStatus();
+
 }

@@ -98,7 +98,7 @@ public class LeaveCalendar extends CalendarParent {
             	   leaveCalendarDay.setLeaveBlocks(lbs);
                }
                
-               if (LmServiceLocator.getLMPermissionService().canViewLeaveTabsWithNEStatus()) {
+               if (HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithNEStatus()) {
 	               TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveDate.toDateTimeAtStartOfDay());
 	               if (tdh != null) {
 	            	   if (DateUtils.isSameDay(leaveDate.toDate(), tdh.getEndDate()) || leaveDate.isAfter(LocalDate.fromDateFields(tdh.getEndDate()))) {
