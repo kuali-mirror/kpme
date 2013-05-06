@@ -27,6 +27,8 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -53,8 +55,8 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     private Long task;
     private String earnCode;
     private String earnCodeType;
-    private Timestamp beginTimestamp;
-    private Timestamp endTimestamp;
+    private Date beginTimestamp;
+    private Date endTimestamp;
 
     @Transient
     private Date beginDate;
@@ -126,72 +128,104 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         this.earnCode = earnCode;
     }
 
-    public Timestamp getBeginTimestamp() {
+    public Date getBeginTimestamp() {
         return beginTimestamp;
     }
 
-    public void setBeginTimestamp(Timestamp beginTimestamp) {
+    public void setBeginTimestamp(Date beginTimestamp) {
         this.beginTimestamp = beginTimestamp;
     }
 
-    public Timestamp getEndTimestamp() {
-        return endTimestamp;
-    }
-
-    public void setEndTimestamp(Timestamp endTimestamp) {
-        this.endTimestamp = endTimestamp;
-    }
-
+    
     public Date getBeginDate() {
-        if (beginDate == null && this.getBeginTimestamp() != null) {
-            setBeginDate(new Date(this.getBeginTimestamp().getTime()));
-        }
+    	Date beginDate = null;
+    	
+    	if (beginTimestamp != null) {
+    		beginDate = new Date(beginTimestamp.getTime());
+    	}
         return beginDate;
     }
 
     public void setBeginDate(Date beginDate) {
-        this.beginDate = beginDate;
+    	DateTime dateTime = new DateTime(beginTimestamp);
+    	LocalDate localDate = new LocalDate(beginDate);
+    	LocalTime localTime = new LocalTime(beginTimestamp);
+    	beginTimestamp = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    }
+    
+    public Time getBeginTime() {
+    	Time beginTime = null;
+    	
+    	if (beginTimestamp != null) {
+    		beginTime = new Time(beginTimestamp.getTime());
+    	}
+    	
+    	return beginTime;
+    }
+
+    public void setBeginTime(Time beginTime) {
+    	DateTime dateTime = new DateTime(beginTimestamp);
+    	LocalDate localDate = new LocalDate(beginTimestamp);
+    	LocalTime localTime = new LocalTime(beginTime);
+    	beginTimestamp = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    }
+    
+    public DateTime getBeginDateTime() {
+    	return beginTimestamp != null ? new DateTime(beginTimestamp) : null;
+    }
+    
+    public void setBeginDateTime(DateTime beginDateTime) {
+    	beginTimestamp = beginDateTime != null ? beginDateTime.toDate() : null;
+    }
+
+    public Date getEndTimestamp() {
+        return endTimestamp;
+    }
+
+    public void setEndTimestamp(Date endTimestamp) {
+        this.endTimestamp = endTimestamp;
     }
 
     public Date getEndDate() {
-        if (endDate == null && this.getEndTimestamp() != null) {
-            setEndDate(new Date(this.getEndTimestamp().getTime()));
-        }
+    	Date endDate = null;
+    	
+    	if (endTimestamp != null) {
+    		endDate = new Date(endTimestamp.getTime());
+    	}
+
         return endDate;
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public Time getBeginTime() {
-        if (beginTime == null && this.getBeginTimestamp() != null) {
-            setBeginTime(new Time(this.getBeginTimestamp().getTime()));
-        }
-        return beginTime;
-    }
-
-    public void setBeginTime(Time beginTime) {
-        this.beginTime = beginTime;
+    	DateTime dateTime = new DateTime(endTimestamp);
+    	LocalDate localDate = new LocalDate(endDate);
+    	LocalTime localTime = new LocalTime(endTimestamp);
+    	endTimestamp = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
     }
 
     public Time getEndTime() {
-        if (endTime == null && this.getEndTimestamp() != null) {
-            setEndTime(new Time(this.getEndTimestamp().getTime()));
-        }
-        return endTime;
+    	Time endTime = null;
+    	
+    	if (endTimestamp != null) {
+    		endTime = new Time(endTimestamp.getTime());
+    	}
+    	
+    	return endTime;
     }
 
     public void setEndTime(Time endTime) {
-        this.endTime = endTime;
-    }
-
-    public DateTime getBeginDateTime() {
-    	return new DateTime(getBeginDate());
+    	DateTime dateTime = new DateTime(endTimestamp);
+    	LocalDate localDate = new LocalDate(endTimestamp);
+    	LocalTime localTime = new LocalTime(endTime);
+    	endTimestamp = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
     }
     
     public DateTime getEndDateTime() {
-    	return new DateTime(getEndDate());
+    	return endTimestamp != null ? new DateTime(endTimestamp) : null;
+    }
+    
+    public void setEndDateTime(DateTime endDateTime) {
+    	endTimestamp = endDateTime != null ? endDateTime.toDate() : null;
     }
     
     public Boolean getClockLogCreated() {

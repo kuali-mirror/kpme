@@ -16,11 +16,8 @@
 package org.kuali.hr.time.test;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -147,13 +144,11 @@ public class TkTestUtils {
 
 	public static TimeBlock createDummyTimeBlock(DateTime clockIn, DateTime clockOut, BigDecimal hours, String earnCode, Long jobNumber, Long workArea) {
 		TimeBlock block = new TimeBlock();
-		Timestamp ci = new Timestamp(clockIn.getMillis());
-		Timestamp co = new Timestamp(clockOut.getMillis());
-		block.setBeginTimestamp(ci);
-		block.setEndTimestamp(co);
+		block.setBeginDateTime(clockIn);
+		block.setEndDateTime(clockOut);
 		block.setHours(hours);
-        block.setBeginTimeDisplay(new DateTime(ci.getTime()));
-        block.setEndTimeDisplay(new DateTime(co.getTime()));
+        block.setBeginTimeDisplay(clockIn);
+        block.setEndTimeDisplay(clockOut);
 
         block.setEarnCode(earnCode);
 		block.setJobNumber(jobNumber);
@@ -174,30 +169,20 @@ public class TkTestUtils {
 	}
 	public static TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, int dayInPeriod, int numHours, String earnCode){
 		TimeBlock timeBlock = new TimeBlock();
-		Calendar cal = GregorianCalendar.getInstance();
-		cal.setTimeInMillis(timesheetDocument.getCalendarEntry().getBeginPeriodDateTime().getTime());
-		for(int i = 1; i< dayInPeriod;i++){
-			cal.add(Calendar.DAY_OF_MONTH, 1);
-		}
-		cal.set(Calendar.HOUR, 8);
-		cal.set(Calendar.MINUTE, 0);
-
-		timeBlock.setDocumentId(timesheetDocument.getDocumentId());
-		timeBlock.setBeginTimeDisplay(new DateTime(cal.getTimeInMillis()));
+		DateTime beginPeriodDateTime = timesheetDocument.getCalendarEntry().getBeginPeriodFullDateTime();
+		DateTime beginDateTime = beginPeriodDateTime.plusDays(dayInPeriod).withHourOfDay(8).withMinuteOfHour(0);
+		DateTime endDateTime = beginDateTime.plusHours(numHours);
 		
-		timeBlock.setBeginTimestamp(new Timestamp(cal.getTimeInMillis()));
-		/* KPME-1959 BeginTimestampTimezone unused and hence removed
-		 * No need to call set anymore
-		 */		
-		//timeBlock.setBeginTimestampTimezone("EST");
+		timeBlock.setDocumentId(timesheetDocument.getDocumentId());
+		timeBlock.setBeginDateTime(beginDateTime);
+		timeBlock.setBeginTimeDisplay(beginDateTime);
+		timeBlock.setEndDateTime(endDateTime);
+		timeBlock.setEndTimeDisplay(endDateTime);
 		timeBlock.setEarnCode(earnCode);
 		timeBlock.setJobNumber(1L);
 		timeBlock.setWorkArea(1234L);
 		timeBlock.setTask(1L);
 		timeBlock.setHours((new BigDecimal(numHours)).setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING));
-		cal.add(Calendar.HOUR, numHours);
-		timeBlock.setEndTimestamp(new Timestamp(cal.getTimeInMillis()));
-		timeBlock.setEndTimeDisplay(new DateTime(cal.getTimeInMillis()));
 
 		return timeBlock;
 	}
@@ -414,24 +399,22 @@ public class TkTestUtils {
 		for (int i=0; i<days; i++) {
 			DateTime ci = start.plusDays(i);
 			DateTime co = ci.plusHours(hours.intValue());
-			Timestamp tsin = new Timestamp(ci.getMillis());
-			Timestamp tsout = new Timestamp(co.getMillis());
 
-			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, tsin, tsout, hours, amount, false, false, HrContext.getPrincipalId()));
+			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, ci, co, hours, amount, false, false, HrContext.getPrincipalId()));
 		}
 
 		return blocks;
 	}
 
-	public static Map<Timestamp, BigDecimal> getDateToHoursMap(TimeBlock timeBlock, TimeHourDetail timeHourDetail) {
-		Map<Timestamp, BigDecimal> dateToHoursMap = new HashMap<Timestamp, BigDecimal>();
+	public static Map<DateTime, BigDecimal> getDateToHoursMap(TimeBlock timeBlock, TimeHourDetail timeHourDetail) {
+		Map<DateTime, BigDecimal> dateToHoursMap = new HashMap<DateTime, BigDecimal>();
 		DateTime beginTime = new DateTime(timeBlock.getBeginTimestamp());
 		DateTime endTime = new DateTime(timeBlock.getEndTimestamp());
 
 		Days d = Days.daysBetween(beginTime, endTime);
 		int numberOfDays = d.getDays();
 		if (numberOfDays < 1) {
-			dateToHoursMap.put(timeBlock.getBeginTimestamp(), timeHourDetail.getHours());
+			dateToHoursMap.put(timeBlock.getBeginDateTime(), timeHourDetail.getHours());
 			return dateToHoursMap;
 		}
 		DateTime currentTime = beginTime;
@@ -444,13 +427,13 @@ public class TkTestUtils {
 			Duration dur = new Duration(currentTime, nextDayAtMidnight);
 			long duration = dur.getStandardSeconds();
 			BigDecimal hrs = new BigDecimal(duration / 3600, HrConstants.MATH_CONTEXT);
-			dateToHoursMap.put(new Timestamp(currentTime.getMillis()), hrs);
+			dateToHoursMap.put(currentTime, hrs);
 			currentTime = nextDayAtMidnight;
 		}
 		Duration dur = new Duration(currentTime, endTime);
 		long duration = dur.getStandardSeconds();
 		BigDecimal hrs = new BigDecimal(duration / 3600, HrConstants.MATH_CONTEXT);
-		dateToHoursMap.put(new Timestamp(currentTime.getMillis()), hrs);
+		dateToHoursMap.put(currentTime, hrs);
 
 		return dateToHoursMap;
 	}

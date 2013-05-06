@@ -15,8 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.batch;
 
-import java.sql.Timestamp;
-
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.bo.assignment.Assignment;
@@ -66,9 +64,9 @@ public class EndPayPeriodJob implements Job {
 	            String assignmentKey = new AssignmentDescriptionKey(openClockLog.getJobNumber(), openClockLog.getWorkArea(), openClockLog.getTask()).toAssignmentKeyString();
 	            Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(timesheetDocument, assignmentKey);
 	    		
-	            TkServiceLocator.getClockLogService().processClockLog(new Timestamp(endPeriodDateTime.toDate().getTime()), assignment, calendarEntry, ipAddress, 
+	            TkServiceLocator.getClockLogService().processClockLog(endPeriodDateTime, assignment, calendarEntry, ipAddress, 
 	            		endPeriodDateTime.toLocalDate(), timesheetDocument, TkConstants.CLOCK_OUT, principalId, batchUserPrincipalId);
-	            TkServiceLocator.getClockLogService().processClockLog(new Timestamp(beginPeriodDateTime.toDate().getTime()), assignment, calendarEntry, ipAddress, 
+	            TkServiceLocator.getClockLogService().processClockLog(beginPeriodDateTime, assignment, calendarEntry, ipAddress, 
 	            		beginPeriodDateTime.toLocalDate(), timesheetDocument, TkConstants.CLOCK_IN, principalId, batchUserPrincipalId);
 	        }
         } else {

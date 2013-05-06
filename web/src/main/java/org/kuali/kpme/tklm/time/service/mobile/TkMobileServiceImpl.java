@@ -15,13 +15,13 @@
  */
 package org.kuali.kpme.tklm.time.service.mobile;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
@@ -78,12 +78,11 @@ public class TkMobileServiceImpl implements TkMobileService {
 		}
         
 		String ip = TKUtils.getIPAddressFromRequest(HrContext.getHttpServletRequest());
-        Timestamp currentTs = new Timestamp(System.currentTimeMillis());
 
         // processClockLog is the correct method to use. It creates and persists a clock log and a time block if necessary.
         // buildClockLog just creates a clock log object.
-        TkServiceLocator.getClockLogService().processClockLog(currentTs, assignment, td.getCalendarEntry(), ip,
-                LocalDate.fromDateFields(currentTs), td, getCurrentClockAction(), principalId);
+        TkServiceLocator.getClockLogService().processClockLog(new DateTime(), assignment, td.getCalendarEntry(), ip,
+                LocalDate.now(), td, getCurrentClockAction(), principalId);
 
         // TODO: not sure what we want to return for the errorWarningMap
 
@@ -105,7 +104,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 			}
 			//TODO convert for timezone
 			
-			lastClockDescription += TKUtils.formatTimestamp(lastClockLog.getClockTimestamp());
+			lastClockDescription += TKUtils.formatDateTimeLong(lastClockLog.getClockDateTime());
 			return lastClockDescription;
 		}
 		return "";

@@ -16,7 +16,6 @@
 package org.kuali.hr.time.earncode.validation;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -77,13 +76,13 @@ public class EarnCodeMaintenaceTest extends KPMETestCase {
 		timeBlock.setJobNumber(new Long(30));
 		timeBlock.setBeginDate(DATE_FORMAT.parse("01/01/2010"));
 		timeBlock.setEndDate(DATE_FORMAT.parse("01/03/2010"));
-		timeBlock.setBeginTimestamp(Timestamp.valueOf("2010-01-01 00:00:00.0"));
-		timeBlock.setEndTimestamp(Timestamp.valueOf("2010-01-03 00:00:00.0"));
+		timeBlock.setBeginDateTime(new DateTime(2010, 1, 1, 0, 0, 0));
+		timeBlock.setEndDateTime(new DateTime(2010, 1, 3, 0, 0, 0));
 		timeBlock.setEarnCode(EARN_CODE);
 		timeBlock.setWorkArea(new Long(20));
 		timeBlock.setTask(new Long(15));
 		timeBlock.setLunchDeleted(false);
-		timeBlock.setTimestamp(Timestamp.valueOf("2010-01-01 00:00:00.0"));
+		timeBlock.setTimestamp(TKUtils.getCurrentTimestamp());
 		timeBlock.setUserPrincipalId("princ");
 		timeBlock.setHours(BigDecimal.TEN);
 		timeBlock.setClockLogCreated(true);

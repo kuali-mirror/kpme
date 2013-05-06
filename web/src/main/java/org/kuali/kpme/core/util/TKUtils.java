@@ -281,7 +281,7 @@ public class TKUtils {
      * @param timeStr (the format is 8:0)
      * @return Timestamp
      */
-    public static Timestamp convertDateStringToTimestamp(String dateStr, String timeStr) {
+    public static DateTime convertDateStringToDateTime(String dateStr, String timeStr) {
         // the date/time format is defined in tk.calendar.js. For now, the format is 11/17/2010 8:0
         String[] date = dateStr.split("/");
         String[] time = timeStr.split(":");
@@ -300,10 +300,10 @@ public class TKUtils {
                 Integer.parseInt(time[1]),
                 0, 0, dtz);
 
-        return new Timestamp(dateTime.getMillis());
+        return dateTime;
     }
     
-    public static Timestamp convertDateStringToTimestampWithoutZone(String dateStr, String timeStr) {
+    public static DateTime convertDateStringToDateTimeWithoutZone(String dateStr, String timeStr) {
         // the date/time format is defined in tk.calendar.js. For now, the format is 11/17/2010 8:0
         String[] date = dateStr.split("/");
         String[] time = timeStr.split(":");
@@ -320,7 +320,7 @@ public class TKUtils {
                 Integer.parseInt(time[1]),
                 0, 0);
 
-        return new Timestamp(dateTime.getMillis());
+        return dateTime;
     }
     
    public static String getIPAddressFromRequest(HttpServletRequest request) {
@@ -354,15 +354,14 @@ public class TKUtils {
         return sdf.format(localDate.toDate());
     }
 
-    public static String formatDateTime(DateTime dateTime) {
+    public static String formatDateTimeShort(DateTime dateTime) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         return sdf.format(dateTime.toDate());
     }
     
-    public static String formatTimestamp(Timestamp timestamp){
-    	Date dt = new Date(timestamp.getTime());
+    public static String formatDateTimeLong(DateTime dateTime){
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        return sdf.format(dt);
+        return sdf.format(dateTime.toDate());
     }
     
     public static LocalDate formatDateString(String date){

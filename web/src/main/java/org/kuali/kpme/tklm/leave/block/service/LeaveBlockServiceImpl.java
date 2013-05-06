@@ -123,11 +123,11 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         
 //        leaveBlock.setPrincipalIdModified(HrContext.getTargetPrincipalId());
 //        leaveBlock.setTimestamp(TKUtils.getCurrentTimestamp());
-        
+
         // Make entry into LeaveBlockHistory table
         LeaveBlockHistory leaveBlockHistory = new LeaveBlockHistory(leaveBlock);
         leaveBlockHistory.setPrincipalIdDeleted(principalId);
-        leaveBlockHistory.setTimestampDeleted(new Timestamp(System.currentTimeMillis()));
+        leaveBlockHistory.setTimestampDeleted(TKUtils.getCurrentTimestamp());
         leaveBlockHistory.setAction(HrConstants.ACTION.DELETE);
 
         // deleting leaveblock
@@ -147,7 +147,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     	
     	// create new 
         leaveBlock.setLmLeaveBlockId(null);
-    	leaveBlock.setTimestamp(new Timestamp(System.currentTimeMillis()));
+    	leaveBlock.setTimestamp(TKUtils.getCurrentTimestamp());
     	leaveBlock.setPrincipalIdModified(principalId);
     	KRADServiceLocator.getBusinessObjectService().save(leaveBlock);
 
@@ -206,9 +206,8 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         String docId = lcdh == null ? null : lcdh.getDocumentId();
         
         // TODO: need to integrate with the scheduled timeoff.
-        Timestamp beginTemp = new Timestamp(beginDate.getMillis());
-        Timestamp endTimestamp = new Timestamp(endDate.getMillis());
     	Interval firstDay = null;
+    	DateTime currentDate = beginDate;
         for (Interval leaveBlockInt : leaveBlockIntervals) {
             if (calendarInterval.contains(leaveBlockInt)) {
             	// KPME-1446 if "Include weekends" check box is checked, don't add Sat and Sun to the leaveblock list
@@ -244,14 +243,14 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                     
                     if(earnCodeObj != null && earnCodeObj.getRecordMethod().equals(HrConstants.RECORD_METHOD.TIME)) {
 	                    if (firstDay != null) {
-	                    	if(!leaveBlockInt.contains(endTimestamp.getTime())){
-	                    		beginTemp = new Timestamp(leaveBlockInt.getStartMillis());
-	                    	} else if((leaveBlockInt.getStartMillis() - endTimestamp.getTime()) != 0){
+	                    	if(!leaveBlockInt.contains(endDate)){
+	                    		currentDate = leaveBlockInt.getStart();
+	                    	} else if((leaveBlockInt.getStartMillis() - endDate.getMillis()) != 0){
 	                    		
-	                            hours = TKUtils.getHoursBetween(leaveBlockInt.getStartMillis(), endTimestamp.getTime());
+	                            hours = TKUtils.getHoursBetween(leaveBlockInt.getStartMillis(), endDate.getMillis());
                                 hours = negateHoursIfNecessary(leaveBlockType, hours);
 	                    		
-	                    		LeaveBlock leaveBlock = buildLeaveBlock(new LocalDate(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, new Timestamp(leaveBlockInt.getStartMillis()), endTimestamp);
+	                    		LeaveBlock leaveBlock = buildLeaveBlock(new LocalDate(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, leaveBlockInt.getStart(), endDate);
 	                            
 			                    if (!currentLeaveBlocks.contains(leaveBlock)) {
 			                        currentLeaveBlocks.add(leaveBlock);
@@ -259,16 +258,16 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                    		break;
 	                    	}            		
 	                    }
-	                    if (leaveBlockInt.contains(beginTemp.getTime())) {
+	                    if (leaveBlockInt.contains(currentDate)) {
 	                    	
 	                        firstDay = leaveBlockInt;
 
-	                        if (leaveBlockInt.contains(endTimestamp.getTime()) || (endTimestamp.getTime() == leaveBlockInt.getEnd().getMillis())) {
+	                        if (leaveBlockInt.contains(endDate) || (endDate.getMillis() == leaveBlockInt.getEnd().getMillis())) {
 
-	                        	hours = TKUtils.getHoursBetween(beginTemp.getTime(), endTimestamp.getTime());
+	                        	hours = TKUtils.getHoursBetween(currentDate.getMillis(), endDate.getMillis());
                                 hours = negateHoursIfNecessary(leaveBlockType, hours);
 	                    		
-	                    		LeaveBlock leaveBlock = buildLeaveBlock(new LocalDate(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, beginTemp, endTimestamp);
+	                    		LeaveBlock leaveBlock = buildLeaveBlock(new LocalDate(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, currentDate, endDate);
 	                            
 			                    if (!currentLeaveBlocks.contains(leaveBlock)) {
 			                        currentLeaveBlocks.add(leaveBlock);
@@ -278,10 +277,10 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                            
 	                        } else {
 	                            // create a leave block that wraps the 24 hr day
-	                        	hours = TKUtils.getHoursBetween(beginTemp.getTime(), firstDay.getEndMillis());
+	                        	hours = TKUtils.getHoursBetween(currentDate.getMillis(), firstDay.getEndMillis());
                                 hours = negateHoursIfNecessary(leaveBlockType, hours);
 	                    		
-	                    		LeaveBlock leaveBlock = buildLeaveBlock(new LocalDate(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, beginTemp, new Timestamp(firstDay.getEndMillis()));
+	                    		LeaveBlock leaveBlock = buildLeaveBlock(new LocalDate(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, currentDate, firstDay.getEnd());
 	                            
 			                    if (!currentLeaveBlocks.contains(leaveBlock)) {
 			                        currentLeaveBlocks.add(leaveBlock);
@@ -314,7 +313,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     
     
     public LeaveBlock buildLeaveBlock(LocalDate leaveDate, String docId, String principalId, String selectedEarnCode, 
-    		BigDecimal hours, String description, String accrualCategory, Assignment selectedAssignment, String requestStatus, String leaveBlockType, Timestamp beginTimeStamp, Timestamp endTimestamp) {
+    		BigDecimal hours, String description, String accrualCategory, Assignment selectedAssignment, String requestStatus, String leaveBlockType, DateTime beginDateTime, DateTime endDateTime) {
     	
     	LeaveBlock leaveBlock = new LeaveBlock.Builder(leaveDate, docId, principalId, selectedEarnCode, hours)
         .description(description)
@@ -329,8 +328,8 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         .leaveBlockType(leaveBlockType)
         .build();
     	
-    	leaveBlock.setBeginTimestamp(beginTimeStamp);
-        leaveBlock.setEndTimestamp(endTimestamp);
+    	leaveBlock.setBeginDateTime(beginDateTime);
+        leaveBlock.setEndDateTime(endDateTime);
     	
     	return leaveBlock;
     }
@@ -347,7 +346,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         // Make entry into LeaveBlockHistory table
         LeaveBlockHistory leaveBlockHistory = new LeaveBlockHistory(leaveBlock);
         leaveBlockHistory.setPrincipalIdDeleted(principalId);
-        leaveBlockHistory.setTimestampDeleted(new Timestamp(System.currentTimeMillis()));
+        leaveBlockHistory.setTimestampDeleted(TKUtils.getCurrentTimestamp());
         leaveBlockHistory.setAction(HrConstants.ACTION.MODIFIED);
 
         KRADServiceLocator.getBusinessObjectService().save(leaveBlock);

@@ -16,7 +16,6 @@
 package org.kuali.hr.time.summary;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Map;
 
 import org.joda.time.DateTime;
@@ -35,12 +34,12 @@ public class TimeSummaryTest extends KPMETestCase {
 		DateTime endTime = new DateTime(2010, 1, 4, 2, 0, 0, 0);
 		
 		TimeBlock timeBlock = new TimeBlock();
-		timeBlock.setBeginTimestamp(new Timestamp(beginTime.getMillis()));
-		timeBlock.setEndTimestamp(new Timestamp(endTime.getMillis()));
+		timeBlock.setBeginDateTime(beginTime);
+		timeBlock.setEndDateTime(endTime);
 		
 		TimeHourDetail timeHourDetail = new TimeHourDetail();
 		
-		Map<Timestamp, BigDecimal> timeToHrs = TkTestUtils.getDateToHoursMap(timeBlock, timeHourDetail);
+		Map<DateTime, BigDecimal> timeToHrs = TkTestUtils.getDateToHoursMap(timeBlock, timeHourDetail);
 		Assert.assertTrue(timeToHrs!=null);
 	}
 	

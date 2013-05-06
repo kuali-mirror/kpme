@@ -16,7 +16,6 @@
 package org.kuali.hr.time.graceperiod.service;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -66,15 +65,15 @@ public class GracePeriodRuleServiceTest extends KPMETestCase{
 		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
 		Assert.assertTrue("fetched one rule", gpr != null);
 
-		Timestamp beginDateTime = new Timestamp((new DateTime(2012, 10, 16, 12, 3, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		Timestamp derivedTimestamp = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
+		DateTime beginDateTime = new DateTime(2012, 10, 16, 12, 3, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime derivedDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
 
-		Assert.assertTrue("rounded to 1:03", derivedTimestamp.getMinutes()==3);
+		Assert.assertTrue("rounded to 1:03", derivedDateTime.getMinuteOfHour() == 3);
 		
-		beginDateTime = new Timestamp((new DateTime(2012, 10, 16, 12, 56, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		derivedTimestamp = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
+		beginDateTime = new DateTime(2012, 10, 16, 12, 56, 0, 0, TKUtils.getSystemDateTimeZone());
+		derivedDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
 
-		Assert.assertTrue("rounded to 1:56", derivedTimestamp.getMinutes()==57);
+		Assert.assertTrue("rounded to 1:56", derivedDateTime.getMinuteOfHour() == 57);
 
         //cleanup
         KRADServiceLocator.getBusinessObjectService().delete(gpr);

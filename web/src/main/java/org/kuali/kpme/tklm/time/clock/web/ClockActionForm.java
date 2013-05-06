@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.clock.web;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -51,7 +50,7 @@ public class ClockActionForm extends TimesheetActionForm {
     private String lastClockAction;
     // do we still need nextClockAction?
     private String nextClockAction;
-    private Timestamp lastClockTimestamp;
+    private Date lastClockTimestamp;
     private Date lastClockTimeWithZone;
 
     private String lastClockHours;
@@ -159,11 +158,11 @@ public class ClockActionForm extends TimesheetActionForm {
 		this.nextClockAction = nextClockAction;
 	}
 
-	public Timestamp getLastClockTimestamp() {
+	public Date getLastClockTimestamp() {
 		return lastClockTimestamp;
 	}
 
-	public void setLastClockTimestamp(Timestamp lastClockTimestamp) {
+	public void setLastClockTimestamp(Date lastClockTimestamp) {
 		this.lastClockTimestamp = lastClockTimestamp;
 	}
 

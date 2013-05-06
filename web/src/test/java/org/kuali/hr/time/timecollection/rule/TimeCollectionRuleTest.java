@@ -15,13 +15,11 @@
  */
 package org.kuali.hr.time.timecollection.rule;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
-
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -55,7 +53,7 @@ public class TimeCollectionRuleTest extends KPMETestCase{
 		timeCollectionRule.setWorkArea(1234L);
 		timeCollectionRule.setEffectiveLocalDate(LocalDate.now());
 		timeCollectionRule.setActive(true);
-		timeCollectionRule.setTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+		timeCollectionRule.setTimestamp(TKUtils.getCurrentTimestamp());
 		KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule);
 
 		TimeCollectionRule timeCollectionRule2 = new TimeCollectionRule();
@@ -63,7 +61,7 @@ public class TimeCollectionRuleTest extends KPMETestCase{
 		timeCollectionRule2.setWorkArea(234L);
 		timeCollectionRule2.setEffectiveLocalDate(LocalDate.now());
 		timeCollectionRule2.setActive(true);
-		timeCollectionRule2.setTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+		timeCollectionRule2.setTimestamp(TKUtils.getCurrentTimestamp());
 		KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule2);
 	}
 }

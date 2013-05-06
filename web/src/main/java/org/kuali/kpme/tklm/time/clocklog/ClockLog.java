@@ -16,9 +16,11 @@
 package org.kuali.kpme.tklm.time.clocklog;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Transient;
 
+import org.joda.time.DateTime;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
@@ -35,7 +37,7 @@ public class ClockLog extends PersistableBusinessObjectBase {
     private Long jobNumber;
     private Long workArea;
     private Long task;
-    private Timestamp clockTimestamp;
+    private Date clockTimestamp;
     private String clockTimestampTimezone;
     private String clockAction;
     private String ipAddress;
@@ -77,12 +79,20 @@ public class ClockLog extends PersistableBusinessObjectBase {
         this.jobNumber = jobNumber;
     }
 
-    public Timestamp getClockTimestamp() {
+    public Date getClockTimestamp() {
         return clockTimestamp;
     }
 
-    public void setClockTimestamp(Timestamp clockTimestamp) {
+    public void setClockTimestamp(Date clockTimestamp) {
         this.clockTimestamp = clockTimestamp;
+    }
+    
+    public DateTime getClockDateTime() {
+    	return clockTimestamp != null? new DateTime(clockTimestamp) : null;
+    }
+    
+    public void setClockDateTime(DateTime clockDateTime) {
+    	clockTimestamp = clockDateTime != null ? clockDateTime.toDate() : null;
     }
 
     public String getClockAction() {

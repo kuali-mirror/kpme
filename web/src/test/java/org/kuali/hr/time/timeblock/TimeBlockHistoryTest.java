@@ -16,7 +16,6 @@
 package org.kuali.hr.time.timeblock;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,13 +35,13 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 public class TimeBlockHistoryTest extends KPMETestCase {
 
     private static DateTime DEFAULT_EFFDT =new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-    Timestamp beginTimestamp = new Timestamp(new DateTime(2010, 1, 1, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
-    Timestamp endTimestamp = new Timestamp(new DateTime(2010, 1, 1, 16, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
+    private static DateTime beginDateTime = new DateTime(2010, 1, 1, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+    private static DateTime endDateTime = new DateTime(2010, 1, 1, 16, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
     @Test
     public void testTimeBlockHistory() throws Exception {
         TimesheetDocument td = TkTestUtils.populateBlankTimesheetDocument(DEFAULT_EFFDT);
-        List<TimeBlock> tbs = TkServiceLocator.getTimeBlockService().buildTimeBlocks(td.getAssignments().get(0), "RGH", td, beginTimestamp, endTimestamp, new BigDecimal("8"), BigDecimal.ZERO, true, false, HrContext.getPrincipalId());
+        List<TimeBlock> tbs = TkServiceLocator.getTimeBlockService().buildTimeBlocks(td.getAssignments().get(0), "RGH", td, beginDateTime, endDateTime, new BigDecimal("8"), BigDecimal.ZERO, true, false, HrContext.getPrincipalId());
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(td.getTimeBlocks(), tbs, HrContext.getPrincipalId());
 
         List<TimeBlockHistory> tbhs = new ArrayList<TimeBlockHistory>();

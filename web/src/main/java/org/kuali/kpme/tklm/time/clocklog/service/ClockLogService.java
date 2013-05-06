@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.time.clocklog.service;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
@@ -59,19 +60,19 @@ public interface ClockLogService {
 
     /**
      * Build ClockLog based on criteria passed in
-     * @param clockTimestamp  -- timestamp with grace rule applied if there is one
-     * @param originalTimestamp  -- timestamp without grace rule applied
+     * @param clockDateTime  -- time with grace rule applied if there is one
+     * @param originalTimestamp  -- time without grace rule applied
      * @param assignment
      * @param timesheetDocument
      * @param clockAction
      * @param ip
      * @return
      */
-	public ClockLog buildClockLog(Timestamp clockTimestamp, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip);
+	public ClockLog buildClockLog(DateTime clockDateTime, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip);
 	
 	/**
 	 * Process clock log created
-	 * @param clockTimestamp
+	 * @param clockDateTime
 	 * @param assignment
 	 * @param pe
 	 * @param ip
@@ -81,7 +82,7 @@ public interface ClockLogService {
 	 * @param principalId
 	 * @return
 	 */
-    ClockLog processClockLog(Timestamp clockTimestamp, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, String principalId);
+    ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, String principalId);
     
     /**
      * Fetch clock log by id
@@ -90,9 +91,9 @@ public interface ClockLogService {
      */
     public ClockLog getClockLog(String tkClockLogId);
 
-    ClockLog buildClockLog(Timestamp clockTimestamp, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip, String userPrincipalId);
+    ClockLog buildClockLog(DateTime clockDateTime, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip, String userPrincipalId);
 
-    ClockLog processClockLog(Timestamp clockTimeStamp, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId);
+    ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId);
     
     /**
      * Get warning messages for clock actions taken from unapproved IP address on given timesheet document

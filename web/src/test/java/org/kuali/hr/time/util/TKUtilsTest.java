@@ -16,7 +16,6 @@
 package org.kuali.hr.time.util;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -46,17 +45,17 @@ public class TKUtilsTest extends Assert {
 
 	@Test
 	public void testgetHoursBetween() throws Exception {
-		Timestamp beginTime = new Timestamp((new DateTime(2010, 10, 16, 12, 3, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		Timestamp endTime = new Timestamp((new DateTime(2010, 10, 17, 12, 3, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		BigDecimal hours = TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime());
+		DateTime beginDateTime = new DateTime(2010, 10, 16, 12, 3, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime endDateTime = new DateTime(2010, 10, 17, 12, 3, 0, 0, TKUtils.getSystemDateTimeZone());
+		BigDecimal hours = TKUtils.getHoursBetween(beginDateTime.getMillis(), endDateTime.getMillis());
 		assertEquals("Wrong hours", 24, hours.intValue());
 
-		endTime = new Timestamp((new DateTime(2010, 10, 16, 18, 3, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		hours = TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime());
+		endDateTime = new DateTime(2010, 10, 16, 18, 3, 0, 0, TKUtils.getSystemDateTimeZone());
+		hours = TKUtils.getHoursBetween(beginDateTime.getMillis(), endDateTime.getMillis());
 		assertEquals("Wrong hours", 6, hours.intValue());
 
-		endTime = new Timestamp((new DateTime(2010, 10, 16, 18, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		hours = TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime());
+		endDateTime = new DateTime(2010, 10, 16, 18, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		hours = TKUtils.getHoursBetween(beginDateTime.getMillis(), endDateTime.getMillis());
 		assertEquals("Wrong hours", 5, hours.intValue());
 
 	}

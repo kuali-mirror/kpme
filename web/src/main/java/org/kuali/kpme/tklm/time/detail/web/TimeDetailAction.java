@@ -16,7 +16,6 @@
 package org.kuali.kpme.tklm.time.detail.web;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -455,8 +454,8 @@ public class TimeDetailAction extends TimesheetAction {
 		DateTime endDate = null;
 		
 		if(tdaf.getStartTime() != null && tdaf.getEndTime() != null) {
-			beginDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getStartTime()));
-			endDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getEndDate(), tdaf.getEndTime()));
+			beginDate = TKUtils.convertDateStringToDateTime(tdaf.getStartDate(), tdaf.getStartTime());
+			endDate = TKUtils.convertDateStringToDateTime(tdaf.getEndDate(), tdaf.getEndTime());
 		} else {
 			beginDate = TKUtils.formatDateTimeString(tdaf.getStartDate());
 			endDate = TKUtils.formatDateTimeString(tdaf.getEndDate());
@@ -474,8 +473,8 @@ public class TimeDetailAction extends TimesheetAction {
 	
     // add/update time blocks
 	private void changeTimeBlocks(TimeDetailActionForm tdaf) {
-		Timestamp overtimeBeginTimestamp = null;
-        Timestamp overtimeEndTimestamp = null;
+		DateTime overtimeBeginDateTime = null;
+        DateTime overtimeEndDateTime = null;
         boolean isClockLogCreated = false;
         
         // This is for updating a timeblock or changing
@@ -486,8 +485,8 @@ public class TimeDetailAction extends TimesheetAction {
 	            isClockLogCreated = tb.getClockLogCreated();
 	            if (StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
                     //TODO:  This doesn't do anything!!! these variables are never used.  Should they be?
-	                overtimeBeginTimestamp = tb.getBeginTimestamp();
-	                overtimeEndTimestamp = tb.getEndTimestamp();
+	            	overtimeBeginDateTime = tb.getBeginDateTime();
+	            	overtimeEndDateTime = tb.getEndDateTime();
 	            }
             }
             // old time block is deleted from addTimeBlock method
@@ -498,8 +497,8 @@ public class TimeDetailAction extends TimesheetAction {
 
 
         // Surgery point - Need to construct a Date/Time with Appropriate Timezone.
-        Timestamp startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getStartTime());
-        Timestamp endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndDate(), tdaf.getEndTime());
+        DateTime startTime = TKUtils.convertDateStringToDateTime(tdaf.getStartDate(), tdaf.getStartTime());
+        DateTime endTime = TKUtils.convertDateStringToDateTime(tdaf.getEndDate(), tdaf.getEndTime());
 
         // We need a  cloned reference set so we know whether or not to
         // persist any potential changes without making hundreds of DB calls.
@@ -511,12 +510,10 @@ public class TimeDetailAction extends TimesheetAction {
         // This is just a reference, for code clarity, the above list is actually
         // separate at the object level.
         List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
-        DateTime startTemp = new DateTime(startTime);
-        DateTime endTemp = new DateTime(endTime);
         // KPME-1446 add spanningweeks to the calls below 
         if (StringUtils.equals(tdaf.getAcrossDays(), "y")
-                && !(endTemp.getDayOfYear() - startTemp.getDayOfYear() <= 1
-                && endTemp.getHourOfDay() == 0)) {
+                && !(endTime.getDayOfYear() - startTime.getDayOfYear() <= 1
+                && endTime.getHourOfDay() == 0)) {
             List<TimeBlock> timeBlocksToAdd = TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(assignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
                     endTime, tdaf.getHours(), tdaf.getAmount(), isClockLogCreated, Boolean.parseBoolean(tdaf.getLunchDeleted()), tdaf.getSpanningWeeks(), HrContext.getPrincipalId());

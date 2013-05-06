@@ -15,9 +15,9 @@
  */
 package org.kuali.kpme.tklm.time.rules.graceperiod.service;
 
-import java.sql.Timestamp;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.tklm.time.rules.graceperiod.GracePeriodRule;
 import org.springframework.cache.annotation.Cacheable;
@@ -32,11 +32,11 @@ public interface GracePeriodService {
 	public GracePeriodRule getGracePeriodRule(LocalDate asOfDate);
 	/**
 	 * Process grace period rule as of a particular date with the corresponding timestamp
-	 * @param actualTime
+	 * @param actualDateTime
 	 * @param asOfDate
 	 * @return
 	 */
-	public Timestamp processGracePeriodRule(Timestamp actualTime, LocalDate asOfDate);
+	public DateTime processGracePeriodRule(DateTime actualDateTime, LocalDate asOfDate);
 	
 	/**
 	 * Fetch Grace period rule by id

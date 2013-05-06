@@ -15,13 +15,12 @@
  */
 package org.kuali.hr.time.user.pref;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -40,8 +39,8 @@ public class UserPrefTest extends KPMETestCase{
 	@Test
 	public void testTimeZoneTranslate() throws Exception{
 		TimeBlock tb = new TimeBlock();
-		tb.setBeginTimestamp(new Timestamp(LocalDate.now().toDate().getTime()));
-		tb.setEndTimestamp(new Timestamp(LocalDate.now().toDate().getTime()));
+		tb.setBeginDateTime(new DateTime());
+		tb.setEndDateTime(new DateTime());
 		
 		List<TimeBlock> tbs = new ArrayList<TimeBlock>();
 		tbs.add(tb);

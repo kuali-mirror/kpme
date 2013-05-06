@@ -16,7 +16,6 @@
 package org.kuali.kpme.tklm.leave.summary.service;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -498,8 +497,6 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
         LocalDate cutOffDateToCheck = ytdEarnedEffectiveDate != null ? ytdEarnedEffectiveDate : effectiveDate;
         DateTime cutOffDate = HrServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(lp.getLeavePlan(), cutOffDateToCheck).minus(1);
 
-        Timestamp priorYearCutOff = new Timestamp(cutOffDate.getMillis());
-
         if (CollectionUtils.isNotEmpty(approvedLeaveBlocks)) {
             // create it here so we don't need to get instance every loop iteration
             for(LeaveBlock aLeaveBlock : approvedLeaveBlocks) {
@@ -513,7 +510,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                 && !aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)) {
                             if(!(StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
                             		StringUtils.equals(HrConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
-                                if (aLeaveBlock.getLeaveDate().getTime() <= priorYearCutOff.getTime()) {
+                                if (aLeaveBlock.getLeaveLocalDate().toDate().getTime() <= cutOffDate.toDate().getTime()) {
                                     String yearKey = getYearKey(aLeaveBlock.getLeaveLocalDate(), lp);
                                     BigDecimal co = yearlyAccrued.get(yearKey);
                                     if (co == null) {
@@ -530,7 +527,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             //we only want this for the current calendar!!!
                             if(!(StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
                             		StringUtils.equals(HrConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
-                                if (aLeaveBlock.getLeaveDate().getTime() > priorYearCutOff.getTime()) {
+                                if (aLeaveBlock.getLeaveLocalDate().toDate().getTime() > cutOffDate.toDate().getTime()) {
                                     EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveLocalDate());
                                     if (ec != null && StringUtils.equals(ec.getAccrualBalanceAction(), HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)){
                                         approvedUsage = approvedUsage.add(currentLeaveAmount);

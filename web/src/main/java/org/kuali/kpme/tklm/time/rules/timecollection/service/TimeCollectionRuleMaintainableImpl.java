@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.rules.timecollection.service;
 
-import java.sql.Timestamp;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -66,11 +65,11 @@ public class TimeCollectionRuleMaintainableImpl extends KualiMaintainableImpl {
 				if(oldTimeCollectRule!=null){
 					oldTimeCollectRule.setActive(false);
 					//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
-					oldTimeCollectRule.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
+					oldTimeCollectRule.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(TKUtils.getCurrentTimestamp()));
 					oldTimeCollectRule.setEffectiveDate(timeCollectionRule.getEffectiveDate());
 					KRADServiceLocator.getBusinessObjectService().save(oldTimeCollectRule);
 				}
-				timeCollectionRule.setTimestamp(new Timestamp(System.currentTimeMillis()));
+				timeCollectionRule.setTimestamp(TKUtils.getCurrentTimestamp());
 				timeCollectionRule.setTkTimeCollectionRuleId(null);
 			}
 		}

@@ -41,11 +41,11 @@ public class SystemLunchRuleMaintainableImpl extends KualiMaintainableImpl {
 				if(oldSystemLunchRule!=null){
 					oldSystemLunchRule.setActive(false);
 					//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
-					oldSystemLunchRule.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
+					oldSystemLunchRule.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(TKUtils.getCurrentTimestamp()));
 					oldSystemLunchRule.setEffectiveDate(sysLunchRule.getEffectiveDate());
 					KRADServiceLocator.getBusinessObjectService().save(oldSystemLunchRule);
 				}
-				sysLunchRule.setTimestamp(new Timestamp(System.currentTimeMillis()));
+				sysLunchRule.setTimestamp(TKUtils.getCurrentTimestamp());
 				sysLunchRule.setTkSystemLunchRuleId(null);
 			}
 		}

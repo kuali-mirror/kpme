@@ -416,8 +416,8 @@ public class LeaveCalendarValidationUtil {
 		        Long startTime;
 		        Long endTime;
 		       
-		        startTime = TKUtils.convertDateStringToTimestampWithoutZone(startDateS, startTimeS).getTime();
-		        endTime = TKUtils.convertDateStringToTimestampWithoutZone(endDateS, endTimeS).getTime();
+		        startTime = TKUtils.convertDateStringToDateTimeWithoutZone(startDateS, startTimeS).getMillis();
+		        endTime = TKUtils.convertDateStringToDateTimeWithoutZone(endDateS, endTimeS).getMillis();
 		
 		        errors.addAll(validateInterval(leaveCalEntry, startTime, endTime));
 		        if (errors.size() > 0) return errors;

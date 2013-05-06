@@ -16,7 +16,6 @@
 package org.kuali.kpme.tklm.time.clock.web;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -137,7 +136,7 @@ public class ClockAction extends TimesheetAction {
 
         ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
         if (lastClockLog != null) {
-            Timestamp lastClockTimestamp = lastClockLog.getClockTimestamp();
+            DateTime lastClockDateTime = lastClockLog.getClockDateTime();
             String lastClockZone = lastClockLog.getClockTimestampTimezone();
             if (StringUtils.isEmpty(lastClockZone)) {
                 lastClockZone = TKUtils.getSystemTimeZone();
@@ -146,9 +145,9 @@ public class ClockAction extends TimesheetAction {
             // Exception would indicate bad data stored in the system. We can wrap this, but
             // for now, the thrown exception is probably more valuable.
             DateTimeZone zone = DateTimeZone.forID(lastClockZone);
-            DateTime clockWithZone = new DateTime(lastClockTimestamp, zone);
+            DateTime clockWithZone = lastClockDateTime.withZone(zone);
             caf.setLastClockTimeWithZone(clockWithZone.toDate());
-            caf.setLastClockTimestamp(lastClockTimestamp);
+            caf.setLastClockTimestamp(lastClockDateTime.toDate());
             caf.setLastClockAction(lastClockLog.getClockAction());
         }
 
@@ -240,7 +239,7 @@ public class ClockAction extends TimesheetAction {
         }
         
                
-        ClockLog clockLog = TkServiceLocator.getClockLogService().processClockLog(new Timestamp(System.currentTimeMillis()), assignment, caf.getPayCalendarDates(), ip,
+        ClockLog clockLog = TkServiceLocator.getClockLogService().processClockLog(new DateTime(), assignment, caf.getPayCalendarDates(), ip,
                 LocalDate.now(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), HrContext.getTargetPrincipalId());
 
         caf.setClockLog(clockLog);
@@ -297,14 +296,14 @@ public class ClockAction extends TimesheetAction {
 		List<TimeBlock> newTbList = new ArrayList<TimeBlock>();
 		for(int i = 0; i < hrs.length; i++) {
 			BigDecimal hours = new BigDecimal(hrs[i]);
-			Timestamp beginTS = TKUtils.convertDateStringToTimestamp(beginDates[i], beginTimes[i]);
-			Timestamp endTS = TKUtils.convertDateStringToTimestamp(endDates[i], endTimes[i]);
+			DateTime beginDateTime = TKUtils.convertDateStringToDateTime(beginDates[i], beginTimes[i]);
+			DateTime endDateTime = TKUtils.convertDateStringToDateTime(endDates[i], endTimes[i]);
 			String assignString = assignments[i];
 			Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(assignString);
 			
 			TimesheetDocument tsDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocId);
 			
-			TimeBlock tb = TkServiceLocator.getTimeBlockService().createTimeBlock(tsDoc, beginTS, endTS, assignment, earnCode, hours,BigDecimal.ZERO, false, false, HrContext.getPrincipalId());
+			TimeBlock tb = TkServiceLocator.getTimeBlockService().createTimeBlock(tsDoc, beginDateTime, endDateTime, assignment, earnCode, hours,BigDecimal.ZERO, false, false, HrContext.getPrincipalId());
 			newTbList.add(tb);
 		}
 		TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTbList);
@@ -351,18 +350,16 @@ public class ClockAction extends TimesheetAction {
 
 		    // check if the begin / end time are valid
 		    // should not include time zone in consideration when conparing time intervals
-		    Timestamp beginTS = TKUtils.convertDateStringToTimestampWithoutZone(beginDates[i], beginTimes[i]);
-			Timestamp endTS = TKUtils.convertDateStringToTimestampWithoutZone(endDates[i], endTimes[i]);
-		    if ((beginTS.compareTo(endTS) > 0 || endTS.compareTo(beginTS) < 0)) {
+		    DateTime beginDateTime = TKUtils.convertDateStringToDateTimeWithoutZone(beginDates[i], beginTimes[i]);
+			DateTime endDateTime = TKUtils.convertDateStringToDateTimeWithoutZone(endDates[i], endTimes[i]);
+		    if ((beginDateTime.compareTo(endDateTime) > 0 || endDateTime.compareTo(beginDateTime) < 0)) {
 		        errorMsgList.add("The time or date for entry " + index + " is not valid.");
 		        caf.setOutputString(JSONValue.toJSONString(errorMsgList));
 		        return mapping.findForward("ws");
 		    }
 
 		    // check if new time blocks overlap with existing time blocks
-		    DateTime start = new DateTime(beginTS);
-		    DateTime end = new DateTime(endTS);
-		    Interval addedTimeblockInterval = new Interval(start, end);
+		    Interval addedTimeblockInterval = new Interval(beginDateTime, endDateTime);
 		    newIntervals.add(addedTimeblockInterval);
 		    for (TimeBlock timeBlock : caf.getTimesheetDocument().getTimeBlocks()) {
 		    	if(timeBlock.getTkTimeBlockId().equals(tbId)) {	// ignore the original time block

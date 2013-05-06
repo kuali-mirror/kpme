@@ -15,10 +15,7 @@
  */
 package org.kuali.hr.time.timeblock.service;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -28,14 +25,12 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimeBlockServiceTest extends KPMETestCase {
 	
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yy");
-
 	@Test
 	public void testIsTimeBlockEditableAdmin() throws Exception {
 		TimeBlock tb = new TimeBlock();
 		tb.setJobNumber(new Long(30));
-		tb.setBeginTimestamp(new Timestamp(DATE_FORMAT.parse("01/01/2010").getTime()));
-		tb.setEndTimestamp(new Timestamp(DATE_FORMAT.parse("01/01/2010").getTime()));
+		tb.setBeginDateTime(new DateTime(2010, 1, 1, 0, 0, 0));
+		tb.setEndDateTime(new DateTime(2010, 1, 1, 0, 0, 0));
 		
 		GlobalVariables.getUserSession().setBackdoorUser("admin");
 		
@@ -57,8 +52,8 @@ public class TimeBlockServiceTest extends KPMETestCase {
 	public void testIsTimeBlockEditableUser() throws Exception {
 		TimeBlock tb = new TimeBlock();
 		tb.setJobNumber(new Long(1));
-		tb.setBeginTimestamp(new Timestamp(DATE_FORMAT.parse("08/12/2010").getTime()));
-		tb.setEndTimestamp(new Timestamp(DATE_FORMAT.parse("08/12/2010").getTime()));
+		tb.setBeginDateTime(new DateTime(2010, 8, 12, 0, 0, 0));
+		tb.setEndDateTime(new DateTime(2010, 8, 12, 0, 0, 0));
 		
 		GlobalVariables.getUserSession().setBackdoorUser("eric");
 		

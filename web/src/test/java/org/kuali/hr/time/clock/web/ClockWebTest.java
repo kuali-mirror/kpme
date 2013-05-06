@@ -31,6 +31,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.rules.graceperiod.GracePeriodRule;
@@ -86,10 +87,8 @@ public class ClockWebTest extends KPMETestCase {
         timeBlock.setWorkArea(1234L);
         timeBlock.setTask(1L);
         timeBlock.setEarnCode("RGN");
-        Timestamp beginTimestamp = new Timestamp(System.currentTimeMillis());
-        timeBlock.setBeginTimestamp(beginTimestamp);
-        Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
-        timeBlock.setEndTimestamp(endTimestamp);
+        timeBlock.setBeginTimestamp(TKUtils.getCurrentTimestamp());
+        timeBlock.setEndTimestamp(TKUtils.getCurrentTimestamp());
         TimeHourDetail timeHourDetail = new TimeHourDetail();
         timeHourDetail.setEarnCode("RGN");
         timeHourDetail.setHours(new BigDecimal(2.0));
@@ -203,7 +202,7 @@ public class ClockWebTest extends KPMETestCase {
         //gpr.setTkGracePeriodRuleId("1");
         gpr.setEffectiveLocalDate(new LocalDate(2010, 1, 1));
         gpr.setHourFactor(new BigDecimal(3));
-        gpr.setTimestamp(new Timestamp(System.currentTimeMillis()));
+        gpr.setTimestamp(TKUtils.getCurrentTimestamp());
         
         gpr.setActive(true);
         KRADServiceLocator.getBusinessObjectService().save(gpr);

@@ -72,8 +72,8 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private List<LeaveBlockHistory> leaveBlockHistories = new ArrayList<LeaveBlockHistory>();
     private String leaveRequestDocumentId;
     
-    private Timestamp beginTimestamp;
-    private Timestamp endTimestamp;
+    private Date beginTimestamp;
+    private Date endTimestamp;
     
 	@Transient
 	private boolean submit;
@@ -582,21 +582,36 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		return transactionalDocId;
 	}
 
-	public Timestamp getBeginTimestamp() {
+	public Date getBeginTimestamp() {
 		return beginTimestamp;
 	}
 
-	public void setBeginTimestamp(Timestamp beginTimestamp) {
+	public void setBeginTimestamp(Date beginTimestamp) {
 		this.beginTimestamp = beginTimestamp;
 	}
+	
+	public DateTime getBeginDateTime() {
+		return beginTimestamp != null ? new DateTime(beginTimestamp) : null;
+	}
+	
+	public void setBeginDateTime(DateTime beginDateTime) {
+		beginTimestamp = beginDateTime != null ? beginDateTime.toDate() : null;
+	}
 
-	public Timestamp getEndTimestamp() {
+	public Date getEndTimestamp() {
 		return endTimestamp;
 	}
 
-	public void setEndTimestamp(Timestamp endTimestamp) {
+	public void setEndTimestamp(Date endTimestamp) {
 		this.endTimestamp = endTimestamp;
 	}
+	
+	public DateTime getEndDateTime() {
+		return endTimestamp != null ? new DateTime(endTimestamp) : null;
+	}
+	
+	public void setEndDateTime(DateTime endDateTime) {
+		endTimestamp = endDateTime != null ? endDateTime.toDate() : null;
+	}
+	
 }
-
-

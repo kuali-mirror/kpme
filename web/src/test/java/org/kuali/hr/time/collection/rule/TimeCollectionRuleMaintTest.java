@@ -28,6 +28,7 @@ import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -145,7 +146,7 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 		timeCollectionRule.setDept(TEST_CODE_DEPARTMENT_VALID);
 		timeCollectionRule.setEffectiveLocalDate(TEST_DATE);
 		timeCollectionRule.setHrsDistributionF(true);
-		timeCollectionRule.setTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+		timeCollectionRule.setTimestamp(TKUtils.getCurrentTimestamp());
 		timeCollectionRule.setUserPrincipalId(TEST_CODE);
         timeCollectionRule.setActive(true);
         timeCollectionRule = KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule);
@@ -168,8 +169,7 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 		timeCollectionRuleWIthInvalidWorkArea.setEffectiveLocalDate(TEST_DATE);
 		timeCollectionRuleWIthInvalidWorkArea.setHrsDistributionF(true);
         timeCollectionRuleWIthInvalidWorkArea.setActive(true);
-		timeCollectionRuleWIthInvalidWorkArea.setTimestamp(new Timestamp(
-				Calendar.getInstance().getTimeInMillis()));
+		timeCollectionRuleWIthInvalidWorkArea.setTimestamp(TKUtils.getCurrentTimestamp());
 		timeCollectionRuleWIthInvalidWorkArea.setUserPrincipalId(TEST_CODE);
 		timeCollectionRuleWIthInvalidWorkArea
 				.setWorkArea(TEST_CODE_INVALID_WORKAREA);

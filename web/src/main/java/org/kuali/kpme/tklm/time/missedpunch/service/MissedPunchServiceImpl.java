@@ -81,7 +81,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         	}
         }
 
-        if(cl != null && cl.getClockTimestamp().compareTo(new Timestamp(actionDateTime.getMillis())) != 0){
+        if(cl != null && cl.getClockDateTime().compareTo(actionDateTime) != 0){
         	//change occurred between the initial save and the approver
         	//inactivate all the previous timeblocks and delete clock logs
         	String logEndId = null;
@@ -121,12 +121,11 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         Assignment assign = HrServiceLocator.getAssignmentService().getAssignment(tdoc, missedPunch.getAssignment());
         // Need to build a clock log entry.
         //Timestamp clockTimestamp, String selectedAssign, TimesheetDocument timesheetDocument, String clockAction, String ip) {
-        Timestamp ts = new Timestamp(missedPunch.getActionDate().getTime());
         ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
         Long zoneOffset = HrServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(DateTimeZone.forID(lastClockLog.getClockTimestampTimezone()));
-        Timestamp clockLogTime = new Timestamp(ts.getTime() - zoneOffset); // convert the action time to the system zone time
+        DateTime clockLogDateTime = new DateTime(missedPunch.getActionDate().getTime() - zoneOffset); // convert the action time to the system zone time
 
-        ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(clockLogTime, clockLogTime,
+        ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(clockLogDateTime, new Timestamp(clockLogDateTime.getMillis()),
                 assign,
                 tdoc,
                 missedPunch.getClockAction(),
@@ -138,7 +137,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         if (StringUtils.equals(clockLog.getClockAction(), TkConstants.CLOCK_OUT) ||
                 StringUtils.equals(clockLog.getClockAction(), TkConstants.LUNCH_OUT)) {
             String earnCode = assign.getJob().getPayTypeObj().getRegEarnCode();
-            this.buildTimeBlockRunRules(lastClockLog, clockLog, tdoc, assign, earnCode, lastClockLog.getClockTimestamp(), clockLog.getClockTimestamp());
+            this.buildTimeBlockRunRules(lastClockLog, clockLog, tdoc, assign, earnCode, lastClockLog.getClockDateTime(), clockLog.getClockDateTime());
         }
     }
 
@@ -157,12 +156,11 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         Assignment assign = HrServiceLocator.getAssignmentService().getAssignment(tdoc, missedPunch.getAssignment());
         // Need to build a clock log entry.
-        Timestamp ts = new Timestamp(missedPunch.getActionDate().getTime());
         ClockLog lastLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
         Long zoneOffset = HrServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(DateTimeZone.forID(lastLog.getClockTimestampTimezone()));
-        Timestamp clockLogTime = new Timestamp(ts.getTime() - zoneOffset); // convert the action time to the system zone time
+        DateTime clockLogDateTime = new DateTime(missedPunch.getActionDate().getTime() - zoneOffset); // convert the action time to the system zone time
 
-        ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(clockLogTime, clockLogTime,
+        ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(clockLogDateTime, new Timestamp(clockLogDateTime.getMillis()),
                 assign,
                 tdoc,
                 missedPunch.getClockAction(),
@@ -190,7 +188,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 	        
 	       if (beginLog != null && endLog != null && beginLog.getClockTimestamp().before(endLog.getClockTimestamp())) {
 	           String earnCode = assign.getJob().getPayTypeObj().getRegEarnCode();
-	           this.buildTimeBlockRunRules(beginLog, endLog, tdoc, assign, earnCode, beginLog.getClockTimestamp(), endLog.getClockTimestamp());
+	           this.buildTimeBlockRunRules(beginLog, endLog, tdoc, assign, earnCode, beginLog.getClockDateTime(), endLog.getClockDateTime());
 	       } else {
 	        	// error
 	    	   GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.invalid.datetime");
@@ -202,7 +200,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
      * Helper method to build time blocks and fire the rules processing. This
      * should be called only if there was a CLOCK_OUT action.
      */
-    private void buildTimeBlockRunRules(ClockLog beginClockLog, ClockLog endClockLog, TimesheetDocument tdoc, Assignment assignment, String earnCode, Timestamp beginTimestamp, Timestamp endTimestamp) {
+    private void buildTimeBlockRunRules(ClockLog beginClockLog, ClockLog endClockLog, TimesheetDocument tdoc, Assignment assignment, String earnCode, DateTime beginDateTime, DateTime endDateTime) {
         // New Time Blocks, pointer reference
         List<TimeBlock> newTimeBlocks = tdoc.getTimeBlocks();
         List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(newTimeBlocks);
@@ -212,8 +210,8 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 
         // Add TimeBlocks after we store our reference object!
         List<TimeBlock> blocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(
-                assignment, earnCode, tdoc, beginTimestamp,
-                endTimestamp, BigDecimal.ZERO, BigDecimal.ZERO, true, false, HrContext.getPrincipalId());
+                assignment, earnCode, tdoc, beginDateTime,
+                endDateTime, BigDecimal.ZERO, BigDecimal.ZERO, true, false, HrContext.getPrincipalId());
 
 
         // Add the clock log IDs to the time blocks that were just created.

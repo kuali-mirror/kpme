@@ -25,10 +25,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
@@ -334,8 +342,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
                         //conveniently, we only really need the hours amount
                         TimeBlock timeBlock = new TimeBlock();
                         timeBlock.setHours(lb.getLeaveAmount().negate());
-                        timeBlock.setBeginTimestamp(new Timestamp(lb.getLeaveDate().getTime()));
-                        timeBlock.setEndTimestamp(new Timestamp(new DateTime(lb.getLeaveDate()).plusMinutes(timeBlock.getHours().intValue()).getMillis()));
+                        timeBlock.setBeginDateTime(lb.getLeaveLocalDate().toDateTimeAtStartOfDay());
+                        timeBlock.setEndDateTime(lb.getLeaveLocalDate().toDateTimeAtStartOfDay().plusMinutes(timeBlock.getHours().intValue()));
                         timeBlock.setAssignmentKey(lb.getAssignmentKey());
                         timeBlock.setEarnCode(lb.getEarnCode());
                         timeBlock.setPrincipalId(lb.getPrincipalId());

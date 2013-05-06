@@ -15,9 +15,6 @@
  */
 package org.kuali.hr.time.accrual;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
-
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,6 +22,7 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -34,7 +32,6 @@ public class AccrualCategoryMaintTest extends KPMETestCase {
 	private static final String TEST_CODE = "_T";
 	private static String accrualCategoryId;
 	private static final LocalDate TEST_DATE = LocalDate.now();
-	private static final Timestamp TEST_TIMESTAMP = new Timestamp(Calendar.getInstance().getTimeInMillis());
 
 	@Test
 	public void testAccrualCategoryMaint() throws Exception {
@@ -54,7 +51,7 @@ public class AccrualCategoryMaintTest extends KPMETestCase {
 		accrualCategory.setActive(true);
 		accrualCategory.setDescr(TEST_CODE);
 		accrualCategory.setEffectiveLocalDate(TEST_DATE);
-		accrualCategory.setTimestamp(TEST_TIMESTAMP);
+		accrualCategory.setTimestamp(TKUtils.getCurrentTimestamp());
         accrualCategory.setLeavePlan("");
         accrualCategory.setAccrualEarnInterval("");
         accrualCategory.setUnitOfTime("");

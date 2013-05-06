@@ -16,7 +16,6 @@
 package org.kuali.hr.time.timeblock;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,10 +41,8 @@ public class TimeBlockTest extends KPMETestCase {
 		timeBlock.setWorkArea(1234L);
 		timeBlock.setTask(1L);
 		timeBlock.setEarnCode("REG");
-		Timestamp beginTimestamp = new Timestamp(System.currentTimeMillis());
-		timeBlock.setBeginTimestamp(beginTimestamp);
-		Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
-		timeBlock.setEndTimestamp(endTimestamp);
+		timeBlock.setBeginTimestamp(TKUtils.getCurrentTimestamp());
+		timeBlock.setEndTimestamp(TKUtils.getCurrentTimestamp());
 		TimeHourDetail timeHourDetail = new TimeHourDetail();
 		timeHourDetail.setEarnCode("REG");
 		timeHourDetail.setHours(new BigDecimal(2.0));
@@ -56,8 +53,8 @@ public class TimeBlockTest extends KPMETestCase {
 		timeBlock2.setWorkArea(1234L);
 		timeBlock2.setTask(1L);
 		timeBlock2.setEarnCode("REG");
-		timeBlock2.setBeginTimestamp(beginTimestamp);
-		timeBlock2.setEndTimestamp(endTimestamp);
+		timeBlock2.setBeginTimestamp(TKUtils.getCurrentTimestamp());
+		timeBlock2.setEndTimestamp(TKUtils.getCurrentTimestamp());
 		TimeHourDetail timeHourDetail2 = new TimeHourDetail();
 		timeHourDetail2.setEarnCode("REG");
 		timeHourDetail2.setHours(new BigDecimal(2.0));
@@ -69,14 +66,14 @@ public class TimeBlockTest extends KPMETestCase {
 	@Test
 	public void testTimeBlockBuilding() throws Exception {
 		CalendarEntry payCalendarEntry = new CalendarEntry();
-		DateTime beginDateTime = new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		DateTime endDateTime = new DateTime(2010, 1, 15, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		payCalendarEntry.setBeginPeriodDateTime(beginDateTime.toDate());
-		payCalendarEntry.setEndPeriodDateTime(endDateTime.toDate());
+		DateTime beginPeriodDateTime = new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime endPeriodDateTime = new DateTime(2010, 1, 15, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		payCalendarEntry.setBeginPeriodDateTime(beginPeriodDateTime.toDate());
+		payCalendarEntry.setEndPeriodDateTime(endPeriodDateTime.toDate());
 		
 		List<Interval> dayInterval = TKUtils.getDaySpanForCalendarEntry(payCalendarEntry);
-		Timestamp beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		Timestamp endTimeStamp = new Timestamp((new DateTime(2010, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		DateTime beginDateTime = new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime endDateTime = new DateTime(2010, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		
 		Interval firstDay = null;
 		List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
@@ -84,25 +81,25 @@ public class TimeBlockTest extends KPMETestCase {
 			//on second day of span so safe to assume doesnt go furthur than this
 			if(firstDay != null){
 				TimeBlock tb = new TimeBlock();
-				tb.setBeginTimestamp(new Timestamp(dayInt.getStartMillis()));
-				tb.setEndTimestamp(endTimeStamp);
+				tb.setBeginDateTime(dayInt.getStart());
+				tb.setEndDateTime(endDateTime);
 				lstTimeBlocks.add(tb);
 				break;
 			}
-			if(dayInt.contains(beginTimeStamp.getTime()) ){
+			if(dayInt.contains(beginDateTime) ){
 				firstDay = dayInt;
-				if(dayInt.contains(endTimeStamp.getTime())){
+				if(dayInt.contains(endDateTime)){
 					//create one timeblock if contained in one day interval
 					TimeBlock tb = new TimeBlock();
-					tb.setBeginTimestamp(beginTimeStamp);
-					tb.setEndTimestamp(endTimeStamp);
+					tb.setBeginDateTime(beginDateTime);
+					tb.setEndDateTime(endDateTime);
 					lstTimeBlocks.add(tb);
 					break;
 				} else {
 					//create a timeblock that wraps the 24 hr day
 					TimeBlock tb = new TimeBlock();
-					tb.setBeginTimestamp(beginTimeStamp);
-					tb.setEndTimestamp(new Timestamp(firstDay.getEndMillis()));
+					tb.setBeginDateTime(beginDateTime);
+					tb.setEndDateTime(firstDay.getEnd());
 					lstTimeBlocks.add(tb);
 				}
 			}
@@ -111,33 +108,33 @@ public class TimeBlockTest extends KPMETestCase {
 		
 		lstTimeBlocks.clear();
 		
-		beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		endTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 15, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		beginDateTime = new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		endDateTime = new DateTime(2010, 1, 1, 15, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		
 		firstDay = null;
 		for(Interval dayInt : dayInterval){
 			//on second day of span so safe to assume doesnt go furthur than this
 			if(firstDay != null){
 				TimeBlock tb = new TimeBlock();
-				tb.setBeginTimestamp(new Timestamp(dayInt.getStartMillis()));
-				tb.setEndTimestamp(endTimeStamp);
+				tb.setBeginDateTime(dayInt.getStart());
+				tb.setEndDateTime(endDateTime);
 				lstTimeBlocks.add(tb);
 				break;
 			}
-			if(dayInt.contains(beginTimeStamp.getTime()) ){
+			if(dayInt.contains(beginDateTime) ){
 				firstDay = dayInt;
-				if(dayInt.contains(endTimeStamp.getTime())){
+				if(dayInt.contains(endDateTime)){
 					//create one timeblock if contained in one day interval
 					TimeBlock tb = new TimeBlock();
-					tb.setBeginTimestamp(beginTimeStamp);
-					tb.setEndTimestamp(endTimeStamp);
+					tb.setBeginDateTime(beginDateTime);
+					tb.setEndDateTime(endDateTime);
 					lstTimeBlocks.add(tb);
 					break;
 				} else {
 					//create a timeblock that wraps the 24 hr day
 					TimeBlock tb = new TimeBlock();
-					tb.setBeginTimestamp(beginTimeStamp);
-					tb.setEndTimestamp(new Timestamp(firstDay.getEndMillis()));
+					tb.setBeginDateTime(beginDateTime);
+					tb.setEndDateTime(firstDay.getEnd());
 					lstTimeBlocks.add(tb);
 				}
 			}
@@ -167,13 +164,13 @@ public class TimeBlockTest extends KPMETestCase {
 		List<TimeBlock> tbList = new ArrayList<TimeBlock>();
 		TimeBlock tb1 = new TimeBlock();
 		// time block with 2010 time
-		tb1.setBeginTimestamp(new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));
-		tb1.setEndTimestamp(new Timestamp((new DateTime(2010, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));
+		tb1.setBeginDateTime(new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone()));
+		tb1.setEndDateTime(new DateTime(2010, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone()));
 		tbList.add(tb1);
 		//time block with 2009 time
 		TimeBlock tb2 = new TimeBlock();
-		tb2.setBeginTimestamp(new Timestamp((new DateTime(2009, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));
-		tb2.setEndTimestamp(new Timestamp((new DateTime(2009, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));
+		tb2.setBeginDateTime(new DateTime(2009, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone()));
+		tb2.setEndDateTime(new DateTime(2009, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone()));
 		tbList.add(tb2);
 		
 		Assert.assertTrue(tbList.get(0) == tb1);
@@ -185,8 +182,8 @@ public class TimeBlockTest extends KPMETestCase {
 	}
 	private List<TimeBlock> setupTimeBlocks(DateTime startTime, DateTime endTime, CalendarEntry payCalendarEntry){
 		List<Interval> dayInterval = TKUtils.getDaySpanForCalendarEntry(payCalendarEntry);
-		Timestamp beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		Timestamp endTimeStamp = new Timestamp((new DateTime(2010, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		DateTime beginDateTime = new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime endDateTime = new DateTime(2010, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		
 		Interval firstDay = null;
 		List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
@@ -194,25 +191,25 @@ public class TimeBlockTest extends KPMETestCase {
 			//on second day of span so safe to assume doesnt go furthur than this
 			if(firstDay != null){
 				TimeBlock tb = new TimeBlock();
-				tb.setBeginTimestamp(new Timestamp(dayInt.getStartMillis()));
-				tb.setEndTimestamp(endTimeStamp);
+				tb.setBeginDateTime(dayInt.getStart());
+				tb.setEndDateTime(endDateTime);
 				lstTimeBlocks.add(tb);
 				break;
 			}
-			if(dayInt.contains(beginTimeStamp.getTime()) ){
+			if(dayInt.contains(beginDateTime) ){
 				firstDay = dayInt;
-				if(dayInt.contains(endTimeStamp.getTime())){
+				if(dayInt.contains(endDateTime)){
 					//create one timeblock if contained in one day interval
 					TimeBlock tb = new TimeBlock();
-					tb.setBeginTimestamp(beginTimeStamp);
-					tb.setEndTimestamp(endTimeStamp);
+					tb.setBeginDateTime(beginDateTime);
+					tb.setEndDateTime(endDateTime);
 					lstTimeBlocks.add(tb);
 					break;
 				} else {
 					//create a timeblock that wraps the 24 hr day
 					TimeBlock tb = new TimeBlock();
-					tb.setBeginTimestamp(beginTimeStamp);
-					tb.setEndTimestamp(new Timestamp(firstDay.getEndMillis()));
+					tb.setBeginDateTime(beginDateTime);
+					tb.setEndDateTime(firstDay.getEnd());
 					lstTimeBlocks.add(tb);
 				}
 			}
@@ -221,33 +218,33 @@ public class TimeBlockTest extends KPMETestCase {
 		
 		lstTimeBlocks.clear();
 		
-		beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		endTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 15, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		beginDateTime = new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		endDateTime = new DateTime(2010, 1, 1, 15, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		
 		firstDay = null;
 		for(Interval dayInt : dayInterval){
 			//on second day of span so safe to assume doesnt go furthur than this
 			if(firstDay != null){
 				TimeBlock tb = new TimeBlock();
-				tb.setBeginTimestamp(new Timestamp(dayInt.getStartMillis()));
-				tb.setEndTimestamp(endTimeStamp);
+				tb.setBeginDateTime(dayInt.getStart());
+				tb.setEndDateTime(endDateTime);
 				lstTimeBlocks.add(tb);
 				break;
 			}
-			if(dayInt.contains(beginTimeStamp.getTime()) ){
+			if(dayInt.contains(beginDateTime) ){
 				firstDay = dayInt;
-				if(dayInt.contains(endTimeStamp.getTime())){
+				if(dayInt.contains(endDateTime)){
 					//create one timeblock if contained in one day interval
 					TimeBlock tb = new TimeBlock();
-					tb.setBeginTimestamp(beginTimeStamp);
-					tb.setEndTimestamp(endTimeStamp);
+					tb.setBeginDateTime(beginDateTime);
+					tb.setEndDateTime(endDateTime);
 					lstTimeBlocks.add(tb);
 					break;
 				} else {
 					//create a timeblock that wraps the 24 hr day
 					TimeBlock tb = new TimeBlock();
-					tb.setBeginTimestamp(beginTimeStamp);
-					tb.setEndTimestamp(new Timestamp(firstDay.getEndMillis()));
+					tb.setBeginDateTime(beginDateTime);
+					tb.setEndDateTime(firstDay.getEnd());
 					lstTimeBlocks.add(tb);
 				}
 			}
