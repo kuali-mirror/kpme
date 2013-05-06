@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.timeblock;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.kuali.rice.kim.api.identity.Person;
 

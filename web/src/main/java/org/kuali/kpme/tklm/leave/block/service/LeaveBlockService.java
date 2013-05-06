@@ -16,7 +16,6 @@
 package org.kuali.kpme.tklm.leave.block.service;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -150,5 +149,5 @@ public interface LeaveBlockService {
      * @param lastRanTime
      * @return
      */
-    public List<LeaveBlock> getABELeaveBlocksSinceTime(String principalId, Timestamp lastRanTime);
+    public List<LeaveBlock> getABELeaveBlocksSinceTime(String principalId, DateTime lastRanDateTime);
 }

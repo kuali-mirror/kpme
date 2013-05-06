@@ -15,8 +15,8 @@
  */
 package org.kuali.kpme.core.bo.calendar.entry.service;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.util.Date;
 
 import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;

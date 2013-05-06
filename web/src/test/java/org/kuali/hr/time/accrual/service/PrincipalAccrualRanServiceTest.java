@@ -15,11 +15,10 @@
  */
 package org.kuali.hr.time.accrual.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -36,22 +35,20 @@ public class PrincipalAccrualRanServiceTest extends KPMETestCase {
 		// the principalAccrualRan entry in database should be changed to today's timestamp
 		PrincipalAccrualRan par = LmServiceLocator.getPrincipalAccrualRanService().getLastPrincipalAccrualRan("testUser");
 		Assert.assertNotNull("There should be one entry in PrincipalAccrualRan table for 'testUser'", par);
-		Date aDate = new Date(par.getLastRanTs().getTime());
-		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy");
 		Assert.assertTrue("Date of the original entry in PrincipalAccrualRan for 'testUser' should be 05/01/2012"
-				, formatter.format(aDate).equals("05/01/2012"));
+				, formatter.print(par.getLastRanDateTime()).equals("05/01/2012"));
 		
 		DateTime startDate = new DateTime(2012, 2, 20, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		DateTime endDate = new DateTime(2012, 5, 3, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		
 		boolean rerunFlag = LmServiceLocator.getLeaveAccrualService().statusChangedSinceLastRun("testUser");
 		Assert.assertTrue("Status should be changed for 'testUser'", rerunFlag);
-		
-		LmServiceLocator.getLeaveAccrualService().runAccrual("testUser", startDate, endDate, true);
-		par = LmServiceLocator.getPrincipalAccrualRanService().getLastPrincipalAccrualRan("testUser");
-		aDate = new Date(par.getLastRanTs().getTime());
+
+        LmServiceLocator.getLeaveAccrualService().runAccrual("testUser", startDate, endDate, true);
+        par = LmServiceLocator.getPrincipalAccrualRanService().getLastPrincipalAccrualRan("testUser");
 		Assert.assertTrue("Date of the original entry in PrincipalAccrualRan for 'testUser' should be current date"
-				, formatter.format(aDate).equals(formatter.format(LocalDate.now().toDate())));
+				, formatter.print(par.getLastRanDateTime()).equals(formatter.print(LocalDate.now())));
 		
 	}
 

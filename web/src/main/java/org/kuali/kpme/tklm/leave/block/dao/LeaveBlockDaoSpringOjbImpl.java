@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.block.dao;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -29,6 +28,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -394,12 +394,12 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     }
 
     @Override
-    public List<LeaveBlock> getABELeaveBlocksSinceTime(String principalId, Timestamp lastRanTime) {
+    public List<LeaveBlock> getABELeaveBlocksSinceTime(String principalId, DateTime lastRanDateTime) {
     	List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
     	Criteria root = new Criteria();
          
 		root.addEqualTo("principalId", principalId);
-		root.addGreaterThan("timestamp", lastRanTime);
+		root.addGreaterThan("timestamp", lastRanDateTime.toDate());
 		Query query = QueryFactory.newQuery(LeaveBlock.class, root);
 		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		List<LeaveBlock> tempList = new ArrayList<LeaveBlock>();

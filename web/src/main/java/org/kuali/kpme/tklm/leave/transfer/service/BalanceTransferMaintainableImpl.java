@@ -163,7 +163,6 @@ public class BalanceTransferMaintainableImpl extends
 		accruedLeaveBlock.setLeaveDate(bt.getEffectiveDate());
 		accruedLeaveBlock.setPrincipalId(bt.getPrincipalId());
 		accruedLeaveBlock.setEarnCode(fromAC.getEarnCode());
-		accruedLeaveBlock.setDateAndTime(TKUtils.getCurrentTimestamp());
 		accruedLeaveBlock.setAccrualGenerated(true);
 		accruedLeaveBlock.setBlockId(0L);
 		accruedLeaveBlock.setScheduleTimeOffId(bt.getSstoId());
@@ -179,7 +178,6 @@ public class BalanceTransferMaintainableImpl extends
 		usageLeaveBlock.setLeaveDate(bt.getEffectiveDate());
 		usageLeaveBlock.setPrincipalId(bt.getPrincipalId());
 		usageLeaveBlock.setEarnCode(fromAC.getEarnCode());
-		usageLeaveBlock.setDateAndTime(TKUtils.getCurrentTimestamp());
 		usageLeaveBlock.setAccrualGenerated(true);
 		usageLeaveBlock.setBlockId(0L);
 		usageLeaveBlock.setScheduleTimeOffId(bt.getSstoId());

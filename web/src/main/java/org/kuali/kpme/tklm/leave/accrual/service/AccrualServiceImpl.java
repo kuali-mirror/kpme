@@ -16,7 +16,6 @@
 package org.kuali.kpme.tklm.leave.accrual.service;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -423,7 +422,6 @@ public class AccrualServiceImpl implements AccrualService {
 		aLeaveBlock.setPrincipalId(principalId);
 		//More than one earn code can be associated with an accrual category. Which one does this get?
 		aLeaveBlock.setEarnCode(anAC.getEarnCode());
-		aLeaveBlock.setDateAndTime(new Timestamp(currentDate.getTime()));
 		aLeaveBlock.setAccrualGenerated(true);
 		aLeaveBlock.setBlockId(0L);
 		aLeaveBlock.setScheduleTimeOffId(sysSchTimeOffId);
@@ -442,7 +440,6 @@ public class AccrualServiceImpl implements AccrualService {
 		aLeaveBlock.setLeaveDate(currentDate);
 		aLeaveBlock.setPrincipalId(principalId);
 		aLeaveBlock.setEarnCode(LMConstants.STATUS_CHANGE_EARN_CODE);	// fake leave code
-		aLeaveBlock.setDateAndTime(new Timestamp(currentDate.getTime()));
 		aLeaveBlock.setAccrualGenerated(true);
 		aLeaveBlock.setBlockId(0L);
 		aLeaveBlock.setScheduleTimeOffId(null);
@@ -1137,7 +1134,7 @@ public class AccrualServiceImpl implements AccrualService {
 			return true;
 		}
 		// if there are leave blocks created for earn codes with eligible-for-accrual = no since the last accrual run, it should trigger recalculation 
-		List<LeaveBlock> lbList = LmServiceLocator.getLeaveBlockService().getABELeaveBlocksSinceTime(principalId, par.getLastRanTs());
+		List<LeaveBlock> lbList = LmServiceLocator.getLeaveBlockService().getABELeaveBlocksSinceTime(principalId, par.getLastRanDateTime());
 		if(CollectionUtils.isNotEmpty(lbList)) {
 			return true;
 		}		

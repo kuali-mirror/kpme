@@ -75,8 +75,8 @@ public class EarnCodeMaintenaceTest extends KPMETestCase {
 		timeBlock.setAmount(BigDecimal.ONE);
 		timeBlock.setAssignmentKey("somedesc");
 		timeBlock.setJobNumber(new Long(30));
-		timeBlock.setBeginDate(new java.sql.Date(DATE_FORMAT.parse("01/01/2010").getTime()));
-		timeBlock.setEndDate(new java.sql.Date(DATE_FORMAT.parse("01/03/2010").getTime()));
+		timeBlock.setBeginDate(DATE_FORMAT.parse("01/01/2010"));
+		timeBlock.setEndDate(DATE_FORMAT.parse("01/03/2010"));
 		timeBlock.setBeginTimestamp(Timestamp.valueOf("2010-01-01 00:00:00.0"));
 		timeBlock.setEndTimestamp(Timestamp.valueOf("2010-01-03 00:00:00.0"));
 		timeBlock.setEarnCode(EARN_CODE);

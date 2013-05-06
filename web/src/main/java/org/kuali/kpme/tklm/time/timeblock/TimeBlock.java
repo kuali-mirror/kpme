@@ -57,9 +57,9 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     private Timestamp endTimestamp;
 
     @Transient
-    private java.sql.Date beginDate;
+    private Date beginDate;
     @Transient
-    private java.sql.Date endDate;
+    private Date endDate;
     @Transient
     private Time beginTime;
     @Transient
@@ -142,31 +142,31 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         this.endTimestamp = endTimestamp;
     }
 
-    public java.sql.Date getBeginDate() {
+    public Date getBeginDate() {
         if (beginDate == null && this.getBeginTimestamp() != null) {
-            setBeginDate(new java.sql.Date(this.getBeginTimestamp().getTime()));
+            setBeginDate(new Date(this.getBeginTimestamp().getTime()));
         }
         return beginDate;
     }
 
-    public void setBeginDate(java.sql.Date beginDate) {
+    public void setBeginDate(Date beginDate) {
         this.beginDate = beginDate;
     }
 
-    public java.sql.Date getEndDate() {
+    public Date getEndDate() {
         if (endDate == null && this.getEndTimestamp() != null) {
-            setEndDate(new java.sql.Date(this.getEndTimestamp().getTime()));
+            setEndDate(new Date(this.getEndTimestamp().getTime()));
         }
         return endDate;
     }
 
-    public void setEndDate(java.sql.Date endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
     public Time getBeginTime() {
         if (beginTime == null && this.getBeginTimestamp() != null) {
-            setBeginTime(new java.sql.Time(this.getBeginTimestamp().getTime()));
+            setBeginTime(new Time(this.getBeginTimestamp().getTime()));
         }
         return beginTime;
     }
@@ -177,7 +177,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 
     public Time getEndTime() {
         if (endTime == null && this.getEndTimestamp() != null) {
-            setEndTime(new java.sql.Time(this.getEndTimestamp().getTime()));
+            setEndTime(new Time(this.getEndTimestamp().getTime()));
         }
         return endTime;
     }

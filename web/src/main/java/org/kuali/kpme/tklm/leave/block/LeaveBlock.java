@@ -79,8 +79,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private boolean submit;
 	@Transient
 	private String reason;
-	@Transient
-	private Timestamp dateAndTime;
 
 	private Long workArea;
 	private Long jobNumber;
@@ -370,14 +368,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 
 	public void setReason(String reason) {
 		this.reason = reason;
-	}
-
-	public Timestamp getDateAndTime() {
-		return dateAndTime;
-	}
-
-	public void setDateAndTime(Timestamp dateAndTime) {
-		this.dateAndTime = dateAndTime;
 	}
 
 	public Long getWorkArea() {

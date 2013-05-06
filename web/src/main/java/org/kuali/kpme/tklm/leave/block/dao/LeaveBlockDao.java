@@ -15,10 +15,10 @@
  */
 package org.kuali.kpme.tklm.leave.block.dao;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 
@@ -49,7 +49,7 @@ public interface LeaveBlockDao {
     public void deleteLeaveBlocksForDocumentId(String documentId);
     public List<LeaveBlock> getAccrualGeneratedLeaveBlocks(String principalId, LocalDate beginDate, LocalDate endDate);
     public List<LeaveBlock> getSSTOLeaveBlocks(String principalId, String sstoId, LocalDate accruledDate);
-    public List<LeaveBlock> getABELeaveBlocksSinceTime(String principalId, Timestamp lastRanTime);
+    public List<LeaveBlock> getABELeaveBlocksSinceTime(String principalId, DateTime lastRanDateTime);
 
     public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, LocalDate beginDate, LocalDate endDate);
 }

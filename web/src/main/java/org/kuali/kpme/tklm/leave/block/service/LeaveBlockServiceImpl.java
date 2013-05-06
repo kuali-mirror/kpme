@@ -469,7 +469,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
     
     @Override
-    public List<LeaveBlock> getABELeaveBlocksSinceTime(String principalId, Timestamp lastRanTime) {
-    	return leaveBlockDao.getABELeaveBlocksSinceTime(principalId, lastRanTime);
+    public List<LeaveBlock> getABELeaveBlocksSinceTime(String principalId, DateTime lastRanDateTime) {
+    	return leaveBlockDao.getABELeaveBlocksSinceTime(principalId, lastRanDateTime);
     }
 }

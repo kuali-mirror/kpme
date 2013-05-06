@@ -15,8 +15,9 @@
  */
 package org.kuali.kpme.tklm.leave.accrual;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
+import org.joda.time.DateTime;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 
@@ -25,7 +26,7 @@ public class PrincipalAccrualRan extends PersistableBusinessObjectBase {
 	private static final long serialVersionUID = -8102955197478338957L;
 	
 	private String principalId;
-	private Timestamp lastRanTs;
+	private Date lastRanTs;
 
 	public String getPrincipalId() {
 		return principalId;
@@ -35,13 +36,19 @@ public class PrincipalAccrualRan extends PersistableBusinessObjectBase {
 		this.principalId = principalId;
 	}
 
-	public Timestamp getLastRanTs() {
+	public Date getLastRanTs() {
 		return lastRanTs;
 	}
 
-	public void setLastRanTs(Timestamp lastRanTs) {
+	public void setLastRanTs(Date lastRanTs) {
 		this.lastRanTs = lastRanTs;
 	}
 
-
+	public DateTime getLastRanDateTime() {
+		return lastRanTs != null ? new DateTime(lastRanTs) : null;
+	}
+	
+	public void setLastRanDateTime(DateTime lastRanDateTime) {
+		lastRanTs = lastRanDateTime != null ? lastRanDateTime.toDate() : null;
+	}
 }
