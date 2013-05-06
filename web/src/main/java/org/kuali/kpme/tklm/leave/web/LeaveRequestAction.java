@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.web;
 
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -55,19 +54,15 @@ public class LeaveRequestAction extends KPMEAction {
 		String principalId = HrContext.getTargetPrincipalId();
 		DateTime currentDate = LocalDate.now().toDateTimeAtStartOfDay();
 
-        Calendar currentCalendar = Calendar.getInstance();
         if (leaveForm.getNavString() == null) {
-            leaveForm.setYear(currentCalendar.get(Calendar.YEAR));
+            leaveForm.setYear(LocalDate.now().getYear());
         } else if(leaveForm.getNavString().equals("NEXT")) {
             leaveForm.setYear(leaveForm.getYear() + 1);
         } else if(leaveForm.getNavString().equals("PREV")) {
             leaveForm.setYear(leaveForm.getYear() - 1);
         }
-        currentCalendar.set(leaveForm.getYear(), 0, 1);
-//        Date serviceDate = (principalHRAttributes != null) ? principalHRAttributes.getServiceDate() : TKUtils.getTimelessDate(currentCalendar.getTime());
-        LocalDate beginDate = LocalDate.fromCalendarFields(currentCalendar);
-        currentCalendar.set(leaveForm.getYear(), 11, 31);
-        LocalDate endDate = LocalDate.fromCalendarFields(currentCalendar);
+        LocalDate beginDate = new LocalDate(leaveForm.getYear(), 1, 1);
+        LocalDate endDate = new LocalDate(leaveForm.getYear(), 12, 31);
 
 //        CalendarEntry calendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(principalId, currentDate);
         CalendarEntry calendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(principalId, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());

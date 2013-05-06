@@ -15,9 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.scheduler;
 
-
-import java.util.Calendar;
-
 import org.apache.log4j.Logger;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -47,7 +44,7 @@ public class TimeBlockSerializerJobBean extends QuartzJobBean{
 		try {
 			//UnComment following 2 statements to apply the effect of Scheduled Job
 			
-			LOG.info("Executed at :" + Calendar.getInstance().getTime());
+			LOG.info("Executed at :" + System.currentTimeMillis());
 			timeBlockSerializerService.serializeToCSV();
 			timeBlockSerializerService.serializeToXML();
 		} catch (Exception e) {

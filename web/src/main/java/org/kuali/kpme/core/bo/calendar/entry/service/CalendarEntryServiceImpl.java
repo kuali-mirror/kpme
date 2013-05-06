@@ -15,11 +15,9 @@
  */
 package org.kuali.kpme.core.bo.calendar.entry.service;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
@@ -89,85 +87,57 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
             if (CalendarEntryPeriodType.WEEKLY.equals(type)) {
                 weekly_multiplier = 1;
             }
-            newEntry.setBeginPeriodDateTime(DateUtils.addWeeks(calendarEntry.getBeginPeriodDateTime(), weekly_multiplier));
-            newEntry.setEndPeriodDateTime(DateUtils.addWeeks(calendarEntry.getEndPeriodDateTime(), weekly_multiplier));
-            newEntry.setBatchInitiateDateTime(DateUtils.addWeeks(calendarEntry.getBatchInitiateDateTime(), weekly_multiplier));
-            newEntry.setBatchEndPayPeriodDateTime(DateUtils.addWeeks(calendarEntry.getBatchEndPayPeriodDateTime(), weekly_multiplier));
-            newEntry.setBatchEmployeeApprovalDateTime(DateUtils.addWeeks(calendarEntry.getBatchEmployeeApprovalDateTime(), weekly_multiplier));
-            newEntry.setBatchSupervisorApprovalDateTime(DateUtils.addWeeks(calendarEntry.getBatchSupervisorApprovalDateTime(), weekly_multiplier));
+            newEntry.setBeginPeriodFullDateTime(calendarEntry.getBeginPeriodFullDateTime().plusWeeks(weekly_multiplier));
+            newEntry.setEndPeriodFullDateTime(calendarEntry.getEndPeriodFullDateTime().plusWeeks(weekly_multiplier));
+            newEntry.setBatchInitiateFullDateTime(calendarEntry.getBatchInitiateFullDateTime().plusWeeks(weekly_multiplier));
+            newEntry.setBatchEndPayPeriodFullDateTime(calendarEntry.getBatchEndPayPeriodFullDateTime().plusWeeks(weekly_multiplier));
+            newEntry.setBatchEmployeeApprovalFullDateTime(calendarEntry.getBatchEmployeeApprovalFullDateTime().plusWeeks(weekly_multiplier));
+            newEntry.setBatchSupervisorApprovalFullDateTime(calendarEntry.getBatchSupervisorApprovalFullDateTime().plusWeeks(weekly_multiplier));
         } else if (CalendarEntryPeriodType.MONTHLY.equals(type)) {
-            newEntry.setBeginPeriodDateTime(addMonthToDate(calendarEntry.getBeginPeriodDateTime()));
-            newEntry.setEndPeriodDateTime(addMonthToDate(calendarEntry.getEndPeriodDateTime()));
-            newEntry.setBatchInitiateDateTime(addMonthToDate(calendarEntry.getBatchInitiateDateTime()));
-            newEntry.setBatchEndPayPeriodDateTime(addMonthToDate(calendarEntry.getBatchEndPayPeriodDateTime()));
-            newEntry.setBatchEmployeeApprovalDateTime(addMonthToDate(calendarEntry.getBatchEmployeeApprovalDateTime()));
-            newEntry.setBatchSupervisorApprovalDateTime(addMonthToDate(calendarEntry.getBatchSupervisorApprovalDateTime()));
+            newEntry.setBeginPeriodFullDateTime(calendarEntry.getBeginPeriodFullDateTime().plusMonths(1));
+            newEntry.setEndPeriodFullDateTime(calendarEntry.getEndPeriodFullDateTime().plusMonths(1));
+            newEntry.setBatchInitiateFullDateTime(calendarEntry.getBatchInitiateFullDateTime().plusMonths(1));
+            newEntry.setBatchEndPayPeriodFullDateTime(calendarEntry.getBatchEndPayPeriodFullDateTime().plusMonths(1));
+            newEntry.setBatchEmployeeApprovalFullDateTime(calendarEntry.getBatchEmployeeApprovalFullDateTime().plusMonths(1));
+            newEntry.setBatchSupervisorApprovalFullDateTime(calendarEntry.getBatchSupervisorApprovalFullDateTime().plusMonths(1));
         } else if (CalendarEntryPeriodType.SEMI_MONTHLY.equals(type)) {
-            newEntry.setBeginPeriodDateTime(addSemiMonthToDate(calendarEntry.getBeginPeriodDateTime()));
-            newEntry.setEndPeriodDateTime(addSemiMonthToDate(calendarEntry.getEndPeriodDateTime()));
-            newEntry.setBatchInitiateDateTime(addSemiMonthToDate(calendarEntry.getBatchInitiateDateTime()));
-            newEntry.setBatchEndPayPeriodDateTime(addSemiMonthToDate(calendarEntry.getBatchEndPayPeriodDateTime()));
-            newEntry.setBatchEmployeeApprovalDateTime(addSemiMonthToDate(calendarEntry.getBatchEmployeeApprovalDateTime()));
-            newEntry.setBatchSupervisorApprovalDateTime(addSemiMonthToDate(calendarEntry.getBatchSupervisorApprovalDateTime()));
+            newEntry.setBeginPeriodFullDateTime(plusSemiMonth(calendarEntry.getBeginPeriodFullDateTime()));
+            newEntry.setEndPeriodFullDateTime(plusSemiMonth(calendarEntry.getEndPeriodFullDateTime()));
+            newEntry.setBatchInitiateFullDateTime(plusSemiMonth(calendarEntry.getBatchInitiateFullDateTime()));
+            newEntry.setBatchEndPayPeriodFullDateTime(plusSemiMonth(calendarEntry.getBatchEndPayPeriodFullDateTime()));
+            newEntry.setBatchEmployeeApprovalFullDateTime(plusSemiMonth(calendarEntry.getBatchEmployeeApprovalFullDateTime()));
+            newEntry.setBatchSupervisorApprovalFullDateTime(plusSemiMonth(calendarEntry.getBatchSupervisorApprovalFullDateTime()));
         }
         KRADServiceLocator.getBusinessObjectService().save(newEntry);
         return getNextCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
     }
 
-    private Date addMonthToDate(Date date) {
-        Calendar temp = Calendar.getInstance();
-        temp.setTime(date);
-        boolean lastDayOfMonth = temp.getActualMaximum(Calendar.DATE) == temp.get(Calendar.DATE);
-
-        date = DateUtils.addMonths(date, 1);
-        if (lastDayOfMonth) {
-            temp.setTime(date);
-            temp.set(Calendar.DATE, temp.getActualMaximum(Calendar.DATE));
-            date = temp.getTime();
-        }
-        return date;
-    }
-
-    private Date addSemiMonthToDate(Date date) {
+    private DateTime plusSemiMonth(DateTime date) {
         //so assuming the common pairs of this are the 1st & 16th, and then 15th and the last day,
         // and 14th with the last day minus 1
         //so we'll peek at the current date and try to figure out the best guesses for addition.
-        Calendar temp = Calendar.getInstance();
-        temp.setTime(date);
-        if (temp.getActualMaximum(Calendar.DATE) == temp.get(Calendar.DATE)) {
+        if (date.getDayOfMonth() == date.dayOfMonth().getMaximumValue()) {
             //date is on the last day of the month.  Set next date to the 15th
-            date = DateUtils.addMonths(date, 1);
-            temp.setTime(date);
-            temp.set(Calendar.DATE, 15);
-        } else if (temp.get(Calendar.DATE) == 15) {
+        	return date.plusMonths(1).withDayOfMonth(15);
+        } else if (date.getDayOfMonth() == 15) {
             //we are on the 15th of the month, so now lets go to the end of the month
-            temp.setTime(date);
-            temp.set(Calendar.DATE,  temp.getActualMaximum(Calendar.DATE));
-        } else if (temp.get(Calendar.DATE) == 1) {
+        	return date.withDayOfMonth(date.dayOfMonth().getMaximumValue());
+        } else if (date.getDayOfMonth() == 1) {
             //first of the month, next would be 16
-            temp.setTime(date);
-            temp.set(Calendar.DATE,  16);
-        } else if (temp.get(Calendar.DATE) == 16) {
+            return date.withDayOfMonth(16);
+        } else if (date.getDayOfMonth() == 16) {
             //16th, so add a month and set day to '1'
-            date = DateUtils.addMonths(date, 1);
-            temp.setTime(date);
-            temp.set(Calendar.DATE, 1);
-        } else if (temp.get(Calendar.DATE) == 14) {
+        	return date.plusMonths(1).withDayOfMonth(1);
+        } else if (date.getDayOfMonth() == 14) {
             //14th day, set next one to last day minus 1
-            temp.setTime(date);
-            temp.set(Calendar.DATE,  temp.getActualMaximum(Calendar.DATE) - 1);
-        } else if (temp.getActualMaximum(Calendar.DATE) == temp.get(Calendar.DATE) - 1) {
+        	return date.withDayOfMonth(date.dayOfMonth().getMaximumValue() - 1);
+        } else if (date.getDayOfMonth() == date.dayOfMonth().getMaximumValue() - 1) {
             //date is on the second to last day of the month.  Set next date to the 14th
-            date = DateUtils.addMonths(date, 1);
-            temp.setTime(date);
-            temp.set(Calendar.DATE, 14);
+        	return date.plusMonths(1).withDayOfMonth(14);
         } else {
             // so it isn't one of the common dates... i guess we'll just add 15 days...
-            date = DateUtils.addDays(date, 15);
-            temp.setTime(date);
+        	return date.plusDays(15);
         }
-
-        return temp.getTime() ;
     }
 
     @Override

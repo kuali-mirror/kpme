@@ -147,7 +147,7 @@ public class WorkflowTagSupport {
      */
     private boolean isDelinquent(LeaveCalendarDocument doc) {
         String principalId = doc.getDocumentHeader().getPrincipalId();
-        List<LeaveCalendarDocumentHeader> lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getSubmissionDelinquentDocumentHeaders(principalId, new DateTime(doc.getAsOfDate()).plusSeconds(1));
+        List<LeaveCalendarDocumentHeader> lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getSubmissionDelinquentDocumentHeaders(principalId, doc.getAsOfDate().toDateTimeAtStartOfDay().plusSeconds(1));
         if (lcdh.isEmpty()){
             return false;        // no delinquncy
         } else

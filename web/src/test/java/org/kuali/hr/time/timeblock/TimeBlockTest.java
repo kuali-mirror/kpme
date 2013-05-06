@@ -36,13 +36,16 @@ public class TimeBlockTest extends KPMETestCase {
 	
 	@Test
 	public void testTimeBlockComparison() throws Exception {
+		DateTime beginDateTime = new DateTime();
+		DateTime endDateTime = new DateTime();
+		
 		TimeBlock timeBlock = new TimeBlock();
 		timeBlock.setJobNumber(2L);
 		timeBlock.setWorkArea(1234L);
 		timeBlock.setTask(1L);
 		timeBlock.setEarnCode("REG");
-		timeBlock.setBeginTimestamp(TKUtils.getCurrentTimestamp());
-		timeBlock.setEndTimestamp(TKUtils.getCurrentTimestamp());
+		timeBlock.setBeginDateTime(beginDateTime);
+		timeBlock.setEndDateTime(endDateTime);
 		TimeHourDetail timeHourDetail = new TimeHourDetail();
 		timeHourDetail.setEarnCode("REG");
 		timeHourDetail.setHours(new BigDecimal(2.0));
@@ -53,8 +56,8 @@ public class TimeBlockTest extends KPMETestCase {
 		timeBlock2.setWorkArea(1234L);
 		timeBlock2.setTask(1L);
 		timeBlock2.setEarnCode("REG");
-		timeBlock2.setBeginTimestamp(TKUtils.getCurrentTimestamp());
-		timeBlock2.setEndTimestamp(TKUtils.getCurrentTimestamp());
+		timeBlock2.setBeginDateTime(beginDateTime);
+		timeBlock2.setEndDateTime(endDateTime);
 		TimeHourDetail timeHourDetail2 = new TimeHourDetail();
 		timeHourDetail2.setEarnCode("REG");
 		timeHourDetail2.setHours(new BigDecimal(2.0));

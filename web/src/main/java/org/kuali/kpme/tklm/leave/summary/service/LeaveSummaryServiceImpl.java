@@ -17,7 +17,6 @@ package org.kuali.kpme.tklm.leave.summary.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -567,20 +566,12 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 	}
 
     private String getYearKey(LocalDate leaveDate, LeavePlan lp){
-        Calendar cal = Calendar.getInstance();
-        Calendar leavePlanCal = Calendar.getInstance();
-        cal.setTime(leaveDate.toDate());
-        String yearKey = Integer.toString(cal.get(Calendar.YEAR));
-        leavePlanCal.set(Calendar.MONTH, Integer.parseInt(lp.getCalendarYearStartMonth()) - 1);
-        leavePlanCal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(lp.getCalendarYearStartDayOfMonth()));
-        leavePlanCal.set(Calendar.YEAR, cal.get(Calendar.YEAR));
-        leavePlanCal.set(Calendar.HOUR_OF_DAY, 0);
-        leavePlanCal.set(Calendar.MINUTE, 0);
-        leavePlanCal.set(Calendar.SECOND, 0);
-        leavePlanCal.set(Calendar.MILLISECOND, 0);
+        String yearKey = Integer.toString(leaveDate.getYear());
+        
+        LocalDate leavePlanDate = new LocalDate(leaveDate.getYear(), Integer.parseInt(lp.getCalendarYearStartMonth()) - 1, Integer.parseInt(lp.getCalendarYearStartDayOfMonth()));
 
-        if (cal.getTime().before(leavePlanCal.getTime())) {
-            yearKey = Integer.toString(cal.get(Calendar.YEAR) - 1);
+        if (leaveDate.isBefore(leavePlanDate)) {
+            yearKey = Integer.toString(leaveDate.getYear() - 1);
         }
         return yearKey;
     }

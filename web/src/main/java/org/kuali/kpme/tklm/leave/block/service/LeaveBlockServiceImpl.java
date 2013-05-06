@@ -18,7 +18,6 @@ package org.kuali.kpme.tklm.leave.block.service;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -177,25 +176,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
        
         // To create the correct interval by the given begin and end dates,
         // we need to plus one day on the end date to include that date
-
-        Calendar startCal = Calendar.getInstance();
-        startCal.setTimeInMillis(beginDate.getMillis());
-        startCal.set(Calendar.HOUR_OF_DAY, 0);
-        startCal.set(Calendar.MINUTE, 0);
-        startCal.set(Calendar.SECOND, 0);
-        startCal.set(Calendar.MILLISECOND, 0);
-        
-
-        Calendar endCal = Calendar.getInstance();
-        endCal.setTimeInMillis(endDate.getMillis());
-        endCal.add(Calendar.DATE, 1);
-        endCal.set(Calendar.HOUR_OF_DAY, 0);
-        endCal.set(Calendar.MINUTE, 0);
-        endCal.set(Calendar.SECOND, 0);
-        endCal.set(Calendar.MILLISECOND, 0);
-
-        List<Interval> leaveBlockIntervals = TKUtils.createDaySpan(new DateTime(startCal.getTimeInMillis()), new DateTime(endCal.getTimeInMillis()), TKUtils.getSystemDateTimeZone());
-//        List<Interval> leaveBlockIntervals = TKUtils.createDaySpan(beginDate.toDateMidnight().toDateTime(), endDate.plusDays(1).toDateMidnight().toDateTime(), TKUtils.getSystemDateTimeZone());
+        List<Interval> leaveBlockIntervals = TKUtils.createDaySpan(beginDate.toLocalDate().toDateTimeAtStartOfDay(), endDate.toLocalDate().toDateTimeAtStartOfDay().plusDays(1), TKUtils.getSystemDateTimeZone());
 
         // need to use beginDate and endDate of the calendar to find all leaveBlocks since LeaveCalendarDocument Id is not always available
         List<LeaveBlock> currentLeaveBlocks = getLeaveBlocks(principalId, calBeginDateTime.toLocalDate(), calEndDateTime.toLocalDate());

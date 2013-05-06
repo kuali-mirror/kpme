@@ -16,7 +16,6 @@
 package org.kuali.kpme.tklm.time.detail.web;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,9 +96,7 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 	}
 
 	public String getIsVirtualWorkDay() {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(getBeginPeriodDateTime());
-		return Boolean.toString(TKUtils.isVirtualWorkDay(cal));
+		return Boolean.toString(TKUtils.isVirtualWorkDay(getPayCalendarDates().getBeginPeriodFullDateTime()));
 	}
 
 	public TimeSummary getTimeSummary() {

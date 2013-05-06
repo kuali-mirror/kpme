@@ -27,7 +27,6 @@ import java.util.Set;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +36,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
@@ -299,8 +299,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 	protected List<String> getSummaryHeader(CalendarEntry payCalEntry){
 		List<String> summaryHeader = new ArrayList<String>();
 		int dayCount = 0;
-		Date beginDateTime = payCalEntry.getBeginPeriodDateTime();
-		Date endDateTime = payCalEntry.getEndPeriodDateTime();
+		DateTime beginDateTime = payCalEntry.getBeginPeriodFullDateTime();
+		DateTime endDateTime = payCalEntry.getEndPeriodFullDateTime();
 		boolean virtualDays = false;
         LocalDateTime endDate = payCalEntry.getEndPeriodLocalDateTime();
 
@@ -309,20 +309,17 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
             virtualDays = true;
         }
 		
-		Date currDateTime = beginDateTime;
-		java.util.Calendar cal = GregorianCalendar.getInstance();
+        DateTime currentDateTime = beginDateTime;
 		
-		while(currDateTime.before(endDateTime)){
-			LocalDateTime currDate = new LocalDateTime(currDateTime);
+		while(currentDateTime.isBefore(endDateTime)){
+			LocalDateTime currDate = currentDateTime.toLocalDateTime();
 			summaryHeader.add(makeHeaderDiplayString(currDate, virtualDays));
 			
 			dayCount++;
 			if((dayCount % 7) == 0){
 				summaryHeader.add("Week "+ ((dayCount / 7)));
 			}
-			cal.setTime(currDateTime);
-			cal.add(java.util.Calendar.HOUR, 24);
-			currDateTime = cal.getTime();
+			currentDateTime = currentDateTime.plusDays(1);
 		}
 		
 		summaryHeader.add("Period Total");

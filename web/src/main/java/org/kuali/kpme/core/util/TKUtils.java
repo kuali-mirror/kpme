@@ -21,9 +21,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +34,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeFieldType;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.Interval;
@@ -94,23 +93,16 @@ public class TKUtils {
         END_OF_TIME = new LocalDate(year.getMaximumValueOverall(), month.getMaximumValueOverall(), day.getMaximumValueOverall());
     }
 
-    public static long getDaysBetween(Calendar startDate, Calendar endDate) {
-        Calendar date = (Calendar) startDate.clone();
-        long daysBetween = 0;
-        while (date.before(endDate)) {
-            date.add(Calendar.DAY_OF_MONTH, 1);
-            daysBetween++;
-        }
-        return daysBetween;
-    }
-
     public static long getDaysBetween(LocalDate startDate, LocalDate endDate) {
-        Calendar beginCal = GregorianCalendar.getInstance();
-        Calendar endCal = GregorianCalendar.getInstance();
-        beginCal.setTime(startDate.toDate());
-        endCal.setTime(endDate.toDate());
-
-        return getDaysBetween(beginCal, endCal);
+    	long daysBetween = 0;
+    	
+    	LocalDate currentDate = startDate;
+        while (currentDate.isBefore(endDate)) {
+            daysBetween++;
+            currentDate = currentDate.plusDays(1);
+        }
+        
+        return daysBetween;
     }
 
     public static BigDecimal getHoursBetween(long start, long end) {
@@ -268,9 +260,9 @@ public class TKUtils {
       * Compares and confirms if the start of the day is at midnight or on a virtual day boundary
       * returns true if at midnight false otherwise(assuming 24 hr days)
       */
-    public static boolean isVirtualWorkDay(Calendar payCalendarStartTime) {
-        return (payCalendarStartTime.get(Calendar.HOUR_OF_DAY) != 0 || payCalendarStartTime.get(Calendar.MINUTE) != 0
-                && payCalendarStartTime.get(Calendar.AM_PM) != Calendar.AM);
+    public static boolean isVirtualWorkDay(DateTime beginPeriodDateTime) {
+        return (beginPeriodDateTime.getHourOfDay() != 0 || beginPeriodDateTime.getMinuteOfHour() != 0
+                && beginPeriodDateTime.get(DateTimeFieldType.halfdayOfDay()) != DateTimeConstants.AM);
     }
 
     /**
@@ -493,16 +485,6 @@ public class TKUtils {
         return dayIntervals;
     }
     
-    public static Date removeTime(Date date) {    
-        Calendar cal = Calendar.getInstance();  
-        cal.setTime(date);  
-        cal.set(Calendar.HOUR_OF_DAY, 0);  
-        cal.set(Calendar.MINUTE, 0);  
-        cal.set(Calendar.SECOND, 0);  
-        cal.set(Calendar.MILLISECOND, 0);  
-        return cal.getTime(); 
-    }
-    
     public static int getWorkDays(DateTime startDate, DateTime endDate) {
     	int workDays = 0;
 
@@ -519,24 +501,6 @@ public class TKUtils {
     
     public static boolean isWeekend(DateTime date) {
     	return date.getDayOfWeek() == DateTimeConstants.SATURDAY || date.getDayOfWeek() == DateTimeConstants.SUNDAY;
-    }
-    
-    public static Date addDates(Date aDate, int aNumber) {
-    	Calendar gc = new GregorianCalendar();
-		gc.setTime(aDate);
-		gc.add(Calendar.DAY_OF_YEAR, aNumber);
-		return gc.getTime();
-    }
-    
-    public static Date addMonths(Date aDate, int aNumber) {
-    	Calendar gc = new GregorianCalendar();
-		gc.setTime(aDate);
-		gc.add(Calendar.MONTH, aNumber);
-		if(gc.getActualMaximum(Calendar.DAY_OF_MONTH) < gc.get(Calendar.DATE)) {
-			gc.set(Calendar.DATE, gc.getActualMaximum(Calendar.DAY_OF_MONTH));
-		}
-		
-		return gc.getTime();
     }
     
     /**

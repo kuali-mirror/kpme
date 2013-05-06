@@ -15,10 +15,8 @@
  */
 package org.kuali.kpme.core.bo.leaveplan.service;
 
-import java.util.Calendar;
 import java.util.List;
 
-import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
@@ -118,9 +116,6 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 
         int priorYearCutOffMonth = Integer.parseInt(lp.getCalendarYearStartMonth());
         int priorYearCutOffDay = Integer.parseInt(lp.getCalendarYearStartDayOfMonth());
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.MONTH, priorYearCutOffMonth);
-        cal.set(Calendar.DATE, priorYearCutOffDay);
 
         LocalDate cutOffDate = asOfDate.withMonthOfYear(priorYearCutOffMonth).withDayOfMonth(priorYearCutOffDay);
         if (asOfDate.isBefore(cutOffDate)) {
@@ -135,15 +130,12 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 
         int priorYearCutOffMonth = Integer.parseInt(lp.getCalendarYearStartMonth());
         int priorYearCutOffDay = Integer.parseInt(lp.getCalendarYearStartDayOfMonth());
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.MONTH, priorYearCutOffMonth);
-        cal.set(Calendar.DATE, priorYearCutOffDay);
 
-        DateMidnight cutOffDate = new DateMidnight(asOfDate).withMonthOfYear(priorYearCutOffMonth).withDayOfMonth(priorYearCutOffDay);
-        if (asOfDate.isAfter(cutOffDate.toLocalDate())) {
+        LocalDate cutOffDate = asOfDate.withMonthOfYear(priorYearCutOffMonth).withDayOfMonth(priorYearCutOffDay);
+        if (asOfDate.isAfter(cutOffDate)) {
             cutOffDate = cutOffDate.plusYears(1);
         }
-        return cutOffDate.toDateTime();
+        return cutOffDate.toDateTimeAtStartOfDay();
     }
 
 
