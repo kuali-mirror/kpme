@@ -84,7 +84,7 @@
             <column name="id" value="10115" />
         </insert>
         <insert tableName="hr_job_s">
-            <column name="id" value="10346" />
+            <column name="id" value="10004" />
         </insert>
         <insert tableName="hr_location_s">
             <column name="id" value="10008" />
