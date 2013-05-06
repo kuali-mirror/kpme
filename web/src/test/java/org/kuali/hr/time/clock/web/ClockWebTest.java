@@ -183,14 +183,14 @@ public class ClockWebTest extends KPMETestCase {
         // Make sure clock out button is rendered
         ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog("admin");
         // Make sure both timestamps preserve seconds
-        Assert.assertTrue("The seconds on clock timestamp should be preserved", new DateTime(lastClockLog.getClockTimestamp().getTime()).getSecondOfMinute() != 0);
+        Assert.assertTrue("The seconds on clock timestamp should be preserved", lastClockLog.getClockDateTime().getSecondOfMinute() != 0);
         Assert.assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
 
         // Clock out
         clockOut();
         // Make sure both timestamps preserve seconds
         lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog("admin");
-        Assert.assertTrue("The seconds on clock timestamp should be preserved", new DateTime(lastClockLog.getClockTimestamp().getTime()).getSecondOfMinute() != 0);
+        Assert.assertTrue("The seconds on clock timestamp should be preserved", lastClockLog.getClockDateTime().getSecondOfMinute() != 0);
         Assert.assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
     }
 
@@ -212,14 +212,14 @@ public class ClockWebTest extends KPMETestCase {
         // Make sure clock out button is rendered
         ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog("admin");
         // Make sure both timestamps preserve seconds
-        Assert.assertTrue("The seconds on clock timestamp should NOT be preserved", new DateTime(lastClockLog.getClockTimestamp().getTime()).getSecondOfMinute() == 0);
+        Assert.assertTrue("The seconds on clock timestamp should NOT be preserved", lastClockLog.getClockDateTime().getSecondOfMinute() == 0);
         Assert.assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
 
         // Clock out
         clockOut();
         // Make sure both timestamps preserve seconds
         lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog("admin");
-        Assert.assertTrue("The seconds on clock timestamp should NOT be preserved", new DateTime(lastClockLog.getClockTimestamp().getTime()).getSecondOfMinute() == 0);
+        Assert.assertTrue("The seconds on clock timestamp should NOT be preserved", lastClockLog.getClockDateTime().getSecondOfMinute() == 0);
         Assert.assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
 
 

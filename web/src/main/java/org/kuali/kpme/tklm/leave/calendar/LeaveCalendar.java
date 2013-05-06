@@ -17,11 +17,11 @@ package org.kuali.kpme.tklm.leave.calendar;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Multimap;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
@@ -35,9 +35,6 @@ import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 
 public class LeaveCalendar extends CalendarParent {
 
@@ -62,7 +59,7 @@ public class LeaveCalendar extends CalendarParent {
         List<LeaveBlock> blocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
         Map<String, List<LeaveBlock>> leaveBlockMap = new HashMap<String, List<LeaveBlock>>();
         for (LeaveBlock lb : blocks) {
-            String key = new LocalDate(lb.getLeaveDate()).toString();
+            String key = lb.getLeaveLocalDate().toString();
             if (leaveBlockMap.containsKey(key)) {
                 leaveBlockMap.get(key).add(lb);
             } else {
@@ -139,16 +136,6 @@ public class LeaveCalendar extends CalendarParent {
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         leaveBlocks.add(lb);
         return leaveBlocks;
-    }
-    
-    private Multimap<Date, LeaveBlock> leaveBlockAggregator(String documentId) {
-        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(documentId);
-        Multimap<Date, LeaveBlock> leaveBlockAggregrate = HashMultimap.create();
-        for (LeaveBlock leaveBlock : leaveBlocks) {
-            leaveBlockAggregrate.put(leaveBlock.getLeaveDate(), leaveBlock);
-        }
-
-        return leaveBlockAggregrate;
     }
 
    	public Map<String, String> getEarnCodeList() {

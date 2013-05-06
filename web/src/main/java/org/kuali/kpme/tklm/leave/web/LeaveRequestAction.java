@@ -71,7 +71,7 @@ public class LeaveRequestAction extends KPMEAction {
         //  in this window between the current pay end and the beginning of the leave planning calendar (the next future leave period).
         //  The most common scenario occurs when a non-monthly pay period ends before the current leave calendar ends.
 
-        CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, new DateTime(beginDate), new DateTime(endDate));
+        CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
         Boolean checkLeaveEligible = true;
         Boolean nonExemptLeaveEligible = LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, HrConstants.FLSA_STATUS_NON_EXEMPT,checkLeaveEligible);
         if(nonExemptLeaveEligible && calendarEntry != null && payCalendarEntry != null) {

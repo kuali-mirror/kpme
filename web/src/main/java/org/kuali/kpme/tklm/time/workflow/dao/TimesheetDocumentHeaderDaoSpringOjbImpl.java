@@ -15,18 +15,17 @@
  */
 package org.kuali.kpme.tklm.time.workflow.dao;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -125,25 +124,20 @@ public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PlatformAwareDaoBas
 	   	 Criteria crit = new Criteria();
 	     List<TimesheetDocumentHeader> lstDocumentHeaders = new ArrayList<TimesheetDocumentHeader>();
 	     
-	     try {
-	    	 crit.addEqualTo("principalId", principalId);
-	    	 DateFormat df = new SimpleDateFormat("yyyy");
-	    	 Date cYear = df.parse(year);
-	    	 String nextYear = Integer.toString((Integer.parseInt(year) + 1));
-	    	 Date nYear = df.parse(nextYear);
-	    	 
-			crit.addGreaterOrEqualThan("beginDate", cYear);
-		    crit.addLessThan("beginDate", nYear );
-		    QueryByCriteria query = new QueryByCriteria(TimesheetDocumentHeader.class, crit);
-		    Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-		    if (c != null) {
-		        lstDocumentHeaders.addAll(c);
-			}
-		  } catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-		  }
-		  return lstDocumentHeaders;
+    	 crit.addEqualTo("principalId", principalId);
+    	 DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy");
+    	 LocalDate currentYear = formatter.parseLocalDate(year);
+    	 LocalDate nextYear = currentYear.plusYears(1);
+    	 crit.addGreaterOrEqualThan("beginDate", currentYear.toDate());
+    	 crit.addLessThan("beginDate", nextYear.toDate());
+    	 
+    	 QueryByCriteria query = new QueryByCriteria(TimesheetDocumentHeader.class, crit);
+    	 Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    	 if (c != null) {
+    		 lstDocumentHeaders.addAll(c);
+    	 }
+    	 
+    	 return lstDocumentHeaders;
    }
    
    public TimesheetDocumentHeader getDocumentHeaderForDate(String principalId, DateTime asOfDate) {

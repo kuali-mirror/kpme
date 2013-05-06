@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.core.bo.calendar.entry.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -168,19 +167,19 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
     @Override
     public List<CalendarEntry> getAllCalendarEntriesForCalendarIdUpToPlanningMonths(String hrCalendarId, String principalId) {
     	int planningMonths = ActionFormUtils.getPlanningMonthsForEmployee(principalId);
-    	List<CalendarEntry> futureCalEntries = getFutureCalendarEntries(hrCalendarId, new LocalDate().toDateTimeAtStartOfDay(), planningMonths);
+    	List<CalendarEntry> futureCalEntries = getFutureCalendarEntries(hrCalendarId, LocalDate.now().toDateTimeAtStartOfDay(), planningMonths);
     	CalendarEntry futureCalEntry = null;
     	if (futureCalEntries != null && !futureCalEntries.isEmpty()) {
     		futureCalEntry = futureCalEntries.get(futureCalEntries.size() - 1);
     	}
-    	Date cutOffTime;
+    	DateTime cutOffTime;
     	if(futureCalEntry != null) {
-    		cutOffTime = futureCalEntry.getEndPeriodDateTime();
+    		cutOffTime = futureCalEntry.getEndPeriodFullDateTime();
     	} else {
-	    	CalendarEntry currentCE = getCurrentCalendarEntryByCalendarId(hrCalendarId, new LocalDate().toDateTimeAtStartOfDay());
-	    	cutOffTime = currentCE.getEndPeriodDateTime();    	
+	    	CalendarEntry currentCE = getCurrentCalendarEntryByCalendarId(hrCalendarId, LocalDate.now().toDateTimeAtStartOfDay());
+	    	cutOffTime = currentCE.getEndPeriodFullDateTime();    	
     	}
-    	return getAllCalendarEntriesForCalendarIdUpToCutOffTime(hrCalendarId, new DateTime(cutOffTime));
+    	return getAllCalendarEntriesForCalendarIdUpToCutOffTime(hrCalendarId, cutOffTime);
     }
     
     @Override

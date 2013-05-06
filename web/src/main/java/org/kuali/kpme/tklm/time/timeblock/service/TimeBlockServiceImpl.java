@@ -85,7 +85,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         }
 
         DateTime endTime = endDateTime.withZone(zone);
-        DateTime endOfFirstDay = new DateTime(firstTimeBlock.getEndTimestamp(), zone);
+        DateTime endOfFirstDay = firstTimeBlock.getEndDateTime().withZone(zone);
         long diffInMillis = endOfFirstDay.minus(beginDt.getMillis()).getMillis();
         DateTime currTime = beginDt.plusDays(1);
         while (currTime.isBefore(endTime) || currTime.isEqual(endTime)) {
@@ -205,8 +205,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         tb.setEarnCode(earnCode);
         tb.setBeginDateTime(beginDateTime);
         tb.setEndDateTime(endDateTime);
-        tb.setBeginTimeDisplay(new DateTime(tb.getBeginTimestamp(), timezone));
-        tb.setEndTimeDisplay(new DateTime(tb.getEndTimestamp(), timezone));
+        tb.setBeginTimeDisplay(tb.getBeginDateTime().withZone(timezone));
+        tb.setEndTimeDisplay(tb.getEndDateTime().withZone(timezone));
         // only calculate the hours from the time fields if the passed in hour is zero
         if(hours == null || hours.compareTo(BigDecimal.ZERO) == 0) {
         	hours = TKUtils.getHoursBetween(beginDateTime.getMillis(), endDateTime.getMillis());

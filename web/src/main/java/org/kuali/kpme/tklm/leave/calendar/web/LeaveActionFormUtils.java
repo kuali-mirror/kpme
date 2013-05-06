@@ -53,8 +53,8 @@ public class LeaveActionFormUtils {
             Map<String, Object> LeaveBlockMap = new LinkedHashMap<String, Object>();
             
             if(leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp() != null) {
-	            DateTime start = new DateTime(leaveBlock.getBeginTimestamp().getTime());
-	        	DateTime end = new DateTime(leaveBlock.getEndTimestamp().getTime());
+	            DateTime start = leaveBlock.getBeginDateTime();
+	        	DateTime end = leaveBlock.getEndDateTime();
 	        	LeaveBlockMap.put("startTimeHourMinute", start.toString(TkConstants.DT_BASIC_TIME_FORMAT));
 	            LeaveBlockMap.put("endTimeHourMinute", end.toString(TkConstants.DT_BASIC_TIME_FORMAT));
 	            LeaveBlockMap.put("startTime", start.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
@@ -69,7 +69,7 @@ public class LeaveActionFormUtils {
            
             LeaveBlockMap.put("documentId", leaveBlock.getDocumentId());
             LeaveBlockMap.put("title", workAreaDesc);
-            DateTime dtLeaveDate = new DateTime(leaveBlock.getLeaveDate());
+            DateTime dtLeaveDate = leaveBlock.getLeaveLocalDate().toDateTimeAtStartOfDay();
             LeaveBlockMap.put("leaveDate", dtLeaveDate.toString(HrConstants.DT_BASIC_DATE_FORMAT));
         		
             LeaveBlockMap.put("id", leaveBlock.getLmLeaveBlockId().toString());

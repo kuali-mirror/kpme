@@ -71,11 +71,11 @@ public class TimesheetDocumentHeader extends PersistableBusinessObjectBase imple
 	
 	@Override
 	public DateTime getEndDateTime() {
-		return new DateTime(endDate);
+		return endDate != null ? new DateTime(endDate) : null;
 	}
 	
 	public void setEndDateTime(DateTime endDateTime) {
-		this.endDate = endDateTime.toDate();
+		this.endDate = endDateTime != null ? endDateTime.toDate() : null;
 	}
 
     @Override
@@ -98,11 +98,11 @@ public class TimesheetDocumentHeader extends PersistableBusinessObjectBase imple
 	
 	@Override
 	public DateTime getBeginDateTime() {
-		return new DateTime(beginDate);
+		return beginDate != null ? new DateTime(beginDate) : null;
 	}
 	
 	public void setBeginDateTime(DateTime beginDateTime) {
-		this.beginDate = beginDateTime.toDate();
+		this.beginDate = beginDateTime != null ? beginDateTime.toDate() : null;
 	}
 
 }

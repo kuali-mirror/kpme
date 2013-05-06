@@ -76,7 +76,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
     	LeavePlan leavePlanObj = getLeavePlan(leavePlan, asOfDate);
 		
     	if (leavePlanObj != null) {
-			DateTime calendarEntryEndDate = new DateTime(calendarEntry.getBeginPeriodDate());
+			DateTime calendarEntryEndDate = calendarEntry.getBeginPeriodFullDateTime();
 			
 			int calendarYearStartMonth = Integer.valueOf(leavePlanObj.getCalendarYearStartMonth());
 			int calendarYearStartDay = Integer.valueOf(leavePlanObj.getCalendarYearStartDayOfMonth());
@@ -96,7 +96,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
     	LeavePlan leavePlanObj = getLeavePlan(leavePlan, asOfDate);
 		
     	if (leavePlanObj != null) {
-			DateTime calendarEntryEndDate = new DateTime(calendarEntry.getEndPeriodDate());
+			DateTime calendarEntryEndDate = calendarEntry.getEndPeriodFullDateTime();
 			
 			int calendarYearStartMonth = Integer.valueOf(leavePlanObj.getCalendarYearStartMonth());
 			int calendarYearStartDay = Integer.valueOf(leavePlanObj.getCalendarYearStartDayOfMonth());

@@ -19,6 +19,9 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 
 public class MissedPunchDocument extends TransactionalDocumentBase {
@@ -65,6 +68,17 @@ public class MissedPunchDocument extends TransactionalDocumentBase {
 	public void setActionTime(Time actionTime) {
 		this.actionTime = actionTime;
 	}
+    public DateTime getActionDateTime() {
+    	DateTime actionDateTime = null;
+    	
+    	if (actionDate != null && actionTime != null) {
+	    	LocalDate localDate = new LocalDate(actionDate);
+	    	LocalTime localTime = new LocalTime(actionTime);
+	    	actionDateTime = localDate.toDateTime(localTime);
+    	}
+    	
+    	return actionDateTime;
+    }
 	public String getTimesheetDocumentId() {
 		return timesheetDocumentId;
 	}

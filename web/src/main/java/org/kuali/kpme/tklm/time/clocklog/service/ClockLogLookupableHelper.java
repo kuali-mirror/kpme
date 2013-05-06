@@ -117,7 +117,7 @@ public class ClockLogLookupableHelper extends KPMELookupableHelper {
 				
 				// Set Document Id 
 				if(cl.getDocumentId() == null) {
-					TimesheetDocumentHeader tsdh = timesheetDocumentHeaderService.getDocumentHeaderForDate(cl.getPrincipalId(), new DateTime(cl.getClockTimestamp()));
+					TimesheetDocumentHeader tsdh = timesheetDocumentHeaderService.getDocumentHeaderForDate(cl.getPrincipalId(), cl.getClockDateTime());
 					if(tsdh != null) {
 						cl.setDocumentId(tsdh.getDocumentId());
 					}

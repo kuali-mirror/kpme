@@ -206,7 +206,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                 LeaveCalendarDocumentHeader approvedLcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getMaxEndDateApprovedLeaveCalendar(principalId);
                 if(approvedLcdh != null) {
                     DateTime endApprovedDate = approvedLcdh.getEndDateTime();
-                    LocalDateTime aLocalTime = new DateTime(approvedLcdh.getEndDate()).toLocalDateTime();
+                    LocalDateTime aLocalTime = approvedLcdh.getEndDateTime().toLocalDateTime();
                     DateTime endApprovedTime = aLocalTime.toDateTime(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
                     if(endApprovedTime.getHourOfDay() == 0) {
                         endApprovedDate = endApprovedDate.minusDays(1);

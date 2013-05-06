@@ -91,8 +91,8 @@ public class TkTimeBlockAggregate {
                 // accommodate virtual chopping of time blocks to have them fit nicely
                 // in the "days" that are displayed to users.
 
-				DateTime beginTime = useUserTimeZone ? timeBlock.getBeginTimeDisplay() : new DateTime(timeBlock.getBeginTimestamp(), TKUtils.getSystemDateTimeZone());
-				DateTime endTime = useUserTimeZone ? timeBlock.getEndTimeDisplay() :  new DateTime(timeBlock.getEndTimestamp(), TKUtils.getSystemDateTimeZone());
+				DateTime beginTime = useUserTimeZone ? timeBlock.getBeginTimeDisplay() : timeBlock.getBeginDateTime().withZone(TKUtils.getSystemDateTimeZone());
+				DateTime endTime = useUserTimeZone ? timeBlock.getEndTimeDisplay() :  timeBlock.getEndDateTime().withZone(TKUtils.getSystemDateTimeZone());
 				if(dayInt.contains(beginTime)){
 					if(dayInt.contains(endTime) || endTime.compareTo(dayInt.getEnd()) == 0){
 						// determine if the time block needs to be pushed forward / backward
@@ -121,8 +121,8 @@ public class TkTimeBlockAggregate {
                 // accommodate virtual chopping of time blocks to have them fit nicely
                 // in the "days" that are displayed to users.
 
-				DateTime beginTime = useUserTimeZone ? timeBlock.getBeginTimeDisplay() : new DateTime(timeBlock.getBeginTimestamp(), TKUtils.getSystemDateTimeZone());
-				DateTime endTime = useUserTimeZone ? timeBlock.getEndTimeDisplay() :  new DateTime(timeBlock.getEndTimestamp(), TKUtils.getSystemDateTimeZone());
+				DateTime beginTime = useUserTimeZone ? timeBlock.getBeginTimeDisplay() : timeBlock.getBeginDateTime().withZone(TKUtils.getSystemDateTimeZone());
+				DateTime endTime = useUserTimeZone ? timeBlock.getEndTimeDisplay() :  timeBlock.getEndDateTime().withZone(TKUtils.getSystemDateTimeZone());
 				if(dayInt.contains(beginTime)){
 					if(dayInt.contains(endTime) || endTime.compareTo(dayInt.getEnd()) == 0){
 						// determine if the time block needs to be pushed forward / backward
@@ -212,8 +212,6 @@ public class TkTimeBlockAggregate {
 		//
 		// FLSA time is set.  This is an FLSA start date.
         LocalDateTime startLDT = payCalendarEntry.getBeginPeriodLocalDateTime();
-//		DateTime startDate = new DateTime(payCalendarEntry.getBeginPeriodDateTime());
-//		startDate = startDate.toLocalDate().toDateTime(flsaBeginLocalTime,TKUtils.getSystemDateTimeZone());
 
 		List<FlsaWeek> flsaWeeks = new ArrayList<FlsaWeek>();
 		List<TimeBlock> flatSortedBlockList = getFlattenedTimeBlockList();

@@ -15,12 +15,8 @@
  */
 package org.kuali.kpme.core.bo.calendar.entry.dao;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -29,6 +25,9 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -229,25 +228,19 @@ public class CalendarEntryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imple
     public List<CalendarEntry> getAllCalendarEntriesForCalendarIdAndYear(String hrCalendarId, String year) {
         Criteria crit = new Criteria();
         List<CalendarEntry> ceList = new ArrayList<CalendarEntry>();
-        try {
-	    	 crit.addEqualTo("hrCalendarId", hrCalendarId);
-	    	 DateFormat df = new SimpleDateFormat("yyyy");
-	    	 Date cYear = df.parse(year);
-	    	 String nextYear = Integer.toString((Integer.parseInt(year) + 1));
-	    	 Date nYear = df.parse(nextYear);
-	    	 
-	    	 crit.addGreaterOrEqualThan("beginPeriodDateTime", cYear);
-	    	 crit.addLessThan("beginPeriodDateTime", nYear );
-	    	 QueryByCriteria query = new QueryByCriteria(CalendarEntry.class, crit);
-	    	 Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-	    	 if (c != null) {
-		    	ceList.addAll(c);
-	    	 }
-		  } catch (ParseException e) {
-				e.printStackTrace();
-		  }
-		  return ceList;
+        crit.addEqualTo("hrCalendarId", hrCalendarId);
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy");
+        LocalDate currentYear = formatter.parseLocalDate(year);
+        LocalDate nextYear = currentYear.plusYears(1);
+        crit.addGreaterOrEqualThan("beginPeriodDateTime", currentYear.toDate());
+        crit.addLessThan("beginPeriodDateTime", nextYear.toDate());
+	   	 
+        QueryByCriteria query = new QueryByCriteria(CalendarEntry.class, crit);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (c != null) {
+        	ceList.addAll(c);
+        }
+        return ceList;
     }
-
 
 }

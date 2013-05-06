@@ -71,7 +71,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
 		
 		LocalDate currentDate = LocalDate.now();
-		List<Long> workAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(HrContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);
+		List<Long> workAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(HrContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), currentDate.toDateTimeAtStartOfDay(), true);
 		List<String> principalIds = new ArrayList<String>();
         for (Long workArea : workAreas) {
             List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
@@ -112,7 +112,8 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
         if(StringUtils.isEmpty(lraaForm.getSelectedDept())) {
         	resetState(form, request);
         
-        	List<Long> workAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(HrContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);	        List<String> principalIds = new ArrayList<String>();
+        	List<Long> workAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(HrContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), currentDate.toDateTimeAtStartOfDay(), true);
+        	List<String> principalIds = new ArrayList<String>();
 	        for (Long workArea : workAreas) {
 	            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
 	            for (Assignment a : assignments) {

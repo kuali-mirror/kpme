@@ -47,8 +47,8 @@ public class LeaveBlockAggregate {
 		for(Interval dayInt : dayIntervals){
 			List<LeaveBlock> dayLeaveBlocks = new ArrayList<LeaveBlock>();
 			for(LeaveBlock leaveBlock : leaveBlocks){
-				LocalDate localDate = new LocalDate(leaveBlock.getLeaveDate());
-                LocalDate dayIntBegin = new LocalDate(dayInt.getStart());
+				LocalDate localDate = leaveBlock.getLeaveLocalDate();
+                LocalDate dayIntBegin = dayInt.getStart().toLocalDate();
 				if(localDate.equals(dayIntBegin)){
 					dayLeaveBlocks.add(leaveBlock);
 				}
@@ -63,8 +63,8 @@ public class LeaveBlockAggregate {
 		for(Interval dayInt : dayIntervals){
 			List<LeaveBlock> dayLeaveBlocks = new ArrayList<LeaveBlock>();
 			for(LeaveBlock leaveBlock : leaveBlocks){
-                LocalDate localDate = new LocalDate(leaveBlock.getLeaveDate());
-                LocalDate dayIntBegin = new LocalDate(dayInt.getStart());
+                LocalDate localDate = leaveBlock.getLeaveLocalDate();
+                LocalDate dayIntBegin = dayInt.getStart().toLocalDate();
                 if(localDate.equals(dayIntBegin)){
                     dayLeaveBlocks.add(leaveBlock);
                 }
@@ -84,7 +84,7 @@ public class LeaveBlockAggregate {
     	this.leaveCalendarEntry = leaveCalendarEntry;
 		for(Interval dayInt : dayIntervals){
 			List<LeaveBlock> dayLeaveBlocks = new ArrayList<LeaveBlock>();
-			DateTime localTime = (new DateTime(dayInt.getStart())).toLocalDateTime().toDateTime();
+			DateTime localTime = dayInt.getStart().toLocalDateTime().toDateTime();
 			String intervalStartDateString = localTime.toLocalDate().toString();
 			
 			for(LeaveBlock leaveBlock : leaveBlocks){
@@ -96,8 +96,8 @@ public class LeaveBlockAggregate {
 						dayLeaveBlocks.add(leaveBlock);
 					}
 				} else {
-                    LocalDate localDate = new LocalDate(leaveBlock.getLeaveDate());
-                    LocalDate dayIntBegin = new LocalDate(dayInt.getStart());
+                    LocalDate localDate = leaveBlock.getLeaveLocalDate();
+                    LocalDate dayIntBegin = dayInt.getStart().toLocalDate();
                     if(localDate.equals(dayIntBegin)){
                         dayLeaveBlocks.add(leaveBlock);
                     }

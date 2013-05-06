@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.job.Job;
@@ -84,12 +83,12 @@ public class TimezoneServiceImpl implements TimezoneService {
 		for(TimeBlock tb : timeBlocks){
 			//No need for translation if it matches the current timezone
 			if(ObjectUtils.equals(timezone, TKUtils.getSystemDateTimeZone())){
-				tb.setBeginTimeDisplay(new DateTime(tb.getBeginTimestamp()));
-				tb.setEndTimeDisplay(new DateTime(tb.getEndTimestamp()));
+				tb.setBeginTimeDisplay(tb.getBeginDateTime());
+				tb.setEndTimeDisplay(tb.getEndDateTime());
 			}
 			else {
-				tb.setBeginTimeDisplay(new DateTime(tb.getBeginTimestamp(), timezone));
-				tb.setEndTimeDisplay(new DateTime(tb.getEndTimestamp(), timezone));
+				tb.setBeginTimeDisplay(tb.getBeginDateTime().withZone(timezone));
+				tb.setEndTimeDisplay(tb.getEndDateTime().withZone(timezone));
 			}
 		}
 		return timeBlocks;

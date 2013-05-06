@@ -330,7 +330,7 @@ public class TimeDetailAction extends TimesheetAction {
 	        List<CalendarEntry> payPeriodList = new ArrayList<CalendarEntry>();
 	        for(TimesheetDocumentHeader tdh : documentHeaders) {
 	        	if(sdf.format(tdh.getBeginDate()).equals(tdaf.getSelectedCalendarYear())) {
-                    CalendarEntry pe = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), new DateTime(tdh.getEndDate()), HrConstants.PAY_CALENDAR_TYPE);
+                    CalendarEntry pe = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), tdh.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE);
                     //CalendarEntries pe = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(tdh.getBeginDate(), tdh.getEndDate());
 	        		payPeriodList.add(pe);
 	        	}
@@ -648,7 +648,7 @@ public class TimeDetailAction extends TimesheetAction {
       EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(blockToDelete.getEarnCode(), blockToDelete.getLeaveLocalDate());
       if(ec != null && ec.getEligibleForAccrual().equals("N")) {
     	  CalendarEntry ce = HrServiceLocator.getCalendarService()
-					.getCurrentCalendarDatesForLeaveCalendar(blockToDelete.getPrincipalId(), new DateTime(blockToDelete.getLeaveDate()));
+					.getCurrentCalendarDatesForLeaveCalendar(blockToDelete.getPrincipalId(), blockToDelete.getLeaveLocalDate().toDateTimeAtStartOfDay());
     	  if(ce != null) {
     		  LmServiceLocator.getLeaveAccrualService().runAccrual(blockToDelete.getPrincipalId(), ce.getBeginPeriodFullDateTime().toDateTime(), ce.getEndPeriodFullDateTime().toDateTime(), false);
     	  }

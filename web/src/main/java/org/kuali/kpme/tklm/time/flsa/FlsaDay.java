@@ -113,8 +113,8 @@ public class FlsaDay {
      * Danger may still lurk in day-boundary overlapping time blocks that have multiple Time Hour Detail entries.
 	 */
 	private boolean applyBlock(TimeBlock block, List<TimeBlock> applyList) {
-		DateTime beginDateTime = new DateTime(block.getBeginTimestamp(), this.timeZone);
-		DateTime endDateTime = new DateTime(block.getEndTimestamp(), this.timeZone);
+		DateTime beginDateTime = block.getBeginDateTime().withZone(timeZone);
+		DateTime endDateTime = block.getEndDateTime().withZone(timeZone);
 
 		if (beginDateTime.isAfter(flsaDateInterval.getEnd()))
 			return false;

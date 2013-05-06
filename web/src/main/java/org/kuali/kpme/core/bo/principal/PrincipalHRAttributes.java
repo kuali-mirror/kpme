@@ -93,7 +93,7 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 	}
 	
 	public LocalDate getServiceLocalDate() {
-		return LocalDate.fromDateFields(serviceDate);
+		return serviceDate != null ? LocalDate.fromDateFields(serviceDate) : null;
 	}
 	
 	public void setServiceLocalDate(LocalDate serviceLocalDate) {

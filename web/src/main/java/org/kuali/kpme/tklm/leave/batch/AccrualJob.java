@@ -61,7 +61,7 @@ public class AccrualJob implements Job {
 					if (principalHRAttributes != null) {
 						LeavePlan leavePlan = getLeavePlanService().getLeavePlan(principalHRAttributes.getLeavePlan(), principalHRAttributes.getEffectiveLocalDate());
 						if (leavePlan != null) {
-							DateTime endDate = new DateTime(asOfDate).plusMonths(Integer.parseInt(leavePlan.getPlanningMonths()));
+							DateTime endDate = asOfDate.toDateTimeAtStartOfDay().plusMonths(Integer.parseInt(leavePlan.getPlanningMonths()));
 							getAccrualService().runAccrual(principalId, asOfDate.toDateTimeAtStartOfDay(), endDate, true, batchUserPrincipalId);
 						}
 					}

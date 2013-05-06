@@ -181,7 +181,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		}
 		
 		for (LeaveBlock lb : leaveBlocks) {
-			DateTime leaveDate = new DateTime(lb.getLeaveDate()).toLocalDate().toDateTimeAtStartOfDay();
+			DateTime leaveDate = lb.getLeaveLocalDate().toDateTimeAtStartOfDay();
 			
 			if (earnCodeLeaveHours.get(leaveDate.toDate()) != null) {
 				Map<String, BigDecimal> leaveHours = earnCodeLeaveHours.get(leaveDate.toDate());
@@ -270,7 +270,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		}
 		
 		for (LeaveBlock lb : leaveBlocks) {
-			DateTime leaveDate = new DateTime(lb.getLeaveDate()).toLocalDate().toDateTimeAtStartOfDay();
+			DateTime leaveDate = lb.getLeaveLocalDate().toDateTimeAtStartOfDay();
 			
 			AccrualCategory ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveLocalDate());
 			if (ac != null && ac.getShowOnGrid().equals("Y")) {

@@ -34,7 +34,7 @@ public class EndReportingPeriodJob implements Job {
 		String principalId = jobDataMap.getString("principalId");
 		
 		CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
-		DateTime endPeriodDateTime = new DateTime(calendarEntry.getEndPeriodDateTime());
+		DateTime endPeriodDateTime = calendarEntry.getEndPeriodFullDateTime();
 		
 		String subject = "End of Reporting Period Reminder";
 		StringBuilder message = new StringBuilder();

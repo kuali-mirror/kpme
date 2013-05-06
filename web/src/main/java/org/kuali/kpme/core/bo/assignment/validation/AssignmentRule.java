@@ -16,7 +16,6 @@
 package org.kuali.kpme.core.bo.assignment.validation;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.account.AssignmentAccount;
@@ -259,13 +259,13 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		if(!assign.isActive()) {
 			List<TimeBlock> tbList = TkServiceLocator.getTimeBlockService().getTimeBlocksForAssignment(assign);
 			if(!tbList.isEmpty()) {
-				Date tbEndDate = tbList.get(0).getEndDate();
+				DateTime tbEndDate = tbList.get(0).getEndDateTime();
 				for(TimeBlock tb : tbList) {
-					if(tb.getEndDate().after(tbEndDate)) {
-						tbEndDate = tb.getEndDate();			// get the max end date
+					if(tb.getEndDateTime().isAfter(tbEndDate)) {
+						tbEndDate = tb.getEndDateTime();			// get the max end date
 					}
 				}
-				if(tbEndDate.equals(assign.getEffectiveDate()) || tbEndDate.after(assign.getEffectiveDate())) {
+				if(tbEndDate.equals(assign.getEffectiveLocalDate().toDateTimeAtStartOfDay()) || tbEndDate.isAfter(assign.getEffectiveLocalDate().toDateTimeAtStartOfDay())) {
 					this.putFieldError("active", "error.assignment.timeblock.existence", tbEndDate.toString());
 					return false;
 				}

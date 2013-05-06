@@ -206,9 +206,9 @@ public abstract class HrPermissionServiceBase {
     	
     	String location = departmentObj != null ? departmentObj.getLocation() : null;
     	
-        if (isAuthorizedByTemplateInWorkArea(principalId, namespaceCode, permissionTemplateName, workArea, documentTypeName, documentId, documentStatus, new DateTime(assignment.getEffectiveDate()))
-            	|| isAuthorizedByTemplateInDepartment(principalId, namespaceCode, permissionTemplateName, department, documentTypeName, documentId, documentStatus, new DateTime(assignment.getEffectiveDate()))
-            	|| isAuthorizedByTemplateInLocation(principalId, namespaceCode, permissionTemplateName, location, documentTypeName, documentId, documentStatus, new DateTime(assignment.getEffectiveDate()))) {
+        if (isAuthorizedByTemplateInWorkArea(principalId, namespaceCode, permissionTemplateName, workArea, documentTypeName, documentId, documentStatus, assignment.getEffectiveLocalDate().toDateTimeAtStartOfDay())
+            	|| isAuthorizedByTemplateInDepartment(principalId, namespaceCode, permissionTemplateName, department, documentTypeName, documentId, documentStatus, assignment.getEffectiveLocalDate().toDateTimeAtStartOfDay())
+            	|| isAuthorizedByTemplateInLocation(principalId, namespaceCode, permissionTemplateName, location, documentTypeName, documentId, documentStatus, assignment.getEffectiveLocalDate().toDateTimeAtStartOfDay())) {
         	isAuthorized = true;
         }
         

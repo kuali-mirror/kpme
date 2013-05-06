@@ -82,7 +82,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		if (prevBlocks.size() > 0) {
 			TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentHeader().getBeginDateTime().toDateTime());
 			if (prevTdh != null) {
-				CalendarEntry prevPayCalendarEntry = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(timesheetDocument.getPrincipalId(), new DateTime(prevTdh.getEndDate()), HrConstants.PAY_CALENDAR_TYPE);
+				CalendarEntry prevPayCalendarEntry = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(timesheetDocument.getPrincipalId(), prevTdh.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE);
 				TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry, prevPayCalendarEntry.getCalendarObj(), true);
 				List<List<TimeBlock>> dayBlocks = prevTimeAggregate.getDayTimeBlockList();
 				List<TimeBlock> previousPeriodLastDayBlocks = dayBlocks.get(dayBlocks.size() - 1);
@@ -272,7 +272,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
                             // If this assumption does not hold, additional logic will be needed to iteratively go back in time to figure out which
                             // blocks are valid.
 							if ( (firstBlockOfPreviousDay != null) && (firstBlockOfCurrentDay != null)) {
-								Interval previousBlockInterval = new Interval(new DateTime(firstBlockOfPreviousDay.getEndTimestamp(), zone), new DateTime(firstBlockOfCurrentDay.getBeginTimestamp(), zone));
+								Interval previousBlockInterval = new Interval(firstBlockOfPreviousDay.getEndDateTime().withZone(zone), firstBlockOfCurrentDay.getBeginDateTime().withZone(zone));
 								Duration blockGapDuration = previousBlockInterval.toDuration();
 								BigDecimal bgdHours = TKUtils.convertMillisToHours(blockGapDuration.getMillis());
 								// if maxGap is 0, ignore gaps and assign shift to time blocks within the hours
@@ -284,11 +284,11 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 									for (int i=0; i<ruleTimeBlocksPrev.size(); i++) {
 										TimeBlock b = ruleTimeBlocksPrev.get(i);
 										if (timeBlockHasEarnCode(fromEarnGroup, b)) {
-											Interval blockInterval = new Interval(new DateTime(b.getBeginTimestamp(), zone), new DateTime(b.getEndTimestamp(), zone));
+											Interval blockInterval = new Interval(b.getBeginDateTime().withZone(zone), b.getEndDateTime().withZone(zone));
 
 											// Calculate Block Gap, the duration between clock outs and clock ins of adjacent time blocks.
 											if (previousBlockInterval != null) {
-												blockGapDuration = new Duration(new DateTime(b.getEndTimestamp(), zone), previousBlockInterval.getStart());
+												blockGapDuration = new Duration(b.getEndDateTime().withZone(zone), previousBlockInterval.getStart());
 												bgdHours = TKUtils.convertMillisToHours(blockGapDuration.getMillis());
 											}
 
@@ -365,7 +365,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
                             continue;
                         }
 
-						Interval blockInterval = new Interval(new DateTime(current.getBeginTimestamp(), zone), new DateTime(current.getEndTimestamp(), zone));
+						Interval blockInterval = new Interval(current.getBeginDateTime().withZone(zone), current.getEndDateTime().withZone(zone));
 
 						// Check both Intervals, since the time blocks could still
 						// be applicable to the previous day.  These two intervals should

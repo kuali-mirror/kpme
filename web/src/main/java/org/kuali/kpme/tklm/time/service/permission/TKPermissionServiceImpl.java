@@ -419,7 +419,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
         	TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(tb.getDocumentId());
         	DateTime aDate =  tb.getBeginDateTime();
         	if(tdh != null && tdh.getEndDate() != null) {
-        		aDate = new DateTime(tdh.getEndDate());
+        		aDate = tdh.getEndDateTime();
         	}
         	
         	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(anAssignment.getDept(), anAssignment.getWorkArea(), anAssignment.getJob().getHrPayType(), aDate.toLocalDate());

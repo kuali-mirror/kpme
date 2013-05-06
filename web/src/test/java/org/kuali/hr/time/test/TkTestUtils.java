@@ -89,8 +89,7 @@ public class TkTestUtils {
 
 			//refetch clean document
 			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(HrContext.getTargetPrincipalId(),
-					HrServiceLocator.getCalendarService().getCurrentCalendarDates(HrContext.getTargetPrincipalId(),
-							new DateTime(calDate)));
+					HrServiceLocator.getCalendarService().getCurrentCalendarDates(HrContext.getTargetPrincipalId(), calDate));
 			List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 			for(int i = 0;i<5;i++){
 				TimeBlock timeBlock = createTimeBlock(timesheet, i+1, 10);
@@ -408,8 +407,8 @@ public class TkTestUtils {
 
 	public static Map<DateTime, BigDecimal> getDateToHoursMap(TimeBlock timeBlock, TimeHourDetail timeHourDetail) {
 		Map<DateTime, BigDecimal> dateToHoursMap = new HashMap<DateTime, BigDecimal>();
-		DateTime beginTime = new DateTime(timeBlock.getBeginTimestamp());
-		DateTime endTime = new DateTime(timeBlock.getEndTimestamp());
+		DateTime beginTime = timeBlock.getBeginDateTime();
+		DateTime endTime = timeBlock.getEndDateTime();
 
 		Days d = Days.daysBetween(beginTime, endTime);
 		int numberOfDays = d.getDays();
@@ -419,7 +418,7 @@ public class TkTestUtils {
 		}
 		DateTime currentTime = beginTime;
 		for (int i = 0; i < numberOfDays; i++) {
-			DateTime nextDayAtMidnight = new DateTime(currentTime.plusDays(1).getMillis());
+			DateTime nextDayAtMidnight = currentTime.plusDays(1);
 			nextDayAtMidnight = nextDayAtMidnight.hourOfDay().setCopy(12);
 			nextDayAtMidnight = nextDayAtMidnight.minuteOfDay().setCopy(0);
 			nextDayAtMidnight = nextDayAtMidnight.secondOfDay().setCopy(0);

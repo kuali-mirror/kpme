@@ -371,26 +371,26 @@ public class LeaveCalendarValidationUtil {
     // KPME-2010
     public static List<String> validateSpanningWeeks(LeaveCalendarWSForm lcf) {
     	boolean spanningWeeks = lcf.getSpanningWeeks().equalsIgnoreCase("y");
-        LocalDate startDate = TKUtils.formatDateString(lcf.getStartDate());
-        EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(lcf.getSelectedEarnCode(), startDate);
-        DateTime startTemp, endTemp;
+        EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(lcf.getSelectedEarnCode(), TKUtils.formatDateString(lcf.getStartDate()));
+    	DateTime startDate = null;
+    	DateTime endDate = null;
 
         if (ec != null && !ec.getRecordMethod().equals(HrConstants.RECORD_METHOD.TIME)) {
-            startTemp = new DateTime(startDate);
-            endTemp = new DateTime(TKUtils.formatDateString(lcf.getEndDate()));
+        	startDate = TKUtils.formatDateString(lcf.getStartDate()).toDateTimeAtStartOfDay();
+            endDate = TKUtils.formatDateString(lcf.getEndDate()).toDateTimeAtStartOfDay();
         } else {
-    	    startTemp = TKUtils.formatDateTimeString(lcf.getStartDate());
-            endTemp = TKUtils.formatDateTimeString(lcf.getEndDate());
+        	startDate = TKUtils.formatDateTimeString(lcf.getStartDate());
+        	endDate = TKUtils.formatDateTimeString(lcf.getEndDate());
         }
     	
         List<String> errors = new ArrayList<String>();
     	boolean valid = true;
-    	while ((startTemp.isBefore(endTemp) || startTemp.isEqual(endTemp)) && valid) {
+    	while ((startDate.isBefore(endDate) || startDate.isEqual(endDate)) && valid) {
            	if (!spanningWeeks && 
-        		(startTemp.getDayOfWeek() == DateTimeConstants.SATURDAY || startTemp.getDayOfWeek() == DateTimeConstants.SUNDAY)) {
+        		(startDate.getDayOfWeek() == DateTimeConstants.SATURDAY || startDate.getDayOfWeek() == DateTimeConstants.SUNDAY)) {
         		valid = false;
         	}
-        	startTemp = startTemp.plusDays(1);
+           	startDate = startDate.plusDays(1);
         }
         if (!valid) {
         	errors.add("Weekend day is selected, but include weekends checkbox is not checked");            //errorMessages

@@ -209,7 +209,7 @@ public class LeaveCalendarAction extends KPMEAction {
             if(principalCal != null) {
 
                 DateTime currentYearBeginDate = HrServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(principalCal.getLeavePlan(), LocalDate.now());
-                DateTime calEntryEndDate = new DateTime(calendarEntry.getEndPeriodDate());
+                DateTime calEntryEndDate = calendarEntry.getEndPeriodFullDateTime();
 	            if (calEntryEndDate.getMillis() > currentYearBeginDate.getMillis()) {
 	            	//current or future year
 	                LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
@@ -456,11 +456,6 @@ public class LeaveCalendarAction extends KPMEAction {
 		}
         LOG.debug("Begin Date is>> "+beginDate);
         LOG.debug("End Date is>> "+endDate);
-		
-		/** Old Code
- 		DateTime beginDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getStartDate()));
-		DateTime endDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getEndDate()));
-		*/
 		
 		String selectedEarnCode = lcf.getSelectedEarnCode();
 		BigDecimal hours = lcf.getLeaveAmount();

@@ -21,7 +21,6 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +35,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.DateTimeZone;
-import org.joda.time.Days;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDate.Property;
@@ -115,21 +113,6 @@ public class TKUtils {
         return hrsReminder.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING).abs();
     }
 
-
-
-    public static int getNumberOfWeeks(Date beginDate, Date endDate) {
-
-        DateTime beginTime = new DateTime(beginDate);
-        DateTime endTime = new DateTime(endDate);
-
-        int numOfDays = Days.daysBetween(beginTime, endTime).getDays();
-        int numOfWeeks = numOfDays / 7;
-        if (numOfDays % 7 != 0) {
-            numOfWeeks++;
-        }
-        return numOfWeeks;
-    }
-
     public static String formatAssignmentKey(Long jobNumber, Long workArea, Long task) {
     	String jobNumberString = ObjectUtils.toString(jobNumber, "0");
     	String workAreaString = ObjectUtils.toString(workArea, "0");
@@ -194,40 +177,6 @@ public class TKUtils {
         }
 
         return dayIntervals;
-    }
-    
-
-    /**
-     * Includes partial weeks if the time range provided does not divide evenly
-     * into 7 day spans.
-     *
-     * @param beginDate Starting Date/Time
-     * @param endDate   Ending Date/Time
-     * @return A List of Intervals of 7 day spans. The last Interval in the list
-     *         may be less than seven days.
-     */
-    public static List<Interval> getWeekIntervals(Date beginDate, Date endDate) {
-        List<Interval> intervals = new ArrayList<Interval>();
-        DateTime beginTime = new DateTime(beginDate);
-        DateTime endTime = new DateTime(endDate);
-
-        int dayIncrement = 7;
-        DateTime previous = beginTime;
-        DateTime nextTime = previous.plusDays(dayIncrement);
-        while (nextTime.isBefore(endTime)) {
-            Interval interval = new Interval(previous, nextTime);
-            intervals.add(interval);
-            previous = nextTime;
-            nextTime = previous.plusDays(dayIncrement);
-        }
-
-        if (previous.isBefore(endTime)) {
-            // add a partial week.
-            Interval interval = new Interval(previous, endTime);
-            intervals.add(interval);
-        }
-
-        return intervals;
     }
 
     public static long convertHoursToMillis(BigDecimal hours) {

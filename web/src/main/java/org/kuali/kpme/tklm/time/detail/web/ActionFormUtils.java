@@ -19,7 +19,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -278,7 +277,7 @@ public class ActionFormUtils {
         	leaveBlockMap.put("earnCode", leaveBlock.getEarnCode());
         	leaveBlockMap.put("lmLeaveBlockId", leaveBlock.getLmLeaveBlockId());
         	leaveBlockMap.put("leaveAmount", leaveBlock.getLeaveAmount().toString());
-        	DateTime leaveDate = new DateTime(leaveBlock.getLeaveDate());
+        	DateTime leaveDate = leaveBlock.getLeaveLocalDate().toDateTimeAtStartOfDay();
         	leaveBlockMap.put("leaveDate", leaveDate.toString(HrConstants.DT_BASIC_DATE_FORMAT));
         	leaveBlockMap.put("id", leaveBlock.getLmLeaveBlockId());
         	leaveBlockMap.put("canTransfer", LmServiceLocator.getLMPermissionService().canTransferSSTOUsage(leaveBlock));
@@ -286,8 +285,8 @@ public class ActionFormUtils {
         	leaveBlockMap.put("endDate", leaveDate.toString(HrConstants.DT_BASIC_DATE_FORMAT));
         	
         	if(leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp() != null) {
-	            DateTime start = new DateTime(leaveBlock.getBeginTimestamp().getTime());
-	        	DateTime end = new DateTime(leaveBlock.getEndTimestamp().getTime());
+	            DateTime start = leaveBlock.getBeginDateTime();
+	        	DateTime end = leaveBlock.getEndDateTime();
 	        	leaveBlockMap.put("startTimeHourMinute", start.toString(TkConstants.DT_BASIC_TIME_FORMAT));
 	        	leaveBlockMap.put("endTimeHourMinute", end.toString(TkConstants.DT_BASIC_TIME_FORMAT));
 	        	leaveBlockMap.put("startTime", start.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
@@ -323,9 +322,9 @@ public class ActionFormUtils {
     		}
     		
     		if(principalHRAttributes != null && pce != null && pce.getHrCalendarEntryId()!= null && pce.getBeginPeriodDate() != null && pce.getEndPeriodDate() != null ) {
-    			Date startCalDate = principalHRAttributes.getServiceDate();
+    			LocalDate startCalDate = principalHRAttributes.getServiceLocalDate();
     			if(startCalDate != null) {
-    				if(!(pce.getBeginPeriodDate().compareTo(startCalDate) < 0)) {
+    				if(!(pce.getBeginPeriodFullDateTime().compareTo(startCalDate.toDateTimeAtStartOfDay()) < 0)) {
     	        		//pMap.put(pce.getHrCalendarEntriesId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format(pce.getEndPeriodDate()));
     	                //getting one millisecond of the endperioddate to match the actual pay period. i.e. pay period end at the 11:59:59:59...PM of that day
     	                pMap.put(pce.getHrCalendarEntryId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format((DateUtils.addMilliseconds(pce.getEndPeriodDate(),-1))));

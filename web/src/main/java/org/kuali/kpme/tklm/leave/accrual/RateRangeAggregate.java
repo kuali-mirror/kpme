@@ -16,7 +16,6 @@
 package org.kuali.kpme.tklm.leave.accrual;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -29,15 +28,15 @@ public class RateRangeAggregate {
 	private boolean rateRangeChanged;
 	private Map<String, List<CalendarEntry>> calEntryMap;
 	
-	public RateRange getRate(Date date) {		
+	public RateRange getRate(DateTime date) {		
 		rateRangeChanged = false;
 		if (currentRate == null) {
 			currentRate = rateRanges.get(0);
 		}
 		
-		if (currentRate.getRange().contains(date.getTime())) {
+		if (currentRate.getRange().contains(date)) {
 			for (RateRange rateRange : rateRanges) {
-				if (rateRange.getRange().contains(date.getTime())) {
+				if (rateRange.getRange().contains(date)) {
 					rateRangeChanged = rateRange.getAccrualRatePercentageModifier() != currentRate.getAccrualRatePercentageModifier();
 					currentRate = rateRange;
 					break;
