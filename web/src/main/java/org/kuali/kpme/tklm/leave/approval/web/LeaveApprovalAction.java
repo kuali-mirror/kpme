@@ -70,9 +70,8 @@ public class LeaveApprovalAction extends ApprovalAction{
     	laaf.setSearchField("principalId");
         List<String> principalIds = new ArrayList<String>();
         principalIds.add(laaf.getSearchTerm());
-        List<TKPerson> persons = HrServiceLocator.getPersonService().getPersonCollection(principalIds);
         CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrPyCalendarEntryId());
-        if (persons.isEmpty()) {
+        if (principalIds.isEmpty()) {
         	laaf.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
         	laaf.setResultSize(0);
         } else {
@@ -185,8 +184,8 @@ public class LeaveApprovalAction extends ApprovalAction{
 			laaf.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
 			laaf.setResultSize(0);
 		} else {
-			List<TKPerson> persons = HrServiceLocator.getPersonService().getPersonCollection(principalIds);
-			List<ApprovalLeaveSummaryRow> approvalRows = getApprovalLeaveRows(laaf, getSubListPrincipalIds(request, persons)); 
+			
+			List<ApprovalLeaveSummaryRow> approvalRows = getApprovalLeaveRows(laaf, getSubListPrincipalIds(request, principalIds)); 
 		    
 			final String sortField = request.getParameter("sortField");		    
 		    if (StringUtils.equals(sortField, "Name")) {
@@ -228,7 +227,7 @@ public class LeaveApprovalAction extends ApprovalAction{
 		    }
 		    
 			laaf.setLeaveApprovalRows(approvalRows);
-		    laaf.setResultSize(persons.size());
+		    laaf.setResultSize(principalIds.size());
 		}
 	}
 	
@@ -323,7 +322,7 @@ public class LeaveApprovalAction extends ApprovalAction{
 		return loadApprovalTab(mapping, form, request, response);
 	}
 	   
-    protected List<ApprovalLeaveSummaryRow> getApprovalLeaveRows(LeaveApprovalActionForm laaf, List<TKPerson> assignmentPrincipalIds) {
+    protected List<ApprovalLeaveSummaryRow> getApprovalLeaveRows(LeaveApprovalActionForm laaf, List<String> assignmentPrincipalIds) {
         return LmServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows
         	(assignmentPrincipalIds, laaf.getPayCalendarEntry(), laaf.getLeaveCalendarDates());
     }

@@ -15,17 +15,19 @@
  */
 package org.kuali.hr.time.approval.service;
 
+import org.joda.time.LocalDate;
+import org.junit.Assert;
+import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
+import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.joda.time.LocalDate;
-import org.junit.Assert;
-import org.junit.Test;
-import org.kuali.hr.test.KPMETestCase;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 
 public class TimeApproveServiceTest extends KPMETestCase {
 	
@@ -68,4 +70,15 @@ public class TimeApproveServiceTest extends KPMETestCase {
 		Assert.assertTrue("Principal id for workArea '2222' should be principalB, not " + idList.get(0), idList.get(0).equals("1022"));
 	}
 
+    @Test
+    public void testGetApprovalSummaryRows() throws Exception {
+        //DateTime payBeginDate = new DateTime();
+        //DateTime payEndDate = new DateTime();
+        String calGroup = "";
+        List<String> principalIds = new ArrayList<String>();
+        principalIds.add("admin");
+        List<String> payCalendarLabels = new ArrayList<String>();
+        CalendarEntry pce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+
+    }
 }

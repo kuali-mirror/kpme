@@ -123,31 +123,31 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 				new BigDecimal("0.25"), // maxGap
 				dayArray);
 
-        dayArray = new boolean [] {false, false, true, false, true, true, true};
-		this.createShiftDifferentialRule(
-				"BWS-CAL", "REG", "PRM", "SD1", "SD1", "SD1",
-				(new DateTime(2010, 8, 31, 23, 0, 0, 0, tz)),
-				(new DateTime(2010, 8, 31,  2, 0, 0, 0, tz)),
-				new BigDecimal(3), // minHours
-				new BigDecimal("2.0"), // maxGap
-				dayArray);
-
-		dayArray = new boolean[] {false, false, false, true, true, false, false};
-		this.createShiftDifferentialRule(
-				"BWS-CAL", "REG", "PRM", "SD1", "SD1", "SD1",
-				(new DateTime(2010, 8, 31, 5, 0, 0, 0, tz)),
-				(new DateTime(2010, 8, 31,  12, 0, 0, 0, tz)),
-				new BigDecimal("7.0"), // minHours
-				new BigDecimal(".25"), // maxGap
-				dayArray);
-		dayArray = new boolean[] {false, false, false, true, false, false, false};
-		this.createShiftDifferentialRule(
-				"BWS-CAL", "REG", "PRM", "SD1", "SD1", "SD1",
-				(new DateTime(2010, 8, 31, 5, 0, 0, 0, tz)),
-				(new DateTime(2010, 8, 31,  12, 0, 0, 0, tz)),
-				new BigDecimal("5"), // minHours
-				new BigDecimal("0.25"), // maxGap
-				dayArray);
+//        dayArray = new boolean [] {false, false, true, false, true, true, true};
+//		this.createShiftDifferentialRule(
+//				"BWS-CAL", "REG", "PRM", "SD1", "SD1", "SD1",
+//				(new DateTime(2010, 8, 31, 23, 0, 0, 0, tz)),
+//				(new DateTime(2010, 8, 31,  2, 0, 0, 0, tz)),
+//				new BigDecimal(3), // minHours
+//				new BigDecimal("2.0"), // maxGap
+//				dayArray);
+//
+//		dayArray = new boolean[] {false, false, false, true, true, false, false};
+//		this.createShiftDifferentialRule(
+//				"BWS-CAL", "REG", "PRM", "SD1", "SD1", "SD1",
+//				(new DateTime(2010, 8, 31, 5, 0, 0, 0, tz)),
+//				(new DateTime(2010, 8, 31,  12, 0, 0, 0, tz)),
+//				new BigDecimal("7.0"), // minHours
+//				new BigDecimal(".25"), // maxGap
+//				dayArray);
+//		dayArray = new boolean[] {false, false, false, true, false, false, false};
+//		this.createShiftDifferentialRule(
+//				"BWS-CAL", "REG", "PRM", "SD1", "SD1", "SD1",
+//				(new DateTime(2010, 8, 31, 5, 0, 0, 0, tz)),
+//				(new DateTime(2010, 8, 31,  12, 0, 0, 0, tz)),
+//				new BigDecimal("5"), // minHours
+//				new BigDecimal("0.25"), // maxGap
+//				dayArray);
 
 		// Timeblocks
 
@@ -186,7 +186,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 
 		// Verify carry over and applied PRM bucket
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
-		TkTestUtils.verifyAggregateHourSumsFlatList("September Post-Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal("14.75"));put("RGN", new BigDecimal(20));}},aggregate);
+		TkTestUtils.verifyAggregateHourSumsFlatList("September Post-Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal("8.75"));put("RGN", new BigDecimal(20));}},aggregate);
 	}
 
     private void setDocumentIdOnBlocks(List<TimeBlock> blocks, String id) {

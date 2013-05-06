@@ -86,9 +86,7 @@ public class LeaveApprovalWSAction extends KPMEAction {
 		        List<String> principalIds = LmServiceLocator.getLeaveApprovalService()
         			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, laaf.getSelectedPayCalendarGroup(),
         					endDate, beginDate, endDate); 
-		        
-		        List<TKPerson> persons = HrServiceLocator.getPersonService().getPersonCollection(principalIds);
-		        
+
 		        if (StringUtils.equals(laaf.getSearchField(), ApprovalForm.ORDER_BY_PRINCIPAL)) {
 		            for (String id : principalIds) {
 		                if(StringUtils.contains(id, laaf.getSearchTerm())) {
@@ -100,7 +98,7 @@ public class LeaveApprovalWSAction extends KPMEAction {
 		            }
 		        } else if (StringUtils.equals(laaf.getSearchField(), ApprovalForm.ORDER_BY_DOCID)) {
 		            Map<String, LeaveCalendarDocumentHeader> principalDocumentHeaders =
-		                    LmServiceLocator.getLeaveApprovalService().getPrincipalDocumehtHeader(persons, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
+		                    LmServiceLocator.getLeaveApprovalService().getPrincipalDocumentHeader(principalIds, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
 	
 		            for (Map.Entry<String,LeaveCalendarDocumentHeader> entry : principalDocumentHeaders.entrySet()) {
 		                if (StringUtils.contains(entry.getValue().getDocumentId(), laaf.getSearchTerm())) {

@@ -35,6 +35,7 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.Interval;
@@ -502,34 +503,22 @@ public class TKUtils {
         return cal.getTime(); 
     }
     
-    public static int getWorkDays(Date startDate, Date endDate) {
-    	int dayCounts = 0;
-    	if(startDate.after(endDate)) {
-    		return 0;
-    	}
-    	Calendar cal1 = Calendar.getInstance();
-		cal1.setTime(startDate);
-		Calendar cal2 = Calendar.getInstance();
-		cal2.setTime(endDate);
-		
-		while(!cal1.after(cal2)) {
-			if(cal1.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY 
-					&& cal1.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
-				dayCounts ++;		
+    public static int getWorkDays(DateTime startDate, DateTime endDate) {
+    	int workDays = 0;
+
+		DateTime currentDate = startDate;
+		while (!currentDate.isAfter(endDate)) {
+			if (!isWeekend(currentDate)) {
+				workDays++;		
 			}
-			cal1.add(Calendar.DATE, 1);
+			currentDate = currentDate.plusDays(1);
 		}
-    	return dayCounts;
+		
+    	return workDays;
     }
     
-    public static boolean isWeekend(Date aDate) {
-    	Calendar cal = Calendar.getInstance();
-		cal.setTime(aDate);
-    	if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY 
-				|| cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-			return true;		
-		}
-    	return false;
+    public static boolean isWeekend(DateTime date) {
+    	return date.getDayOfWeek() == DateTimeConstants.SATURDAY || date.getDayOfWeek() == DateTimeConstants.SUNDAY;
     }
     
     public static Date addDates(Date aDate, int aNumber) {

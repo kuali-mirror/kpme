@@ -15,10 +15,9 @@
  */
 package org.kuali.hr.lm.leave.web;
 
-import java.util.Calendar;
-
 import junit.framework.Assert;
 
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +53,6 @@ public class LeaveBlockDisplayWebTest extends KPMETestCase {
 	@Test
 	public void testLeaveBlockDisplayPage() throws Exception {
 		// get the page and Login
-		Calendar currentCalendar = Calendar.getInstance();
 		HtmlPage leaveBlockDisplayPage = HtmlUnitUtil
 				.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.LEAVE_BLOCK_DISPLAY_URL);
 		Assert.assertNotNull("Leave Request page not found" + leaveBlockDisplayPage);
@@ -63,7 +61,7 @@ public class LeaveBlockDisplayWebTest extends KPMETestCase {
 
 		// check page contains the current year
 		Assert.assertTrue("Page is not current year ",
-				leaveBlockDisplayPage.asText().contains(Integer.toString(currentCalendar.get(Calendar.YEAR))));
+				leaveBlockDisplayPage.asText().contains(Integer.toString(DateTime.now().getYear())));
 
 		// Check Main section
 		// depends on injection of test data for current year.
@@ -95,7 +93,7 @@ public class LeaveBlockDisplayWebTest extends KPMETestCase {
 
 		// check page contains the next year
 		Assert.assertTrue("Page does not contain next year ",
-				leaveBlockDisplayPage.asText().contains(Integer.toString(currentCalendar.get(Calendar.YEAR)+1)));
+				leaveBlockDisplayPage.asText().contains(Integer.toString(DateTime.now().getYear() + 1)));
 	}
 
 }

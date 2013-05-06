@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.joda.time.DateTime;
 
 public class RateRangeAggregate {
 	private List<RateRange> rateRanges = new ArrayList<RateRange>();
@@ -66,9 +67,9 @@ public class RateRangeAggregate {
 	}
 	
 	// return the rateRange on the given day
-	public RateRange getRateOnDate(Date date) {
+	public RateRange getRateOnDate(DateTime date) {
 		for (RateRange rateRange : rateRanges) {
-			if (rateRange.getRange().contains(date.getTime())) {
+			if (rateRange.getRange().contains(date)) {
 				return rateRange;
 			}
 		}

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -58,21 +59,21 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 	 */
 	private ShiftDifferentialRuleDao shiftDifferentialRuleDao = null;
 
-	private Map<Long,List<ShiftDifferentialRule>> getJobNumberToShiftRuleMap(TimesheetDocument timesheetDocument) {
-		Map<Long,List<ShiftDifferentialRule>> jobNumberToShifts = new HashMap<Long,List<ShiftDifferentialRule>>();
+	private Map<Long,Set<ShiftDifferentialRule>> getJobNumberToShiftRuleMap(TimesheetDocument timesheetDocument) {
+		Map<Long,Set<ShiftDifferentialRule>> jobNumberToShifts = new HashMap<Long,Set<ShiftDifferentialRule>>();
 		PrincipalHRAttributes principalCal = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(timesheetDocument.getPrincipalId(),timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
 
 		for (Job job : timesheetDocument.getJobs()) {
 			List<ShiftDifferentialRule> shiftDifferentialRules = getShiftDifferentalRules(job.getLocation(),job.getHrSalGroup(),job.getPayGrade(),principalCal.getPayCalendar(), 
 					timesheetDocument.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate());
 			if (shiftDifferentialRules.size() > 0)
-				jobNumberToShifts.put(job.getJobNumber(), shiftDifferentialRules);
+				jobNumberToShifts.put(job.getJobNumber(), new HashSet<ShiftDifferentialRule>(shiftDifferentialRules));
 		}
 
 		return jobNumberToShifts;
 	}
 
-	private Map<Long,List<TimeBlock>> getPreviousPayPeriodLastDayJobToTimeBlockMap(TimesheetDocument timesheetDocument, Map<Long,List<ShiftDifferentialRule>> jobNumberToShifts) {
+	private Map<Long,List<TimeBlock>> getPreviousPayPeriodLastDayJobToTimeBlockMap(TimesheetDocument timesheetDocument, Map<Long,Set<ShiftDifferentialRule>> jobNumberToShifts) {
 		Map<Long, List<TimeBlock>> jobNumberToTimeBlocksPreviousDay = null;
 
 		// Get the last day of the last week of the previous pay period.
@@ -148,7 +149,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
         DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
 		List<List<TimeBlock>> blockDays = aggregate.getDayTimeBlockList();
 		DateTime periodStartDateTime = timesheetDocument.getCalendarEntry().getBeginPeriodLocalDateTime().toDateTime(zone);
-		Map<Long,List<ShiftDifferentialRule>> jobNumberToShifts = getJobNumberToShiftRuleMap(timesheetDocument);
+		Map<Long,Set<ShiftDifferentialRule>> jobNumberToShifts = getJobNumberToShiftRuleMap(timesheetDocument);
 
 
         // If there are no shift differential rules, we have an early exit.
@@ -203,8 +204,8 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
             // current day.
             //
             // There is room for refactoring here!
-			for (Map.Entry<Long, List<ShiftDifferentialRule>> entry : jobNumberToShifts.entrySet()) {
-				List<ShiftDifferentialRule> shiftDifferentialRules = entry.getValue();
+			for (Map.Entry<Long, Set<ShiftDifferentialRule>> entry : jobNumberToShifts.entrySet()) {
+				Set<ShiftDifferentialRule> shiftDifferentialRules = entry.getValue();
 				// Obtain and sort our previous and current time blocks.
 				List<TimeBlock> ruleTimeBlocksPrev = null;
 				List<TimeBlock> ruleTimeBlocksCurr = jobNumberToTimeBlocks.get(entry.getKey());

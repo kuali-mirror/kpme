@@ -83,7 +83,6 @@ public class TimeApprovalWSAction extends KPMEAction {
 				.getTimePrincipalIdsWithSearchCriteria(workAreaList, taaf.getSelectedPayCalendarGroup(),
 					endDate.toLocalDate(), beginDate.toLocalDate(), endDate.toLocalDate()); 
 	        
-	        List<TKPerson> persons = HrServiceLocator.getPersonService().getPersonCollection(principalIds);
 	        
 	        if (StringUtils.equals(taaf.getSearchField(), ApprovalForm.ORDER_BY_PRINCIPAL)) {
 	            for (String id : principalIds) {
@@ -96,7 +95,9 @@ public class TimeApprovalWSAction extends KPMEAction {
 	            }
 	        } else if (StringUtils.equals(taaf.getSearchField(), ApprovalForm.ORDER_BY_DOCID)) {
 	            Map<String, TimesheetDocumentHeader> principalDocumentHeaders =
-	                    TkServiceLocator.getTimeApproveService().getPrincipalDocumehtHeader(persons, beginDate, endDate);
+
+	            		TkServiceLocator.getTimeApproveService().getPrincipalDocumentHeader(principalIds, beginDate, endDate);
+	            
 
 	            for (Map.Entry<String,TimesheetDocumentHeader> entry : principalDocumentHeaders.entrySet()) {
 	                if (StringUtils.contains(entry.getValue().getDocumentId(), taaf.getSearchTerm())) {

@@ -33,6 +33,7 @@ import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+//import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.springframework.cache.annotation.Cacheable;
 
 
@@ -47,7 +48,7 @@ public interface TimeApproveService {
      * @param calGroup Specify a calendar group to filter by.
      * @return A Map<String, List<ApprovalTimeSummaryRow>> container.
      */
-	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(DateTime payBeginDate, DateTime payEndDate, String calGroup, List<TKPerson> principalIds, List<String> payCalendarLabels, CalendarEntry payCalendarEntry);
+	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(DateTime payBeginDate, DateTime payEndDate, String calGroup, List<String> principalIds, List<String> payCalendarLabels, CalendarEntry payCalendarEntry);
 	
 
 
@@ -108,7 +109,7 @@ public interface TimeApproveService {
      * @param payEndDate
      * @return A PrincipalId to TimesheetDocumentHeader mapping.
      */
-    Map<String, TimesheetDocumentHeader> getPrincipalDocumehtHeader(List<TKPerson> person, DateTime payBeginDate, DateTime payEndDate);
+    Map<String, TimesheetDocumentHeader> getPrincipalDocumentHeader(List<String> principalIds, DateTime payBeginDate, DateTime payEndDate);
 
     public DocumentRouteHeaderValue getRouteHeader(String documentId);
     

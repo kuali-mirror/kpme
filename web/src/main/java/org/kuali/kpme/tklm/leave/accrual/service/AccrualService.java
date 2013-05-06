@@ -75,7 +75,7 @@ public interface AccrualService {
 	 * @param aDate
 	 * @return
 	 */
-	public LocalDate getPreviousAccrualIntervalDate(String earnInterval, LocalDate aDate);
+	public DateTime getPreviousAccrualIntervalDate(String earnInterval, DateTime aDate);
 	
 	/**
 	 * get the accrual interval date of the next accrual period with given parameters
@@ -83,7 +83,7 @@ public interface AccrualService {
 	 * @param aDate
 	 * @return
 	 */
-	public LocalDate getNextAccrualIntervalDate(String earnInterval, LocalDate aDate);
+	public DateTime getNextAccrualIntervalDate(String earnInterval, DateTime aDate);
 
 	/**
 	 * calculate # of work days in an accrual period
@@ -91,7 +91,7 @@ public interface AccrualService {
 	 * @param aDate
 	 * @return	int
 	 */
-	public int getWorkDaysInAccrualInterval(String earnInterval, LocalDate aDate);
+	public int getWorkDaysInAccrualInterval(String earnInterval, DateTime aDate);
 	
 	public boolean statusChangedSinceLastRun(String principalId);
 

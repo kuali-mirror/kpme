@@ -71,15 +71,12 @@ public class JobTest extends KPMETestCase {
 		payCalendarDates.setHrCalendarEntryId("1001");
 		payCalendarDates.setHrCalendarId("1001");
 
-		java.util.Calendar cal = java.util.Calendar.getInstance();
-		cal.set(java.util.Calendar.MONTH, 7);
-		cal.set(java.util.Calendar.DATE, 1);
-		cal.set(java.util.Calendar.YEAR, 2010);
+		DateTime beginPeriodDateTime = new DateTime(2010, 7, 1, 0, 0, 0);
+		DateTime endPeriodDateTime = new DateTime(2010, 7, 15, 0, 0, 0);
 
-		payCalendarDates.setBeginPeriodDateTime(cal.getTime());
+		payCalendarDates.setBeginPeriodDateTime(beginPeriodDateTime.toDate());
+		payCalendarDates.setEndPeriodDateTime(endPeriodDateTime.toDate());
 		payCalendarDates.setCalendarName(CALENDAR_GROUP);
-		cal.set(java.util.Calendar.DATE, 14);
-		payCalendarDates.setEndPeriodDateTime(cal.getTime());
 
 		KRADServiceLocator.getBusinessObjectService().save(payCalendarDates);
 		Assert.assertTrue(HrServiceLocator.getCalendarEntryService().getCalendarEntry(payCalendarDates.getHrCalendarEntryId()) != null);

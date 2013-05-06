@@ -15,8 +15,6 @@
  */
 package org.kuali.kpme.core.bo.accrualcategory.rule.service;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -42,35 +40,30 @@ public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleServic
     		return null;
     	}
     	List <AccrualCategoryRule> acrList = this.getActiveAccrualCategoryRules(accrualCategory.getLmAccrualCategoryId());
-    	Calendar startCal = new GregorianCalendar();
-    	Calendar endCal = new GregorianCalendar();
     	for(AccrualCategoryRule acr : acrList) {
     		String uot = acr.getServiceUnitOfTime();
     		int startTime = acr.getStart().intValue();
 			int endTime = acr.getEnd().intValue();
 			
-			startCal.setTime(serviceDate.toDate());
-			endCal.setTime(serviceDate.toDate());
+			LocalDate startDate = serviceDate;
+			LocalDate endDate = serviceDate;
     		if(uot.equals("M")) {		// monthly
-    			startCal.add(Calendar.MONTH, startTime);
-    			endCal.add(Calendar.MONTH, endTime);
-    			endCal.add(Calendar.DATE, -1);
+    			startDate = startDate.plusMonths(startTime);
+    			endDate = endDate.plusMonths(endTime).minusDays(1);
     		} else if(uot.endsWith("Y")) { // yearly
-    			startCal.add(Calendar.YEAR, startTime);
-    			endCal.add(Calendar.YEAR, endTime);
-    			endCal.add(Calendar.DATE, -1);
+    			startDate = startDate.plusYears(startTime);
+    			endDate = endDate.plusYears(endTime).minusDays(1);
     		}
     		
     		// max days in months differ, if the date is bigger than the max day, set it to the max day of the month
-			if(startCal.getActualMaximum(Calendar.DAY_OF_MONTH) < startCal.get(Calendar.DATE)) {
-				startCal.set(Calendar.DATE, startCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			if(startDate.getDayOfMonth() > startDate.dayOfMonth().getMaximumValue()) {
+				startDate = startDate.withDayOfMonth(startDate.dayOfMonth().getMaximumValue());
 			}
-			if(endCal.getActualMaximum(Calendar.DAY_OF_MONTH) < endCal.get(Calendar.DATE)) {
-				endCal.set(Calendar.DATE, endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			if(endDate.getDayOfMonth() > endDate.dayOfMonth().getMaximumValue()) {
+				endDate = endDate.withDayOfMonth(endDate.dayOfMonth().getMaximumValue());
 			}
     		
-    		if(currentDate.compareTo(LocalDate.fromCalendarFields(startCal)) >= 0 
-    				&& currentDate.compareTo(LocalDate.fromCalendarFields(endCal)) <=0 ) {
+    		if(currentDate.compareTo(startDate) >= 0 && currentDate.compareTo(endDate) <=0 ) {
     			return acr;
     		}
     	}

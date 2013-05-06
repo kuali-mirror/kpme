@@ -16,8 +16,6 @@
 package org.kuali.hr.time.accrual.service;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -141,29 +139,24 @@ public class AccrualServiceTest extends KPMETestCase {
 		// the planning month of this leave plan is set to 12
 		LocalDate currentDate = LocalDate.now();		
 		LmServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(principal_id, LocalDate.now());		
-		Calendar aCal = Calendar.getInstance();
-		aCal.setTime(currentDate.toDate());
 		int futureSize = 12;
 		int allSize = 17;
-		if(aCal.getActualMaximum(Calendar.DAY_OF_MONTH) == aCal.get(Calendar.DATE)) {
+		if(currentDate.getDayOfMonth() == currentDate.dayOfMonth().getMaximumValue()) {
 			futureSize ++;
 			allSize ++;
 		}
 		
-		aCal.add(Calendar.MONTH, 18);
+		LocalDate startDate = currentDate.minusMonths(5);
+		LocalDate endDate = currentDate.plusMonths(18);
 		
-		Date endDate = new Date(aCal.getTime().getTime());
 		// lookup future leave blocks up to 18 months in the future
-		List<LeaveBlock> leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, currentDate, LocalDate.fromCalendarFields(aCal));
+		List<LeaveBlock> leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, currentDate, endDate);
 		
 		Assert.assertFalse("No leave blocks created by calculateF?utureAccrualUsingPlanningMonth for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		Assert.assertTrue("There should be " + futureSize + " leave blocks for employee 'testUser', not " + leaveBlockList.size(), leaveBlockList.size()== futureSize);
 		
-		aCal.setTime(currentDate.toDate());
-		aCal.add(Calendar.MONTH, -5);
-		Date startDate = new Date(aCal.getTime().getTime());
 		// lookup leave blocks including past and future
-		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, LocalDate.fromDateFields(startDate), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, startDate, endDate);
 		Assert.assertTrue("There should be  " + allSize + " leave blocks for employee 'testUser', not " + leaveBlockList.size(), leaveBlockList.size()== allSize);
 	}
 	
@@ -175,17 +168,14 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testRunAccrualForRuleChanges() {
 		 String principal_id = "testUser2";
-		 Calendar aCal = Calendar.getInstance();
-		 aCal.setTime(START_DATE.toDate());
-		 aCal.add(Calendar.MONTH, 15);
-		 Date endDate = new Date(aCal.getTime().getTime());
+		 LocalDate endDate = START_DATE.toLocalDate().plusMonths(15);
 		 
-		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate.toDateTimeAtStartOfDay(), false);
 		 
-		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		 Assert.assertTrue("There should be 14 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 14);
 		 
 		 // July of 2012 is the 5th month of this user's employment, the accrual rate should be 16
@@ -428,17 +418,14 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testMinReachedProrationFalseAndRuleChange() {
 		 String principal_id = "testUser5";
-		 Calendar aCal = Calendar.getInstance();
-		 aCal.setTime(START_DATE.toDate());
-		 aCal.add(Calendar.MONTH, 18);
-		 Date endDate = new Date(aCal.getTime().getTime());
+		 LocalDate endDate = START_DATE.toLocalDate().plusMonths(18);
 		 
-		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate.toDateTimeAtStartOfDay(), false);
 		 
-		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		 Assert.assertTrue("There should be 17 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 17);
 		 
 		 // 03/31/2012 is the first accrual interval date, service starts on 2012-03-10, so minimum percentage is reached for that month
@@ -477,17 +464,14 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testMinNotReachedProrationFalseAndRuleChange() {
 		String principal_id = "testUser12";
-		Calendar aCal = Calendar.getInstance();
-		aCal.setTime(START_DATE.toDate());
-		aCal.add(Calendar.MONTH, 18);
-		Date endDate = new Date(aCal.getTime().getTime());
+		LocalDate endDate = START_DATE.toLocalDate().plusMonths(18);
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
-		
-		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+
+        LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate.toDateTimeAtStartOfDay(), false);
 		 
-		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		 Assert.assertTrue("There should be 17 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 17);
 		 // 08/31/2013 
 		 DateTime intervalDate = new DateTime(2012, 8, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
@@ -523,17 +507,14 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testMinReachedProrationTrueAndRuleChange() {
 		String principal_id = "testUser13";
-		Calendar aCal = Calendar.getInstance();
-		aCal.setTime(START_DATE.toDate());
-		aCal.add(Calendar.MONTH, 18);
-		Date endDate = new Date(aCal.getTime().getTime());
+		LocalDate endDate = START_DATE.toLocalDate().plusMonths(18);
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate.toDateTimeAtStartOfDay(), false);
 		 
-		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There should be 17 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 17);
 		// 08/31/2013 
 		DateTime intervalDate = new DateTime(2012, 8, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
@@ -570,17 +551,14 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testMinNotReachedProrationTrueAndRuleChange() {
 		String principal_id = "testUser14";
-		Calendar aCal = Calendar.getInstance();
-		aCal.setTime(START_DATE.toDate());
-		aCal.add(Calendar.MONTH, 18);
-		Date endDate = new Date(aCal.getTime().getTime());
+		LocalDate endDate = START_DATE.toLocalDate().plusMonths(18);
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate.toDateTimeAtStartOfDay(), false);
 		// only 16 leave blocks since the first interval 03/31/2012 does not have accruals due to minimum not reached
-		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There should be 16 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 16);
 		
 		// 03/31/2013 
@@ -621,17 +599,14 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testMinNOTReachedProrationFalseAndRuleChange() {
 		 String principal_id = "testUser6";
-		 Calendar aCal = Calendar.getInstance();
-		 aCal.setTime(START_DATE.toDate());	// 02/10/2012	
-		 aCal.add(Calendar.MONTH, 10);	// 12/10/2012
-		 Date endDate = new Date(aCal.getTime().getTime());
+		 LocalDate endDate = START_DATE.toLocalDate().plusMonths(10);
 		 
-		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate.toDateTimeAtStartOfDay(), false);
 		 
-		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		 Assert.assertTrue("There should be 17 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 17);
 		 
 		 // 03/31/2012 is the first accrual interval date, since minimum percentage is not reached (03/25-03/31) and proration=false
@@ -684,17 +659,14 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testNotEligibleForAccrualAdjustment() {
 		String principal_id = "testUser7";
-		Calendar aCal = Calendar.getInstance();
-		 aCal.setTime(START_DATE.toDate());	// 02/20/2012	
-		 aCal.add(Calendar.MONTH, 5);	// 7/20/2012
-		 Date endDate = new Date(aCal.getTime().getTime());
+		LocalDate endDate = START_DATE.toLocalDate().plusMonths(5);
 		 
-		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		 Assert.assertTrue("There should be 4 leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.size() == 4);
 		
-		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate.toDateTimeAtStartOfDay(), false);
 		 
-		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		 Assert.assertTrue("There should be 10 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 10);
 		 
 		 // 03/31/2012, 
@@ -755,17 +727,14 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testAccrualCategoryChanges() {
 		String principal_id = "testUser8";
-		Calendar aCal = Calendar.getInstance();
-		 aCal.setTime(START_DATE.toDate());	// 02/20/2012	
-		 aCal.add(Calendar.MONTH, 6);	// 8/20/2012
-		 Date endDate = new Date(aCal.getTime().getTime());
+		LocalDate endDate = START_DATE.toLocalDate().plusMonths(6);
 		 
-		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		 LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate.toDateTimeAtStartOfDay(), false);
 		 
-		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		 Assert.assertTrue("There should be 5 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 5);		 
 		 
 		 // 03/31/2012, 
@@ -803,15 +772,12 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testLeaveBlocksWithLeaveCalendarDocId() {
 		String principal_id = "testUser15";
-		Calendar aCal = Calendar.getInstance();
-		aCal.setTime(START_DATE.toDate());
-		aCal.add(Calendar.MONTH, 6);
-		Date endDate = new Date(aCal.getTime().getTime());
+		LocalDate endDate = START_DATE.toLocalDate().plusMonths(6);
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate.toDateTimeAtStartOfDay(), false);
 		
 		// 04/30/2012 
 		DateTime intervalDate = new DateTime(2012, 4, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
@@ -834,17 +800,14 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testPayCalAsEarnInterval() {
 		String principal_id = "testUser16";
-		Calendar aCal = Calendar.getInstance();
-		aCal.setTime(START_DATE.toDate());
-		aCal.add(Calendar.MONTH, 6);
-		Date endDate = new Date(aCal.getTime().getTime());
+		LocalDate endDate = START_DATE.toLocalDate().plusMonths(6);
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate.toDateTimeAtStartOfDay(), false);
 		
-		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There should be 11 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 11);	
 		
 		// 03/31/2012, testAC19 has proration= false, minimum percentage = 0, so whole FTE of 24 hours is given to the first interval
@@ -887,17 +850,14 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testPayCalAsEarnIntervalProrationFalseMinReached() {
 		String principal_id = "testUser17";
-		Calendar aCal = Calendar.getInstance();
-		aCal.setTime(START_DATE.toDate());
-		aCal.add(Calendar.MONTH, 6);
-		Date endDate = new Date(aCal.getTime().getTime());
+		LocalDate endDate = START_DATE.toLocalDate().plusMonths(6);
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate.toDateTimeAtStartOfDay(), false);
 		
-		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There should be 11 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 11);	
 		
 		// 03/31/2012, testAC20 has proration= true, minimum percentage = 0.5, so only 12 hours is given to the first interval
@@ -939,17 +899,14 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testWeeklyAsEarnInterval() {
 		String principal_id = "testUser18";
-		Calendar aCal = Calendar.getInstance();
-		aCal.setTime(START_DATE.toDate());
-		aCal.add(Calendar.MONTH, 6);
-		Date endDate = new Date(aCal.getTime().getTime());
+		LocalDate endDate = START_DATE.toLocalDate().plusMonths(6);
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate.toDateTimeAtStartOfDay(), false);
 		
-		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There should be 22 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 22);	
 		
 		// 03/24/2012
@@ -990,17 +947,14 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testYearlyAsEarnInterval() {
 		String principal_id = "testUser19";
-		Calendar aCal = Calendar.getInstance();
-		aCal.setTime(START_DATE.toDate());
-		aCal.add(Calendar.MONTH, 18);
-		Date endDate = new Date(aCal.getTime().getTime());
+		LocalDate endDate = START_DATE.toLocalDate().plusMonths(18);
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate.toDateTimeAtStartOfDay(), false);
 		
-		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There should be 1 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 1);
 		
 		// 12/31/2013
@@ -1020,17 +974,14 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testDailyAsEarnInterval() {
 		String principal_id = "testUser20";
-		Calendar aCal = Calendar.getInstance();
-		aCal.setTime(START_DATE.toDate());
-		aCal.add(Calendar.MONTH, 3);
-		Date endDate = new Date(aCal.getTime().getTime());
+		LocalDate endDate = START_DATE.toLocalDate().plusMonths(3);
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		
-		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate.toDateTimeAtStartOfDay(), false);
 		
-		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There should be 44 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 44);
 		
 		// 03/20/2012
@@ -1062,17 +1013,14 @@ public class AccrualServiceTest extends KPMETestCase {
 	 */
 	public void testSSTOBankedOrTransferred() {
 		String principal_id = "testUser21";
-		Calendar aCal = Calendar.getInstance();
-		aCal.setTime(START_DATE.toDate());
-		aCal.add(Calendar.MONTH, 3);
-		Date endDate = new Date(aCal.getTime().getTime());
+		LocalDate endDate = START_DATE.toLocalDate().plusMonths(3);
 		 
-		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		List<LeaveBlock> leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There should be 1 leave blocks for princiapl id before runAccrual" + principal_id, leaveBlockList.size() == 2);
 		
-		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, new DateTime(endDate), false);
+		LmServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate.toDateTimeAtStartOfDay(), false);
 		
-		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), LocalDate.fromDateFields(endDate));
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), endDate);
 		Assert.assertTrue("There should be 4 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 4);
 		
 		// 04/10/2012

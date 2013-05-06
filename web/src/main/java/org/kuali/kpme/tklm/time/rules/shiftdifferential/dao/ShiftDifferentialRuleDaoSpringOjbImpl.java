@@ -57,6 +57,7 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseO
                 .add("hrSalGroup")
                 .add("payGrade")
                 .add("pyCalendarGroup")
+                .add("earnCode")
                 .build();
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(ShiftDifferentialRule.class, asOfDate, fields, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(ShiftDifferentialRule.class, fields, false));

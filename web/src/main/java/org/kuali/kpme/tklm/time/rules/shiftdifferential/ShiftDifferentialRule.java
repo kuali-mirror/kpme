@@ -299,7 +299,7 @@ public class ShiftDifferentialRule extends TkRule {
 
 	@Override
 	public String getUniqueKey() {
-		return location + "_" + hrSalGroup + "_" + payGrade;
+		return location + "_" + hrSalGroup + "_" + payGrade + "_" + earnCode;
 	}
 
 	@Override
@@ -319,5 +319,60 @@ public class ShiftDifferentialRule extends TkRule {
 	public void setHistory(boolean history) {
 		this.history = history;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((earnCode == null) ? 0 : earnCode.hashCode());
+		result = prime * result
+				+ ((hrSalGroup == null) ? 0 : hrSalGroup.hashCode());
+		result = prime * result
+				+ ((location == null) ? 0 : location.hashCode());
+		result = prime * result
+				+ ((payGrade == null) ? 0 : payGrade.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ShiftDifferentialRule other = (ShiftDifferentialRule) obj;
+		if (earnCode == null) {
+			if (other.earnCode != null)
+				return false;
+		} else if (!earnCode.equals(other.earnCode))
+			return false;
+		if (hrSalGroup == null) {
+			if (other.hrSalGroup != null)
+				return false;
+		} else if (!hrSalGroup.equals(other.hrSalGroup))
+			return false;
+		if (location == null) {
+			if (other.location != null)
+				return false;
+		} else if (!location.equals(other.location))
+			return false;
+		if (payGrade == null) {
+			if (other.payGrade != null)
+				return false;
+		} else if (!payGrade.equals(other.payGrade))
+			return false;
+		return true;
+	}
+	
+	
 
 }

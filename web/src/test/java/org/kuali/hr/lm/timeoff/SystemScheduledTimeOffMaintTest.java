@@ -15,9 +15,7 @@
  */
 package org.kuali.hr.lm.timeoff;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -28,6 +26,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.kpme.core.util.TKUtils;
 
 public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 	private static final String EFFECTIVE_DATE_REQUIRED = "Effective Date (Effective Date) is a required field.";
@@ -119,11 +118,10 @@ public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 	  	HtmlForm form = page.getFormByName("KualiForm");
 	  	Assert.assertNotNull("Search form was missing from page.", form); 	
 	  	
-	  	Calendar validDate = Calendar.getInstance();
 	  	// add 150 days in the future, need to add dates instead of month 
 	  	// because if we happen to be running the test on the 31 of a month, some future months do not have 31st 
-	  	validDate.add(Calendar.DATE, 150);   	
-	  	String validDateString = new SimpleDateFormat("MM/dd/yyyy").format(validDate.getTime());
+	  	LocalDate validDate = LocalDate.now().plusDays(150);
+	  	String validDateString = TKUtils.formatDate(validDate);
 
         setFieldValue(page, "document.documentHeader.documentDescription", "something clever...");
 	  	setFieldValue(page, "document.newMaintainableObject.effectiveDate", validDateString);
@@ -149,11 +147,10 @@ public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 	  	HtmlForm form = page.getFormByName("KualiForm");
 	  	Assert.assertNotNull("Search form was missing from page.", form); 	
 	  	
-	  	Calendar validDate = Calendar.getInstance();
 	  	// add 150 days in the future, need to add dates instead of month 
-	  	// because if we happen to be running the test on the 31 of a month, some future months do not have 31st 
-	  	validDate.add(Calendar.DATE, 150);   	
-	  	String validDateString = new SimpleDateFormat("MM/dd/yyyy").format(validDate.getTime());
+	  	// because if we happen to be running the test on the 31 of a month, some future months do not have 31st
+	  	LocalDate validDate = LocalDate.now().plusDays(150);
+	  	String validDateString = TKUtils.formatDate(validDate);
 	  	
 	  	setFieldValue(page, "document.newMaintainableObject.effectiveDate", validDateString);
 	  	setFieldValue(page, "document.newMaintainableObject.earnCode", "testLCL"); 

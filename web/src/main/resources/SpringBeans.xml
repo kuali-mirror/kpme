@@ -124,10 +124,6 @@
         <property name="serviceName" value="mailer" />
     </bean>
     
-    <bean id="personService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="personService" />
-    </bean>
-    
     <bean id="parameterService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="parameterService" />
     </bean>
@@ -336,8 +332,6 @@
     <bean id="locationDao" class="org.kuali.kpme.core.bo.location.dao.LocationDaoSpringObjImpl" parent="platformAwareDao" />
 
     <bean id="payGradeDao" class="org.kuali.kpme.core.bo.paygrade.dao.PayGradeDaoSpringObjImpl" parent="platformAwareDao" />
-    
-    <bean id="tkPersonDao" class="org.kuali.kpme.core.bo.person.dao.PersonDaoSpringOjbImpl" parent="platformAwareDao" />
     
     <bean id="missedPunchDao" class="org.kuali.kpme.tklm.time.missedpunch.dao.MissedPunchDaoSpringOjbImpl" parent="platformAwareDao" />
     
@@ -549,7 +543,7 @@
         <property name="payGradeDao" ref="payGradeDao"/>
     </bean>
     
-    <bean id="tkPersonService" class="org.kuali.kpme.core.bo.person.service.PersonServiceImpl">
+    <bean id="tkPersonService" class="org.kuali.hr.time.person.service.PersonServiceImpl">
         <property name="personDao" ref="tkPersonDao"/>
     </bean>
 
@@ -657,7 +651,6 @@
     <bean id="kpmeNotificationService" class="org.kuali.kpme.core.service.notification.KPMENotificationServiceImpl">
         <property name="mailer" ref="mailer" />
         <property name="parameterService" ref="parameterService" />
-        <property name="personService" ref="personService" />
     </bean>
 
     <bean id="leaveRequestDocumentService" class="org.kuali.kpme.tklm.leave.request.service.LeaveRequestDocumentServiceImpl">

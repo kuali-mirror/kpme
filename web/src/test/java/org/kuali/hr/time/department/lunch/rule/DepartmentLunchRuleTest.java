@@ -16,7 +16,6 @@
 package org.kuali.hr.time.department.lunch.rule;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -69,8 +68,6 @@ public class DepartmentLunchRuleTest extends KPMETestCase {
 		deptLunchRule.setActive(true);
 		deptLunchRule.setDept("TEST-DEPT");
 		deptLunchRule.setWorkArea(1234L);
-		Calendar cal = Calendar.getInstance();
-		cal.set(2010, 1, 1);
 		deptLunchRule.setEffectiveLocalDate(JAN_AS_OF_DATE.toLocalDate());
 		deptLunchRule.setJobNumber(1L);
 		deptLunchRule.setPrincipalId("edna");

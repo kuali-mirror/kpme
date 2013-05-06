@@ -15,6 +15,18 @@
  */
 package org.kuali.hr.lm.leave.approval.service;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.joda.time.LocalDate;
+import org.junit.Assert;
+import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
+import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.leave.approval.web.ApprovalLeaveSummaryRow;
+import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
+
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -24,18 +36,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.joda.time.LocalDate;
-import org.junit.Assert;
-import org.junit.Test;
-import org.kuali.hr.test.KPMETestCase;
-import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.bo.person.TKPerson;
-import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.leave.approval.web.ApprovalLeaveSummaryRow;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-
 public class LeaveApprovalServiceTest extends KPMETestCase {
 	
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yy");
@@ -44,16 +44,24 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 	public void testGetLeaveApprovalSummaryRows() {
 		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<Date> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
-		List<String> ids = new ArrayList<String>();
-		ids.add("admin");
-		List<TKPerson> persons = HrServiceLocator.getPersonService().getPersonCollection(ids);
-		
-		List<ApprovalLeaveSummaryRow> rows = LmServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows(persons, ce, leaveSummaryDates);
+		List<String> testPrincipalIds = new ArrayList<String>();
+		testPrincipalIds.add("admin");
+		List<ApprovalLeaveSummaryRow> rows = LmServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows(testPrincipalIds, ce, leaveSummaryDates);
 		Assert.assertTrue("Rows should not be empty. ", CollectionUtils.isNotEmpty(rows));
 		
 		ApprovalLeaveSummaryRow aRow = rows.get(0);
 		Map<Date, Map<String, BigDecimal>> aMap = aRow.getEarnCodeLeaveHours();
 		Assert.assertTrue("Leave Approval Summary Rows should have 14 items, not " + aMap.size(), aMap.size() == 14);
+	}
+	
+	@Test
+	public void testGetPrincipalDocumentHeader() {
+		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+		List<String> testPrincipalIds = new ArrayList<String>();
+		testPrincipalIds.add("admin");
+		Map<String, LeaveCalendarDocumentHeader> lvCalHdr = LmServiceLocator.getLeaveApprovalService().getPrincipalDocumentHeader(testPrincipalIds, ce.getBeginPeriodFullDateTime(), ce.getEndPeriodFullDateTime());
+		Assert.assertTrue("Header should not be empty. ", CollectionUtils.isNotEmpty(lvCalHdr.values()));
+
 	}
 	
 	@Test
@@ -123,5 +131,6 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 		Assert.assertTrue("There should be 1 principal ids for workArea '2222', not " + idList.size(), idList.size() == 1);
 		Assert.assertTrue("Principal id for workArea '2222' should be principalB, not " + idList.get(0), idList.get(0).equals("1022"));
 	}
+
 
 }

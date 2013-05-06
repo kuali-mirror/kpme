@@ -30,7 +30,7 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.kew.api.note.Note;
 
 public interface LeaveApprovalService {
-	public List<ApprovalLeaveSummaryRow> getLeaveApprovalSummaryRows(List<TKPerson> persons, CalendarEntry payCalendarEntry, List<Date> leaveSummaryDates);
+	public List<ApprovalLeaveSummaryRow> getLeaveApprovalSummaryRows(List<String> principalIds, CalendarEntry payCalendarEntry, List<Date> leaveSummaryDates);
 	
 	public Map<Date, Map<String, BigDecimal>> getEarnCodeLeaveHours(List<LeaveBlock> leaveBlocks, List<Date> leaveSummaryDates);
 	
@@ -53,7 +53,7 @@ public interface LeaveApprovalService {
     public List<CalendarEntry> getAllLeavePayCalendarEntriesForApprover(String principalId, LocalDate currentDate);
 
     /*
-     * remove the employees with no jobs that are eligible for leave fromt the given list of principal ids
+     * remove the employees with no jobs that are eligible for leave from the given list of principal ids
      * 
      * @param principalIds
      * 
@@ -68,7 +68,7 @@ public interface LeaveApprovalService {
     * @param payEndDate
     * @return A PrincipalId to LeaveCalendarDocumentHeader mapping.
     */
-   public Map<String, LeaveCalendarDocumentHeader> getPrincipalDocumehtHeader(List<TKPerson> persons, DateTime payBeginDate, DateTime payEndDate);
+   public Map<String, LeaveCalendarDocumentHeader> getPrincipalDocumentHeader(List<String> principalIds, DateTime payBeginDate, DateTime payEndDate);
    
    /**
     * 
@@ -89,5 +89,5 @@ public interface LeaveApprovalService {
     * @return
     */		   
    public List<String> getLeavePrincipalIdsWithSearchCriteria(
-			List<String> workAreaList, String calendarGroup, LocalDate effdt, LocalDate beginDate, LocalDate endDate);
+           List<String> workAreaList, String calendarGroup, LocalDate effdt, LocalDate beginDate, LocalDate endDate);
 }
