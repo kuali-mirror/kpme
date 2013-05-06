@@ -33,7 +33,7 @@
 	        <ref bean="PositionQualifierType-type"/>
 	        <ref bean="PositionQualifierType-descr"/>
 	        <ref bean="PositionQualifierType-typeValue"/>
-	        <ref bean="PositionQualifierType-selectValues"/>	       
+	        <ref bean="PositionQualifierType-selectValues"/>	
 	        <ref bean="PositionQualifierType-active"/>
 		 </list>
 	    </property>
@@ -134,7 +134,7 @@
  	<bean id="PositionQualifierType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
    		<property name="name" value="active"/>
   	</bean> 
-  	
+
   	
   	 
 
@@ -240,9 +240,14 @@
 <!-- 						    </list> -->
 <!-- 						  </property> -->
 <!-- 						</bean> -->
-			         	
-			         	 <bean parent="Uif-InputField" p:propertyName="selectValues" p:constraintText="Comma delimited list of qualification values.">
-<!-- 			         	 	<property name="quickfinder"> -->
+<!-- 					    <bean parent="Uif-PrimaryActionButton" p:actionLabel="Add Select Value" p:actionScript="alert('You clicked a button');"/> -->
+					       		
+<!-- 				        </list> -->
+<!-- 			        </property> -->
+<!--    				</bean> -->
+		         	
+			         	 <bean parent="Uif-InputField" p:propertyName="selectValues"
+			         	 		p:constraintText="Comma delimited list of qualification values.">
 <!-- 						       	<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue"  -->
 <!-- 						       		p:fieldConversions="vlName:selectValues"/> -->
 <!-- 						   	</property> -->
@@ -260,17 +265,15 @@
 								              <property name="constraint">
 								                  <bean parent="RequiredConstraint" />
 								              </property>
+<!-- 								              <property name="disabled"> -->
+<!-- 								              	<value>false</value> -->
+<!-- 								              </property> -->
 								          </bean>
 							         	 </list>
 							         </property>
 						         </bean>
 					        </property>
 				        </bean>
-<!-- 					    <bean parent="Uif-PrimaryActionButton" p:actionLabel="Add Select Value" p:actionScript="alert('You clicked a button');"/> -->
-					       		
-<!-- 				        </list> -->
-<!-- 			        </property> -->
-<!--    				</bean> -->
 		       
 		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
             </list>

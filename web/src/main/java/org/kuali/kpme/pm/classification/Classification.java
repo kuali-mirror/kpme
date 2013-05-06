@@ -1,10 +1,13 @@
-package org.kuali.kpme.pm.positionclass;
+package org.kuali.kpme.pm.classification;
 
 import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
 
+import org.kuali.rice.location.impl.campus.CampusBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 
-public class PositionClass extends HrBusinessObject {
+public class Classification extends HrBusinessObject {
 
 	private static final long serialVersionUID = 1L;
 
@@ -13,9 +16,9 @@ public class PositionClass extends HrBusinessObject {
 	private String classificationTitle;
 	private String institution;
 	private String campus;
+	// salary group fields
 	private String salaryGroup;
 	private BigDecimal percentTime;
-	private Integer workMonths;
 	private String benefitsEligible;
 	private String leaveEligible;
 	private String leavePlan;
@@ -23,11 +26,13 @@ public class PositionClass extends HrBusinessObject {
 	private String positionType;
 	private String poolEligible;
 	private String tenureEligible;
-	// list of duties
-	// list of position qualifier types
-	// list of position flags
+	// list of duties, need to create Duty class and maint xml for it, then add the maint section to PostionClass maint doc
+	// list of Position Class Qualifications, need to create the BO, add it's maint section to PositionClass maint doc
+	private List<ClassificationQualification> qualificationList = new LinkedList<ClassificationQualification>(); 
+	// list of position flags, need to add flag maint section to Position maint doc
 	private String externalReference;
-		
+	
+	private CampusBo campusObj;
 	
 	@Override
 	public String getId() {
@@ -42,14 +47,6 @@ public class PositionClass extends HrBusinessObject {
 	@Override
 	protected String getUniqueKey() {
 		return this.getPositionClass();
-	}
-
-	public String getPmPositionClassId() {
-		return pmPositionClassId;
-	}
-
-	public void setPmPositionClassId(String pmPositionClassId) {
-		this.pmPositionClassId = pmPositionClassId;
 	}
 
 	public String getPositionClass() {
@@ -98,14 +95,6 @@ public class PositionClass extends HrBusinessObject {
 
 	public void setPercentTime(BigDecimal percentTime) {
 		this.percentTime = percentTime;
-	}
-
-	public Integer getWorkMonths() {
-		return workMonths;
-	}
-
-	public void setWorkMonths(Integer workMonths) {
-		this.workMonths = workMonths;
 	}
 
 	public String getBenefitsEligible() {
@@ -170,6 +159,31 @@ public class PositionClass extends HrBusinessObject {
 
 	public void setExternalReference(String externalReference) {
 		this.externalReference = externalReference;
+	}
+
+	public List<ClassificationQualification> getQualificationList() {
+		return qualificationList;
+	}
+
+	public void setQualificationList(
+			List<ClassificationQualification> qualificationList) {
+		this.qualificationList = qualificationList;
+	}
+
+	public String getPmPositionClassId() {
+		return pmPositionClassId;
+	}
+
+	public void setPmPositionClassId(String pmPositionClassId) {
+		this.pmPositionClassId = pmPositionClassId;
+	}
+
+	public CampusBo getCampusObj() {
+		return campusObj;
+	}
+
+	public void setCampusObj(CampusBo campusObj) {
+		this.campusObj = campusObj;
 	}
 
 }

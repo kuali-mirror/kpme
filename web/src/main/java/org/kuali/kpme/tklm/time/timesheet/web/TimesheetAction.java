@@ -34,9 +34,12 @@ import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TimesheetAction extends KPMEAction {
 
@@ -79,7 +82,10 @@ public class TimesheetAction extends KPMEAction {
         } else {
             // Default to whatever is active for "today".
             if (payCalendarEntry == null) {
-                throw new RuntimeException("No pay calendar entry for " + viewPrincipal);
+                Principal prin = KimApiServiceLocator.getIdentityService().getPrincipal(viewPrincipal);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "clock.error.missing.payCalendar", prin.getPrincipalName());
+                return super.execute(mapping, form, request, response);
+                //throw new RuntimeException("No pay calendar entry for " + viewPrincipal);
             }
             td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, payCalendarEntry);
         }

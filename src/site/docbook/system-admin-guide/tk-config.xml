@@ -1,5 +1,565 @@
 <?xml version='1.0' encoding='UTF-8'?> 
 <chapter xml:id="tk-config" xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns="http://docbook.org/ns/docbook" version="5.0">
-    <title>Timekeeping Configuration</title>
+	xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>TimeKeeping Configuration</title>
+    <para>This chapter discusses all rules and configurations for Timekeeping module of KPME. All
+        rules and configurations can be accessed through maintenance documents listed under
+        <emphasis role="bold">Time Keeping</emphasis> section on the maintenance tab. </para>
+    <section>
+        <title>Clock Location Rule</title>
+        <para>This feature enables administrates to define approved IP addresses for clock entry.
+            Clock location rules can be set system wide, or as granular as a specific employee job
+            record. The most specific rule for that assignment will be enforced. </para>
+        <important>
+            <para>A clock location rule will not restrict the clock action from an unapproved IP but
+                will add a note to the timesheet that the clock action was from an "unapproved
+                location".</para>
+        </important>
+        <para>Regardless of a rule, the IP address is captured on every clock action and can be seen
+            in the Clock Log Inquiry page.</para>
+        <para> Table below shows fields used to record and maintain a clock location rule along with
+            their description.</para>
+        <table>
+            <title>Clock Location Rule Document Fields</title>
+            <tgroup cols="2">
+                <thead>
+                    <row>
+                        <entry>fields</entry>
+                        <entry>description</entry>
+                    </row>
+
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Effective Date</entry>
+                        <entry>The Effective date for which the IP address validation will be
+                            effective. This date needs to be on/prior to the date the rule to takes
+                            effect. When editing, it will determine the date the new values go into
+                            effect.</entry>
+                    </row>
+                    <row>
+                        <entry>Department</entry>
+                        <entry>If a department is defined, only entries associated with a job in
+                            that department will be subject to IP address validation. Wild card of
+                            (%) is acceptable as input for this field. Validates against the
+                            department table.</entry>
+                    </row>
+                    <row>
+                        <entry>Work Area</entry>
+                        <entry>If a work area is defined, only entries associated with a job in this
+                            work area will be subject to IP address validation. Wild card of (%) is
+                            acceptable input. Validates against the work area table.</entry>
+                    </row>
+                    <row>
+                        <entry>Principal ID</entry>
+                        <entry>If a principal id is defined, only this specific employee will be
+                            subject to IP address validation. Wild card of (%) is acceptable as
+                            input for this field.</entry>
+                    </row>
+                    <row>
+                        <entry>Job Number</entry>
+                        <entry>If a job number is defined, only this specific employees job will be
+                            subject to IP address validation. Wild card of (%) is acceptable as
+                            input.</entry>
+                    </row>
+                    <row>
+                        <entry>IP Address</entry>
+                        <entry>The IP Address to be used for validation. A wild card can be placed
+                            at the end of a partial IP address to represent a range of IP addresses.
+                            To grant exceptions to rules in effect, wild card the IP address
+                            field.</entry>
+                    </row>
+                    <row>
+                        <entry>Active</entry>
+                        <entry>Status of the IP validation rule, checked indicates Active, unchecked
+                            indicates Inactive.</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+        <tip>
+            <para> To eliminate a clock location rule, insert a new effective dated row and uncheck
+                the active box. </para>
+        </tip>
+    </section>
+    <section>
+        <title>Daily Overtime Rule</title>
+        <para> The Daily Overtime Rule is used to define the parameters by which daily overtime is
+            calculated. This calculation runs prior to the weekly overtime calculation and can be
+            limited to specific populations by paytype, location, dept, and work area. All of these
+            parameters can be replaced by a wild card value (%) allowing the user to designate a
+            rule at different levels. </para>
+        <para> The table below lists all fields on the Daily Overtime Rule Document along with their
+            descriptions. </para>
+        <table>
+            <title>Daily Overtime Rule Document fields</title>
+            <tgroup cols="2">
+                <thead>
+                    <row>
+                        <entry>fields</entry>
+                        <entry>description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Effective Date</entry>
+                        <entry>Effective date for which the daily overtime rule will be effective.
+                            This date needs to be on/prior to the date the rule to takes effect.
+                            When editing, it will determine the date the new values go into
+                            effect.</entry>
+                    </row>
+                    <row>
+                        <entry>Location</entry>
+                        <entry>If a location is defined, only entries associated with a job in this
+                            location will be subject to the defined rule. Validates against the
+                            location table.</entry>
+                    </row>
+                    <row>
+                        <entry>Department</entry>
+                        <entry>If a department is defined, only entries associated with a job in
+                            this department will be subject to the defined rule. Validates against
+                            the department table.</entry>
+                    </row>
+                    <row>
+                        <entry>Work Area</entry>
+                        <entry>If a work area is defined, only entries associated with a job that
+                            has this work area will be subject. Validates against the work area
+                            table.</entry>
+                    </row>
+                    <row>
+                        <entry>Max Gap Minutes</entry>
+                        <entry>Used to identify a maximum gap of time in minutes that is allowed
+                            before daily overtime is considered invalid. For example, a rule that
+                            states daily overtime is given for working over 8 hours with a max gap
+                            of 30 minutes implies that employee must work a total of 8 hours in the
+                            day and have a gap of no more than 30 minutes in the reporting of those
+                            hours to be eligible.</entry>
+                    </row>
+                    <row>
+                        <entry>Shift Hours</entry>
+                        <entry>The number of hours which, if exceeded, result in daily
+                            overtime.</entry>
+                    </row>
+                    <row>
+                        <entry>Convert to Earn Code</entry>
+                        <entry>The earn code which hours will be converted to as overtime. Only earn
+                            codes that are designated as an Overtime Earn Code can be used (see Earn
+                            Code Maintenance Document).</entry>
+                    </row>
+                    <row>
+                        <entry>Convert from Earn Group</entry>
+                        <entry>The earn group defined (using the Earn Group maint doc) which
+                            contains the list of earn codes that are summed to the daily max hours
+                            to be converted to overtime.</entry>
+                    </row>
+                    <row>
+                        <entry>Active</entry>
+                        <entry>Status of the rule, checked indicates Active, unchecked indicates
+                            Inactive. If the rule is being eliminated, insert a new effective dated
+                            row and uncheck the active box.</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </section>
+    <section>
+        <title>Weekly Overtime Rule</title>
+        <para> The Weekly Ovetime Rule defines the steps necessary to calculate weekly overtime.
+            This maintenance document page allows the user to establish which earn codes count
+            towards the calculation of overtime hours, what overtime earn code to use and where the
+            overtime hours should be applied. This maintenance document is different because there
+            is only one Weekly Overtime rule in effect at a time. </para>
+        <note>
+            <para>There is no create new link, the link directs straight to the page to add steps to
+                or edit the existing steps.</para>
+        </note>
+        <table>
+            <title>Weekly Overtime Rule Document fields</title>
+            <tgroup cols="2">
+                <thead>
+                    <row>
+                        <entry>field</entry>
+                        <entry>description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Effective Date</entry>
+                        <entry>Effective date for which the Weekly Overtime Rule will be effective.
+                            This date needs to be on or prior to the date the rule to take effect.
+                            When editing, it will determine the date the new values go into
+                            effect.</entry>
+                    </row>
+                    <row>
+                        <entry>Max Hours Earn Group</entry>
+                        <entry>The earn group defined (using the Earn Group maintenance document) to
+                            represent the codes which count towards the calculation of
+                            overtime.</entry>
+                    </row>
+                    <row>
+                        <entry>Convert from Earn Group</entry>
+                        <entry>The earn group defined to represent the earn codes to be converted to
+                            overtime. If there is only one step in overtime calulcation, this will
+                            be the same earn group as max hours earn group. If there are multiple
+                            steps, this will be an earn group which is a subset of the max hours
+                            earn group.</entry>
+                    </row>
+                    <row>
+                        <entry>Convert to Earn Code</entry>
+                        <entry>The default earn code which other earnings will be converted to (ex:
+                            OVT). Only earn codes that are designated as an Overtime Earn Code can
+                            be used (see Earn Code Maintenance Document). This earn code is used for
+                            overtime hours unless the Work Area for the Assignment has a designated
+                            Default Overtime Earn Code (see Work Area Maintenance Document).</entry>
+                    </row>
+                    <row>
+                        <entry>Step</entry>
+                        <entry>This enables the definition of multiple steps in the hours conversion
+                            for overtime.</entry>
+                    </row>
+                    <row>
+                        <entry>Max Hours</entry>
+                        <entry>Define the maximum hours in an FLSA period for overtime calculation
+                            (ex: 40)</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </section>
+    <section>
+        <title> Department Lunch Deduction Rule </title>
+        <para>The Department Lunch Deduction rule is used to define automatic lunch deductions. This
+            rule only applies to clock entry employees and rules can be set system wide, or as
+            granular as on a specific employee job record. The most specific rule for a given
+            assignment will be enforced. Employees subject to the automatic lunch time deduction
+            will not see the <emphasis role="bold">lunch in/out</emphasis> buttons (even if that
+            system setting is enabled).</para>
+        <table>
+            <title>Department Lunch Deduction Rule Document fields</title>
+            <tgroup cols="2">
+                <thead>
+                    <row>
+                        <entry>field</entry>
+                        <entry>description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Effective Date</entry>
+                        <entry>The Effective date for which the automatic lunch deduction rule will
+                            be effective. This date needs to be on/prior to the date the rule to
+                            take effect. When editing, it will determine the date the new values go
+                            into effect.</entry>
+                    </row>
+                    <row>
+                        <entry>Department</entry>
+                        <entry>If a department is defined, only entries associated with a job in
+                            this department will be subject to the automatic lunch deduction. Wild
+                            card of (%) is acceptable as input.</entry>
+                    </row>
+                    <row>
+                        <entry>Work Area</entry>
+                        <entry>If a work area is defined, only entries associated with a job in this
+                            work area will be subject to the automatic lunch deduction. Wild card of
+                            (%) is acceptable as input.</entry>
+                    </row>
+                    <row>
+                        <entry>Principal ID</entry>
+                        <entry>If a principal id is defined, only this specific employee will be
+                            subject to the automatic lunch deduction. Wild card of (%) is acceptable
+                            as input.</entry>
+                    </row>
+                    <row>
+                        <entry>Job Number</entry>
+                        <entry>If job number is defined, only this specific employees job will be
+                            subject to the automatic lunch deduction. Wild card of (%) is acceptable
+                            as input.</entry>
+                    </row>
+                    <row>
+                        <entry>Lunch Deduction Minutes</entry>
+                        <entry>The amount of minutes to be deducted as a lunch.</entry>
+                    </row>
+                    <row>
+                        <entry>Shift Hours</entry>
+                        <entry>The number of hours which must be met in order for the deduction to
+                            occur.</entry>
+                    </row>
+                    <row>
+                        <entry>Active</entry>
+                        <entry>Status of the automatic lunch deduction rule, checked indicates
+                            Active, unchecked indicates Inactive.</entry>
+                    </row>
+                    <row>
+                        <entry>User Principal ID</entry>
+                        <entry>User which set up the lunch rule.</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+        <tip>
+            <para>To elimiante an existing rule, insert a new effective dated row and uncheck the
+                active box.</para>
+        </tip>
+    </section>
+    <section>
+        <title>Grace Period Rule</title>
+        <para>The Grace Period Rule is an optional rule that results in the system rounding clock
+            in/outs times based on the chosen factor. This rule rounds up and down based on the
+            clock action time. The benefit of having a graec period rule is that it eliminates small
+            fractions of time and makes calculations less complicated for those employees trying to
+            reach standard hours for the week. It also alleviates the rush to clock in or out right
+            on the hour. </para>
+        <table>
+            <title>Grace period rule</title>
+            <tgroup cols="2">
+                <thead>
+                    <row>
+                        <entry>Rounded Time</entry>
+                        <entry>Actual Clock in time</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>:00</entry>
+                        <entry>:57, :58, :59, <emphasis role="bold">:00</emphasis>, :01, :02</entry>
+                    </row>
+                    <row>
+                        <entry>:06</entry>
+                        <entry>:03, :04, :05, <emphasis role="bold">:06</emphasis>, :07, :08</entry>
+                    </row>
+                    <row>
+                        <entry>:12</entry>
+                        <entry>:09, :10, :11, <emphasis role="bold">:12</emphasis>, :13, :14</entry>
+                    </row>
+                    <row>
+                        <entry>:18</entry>
+                        <entry>:15, :16, :17, <emphasis role="bold">:18</emphasis>, :19, :20</entry>
+                    </row>
+                    <row>
+                        <entry>:24</entry>
+                        <entry>:21, :22, :23, <emphasis role="bold">:24</emphasis>, :25, :26</entry>
+                    </row>
+                    <row>
+                        <entry>:30</entry>
+                        <entry>:27, :28, :29, <emphasis role="bold">:30</emphasis>, :31, :32</entry>
+                    </row>
+                    <row>
+                        <entry>:36</entry>
+                        <entry>:33, :34, :35, <emphasis role="bold">:36</emphasis>, :37, :38</entry>
+                    </row>
+                    <row>
+                        <entry>:42</entry>
+                        <entry>:39, :40, :41, <emphasis role="bold">:42</emphasis>, :43, :44</entry>
+                    </row>
+                    <row>
+                        <entry>:48</entry>
+                        <entry>:45, :46, :47, <emphasis role="bold">:48</emphasis>, :49, :50</entry>
+                    </row>
+                    <row>
+                        <entry>:54</entry>
+                        <entry>:51, :52, :53, <emphasis role="bold">:54</emphasis>, :55, :56</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </section>
+    <section>
+        <title>Shift Differential Rule</title>
+        <para>The Shift Differential Rule defines rules for assigning shift differentials. This rule
+            applies shift automatically to earn codes when clock times are specified. If an earn
+            code is entered with an hours amount (ex: Sick), the rule would not assign shift. Rules
+            can be set system wide, or on specific populations (most specific rule for that
+            assignment will be enforced). The rule will add a specified earn code to the eligible
+            shift hours. Different earn codes are needed to result in different shift amounts (eg
+            each earn code attached to a shift rule has its own associated rate for payment in
+            Payroll). The shift differential rule only assigns the additional earnings codes to
+            shift hours within the specified shift time period. Any hours outside of the shift
+            period will not be assigned shift.</para>
+        <table>
+            <title>Shift Differential Rule</title>
+            <tgroup cols="2">
+                <thead>
+                    <row>
+                        <entry>field</entry>
+                        <entry>description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Effective Date</entry>
+                        <entry>The effective date which the shift differential rule will be
+                            effective. This date needs to be on or prior to the date the rule to
+                            take effect.</entry>
+                    </row>
+                    <row>
+                        <entry>Location</entry>
+                        <entry>If a location is defined, only entries associated with a job in this
+                            location will be subject to the shift rule. Wild card of (%) is
+                            acceptable as input.</entry>
+                    </row>
+                    <row>
+                        <entry>Salary Group</entry>
+                        <entry>If a salary group is defined, only entries associated with a job in
+                            this salary group will be subject to the shift rule. Wild card of (%) is
+                            acceptable as input.</entry>
+                    </row>
+                    <row>
+                        <entry>Pay Grade</entry>
+                        <entry>If a pay grade is defined, onlye entries associated with a job in
+                            this pay grade will be subject to the shift rule. Wild card of (%) is an
+                            acceptable input.</entry>
+                    </row>
+                    <row>
+                        <entry>Earn Code</entry>
+                        <entry>The earn code that will be applied to the eligible shift </entry>
+                    </row>
+                    <row>
+                        <entry>From Earn Group</entry>
+                        <entry>The earn group defined to represent the earn codes to be converted to
+                            <emphasis role="italic">Shif Differential Earn
+                                Code</emphasis>.</entry>
+                    </row>
+                    <row>
+                        <entry>Begin Time</entry>
+                        <entry>The beginning time of the eligible shift.</entry>
+                    </row>
+                    <row>
+                        <entry>End Time</entry>
+                        <entry>The end time of the eligible shift. This could be on the following
+                            day if the eligible shift is overnight.</entry>
+                    </row>
+                    <row>
+                        <entry>Minimum Hours</entry>
+                        <entry>The minimum number of hours a shift must be in order to qualify for
+                            shift differential. A zero in this field would mean that there is no
+                            minimum shift requirement.</entry>
+                    </row>
+                    <row>
+                        <entry>Sun-Sat checkboxes</entry>
+                        <entry>Check which days are eligible for shift differential.</entry>
+                    </row>
+                    <row>
+                        <entry>Maximum Gap Minutes</entry>
+                        <entry>The maximum number of minutes which can separate time blocks, and
+                            still qualify as an eligible shift.</entry>
+                    </row>
+                    <row>
+                        <entry>User Principal ID</entry>
+                        <entry>User that set up the shift rule.</entry>
+                    </row>
+                    <row>
+                        <entry>Active</entry>
+                        <entry>Status of the shift differential rule.</entry>
+                    </row>
+                    <row>
+                        <entry>Calendar Group</entry>
+                        <entry>Pay Calendar record that defines the FLSA period.</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </section>
+    <section>
+        <title>System Lunch Rule</title>
+        <para>System lunch rule is a system level setting which determines if the “Take Lunch” and
+            “Return from Lunch” buttons display for clock entry employees. If the employee is
+            subject to a lunch deduction rule, no lunch buttons will be displayed.</para>
+        <table>
+            <title>Fields on System Lunch Rule Document</title>
+            <tgroup cols="2">
+                <thead>
+                    <row>
+                        <entry>field</entry>
+                        <entry>description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Effective Date</entry>
+                        <entry>Effective date for which the system lunch rule will be effective.
+                            This date needs to be on or prior to the date of the rule to take
+                            effect.</entry>
+                    </row>
+                    <row>
+                        <entry>Show Lunch Button</entry>
+                        <entry>When checked, Lunch buttons will be presented</entry>
+                    </row>
+                    <row>
+                        <entry>Active</entry>
+                        <entry>Status of the rule, checked indicates Active, unchecked indicates
+                            Inactive.</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+        <tip>
+            <para>To eliminate a system lunch rule, insert a new effective dated row and uncheck the
+                active checkbox.</para>
+        </tip>
+    </section>
+    <section>
+        <title>Time Collection Rule</title>
+        <para>The Time Collection Rule maintenance page is used to define how employees record time,
+            via clock entry or manual entry. This rule can be defined at various levels including at
+            a system level. The timesheet shows the clock tab for entry if the most specific rule
+            for that assignment is marked as a clock user.</para>
+        <table>
+            <title>Time Collection Rule Document Fields</title>
+            <tgroup cols="2">
+                <thead>
+                    <row>
+                        <entry>Field</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Effective Date</entry>
+                        <entry>The Effective date for which the time collection rule will be
+                            effective. This date needs to be on or prior to the date of the rule to
+                            take effect.</entry>
+                    </row>
+                    <row>
+                        <entry>Department</entry>
+                        <entry>Department the time collection rule is associated with. A wild card
+                            (%) can be provided indicating the rule is in effect for all
+                            departments.</entry>
+                    </row>
+                    <row>
+                        <entry>Work Area</entry>
+                        <entry>Work area the time collection rule is associated with. A wild card
+                            (%) can be provided indicating the rule is in effect for all work
+                            areas.</entry>
+                    </row>
+                    <row>
+                        <entry>Pay Type</entry>
+                        <entry/>
+                    </row>
+                    <row>
+                        <entry>Clock User</entry>
+                        <entry>If this box is checked, clock entry will be required for recording
+                            time based on the department and work area values provided
+                            above.</entry>
+                    </row>
+                    <row>
+                        <entry>Hour Distribution</entry>
+                        <entry>Used to allow employees to clock in and out of a single assignment
+                            and then distribute hours at the end of the day to multiple
+                            assignments.Hours distribution is only available for time blocks
+                            createdby the clock.</entry>
+                    </row>
+                    <row>
+                        <entry>User Principal ID</entry>
+                        <entry>Auto populated by the Principal ID of user who created the
+                            rule.</entry>
+                    </row>
+                    <row>
+                        <entry>Active</entry>
+                        <entry>Status of the Time Collection Rule, checked indicates Active,
+                            unchecked indicates Inactive.</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </section>
 </chapter>

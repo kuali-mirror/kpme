@@ -109,7 +109,10 @@ public class ClockAction extends TimesheetAction {
 
         //if there is no timesheet
         if(caf.getTimesheetDocument() == null) {
-            caf.setErrorMessage("You do not currently have a timesheet. Clock action is not allowed.");
+            //don't bother printing this message if we already have an error
+            if (!GlobalVariables.getMessageMap().hasErrors()) {
+                caf.setErrorMessage("You do not currently have a timesheet. Clock action is not allowed.");
+            }
             return mapping.findForward("basic");
         }
         //if the timesheet document is enroute aor final, don't allow clock action

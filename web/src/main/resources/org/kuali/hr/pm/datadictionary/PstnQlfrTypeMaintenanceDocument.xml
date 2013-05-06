@@ -12,6 +12,7 @@
     <property name="dataObjectClass" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType"/>
     <property name="maintainableClass" value="org.kuali.kpme.pm.pstnqlfrtype.service.PstnQlfrTypeMaintainableImpl"/>  
     <property name="documentTypeName" value="PstnQlfrTypeMaintenanceDocumentType" />
+<!--     <property name="businessRulesClass" value="org.kuali.hr.pm.pstnqlfrtype.validation.PstnQlfrTypeValidation"/> -->
     <property name="businessRulesClass" value="org.kuali.kpme.pm.pstnqlfrtype.validation.PstnQlfrTypeValidation"/>
   </bean>
 </beans>

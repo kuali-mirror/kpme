@@ -66,7 +66,7 @@ public class PmServiceLocator implements ApplicationContextAware {
 		return (PositionFlagService) CONTEXT.getBean(PM_POSITION_FLAG_SERVICE);
 	}
 	
-	public static PstnQlfrTypeService getPstnQlfrTypeServiceService() {
+	public static PstnQlfrTypeService getPstnQlfrTypeService() {
 		return (PstnQlfrTypeService) CONTEXT.getBean(PM_POSITION_QUALIFIER_TYPE_SERVICE);
 	}
 	

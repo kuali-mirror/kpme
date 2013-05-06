@@ -542,10 +542,6 @@
     <bean id="payGradeService" class="org.kuali.kpme.core.bo.paygrade.service.PayGradeServiceImpl">
         <property name="payGradeDao" ref="payGradeDao"/>
     </bean>
-    
-    <bean id="tkPersonService" class="org.kuali.hr.time.person.service.PersonServiceImpl">
-        <property name="personDao" ref="tkPersonDao"/>
-    </bean>
 
     <bean id="accrualCategoryService" class="org.kuali.kpme.core.bo.accrualcategory.service.AccrualCategoryServiceImpl">
         <property name="accrualCategoryDao" ref="accrualCategoryDao"/>
