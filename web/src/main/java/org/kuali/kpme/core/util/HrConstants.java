@@ -52,6 +52,14 @@ public class HrConstants {
 		public static final String EXCEPTION = DocumentStatus.EXCEPTION.getCode();
 	}
 
+    // Pay Frequency Type
+    public static final class PAY_FREQUENCY {
+        public static final String PAY_FREQUENCY_WEEK = "W";
+        public static final String PAY_FREQUENCY_BI_WEEK = "BW";
+        public static final String PAY_FREQUENCY_SEMI_MONTH = "SM";
+        public static final String PAY_FREQUENCY_MONTH = "M";
+    }
+
 	public static final Map<String, String> DOC_ROUTE_STATUS = new HashMap<String, String>(8);
 
 	static {

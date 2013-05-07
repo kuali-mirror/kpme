@@ -18,6 +18,7 @@ public class PstnQlfrTypeKeyValueFinder extends KeyValuesBase{
 	public List<KeyValue> getKeyValues() {
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
 		List<PstnQlfrType> typeList = PmServiceLocator.getPstnQlfrTypeService().getAllActivePstnQlfrTypes();
+		keyValues.add(new ConcreteKeyValue("", ""));
 		if(CollectionUtils.isNotEmpty(typeList)) {
 			for(PstnQlfrType aType : typeList) {
 				keyValues.add(new ConcreteKeyValue((String) aType.getPmPstnQlfrTypeId(), (String) aType.getType()));

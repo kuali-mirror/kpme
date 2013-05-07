@@ -11,5 +11,6 @@
   <bean id="ClassificationMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
     <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.Classification"/>
     <property name="documentTypeName" value="ClassificationMaintenanceDocumentType" />
+    <property name="businessRulesClass" value="org.kuali.kpme.pm.classification.validation.ClassificationValidation"/>
   </bean>
 </beans>

@@ -17,7 +17,7 @@
 	        <ref bean="PositionClassQualification-displayOrder"/>
 	      </list>
 	    </property>
-	    <property name="objectLabel" value="Position Class Qualification"/>
+	    <property name="objectLabel" value="Position Classification Qualification"/>
   	</bean>
 
 <!-- Attribute Definitions -->  
@@ -37,14 +37,12 @@
 	<bean id="PositionClassQualification-qualificationType-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
 		<property name="maxLength" value="20"/>
-<!-- 		<property name="control"> -->
 <!-- 			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.pm.util.PstnQlfrTypeKeyValueFinder" p:includeKeyInLabel="true"/> -->
 <!-- 		</property> -->
 		<property name="controlField">
 			<bean parent="Uif-DropdownControl"/>
 		</property>
-		<property name="optionsFinderClass" value="org.kuali.kpme.pm.util.PstnQlfrTypeKeyValueFinder"/>
-<!-- 		<property name="optionsFinder"> -->
+<!-- 		<property name="optionsFinderClass" value="org.kuali.kpme.pm.util.PstnQlfrTypeKeyValueFinder"/> -->
 <!-- 			<bean class="org.kuali.hr.pm.util.PstnQlfrTypeKeyValueFinder" p:blankOption="true"/> -->
 <!-- 		</property> -->
 		<property name="name" value="qualificationType" />
@@ -56,9 +54,13 @@
 	<bean id="PositionClassQualification-qualifier-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
 		<property name="maxLength" value="20"/>
+<!-- 		<property name="controlField"> -->
+<!-- 			<bean parent="Uif-TextControl" p:size="10" /> -->
+<!-- 		</property> -->
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
+			<bean parent="Uif-DropdownControl"/>
 		</property>
+		<property name="optionsFinderClass" value="org.kuali.kpme.pm.util.PositionClassQualifierKeyValueFinder"/>		
 		<property name="name" value="qualifier" />
 		<property name="label" value="Qualifier" />
 		<property name="description" value="Qualifier" />
@@ -90,7 +92,7 @@
 	
 	<bean id="PositionClassQualification-displayOrder" parent="PositionClassQualification-displayOrder-parentBean" />
 	<bean id="PositionClassQualification-displayOrder-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="required" value="true" />
+		<property name="required" value="false" />
 		<property name="maxLength" value="2"/>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="2" />
@@ -107,7 +109,7 @@
 <!--  Position Class Qualification Maintenance View -->
   <bean id="PositionClassQualification-MaintenanceView" parent="PositionClassQualification-MaintenanceView-parentBean"/>
   <bean id="PositionClassQualification-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
-    <property name="headerText" value="Position Qualification Value Maintenance"/>
+    <property name="headerText" value="Position Classification Qualification Maintenance"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.ClassificationQualification"/>
     <property name="items">
       <list merge="true">

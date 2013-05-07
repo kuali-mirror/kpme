@@ -54,6 +54,6 @@ public interface PayTypeService {
 	 */
 	public int getPayTypeCount(String payType);
 
-    List<PayType> getPayTypes(String payType, String regEarnCode, String descr, LocalDate fromEffdt,
-    		LocalDate toEffdt, String active, String showHist);
+    List<PayType> getPayTypes(String payType, String regEarnCode, String descr, String campus, String institution, String flsaStatus,
+    		String payFrequency, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }

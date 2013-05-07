@@ -38,6 +38,7 @@
     <cache name="KPME/EarnCode" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/GracePeriodRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/Job" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/LeaveBlock" maxEntriesLocalHeap="300000" timeToLiveSeconds="900"/>
     <cache name="KPME/LeaveCode" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/LeaveDonation" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/LeavePlan" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
@@ -51,6 +52,7 @@
     <cache name="KPME/SystemLunchRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/SystemScheduledTimeOff" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/Task" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/TimeBlock" maxEntriesLocalHeap="300000" timeToLiveSeconds="900"/>
     <cache name="KPME/TimeCollectionRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/TimeOffAccrual" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/TkRoleGroup" maxEntriesLocalHeap="10000" timeToLiveSeconds="900" copyOnRead="true" copyOnWrite="true"/>

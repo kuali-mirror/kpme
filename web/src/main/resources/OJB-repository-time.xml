@@ -367,9 +367,13 @@
     <!-- Business Keys - [payType : effectiveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.core.bo.paytype.PayType" table="HR_PAYTYPE_T">
         <field-descriptor name="hrPayTypeId"    column="HR_PAYTYPE_ID"  jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="HR_PAYTYPE_S" />
-        <field-descriptor name="payType"        column="PAYTYPE"        jdbc-type="VARCHAR"     length="5" nullable="false" primarykey="true" />
+        <field-descriptor name="payType"        column="PAYTYPE"        jdbc-type="VARCHAR"     length="5" nullable="false" primarykey="false" />
         <field-descriptor name="descr"          column="DESCR"          jdbc-type="VARCHAR"     length="90" />
         <field-descriptor name="regEarnCode"    column="REG_ERN_CODE"   jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="campus"    		column="CAMPUS"			jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="institution"    column="INSTITUTION"	jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="flsaStatus"     column="FLSA_STATUS"    jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="payFrequency"   column="PAY_FREQUENCY"  jdbc-type="VARCHAR"     length="15" nullable="false" />
         <field-descriptor name="effectiveDate"  column="EFFDT"          jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.tklm.common.TkTimestampConverter" />
         <field-descriptor name="objectId"       column="OBJ_ID"         jdbc-type="VARCHAR"     index="true" />

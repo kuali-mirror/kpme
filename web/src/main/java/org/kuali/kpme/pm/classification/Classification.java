@@ -26,11 +26,11 @@ public class Classification extends HrBusinessObject {
 	private String positionType;
 	private String poolEligible;
 	private String tenureEligible;
-	// list of duties, need to create Duty class and maint xml for it, then add the maint section to PostionClass maint doc
-	// list of Position Class Qualifications, need to create the BO, add it's maint section to PositionClass maint doc
-	private List<ClassificationQualification> qualificationList = new LinkedList<ClassificationQualification>(); 
-	// list of position flags, need to add flag maint section to Position maint doc
 	private String externalReference;
+	
+	private List<ClassificationQualification> qualificationList = new LinkedList<ClassificationQualification>(); 
+	private List<ClassificationDuty> dutyList = new LinkedList<ClassificationDuty>(); 
+	// list of position flags, need to add flag maint section to Position maint doc
 	
 	private CampusBo campusObj;
 	
@@ -184,6 +184,14 @@ public class Classification extends HrBusinessObject {
 
 	public void setCampusObj(CampusBo campusObj) {
 		this.campusObj = campusObj;
+	}
+
+	public List<ClassificationDuty> getDutyList() {
+		return dutyList;
+	}
+
+	public void setDutyList(List<ClassificationDuty> dutyList) {
+		this.dutyList = dutyList;
 	}
 
 }

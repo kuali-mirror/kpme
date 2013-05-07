@@ -221,7 +221,7 @@
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrSalGroup" />       
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 	         <property name="quickfinder">
-	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
 	        		 p:fieldConversions="institutionCode:institution"/>
 	   		 </property>
         </bean>
@@ -231,7 +231,7 @@
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="leaveEligible" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="leavePlan">
         	<property name="quickfinder">
-       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.leaveplan.LeavePlan" 
+       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.leaveplan.LeavePlan" 
         			 p:fieldConversions="leavePlan:leavePlan"/>
    		 	</property>
         </bean>
@@ -302,7 +302,7 @@
 		        <bean parent="Uif-InputField" p:propertyName="descr" />
 		        <bean parent="Uif-InputField" p:propertyName="institution" >
 			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
 		        			 p:fieldConversions="institutionCode:institution"/>
 		   			</property>
 		        </bean>
@@ -336,7 +336,7 @@
 				         </bean>
 			        </property>
 			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.leaveplan.LeavePlan" 
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.leaveplan.LeavePlan" 
 		        			 p:fieldConversions="leavePlan:leavePlan"/>
 		   		 	</property>
 		        </bean>

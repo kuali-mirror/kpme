@@ -157,19 +157,19 @@
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="pstnRptGrpSubCat" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportGroup" >
         	<property name="quickfinder">
-	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" 
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" 
 	        		 p:fieldConversions="positionReportGroup:positionReportGroup"/>
 	   		</property>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportSubCat">
        		<property name="quickfinder">
-	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" 
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" 
 	        		 p:fieldConversions="positionReportSubCat:positionReportSubCat"/>
 	   		 </property>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 	         <property name="quickfinder">
-	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
 	        		 p:fieldConversions="institutionCode:institution"/>
 	   		 </property>
         </bean>
@@ -237,19 +237,19 @@
 		        <bean parent="Uif-InputField" p:propertyName="description" />
 		        <bean parent="Uif-InputField" p:propertyName="positionReportGroup">
 			        <property name="quickfinder">
-			       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" 
+			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" 
 			        		 p:fieldConversions="positionReportGroup:positionReportGroup"/>
 		   		 	</property>
 		        </bean>
 		        <bean parent="Uif-InputField" p:propertyName="positionReportSubCat">
 			        <property name="quickfinder">
-		       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" 
+		       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" 
 		        		 p:fieldConversions="positionReportSubCat:positionReportSubCat"/>
 		   		 </property>
 	       		</bean>
 		        <bean parent="Uif-InputField" p:propertyName="institution" >
 			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
 		        			 p:fieldConversions="institutionCode:institution"/>
 		   			</property>
 		        </bean>

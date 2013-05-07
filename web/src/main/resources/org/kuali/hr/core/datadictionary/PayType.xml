@@ -44,6 +44,10 @@
 				<ref bean="PayType-timestamp" />
 				<ref bean="PayType-hrEarnCodeId" />
 				<ref bean="PayType-ovtEarnCode" />
+				<ref bean="PayType-institution" />
+				<ref bean="PayType-campus" />
+				<ref bean="PayType-flsaStatus" />
+				<ref bean="PayType-payFrequency" />
 			</list>
 		</property>
         <property name="relationships">
@@ -58,6 +62,24 @@
                 </list>
               </property>
             </bean>
+			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="campusObj" />
+				<property name="primitiveAttributes">
+					<list>
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="campus" p:targetName="code" />
+                           
+                       </list>
+				</property>
+			</bean>
+			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="institutionObj" />
+				<property name="primitiveAttributes">
+					<list>
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="institution" p:targetName="institutionCode" />
+                           
+                       </list>
+				</property>
+			</bean>				
           </list>
         </property>
 	</bean>
@@ -200,6 +222,67 @@
 		<property name="name" value="ovtEarnCode" />
 		<property name="label" value="Overtime Earn Code" />
 	</bean>
+	
+	<!-- campus -->
+	<bean id="PayType-campus" parent="PayType-campus-parentBean" />
+	<bean id="PayType-campus-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Campus" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="15" />
+		</property>
+		<property name="name" value="campus" />
+		<property name="label" value="Campus" />
+	</bean>
+	
+	<!-- instituition -->
+	<bean id="PayType-institution" parent="PayType-institution-parentBean" />
+	<bean id="PayType-institution-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Institution" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="15" />
+		</property>
+		<property name="name" value="institution" />
+		<property name="label" value="Institution" />
+	</bean>	
+
+	<!-- flsaStatus -->
+	<bean id="PayType-flsaStatus" parent="PayType-flsaStatus-parentBean" />
+	<bean id="PayType-flsaStatus-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="FLSA Status" />
+				<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.flsa.TkFlsaStatusKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="flsaStatus" />
+		<property name="label" value="FLSA Status" />
+	</bean>
+	
+	<!-- payFrequency -->
+	<bean id="PayType-payFrequency" parent="PayType-payFrequency-parentBean" />
+	<bean id="PayType-payFrequency-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Pay Frequency" />
+				<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.bo.paytype.valuesfinder.PayFrequencyKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="payFrequency" />
+		<property name="label" value="Pay Frequency" />
+	</bean>
+	
 	<!--  Inquiry Definitions  -->
   
   	<bean id="PayType-inquiryDefinition" parent="PayType-inquiryDefinition-parentBean" />
@@ -216,6 +299,8 @@
 							<bean parent="FieldDefinition" p:attributeName="payType" />
 							<bean parent="FieldDefinition" p:attributeName="descr" />
 							<bean parent="FieldDefinition" p:attributeName="regEarnCode" />
+							<bean parent="FieldDefinition" p:attributeName="campus" />
+							<bean parent="FieldDefinition" p:attributeName="institution" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 							<bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
 						</list>
@@ -237,8 +322,10 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="payType" />
+                <bean parent="FieldDefinition" p:attributeName="descr" />				
                 <bean parent="FieldDefinition" p:attributeName="regEarnCode" />
-                <bean parent="FieldDefinition" p:attributeName="descr" />
+                <bean parent="FieldDefinition" p:attributeName="campus" />
+                <bean parent="FieldDefinition" p:attributeName="institution" />
                 <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
                 <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
                 <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" />
@@ -248,8 +335,10 @@
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="payType" />
-				<bean parent="FieldDefinition" p:attributeName="descr" />
+				<bean parent="FieldDefinition" p:attributeName="descr" />				
 				<bean parent="FieldDefinition" p:attributeName="regEarnCode" />
+				<bean parent="FieldDefinition" p:attributeName="campus" />
+				<bean parent="FieldDefinition" p:attributeName="institution" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 			</list>

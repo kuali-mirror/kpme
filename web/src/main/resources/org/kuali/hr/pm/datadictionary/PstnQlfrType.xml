@@ -247,7 +247,8 @@
 <!--    				</bean> -->
 		         	
 			         	 <bean parent="Uif-InputField" p:propertyName="selectValues"
-			         	 		p:constraintText="Comma delimited list of qualification values.">
+			         	 		p:constraintText="Comma delimited list of qualification values." >
+<!-- 			         	 		 p:disabled="@{#typeValue eq 'S'}"> -->
 <!-- 						       	<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue"  -->
 <!-- 						       		p:fieldConversions="vlName:selectValues"/> -->
 <!-- 						   	</property> -->

@@ -58,6 +58,10 @@
 				<bean parent="MaintainableFieldDefinition" p:name="payType" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="descr" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="regEarnCode" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="campus" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="institution" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="flsaStatus" p:defaultValue="NE" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="payFrequency" p:defaultValue="M" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="ovtEarnCode" p:defaultValue="N" />
 			</list>

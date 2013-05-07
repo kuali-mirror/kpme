@@ -29,6 +29,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.bo.calendar.Calendar;
@@ -51,6 +52,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class LeaveBlock extends PersistableBusinessObjectBase {
 
 	private static final long serialVersionUID = -8240826812581295376L;
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "LeaveBlock";
 	
 	private String lmLeaveBlockId;
 	private Date leaveDate;

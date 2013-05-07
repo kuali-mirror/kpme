@@ -11,7 +11,7 @@ public class PositionAppointmentValidation extends MaintenanceDocumentRuleBase {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
-		LOG.debug("entering custom validation for Salary Group");
+		LOG.debug("entering custom validation for position appointment");
 		PositionAppointment pa = (PositionAppointment) this.getNewDataObject();
 		
 		if (pa != null) {

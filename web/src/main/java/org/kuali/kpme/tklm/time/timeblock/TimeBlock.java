@@ -29,6 +29,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -47,6 +48,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
      *
      */
     private static final long serialVersionUID = -4164042707879641855L;
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "TimeBlock";
 
     private String tkTimeBlockId;
     private String documentId;

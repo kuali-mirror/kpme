@@ -144,20 +144,20 @@
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 	         <property name="quickfinder">
-	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.institution.Institution" 
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
 	        		 p:fieldConversions="institutionCode:institution"/>
 	   		 </property>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="department" >
         	 <property name="quickfinder">
-       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.time.department.Department" 
+       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.department.Department" 
         			 p:fieldConversions="dept:department"/>
    		 	 </property>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionDeptAffl" >
         	<property name="quickfinder">
-       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation" 
+       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation" 
         			 p:fieldConversions="positionDeptAfflType:positionDeptAffl"/>
    		 	 </property>
         </bean>
@@ -220,20 +220,20 @@
 	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
 		        <bean parent="Uif-InputField" p:propertyName="institution" >
 			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution"
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
 		        			 p:fieldConversions="institutionCode:institution"/>
 		   			</property>
 		        </bean>
 		        <bean parent="Uif-InputField" p:propertyName="campus" />
 		        <bean parent="Uif-InputField" p:propertyName="department" >
 		        	 <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.department.Department"
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.core.bo.department.Department" 
 		        			 p:fieldConversions="dept:department"/>
 		   		 	 </property>
 		        </bean>
 				<bean parent="Uif-InputField" p:propertyName="positionDeptAffl" >
 					<property name="quickfinder">
-       					<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation" 
+       					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation" 
         			 	p:fieldConversions="positionDeptAfflType:positionDeptAffl"/>
    		 	 		</property>
 				</bean>		        

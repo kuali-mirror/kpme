@@ -23,6 +23,8 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 public interface TimeBlockService {
 	/**
@@ -30,12 +32,14 @@ public interface TimeBlockService {
 	 * @param timeBlockId
 	 * @return
 	 */
+	@Cacheable(value=TimeBlock.CACHE_NAME, key="'{getTimeBlock}' + 'timeBlockId=' + #p0")
 	public TimeBlock getTimeBlock(String timeBlockId);
 
 	/**
 	 * Delete a given TimeBlock
 	 * @param timeBlock
 	 */
+	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
 	public void deleteTimeBlock(TimeBlock timeBlock);
 	/**
 	 * Build a TimeBlock with the given criteria
@@ -59,12 +63,14 @@ public interface TimeBlockService {
 	 * @param oldTimeBlocks
 	 * @param newTimeBlocks
 	 */
+	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
 	public void saveTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks, String userPrincipalId);
 
 	/**
 	 * Save a list of new TimeBlocks
 	 * @param tbList
 	 */
+	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
 	public void saveTimeBlocks(List<TimeBlock> tbList);
 	/**
 	 * Reset the TimeHourDetail object associated with the TimeBlock object on a List of TimeBlocks
@@ -76,12 +82,14 @@ public interface TimeBlockService {
 	 * @param documentId
 	 * @return
 	 */
+	@Cacheable(value= TimeBlock.CACHE_NAME, key="'{getTimeBlocks}' + 'documentId=' + #p0")
 	public List<TimeBlock> getTimeBlocks(String documentId);	
 	/**
 	 * Get the List of TimeBlock of a given Assignment
 	 * @param assign
 	 * @return List<TimeBlock>
 	 */
+	 @Cacheable(value= TimeBlock.CACHE_NAME, key="{getTimeBlocksForAssignment}' + 'assign=' + #p0.tkAssignmentId")
 	 public List<TimeBlock> getTimeBlocksForAssignment(Assignment assign);
 	/**
 	 * Build a List of TimeBlocks over a span of multiple days
@@ -113,10 +121,12 @@ public interface TimeBlockService {
 	 * @param isLunchDeleted
 	 * @return
 	 */
+	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
 	public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, DateTime beginDateTime, DateTime endDateTime,
 										Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount,
                                         Boolean isClockLogCreated, Boolean isLunchDeleted, String userPrincipalId);
 
+	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
 
 	public Boolean isTimeBlockEditable(TimeBlock tb);
@@ -126,14 +136,18 @@ public interface TimeBlockService {
 	 * @param tkClockLogId
 	 * @return List<TimeBlock>	 * 
 	 */
+	@Cacheable(value= TimeBlock.CACHE_NAME, key="'{getTimeBlocksForClockLogEndId}' + 'tkClockLogId=' + #p0")
 	public List<TimeBlock> getTimeBlocksForClockLogEndId(String tkClockLogId);
 	/*
 	 * Get all the time blocks with the given Clock Log id as the clockLogBeginId
 	 * @param tkClockLogId
 	 * @return List<TimeBlock>	 * 
 	 */
+	@Cacheable(value= TimeBlock.CACHE_NAME, key="'{getTimeBlocksForClockLogBeginId}' + 'tkClockLogId=' + #p0")
 	public List<TimeBlock> getTimeBlocksForClockLogBeginId(String tkClockLogId);
 	
+
+	@Cacheable(value= TimeBlock.CACHE_NAME, key="'{getLatestEndTimestampForEarnCode}' + 'earnCode=' + #p0")
 	public List<TimeBlock> getLatestEndTimestampForEarnCode(String earnCode);
 
     /**
@@ -141,8 +155,10 @@ public interface TimeBlockService {
      * @param clockLogBeginId
      * @return
      */
-    public List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId);
+	@Cacheable(value= TimeBlock.CACHE_NAME, key="'{getOvernightTimeBlocks}' + 'clockLogEndId=' + #p0")
+	public List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId);
 
+	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
 	public void updateTimeBlock(TimeBlock tb);
 	
 	public List<TimeBlockHistory> createTimeBlockHistories(TimeBlock tb, String actionHistory);
@@ -154,5 +170,6 @@ public interface TimeBlockService {
 	 * @param effDate
 	 * @return List<TimeBlock>	 * 
 	 */
+    @Cacheable(value= TimeBlock.CACHE_NAME, key="'{getTimeBlocksWithEarnCode}' + 'earnCode=' + #p0 + '|' + 'effDate=' + #p1")
     public List<TimeBlock> getTimeBlocksWithEarnCode(String earnCode, DateTime effDate);
 }

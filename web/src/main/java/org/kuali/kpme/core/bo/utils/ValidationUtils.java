@@ -17,8 +17,10 @@ package org.kuali.kpme.core.bo.utils;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.authorization.DepartmentalRule;
@@ -29,6 +31,7 @@ import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.bo.earncode.group.EarnCodeGroupDefinition;
 import org.kuali.kpme.core.bo.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.bo.institution.Institution;
 import org.kuali.kpme.core.bo.kfs.coa.businessobject.Chart;
 import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.kpme.core.bo.location.Location;
@@ -40,9 +43,14 @@ import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.pm.PMConstants;
+import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.location.api.services.LocationApiServiceLocator;
 
 /**
  * A few methods to assist with various validation tasks.
@@ -514,5 +522,37 @@ public class ValidationUtils {
 			 }
 		 }
 		return valid;
+	}
+	
+	// From PmValidationUtils
+	public static boolean validateInstitution(String institutionCode, LocalDate asOfDate) {
+		boolean valid = false;
+		if (PmValidationUtils.isWildCard(institutionCode)) {
+			valid = true;
+		} else if (asOfDate != null) {
+			Institution inst = PmServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
+			valid = (inst != null);
+		} else {
+			List<Institution> instList = PmServiceLocator.getInstitutionService().getInstitutionsByCode(institutionCode);
+			valid = CollectionUtils.isNotEmpty(instList);
+		}
+		return valid;
+	}
+	
+	// PmValidationUtils
+	public static boolean validateCampus(String campusCode) {
+		boolean valid = false;
+		if (ValidationUtils.isWildCard(campusCode)) {
+			valid = true;
+		} else {
+			Campus campusObj = LocationApiServiceLocator.getCampusService().getCampus(campusCode);
+			valid = (campusObj != null);
+		}
+		return valid;
+	}
+	
+	public static boolean isWildCard(String aString) {
+		return (StringUtils.equals(aString, HrConstants.WILDCARD_CHARACTER) ||
+					StringUtils.equals(aString, PMConstants.WILDCARD_CHARACTER));
 	}
 }

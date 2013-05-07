@@ -55,8 +55,9 @@ public class PayTypeServiceImpl implements PayTypeService {
 	}
 
     @Override
-    public List<PayType> getPayTypes(String payType, String regEarnCode, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
-        return payTypeDao.getPayTypes(payType, regEarnCode, descr, fromEffdt, toEffdt, active, showHist);
+    public List<PayType> getPayTypes(String payType, String regEarnCode, String descr, String campus, String institution, String flsaStatus,
+    		String payFrequency, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
+        return payTypeDao.getPayTypes(payType, regEarnCode, descr, campus, institution, flsaStatus, payFrequency, fromEffdt, toEffdt, active, showHist);
     }
 
 }

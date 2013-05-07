@@ -67,10 +67,11 @@ public class PstnRptGrpSubCatValidation extends MaintenanceDocumentRuleBase {
 				&& StringUtils.isNotEmpty(prgsc.getInstitution())
 				&& StringUtils.isNotEmpty(prgsc.getCampus())
 				&& !PmValidationUtils.validatePstnRptGrp(prgsc.getPositionReportGroup(), prgsc.getInstitution(), prgsc.getCampus(), prgsc.getEffectiveLocalDate())) {
-			String[] parameters = new String[3];
+			String[] parameters = new String[4];
 			parameters[0] = prgsc.getPositionReportGroup();
 			parameters[1] = prgsc.getInstitution();
 			parameters[2] = prgsc.getCampus();
+			parameters[3] = prgsc.getEffectiveLocalDate().toString();
 			this.putFieldError("dataObject.positionReportGroup", "institution.campus.inconsistent.positionReportGroup", parameters);
 			return false;
 		} else {

@@ -109,7 +109,7 @@
 			<bean parent="AnyCharacterValidationPattern"/>
 		</property>
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
+			<bean parent="Uif-TextControl" p:size="15" />
 		</property>
 		<property name="name" value="institution" />
 		<property name="label" value="Institution" />
@@ -123,7 +123,7 @@
 			<bean parent="AnyCharacterValidationPattern"/>
 		</property>
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
+			<bean parent="Uif-TextControl" p:size="15" />
 		</property>
 		<property name="name" value="campus" />
 		<property name="label" value="Campus" />
@@ -148,7 +148,7 @@
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionAppointment" />       
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution" >
         	<property name="quickfinder">
-	            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.institution.Institution"
+	            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution"
 	                  p:fieldConversions="institutionCode:institution"/>
 	        </property>
 	    </bean>
@@ -212,7 +212,7 @@
 		        <bean parent="Uif-InputField" p:propertyName="description" />
 		        <bean parent="Uif-InputField" p:propertyName="institution" >
 			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.institution.Institution" 
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
 		        			 p:fieldConversions="institutionCode:institution"/>
 		   			</property>
 		        </bean>

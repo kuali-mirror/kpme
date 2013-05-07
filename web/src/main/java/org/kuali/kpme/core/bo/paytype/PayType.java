@@ -20,6 +20,8 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 
 import com.google.common.collect.ImmutableList;
+import org.kuali.kpme.core.bo.institution.Institution;
+import org.kuali.rice.location.impl.campus.CampusBo;
 
 public class PayType extends HrBusinessObject {
     public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "PayType";
@@ -38,6 +40,14 @@ public class PayType extends HrBusinessObject {
     private EarnCode regEarnCodeObj;
     private String history;
     private Boolean ovtEarnCode;
+    
+    // KPME-2252
+	private String campus;
+    private String institution;
+	private String flsaStatus;
+	private String payFrequency;
+	private CampusBo campusObj;
+	private Institution institutionObj;
 
     public EarnCode getRegEarnCodeObj() {
         return regEarnCodeObj;
@@ -78,8 +88,6 @@ public class PayType extends HrBusinessObject {
 		this.hrPayTypeId = hrPayTypeId;
 	}
 
-
-
 	public String getHrEarnCodeId() {
 		return hrEarnCodeId;
 	}
@@ -117,6 +125,54 @@ public class PayType extends HrBusinessObject {
 	@Override
 	public void setId(String id) {
 		setHrPayTypeId(id);
+	}
+
+	public String getInstitution() {
+		return institution;
+	}
+
+	public void setInstitution(String institution) {
+		this.institution = institution;
+	}
+
+	public String getCampus() {
+		return campus;
+	}
+
+	public void setCampus(String campus) {
+		this.campus = campus;
+	}
+
+	public String getFlsaStatus() {
+		return flsaStatus;
+	}
+
+	public void setFlsaStatus(String flsaStatus) {
+		this.flsaStatus = flsaStatus;
+	}
+
+	public String getPayFrequency() {
+		return payFrequency;
+	}
+
+	public void setPayFrequency(String payFrequency) {
+		this.payFrequency = payFrequency;
+	}
+
+	public CampusBo getCampusObj() {
+		return campusObj;
+	}
+
+	public void setCampusObj(CampusBo campusObj) {
+		this.campusObj = campusObj;
+	}
+
+	public Institution getInstitutionObj() {
+		return institutionObj;
+	}
+
+	public void setInstitutionObj(Institution institutionObj) {
+		this.institutionObj = institutionObj;
 	}
 	
 }

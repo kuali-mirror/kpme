@@ -78,7 +78,8 @@ public class PayTypeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements 
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<PayType> getPayTypes(String payType, String regEarnCode, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
+    public List<PayType> getPayTypes(String payType, String regEarnCode, String descr, String campus, String institution, String flsaStatus,
+    		String payFrequency, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
         List<PayType> results = new ArrayList<PayType>();
         
         Criteria root = new Criteria();
@@ -94,6 +95,23 @@ public class PayTypeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements 
         if (StringUtils.isNotBlank(descr)) {
             root.addLike("descr", descr);
         }
+        
+        if (StringUtils.isNotBlank(campus)) {
+            root.addLike("campus", campus);
+        }
+        
+        if (StringUtils.isNotBlank(institution)) {
+            root.addLike("institution", institution);
+        }
+        
+        if (StringUtils.isNotBlank(flsaStatus)) {
+            root.addLike("flsaStatus", flsaStatus);
+        }
+        
+        if (StringUtils.isNotBlank(payFrequency)) {
+            root.addLike("payFrequency", payFrequency);
+        }
+        
         
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {

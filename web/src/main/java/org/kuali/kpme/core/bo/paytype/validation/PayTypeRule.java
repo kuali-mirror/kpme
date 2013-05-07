@@ -17,6 +17,7 @@ package org.kuali.kpme.core.bo.paytype.validation;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.paytype.PayType;
@@ -44,6 +45,35 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 
 		return valid;
 	}
+	
+	private boolean validateInstitution(String institution, LocalDate asOfDate) {
+		boolean valid = true;
+		
+		if (!StringUtils.isBlank(institution)) {
+			valid = ValidationUtils.validateInstitution(institution, asOfDate);
+
+			if (!valid) {
+				this.putFieldError("institution", "paytype.institution.invalid", institution);
+			} 			
+		}
+		
+		return valid;
+	}
+	
+	private boolean validateCampus(String campus, LocalDate asOfDate) {
+		boolean valid = true;
+		
+		if (!StringUtils.isBlank(campus)) {
+			valid = ValidationUtils.validateEarnCode(campus, asOfDate);
+
+			if (!valid) {
+				this.putFieldError("campus", "paytype.campus.invalid", campus);
+			} 			
+		}
+
+		return valid;
+	}
+	
 
 	boolean validateActive(String hrPayType, LocalDate asOfDate) {
 		boolean valid = true;
@@ -57,8 +87,7 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 	}
     
 	@Override
-	protected boolean processCustomRouteDocumentBusinessRules(
-			MaintenanceDocument document) {
+	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
@@ -66,8 +95,10 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 			PayType pt = (PayType) pbo;
 
 			valid = validateEarnCode(pt.getRegEarnCode(), pt.getEffectiveLocalDate());
+			valid &= validateInstitution(pt.getInstitution(), pt.getEffectiveLocalDate());
+			valid &= validateCampus(pt.getCampus(), pt.getEffectiveLocalDate());
 			if (document.isOldBusinessObjectInDocument() && !pt.isActive()) {
-				valid = validateActive(pt.getPayType(), pt.getEffectiveLocalDate());
+				valid &= validateActive(pt.getPayType(), pt.getEffectiveLocalDate());
 			}
 		}
 

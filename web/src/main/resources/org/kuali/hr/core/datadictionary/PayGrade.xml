@@ -320,7 +320,7 @@
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="payGrade"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="salGroup">
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.salarygroup.SalaryGroup"
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.salarygroup.SalaryGroup"
                               p:fieldConversions="hrSalGroup:salGroup"/>
                     </property>
                 </bean>
@@ -392,14 +392,14 @@
                             <bean parent="Uif-InputField" p:propertyName="payGrade"/>
                             <bean parent="Uif-InputField" p:propertyName="salGroup">
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.salarygroup.SalaryGroup"
+                                    <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.salarygroup.SalaryGroup"
                                           p:fieldConversions="hrSalGroup:salGroup"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="description"/>
                             <bean parent="Uif-InputField" p:propertyName="institution" >
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution"
+                                    <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution"
                                           p:fieldConversions="institutionCode:institution"/>
                                 </property>
                             </bean>
