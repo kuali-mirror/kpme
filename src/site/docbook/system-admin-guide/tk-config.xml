@@ -35,7 +35,7 @@
             their description.</para>
         <mediaobject>
             <imageobject>
-                <imagedata fileref="../images/tk/ClockLocRuleMaintDoc.png" format="PNG" scale="100"
+                <imagedata fileref="../images/tk/ClockLocRuleMaintDoc.png" format="PNG" scale="40"
                         />
             </imageobject>
             <caption>
@@ -124,6 +124,8 @@
         <table>
             <title>Clock Location Rule Document Fields</title>
             <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.50*"/>
                 <thead>
                     <row>
                         <entry>fields</entry>
@@ -195,7 +197,7 @@
             rule at different levels. </para>
         <mediaobject>
             <imageobject>
-                <imagedata fileref="../images/tk/DailyOVTrule.png" format="PNG" scale="100"/>
+                <imagedata fileref="../images/tk/DailyOVTrule.png" format="PNG" scale="40"/>
             </imageobject>
             <caption>
                 <para>Daily Overtime Rule Maintenance Document</para>
@@ -262,6 +264,8 @@
         <table>
             <title>Daily Overtime Rule Document fields</title>
             <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.50*"/>
                 <thead>
                     <row>
                         <entry>fields</entry>
@@ -344,55 +348,18 @@
         </note>
         <mediaobject>
             <imageobject>
-                <imagedata fileref="../images/tk/WeeklyOVTRule.png" format="PNG" scale="100"/>
+                <imagedata fileref="../images/tk/WeeklyOVTRule.png" format="PNG" scale="40"/>
             </imageobject>
             <caption>
                 <para>Weekly Overtime Rule Maintenance Document</para>
             </caption>
         </mediaobject>
-        <procedure>
-            <title>Setting up a Weekly Overtime Rule</title>
-            <step>
-                <para>
-                    Enter a short description of what you are doing.
-                </para>
-            </step>
-            <step>
-                <para>
-                    Pick the date that you want your weekly overtime rule be effective from.
-                </para>
-            </step>
-            <step>
-                <para>
-                        
-                </para>
-            </step>
-            <step>
-                <para>
-
-                </para>
-            </step>
-            <step>
-                <para>
-
-                </para>
-            </step>
-            <step>
-                <para>
-
-                </para>
-            </step>
-            <step>
-                <para>
-
-                </para>
-            </step>
-            
-        </procedure>
 
         <table>
             <title>Weekly Overtime Rule Document fields</title>
             <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.50*"/>
                 <thead>
                     <row>
                         <entry>field</entry>
@@ -452,9 +419,22 @@
             assignment will be enforced. Employees subject to the automatic lunch time deduction
             will not see the <emphasis role="bold">lunch in/out</emphasis> buttons (even if that
             system setting is enabled).</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/tk/DeptLunchRule.png" format="PNG" scale="40"
+                        />
+            </imageobject>
+            <caption>
+                <para>Department Lunch Deduction Rule Maintenance document</para>
+            </caption>
+        </mediaobject>
+
         <table>
             <title>Department Lunch Deduction Rule Document fields</title>
             <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.50*"/>
                 <thead>
                     <row>
                         <entry>field</entry>
@@ -527,9 +507,22 @@
             fractions of time and makes calculations less complicated for those employees trying to
             reach standard hours for the week. It also alleviates the rush to clock in or out right
             on the hour. </para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/tk/GracePeriodRule.png" format="PNG" scale="40"
+                        />
+            </imageobject>
+            <caption>
+                <para>Grace Period Rule Maintenance document</para>
+            </caption>
+        </mediaobject>
+
         <table>
             <title>Grace period rule</title>
             <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.50*"/>
                 <thead>
                     <row>
                         <entry>Rounded Time</entry>
@@ -593,9 +586,22 @@
             Payroll). The shift differential rule only assigns the additional earnings codes to
             shift hours within the specified shift time period. Any hours outside of the shift
             period will not be assigned shift.</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/tk/ShiftDiffRule.png" format="PNG" scale="40"
+                        />
+            </imageobject>
+            <caption>
+                <para>Shift Differential Rule Maintenance document</para>
+            </caption>
+        </mediaobject>
+
         <table>
             <title>Shift Differential Rule</title>
             <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.50*"/>
                 <thead>
                     <row>
                         <entry>field</entry>
@@ -682,9 +688,21 @@
         <para>System lunch rule is a system level setting which determines if the “Take Lunch” and
             “Return from Lunch” buttons display for clock entry employees. If the employee is
             subject to a lunch deduction rule, no lunch buttons will be displayed.</para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/tk/SysLunchRule.png" format="PNG" scale="40"
+                        />
+            </imageobject>
+            <caption>
+                <para>System Lunch Rule Maintenance document</para>
+            </caption>
+        </mediaobject>
+
         <table>
             <title>Fields on System Lunch Rule Document</title>
             <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.50*"/>
                 <thead>
                     <row>
                         <entry>field</entry>
@@ -721,9 +739,21 @@
             via clock entry or manual entry. This rule can be defined at various levels including at
             a system level. The timesheet shows the clock tab for entry if the most specific rule
             for that assignment is marked as a clock user.</para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/tk/TimeCollectionRule.png" format="PNG" scale="40"
+                        />
+            </imageobject>
+            <caption>
+                <para>Time Collection Rule Maintenance document</para>
+            </caption>
+        </mediaobject>
+
         <table>
             <title>Time Collection Rule Document Fields</title>
             <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.50*"/>
                 <thead>
                     <row>
                         <entry>Field</entry>
