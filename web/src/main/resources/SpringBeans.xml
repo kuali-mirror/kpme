@@ -266,6 +266,9 @@
                 <value>positionReportSubCatLookupable</value>                
                 <value>payStepLookupable</value>
                 <value>positionTypeLookupable</value>
+                <value>pstnContractTypeLookupable</value>
+                <value>positionDepartmentAffiliationLookupable</value>
+                <value>positionDepartmentLookupable</value>
             </set>
         </property>
     </bean>
@@ -383,10 +386,14 @@
 
  	<bean id="positionFlagDao" class="org.kuali.kpme.pm.positionflag.dao.PositionFlagDaoObjImpl" parent="platformAwareDao" />
  	
+ 	<bean id="pstnQlfctnVlDao" class="org.kuali.kpme.pm.pstnqlfctnvl.dao.PositionQualificationValueDaoObjImpl" parent="platformAwareDao" />
  	<bean id="pstnQlfrTypeDao" class="org.kuali.kpme.pm.pstnqlfrtype.dao.PstnQlfrTypeDaoObjImpl" parent="platformAwareDao" /> 
  	
- 	<bean id="pstnQlfctnVlDao" class="org.kuali.kpme.pm.pstnqlfctnvl.dao.PositionQualificationValueDaoObjImpl" parent="platformAwareDao" />	
+ 	<bean id="positionDepartmentAffiliationDao" class="org.kuali.kpme.pm.positiondepartmentaffiliation.dao.PositionDepartmentAffiliationDaoObjImpl" parent="platformAwareDao" />
  	
+ 	<bean id="positionDepartmentDao" class="org.kuali.kpme.pm.positiondepartment.dao.PositionDepartmentDaoObjImpl" parent="platformAwareDao" />	
+ 	
+ 	<bean id="pstnContractTypeDao" class="org.kuali.kpme.pm.pstncontracttype.dao.PstnContractTypeDaoObjImpl" parent="platformAwareDao" />
     <!-- Time Services for Business Logic -->
     <bean id="missedPunchService" class="org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchServiceImpl">
         <property name="missedPunchDao" ref="missedPunchDao"/>
@@ -692,6 +699,18 @@
     	<property name="pstnQlfctnVlDao" ref="pstnQlfctnVlDao"/>
     </bean>
     
+    <bean id="pstnContractTypeService" class="org.kuali.kpme.pm.pstncontracttype.service.PstnContractTypeServiceImpl">
+        <property name="pstnContractTypeDao" ref="pstnContractTypeDao"/>
+    </bean>
+  
+    <bean id="positionDepartmentAffiliationService" class="org.kuali.kpme.pm.positiondepartmentaffiliation.service.PositionDepartmentAffiliationServiceImpl">
+        <property name="positionDepartmentAffiliationDao" ref="positionDepartmentAffiliationDao"/>
+    </bean>
+    
+    <bean id="positionDepartmentService" class="org.kuali.kpme.pm.positiondepartment.service.PositionDepartmentServiceImpl">
+        <property name="positionDepartmentDao" ref="positionDepartmentDao"/>
+    </bean>
+  
     <bean id="accrualCategoryMaxCarryOverService" class="org.kuali.kpme.tklm.leave.accrual.service.AccrualCategoryMaxCarryOverServiceImpl">
         <property name="accrualCategoryService" ref="accrualCategoryService" />
 	    <property name="accrualCategoryRuleService" ref="accrualCategoryRuleService" />
@@ -1031,6 +1050,24 @@
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.pm.positiontype.service.PositionTypeLookupableHelper"/>
         </property>
+    </bean>
+    
+    <bean id="pstnContractTypeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.pm.pstncontracttype.service.PstnContractTypeLookupableHelper"/>
+        </property>
+    </bean>
+    
+    <bean id="positionDepartmentAffiliationLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    	<property name="lookupableHelperService">
+    		<bean class="org.kuali.kpme.pm.positiondepartmentaffiliation.service.PositionDepartmentAffiliationLookupableHelper"/>
+    	</property>    
+    </bean>
+    
+    <bean id="positionDepartmentLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    	<property name="lookupableHelperService">
+    		<bean class="org.kuali.kpme.pm.positiondepartment.service.PositionDepartmentLookupableHelper"/>
+    	</property>    
     </bean>
     
     <bean id="rice.ksb.serviceBus" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">

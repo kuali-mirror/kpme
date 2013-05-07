@@ -225,7 +225,7 @@
 <!--  Position Reporting Group Sub Category Maintenance View -->
   <bean id="PositionReportGroupSubCat-MaintenanceView" parent="PositionReportGroupSubCat-MaintenanceView-parentBean"/>
   <bean id="PositionReportGroupSubCat-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
-    <property name="headerText" value="PositionReportGroupSubCat Maintenance"/>
+    <property name="headerText" value="Position Report Group Sub Category Maintenance"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory"/>
     <property name="items">
       <list merge="true">

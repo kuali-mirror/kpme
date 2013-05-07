@@ -83,6 +83,11 @@
     <param name="kpme.struts.message.resources">ApplicationResources</param>
     <param name="rice.struts.message.resources">${core.rice.struts.message.resources}, ${kpme.struts.message.resources}</param>
 
+   <!-- list of resource bundle names (full qualified classnames) for application messages (default namespace
+   of KUALI), for messages associated with a namespace use the resourceBundleName configuration on the
+   corresponding ModuleDefinition -->
+ 	<param name="resourceBundleNames">org.kuali.rice.krad.KRADApplicationResources,org.kuali.rice.krad.ApplicationResources,org.kuali.rice.krms.ApplicationResources,ApplicationResources</param>
+
 	<!-- Client DB Defaults -->
     <param name="datasource.ojb.platform">MySQL</param>
     <param name="datasource.pool.maxWait">30000</param>

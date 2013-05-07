@@ -628,7 +628,7 @@
     </class-descriptor>
 
     <!--  Position -->
-    <!-- Business Keys - [positionNumber : workArea : effectiveDate : timestamp] -->
+    <!-- Business Keys - [positionNumber : effectiveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.core.bo.position.Position" table="HR_POSITION_T">
         <field-descriptor name="hrPositionId"   column="HR_POSITION_ID" jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="HR_POSITION_ID_S" />
         <field-descriptor name="positionNumber" column="POSITION_NBR"   jdbc-type="VARCHAR"     length="20" autoincrement="true" sequence-name="HR_POSITION_S" />

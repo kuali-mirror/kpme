@@ -18,6 +18,8 @@ import org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.services.LocationApiServiceLocator;
+import org.kuali.kpme.pm.PMConstants;
+import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
 
 public class PmValidationUtils {
 
@@ -170,6 +172,14 @@ public class PmValidationUtils {
 		}
 		return false;
 	}
+	
+	public static boolean validateAffiliation(String positionDeptAffl,  LocalDate asOfDate) {
+		if (asOfDate != null) {
+			List<PositionDepartmentAffiliation> pdaList = PmServiceLocator.getPositionDepartmentAffiliationService().getPositionDepartmentAffiliationList(positionDeptAffl, asOfDate);
+			return CollectionUtils.isNotEmpty(pdaList);
+		}
+		return false;
+	}
 
 	public static boolean validatePayGrade(String payGrade) {
 		// TODO Auto-generated method stub
@@ -180,6 +190,5 @@ public class PmValidationUtils {
 		return (StringUtils.equals(aString, HrConstants.WILDCARD_CHARACTER) ||
 					StringUtils.equals(aString,PMConstants.WILDCARD_CHARACTER));
 	}
-	
 	
 }

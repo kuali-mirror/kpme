@@ -25,7 +25,7 @@
 			<name>PositionReportSubCatMaintenanceDocumentType</name>
 			<parent>RiceDocument</parent>
 			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-			<label>PositionReportSubCatMaintenanceDocument</label>
+			<label>Position Report Sub Category Maintenance</label>
 		</documentType>   
      </documentTypes>
 </data>

@@ -309,4 +309,32 @@
         </property>
     </bean>
     
+    
+    
+    <!-- KRAD Lookup View Definition -->
+ 
+  <bean id="Department-LookupView" parent="Uif-LookupView">
+    <property name="headerText" value="Department Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.time.department.Department" />
+
+    <property name="criteriaFields">
+      <list>
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="dept" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y" />
+      </list>
+    </property>
+
+    <property name="resultFields">
+      <list>
+		<bean parent="Uif-InputField" p:propertyName="dept" />
+		<bean parent="Uif-InputField" p:propertyName="location" />
+		<bean parent="Uif-InputField" p:propertyName="description" />
+		<bean parent="Uif-InputField" p:propertyName="timestamp" />
+		<bean parent="Uif-InputField" p:propertyName="active" />
+      </list>
+    </property>
+  </bean>
+    
 </beans>
