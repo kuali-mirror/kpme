@@ -73,7 +73,7 @@
 				</bean>
 			</list>
 		</property>
-		<property name="objectLabel" value="PositionReportCat" />
+		<property name="objectLabel" value="Position Report Category" />
 	</bean>
 
 	<!-- Attribute Definitions -->
@@ -241,7 +241,7 @@
 	
   <!-- KRAD Lookup View Definition -->
   <bean id="PositionReportCat-LookupView" parent="Uif-LookupView">
-    <property name="headerText" value="PositionReportCategory Lookup" />
+    <property name="headerText" value="Position Report Category Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportcat.PositionReportCategory" />
     <property name="criteriaFields">
       <list>

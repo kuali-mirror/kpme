@@ -52,7 +52,7 @@
 				</bean>
 			</list>
 		</property>
-		<property name="objectLabel" value="PayStep" />
+		<property name="objectLabel" value="Pay Step" />
 	</bean>
 
 	<!-- Attribute Definitions -->
@@ -241,7 +241,7 @@
 					<bean parent="Uif-InputField" p:propertyName="salaryGroup" p:required="true">
 						<property name="quickfinder">
 				            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.salarygroup.SalaryGroup"
-				                  p:fieldConversions="hrSalGroup:salGroup"/>
+				                  p:fieldConversions="hrSalGroup:salaryGroup"/>
 				        </property>
 					</bean>
 					<bean parent="Uif-InputField" p:propertyName="payGrade" p:required="true">
@@ -296,7 +296,7 @@
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="salaryGroup">
 			<property name="quickfinder">
 	            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.salarygroup.SalaryGroup"
-	                  p:fieldConversions="hrSalGroup:salGroup"/>
+	                  p:fieldConversions="hrSalGroup:salaryGroup"/>
 	        </property>
 		</bean>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="payGrade">

@@ -13,6 +13,7 @@ import org.kuali.kpme.pm.pstncontracttype.service.PstnContractTypeService;
 import org.kuali.kpme.pm.pstnqlfctnvl.service.PositionQualificationValueService;
 import org.kuali.kpme.pm.pstnqlfrtype.service.PstnQlfrTypeService;
 import org.kuali.kpme.pm.pstnrptgrpsubcat.service.PstnRptGrpSubCatService;
+import org.kuali.kpme.pm.positionappointment.service.PositionAppointmentService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -34,6 +35,7 @@ public class PmServiceLocator implements ApplicationContextAware {
     public static final String PM_POSITION_FLAG_SERVICE = "positionFlagService";
     public static final String PM_POSITION_QUALIFIER_TYPE_SERVICE = "pstnQlfrTypeService";
     public static final String PM_POSITION_QUALIFICATION_VALUE_SERVICE = "pstnQlfctnVlService";
+    public static final String PM_POSITION_APPOINTMENT_SERVICE = "positionAppointmentService";
     public static final String PM_POSITION_DEPT_AFFL_SERVICE = "positionDepartmentAffiliationService";
     public static final String PM_POSITION_DEPT_SERVICE = "positionDepartmentService";
     
@@ -87,6 +89,10 @@ public class PmServiceLocator implements ApplicationContextAware {
 
 	public static PositionDepartmentAffiliationService getPositionDepartmentAffiliationService() {
 		return (PositionDepartmentAffiliationService) CONTEXT.getBean(PM_POSITION_DEPT_AFFL_SERVICE);
+	}
+	
+	public static PositionAppointmentService getPositionAppointmentService() {
+		return (PositionAppointmentService) CONTEXT.getBean(PM_POSITION_APPOINTMENT_SERVICE);
 	}
 	
 	public static PositionDepartmentService getPositionDepartmentService() {

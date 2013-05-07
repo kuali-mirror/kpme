@@ -16,7 +16,7 @@
 	        <ref bean="PositionDepartmentAffiliation-active"/>
 	      </list>
 	    </property>
-	    <property name="objectLabel" value="PositionDepartmentAffiliation"/>
+	    <property name="objectLabel" value="Position Department Affiliation"/>
   	</bean>
 
 	<!-- Attribute Definitions -->  

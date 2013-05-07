@@ -63,7 +63,7 @@
 				</bean>
 			</list>
 		</property>
-		<property name="objectLabel" value="PositionReportGroup" />
+		<property name="objectLabel" value="Position Report Group" />
 	</bean>
 
 	<!-- Attribute Definitions -->
@@ -80,7 +80,7 @@
 			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
 		<property name="name" value="pmPositionReportGroupId" />
-		<property name="label" value="PositionReportGroup Id" />
+		<property name="label" value="Position Report Group Id" />
 	</bean>
 
 	<bean id="PositionReportGroup-effectiveDate" parent="PositionReportGroup-effectiveDate-parentBean" />
@@ -225,7 +225,7 @@
   <!-- KRAD Lookup View Definition -->
 
   <bean id="PositionReportGroup-LookupView" parent="Uif-LookupView">
-    <property name="headerText" value="PositionReportGroup Lookup" />
+    <property name="headerText" value="Position Report Group Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" />
     <property name="criteriaFields">
       <list>

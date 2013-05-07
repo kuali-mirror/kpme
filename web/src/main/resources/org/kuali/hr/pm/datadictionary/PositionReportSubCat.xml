@@ -76,7 +76,7 @@
 				</bean>
 			</list>
 		</property>
-		<property name="objectLabel" value="PositionReportSubCat" />
+		<property name="objectLabel" value="Position Report Sub Category" />
 	</bean>
 
 	<!-- Attribute Definitions -->

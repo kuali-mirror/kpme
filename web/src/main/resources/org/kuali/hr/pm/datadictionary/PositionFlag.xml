@@ -34,7 +34,7 @@
 	        <ref bean="PositionFlag-active"/>
 		 </list>
 	    </property>
-	    <property name="objectLabel" value="PositionFlag"/>
+	    <property name="objectLabel" value="Position Flag"/>
   	</bean>
 
 <!-- Attribute Definitions -->  

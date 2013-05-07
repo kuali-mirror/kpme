@@ -22,10 +22,11 @@
     <documentTypes xmlns="ns:workflow/DocumentType"
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
-			<name>InstitutionDocumentType</name>
+			<name>PositionAppointmentMaintenanceDocumentType</name>
 			<parent>RiceDocument</parent>
-			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-			<label>Institution Maintenance</label>
-		</documentType>   
+			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.kpme.pm.positionappointment.PositionAppointment
+	      	</docHandler>
+			<label>Position Appointment Document</label>
+		</documentType> 
      </documentTypes>
 </data>

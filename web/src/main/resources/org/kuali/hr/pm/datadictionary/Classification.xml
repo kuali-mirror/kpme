@@ -411,7 +411,7 @@
     <property name="items">
       <list merge="true">
         <bean parent="Uif-MaintenanceGridSection">
-         <property name="headerText" value="Position Classification"/>
+         <property name="headerText" value="Position Classification Maintenance"/>
           <property name="items">
             <list>
 	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
@@ -484,7 +484,7 @@
 					         </bean>
 				        </property>
 				        <property name="quickfinder">
-			       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.lm.leaveplan.LeavePlan" 
+			       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.bo.leaveplan.LeavePlan"
 			        			 p:fieldConversions="leavePlan:leavePlan"/>
 			   		 	</property>
 			       </bean>

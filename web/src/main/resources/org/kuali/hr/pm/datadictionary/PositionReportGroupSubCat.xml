@@ -33,7 +33,7 @@
 				</bean>	
 			</list>
 		</property>
-	    <property name="objectLabel" value="PositionReportGroupSubCat"/>
+	    <property name="objectLabel" value="Position Report Group Sub Category"/>
   	</bean>
 
 <!-- Attribute Definitions -->  
@@ -216,7 +216,7 @@
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
 	        	</list>
 	     	 </property>
-	     	 <property name="title" value="PositionReportGroupSubCategory Inquiry"/>
+	     	 <property name="title" value="Position Report Group Sub Category Inquiry"/>
 	   	   </bean>
       </list>
     </property>
@@ -257,7 +257,7 @@
 		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" />
             </list>
           </property>
-          <property name="title" value="PositionReportGroupSubCat"/>
+          <property name="title" value="Position Report Group Sub Category Maintenance"/>
         </bean>
       </list>
     </property>

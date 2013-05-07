@@ -4,8 +4,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.paystep.PayStep;
 import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.kpme.pm.util.PmValidationUtils;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
 @SuppressWarnings("deprecation")
 public class PayStepValidation extends MaintenanceDocumentRuleBase {
@@ -16,7 +16,7 @@ public class PayStepValidation extends MaintenanceDocumentRuleBase {
 		LOG.debug("entering custom validation for pay step");
 		boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
-		PayStep payStep = (PayStep) this.getNewBo();
+		PayStep payStep = (PayStep) this.getNewDataObject();
 		
 		isValid &= validateInstitution(payStep);
 		isValid &= validateCampus(payStep);

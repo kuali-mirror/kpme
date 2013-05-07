@@ -8,7 +8,7 @@
 			<parent>RiceDocument</parent>
 			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType
 			</docHandler>
-			<label>PositionQualifierTypeMaintenanceDocument</label>
+			<label>Position Qualifier Type Maintenance</label>
 		</documentType>   
      </documentTypes>
 </data>

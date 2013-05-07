@@ -7,7 +7,7 @@
 			<name>PositionDepartmentAffiliationMaintenanceDocumentType</name>
 			<parent>RiceDocument</parent>
 			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler</docHandler>
-			<label>PositionDepartmentAffiliationMaintenanceDocument</label>
+			<label>Position Department Affiliation Maintenance</label>
 		</documentType>   
      </documentTypes>
 </data>

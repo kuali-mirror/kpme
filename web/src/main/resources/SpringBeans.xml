@@ -266,6 +266,7 @@
                 <value>positionReportSubCatLookupable</value>                
                 <value>payStepLookupable</value>
                 <value>positionTypeLookupable</value>
+                <value>positionAppointmentLookupable</value>
                 <value>pstnContractTypeLookupable</value>
                 <value>positionDepartmentAffiliationLookupable</value>
                 <value>positionDepartmentLookupable</value>
@@ -392,6 +393,8 @@
  	<bean id="positionDepartmentAffiliationDao" class="org.kuali.kpme.pm.positiondepartmentaffiliation.dao.PositionDepartmentAffiliationDaoObjImpl" parent="platformAwareDao" />
  	
  	<bean id="positionDepartmentDao" class="org.kuali.kpme.pm.positiondepartment.dao.PositionDepartmentDaoObjImpl" parent="platformAwareDao" />	
+ 	
+ 	<bean id="positionAppointmentDao" class="org.kuali.kpme.pm.positionappointment.dao.PositionAppointmentDaoObjImpl" parent="platformAwareDao" />	
  	
  	<bean id="pstnContractTypeDao" class="org.kuali.kpme.pm.pstncontracttype.dao.PstnContractTypeDaoObjImpl" parent="platformAwareDao" />
     <!-- Time Services for Business Logic -->
@@ -697,6 +700,10 @@
     
     <bean id="pstnQlfctnVlService" class="org.kuali.kpme.pm.pstnqlfctnvl.service.PositionQualificationValueServiceImpl">
     	<property name="pstnQlfctnVlDao" ref="pstnQlfctnVlDao"/>
+    </bean>
+    
+    <bean id="positionAppointmentService" class="org.kuali.kpme.pm.positionappointment.service.PositionAppointmentServiceImpl">
+        <property name="positionAppointmentDao" ref="positionAppointmentDao"/>
     </bean>
     
     <bean id="pstnContractTypeService" class="org.kuali.kpme.pm.pstncontracttype.service.PstnContractTypeServiceImpl">
@@ -1049,6 +1056,12 @@
     <bean id="positionTypeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.pm.positiontype.service.PositionTypeLookupableHelper"/>
+        </property>
+    </bean>
+    
+    <bean id="positionAppointmentLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.pm.positionappointment.service.PositionAppointmentLookupableHelper"/>
         </property>
     </bean>
     

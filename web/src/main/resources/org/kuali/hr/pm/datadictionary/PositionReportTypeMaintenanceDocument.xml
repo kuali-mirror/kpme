@@ -44,7 +44,7 @@
   <bean id="PositionReportTypeMaintenanceDocument-PositionReportTypeMaintenance" parent="PositionReportTypeMaintenanceDocument-PositionReportTypeMaintenance-parentBean"/>
 
   <bean id="PositionReportTypeMaintenanceDocument-PositionReportTypeMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="PositionReportType Maintenance"/>
+    <property name="title" value="Position Report Type Maintenance"/>
     <property name="maintainableItems">
       <list>
       	<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>

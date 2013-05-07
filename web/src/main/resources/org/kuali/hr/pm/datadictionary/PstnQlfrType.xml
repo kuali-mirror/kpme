@@ -42,7 +42,7 @@
 <!-- 	        <bean parent="CollectionDefinition" p:name="valueList" p:label="Qualification Values" p:shortLabel="Values" p:elementLabel="Value"/> -->
 <!-- 	      </list> -->
 <!-- 	    </property> -->
-	    <property name="objectLabel" value="PositionQualifierType"/>
+	    <property name="objectLabel" value="Position Qualifier Type"/>
   	</bean>
 
 <!-- Attribute Definitions -->  
