@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.kpme.tklm.time.workflow.dao.TimesheetDocumentHeaderDao;
@@ -58,7 +59,7 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
 
     @Override
     public TimesheetDocumentHeader getPrevOrNextDocumentHeader(String prevOrNext, String principalId) {
-        TimesheetDocument currentTimesheet = HrContext.getCurrentTimesheetDocument();
+        TimesheetDocument currentTimesheet = TkServiceLocator.getTimesheetService().getTimesheetDocument(HrContext.getCurrentTimesheetDocumentId());
         TimesheetDocumentHeader tsdh;
         if (StringUtils.equals(prevOrNext, TkConstants.PREV_TIMESHEET)) {
             tsdh = documentHeaderDao.getPreviousDocumentHeader(principalId, currentTimesheet.getDocumentHeader().getBeginDateTime());

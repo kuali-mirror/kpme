@@ -15,23 +15,19 @@
  */
 package org.kuali.kpme.core.web;
 
-import java.util.List;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.document.calendar.CalendarDocumentContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
-import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
@@ -49,18 +45,18 @@ public class WorkflowTagSupport {
     }
 
     public boolean isDisplayingTimesheetRouteButton() {
-    	return isDisplayingRouteButton(HrContext.getCurrentTimesheetDocument());
+    	return isDisplayingTimesheetRouteButton(HrContext.getCurrentTimesheetDocument());
     }
 
     public boolean isDisplayingLeaveRouteButton() {
-    	return isDisplayingRouteButton(HrContext.getCurrentLeaveCalendarDocument());
+    	return isDisplayingLeaveRouteButton(HrContext.getCurrentLeaveCalendarDocument());
     }
     
     public boolean isDisplayingCurrentPeriodRouteButtonWithNoDelinquencies() {
-    	LeaveCalendarDocument doc = HrContext.getCurrentLeaveCalendarDocument();
+    	CalendarDocument doc = HrContext.getCurrentLeaveCalendarDocument();
     	if (LocalDate.now().toDate().after(DateUtils.addMilliseconds(doc.getCalendarEntry().getBeginPeriodDate(),1)) &&
     			LocalDate.now().toDate().before(DateUtils.addMilliseconds(doc.getCalendarEntry().getEndPeriodDate(), -1))) {
-    		if (!isDelinquent(doc) && isDisplayingRouteButton(doc)) {
+    		if (!isDelinquent(doc) && isDisplayingLeaveRouteButton(doc)) {
     			return true;
     		} else {
     			return false;
@@ -71,10 +67,10 @@ public class WorkflowTagSupport {
     }
     
     public boolean isDisplayingCurrentPeriodTimesheetRouteButtonWithNoDelinquencies() {
-    	TimesheetDocument doc = HrContext.getCurrentTimesheetDocument();
+    	CalendarDocument doc = HrContext.getCurrentTimesheetDocument();
     	if (LocalDate.now().toDate().after(DateUtils.addMilliseconds(doc.getCalendarEntry().getBeginPeriodDate(),1)) &&
     			LocalDate.now().toDate().before(DateUtils.addMilliseconds(doc.getCalendarEntry().getEndPeriodDate(), -1))) {
-    		if (isDisplayingRouteButton(doc)) {
+    		if (isDisplayingTimesheetRouteButton(doc)) {
     			return true;
     		} else {
     			return false;
@@ -84,23 +80,23 @@ public class WorkflowTagSupport {
     	}
     }
 
-    private boolean isDisplayingRouteButton(TimesheetDocument timesheetDocument) {
+    private boolean isDisplayingTimesheetRouteButton(CalendarDocument calendarDocument) {
     	boolean isDisplayingRouteButton = false;
     	
-    	if (timesheetDocument != null) {
+    	if (calendarDocument != null) {
     		String principalId = GlobalVariables.getUserSession().getPrincipalId();
-    		String documentId = timesheetDocument.getDocumentHeader().getDocumentId();
-	        DocumentStatus documentStatus = DocumentStatus.fromCode(timesheetDocument.getDocumentHeader().getDocumentStatus());
+    		String documentId = calendarDocument.getDocumentHeader().getDocumentId();
+	        DocumentStatus documentStatus = DocumentStatus.fromCode(calendarDocument.getDocumentHeader().getDocumentStatus());
 	        
 	        if (ObjectUtils.equals(documentStatus, DocumentStatus.INITIATED) || ObjectUtils.equals(documentStatus, DocumentStatus.SAVED)) {
-	        	isDisplayingRouteButton = TkServiceLocator.getTKPermissionService().canSubmitTimesheet(principalId, documentId);
+	        	isDisplayingRouteButton = HrServiceLocator.getHRPermissionService().canSubmitCalendarDocument(principalId, calendarDocument);
 	        }
     	}
     	
         return isDisplayingRouteButton;
     }
     
-    private boolean isDisplayingRouteButton(LeaveCalendarDocument leaveCalendarDocument) {
+    private boolean isDisplayingLeaveRouteButton(CalendarDocument leaveCalendarDocument) {
     	boolean isDisplayingRouteButton = false;
     	
     	if (leaveCalendarDocument != null) {
@@ -109,7 +105,7 @@ public class WorkflowTagSupport {
 	        DocumentStatus documentStatus = DocumentStatus.fromCode(leaveCalendarDocument.getDocumentHeader().getDocumentStatus());
 	        
 	        if (ObjectUtils.equals(documentStatus, DocumentStatus.INITIATED) || ObjectUtils.equals(documentStatus, DocumentStatus.SAVED)) {
-	        	isDisplayingRouteButton = LmServiceLocator.getLMPermissionService().canSubmitLeaveCalendar(principalId, documentId);
+	        	isDisplayingRouteButton = HrServiceLocator.getHRPermissionService().canSubmitCalendarDocument(principalId, leaveCalendarDocument);
 	        }
     	}
     	
@@ -129,7 +125,7 @@ public class WorkflowTagSupport {
      * @return true if the route button should render as enabled.
      */
     public boolean isRouteLeaveButtonEnabled() {
-        LeaveCalendarDocument doc = HrContext.getCurrentLeaveCalendarDocument();
+        CalendarDocument doc = HrContext.getCurrentLeaveCalendarDocument();
         return isRouteButtonEnabled(doc) && !isDelinquent(doc) 
         		&& (HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithEStatus() && LocalDate.now().toDate().compareTo(doc.getDocumentHeader().getEndDate()) > 0);
     }
@@ -145,24 +141,23 @@ public class WorkflowTagSupport {
      * @param doc
      * @return true if there are previous non-routed or non-final documents
      */
-    private boolean isDelinquent(LeaveCalendarDocument doc) {
-        String principalId = doc.getDocumentHeader().getPrincipalId();
-        List<LeaveCalendarDocumentHeader> lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getSubmissionDelinquentDocumentHeaders(principalId, doc.getAsOfDate().toDateTimeAtStartOfDay().plusSeconds(1));
-        if (lcdh.isEmpty()){
+    private boolean isDelinquent(CalendarDocument doc) {
+        String principalId = doc.getPrincipalId();
+        if (LmServiceLocator.getLeaveCalendarDocumentHeaderService().getSubmissionDelinquentDocumentHeaders(principalId, doc.getAsOfDate().toDateTimeAtStartOfDay().plusSeconds(1)).isEmpty()){
             return false;        // no delinquncy
         } else
             return true;        // all previous leave document are final or enroute.
     }
     
     public boolean isDisplayingTimesheetApprovalButtons() {
-        return isDisplayingApprovalButtons(HrContext.getCurrentTimesheetDocument());
+        return isDisplayingTimesheetApprovalButtons(HrContext.getCurrentTimesheetDocument());
     }
 
     public boolean isDisplayingLeaveApprovalButtons() {
         return isDisplayingApprovalButtons(HrContext.getCurrentLeaveCalendarDocument());
     }
 
-    private boolean isDisplayingApprovalButtons(TimesheetDocument timesheetDocument) {
+    private boolean isDisplayingTimesheetApprovalButtons(CalendarDocument timesheetDocument) {
     	boolean isDisplayingApprovalButtons = false;
     	
     	if (timesheetDocument != null) {
@@ -172,15 +167,15 @@ public class WorkflowTagSupport {
 	        boolean tookActionAlready = KEWServiceLocator.getActionTakenService().hasUserTakenAction(principalId, documentId);
 	        
 	        if (!ObjectUtils.equals(documentStatus, DocumentStatus.FINAL) && !tookActionAlready) {
-	        	isDisplayingApprovalButtons = TkServiceLocator.getTKPermissionService().canApproveTimesheet(principalId, documentId)
-	        			|| TkServiceLocator.getTKPermissionService().canSuperUserAdministerTimesheet(principalId, documentId);
+	        	isDisplayingApprovalButtons = HrServiceLocator.getHRPermissionService().canApproveCalendarDocument(principalId, timesheetDocument)
+	        			|| HrServiceLocator.getHRPermissionService().canSuperUserAdministerCalendarDocument(principalId, timesheetDocument);
 	        }
     	}
     	
         return isDisplayingApprovalButtons;    
     }
     
-    private boolean isDisplayingApprovalButtons(LeaveCalendarDocument leaveCalendarDocument) {
+    private boolean isDisplayingApprovalButtons(CalendarDocument leaveCalendarDocument) {
     	boolean isDisplayingApprovalButtons = false;
     	
     	if (leaveCalendarDocument != null) {
@@ -190,8 +185,8 @@ public class WorkflowTagSupport {
 	        boolean tookActionAlready = KEWServiceLocator.getActionTakenService().hasUserTakenAction(principalId, documentId);
 	        
 	        if (!ObjectUtils.equals(documentStatus, DocumentStatus.FINAL) && !tookActionAlready) {
-	        	isDisplayingApprovalButtons = LmServiceLocator.getLMPermissionService().canApproveLeaveCalendar(principalId, documentId)
-	        			|| LmServiceLocator.getLMPermissionService().canSuperUserAdministerLeaveCalendar(principalId, documentId);
+	        	isDisplayingApprovalButtons = HrServiceLocator.getHRPermissionService().canApproveCalendarDocument(principalId, leaveCalendarDocument)
+	        			|| HrServiceLocator.getHRPermissionService().canSuperUserAdministerCalendarDocument(principalId, leaveCalendarDocument);
 	        }
     	}
     	
@@ -199,12 +194,12 @@ public class WorkflowTagSupport {
     }
 
     public boolean isApprovalTimesheetButtonsEnabled() {
-        TimesheetDocument doc = HrContext.getCurrentTimesheetDocument();
+        CalendarDocument doc = HrContext.getCurrentTimesheetDocument();
         return isApprovalButtonsEnabled(doc);
     }
 
     public boolean isApprovalLeaveButtonsEnabled() {
-        LeaveCalendarDocument doc = HrContext.getCurrentLeaveCalendarDocument();
+        CalendarDocument doc = HrContext.getCurrentLeaveCalendarDocument();
         return isApprovalButtonsEnabled(doc) && LmServiceLocator.getLeaveCalendarService().isReadyToApprove(doc);
     }
 

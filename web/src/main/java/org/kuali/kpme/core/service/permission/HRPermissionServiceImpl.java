@@ -9,11 +9,18 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.action.ActionType;
+import org.kuali.rice.kew.api.action.ValidActions;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class HRPermissionServiceImpl extends HrPermissionServiceBase implements HRPermissionService {
 	
@@ -43,6 +50,81 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
 		return getPermissionService().isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
 	}
 	
+    @Override
+    public boolean canApproveCalendarDocument(String principalId, CalendarDocument calendarDocument) {
+    	boolean canApproveLeaveCalendar = false;
+    	
+    	ValidActions validActions = KewApiServiceLocator.getWorkflowDocumentActionsService().determineValidActions(calendarDocument.getDocumentId(), principalId);
+    	
+    	if (validActions.getValidActions() != null) {
+    		canApproveLeaveCalendar = validActions.getValidActions().contains(ActionType.APPROVE);
+    	}
+    	
+    	return canApproveLeaveCalendar;
+    }
+	
+    @Override
+    public boolean canViewCalendarDocument(String principalId, CalendarDocument calendarDocument) {
+    	return canSuperUserAdministerCalendarDocument(principalId, calendarDocument) 
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, calendarDocument);
+    }
+    
+    @Override
+    public boolean canViewCalendarDocumentAssignment(String principalId, CalendarDocument calendarDocument, Assignment assignment) {
+    	return canSuperUserAdministerCalendarDocument(principalId, calendarDocument)
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, calendarDocument, assignment);
+    }
+    
+    @Override
+    public boolean canEditCalendarDocument(String principalId, CalendarDocument calendarDocument) {
+    	return canSuperUserAdministerCalendarDocument(principalId, calendarDocument) 
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, calendarDocument);
+    }
+    
+    @Override
+    public boolean canEditCalendarDocumentAssignment(String principalId, CalendarDocument calendarDocument, Assignment assignment) {
+    	return canSuperUserAdministerCalendarDocument(principalId, calendarDocument)
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, calendarDocument, assignment);
+    }
+    
+    @Override
+    public boolean canSubmitCalendarDocument(String principalId, CalendarDocument calendarDocument) {
+        return canSuperUserAdministerCalendarDocument(principalId, calendarDocument) 
+        		|| isAuthorizedByTemplate(principalId, KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, KimConstants.PermissionTemplateNames.ROUTE_DOCUMENT, calendarDocument);
+    }
+    
+    @Override
+    public boolean canSuperUserAdministerCalendarDocument(String principalId, CalendarDocument calendarDocument) {
+        return isAuthorizedByTemplate(principalId, KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, "Administer Routing for Document", calendarDocument);
+    }
+    
+    private boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, CalendarDocument calendarDocument) {
+    	boolean isAuthorizedByTemplate = false;
+
+    	if (calendarDocument != null) {
+    		String documentTypeName = calendarDocument.getCalendarType();
+        	DocumentStatus documentStatus = DocumentStatus.fromCode(calendarDocument.getDocumentHeader().getDocumentStatus());
+    		List<Assignment> assignments = calendarDocument.getAssignments();
+        	
+        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, calendarDocument.getDocumentId(), documentStatus, assignments);
+    	}
+    	
+    	return isAuthorizedByTemplate;
+    }
+    
+    private boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, CalendarDocument calendarDocument, Assignment assignment) {
+    	boolean isAuthorizedByTemplate = false;
+
+    	if (calendarDocument != null) {
+    		String documentTypeName = calendarDocument.getCalendarType();
+        	DocumentStatus documentStatus = DocumentStatus.fromCode(calendarDocument.getDocumentHeader().getDocumentStatus());
+        	
+        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, calendarDocument.getDocumentId(), documentStatus, assignment);
+    	}
+    	
+    	return isAuthorizedByTemplate;
+    }
+    
 	public PermissionService getPermissionService() {
 		return permissionService;
 	}

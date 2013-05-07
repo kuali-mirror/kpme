@@ -25,6 +25,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.job.Job;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
@@ -252,7 +253,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         leaveCalendarDocumentAction(HrConstants.DOCUMENT_ACTIONS.DISAPPROVE, principalId, leaveCalendarDocument);
     }
 
-    public boolean isReadyToApprove(LeaveCalendarDocument document) {
+    public boolean isReadyToApprove(CalendarDocument document) {
         if (document == null) {
             return false;
         }
@@ -320,8 +321,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             	
             	wd.route("Batch job routing leave calendar");
             } else if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.APPROVE)) {
-                if (LmServiceLocator.getLMPermissionService().canSuperUserAdministerLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid) 
-                		&& !LmServiceLocator.getLMPermissionService().canApproveLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid)) {
+                if (HrServiceLocator.getHRPermissionService().canSuperUserAdministerCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), leaveCalendarDocument) 
+                		&& !HrServiceLocator.getHRPermissionService().canApproveCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), leaveCalendarDocument)) {
                     wd.superUserBlanketApprove("Superuser approving timesheet.");
                 } else {
                     wd.approve("Approving timesheet.");
@@ -334,8 +335,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             	
             	wd.superUserBlanketApprove("Batch job approving leave calendar");
             } else if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
-                if (LmServiceLocator.getLMPermissionService().canSuperUserAdministerLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid) 
-                		&& !LmServiceLocator.getLMPermissionService().canApproveLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid)) {
+                if (HrServiceLocator.getHRPermissionService().canSuperUserAdministerCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), leaveCalendarDocument) 
+                		&& !HrServiceLocator.getHRPermissionService().canApproveCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), leaveCalendarDocument)) {
                     wd.superUserDisapprove("Superuser disapproving leave calendar.");
                 } else {
                     wd.disapprove("Disapproving timesheet.");

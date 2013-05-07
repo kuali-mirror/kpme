@@ -39,6 +39,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -65,7 +66,7 @@ public class ClockAction extends TimesheetAction {
 
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
     	String documentId = HrContext.getCurrentTimesheetDocumentId();
-
+    	CalendarDocument timesheetDocument = HrContext.getCurrentTimesheetDocument();
         // Check for write access to Timeblock.
         if (StringUtils.equals(methodToCall, "clockAction") ||
                 StringUtils.equals(methodToCall, "addTimeBlock") ||
@@ -73,7 +74,7 @@ public class ClockAction extends TimesheetAction {
                 StringUtils.equals(methodToCall, "distributeTimeBlocks") ||
                 StringUtils.equals(methodToCall, "saveNewTimeBlocks") ||
                 StringUtils.equals(methodToCall, "deleteTimeBlock")) {
-            if (!TkServiceLocator.getTKPermissionService().canEditTimesheet(principalId, documentId)) {
+            if (!HrServiceLocator.getHRPermissionService().canEditCalendarDocument(principalId, timesheetDocument)) {
                 throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "ClockAction", "");
             }
         }

@@ -619,8 +619,6 @@
 
     <bean id="tkSearchableAttributeService" class="org.kuali.kpme.tklm.time.docsearch.TkSearchableAttributeServiceImpl"/>
 
-    <bean id="tkWarningService" class="org.kuali.kpme.tklm.time.warning.TkWarningServiceImpl"/>
-          
     <bean id="timezoneService" class="org.kuali.kpme.core.service.timezone.TimezoneServiceImpl"/>
 
     <bean id="timeApproveService" class="org.kuali.kpme.tklm.time.approval.service.TimeApproveServiceImpl"/>
@@ -734,6 +732,8 @@
     
     <bean id="hrPermissionService" class="org.kuali.kpme.core.service.permission.HRPermissionServiceImpl">
         <property name="permissionService" ref="kimPermissionService" />
+        <property name="workAreaService" ref="workAreaService" />
+        <property name="departmentService" ref="departmentService" />
     </bean>
     
     <bean id="tkPermissionService" class="org.kuali.kpme.tklm.time.service.permission.TKPermissionServiceImpl">

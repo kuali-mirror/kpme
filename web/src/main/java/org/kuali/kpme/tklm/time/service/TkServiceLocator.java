@@ -40,7 +40,6 @@ import org.kuali.kpme.tklm.time.timehourdetail.service.TimeHourDetailService;
 import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
 import org.kuali.kpme.tklm.time.timesummary.service.TimeSummaryService;
 import org.kuali.kpme.tklm.time.user.pref.service.UserPreferenceService;
-import org.kuali.kpme.tklm.time.warning.TkWarningService;
 import org.kuali.kpme.tklm.time.workflow.service.TimesheetDocumentHeaderService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -170,10 +169,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static TimeApproveService getTimeApproveService(){
 		return (TimeApproveService)CONTEXT.getBean(TK_APPROVE_SERVICE);
-	}
-
-	public static TkWarningService getWarningService(){
-		return (TkWarningService) CONTEXT.getBean(TK_WARNINGS_SERVICE);
 	}
 
 	public static TkSearchableAttributeService getTkSearchableAttributeService(){

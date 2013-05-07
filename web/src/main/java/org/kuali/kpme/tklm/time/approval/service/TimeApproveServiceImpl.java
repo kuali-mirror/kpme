@@ -277,7 +277,17 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 						.getTimeBlocks(documentId);
                 notes = getNotesForDocument(documentId);
                 TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
-				warnings = TkServiceLocator.getWarningService().getWarnings(td);
+                Map<String, List<LocalDate>> earnCodeMap = new HashMap<String, List<LocalDate>>();
+                for(TimeBlock tb : td.getTimeBlocks()) {
+                	if(!earnCodeMap.containsKey(tb.getEarnCode())) {
+                		List<LocalDate> lst = new ArrayList<LocalDate>();
+                		lst.add(tb.getBeginDateTime().toLocalDate());
+                		earnCodeMap.put(tb.getEarnCode(), lst);
+                	}
+                	else
+                		earnCodeMap.get(tb.getEarnCode()).add(tb.getBeginDateTime().toLocalDate());
+                }
+                warnings = HrServiceLocator.getEarnCodeGroupService().warningTextFromEarnCodeGroupsOfDocument(earnCodeMap);
 
 			}
 			//TODO: Move to Warning Service!!!!!

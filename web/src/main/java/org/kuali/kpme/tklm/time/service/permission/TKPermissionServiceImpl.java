@@ -14,27 +14,19 @@ import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.bo.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.paytype.PayType;
-import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.permission.HrPermissionServiceBase;
-import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
-import org.kuali.rice.kew.api.action.ActionType;
-import org.kuali.rice.kew.api.action.ValidActions;
-import org.kuali.rice.kew.api.document.DocumentStatus;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 
 public class TKPermissionServiceImpl extends HrPermissionServiceBase implements TKPermissionService {
 	
@@ -52,85 +44,6 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
 	public boolean isAuthorized(String principalId, String permissionName, Map<String, String> qualification, DateTime asOfDate) {
 		return getPermissionService().isAuthorized(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), permissionName, qualification);
 	}
-	
-    @Override
-    public boolean canViewTimesheet(String principalId, String documentId) {
-    	return canSuperUserAdministerTimesheet(principalId, documentId)
-    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, documentId);
-    }
-    
-    @Override
-    public boolean canViewTimesheetAssignment(String principalId, String documentId, Assignment assignment) {
-    	return canSuperUserAdministerTimesheet(principalId, documentId)
-    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, documentId, assignment);
-    }
-    
-    @Override
-    public boolean canEditTimesheet(String principalId, String documentId) {
-        return canSuperUserAdministerTimesheet(principalId, documentId)
-        		|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, documentId);
-    }
-    
-    @Override
-    public boolean canEditTimesheetAssignment(String principalId, String documentId, Assignment assignment) {
-    	return canSuperUserAdministerTimesheet(principalId, documentId)
-    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, documentId, assignment);
-    }
-    
-    @Override
-    public boolean canSubmitTimesheet(String principalId, String documentId) {
-        return canSuperUserAdministerTimesheet(principalId, documentId)
-        		|| isAuthorizedByTemplate(principalId, KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, KimConstants.PermissionTemplateNames.ROUTE_DOCUMENT, documentId);
-    }
-    
-    @Override
-    public boolean canApproveTimesheet(String principalId, String documentId) {
-    	boolean canApproveTimesheet = false;
-    	
-    	ValidActions validActions = KewApiServiceLocator.getWorkflowDocumentActionsService().determineValidActions(documentId, principalId);
-    	
-    	if (validActions.getValidActions() != null) {
-    		canApproveTimesheet = validActions.getValidActions().contains(ActionType.APPROVE);
-    	}
-    	
-    	return canApproveTimesheet;
-    }
-    
-    @Override
-    public boolean canSuperUserAdministerTimesheet(String principalId, String documentId) {
-        return isAuthorizedByTemplate(principalId, KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, "Administer Routing for Document", documentId);
-    }
-    
-    private boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentId) {
-    	boolean isAuthorizedByTemplate = false;
-    	
-    	TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(documentId);
-    	
-    	if (timesheetDocument != null) {
-    		String documentTypeName = TimesheetDocument.TIMESHEET_DOCUMENT_TYPE;
-        	DocumentStatus documentStatus = DocumentStatus.fromCode(timesheetDocument.getDocumentHeader().getDocumentStatus());
-    		List<Assignment> assignments = timesheetDocument.getAssignments();
-        	
-        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, documentId, documentStatus, assignments);
-    	}
-    	
-    	return isAuthorizedByTemplate;
-    }
-    
-    private boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentId, Assignment assignment) {
-    	boolean isAuthorizedByTemplate = false;
-    	
-    	TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(documentId);
-    	
-    	if (timesheetDocument != null) {
-    		String documentTypeName = TimesheetDocument.TIMESHEET_DOCUMENT_TYPE;
-        	DocumentStatus documentStatus = DocumentStatus.fromCode(timesheetDocument.getDocumentHeader().getDocumentStatus());
-        	
-        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, documentId, documentStatus, assignment);
-    	}
-    	
-    	return isAuthorizedByTemplate;
-    }
     
     @Override
 	public boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, Map<String, String> permissionDetails, DateTime asOfDate) {
@@ -399,9 +312,9 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             		|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime());
         } else {
             return TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-        			|| HrServiceLocator.getHRRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-        			|| HrServiceLocator.getHRRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
-        			|| HrServiceLocator.getHRRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime());
+        			|| LmServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+        			|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+        			|| LmServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime());
         }
     }
     

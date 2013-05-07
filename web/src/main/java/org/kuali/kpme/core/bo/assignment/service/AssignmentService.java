@@ -22,6 +22,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.springframework.cache.annotation.Cacheable;
@@ -61,7 +62,7 @@ public interface AssignmentService {
      * @param clockOnlyAssignments
      * @return
      */
-    public Map<String,String> getAssignmentDescriptions(TimesheetDocument td, boolean clockOnlyAssignments);
+    public Map<String,String> getAssignmentDescriptions(CalendarDocument td, boolean clockOnlyAssignments);
     /**
      * Get all assignment descriptions for an assignment
      * @param assignment

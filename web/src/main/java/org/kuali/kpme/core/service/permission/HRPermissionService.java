@@ -3,6 +3,8 @@ package org.kuali.kpme.core.service.permission;
 import java.util.Map;
 
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.bo.assignment.Assignment;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 
 public interface HRPermissionService {
 
@@ -128,10 +130,84 @@ public interface HRPermissionService {
 	 */
 	boolean isAuthorizedByTemplateInLocation(String principalId, String namespaceCode, String permissionTemplateName, String location, DateTime asOfDate);
 
+	/**
+	 * Checks whether the given {@code principalId} can approve the LeaveCalendar specified by {@code documentId}.
+	 * 
+	 * @param principalId The person to check
+	 * @param calendarDocument The id of the document
+	 * 
+	 * @return true if {@code principalId} can approve the LeaveCalendar specified by {@code documentId}, false otherwise.
+	 */
+	boolean canApproveCalendarDocument(String principalId, CalendarDocument calendarDocument);
+	
+	/**
+	 * Checks whether the given {@code principalId} can view the LeaveCalendar specified by {@code documentId}.
+	 * 
+	 * @param principalId The person to check
+	 * @param calendarDocument The id of the document
+	 * 
+	 * @return true if {@code principalId} can view the LeaveCalendar specified by {@code documentId}, false otherwise.
+	 */
+	boolean canViewCalendarDocument(String principalId, CalendarDocument calendarDocument);
+	
+	/**
+	 * Checks whether the given {@code principalId} can view the given {@code assignment} attached to the LeaveCalendar specified by {@code documentId}.
+	 * 
+	 * @param principalId The person to check
+	 * @param calendarDocument The id of the document
+	 * @param assignment The assignment attached to the document
+	 * 
+	 * @return true if {@code principalId} can view the given {@code assignment} attached to the LeaveCalendar specified by {@code documentId}, false otherwise.
+	 */
+	boolean canViewCalendarDocumentAssignment(String principalId, CalendarDocument calendarDocument, Assignment assignment);
+
+	/**
+	 * Checks whether the given {@code principalId} can edit the LeaveCalendar specified by {@code documentId}.
+	 * 
+	 * @param principalId The person to check
+	 * @param calendarDocument The id of the document
+	 * 
+	 * @return true if {@code principalId} can edit the LeaveCalendar specified by {@code documentId}, false otherwise.
+	 */
+	boolean canEditCalendarDocument(String principalId, CalendarDocument calendarDocument);
+	
+	/**
+	 * Checks whether the given {@code principalId} can edit the given {@code assignment} attached to the LeaveCalendar specified by {@code documentId}.
+	 * 
+	 * @param principalId The person to check
+	 * @param calendarDocument The id of the document
+	 * @param assignment The assignment attached to the document
+	 * 
+	 * @return true if {@code principalId} can edit the given {@code assignment} attached to the LeaveCalendar specified by {@code documentId}, false otherwise.
+	 */
+	boolean canEditCalendarDocumentAssignment(String principalId, CalendarDocument calendarDocument, Assignment assignment);
+
+	/**
+	 * Checks whether the given {@code principalId} can submit the LeaveCalendar specified by {@code documentId}.
+	 * 
+	 * @param principalId The person to check
+	 * @param calendarDocument The id of the document
+	 * 
+	 * @return true if {@code principalId} can submit the LeaveCalendar specified by {@code documentId}, false otherwise.
+	 */
+	boolean canSubmitCalendarDocument(String principalId, CalendarDocument calendarDocument);
+	
+	/**
+	 * Checks whether the given {@code principalId} can super user administer the LeaveCalendar specified by {@code documentId}.
+	 * 
+	 * @param principalId The person to check
+	 * @param calendarDocument The id of the document
+	 * 
+	 * @return true if {@code principalId} can super user administer the LeaveCalendar specified by {@code documentId}, false otherwise.
+	 */
+	boolean canSuperUserAdministerCalendarDocument(String principalId, CalendarDocument calendarDocument);
+
+	
 	boolean canViewTimeTabs();
 
 	boolean canViewLeaveTabsWithEStatus();
 
 	boolean canViewLeaveTabsWithNEStatus();
+
 
 }

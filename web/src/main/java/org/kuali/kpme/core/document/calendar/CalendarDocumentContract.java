@@ -50,4 +50,5 @@ public interface CalendarDocumentContract {
      * @return asOfDate
      */
     LocalDate getAsOfDate();
+    
 }

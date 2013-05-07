@@ -16,6 +16,7 @@
 package org.kuali.kpme.tklm.time.detail.web;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,6 +45,7 @@ import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -82,11 +84,11 @@ public class TimeDetailAction extends TimesheetAction {
         
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
     	String documentId = HrContext.getCurrentTimesheetDocumentId();
-
+    	TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
         if (StringUtils.equals(methodToCall, "addTimeBlock") 
         		|| StringUtils.equals(methodToCall, "deleteTimeBlock") 
         		|| StringUtils.equals(methodToCall, "updateTimeBlock")) {
-            if (!TkServiceLocator.getTKPermissionService().canEditTimesheet(principalId, documentId)) {
+            if (!HrServiceLocator.getHRPermissionService().canEditCalendarDocument(principalId, timesheetDocument)) {
                 throw new AuthorizationException(principalId, "TimeDetailAction", "");
             }
         }
@@ -110,7 +112,7 @@ public class TimeDetailAction extends TimesheetAction {
         Calendar payCalendar = HrServiceLocator.getCalendarService().getCalendar(payCalendarEntry != null ? payCalendarEntry.getHrCalendarId() : null);
         
         //List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdaf.getTimesheetDocument().getDocumentHeader().getTimesheetDocumentId()));
-        List<TimeBlock> timeBlocks = HrContext.getCurrentTimesheetDocument().getTimeBlocks();
+        List<TimeBlock> timeBlocks = TkServiceLocator.getTimesheetService().getTimesheetDocument(HrContext.getCurrentTimesheetDocumentId()).getTimeBlocks();
         // get leave blocks
         List<Assignment> timeAssignments = HrContext.getCurrentTimesheetDocument().getAssignments();
         List<String> tAssignmentKeys = new ArrayList<String>();
@@ -280,7 +282,8 @@ public class TimeDetailAction extends TimesheetAction {
 
     // use lists of time blocks and leave blocks to build the style class map and assign css class to associated summary rows
 	private void assignStypeClassMapForTimeSummary(TimeDetailActionForm tdaf, List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks) throws Exception {
-		TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(HrContext.getCurrentTimesheetDocument());
+		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(HrContext.getCurrentTimesheetDocumentId());
+		TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(tdoc);
         tdaf.setAssignStyleClassMap(ActionFormUtils.buildAssignmentStyleClassMap(timeBlocks, leaveBlocks));
         Map<String, String> aMap = tdaf.getAssignStyleClassMap();
         // set css classes for each assignment row
@@ -595,7 +598,10 @@ public class TimeDetailAction extends TimesheetAction {
         // KPME-1340
         TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(newTimeBlocks);
-        HrContext.getCurrentTimesheetDocument().setTimeBlocks(newTimeBlocks);
+        TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(HrContext.getCurrentTimesheetDocumentId());
+        tdoc.setTimeBlocks(newTimeBlocks);
+        tdaf.setTimesheetDocument(tdoc);
+        //HrContext.setCurrentTimesheetDocument(tdoc);
         
         return mapping.findForward("basic");
     }

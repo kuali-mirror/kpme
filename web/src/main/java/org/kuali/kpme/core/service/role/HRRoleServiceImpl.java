@@ -33,19 +33,4 @@ public class HRRoleServiceImpl extends KPMERoleServiceBase implements HRRoleServ
 		throw new RuntimeException("PM namespace has not been defined");
 	}
 
-	@Override
-	public Role getTkRoleByName(String roleName) {
-		return getRoleService().getRoleByNamespaceCodeAndName(KPMENamespace.KPME_TK.getNamespaceCode(), roleName);
-	}
-
-	@Override
-	public Role getLmRoleByName(String roleName) {
-		return getRoleService().getRoleByNamespaceCodeAndName(KPMENamespace.KPME_LM.getNamespaceCode(), roleName);
-	}
-
-	@Override
-	public Role getPmRoleByName(String roleName) {
-		throw new RuntimeException("PM namespace has not been defined");
-	}
-
 }

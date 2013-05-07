@@ -20,8 +20,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.authorization.AuthorizationValidationUtils;
-import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.service.HrServiceLocator;

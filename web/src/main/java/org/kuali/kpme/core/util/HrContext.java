@@ -26,6 +26,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
@@ -193,8 +194,8 @@ public class HrContext {
         return isSynchronous;
     }
 
-    public static TimesheetDocument getCurrentTimesheetDocument() {
-        return (TimesheetDocument)HrContext.getStorageMap().get(TDOC_OBJ_KEY);
+    public static CalendarDocument getCurrentTimesheetDocument() {
+        return (CalendarDocument) HrContext.getStorageMap().get(TDOC_OBJ_KEY);
     }
 
     public static void setCurrentTimesheetDocument(TimesheetDocument tdoc) {
@@ -209,8 +210,8 @@ public class HrContext {
         HrContext.getStorageMap().put(TDOC_KEY, timesheetDocumentId);
     }
 
-    public static LeaveCalendarDocument getCurrentLeaveCalendarDocument() {
-        return  (LeaveCalendarDocument)HrContext.getStorageMap().get(LDOC_OBJ_KEY);
+    public static CalendarDocument getCurrentLeaveCalendarDocument() {
+        return  (CalendarDocument) HrContext.getStorageMap().get(LDOC_OBJ_KEY);
     }
 
     public static void setCurrentLeaveCalendarDocument(LeaveCalendarDocument ldoc) {

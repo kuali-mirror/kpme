@@ -12,15 +12,13 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.permission.HrPermissionServiceBase;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.service.LeaveCalendarService;
 import org.kuali.kpme.tklm.leave.request.service.LeaveRequestDocumentService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -51,54 +49,6 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 	public boolean isAuthorized(String principalId, String permissionName, Map<String, String> qualification, DateTime asOfDate) {
 		return getPermissionService().isAuthorized(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), permissionName, qualification);
 	}
-	
-    @Override
-    public boolean canViewLeaveCalendar(String principalId, String documentId) {
-    	return canSuperUserAdministerLeaveCalendar(principalId, documentId) 
-    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, documentId);
-    }
-    
-    @Override
-    public boolean canViewLeaveCalendarAssignment(String principalId, String documentId, Assignment assignment) {
-    	return canSuperUserAdministerLeaveCalendar(principalId, documentId)
-    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, documentId, assignment);
-    }
-    
-    @Override
-    public boolean canEditLeaveCalendar(String principalId, String documentId) {
-    	return canSuperUserAdministerLeaveCalendar(principalId, documentId) 
-    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, documentId);
-    }
-    
-    @Override
-    public boolean canEditLeaveCalendarAssignment(String principalId, String documentId, Assignment assignment) {
-    	return canSuperUserAdministerLeaveCalendar(principalId, documentId)
-    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, documentId, assignment);
-    }
-    
-    @Override
-    public boolean canSubmitLeaveCalendar(String principalId, String documentId) {
-        return canSuperUserAdministerLeaveCalendar(principalId, documentId) 
-        		|| isAuthorizedByTemplate(principalId, KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, KimConstants.PermissionTemplateNames.ROUTE_DOCUMENT, documentId);
-    }
-    
-    @Override
-    public boolean canApproveLeaveCalendar(String principalId, String documentId) {
-    	boolean canApproveLeaveCalendar = false;
-    	
-    	ValidActions validActions = KewApiServiceLocator.getWorkflowDocumentActionsService().determineValidActions(documentId, principalId);
-    	
-    	if (validActions.getValidActions() != null) {
-    		canApproveLeaveCalendar = validActions.getValidActions().contains(ActionType.APPROVE);
-    	}
-    	
-    	return canApproveLeaveCalendar;
-    }
-    
-    @Override
-    public boolean canSuperUserAdministerLeaveCalendar(String principalId, String documentId) {
-        return isAuthorizedByTemplate(principalId, KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, "Administer Routing for Document", documentId);
-    }
     
     @Override
     public boolean canViewLeaveRequest(String principalId, String documentId) {
@@ -138,31 +88,15 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
     
     private boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentId) {
     	boolean isAuthorizedByTemplate = false;
+
+/*    	LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(documentId);
     	
-    	LeaveCalendarDocument leaveCalendarDocument = getLeaveCalendarService().getLeaveCalendarDocument(documentId);
-    	
-    	if (leaveCalendarDocument != null) {
-    		String documentTypeName = LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE;
-        	DocumentStatus documentStatus = DocumentStatus.fromCode(leaveCalendarDocument.getDocumentHeader().getDocumentStatus());
-    		List<Assignment> assignments = leaveCalendarDocument.getAssignments();
+    	if (lrd != null) {
+    		String documentTypeName = LeaveRequestDocument.LEAVE_REQUEST_DOCUMENT_TYPE;
+        	DocumentStatus documentStatus = DocumentStatus.fromCode(lrd.getActionCode());
         	
-        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, documentId, documentStatus, assignments);
-    	}
-    	
-    	return isAuthorizedByTemplate;
-    }
-    
-    private boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentId, Assignment assignment) {
-    	boolean isAuthorizedByTemplate = false;
-    	
-    	LeaveCalendarDocument leaveCalendarDocument = getLeaveCalendarService().getLeaveCalendarDocument(documentId);
-    	
-    	if (leaveCalendarDocument != null) {
-    		String documentTypeName = LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE;
-        	DocumentStatus documentStatus = DocumentStatus.fromCode(leaveCalendarDocument.getDocumentHeader().getDocumentStatus());
-        	
-        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, documentId, documentStatus, assignment);
-    	}
+        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, documentId, documentStatus);
+    	}*/
     	
     	return isAuthorizedByTemplate;
     }

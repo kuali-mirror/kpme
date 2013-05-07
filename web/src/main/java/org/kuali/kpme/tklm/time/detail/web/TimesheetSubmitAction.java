@@ -58,8 +58,8 @@ public class TimesheetSubmitAction extends KPMEAction {
     	
     	String principalId = GlobalVariables.getUserSession().getPrincipalId();
     	String documentId = tsaf.getDocumentId();
-
-        if (!TkServiceLocator.getTKPermissionService().canEditTimesheet(principalId, documentId)) {
+    	TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
+        if (!HrServiceLocator.getHRPermissionService().canEditCalendarDocument(principalId, timesheetDocument)) {
             throw new AuthorizationException(principalId, "TimesheetSubmitAction", "");
         }
     }

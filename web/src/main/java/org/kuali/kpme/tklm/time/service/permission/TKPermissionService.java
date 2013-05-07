@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.bo.assignment.Assignment;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 
 public interface TKPermissionService {
@@ -66,78 +67,6 @@ public interface TKPermissionService {
 	 * @return true if {@code principalId} is authorized to perform {@code permissionName} for the given location, false otherwise.
 	 */
 	boolean isAuthorizedInLocation(String principalId, String permissionName, String location, DateTime asOfDate);
-
-	/**
-	 * Checks whether the given {@code principalId} can view the Timesheet specified by {@code documentId}.
-	 * 
-	 * @param principalId The person to check
-	 * @param documentId The id of the document
-	 * 
-	 * @return true if {@code principalId} can view the Timesheet specified by {@code documentId}, false otherwise.
-	 */
-	boolean canViewTimesheet(String principalId, String documentId);
-	
-	/**
-	 * Checks whether the given {@code principalId} can view the given {@code assignment} attached to the Timesheet specified by {@code documentId}.
-	 * 
-	 * @param principalId The person to check
-	 * @param documentId The id of the document
-	 * @param assignment The assignment attached to the document
-	 * 
-	 * @return true if {@code principalId} can view the given {@code assignment} attached to the Timesheet specified by {@code documentId}, false otherwise.
-	 */
-	boolean canViewTimesheetAssignment(String principalId, String documentId, Assignment assignment);
-
-	/**
-	 * Checks whether the given {@code principalId} can edit the Timesheet specified by {@code documentId}.
-	 * 
-	 * @param principalId The person to check
-	 * @param documentId The id of the document
-	 * 
-	 * @return true if {@code principalId} can edit the Timesheet specified by {@code documentId}, false otherwise.
-	 */
-	boolean canEditTimesheet(String principalId, String documentId);
-	
-	/**
-	 * Checks whether the given {@code principalId} can edit the given {@code assignment} attached to the Timesheet specified by {@code documentId}.
-	 * 
-	 * @param principalId The person to check
-	 * @param documentId The id of the document
-	 * @param assignment The assignment attached to the document
-	 * 
-	 * @return true if {@code principalId} can edit the given {@code assignment} attached to the Timesheet specified by {@code documentId}, false otherwise.
-	 */
-	boolean canEditTimesheetAssignment(String principalId, String documentId, Assignment assignment);
-
-	/**
-	 * Checks whether the given {@code principalId} can submit the Timesheet specified by {@code documentId}.
-	 * 
-	 * @param principalId The person to check
-	 * @param documentId The id of the document
-	 * 
-	 * @return true if {@code principalId} can submit the Timesheet specified by {@code documentId}, false otherwise.
-	 */
-	boolean canSubmitTimesheet(String principalId, String documentId);
-	
-	/**
-	 * Checks whether the given {@code principalId} can approve the Timesheet specified by {@code documentId}.
-	 * 
-	 * @param principalId The person to check
-	 * @param documentId The id of the document
-	 * 
-	 * @return true if {@code principalId} can approve the Timesheet specified by {@code documentId}, false otherwise.
-	 */
-	boolean canApproveTimesheet(String principalId, String documentId);
-
-	/**
-	 * Checks whether the given {@code principalId} can super user administer the Timesheet specified by {@code documentId}.
-	 * 
-	 * @param principalId The person to check
-	 * @param documentId The id of the document
-	 * 
-	 * @return true if {@code principalId} can super user administer the Timesheet specified by {@code documentId}, false otherwise.
-	 */
-	boolean canSuperUserAdministerTimesheet(String principalId, String documentId);
 
 	/**
 	 * Checks whether the given {@code principalId} is authorized to perform any permission templated by {@code permissionTemplateName} for the given permission details.

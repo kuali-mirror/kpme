@@ -19,16 +19,12 @@ import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.kpme.core.document.calendar.CalendarDocumentHeaderBase;
+import org.kuali.kpme.core.util.HrConstants;
 
-public class TimesheetDocumentHeader extends PersistableBusinessObjectBase implements CalendarDocumentHeaderContract {
+public class TimesheetDocumentHeader extends CalendarDocumentHeaderBase implements CalendarDocumentHeaderContract {
 
 	private static final long serialVersionUID = 1L;
-	private String documentId;
-	private String principalId;
-	private Date beginDate;
-	private Date endDate;
-	private String documentStatus;
 
 	public TimesheetDocumentHeader() {
 		
@@ -40,6 +36,7 @@ public class TimesheetDocumentHeader extends PersistableBusinessObjectBase imple
 		this.beginDate = payBeginDate;
 		this.endDate = payEndDate;
 		this.documentStatus = documentStatus;
+		this.calendarType = HrConstants.PAY_CALENDAR_TYPE;
 	}
 
     @Override
@@ -103,6 +100,12 @@ public class TimesheetDocumentHeader extends PersistableBusinessObjectBase imple
 	
 	public void setBeginDateTime(DateTime beginDateTime) {
 		this.beginDate = beginDateTime != null ? beginDateTime.toDate() : null;
+	}
+
+	@Override
+	public String getCalendarType() {
+		// TODO Auto-generated method stub
+		return calendarType;
 	}
 
 }

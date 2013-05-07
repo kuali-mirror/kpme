@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.calendar;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,18 +22,15 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.document.calendar.CalendarDocumentContract;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 
-public class LeaveCalendarDocument implements CalendarDocumentContract, Serializable {
+public class LeaveCalendarDocument extends CalendarDocument {
 
 	public static final String LEAVE_CALENDAR_DOCUMENT_TYPE = "LeaveCalendarDocument";
 
-	LeaveCalendarDocumentHeader documentHeader;
 	List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
-	private List<Assignment> assignments = new LinkedList<Assignment>();
-	private CalendarEntry calendarEntry;
 
 	public LeaveCalendarDocument(CalendarEntry calendarEntry) {
 		this.calendarEntry = calendarEntry;
@@ -43,11 +39,12 @@ public class LeaveCalendarDocument implements CalendarDocumentContract, Serializ
 	public LeaveCalendarDocument(
 			LeaveCalendarDocumentHeader documentHeader) {
 		this.documentHeader = documentHeader;
+		setCalendarType(LEAVE_CALENDAR_DOCUMENT_TYPE);
 	}
 
     @Override
 	public LeaveCalendarDocumentHeader getDocumentHeader() {
-		return documentHeader;
+		return (LeaveCalendarDocumentHeader) super.getDocumentHeader();
 	}
 
 	public void setDocumentHeader(

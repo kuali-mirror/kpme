@@ -18,6 +18,8 @@ package org.kuali.kpme.core.bo.earncode.group.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -74,22 +76,20 @@ public class EarnCodeGroupServiceImpl implements EarnCodeGroupService {
     }
     
     @Override
-    public List<String> warningTextFromEarnCodeGroupsOfDocument(TimesheetDocument timesheetDocument) {
-    	 List<String> warningMessages = new ArrayList<String>();
-	     List<TimeBlock> tbList = timesheetDocument.getTimeBlocks();
-	     if (tbList.isEmpty()) {
-	         return warningMessages;
-	     }
-	     
-	     Set<String> aSet = new HashSet<String>();
-	     for(TimeBlock tb : tbList) {
-	    	EarnCodeGroup eg = this.getEarnCodeGroupForEarnCode(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
-	    	if(eg != null && !StringUtils.isEmpty(eg.getWarningText())) {
-	    		aSet.add(eg.getWarningText());
-	    	}
-	     }
-	    warningMessages.addAll(aSet);
-		return warningMessages;
+    public List<String> warningTextFromEarnCodeGroupsOfDocument(Map<String,List<LocalDate>> earnCodeMap) {
+    	List<String> warningMessages = new ArrayList<String>();
+    	
+    	Set<String> aSet = new HashSet<String>();
+    	for(Entry<String, List<LocalDate>> entry : earnCodeMap.entrySet()) {
+    		for(LocalDate date : entry.getValue()) {
+    			EarnCodeGroup eg = this.getEarnCodeGroupForEarnCode(entry.getKey(), date);
+    			if(eg != null && !StringUtils.isEmpty(eg.getWarningText())) {
+    				aSet.add(eg.getWarningText());
+    			}
+    		}
+    	}
+    	warningMessages.addAll(aSet);
+    	return warningMessages;
     }
     @Override
     public int getEarnCodeGroupCount(String earnCodeGroup) {

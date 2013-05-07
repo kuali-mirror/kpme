@@ -73,33 +73,6 @@ public abstract class KPMERoleServiceBase {
 	 * @return the role specified by {@code roleName}.
 	 */
 	public abstract Role getRoleByName(String roleName);
-	
-	/**
-	 * Gets the role specified by {@code roleName} within the TK namespace.
-	 * 
-	 * @param roleName The name of the role
-	 * 
-	 * @return the role specified by {@code roleName}.
-	 */	
-	public abstract Role getTkRoleByName(String roleName);
-	
-	/**
-	 * Gets the role specified by {@code roleName} within the LM namespace.
-	 * 
-	 * @param roleName The name of the role
-	 * 
-	 * @return the role specified by {@code roleName}.
-	 */
-	public abstract Role getLmRoleByName(String roleName);
-	
-	/**
-	 * Gets the role specified by {@code roleName} within the PM namespace.
-	 * 
-	 * @param roleName The name of the role
-	 * 
-	 * @return the role specified by {@code roleName}.
-	 */
-	public abstract Role getPmRoleByName(String roleName);
 
 	/**
 	 * Checks whether the given {@code principalId} has the role {@code roleName}.

@@ -34,6 +34,7 @@ import org.kuali.kpme.core.bo.assignment.dao.AssignmentDao;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.bo.job.Job;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -216,7 +217,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public Map<String, String> getAssignmentDescriptions(TimesheetDocument timesheetDocument, boolean clockOnlyAssignments) {
+    public Map<String, String> getAssignmentDescriptions(CalendarDocument timesheetDocument, boolean clockOnlyAssignments) {
         Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
     	
     	if (timesheetDocument != null) {
@@ -225,7 +226,7 @@ public class AssignmentServiceImpl implements AssignmentService {
             for (Assignment assignment : assignments) {
             	String principalId = GlobalVariables.getUserSession().getPrincipalId();
 
-            	if (TkServiceLocator.getTKPermissionService().canViewTimesheetAssignment(principalId, timesheetDocument.getDocumentId(), assignment)) {
+            	if (HrServiceLocator.getHRPermissionService().canViewCalendarDocumentAssignment(principalId, timesheetDocument, assignment)) {
 	                if (!clockOnlyAssignments || assignment.isSynchronous()) {
 	                    assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
 	                }
@@ -406,4 +407,5 @@ public class AssignmentServiceImpl implements AssignmentService {
 		}	
 		return assignmentDao.getAssignments(workAreaList, effdt, startDate, endDate);
 	}
+
 }

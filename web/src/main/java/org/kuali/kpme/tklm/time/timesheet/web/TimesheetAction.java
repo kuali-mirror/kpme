@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
@@ -49,9 +50,9 @@ public class TimesheetAction extends KPMEAction {
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
     	String principalId = GlobalVariables.getUserSession().getPrincipalId();
     	String documentId = HrContext.getCurrentTimesheetDocumentId();
-    	
-        if (!TkServiceLocator.getTKPermissionService().canViewTimesheet(principalId, documentId)) {
-            throw new AuthorizationException(principalId, "TimesheetAction: docid: " + documentId, "");
+    	TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
+        if (!HrServiceLocator.getHRPermissionService().canViewCalendarDocument(principalId, timesheetDocument)) {
+            throw new AuthorizationException(principalId, "TimesheetAction: docid: " + timesheetDocument.getDocumentId(), "");
         }
     }
 

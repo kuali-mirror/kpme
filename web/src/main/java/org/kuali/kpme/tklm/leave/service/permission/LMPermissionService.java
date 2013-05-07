@@ -3,7 +3,6 @@ package org.kuali.kpme.tklm.leave.service.permission;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 
 public interface LMPermissionService {
@@ -66,78 +65,6 @@ public interface LMPermissionService {
 	 * @return true if {@code principalId} is authorized to perform {@code permissionName} for the given location, false otherwise.
 	 */
 	boolean isAuthorizedInLocation(String principalId, String permissionName, String location, DateTime asOfDate);
-	
-	/**
-	 * Checks whether the given {@code principalId} can view the LeaveCalendar specified by {@code documentId}.
-	 * 
-	 * @param principalId The person to check
-	 * @param documentId The id of the document
-	 * 
-	 * @return true if {@code principalId} can view the LeaveCalendar specified by {@code documentId}, false otherwise.
-	 */
-	boolean canViewLeaveCalendar(String principalId, String documentId);
-	
-	/**
-	 * Checks whether the given {@code principalId} can view the given {@code assignment} attached to the LeaveCalendar specified by {@code documentId}.
-	 * 
-	 * @param principalId The person to check
-	 * @param documentId The id of the document
-	 * @param assignment The assignment attached to the document
-	 * 
-	 * @return true if {@code principalId} can view the given {@code assignment} attached to the LeaveCalendar specified by {@code documentId}, false otherwise.
-	 */
-	boolean canViewLeaveCalendarAssignment(String principalId, String documentId, Assignment assignment);
-
-	/**
-	 * Checks whether the given {@code principalId} can edit the LeaveCalendar specified by {@code documentId}.
-	 * 
-	 * @param principalId The person to check
-	 * @param documentId The id of the document
-	 * 
-	 * @return true if {@code principalId} can edit the LeaveCalendar specified by {@code documentId}, false otherwise.
-	 */
-	boolean canEditLeaveCalendar(String principalId, String documentId);
-	
-	/**
-	 * Checks whether the given {@code principalId} can edit the given {@code assignment} attached to the LeaveCalendar specified by {@code documentId}.
-	 * 
-	 * @param principalId The person to check
-	 * @param documentId The id of the document
-	 * @param assignment The assignment attached to the document
-	 * 
-	 * @return true if {@code principalId} can edit the given {@code assignment} attached to the LeaveCalendar specified by {@code documentId}, false otherwise.
-	 */
-	boolean canEditLeaveCalendarAssignment(String principalId, String documentId, Assignment assignment);
-
-	/**
-	 * Checks whether the given {@code principalId} can submit the LeaveCalendar specified by {@code documentId}.
-	 * 
-	 * @param principalId The person to check
-	 * @param documentId The id of the document
-	 * 
-	 * @return true if {@code principalId} can submit the LeaveCalendar specified by {@code documentId}, false otherwise.
-	 */
-	boolean canSubmitLeaveCalendar(String principalId, String documentId);
-	
-	/**
-	 * Checks whether the given {@code principalId} can approve the LeaveCalendar specified by {@code documentId}.
-	 * 
-	 * @param principalId The person to check
-	 * @param documentId The id of the document
-	 * 
-	 * @return true if {@code principalId} can approve the LeaveCalendar specified by {@code documentId}, false otherwise.
-	 */
-	boolean canApproveLeaveCalendar(String principalId, String documentId);
-
-	/**
-	 * Checks whether the given {@code principalId} can super user administer the LeaveCalendar specified by {@code documentId}.
-	 * 
-	 * @param principalId The person to check
-	 * @param documentId The id of the document
-	 * 
-	 * @return true if {@code principalId} can super user administer the LeaveCalendar specified by {@code documentId}, false otherwise.
-	 */
-	boolean canSuperUserAdministerLeaveCalendar(String principalId, String documentId);
 	
 	/**
 	 * Checks whether the given {@code principalId} can view the LeaveRequest specified by {@code documentId}.

@@ -53,8 +53,8 @@ public class LeaveCalendarSubmitAction extends KPMEAction {
 
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         String documentId = lcf.getDocumentId();
-        
-        if (!LmServiceLocator.getLMPermissionService().canEditLeaveCalendar(principalId, documentId)) {
+        LeaveCalendarDocument lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
+        if (!HrServiceLocator.getHRPermissionService().canEditCalendarDocument(principalId, lcd)) {
             throw new AuthorizationException(principalId, "LeaveCalendarSubmitAction", "");
         }
     }

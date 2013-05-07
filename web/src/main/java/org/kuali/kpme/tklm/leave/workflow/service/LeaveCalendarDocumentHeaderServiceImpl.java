@@ -55,7 +55,7 @@ public class LeaveCalendarDocumentHeaderServiceImpl implements LeaveCalendarDocu
 	@Override
 	public LeaveCalendarDocumentHeader getPrevOrNextDocumentHeader(
 			String prevOrNext, String principalId) {
-		    LeaveCalendarDocument currentLeaveCalendar = HrContext.getCurrentLeaveCalendarDocument();
+		    LeaveCalendarDocument currentLeaveCalendar = (LeaveCalendarDocument) HrContext.getCurrentLeaveCalendarDocument();
 	        LeaveCalendarDocumentHeader lcdh;
 	        if (StringUtils.equals(prevOrNext, TkConstants.PREV_TIMESHEET)) {
 	        	lcdh = leaveCalendarDocumentHeaderDao.getPreviousDocumentHeader(principalId, currentLeaveCalendar.getDocumentHeader().getBeginDateTime());

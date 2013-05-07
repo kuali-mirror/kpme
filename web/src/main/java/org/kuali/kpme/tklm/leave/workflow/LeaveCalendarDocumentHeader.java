@@ -19,15 +19,11 @@ import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
+import org.kuali.kpme.core.document.calendar.CalendarDocumentHeaderBase;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class LeaveCalendarDocumentHeader extends PersistableBusinessObjectBase implements CalendarDocumentHeaderContract {
-
-    private String documentId;
-    private String principalId;
-    private Date beginDate;
-    private Date endDate;
-    private String documentStatus;
+public class LeaveCalendarDocumentHeader extends CalendarDocumentHeaderBase implements CalendarDocumentHeaderContract {
 
     public LeaveCalendarDocumentHeader() {
 
@@ -39,6 +35,7 @@ public class LeaveCalendarDocumentHeader extends PersistableBusinessObjectBase i
 		this.beginDate = beginDate;
 		this.endDate = endDate;
 		this.documentStatus = documentStatus;
+		this.calendarType = HrConstants.LEAVE_CALENDAR_TYPE;
 	}
 
     @Override
@@ -103,4 +100,9 @@ public class LeaveCalendarDocumentHeader extends PersistableBusinessObjectBase i
     public void setPrincipalId(String principalId) {
         this.principalId = principalId;
     }
+
+	@Override
+	public String getCalendarType() {
+		return calendarType;
+	}
 }

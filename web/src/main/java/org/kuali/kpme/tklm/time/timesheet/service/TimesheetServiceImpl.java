@@ -98,8 +98,8 @@ public class TimesheetServiceImpl implements TimesheetService {
             	
             	wd.route("Batch job routing timesheet");
             } else if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.APPROVE)) {
-                if (TkServiceLocator.getTKPermissionService().canSuperUserAdministerTimesheet(GlobalVariables.getUserSession().getPrincipalId(), rhid) 
-                		&& !TkServiceLocator.getTKPermissionService().canApproveTimesheet(GlobalVariables.getUserSession().getPrincipalId(), rhid)) {
+                if (HrServiceLocator.getHRPermissionService().canSuperUserAdministerCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), timesheetDocument) 
+                		&& !HrServiceLocator.getHRPermissionService().canApproveCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), timesheetDocument)) {
                     wd.superUserBlanketApprove("Superuser approving timesheet.");
                 } else {
                     wd.approve("Approving timesheet.");
@@ -112,8 +112,8 @@ public class TimesheetServiceImpl implements TimesheetService {
             	
             	wd.superUserBlanketApprove("Batch job approving timesheet.");
             } else if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
-                if (TkServiceLocator.getTKPermissionService().canSuperUserAdministerTimesheet(GlobalVariables.getUserSession().getPrincipalId(), rhid) 
-                		&& !TkServiceLocator.getTKPermissionService().canApproveTimesheet(GlobalVariables.getUserSession().getPrincipalId(), rhid)) {
+                if (HrServiceLocator.getHRPermissionService().canSuperUserAdministerCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), timesheetDocument) 
+                		&& !HrServiceLocator.getHRPermissionService().canApproveCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), timesheetDocument)) {
                     wd.superUserDisapprove("Superuser disapproving timesheet.");
                 } else {
                     wd.disapprove("Disapproving timesheet.");

@@ -50,6 +50,7 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ActionFormUtils {
@@ -60,7 +61,21 @@ public class ActionFormUtils {
    // }
 
     public static void addWarningTextFromEarnGroup(TimeDetailActionFormBase tdaf) throws Exception {
-        List<String> warningMessages = HrServiceLocator.getEarnCodeGroupService().warningTextFromEarnCodeGroupsOfDocument(tdaf.getTimesheetDocument());
+        List<String> warningMessages = new ArrayList<String>();
+        
+        TimesheetDocument tdoc = tdaf.getTimesheetDocument();
+        
+        Map<String, List<LocalDate>> earnCodeMap = new HashMap<String, List<LocalDate>>();
+        for(TimeBlock tb : tdoc.getTimeBlocks()) {
+        	if(!earnCodeMap.containsKey(tb.getEarnCode())) {
+        		List<LocalDate> lst = new ArrayList<LocalDate>();
+        		lst.add(tb.getBeginDateTime().toLocalDate());
+        		earnCodeMap.put(tb.getEarnCode(), lst);
+        	}
+        	else
+        		earnCodeMap.get(tb.getEarnCode()).add(tb.getBeginDateTime().toLocalDate());
+        }
+        warningMessages = HrServiceLocator.getEarnCodeGroupService().warningTextFromEarnCodeGroupsOfDocument(earnCodeMap);
         addUniqueWarningsToForm(tdaf, warningMessages);
     }
 

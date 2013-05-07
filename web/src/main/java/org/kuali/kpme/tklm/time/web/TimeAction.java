@@ -23,9 +23,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.core.web.KPMEForm;
+import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -42,13 +44,14 @@ public class TimeAction extends KPMEAction {
             // necessarily be a system administrator.
         } else {
         	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        	TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(kPMEForm.getDocumentId());
             if (!HrContext.isSystemAdmin()
         			&& !HrContext.isLocationAdmin()
         			&& !HrContext.isDepartmentAdmin()
         			&& !HrContext.isGlobalViewOnly()
         			&& !HrContext.isDepartmentViewOnly()
-        			&& (kPMEForm.getDocumentId() != null && !TkServiceLocator.getTKPermissionService().canApproveTimesheet(principalId, kPMEForm.getDocumentId()))
-        			&& (kPMEForm.getDocumentId() != null && !TkServiceLocator.getTKPermissionService().canViewTimesheet(principalId, kPMEForm.getDocumentId())))  {
+        			&& (kPMEForm.getDocumentId() != null && !HrServiceLocator.getHRPermissionService().canApproveCalendarDocument(principalId, tdoc))
+        			&& (kPMEForm.getDocumentId() != null && !HrServiceLocator.getHRPermissionService().canViewCalendarDocument(principalId, tdoc)))  {
                 throw new AuthorizationException("", "TimeAction", "");
             }
         }

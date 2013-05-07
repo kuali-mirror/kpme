@@ -16,8 +16,10 @@
 package org.kuali.kpme.core.bo.earncode.group.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.earncode.group.EarnCodeGroup;
@@ -55,10 +57,10 @@ public interface EarnCodeGroupService {
 	
 	/**
 	 * Returns list of warning text from earn group that is used by time blocks of the timesheetDocument
-	 * @param timesheetDocument
+	 * @param earnCodeMap A mapping of earn codes to the begin dates of the time blocks for which the earn code is in use.
 	 * @return
 	 */
-	public List<String> warningTextFromEarnCodeGroupsOfDocument(TimesheetDocument timesheetDocument);
+	public List<String> warningTextFromEarnCodeGroupsOfDocument(Map<String,List<LocalDate>> earnCodeMap);
     /**
      * get the count of earn groups by given earnGroup
      * @param earnGroup

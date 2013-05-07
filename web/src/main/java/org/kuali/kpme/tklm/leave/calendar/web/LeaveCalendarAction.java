@@ -55,6 +55,7 @@ import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -92,10 +93,10 @@ public class LeaveCalendarAction extends KPMEAction {
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
-        String documentId = HrContext.getCurrentLeaveCalendarDocumentId();
-        
-        if (documentId != null && !LmServiceLocator.getLMPermissionService().canViewLeaveCalendar(principalId, documentId)) {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "LeaveCalendarAction: docid: " + documentId, "");
+        CalendarDocument leaveCalendarDocument = HrContext.getCurrentLeaveCalendarDocument();
+
+        if (leaveCalendarDocument != null && !HrServiceLocator.getHRPermissionService().canViewCalendarDocument(principalId, leaveCalendarDocument)) {
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "LeaveCalendarAction: docid: " + leaveCalendarDocument.getDocumentId(), "");
         }
     }
     

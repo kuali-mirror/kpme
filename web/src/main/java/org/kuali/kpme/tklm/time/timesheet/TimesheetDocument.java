@@ -25,31 +25,29 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.job.Job;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.document.calendar.CalendarDocumentContract;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 
 
-public class TimesheetDocument implements CalendarDocumentContract, Serializable {
+public class TimesheetDocument extends CalendarDocument {
 
 	public static final String TIMESHEET_DOCUMENT_TYPE = "TimesheetDocument";
 
-	private TimesheetDocumentHeader documentHeader;
-	private List<Assignment> assignments = new LinkedList<Assignment>();
 	private List<Job> jobs = new LinkedList<Job>();
 	private List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
-	private CalendarEntry calendarEntry = null; // Was a Hidden NPE, now more exposed // new PayCalendarEntries();
 	private TimeSummary timeSummary = new TimeSummary();
 	private Map<Long, Job> jobNumberToJobMap = new HashMap<Long,Job>();
 
 	public TimesheetDocument(TimesheetDocumentHeader documentHeader) {
 		this.documentHeader = documentHeader;
+		setCalendarType(TIMESHEET_DOCUMENT_TYPE);
 	}
 
-    @Override
 	public TimesheetDocumentHeader getDocumentHeader() {
-		return documentHeader;
+		return (TimesheetDocumentHeader) super.getDocumentHeader();
 	}
 
 	public void setDocumentHeader(TimesheetDocumentHeader documentHeader) {
