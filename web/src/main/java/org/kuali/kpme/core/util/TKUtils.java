@@ -45,6 +45,7 @@ import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 public class TKUtils {
@@ -461,15 +462,15 @@ public class TKUtils {
      * @return
      */
     public static String getFromDateString(String dateString) {
-    	String toDateString = StringUtils.EMPTY;
+    	String fromDateString = StringUtils.EMPTY;
     	
     	if (StringUtils.startsWith(dateString, ">=")) {
-    		toDateString = StringUtils.substringAfter(dateString, ">=");
+    		fromDateString = StringUtils.substringAfter(dateString, ">=");
     	} else if (StringUtils.contains(dateString, "..")) {
-    		toDateString = StringUtils.substringBefore(dateString, "..");
+    		fromDateString = StringUtils.substringBefore(dateString, "..");
 		}
     	
-    	return toDateString;
+    	return fromDateString;
     }
     
     /**
@@ -491,5 +492,24 @@ public class TKUtils {
     	
     	return toDateString;
     }
+    
+	 
+	 public static boolean isDateEqualOrBetween(TimeBlock timeBlock, DateTime date, String searchDateString) {
+		 boolean valid = false;
+		 
+		 String fromDateString = TKUtils.getFromDateString(searchDateString);
+		 DateTime fromDate = TKUtils.formatDateTimeString(fromDateString);
+		 String toDateString = TKUtils.getToDateString(searchDateString);
+		 DateTime toDate = TKUtils.formatDateTimeString(toDateString);
+		 
+		 if (date != null) {
+			 if (fromDate != null ? (date.equals(fromDate) || date.isAfter(fromDate)) : true
+					 && toDate != null ? (date.isBefore(toDate) || date.equals(toDate)) : true) {
+				 valid = true;
+			 }
+		 }
+
+		 return valid;
+	 }
 
 }

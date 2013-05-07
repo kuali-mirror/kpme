@@ -79,6 +79,6 @@ public interface ClockLocationRuleService {
 	 */
 	public void populateIPAddressesForCLR(ClockLocationRule clr);
 
-    List<ClockLocationRule> getClockLocationRules(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
+    List<ClockLocationRule> getClockLocationRules(String userPrincipalId, LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
                                                   String dept, String workArea, String active, String showHistory);
 }

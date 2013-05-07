@@ -117,7 +117,7 @@ public interface PrincipalHRAttributesService {
      * @param active
      * @param showHistory     @return
      */
-    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String userPrincipalId, String principalId, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
     /**
      * Get List of all active pay calendars
      * @return

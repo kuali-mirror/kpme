@@ -22,29 +22,21 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.authorization.AuthorizationValidationUtils;
 import org.kuali.kpme.core.authorization.DepartmentalRule;
+import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
 @SuppressWarnings("deprecation")
-public class ClockLocationRuleLookupableHelper extends TkAuthorizedLookupableHelperBase {
+public class ClockLocationRuleLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = 7261054962204557586L;
-
-	@Override
-    /**
-     * Implemented method to reduce the set of Business Objects that are shown
-     * to the user based on their current roles.
-     */
-    public boolean shouldShowBusinessObject(BusinessObject bo) {
-        return (bo instanceof DepartmentalRule) && AuthorizationValidationUtils.hasAccessToRead((DepartmentalRule)bo);
-    }
     
 	@Override
 	@SuppressWarnings("rawtypes")
@@ -85,7 +77,7 @@ public class ClockLocationRuleLookupableHelper extends TkAuthorizedLookupableHel
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        return TkServiceLocator.getClockLocationRuleService().getClockLocationRules(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), 
+        return TkServiceLocator.getClockLocationRuleService().getClockLocationRules(GlobalVariables.getUserSession().getPrincipalId(), TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt),
         		principalId, jobNumber, dept, workArea, active, showHist);
     }
     

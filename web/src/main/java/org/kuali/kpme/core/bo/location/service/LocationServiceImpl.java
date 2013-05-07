@@ -15,17 +15,25 @@
  */
 package org.kuali.kpme.core.bo.location.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.bo.location.Location;
 import org.kuali.kpme.core.bo.location.dao.LocationDao;
+import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERole;
+import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMember;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
 
 public class LocationServiceImpl implements LocationService {
@@ -88,7 +96,24 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public List<Location> searchLocations(String location, String locationDescr, String active, String showHistory) {
-        return locationDao.searchLocations(location, locationDescr, active, showHistory);
+    public List<Location> searchLocations(String userPrincipalId, String location, String locationDescr, String active, String showHistory) {
+    	List<Location> results = new ArrayList<Location>();
+    	
+    	List<Location> locationObjs = locationDao.searchLocations(location, locationDescr, active, showHistory);
+    
+    	for (Location locationObj : locationObjs) {
+        	Map<String, String> roleQualification = new HashMap<String, String>();
+        	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
+        	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), locationObj.getLocation());
+        	
+        	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+    				KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
+    		  || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(userPrincipalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+    				  KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification)) {
+        		results.add(locationObj);
+        	}
+    	}
+    	
+    	return results;
     }
 }

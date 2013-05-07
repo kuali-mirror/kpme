@@ -51,7 +51,7 @@ public interface SystemScheduledTimeOffService {
 	 */
     public BigDecimal calculateSysSchTimeOffHours(Job job, BigDecimal sstoHours);
 
-    List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(LocalDate fromEffdt, LocalDate toEffdt, String earnCode, LocalDate fromAccruedDate, LocalDate toAccruedDate, 
+    List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(String userPrincipalId, LocalDate fromEffdt, LocalDate toEffdt, String earnCode, LocalDate fromAccruedDate, LocalDate toAccruedDate, 
     		LocalDate fromSchTimeOffDate, LocalDate toSchTimeOffDate, String active, String showHist);
     /**
      * Get the list of all active system scheduled time off for the given leave plan and dates

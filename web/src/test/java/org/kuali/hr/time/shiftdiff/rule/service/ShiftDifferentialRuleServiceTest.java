@@ -15,21 +15,23 @@
  */
 package org.kuali.hr.time.shiftdiff.rule.service;
 
-import org.junit.Ignore;
+import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-@Ignore
+import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+
 public class ShiftDifferentialRuleServiceTest extends KPMETestCase {
-
-	public static final String USER_PRINCIPAL_ID = "admin";
 	
-	@Override
-	public void tearDown() throws Exception {
-		super.tearDown();
-	}
-
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
+	@Test
+	public void testSearchShiftDifferentialRules() throws Exception {
+		List<ShiftDifferentialRule> allResults = TkServiceLocator.getShiftDifferentialRuleService().getShiftDifferentialRules("admin", null, null, null, null, null, "Y", "N");
+		Assert.assertEquals("Search returned the wrong number of results.", 2, allResults.size());
+		
+		List<ShiftDifferentialRule> restrictedResults = TkServiceLocator.getShiftDifferentialRuleService().getShiftDifferentialRules("fran", null, null, null, null, null, "Y", "N");
+		Assert.assertEquals("Search returned the wrong number of results.", 0, restrictedResults.size());
 	}
 	
 }

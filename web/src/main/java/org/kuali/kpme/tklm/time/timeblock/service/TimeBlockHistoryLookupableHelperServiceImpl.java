@@ -15,84 +15,159 @@
  */
 package org.kuali.kpme.tklm.time.timeblock.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.bo.department.Department;
+import org.kuali.kpme.core.bo.job.Job;
+import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
+import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistoryDetail;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
-public class TimeBlockHistoryLookupableHelperServiceImpl extends TimeBlockLookupableHelperServiceImpl {
+@SuppressWarnings("deprecation")
+public class TimeBlockHistoryLookupableHelperServiceImpl extends KPMELookupableHelper {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4201048176986460032L;
 
-    @SuppressWarnings("unchecked")
+	private static final String DOCUMENT_STATUS = "timesheetDocumentHeader.documentStatus";
+	private static final String BEGIN_DATE = "beginDate";
+
 	@Override
-    public List<? extends BusinessObject> getSearchResults(java.util.Map<String, String> fieldValues) {
+	public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+		List<TimeBlockHistory> results = new ArrayList<TimeBlockHistory>();
 
-        String docStatus = "", beginDateString = "";
+		String documentStatus = StringUtils.EMPTY;
+		String beginDate = StringUtils.EMPTY;
 
-        if (fieldValues.containsKey(DOC_STATUS_ID)) {
-            docStatus = fieldValues.get(DOC_STATUS_ID);
-            fieldValues.remove(DOC_STATUS_ID);
-        }
-        if (fieldValues.containsKey(BEGIN_DATE_ID)) {
-            beginDateString = fieldValues.get(BEGIN_DATE_ID);
-            fieldValues.remove(BEGIN_DATE_ID);
-        }
-        List<TimeBlockHistory> objectList = (List<TimeBlockHistory>) super.getSearchResults(fieldValues);
+		if (fieldValues.containsKey(DOCUMENT_STATUS)) {
+			documentStatus = fieldValues.get(DOCUMENT_STATUS);
+			fieldValues.remove(DOCUMENT_STATUS);
+		}
 
-        if (!objectList.isEmpty()) {
-            Iterator<TimeBlockHistory> itr = objectList.iterator();
-            while (itr.hasNext()) {
-                TimeBlockHistory tb = itr.next();
+		if (fieldValues.containsKey(BEGIN_DATE)) {
+			beginDate = fieldValues.get(BEGIN_DATE);
+			fieldValues.remove(BEGIN_DATE);
+		}
 
-                if (StringUtils.isNotEmpty(docStatus)) {
-                    if (tb.getTimesheetDocumentHeader() == null) {
-                        itr.remove();
-                        continue;
-                    } else {
-                        if (tb.getTimesheetDocumentHeader().getDocumentStatus() != null) {
-                            if (!tb.getTimesheetDocumentHeader().getDocumentStatus().equals(docStatus)) {
-                                itr.remove();
-                                continue;
-                            }
-                        } else {
-                            itr.remove();
-                            continue;
-                        }
-                    }
-                }
-                if(StringUtils.isNotEmpty(beginDateString)) {
-					if(tb.getBeginDate() != null) {
-						if(!this.checkDate(tb, tb.getBeginDate(), beginDateString)) {
-							itr.remove();
-							continue;
-						} 
-					} else {
-						itr.remove();
-						continue;
+		List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
+		
+		for (BusinessObject searchResult : searchResults) {
+			TimeBlockHistory timeBlockHistory = (TimeBlockHistory) searchResult;
+			results.add(timeBlockHistory);
+		}
+
+		results = filterByDocumentStatus(results, documentStatus);
+		results = filterByBeginDate(results, beginDate);
+		results = filterByPrincipalId(results, GlobalVariables.getUserSession().getPrincipalId());
+		results = addDetails(results);
+
+		Collections.sort(results, new Comparator<TimeBlockHistory>() {
+			@Override
+			public int compare(TimeBlockHistory timeBlockHistory1, TimeBlockHistory timeBlockHistory2) {
+				return timeBlockHistory1.getTkTimeBlockHistoryId().compareTo(timeBlockHistory2.getTkTimeBlockHistoryId());
+			}
+		});
+
+		return results;
+	}
+
+	private List<TimeBlockHistory> filterByDocumentStatus(List<TimeBlockHistory> timeBlockHistories, String documentStatus) {
+		List<TimeBlockHistory> results = new ArrayList<TimeBlockHistory>();
+
+		if (StringUtils.isNotEmpty(documentStatus)) {
+			for (TimeBlockHistory timeBlockHistory : timeBlockHistories) {
+				if (timeBlockHistory.getTimesheetDocumentHeader() != null) {
+					if (timeBlockHistory.getTimesheetDocumentHeader().getDocumentStatus() != null) {
+						if (timeBlockHistory.getTimesheetDocumentHeader().getDocumentStatus().equals(documentStatus)) {
+							results.add(timeBlockHistory);
+						}
 					}
 				}
-            }
-        }
+			}
+		} else {
+			results.addAll(timeBlockHistories);
+		}
 
-        sortByTimeBlockId(objectList);
+		return results;
+	}
 
-        return objectList;
-    }
+	private List<TimeBlockHistory> filterByBeginDate(List<TimeBlockHistory> timeBlockHistories, String beginDate) {
+		List<TimeBlockHistory> results = new ArrayList<TimeBlockHistory>();
 
-    private void sortByTimeBlockId(List<TimeBlockHistory> objectList) {
-        Collections.sort(objectList, new Comparator<TimeBlockHistory>() { // Sort the Time Blocks
-            @Override
-            public int compare(TimeBlockHistory timeBlockHistory, TimeBlockHistory timeBlockHistory1) {
-                return timeBlockHistory.getTkTimeBlockId().compareTo(timeBlockHistory1.getTkTimeBlockId());
-            }
-        });
-    }
+		if (StringUtils.isNotEmpty(beginDate)) {
+			for (TimeBlockHistory timeBlockHistory : timeBlockHistories) {
+				if (timeBlockHistory.getBeginDate() != null) {
+					if (TKUtils.isDateEqualOrBetween(timeBlockHistory, timeBlockHistory.getBeginDateTime(), beginDate)) {
+						results.add(timeBlockHistory);
+					}
+				}
+			}
+		} else {
+			results.addAll(timeBlockHistories);
+		}
+
+		return results;
+	}
+	
+	private List<TimeBlockHistory> filterByPrincipalId(List<TimeBlockHistory> timeBlockHistories, String principalId) {
+		List<TimeBlockHistory> results = new ArrayList<TimeBlockHistory>();
+		
+		for (TimeBlockHistory timeBlockHistory : timeBlockHistories) {
+			Job jobObj = HrServiceLocator.getJobService().getJob(timeBlockHistory.getPrincipalId(), timeBlockHistory.getJobNumber(), LocalDate.now(), false);
+			String department = jobObj != null ? jobObj.getDept() : null;
+
+			Department departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, jobObj.getEffectiveLocalDate()) : null;
+			String location = departmentObj != null ? departmentObj.getLocation() : null;
+
+			Map<String, String> roleQualification = new HashMap<String, String>();
+			roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, GlobalVariables.getUserSession().getPrincipalId());
+			roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+			roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
+
+			if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+					KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
+					|| KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(principalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+							KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification)) {
+				results.add(timeBlockHistory);
+			}
+		}
+		
+		return results;
+	}
+
+	private List<TimeBlockHistory> addDetails(List<TimeBlockHistory> timeBlockHistories) {
+		List<TimeBlockHistory> results = new ArrayList<TimeBlockHistory>(timeBlockHistories);
+
+		for (TimeBlockHistory timeBlockHistory : timeBlockHistories) {
+			List<TimeBlockHistoryDetail> timeBlockHistoryDetails = timeBlockHistory.getTimeBlockHistoryDetails();
+
+			for (TimeBlockHistoryDetail timeBlockHistoryDetail : timeBlockHistoryDetails) {
+				if (!timeBlockHistoryDetail.getEarnCode().equalsIgnoreCase(timeBlockHistory.getEarnCode())) {
+					TimeBlockHistory newTimeBlockHistory = timeBlockHistory.copy();
+					newTimeBlockHistory.setEarnCode(timeBlockHistoryDetail.getEarnCode());
+					newTimeBlockHistory.setHours(timeBlockHistoryDetail.getHours());
+					newTimeBlockHistory.setAmount(timeBlockHistoryDetail.getAmount());
+					results.add(newTimeBlockHistory);
+				}
+			}
+		}
+
+		return results;
+	}
+
 }

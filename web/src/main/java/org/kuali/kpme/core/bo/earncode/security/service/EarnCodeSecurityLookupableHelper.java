@@ -26,6 +26,7 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
@@ -65,7 +66,7 @@ public class EarnCodeSecurityLookupableHelper extends KPMELookupableHelper {
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        return HrServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities(dept, salGroup, earnCode, location, TKUtils.formatDateString(fromEffdt), 
+        return HrServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities(GlobalVariables.getUserSession().getPrincipalId(), dept, salGroup, earnCode, location, TKUtils.formatDateString(fromEffdt), 
         		TKUtils.formatDateString(toEffdt), active, showHist);
 	}
 

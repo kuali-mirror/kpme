@@ -94,4 +94,14 @@ public class AssignmentServiceImplTest extends KPMETestCase {
 		Assert.assertNotNull("Null assignment list", assignments);
 		Assert.assertTrue("Assignments size for Calendar Entry 5000 should be 4, not " + assignments.size(), assignments.size() == 4);
 	}
+	
+	@Test
+	public void testSearchAssignments() throws Exception {
+		List<Assignment> allResults = HrServiceLocator.getAssignmentService().searchAssignments("admin", null, null, null, null, null, null, "Y", "N");
+		Assert.assertEquals("Search returned the wrong number of results.", 14, allResults.size());
+		
+		List<Assignment> restrictedResults = HrServiceLocator.getAssignmentService().searchAssignments("testuser6", null, null, null, null, null, null, "Y", "N");
+		Assert.assertEquals("Search returned the wrong number of results.", 5, restrictedResults.size());
+	}
+	
 }

@@ -129,5 +129,17 @@ public class DailyOvertimeRuleServiceTest extends KPMETestCase {
 		DailyOvertimeRule rule = TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRule("SD1", "BW", "TEST-DEPT", workArea, JAN_AS_OF_DATE.toLocalDate());
 		Assert.assertNotNull("Rule not created.", rule);
 	}
+	
+	@Test
+	public void testSearchDailyOvertimeRules() throws Exception {
+		createDailyOvertimeRule("REG", "OVT", "SD1", "BL", "TEST-DEPT", 30L, 30L, new BigDecimal(8), new BigDecimal("0.10"), null);
+		createDailyOvertimeRule("REG", "OVT", "SD1", "BL", "TEST-DEPT5", 5555L, 30L, new BigDecimal(8), new BigDecimal("0.10"), null);
+		
+		List<DailyOvertimeRule> allResults = TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRules("admin", null, null, null, null, null, "Y", "N");
+		Assert.assertEquals("Search returned the wrong number of results.", 2, allResults.size());
+		
+		List<DailyOvertimeRule> restrictedResults = TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRules("fran", null, null, null, null, null, "Y", "N");
+		Assert.assertEquals("Search returned the wrong number of results.", 0, restrictedResults.size());
+	}
 
 }

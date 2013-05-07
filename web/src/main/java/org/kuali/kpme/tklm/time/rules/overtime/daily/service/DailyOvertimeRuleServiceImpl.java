@@ -27,8 +27,12 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.bo.assignment.Assignment;
+import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.bo.job.Job;
+import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
+import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
@@ -38,6 +42,8 @@ import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeHourDetail;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
@@ -363,7 +369,29 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	}
 	
 	@Override
-	public List<DailyOvertimeRule> getDailyOvertimeRules(String dept, String workArea, String location, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
-		return dailyOvertimeRuleDao.getDailyOvertimeRules(dept, workArea, location, fromEffdt, toEffdt, active, showHist);
+	public List<DailyOvertimeRule> getDailyOvertimeRules(String userPrincipalId, String dept, String workArea, String location, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
+		List<DailyOvertimeRule> results = new ArrayList<DailyOvertimeRule>();
+        
+    	List<DailyOvertimeRule> dailyOvertimeRuleObjs = dailyOvertimeRuleDao.getDailyOvertimeRules(dept, workArea, location, fromEffdt, toEffdt, active, showHist);
+	
+    	for (DailyOvertimeRule dailyOvertimeRuleObj : dailyOvertimeRuleObjs) {
+        	String department = dailyOvertimeRuleObj.getDept();
+        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, dailyOvertimeRuleObj.getEffectiveLocalDate());
+        	String loc = departmentObj != null ? departmentObj.getLocation() : null;
+        	
+        	Map<String, String> roleQualification = new HashMap<String, String>();
+        	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
+        	roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+        	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), loc);
+        	
+        	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+    				KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
+    		  || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(userPrincipalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+    				  KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification)) {
+        		results.add(dailyOvertimeRuleObj);
+        	}
+    	}
+    	
+    	return results;
 	}
 }

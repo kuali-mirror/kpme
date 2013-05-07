@@ -18,9 +18,8 @@ package org.kuali.hr.time.principal.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
-
 import org.joda.time.LocalDate;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
@@ -36,16 +35,26 @@ public class PrincipalHRAttributeServiceTest extends KPMETestCase {
         String leavePlan = "";
 		
 		// show both active and inactive, show history
-		phraList = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("testUser", leavePlan, fromEffDate, toEffDate, "B", "Y");
+		phraList = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("admin", "testUser", leavePlan, fromEffDate, toEffDate, "B", "Y");
 		Assert.assertEquals("Incorrect number of PrincipalHRAttributes", 3, phraList.size());
 		// active="Y", show history
-		phraList = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("testUser", leavePlan, fromEffDate, toEffDate, "Y", "Y");
+		phraList = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("admin", "testUser", leavePlan, fromEffDate, toEffDate, "Y", "Y");
 		Assert.assertEquals("Incorrect number of PrincipalHRAttributes", 2, phraList.size());
 		// active="N", show history
-		phraList = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("testUser", leavePlan, fromEffDate, toEffDate, "N", "Y");
+		phraList = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("admin", "testUser", leavePlan, fromEffDate, toEffDate, "N", "Y");
 		Assert.assertEquals("Incorrect number of PrincipalHRAttributes", 1, phraList.size());
 		// active = "Y", do not show history
-		phraList = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("testUser", leavePlan, fromEffDate, toEffDate, "N", "N");
+		phraList = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("admin", "testUser", leavePlan, fromEffDate, toEffDate, "N", "N");
 		Assert.assertEquals("Incorrect number of PrincipalHRAttributes", 1, phraList.size());
 	}
+	
+	@Test
+	public void testSearchPrincipalHRAttributes() throws Exception {
+		List<PrincipalHRAttributes> allResults = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("admin", null, null, null, null, "Y", "N");
+		Assert.assertEquals("Search returned the wrong number of results.", 2, allResults.size());
+		
+		List<PrincipalHRAttributes> restrictedResults = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes("testuser6", null, null, null, null, "Y", "N");
+		Assert.assertEquals("Search returned the wrong number of results.", 0, restrictedResults.size());
+	}
+	
 }

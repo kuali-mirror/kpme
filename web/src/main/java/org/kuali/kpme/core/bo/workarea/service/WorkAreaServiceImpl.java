@@ -15,19 +15,28 @@
  */
 package org.kuali.kpme.core.bo.workarea.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.bo.workarea.dao.WorkAreaDao;
+import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMember;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
 
 public class WorkAreaServiceImpl implements WorkAreaService {
@@ -60,15 +69,35 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 	}
 
 	@Override
-	public List<WorkArea> getWorkAreas(String dept, String workArea, String workAreaDescr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
+	public List<WorkArea> getWorkAreas(String userPrincipalId, String dept, String workArea, String workAreaDescr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
+        List<WorkArea> results = new ArrayList<WorkArea>();
+		
 		List<WorkArea> workAreaObjs = workAreaDao.getWorkAreas(dept, workArea, workAreaDescr, fromEffdt, toEffdt, active, showHistory);
 		
         for (WorkArea workAreaObj : workAreaObjs) {
-        	populateWorkAreaTasks(workAreaObj);
-        	populateWorkAreaRoleMembers(workAreaObj, workAreaObj.getEffectiveLocalDate());
+        	String department = workAreaObj.getDept();
+        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, workAreaObj.getEffectiveLocalDate());
+        	String location = departmentObj != null ? departmentObj.getLocation() : null;
+        	
+        	Map<String, String> roleQualification = new HashMap<String, String>();
+        	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
+        	roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+        	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
+        	
+        	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+    				KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
+    		  || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(userPrincipalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+    				  KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification)) {
+        		results.add(workAreaObj);
+        	}
+        }
+        
+        for (WorkArea result : results) {
+        	populateWorkAreaTasks(result);
+        	populateWorkAreaRoleMembers(result, result.getEffectiveLocalDate());
         }
 
-        return workAreaObjs;
+        return results;
 	}
 	
 	@Override

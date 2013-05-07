@@ -1,3 +1,4 @@
+
 /**
  * Copyright 2004-2013 The Kuali Foundation
  *
@@ -15,11 +16,21 @@
  */
 package org.kuali.kpme.core.bo.earncode.security.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.bo.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.bo.earncode.security.dao.EarnCodeSecurityDao;
+import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
+import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 
@@ -40,11 +51,33 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 	}
 
 	@Override
-	public List<EarnCodeSecurity> searchEarnCodeSecurities(String dept,
+	public List<EarnCodeSecurity> searchEarnCodeSecurities(String userPrincipalId, String dept,
 			String salGroup, String earnCode, String location, LocalDate fromEffdt,
 			LocalDate toEffdt, String active, String showHistory) {
-		return earnCodeSecurityDao.searchEarnCodeSecurities(dept, salGroup, earnCode, location, fromEffdt,
+		List<EarnCodeSecurity> results = new ArrayList<EarnCodeSecurity>();
+		
+ 		List<EarnCodeSecurity> earnCodeSecurityObjs = earnCodeSecurityDao.searchEarnCodeSecurities(dept, salGroup, earnCode, location, fromEffdt,
 								toEffdt, active, showHistory);
+ 		
+    	for (EarnCodeSecurity earnCodeSecurityObj : earnCodeSecurityObjs) {
+        	String department = earnCodeSecurityObj.getDept();
+        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, earnCodeSecurityObj.getEffectiveLocalDate());
+        	String loc = departmentObj != null ? departmentObj.getLocation() : null;
+        	
+        	Map<String, String> roleQualification = new HashMap<String, String>();
+        	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
+        	roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+        	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), loc);
+        	
+        	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+    				KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
+    		  || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(userPrincipalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+    				  KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification)) {
+        		results.add(earnCodeSecurityObj);
+        	}
+    	}
+    	
+ 		return results;
 	}
 	@Override
 	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,

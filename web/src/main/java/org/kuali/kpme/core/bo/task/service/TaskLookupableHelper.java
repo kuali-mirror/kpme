@@ -18,15 +18,15 @@ package org.kuali.kpme.core.bo.task.service;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kpme.core.bo.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 @SuppressWarnings("deprecation")
-public class TaskLookupableHelper extends TkAuthorizedLookupableHelperBase {
+public class TaskLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
 
 	private static final long serialVersionUID = 7525044777337159013L;
 
@@ -56,10 +56,5 @@ public class TaskLookupableHelper extends TkAuthorizedLookupableHelperBase {
             }
         }
         return rowList;
-    }
-
-    @Override
-    public boolean shouldShowBusinessObject(BusinessObject bo) {
-        return true;
     }
 }

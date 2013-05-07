@@ -45,5 +45,5 @@ public interface TimeCollectionRuleService {
     @Cacheable(value= TimeCollectionRule.CACHE_NAME, key="'tkTimeCollectionRuleId=' + #p0")
 	public TimeCollectionRule getTimeCollectionRule(String tkTimeCollectionRuleId);
 
-    List<TimeCollectionRule> getTimeCollectionRules(String dept, String workArea, String payType, String active);
+    List<TimeCollectionRule> getTimeCollectionRules(String userPrincipalId, String dept, String workArea, String payType, String active);
 }

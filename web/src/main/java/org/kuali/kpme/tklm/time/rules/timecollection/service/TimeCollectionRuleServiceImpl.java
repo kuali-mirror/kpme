@@ -15,14 +15,24 @@
  */
 package org.kuali.kpme.tklm.time.rules.timecollection.service;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.bo.department.Department;
+import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
+import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.rules.timecollection.dao.TimeCollectionRuleDaoService;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService{
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService {
 	private TimeCollectionRuleDaoService timeCollectRuleDao;
 
     @Override
@@ -50,8 +60,31 @@ public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService{
 	}
 
     @Override
-    public List<TimeCollectionRule> getTimeCollectionRules(String dept, String workArea, String payType, String active) {
-        Long workAreaToSearch = StringUtils.isEmpty(workArea) ? null : Long.parseLong(workArea);
-        return timeCollectRuleDao.getTimeCollectionRules(dept, workAreaToSearch , payType, active, null);
+    public List<TimeCollectionRule> getTimeCollectionRules(String userPrincipalId, String dept, String workArea, String payType, String active) {
+    	List<TimeCollectionRule> results = new ArrayList<TimeCollectionRule>();
+    	
+    	Long workAreaToSearch = StringUtils.isEmpty(workArea) ? null : Long.parseLong(workArea);
+    	
+    	List<TimeCollectionRule> timeCollectionRuleObjs = timeCollectRuleDao.getTimeCollectionRules(dept, workAreaToSearch , payType, active, null);
+    
+    	for (TimeCollectionRule timeCollectionRuleObj : timeCollectionRuleObjs) {
+        	String department = timeCollectionRuleObj.getDept();
+        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, timeCollectionRuleObj.getEffectiveLocalDate());
+        	String location = departmentObj != null ? departmentObj.getLocation() : null;
+        	
+        	Map<String, String> roleQualification = new HashMap<String, String>();
+        	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
+        	roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+        	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
+        	
+        	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+    				KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
+    		  || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(userPrincipalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+    				  KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification)) {
+        		results.add(timeCollectionRuleObj);
+        	}
+    	}
+    	
+    	return results;
     }
 }

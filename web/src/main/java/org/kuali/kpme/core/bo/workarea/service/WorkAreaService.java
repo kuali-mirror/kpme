@@ -29,7 +29,7 @@ public interface WorkAreaService {
     
     Long getNextWorkAreaKey();
     
-    List<WorkArea> getWorkAreas(String dept, String workArea, String workAreaDescr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+    List<WorkArea> getWorkAreas(String userPrincipalId, String dept, String workArea, String workAreaDescr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
     
     /**
      * Fetch the count of the work areas with the given department and workarea

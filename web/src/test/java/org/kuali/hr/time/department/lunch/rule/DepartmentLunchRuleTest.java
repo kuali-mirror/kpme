@@ -16,6 +16,7 @@
 package org.kuali.hr.time.department.lunch.rule;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -103,9 +104,13 @@ public class DepartmentLunchRuleTest extends KPMETestCase {
 
 	}
 
-    /*@Override
-    public void tearDown() throws Exception {
-        TKUser.clearTargetUser();
-        super.tearDown();
-    }*/
+	@Test
+	public void testSearchDepartmentLunchRules() throws Exception {
+		List<DeptLunchRule> allResults = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRules("admin", null, null, null, null, "Y");
+		Assert.assertEquals("Search returned the wrong number of results.", 2, allResults.size());
+		
+		List<DeptLunchRule> restrictedResults = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRules("fran", null, null, null, null, "Y");
+		Assert.assertEquals("Search returned the wrong number of results.", 0, restrictedResults.size());
+	}
+	
 }

@@ -26,6 +26,7 @@ import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
@@ -66,7 +67,7 @@ public class SystemScheduledTimeOffLookupableHelper extends KPMELookupableHelper
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        return LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffs(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), 
+        return LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffs(GlobalVariables.getUserSession().getPrincipalId(), TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), 
         		earnCode, TKUtils.formatDateString(fromAccruedDate), TKUtils.formatDateString(toAccruedDate), TKUtils.formatDateString(fromSchTimeOffDate), 
         		TKUtils.formatDateString(toSchTimeOffDate), active, showHist);
     }

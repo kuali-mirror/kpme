@@ -57,7 +57,6 @@ public class TimeBlockHistory extends TimeBlock {
 		// add time block history details for this time block history
 		TkServiceLocator.getTimeBlockHistoryService().addTimeBlockHistoryDetails(this, tb);
 	}
-	
 
 	public String getTkTimeBlockHistoryId() {
 		return tkTimeBlockHistoryId;
@@ -109,4 +108,19 @@ public class TimeBlockHistory extends TimeBlock {
 	public void setTimeBlockHistoryDetails(List<TimeBlockHistoryDetail> timeBlockHistoryDetails) {
 		this.timeBlockHistoryDetails = timeBlockHistoryDetails;
 	}
+
+    public TimeBlockHistory copy() {
+        return new TimeBlockHistory(this);
+    }
+    
+    private TimeBlockHistory(TimeBlockHistory timeBlockHistory) {
+    	super(timeBlockHistory);
+    	
+    	this.setTkTimeBlockHistoryId(timeBlockHistory.getTkTimeBlockHistoryId());
+    	this.setActionHistory(timeBlockHistory.getActionHistory());
+    	this.setModifiedByPrincipalId(timeBlockHistory.getModifiedByPrincipalId());
+    	this.setTimestampModified(timeBlockHistory.getTimestampModified());
+    	
+    	TkServiceLocator.getTimeBlockHistoryService().addTimeBlockHistoryDetails(this, timeBlockHistory);
+    }
 }

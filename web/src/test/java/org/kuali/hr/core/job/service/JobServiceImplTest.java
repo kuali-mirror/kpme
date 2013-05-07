@@ -17,9 +17,8 @@ package org.kuali.hr.core.job.service;
 
 import java.util.List;
 
-import junit.framework.Assert;
-
 import org.joda.time.DateTime;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -55,4 +54,14 @@ public class JobServiceImplTest extends KPMETestCase {
 		Assert.assertNotNull("Max Job should not be null", aJob);
 		Assert.assertEquals("Max job number of admin should be 30", new Long("30"), aJob.getJobNumber());
 	}
+	
+	@Test
+	public void testSearchJobs() throws Exception {
+		List<Job> allResults = HrServiceLocator.getJobService().getJobs("admin", null, null, null, null, null, null, null, null, null, "Y", "N");
+		Assert.assertEquals("Search returned the wrong number of results.", 9, allResults.size());
+		
+		List<Job> restrictedResults = HrServiceLocator.getJobService().getJobs("testuser6", null, null, null, null, null, null, null, null, null, "Y", "N");
+		Assert.assertEquals("Search returned the wrong number of results.", 5, restrictedResults.size());
+	}
+	
 }

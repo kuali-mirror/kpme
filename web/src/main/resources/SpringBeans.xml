@@ -219,7 +219,7 @@
                 <value>calendarLookupable</value>
                 <value>timeBlockLookupable</value> 
 				<value>timeBlockHistoryLookupable</value> 
-				<value>timeBlockHistoryDetailLookupable</value> 
+				<!--<value>timeBlockHistoryDetailLookupable</value>-->
 				<value>jobLookupable</value> 
 				<value>systemLunchRuleLookupable</value> 
 				<value>earnCodeSecurityLookupable</value>
@@ -460,15 +460,10 @@
 
     <bean id="timeBlockHistoryLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.time.timeblock.service.TimeBlockHistoryDetailLookupableHelperServiceImpl"/>
+            <bean class="org.kuali.kpme.tklm.time.timeblock.service.TimeBlockHistoryLookupableHelperServiceImpl"/>
         </property>
     </bean>
 
-    <bean id="timeBlockHistoryDetailLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.time.timeblock.service.TimeBlockHistoryDetailLookupableHelperServiceImpl"/>
-        </property>
-    </bean>
     <bean id="jobService" class="org.kuali.kpme.core.bo.job.service.JobServiceImpl">
         <property name="jobDao" ref="jobDao"/>
     </bean>

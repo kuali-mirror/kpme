@@ -23,12 +23,6 @@
     <bean id="TimeBlockHistoryDetail" parent="TimeBlockHistoryDetail-parentBean"/>
     <bean id="TimeBlockHistoryDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kpme.tklm.time.timeblock.TimeBlockHistoryDetail"/>
-        <property name="inquiryDefinition">
-            <ref bean="TimeBlockHistoryDetail-inquiryDefinition"/>
-        </property>
-        <property name="lookupDefinition">
-            <ref bean="TimeBlockHistoryDetail-lookupDefinition"/>
-        </property>
         <property name="titleAttribute" value="tkTimeBlockHistoryDetailId"/>
         <property name="attributes">
             <list>
@@ -332,85 +326,4 @@
         <property name="required" value="false"/>
     </bean>
     
-    <!-- Business Object Inquiry Definition -->
-
-
-    <bean id="TimeBlockHistoryDetail-inquiryDefinition" parent="TimeBlockHistoryDetail-inquiryDefinition-parentBean"/>
-    <bean id="TimeBlockHistoryDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="inquirySections">
-            <list>
-                <bean parent="InquirySectionDefinition">
-                    <property name="numberOfColumns" value="1"/>
-                    <property name="inquiryFields">
-                        <list>
-                            <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.tkTimeBlockId"/>
-                            <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.documentId"/>
-
-                            <bean parent="FieldDefinition" p:attributeName="earnCode"/>
-                            <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.beginTimestamp"/>
-                            <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.endTimestamp"/>
-                            <bean parent="FieldDefinition" p:attributeName="hours"/>
-                            <bean parent="FieldDefinition" p:attributeName="amount"/>
-                            <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.clockLogCreated"/>
-                            <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.actionHistory"/>
-                            <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.userPrincipalId"/>
-                            <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.timestamp"/>
-                        </list>
-                    </property>
-                    <property name="title" value="Time Block History Detail"/>
-
-                </bean>
-            </list>
-        </property>
-        <property name="title" value="Time Block History Detail Inquiry"/>
-        <property name="translateCodes" value="false"/>
-    </bean>
-
-    <!-- Business Object Lookup Definition -->
-
-
-    <bean id="TimeBlockHistoryDetail-lookupDefinition" parent="TimeBlockHistoryDetail-lookupDefinition-parentBean"/>
-    <bean id="TimeBlockHistoryDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-
-        <property name="defaultSort">
-            <bean parent="SortDefinition">
-                <property name="attributeNames">
-                    <list>
-                        <value>timeBlockHistory.timestamp</value>
-                    </list>
-                </property>
-                <property name="sortAscending" value="false"/>
-            </bean>
-        </property>
-        <property name="lookupableID" value="timeBlockHistoryDetailLookupable"/>
-        <property name="lookupFields">
-            <list>
-                <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.tkTimeBlockHistoryId" p:noInquiry="true" p:noLookup="true" p:hidden="true"/>
-                <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.timesheetDocumentHeader.documentId"/>
-                <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.principalId"/>
-                <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.userPrincipalId"/>
-                <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.timesheetDocumentHeader.documentStatus" />
-                <bean parent="FieldDefinition" p:attributeName="beginDate"/>
-            </list>
-        </property>
-        <property name="resultFields">
-            <list>
-                 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.documentId" p:noInquiry="true"/>
-                 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.principalId"/>
-				 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.workArea"/>
-                 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.task"/>
-                 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.jobNumber"/>
-                 <bean parent="FieldDefinition" p:attributeName="earnCode"/>
-                 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.beginTimestamp"/>
-                 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.endTimestamp"/>
-                 <bean parent="FieldDefinition" p:attributeName="hours"/>
-                 <bean parent="FieldDefinition" p:attributeName="amount"/>
-                 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.clockLogCreated"/>
-                 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.actionHistory"/>
-                 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.userPrincipalId"/>
-                 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.timestamp"/>
-            </list>
-        </property>
-        <property name="title" value="Time Block History Detail Lookup"/>
-    </bean>
 </beans>

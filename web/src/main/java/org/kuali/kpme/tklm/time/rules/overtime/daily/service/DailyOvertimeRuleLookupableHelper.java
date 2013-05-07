@@ -27,6 +27,7 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
@@ -74,7 +75,7 @@ public class DailyOvertimeRuleLookupableHelper extends KPMELookupableHelper {
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        return TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRules(dept, workArea, location, TKUtils.formatDateString(fromEffdt), 
+        return TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRules(GlobalVariables.getUserSession().getPrincipalId(), dept, workArea, location, TKUtils.formatDateString(fromEffdt), 
         		TKUtils.formatDateString(toEffdt), active, showHist);
     }
     

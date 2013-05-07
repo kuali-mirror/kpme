@@ -41,7 +41,7 @@ public interface EarnCodeSecurityService {
     @Cacheable(value= EarnCodeSecurity.CACHE_NAME, key="'hrEarnCodeSecId=' + #p0")
 	public EarnCodeSecurity getEarnCodeSecurity(String hrEarnCodeSecId);
 	
-	public List<EarnCodeSecurity> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location,
+	public List<EarnCodeSecurity> searchEarnCodeSecurities(String userPrincipalId, String dept, String salGroup, String earnCode, String location,
 			LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 	
     /**

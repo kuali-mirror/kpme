@@ -95,7 +95,7 @@ public class AuthorizationValidationUtils {
 
         return hasAccessToWrite;
     }
-
+    
     /**
      * Static helper method to provide a single point of access for both Kuali
      * Rice maintenance page hooks as well as Lookupable filtering.

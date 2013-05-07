@@ -68,5 +68,14 @@ public class EarnCodeSecurityServiceImplTest extends KPMETestCase {
 			Assert.assertTrue("Wrong SAL_GROUP.", (ec1.getHrSalGroup()).equals(TEST_SAL_GROUP_A) || (ec1.getHrSalGroup()).equals("%") );
 		}
 	}
+	
+	@Test
+	public void testSearchEarnCodeSecurities() throws Exception {
+		List<EarnCodeSecurity> allResults = HrServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities("admin", null, null, null, null, null, null, "Y", "N");
+		Assert.assertEquals("Search returned the wrong number of results.", 18, allResults.size());
+		
+		List<EarnCodeSecurity> restrictedResults = HrServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities("testuser6", null, null, null, null, null, null, "Y", "N");
+		Assert.assertEquals("Search returned the wrong number of results.", 10, restrictedResults.size());
+	}
 
 }

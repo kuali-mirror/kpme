@@ -26,6 +26,7 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
@@ -64,7 +65,7 @@ public class ShiftDifferentialRuleLookupableHelper extends KPMELookupableHelper 
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        return TkServiceLocator.getShiftDifferentialRuleService().getShiftDifferentialRules(location, hrSalGroup, payGrade, TKUtils.formatDateString(fromEffdt),
+        return TkServiceLocator.getShiftDifferentialRuleService().getShiftDifferentialRules(GlobalVariables.getUserSession().getPrincipalId(), location, hrSalGroup, payGrade, TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHist);
     }
 

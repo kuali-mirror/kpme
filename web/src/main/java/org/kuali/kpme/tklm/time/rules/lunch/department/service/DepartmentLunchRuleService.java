@@ -53,5 +53,5 @@ public interface DepartmentLunchRuleService {
     @Cacheable(value= DeptLunchRule.CACHE_NAME, key="'tkDeptLunchRuleId=' + #p0")
 	public DeptLunchRule getDepartmentLunchRule(String tkDeptLunchRuleId);
 
-    List<DeptLunchRule> getDepartmentLunchRules(String dept, String workArea, String principalId, String jobNumber, String active);
+    List<DeptLunchRule> getDepartmentLunchRules(String userPrincipalId, String dept, String workArea, String principalId, String jobNumber, String active);
 }

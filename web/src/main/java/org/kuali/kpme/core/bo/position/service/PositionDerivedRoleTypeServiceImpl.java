@@ -66,6 +66,11 @@ public class PositionDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
 		return true;
 	}
     
+    @Override
+	public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
+		return true;
+	}
+    
 	public RoleService getRoleService() {
 		return roleService;
 	}
