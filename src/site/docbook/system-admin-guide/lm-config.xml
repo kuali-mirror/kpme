@@ -198,7 +198,7 @@
 					</para>
 					<mediaobject>
 						<imageobject>
-							<imagedata fileref="../images/lm/accrualcatdocdesc.jpg" format="JPG" scale="50" />
+							<imagedata fileref="../images/lm/accrualcatcreatenew.jpg" format="JPG" scale="50" />
 						</imageobject>
 						<textobject>
 							<phrase>The Create New Button</phrase>
@@ -209,7 +209,7 @@
 					<para>Enter the required description in the Document Overview</para>
 					<mediaobject>
 						<imageobject>
-							<imagedata fileref="../images/lm/accrualcatcreatenew.jpg" format="JPG" scale="50"/>
+							<imagedata fileref="../images/lm/accrualcatdocdesc.jpg" format="JPG" scale="50"/>
 						</imageobject>
 						<textobject>
 							<phrase>Accrual Category Document Overview Description</phrase>
