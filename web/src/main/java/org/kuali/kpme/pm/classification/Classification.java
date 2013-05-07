@@ -30,6 +30,8 @@ public class Classification extends HrBusinessObject {
 	
 	private List<ClassificationQualification> qualificationList = new LinkedList<ClassificationQualification>(); 
 	private List<ClassificationDuty> dutyList = new LinkedList<ClassificationDuty>(); 
+	private List<ClassificationFlag> flagList = new LinkedList<ClassificationFlag>(); 
+	
 	// list of position flags, need to add flag maint section to Position maint doc
 	
 	private CampusBo campusObj;
@@ -192,6 +194,14 @@ public class Classification extends HrBusinessObject {
 
 	public void setDutyList(List<ClassificationDuty> dutyList) {
 		this.dutyList = dutyList;
+	}
+
+	public List<ClassificationFlag> getFlagList() {
+		return flagList;
+	}
+
+	public void setFlagList(List<ClassificationFlag> flagList) {
+		this.flagList = flagList;
 	}
 
 }

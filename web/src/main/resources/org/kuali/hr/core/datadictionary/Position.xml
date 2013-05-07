@@ -18,19 +18,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+        
 	<bean id="Position" parent="Position-parentBean" />
-
 	<bean id="Position-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kpme.core.bo.position.Position" />
-		<property name="titleAttribute" value="id" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.bo.position.Position" />
 		<property name="objectLabel" value="Position" />
-		<property name="inquiryDefinition">
-			<ref bean="Position-inquiryDefinition" />          
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="Position-lookupDefinition" />
-		</property>
 		<property name="attributes">
 			<list>
 				<ref bean="Position-hrPositionId" />
@@ -58,8 +51,8 @@
 				<property name="allowWhitespace" value="false" />
 			</bean>
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="60" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="60" />
 		</property>
 		<property name="name" value="hrPositionId" />
 		<property name="label" value="Position Id" />
@@ -75,8 +68,8 @@
 				<property name="allowWhitespace" value="false" />
 			</bean>
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="20" />
 		</property>
 		<property name="name" value="positionNumber" />
 		<property name="label" value="Position Number" />
@@ -92,8 +85,8 @@
 				<property name="allowWhitespace" value="true" />
 			</bean>
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="40" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="40" />
 		</property>
 		<property name="name" value="description" />
 		<property name="label" value="Description" />
@@ -107,26 +100,19 @@
 		<property name="validationPattern">
 			<bean parent="DateValidationPattern" />
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+		<property name="controlField">
+			<bean parent="Uif-DateControl" />
 		</property>
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
 		<property name="name" value="effectiveDate" />
 		<property name="label" value="Effective Date" />
 	</bean>
 	
-	
-
 	<bean id="Position-active" parent="Position-active-parentBean" />
 	<bean id="Position-active-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Active" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
+		parent="AttributeReferenceDummy-activeIndicator" >
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
 	</bean>
 
 	<bean id="Position-timestamp" parent="Position-timestamp-parentBean" />
@@ -134,78 +120,80 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Timestamp" />
 		<property name="maxLength" value="15" />
-
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="15" />
 		</property>
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
 		<property name="name" value="timestamp" />
 		<property name="label" value="Time Stamp" />
-	</bean>
-	
+	</bean> 
+
 	<bean id="Position-history" parent="Position-history-parentBean" />
-	
 	<bean id="Position-history-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Show History" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder">
-			</bean>
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl" />
+		</property>
+		<property name="optionsFinder">
+			<bean class="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder"/>
 		</property>
 		<property name="name" value="history" />
 		<property name="label" value="Show History" />
 	</bean>	
 	
-		<!--  Inquiry Definitions  -->
-  
-  	<bean id="Position-inquiryDefinition" parent="Position-inquiryDefinition-parentBean" />
-
-	<bean id="Position-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="inquirySections">
+	
+	<!--  Inquiry Definitions  -->
+  	<bean id="Position-InquiryView" parent="Uif-InquiryView" >
+		<property name="headerText" value="Position Inquiry"/>
+    	<property name="dataObjectClassName" value="org.kuali.kpme.core.bo.position.Position"/>
+    	<property name="singlePageView" value="true"/>
+		<property name="items">
 			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
+				<bean parent="Uif-Disclosure-GridSection">
+					<property name="layoutManager.numberOfColumns" value="2" />
+					<property name="items">
 						<list>
-							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-							<bean parent="FieldDefinition" p:attributeName="positionNumber" />
-							<bean parent="FieldDefinition" p:attributeName="description" />
-							<bean parent="FieldDefinition" p:attributeName="active" />
+							<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+							<bean parent="Uif-DataField" p:propertyName="positionNumber" />
+							<bean parent="Uif-DataField" p:propertyName="description" />
+							<bean parent="Uif-DataField" p:propertyName="active" />
 						</list>
 					</property>
 					<property name="title" value="Position" />
 				</bean>
 			</list>
 		</property>
-		<property name="translateCodes" value="false"/>
-		<property name="title" value="Position Inquiry" />
 	</bean>
+	
 
 	<!-- Look up Definitions  -->
-
-	<bean id="Position-lookupDefinition" parent="Position-lookupDefinition-parentBean" />
-	<bean id="Position-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition">
-		<property name="lookupableID" value="positionLookupable"></property>
-		<property name="lookupFields">
+	<bean id="Position-LookupView" parent="Uif-LookupView" >
+	    <property name="headerText" value="Position Lookup" />
+	    <property name="dataObjectClassName" value="org.kuali.kpme.core.bo.position.Position" />
+	    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.bo.position.service.PositionLookupableHelper" />
+	    <property name="criteriaFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
-				<bean parent="FieldDefinition" p:attributeName="description" />
-                <bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noDirectInquiry="true" p:noLookup="true" />
-                <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
-				<bean parent="FieldDefinition" p:attributeName="active"/>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N"/>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
-				<bean parent="FieldDefinition" p:attributeName="description" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true"/>
-				<bean parent="FieldDefinition" p:attributeName="timestamp" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="Uif-InputField" p:propertyName="positionNumber" >
+					<property name="inquiry">
+	       		 		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.bo.position.Position" 
+	        	 			p:inquiryParameters="hrPositionId:hrPositionId"/>
+    				</property>
+    			</bean>
+				<bean parent="Uif-InputField" p:propertyName="description" />
+				<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+				<bean parent="Uif-InputField" p:propertyName="timestamp" />
+				<bean parent="Uif-InputField" p:propertyName="active" />
 			</list>
 		</property>
-		<property name="title" value="Position Lookup" />
 	</bean>
 </beans>

@@ -91,6 +91,11 @@ public class JobTest extends KPMETestCase {
 		payType.setRegEarnCode("RGN");
 		payType.setEffectiveLocalDate(LocalDate.now());
 		payType.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		// KPME-2252
+		payType.setCampus("*");
+		payType.setInstitution("*");
+		payType.setFlsaStatus("NE");
+		payType.setPayFrequency("M");
 
 		KRADServiceLocator.getBusinessObjectService().save(payType);
 		Assert.assertTrue(HrServiceLocator.getPayTypeService().getPayType(payType.getPayType(), payType.getEffectiveLocalDate()) != null);

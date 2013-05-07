@@ -206,7 +206,8 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		usage.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 		usage.setBlockId(0L);
 		
-		KRADServiceLocator.getBusinessObjectService().save(usage);
+		/*KRADServiceLocator.getBusinessObjectService().save(usage);*/
+		LmServiceLocator.getLeaveBlockService().saveLeaveBlock(usage, TS_USER_ID);
 		
 		maxBalanceViolations = eligibilityTestHelper(decEntry, USER_ID);
 
@@ -349,7 +350,10 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		usage.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 		usage.setBlockId(0L);
 		
-		KRADServiceLocator.getBusinessObjectService().save(usage);
+		//KRADServiceLocator.getBusinessObjectService().save(usage);
+        LmServiceLocator.getLeaveBlockService().saveLeaveBlock(usage, TS_USER_ID);
+		
+		
 		
 		maxBalanceViolations = eligibilityTestHelper(endDecTSDEntry, TS_USER_ID);
 		assertEquals("Incorrect number of max balance violation", 15, maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
@@ -380,7 +384,8 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		usage.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 		usage.setBlockId(0L);
 		
-		KRADServiceLocator.getBusinessObjectService().save(usage);
+	 //KRADServiceLocator.getBusinessObjectService().save(usage);
+        LmServiceLocator.getLeaveBlockService().saveLeaveBlock(usage, TS_USER_ID);
 		
 		maxBalanceViolations = eligibilityTestHelper(endDecTSDEntry, TS_USER_ID);
 		assertEquals("Incorrect number of leave approve violations", 18, maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());

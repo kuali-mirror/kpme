@@ -39,7 +39,7 @@ public interface TimeBlockService {
 	 * Delete a given TimeBlock
 	 * @param timeBlock
 	 */
-	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
+	
 	public void deleteTimeBlock(TimeBlock timeBlock);
 	/**
 	 * Build a TimeBlock with the given criteria
@@ -121,12 +121,12 @@ public interface TimeBlockService {
 	 * @param isLunchDeleted
 	 * @return
 	 */
-	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
+	
 	public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, DateTime beginDateTime, DateTime endDateTime,
 										Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount,
                                         Boolean isClockLogCreated, Boolean isLunchDeleted, String userPrincipalId);
 
-	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
+	
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
 
 	public Boolean isTimeBlockEditable(TimeBlock tb);

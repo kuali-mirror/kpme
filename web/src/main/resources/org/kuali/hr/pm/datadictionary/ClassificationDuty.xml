@@ -99,22 +99,22 @@
  ***************************************************************************-->  	
 
 <!--  Position Classification Duty Maintenance View -->
-  <bean id="ClassDuty-MaintenanceView" parent="ClassDuty-MaintenanceView-parentBean"/>
-  <bean id="ClassDuty-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
-    <property name="headerText" value="Position Classification Duty Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.ClassificationDuty"/>
-    <property name="items">
-      <list merge="true">
-        <bean parent="Uif-MaintenanceGridSection">
-          <property name="items">
-            <list>
-		        <bean parent="Uif-InputField" p:propertyName="name" />
-		        <bean parent="Uif-InputField" p:propertyName="description" />
-		        <bean parent="Uif-InputField" p:propertyName="percentage" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean> 
+<!--   <bean id="ClassDuty-MaintenanceView" parent="ClassDuty-MaintenanceView-parentBean"/> -->
+<!--   <bean id="ClassDuty-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView"> -->
+<!--     <property name="headerText" value="Position Classification Duty Maintenance"/> -->
+<!--     <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.ClassificationDuty"/> -->
+<!--     <property name="items"> -->
+<!--       <list merge="true"> -->
+<!--         <bean parent="Uif-MaintenanceGridSection"> -->
+<!--           <property name="items"> -->
+<!--             <list> -->
+<!-- 		        <bean parent="Uif-InputField" p:propertyName="name" /> -->
+<!-- 		        <bean parent="Uif-InputField" p:propertyName="description" /> -->
+<!-- 		        <bean parent="Uif-InputField" p:propertyName="percentage" /> -->
+<!--             </list> -->
+<!--           </property> -->
+<!--         </bean> -->
+<!--       </list> -->
+<!--     </property> -->
+<!--   </bean>  -->
 </beans>

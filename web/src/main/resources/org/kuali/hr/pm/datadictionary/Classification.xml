@@ -74,6 +74,12 @@
 	          <property name="shortLabel" value="Duties" />
 	          <property name="label" value="Classification Duties" />
 	        </bean>
+	        <bean parent="CollectionDefinition">
+	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.ClassificationFlag" />
+	          <property name="name" value="flagList" />
+	          <property name="shortLabel" value="Flags" />
+	          <property name="label" value="Classification Flags" />
+	        </bean>
 	      </list>
 	    </property>
 		
@@ -528,6 +534,43 @@
 			   		 	</property>
 			       </bean>
 		         </list>
+	         </property>
+        </bean>
+        
+        <bean parent="Uif-MaintenanceGridSection">
+	        <property name="headerText" value="Position Class Flags"/>
+	        <property name="items">
+		        <list>
+			        <bean parent="Uif-TableCollectionGroup">
+						  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationFlag" />
+						  <property name="propertyName" value="flagList" />
+						  <property name="layoutManager.richTable.render" value="false" />
+						  <property name="layoutManager.generateAutoSequence" value="false" />
+						  <property name="items">
+						    <list>
+					           <bean parent="Uif-InputField" p:propertyName="category" >
+					          		<property name="required" value="yes" />
+					           		<property name="control">
+										<bean parent="Uif-DropdownControl"/>
+									</property>
+									<property name="optionsFinder">
+										<bean class="org.kuali.kpme.pm.util.FlagCategoryKeyValueFinder" p:addBlankOption="false"/>
+									</property>
+					           </bean>
+					           <bean parent="Uif-InputField" p:propertyName="name"
+					            		p:refreshWhenChangedPropertyNames="#lp.category">
+					            	<property name="required" value="yes" />
+					            	<property name="control">
+					            		<bean parent="Uif-HorizontalCheckboxesControl" />
+					            	</property>
+									<property name="optionsFinder">
+										<bean class="org.kuali.kpme.pm.util.FlagNameKeyValueFinder" p:addBlankOption="false"/>
+									</property>
+					           </bean>
+						    </list>
+						  </property>
+					</bean>
+		        </list>
 	         </property>
         </bean>
  

@@ -2,7 +2,12 @@ package org.kuali.kpme.pm.positionflag;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 
+import com.google.common.collect.ImmutableList;
 public class PositionFlag extends HrBusinessObject {
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+												    .add("category")
+												    .add("positionFlagName")
+												    .build();
 	
 	private static final long serialVersionUID = 1L;
 	

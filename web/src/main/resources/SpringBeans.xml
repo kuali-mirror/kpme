@@ -859,10 +859,13 @@
             <bean class="org.kuali.kpme.core.bo.paytype.service.PayTypeLookupableHelper"/>
         </property>
     </bean>
-    <bean id="positionLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.position.service.PositionLookupableHelper"/>
-        </property>
+    <bean id="positionLookupable" class="org.kuali.kpme.core.bo.position.service.PositionLookupableHelper" scope="singleton">
+        <property name="dataDictionaryService">
+			<bean
+				class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+				<property name="serviceName" value="dataDictionaryService" />
+			</bean>
+		</property>
     </bean>
     <bean id="salaryGroupLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">

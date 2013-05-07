@@ -49,6 +49,13 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
         Position position = (Position) this.getBusinessObject();
         //String nextUniqueNumber = HrServiceLocator.getPositionService().getNextUniquePositionNumber();
         //position.setPositionNumber(nextUniqueNumber);
+        
+        // This will not be needed once the copy link gets suppressed
+        // KPME- 2247 set position number to null so that it will be auto generated
+        if (getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
+        	position.setPositionNumber(null);
+        	position.setTimestamp(null);
+        }
 
         KRADServiceLocator.getBusinessObjectService().save(position);
         CacheUtils.flushCache(Position.CACHE_NAME);
