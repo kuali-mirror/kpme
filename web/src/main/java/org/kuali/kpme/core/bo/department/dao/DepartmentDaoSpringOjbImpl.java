@@ -31,10 +31,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import com.google.common.collect.ImmutableList;
 
 public class DepartmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements DepartmentDao {
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("dept")
-            .build();
-
+    
 	@Override
 	public void saveOrUpdate(Department dept) {
 		this.getPersistenceBrokerTemplate().store(dept);
@@ -45,8 +42,8 @@ public class DepartmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 		Criteria root = new Criteria();
 
 		root.addEqualTo("dept", department);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Department.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Department.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Department.class, asOfDate, Department.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Department.class, Department.EQUAL_TO_FIELDS, false));
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
@@ -64,8 +61,8 @@ public class DepartmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 		Criteria root = new Criteria();
 
 		root.addEqualTo("location", location);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Department.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Department.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Department.class, asOfDate, Department.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Department.class, Department.EQUAL_TO_FIELDS, false));
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);

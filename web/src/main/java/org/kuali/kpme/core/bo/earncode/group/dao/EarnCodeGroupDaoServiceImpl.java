@@ -33,17 +33,14 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import com.google.common.collect.ImmutableList;
 
 public class EarnCodeGroupDaoServiceImpl extends PlatformAwareDaoBaseOjb implements EarnCodeGroupDaoService {
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("earnCodeGroup")
-            .build();
-
+    
 	@Override
 	public EarnCodeGroup getEarnCodeGroup(String earnGroup, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 
 		root.addEqualTo("earnCodeGroup", earnGroup);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeGroup.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeGroup.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeGroup.class, asOfDate, EarnCodeGroup.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeGroup.class, EarnCodeGroup.EQUAL_TO_FIELDS, false));
 //		root.addEqualTo("active", true);
 		//do not include the summary setup earn groups
 
@@ -67,8 +64,8 @@ public class EarnCodeGroupDaoServiceImpl extends PlatformAwareDaoBaseOjb impleme
 		earnCodeSubQuery.setAttributes(new String[]{"hr_earn_code_group_id"});
 		
 		root.addEqualTo("hrEarnCodeGroupId",earnCodeSubQuery);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeGroup.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeGroup.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeGroup.class, asOfDate, EarnCodeGroup.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeGroup.class, EarnCodeGroup.EQUAL_TO_FIELDS, false));
 //		root.addEqualTo("active", true);
 		root.addEqualTo("showSummary", true);
 		
@@ -92,8 +89,8 @@ public class EarnCodeGroupDaoServiceImpl extends PlatformAwareDaoBaseOjb impleme
 		earnCodeSubQuery.setAttributes(new String[]{"hr_earn_code_group_id"});
 		
 		root.addEqualTo("hrEarnCodeGroupId",earnCodeSubQuery);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeGroup.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeGroup.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeGroup.class, asOfDate, EarnCodeGroup.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeGroup.class, EarnCodeGroup.EQUAL_TO_FIELDS, false));
 //		root.addEqualTo("active", true);
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -167,8 +164,8 @@ public class EarnCodeGroupDaoServiceImpl extends PlatformAwareDaoBaseOjb impleme
         }
 
         if (StringUtils.equals(showHist, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(EarnCodeGroup.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeGroup.class, EQUAL_TO_FIELDS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(EarnCodeGroup.class, effectiveDateFilter, EarnCodeGroup.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeGroup.class, EarnCodeGroup.EQUAL_TO_FIELDS, false));
         }
         
         Query query = QueryFactory.newQuery(EarnCodeGroup.class, root);

@@ -9,9 +9,12 @@ import org.kuali.kpme.pm.util.PmValidationUtils;
 
 public class PmValidationUtilsTest extends KPMETestCase {
 	
+	private static DateTime INVALID_DATE = new DateTime(2011, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+	private static DateTime VALID_DATE = new DateTime(2012, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+	
 	@Test
 	public void testValidateInstitution() {
-		DateTime aDate = new DateTime(2011, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime aDate = INVALID_DATE;
 		String institution = "*";	
 		boolean results = PmValidationUtils.validateInstitution(institution, aDate.toLocalDate());	// wildcard should be true
 		Assert.assertTrue(results);
@@ -24,7 +27,7 @@ public class PmValidationUtilsTest extends KPMETestCase {
 		results = PmValidationUtils.validateInstitution(institution, aDate.toLocalDate());	// existing institution, but wrong date
 		Assert.assertFalse(results);
 		
-		aDate = new DateTime(2012, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		aDate = VALID_DATE;
 		results = PmValidationUtils.validateInstitution(institution, aDate.toLocalDate()); // existing institution, right date
 		Assert.assertTrue(results);
 	}
@@ -47,7 +50,7 @@ public class PmValidationUtilsTest extends KPMETestCase {
 	
 	@Test
 	public void testValidatePositionReportType() {
-		DateTime aDate = new DateTime(2011, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime aDate = INVALID_DATE;
 		String prt = "nonExist";
 		String institution = "*";
 		String campus = "*";
@@ -58,14 +61,14 @@ public class PmValidationUtilsTest extends KPMETestCase {
 		results = PmValidationUtils.validatePositionReportType(prt, institution, campus, aDate.toLocalDate());	// existing, but wrong date
 		Assert.assertFalse(results);
 		
-		aDate = new DateTime(2012, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		aDate = VALID_DATE;
 		results = PmValidationUtils.validatePositionReportType(prt, institution, campus, aDate.toLocalDate());  // existing, right date
 		Assert.assertTrue(results);
 	}
 	
 	@Test
 	public void testValidateInstitutionWithPRT() {
-		DateTime aDate = new DateTime(2011, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime aDate = INVALID_DATE;
 		String prt = "nonExist";
 		String institution = "testInst";
 		boolean results = PmValidationUtils.validateInstitutionWithPRT(prt, institution, aDate.toLocalDate()); // non-existing
@@ -75,14 +78,14 @@ public class PmValidationUtilsTest extends KPMETestCase {
 		results = PmValidationUtils.validateInstitutionWithPRT(prt, institution, aDate.toLocalDate());	// existing, but wrong date
 		Assert.assertFalse(results);
 		
-		aDate = new DateTime(2012, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		aDate = VALID_DATE;
 		results = PmValidationUtils.validateInstitutionWithPRT(prt, institution, aDate.toLocalDate());  // existing, right date
 		Assert.assertTrue(results);
 	}
 	
 	@Test
 	public void testValidateCampusWithPRT() {
-		DateTime aDate = new DateTime(2011, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime aDate = INVALID_DATE;
 		String prt = "nonExist";
 		String campus = "testCamp";
 		boolean results = PmValidationUtils.validateCampusWithPRT(prt, campus, aDate.toLocalDate());  // non-existing
@@ -92,7 +95,7 @@ public class PmValidationUtilsTest extends KPMETestCase {
 		results = PmValidationUtils.validateCampusWithPRT(prt, campus, aDate.toLocalDate());	// existing, but wrong date
 		Assert.assertFalse(results);
 		
-		aDate = new DateTime(2012, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		aDate = VALID_DATE;
 		results = PmValidationUtils.validateCampusWithPRT(prt, campus, aDate.toLocalDate()); // existing, right date, wrong campus
 		Assert.assertFalse(results);
 		
@@ -103,7 +106,7 @@ public class PmValidationUtilsTest extends KPMETestCase {
 	
 	@Test
 	public void testValidatePositionReportCategory() {
-		DateTime aDate = new DateTime(2011, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime aDate = INVALID_DATE;
 		String prc = "nonExist";
 		String prt = "nonExist";
 		String institution = "*";
@@ -115,7 +118,7 @@ public class PmValidationUtilsTest extends KPMETestCase {
 		results = PmValidationUtils.validatePositionReportCategory(prc, prt, institution, campus, aDate.toLocalDate()); 	// existing, but wrong date
 		Assert.assertFalse(results);
 		
-		aDate = new DateTime(2012, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		aDate = VALID_DATE;
 		results = PmValidationUtils.validatePositionReportCategory(prc, prt, institution, campus, aDate.toLocalDate());   // existing, right date, wrong prt
 		Assert.assertFalse(results);
 		
@@ -126,7 +129,7 @@ public class PmValidationUtilsTest extends KPMETestCase {
 	
 	@Test
 	public void testValidatePositionReportSubCat() {
-		DateTime aDate = new DateTime(2011, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime aDate = INVALID_DATE;
 		String prsc = "nonExist";
 		String institution = "*";
 		String campus = "*";
@@ -137,7 +140,7 @@ public class PmValidationUtilsTest extends KPMETestCase {
 		results = PmValidationUtils.validatePositionReportSubCat(prsc, institution, campus, aDate.toLocalDate()); // existing, but wrong date
 		Assert.assertFalse(results);
 		
-		aDate = new DateTime(2012, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		aDate = VALID_DATE;
 		institution = "nonExist";
 		results = PmValidationUtils.validatePositionReportSubCat(prsc, institution, campus, aDate.toLocalDate());   // existing, right date, wrong institution
 		Assert.assertFalse(results);
@@ -155,7 +158,7 @@ public class PmValidationUtilsTest extends KPMETestCase {
 	
 	@Test
 	public void testValidatePstnRptGrp() {
-		DateTime aDate = new DateTime(2011, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime aDate = INVALID_DATE;
 		String prg = "nonExist";
 		String institution = "*";
 		String campus = "*";
@@ -166,7 +169,7 @@ public class PmValidationUtilsTest extends KPMETestCase {
 		results = PmValidationUtils.validatePstnRptGrp(prg, institution, campus, aDate.toLocalDate()); ; // existing, but wrong date
 		Assert.assertFalse(results);
 		
-		aDate = new DateTime(2012, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		aDate = VALID_DATE;
 		institution = "nonExist";
 		results = PmValidationUtils.validatePstnRptGrp(prg, institution, campus, aDate.toLocalDate());   // existing, right date, wrong institution
 		Assert.assertFalse(results);
@@ -180,5 +183,4 @@ public class PmValidationUtilsTest extends KPMETestCase {
 		results = PmValidationUtils.validatePstnRptGrp(prg, institution, campus, aDate.toLocalDate()); 
 		Assert.assertTrue(results);
 	}
-
 }

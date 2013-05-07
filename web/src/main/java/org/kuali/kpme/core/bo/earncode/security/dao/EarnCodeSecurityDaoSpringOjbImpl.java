@@ -35,13 +35,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import com.google.common.collect.ImmutableList;
 
 public class EarnCodeSecurityDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements EarnCodeSecurityDao {
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("dept")
-            .add("hrSalGroup")
-            .add("earnCode")
-            .add("location")
-            .build();
-
+    
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(EarnCodeSecurityDaoSpringOjbImpl.class);
 
@@ -185,8 +179,8 @@ public class EarnCodeSecurityDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(EarnCodeSecurity.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeSecurity.class, EQUAL_TO_FIELDS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(EarnCodeSecurity.class, effectiveDateFilter, EarnCodeSecurity.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeSecurity.class, EarnCodeSecurity.EQUAL_TO_FIELDS, false));
         }
         
         Query query = QueryFactory.newQuery(EarnCodeSecurity.class, root);

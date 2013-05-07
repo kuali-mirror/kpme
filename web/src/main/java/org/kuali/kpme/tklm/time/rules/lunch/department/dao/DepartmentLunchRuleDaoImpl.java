@@ -34,14 +34,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import com.google.common.collect.ImmutableList;
 
 public class DepartmentLunchRuleDaoImpl  extends PlatformAwareDaoBaseOjb implements DepartmentLunchRuleDao {
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("dept")
-            .add("workArea")
-            .add("principalId")
-            .add("jobNumber")
-            .build();
-
-	@Override
+    @Override
 	public DeptLunchRule getDepartmentLunchRule(String dept, Long workArea, String principalId, 
 												Long jobNumber, LocalDate asOfDate) {
 		Criteria root = new Criteria();
@@ -50,8 +43,8 @@ public class DepartmentLunchRuleDaoImpl  extends PlatformAwareDaoBaseOjb impleme
 		root.addEqualTo("workArea", workArea);
 		root.addEqualTo("principalId", principalId);
 		root.addEqualTo("jobNumber", jobNumber);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DeptLunchRule.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DeptLunchRule.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DeptLunchRule.class, asOfDate, DeptLunchRule.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DeptLunchRule.class, DeptLunchRule.EQUAL_TO_FIELDS, false));
 //		root.addEqualTo("active", true);
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity

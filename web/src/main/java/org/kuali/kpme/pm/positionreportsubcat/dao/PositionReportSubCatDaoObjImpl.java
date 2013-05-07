@@ -17,13 +17,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import com.google.common.collect.ImmutableList;
 
 public class PositionReportSubCatDaoObjImpl extends PlatformAwareDaoBaseOjb  implements PositionReportSubCatDao {
-	 private static final ImmutableList<String> PRSC_EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-																		     .add("positionReportSubCat")
-																		     .add("institution")
-																		     .add("campus")
-																		     .build();
-	
-	public PositionReportSubCategory getPositionReportSubCatById(
+	 public PositionReportSubCategory getPositionReportSubCatById(
 			String pmPositionReportSubCatId) {
 		Criteria crit = new Criteria();
         crit.addEqualTo("pmPositionReportSubCatId", pmPositionReportSubCatId);
@@ -47,8 +41,8 @@ public class PositionReportSubCatDaoObjImpl extends PlatformAwareDaoBaseOjb  imp
 				&& !StringUtils.equals(campus, HrConstants.WILDCARD_CHARACTER)) {
 			root.addEqualTo("campus", campus); 
 		}
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportSubCategory.class, asOfDate, PRSC_EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportSubCategory.class, PRSC_EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportSubCategory.class, asOfDate, PositionReportSubCategory.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportSubCategory.class, PositionReportSubCategory.EQUAL_TO_FIELDS, false));
         
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);

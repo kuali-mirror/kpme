@@ -30,10 +30,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import com.google.common.collect.ImmutableList;
 
 public class PayTypeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements PayTypeDao {
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("payType")
-            .build();
-
+    
 	public void saveOrUpdate(PayType payType) {
 		this.getPersistenceBrokerTemplate().store(payType);
 	}
@@ -50,8 +47,8 @@ public class PayTypeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements 
 		Criteria currentRecordCriteria = new Criteria();
 
 		currentRecordCriteria.addEqualTo("payType", payType);
-        currentRecordCriteria.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PayType.class, effectiveDate, EQUAL_TO_FIELDS, false));
-        currentRecordCriteria.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PayType.class, EQUAL_TO_FIELDS, false));
+        currentRecordCriteria.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PayType.class, effectiveDate, PayType.EQUAL_TO_FIELDS, false));
+        currentRecordCriteria.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PayType.class, PayType.EQUAL_TO_FIELDS, false));
 		
 //		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 //		activeFilter.addEqualTo("active", true);
@@ -121,8 +118,8 @@ public class PayTypeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements 
         }
         
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PayType.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PayType.class, EQUAL_TO_FIELDS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PayType.class, effectiveDateFilter, PayType.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PayType.class, PayType.EQUAL_TO_FIELDS, false));
         }
 
         Query query = QueryFactory.newQuery(PayType.class, root);

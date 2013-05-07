@@ -2,11 +2,14 @@ package org.kuali.kpme.core.bo.institution;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 
+import com.google.common.collect.ImmutableList;
+
 public class Institution extends HrBusinessObject {
 
-	/**
-	 * 
-	 */
+	 //KPME-2273/1965 Primary Business Keys List.	
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("institutionCode")
+            .build();    
 	private static final long serialVersionUID = 1L;
 	
 	private String pmInstitutionId;

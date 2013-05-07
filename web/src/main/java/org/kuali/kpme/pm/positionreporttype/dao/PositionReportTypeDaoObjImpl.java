@@ -18,12 +18,7 @@ import com.google.common.collect.ImmutableList;
 
 public class PositionReportTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements PositionReportTypeDao {
 	
-	 private static final ImmutableList<String> PRT_EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-																	     .add("positionReportType")
-																	     .add("institution")
-																	     .add("campus")
-																	     .build();
-	
+	 
 	@Override
 	public PositionReportType getPositionReportTypeById(String pmPositionReportTypeId) {
 		Criteria crit = new Criteria();
@@ -49,8 +44,8 @@ public class PositionReportTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implem
 				&& !PmValidationUtils.isWildCard(campus)) {
 			root.addEqualTo("campus", campus); 
 		}
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportType.class, asOfDate, PRT_EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportType.class, PRT_EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportType.class, asOfDate, PositionReportType.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportType.class, PositionReportType.EQUAL_TO_FIELDS, false));
         
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
@@ -84,8 +79,8 @@ public class PositionReportTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implem
 		Criteria root = new Criteria();
 
         root.addEqualTo("institution", institutionCode); 
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportType.class, asOfDate, PRT_EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportType.class, PRT_EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportType.class, asOfDate, PositionReportType.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportType.class, PositionReportType.EQUAL_TO_FIELDS, false));
         
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
@@ -105,8 +100,8 @@ public class PositionReportTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implem
 		Criteria root = new Criteria();
 
         root.addEqualTo("campus", campus); 
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportType.class, asOfDate, PRT_EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportType.class, PRT_EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportType.class, asOfDate, PositionReportType.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportType.class, PositionReportType.EQUAL_TO_FIELDS, false));
         
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);

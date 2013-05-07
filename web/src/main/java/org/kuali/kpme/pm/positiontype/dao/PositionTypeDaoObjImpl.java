@@ -18,11 +18,6 @@ import com.google.common.collect.ImmutableList;
 
 public class PositionTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements PositionTypeDao {
 
-	private static final ImmutableList<String> PSTNTYP_EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-																		    .add("positionType")
-																		    .add("institution")
-																		    .add("campus")
-																		    .build();
 	@Override
 	public PositionType getPositionTypeById(
 			String pmPositionTypeId) {
@@ -51,8 +46,8 @@ public class PositionTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 			root.addEqualTo("campus", campus); 
 		}
         
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionType.class, asOfDate, PSTNTYP_EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionType.class, PSTNTYP_EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionType.class, asOfDate, PositionType.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionType.class, PositionType.EQUAL_TO_FIELDS, false));
         
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);

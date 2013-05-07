@@ -17,6 +17,7 @@ package org.kuali.kpme.core.bo.paygrade;
 
 import java.math.BigDecimal;
 
+import com.google.common.collect.ImmutableList;
 import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.institution.Institution;
@@ -26,6 +27,10 @@ import org.kuali.rice.location.impl.campus.CampusBo;
 public class PayGrade extends HrBusinessObject {
 
 	private static final long serialVersionUID = -5736949952127760566L;
+	//KPME-2273/1965 Primary Business Keys List.
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("payGrade")            
+            .build();
 
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "PayGrade";
 

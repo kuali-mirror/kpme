@@ -21,11 +21,17 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 
+import com.google.common.collect.ImmutableList;
+
 public class LeavePlan extends HrBusinessObject {
 	
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE
 			+ "/" + "LeavePlan";
-	
+	//KPME-2273/1965 Primary Business Keys List.
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+	            .add("leavePlan")
+	            .build();
+
 	private static final long serialVersionUID = 1L;
 	private String lmLeavePlanId;
 	private String leavePlan;

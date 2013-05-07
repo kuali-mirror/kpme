@@ -24,10 +24,15 @@ import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo;
 
+import com.google.common.collect.ImmutableList;
+
 public class Location extends HrBusinessObject {
 
 	private static final long serialVersionUID = 9015089510044249197L;
-
+	//KPME-2273/1965 Primary Business Keys List.	
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+	            .add("location")
+	            .build();
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Location";
 
 	private String hrLocationId;

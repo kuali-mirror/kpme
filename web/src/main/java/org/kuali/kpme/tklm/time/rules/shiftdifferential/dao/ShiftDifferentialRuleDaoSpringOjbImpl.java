@@ -52,15 +52,15 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseO
 		root.addEqualTo("payGrade", payGrade);
 		root.addEqualTo("pyCalendarGroup", pyCalendarGroup);
 
-        ImmutableList<String> fields = new ImmutableList.Builder<String>()
-                .add("location")
-                .add("hrSalGroup")
-                .add("payGrade")
-                .add("pyCalendarGroup")
-                .add("earnCode")
-                .build();
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(ShiftDifferentialRule.class, asOfDate, fields, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(ShiftDifferentialRule.class, fields, false));
+//        ImmutableList<String> fields = new ImmutableList.Builder<String>()
+//                .add("location")
+//                .add("hrSalGroup")
+//                .add("payGrade")
+//                .add("pyCalendarGroup")
+//                .add("earnCode")
+//                .build();
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(ShiftDifferentialRule.class, asOfDate, ShiftDifferentialRule.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(ShiftDifferentialRule.class, ShiftDifferentialRule.EQUAL_TO_FIELDS, false));
 
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity

@@ -18,9 +18,6 @@ import com.google.common.collect.ImmutableList;
 
 public class PositionReportCatDaoObjImpl extends PlatformAwareDaoBaseOjb implements PositionReportCatDao {
 
-	private static final ImmutableList<String> PRG_EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-																		    .add("positionReportCat")
-																		    .build();
 	@Override
 	public PositionReportCategory getPositionReportCatById(
 			String pmPositionReportCatId) {
@@ -52,8 +49,8 @@ public class PositionReportCatDaoObjImpl extends PlatformAwareDaoBaseOjb impleme
 				&& !PmValidationUtils.isWildCard(campus)) {
 			root.addEqualTo("campus", campus); 
 		}
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportCategory.class, asOfDate, PRG_EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportCategory.class, PRG_EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportCategory.class, asOfDate, PositionReportCategory.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportCategory.class, PositionReportCategory.EQUAL_TO_FIELDS, false));
         
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);

@@ -16,13 +16,6 @@ import com.google.common.collect.ImmutableList;
 public class PayStepDaoOjbImpl extends PlatformAwareDaoBaseOjb implements
 		PayStepDao {
 
-	private static final ImmutableList<String> PS_EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-																									    .add("payStep")
-																									    .add("institution")
-																									    .add("campus")
-																									    .add("salaryGroup")
-																									    .add("payGrade")
-																									    .build();
 	
 	@Override
 	public PayStep getPayStepById(String payStepId) {

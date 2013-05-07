@@ -31,13 +31,9 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import com.google.common.collect.ImmutableList;
 
 public class SalaryGroupDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements SalaryGroupDao {
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("hrSalGroup")
-            .build();
-
-	@Override
-	public void saveOrUpdate(SalaryGroup salaryGroup) {
-		this.getPersistenceBrokerTemplate().store(salaryGroup);		
+    @Override
+    public void saveOrUpdate(SalaryGroup salaryGroup) {
+        this.getPersistenceBrokerTemplate().store(salaryGroup);		
 	}
 
 	@Override
@@ -45,8 +41,8 @@ public class SalaryGroupDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
 		Criteria root = new Criteria();
 
 		root.addEqualTo("hrSalGroup", salGroup);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(SalaryGroup.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(SalaryGroup.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(SalaryGroup.class, asOfDate, SalaryGroup.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(SalaryGroup.class, SalaryGroup.EQUAL_TO_FIELDS, false));
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
 		root.addAndCriteria(activeFilter);
@@ -101,8 +97,8 @@ public class SalaryGroupDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
         root.addAndCriteria(effectiveDateFilter);
 
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(SalaryGroup.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(SalaryGroup.class, EQUAL_TO_FIELDS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(SalaryGroup.class, effectiveDateFilter, SalaryGroup.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(SalaryGroup.class, SalaryGroup.EQUAL_TO_FIELDS, false));
         }
 
         Query query = QueryFactory.newQuery(SalaryGroup.class, root);

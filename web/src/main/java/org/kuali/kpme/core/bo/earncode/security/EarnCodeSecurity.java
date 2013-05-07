@@ -27,6 +27,8 @@ import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.location.Location;
 import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 
+import com.google.common.collect.ImmutableList;
+
 public class EarnCodeSecurity extends HrBusinessObject {
 
 	private static final long serialVersionUID = -4884673156883588639L;
@@ -34,6 +36,13 @@ public class EarnCodeSecurity extends HrBusinessObject {
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "EarnCodeSecurity";
     private static final String[] PRIVATE_CACHES_FOR_FLUSH = {EarnCodeSecurity.CACHE_NAME, EarnCode.CACHE_NAME};
     public static final List<String> CACHE_FLUSH = Collections.unmodifiableList(Arrays.asList(PRIVATE_CACHES_FOR_FLUSH));
+	//KPME-2273/1965 Primary Business Keys List. Will be using this from now on instead.	
+    public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("dept")
+            .add("hrSalGroup")
+            .add("earnCode")
+            .add("location")
+            .build();
 
 	private String hrEarnCodeSecurityId;
 	private String dept;

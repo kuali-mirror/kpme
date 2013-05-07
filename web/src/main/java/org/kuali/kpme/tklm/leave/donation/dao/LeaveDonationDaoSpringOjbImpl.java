@@ -31,14 +31,6 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import com.google.common.collect.ImmutableList;
 
 public class LeaveDonationDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveDonationDao {
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("donorsPrincipalID")
-            .add("donatedAccrualCategory")
-            .add("amountDonated")
-            .add("recipientsPrincipalID")
-            .add("recipientsAccrualCategory")
-            .add("amountReceived")
-            .build();
     
 	private static final Logger LOG = Logger.getLogger(LeaveDonationDaoSpringOjbImpl.class);
 
@@ -103,8 +95,8 @@ public class LeaveDonationDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imple
         }
 
         if (StringUtils.equals(showHist, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(LeaveDonation.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeaveDonation.class, EQUAL_TO_FIELDS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(LeaveDonation.class, effectiveDateFilter, LeaveDonation.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeaveDonation.class, LeaveDonation.EQUAL_TO_FIELDS, false));
         }
 
         Query query = QueryFactory.newQuery(LeaveDonation.class, root);

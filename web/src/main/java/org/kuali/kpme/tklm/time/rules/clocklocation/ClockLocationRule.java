@@ -27,11 +27,21 @@ import org.kuali.kpme.tklm.time.rules.TkRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 
+import com.google.common.collect.ImmutableList;
+
 public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
 	private static final long serialVersionUID = 959554402289679184L;
 
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "ClockLocationRule";
+	//KPME-2273/1965 Primary Business Keys List. 
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("dept")
+            .add("workArea")
+            .add("jobNumber")
+            .add("principalId")
+            .build();
+
 
 	private String tkClockLocationRuleId;
 

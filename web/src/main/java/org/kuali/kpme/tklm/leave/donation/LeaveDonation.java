@@ -23,10 +23,21 @@ import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.rice.kim.api.identity.Person;
 
+import com.google.common.collect.ImmutableList;
+
 public class LeaveDonation extends HrBusinessObject {
     public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "LeaveDonation";
     private static final long serialVersionUID = 1L;
-
+    //KPME-2273/1965 Primary Business Keys List.	
+    public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("donorsPrincipalID")
+            .add("donatedAccrualCategory")
+            .add("amountDonated")
+            .add("recipientsPrincipalID")
+            .add("recipientsAccrualCategory")
+            .add("amountReceived")
+            .build();    
+    
     private String lmLeaveDonationId;
 	private String donatedAccrualCategory;
 	private String recipientsAccrualCategory;

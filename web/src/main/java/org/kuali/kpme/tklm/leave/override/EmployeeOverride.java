@@ -23,9 +23,18 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
+import com.google.common.collect.ImmutableList;
+
 public class EmployeeOverride extends HrBusinessObject {
 
 	private static final long serialVersionUID = 1L;
+	//KPME-2273/1965 Primary Business Keys List. Will be using this from now on instead.	
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("principalId")
+            .add("leavePlan")
+            .add("accrualCategory")
+            .add("overrideType")
+            .build();
 	
 	private String lmEmployeeOverrideId;
 	private String principalId;

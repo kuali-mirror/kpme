@@ -21,12 +21,18 @@ import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
+import com.google.common.collect.ImmutableList;
 public class SalaryGroup extends HrBusinessObject {
 
 	private static final long serialVersionUID = 8169672203236887348L;
 
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "SalaryGroup";
+	//KPME-2273/1965 Primary Business Keys List.	
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("hrSalGroup")
+            .build();
 
+	
 	private String hrSalGroupId;
 	private String hrSalGroup;
 	private String descr;
@@ -36,7 +42,6 @@ public class SalaryGroup extends HrBusinessObject {
 	private String institution;
 	private String campus;
 	private BigDecimal percentTime;
-	private Integer workMonths;
 	private String benefitsEligible;
 	private String leaveEligible;
 	private String leavePlan;
@@ -112,14 +117,6 @@ public class SalaryGroup extends HrBusinessObject {
 
 	public void setPercentTime(BigDecimal percentTime) {
 		this.percentTime = percentTime;
-	}
-
-	public Integer getWorkMonths() {
-		return workMonths;
-	}
-
-	public void setWorkMonths(Integer workMonths) {
-		this.workMonths = workMonths;
 	}
 
 	public String getBenefitsEligible() {

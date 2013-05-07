@@ -26,8 +26,16 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
+import com.google.common.collect.ImmutableList;
+
 public class LeaveAdjustment extends HrBusinessObject {
 	private static final long serialVersionUID = 1L;
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("principalId")
+            .add("jobNumber")
+            .add("accrualCategory")
+            .add("earnCode")
+            .build();	
 	private String lmLeaveAdjustmentId;
 	private String principalId;
 	private String leavePlan;

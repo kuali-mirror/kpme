@@ -18,11 +18,6 @@ import com.google.common.collect.ImmutableList;
 
 public class PositionReportGroupDaoObjImpl extends PlatformAwareDaoBaseOjb implements PositionReportGroupDao {
 
-	private static final ImmutableList<String> PRG_EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-																		    .add("positionReportGroup")
-																		    .add("institution")
-																		    .add("campus")
-																		    .build();
 	@Override
 	public PositionReportGroup getPositionReportGroupById(
 			String pmPositionReportGroupId) {
@@ -51,8 +46,8 @@ public class PositionReportGroupDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 			root.addEqualTo("campus", campus); 
 		}
         
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportGroup.class, asOfDate, PRG_EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportGroup.class, PRG_EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportGroup.class, asOfDate, PositionReportGroup.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportGroup.class, PositionReportGroup.EQUAL_TO_FIELDS, false));
         
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);

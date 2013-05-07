@@ -107,12 +107,13 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
         }
         
         if (StringUtils.equals(showHistory, "N")) {
-            ImmutableList<String> fields = new ImmutableList.Builder<String>()
-                    .add("earnCode")
-                    .add("accruedDate")
-                    .build();
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(SystemScheduledTimeOff.class, effectiveDateFilter, fields, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(SystemScheduledTimeOff.class, fields, false));
+//			      ImmutableList<String> fields = new ImmutableList.Builder<String>()
+//                    .add("earnCode")
+//                    .add("accruedDate") //Not part of Primary Business Key
+//                    .build();
+//        	KPME-2273/1965 Primary Business Keys List. Using list from now on
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(SystemScheduledTimeOff.class, effectiveDateFilter, SystemScheduledTimeOff.fields, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(SystemScheduledTimeOff.class, SystemScheduledTimeOff.fields, false));
         }
         
         Query query = QueryFactory.newQuery(SystemScheduledTimeOff.class, root);
@@ -141,12 +142,13 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        ImmutableList<String> fields = new ImmutableList.Builder<String>()
-                .add("leavePlan")
-                .add("accruedDate")
-                .build();
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(SystemScheduledTimeOff.class, fields, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(SystemScheduledTimeOff.class, fields, false));
+//        ImmutableList<String> fields = new ImmutableList.Builder<String>()
+//                .add("leavePlan")
+//                .add("accruedDate") //Not part of Primary Business Key
+//                .build();
+//    	KPME-2273/1965 Primary Business Keys List. Using list from now on
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(SystemScheduledTimeOff.class, SystemScheduledTimeOff.fields, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(SystemScheduledTimeOff.class, SystemScheduledTimeOff.fields, false));
         
         Query query = QueryFactory.newQuery(SystemScheduledTimeOff.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));

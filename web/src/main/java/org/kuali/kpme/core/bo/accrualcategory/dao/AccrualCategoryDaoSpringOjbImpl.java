@@ -32,9 +32,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import com.google.common.collect.ImmutableList;
 
 public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements AccrualCategoryDao {
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("accrualCategory")
-            .build();
+   
 
     @Override
     public AccrualCategory getAccrualCategory(String accrualCategory, LocalDate asOfDate) {
@@ -43,8 +41,8 @@ public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 
         root.addEqualTo("accrualCategory", accrualCategory);
 		root.addEqualTo("active",true);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(AccrualCategory.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(AccrualCategory.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(AccrualCategory.class, asOfDate, AccrualCategory.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(AccrualCategory.class, AccrualCategory.EQUAL_TO_FIELDS, false));
 		
 		Query query = QueryFactory.newQuery(AccrualCategory.class, root);
 		Object obj = this.getPersistenceBrokerTemplate().getObjectByQuery(query);
@@ -153,8 +151,8 @@ public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(AccrualCategory.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(AccrualCategory.class, EQUAL_TO_FIELDS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(AccrualCategory.class, effectiveDateFilter, AccrualCategory.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(AccrualCategory.class, AccrualCategory.EQUAL_TO_FIELDS, false));
         }
 
         Query query = QueryFactory.newQuery(AccrualCategory.class, root);
@@ -169,8 +167,8 @@ public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 		Criteria root = new Criteria();
 
 		root.addEqualTo("leavePlan", leavePlan);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(AccrualCategory.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(AccrualCategory.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(AccrualCategory.class, asOfDate, AccrualCategory.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(AccrualCategory.class, AccrualCategory.EQUAL_TO_FIELDS, false));
 		
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);

@@ -35,22 +35,15 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import com.google.common.collect.ImmutableList;
 
 public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements ClockLocationDao{
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("dept")
-            .add("workArea")
-            .add("jobNumber")
-            .add("principalId")
-            .build();
-
-	public List<ClockLocationRule> getClockLocationRule(String dept, Long workArea, String principalId, Long jobNumber, LocalDate asOfDate){
+     public List<ClockLocationRule> getClockLocationRule(String dept, Long workArea, String principalId, Long jobNumber, LocalDate asOfDate){
 		Criteria root = new Criteria();
 
 		root.addEqualTo("dept", dept);
 		root.addEqualTo("workArea", workArea);
 		root.addEqualTo("principalId", principalId);
 		root.addEqualTo("jobNumber", jobNumber);
-		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(ClockLocationRule.class, asOfDate, EQUAL_TO_FIELDS, false));
-		root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(ClockLocationRule.class, EQUAL_TO_FIELDS, false));
+		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(ClockLocationRule.class, asOfDate, ClockLocationRule.EQUAL_TO_FIELDS, false));
+		root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(ClockLocationRule.class, ClockLocationRule.EQUAL_TO_FIELDS, false));
 		//root.addEqualTo("active", true);
 		
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -181,8 +174,8 @@ public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-    		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(ClockLocationRule.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
-    		root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(ClockLocationRule.class, EQUAL_TO_FIELDS, false));
+    		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(ClockLocationRule.class, effectiveDateFilter, ClockLocationRule.EQUAL_TO_FIELDS, false));
+    		root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(ClockLocationRule.class, ClockLocationRule.EQUAL_TO_FIELDS, false));
         }
         
         Query query = QueryFactory.newQuery(ClockLocationRule.class, root);

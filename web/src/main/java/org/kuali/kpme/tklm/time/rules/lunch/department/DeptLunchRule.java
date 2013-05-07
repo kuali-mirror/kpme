@@ -25,8 +25,19 @@ import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.rice.kim.api.identity.Person;
 
+import com.google.common.collect.ImmutableList;
+
 public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule {
     public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "DeptLunchRule";
+    //KPME-2273/1965 Primary Business Keys List.
+    public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("dept")
+            .add("workArea")
+            .add("principalId")
+            .add("jobNumber")
+            .build();
+
+	
     private static final long serialVersionUID = 1L;
 
     private String tkDeptLunchRuleId;

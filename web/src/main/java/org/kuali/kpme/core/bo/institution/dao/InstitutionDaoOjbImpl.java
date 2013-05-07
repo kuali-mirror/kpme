@@ -16,10 +16,6 @@ import com.google.common.collect.ImmutableList;
 
 public class InstitutionDaoOjbImpl extends PlatformAwareDaoBaseOjb implements InstitutionDao {
 	
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("institutionCode")
-            .build();
-	
     
     @Override
     public Institution getInstitution(String institution, LocalDate asOfDate) {
@@ -27,8 +23,8 @@ public class InstitutionDaoOjbImpl extends PlatformAwareDaoBaseOjb implements In
 
 		Criteria root = new Criteria();
 		root.addEqualTo("institutionCode", institution);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Institution.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Institution.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Institution.class, asOfDate, Institution.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Institution.class, Institution.EQUAL_TO_FIELDS, false));
 		
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
@@ -51,7 +47,7 @@ public class InstitutionDaoOjbImpl extends PlatformAwareDaoBaseOjb implements In
 		
 		Criteria root = new Criteria();
 
-		root.addEqualTo("effectiveDate",  OjbSubQueryUtil.getEffectiveDateSubQuery(Institution.class, asOfDate, EQUAL_TO_FIELDS, false));
+		root.addEqualTo("effectiveDate",  OjbSubQueryUtil.getEffectiveDateSubQuery(Institution.class, asOfDate, Institution.EQUAL_TO_FIELDS, false));
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);

@@ -39,10 +39,7 @@ import com.google.common.collect.ImmutableList;
  * Represents an implementation of {@link JobDao}.
  */
 public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobDao {
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("principalId")
-            .add("jobNumber")
-            .build();
+  
 
     @SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(JobDaoSpringOjbImpl.class);
@@ -62,8 +59,8 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
     public Job getPrimaryJob(String principalId, LocalDate payPeriodEndDate) {
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, payPeriodEndDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, payPeriodEndDate, Job.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, Job.EQUAL_TO_FIELDS, false));
         root.addEqualTo("primaryIndicator", true);
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -81,8 +78,8 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
         List<Job> jobs = new LinkedList<Job>();
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, payPeriodEndDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, payPeriodEndDate, Job.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, Job.EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
@@ -104,8 +101,8 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("jobNumber", jobNumber);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, Job.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, Job.EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
@@ -120,8 +117,8 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
     public List<Job> getActiveJobsForPayType(String hrPayType, LocalDate asOfDate) {
         Criteria root = new Criteria();
         root.addEqualTo("hrPayType", hrPayType);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, Job.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, Job.EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
@@ -215,8 +212,8 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
                     .add("positionNumber")
                     .add("hrPayType")
                     .build();
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(Job.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, EQUAL_TO_FIELDS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(Job.class, effectiveDateFilter, Job.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, Job.EQUAL_TO_FIELDS, false));
         }
         
         Query query = QueryFactory.newQuery(Job.class, root);
@@ -246,8 +243,8 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("eligibleForLeave", true);
         root.addEqualTo("active", true);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, Job.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, Job.EQUAL_TO_FIELDS, false));
         
         Query query = QueryFactory.newQuery(Job.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -333,8 +330,8 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
     	
     	Criteria root = new Criteria();
         root.addEqualTo("positionNumber", positionNumber);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, Job.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, Job.EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);

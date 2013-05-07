@@ -29,11 +29,17 @@ import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
 
+import com.google.common.collect.ImmutableList;
+
 public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 
 	private static final long serialVersionUID = 2637145083387914260L;
 
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "WorkArea";
+	//KPME-2273/1965 Primary Business Keys List.	
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+	            .add("workArea")
+	            .build();
 
     private String tkWorkAreaId;
     private Long workArea;

@@ -30,10 +30,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import com.google.common.collect.ImmutableList;
 
 public class PositionDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements PositionDao {
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("positionNumber")
-            .build();
-
+    
     @Override
     public Position getPosition(String hrPositionId) {
         Criteria crit = new Criteria();
@@ -49,8 +46,8 @@ public class PositionDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
         Criteria root = new Criteria();
 
         root.addEqualTo("positionNumber", positionNumber);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Position.class, effectiveDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Position.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Position.class, effectiveDate, Position.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Position.class, Position.EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
@@ -98,8 +95,8 @@ public class PositionDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(Position.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Position.class, EQUAL_TO_FIELDS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(Position.class, effectiveDateFilter, Position.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Position.class, Position.EQUAL_TO_FIELDS, false));
         }
         
         Query query = QueryFactory.newQuery(Position.class, root);

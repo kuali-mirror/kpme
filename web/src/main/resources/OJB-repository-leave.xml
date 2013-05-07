@@ -18,6 +18,7 @@
 <descriptor-repository version="1.0">
 
     <!-- Leave Plan -->
+    <!-- Business Keys - [leavePlan : effectiveDate : timestamp ] -->
     <class-descriptor class="org.kuali.kpme.core.bo.leaveplan.LeavePlan" table="LM_LEAVE_PLAN_T">
         <field-descriptor name="lmLeavePlanId"      column="LM_LEAVE_PLAN_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_PLAN_S" />
         <field-descriptor name="leavePlan"          column="LEAVE_PLAN"         jdbc-type="VARCHAR"     length="15" nullable="false" />
@@ -34,6 +35,7 @@
     </class-descriptor>
 
     <!-- Accrual Category -->
+    <!-- Business Keys - [accrualCategory] -->
     <class-descriptor class="org.kuali.kpme.core.bo.accrualcategory.AccrualCategory" table="LM_ACCRUAL_CATEGORY_T">
         <field-descriptor name="lmAccrualCategoryId"  column="LM_ACCRUAL_CATEGORY_ID" jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_ACCRUAL_CATEGORY_S" />
         <field-descriptor name="accrualCategory"      column="ACCRUAL_CATEGORY"       jdbc-type="VARCHAR"     length="15" nullable="false" />
@@ -84,6 +86,7 @@
     </class-descriptor>
     
     <!-- Balance Transfer -->
+    <!-- Business Keys - [principalId : effectiveDate] -->
     <class-descriptor class="org.kuali.kpme.tklm.leave.transfer.BalanceTransfer" table="LM_BALANCE_TRANSFER_T">
         <field-descriptor name="balanceTransferId"      column="LM_BALANCE_TRANSFER_ID"   		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_BALANCE_TRANSFER_S" />
         <field-descriptor name="accrualCategoryRule"	column="LM_ACCRUAL_CATEGORY_RULES_ID"	jdbc-type="VARCHAR"		length="60"	/>
@@ -99,6 +102,7 @@
     </class-descriptor>
 
     <!-- Leave Payout -->
+    <!-- Business Keys - [principalId : effectiveDate : fromAccrualCategory] -->
     <class-descriptor class="org.kuali.kpme.tklm.leave.payout.LeavePayout" table="LM_LEAVE_PAYOUT_T">
         <field-descriptor name="lmLeavePayoutId"        column="LM_LEAVE_PAYOUT_ID"       		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_PAYOUT_S" />
         <field-descriptor name="principalId"      		column="PRINCIPAL_ID"					jdbc-type="VARCHAR"     length="50" nullable="false"/>
@@ -111,6 +115,7 @@
     </class-descriptor>
 
     <!-- System Scheduled Time Off -->
+    <!-- Business Keys - [leavePlan : accrualCategory : accruedDate : location : effectiveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff" table="LM_SYS_SCHD_TIMEOFF_T">
         <field-descriptor name="lmSystemScheduledTimeOffId"   column="LM_SYS_SCHD_TIMEOFF_ID" jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_SYS_SCHD_TIMEOFF_S" />
         <field-descriptor name="leavePlan"                    column="LEAVE_PLAN"             jdbc-type="VARCHAR"     length="15" nullable="false" />
@@ -133,6 +138,7 @@
     </class-descriptor>
 
     <!--  Leave Block -->
+    <!-- Business Keys - [principalId : accrualCategory : earncode : workArea : task : jobNumber : leaveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.tklm.leave.block.LeaveBlock" table="LM_LEAVE_BLOCK_T">
         <field-descriptor name="lmLeaveBlockId"         column="LM_LEAVE_BLOCK_ID"      jdbc-type="VARCHAR"     length="60"  primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_BLOCK_S" />
         <field-descriptor name="leaveDate"              column="LEAVE_DATE"             jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
@@ -217,6 +223,8 @@
         </reference-descriptor>
     </class-descriptor>
 
+    <!-- Leave Donation -->
+    <!-- Business Keys - [donorsPrincipalID : recipientsPrincipalID : donatedAccrualCategory : recipientsAccrualCategory : effectiveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.tklm.leave.donation.LeaveDonation" table="LM_LEAVE_DONATION_T">
         <field-descriptor name="lmLeaveDonationId"          column="LM_LEAVE_DONATION_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_DONATION_S" />
         <field-descriptor name="donatedAccrualCategory"     column="DONATED_ACC_CAT"        jdbc-type="VARCHAR"     length="15" nullable="false" />
@@ -234,7 +242,9 @@
         <field-descriptor name="objectId"                   column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"              column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
-    
+
+    <!-- Employee Override -->
+    <!-- Business Keys - [effectiveDate : principalId : leavePlan : accrualCategory : overrideType : timestamp] -->
     <class-descriptor class="org.kuali.kpme.tklm.leave.override.EmployeeOverride" table="LM_EMPLOYEE_OVERRIDE_T">
         <field-descriptor name="lmEmployeeOverrideId"   column="LM_EMPLOYEE_OVERRIDE_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_EMPLOYEE_OVERRIDE_S" />
         <field-descriptor name="principalId"            column="PRINCIPAL_ID"               jdbc-type="VARCHAR"     length="40" nullable="false" />
@@ -249,7 +259,9 @@
         <field-descriptor name="objectId"               column="OBJ_ID"                     jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"                    jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
-    
+
+    <!-- Leave Adjustment -->
+    <!-- Business Keys - [principalId : accrualCategory : earnCode : effectiveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.tklm.leave.adjustment.LeaveAdjustment" table="LM_LEAVE_ADJUSTMENT_T">
         <field-descriptor name="lmLeaveAdjustmentId"    column="LM_LEAVE_ADJUSTMENT_ID" jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_ADJUSTMENT_S" />
         <field-descriptor name="principalId"            column="PRINCIPAL_ID"           jdbc-type="VARCHAR"     length="40" nullable="false" />

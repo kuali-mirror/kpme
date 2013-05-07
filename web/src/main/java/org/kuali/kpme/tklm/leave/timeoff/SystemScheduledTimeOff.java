@@ -28,12 +28,21 @@ import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.kpme.core.bo.location.Location;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
+import com.google.common.collect.ImmutableList;
+
 public class SystemScheduledTimeOff extends HrBusinessObject {
 
 	private static final long serialVersionUID = 6660625335629574993L;
 
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "SystemScheduledTimeOff";
-
+	//KPME-2273/1965 Primary Business Keys List.
+	public static final ImmutableList<String> fields = new ImmutableList.Builder<String>()
+             .add("earnCode")             
+             .add("leavePlan")
+             .add("location")
+             .add("leavePlan")
+             .add("accrualCategory")
+             .build();
 	private String lmSystemScheduledTimeOffId;
 	private String leavePlan;
 	private String accrualCategory;

@@ -28,9 +28,19 @@ import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
+import com.google.common.collect.ImmutableList;
+
 public class ClockLog extends PersistableBusinessObjectBase {
 
 	private static final long serialVersionUID = -6928657854016622568L;
+	//KPME-2273/1965 Primary Business Keys List.	
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+		            .add("task")
+		            .add("principalId")
+		            .add("workArea")
+		            .add("jobNumber")
+		            
+		            .build();
 	
 	private String tkClockLogId;
     private String principalId;

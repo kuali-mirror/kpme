@@ -34,10 +34,20 @@ import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
+import com.google.common.collect.ImmutableList;
+
 public class Assignment extends HrBusinessObject {
 
 	private static final long serialVersionUID = 6347435053054442195L;
+	//KPME-2273/1965 Primary Business Keys List. 
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("jobNumber")
+            .add("workArea")
+            .add("task")
+            .add("principalId")
+            .build();
 
+   
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Assignment";
 
 	private String tkAssignmentId;

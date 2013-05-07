@@ -30,12 +30,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import com.google.common.collect.ImmutableList;
 
 public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb implements TimeCollectionRuleDaoService {
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("workArea")
-            .add("dept")
-            .add("payType")
-            .build();
-
+    
     /*
       * Returns valid TimeCollectionRule based on dept,workArea, and asOfDate
       * dept and work area are wildcardable values
@@ -72,15 +67,16 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
 
     private TimeCollectionRule getTimeCollectionRuleWildCarded(String dept, Long workArea, LocalDate asOfDate) {
         Criteria root = new Criteria();
-        ImmutableList<String> fields = new ImmutableList.Builder<String>()
-                .add("workArea")
-                .add("dept")
-                .build();
+    	//KPME-2273/1965 Primary Business Keys list being used instead.	
+//        ImmutableList<String> fields = new ImmutableList.Builder<String>()
+//                .add("workArea")
+//                .add("dept")
+//                .build();
 
         root.addEqualTo("dept", dept);
         root.addEqualTo("workArea", workArea);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(TimeCollectionRule.class, asOfDate, fields, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(TimeCollectionRule.class, fields, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(TimeCollectionRule.class, asOfDate, TimeCollectionRule.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(TimeCollectionRule.class, TimeCollectionRule.EQUAL_TO_FIELDS, false));
 //		root.addEqualTo("active", true);
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -164,8 +160,8 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
         root.addEqualTo("dept", dept);
         root.addEqualTo("workArea", workArea);
         root.addEqualTo("payType", payType);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(TimeCollectionRule.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(TimeCollectionRule.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(TimeCollectionRule.class, asOfDate, TimeCollectionRule.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(TimeCollectionRule.class, TimeCollectionRule.EQUAL_TO_FIELDS, false));
 //		root.addEqualTo("active", true);
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -208,8 +204,8 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
         }
         
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(TimeCollectionRule.class, EQUAL_TO_FIELDS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(TimeCollectionRule.class, EQUAL_TO_FIELDS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(TimeCollectionRule.class, TimeCollectionRule.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(TimeCollectionRule.class, TimeCollectionRule.EQUAL_TO_FIELDS, false));
         }
         
         Query query = QueryFactory.newQuery(TimeCollectionRule.class, root);

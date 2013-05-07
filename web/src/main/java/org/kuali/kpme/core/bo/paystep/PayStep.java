@@ -1,4 +1,3 @@
-
 package org.kuali.kpme.core.bo.paystep;
 
 import java.math.BigDecimal;
@@ -10,12 +9,15 @@ import org.kuali.kpme.core.bo.paygrade.PayGrade;
 import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.location.impl.campus.CampusBo;
+import com.google.common.collect.ImmutableList;
 
 public class PayStep extends HrBusinessObject implements Comparable {
 
-	/**
-	 * 
-	 */
+	//KPME-2273/1965 Primary Business Keys List.	
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+		    .add("payStep")
+		    .build();
+
 	private static final long serialVersionUID = 1L;
 	
 	private String pmPayStepId;

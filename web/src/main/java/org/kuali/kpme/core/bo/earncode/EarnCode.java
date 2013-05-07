@@ -30,6 +30,8 @@ import org.kuali.kpme.core.bo.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
+import com.google.common.collect.ImmutableList;
+
 public class EarnCode extends HrBusinessObject {
 
 	private static final long serialVersionUID = -1470603919624794932L;
@@ -37,7 +39,12 @@ public class EarnCode extends HrBusinessObject {
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "EarnCode";
     private static final String[] PRIVATE_CACHES_FOR_FLUSH = {EarnCodeSecurity.CACHE_NAME, EarnCode.CACHE_NAME};
     public static final List<String> CACHE_FLUSH = Collections.unmodifiableList(Arrays.asList(PRIVATE_CACHES_FOR_FLUSH));
+    //KPME-2273/1965 Primary Business Keys List.
+    public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("earnCode")
+            .build();
 
+	
 	private String hrEarnCodeId;
 	private String earnCode;
 	private String description;

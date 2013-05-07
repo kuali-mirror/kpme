@@ -30,14 +30,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import com.google.common.collect.ImmutableList;
 
 public class DailyOvertimeRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements DailyOvertimeRuleDao {
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("location")
-            .add("payType")
-            .add("dept")
-            .add("workArea")
-            .build();
-
-	@Override
+   @Override
 	public DailyOvertimeRule findDailyOvertimeRule(String location, String paytype, String dept, Long workArea, LocalDate asOfDate) {
 		DailyOvertimeRule dailyOvertimeRule;
 
@@ -46,8 +39,8 @@ public class DailyOvertimeRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb i
 		root.addEqualTo("workArea", workArea);
 		root.addEqualTo("location", location);
 		root.addEqualTo("paytype", paytype);
-		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DailyOvertimeRule.class, asOfDate, EQUAL_TO_FIELDS, false));
-		root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DailyOvertimeRule.class, EQUAL_TO_FIELDS, false));
+		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DailyOvertimeRule.class, asOfDate, DailyOvertimeRule.EQUAL_TO_FIELDS, false));
+		root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DailyOvertimeRule.class, DailyOvertimeRule.EQUAL_TO_FIELDS, false));
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
@@ -123,8 +116,8 @@ public class DailyOvertimeRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb i
         }
 
         if (StringUtils.equals(showHist, "N")) {
-    		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(DailyOvertimeRule.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
-    		root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DailyOvertimeRule.class, EQUAL_TO_FIELDS, false));
+    		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(DailyOvertimeRule.class, effectiveDateFilter, DailyOvertimeRule.EQUAL_TO_FIELDS, false));
+    		root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DailyOvertimeRule.class, DailyOvertimeRule.EQUAL_TO_FIELDS, false));
         }
         
         Query query = QueryFactory.newQuery(DailyOvertimeRule.class, root);

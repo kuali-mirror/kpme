@@ -5,7 +5,14 @@ import org.kuali.kpme.core.bo.institution.Institution;
 import org.kuali.kpme.pm.positionreporttype.PositionReportType;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
+import com.google.common.collect.ImmutableList;
+
 public class PositionReportCategory extends HrBusinessObject {
+	//KPME-2273/1965 Primary Business Keys List.
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+		    .add("positionReportCat")
+		    .build();
+
 	private static final long serialVersionUID = 1L;
 	
 	private String pmPositionReportCatId;

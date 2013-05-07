@@ -30,10 +30,16 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
+import com.google.common.collect.ImmutableList;
+
 public class Job extends HrBusinessObject {
 
-	private static final long serialVersionUID = 1369595897637935064L;
-
+	private static final long serialVersionUID = 1369595897637935064L;	
+	//KPME-2273/1965 Primary Business Keys List. Will be using this from now on instead.	
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+	            .add("principalId")
+	            .add("jobNumber")	            
+	            .build();	
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Job";
 	
 	private String location;

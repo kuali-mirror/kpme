@@ -34,7 +34,6 @@
 	        <ref bean="SalaryGroup-institution"/>
 	        <ref bean="SalaryGroup-campus"/>
 	        <ref bean="SalaryGroup-percentTime"/>
-	        <ref bean="SalaryGroup-workMonths"/>
 	        <ref bean="SalaryGroup-benefitsEligible"/>
 	        <ref bean="SalaryGroup-leaveEligible"/>
 	        <ref bean="SalaryGroup-leavePlan"/>
@@ -157,29 +156,6 @@
 		<property name="label" value="Percent Time" />
 	</bean>
 	
-	<bean id="SalaryGroup-workMonths" parent="SalaryGroup-workMonths-parentBean" />
-	<bean id="SalaryGroup-workMonths-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="required" value="false" />
-		<property name="controlField">
-			<bean parent="Uif-SpinnerControl">
-				<property name="spinner">
-					<bean parent="Uif-Spinner">
-						<property name="templateOptions">
-							<map merge="true">
-								<entry key="start" value="1"/>
-								<entry key="step" value="1"/>
-								<entry key="max" value="12"/>
-								<entry key="numberFormat" value="D"/>
-							</map>
-						</property>
-					</bean>
-				</property>
-			</bean>
-		</property>
-		<property name="name" value="workMonths" />
-		<property name="label" value="Work Months" />
-	</bean>
-	
 	<bean id="SalaryGroup-benefitsEligible" parent="SalaryGroup-benefitsEligible-parentBean"/>
  	<bean id="SalaryGroup-benefitsEligible-parentBean" abstract="true" parent="AttributeDefinition">
  		<property name="required" value="true" />
@@ -251,7 +227,6 @@
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="percentTime" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="workMonths" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="benefitsEligible" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="leaveEligible" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="leavePlan">
@@ -275,7 +250,6 @@
         <bean parent="Uif-InputField" p:propertyName="institution" />
         <bean parent="Uif-InputField" p:propertyName="campus" />
         <bean parent="Uif-InputField" p:propertyName="percentTime" />
-        <bean parent="Uif-InputField" p:propertyName="workMonths" />
         <bean parent="Uif-InputField" p:propertyName="benefitsEligible" />
         <bean parent="Uif-InputField" p:propertyName="leaveEligible" />
         <bean parent="Uif-InputField" p:propertyName="leavePlan" />
@@ -301,7 +275,6 @@
 			        <bean parent="Uif-DataField" p:propertyName="institution" />
 			        <bean parent="Uif-DataField" p:propertyName="campus" />
 			        <bean parent="Uif-DataField" p:propertyName="percentTime" />
-			        <bean parent="Uif-DataField" p:propertyName="workMonths" />
 			        <bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
 			        <bean parent="Uif-DataField" p:propertyName="leaveEligible" />
 			        <bean parent="Uif-DataField" p:propertyName="leavePlan" />
@@ -340,8 +313,6 @@
 			        	<bean parent="FixedPointPatternConstraint" p:allowNegative="false" p:precision="5" p:scale="2" />
 					</property>
 				</bean>
-		        <bean parent="Uif-InputField" p:propertyName="workMonths" p:dataType="INTEGER" p:exclusiveMin="0" p:inclusiveMax="12"
-		        	 p:constraintText="Must be a whole number between 0 and 12."/>
 		        <bean parent="Uif-InputField" p:propertyName="benefitsEligible" />
 		        <bean parent="Uif-InputField" p:propertyName="leaveEligible" />
 		        <bean parent="Uif-InputField" p:propertyName="leavePlan"  p:constraintText="Required if Leave Eligible is Yes.">

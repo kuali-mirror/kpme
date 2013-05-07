@@ -31,13 +31,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import com.google.common.collect.ImmutableList;
 
 public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements EmployeeOverrideDao{
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("principalId")
-            .add("leavePlan")
-            .add("accrualCategory")
-            .add("overrideType")
-            .build();
-
+    
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<EmployeeOverride> getEmployeeOverrides(String principalId, LocalDate asOfDate) {
@@ -45,8 +39,8 @@ public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
         Criteria root = new Criteria();
 
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EmployeeOverride.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EmployeeOverride.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EmployeeOverride.class, asOfDate, EmployeeOverride.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EmployeeOverride.class, EmployeeOverride.EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
@@ -70,8 +64,8 @@ public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
         root.addEqualTo("accrualCategory", accrualCategory);
         root.addEqualTo("overrideType", overrideType);
 
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EmployeeOverride.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EmployeeOverride.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EmployeeOverride.class, asOfDate, EmployeeOverride.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EmployeeOverride.class, EmployeeOverride.EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
@@ -136,8 +130,8 @@ public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
             root.addAndCriteria(activeFilter);
         }
 
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(EmployeeOverride.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EmployeeOverride.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(EmployeeOverride.class, effectiveDateFilter, EmployeeOverride.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EmployeeOverride.class, EmployeeOverride.EQUAL_TO_FIELDS, false));
 
         Query query = QueryFactory.newQuery(EmployeeOverride.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));

@@ -32,10 +32,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import com.google.common.collect.ImmutableList;
 
 public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeavePlanDao {
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("leavePlan")
-            .build();
-
+   
 	@Override
 	public LeavePlan getLeavePlan(String lmLeavePlanId) {
 		Criteria crit = new Criteria();
@@ -50,8 +47,8 @@ public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
 
 		Criteria root = new Criteria();
 		root.addEqualTo("leavePlan", leavePlan);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LeavePlan.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeavePlan.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LeavePlan.class, asOfDate, LeavePlan.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeavePlan.class, LeavePlan.EQUAL_TO_FIELDS, false));
 		
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
@@ -159,8 +156,8 @@ public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(LeavePlan.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeavePlan.class, EQUAL_TO_FIELDS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(LeavePlan.class, effectiveDateFilter, LeavePlan.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeavePlan.class, LeavePlan.EQUAL_TO_FIELDS, false));
         }
 
         Query query = QueryFactory.newQuery(LeavePlan.class, root);

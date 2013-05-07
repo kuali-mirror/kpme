@@ -19,11 +19,15 @@ import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 
+import com.google.common.collect.ImmutableList;
+
 public class PayType extends HrBusinessObject {
     public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "PayType";
-	/**
-	 *
-	 */
+	//KPME-2273/1965 Primary Business Keys List.	
+    public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("payType")
+            .build();
+
 	private static final long serialVersionUID = 1L;
 	private String hrPayTypeId;
 	private String payType;

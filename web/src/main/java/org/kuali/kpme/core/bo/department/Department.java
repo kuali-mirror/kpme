@@ -27,11 +27,17 @@ import org.kuali.kpme.core.bo.kfs.coa.businessobject.Organization;
 import org.kuali.kpme.core.bo.location.Location;
 import org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo;
 
+import com.google.common.collect.ImmutableList;
+
 public class Department extends HrBusinessObject {
 
 	private static final long serialVersionUID = 5476378484272246487L;
 
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Department";
+	//KPME-2273/1965 Primary Business Keys List.		
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("dept")
+            .build();
 
     private String hrDeptId;
     private String dept;

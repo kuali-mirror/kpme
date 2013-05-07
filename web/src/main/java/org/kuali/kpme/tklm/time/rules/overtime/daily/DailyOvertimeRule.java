@@ -27,10 +27,20 @@ import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.tklm.time.rules.TkRule;
 
+import com.google.common.collect.ImmutableList;
+
 public class DailyOvertimeRule extends TkRule {
 
 	private static final long serialVersionUID = 2064326101630818390L;
+	//KPME-2273/1965 Primary Business Keys List.
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+	            .add("location")
+	            .add("payType")
+	            .add("dept")
+	            .add("workArea")
+	            .build();
 
+		
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "DailyOvertimeRule";
 
 	private String tkDailyOvertimeRuleId;

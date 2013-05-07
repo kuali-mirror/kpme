@@ -44,14 +44,14 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 		PrincipalHRAttributes pc = null;
 
 		Criteria root = new Criteria();
-
-        ImmutableList<String> fields = new ImmutableList.Builder<String>()
-                .add("principalId")
-                .build();
+//		KPME-2273/1965 Business Key list used instead
+//      ImmutableList<String> fields = new ImmutableList.Builder<String>()
+//                .add("principalId")
+//                .build();
 
 		root.addEqualTo("principalId", principalId);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, asOfDate, fields, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, fields, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, asOfDate, PrincipalHRAttributes.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, PrincipalHRAttributes.EQUAL_TO_FIELDS, false));
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
@@ -89,16 +89,17 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
         Criteria root = new Criteria();
         
         root.addEqualTo("payCalendar", payCalendarName);
-        ImmutableList<String> fields = new ImmutableList.Builder<String>()
-                .add("payCalendar")
-                .add("principalId")
-                .build();
+//		KPME-2273/1965 Business Key list used instead
+//        ImmutableList<String> fields = new ImmutableList.Builder<String>()
+//                .add("payCalendar")
+//                .add("principalId")
+//                .build();
 
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, asOfDate, fields, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, fields, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, asOfDate, PrincipalHRAttributes.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, PrincipalHRAttributes.EQUAL_TO_FIELDS, false));
 
         Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -117,13 +118,13 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 
 
         root.addEqualTo("leaveCalendar", leaveCalendarName);
-
-        ImmutableList<String> fields = new ImmutableList.Builder<String>()
-                .add("leaveCalendar")
-                .add("principalId")
-                .build();
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, asOfDate, fields, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, fields, false));
+//		KPME-2273/1965 Business Key list used instead
+//        ImmutableList<String> fields = new ImmutableList.Builder<String>()
+//                .add("leaveCalendar")
+//                .add("principalId")
+//                .build();
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, asOfDate, PrincipalHRAttributes.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, PrincipalHRAttributes.EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
@@ -145,13 +146,13 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
         
         root.addEqualTo("leaveCalendar", leaveCalendarName);
         root.addIn("principalId", pidList);
-
-        ImmutableList<String> fields = new ImmutableList.Builder<String>()
-                .add("leaveCalendar")
-                .add("principalId")
-                .build();
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class,asOfDate, fields, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, fields, false));
+//		KPME-2273/1965 Business Key list used instead
+//        ImmutableList<String> fields = new ImmutableList.Builder<String>()
+//                .add("leaveCalendar")
+//                .add("principalId")
+//                .build();
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class,asOfDate, PrincipalHRAttributes.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, PrincipalHRAttributes.EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
@@ -180,13 +181,13 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
         
         root.addEqualTo("payCalendar", timeCalendarName);
         root.addIn("principalId", pidList);
-
-        ImmutableList<String> fields = new ImmutableList.Builder<String>()
-                .add("payCalendar")
-                .add("principalId")
-                .build();
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, asOfDate, fields, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, fields, false));
+//		KPME-2273/1965 Business Key list used instead
+//        ImmutableList<String> fields = new ImmutableList.Builder<String>()
+//                .add("payCalendar")
+//                .add("principalId")
+//                .build();
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, asOfDate, PrincipalHRAttributes.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, PrincipalHRAttributes.EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
@@ -215,13 +216,13 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 
         List<PrincipalHRAttributes> principals = new ArrayList<PrincipalHRAttributes>();
         Criteria root = new Criteria();
-
-        ImmutableList<String> fields = new ImmutableList.Builder<String>()
-                .add("leavePlan")
-                .add("principalId")
-                .build();
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, asOfDate, fields, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, fields, false));
+//		KPME-2273/1965 Business Key list used instead
+//        ImmutableList<String> fields = new ImmutableList.Builder<String>()
+//                .add("leavePlan")
+//                .add("principalId")
+//                .build();
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PrincipalHRAttributes.class, asOfDate, PrincipalHRAttributes.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, PrincipalHRAttributes.EQUAL_TO_FIELDS, false));
 
         root.addEqualTo("leavePlan", leavePlan);
         root.addEqualTo("active", true);
@@ -297,14 +298,14 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 
 		Criteria root = new Criteria();
 		Criteria effdt = new Criteria();
-
         effdt.addGreaterOrEqualThan("effectiveDate", asOfDate.toDate());
-        ImmutableList<String> fields = new ImmutableList.Builder<String>()
-                .add("leavePlan")
-                .add("principalId")
-                .build();
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PrincipalHRAttributes.class, effdt, fields, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, fields, false));
+//		KPME-2273/1965 Business Key list used instead
+//        ImmutableList<String> fields = new ImmutableList.Builder<String>()
+//                .add("leavePlan")
+//                .add("principalId")
+//                .build();
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PrincipalHRAttributes.class, effdt, PrincipalHRAttributes.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, PrincipalHRAttributes.EQUAL_TO_FIELDS, false));
 
 		root.addEqualTo("principalId", principalId);
 
@@ -461,12 +462,13 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
         }
         
         if (StringUtils.equals(showHistory, "N")) {
-            ImmutableList<String> fields = new ImmutableList.Builder<String>()
-                    .add("principalId")
-                    .add("leavePlan")
-                    .build();
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PrincipalHRAttributes.class, effectiveDateFilter, fields, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, fields, false));
+//    		KPME-2273/1965 Business Key list used instead
+//            ImmutableList<String> fields = new ImmutableList.Builder<String>()
+//                    .add("principalId")
+//                    .add("leavePlan")
+//                    .build();
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PrincipalHRAttributes.class, effectiveDateFilter, PrincipalHRAttributes.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, PrincipalHRAttributes.EQUAL_TO_FIELDS, false));
        }
         
        Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);

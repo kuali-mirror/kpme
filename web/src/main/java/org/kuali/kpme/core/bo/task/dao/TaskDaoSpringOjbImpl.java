@@ -31,10 +31,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import com.google.common.collect.ImmutableList;
 
 public class TaskDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements TaskDao {
-    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("task")
-            .build();
-
+    
 	@Override
 	public Task getTask(String tkTaskId) {
 		Criteria crit = new Criteria();
@@ -63,8 +60,8 @@ public class TaskDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements Tas
         Criteria root = new Criteria();
 
         root.addEqualTo("task", task);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Task.class, asOfDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Task.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Task.class, asOfDate, Task.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Task.class, Task.EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
@@ -125,8 +122,8 @@ public class TaskDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements Tas
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(Task.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Task.class, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(Task.class, effectiveDateFilter, Task.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Task.class, Task.EQUAL_TO_FIELDS, false));
 
         Query query = QueryFactory.newQuery(Task.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));

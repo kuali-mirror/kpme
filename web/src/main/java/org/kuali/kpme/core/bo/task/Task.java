@@ -19,11 +19,17 @@ import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 
+import com.google.common.collect.ImmutableList;
+
 public class Task extends HrBusinessObject {
 
 	private static final long serialVersionUID = -7536342291963303862L;
 
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Task";
+	//KPME-2273/1965 Primary Business Keys List.	
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("task")
+            .build();
 
     private String tkTaskId;
     private Long task;
