@@ -84,7 +84,7 @@
             <column name="id" value="10115" />
         </insert>
         <insert tableName="hr_job_s">
-            <column name="id" value="10004" />
+            <column name="id" value="10193" />
         </insert>
         <insert tableName="hr_location_s">
             <column name="id" value="10008" />
@@ -141,12 +141,16 @@
         <insert tableName="lm_leave_plan_s">
             <column name="id" value="10001" />
         </insert>
+        <insert tableName="lm_sys_schd_timeoff_s">
+            <column name="id" value="10035" />
+        </insert>
     </changeSet>
     
     <changeSet id="8" author="kbtaylor" context="kpme-client-testdrive">
         <loadData tableName="lm_accrual_category_rules_t" file="src/test/config/db/testdrive/lm_accrual_category_rules_t.csv" />
         <loadData tableName="lm_accrual_category_t" file="src/test/config/db/testdrive/lm_accrual_category_t.csv" />
         <loadData tableName="lm_leave_plan_t" file="src/test/config/db/testdrive/lm_leave_plan_t.csv" />
+        <loadData tableName="lm_sys_schd_timeoff_t" file="src/test/config/db/testdrive/lm_sys_schd_timeoff_t.csv" />
     </changeSet>
     
     <changeSet id="9" author="kbtaylor" context="kpme-client-testdrive" dbms="mysql">
