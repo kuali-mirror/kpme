@@ -63,13 +63,13 @@ public class TkRoleValuesFinder extends KeyValuesBase {
 		}
 
 		if(kualiForm == null || kualiForm.getDocTypeName().equals("DepartmentMaintenanceDocumentType")){
-			if(TKUser.isSystemAdmin() || TKUser.isLocationAdmin()){
-				filteredLabels.add(new ConcreteKeyValue(TkConstants.ROLE_TK_DEPT_ADMIN, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_DEPT_ADMIN)));
-				filteredLabels.add(new ConcreteKeyValue(TkConstants.ROLE_TK_DEPT_VO, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_DEPT_VO)));
-				
+			if (TKUser.isSystemAdmin() || TKUser.isLocationAdmin() || TKUser.isDepartmentAdmin()) {
+                filteredLabels.add(new ConcreteKeyValue(TkConstants.ROLE_TK_DEPT_ADMIN, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_DEPT_ADMIN)));
+                filteredLabels.add(new ConcreteKeyValue(TkConstants.ROLE_TK_DEPT_VO, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_DEPT_VO)));
+
 				filteredLabels.add(new ConcreteKeyValue(TkConstants.ROLE_LV_DEPT_ADMIN, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_LV_DEPT_ADMIN)));
 				filteredLabels.add(new ConcreteKeyValue(TkConstants.ROLE_LV_DEPT_VO, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_LV_DEPT_VO)));
-			}
+            }
 		}
 		
 		if(kualiForm == null || kualiForm.getDocTypeName().equals("WorkAreaMaintenanceDocumentType")){
