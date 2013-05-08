@@ -45,7 +45,7 @@ public class UserPrefTest extends KPMETestCase{
 		List<TimeBlock> tbs = new ArrayList<TimeBlock>();
 		tbs.add(tb);
 		
-		HrServiceLocator.getTimezoneService().translateForTimezone(tbs, DateTimeZone.forID("America/Indianapolis"));
+		//HrServiceLocator.getTimezoneService().translateForTimezone(tbs, DateTimeZone.forID("America/Indianapolis"));
 	}
 
 }

@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -291,10 +292,18 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     //
     public List<TimeBlock> getTimeBlocks(String documentId) {
     	List<TimeBlock> timeBlocks = timeBlockDao.getTimeBlocks(documentId);
-        HrServiceLocator.getTimezoneService().translateForTimezone(timeBlocks);
+        DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         for(TimeBlock tb : timeBlocks) {
             String earnCodeType = HrServiceLocator.getEarnCodeService().getEarnCodeType(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
             tb.setEarnCodeType(earnCodeType);
+			if(ObjectUtils.equals(timezone, TKUtils.getSystemDateTimeZone())){
+				tb.setBeginTimeDisplay(tb.getBeginDateTime());
+				tb.setEndTimeDisplay(tb.getEndDateTime());
+			}
+			else {
+				tb.setBeginTimeDisplay(tb.getBeginDateTime().withZone(timezone));
+				tb.setEndTimeDisplay(tb.getEndDateTime().withZone(timezone));
+			}
         }
 
         return timeBlocks;
@@ -305,10 +314,18 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     	if(assign != null) {
         	timeBlocks = timeBlockDao.getTimeBlocksForAssignment(assign);
     	}
-    	HrServiceLocator.getTimezoneService().translateForTimezone(timeBlocks);
+        DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
     	 for(TimeBlock tb : timeBlocks) {
              String earnCodeType = HrServiceLocator.getEarnCodeService().getEarnCodeType(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
              tb.setEarnCodeType(earnCodeType);
+ 			if(ObjectUtils.equals(timezone, TKUtils.getSystemDateTimeZone())){
+				tb.setBeginTimeDisplay(tb.getBeginDateTime());
+				tb.setEndTimeDisplay(tb.getEndDateTime());
+			}
+			else {
+				tb.setBeginTimeDisplay(tb.getBeginDateTime().withZone(timezone));
+				tb.setEndTimeDisplay(tb.getEndDateTime().withZone(timezone));
+			}
          }
     	return timeBlocks;
     }

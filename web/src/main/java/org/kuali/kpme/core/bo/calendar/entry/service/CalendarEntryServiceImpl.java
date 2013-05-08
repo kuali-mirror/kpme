@@ -22,7 +22,9 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntryPeriodType;
 import org.kuali.kpme.core.bo.calendar.entry.dao.CalendarEntryDao;
-import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
+import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
+import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class CalendarEntryServiceImpl implements CalendarEntryService {
@@ -166,7 +168,19 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
     
     @Override
     public List<CalendarEntry> getAllCalendarEntriesForCalendarIdUpToPlanningMonths(String hrCalendarId, String principalId) {
-    	int planningMonths = ActionFormUtils.getPlanningMonthsForEmployee(principalId);
+		int planningMonths = 0;
+		PrincipalHRAttributes principalHRAttributes = HrServiceLocator
+				.getPrincipalHRAttributeService().getPrincipalCalendar(
+						principalId, LocalDate.now());
+		if (principalHRAttributes != null
+				&& principalHRAttributes.getLeavePlan() != null) {
+			LeavePlan lp = HrServiceLocator.getLeavePlanService()
+					.getLeavePlan(principalHRAttributes.getLeavePlan(),
+							LocalDate.now());
+			if (lp != null && lp.getPlanningMonths() != null) {
+				planningMonths = Integer.parseInt(lp.getPlanningMonths());
+			}
+		}
     	List<CalendarEntry> futureCalEntries = getFutureCalendarEntries(hrCalendarId, LocalDate.now().toDateTimeAtStartOfDay(), planningMonths);
     	CalendarEntry futureCalEntry = null;
     	if (futureCalEntries != null && !futureCalEntries.isEmpty()) {

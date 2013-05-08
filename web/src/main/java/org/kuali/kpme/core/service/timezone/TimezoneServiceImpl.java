@@ -17,7 +17,6 @@ package org.kuali.kpme.core.service.timezone;
 
 import java.util.List;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
@@ -27,7 +26,6 @@ import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimezoneServiceImpl implements TimezoneService {
@@ -71,31 +69,6 @@ public class TimezoneServiceImpl implements TimezoneService {
         } else {
             return DateTimeZone.forID(tzid);
         }
-    }
-
-	/**
-	 * Translation needed for UI Display
-	 * @param timeBlocks
-	 * @param timezone
-	 * @return timeblock list modified with times offset for timezone
-	 */
-	public List<TimeBlock> translateForTimezone(List<TimeBlock> timeBlocks, DateTimeZone timezone){
-		for(TimeBlock tb : timeBlocks){
-			//No need for translation if it matches the current timezone
-			if(ObjectUtils.equals(timezone, TKUtils.getSystemDateTimeZone())){
-				tb.setBeginTimeDisplay(tb.getBeginDateTime());
-				tb.setEndTimeDisplay(tb.getEndDateTime());
-			}
-			else {
-				tb.setBeginTimeDisplay(tb.getBeginDateTime().withZone(timezone));
-				tb.setEndTimeDisplay(tb.getEndDateTime().withZone(timezone));
-			}
-		}
-		return timeBlocks;
-	}
-
-    public void translateForTimezone(List<TimeBlock> timeBlocks) {
-        translateForTimezone(timeBlocks, getUserTimezoneWithFallback());
     }
 
 	@Override

@@ -15,11 +15,8 @@
  */
 package org.kuali.kpme.core.service.timezone;
 
-import java.util.List;
-
 import org.joda.time.DateTimeZone;
 import org.kuali.kpme.core.KPMEConstants;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.springframework.cache.annotation.Cacheable;
 
 public interface TimezoneService {
@@ -50,16 +47,6 @@ public interface TimezoneService {
      */
     @Cacheable(value= KPMEConstants.KPME_GLOBAL_CACHE_NAME, key="'{UserTimezone}' + 'principalId=' + #p0")
     public String getUserTimezone(String principalId);
-
-	/**
-	 * Translate TimeBlocks to a given timezone
-	 * @param timeBlocks
-	 * @param timezone
-	 * @return
-	 */
-	public List<TimeBlock> translateForTimezone(List<TimeBlock> timeBlocks, DateTimeZone timezone);
-
-    public void translateForTimezone(List<TimeBlock> timeBlocks);
 
 	/**
 	 * Determine if Timezone is same as server timezone

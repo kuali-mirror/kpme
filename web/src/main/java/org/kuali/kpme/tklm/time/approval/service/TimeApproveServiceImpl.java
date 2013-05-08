@@ -290,7 +290,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 warnings = HrServiceLocator.getEarnCodeGroupService().warningTextFromEarnCodeGroupsOfDocument(earnCodeMap);
 
 			}
-			//TODO: Move to Warning Service!!!!!
 			Map<String, Set<String>> transactionalWarnings = LeaveCalendarValidationUtil.validatePendingTransactions(principalId, payCalendarEntry.getBeginPeriodFullDateTime().toLocalDate(), payCalendarEntry.getEndPeriodFullDateTime().toLocalDate());
 			
 			warnings.addAll(transactionalWarnings.get("infoMessages"));
