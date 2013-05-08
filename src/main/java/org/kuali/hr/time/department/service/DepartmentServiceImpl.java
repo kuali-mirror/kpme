@@ -75,7 +75,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 
     @Override
-    public List<Department> getDepartments(String department, String location, String descr, String active) {
-        return departmentDao.getDepartments(department, location, descr, active);
+    public List<Department> getDepartments(String department, String location, String descr, String active, String showHistory) {
+        return departmentDao.getDepartments(department, location, descr, active, showHistory);
     }
 }

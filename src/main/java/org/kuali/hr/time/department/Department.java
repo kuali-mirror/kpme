@@ -38,6 +38,7 @@ public class Department extends HrBusinessObject {
     private String chart;
     private String org;
     private String location;
+    private String history;
 
     private Chart chartObj;
     private Organization orgObj;
@@ -150,4 +151,12 @@ public class Department extends HrBusinessObject {
 	public void setLocationObj(Location locationObj) {
 		this.locationObj = locationObj;
 	}
+	
+    public String getHistory() {
+        return history;
+    }
+
+    public void setHistory(String history) {
+        this.history = history;
+    }
 }

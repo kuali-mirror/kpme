@@ -83,8 +83,9 @@ public class DepartmentLookupableHelper extends HrEffectiveDateActiveLookupableH
         String location = fieldValues.get("location");
         String descr = fieldValues.get("description");
         String active = fieldValues.get("active");
+        String showHist = fieldValues.get("history");
 
-        List<Department> departments = TkServiceLocator.getDepartmentService().getDepartments(dept, location, descr, active);
+        List<Department> departments =  TkServiceLocator.getDepartmentService().getDepartments(dept, location, descr, active, showHist);
 
         return departments;
     }
