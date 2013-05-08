@@ -32,6 +32,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
 import org.kuali.kpme.core.bo.assignment.Assignment;
+import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
@@ -109,7 +110,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
     @Override
     public void addClockLogForMissedPunch(MissedPunchDocument missedPunch) {
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
-        Assignment assign = HrServiceLocator.getAssignmentService().getAssignment(tdoc, missedPunch.getAssignment());
+        Assignment assign = tdoc.getAssignment(new AssignmentDescriptionKey(missedPunch.getAssignment()));
         // Need to build a clock log entry.
         //Timestamp clockTimestamp, String selectedAssign, TimesheetDocument timesheetDocument, String clockAction, String ip) {
         ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
@@ -137,7 +138,9 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 
     public void addClockLogForMissedPunch(MissedPunchDocument missedPunch, String logEndId, String logBeginId) {
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
-        Assignment assign = HrServiceLocator.getAssignmentService().getAssignment(tdoc, missedPunch.getAssignment());
+        Assignment assign = tdoc.getAssignment(new AssignmentDescriptionKey(missedPunch.getAssignment()));
+        if(assign == null)
+        	throw new RuntimeException("Unable to locate assignment object for assignment: " + missedPunch.getAssignment());
         // Need to build a clock log entry.
         ClockLog lastLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
         Long zoneOffset = HrServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(DateTimeZone.forID(lastLog.getClockTimestampTimezone()));

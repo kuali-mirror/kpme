@@ -169,7 +169,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         if (principalCalendar != null && StringUtils.isNotEmpty(principalCalendar.getLeavePlan())) {
         	List<SystemScheduledTimeOff> sstoList = LmServiceLocator.getSysSchTimeOffService()
         		.getSystemScheduledTimeOffForPayPeriod(principalCalendar.getLeavePlan(), beginDate, endDate);
-        	Assignment sstoAssign = HrServiceLocator.getAssignmentService().getAssignmentToApplyScheduledTimeOff(timesheetDocument, endDate);
+        	Assignment sstoAssign = getAssignmentToApplyScheduledTimeOff(timesheetDocument.getPrincipalId(), timesheetDocument.getAssignments(), endDate);
         	if (sstoAssign != null) {
         		for(SystemScheduledTimeOff ssto : sstoList) {
                   BigDecimal sstoCalcHours = LmServiceLocator.getSysSchTimeOffService().calculateSysSchTimeOffHours(sstoAssign.getJob(), ssto.getAmountofTime());
@@ -185,7 +185,17 @@ public class TimesheetServiceImpl implements TimesheetService {
         }
     }
 
-    protected TimesheetDocument initiateWorkflowDocument(String principalId, DateTime payBeginDate,  DateTime payEndDate, CalendarEntry calendarEntry, String documentType, String title) throws WorkflowException {
+    private Assignment getAssignmentToApplyScheduledTimeOff(String principalId, List<Assignment> assignments, LocalDate endDate) {
+		Job primaryJob = HrServiceLocator.getJobService().getPrimaryJob(principalId, endDate);
+		for(Assignment assign : assignments){
+			if(assign.getJobNumber().equals(primaryJob.getJobNumber())){
+				return assign;
+			}
+		}
+		return null;
+	}
+
+	protected TimesheetDocument initiateWorkflowDocument(String principalId, DateTime payBeginDate,  DateTime payEndDate, CalendarEntry calendarEntry, String documentType, String title) throws WorkflowException {
         TimesheetDocument timesheetDocument = null;
         WorkflowDocument workflowDocument = null;
 

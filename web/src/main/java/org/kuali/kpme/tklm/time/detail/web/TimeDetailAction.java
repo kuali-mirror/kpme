@@ -41,6 +41,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.bo.assignment.Assignment;
+import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
@@ -470,7 +471,7 @@ public class TimeDetailAction extends TimesheetAction {
 		
 		String desc = "";	// there's no description field in time calendar pop window
 		String spanningWeeks = tdaf.getSpanningWeeks();
-		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), tdaf.getSelectedAssignment());
+		Assignment assignment = tdaf.getTimesheetDocument().getAssignment(new AssignmentDescriptionKey(tdaf.getSelectedAssignment()));
 		LmServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, tdaf.getPayCalendarDates(), selectedEarnCode, leaveAmount, desc, assignment, 
 				spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR, HrContext.getTargetPrincipalId());
 	}
@@ -497,7 +498,7 @@ public class TimeDetailAction extends TimesheetAction {
             // this.removeOldTimeBlock(tdaf);
         }
 
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), tdaf.getSelectedAssignment());
+        Assignment assignment = tdaf.getTimesheetDocument().getAssignment(new AssignmentDescriptionKey(tdaf.getSelectedAssignment()));
 
 
         // Surgery point - Need to construct a Date/Time with Appropriate Timezone.
@@ -557,7 +558,7 @@ public class TimeDetailAction extends TimesheetAction {
     public ActionForward updateTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), tdaf.getSelectedAssignment());
+        Assignment assignment = tdaf.getTimesheetDocument().getAssignment(new AssignmentDescriptionKey(tdaf.getSelectedAssignment()));
 
         //Grab timeblock to be updated from form
         List<TimeBlock> timeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();

@@ -28,6 +28,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
+import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -211,7 +212,8 @@ public class ClockActionForm extends TimesheetActionForm {
 
     public String getCurrentAssignmentDescription() {
     	if(currentAssignmentDescription == null && this.getCurrentTimeBlock() != null) {
-    		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(this.getTimesheetDocument(), this.getCurrentTimeBlock().getAssignmentKey());
+    		AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getCurrentTimeBlock().getAssignmentKey());
+    		Assignment assignment = this.getTimesheetDocument().getAssignment(adk);
     		if(assignment != null) {
     			this.setCurrentAssignmentDescription(assignment.getAssignmentDescription());
     		}

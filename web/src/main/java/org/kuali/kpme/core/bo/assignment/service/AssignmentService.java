@@ -34,13 +34,7 @@ public interface AssignmentService {
 	 */
     @Cacheable(value= Assignment.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'asOfDate=' + #p1")
     public List<Assignment> getAssignments(String principalId, LocalDate asOfDate);
-    /**
-     * Reverse lookup of an assignment based on the assignment key and the document
-     * @param timesheetDocument
-     * @param assignmentKey
-     * @return
-     */
-    public Assignment getAssignment(TimesheetDocument timesheetDocument, String assignmentKey);
+
     /**
      * Reverse lookup of an assignment based on the assignment id
      * @param tkAssignmentId
@@ -154,14 +148,6 @@ public interface AssignmentService {
      */
     public List<Assignment> filterAssignments(List<Assignment> assignments, String flsaStatus, boolean chkForLeaveEligible);
     
-    /**
-     * Get assignment that applies to primary job of employee
-     * to be used in calculating system scheduled time off
-     * @param timesheetDocument
-     * @param payEndDate
-     * @return
-     */
-	public Assignment getAssignmentToApplyScheduledTimeOff(TimesheetDocument timesheetDocument, LocalDate payEndDate);
 	/**
 	 * Get list of unique principalIds with given workarea list and dates
 	 * @param workAreaList

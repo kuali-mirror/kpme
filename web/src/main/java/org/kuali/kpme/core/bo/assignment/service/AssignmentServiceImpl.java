@@ -226,30 +226,6 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public Assignment getAssignment(TimesheetDocument timesheetDocument, String assignmentKey) {
-        List<Assignment> assignments = timesheetDocument.getAssignments();
-        AssignmentDescriptionKey desc = getAssignmentDescriptionKey(assignmentKey);
-
-        for (Assignment assignment : assignments) {
-            if (assignment.getJobNumber().compareTo(desc.getJobNumber()) == 0 &&
-                    assignment.getWorkArea().compareTo(desc.getWorkArea()) == 0 &&
-                    assignment.getTask().compareTo(desc.getTask()) == 0) {
-                return assignment;
-            }
-        }
-
-        //No assignment found so fetch the inactive ones for this payBeginDate
-        Assignment assign = getAssignment(desc, timesheetDocument.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate());
-        if (assign != null) {
-            return assign;
-        }
-
-
-        LOG.warn("no matched assignment found");
-        return new Assignment();
-    }
-
-    @Override
     public Assignment getAssignment(String tkAssignmentId) {
         return getAssignmentDao().getAssignment(tkAssignmentId);
     }
@@ -341,16 +317,6 @@ public class AssignmentServiceImpl implements AssignmentService {
     public Assignment getMaxTimestampAssignment(String principalId) {
     	return assignmentDao.getMaxTimestampAssignment(principalId);
     }
-    
-	public Assignment getAssignmentToApplyScheduledTimeOff(TimesheetDocument timesheetDocument, LocalDate payEndDate) {
-		Job primaryJob = HrServiceLocator.getJobService().getPrimaryJob(timesheetDocument.getPrincipalId(), payEndDate);
-		for(Assignment assign : timesheetDocument.getAssignments()){
-			if(assign.getJobNumber().equals(primaryJob.getJobNumber())){
-				return assign;
-			}
-		}
-		return null;
-	}
 	
 	public List<String> getPrincipalIds(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate) {
 		if (CollectionUtils.isEmpty(workAreaList)) {

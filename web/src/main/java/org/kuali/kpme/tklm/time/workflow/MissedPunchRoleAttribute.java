@@ -11,6 +11,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.bo.assignment.Assignment;
+import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
@@ -55,8 +56,11 @@ public class MissedPunchRoleAttribute extends GenericRoleAttribute {
         if (timesheetDocumentId != null && assignmentString != null) {
             TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
             if (tdoc != null) {
-                Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(tdoc, assignmentString);
-                roleNameQualifiers.add(String.valueOf(assignment.getWorkArea()));
+                Assignment assignment = tdoc.getAssignment(new AssignmentDescriptionKey(assignmentString));
+                if(assignment != null)
+                	roleNameQualifiers.add(String.valueOf(assignment.getWorkArea()));
+                else
+                	throw new RuntimeException("No assignment object found for assignment: " + assignmentString);
             }
         }
 		
