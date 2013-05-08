@@ -336,11 +336,11 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+                            <bean parent="FieldDefinition" p:attributeName="location" />
 							<bean parent="FieldDefinition" p:attributeName="dept" />
 							<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
 							<bean parent="FieldDefinition" p:attributeName="earnCode" />
                             <bean parent="FieldDefinition" p:attributeName="earnCodeType" />
-							<bean parent="FieldDefinition" p:attributeName="location" />
 							<bean parent="FieldDefinition" p:attributeName="employee" />
 							<bean parent="FieldDefinition" p:attributeName="approver" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
@@ -362,10 +362,10 @@
 		<property name="lookupableID" value="earnCodeSecurityLookupable"></property>
 		<property name="lookupFields">
 			<list>
+                <bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
-				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
@@ -377,10 +377,10 @@
 		</property>
 		<property name="resultFields">
 			<list>
+                <bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
-				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="employee" />
 				<bean parent="FieldDefinition" p:attributeName="approver" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
