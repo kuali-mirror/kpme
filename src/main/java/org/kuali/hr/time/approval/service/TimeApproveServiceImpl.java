@@ -323,10 +323,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
     private boolean isSynchronousUser(String principalId) {
         List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getCurrentDate());
-        boolean isSynchronousUser = true;
+        boolean isSynchronousUser = false;
         if (CollectionUtils.isNotEmpty(assignments)) {
             for (Assignment assignment : assignments) {
-                isSynchronousUser &= assignment.isSynchronous();
+                isSynchronousUser |= assignment.isSynchronous();
             }
         }
         return isSynchronousUser;
