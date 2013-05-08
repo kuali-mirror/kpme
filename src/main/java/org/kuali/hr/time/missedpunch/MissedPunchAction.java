@@ -66,15 +66,7 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
             }
 
             lastClock = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPersonId());
-            if (lastClock != null) {
-                MissedPunchDocument lastDoc = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lastClock.getTkClockLogId());
-                if (lastDoc != null) {    // last action was a missed punch
-                    mpDoc.setAssignment(lastDoc.getAssignment());
-                } else {    // last action was not a missed punch
-                    AssignmentDescriptionKey adk = new AssignmentDescriptionKey(lastClock.getJobNumber().toString(), lastClock.getWorkArea().toString(), lastClock.getTask().toString());
-                    mpDoc.setAssignment(adk.toAssignmentKeyString());
-                }
-            }
+
         }
         if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
                 || StringUtils.equals(request.getParameter("command"), "displayActionListView")) {
@@ -82,6 +74,7 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
             mpForm.setDocId(mpDoc.getDocumentNumber());
         }
 //      mpForm.setAssignmentReadOnly(true);
+        MissedPunchDocument lastDoc = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lastClock.getTkClockLogId());
         TkClockActionValuesFinder finder = new TkClockActionValuesFinder();
         List<KeyValue> keyLabels = (List<KeyValue>) finder.getKeyValues();
         if (keyLabels.size() == 2) {
@@ -112,11 +105,27 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
             if (StringUtils.equals(lastClock.getClockAction(),"CO")){        // lock on the current assignment if user is clocked in.
                 mpForm.setAssignmentReadOnly(false);
             } else {
+                //Default the assignment if last clock was a clock in.
+                defaultMissedPunchAssignment(mpDoc, lastDoc, lastClock);
                 mpForm.setAssignmentReadOnly(true);
             }
         }
+        else if (mpForm.isAssignmentReadOnly()) {
+            //Default the assignment if missed punch assignment is read only and above logic does not apply.
+            defaultMissedPunchAssignment(mpDoc, lastDoc, lastClock);
+        }
+
 
         return act;
+    }
+
+    private void defaultMissedPunchAssignment(MissedPunchDocument mpDoc, MissedPunchDocument lastDoc, ClockLog lastClock) {
+        if (lastDoc != null) {    // last action was a missed punch
+            mpDoc.setAssignment(lastDoc.getAssignment());
+        } else {    // last action was not a missed punch
+            AssignmentDescriptionKey adk = new AssignmentDescriptionKey(lastClock.getJobNumber().toString(), lastClock.getWorkArea().toString(), lastClock.getTask().toString());
+            mpDoc.setAssignment(adk.toAssignmentKeyString());
+        }
     }
 
     @Override
