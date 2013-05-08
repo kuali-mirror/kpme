@@ -20,15 +20,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -49,7 +53,8 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         if (DocumentStatus.INITIATED.equals(DocumentStatus.fromCode(documentStatus.getCode()))
         		|| DocumentStatus.SAVED.equals(DocumentStatus.fromCode(documentStatus.getCode()))) {
 	        valid &= validateTimeSheet(missedPunchDocument);
-	        
+            valid &= validateAssignment(missedPunchDocument);
+
 	        if (valid) {
 	        	ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(missedPunchDocument.getPrincipalId());
 		        try {
@@ -128,6 +133,7 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
     }
 
     /**
+     * Checks whether the chosen assignment is valid (both chosen and within proper timeframe).
      * Checks whether the provided MissedPunch has a valid time based on the
      * previous ClockLog.
      *
@@ -179,4 +185,39 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         return valid;
     }
 
+    /**
+     * Checks whether the chosen assignment is valid (both chosen and within proper timeframe).
+     *
+     * @param mp The MissedPunch we are validating.
+     *
+     * @return true if valid, false otherwise.
+     * @throws ParseException
+     */
+    boolean validateAssignment(MissedPunchDocument mp) {
+        boolean valid = true;
+
+        String assignment = mp.getAssignment();
+
+        if (mp.getAssignment() == null) {
+            GlobalVariables.getMessageMap().putError("document.assignment", "clock.mp.assignment.required");
+            valid = false;
+        }
+
+        if (valid)
+        {
+            AssignmentDescriptionKey key = new AssignmentDescriptionKey(assignment);
+            if (key != null) {
+                Assignment assignmentObj = TkServiceLocator.getAssignmentService().getAssignment(mp.getPrincipalId(), key, new java.sql.Date(mp.getActionDate().getTime()));
+                if (assignmentObj == null) {
+                    GlobalVariables.getMessageMap().putError("document.assignment", "clock.mp.assignment.active");
+                    valid = false;
+                }
+            }
+            else {
+                valid = false;
+            }
+        }
+
+        return valid;
+    }
 }

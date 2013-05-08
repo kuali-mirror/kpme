@@ -155,7 +155,7 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 				"page text:\n" + mPunchPage.asText() + "\n does not contain:\n",
 				mPunchPage.asText()
 						.contains(
-								"The date/time is not valid. Can not be before previous clock action, or 24 hours beyond a clock in."));
+								"Assignment is not effective as of date chosen."));
 
 	
 		// set proper value
