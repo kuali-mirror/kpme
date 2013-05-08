@@ -34,18 +34,14 @@ import org.kuali.kpme.core.bo.assignment.dao.AssignmentDao;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.bo.job.Job;
-import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AssignmentServiceImpl implements AssignmentService {
 
@@ -217,27 +213,6 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public Map<String, String> getAssignmentDescriptions(CalendarDocument timesheetDocument, boolean clockOnlyAssignments) {
-        Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
-    	
-    	if (timesheetDocument != null) {
-    		List<Assignment> assignments = timesheetDocument.getAssignments();
-
-            for (Assignment assignment : assignments) {
-            	String principalId = GlobalVariables.getUserSession().getPrincipalId();
-
-            	if (HrServiceLocator.getHRPermissionService().canViewCalendarDocumentAssignment(principalId, timesheetDocument, assignment)) {
-	                if (!clockOnlyAssignments || assignment.isSynchronous()) {
-	                    assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
-	                }
-            	}
-            }
-        }
-        
-        return assignmentDescriptions;
-    }
-
-    @Override
     public Map<String, String> getAssignmentDescriptions(Assignment assignment) {
         if (assignment == null) {
             throw new RuntimeException("Assignment is null");
@@ -296,10 +271,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     private void populateAssignment(Assignment assignment, LocalDate asOfDate) {
         assignment.setJob(HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate));
-        assignment.setTimeCollectionRule(TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(),asOfDate));
         assignment.setWorkAreaObj(HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), asOfDate));
-        assignment.setDeptLunchRule(TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(assignment.getJob().getDept(),
-                assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate));
     }
 
     public Assignment getAssignment(String principalId, AssignmentDescriptionKey key, LocalDate asOfDate) {
@@ -335,26 +307,12 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
     
     @Override
-    public Map<String, String> getAssignmentDescriptions(LeaveCalendarDocument lcd) {
-        if (lcd == null) {
-            throw new RuntimeException("leave document is null.");
-        }
-        List<Assignment> assignments = lcd.getAssignments();
-        return HrServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments);
-    }
-    
     public Map<String, String> getAssignmentDescriptionsForAssignments(List<Assignment>  assignments) {
     	 Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
          for (Assignment assignment : assignments) {
                  assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
          }
          return assignmentDescriptions;
-    }
-
-    @Override
-    public Assignment getAssignment(LeaveCalendarDocument leaveCalendarDocument, String assignmentKey) {
-        List<Assignment> assignments = leaveCalendarDocument.getAssignments();
-        return getAssignment(assignments, assignmentKey, leaveCalendarDocument.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate());
     }
     
     public Assignment getAssignment(List<Assignment> assignments, String assignmentKey, LocalDate beginDate) {

@@ -30,6 +30,8 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.earncode.service.EarnCodeService;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
@@ -51,12 +53,13 @@ public class EarnCodeServiceImplTest extends KPMETestCase {
 	private static final Logger LOG = Logger.getLogger(EarnCodeServiceImplTest.class);
 
 	EarnCodeService earnCodeService = null;
-
+	TimesheetService timesheetService = null;
 
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		earnCodeService=HrServiceLocator.getEarnCodeService();
+		timesheetService=TkServiceLocator.getTimesheetService();
 	}
 
 	@Test
@@ -91,28 +94,22 @@ public class EarnCodeServiceImplTest extends KPMETestCase {
         //  Testing getEarnCodes* - these routines are separated among Leave and Time calendars. Run both, then run a combined routine that may not get used in practice.
         //  As the testing data gets better, the Time and Leave results should have little to no overlap, and the assertions will need to be correspondingly updated.
         // Testing standard lookup.
-		List<EarnCode> earnCodes1t = earnCodeService.getEarnCodesForTime(assignment1, asOfDate);
+		List<EarnCode> earnCodes1t = timesheetService.getEarnCodesForTime(assignment1, asOfDate);
 		Assert.assertEquals("Wrong number of earn codes returned.", 7, earnCodes1t.size());
         List<EarnCode> earnCodes1l = earnCodeService.getEarnCodesForLeave(assignment1, asOfDate, false);
         Assert.assertEquals("Wrong number of earn codes returned.", 0, earnCodes1l.size());
-        List<EarnCode> earnCodes1lt= earnCodeService.getEarnCodesForLeaveAndTime(assignment1, asOfDate, false);
-        Assert.assertEquals("Wrong number of earn codes returned.", 7, earnCodes1lt.size());
 
         // Wildcard on SalaryGroup
-        List<EarnCode> earnCodes2t = earnCodeService.getEarnCodesForTime(assignment2, asOfDate);
+        List<EarnCode> earnCodes2t = timesheetService.getEarnCodesForTime(assignment2, asOfDate);
 		Assert.assertEquals("Wrong number of earn codes returned.", 2, earnCodes2t.size());
         List<EarnCode> earnCodes2l = earnCodeService.getEarnCodesForLeave(assignment2, asOfDate, false);
         Assert.assertEquals("Wrong number of earn codes returned.", 0, earnCodes2l.size());
-        List<EarnCode> earnCodes2lt = earnCodeService.getEarnCodesForLeaveAndTime(assignment2, asOfDate, false);
-        Assert.assertEquals("Wrong number of earn codes returned.", 2, earnCodes2lt.size());
 
         // Dual Wildcards
-        List<EarnCode> earnCodes3t = earnCodeService.getEarnCodesForTime(assignment3, asOfDate);
+        List<EarnCode> earnCodes3t = timesheetService.getEarnCodesForTime(assignment3, asOfDate);
 		Assert.assertEquals("Wrong number of earn codes returned.",1, earnCodes3t.size());
         List<EarnCode> earnCodes3l = earnCodeService.getEarnCodesForLeave(assignment3, asOfDate, false);
         Assert.assertEquals("Wrong number of earn codes returned.",0, earnCodes3l.size());
-        List<EarnCode> earnCodes3lt = earnCodeService.getEarnCodesForLeaveAndTime(assignment3, asOfDate, false);
-        Assert.assertEquals("Wrong number of earn codes returned.",1, earnCodes3lt.size());
     }
 
 	@Test

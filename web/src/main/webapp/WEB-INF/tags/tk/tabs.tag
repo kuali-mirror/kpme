@@ -9,7 +9,7 @@
     <c:set var="targetTimesheetApprover" value='<%=org.kuali.kpme.core.util.HrContext.isTargetAnyApprover()%>' />
     <c:set var="targetTimesheetReviewer" value='<%=org.kuali.kpme.core.util.HrContext.isTargetReviewer()%>' />   
     <c:set var="targetActiveEmployee" value='<%=org.kuali.kpme.core.util.HrContext.isTargetActiveEmployee()%>' />
-    <c:set var="targetSynchronous" value='<%=org.kuali.kpme.core.util.HrContext.isTargetSynchronous()%>' />
+    <c:set var="targetSynchronous" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isTargetSynchronous()%>' />
 </c:if>
 
 <div id="tab-section">

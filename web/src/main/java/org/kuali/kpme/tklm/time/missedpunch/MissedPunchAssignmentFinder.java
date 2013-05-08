@@ -77,7 +77,7 @@ public class MissedPunchAssignmentFinder extends KeyValuesBase {
         
         if (tdocId != null) {
             TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdocId);
-            Map<String,String> adMap = HrServiceLocator.getAssignmentService().getAssignmentDescriptions(tdoc, true); // Grab clock only assignments
+            Map<String,String> adMap = tdoc.getAssignmentDescriptions(true); // Grab clock only assignments
 
             for (Map.Entry entry : adMap.entrySet()) {
                 labels.add(new ConcreteKeyValue((String)entry.getKey(), (String)entry.getValue()));

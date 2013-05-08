@@ -163,36 +163,6 @@ public class HrContext {
 	public static boolean isTargetActiveEmployee() {
 		return CollectionUtils.isNotEmpty(HrServiceLocator.getAssignmentService().getAssignments(getTargetPrincipalId(), LocalDate.now()));
 	}
-	
-	public static boolean isSynchronous() {
-    	boolean isSynchronous = false;
-    	
-    	List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), LocalDate.now());
-    	
-    	for (Assignment assignment : assignments) {
-            if (assignment.isSynchronous()) {
-            	isSynchronous = true;
-            	break;
-            }
-        }
-    	
-        return isSynchronous;
-	}
-	
-    public static boolean isTargetSynchronous() {
-    	boolean isSynchronous = false;
-    	
-    	List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(getTargetPrincipalId(), LocalDate.now());
-    	
-    	for (Assignment assignment : assignments) {
-            if (assignment.isSynchronous()) {
-            	isSynchronous = true;
-            	break;
-            }
-        }
-    	
-        return isSynchronous;
-    }
 
     public static CalendarDocument getCurrentTimesheetDocument() {
         return (CalendarDocument) HrContext.getStorageMap().get(TDOC_OBJ_KEY);

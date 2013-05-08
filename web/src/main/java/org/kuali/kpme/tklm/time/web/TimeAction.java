@@ -28,6 +28,7 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.core.web.KPMEForm;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -62,7 +63,7 @@ public class TimeAction extends KPMEAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-        boolean synch = HrContext.isSynchronous();
+        boolean synch = TkContext.isSynchronous();
         if (HrContext.isSystemAdmin()) {
             return new ActionRedirect("/portal.do");
         } else if (HrContext.isDepartmentAdmin()

@@ -19,7 +19,9 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -85,4 +87,12 @@ public interface TimesheetService {
 
     void routeTimesheet(String principalId, TimesheetDocument timesheetDocument, String action);
 	public boolean isReadyToApprove(TimesheetDocument document);
+	/**
+	 * Previously in EarnCodeService
+	 * @param assignment
+	 * @param asOfDate
+	 * @return
+	 */
+	public List<EarnCode> getEarnCodesForTime(Assignment assignment, LocalDate asOfDate);
+	
 }

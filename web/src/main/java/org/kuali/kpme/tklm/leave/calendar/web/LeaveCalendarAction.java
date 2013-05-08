@@ -51,6 +51,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.bo.assignment.Assignment;
+import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
@@ -175,7 +176,7 @@ public class LeaveCalendarAction extends KPMEAction {
         }
 		if (lcd != null) {
 			lcf.setDocumentId(lcd.getDocumentId());
-			lcf.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
+			lcf.setAssignmentDescriptions(lcd.getAssignmentDescriptions());
             lcdh = lcd.getDocumentHeader();
 		} else {
 			lcf.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments));  
@@ -467,7 +468,9 @@ public class LeaveCalendarAction extends KPMEAction {
 		
 		Assignment assignment = null;
 		if(lcd != null) {
-			assignment = HrServiceLocator.getAssignmentService().getAssignment(lcd, selectedAssignment);
+			assignment = lcd.getAssignment(new AssignmentDescriptionKey(selectedAssignment));
+			if(assignment == null)
+				LOG.warn("No matched assignment found");
 		} else {
 			List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(targetPrincipalId, calendarEntry);
 			assignment = HrServiceLocator.getAssignmentService().getAssignment(assignments, selectedAssignment, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
@@ -796,7 +799,7 @@ public class LeaveCalendarAction extends KPMEAction {
 			 lcd = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 		}
 		if (lcd != null) {
-			lcf.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
+			lcf.setAssignmentDescriptions(lcd.getAssignmentDescriptions());
 		} else {
 			List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
 			lcf.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments));  
@@ -832,7 +835,7 @@ public class LeaveCalendarAction extends KPMEAction {
 					 lcd = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, ce);
 				}
 				if(lcd != null) {
-					lcf.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
+					lcf.setAssignmentDescriptions(lcd.getAssignmentDescriptions());
 				} else {
 					List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, ce);
 					lcf.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments));  

@@ -59,8 +59,7 @@ public class Assignment extends HrBusinessObject {
 	//private Long tkWorkAreaId;
 	private Long task;
 	private String dept;
-	private transient TimeCollectionRule timeCollectionRule;
-	private transient DeptLunchRule deptLunchRule;
+
 	private transient WorkArea workAreaObj;
 	private Boolean history;
     private String assignmentKey;
@@ -190,26 +189,6 @@ public class Assignment extends HrBusinessObject {
 			return Long.valueOf(0);	// default task to 0 if task not provided
 		}
 		return task;
-	}
-
-	public void setTimeCollectionRule(TimeCollectionRule timeCollectionRule) {
-		this.timeCollectionRule = timeCollectionRule;
-	}
-
-	public TimeCollectionRule getTimeCollectionRule() {
-		return timeCollectionRule;
-	}
-
-	public boolean isSynchronous() {
-		return timeCollectionRule == null || timeCollectionRule.isClockUserFl();
-	}
-
-	public DeptLunchRule getDeptLunchRule() {
-		return deptLunchRule;
-	}
-
-	public void setDeptLunchRule(DeptLunchRule deptLunchRule) {
-		this.deptLunchRule = deptLunchRule;
 	}
 
 	public String getAssignmentDescription() {

@@ -104,7 +104,8 @@ public class TimeDetailAction extends TimesheetAction {
             return forward;
         }
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-        tdaf.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptions(HrContext.getCurrentTimesheetDocument(), false));
+        
+        tdaf.setAssignmentDescriptions(tdaf.getTimesheetDocument().getAssignmentDescriptions(false));
 
         // Handle User preference / timezone information (pushed up from TkCalendar to avoid duplication)
         // Set calendar

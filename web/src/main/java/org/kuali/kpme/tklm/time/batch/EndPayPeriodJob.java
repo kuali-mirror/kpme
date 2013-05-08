@@ -61,8 +61,8 @@ public class EndPayPeriodJob implements Job {
 	        TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, beginPeriodDateTime, endPeriodDateTime);
 	        if (timesheetDocumentHeader != null) {
 	            TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
-	            String assignmentKey = new AssignmentDescriptionKey(openClockLog.getJobNumber(), openClockLog.getWorkArea(), openClockLog.getTask()).toAssignmentKeyString();
-	            Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(timesheetDocument, assignmentKey);
+	            AssignmentDescriptionKey assignmentKey = new AssignmentDescriptionKey(openClockLog.getJobNumber(), openClockLog.getWorkArea(), openClockLog.getTask());
+	            Assignment assignment = timesheetDocument.getAssignment(assignmentKey);
 	    		
 	            TkServiceLocator.getClockLogService().processClockLog(endPeriodDateTime, assignment, calendarEntry, ipAddress, 
 	            		endPeriodDateTime.toLocalDate(), timesheetDocument, TkConstants.CLOCK_OUT, principalId, batchUserPrincipalId);

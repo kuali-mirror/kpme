@@ -88,11 +88,14 @@ public class LeaveCalendarWSAction extends KPMEAction {
         }
 
         lcf.setCalendarEntry(calendarEntry);
-        lcf.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
 
         if (lcd != null) {
+            lcf.setAssignmentDescriptions(lcd.getAssignmentDescriptions());
             setupDocumentOnFormContext(lcf, lcd);
+            
         } else {
+    		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
+        	lcf.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments));
             LOG.error("Null leave calendar document in LeaveCalendarAction.");
         }
 

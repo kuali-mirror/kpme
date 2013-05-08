@@ -22,27 +22,10 @@ import java.util.Map;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
+import org.kuali.kpme.core.bo.earncode.security.EarnCodeSecurity;
 import org.springframework.cache.annotation.Cacheable;
 
 public interface EarnCodeService {
-    /**
-     * Fetch a list of earn codes for Leave usage and Time usage, for a particular assignment as of a particular date
-     * @param a
-     * @param asOfDate
-     * @param isLeavePlanningCalendar
-     * @return
-     */
-    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForLeaveAndTime}' + 'principalId=' + T(org.kuali.kpme.core.util.HrContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.kpme.core.util.HrContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'isLeavePlanningCalendar=' +#p2")
-    public List<EarnCode> getEarnCodesForLeaveAndTime(Assignment a, LocalDate asOfDate, boolean isLeavePlanningCalendar);
-
-    /**
-     * Fetch a list of earn codes for Time usage, for a particular assignment as of a particular date
-     * @param a
-     * @param asOfDate
-     * @return
-     */
-    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForTime}' + 'principalId=' + T(org.kuali.kpme.core.util.HrContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.kpme.core.util.HrContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
-    public List<EarnCode> getEarnCodesForTime(Assignment a, LocalDate asOfDate);
 
 	/**
 	 * Fetch a list of earn codes for Leave usage, for a particular assignment as of a particular date
@@ -147,4 +130,6 @@ public interface EarnCodeService {
     public Map<String, String> getEarnCodesForDisplayWithEffectiveDate(String principalId, LocalDate asOfDate, boolean isLeavePlanningCalendar);
 
     List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String leavePlan, String accrualCategory, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
+    
+    public boolean addEarnCodeBasedOnEmployeeApproverSettings(EarnCodeSecurity security, Assignment a, LocalDate asOfDate);
 }

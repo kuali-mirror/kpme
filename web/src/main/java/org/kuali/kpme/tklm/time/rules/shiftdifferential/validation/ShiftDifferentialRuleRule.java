@@ -92,7 +92,7 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
 		boolean valid = false;
-		LOG.debug("entering custom validation for TimeCollectionRule");
+		LOG.debug("entering custom validation for ShiftDifferentialRule");
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof ShiftDifferentialRule) {
 			ShiftDifferentialRule shiftDifferentialRule = (ShiftDifferentialRule) pbo;

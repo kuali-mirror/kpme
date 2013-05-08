@@ -1,13 +1,17 @@
 package org.kuali.kpme.core.document.calendar;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
+import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
+import org.kuali.kpme.core.service.HrServiceLocator;
 
 public abstract class CalendarDocument implements CalendarDocumentContract,
 		Serializable {
@@ -64,6 +68,29 @@ public abstract class CalendarDocument implements CalendarDocumentContract,
     
     public void setCalendarType(String calendarType) {
     	this.calendarType = calendarType;
+    }
+    
+    public Map<String, String> getAssignmentDescriptions() {
+    	return HrServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments);
+    }
+    
+    public Assignment getAssignment(AssignmentDescriptionKey assignmentDescriptionKey) {
+
+        for (Assignment assignment : assignments) {
+            if (assignment.getJobNumber().compareTo(assignmentDescriptionKey.getJobNumber()) == 0 &&
+                    assignment.getWorkArea().compareTo(assignmentDescriptionKey.getWorkArea()) == 0 &&
+                    assignment.getTask().compareTo(assignmentDescriptionKey.getTask()) == 0) {
+                return assignment;
+            }
+        }
+
+        //No assignment found so fetch the inactive ones for this payBeginDate
+        Assignment foundAssign = HrServiceLocator.getAssignmentService().getAssignment(assignmentDescriptionKey, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
+        if (foundAssign != null) {
+            return foundAssign;
+        }
+        else
+        	return null;
     }
 
 }

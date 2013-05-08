@@ -152,7 +152,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
         List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(HrContext.getPrincipalId(), JAN_AS_OF_DATE.toLocalDate());
         Assignment assignment = assignments.get(0);
 
-        List<EarnCode> earnCodes = HrServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());
+        List<EarnCode> earnCodes = TkServiceLocator.getTimesheetService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());
         EarnCode earnCode = earnCodes.get(0);
         Assert.assertEquals("There should be no existing time blocks.", 0, tdoc.getTimeBlocks().size());
 

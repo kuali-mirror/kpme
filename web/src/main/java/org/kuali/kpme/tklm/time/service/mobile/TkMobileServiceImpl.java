@@ -31,8 +31,10 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import com.google.gson.Gson;
@@ -49,7 +51,8 @@ public class TkMobileServiceImpl implements TkMobileService {
 		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
 		for(Assignment assignment : assignments){
-			if(assignment.isSynchronous()){
+			TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), LocalDate.now());
+			if(tcr == null || tcr.isClockUserFl()){
 				String key = new AssignmentDescriptionKey(assignment).toAssignmentKeyString();
 				String desc = assignment.getAssignmentDescription();
 				clockEntryInfo.getAssignKeyToAssignmentDescriptions().put(key, desc);

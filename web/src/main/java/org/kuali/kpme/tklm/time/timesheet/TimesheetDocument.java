@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.time.timesheet;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +28,14 @@ import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.document.calendar.CalendarDocumentContract;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 
 public class TimesheetDocument extends CalendarDocument {
@@ -122,4 +128,22 @@ public class TimesheetDocument extends CalendarDocument {
 	public String getDocumentId(){
 		return this.getDocumentHeader().getDocumentId();
 	}
+	
+    public Map<String, String> getAssignmentDescriptions(boolean clockOnlyAssignments) {
+        Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
+        
+        for (Assignment assignment : assignments) {
+        	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+
+        	if (HrServiceLocator.getHRPermissionService().canViewCalendarDocumentAssignment(principalId, this, assignment)) {
+        		TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), LocalDate.now());
+        		boolean isSynchronous = tcr == null || tcr.isClockUserFl();
+                if (!clockOnlyAssignments || isSynchronous) {
+                    assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
+                }
+        	}
+        }
+        
+        return assignmentDescriptions;
+    }
 }

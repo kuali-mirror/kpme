@@ -25,8 +25,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.bo.earncode.EarnCode;
+import org.kuali.kpme.core.bo.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.bo.earncode.security.EarnCodeType;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -38,6 +42,7 @@ import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
+import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -267,7 +272,8 @@ public class TimesheetServiceImpl implements TimesheetService {
         List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(HrContext.getTargetPrincipalId(), LocalDate.now());
         boolean isSynchronousUser = true;
         for (Assignment assignment : assignments) {
-            isSynchronousUser &= assignment.isSynchronous();
+        	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), LocalDate.now());
+            isSynchronousUser &= tcr == null || tcr.isClockUserFl();
         }
         return isSynchronousUser;
     }
@@ -337,5 +343,119 @@ public class TimesheetServiceImpl implements TimesheetService {
         }
         return true;*/
 	}
+	
+    public List<EarnCode> getEarnCodesForTime(Assignment a, LocalDate asOfDate) {
+        //getEarnCodesForTime and getEarnCodesForLeave have some overlapping logic, but they were separated so that they could follow their own distinct logic, so consolidation of logic is not desirable.
 
+        if (a == null) throw new RuntimeException("No assignment parameter.");
+        Job job = a.getJob();
+        if (job == null || job.getPayTypeObj() == null) throw new RuntimeException("Null job or null job pay type on assignment.");
+
+        List<EarnCode> earnCodes = new LinkedList<EarnCode>();
+        String earnTypeCode = EarnCodeType.TIME.getCode();
+
+        TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(a.getDept(), a.getWorkArea(), asOfDate);
+        
+        boolean isClockUser = tcr == null || tcr.isClockUserFl();
+        boolean isUsersTimesheet = StringUtils.equals(HrContext.getPrincipalId(),a.getPrincipalId());
+
+        // Reg earn codes will typically not be defined in the earn code security table
+        EarnCode regularEarnCode = HrServiceLocator.getEarnCodeService().getEarnCode(job.getPayTypeObj().getRegEarnCode(), asOfDate);
+        if (regularEarnCode == null) {
+            throw new RuntimeException("No regular earn code defined for job pay type.");
+        } else {
+            //  if you are a clock user and this is your timesheet and you are processing the reg earn code, do not add this earn code. Use the clock in/out mechanism.
+            if (isClockUser && isUsersTimesheet) {
+                // do not add reg earn code. use clock.
+            } else {
+                earnCodes.add(regularEarnCode);
+            }
+        }
+
+        List<String> listAccrualCategories = new LinkedList<String>();
+        String accrualCategory;
+
+        //  first make a list of the accrual categories available to the user's Leave Plan (yes, leave plan), for later comparison.
+        PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(job.getPrincipalId(), asOfDate);
+        boolean fmlaEligible = principalHRAttributes.isFmlaEligible();
+        boolean workersCompEligible = principalHRAttributes.isWorkersCompEligible();
+
+        String leavePlan = principalHRAttributes.getLeavePlan();
+        if (leavePlan != null) {
+            for (AccrualCategory accrualCategories : HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, asOfDate)) {
+                accrualCategory = accrualCategories.getAccrualCategory();
+                if(accrualCategory != null) {
+                    listAccrualCategories.add(accrualCategory);
+                }
+            }
+        }
+
+        //  get all earn codes by user security, then we'll filter on accrual category first as we process them.
+        List<EarnCodeSecurity> decs = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
+        for (EarnCodeSecurity dec : decs) {
+
+            boolean addEarnCode = HrServiceLocator.getEarnCodeService().addEarnCodeBasedOnEmployeeApproverSettings(dec, a, asOfDate);
+            if (addEarnCode) {
+
+                //  allow types Time AND Both
+                if (earnTypeCode.equals(dec.getEarnCodeType()) || EarnCodeType.BOTH.getCode().equals(dec.getEarnCodeType())) {
+                    EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(dec.getEarnCode(), asOfDate);
+
+                    //  make sure we got something back from the earn code dao
+                    if (ec != null) {
+
+                        //  now that we have a list of security earn codes, compare their accrual categories to the user's accrual category list.
+                        //  we also allow earn codes that have no accrual category assigned.
+                        if (listAccrualCategories.contains(ec.getAccrualCategory()) || ec.getAccrualCategory() == null) {
+
+                            //  if the user's fmla flag is Yes, that means we are not restricting codes based on this flag, so any code is shown.
+                            //    if the fmla flag on a code is yes they can see it.    (allow)
+                            //    if the fmla flag on a code is no they should see it.  (allow)
+                            //  if the user's fmla flag is No,
+                            //    they can see any codes which are fmla=no.             (allow)
+                            //    they can not see codes with fmla=yes.                 (exclude earn code)
+                            //  the fmla earn codes=no do not require any exclusion
+                            //  the only action required is if the fmla user flag=no: exclude those codes with fmla=yes.
+
+                            if ( (fmlaEligible || ec.getFmla().equals("N")) ) {
+                                //only want usage accrual balance actions
+                                if (StringUtils.equals(ec.getAccrualBalanceAction(), HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)) {
+                                // go on, we are allowing these three combinations: YY, YN, NN
+
+                                    //  apply the same logic as FMLA to the Worker Compensation flags.
+                                    if ( (workersCompEligible || ec.getWorkmansComp().equals("N")) ) {
+                                        // go on, we are allowing these three combinations: YY, YN, NN.
+
+                                        //  determine if the holiday earn code should be displayed.
+                                        if ( showEarnCodeIfHoliday(ec, dec) ) {
+                                            //  non-Holiday earn code will go on, Holiday earn code must meet some requirements in the method.
+                                            if ( !StringUtils.equals(regularEarnCode.toString(), dec.getEarnCode()) ) {
+                                                //  add earn code if it is not the reg earn code.
+                                                earnCodes.add(ec);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return earnCodes;
+    }
+
+    private boolean showEarnCodeIfHoliday(EarnCode earnCode, EarnCodeSecurity security) {
+        if (earnCode.getEarnCode().equals(HrConstants.HOLIDAY_EARN_CODE)) {
+            if (security.isApprover() || HrContext.isSystemAdmin()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+    
 }

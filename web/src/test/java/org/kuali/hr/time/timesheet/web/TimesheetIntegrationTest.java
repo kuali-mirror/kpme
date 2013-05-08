@@ -273,7 +273,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		Assignment assToBeSelected = assignmentsOfUser.get(4);
 
         // retrieving earncode for the assignment
-		List<EarnCode> earnCodes = HrServiceLocator.getEarnCodeService().getEarnCodesForTime(assToBeSelected, TIME_SHEET_DATE.toLocalDate());
+		List<EarnCode> earnCodes = TkServiceLocator.getTimesheetService().getEarnCodesForTime(assToBeSelected, TIME_SHEET_DATE.toLocalDate());
 		if (earnCodes != null && !earnCodes.isEmpty()) {
 			earnCode = earnCodes.get(0);
 		}
