@@ -13,7 +13,7 @@
             <tr>
                 <td width="100%">
                     <iframe src="${Form.workflowUrl}/RouteLog.do?documentId=${Form.leaveCalendarDocument.documentId}"
-                            height="200" width="100%" scrolling="auto"></iframe>
+                            height="400" width="100%" scrolling="auto"></iframe>
                 </td>
             </tr>
         </table>
