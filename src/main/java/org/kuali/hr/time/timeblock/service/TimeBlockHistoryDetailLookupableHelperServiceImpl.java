@@ -173,6 +173,16 @@ public class TimeBlockHistoryDetailLookupableHelperServiceImpl extends KualiLook
         Collections.sort(objectList, new Comparator<TimeBlockHistoryDetail>() { // Sort the Time Blocks
             @Override
             public int compare(TimeBlockHistoryDetail timeBlockHistory, TimeBlockHistoryDetail timeBlockHistory1) {
+                //test for nulls.
+                if (timeBlockHistory.getTimeBlockHistory().getTkTimeBlockId() == null || timeBlockHistory1.getTimeBlockHistory().getTkTimeBlockId() == null) {
+                    if (timeBlockHistory.getTimeBlockHistory().getTkTimeBlockId() == null && timeBlockHistory1.getTimeBlockHistory().getTkTimeBlockId() == null) {
+                        return 0;
+                    }
+                    else {
+                        return timeBlockHistory.getTimeBlockHistory().getTkTimeBlockId() == null ? -1 : 1;
+                    }
+                }
+
                 return timeBlockHistory.getTimeBlockHistory().getTkTimeBlockId().compareTo(timeBlockHistory1.getTimeBlockHistory().getTkTimeBlockId());
             }
         });

@@ -38,7 +38,7 @@ public class TimezoneServiceImpl implements TimezoneService {
         if(principalCalendar != null && principalCalendar.getTimezone() != null){
             return principalCalendar.getTimezone();
         }
-        List<Job> jobs = TkServiceLocator.getJobService().getJobs(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
+        List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId, TKUtils.getCurrentDate());
         if (jobs.size() > 0) {
             // Grab the location off the first job in the list
             Location location = TkServiceLocator.getLocationService().getLocation(jobs.get(0).getLocation(), TKUtils.getCurrentDate());
@@ -73,6 +73,15 @@ public class TimezoneServiceImpl implements TimezoneService {
         }
     }
 
+    private DateTimeZone getUserTimezoneWithFallback(String principalId) {
+        String tzid = getUserTimezone(principalId);
+        if (StringUtils.isEmpty(tzid)) {
+            return TKUtils.getSystemDateTimeZone();
+        } else {
+            return DateTimeZone.forID(tzid);
+        }
+    }
+
 	/**
 	 * Translation needed for UI Display
 	 * @param timeBlocks
@@ -95,7 +104,12 @@ public class TimezoneServiceImpl implements TimezoneService {
 	}
 
     public void translateForTimezone(List<TimeBlock> timeBlocks) {
-        translateForTimezone(timeBlocks, getUserTimezoneWithFallback());
+        if (timeBlocks.isEmpty()) {
+            translateForTimezone(timeBlocks, getUserTimezoneWithFallback());
+        }
+        else {
+            translateForTimezone(timeBlocks, getUserTimezoneWithFallback(timeBlocks.get(0).getPrincipalId()));
+        }
     }
 
 	@Override
