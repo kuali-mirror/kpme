@@ -24,7 +24,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -225,7 +225,14 @@ public class PersonInfoAction extends TkAction {
 		if(approvers == null){
 			approvers = new ArrayList<Person>();
 		}
-		approvers.add(person);
+        boolean personExists = false;
+		for (Person per : approvers) {
+            if (StringUtils.equals(per.getPrincipalId(),person.getPrincipalId())) {
+                personExists = true;
+            }
+        }
+        if (!personExists)
+            approvers.add(person);
 		workAreaToApproverPerson.put(workArea, approvers);
 	}
 }
