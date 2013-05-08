@@ -50,8 +50,8 @@ public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService{
 	}
 
     @Override
-    public List<TimeCollectionRule> getTimeCollectionRules(String dept, String workArea, String payType, String active) {
+    public List<TimeCollectionRule> getTimeCollectionRules(String dept, String workArea, String payType, String active, String showHistory) {
         Long workAreaToSearch = StringUtils.isEmpty(workArea) ? null : Long.parseLong(workArea);
-        return timeCollectRuleDao.getTimeCollectionRules(dept, workAreaToSearch , payType, active, null);
+        return timeCollectRuleDao.getTimeCollectionRules(dept, workAreaToSearch , payType, active, showHistory);
     }
 }

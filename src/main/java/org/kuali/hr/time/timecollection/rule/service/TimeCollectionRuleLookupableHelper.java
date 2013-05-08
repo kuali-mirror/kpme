@@ -98,8 +98,9 @@ public class TimeCollectionRuleLookupableHelper extends TkAuthorizedLookupableHe
         String dept = fieldValues.get("dept");
         String payType = fieldValues.get("payType");
         String active = fieldValues.get("active");
+        String history = fieldValues.get("history");
 
-        List<TimeCollectionRule> timeCollectionRules = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRules(dept, workArea, payType, active);
+        List<TimeCollectionRule> timeCollectionRules = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRules(dept, workArea, payType, active, history);
 		return timeCollectionRules;
 	}
 
