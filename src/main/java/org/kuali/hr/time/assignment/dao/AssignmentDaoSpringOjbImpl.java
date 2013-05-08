@@ -192,16 +192,9 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         Criteria root = new Criteria();
         root.addLessOrEqualThan("effectiveDate", asOfDate);
 
-        Criteria timestamp = new Criteria();
-        timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-        timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestamp);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-        root.addEqualTo("timestamp", timestampSubQuery);
-        
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, asOfDate, ASSIGNMENT_EQUAL_TO_FIELD, true));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, ASSIGNMENT_EQUAL_TO_FIELD, true));
+
 		Criteria activeFilter = new Criteria();
 		activeFilter.addEqualTo("active", true);
 		root.addAndCriteria(activeFilter);
