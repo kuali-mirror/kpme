@@ -46,5 +46,5 @@ public interface GracePeriodService {
     @Cacheable(value= GracePeriodRule.CACHE_NAME, key="'tkGracePeriodId=' + #p0")
 	public GracePeriodRule getGracePeriodRule(String tkGracePeriodId);
 
-    List<GracePeriodRule> getGracePeriodRules(String hourFactor, String active);
+    List<GracePeriodRule> getGracePeriodRules(String hourFactor, String active, String showHistory);
 }

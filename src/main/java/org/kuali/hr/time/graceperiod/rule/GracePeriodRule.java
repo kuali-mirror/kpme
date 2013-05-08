@@ -29,6 +29,7 @@ public class GracePeriodRule extends HrBusinessObject {
 	private String tkGracePeriodRuleId;
 	private BigDecimal hourFactor;
 	private String userPrincipalId;
+    private String history;
 
 	public BigDecimal getHourFactor() {
 	    return hourFactor;
@@ -68,5 +69,13 @@ public class GracePeriodRule extends HrBusinessObject {
 	public void setId(String id) {
 		setTkGracePeriodRuleId(id);
 	}
+
+    public String getHistory() {
+        return history;
+    }
+
+    public void setHistory(String history) {
+        this.history = history;
+    }
 
 }

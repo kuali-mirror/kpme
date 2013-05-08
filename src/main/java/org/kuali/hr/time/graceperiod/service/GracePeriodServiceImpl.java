@@ -72,7 +72,7 @@ public class GracePeriodServiceImpl implements GracePeriodService {
 	}
 
     @Override
-    public List<GracePeriodRule> getGracePeriodRules(String hourFactor, String active) {
-        return gracePeriodDao.getGracePeriodRules(hourFactor, active);
+    public List<GracePeriodRule> getGracePeriodRules(String hourFactor, String active, String showHistory) {
+        return gracePeriodDao.getGracePeriodRules(hourFactor, active, showHistory);
     }
 }

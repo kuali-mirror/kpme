@@ -24,5 +24,5 @@ public interface GracePeriodDao {
 	public GracePeriodRule getGracePeriodRule(Date asOfDate);
 	public GracePeriodRule getGracePeriodRule(String tkGracePeriodId);
 
-    public List<GracePeriodRule> getGracePeriodRules(String hourFactor, String active);
+    public List<GracePeriodRule> getGracePeriodRules(String hourFactor, String active, String showHistory);
 }

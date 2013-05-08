@@ -37,5 +37,5 @@ public interface PayGradeDao {
 	
 	public int getPayGradeCount(String payGrade);
 
-    List<PayGrade> getPayGrades(String payGrade, String payGradeDescr, String active);
+    List<PayGrade> getPayGrades(String payGrade, String payGradeDescr, String active, String showHistory);
 }

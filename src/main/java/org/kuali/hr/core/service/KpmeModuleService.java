@@ -18,7 +18,12 @@ package org.kuali.hr.core.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
+import org.kuali.hr.paygrade.PayGrade;
+import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.position.Position;
+import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.krad.service.impl.ModuleServiceBase;
@@ -46,6 +51,42 @@ public class KpmeModuleService extends ModuleServiceBase {
             List<List<String>> retList = new ArrayList<List<String>>();
             List<String> keyList = new ArrayList<String>();
             keyList.add("workArea");
+            keyList.add("effectiveDate");
+            retList.add(keyList);
+            return retList;
+        } else if (PayGrade.class.isAssignableFrom(businessObjectInterfaceClass)) {
+            List<List<String>> retList = new ArrayList<List<String>>();
+            List<String> keyList = new ArrayList<String>();
+            keyList.add("payGrade");
+            keyList.add("salGroup");
+            keyList.add("effectiveDate");
+            retList.add(keyList);
+            return retList;
+        } else if (SalGroup.class.isAssignableFrom(businessObjectInterfaceClass)) {
+            List<List<String>> retList = new ArrayList<List<String>>();
+            List<String> keyList = new ArrayList<String>();
+            keyList.add("hrSalGroup");
+            keyList.add("effectiveDate");
+            retList.add(keyList);
+            return retList;
+        } else if (Department.class.isAssignableFrom(businessObjectInterfaceClass)) {
+            List<List<String>> retList = new ArrayList<List<String>>();
+            List<String> keyList = new ArrayList<String>();
+            keyList.add("dept");
+            keyList.add("effectiveDate");
+            retList.add(keyList);
+            return retList;
+        } else if (Position.class.isAssignableFrom(businessObjectInterfaceClass)) {
+            List<List<String>> retList = new ArrayList<List<String>>();
+            List<String> keyList = new ArrayList<String>();
+            keyList.add("positionNumber");
+            keyList.add("effectiveDate");
+            retList.add(keyList);
+            return retList;
+        } else if (AccrualCategory.class.isAssignableFrom(businessObjectInterfaceClass)) {
+            List<List<String>> retList = new ArrayList<List<String>>();
+            List<String> keyList = new ArrayList<String>();
+            keyList.add("accrualCategory");
             keyList.add("effectiveDate");
             retList.add(keyList);
             return retList;
