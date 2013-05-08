@@ -194,7 +194,7 @@
   
   	<bean id="Position-inquiryDefinition" parent="Position-inquiryDefinition-parentBean" />
 
-	<bean id="Position-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+	<bean id="Position-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.time.position.web.PositionInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

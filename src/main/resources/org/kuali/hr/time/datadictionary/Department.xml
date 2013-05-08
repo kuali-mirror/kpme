@@ -240,7 +240,7 @@
 
     <bean id="Department-inquiryDefinition" parent="Department-inquiryDefinition-parentBean" />
 
-    <bean id="Department-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.time.department.DepartmentInquirableImpl">
+    <bean id="Department-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.time.department.web.DepartmentInquirableImpl">
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">

@@ -152,7 +152,8 @@
 	<!--  Inquiry Definitions  -->
 	<bean id="SalGroup-inquiryDefinition" parent="SalGroup-inquiryDefinition-parentBean" />
 
-  	<bean id="SalGroup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  	<bean id="SalGroup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"
+          p:inquirableClass="org.kuali.hr.time.salgroup.web.SalGroupInquirableImpl">
 	    <property name="inquirySections" >
 	      <list>
 	        <bean parent="InquirySectionDefinition">

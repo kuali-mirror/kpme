@@ -38,6 +38,7 @@
 				<ref bean="PayGrade-salGroup" />
 				<ref bean="PayGrade-description" />
 				<ref bean="PayGrade-effectiveDate" />
+                <ref bean="PayGrade-history"/>
 				<ref bean="PayGrade-active" />
 				<ref bean="PayGrade-userPrincipalId" />
 				<ref bean="PayGrade-timestamp" />
@@ -145,6 +146,19 @@
 		<property name="label" value="Effective Date" />
 	</bean>
 
+    <!-- history -->
+    <bean id="PayGrade-history" parent="PayGrade-history-parentBean" />
+    <bean id="PayGrade-history-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="Show History" />
+        <property name="control">
+            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+            </bean>
+        </property>
+        <property name="name" value="history" />
+        <property name="label" value="Show History" />
+    </bean>
+
 	<bean id="PayGrade-active" parent="PayGrade-active-parentBean" />
 	<bean id="PayGrade-active-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -195,7 +209,7 @@
   	<bean id="PayGrade-inquiryDefinition" parent="PayGrade-inquiryDefinition-parentBean" />
 
 	<bean id="PayGrade-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition">
+		parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.paygrade.web.PayGradeInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
@@ -227,6 +241,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" />
 			</list>
 		</property>
