@@ -30,7 +30,7 @@
 <body>
  <br/>
  <br/>
-		<p class="actualtime-header">Acutal Time Inquiry</p>
+		<p class="actualtime-header">Actual Time Inquiry</p>
    	 	<div id="actualTime" align="left" class="actualtime">
    	 	    <display:table name="${Form.clockLogTimeBlockList}" class="actualtime-table datatable-100"
 		   		requestURI="/TimeDetail.do?methodToCall=actualTimeInquiry&documentId=${Form.documentId}"
