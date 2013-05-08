@@ -112,7 +112,9 @@ public class WorkAreaMaintenanceDocumentRule extends
 //			}
 //		}
         //validate the effective date set for the task. it should be equal to or after the effdt set for the workarea
-        if (task.getEffectiveDate().compareTo(TkServiceLocator.getWorkAreaService().getWorkArea(workArea,TKUtils.getCurrentDate()).getEffectiveDate()) < 0) {
+        WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(workArea,TKUtils.getCurrentDate());
+
+        if (wa != null && task.getEffectiveDate().compareTo(wa.getEffectiveDate()) < 0) {
             this.putGlobalError("task.workarea.invalid.effdt", "effective date '" + task.getEffectiveDate().toString() +"'");
             valid = false;
         }
