@@ -28,8 +28,6 @@ import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import com.google.common.collect.ImmutableList;
-
 public class DepartmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements DepartmentDao {
     
 	@Override

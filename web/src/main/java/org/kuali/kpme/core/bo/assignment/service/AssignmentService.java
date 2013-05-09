@@ -22,7 +22,6 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
-import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.springframework.cache.annotation.Cacheable;
 
 public interface AssignmentService {

@@ -35,7 +35,6 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.bo.person.TKPerson;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;

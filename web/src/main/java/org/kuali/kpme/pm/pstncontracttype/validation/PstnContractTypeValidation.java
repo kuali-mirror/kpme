@@ -1,7 +1,6 @@
 package org.kuali.kpme.pm.pstncontracttype.validation;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.pm.positiontype.PositionType;
 import org.kuali.kpme.pm.pstncontracttype.PstnContractType;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;

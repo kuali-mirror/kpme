@@ -15,6 +15,12 @@
  */
 package org.kuali.hr.time.approval.service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,12 +28,6 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TimeApproveServiceTest extends KPMETestCase {
 	

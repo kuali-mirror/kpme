@@ -1,6 +1,7 @@
 package org.kuali.kpme.pm.pstnqlfrtype.service;
 
 import java.util.List;
+
 import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
 
 public interface PstnQlfrTypeService {

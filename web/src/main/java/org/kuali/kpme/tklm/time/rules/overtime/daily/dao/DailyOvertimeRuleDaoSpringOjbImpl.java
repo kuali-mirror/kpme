@@ -27,8 +27,6 @@ import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import com.google.common.collect.ImmutableList;
-
 public class DailyOvertimeRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements DailyOvertimeRuleDao {
    @Override
 	public DailyOvertimeRule findDailyOvertimeRule(String location, String paytype, String dept, Long workArea, LocalDate asOfDate) {

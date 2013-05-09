@@ -18,10 +18,10 @@ package org.kuali.kpme.core.bo.paytype;
 import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
-
-import com.google.common.collect.ImmutableList;
 import org.kuali.kpme.core.bo.institution.Institution;
 import org.kuali.rice.location.impl.campus.CampusBo;
+
+import com.google.common.collect.ImmutableList;
 
 public class PayType extends HrBusinessObject {
     public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "PayType";

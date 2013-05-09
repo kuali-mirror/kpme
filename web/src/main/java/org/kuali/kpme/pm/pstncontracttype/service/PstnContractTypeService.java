@@ -3,7 +3,6 @@ package org.kuali.kpme.pm.pstncontracttype.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.positiontype.PositionType;
 import org.kuali.kpme.pm.pstncontracttype.PstnContractType;
 
 public interface PstnContractTypeService {

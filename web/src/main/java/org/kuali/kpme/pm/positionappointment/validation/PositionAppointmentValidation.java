@@ -1,8 +1,8 @@
 package org.kuali.kpme.pm.positionappointment.validation;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.kpme.pm.positionappointment.PositionAppointment;
+import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 

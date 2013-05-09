@@ -28,8 +28,6 @@ import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import com.google.common.collect.ImmutableList;
-
 public class SalaryGroupDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements SalaryGroupDao {
     @Override
     public void saveOrUpdate(SalaryGroup salaryGroup) {

@@ -15,8 +15,6 @@
  */
 package org.kuali.kpme.core.bo.principal.service;
 
-import java.util.List;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

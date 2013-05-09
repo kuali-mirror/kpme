@@ -1,5 +1,9 @@
 package org.kuali.kpme.pm.pstncontracttype.dao;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -9,10 +13,6 @@ import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.pm.pstncontracttype.PstnContractType;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class PstnContractTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements PstnContractTypeDao {
 

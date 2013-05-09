@@ -21,7 +21,6 @@ import javax.servlet.ServletContextEvent;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;

@@ -17,7 +17,6 @@ package org.kuali.kpme.tklm.time.workflow.postprocessor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;

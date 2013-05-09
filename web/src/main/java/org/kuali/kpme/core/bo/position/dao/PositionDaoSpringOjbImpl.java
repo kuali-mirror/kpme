@@ -27,8 +27,6 @@ import org.kuali.kpme.core.bo.position.Position;
 import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import com.google.common.collect.ImmutableList;
-
 public class PositionDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements PositionDao {
     
     @Override

@@ -1,9 +1,5 @@
 package org.kuali.kpme.pm.pstnqlfrtype.validation;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
-import org.kuali.kpme.pm.util.PmValidationUtils;
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
 public class PstnQlfrTypeValidation extends MaintenanceDocumentRuleBase {

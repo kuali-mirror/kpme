@@ -33,7 +33,6 @@ import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;

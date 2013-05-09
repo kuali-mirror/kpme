@@ -21,7 +21,6 @@ import org.joda.time.DateTime;
 import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
 import org.kuali.kpme.core.document.calendar.CalendarDocumentHeaderBase;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class LeaveCalendarDocumentHeader extends CalendarDocumentHeaderBase implements CalendarDocumentHeaderContract {
 

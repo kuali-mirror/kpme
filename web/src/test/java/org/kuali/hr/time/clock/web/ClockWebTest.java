@@ -16,7 +16,6 @@
 package org.kuali.hr.time.clock.web;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

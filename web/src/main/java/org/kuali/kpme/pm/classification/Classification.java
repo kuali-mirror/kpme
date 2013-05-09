@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.kuali.rice.location.impl.campus.CampusBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.rice.location.impl.campus.CampusBo;
 
 public class Classification extends HrBusinessObject {
 

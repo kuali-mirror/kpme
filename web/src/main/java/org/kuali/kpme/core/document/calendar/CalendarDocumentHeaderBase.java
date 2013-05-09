@@ -3,7 +3,6 @@ package org.kuali.kpme.core.document.calendar;
 import java.util.Date;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public abstract class CalendarDocumentHeaderBase extends PersistableBusinessObjectBase {

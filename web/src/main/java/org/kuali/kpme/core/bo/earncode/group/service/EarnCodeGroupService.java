@@ -19,11 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.earncode.group.EarnCodeGroup;
-import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 
 public interface EarnCodeGroupService {
 	/**

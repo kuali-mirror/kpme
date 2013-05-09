@@ -10,6 +10,7 @@ import org.kuali.kpme.core.bo.paygrade.PayGrade;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.pm.PMConstants;
+import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
 import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
 import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory;
@@ -19,8 +20,6 @@ import org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.services.LocationApiServiceLocator;
-import org.kuali.kpme.pm.PMConstants;
-import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
 
 public class PmValidationUtils {
 

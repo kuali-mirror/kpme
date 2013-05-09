@@ -3,8 +3,6 @@ package org.kuali.kpme.tklm.time.service.permission;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.bo.assignment.Assignment;
-import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 
 public interface TKPermissionService {

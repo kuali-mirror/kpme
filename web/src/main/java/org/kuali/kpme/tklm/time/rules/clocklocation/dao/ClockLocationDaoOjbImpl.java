@@ -32,8 +32,6 @@ import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRuleIpAddress;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import com.google.common.collect.ImmutableList;
-
 public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements ClockLocationDao{
      public List<ClockLocationRule> getClockLocationRule(String dept, Long workArea, String principalId, Long jobNumber, LocalDate asOfDate){
 		Criteria root = new Criteria();

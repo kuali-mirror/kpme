@@ -34,7 +34,6 @@ import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import com.google.gson.Gson;

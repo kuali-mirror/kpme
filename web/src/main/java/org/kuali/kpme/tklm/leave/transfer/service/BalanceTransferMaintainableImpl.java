@@ -27,7 +27,6 @@ import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
-import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;

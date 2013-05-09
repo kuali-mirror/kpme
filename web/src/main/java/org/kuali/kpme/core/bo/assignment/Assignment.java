@@ -29,8 +29,6 @@ import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
-import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 

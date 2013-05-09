@@ -14,8 +14,6 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.pm.positiontype.PositionType;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import com.google.common.collect.ImmutableList;
-
 public class PositionTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements PositionTypeDao {
 
 	@Override

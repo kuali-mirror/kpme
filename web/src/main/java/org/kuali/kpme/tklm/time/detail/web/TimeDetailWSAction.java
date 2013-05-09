@@ -44,7 +44,6 @@ import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.time.detail.validation.TimeDetailValidationUtil;
-import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetAction;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;

@@ -15,6 +15,11 @@
  */
 package org.kuali.kpme.tklm.time.rules.timecollection.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
@@ -26,11 +31,6 @@ import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.rules.timecollection.dao.TimeCollectionRuleDaoService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService {
 	private TimeCollectionRuleDaoService timeCollectRuleDao;

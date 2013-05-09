@@ -16,7 +16,6 @@
 package org.kuali.kpme.tklm.time.detail.web;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,7 +45,6 @@ import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
-import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;

@@ -1,5 +1,8 @@
 package org.kuali.kpme.pm.positionappointment.service;
 
+import java.util.List;
+import java.util.Properties;
+
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.pm.positionappointment.PositionAppointment;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -7,9 +10,6 @@ import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
-
-import java.util.List;
-import java.util.Properties;
 
 
 @SuppressWarnings("deprecation")

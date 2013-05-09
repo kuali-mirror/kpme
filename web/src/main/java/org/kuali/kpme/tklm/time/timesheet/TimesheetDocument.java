@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.timesheet;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -27,7 +26,6 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
-import org.kuali.kpme.core.document.calendar.CalendarDocumentContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;

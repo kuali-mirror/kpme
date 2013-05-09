@@ -46,7 +46,6 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.bo.person.TKPerson;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
@@ -70,9 +69,9 @@ import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
 

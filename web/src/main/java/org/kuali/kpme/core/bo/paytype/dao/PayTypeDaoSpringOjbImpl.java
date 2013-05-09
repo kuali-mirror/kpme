@@ -27,8 +27,6 @@ import org.kuali.kpme.core.bo.paytype.PayType;
 import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import com.google.common.collect.ImmutableList;
-
 public class PayTypeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements PayTypeDao {
     
 	public void saveOrUpdate(PayType payType) {

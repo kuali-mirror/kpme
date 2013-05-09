@@ -16,9 +16,9 @@
 
 package org.kuali.kpme.pm.positionappointment.service;
 
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
-import org.kuali.kpme.core.bo.HrBusinessObject;
 
 public class PositionAppointmentMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	

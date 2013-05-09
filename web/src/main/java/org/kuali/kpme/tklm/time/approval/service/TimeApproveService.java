@@ -27,14 +27,13 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.bo.person.TKPerson;
 import org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-//import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.springframework.cache.annotation.Cacheable;
+//import org.kuali.rice.kim.api.identity.principal.Principal;
 
 
 public interface TimeApproveService {

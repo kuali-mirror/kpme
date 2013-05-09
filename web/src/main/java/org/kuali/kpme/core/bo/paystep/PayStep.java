@@ -9,6 +9,7 @@ import org.kuali.kpme.core.bo.paygrade.PayGrade;
 import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.location.impl.campus.CampusBo;
+
 import com.google.common.collect.ImmutableList;
 
 public class PayStep extends HrBusinessObject implements Comparable {

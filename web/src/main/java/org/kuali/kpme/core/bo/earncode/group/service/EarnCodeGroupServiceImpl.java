@@ -28,8 +28,6 @@ import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.bo.earncode.group.EarnCodeGroupDefinition;
 import org.kuali.kpme.core.bo.earncode.group.dao.EarnCodeGroupDaoService;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 
 public class EarnCodeGroupServiceImpl implements EarnCodeGroupService {
     private EarnCodeGroupDaoService earnCodeGroupDao;

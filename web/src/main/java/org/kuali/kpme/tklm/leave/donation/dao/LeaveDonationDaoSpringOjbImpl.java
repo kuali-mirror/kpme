@@ -28,8 +28,6 @@ import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.kpme.tklm.leave.donation.LeaveDonation;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import com.google.common.collect.ImmutableList;
-
 public class LeaveDonationDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveDonationDao {
     
 	private static final Logger LOG = Logger.getLogger(LeaveDonationDaoSpringOjbImpl.class);

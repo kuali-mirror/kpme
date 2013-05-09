@@ -29,8 +29,6 @@ import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-import com.google.common.collect.ImmutableList;
-
 public class WorkAreaDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements WorkAreaDao {
    
     @Override

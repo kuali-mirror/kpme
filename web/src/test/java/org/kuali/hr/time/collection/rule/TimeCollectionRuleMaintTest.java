@@ -15,8 +15,6 @@
  */
 package org.kuali.hr.time.collection.rule;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Random;
 

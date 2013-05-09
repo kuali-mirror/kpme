@@ -34,7 +34,6 @@ import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.bo.person.TKPerson;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.bo.principal.dao.PrincipalHRAttributesDao;
 import org.kuali.kpme.core.role.KPMERole;

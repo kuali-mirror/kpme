@@ -29,8 +29,6 @@ import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import com.google.common.collect.ImmutableList;
-
 public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements ShiftDifferentialRuleDao {
 	
 	@Override

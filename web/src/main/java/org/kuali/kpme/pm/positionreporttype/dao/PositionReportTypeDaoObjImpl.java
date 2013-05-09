@@ -14,8 +14,6 @@ import org.kuali.kpme.pm.positionreporttype.PositionReportType;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import com.google.common.collect.ImmutableList;
-
 public class PositionReportTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements PositionReportTypeDao {
 	
 	 

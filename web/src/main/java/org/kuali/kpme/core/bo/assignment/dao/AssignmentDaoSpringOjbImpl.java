@@ -36,8 +36,6 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import com.google.common.collect.ImmutableList;
-
 public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements AssignmentDao {
 
     private static final Logger LOG = Logger.getLogger(AssignmentDaoSpringOjbImpl.class);

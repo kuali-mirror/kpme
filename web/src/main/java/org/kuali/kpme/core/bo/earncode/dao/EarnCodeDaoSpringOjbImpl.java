@@ -29,8 +29,6 @@ import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import com.google.common.collect.ImmutableList;
-
 public class EarnCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements EarnCodeDao {
    private static final Logger LOG = Logger.getLogger(EarnCodeDaoSpringOjbImpl.class);
 

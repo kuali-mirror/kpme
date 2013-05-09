@@ -28,8 +28,6 @@ import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import com.google.common.collect.ImmutableList;
-
 public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements EmployeeOverrideDao{
     
 	@SuppressWarnings("unchecked")

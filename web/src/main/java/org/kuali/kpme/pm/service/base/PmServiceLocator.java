@@ -2,7 +2,9 @@ package org.kuali.kpme.pm.service.base;
 
 import org.kuali.kpme.core.bo.institution.service.InstitutionService;
 import org.kuali.kpme.core.bo.paystep.service.PayStepService;
+import org.kuali.kpme.pm.positionappointment.service.PositionAppointmentService;
 import org.kuali.kpme.pm.positiondepartment.service.PositionDepartmentService;
+import org.kuali.kpme.pm.positiondepartmentaffiliation.service.PositionDepartmentAffiliationService;
 import org.kuali.kpme.pm.positionflag.service.PositionFlagService;
 import org.kuali.kpme.pm.positionreportcat.service.PositionReportCatService;
 import org.kuali.kpme.pm.positionreportgroup.service.PositionReportGroupService;
@@ -13,11 +15,9 @@ import org.kuali.kpme.pm.pstncontracttype.service.PstnContractTypeService;
 import org.kuali.kpme.pm.pstnqlfctnvl.service.PositionQualificationValueService;
 import org.kuali.kpme.pm.pstnqlfrtype.service.PstnQlfrTypeService;
 import org.kuali.kpme.pm.pstnrptgrpsubcat.service.PstnRptGrpSubCatService;
-import org.kuali.kpme.pm.positionappointment.service.PositionAppointmentService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.kuali.kpme.pm.positiondepartmentaffiliation.service.PositionDepartmentAffiliationService;
 
 
 public class PmServiceLocator implements ApplicationContextAware {

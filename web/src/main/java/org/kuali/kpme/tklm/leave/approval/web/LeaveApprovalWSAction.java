@@ -35,7 +35,6 @@ import org.hsqldb.lib.StringUtil;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
-import org.kuali.kpme.core.bo.person.TKPerson;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.web.ApprovalForm;

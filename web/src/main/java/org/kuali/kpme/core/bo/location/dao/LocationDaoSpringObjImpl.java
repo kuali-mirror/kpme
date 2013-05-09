@@ -27,8 +27,6 @@ import org.kuali.kpme.core.bo.location.Location;
 import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import com.google.common.collect.ImmutableList;
-
 public class LocationDaoSpringObjImpl extends PlatformAwareDaoBaseOjb implements LocationDao {
    
 	@Override

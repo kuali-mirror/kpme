@@ -16,7 +16,6 @@
 package org.kuali.kpme.core.bo.position.validation;
 
 import org.kuali.kpme.core.bo.position.Position;
-import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
