@@ -86,7 +86,7 @@ public class PositionFlagDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 		root.addEqualTo("category", category);
 		
 		if(effDate != null) {
-			root.addLessOrEqualThan("effectiveDAte", effDate);
+			root.addLessOrEqualThan("effectiveDate", effDate.toDate());
 			root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionFlag.class, effDate, PositionFlag.EQUAL_TO_FIELDS, false));
 		}
 		Criteria activeFilter = new Criteria();

@@ -11,7 +11,7 @@
 	      <list>
 	        <ref bean="ClassFlag-pmFlagId"/>
 	        <ref bean="ClassFlag-category"/>
-	        <ref bean="ClassFlag-name"/>
+	        <ref bean="ClassFlag-names"/>
 	        <ref bean="ClassFlag-pmPositionClassId"/>
 	      </list>
 	    </property>
@@ -43,16 +43,16 @@
 		<property name="description" value="Category" />
 	</bean>	
 	 
-	<bean id="ClassFlag-name" parent="ClassFlag-name-parentBean" />
-	<bean id="ClassFlag-name-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ClassFlag-names" parent="ClassFlag-names-parentBean" />
+	<bean id="ClassFlag-names-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
-		<property name="maxLength" value="20"/>
+		<property name="maxLength" value="100"/>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="20"/>
 		</property>
-		<property name="name" value="name" />
-		<property name="label" value="Name" />
-		<property name="description" value="Name" />
+		<property name="name" value="names" />
+		<property name="label" value="Names" />
+		<property name="description" value="Names" />
 	</bean>	
 	
  	<bean id="ClassFlag-pmPositionClassId" parent="ClassFlag-pmPositionClassId-parentBean"/>
@@ -82,7 +82,7 @@
           <property name="items">
             <list>
 		        <bean parent="Uif-InputField" p:propertyName="category" />
-		        <bean parent="Uif-InputField" p:propertyName="name" />
+		        <bean parent="Uif-InputField" p:propertyName="names" />
             </list>
           </property>
         </bean>

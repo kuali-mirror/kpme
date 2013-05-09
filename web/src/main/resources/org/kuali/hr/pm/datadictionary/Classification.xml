@@ -435,8 +435,7 @@
   <bean id="Classification-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
     <property name="headerText" value="Position Classification Maintenance"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.Classification"/>
-<!--     <property name="viewHelperServiceClass" -->
-<!--               value="org.kuali.kpme.pm.uif.service.impl.ClassifiationMaintViewHelperServiceImpl"/> -->
+<!--      <property name="viewHelperServiceClass" value="org.kuali.kpme.pm.classification.service.ClassificationMaintainableImpl" /> -->
 <!--     <property name="formClass" value="org.kuali.kpme.pm.web.form.ClassificationForm" /> -->
     <property name="items">
       <list merge="true">
@@ -544,12 +543,13 @@
 			        <bean parent="Uif-TableCollectionGroup">
 						  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationFlag" />
 						  <property name="propertyName" value="flagList" />
+						  <property name="addLinePlacement" value="BOTTOM" />
 						  <property name="layoutManager.richTable.render" value="false" />
-						  <property name="layoutManager.generateAutoSequence" value="false" />
+						  <property name="layoutManager.generateAutoSequence" value="true" />
+						  <property name="layoutManager.numberOfColumns" value="4" />
 						  <property name="items">
 						    <list>
-					           <bean parent="Uif-InputField" p:propertyName="category" >
-					          		<property name="required" value="yes" />
+					           <bean parent="Uif-InputField" p:propertyName="category" p:readOnly="@{!#isAddLine}" >
 					           		<property name="control">
 										<bean parent="Uif-DropdownControl"/>
 									</property>
@@ -557,9 +557,8 @@
 										<bean class="org.kuali.kpme.pm.util.FlagCategoryKeyValueFinder" p:addBlankOption="false"/>
 									</property>
 					           </bean>
-					           <bean parent="Uif-InputField" p:propertyName="name"
+					           <bean parent="Uif-InputField" p:propertyName="names" p:readOnly="@{!#isAddLine}"
 					            		p:refreshWhenChangedPropertyNames="#lp.category">
-					            	<property name="required" value="yes" />
 					            	<property name="control">
 					            		<bean parent="Uif-HorizontalCheckboxesControl" />
 					            	</property>
@@ -583,12 +582,13 @@
 		      	 	 <bean parent="Uif-TableCollectionGroup">
 						  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationQualification" />
 						  <property name="propertyName" value="qualificationList" />
+						  <property name="addLinePlacement" value="BOTTOM" />
 						  <property name="layoutManager.generateAutoSequence" value="true" />
 						  <property name="layoutManager.richTable.render" value="false" />
 						  <property name="layoutManager.numberOfColumns" value="4" />
 						  <property name="items">
 						    <list>
-					           <bean parent="Uif-InputField" p:propertyName="qualificationType" >
+					           <bean parent="Uif-InputField" p:propertyName="qualificationType" p:readOnly="@{!#isAddLine}">
 					           		<property name="control">
 										<bean parent="Uif-DropdownControl"/>
 									</property>
@@ -596,11 +596,8 @@
 										<bean class="org.kuali.kpme.pm.util.PstnQlfrTypeKeyValueFinder" />
 									</property>
 					           </bean>
-					           <bean parent="Uif-InputField" p:propertyName="qualifier"
+					           <bean parent="Uif-InputField" p:propertyName="qualifier" p:readOnly="@{!#isAddLine}"
 					            		p:refreshWhenChangedPropertyNames="#lp.qualificationType">
-<!-- 					            	<property name="control"> -->
-<!-- 										<bean parent="Uif-TextControl" p:size="40" /> -->
-<!-- 									</property> -->
 					           		<property name="control">
 										<bean parent="Uif-DropdownControl"/>
 									</property>
@@ -608,10 +605,8 @@
 										<bean class="org.kuali.kpme.pm.util.PositionClassQualifierKeyValueFinder" />
 									</property>
 					           </bean>
-					           <bean parent="Uif-InputField" p:propertyName="qualificationValue" p:refreshWhenChangedPropertyNames="#lp.qualificationType">
-<!-- 						           <property name="control"> -->
-<!-- 										<bean parent="Uif-TextControl" p:size="40" /> -->
-<!-- 									</property> -->
+					           <bean parent="Uif-InputField" p:propertyName="qualificationValue" p:readOnly="@{!#isAddLine}"
+					           			p:refreshWhenChangedPropertyNames="#lp.qualificationType">
 					           		<property name="control">
 										<bean parent="Uif-DropdownControl"/>
 									</property>
@@ -625,54 +620,33 @@
 					</list>
 		      	 </property>
 		      </bean>
-		     
-			  <bean parent="Uif-HorizontalBoxSection" p:headerText="Duties">
-			  	<property name="disclosure.render" value="false"/>
+			  <bean parent="Uif-HorizontalBoxSection" p:headerText="Duties" >
 			  	<property name="items">
 		      		<list>
-		      	 	 <bean parent="Uif-TableCollectionSection">
+		      	 	 <bean parent="Uif-TableCollectionSection" p:align="left">
 						  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationDuty" />
 						  <property name="propertyName" value="dutyList" />
+						  <property name="addLinePlacement" value="BOTTOM" />
 						  <property name="layoutManager.generateAutoSequence" value="true" />
 						  <property name="layoutManager.richTable.render" value="false" />
 						  <property name="layoutManager.numberOfColumns" value="4" />
-						  <property name="layoutManager.columnCalculations">
-						      <list>
-						        <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="percentage"
-						        	p:showPageTotal="false" p:recalculateTotalClientside="true"/>
-						      </list>
-					      </property>
+<!-- 						  <property name="layoutManager.columnCalculations"> -->
+<!-- 						      <list> -->
+<!-- 						        <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="percentage" -->
+<!-- 						        	p:showGroupTotal="true" p:showPageTotal="false" p:recalculateTotalClientside="true"/> -->
+<!-- 						      </list> -->
+<!-- 					      </property> -->
 						  <property name="items">
-						  	<list>
-						  	 <bean parent="Uif-InputField" p:propertyName="name" />
-					         <bean parent="Uif-InputField" p:propertyName="description"/>
-					         <bean parent="Uif-InputField" p:propertyName="percentage" p:exclusiveMin="0" p:inclusiveMax="100"
-					        	 p:constraintText="Must be a number between 0 and 100.">
-					        	<property name="validCharactersConstraint">
-						        	<bean parent="FixedPointPatternConstraint" p:allowNegative="false" p:precision="5" p:scale="2" />
-								</property>
-							</bean>
-					         
-<!-- 					         <bean parent="Uif-InputField" p:propertyName="percentage"> -->
-<!-- 					         	<property name="control"> -->
-<!-- 									<bean parent="Uif-SpinnerControl" p:size="20" p:align="center"> -->
-<!-- 										<property name="spinner"> -->
-<!-- 											<bean parent="Uif-Spinner" > -->
-<!-- 												<property name="templateOptions"> -->
-<!-- 													<map merge="true"> -->
-<!-- 														<entry key="start" value="0.01"/> -->
-<!-- 														<entry key="step" value="0.01"/> -->
-<!-- 														<entry key="max" value="100"/> -->
-<!-- 														<entry key="numberFormat" value="n"/> -->
-<!-- 													</map> -->
-<!-- 												</property> -->
-<!-- 											</bean> -->
-<!-- 										</property> -->
-<!-- 									</bean> -->
-<!-- 								</property> -->
-<!-- 					         </bean> -->
-					         
-						  	</list>
+							  <list>
+							  	 <bean parent="Uif-InputField" p:propertyName="name" p:readOnly="@{!#isAddLine}" />
+						         <bean parent="Uif-InputField" p:propertyName="description" p:readOnly="@{!#isAddLine}" />
+						         <bean parent="Uif-InputField" p:propertyName="percentage" p:readOnly="@{!#isAddLine}"
+						         		p:exclusiveMin="0" p:inclusiveMax="100" p:constraintText="Must be a number between 0 and 100.">
+						         	<property name="validCharactersConstraint">
+							        	<bean parent="FixedPointPatternConstraint" p:allowNegative="false" p:precision="5" p:scale="2" />
+									</property>
+								 </bean>						         
+							  </list>
 						  </property>
 					</bean>
 				  </list>

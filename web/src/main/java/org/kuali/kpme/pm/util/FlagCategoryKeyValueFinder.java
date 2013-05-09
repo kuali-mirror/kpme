@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.pm.classification.Classification;
-import org.kuali.kpme.pm.classification.ClassificationFlag;
 import org.kuali.kpme.pm.positionflag.PositionFlag;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -34,30 +33,19 @@ public class FlagCategoryKeyValueFinder extends UifKeyValuesFinderBase {
 	
 	@Override
 	public List<KeyValue> getKeyValues(ViewModel model) {
-		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
 		List<KeyValue> options = new ArrayList<KeyValue>();
-		
-		if(docForm.getActionEvent().equals("addLine")) {
-			for(Object anObj : docForm.getAddedCollectionItems()) {
-				ClassificationFlag aFlag = (ClassificationFlag) anObj;
-				if(aFlag != null && StringUtils.isNotEmpty(aFlag.getCategory())) {
-					options.add(new ConcreteKeyValue(aFlag.getCategory(), aFlag.getCategory()));
-					return options;
+		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model; 
+		Classification cf = (Classification) docForm.getDocument().getNewMaintainableObject().getDataObject();
+		if(cf.getEffectiveDate() != null) {
+			List<PositionFlag> flagList = PmServiceLocator.getPositionFlagService().getAllActivePositionFlags(null, null, cf.getEffectiveLocalDate());
+			options.add(new ConcreteKeyValue("", "Select category to see flags"));
+			if(CollectionUtils.isNotEmpty(flagList)) {
+				for(PositionFlag aFlag : flagList) {
+					options.add(new ConcreteKeyValue((String) aFlag.getCategory(), (String) aFlag.getCategory()));
 				}
-			}
+			}         
 		} else {
-			Classification cf = (Classification) docForm.getDocument().getNewMaintainableObject().getDataObject();
-			if(cf.getEffectiveDate() != null) {
-				List<PositionFlag> flagList = PmServiceLocator.getPositionFlagService().getAllActivePositionFlags(null, null, cf.getEffectiveLocalDate());
-				options.add(new ConcreteKeyValue("", "Select category to see flags"));
-				if(CollectionUtils.isNotEmpty(flagList)) {
-					for(PositionFlag aFlag : flagList) {
-						options.add(new ConcreteKeyValue((String) aFlag.getCategory(), (String) aFlag.getCategory()));
-					}
-				}         
-			} else {
-				options = this.getKeyValues();
-			}	
+			options = this.getKeyValues();
 		}
 		
         return options;

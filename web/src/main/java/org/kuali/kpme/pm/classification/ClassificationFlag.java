@@ -7,7 +7,7 @@ public class ClassificationFlag extends PersistableBusinessObjectBase {
 	
 	private String pmFlagId;
 	private String category;
-	private String name;
+	private String names;
 	private String pmPositionClassId;
 	
 	public String getPmFlagId() {
@@ -22,11 +22,11 @@ public class ClassificationFlag extends PersistableBusinessObjectBase {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	public String getName() {
-		return name;
+	public String getNames() {
+		return names;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setNames(String names) {
+		this.names = names;
 	}
 	public String getPmPositionClassId() {
 		return pmPositionClassId;

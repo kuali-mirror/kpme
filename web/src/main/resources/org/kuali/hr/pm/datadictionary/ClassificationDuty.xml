@@ -60,24 +60,21 @@
 	<bean id="ClassDuty-percentage-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="false" />
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>		
-<!-- 		<property name="controlField"> -->
-<!-- 			<bean parent="Uif-SpinnerControl" p:size="20" p:align="center"> -->
-<!-- 				<property name="spinner"> -->
-<!-- 					<bean parent="Uif-Spinner" > -->
-<!-- 						<property name="templateOptions"> -->
-<!-- 							<map merge="true"> -->
-<!-- 								<entry key="start" value="0.01"/> -->
-<!-- 								<entry key="step" value="0.01"/> -->
-<!-- 								<entry key="max" value="100"/> -->
-<!-- 								<entry key="numberFormat" value="n"/> -->
-<!-- 							</map> -->
-<!-- 						</property> -->
-<!-- 					</bean> -->
-<!-- 				</property> -->
-<!-- 			</bean> -->
-<!-- 		</property> -->
+			<bean parent="Uif-SpinnerControl" p:size="20" p:align="center">
+				<property name="spinner">
+					<bean parent="Uif-Spinner" >
+						<property name="templateOptions">
+							<map merge="true">
+								<entry key="start" value="0.01"/>
+								<entry key="step" value="0.01"/>
+								<entry key="max" value="100"/>
+								<entry key="numberFormat" value="n"/>
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
 		<property name="name" value="percentage" />
 		<property name="label" value="Percentage" />
 	</bean>	
