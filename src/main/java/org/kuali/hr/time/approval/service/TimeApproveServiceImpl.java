@@ -832,7 +832,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	@Override
 	public List<CalendarEntries> getAllPayCalendarEntriesForApprover(String principalId, Date currentDate) {
 		Set<String> principals = new HashSet<String>();
-		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
+		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(TKContext.getTargetPrincipalId()).getApproverWorkAreas();
 
 		// Get all of the principals within our window of time.
 		for (Long waNum : approverWorkAreas) {

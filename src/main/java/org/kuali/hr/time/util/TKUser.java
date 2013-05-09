@@ -176,7 +176,7 @@ public class TKUser {
 	}
 	
 	public static Multimap<String, Long> getReportingApprovalDepartments(){
-		UserRoles userRoles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
+		UserRoles userRoles = TkUserRoles.getUserRoles(TKContext.getTargetPrincipalId());
         Set<Long> workAreas = new HashSet<Long>();
         workAreas.addAll(userRoles.getApproverWorkAreas());
         workAreas.addAll(userRoles.getReviewerWorkAreas());

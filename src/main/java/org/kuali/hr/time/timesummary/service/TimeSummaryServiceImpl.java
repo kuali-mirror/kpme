@@ -396,7 +396,9 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
     @Override
     public List<String> getHeaderForSummary(CalendarEntries cal, List<Boolean> dayArrangements) {
         List<String> header = new ArrayList<String>();
-
+        if (cal == null) {
+            return Collections.emptyList();
+        }
         // Maps directly to joda time day of week constants.
         int flsaBeginDay = this.getPayCalendarForEntry(cal).getFlsaBeginDayConstant();
         boolean virtualDays = false;

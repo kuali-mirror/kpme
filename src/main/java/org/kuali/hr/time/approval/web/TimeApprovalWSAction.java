@@ -60,7 +60,7 @@ public class TimeApprovalWSAction extends TkAction {
             endDate = DateUtils.addDays(endDate,1);
             List<String> workAreaList = new ArrayList<String>();
 	        if(StringUtil.isEmpty(taaf.getSelectedWorkArea())) {
-                Set<Long> workAreas = TkServiceLocator.getTkRoleService().getWorkAreasForApprover(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
+                Set<Long> workAreas = TkServiceLocator.getTkRoleService().getWorkAreasForApprover(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate());
 	        	for(Long workArea : workAreas) {    //taaf.getWorkAreaDescr().keySet()
 	        		workAreaList.add(workArea.toString());
 	        	}

@@ -24,13 +24,26 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.joda.time.DateTime;
+import org.kuali.hr.job.Job;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.base.web.TkForm;
+import org.kuali.hr.time.collection.rule.TimeCollectionRule;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.roles.TkUserRoles;
+import org.kuali.hr.time.roles.UserRoles;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.util.List;
+import java.util.Set;
 
 public class TimeAction extends TkAction {
 
@@ -62,8 +75,45 @@ public class TimeAction extends TkAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-        boolean synch = TKUser.isSynchronous();
-        if (TKUser.getCurrentTargetPerson() != null) {
+        //boolean synch = TKUser.isSynchronous();
+        DateTime now = new DateTime();
+        String principalId = TKContext.getTargetPrincipalId();
+        if (TKUser.isSystemAdmin()) {
+            return new ActionRedirect("/portal.do");
+        }
+        PrincipalHRAttributes phra = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, now.toDate());
+        if (phra == null) {
+            return new ActionRedirect("/PersonInfo.do");
+        }
+        Job job = TkServiceLocator.getJobService().getPrimaryJob(principalId, now.toDate());
+        boolean activeAssignments = false;
+        if (job != null) {
+            String flsa = job.getFlsaStatus();
+            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForJob(principalId, job.getJobNumber(), new Date(now.getMillis()));
+            for (Assignment asmnt : assignments) {
+                if (asmnt.isActive()) {
+                    if (job.getFlsaStatus().equals(TkConstants.FLSA_STATUS_NON_EXEMPT)) {
+                        TimeCollectionRule tcr = asmnt.getTimeCollectionRule();
+                        if (tcr.isClockUserFl()) {
+                            return new ActionRedirect("/Clock.do");
+                        } else {
+                            return new ActionRedirect("/TimeDetail.do");
+                        }
+                    } else {
+                        if (job.isEligibleForLeave()) {
+                            return new ActionRedirect("/LeaveCalendar.do");
+                        }
+                    }
+                }
+            }
+        }
+
+        return new ActionRedirect("/PersonInfo.do");
+
+            //if (assignment != null) {
+            //    assignment.get
+            //}
+        /*if (principalId != null) {
             if (TKUser.isSystemAdmin()) {
                 return new ActionRedirect("/portal.do");
             } else if (TKUser.isDepartmentAdmin()
@@ -84,7 +134,7 @@ public class TimeAction extends TkAction {
                 return new ActionRedirect("/PersonInfo.do");
             }
         }
-	return super.execute(mapping, form, request, response);
+	return super.execute(mapping, form, request, response);*/
 }
     
 }

@@ -102,7 +102,7 @@ public class TimeApprovalAction extends ApprovalAction{
             if (ar.isApprovable() && StringUtils.equals(ar.getSelected(), "on")) {
                 String documentNumber = ar.getDocumentId();
                 TimesheetDocument tDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentNumber);
-                TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getPrincipalId(), tDoc);
+                TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getTargetPrincipalId(), tDoc);
             }
         }
         return mapping.findForward("basic");
@@ -319,7 +319,7 @@ public class TimeApprovalAction extends ApprovalAction{
 		
 		List<CalendarEntries> pcListForYear = new ArrayList<CalendarEntries>();
 		List<CalendarEntries> pceList = TkServiceLocator.getTimeApproveService()
-			.getAllPayCalendarEntriesForApprover(TKContext.getPrincipalId(), TKUtils.getTimelessDate(null));
+			.getAllPayCalendarEntriesForApprover(TKContext.getTargetPrincipalId(), TKUtils.getTimelessDate(null));
 	    for(CalendarEntries pce : pceList) {
 	    	yearSet.add(sdf.format(pce.getBeginPeriodDate()));
 	    	if(sdf.format(pce.getBeginPeriodDate()).equals(taaf.getSelectedCalendarYear())) {
@@ -344,6 +344,10 @@ public class TimeApprovalAction extends ApprovalAction{
 	}
     
     private List<String> getPrincipalIdsToPopulateTable(TimeApprovalActionForm taf) {
+        if (taf.getPayBeginDate() == null
+                && taf.getPayEndDate() == null) {
+            return Collections.emptyList();
+        }
         List<String> workAreaList = new ArrayList<String>();
         if(StringUtil.isEmpty(taf.getSelectedWorkArea())) {
         	for(Long aKey : taf.getWorkAreaDescr().keySet()) {

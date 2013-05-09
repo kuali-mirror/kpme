@@ -34,6 +34,7 @@ import org.displaytag.util.ParamEncoder;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.person.TKPerson;
+import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
@@ -137,9 +138,10 @@ public class ApprovalAction extends TkAction{
 		    		taf.setSelectedDept(taf.getDepartments().get(0));
 		    	
 		    	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(taf.getSelectedDept(), new java.sql.Date(taf.getPayBeginDate().getTime()));
-		        for(WorkArea wa : workAreas){
-		        	if (TKUser.getApproverWorkAreas().contains(wa.getWorkArea())
-		        			|| TKUser.getReviewerWorkAreas().contains(wa.getWorkArea())) {
+                UserRoles ur = TKUser.getCurrentTargetRoles();
+                for(WorkArea wa : workAreas){
+		        	if (ur.getApproverWorkAreas().contains(wa.getWorkArea())
+		        			|| ur.getReviewerWorkAreas().contains(wa.getWorkArea())) {
 		        		taf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
 		        	}
 		        }
