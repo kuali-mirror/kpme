@@ -76,6 +76,7 @@ import org.kuali.kpme.tklm.leave.transfer.validation.BalanceTransferValidationUt
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
+import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -749,7 +750,7 @@ public class LeaveCalendarAction extends KPMEAction {
     			 leaveForm.setDocEditable(true); 
     		 } else {
     			 if(HrContext.isSystemAdmin()
-                     || HrContext.isLocationAdmin()
+                     || TkContext.isLocationAdmin()
                      || HrContext.isReviewer()
                      || HrContext.isAnyApprover()) {
     				 	leaveForm.setDocEditable(true);
@@ -763,7 +764,7 @@ public class LeaveCalendarAction extends KPMEAction {
 	            if (!docFinal) {
 	                if(StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
 	                        || HrContext.isSystemAdmin()
-	                        || HrContext.isLocationAdmin()
+	                        || TkContext.isLocationAdmin()
 	                        || HrContext.isReviewer()
 	                        || HrContext.isAnyApprover()) {
 	                    leaveForm.setDocEditable(true);

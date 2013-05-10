@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.web;
+package org.kuali.kpme.tklm.common;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.web.KPMEForm;
 
 public class BatchJobActionForm extends KPMEForm {
 

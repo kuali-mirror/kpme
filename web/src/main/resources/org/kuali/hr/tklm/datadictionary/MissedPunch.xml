@@ -315,7 +315,7 @@
 
     <bean id="MissedPunch-SubmitView" parent="MissedPunch-SubmitView-parentBean" />
     <bean id="MissedPunch-SubmitView-parentBean" abstract="true" parent="Uif-FormView">
-        <property name="formClass" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchForm" />
+        <property name="formClass" value="org.kuali.kpme.tklm.time.missedpunch.web.MissedPunchForm" />
         <property name="headerText" value="Missed Punch" />
         <property name="breadcrumbs.render" value="false"/>
         <property name="singlePageView" value="true" />

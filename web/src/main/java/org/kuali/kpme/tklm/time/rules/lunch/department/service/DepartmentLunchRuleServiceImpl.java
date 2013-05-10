@@ -30,7 +30,6 @@ import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.kpme.tklm.time.rules.lunch.department.dao.DepartmentLunchRuleDao;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -99,7 +98,7 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
             detail.setHours(newHours);
 
             TimeHourDetail lunchDetail = new TimeHourDetail();
-            lunchDetail.setHours(lunchHours.multiply(TkConstants.BIG_DECIMAL_NEGATIVE_ONE));
+            lunchDetail.setHours(lunchHours.multiply(HrConstants.BIG_DECIMAL_NEGATIVE_ONE));
             lunchDetail.setEarnCode(HrConstants.LUNCH_EARN_CODE);
             lunchDetail.setTkTimeBlockId(block.getTkTimeBlockId());
             

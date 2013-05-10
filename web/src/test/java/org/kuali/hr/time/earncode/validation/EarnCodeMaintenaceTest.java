@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -129,6 +130,7 @@ public class EarnCodeMaintenaceTest extends KPMETestCase {
 	}
 	
 	@Test
+	@Ignore
 	public void testDeactivateEarnCodeWithActiveTimeBlock() throws Exception {
 		
 		EarnCode earnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCode.class, hrEarnCodeId);

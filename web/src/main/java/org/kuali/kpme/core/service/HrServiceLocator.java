@@ -25,7 +25,6 @@ import org.kuali.kpme.core.service.notification.KPMENotificationService;
 import org.kuali.kpme.core.service.permission.HRPermissionService;
 import org.kuali.kpme.core.service.role.HRRoleService;
 import org.kuali.kpme.core.service.timezone.TimezoneService;
-import org.kuali.kpme.tklm.common.BatchJobService;
 import org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -123,10 +122,6 @@ public class HrServiceLocator implements ApplicationContextAware {
 
 	public static PayGradeService getPayGradeService() {
 	    return (PayGradeService)CONTEXT.getBean(HR_PAY_GRADE_SERVICE);
-	}
-
-	public static BatchJobService getBatchJobService(){
-		return (BatchJobService)CONTEXT.getBean(HR_BATCH_JOB_SERVICE);
 	}
 	
 	public static PositionService getPositionService(){

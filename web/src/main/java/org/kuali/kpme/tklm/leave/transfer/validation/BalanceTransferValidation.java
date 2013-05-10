@@ -30,6 +30,7 @@ import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
+import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -182,7 +183,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 				AccrualCategory toCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
 				PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
 				
-				boolean isDeptAdmin = HrContext.isDepartmentAdmin();
+				boolean isDeptAdmin = TkContext.isDepartmentAdmin();
 				boolean isSysAdmin = HrContext.isSystemAdmin();
 				if(isDeptAdmin || isSysAdmin) {
 					isValid &= validateTransferAmount(balanceTransfer.getTransferAmount(),fromCat,toCat, principalId, effectiveDate);

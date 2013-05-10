@@ -26,8 +26,8 @@
 	<bean id="MissedPunchDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
 		<property name="documentTypeName" value="MissedPunchDocumentType" />
 		<property name="documentClass" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument" />
-        <property name="businessRulesClass" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocumentRule" />
-        <property name="documentAuthorizerClass" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocumentAuthorizer" />
+        <property name="businessRulesClass" value="org.kuali.kpme.tklm.time.missedpunch.validation.MissedPunchDocumentRule" />
+        <property name="documentAuthorizerClass" value="org.kuali.kpme.tklm.time.missedpunch.authorization.MissedPunchDocumentAuthorizer" />
 		<property name="attributes">
 			<list>
 				<ref bean="MissedPunchDocument-documentNumber" />
@@ -59,7 +59,7 @@
     <bean id="MissedPunch-DocumentView" parent="MissedPunch-DocumentView-parentBean" />
     <bean id="MissedPunch-DocumentView-parentBean" abstract="true" parent="Uif-TransactionalDocumentView">
         <property name="headerText" value="Missed Punch" />
-        <property name="formClass" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchForm" />
+        <property name="formClass" value="org.kuali.kpme.tklm.time.missedpunch.web.MissedPunchForm" />
         <property name="documentClass" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument"/>
         <property name="items">
             <list merge="true">

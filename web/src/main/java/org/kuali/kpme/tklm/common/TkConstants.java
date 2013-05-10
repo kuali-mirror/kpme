@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.tklm.common;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -55,14 +54,6 @@ public class TkConstants {
     public static final String DELETE = "DELETE";
     public static final String ADD = "ADD";
     public static final String MODIFIED = "MODIFIED";
-
-    public static final BigDecimal BIG_DECIMAL_NEGATIVE_ONE = new BigDecimal("-1");
-
-    public static final BigDecimal BIG_DECIMAL_1000 = BigDecimal.TEN.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
-    public static final BigDecimal BIG_DECIMAL_60 = BigDecimal.TEN.multiply(new BigDecimal("6"));
-    public static final BigDecimal BIG_DECIMAL_MS_IN_H = BIG_DECIMAL_1000.multiply(BIG_DECIMAL_60).multiply(BIG_DECIMAL_60);
-    public static final BigDecimal BIG_DECIMAL_MS_IN_M = BIG_DECIMAL_1000.multiply(BIG_DECIMAL_60);
-    public static final BigDecimal BIG_DECIMAL_HRS_IN_DAY = new BigDecimal(24);
 
     public static final String SUPER_USER = TkConstants.ROLE_TK_SYS_ADMIN;
 
@@ -249,8 +240,6 @@ public class TkConstants {
     }
 
     public static final String DAILY_OVT_CODE = "DOT";
-    
-    public static final String FLSA_STATUS_EXEMPT ="E";
     
     public static final String BATCH_USER_PRINCIPAL_NAME = "kpme.batch.user.principalName";
 }

@@ -13,7 +13,6 @@ import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
-import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.action.ValidActions;
@@ -192,7 +191,7 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
     	String principalId = HrContext.getTargetPrincipalId();
     	LocalDate asOfDate = LocalDate.now();
     	boolean leaveCalNPlanDefined = isCalendarDefined("leaveCalendar", principalId, asOfDate, true);
-    	String flsaStatus = TkConstants.FLSA_STATUS_EXEMPT;
+    	String flsaStatus = HrConstants.FLSA_STATUS_EXEMPT;
     	boolean activeAss = isActiveAssignmentFoundOnJobFlsaStatus(principalId, flsaStatus, true);
     	canViewLeaveTabs = activeAss && leaveCalNPlanDefined;
     	return canViewLeaveTabs;

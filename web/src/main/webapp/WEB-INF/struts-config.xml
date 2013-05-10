@@ -30,7 +30,7 @@
         <form-bean name="InitiateDocumentForm" type="org.kuali.kpme.tklm.common.InitiateDocumentForm"/>
         <form-bean name="DeleteDocumentForm" type="org.kuali.kpme.tklm.common.DeleteDocumentForm"/>
         <form-bean name="CalculateLeaveAccrualsForm" type="org.kuali.kpme.tklm.common.CalculateLeaveAccrualsForm"/>
-        <form-bean name="BatchJobActionForm" type="org.kuali.kpme.core.web.BatchJobActionForm"/>
+        <form-bean name="BatchJobActionForm" type="org.kuali.kpme.tklm.common.BatchJobActionForm"/>
         <form-bean name="CarryOverBatchJobActionForm" type="org.kuali.kpme.tklm.leave.batch.web.CarryOverBatchJobActionForm"/>
         <form-bean name="CalendarEntryActionForm" type="org.kuali.kpme.core.bo.calendar.entry.web.CalendarEntryActionForm"/>
         <form-bean name="ClockActionForm" type="org.kuali.kpme.tklm.time.clock.web.ClockActionForm"/>
@@ -118,7 +118,7 @@
             <forward name="basic" path="/portal.jsp"/>
         </action>
         
-        <action path="/batchJob" name="BatchJobActionForm" type="org.kuali.kpme.core.web.BatchJobAction">
+        <action path="/batchJob" name="BatchJobActionForm" type="org.kuali.kpme.tklm.common.BatchJobAction">
             <forward name="basic" path="/portal.jsp"/>
         </action>
         

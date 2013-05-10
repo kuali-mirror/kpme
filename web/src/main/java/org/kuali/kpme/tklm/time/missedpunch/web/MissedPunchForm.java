@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.missedpunch;
+package org.kuali.kpme.tklm.time.missedpunch.web;
 
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
 public class MissedPunchForm extends TransactionalDocumentFormBase {

@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.authorization;
+package org.kuali.kpme.tklm.common;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -25,6 +26,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AuthorizationValidationUtils {
@@ -139,7 +141,7 @@ public class AuthorizationValidationUtils {
             
             if (HrConstants.WILDCARD_CHARACTER.equals(department) && HrConstants.WILDCARD_LONG.equals(workArea)) {
                 // case 1
-            	hasAccessToRead = HrContext.isAnyApprover() || HrContext.isDepartmentAdmin() || HrContext.isLocationAdmin();
+            	hasAccessToRead = HrContext.isAnyApprover() || TkContext.isDepartmentAdmin() || TkContext.isLocationAdmin();
             } else if (HrConstants.WILDCARD_CHARACTER.equals(department)) {
                 // case 2 *
                 // Should not encounter this case.

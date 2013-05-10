@@ -8,14 +8,14 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.role.PrincipalRoleMemberBo;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.mo.ModelBuilder;
 import org.kuali.rice.core.api.mo.ModelObjectComplete;
 import org.kuali.rice.core.api.mo.common.active.InactivatableFromToUtils;
 import org.kuali.rice.kim.api.role.RoleMemberContract;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
 
 @SuppressWarnings("unchecked")
@@ -58,10 +58,11 @@ public class LocationPrincipalRoleMemberBo extends PrincipalRoleMemberBo {
     
     @Override
 	public void setRoleName(String roleName) {
-		String roleId = TkServiceLocator.getTKRoleService().getRoleIdByName(roleName);
+
+    	String roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_TK.getNamespaceCode(), roleName);
 		
 		if (roleId == null) {
-			roleId = LmServiceLocator.getLMRoleService().getRoleIdByName(roleName);
+			roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_LM.getNamespaceCode(), roleName);
 		}
 		
 		setRoleId(roleId);

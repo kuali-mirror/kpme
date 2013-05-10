@@ -21,8 +21,7 @@ import java.util.ListIterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.authorization.AuthorizationValidationUtils;
-import org.kuali.kpme.core.authorization.DepartmentalRule;
+//import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.utils.ValidationUtils;
@@ -33,12 +32,13 @@ import org.kuali.kpme.core.role.PositionRoleMemberBo;
 import org.kuali.kpme.core.role.PrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+//import org.kuali.kpme.tklm.common.AuthorizationValidationUtils;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.util.GlobalVariables;
+//import org.kuali.rice.krad.util.GlobalVariables;
 
 @SuppressWarnings("deprecation")
 public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
@@ -56,11 +56,11 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 			
 			valid &= validateDepartment(workArea.getDept(), workArea.getEffectiveLocalDate());
 			
-			if (!AuthorizationValidationUtils.hasAccessToWrite((DepartmentalRule)pbo)) {
+/*			if (!AuthorizationValidationUtils.hasAccessToWrite((DepartmentalRule)pbo)) {
 				String[] params = new String[] {GlobalVariables.getUserSession().getPrincipalName(), workArea.getDept()};
 				this.putFieldError("dept", "dept.user.unauthorized", params);
 				valid &= false;
-			}
+			}*/
 			
 			valid &= validateRoleMembers(workArea.getPrincipalRoleMembers(), workArea.getPositionRoleMembers(), workArea.getEffectiveLocalDate(), "principalRoleMembers", "positionRoleMembers");
 			

@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.account.AssignmentAccount;
@@ -36,8 +35,6 @@ import org.kuali.kpme.core.bo.paytype.PayType;
 import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -255,7 +252,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 	
-	protected boolean validateActiveFlag(Assignment assign){
+/*	protected boolean validateActiveFlag(Assignment assign){
 		if(!assign.isActive()) {
 			List<TimeBlock> tbList = TkServiceLocator.getTimeBlockService().getTimeBlocksForAssignment(assign);
 			if(!tbList.isEmpty()) {
@@ -272,7 +269,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 			}
 		}
 		return true;
-	}
+	}*/
 
 	/**
 	 * It looks like the method that calls this class doesn't actually care
@@ -294,7 +291,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateDepartment(assignment);
 				valid &= this.validatePercentagePerEarnCode(assignment);
 				valid &= this.validateHasAccounts(assignment);
-				valid &= this.validateActiveFlag(assignment);
+				//valid &= this.validateActiveFlag(assignment);
 				if(!assignment.getAssignmentAccounts().isEmpty()) {
 					valid &= this.validateRegPayEarnCode(assignment);	
 				}

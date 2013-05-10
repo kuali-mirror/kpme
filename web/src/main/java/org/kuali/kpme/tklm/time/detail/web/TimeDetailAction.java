@@ -68,6 +68,7 @@ import org.kuali.kpme.tklm.time.timesummary.AssignmentRow;
 import org.kuali.kpme.tklm.time.timesummary.EarnCodeSection;
 import org.kuali.kpme.tklm.time.timesummary.EarnGroupSection;
 import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
+import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -259,8 +260,8 @@ public class TimeDetailAction extends TimesheetAction {
             if (!docFinal) {
             	if(StringUtils.equals(HrContext.getCurrentTimesheetDocument().getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
 	            		|| HrContext.isSystemAdmin()
-	            		|| HrContext.isLocationAdmin()
-	            		|| HrContext.isDepartmentAdmin()
+	            		|| TkContext.isLocationAdmin()
+	            		|| TkContext.isDepartmentAdmin()
 	            		|| HrContext.isReviewer()
 	            		|| HrContext.isAnyApprover()) {
                     tdaf.setDocEditable("true");

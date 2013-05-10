@@ -46,8 +46,6 @@ import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 public class TKUtils {
@@ -180,24 +178,24 @@ public class TKUtils {
     }
 
     public static long convertHoursToMillis(BigDecimal hours) {
-        return hours.multiply(TkConstants.BIG_DECIMAL_MS_IN_H, HrConstants.MATH_CONTEXT).longValue();
+        return hours.multiply(HrConstants.BIG_DECIMAL_MS_IN_H, HrConstants.MATH_CONTEXT).longValue();
     }
 
     public static BigDecimal convertMillisToHours(long millis) {
-        return (new BigDecimal(millis)).divide(TkConstants.BIG_DECIMAL_MS_IN_H, HrConstants.MATH_CONTEXT);
+        return (new BigDecimal(millis)).divide(HrConstants.BIG_DECIMAL_MS_IN_H, HrConstants.MATH_CONTEXT);
     }
 
     public static BigDecimal convertMillisToMinutes(long millis) {
-        return (new BigDecimal(millis)).divide(TkConstants.BIG_DECIMAL_MS_IN_M, HrConstants.MATH_CONTEXT);
+        return (new BigDecimal(millis)).divide(HrConstants.BIG_DECIMAL_MS_IN_M, HrConstants.MATH_CONTEXT);
     }
     
     public static BigDecimal convertMillisToDays(long millis) {
         BigDecimal hrs = convertMillisToHours(millis);
-        return hrs.divide(TkConstants.BIG_DECIMAL_HRS_IN_DAY, HrConstants.MATH_CONTEXT);
+        return hrs.divide(HrConstants.BIG_DECIMAL_HRS_IN_DAY, HrConstants.MATH_CONTEXT);
     }
 
     public static BigDecimal convertMinutesToHours(BigDecimal minutes) {
-        return minutes.divide(TkConstants.BIG_DECIMAL_60, HrConstants.MATH_CONTEXT);
+        return minutes.divide(HrConstants.BIG_DECIMAL_60, HrConstants.MATH_CONTEXT);
     }
 
     public static int convertMillisToWholeDays(long millis) {
@@ -493,7 +491,7 @@ public class TKUtils {
     }
     
 	 
-	 public static boolean isDateEqualOrBetween(TimeBlock timeBlock, DateTime date, String searchDateString) {
+	 public static boolean isDateEqualOrBetween(DateTime date, String searchDateString) {
 		 boolean valid = false;
 		 
 		 String fromDateString = TKUtils.getFromDateString(searchDateString);

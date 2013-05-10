@@ -15,8 +15,6 @@
  */
 package org.kuali.kpme.core.bo.earncode.validation;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
@@ -24,8 +22,6 @@ import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
@@ -139,12 +135,12 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 			return false;
 		}
 		
-		// kpme-937 can not deactivate an earn code if it used in active timeblocks
+/*		// kpme-937 can not deactivate an earn code if it used in active timeblocks
 		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestampForEarnCode(earnCode.getEarnCode());
 		if ( !earnCode.isActive() && !latestEndTimestampTimeBlocks.isEmpty() && earnCode.getEffectiveDate().before(latestEndTimestampTimeBlocks.get(0).getEndDate()) ){
 			this.putFieldError("earnCode", "earncode.earncode.inactivate", earnCode.getEarnCode());
 			return false;
-		}
+		}*/
 		
 		if(!(this.validateDefaultAmountOfTime(earnCode.getDefaultAmountofTime()))) {
 			return false;

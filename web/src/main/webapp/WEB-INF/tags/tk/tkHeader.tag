@@ -41,7 +41,7 @@
 	</c:if>
 	
 	<c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isSystemAdmin()%>' />
-    <c:set var="locationAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isLocationAdmin()%>' />
+    <c:set var="locationAdmin" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationAdmin()%>' />
 
 
 	<input type="hidden" id="tabId" value="${tabId}" />

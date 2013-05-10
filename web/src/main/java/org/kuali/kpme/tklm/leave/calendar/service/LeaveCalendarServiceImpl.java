@@ -115,7 +115,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     	}
         
         List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, calEntry);
-    	List<Assignment> results = HrServiceLocator.getAssignmentService().filterAssignments(assignments, TkConstants.FLSA_STATUS_EXEMPT, true);
+    	List<Assignment> results = HrServiceLocator.getAssignmentService().filterAssignments(assignments, HrConstants.FLSA_STATUS_EXEMPT, true);
     	return CollectionUtils.isNotEmpty(results);
     }
     

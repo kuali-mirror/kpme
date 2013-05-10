@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
-<jsp:useBean id="tagSupport" class="org.kuali.kpme.core.web.WorkflowTagSupport"/>
+<jsp:useBean id="tagSupport" class="org.kuali.kpme.tklm.common.WorkflowTagSupport"/>
 <%@ attribute name="appRow" required="true" type="org.kuali.kpme.tklm.leave.approval.web.ApprovalLeaveSummaryRow"%>
 
 <div id="actions">

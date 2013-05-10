@@ -27,10 +27,6 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -47,36 +43,6 @@ public class HrContext {
 			return Collections.synchronizedMap(new HashMap<String, Object>());
 		}
 	};
-	
-	public static boolean isLocationAdmin() {
-        return TkServiceLocator.getTKRoleService().principalHasRole(getPrincipalId(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime())
-        		|| LmServiceLocator.getLMRoleService().principalHasRole(getPrincipalId(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime());
-	}
-	
-	public static boolean isTargetLocationAdmin() {
-        return TkServiceLocator.getTKRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime())
-        		|| LmServiceLocator.getLMRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime());
-	}
-	
-	public static boolean isDepartmentAdmin() {
-    	return TkServiceLocator.getTKRoleService().principalHasRole(getPrincipalId(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime())
-    			|| LmServiceLocator.getLMRoleService().principalHasRole(getPrincipalId(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime());
-	}
-	
-	public static boolean isTargetDepartmentAdmin() {
-    	return TkServiceLocator.getTKRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime())
-    			|| LmServiceLocator.getLMRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime());
-	}
-	
-	public static boolean isDepartmentViewOnly() {
-    	return TkServiceLocator.getTKRoleService().principalHasRole(getPrincipalId(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime())
-    			|| LmServiceLocator.getLMRoleService().principalHasRole(getPrincipalId(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime());
-	}
-	
-	public static boolean isTargetDepartmentViewOnly() {
-    	return TkServiceLocator.getTKRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime())
-    			|| LmServiceLocator.getLMRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime());
-	}
 	
 	public static String getPrincipalId() {
 		return GlobalVariables.getUserSession().getPrincipalId();
@@ -166,7 +132,7 @@ public class HrContext {
         return (CalendarDocument) HrContext.getStorageMap().get(TDOC_OBJ_KEY);
     }
 
-    public static void setCurrentTimesheetDocument(TimesheetDocument tdoc) {
+    public static void setCurrentTimesheetDocument(CalendarDocument tdoc) {
         HrContext.getStorageMap().put(TDOC_OBJ_KEY, tdoc);
     }
 
@@ -182,7 +148,7 @@ public class HrContext {
         return  (CalendarDocument) HrContext.getStorageMap().get(LDOC_OBJ_KEY);
     }
 
-    public static void setCurrentLeaveCalendarDocument(LeaveCalendarDocument ldoc) {
+    public static void setCurrentLeaveCalendarDocument(CalendarDocument ldoc) {
         HrContext.getStorageMap().put(LDOC_OBJ_KEY, ldoc);
     }
 

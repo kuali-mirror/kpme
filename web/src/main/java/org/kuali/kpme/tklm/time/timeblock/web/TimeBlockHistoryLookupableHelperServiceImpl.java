@@ -112,7 +112,7 @@ public class TimeBlockHistoryLookupableHelperServiceImpl extends KPMELookupableH
 		if (StringUtils.isNotEmpty(beginDate)) {
 			for (TimeBlockHistory timeBlockHistory : timeBlockHistories) {
 				if (timeBlockHistory.getBeginDate() != null) {
-					if (TKUtils.isDateEqualOrBetween(timeBlockHistory, timeBlockHistory.getBeginDateTime(), beginDate)) {
+					if (TKUtils.isDateEqualOrBetween(timeBlockHistory.getBeginDateTime(), beginDate)) {
 						results.add(timeBlockHistory);
 					}
 				}

@@ -15,8 +15,6 @@
  */
 package org.kuali.kpme.core.bo.earncode.security.validation;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -27,8 +25,6 @@ import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -106,7 +102,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		return isValid;
 	}
 	
-	private boolean isEarnCodeUsedByActiveTimeBlocks(EarnCodeSecurity departmentEarnCode){
+/*	private boolean isEarnCodeUsedByActiveTimeBlocks(EarnCodeSecurity departmentEarnCode){
 		// KPME-1106 can not deactivate a department earn code if it used in active time blocks
 		boolean valid = true;
 		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestampForEarnCode(departmentEarnCode.getEarnCode());
@@ -118,7 +114,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		
 		return valid;
 		
-	}
+	}*/
 
 	/**
 	 * It looks like the method that calls this class doesn't actually care
@@ -142,7 +138,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateDuplication(departmentEarnCode);
 				valid &= this.validateLocation(departmentEarnCode);
 				valid &= this.validateDepartmentCurrentUser(departmentEarnCode);
-				valid &= this.isEarnCodeUsedByActiveTimeBlocks(departmentEarnCode);
+				//valid &= this.isEarnCodeUsedByActiveTimeBlocks(departmentEarnCode);
 			}
 
 		}

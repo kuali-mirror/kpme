@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.kpme.core.web.ApprovalForm;
+import org.kuali.kpme.tklm.common.ApprovalForm;
 
 public class LeaveApprovalActionForm extends ApprovalForm {
 	

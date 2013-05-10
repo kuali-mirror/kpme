@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.missedpunch;
+package org.kuali.kpme.tklm.time.missedpunch.authorization;
 
-import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.TransactionalDocumentAuthorizerBase;

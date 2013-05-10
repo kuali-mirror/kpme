@@ -149,6 +149,7 @@ public class HrConstants {
 	public static final DateTimeFormatter DT_BASIC_DATE_FORMAT = DateTimeFormat.forPattern("MM/dd/yyyy");
 
 	public static final String FLSA_STATUS_NON_EXEMPT ="NE";
+    public static final String FLSA_STATUS_EXEMPT ="E";
 
 	// Timesheet document ID request parameter name
 	public static final String TIMESHEET_DOCUMENT_ID_REQUEST_NAME = "tdocid";
@@ -325,4 +326,11 @@ public class HrConstants {
 	public static final RoundingMode BIG_DECIMAL_SCALE_ROUNDING = RoundingMode.HALF_EVEN;
 	public static final BigDecimal BIG_DECIMAL_SCALED_ZERO = BigDecimal.ZERO.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING);
     public static final MathContext MATH_CONTEXT = new MathContext(5, BIG_DECIMAL_SCALE_ROUNDING);
+
+    public static final BigDecimal BIG_DECIMAL_NEGATIVE_ONE = new BigDecimal("-1");
+    public static final BigDecimal BIG_DECIMAL_1000 = BigDecimal.TEN.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
+    public static final BigDecimal BIG_DECIMAL_60 = BigDecimal.TEN.multiply(new BigDecimal("6"));
+    public static final BigDecimal BIG_DECIMAL_MS_IN_H = BIG_DECIMAL_1000.multiply(BIG_DECIMAL_60).multiply(BIG_DECIMAL_60);
+    public static final BigDecimal BIG_DECIMAL_MS_IN_M = BIG_DECIMAL_1000.multiply(BIG_DECIMAL_60);
+    public static final BigDecimal BIG_DECIMAL_HRS_IN_DAY = new BigDecimal(24);
 }

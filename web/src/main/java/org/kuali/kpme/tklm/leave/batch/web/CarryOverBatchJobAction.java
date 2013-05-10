@@ -26,6 +26,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.web.KPMEAction;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 
 public class CarryOverBatchJobAction extends KPMEAction {
 
@@ -35,7 +36,7 @@ public class CarryOverBatchJobAction extends KPMEAction {
     	LeavePlan leavePlan = HrServiceLocator.getLeavePlanService().getLeavePlan(cobjaf.getLeavePlan(), LocalDate.now());
     	DateTime scheduleDate = new DateTime();
     	
-    	HrServiceLocator.getBatchJobService().scheduleLeaveCarryOverJobs(leavePlan, scheduleDate);
+    	TkServiceLocator.getBatchJobService().scheduleLeaveCarryOverJobs(leavePlan, scheduleDate);
     	
     	return mapping.findForward("basic");
     }

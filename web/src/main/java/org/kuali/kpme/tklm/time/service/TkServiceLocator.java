@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.time.service;
 //import org.kuali.hr.time.paytype.service.PayTypeService;
 //import org.kuali.hr.time.permission.service.TKPermissionService;
 import org.kuali.kpme.core.bo.assignment.dao.AssignmentDao;
+import org.kuali.kpme.tklm.common.BatchJobService;
 import org.kuali.kpme.tklm.time.approval.service.TimeApproveService;
 import org.kuali.kpme.tklm.time.clocklog.service.ClockLogService;
 import org.kuali.kpme.tklm.time.docsearch.TkSearchableAttributeService;
@@ -52,6 +53,7 @@ import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 public class TkServiceLocator implements ApplicationContextAware {
 	public static String SPRING_BEANS = "classpath:SpringBeans.xml";
 	private static ApplicationContext CONTEXT;
+	public static final String HR_BATCH_JOB_SERVICE = "batchJobService";
 	public static final String TK_CLOCK_LOG_SERVICE = "clockLogService";
 	public static final String TK_ASSIGNMENT_DAO     = "assignmentDao";
 	public static final String TK_TIME_BLOCK_SERVICE = "timeBlockService";
@@ -86,6 +88,10 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static MissedPunchService getMissedPunchService() {
         return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
     }
+    
+	public static BatchJobService getBatchJobService(){
+		return (BatchJobService)CONTEXT.getBean(HR_BATCH_JOB_SERVICE );
+	}
 
 	public static ShiftDifferentialRuleService getShiftDifferentialRuleService() {
 		return (ShiftDifferentialRuleService) CONTEXT.getBean(TK_SHIFT_DIFFERENTIAL_RULE_SERVICE);

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.web;
+package org.kuali.kpme.tklm.common;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,6 +40,9 @@ import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.core.web.KPMEAction;
+import org.kuali.kpme.core.web.KPMEForm;
+import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -84,8 +87,8 @@ public class ApprovalAction extends KPMEAction{
 	protected void checkTKAuthorization(ActionForm form, String methodToCall)
 			throws AuthorizationException {
 			    if (!HrContext.isReviewer() && !HrContext.isAnyApprover() && !HrContext.isSystemAdmin()
-			    		&& !HrContext.isLocationAdmin() && !HrContext.isGlobalViewOnly() && !HrContext.isDepartmentViewOnly()
-			    		&& !HrContext.isDepartmentAdmin()) {
+			    		&& !TkContext.isLocationAdmin() && !HrContext.isGlobalViewOnly() && !TkContext.isDepartmentViewOnly()
+			    		&& !TkContext.isDepartmentAdmin()) {
 			        throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "ApprovalAction", "");
 			    }
 			}

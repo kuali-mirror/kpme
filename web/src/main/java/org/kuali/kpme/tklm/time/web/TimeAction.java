@@ -47,10 +47,10 @@ public class TimeAction extends KPMEAction {
         	String principalId = GlobalVariables.getUserSession().getPrincipalId();
         	TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(kPMEForm.getDocumentId());
             if (!HrContext.isSystemAdmin()
-        			&& !HrContext.isLocationAdmin()
-        			&& !HrContext.isDepartmentAdmin()
+        			&& !TkContext.isLocationAdmin()
+        			&& !TkContext.isDepartmentAdmin()
         			&& !HrContext.isGlobalViewOnly()
-        			&& !HrContext.isDepartmentViewOnly()
+        			&& !TkContext.isDepartmentViewOnly()
         			&& (kPMEForm.getDocumentId() != null && !HrServiceLocator.getHRPermissionService().canApproveCalendarDocument(principalId, tdoc))
         			&& (kPMEForm.getDocumentId() != null && !HrServiceLocator.getHRPermissionService().canViewCalendarDocument(principalId, tdoc)))  {
                 throw new AuthorizationException("", "TimeAction", "");
@@ -66,7 +66,7 @@ public class TimeAction extends KPMEAction {
         boolean synch = TkContext.isSynchronous();
         if (HrContext.isSystemAdmin()) {
             return new ActionRedirect("/portal.do");
-        } else if (HrContext.isDepartmentAdmin()
+        } else if (TkContext.isDepartmentAdmin()
                 && !synch) {
             return new ActionRedirect("/portal.do");
         } else if (HrContext.isAnyApprover()
