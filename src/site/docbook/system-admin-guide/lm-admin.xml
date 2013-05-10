@@ -1,36 +1,114 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <chapter xml:id="lm-admin" xmlns:xlink="http://www.w3.org/1999/xlink"
 	xmlns="http://docbook.org/ns/docbook" version="5.0">
-	<title>Leave Management Administrative Tools</title>
+    <title>Leave Management Administrative Tools</title>
+    <section>
+        <title>Balance Transfer</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/lm/balancetransfermaint.jpg" format="JPG" scale="40"/>
+            </imageobject>
+            <textobject>
+                <phrase>Balance Transfer Maintenance Document</phrase>
+            </textobject>
+            <caption>The Balance Transfer Maintenance Document</caption>
+        </mediaobject>
+        <para>
+            Department, Location, and System Administrators have access to create and view Balance Transfer maintenance documents.  Admins can access to this 
+            document is used to perform balance transfer transactions that are not triggered by the Accrual Category’s Max Balance limit and transfer action.  
+            A new balance transfer record will create the leave blocks on the employee’s leave calendar that reflect the balance transfer amounts on the records 
+            effective date.  On the approval type a note regarding the transaction will appears with the employee’s record.  
+        </para>
+        <table frame="none">
+            <title>Balance Transfer fields :</title>
+            <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="2.00*" />
+                <colspec colname="c2" colnum="2" colwidth="4.00*" />
+                <thead>
+                    <row>
+                        <entry>Field</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Effective Date</entry>
+                        <entry>Date the balance transfer will go into effect.</entry>
+                    </row>
+                    <row>
+                        <entry>Principal ID</entry>
+                        <entry>Identifier of the employee.</entry>
+                    </row>
+                    <row>
+                        <entry>Transfer From Accrual Category</entry>
+                        <entry>The Accrual Category to transfer the amount from.</entry>
+                    </row>
+                    <row>
+                        <entry>Transfer Amount</entry>
+                        <entry>The amount to transfer.</entry>
+                    </row>
+                    <row>
+                        <entry>Forfeited Amount</entry>
+                        <entry>The computed amount that will be forfeited.</entry>
+                    </row>
+                    <row>
+                        <entry>Transfer To Accrual Category</entry>
+                        <entry>The Accrual Category to transfer the amount to.</entry>
+                    </row>
+                    <row>
+                        <entry>Amount Transferred</entry>
+                        <entry>The final amount transferred.</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </section>
 	<section>
 		<title>Employee Override</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/lm/employeeoverridemaint.jpg" format="JPG" scale="40"/>
+            </imageobject>
+            <textobject>
+                <phrase>Employee Override Maintenance Document</phrase>
+            </textobject>
+            <caption>The Employee Override Maintenance Document</caption>
+        </mediaobject>
 		<para>
-			The system will allow for the ability to override the Accrual
-			Category limits, such as usage, carryover, transfer or payout, for an
-			individual employee.
-			The system will check to see if the employee has
-			an exception every time
-			the logic is executed for
+			The system will allow for the ability to override the Accrual Category limits, such as usage, carryover, transfer or payout, for an individual 
+			employee.  The system will check to see if the employee has an exception every time the logic is executed for
 			<itemizedlist>
 				<listitem>
-					<para>Max Balance</para>
+					<para>
+                        Max Balance – The system will use the indicated override value as the Accrual Category’s max balance.
+					</para>
 				</listitem>
 				<listitem>
-					<para>Max Transfer Amount</para>
+					<para>
+                        Max Transfer/Payout Amount – When a balance transfer transaction is preformed the limit for the maximum amount available to transfer or 
+                        payout will be the indicated override value.
+					</para>
 				</listitem>
 				<listitem>
-					<para>Max Payout Amount</para>
+                    <para>
+                        Max Usage – On the employee’s leave calendar, when adding usage leave blocks the override value will be used to verify that the limit 
+                        has not been exceeded.  On the leave calendar summary grid, the override value will appear in the max usage column for the Accrual 
+                        Category.
+					</para>
 				</listitem>
 				<listitem>
-					<para>Max Usage</para>
-				</listitem>
-				<listitem>
-					<para>Max Annual Carryover</para>
-				</listitem>
-				<listitem>
-					<para>Max Balance</para>
+                    <para>
+                        Max Annual Carryover – Annually, the max carryover is processed with approving the final leave calendar for the year.  The override 
+                        value will be used when processing the annual carry over leave block.
+                    </para>
 				</listitem>
 			</itemizedlist>
+            <note>
+		        <para>
+                    No limit is needed for any of the override types.  For example, if the override type of Max Usage and the Override Value is blank, the 
+                    system will not apply a usage limit for this employee’s accrual category that typically has a usage limit.  
+		        </para>
+            </note>
 		</para>
 		<table frame="none">
 			<title>Employee Override fields :</title>
@@ -46,58 +124,35 @@
 				<tbody>
 					<row>
 						<entry>Effective Date</entry>
-						<entry>
-							Date the override will go into effect.
-						</entry>
+						<entry>Date the override will go into effect.</entry>
 					</row>
 					<row>
 						<entry>Principal ID</entry>
-						<entry>
-							Identifier of the employee.
-						</entry>
+						<entry>Identifier of the employee.</entry>
 					</row>
-
 					<row>
 						<entry>Leave Plan</entry>
-
-						<entry>Leave Plan
-							associated with the Principal ID and
-							Accrual
-							Category.
-						</entry>
+						<entry>Leave Plan associated with the Principal ID and Accrual Category.</entry>
 					</row>
 					<row>
 						<entry>Accrual Category</entry>
-
-						<entry>
-							Text field used to identify the Accrual Category the
-							override will be
-							applied too.
-						</entry>
+						<entry>Text field used to identify the Accrual Category the override will be applied to.</entry>
 					</row>
 					<row>
 						<entry>Type of Override</entry>
-						<entry>Accrual Category limit that should be used for the
-							Employee.
-						</entry>
+						<entry>Accrual Category limit that should be used for the Employee.</entry>
 					</row>
 					<row>
 						<entry>Override Value</entry>
-						<entry>The new limit value to be used for the Accrual
-							Category.
-						</entry>
+						<entry>The new limit value to be used for the Accrual Category.</entry>
 					</row>
 					<row>
 						<entry>Description</entry>
-						<entry>Text field used to describe the reason for the
-							override.
-						</entry>
+						<entry>Text field used to describe the reason for the override.</entry>
 					</row>
 					<row>
 						<entry>Active</entry>
-						<entry>
-							Status of the Override.
-						</entry>
+						<entry>Status of the Override.</entry>
 					</row>
 				</tbody>
 			</tgroup>
@@ -110,17 +165,23 @@
 	</section>
 	<section>
 		<title>Leave Adjustment</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/lm/leaveadjustmentmaint.jpg" format="JPG" scale="40"/>
+            </imageobject>
+            <textobject>
+                <phrase>Leave Adjustment Maintenance Document</phrase>
+            </textobject>
+            <caption>The Leave Adjustment Maintenance Document</caption>
+        </mediaobject>
 		<para>
-			Ability to modify a employee’s earn code accrual balance.
-			Restricted to
-			System Admins or Department Admins with options to
-			either create new
-			or view existing donation records.
-			On submit a leave
-			block will be generated and displayed on their leave
-			calendar.
+			Ability to modify a employee’s earn code accrual balance.  Restricted to System Admins or Department Admins with options to either create new or 
+			view existing donation records.  On submit, a leave block will be generated and displayed on their leave calendar.
 		</para>
-
+        <para>
+            An employee new to the system may have existing leave time from previous service.  To apply those hours to the employee’s new leave plan and accrual 
+            categories, Leave Adjustment document for each accrual category can be create to adjust the employee’s balances to reflect the existing hours.    
+        </para>
 		<table frame="none">
 			<title>Leave Adjustment fields :</title>
 			<tgroup cols="2">
@@ -135,75 +196,57 @@
 				<tbody>
 					<row>
 						<entry>Effective Date</entry>
-						<entry>
-							Date the adjustment will go into effect.
-						</entry>
+						<entry>Date the adjustment will go into effect.</entry>
 					</row>
 					<row>
 						<entry>Principal ID</entry>
-						<entry>
-							Identifier of the employee.
-						</entry>
+						<entry>Identifier of the employee.</entry>
 					</row>
 					<row>
 						<entry>Leave Plan</entry>
-						<entry>Leave Plan associated with the Principal ID and Accrual
-							Category.
-						</entry>
+						<entry>Leave Plan associated with the Principal ID and Accrual Category.</entry>
 					</row>
 					<row>
 						<entry>Accrual Category</entry>
-						<entry>
-							Text field used to identify the Accrual Category the
-							adjustment will be.
-						</entry>
+						<entry>Text field used to identify the Accrual Category the adjustment will be.</entry>
 					</row>
 					<row>
 						<entry>Earn Code</entry>
-						<entry>Earn Code associated with the Accrual Category and leave
-							adjustment.
-						</entry>
+						<entry>Earn Code associated with the Accrual Category and leave adjustment.</entry>
 					</row>
 					<row>
 						<entry>Adjustment Amount</entry>
-						<entry>The value of the leave adjustment, positive or negative
-						</entry>
+						<entry>The value of the leave adjustment, positive or negative.</entry>
 					</row>
 					<row>
 						<entry>Description</entry>
-						<entry>Text field used to describe the reason for the
-							adjustment.
-						</entry>
+						<entry>Text field used to describe the reason for the adjustment.</entry>
 					</row>
 				</tbody>
 			</tgroup>
 		</table>
 		<note>
 			<para>
-				An employee will not have ability to modify their own leave
-				balances.
+				An employee will not have ability to modify their own leave balances.
 			</para>
 		</note>
 	</section>
 	<section>
 		<title>Leave Donation</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/lm/leavedonationmaint.jpg" format="JPG" scale="40"/>
+            </imageobject>
+            <textobject>
+                <phrase>Leave Donation Maintenance Document</phrase>
+            </textobject>
+            <caption>The Leave Donation Maintenance Document</caption>
+        </mediaobject>
 		<para>
-			Employee's may donate leave to another employee.
-			The donation
-			transaction is done by the system admin with option to
-			create new or
-			view existing donation records.
-			On submit leave blocks are generated
-			for both recipient and donor that
-			will display on their leave
-			calendar.
-			Leave donation may or may not be prorated according to the
-			donor and
-			recipient's salary.
-			Amount Donated and Amount Received must
-			be manually entered and is what
-			will be removed/added from the
-			designated Accrual Categories.
+			Employee's may donate leave to another employee.  The donation transaction is done by the system admin with option to create new or view existing 
+			donation records.  On submit leave blocks are generated for both recipient and donor that will display on their leave calendar. Leave donation may 
+			or may not be prorated according to the donor and recipient's salary.  Amount Donated and Amount Received must be manually entered and is what will 
+			be removed/added from the designated Accrual Categories.
 		</para>
 		<table frame="none">
 			<title>Leave Donation fields :</title>
@@ -219,65 +262,104 @@
 				<tbody>
 					<row>
 						<entry>Effective Date</entry>
-						<entry>
-							Date the Donation transaction will go into effect.
-						</entry>
+						<entry>Date the Donation transaction will go into effect.</entry>
 					</row>
 					<row>
 						<entry>Donor's Principal ID</entry>
-						<entry>
-							Identifier of the employee donating leave.
-						</entry>
+						<entry>Identifier of the employee donating leave.</entry>
 					</row>
 					<row>
 						<entry>Donation Accrual Category</entry>
-						<entry>Accrual Category associated with the donated Leave.
-						</entry>
+						<entry>Accrual Category associated with the donated Leave.</entry>
 					</row>
 					<row>
 						<entry>Donation Earn Code</entry>
-						<entry>
-							A leave block indicating the amount donated will be
-							recorded with this earn code
-						</entry>
+						<entry>A leave block indicating the amount donated will be recorded with this earn code.</entry>
 					</row>
 					<row>
 						<entry>Amount Donated</entry>
-						<entry>The amount of accrued leave to be donated. Subtracted from
-							the Donated Leave Accrual Category.
-						</entry>
+						<entry>The amount of accrued leave to be donated. Subtracted from the Donated Leave Accrual Category.</entry>
 					</row>
 					<row>
 						<entry>Recipient's Principal ID</entry>
-						<entry>Identifier of the employee receiving the donated leave.
-						</entry>
+						<entry>Identifier of the employee receiving the donated leave.</entry>
 					</row>
 					<row>
 						<entry>Recipient's Accrual Category</entry>
-						<entry>Accrual Category the donated Leave will be accrued to
-						</entry>
+						<entry>Accrual Category the donated Leave will be accrued to.</entry>
 					</row>
 					<row>
 						<entry>Recipient's Earn Code </entry>
-						<entry>The donation accrual leave block will be recorded with this
-							earn code
-						</entry>
+						<entry>The donation accrual leave block will be recorded with this earn code.</entry>
 					</row>
 					<row>
 						<entry>Amount Received</entry>
-						<entry>The amount of accrued leave to be received. Added to the
-							Recipient's Leave Accrual Category.
-						</entry>
+						<entry>The amount of accrued leave to be received. Added to the Recipient's Leave Accrual Category.</entry>
 					</row>
 					<row>
 						<entry>Description</entry>
-						<entry>Text field used to describe the reason for the
-							Leave
-							Donation.
-						</entry>
+						<entry>Text field used to describe the reason for the Leave Donation.</entry>
 					</row>
 				</tbody>
 			</tgroup>
 		</table>		
 	</section>
+	   <section>
+        <title>Leave Payout</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/lm/leavepayoutmaint.jpg" format="JPG" scale="40"/>
+            </imageobject>
+            <textobject>
+                <phrase>Leave Payout Maintenance Document</phrase>
+            </textobject>
+            <caption>The Leave Payout Maintenance Document</caption>
+        </mediaobject>
+        <para>
+            Payout maintenance document can be used to payout earned accruals. Department, Location, and System Administrators can use this document to preform 
+            payout transactions that are not triggered by the Accrual Category’s Max Balance limit and the payout action.  Example uses of this document maybe 
+            need to process a payout of earned accrual at time of termination/retirement.  After the document is submitted and approved, using the effective 
+            leave blocks that reflect the payout transaction will be created for the appropriate Accrual Category.  The payout earn code will need to be fed to 
+            payroll for the payout to be processed.  
+        </para>
+        <table frame="none">
+            <title>Leave Payout fields :</title>
+            <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="2.00*" />
+                <colspec colname="c2" colnum="2" colwidth="4.00*" />
+                <thead>
+                    <row>
+                        <entry>Field</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Principal ID</entry>
+                        <entry>Identifier of the employee.</entry>
+                    </row>
+                    <row>
+                        <entry>Earn Code</entry>
+                        <entry>Earn code that is associated with the Payout Amount and fed to Payroll.</entry>
+                    </row>
+                    <row>
+                        <entry>Effective Date</entry>
+                        <entry>Date the leave payout will go into effect.</entry>
+                    </row>
+                    <row>
+                        <entry>Payout From Accrual Category</entry>
+                        <entry>Accrual Category to pay leave out of.</entry>
+                    </row>
+                    <row>
+                        <entry>Payout Amount</entry>
+                        <entry>The amount of leave to pay out.</entry>
+                    </row>
+                    <row>
+                        <entry>Forfeited Amount</entry>
+                        <entry>Computed amount of accrued leave that will be forfeited.</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>        
+    </section>
 </chapter>
