@@ -15,114 +15,30 @@
  */
 package org.kuali.kpme.tklm.time.missedpunch;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.Date;
-
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 
 public class MissedPunchDocument extends TransactionalDocumentBase {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8759488155644037099L;
 	
-	private String principalId;
-	private String clockAction;
-	private Date actionDate;
-	private Time actionTime;
-    private String timesheetDocumentId;
-	private String documentStatus;
-	private String tkClockLogId;
-	private Timestamp timestamp;
-	private String ipAddress;
+	private String tkMissedPunchId;
 	
-    /** Selection key matching what is used on the clock action GUI */
-    private String assignment;
-	
-	public String getPrincipalId() {
-		return principalId;
-	}
-	public void setPrincipalId(String principalId) {
-		this.principalId = principalId;
-	}
-	public String getClockAction() {
-		return clockAction;
-	}
-	public void setClockAction(String clockAction) {
-		this.clockAction = clockAction;
-	}
-	public Date getActionDate() {
-		return actionDate;
-	}
-	public void setActionDate(Date actionDate) {
-		this.actionDate = actionDate;
-	}
-	public Time getActionTime() {
-		return actionTime;
-	}
-	public void setActionTime(Time actionTime) {
-		this.actionTime = actionTime;
-	}
-    public DateTime getActionDateTime() {
-    	DateTime actionDateTime = null;
-    	
-    	if (actionDate != null && actionTime != null) {
-	    	LocalDate localDate = new LocalDate(actionDate);
-	    	LocalTime localTime = new LocalTime(actionTime);
-	    	actionDateTime = localDate.toDateTime(localTime);
-    	}
-    	
-    	return actionDateTime;
-    }
-	public String getTimesheetDocumentId() {
-		return timesheetDocumentId;
-	}
-	public void setTimesheetDocumentId(String timesheetDocumentId) {
-		this.timesheetDocumentId = timesheetDocumentId;
-	}
-	public String getDocumentStatus() {
-		return documentStatus;
-	}
-	public void setDocumentStatus(String documentStatus) {
-		this.documentStatus = documentStatus;
-	}
-	public String getTkClockLogId() {
-		return tkClockLogId;
-	}
-	public void setTkClockLogId(String tkClockLogId) {
-		this.tkClockLogId = tkClockLogId;
-	}
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
-	public String getIpAddress() {
-		return ipAddress;
-	}
-	public void setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
-	}
-	public String getAssignment() {
-		return assignment;
-	}
-	public void setAssignment(String assignment) {
-		this.assignment = assignment;
+	private MissedPunch missedPunch = new MissedPunch();
+
+	public String getTkMissedPunchId() {
+		return tkMissedPunchId;
 	}
 
-//	@Override
-//    public void prepareForSave(KualiDocumentEvent event) {
-//        // Add clocklogs only if an MP doc is enroute or approved KPME-2185
-//        // checking it for Approved status might be unneccessary since we create the clocklog after routing.
-//		if(this.getTkClockLogId() == null && (this.getDocumentStatus() =="A" || this.getDocumentStatus() =="R")) {
-//			TkServiceLocator.getMissedPunchService().addClockLogForMissedPunch(this);
-//		}
-//    }
+	public void setTkMissedPunchId(String tkMissedPunchId) {
+		this.tkMissedPunchId = tkMissedPunchId;
+	}
+
+	public MissedPunch getMissedPunch() {
+		return missedPunch;
+	}
+
+	public void setMissedPunch(MissedPunch missedPunch) {
+		this.missedPunch = missedPunch;
+	}
 
 }

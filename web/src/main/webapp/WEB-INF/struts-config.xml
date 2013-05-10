@@ -41,7 +41,6 @@
         <form-bean name="PersonInfoActionForm" type="org.kuali.kpme.core.web.PersonInfoActionForm"/>
         <form-bean name="TimesheetActionForm" type="org.kuali.kpme.tklm.time.timesheet.web.TimesheetActionForm"/>
         <form-bean name="TimesheetSubmitActionForm" type="org.kuali.kpme.tklm.time.detail.web.TimesheetSubmitActionForm"/>
-        <form-bean name="MissedPunchForm" type="org.kuali.kpme.tklm.time.missedpunch.MissedPunchForm"/>
         <form-bean name="HelpActionForm" type="org.kuali.kpme.tklm.time.help.web.HelpActionForm"/>
         <form-bean name="SessionInvalidateForm" type="org.kuali.kpme.core.web.SessionInvalidateForm"/>
 		<form-bean name="LeaveCalendarForm" type="org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarForm"/>
@@ -141,7 +140,6 @@
             <forward name="tb" path="/WEB-INF/jsp/timeDistribute.jsp"/>
             <forward name="et" path="/WEB-INF/jsp/editTimeBlock.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/clockWebService.jsp"/>
-            <forward name="closeMissedPunchDoc" path="/WEB-INF/jsp/closeMissedPunchDoc.jsp"/>
         </action>
         
         <action path="/Timesheet" name="TimesheetActionForm" scope="request"
@@ -193,12 +191,6 @@
                 type="org.kuali.kpme.core.web.PersonInfoAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/personInfo.jsp"/>
         </action>
-
-        <action path="/missedPunch" name="MissedPunchForm" input="/WEB-INF/jsp/missedPunch.jsp"
-                type="org.kuali.kpme.tklm.time.missedpunch.MissedPunchAction"
-                scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
-            <forward name="basic" path="/WEB-INF/jsp/missedPunch.jsp"/>
-        </action>
         
         <action path="/BalanceTransfer" name="BalanceTransferForm" scope="request" input="/WEB-INF/jsp/balanceTransfer.jsp"
                 type="org.kuali.kpme.tklm.leave.transfer.web.BalanceTransferAction" parameter="methodToCall"
@@ -208,7 +200,7 @@
             <forward name="timesheetTransferSuccess" path="/TimesheetSubmit.do"/>
             <forward name="timesheetCancel" path="/TimeDetail.do"/>
             <forward name="leaveCalendarCancel" path="/LeaveCalendar.do"/>
-            <forward name="closeBalanceTransferDoc" path="/WEB-INF/jsp/closeMissedPunchDoc.jsp"/>
+            <forward name="closeBalanceTransferDoc" path="/WEB-INF/jsp/closeDoc.jsp"/>
         </action>
 
         <action path="/LeavePayout" name="LeavePayoutForm" input="/WEB-INF/jsp/leavePayout.jsp"
@@ -219,7 +211,7 @@
             <forward name="timesheetPayoutSuccess" path="/TimesheetSubmit.do"/>
             <forward name="timesheetCancel" path="/TimeDetail.do"/>
             <forward name="leaveCalendarCancel" path="/LeaveCalendar.do"/>
-            <forward name="closeLeavePayoutDoc" path="/WEB-INF/jsp/closeMissedPunchDoc.jsp"/>
+            <forward name="closeLeavePayoutDoc" path="/WEB-INF/jsp/closeDoc.jsp"/>
         </action>
 
         <action path="/Help" name="HelpActionForm" scope="request" input="/WEB-INF/jsp/help.jsp"

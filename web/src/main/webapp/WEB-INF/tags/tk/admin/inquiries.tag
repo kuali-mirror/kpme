@@ -24,7 +24,7 @@
         </li>
         <li>
             <portal:portalLink displayTitle="true" title="Missed Punch"
-                               url="${ConfigProperties.kew.url}/DocumentSearch.do?documentTypeName=MissedPunchDocumentType" />
+                               url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.tklm.time.missedpunch.MissedPunch&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
         </li>
         <li>
             <portal:portalLink displayTitle="true" title="Time Block History Inquiry"

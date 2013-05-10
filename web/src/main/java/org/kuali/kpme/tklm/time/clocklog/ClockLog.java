@@ -57,7 +57,7 @@ public class ClockLog extends PersistableBusinessObjectBase {
     @Transient
     private String documentId;
     
-    private String missedPunchDocumentId;
+    private boolean clockedByMissedPunch;
 
     private transient Job job;
     private transient WorkArea workAreaObj;
@@ -213,12 +213,12 @@ public class ClockLog extends PersistableBusinessObjectBase {
 		this.principal = principal;
 	}
 
-	public String getMissedPunchDocumentId() {
-		return missedPunchDocumentId;
+	public boolean isClockedByMissedPunch() {
+		return clockedByMissedPunch;
 	}
 
-	public void setMissedPunchDocumentId(String missedPunchDocumentId) {
-		this.missedPunchDocumentId = missedPunchDocumentId;
+	public void setClockedByMissedPunch(boolean clockedByMissedPunch) {
+		this.clockedByMissedPunch = clockedByMissedPunch;
 	}
 
 	public boolean getUnapprovedIP() {

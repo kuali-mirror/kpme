@@ -49,10 +49,12 @@ import org.kuali.kpme.tklm.time.batch.MissedPunchApprovalJob;
 import org.kuali.kpme.tklm.time.batch.SupervisorApprovalJob;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.clocklog.service.ClockLogService;
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchService;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.kpme.tklm.time.workflow.service.TimesheetDocumentHeaderService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -268,21 +270,22 @@ public class BatchJobServiceImpl implements BatchJobService {
    	
 		List<TimesheetDocumentHeader> timesheetDocumentHeaders = getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
 		for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
-			List<MissedPunchDocument> missedPunchDocuments = getMissedPunchService().getMissedPunchDocsByTimesheetDocumentId(timesheetDocumentHeader.getDocumentId());
+			List<MissedPunchDocument> missedPunchDocuments = getMissedPunchService().getMissedPunchDocumentsByTimesheetDocumentId(timesheetDocumentHeader.getDocumentId());
 			for (MissedPunchDocument missedPunchDocument : missedPunchDocuments) {
-				if (StringUtils.equals(missedPunchDocument.getDocumentStatus(), DocumentStatus.ENROUTE.getCode())) {
-					scheduleMissedPunchApprovalJob(calendarEntry, scheduleDate, missedPunchDocument);
+				DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(missedPunchDocument.getDocumentNumber());
+				if (DocumentStatus.ENROUTE.equals(documentStatus)) {
+					scheduleMissedPunchApprovalJob(calendarEntry, scheduleDate, missedPunchDocument.getMissedPunch());
 				}
 			}
 		}
 	}
 	
-	private void scheduleMissedPunchApprovalJob(CalendarEntry calendarEntry, DateTime scheduleDate, MissedPunchDocument missedPunchDocument) throws SchedulerException {
+	private void scheduleMissedPunchApprovalJob(CalendarEntry calendarEntry, DateTime scheduleDate, MissedPunch missedPunch) throws SchedulerException {
         Map<String, String> jobGroupDataMap = new HashMap<String, String>();
         jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
 		
 		Map<String, String> jobDataMap = new HashMap<String, String>();
-        jobDataMap.put("principalId", missedPunchDocument.getPrincipalId());
+        jobDataMap.put("principalId", missedPunch.getPrincipalId());
 		
         scheduleJob(MissedPunchApprovalJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
 	}

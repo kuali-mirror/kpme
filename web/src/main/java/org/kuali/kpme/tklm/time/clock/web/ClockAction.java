@@ -173,7 +173,7 @@ public class ClockAction extends TimesheetAction {
             // if the current clock action is clock out, displays only the clocked-in assignment
             String selectedAssignment = new AssignmentDescriptionKey(lastClockLog.getJobNumber(), lastClockLog.getWorkArea(), lastClockLog.getTask()).toAssignmentKeyString();
             caf.setSelectedAssignment(selectedAssignment);
-            Assignment assignment = caf.getTimesheetDocument().getAssignment(new AssignmentDescriptionKey(selectedAssignment));
+            Assignment assignment = caf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(selectedAssignment));
             Map<String, String> assignmentDesc = HrServiceLocator.getAssignmentService().getAssignmentDescriptions(assignment);
             caf.setAssignmentDescriptions(assignmentDesc);
 
@@ -226,7 +226,7 @@ public class ClockAction extends TimesheetAction {
             return mapping.findForward("basic");
         }
         String ip = TKUtils.getIPAddressFromRequest(request);
-        Assignment assignment = caf.getTimesheetDocument().getAssignment(new AssignmentDescriptionKey(caf.getSelectedAssignment()));
+        Assignment assignment = caf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(caf.getSelectedAssignment()));
         
         List<Assignment> lstAssingmentAsOfToday = HrServiceLocator.getAssignmentService().getAssignments(HrContext.getTargetPrincipalId(), LocalDate.now());
         boolean foundValidAssignment = false;
@@ -401,9 +401,5 @@ public class ClockAction extends TimesheetAction {
 	    caf.setOutputString(JSONValue.toJSONString(errorMsgList));
 		return mapping.findForward("ws");
  	}
-
-    public ActionForward closeMissedPunchDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
-        return mapping.findForward("closeMissedPunchDoc");
-    }
     
 }

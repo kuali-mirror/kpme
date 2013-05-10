@@ -133,7 +133,7 @@ public class TimeDetailWSAction extends TimesheetAction {
 
         if (StringUtils.isNotBlank(tdaf.getSelectedAssignment())) {
             List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
-            AssignmentDescriptionKey key = new AssignmentDescriptionKey(tdaf.getSelectedAssignment());
+            AssignmentDescriptionKey key = AssignmentDescriptionKey.get(tdaf.getSelectedAssignment());
             for (Assignment assignment : assignments) {
                 if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
                         assignment.getWorkArea().compareTo(key.getWorkArea()) == 0 &&

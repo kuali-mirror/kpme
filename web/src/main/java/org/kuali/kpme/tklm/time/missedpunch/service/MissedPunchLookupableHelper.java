@@ -31,6 +31,7 @@ import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -51,13 +52,13 @@ public class MissedPunchLookupableHelper extends KPMELookupableHelper {
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 		
-		MissedPunchDocument missedPunch = (MissedPunchDocument) businessObject;
-		String documentNumber = missedPunch.getDocumentNumber();
+		MissedPunch missedPunch = (MissedPunch) businessObject;
+		String tkMissedPunchId = missedPunch.getTkMissedPunchId();
 		
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
 		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-		params.put("documentNumber", documentNumber);
+		params.put("tkMissedPunchId", tkMissedPunchId);
 		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
 		viewUrl.setDisplayText("view");
 		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
@@ -68,12 +69,12 @@ public class MissedPunchLookupableHelper extends KPMELookupableHelper {
 	
 	@Override
 	public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-		List<MissedPunchDocument> results = new ArrayList<MissedPunchDocument>();
+		List<MissedPunch> results = new ArrayList<MissedPunch>();
 		
 		List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
 
 		for (BusinessObject searchResult : searchResults) {
-			MissedPunchDocument missedPunch = (MissedPunchDocument) searchResult;
+			MissedPunch missedPunch = (MissedPunch) searchResult;
 			results.add(missedPunch);
 		}
 		
@@ -82,12 +83,11 @@ public class MissedPunchLookupableHelper extends KPMELookupableHelper {
 		return results;
 	}
 	
-	private List<MissedPunchDocument> filterByPrincipalId(List<MissedPunchDocument> missedPunches, String principalId) {
-		List<MissedPunchDocument> results = new ArrayList<MissedPunchDocument>();
+	private List<MissedPunch> filterByPrincipalId(List<MissedPunch> missedPunches, String principalId) {
+		List<MissedPunch> results = new ArrayList<MissedPunch>();
 		
-		for (MissedPunchDocument missedPunch : missedPunches) {
-			Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(new AssignmentDescriptionKey(missedPunch.getAssignment()), LocalDate.now());
-			Job jobObj = HrServiceLocator.getJobService().getJob(principalId, assignment.getJobNumber(), assignment.getEffectiveLocalDate());
+		for (MissedPunch missedPunch : missedPunches) {
+			Job jobObj = HrServiceLocator.getJobService().getJob(principalId, missedPunch.getJobNumber(), LocalDate.now());
 			String department = jobObj != null ? jobObj.getDept() : null;
 			
 			Department departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, jobObj.getEffectiveLocalDate()) : null;

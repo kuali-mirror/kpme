@@ -468,7 +468,7 @@ public class LeaveCalendarAction extends KPMEAction {
 		
 		Assignment assignment = null;
 		if(lcd != null) {
-			assignment = lcd.getAssignment(new AssignmentDescriptionKey(selectedAssignment));
+			assignment = lcd.getAssignment(AssignmentDescriptionKey.get(selectedAssignment));
 			if(assignment == null)
 				LOG.warn("No matched assignment found");
 		} else {

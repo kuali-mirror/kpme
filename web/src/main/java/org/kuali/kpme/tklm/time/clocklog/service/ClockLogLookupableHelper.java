@@ -32,6 +32,7 @@ import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
@@ -55,21 +56,21 @@ public class ClockLogLookupableHelper extends KPMELookupableHelper {
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 
-        ClockLog clockLog = (ClockLog)businessObject;
-        String tkClockLogId = clockLog.getTkClockLogId();
+		ClockLog clockLog = (ClockLog)businessObject;
+		String tkClockLogId = clockLog.getTkClockLogId();
 
-        MissedPunchDocument mpDoc = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(clockLog.getTkClockLogId());
-        if (mpDoc != null) {
-            clockLog.setMissedPunchDocumentId(mpDoc.getDocumentNumber());
+		MissedPunch missedPunch = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(clockLog.getTkClockLogId());
+		if (missedPunch != null) {
+			clockLog.setClockedByMissedPunch(true);
         }
 
         Properties params = new Properties();
         params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
         params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
         params.put("tkClockLogId", tkClockLogId);
-        HtmlData.AnchorHtmlData viewUrl = new HtmlData.AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
+		HtmlData.AnchorHtmlData viewUrl = new HtmlData.AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
         viewUrl.setDisplayText("view");
-        viewUrl.setTarget(HtmlData.AnchorHtmlData.TARGET_BLANK);
+		viewUrl.setTarget(HtmlData.AnchorHtmlData.TARGET_BLANK);
         customActionUrls.add(viewUrl);
 
         return customActionUrls;

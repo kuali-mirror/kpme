@@ -262,9 +262,8 @@ public class TimesheetServiceImpl implements TimesheetService {
             loadTimesheetDocumentData(timesheetDocument, tdh.getPrincipalId(), pce);
 
             timesheetDocument.setCalendarEntry(pce);
-        } else {
-            throw new RuntimeException("Could not find TimesheetDocumentHeader for DocumentID: " + documentId);
         }
+        
         return timesheetDocument;
     }
 

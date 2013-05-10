@@ -103,7 +103,7 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		DateTime endPeriodDate = new DateTime(2010, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		CalendarEntry endOfMarch = HrServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfMarch);
-		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), beginPeriodDate.toLocalDate());
+		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), beginPeriodDate.toLocalDate());
 		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 3, BigDecimal.TEN, BigDecimal.ZERO);
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), timeBlocks, HrContext.getPrincipalId());
 		tdoc.setTimeBlocks(timeBlocks);
@@ -152,7 +152,7 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		DateTime endPeriodDate = new DateTime(2010, 7, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         CalendarEntry endOfJune = HrServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
-		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), beginPeriodDate.toLocalDate());
+		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), beginPeriodDate.toLocalDate());
 		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 4, new BigDecimal(11), BigDecimal.ZERO);
 		
 		tdoc.setTimeBlocks(timeBlocks);
@@ -232,7 +232,7 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		DateTime endPeriodDate = new DateTime(2010, 7, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         CalendarEntry endOfJune = HrServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
-		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), beginPeriodDate.toLocalDate());		
+		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), beginPeriodDate.toLocalDate());		
 		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "ABC", start, 1, new BigDecimal(11), BigDecimal.ZERO));
 		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "XYZ", start.plusDays(1), 1, new BigDecimal(11), BigDecimal.ZERO));
 		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "ABC", start.plusDays(2), 1, new BigDecimal(11), BigDecimal.ZERO));

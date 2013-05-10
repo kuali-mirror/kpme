@@ -464,7 +464,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 
     public String getAssignmentKey() {
         if (assignmentKey == null) {
-            AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber().toString(), this.getWorkArea().toString(), this.getTask().toString());
+            AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber(), this.getWorkArea(), this.getTask());
             this.setAssignmentKey(adk.toAssignmentKeyString());
         }
         return assignmentKey;
@@ -475,7 +475,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     }
 
     public String getAssignmentDescription() {
-        AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber().toString(), this.getWorkArea().toString(), this.getTask().toString());
+        AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber(), this.getWorkArea(), this.getTask());
         Assignment anAssignment = HrServiceLocator.getAssignmentService().getAssignment(adk, this.getBeginDateTime().toLocalDate());
         return anAssignment == null ? this.getAssignmentKey() : anAssignment.getAssignmentDescription();
     }

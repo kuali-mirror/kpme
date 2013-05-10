@@ -45,7 +45,7 @@
 				<ref bean="ClockLog-ipAddress" />
 				<ref bean="ClockLog-userPrincipalId" />
 				<ref bean="ClockLog-timestamp" />
-				<ref bean="ClockLog-missedPunchDocumentId"/>
+				<ref bean="ClockLog-clockedByMissedPunch"/>
 				<ref bean="ClockLog-documentId"/>
 			</list>
 		</property>
@@ -275,10 +275,10 @@
 		<property name="label" value="Timestamp" />
 	</bean>
 	
-	<bean id="ClockLog-missedPunchDocumentId" parent="ClockLog-missedPunchDocumentId-parentBean" />
-	<bean id="ClockLog-missedPunchDocumentId-parentBean" abstract="true"
+	<bean id="ClockLog-clockedByMissedPunch" parent="ClockLog-clockedByMissedPunch-parentBean" />
+	<bean id="ClockLog-clockedByMissedPunch-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Missed Punch Document Id" />
+		<property name="shortLabel" value="Clocked By Missed Punch" />
 		<property name="maxLength" value="40" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
@@ -288,8 +288,8 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="40" />
 		</property>
-		<property name="name" value="missedPunchDocumentId" />
-		<property name="label" value="Missed Punch Document Id" />
+		<property name="name" value="clockedByMissedPunch" />
+		<property name="label" value="Clocked By Missed Punch" />
 	</bean>
 	<!--  Inquiry Definitions  -->
   
@@ -312,7 +312,7 @@
 							<bean parent="FieldDefinition" p:attributeName="ipAddress" />
 							<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 							<bean parent="FieldDefinition" p:attributeName="timestamp" />
-							<bean parent="FieldDefinition" p:attributeName="missedPunchDocumentId" />
+							<bean parent="FieldDefinition" p:attributeName="clockedByMissedPunch" />
 							
 						</list>
 					</property>
@@ -353,7 +353,7 @@
 				<bean parent="FieldDefinition" p:attributeName="clockTimestamp" />
 				<bean parent="FieldDefinition" p:attributeName="clockTimestampTimezone" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
-				<bean parent="FieldDefinition" p:attributeName="missedPunchDocumentId" />
+				<bean parent="FieldDefinition" p:attributeName="clockedByMissedPunch" />
 			</list>
 		</property>
 		<property name="title" value="Clock Log Lookup" />

@@ -327,7 +327,7 @@ $(document).ready(function() {
     $('#missed-punch-iframe-button').click(function() {
 
         $('#missed-punch-dialog').empty();
-        $('#missed-punch-dialog').append('<iframe width="1024" height="650" src="missedPunch.do?methodToCall=docHandler&command=initiate&docTypeName=MissedPunchDocumentType&tdocid=' + tdocid + '"></iframe>');
+        $('#missed-punch-dialog').append('<iframe width="1024" height="650" src="kr-krad/missedPunch?viewId=MissedPunch-SubmitView&methodToCall=start&dataObjectClassName=org.kuali.kpme.tklm.time.missedpunch.MissedPunch&timesheetDocumentId=' + tdocid + '"></iframe>');
 
         $('#missed-punch-dialog').dialog({
             autoOpen: true,

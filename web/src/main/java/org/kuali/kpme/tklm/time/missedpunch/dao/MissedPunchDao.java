@@ -17,10 +17,15 @@ package org.kuali.kpme.tklm.time.missedpunch.dao;
 
 import java.util.List;
 
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 
 public interface MissedPunchDao {
-    public MissedPunchDocument getMissedPunchByRouteHeader(String headerId);
-    public MissedPunchDocument getMissedPunchByClockLogId(String clockLogId);
-    public List<MissedPunchDocument> getMissedPunchDocsByTimesheetDocumentId(String timesheetDocumentId);
+	
+	MissedPunchDocument getMissedPunchDocument(String tkMissedPunchId);
+	
+	List<MissedPunch> getMissedPunchesByTimesheetDocumentId(String timesheetDocumentId);
+	
+    MissedPunch getMissedPunchByClockLogId(String clockLogId);
+    
 }

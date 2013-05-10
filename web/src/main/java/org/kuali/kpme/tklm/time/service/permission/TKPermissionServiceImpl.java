@@ -325,7 +325,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
      */
     @Override
     public boolean canEditRegEarnCode(TimeBlock tb) {
-    	AssignmentDescriptionKey adk = new AssignmentDescriptionKey(tb.getJobNumber().toString(), tb.getWorkArea().toString(), tb.getTask().toString());
+    	AssignmentDescriptionKey adk = new AssignmentDescriptionKey(tb.getJobNumber(), tb.getWorkArea(), tb.getTask());
         Assignment anAssignment = HrServiceLocator.getAssignmentService().getAssignment(adk, tb.getBeginDateTime().toLocalDate());
         if(anAssignment != null) {
         	// use timesheet's end date to get Time Collection Rule

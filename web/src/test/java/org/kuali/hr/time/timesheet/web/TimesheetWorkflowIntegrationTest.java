@@ -89,7 +89,7 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), "admin", tdocId, true);
 
         // 1. Obtain User Data
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(HrContext.getPrincipalId(), new AssignmentDescriptionKey("30_30_30"), JAN_AS_OF_DATE.toLocalDate());
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(HrContext.getPrincipalId(), AssignmentDescriptionKey.get("30_30_30"), JAN_AS_OF_DATE.toLocalDate());
         EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE.toLocalDate());
 
         // 2. Set Timeblock Start and End time

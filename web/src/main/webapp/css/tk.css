@@ -15,3 +15,5 @@
  */
 @import "common.css";
 @import "leaveBlock.css";
+
+@import "../krad/plugins/fancybox/jquery.fancybox.css";

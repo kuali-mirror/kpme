@@ -207,7 +207,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     
     @Override
     public AssignmentDescriptionKey getAssignmentDescriptionKey(String assignmentKey) {
-        return new AssignmentDescriptionKey(assignmentKey);
+        return AssignmentDescriptionKey.get(assignmentKey);
     }
 
     @Override

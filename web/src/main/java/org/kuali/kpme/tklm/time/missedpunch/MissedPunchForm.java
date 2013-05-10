@@ -15,32 +15,30 @@
  */
 package org.kuali.kpme.tklm.time.missedpunch;
 
-import javax.servlet.http.HttpServletRequest;
+import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.util.ActionFormUtilMap;
-import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
+public class MissedPunchForm extends TransactionalDocumentFormBase {
 
-public class MissedPunchForm extends KualiTransactionalDocumentFormBase {
+	private static final long serialVersionUID = -5511083730204963887L;
+	
+	private MissedPunch missedPunch = new MissedPunch();
+	
+	private boolean assignmentReadOnly;
+	
+	private boolean missedPunchSubmitted;
+	
+	@Override
+	public String getDocTypeName() {
+		return "MissedPunchDocumentType";
+	}
 
-    private static final long serialVersionUID = 1L;
-    private Boolean assignmentReadOnly = false;
+	public MissedPunch getMissedPunch() {
+		return missedPunch;
+	}
 
-    @Override
-    public String getBackLocation() {
-        return "Clock.do?methodToCall=closeMissedPunchDoc";
-    }
-
-    @Override
-    public void populate(HttpServletRequest request) {
-        super.populate(request);
-        ((ActionFormUtilMap) getActionFormUtilMap()).setCacheValueFinderResults(false);
-
-        if (this.getMethodToCall() == null || StringUtils.isEmpty(this.getMethodToCall())) {
-            setMethodToCall(WebUtils.parseMethodToCall(this, request));
-        }
-    }
+	public void setMissedPunch(MissedPunch missedPunch) {
+		this.missedPunch = missedPunch;
+	}
 
 	public boolean isAssignmentReadOnly() {
 		return assignmentReadOnly;
@@ -50,4 +48,12 @@ public class MissedPunchForm extends KualiTransactionalDocumentFormBase {
 		this.assignmentReadOnly = assignmentReadOnly;
 	}
 
+	public boolean isMissedPunchSubmitted() {
+		return missedPunchSubmitted;
+	}
+
+	public void setMissedPunchSubmitted(boolean missedPunchSubmitted) {
+		this.missedPunchSubmitted = missedPunchSubmitted;
+	}
+	
 }

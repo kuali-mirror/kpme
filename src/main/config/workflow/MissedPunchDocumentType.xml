@@ -29,8 +29,7 @@
             <defaultExceptionGroupName namespace="KPME-HR">System Administrator</defaultExceptionGroupName>
             <description>Missed Punch Document</description>
             <label>MissedPunchDocument</label>
-            <docHandler>${kuali.docHandler.url.prefix}/missedPunch.do?methodToCall=docHandler</docHandler>
-            <postProcessorName>org.kuali.kpme.tklm.time.workflow.postprocessor.TkMissedPunchPostProcessor</postProcessorName>
+            <docHandler>${kuali.docHandler.url.prefix}/kr-krad/missedPunch?methodToCall=docHandler</docHandler>
             <applicationId>KPME</applicationId>
             <active>true</active>
             <routingVersion>1</routingVersion>

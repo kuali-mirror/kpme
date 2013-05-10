@@ -18,10 +18,7 @@ package org.kuali.hr.time.missedpunch.validation;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
@@ -57,6 +54,7 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 		webClient.waitForBackgroundJavaScript(10000);
 	}
 
+	@Ignore
 	@Test
 	public void testMissedPunch() throws Exception {
 
@@ -99,7 +97,7 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 		// redirect to missed punch page
 		HtmlPage mPunchPage = HtmlUnitUtil
 				.gotoPageAndLogin(getWebClient(), HtmlUnitUtil.getBaseURL()
-						+ "/missedPunch.do?methodToCall=docHandler&command=initiate&docTypeName=MissedPunchDocumentType&tdocid="
+						+ "/missedPunch?methodToCall=start&viewId=MissedPunch-SubmitView&missedPunch.timesheetDocumentId="
 						+ docId);
 		Assert.assertNotNull(mPunchPage);
 		
@@ -180,7 +178,7 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 		
 		// open another missed punch doc for clock out
 		mPunchPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HtmlUnitUtil.getBaseURL()
-				+ "/missedPunch.do?methodToCall=docHandler&command=initiate&docTypeName=MissedPunchDocumentType&tdocid="
+				+ "/missedPunch.do?methodToCall=start&viewId=MissedPunch-SubmitView&missedPunch.timesheetDocumentId="
 				+ docId);
 		Assert.assertNotNull(mPunchPage);
 		element = (HtmlElement)mPunchPage.getElementById("document.clockAction");

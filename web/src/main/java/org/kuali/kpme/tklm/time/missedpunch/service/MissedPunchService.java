@@ -17,49 +17,50 @@ package org.kuali.kpme.tklm.time.missedpunch.service;
 
 import java.util.List;
 
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 
-
 public interface MissedPunchService {
+	
 	/**
-	 * Fetch missed punch by header id
-	 * @param headerId
-	 * @return
-	 */
-    public MissedPunchDocument getMissedPunchByRouteHeader(String headerId);
-    /**
-     * Add clock log for missed punch
-     * @param missedPunch
-     * @param logEndId
-     * @param logBeginId
+     * Get a list of Missed Punch Documents by Timesheet document ids.
+     * 
+     * @param timesheetDocumentId The Timesheet document id to look up
+     * 
+     * @return a list of Missed Punch Documents associated with the given Timesheet document id
      */
-    public void addClockLogForMissedPunch(MissedPunchDocument missedPunch, String logEndId, String logBeginId);
-    /**
-     * Add clock log for missed punch
-     * @param missedPunch
+	List<MissedPunchDocument> getMissedPunchDocumentsByTimesheetDocumentId(String timesheetDocumentId);
+	
+	/**
+     * Get a Missed Punch by its unique Clock Log id.
+     * 
+     * @param clockLogId The Clock Log id to look up
+     * 
+     * @return the Missed Punch associated with the given Clock Log id
      */
-    public void addClockLogForMissedPunch(MissedPunchDocument missedPunch);
-    /**
-     * Update clock log and time block if necessary
-     * @param missedPunch
+    public MissedPunch getMissedPunchByClockLogId(String clockLogId);
+	
+	/**
+     * Add a Clock Log to the specified Missed Punch
+     * 
+     * @param missedPunch The Missed Punch to add the Clock Log to
+     * @param ipAddress The IP address of the user
      */
-    public void updateClockLogAndTimeBlockIfNecessary(MissedPunchDocument missedPunch);
-    /**
-     * Get missed punch by clock id
-     * @param clockLogId
-     * @return
+    public void addClockLog(MissedPunch missedPunch, String ipAddress);
+    
+	/**
+     * Update the Clock Log (and any Time Blocks if necessary) for the given Missed Punch.
+     * 
+     * @param missedPunch The Missed Punch to update the Clock Logs for
+     * @param ipAddress The IP address of the user
      */
-    public MissedPunchDocument getMissedPunchByClockLogId(String clockLogId);
-    /**
-     * Approve missed punch document
-     * @param document
-     * @return
+    public void updateClockLog(MissedPunch missedPunch, String ipAddress);
+    
+	/**
+     * Approve a Missed Punch Document.
+     * 
+     * @param missedPunchDocument The Missed Punch Document to approve
      */
-    public void approveMissedPunch(MissedPunchDocument document);
-    /**
-     * Get missed punch documents by timesheetDocumentId
-     * @param timesheetDocumentId
-     * @return
-     */
-    public List<MissedPunchDocument> getMissedPunchDocsByTimesheetDocumentId(String timesheetDocumentId);
+    public void approveMissedPunchDocument(MissedPunchDocument missedPunchDocument);
+    
 }

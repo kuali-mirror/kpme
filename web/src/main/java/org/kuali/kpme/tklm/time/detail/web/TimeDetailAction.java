@@ -469,7 +469,7 @@ public class TimeDetailAction extends TimesheetAction {
 		
 		String desc = "";	// there's no description field in time calendar pop window
 		String spanningWeeks = tdaf.getSpanningWeeks();
-		Assignment assignment = tdaf.getTimesheetDocument().getAssignment(new AssignmentDescriptionKey(tdaf.getSelectedAssignment()));
+		Assignment assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
 		LmServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, tdaf.getPayCalendarDates(), selectedEarnCode, leaveAmount, desc, assignment, 
 				spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR, HrContext.getTargetPrincipalId());
 	}
@@ -496,7 +496,7 @@ public class TimeDetailAction extends TimesheetAction {
             // this.removeOldTimeBlock(tdaf);
         }
 
-        Assignment assignment = tdaf.getTimesheetDocument().getAssignment(new AssignmentDescriptionKey(tdaf.getSelectedAssignment()));
+        Assignment assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
 
 
         // Surgery point - Need to construct a Date/Time with Appropriate Timezone.
@@ -556,7 +556,7 @@ public class TimeDetailAction extends TimesheetAction {
     public ActionForward updateTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-        Assignment assignment = tdaf.getTimesheetDocument().getAssignment(new AssignmentDescriptionKey(tdaf.getSelectedAssignment()));
+        Assignment assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
 
         //Grab timeblock to be updated from form
         List<TimeBlock> timeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();

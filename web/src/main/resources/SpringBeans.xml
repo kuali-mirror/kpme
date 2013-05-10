@@ -116,20 +116,20 @@
         </property>
     </bean>
     
-    <bean id="kualiModuleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kualiModuleService" />
+    <bean id="businessObjectService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="businessObjectService" />
     </bean>
     
-    <bean id="mailer" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="mailer" />
-    </bean>
-    
-    <bean id="parameterService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="parameterService" />
+    <bean id="documentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="documentService" />
     </bean>
     
     <bean id="kimGroupService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kimGroupService" />
+    </bean>
+    
+    <bean id="kimIdentityService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kimIdentityService" />
     </bean>
     
     <bean id="kimPermissionService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
@@ -142,6 +142,18 @@
     
     <bean id="kimTypeInfoService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kimTypeInfoService" />
+    </bean>
+    
+    <bean id="kualiModuleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kualiModuleService" />
+    </bean>
+    
+    <bean id="mailer" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="mailer" />
+    </bean>
+    
+    <bean id="parameterService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="parameterService" />
     </bean>
     
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -259,6 +271,7 @@
 				<value>employeeOverrideLookupable</value>
 				<value>balanceTransferLookupable</value>
                 <value>leavePayoutLookupable</value>
+                <value>missedPunchLookupable</value>
                 <value>institutionLookupable</value>
                 <value>positionReportTypeLookupable</value>
                 <value>positionReportGroupLookupable</value>
@@ -397,9 +410,18 @@
  	<bean id="positionAppointmentDao" class="org.kuali.kpme.pm.positionappointment.dao.PositionAppointmentDaoObjImpl" parent="platformAwareDao" />	
  	
  	<bean id="pstnContractTypeDao" class="org.kuali.kpme.pm.pstncontracttype.dao.PstnContractTypeDaoObjImpl" parent="platformAwareDao" />
-    <!-- Time Services for Business Logic -->
+
     <bean id="missedPunchService" class="org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchServiceImpl">
-        <property name="missedPunchDao" ref="missedPunchDao"/>
+        <property name="missedPunchDao" ref="missedPunchDao" />
+        <property name="assignmentService" ref="assignmentService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="clockLogService" ref="clockLogService" />
+        <property name="documentService" ref="documentService" />
+        <property name="identityService" ref="kimIdentityService" />
+        <property name="timeBlockService" ref="timeBlockService" />
+        <property name="timesheetService" ref="timesheetService" />
+        <property name="timezoneService" ref="timezoneService" />
+        <property name="tkRuleControllerService" ref="tkRuleControllerService" />
     </bean>
 
     <bean id="deptLunchRuleService" class="org.kuali.kpme.tklm.time.rules.lunch.department.service.DepartmentLunchRuleServiceImpl">
@@ -1021,6 +1043,11 @@
             <bean class="org.kuali.kpme.tklm.leave.override.service.EmployeeOverrideLookupableHelper"/>
         </property>
     </bean>
+    <bean id="missedPunchLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchLookupableHelper"/>
+        </property>
+    </bean>
     <bean id="institutionLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
     		<bean class="org.kuali.kpme.core.bo.institution.web.InstitutionLookupableHelper"/>
@@ -1061,7 +1088,7 @@
             <bean class="org.kuali.kpme.pm.positiontype.service.PositionTypeLookupableHelper"/>
         </property>
     </bean>
-    
+
     <bean id="positionAppointmentLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.pm.positionappointment.service.PositionAppointmentLookupableHelper"/>

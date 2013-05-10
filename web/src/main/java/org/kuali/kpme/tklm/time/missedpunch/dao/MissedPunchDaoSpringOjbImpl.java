@@ -21,45 +21,39 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class MissedPunchDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements MissedPunchDao {
-
-    @Override
-    public MissedPunchDocument getMissedPunchByRouteHeader(String headerId) {
-    	MissedPunchDocument mp = null;
-
-        Criteria root = new Criteria();
-        root.addEqualTo("documentNumber", headerId);
-        Query query = QueryFactory.newQuery(MissedPunchDocument.class, root);
-        mp = (MissedPunchDocument)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
-
-        return mp;
-    }
     
-    @Override
-    public MissedPunchDocument getMissedPunchByClockLogId(String clockLogId) {
-    	MissedPunchDocument mp = null;
-
+	@Override
+	public MissedPunchDocument getMissedPunchDocument(String tkMissedPunchId) {
         Criteria root = new Criteria();
-        root.addEqualTo("tkClockLogId", clockLogId);
+        root.addEqualTo("tkMissedPunchId", tkMissedPunchId);
         Query query = QueryFactory.newQuery(MissedPunchDocument.class, root);
-        mp = (MissedPunchDocument)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
-
-        return mp;
-    }
-    
-    @Override
-    public List<MissedPunchDocument> getMissedPunchDocsByTimesheetDocumentId(String timesheetDocumentId) {
-    	List<MissedPunchDocument> missedPunchDocuments = new ArrayList<MissedPunchDocument>();
-
-        Criteria root = new Criteria();
+        return (MissedPunchDocument) getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+    public List<MissedPunch> getMissedPunchesByTimesheetDocumentId(String timesheetDocumentId) {
+        List<MissedPunch> missedPunches = new ArrayList<MissedPunch>();
+        
+		Criteria root = new Criteria();
         root.addEqualTo("timesheetDocumentId", timesheetDocumentId);
-        Query query = QueryFactory.newQuery(MissedPunchDocument.class, root);
-        missedPunchDocuments.addAll(this.getPersistenceBrokerTemplate().getCollectionByQuery(query));
-
-        return missedPunchDocuments;
-    }
+        Query query = QueryFactory.newQuery(MissedPunch.class, root);
+        missedPunches.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+        
+        return missedPunches;
+	}
+	
+	@Override
+    public MissedPunch getMissedPunchByClockLogId(String tkClockLogId) {
+        Criteria root = new Criteria();
+        root.addEqualTo("tkClockLogId", tkClockLogId);
+        Query query = QueryFactory.newQuery(MissedPunch.class, root);
+        return (MissedPunch) getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
     
 }

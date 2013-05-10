@@ -190,7 +190,7 @@ public class Assignment extends HrBusinessObject {
 	}
 
 	public String getAssignmentDescription() {
-		return TKUtils.getAssignmentString(this);
+		return TKUtils.getAssignmentString(getPrincipalId(), getJobNumber(), getWorkArea(), getTask(), getEffectiveLocalDate());
 	}
 
 	public Person getPrincipal() {

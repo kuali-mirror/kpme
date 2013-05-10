@@ -212,7 +212,7 @@ public class ClockActionForm extends TimesheetActionForm {
 
     public String getCurrentAssignmentDescription() {
     	if(currentAssignmentDescription == null && this.getCurrentTimeBlock() != null) {
-    		AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getCurrentTimeBlock().getAssignmentKey());
+    		AssignmentDescriptionKey adk = AssignmentDescriptionKey.get(this.getCurrentTimeBlock().getAssignmentKey());
     		Assignment assignment = this.getTimesheetDocument().getAssignment(adk);
     		if(assignment != null) {
     			this.setCurrentAssignmentDescription(assignment.getAssignmentDescription());

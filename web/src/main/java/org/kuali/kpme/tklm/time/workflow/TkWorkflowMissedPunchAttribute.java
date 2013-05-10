@@ -25,9 +25,11 @@ import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.identity.Id;
 import org.kuali.rice.kew.api.identity.PrincipalId;
 import org.kuali.rice.kew.api.rule.RoleName;
@@ -36,6 +38,8 @@ import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.AbstractRoleAttribute;
 import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
 import org.kuali.rice.kim.api.role.RoleMember;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 @Deprecated
 public class TkWorkflowMissedPunchAttribute extends AbstractRoleAttribute {
@@ -53,36 +57,42 @@ public class TkWorkflowMissedPunchAttribute extends AbstractRoleAttribute {
 	public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) {
 		ResolvedQualifiedRole rqr = new ResolvedQualifiedRole();
 		List<Id> principals = new ArrayList<Id>();
-		Long routeHeaderId = new Long(routeContext.getDocument().getDocumentId());
 
-        MissedPunchDocument missedPunch = TkServiceLocator.getMissedPunchService().getMissedPunchByRouteHeader(routeHeaderId.toString());
-
-        String assign_string = missedPunch.getAssignment();
-        String tsDocIdString = missedPunch.getTimesheetDocumentId();
-
-        if (tsDocIdString != null && assign_string != null) {
-            TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsDocIdString);
-            if (tdoc != null) {
-                Assignment assignment = tdoc.getAssignment(new AssignmentDescriptionKey(assign_string));
-                if (assignment != null) {
-            		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
-            		
-            		if (TkConstants.ROLE_TK_APPROVER.equals(roleName)) {
-            	        roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime(), true));
-            	        roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime(), true));
-            		}
-        	
-        	        for (RoleMember roleMember : roleMembers) {
-        	        	principals.add(new PrincipalId(roleMember.getMemberId()));
-        		    }
-                } else {
-                    throw new RuntimeException("Could not obtain Assignment.");
-                }
-            } else {
-                throw new RuntimeException("Could not obtain TimesheetDocument.");
-            }
-        } else {
-            throw new RuntimeException("Could not obtain Timesheet Document ID or Assignment ID");
+		try {
+			String documentId = routeContext.getDocument().getDocumentId();
+			Document document = (MissedPunchDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderIdSessionless(documentId);
+	        MissedPunchDocument missedPunchDocument = (MissedPunchDocument) document;
+	        MissedPunch missedPunch = missedPunchDocument.getMissedPunch();
+	
+	        AssignmentDescriptionKey assignKey = AssignmentDescriptionKey.get(missedPunch.getAssignmentKey());
+	        String tsDocIdString = missedPunch.getTimesheetDocumentId();
+	
+	        if (tsDocIdString != null && assignKey != null) {
+	            TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsDocIdString);
+	            if (tdoc != null) {
+	                Assignment assignment = tdoc.getAssignment(assignKey);
+	                if (assignment != null) {
+	            		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
+	            		
+	            		if (TkConstants.ROLE_TK_APPROVER.equals(roleName)) {
+	            	        roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime(), true));
+	            	        roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime(), true));
+	            		}
+	        	
+	        	        for (RoleMember roleMember : roleMembers) {
+	        	        	principals.add(new PrincipalId(roleMember.getMemberId()));
+	        		    }
+	                } else {
+	                    throw new RuntimeException("Could not obtain Assignment.");
+	                }
+	            } else {
+	                throw new RuntimeException("Could not obtain TimesheetDocument.");
+	            }
+	        } else {
+	            throw new RuntimeException("Could not obtain Timesheet Document ID or Assignment ID");
+	        }
+		} catch (WorkflowException we) {
+			we.printStackTrace();
         }
 
 		if (principals.size() == 0) {

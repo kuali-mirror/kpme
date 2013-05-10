@@ -59,7 +59,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="clockTimestampTimezone" />
 				<bean parent="MaintainableFieldDefinition" p:name="clockAction" />
 				<bean parent="MaintainableFieldDefinition" p:name="ipAddress" />
-				<bean parent="MaintainableFieldDefinition" p:name="missedPunchDocumentId"/>
+				<bean parent="MaintainableFieldDefinition" p:name="clockedByMissedPunch"/>
 				<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />
 				<bean parent="MaintainableFieldDefinition" p:name="timestamp" />
 			</list>

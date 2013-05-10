@@ -16,6 +16,7 @@
 
 --%>
 <%@include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
+
 <c:set var="Form" value="${ClockActionForm}" scope="request"/>
 
 <script type="text/javascript">
@@ -46,6 +47,25 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
 </c:if>
 
 <tk:tkHeader tabId="clock">
+    <script type="text/javascript" src="krad/plugins/jquery/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="krad/plugins/jqueryUI/jquery-ui-1.9.2.js"></script>
+    <script type="text/javascript" src="krad/plugins/jgrowl/jquery.jgrowl.js"></script>
+    <script type="text/javascript" src="krad/plugins/blockUI/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="krad/plugins/validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="krad/plugins/tooltip/jquery.bubblepopup.v2.3.1.js"></script>
+    <script type="text/javascript" src="krad/plugins/dirtyform/jquery.dirtyform.js"></script>
+    <script type="text/javascript" src="krad/plugins/scrollto/jquery.scrollTo-1.4.3-min.js"></script>
+    <script type="text/javascript" src="krad/plugins/rice/datatables/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="krad/plugins/rice/datatables/ZeroClipboard.js"></script>
+    <script type="text/javascript" src="krad/plugins/rice/datatables/TableTools.js"></script>
+    <script type="text/javascript" src="krad/plugins/rice/datatables/jquery.dataTables.rowGrouping.js"></script>
+    <script type="text/javascript" src="krad/plugins/fancybox/jquery.fancybox.pack.js"></script>
+    <script type="text/javascript" src="krad/scripts/krad.variables.js"></script>
+    <script type="text/javascript" src="krad/scripts/krad.message.js"></script>
+    <script type="text/javascript" src="krad/scripts/krad.widget.js"></script>
+    <script type="text/javascript" src="krad/scripts/krad.utility.js"></script>
+    <script type="text/javascript" src="krad/scripts/krad.initialize.js"></script>
+
 	<html:form action="/Clock.do">
 	<html:hidden property="methodToCall" value=""/>
 	<html:hidden property="currentClockAction" styleId="clockAction"/>
@@ -93,7 +113,7 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
 						</c:when>
                     </c:choose>
                     <c:if test="${Form.showMissedPunchButton}">
-						<input type="button" class="button" id="missed-punch-iframe-button" value="Missed Punch" name="missedPunch"/>
+						<input type="button" class="button" value="Missed Punch" name="missedPunch" onClick="javascript: showLightboxUrl(extractUrlBase() + '/kr-krad/missedPunch?&methodToCall=start&viewId=MissedPunch-SubmitView&missedPunch.timesheetDocumentId=' + tdocid, {minHeight: 500, maxWidth: 600})" /> 				
 					</c:if>
 					<c:if test="${Form.showDistributeButton}">
 						<input id="distribute-button" type="button" class="button" value="Distribute Time Blocks"
