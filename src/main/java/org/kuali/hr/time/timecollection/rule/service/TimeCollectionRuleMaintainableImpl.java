@@ -20,19 +20,26 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.cache.CacheUtils;
+import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class TimeCollectionRuleMaintainableImpl extends KualiMaintainableImpl {
+public class TimeCollectionRuleMaintainableImpl extends HrBusinessObjectMaintainableImpl {
     /**
      *
      */
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public HrBusinessObject getObjectById(String id) {
+        return TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(id);
+    }
 
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
@@ -53,7 +60,7 @@ public class TimeCollectionRuleMaintainableImpl extends KualiMaintainableImpl {
         super.processAfterEdit(document, parameters);
     }
 
-    @Override
+    /*@Override
     public void saveBusinessObject() {
         TimeCollectionRule timeCollectionRule = (TimeCollectionRule) this.getBusinessObject();
 
@@ -77,7 +84,7 @@ public class TimeCollectionRuleMaintainableImpl extends KualiMaintainableImpl {
 		
 		KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule);
         CacheUtils.flushCache(TimeCollectionRule.CACHE_NAME);
-    }
+    }*/
 
 
     @Override
