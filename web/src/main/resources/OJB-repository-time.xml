@@ -80,7 +80,7 @@
  		<field-descriptor name="objectId"               column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
 
-        <collection-descriptor name="timeHourDetails" element-class-ref="org.kuali.kpme.tklm.time.timeblock.TimeHourDetail" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="timeHourDetails" element-class-ref="org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="tkTimeBlockId" />
         </collection-descriptor>
 
@@ -512,7 +512,7 @@
         <field-descriptor name="active"                 column="ACTIVE"                     jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kpme.tklm.time.timeblock.TimeHourDetail" table="TK_HOUR_DETAIL_T">
+    <class-descriptor class="org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail" table="TK_HOUR_DETAIL_T">
         <field-descriptor name="tkTimeHourDetailId" column="TK_HOUR_DETAIL_ID"  jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="TK_HOUR_DETAIL_S" />
         <field-descriptor name="tkTimeBlockId"      column="TK_TIME_BLOCK_ID"   jdbc-type="VARCHAR" length="60" primarykey="false" />
         <field-descriptor name="earnCode"           column="EARN_CODE"          jdbc-type="VARCHAR" length="15" nullable="false" primarykey="false" />
@@ -601,7 +601,7 @@
     <class-descriptor class="org.kuali.kpme.tklm.time.missedpunch.MissedPunch" table="TK_MISSED_PUNCH_T">
         <field-descriptor name="tkMissedPunchId"        column="TK_MISSED_PUNCH_ID"     jdbc-type="VARCHAR"     length="60" nullable="false" autoincrement="true" primarykey="true" sequence-name="TK_MISSED_PUNCH_S" />
         <field-descriptor name="principalId"            column="PRINCIPAL_ID"           jdbc-type="VARCHAR"     length="40" nullable="false" />
-        <field-descriptor name="timesheetDocumentId"    column="TIMESHEET_DOCUMENT_ID"  jdbc-type="VARCHAR"     length="14" nullable="false" />
+        <field-descriptor name="timesheetDocumentId"    column="TIMESHEET_DOCUMENT_ID"	jdbc-type="VARCHAR"     length="14" nullable="false" />
         <field-descriptor name="jobNumber"              column="JOB_NUMBER"             jdbc-type="BIGINT" />
         <field-descriptor name="workArea"               column="WORK_AREA"              jdbc-type="BIGINT" />
         <field-descriptor name="task"                   column="TASK"                   jdbc-type="BIGINT" />

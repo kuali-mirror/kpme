@@ -10,7 +10,7 @@
   <bean id="PositionFlagMaintenanceDocument" parent="PositionFlagMaintenanceDocument-parentBean"/>
   <bean id="PositionFlagMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
     <property name="dataObjectClass" value="org.kuali.kpme.pm.positionflag.PositionFlag"/>
-    <property name="maintainableClass" value="org.kuali.kpme.pm.positionflag.service.PositionFlagMaintainableImpl"/>  
+    <property name="maintainableClass" value="org.kuali.kpme.pm.positionflag.web.PositionFlagMaintainableImpl"/>  
     <property name="documentTypeName" value="PositionFlagMaintenanceDocumentType"/>
   </bean>
 </beans>

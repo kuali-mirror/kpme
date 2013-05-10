@@ -30,7 +30,7 @@
   <bean id="LeaveDonationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.kpme.tklm.leave.donation.LeaveDonation"
   		p:businessRulesClass="org.kuali.kpme.tklm.leave.donation.validation.LeaveDonationValidation"
-  		p:maintainableClass="org.kuali.kpme.tklm.leave.donation.service.LeaveDonationMaintainableServiceImpl"
+  		p:maintainableClass="org.kuali.kpme.tklm.leave.donation.web.LeaveDonationMaintainableServiceImpl"
   		p:documentAuthorizerClass="org.kuali.kpme.tklm.leave.donation.authorization.LeaveDonationAuthorizer">
     <property name="maintainableSections">
       <list>

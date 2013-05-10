@@ -40,15 +40,15 @@
         <form-bean name="TimeApprovalWSActionForm" type="org.kuali.kpme.tklm.time.approval.web.TimeApprovalWSActionForm"/>
         <form-bean name="PersonInfoActionForm" type="org.kuali.kpme.core.web.PersonInfoActionForm"/>
         <form-bean name="TimesheetActionForm" type="org.kuali.kpme.tklm.time.timesheet.web.TimesheetActionForm"/>
-        <form-bean name="TimesheetSubmitActionForm" type="org.kuali.kpme.tklm.time.detail.web.TimesheetSubmitActionForm"/>
+        <form-bean name="TimesheetSubmitActionForm" type="org.kuali.kpme.tklm.time.timesheet.web.TimesheetSubmitActionForm"/>
         <form-bean name="HelpActionForm" type="org.kuali.kpme.tklm.time.help.web.HelpActionForm"/>
         <form-bean name="SessionInvalidateForm" type="org.kuali.kpme.core.web.SessionInvalidateForm"/>
 		<form-bean name="LeaveCalendarForm" type="org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarForm"/>
         <form-bean name="LeaveCalendarSubmitForm" type="org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarSubmitForm"/>
-		<form-bean name="LeaveBlockDisplayForm" type="org.kuali.kpme.tklm.leave.web.LeaveBlockDisplayForm"/>
-		<form-bean name="LeaveRequestForm" type="org.kuali.kpme.tklm.leave.web.LeaveRequestForm"/>
+		<form-bean name="LeaveBlockDisplayForm" type="org.kuali.kpme.tklm.leave.block.web.LeaveBlockDisplayForm"/>
+		<form-bean name="LeaveRequestForm" type="org.kuali.kpme.tklm.leave.request.web.LeaveRequestForm"/>
 		<form-bean name="LeaveRequestApprovalActionForm" type="org.kuali.kpme.tklm.leave.request.approval.web.LeaveRequestApprovalActionForm"/>
-		<form-bean name="LeaveCalendarWSForm" type="org.kuali.kpme.tklm.leave.web.LeaveCalendarWSForm"/>
+		<form-bean name="LeaveCalendarWSForm" type="org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarWSForm"/>
 		<form-bean name="LeaveApprovalActionForm" type="org.kuali.kpme.tklm.leave.approval.web.LeaveApprovalActionForm"/>
         <form-bean name="LeaveApprovalWSActionForm" type="org.kuali.kpme.tklm.leave.approval.web.LeaveApprovalWSActionForm"/>
         <form-bean name="BalanceTransferForm" type="org.kuali.kpme.tklm.leave.transfer.web.BalanceTransferForm"/>
@@ -150,7 +150,7 @@
         
         <action path="/TimesheetSubmit" name="TimesheetSubmitActionForm" scope="request"
                 input="/WEB-INF/jsp/timeDetail.jsp"
-                type="org.kuali.kpme.tklm.time.detail.web.TimesheetSubmitAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.time.timesheet.web.TimesheetSubmitAction" parameter="methodToCall" validate="false">
             <forward name="timesheetRedirect" path="/TimeDetail.do"/>
             <forward name="approverRedirect" path="/TimeApproval.do"/>
             <forward name="transfer" path="/BalanceTransfer.do"/>
@@ -240,7 +240,7 @@
         </action>
         
         <action path="/LeaveRequest" name="LeaveRequestForm" scope="session" input="/WEB-INF/jsp/leaveRequest.jsp"
-                type="org.kuali.kpme.tklm.leave.web.LeaveRequestAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.leave.request.web.LeaveRequestAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/leaveRequest.jsp"/>
         </action>
 
@@ -251,12 +251,12 @@
         </action>
 
 		<action path="/LeaveBlockDisplay" name="LeaveBlockDisplayForm" scope="request" input="/WEB-INF/jsp/leaveBlockDisplay.jsp"
-                type="org.kuali.kpme.tklm.leave.web.LeaveBlockDisplayAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.leave.block.web.LeaveBlockDisplayAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/leaveBlockDisplay.jsp"/>
         </action>
 
 		<action path="/LeaveCalendarWS" name="LeaveCalendarWSForm" scope="request" input="/WEB-INF/jsp/webService.jsp"
-                type="org.kuali.kpme.tklm.leave.web.LeaveCalendarWSAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarWSAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/webService.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>

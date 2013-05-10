@@ -28,7 +28,7 @@
 
 	<bean id="WeeklyOvertimeRuleMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kpme.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule"
-		p:maintainableClass="org.kuali.kpme.tklm.time.rules.overtime.weekly.service.WeeklyOvertimeRuleMaintainableImpl"
+		p:maintainableClass="org.kuali.kpme.tklm.time.rules.overtime.weekly.web.WeeklyOvertimeRuleMaintainableImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase">
 		<property name="maintainableSections">
 			<list>

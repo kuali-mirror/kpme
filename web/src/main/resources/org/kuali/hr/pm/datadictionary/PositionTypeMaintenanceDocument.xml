@@ -10,7 +10,7 @@
   <bean id="PositionTypeMaintenanceDocument" parent="PositionTypeMaintenanceDocument-parentBean"/>
   <bean id="PositionTypeMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
     <property name="dataObjectClass" value="org.kuali.kpme.pm.positiontype.PositionType"/>
-    <property name="maintainableClass" value="org.kuali.kpme.pm.positiontype.service.PositionTypeMaintainableImpl"/>  
+    <property name="maintainableClass" value="org.kuali.kpme.pm.positiontype.web.PositionTypeMaintainableImpl"/>  
     <property name="documentTypeName" value="PositionTypeMaintenanceDocumentType"/>
     <property name="businessRulesClass" value="org.kuali.kpme.pm.positiontype.validation.PositionTypeValidation"/>
   </bean>

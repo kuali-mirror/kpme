@@ -486,13 +486,13 @@
 
     <bean id="timeBlockLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.time.timeblock.service.TimeBlockLookupableHelperServiceImpl"/>
+            <bean class="org.kuali.kpme.tklm.time.timeblock.web.TimeBlockLookupableHelperServiceImpl"/>
         </property>
     </bean>
 
     <bean id="timeBlockHistoryLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.time.timeblock.service.TimeBlockHistoryLookupableHelperServiceImpl"/>
+            <bean class="org.kuali.kpme.tklm.time.timeblock.web.TimeBlockHistoryLookupableHelperServiceImpl"/>
         </property>
     </bean>
 
@@ -837,12 +837,12 @@
 
     <bean id="balanceTransferLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
-    		<bean class="org.kuali.kpme.tklm.leave.transfer.service.BalanceTransferLookupableHelper"/>
+    		<bean class="org.kuali.kpme.tklm.leave.transfer.web.BalanceTransferLookupableHelper"/>
     	</property>    
     </bean>
     <bean id="leavePayoutLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.leave.payout.service.LeavePayoutLookupableHelper"/>
+            <bean class="org.kuali.kpme.tklm.leave.payout.web.LeavePayoutLookupableHelper"/>
         </property>
     </bean>
     <bean id="calendarLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
@@ -857,7 +857,7 @@
     </bean>
     <bean id="systemLunchRuleLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.time.rules.lunch.sys.service.SystemLunchRuleLookupableHelper"/>
+            <bean class="org.kuali.kpme.tklm.time.rules.lunch.sys.web.SystemLunchRuleLookupableHelper"/>
         </property>
     </bean>
 
@@ -896,7 +896,7 @@
     </bean>
     <bean id="dailyOvertimeRuleLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.time.rules.overtime.daily.service.DailyOvertimeRuleLookupableHelper"/>
+            <bean class="org.kuali.kpme.tklm.time.rules.overtime.daily.web.DailyOvertimeRuleLookupableHelper"/>
         </property>
     </bean>
     <bean id="departmentLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
@@ -911,34 +911,34 @@
     </bean>
     <bean id="clockLocationRuleLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.time.rules.clocklocation.service.ClockLocationRuleLookupableHelper"/>
+            <bean class="org.kuali.kpme.tklm.time.rules.clocklocation.web.ClockLocationRuleLookupableHelper"/>
         </property>
     </bean>
     <bean id="departmentLunchRuleLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.time.rules.lunch.department.service.DepartmentLunchRuleLookupableHelper"/>
+            <bean class="org.kuali.kpme.tklm.time.rules.lunch.department.web.DepartmentLunchRuleLookupableHelper"/>
         </property>
     </bean>
     <bean id="gracePeriodRuleLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.time.rules.graceperiod.service.GracePeriodRuleLookupableHelper"/>
+            <bean class="org.kuali.kpme.tklm.time.rules.graceperiod.web.GracePeriodRuleLookupableHelper"/>
         </property>
     </bean>
     <bean id="shiftDifferentialRuleLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.time.rules.shiftdifferential.service.ShiftDifferentialRuleLookupableHelper"/>
+            <bean class="org.kuali.kpme.tklm.time.rules.shiftdifferential.web.ShiftDifferentialRuleLookupableHelper"/>
         </property>
     </bean>
 
     <bean id="weeklyOvertimeRuleLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.time.rules.overtime.weekly.service.WeeklyOvertimeRuleLookupableHelper"/>
+            <bean class="org.kuali.kpme.tklm.time.rules.overtime.weekly.web.WeeklyOvertimeRuleLookupableHelper"/>
         </property>
     </bean>
 
     <bean id="timeCollectionRuleLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.time.rules.timecollection.service.TimeCollectionRuleLookupableHelper"/>
+            <bean class="org.kuali.kpme.tklm.time.rules.timecollection.web.TimeCollectionRuleLookupableHelper"/>
         </property>
     </bean>
     <bean id="assignmentLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
@@ -948,7 +948,7 @@
     </bean>
     <bean id="clockLogLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.time.clocklog.service.ClockLogLookupableHelper"/>
+            <bean class="org.kuali.kpme.tklm.time.clocklog.web.ClockLogLookupableHelper"/>
         </property>
     </bean>
   
@@ -1019,13 +1019,13 @@
     </bean>
     <bean id="systemScheduledTimeOffLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.leave.timeoff.service.SystemScheduledTimeOffLookupableHelper"/>
+            <bean class="org.kuali.kpme.tklm.leave.timeoff.web.SystemScheduledTimeOffLookupableHelper"/>
         </property>
     </bean>
     
     <bean id="leaveDonationLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.leave.donation.service.LeaveDonationLookupableHelper"/>
+            <bean class="org.kuali.kpme.tklm.leave.donation.web.LeaveDonationLookupableHelper"/>
         </property>
     </bean>  
     <bean id="accrualCategoryLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
@@ -1035,12 +1035,12 @@
     </bean> 
     <bean id="leaveAdjustmentLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.leave.adjustment.service.LeaveAdjustmentLookupableHelper"/>
+            <bean class="org.kuali.kpme.tklm.leave.adjustment.web.LeaveAdjustmentLookupableHelper"/>
         </property>
     </bean> 
     <bean id="employeeOverrideLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.leave.override.service.EmployeeOverrideLookupableHelper"/>
+            <bean class="org.kuali.kpme.tklm.leave.override.web.EmployeeOverrideLookupableHelper"/>
         </property>
     </bean>
     <bean id="missedPunchLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
@@ -1055,25 +1055,25 @@
     </bean>
  	<bean id="positionReportTypeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
-    		<bean class="org.kuali.kpme.pm.positionreporttype.service.PositionReportTypeLookupableHelper"/>
+    		<bean class="org.kuali.kpme.pm.positionreporttype.web.PositionReportTypeLookupableHelper"/>
     	</property>    
     </bean>
     
  	<bean id="positionReportGroupLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
-    		<bean class="org.kuali.kpme.pm.positionreportgroup.service.PositionReportGroupLookupableHelper"/>
+    		<bean class="org.kuali.kpme.pm.positionreportgroup.web.PositionReportGroupLookupableHelper"/>
     	</property>    
     </bean>
     
     <bean id="positionReportCatLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
 	   	<property name="lookupableHelperService">
-	   		<bean class="org.kuali.kpme.pm.positionreportcat.service.PositionReportCatLookupableHelper"/>
+	   		<bean class="org.kuali.kpme.pm.positionreportcat.web.PositionReportCatLookupableHelper"/>
 	   	</property>    
     </bean>
     
     <bean id="positionReportSubCatLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
 	   	<property name="lookupableHelperService">
-	   		<bean class="org.kuali.kpme.pm.positionreportsubcat.service.PositionReportSubCatLookupableHelper"/>
+	   		<bean class="org.kuali.kpme.pm.positionreportsubcat.web.PositionReportSubCatLookupableHelper"/>
 	   	</property>    
     </bean>
 
@@ -1085,31 +1085,31 @@
     
     <bean id="positionTypeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.pm.positiontype.service.PositionTypeLookupableHelper"/>
+            <bean class="org.kuali.kpme.pm.positiontype.web.PositionTypeLookupableHelper"/>
         </property>
     </bean>
 
     <bean id="positionAppointmentLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.pm.positionappointment.service.PositionAppointmentLookupableHelper"/>
+            <bean class="org.kuali.kpme.pm.positionappointment.web.PositionAppointmentLookupableHelper"/>
         </property>
     </bean>
     
     <bean id="pstnContractTypeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.pm.pstncontracttype.service.PstnContractTypeLookupableHelper"/>
+            <bean class="org.kuali.kpme.pm.pstncontracttype.web.PstnContractTypeLookupableHelper"/>
         </property>
     </bean>
     
     <bean id="positionDepartmentAffiliationLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
-    		<bean class="org.kuali.kpme.pm.positiondepartmentaffiliation.service.PositionDepartmentAffiliationLookupableHelper"/>
+    		<bean class="org.kuali.kpme.pm.positiondepartmentaffiliation.web.PositionDepartmentAffiliationLookupableHelper"/>
     	</property>    
     </bean>
     
     <bean id="positionDepartmentLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
-    		<bean class="org.kuali.kpme.pm.positiondepartment.service.PositionDepartmentLookupableHelper"/>
+    		<bean class="org.kuali.kpme.pm.positiondepartment.web.PositionDepartmentLookupableHelper"/>
     	</property>    
     </bean>
     

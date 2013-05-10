@@ -29,7 +29,7 @@
 	<bean id="ClockLogMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kpme.tklm.time.clocklog.ClockLog"
 		p:businessRulesClass="org.kuali.kpme.tklm.time.clocklog.validation.ClockLogRule"
-		p:maintainableClass="org.kuali.kpme.tklm.time.clocklog.service.ClockLogMaintainableImpl"
+		p:maintainableClass="org.kuali.kpme.tklm.time.clocklog.web.ClockLogMaintainableImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase">
 		<property name="maintainableSections">
 			<list>

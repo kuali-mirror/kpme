@@ -31,7 +31,7 @@
   		p:businessObjectClass="org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule"
   		p:businessRulesClass="org.kuali.kpme.tklm.time.rules.timecollection.validation.TimeCollectionRuleValidation"
         p:documentAuthorizerClass="org.kuali.kpme.tklm.time.rules.timecollection.authorization.TimeCollectionRuleAuthorizer"
-  		p:maintainableClass="org.kuali.kpme.tklm.time.rules.timecollection.service.TimeCollectionRuleMaintainableImpl">
+  		p:maintainableClass="org.kuali.kpme.tklm.time.rules.timecollection.web.TimeCollectionRuleMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="TimeCollectionRuleMaintenanceDocument-TimeCollectionRuleMaintenance"/>

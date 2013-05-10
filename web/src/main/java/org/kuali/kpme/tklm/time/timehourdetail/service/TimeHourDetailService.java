@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.timehourdetail.service;
 import java.util.List;
 
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timeblock.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 
 
 public interface TimeHourDetailService{

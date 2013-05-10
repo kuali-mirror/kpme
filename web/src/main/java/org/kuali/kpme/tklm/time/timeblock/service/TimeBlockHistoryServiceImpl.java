@@ -21,8 +21,8 @@ import java.util.List;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistoryDetail;
-import org.kuali.kpme.tklm.time.timeblock.TimeHourDetail;
 import org.kuali.kpme.tklm.time.timeblock.dao.TimeBlockHistoryDao;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 
 public class TimeBlockHistoryServiceImpl implements TimeBlockHistoryService {
 

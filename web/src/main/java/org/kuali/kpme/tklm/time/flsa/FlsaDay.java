@@ -29,7 +29,7 @@ import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timeblock.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 
 public class FlsaDay {
 

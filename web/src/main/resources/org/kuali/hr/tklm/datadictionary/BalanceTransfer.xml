@@ -260,7 +260,7 @@
 	<bean id="BalanceTransfer-inquiryDefinition" parent="BalanceTransfer-inquiryDefinition-parentBean" />
 
 	<bean id="BalanceTransfer-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.tklm.leave.transfer.BalanceTransferInquirableImpl">
+		parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.tklm.leave.transfer.web.BalanceTransferInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

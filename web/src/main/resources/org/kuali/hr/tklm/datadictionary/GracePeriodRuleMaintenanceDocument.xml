@@ -30,7 +30,7 @@
   <bean id="GracePeriodRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.kpme.tklm.time.rules.graceperiod.GracePeriodRule"
   		p:businessRulesClass="org.kuali.kpme.tklm.time.rules.graceperiod.validation.GracePeriodRuleValidation"
-   		p:maintainableClass=" org.kuali.kpme.tklm.time.rules.graceperiod.service.GracePeriodRuleMaintainableServiceImpl"
+   		p:maintainableClass=" org.kuali.kpme.tklm.time.rules.graceperiod.web.GracePeriodRuleMaintainableServiceImpl"
    		p:documentAuthorizerClass="org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase">
     <property name="maintainableSections">
       <list>

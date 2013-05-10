@@ -30,7 +30,7 @@
   <bean id="BalanceTransferMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.kpme.tklm.leave.transfer.BalanceTransfer"
   	    p:businessRulesClass="org.kuali.kpme.tklm.leave.transfer.validation.BalanceTransferValidation"
-  		p:maintainableClass="org.kuali.kpme.tklm.leave.transfer.service.BalanceTransferMaintainableImpl"
+  		p:maintainableClass="org.kuali.kpme.tklm.leave.transfer.web.BalanceTransferMaintainableImpl"
         p:documentAuthorizerClass="org.kuali.kpme.tklm.leave.transfer.authorization.BalanceTransferAuthorizer">
     <property name="maintainableSections">
       <list>

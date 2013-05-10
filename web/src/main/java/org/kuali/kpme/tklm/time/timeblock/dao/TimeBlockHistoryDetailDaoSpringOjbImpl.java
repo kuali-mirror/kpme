@@ -21,7 +21,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistoryDetail;
-import org.kuali.kpme.tklm.time.timeblock.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class TimeBlockHistoryDetailDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements TimeBlockHistoryDetailDao {

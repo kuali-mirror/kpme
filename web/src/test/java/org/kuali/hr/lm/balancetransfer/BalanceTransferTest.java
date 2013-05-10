@@ -34,11 +34,11 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarSubmitForm;
+import org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarWSForm;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
-import org.kuali.kpme.tklm.leave.web.LeaveCalendarWSForm;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 

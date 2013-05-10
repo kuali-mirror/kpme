@@ -31,7 +31,7 @@
   		p:businessObjectClass="org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule"
  		p:businessRulesClass="org.kuali.kpme.tklm.time.rules.lunch.department.validation.DeptLunchRuleRule"
         p:documentAuthorizerClass="org.kuali.kpme.tklm.time.rules.lunch.department.authorization.DepartmentLunchRuleAuthorizer"
-  		p:maintainableClass="org.kuali.kpme.tklm.time.rules.lunch.department.service.DeptLunchRuleMaintainableImpl">
+  		p:maintainableClass="org.kuali.kpme.tklm.time.rules.lunch.department.web.DeptLunchRuleMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="DeptLunchRuleMaintenanceDocument-DeptLunchRuleMaintenance"/>

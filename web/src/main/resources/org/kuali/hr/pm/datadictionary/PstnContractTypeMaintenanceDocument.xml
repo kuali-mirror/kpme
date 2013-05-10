@@ -10,7 +10,7 @@
   <bean id="PstnContractTypeMaintenanceDocument" parent="PstnContractTypeMaintenanceDocument-parentBean"/>
   <bean id="PstnContractTypeMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
     <property name="dataObjectClass" value="org.kuali.kpme.pm.pstncontracttype.PstnContractType"/>
-    <property name="maintainableClass" value="org.kuali.kpme.pm.pstncontracttype.service.PstnContractTypeMaintainableImpl"/>  
+    <property name="maintainableClass" value="org.kuali.kpme.pm.pstncontracttype.web.PstnContractTypeMaintainableImpl"/>  
     <property name="documentTypeName" value="PstnContractTypeMaintenanceDocumentType"/>
     <property name="businessRulesClass" value="org.kuali.kpme.pm.pstncontracttype.validation.PstnContractTypeValidation"/>
   </bean>

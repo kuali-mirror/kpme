@@ -30,7 +30,7 @@
   <bean id="PositionReportGroupMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup"
   		p:businessRulesClass="org.kuali.kpme.pm.positionreportgroup.validation.PositionReportGroupValidation"
-  		p:maintainableClass="org.kuali.kpme.pm.positionreportgroup.service.PositionReportGroupMaintainableImpl">
+  		p:maintainableClass="org.kuali.kpme.pm.positionreportgroup.web.PositionReportGroupMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="PositionReportGroupMaintenanceDocument-PositionReportGroupMaintenance"/>

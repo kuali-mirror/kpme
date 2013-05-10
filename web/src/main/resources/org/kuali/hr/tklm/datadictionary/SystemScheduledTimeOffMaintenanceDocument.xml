@@ -30,7 +30,7 @@
 		parent="MaintenanceDocumentEntry" 
 		p:businessObjectClass="org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff"
 		p:businessRulesClass="org.kuali.kpme.tklm.leave.timeoff.validation.SystemScheduledTimeOffValidation"
-		p:maintainableClass="org.kuali.kpme.tklm.leave.timeoff.service.SystemScheduledTimeOffMaintainableServiceImpl"
+		p:maintainableClass="org.kuali.kpme.tklm.leave.timeoff.web.SystemScheduledTimeOffMaintainableServiceImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.tklm.leave.timeoff.authorization.SystemScheduledTimeOffAuthorizer">
 		<property name="maintainableSections">
 			<list>

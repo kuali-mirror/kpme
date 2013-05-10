@@ -30,7 +30,7 @@
 	<bean id="EmployeeOverrideMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
 		p:businessObjectClass="org.kuali.kpme.tklm.leave.override.EmployeeOverride"
 		p:businessRulesClass="org.kuali.kpme.tklm.leave.override.validation.EmployeeOverrideRule"
-		p:maintainableClass="org.kuali.kpme.tklm.leave.override.service.EmployeeOverrideMaintainableServiceImpl"
+		p:maintainableClass="org.kuali.kpme.tklm.leave.override.web.EmployeeOverrideMaintainableServiceImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.tklm.leave.override.authorization.EmployeeOverrideAuthorizer">
 		<property name="maintainableSections">
 			<list>

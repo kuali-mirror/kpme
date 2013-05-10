@@ -31,7 +31,7 @@ import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockRenderer;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockRenderer;
+import org.kuali.kpme.tklm.time.timeblock.web.TimeBlockRenderer;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailRenderer;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 
