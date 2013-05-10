@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.bo.calendar.web.CalendarWeek;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
 public abstract class CalendarParent implements Serializable {

@@ -30,7 +30,7 @@
   <bean id="JobMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.kpme.core.bo.job.Job"
   		p:businessRulesClass="org.kuali.kpme.core.bo.job.validation.JobValidation"
-  		p:maintainableClass="org.kuali.kpme.core.bo.job.service.JobMaintainableImpl"
+  		p:maintainableClass="org.kuali.kpme.core.bo.job.web.JobMaintainableImpl"
   		p:documentAuthorizerClass="org.kuali.kpme.core.bo.job.authorization.JobAuthorizer">
     <property name="maintainableSections">
       <list>

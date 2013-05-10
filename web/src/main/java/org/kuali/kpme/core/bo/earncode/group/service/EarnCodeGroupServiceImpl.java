@@ -27,21 +27,21 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.bo.earncode.group.EarnCodeGroupDefinition;
-import org.kuali.kpme.core.bo.earncode.group.dao.EarnCodeGroupDaoService;
+import org.kuali.kpme.core.bo.earncode.group.dao.EarnCodeGroupDao;
 
 public class EarnCodeGroupServiceImpl implements EarnCodeGroupService {
-    private EarnCodeGroupDaoService earnCodeGroupDao;
+    private EarnCodeGroupDao earnCodeGroupDao;
 
     @Override
     public EarnCodeGroup getEarnCodeGroup(String earnCodeGroup, LocalDate asOfDate) {
         return earnCodeGroupDao.getEarnCodeGroup(earnCodeGroup, asOfDate);
     }
 
-    public EarnCodeGroupDaoService getEarnCodeGroupDao() {
+    public EarnCodeGroupDao getEarnCodeGroupDao() {
         return earnCodeGroupDao;
     }
 
-    public void setEarnCodeGroupDao(EarnCodeGroupDaoService earnCodeGroupDao) {
+    public void setEarnCodeGroupDao(EarnCodeGroupDao earnCodeGroupDao) {
         this.earnCodeGroupDao = earnCodeGroupDao;
     }
 

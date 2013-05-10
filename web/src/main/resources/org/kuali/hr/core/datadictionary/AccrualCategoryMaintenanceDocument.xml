@@ -30,7 +30,7 @@
 		parent="MaintenanceDocumentEntry" 
 		p:businessObjectClass="org.kuali.kpme.core.bo.accrualcategory.AccrualCategory"
 		p:businessRulesClass="org.kuali.kpme.core.bo.accrualcategory.validation.AccrualCategoryValidation"
-		p:maintainableClass="org.kuali.kpme.core.bo.accrualcategory.service.AccrualCategoryMaintainableServiceImpl"
+		p:maintainableClass="org.kuali.kpme.core.bo.accrualcategory.web.AccrualCategoryMaintainableServiceImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.core.bo.accrualcategory.authorization.AccrualCategoryAuthorizer">
 		<property name="maintainableSections">
 			<list>

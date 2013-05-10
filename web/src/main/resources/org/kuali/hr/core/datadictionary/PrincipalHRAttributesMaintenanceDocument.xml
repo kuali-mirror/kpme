@@ -29,7 +29,7 @@
 	<bean id="PrincipalHRAttributesMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kpme.core.bo.principal.PrincipalHRAttributes"
 		p:businessRulesClass="org.kuali.kpme.core.bo.principal.validation.PrincipalHRAttributesRule"
-		p:maintainableClass="org.kuali.kpme.core.bo.principal.service.PrincipalHRAttributesMaintainableImpl"
+		p:maintainableClass="org.kuali.kpme.core.bo.principal.web.PrincipalHRAttributesMaintainableImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.core.bo.principal.authorization.PrincipalHRAttributesAuthorizer">
 		<property name="maintainableSections">
 			<list>

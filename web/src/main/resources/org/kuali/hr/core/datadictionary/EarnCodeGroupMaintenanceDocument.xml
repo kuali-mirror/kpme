@@ -30,7 +30,7 @@
 		parent="MaintenanceDocumentEntry" 
 		p:businessObjectClass="org.kuali.kpme.core.bo.earncode.group.EarnCodeGroup"
 		p:businessRulesClass="org.kuali.kpme.core.bo.earncode.group.validation.EarnCodeGroupValidation"
-		p:maintainableClass="org.kuali.kpme.core.bo.earncode.group.service.EarnCodeGroupMaintainableImpl"
+		p:maintainableClass="org.kuali.kpme.core.bo.earncode.group.web.EarnCodeGroupMaintainableImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.core.bo.earncode.group.authorization.EarnCodeGroupAuthorizer">
 		<property name="maintainableSections">
 			<list>

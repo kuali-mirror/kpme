@@ -155,6 +155,7 @@ public class BalanceTransferAction extends KPMEAction {
 			if(StringUtils.equals(actionFrequency, HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
 					StringUtils.equals(actionFrequency, HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 				String documentId = bt.getLeaveCalendarDocumentId();
+				//HrServiceLocator.getCalendarDocumentHeaderService().getCalendarDocumentHeader(documentId)
 				TimesheetDocumentHeader tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
 				LeaveCalendarDocumentHeader lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
 				String strutsActionForward = "";

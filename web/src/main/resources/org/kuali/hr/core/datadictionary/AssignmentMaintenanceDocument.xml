@@ -30,7 +30,7 @@
 		parent="MaintenanceDocumentEntry" 
 		p:businessObjectClass="org.kuali.kpme.core.bo.assignment.Assignment"
 		p:businessRulesClass="org.kuali.kpme.core.bo.assignment.validation.AssignmentRule"
-		p:maintainableClass="org.kuali.kpme.core.bo.assignment.service.AssignmentMaintainableServiceImpl"
+		p:maintainableClass="org.kuali.kpme.core.bo.assignment.web.AssignmentMaintainableServiceImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.core.bo.assignment.authorization.AssignmentAuthorizer">
 		<property name="maintainableSections">
 			<list>

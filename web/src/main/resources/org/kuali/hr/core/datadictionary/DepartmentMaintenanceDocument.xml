@@ -27,7 +27,7 @@
   		  p:businessObjectClass="org.kuali.kpme.core.bo.department.Department"
   		  p:businessRulesClass="org.kuali.kpme.core.bo.department.validation.DepartmentValidation"
   		  p:documentAuthorizerClass="org.kuali.kpme.core.bo.department.authorization.DepartmentAuthorizer"
-  		  p:maintainableClass="org.kuali.kpme.core.bo.department.service.DepartmentMaintainableImpl">
+  		  p:maintainableClass="org.kuali.kpme.core.bo.department.web.DepartmentMaintainableImpl">
 
         <property name="documentTypeName" value="DepartmentMaintenanceDocumentType" />
 	    <property name="maintainableSections">

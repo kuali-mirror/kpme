@@ -141,29 +141,31 @@
     <!-- Business Keys - [principalId : accrualCategory : earncode : workArea : task : jobNumber : leaveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.tklm.leave.block.LeaveBlock" table="LM_LEAVE_BLOCK_T">
         <field-descriptor name="lmLeaveBlockId"         column="LM_LEAVE_BLOCK_ID"      jdbc-type="VARCHAR"     length="60"  primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_BLOCK_S" />
-        <field-descriptor name="leaveDate"              column="LEAVE_DATE"             jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
-        <field-descriptor name="description"            column="DESCRIPTION"            jdbc-type="VARCHAR"     length="255" nullable="true" />
-        <field-descriptor name="principalId"            column="PRINCIPAL_ID"           jdbc-type="VARCHAR"     length="40" nullable="false" />
         <field-descriptor name="earnCode"               column="EARN_CODE"              jdbc-type="VARCHAR"     length="15" nullable="false" />
-        
-        <field-descriptor name="beginTimestamp"         column="BEGIN_TS"           jdbc-type="TIMESTAMP"   nullable="true" primarykey="false" />
-        <field-descriptor name="endTimestamp"           column="END_TS"             jdbc-type="TIMESTAMP"   nullable="true" primarykey="false" />
-        
-        <field-descriptor name="scheduleTimeOffId"      column="LM_SYS_SCHD_TIMEOFF_ID" jdbc-type="VARCHAR"     length="60" nullable="true" />
-        <field-descriptor name="accrualCategory"        column="ACCRUAL_CATEGORY"       jdbc-type="VARCHAR"     length="15" nullable="true" />
-        <field-descriptor name="leaveAmount"            column="LEAVE_AMOUNT"           jdbc-type="NUMERIC"     nullable="false" />
-        <field-descriptor name="documentId"             column="DOCUMENT_ID"            jdbc-type="VARCHAR"     length="40" nullable="true" />
-        <field-descriptor name="principalIdModified"    column="PRINCIPAL_ID_MODIFIED"  jdbc-type="VARCHAR"     length="40" nullable="true" />
-        <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="true" conversion="org.kuali.kpme.tklm.common.TkTimestampConverter" />
-        <field-descriptor name="accrualGenerated"       column="ACCRUAL_GENERATED"      jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="blockId"                column="BLOCK_ID"               jdbc-type="BIGINT"      nullable="true" />
-        <field-descriptor name="requestStatus"          column="REQUEST_STATUS"         jdbc-type="VARCHAR"     length="1" nullable="false"     />
         <field-descriptor name="jobNumber"              column="JOB_NUMBER"             jdbc-type="BIGINT"      nullable="false" primarykey="false" />
         <field-descriptor name="workArea"               column="WORK_AREA"              jdbc-type="BIGINT"      nullable="false" primarykey="false" />
         <field-descriptor name="task"                   column="TASK"                   jdbc-type="BIGINT"      nullable="false" primarykey="false" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="true" conversion="org.kuali.kpme.tklm.common.TkTimestampConverter" />
+        
+        <field-descriptor name="principalId"            column="PRINCIPAL_ID"           jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <field-descriptor name="leaveAmount"            column="LEAVE_AMOUNT"           jdbc-type="NUMERIC"     nullable="false" />
+        <field-descriptor name="documentId"             column="DOCUMENT_ID"            jdbc-type="VARCHAR"     length="40" nullable="true" />
+
+        <field-descriptor name="beginTimestamp"         column="BEGIN_TS"           jdbc-type="TIMESTAMP"   nullable="true" primarykey="false" />
+        <field-descriptor name="endTimestamp"           column="END_TS"             jdbc-type="TIMESTAMP"   nullable="true" primarykey="false" />
+        
+        <field-descriptor name="leaveDate"              column="LEAVE_DATE"             jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="description"            column="DESCRIPTION"            jdbc-type="VARCHAR"     length="255" nullable="true" />
+        <field-descriptor name="scheduleTimeOffId"      column="LM_SYS_SCHD_TIMEOFF_ID" jdbc-type="VARCHAR"     length="60" nullable="true" />
+        <field-descriptor name="accrualCategory"        column="ACCRUAL_CATEGORY"       jdbc-type="VARCHAR"     length="15" nullable="true" />
+        <field-descriptor name="principalIdModified"    column="PRINCIPAL_ID_MODIFIED"  jdbc-type="VARCHAR"     length="40" nullable="true" />
+        <field-descriptor name="accrualGenerated"       column="ACCRUAL_GENERATED"      jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="blockId"                column="BLOCK_ID"               jdbc-type="BIGINT"      nullable="true" />
+        <field-descriptor name="requestStatus"          column="REQUEST_STATUS"         jdbc-type="VARCHAR"     length="1" nullable="false"     />
         <field-descriptor name="leaveBlockType"         column="LEAVE_BLOCK_TYPE"       jdbc-type="VARCHAR"     length="5" nullable="false" />
         <field-descriptor name="leaveRequestDocumentId" column="LEAVE_REQUEST_ID"       jdbc-type="VARCHAR"     length="40" nullable="true" />
         <field-descriptor name="transactionalDocId"		column="TRANS_DOC_ID"			jdbc-type="VARCHAR"		length="40"	nullable="true" />
+
         <field-descriptor name="objectId"               column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
 

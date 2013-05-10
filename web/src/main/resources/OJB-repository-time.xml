@@ -56,25 +56,29 @@
     <!-- Business Keys - [timestamp : jobNumber : workArea : task] -->
     <class-descriptor class="org.kuali.kpme.tklm.time.timeblock.TimeBlock" table="TK_TIME_BLOCK_T">
         <field-descriptor name="tkTimeBlockId"          column="TK_TIME_BLOCK_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_TIME_BLOCK_S" />
-        <field-descriptor name="documentId"             column="DOCUMENT_ID"        jdbc-type="VARCHAR"     length="14" nullable="false" primarykey="false" />
-        <field-descriptor name="jobNumber"              column="JOB_NUMBER"         jdbc-type="BIGINT"      nullable="false" primarykey="false" />
         <field-descriptor name="earnCode"               column="EARN_CODE"          jdbc-type="VARCHAR"     length="15" nullable="false" primarykey="false" />
-        <field-descriptor name="beginTimestamp"         column="BEGIN_TS"           jdbc-type="TIMESTAMP"   nullable="false" primarykey="false" />
-        <field-descriptor name="endTimestamp"           column="END_TS"             jdbc-type="TIMESTAMP"   nullable="false" primarykey="false" />
-        <field-descriptor name="clockLogCreated"        column="CLOCK_LOG_CREATED"  jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="hours"                  column="HOURS"              jdbc-type="NUMERIC"     precision="5" scale="2" nullable="false" primarykey="false" />
-        <field-descriptor name="amount"                 column="AMOUNT"             jdbc-type="NUMERIC"     precision="6" scale="2" nullable="yes" primarykey="false" />
-        <field-descriptor name="principalId"            column="PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="true" primarykey="false" />
-        <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="40" nullable="false" primarykey="false" />
-        <field-descriptor name="timestamp"              column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" primarykey="false" conversion="org.kuali.kpme.tklm.common.TkTimestampConverter" />
-		<field-descriptor name="objectId"               column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
-        <field-descriptor name="versionNumber"          column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
+        <field-descriptor name="jobNumber"              column="JOB_NUMBER"         jdbc-type="BIGINT"      nullable="false" primarykey="false" />
         <field-descriptor name="workArea"               column="WORK_AREA"          jdbc-type="BIGINT"      nullable="false" primarykey="false" />
         <field-descriptor name="task"                   column="TASK"               jdbc-type="BIGINT"      nullable="false" primarykey="false" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" primarykey="false" conversion="org.kuali.kpme.tklm.common.TkTimestampConverter" />
+
+        <field-descriptor name="principalId"            column="PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="true" primarykey="false" />
+        <field-descriptor name="amount"                 column="AMOUNT"             jdbc-type="NUMERIC"     precision="6" scale="2" nullable="yes" primarykey="false" />
+        <field-descriptor name="documentId"             column="DOCUMENT_ID"        jdbc-type="VARCHAR"     length="14" nullable="false" primarykey="false" />
+ 
+        <field-descriptor name="beginTimestamp"         column="BEGIN_TS"           jdbc-type="TIMESTAMP"   nullable="false" primarykey="false" />
+        <field-descriptor name="endTimestamp"           column="END_TS"             jdbc-type="TIMESTAMP"   nullable="false" primarykey="false" />
+
+        <field-descriptor name="hours"                  column="HOURS"              jdbc-type="NUMERIC"     precision="5" scale="2" nullable="false" primarykey="false" />
+        <field-descriptor name="clockLogCreated"        column="CLOCK_LOG_CREATED"  jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="40" nullable="false" primarykey="false" />
         <field-descriptor name="clockLogBeginId"        column="CLOCK_LOG_BEGIN_ID" jdbc-type="VARCHAR"     length="60" />
         <field-descriptor name="clockLogEndId"          column="CLOCK_LOG_END_ID"   jdbc-type="VARCHAR"     length="60" />
         <field-descriptor name="overtimePref"           column="OVT_PREF"           jdbc-type="VARCHAR"     length="5" nullable="yes" />
         <field-descriptor name="lunchDeleted"           column="LUNCH_DELETED"      jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+
+ 		<field-descriptor name="objectId"               column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"          column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
 
         <collection-descriptor name="timeHourDetails" element-class-ref="org.kuali.kpme.tklm.time.timeblock.TimeHourDetail" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="tkTimeBlockId" />

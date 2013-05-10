@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.leave.calendar;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kpme.core.bo.calendar.CalendarDay;
+import org.kuali.kpme.core.bo.calendar.web.CalendarDay;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockRenderer;
 

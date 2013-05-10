@@ -25,9 +25,9 @@
 	<bean id="WorkAreaMaintenanceDocument" parent="WorkAreaMaintenanceDocument-parentBean" />
 	<bean id="WorkAreaMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
 		  p:businessObjectClass="org.kuali.kpme.core.bo.workarea.WorkArea"
-		  p:businessRulesClass="org.kuali.kpme.core.bo.workarea.web.WorkAreaMaintenanceDocumentRule"
+		  p:businessRulesClass="org.kuali.kpme.core.bo.workarea.validation.WorkAreaMaintenanceDocumentRule"
           p:documentAuthorizerClass="org.kuali.kpme.core.bo.workarea.authorization.WorkAreaAuthorizer"
-		  p:maintainableClass="org.kuali.kpme.core.bo.workarea.WorkAreaMaintainableImpl">
+		  p:maintainableClass="org.kuali.kpme.core.bo.workarea.web.WorkAreaMaintainableImpl">
 		
 		<property name="documentTypeName" value="WorkAreaMaintenanceDocumentType" />
 		<property name="maintainableSections">

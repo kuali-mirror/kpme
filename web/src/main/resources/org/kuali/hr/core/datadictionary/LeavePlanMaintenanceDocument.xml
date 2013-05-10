@@ -30,7 +30,7 @@
   <bean id="LeavePlanMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.kpme.core.bo.leaveplan.LeavePlan"
   		p:businessRulesClass="org.kuali.kpme.core.bo.leaveplan.validation.LeavePlanValidation"
-  		p:maintainableClass="org.kuali.kpme.core.bo.leaveplan.service.LeavePlanMaintainableServiceImpl"
+  		p:maintainableClass="org.kuali.kpme.core.bo.leaveplan.web.LeavePlanMaintainableServiceImpl"
   		p:documentAuthorizerClass="org.kuali.kpme.core.bo.leaveplan.authorization.LeavePlanAuthorizer">
     <property name="maintainableSections">
       <list>

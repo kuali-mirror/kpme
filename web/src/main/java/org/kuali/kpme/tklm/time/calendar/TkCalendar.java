@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.bo.calendar.CalendarDay;
 import org.kuali.kpme.core.bo.calendar.CalendarParent;
-import org.kuali.kpme.core.bo.calendar.CalendarWeek;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.bo.calendar.web.CalendarDay;
+import org.kuali.kpme.core.bo.calendar.web.CalendarWeek;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;

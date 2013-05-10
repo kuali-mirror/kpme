@@ -29,7 +29,7 @@
 	<bean id="PayTypeMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kpme.core.bo.paytype.PayType"
         p:businessRulesClass="org.kuali.kpme.core.bo.paytype.validation.PayTypeRule"
-		p:maintainableClass="org.kuali.kpme.core.bo.paytype.service.PayTypeMaintainableImpl"
+		p:maintainableClass="org.kuali.kpme.core.bo.paytype.web.PayTypeMaintainableImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.core.bo.paytype.authorization.PayTypeAuthorizer">
 		<property name="maintainableSections">
 			<list>

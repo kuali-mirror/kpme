@@ -30,7 +30,7 @@
   <bean id="PayGradeMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
   		p:dataObjectClass="org.kuali.kpme.core.bo.paygrade.PayGrade"
   		p:businessRulesClass="org.kuali.kpme.core.bo.paygrade.validation.PayGradeValidation"
-  		p:maintainableClass="org.kuali.kpme.core.bo.paygrade.service.PayGradeMaintainableServiceImpl"
+  		p:maintainableClass="org.kuali.kpme.core.bo.paygrade.web.PayGradeMaintainableServiceImpl"
         p:documentTypeName="PayGradeMaintenanceDocumentType">
     <!--<property name="promptBeforeValidationClass" value="org.kuali.kpme.core.bo.paygrade.validation.PayGradeEffectiveDatePrompt"/>-->
   </bean>

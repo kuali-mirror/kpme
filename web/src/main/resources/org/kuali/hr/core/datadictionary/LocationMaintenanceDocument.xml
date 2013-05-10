@@ -26,7 +26,7 @@
     <bean id="LocationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		  p:businessObjectClass="org.kuali.kpme.core.bo.location.Location"
   		  p:documentAuthorizerClass="org.kuali.kpme.core.bo.location.authorization.LocationAuthorizer"
-  		  p:maintainableClass="org.kuali.kpme.core.bo.location.service.LocationMaintainableImpl">
+  		  p:maintainableClass="org.kuali.kpme.core.bo.location.web.LocationMaintainableImpl">
 
         <property name="documentTypeName" value="LocationMaintenanceDocumentType" />
         <property name="maintainableSections">

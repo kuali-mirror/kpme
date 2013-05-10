@@ -1,7 +1,7 @@
 
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 
-<%@ attribute name="day" required="true" type="org.kuali.kpme.core.bo.calendar.CalendarDay" %>
+<%@ attribute name="day" required="true" type="org.kuali.kpme.core.bo.calendar.web.CalendarDay" %>
 <%@ attribute name="dayNumberId" required="true" type="java.lang.String" %>
 
 <c:set var="editableClass" value="event-title-false"/>

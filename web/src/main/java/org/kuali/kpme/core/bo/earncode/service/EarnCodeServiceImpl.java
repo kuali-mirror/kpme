@@ -53,6 +53,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		this.earnCodeDao = earnCodeDao;
 	}
 
+	//Move to LeaveCalendarDocumentService
     public List<EarnCode> getEarnCodesForLeave(Assignment a, LocalDate asOfDate, boolean isLeavePlanningCalendar) {
         //getEarnCodesForTime and getEarnCodesForLeave have some overlapping logic, but they were separated so that they could follow their own distinct logic, so consolidation of logic is not desirable.
 
