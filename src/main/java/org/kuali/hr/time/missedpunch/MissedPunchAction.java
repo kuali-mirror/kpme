@@ -31,16 +31,11 @@ import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.clocklog.TkClockActionValuesFinder;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
 
@@ -53,7 +48,6 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         MissedPunchDocument mpDoc = (MissedPunchDocument) mpForm.getDocument();
         mpForm.setDocId(mpDoc.getTimesheetDocumentId());
 
-        ClockLog lastClock = null;
         if (StringUtils.equals(request.getParameter("command"), "initiate")) {
             String tdocId = request.getParameter("tdocid");
             TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdocId);
@@ -64,9 +58,6 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
             if (StringUtils.isEmpty(mpDoc.getDocumentHeader().getDocumentDescription())) {
                 mpDoc.getDocumentHeader().setDocumentDescription("Missed Punch: " + timesheetDocument.getPrincipalId());
             }
-
-            lastClock = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPersonId());
-
         }
         if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
                 || StringUtils.equals(request.getParameter("command"), "displayActionListView")) {
@@ -74,7 +65,6 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
             mpForm.setDocId(mpDoc.getDocumentNumber());
         }
 //      mpForm.setAssignmentReadOnly(true);
-        MissedPunchDocument lastDoc = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lastClock.getTkClockLogId());
         TkClockActionValuesFinder finder = new TkClockActionValuesFinder();
         List<KeyValue> keyLabels = (List<KeyValue>) finder.getKeyValues();
         if (keyLabels.size() == 2) {
@@ -101,20 +91,16 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
                 mpForm.setAssignmentReadOnly(true);
             }
         }
-        if (ObjectUtils.isNotNull(lastClock)) {
-            if (StringUtils.equals(lastClock.getClockAction(),"CO")){        // lock on the current assignment if user is clocked in.
-                mpForm.setAssignmentReadOnly(false);
-            } else {
-                //Default the assignment if last clock was a clock in.
-                defaultMissedPunchAssignment(mpDoc, lastDoc, lastClock);
-                mpForm.setAssignmentReadOnly(true);
-            }
-        }
-        else if (mpForm.isAssignmentReadOnly()) {
-            //Default the assignment if missed punch assignment is read only and above logic does not apply.
+        
+        ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPersonId());
+        if (lastClock != null && !StringUtils.equals(lastClock.getClockAction(), TkConstants.CLOCK_OUT)) {
+        	MissedPunchDocument lastDoc = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lastClock.getTkClockLogId());
+            // Default the assignment if last clock was a clock in.
             defaultMissedPunchAssignment(mpDoc, lastDoc, lastClock);
+            mpForm.setAssignmentReadOnly(true);
+        } else {
+        	mpForm.setAssignmentReadOnly(false);
         }
-
 
         return act;
     }
