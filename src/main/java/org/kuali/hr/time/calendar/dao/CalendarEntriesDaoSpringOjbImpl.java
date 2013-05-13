@@ -184,15 +184,6 @@ public class CalendarEntriesDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
         List<CalendarEntries> calendarEntries = new ArrayList<CalendarEntries>(this.getPersistenceBrokerTemplate().getCollectionByQuery(q));
         return calendarEntries;
     }
-
-    public CalendarEntries getCalendarEntriesByBeginAndEndDate(Date beginPeriodDate, Date endPeriodDate) {
-        Criteria root = new Criteria();
-        root.addEqualTo("beginPeriodDateTime", beginPeriodDate);
-        root.addEqualTo("endPeriodDateTime", endPeriodDate);
-        Query query = QueryFactory.newQuery(CalendarEntries.class, root);
-
-        return (CalendarEntries) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
-    }
     
     @SuppressWarnings("unchecked")
 	public List<CalendarEntries> getCalendarEntriesEndingBetweenBeginAndEndDate(String hrCalendarId, Date beginDate, Date endDate) {
