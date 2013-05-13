@@ -17,6 +17,7 @@
 --%>
 <%@include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 <c:set var="Form" value="${ClockActionForm}" scope="request"/>
+<c:set var="timeBlockHours"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${Form.currentTimeBlock.hours}" /></c:set>
 
 <tk:tkHeader tabId="editTimeBlock" >
 	<html:form action="/Clock.do" styleId="editTimeBlockForm">
@@ -30,7 +31,7 @@
  			<html:hidden property="newHrsCol" value="" styleId="newHrsCol"/>
  			<html:hidden property="tsDocId" value="${Form.documentId}" styleId="tsDocId"/>
  			<html:hidden property="tbId" value="${Form.editTimeBlockId}"  styleId="tbId"/>
- 			<html:hidden property="originHrs" value="${Form.currentTimeBlock.hours}"  styleId="originHrs"/>
+ 			<html:hidden property="originHrs" value="${timeBlockHours}"  styleId="originHrs"/>
 			<html:hidden property="assignmentList" value="${Form.assignDescriptionsList}"/>
 			<html:hidden property="distributeAssignList" value="${Form.distributeAssignList}" />
 			<html:hidden property="originalAssignment" value="${Form.currentAssignmentDescription}"/>
@@ -40,7 +41,7 @@
 			<html:hidden property="beginTimeOnly" value="${Form.currentTimeBlock.beginTimeDisplayTimeOnlyString}"/>
 			<html:hidden property="endDateOnly" value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString}"/>
 			<html:hidden property="endTimeOnly" value="${Form.currentTimeBlock.endTimeDisplayTimeOnlyString}"/>			
-			<html:hidden property="hours" value="${Form.currentTimeBlock.hours}"/>
+			<html:hidden property="hours" value="${timeBlockHours}"/>
 			
 			<div id="clock" style="border-bottom: 1px solid gray;">
 				<table style="border-collapse:collapse;border: 1px solid #000;">
