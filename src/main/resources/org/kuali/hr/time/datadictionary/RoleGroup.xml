@@ -196,6 +196,7 @@
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="expirationDate" />
 										<bean parent="FieldDefinition" p:attributeName="roleName" />
 										<bean parent="FieldDefinition" p:attributeName="workArea" />
 										<bean parent="FieldDefinition" p:attributeName="department" />
@@ -215,6 +216,7 @@
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="expirationDate" />
 										<bean parent="FieldDefinition" p:attributeName="roleName" />
 										<bean parent="FieldDefinition" p:attributeName="workArea" />
 										<bean parent="FieldDefinition" p:attributeName="department" />
@@ -234,6 +236,7 @@
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="expirationDate" />
 										<bean parent="FieldDefinition" p:attributeName="roleName" />
 										<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 										<bean parent="FieldDefinition" p:attributeName="workArea" />
@@ -254,6 +257,7 @@
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="expirationDate" />
 										<bean parent="FieldDefinition" p:attributeName="roleName" />
 										<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 										<bean parent="FieldDefinition" p:attributeName="workArea" />
