@@ -17,6 +17,6 @@ package org.kuali.kpme.tklm.leave.calendar.dao;
 
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class LeaveCalendarDaoImpl extends PlatformAwareDaoBaseOjb implements LeaveCalendarDao {
+public class LeaveCalendarDaoOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveCalendarDao {
 
 }

@@ -30,7 +30,7 @@ import org.kuali.kpme.core.bo.earncode.group.EarnCodeGroupDefinition;
 import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class EarnCodeGroupDaoImpl extends PlatformAwareDaoBaseOjb implements EarnCodeGroupDao {
+public class EarnCodeGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements EarnCodeGroupDao {
     
 	@Override
 	public EarnCodeGroup getEarnCodeGroup(String earnGroup, LocalDate asOfDate) {

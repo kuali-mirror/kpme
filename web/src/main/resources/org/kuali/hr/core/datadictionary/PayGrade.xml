@@ -38,6 +38,7 @@
                 <ref bean="PayGrade-maxHiringRate" />
                 <ref bean="PayGrade-rateType" />
 				<ref bean="PayGrade-effectiveDate" />
+                <ref bean="PayGrade-history"/>
 				<ref bean="PayGrade-active" />
 				<ref bean="PayGrade-userPrincipalId" />
 				<ref bean="PayGrade-timestamp" />
@@ -267,6 +268,19 @@
 		<property name="label" value="Effective Date" />
 	</bean>
 
+    <!-- history -->
+    <bean id="PayGrade-history" parent="PayGrade-history-parentBean" />
+    <bean id="PayGrade-history-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="Show History" />
+        <property name="control">
+            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder">
+            </bean>
+        </property>
+        <property name="name" value="history" />
+        <property name="label" value="Show History" />
+    </bean>
+
 	<bean id="PayGrade-active" parent="PayGrade-active-parentBean" />
 	<bean id="PayGrade-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
 		<property name="name" value="active" />
@@ -307,7 +321,6 @@
 		<property name="label" value="Time Stamp" />
 	</bean>
 
-
     <!--***************************************************************************
                                 Views
     ***************************************************************************-->
@@ -325,6 +338,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
             </list>
         </property>
@@ -416,5 +430,5 @@
             </list>
         </property>
     </bean>
-</beans>
 
+</beans>

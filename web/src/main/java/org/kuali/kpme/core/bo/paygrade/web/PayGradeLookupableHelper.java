@@ -45,7 +45,7 @@ public class PayGradeLookupableHelper extends KPMELookupableHelper {
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
 		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-		params.put("payGrade", payGradeTitle);
+        params.put("payGrade", payGrade.getPayGrade());
 		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
 		viewUrl.setDisplayText("view");
 		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
@@ -59,8 +59,9 @@ public class PayGradeLookupableHelper extends KPMELookupableHelper {
         String payGrade = fieldValues.get("payGrade");
         String descr = fieldValues.get("description");
         String active = fieldValues.get("active");
+        String showHistory = fieldValues.get("history");
 
-        return HrServiceLocator.getPayGradeService().getPayGrades(payGrade, descr, active);
+        return HrServiceLocator.getPayGradeService().getPayGrades(payGrade, descr, active, showHistory);
     }
     
 }

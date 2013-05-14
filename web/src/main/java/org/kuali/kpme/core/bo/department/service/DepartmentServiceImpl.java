@@ -60,10 +60,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 	
     @Override
-    public List<Department> getDepartments(String userPrincipalId, String department, String location, String descr, String active) {
+    public List<Department> getDepartments(String userPrincipalId, String department, String location, String descr, String active, String showHistory) {
     	List<Department> results = new ArrayList<Department>();
     	
-    	List<Department> departmentObjs = departmentDao.getDepartments(department, location, descr, active);
+    	List<Department> departmentObjs = departmentDao.getDepartments(department, location, descr, active, showHistory);
         
     	for (Department departmentObj : departmentObjs) {
         	Map<String, String> roleQualification = new HashMap<String, String>();

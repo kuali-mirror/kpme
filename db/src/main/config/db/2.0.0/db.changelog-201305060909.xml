@@ -69,7 +69,6 @@
     </changeSet>
     <changeSet id="3-mysql" author="kbtaylor" dbms="mysql" context="kpme-client-bootstrap">
         <sql endDelimiter="/">
-            DELIMITER /
 			DROP PROCEDURE IF EXISTS p
 			/
 			CREATE PROCEDURE p ()

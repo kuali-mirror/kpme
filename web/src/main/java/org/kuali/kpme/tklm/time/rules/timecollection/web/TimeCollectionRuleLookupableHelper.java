@@ -61,8 +61,9 @@ public class TimeCollectionRuleLookupableHelper extends KPMELookupableHelper {
         String dept = fieldValues.get("dept");
         String payType = fieldValues.get("payType");
         String active = fieldValues.get("active");
+        String history = fieldValues.get("history");
 
-        return TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRules(GlobalVariables.getUserSession().getPrincipalId(), dept, workArea, payType, active);
+        return TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRules(GlobalVariables.getUserSession().getPrincipalId(), dept, workArea, payType, active, history);
 	}
 
 	@Override

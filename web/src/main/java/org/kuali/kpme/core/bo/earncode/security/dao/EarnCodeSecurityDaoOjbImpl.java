@@ -34,10 +34,10 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 
 import com.google.common.collect.ImmutableList;
 
-public class EarnCodeSecurityDaoImpl extends PlatformAwareDaoBaseOjb implements EarnCodeSecurityDao {
+public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implements EarnCodeSecurityDao {
     
 	@SuppressWarnings("unused")
-	private static final Logger LOG = Logger.getLogger(EarnCodeSecurityDaoImpl.class);
+	private static final Logger LOG = Logger.getLogger(EarnCodeSecurityDaoOjbImpl.class);
 
 	public void saveOrUpdate(EarnCodeSecurity earnCodeSec) {
 		this.getPersistenceBrokerTemplate().store(earnCodeSec);

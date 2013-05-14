@@ -31,7 +31,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class CalendarEntryDaoImpl extends PlatformAwareDaoBaseOjb implements CalendarEntryDao {
+public class CalendarEntryDaoOjbImpl extends PlatformAwareDaoBaseOjb implements CalendarEntryDao {
 
 
     public void saveOrUpdate(CalendarEntry calendarEntry) {

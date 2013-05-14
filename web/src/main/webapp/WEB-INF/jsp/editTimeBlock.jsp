@@ -148,7 +148,7 @@
 								<input type="text" name="edRow2" id="edRow2" size="10" value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString }" />
 							</td>
 							<td>
-								<input name="etRow2" id="etRow2" size="10" value="${Form.currentTimeBlock.endTimeDisplayTimeOnlyString}" />
+								<input name="etRow2" id="etRow2" size="10" disabled="disabled" value="${Form.currentTimeBlock.endTimeDisplayTimeOnlyString}" />
 								<input type="button" style="width: 20px; height: 23px;" id="endTimeHelp1" value="?"
 									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30, 2:30">
 							</td>

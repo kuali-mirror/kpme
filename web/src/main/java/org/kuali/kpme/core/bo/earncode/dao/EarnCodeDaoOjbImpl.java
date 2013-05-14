@@ -29,8 +29,8 @@ import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class EarnCodeDaoImpl extends PlatformAwareDaoBaseOjb implements EarnCodeDao {
-   private static final Logger LOG = Logger.getLogger(EarnCodeDaoImpl.class);
+public class EarnCodeDaoOjbImpl extends PlatformAwareDaoBaseOjb implements EarnCodeDao {
+   private static final Logger LOG = Logger.getLogger(EarnCodeDaoOjbImpl.class);
 
 	public void saveOrUpdate(EarnCode earnCode) {
 		this.getPersistenceBrokerTemplate().store(earnCode);

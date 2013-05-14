@@ -47,20 +47,11 @@ public class PayGrade extends HrBusinessObject {
     private BigDecimal maxRate;
     private BigDecimal midPointRate;
     private BigDecimal maxHiringRate;
-
+    private String history;
+    
 	private SalaryGroup salaryGroupObj;
     private Institution institutionObj;
     private CampusBo campusObj;
-
-    @Override
-    public boolean isActive() {
-        return super.isActive();
-    }
-
-    @Override
-    public void setActive(boolean active) {
-        super.setActive(active);
-    }
 
     public String getHrPayGradeId() {
 		return hrPayGradeId;
@@ -195,6 +186,14 @@ public class PayGrade extends HrBusinessObject {
 
     public void setCampusObj(CampusBo campusObj) {
         this.campusObj = campusObj;
+    }
+    
+    public String getHistory() {
+        return history;
+    }
+
+    public void setHistory(String history) {
+        this.history = history;
     }
 
 }

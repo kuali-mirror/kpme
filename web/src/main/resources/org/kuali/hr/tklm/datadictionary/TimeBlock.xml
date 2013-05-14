@@ -47,6 +47,8 @@
         <ref bean="TimeBlock-timestamp" />
         <ref bean="TimeBlock-userPrincipalId"/>
         <ref bean="TimeBlock-principalId"/>
+        <ref bean="TimeBlock-overtimePref"/>
+        <ref bean="TimeBlock-lunchDeleted"/>
         <ref bean="TimeBlock-timesheetDocumentHeader.documentStatus" />
        </list>
     </property>
@@ -298,8 +300,34 @@
     <property name="name" value="amount" />
     <property name="label" value="Amount" />
     <property name="description" value="amount" />
-  </bean> 
-  
+  </bean>
+
+    <bean id="TimeBlock-lunchDeleted" parent="TimeBlock-lunchDeleted-parentBean"/>
+    <bean id="TimeBlock-lunchDeleted-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="Lunch Deleted"/>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+        <property name="name" value="lunchDeleted"/>
+        <property name="label" value="Lunch Deleted"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+    </bean>
+
+    <bean id="TimeBlock-overtimePref" parent="TimeBlock-overtimePref-parentBean"/>
+    <bean id="TimeBlock-overtimePref-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="true"/>
+
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+
+        <property name="name" value="overtimePref"/>
+        <property name="label" value="Overtime Preference"/>
+        <property name="description" value="Overtime Preference"/>
+    </bean>
+
    <bean id="TimeBlock-timesheetDocumentHeader.documentStatus" parent="TimeBlock-timesheetDocumentHeader.documentStatus-parentBean" />
 	<bean id="TimeBlock-timesheetDocumentHeader.documentStatus-parentBean" abstract="true" parent="TimesheetDocumentHeader-documentStatus">
 		<property name="name" value="timesheetDocumentHeader.documentStatus" />
@@ -330,6 +358,8 @@
         	  <bean parent="FieldDefinition" p:attributeName="clockLogCreated" />
         	  <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
         	  <bean parent="FieldDefinition" p:attributeName="principalId" />
+              <bean parent="FieldDefinition" p:attributeName="overtimePref" />
+              <bean parent="FieldDefinition" p:attributeName="lunchDeleted" />
         	  <bean parent="FieldDefinition" p:attributeName="timestamp" />
             </list>
           </property>
@@ -395,6 +425,8 @@
         <bean parent="FieldDefinition" p:attributeName="task"/>
         <bean parent="FieldDefinition" p:attributeName="hours"/>
         <bean parent="FieldDefinition" p:attributeName="amount"/>
+        <bean parent="FieldDefinition" p:attributeName="overtimePref" />
+        <bean parent="FieldDefinition" p:attributeName="lunchDeleted" />
       	<bean parent="FieldDefinition" p:attributeName="beginTimestamp"/>
         <bean parent="FieldDefinition" p:attributeName="endTimestamp" />
       </list>

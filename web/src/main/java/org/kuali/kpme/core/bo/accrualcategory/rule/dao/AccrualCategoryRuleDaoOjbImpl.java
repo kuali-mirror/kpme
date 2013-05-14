@@ -25,7 +25,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class AccrualCategoryRuleDaoImpl extends PlatformAwareDaoBaseOjb implements AccrualCategoryRuleDao {
+public class AccrualCategoryRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb implements AccrualCategoryRuleDao {
 	
     @SuppressWarnings("unchecked")
 	public List <AccrualCategoryRule> getActiveAccrualCategoryRules(String accrualCategoryId) {

@@ -172,7 +172,7 @@
                             </td>
                         </tr>
                         <tr class="leaveAmountSection" style="display: none;">
-                            <td><label for="leaveAmountField" id="unitOfTime">* Leave Amount</label> : </label></td>
+                            <td><label for="leaveAmountField" id="unitOfTime">* Amount:</label></td>
                             <td>
                                 <input id="leaveAmount" name="leaveAmount" />
                             </td>

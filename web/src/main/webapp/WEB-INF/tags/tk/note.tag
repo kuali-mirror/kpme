@@ -15,7 +15,7 @@
             <tr>
                 <td width="100%">
                     <iframe src="${Form.workflowUrl}/Note.do?docId=${Form.timesheetDocument.documentId}&attachmentTarget=_blank"
-                            height="200" width="100%" scrolling="auto"></iframe>
+                            height="400" width="100%" scrolling="auto"></iframe>
                 </td>
             </tr>
         </table>

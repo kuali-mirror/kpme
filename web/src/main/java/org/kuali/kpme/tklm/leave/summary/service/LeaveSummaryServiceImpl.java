@@ -105,7 +105,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
             List<LeaveBlock> leaveBlocks = getLeaveBlockService().getLeaveBlocksSinceCarryOver(principalId, carryOverBlocks, endDate, true);
             List<LeaveBlock> acLeaveBlocks = new ArrayList<LeaveBlock>();
             for(LeaveBlock lb : leaveBlocks) {
-            	if(lb.getAccrualCategory().equals(accrualCategory)) {
+            	if(StringUtils.equals(lb.getAccrualCategory(), accrualCategory)) {
             		acLeaveBlocks.add(lb);
             	}
             }

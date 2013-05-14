@@ -31,7 +31,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class DepartmentLunchRuleDaoImpl  extends PlatformAwareDaoBaseOjb implements DepartmentLunchRuleDao {
+public class DepartmentLunchRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb implements DepartmentLunchRuleDao {
     @Override
 	public DeptLunchRule getDepartmentLunchRule(String dept, Long workArea, String principalId, 
 												Long jobNumber, LocalDate asOfDate) {

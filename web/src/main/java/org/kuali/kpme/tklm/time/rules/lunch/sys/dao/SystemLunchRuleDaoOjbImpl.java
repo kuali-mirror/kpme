@@ -28,7 +28,7 @@ import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.kpme.tklm.time.rules.lunch.sys.SystemLunchRule;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class SystemLunchRuleDaoImpl  extends PlatformAwareDaoBaseOjb implements SystemLunchRuleDao {
+public class SystemLunchRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb implements SystemLunchRuleDao {
 
 	@Override
 	public SystemLunchRule getSystemLunchRule(LocalDate asOfDate) {

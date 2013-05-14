@@ -30,8 +30,8 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb implements LeaveCalendarDocumentHeaderDao {
-    private static final Logger LOG = Logger.getLogger(LeaveCalendarDocumentHeaderDaoImpl.class);
+public class LeaveCalendarDocumentHeaderDaoOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveCalendarDocumentHeaderDao {
+    private static final Logger LOG = Logger.getLogger(LeaveCalendarDocumentHeaderDaoOjbImpl.class);
 
     @Override
     public LeaveCalendarDocumentHeader getLeaveCalendarDocumentHeader(String documentId) {

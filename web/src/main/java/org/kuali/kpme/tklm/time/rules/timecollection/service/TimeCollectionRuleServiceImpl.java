@@ -60,12 +60,12 @@ public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService 
 	}
 
     @Override
-    public List<TimeCollectionRule> getTimeCollectionRules(String userPrincipalId, String dept, String workArea, String payType, String active) {
+    public List<TimeCollectionRule> getTimeCollectionRules(String userPrincipalId, String dept, String workArea, String payType, String active, String showHistory) {
     	List<TimeCollectionRule> results = new ArrayList<TimeCollectionRule>();
     	
     	Long workAreaToSearch = StringUtils.isEmpty(workArea) ? null : Long.parseLong(workArea);
     	
-    	List<TimeCollectionRule> timeCollectionRuleObjs = timeCollectRuleDao.getTimeCollectionRules(dept, workAreaToSearch , payType, active, null);
+    	List<TimeCollectionRule> timeCollectionRuleObjs = timeCollectRuleDao.getTimeCollectionRules(dept, workAreaToSearch , payType, active, showHistory);
     
     	for (TimeCollectionRule timeCollectionRuleObj : timeCollectionRuleObjs) {
         	String department = timeCollectionRuleObj.getDept();

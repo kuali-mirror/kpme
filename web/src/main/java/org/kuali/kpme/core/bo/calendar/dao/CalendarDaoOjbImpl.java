@@ -32,9 +32,9 @@ import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class CalendarDaoImpl extends PlatformAwareDaoBaseOjb  implements CalendarDao {
+public class CalendarDaoOjbImpl extends PlatformAwareDaoBaseOjb  implements CalendarDao {
 
-	private static final Logger LOG = Logger.getLogger(CalendarDaoImpl.class);
+	private static final Logger LOG = Logger.getLogger(CalendarDaoOjbImpl.class);
 
 	public void saveOrUpdate(Calendar calendar) {
 		this.getPersistenceBrokerTemplate().store(calendar);

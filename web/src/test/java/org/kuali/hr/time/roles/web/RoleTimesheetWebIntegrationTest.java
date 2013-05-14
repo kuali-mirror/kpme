@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -70,7 +71,8 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         super.setUp();
 
         String userId = "fred";
-
+        DateTimeZone dateTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(userId));
+        
         CalendarEntry pcd = HrServiceLocator.getCalendarService().getCurrentCalendarDates(userId, asOfDate);
         Assert.assertNotNull("No PayCalendarDates", pcd);
         fredsDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(userId, pcd);
@@ -95,8 +97,8 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         // 2. Set Timeblock Start and End time
         // 3/02/2011 - 8:00a to 6:00pm
         // OVT - 0 Hrs Expected
-        DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-        DateTime end = new DateTime(2011, 3, 2, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        final DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, dateTimeZone);
+        final DateTime end = new DateTime(2011, 3, 2, 13, 0, 0, 0, dateTimeZone);
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
@@ -116,8 +118,9 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
                 }},
                 new HashMap<String, Object>() {{
                     put("earnCode", "RGN");
-                    put("startNoTz", "2011-03-02T08:00:00");
-                    put("endNoTz", "2011-03-02T13:00:00");
+                    start.toString();
+                    put("startNoTz", start.toString("yyyy-MM-dd'T'HH:mm:ss"));
+                    put("endNoTz", end.toString("yyyy-MM-dd'T'HH:mm:ss"));
                     put("title", "SDR1 Work Area");
                     put("assignment", "30_30_30");
                 }}
@@ -168,8 +171,9 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
 
         Assert.assertEquals("There should be one existing time block.", 1, fredsDocument.getTimeBlocks().size());
 
-        DateTime start = new DateTime(2011, 3, 4, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-        DateTime end = new DateTime(2011, 3, 4, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTimeZone dateTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(userId));
+        final DateTime start = new DateTime(2011, 3, 4, 8, 0, 0, 0, dateTimeZone);
+        final DateTime end = new DateTime(2011, 3, 4, 13, 0, 0, 0, dateTimeZone);
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
@@ -190,8 +194,8 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
                 }},
                 new HashMap<String, Object>() {{
                     put("earnCode", "RGN");
-                    put("startNoTz", "2011-03-04T08:00:00");
-                    put("endNoTz", "2011-03-04T13:00:00");
+                    put("startNoTz", start.toString("yyyy-MM-dd'T'HH:mm:ss"));
+                    put("endNoTz", end.toString("yyyy-MM-dd'T'HH:mm:ss"));
                     put("title", "SDR1 Work Area");
                     put("assignment", "30_30_30");
                 }}
@@ -215,8 +219,9 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
 
         Assert.assertEquals("There should be one existing time block.", 1, fredsDocument.getTimeBlocks().size());
 
-        DateTime start = new DateTime(2011, 3, 4, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-        DateTime end = new DateTime(2011, 3, 4, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTimeZone dateTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(userId));
+        DateTime start = new DateTime(2011, 3, 4, 8, 0, 0, 0, dateTimeZone);
+        DateTime end = new DateTime(2011, 3, 4, 13, 0, 0, 0, dateTimeZone);
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());

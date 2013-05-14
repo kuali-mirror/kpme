@@ -39,6 +39,7 @@
 			<list>
 				<ref bean="GracePeriodRule-hourFactor" />
 				<ref bean="GracePeriodRule-effDt" />
+                <ref bean="GracePeriodRule-history"/>
 				<ref bean="GracePeriodRule-active" />
 				<ref bean="GracePeriodRule-userPrincipalId" />
 				<ref bean="GracePeriodRule-timestamp" />
@@ -81,6 +82,19 @@
 		<property name="name" value="effectiveDate" />
 		<property name="label" value="Effective Date" />
 	</bean>
+
+    <!-- history -->
+    <bean id="GracePeriodRule-history" parent="PayGrade-history-parentBean" />
+    <bean id="GracePeriodRule-history-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="Show History" />
+        <property name="control">
+            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder">
+            </bean>
+        </property>
+        <property name="name" value="history" />
+        <property name="label" value="Show History" />
+    </bean>
 
 	<bean id="GracePeriodRule-active" parent="GracePeriodRule-active-parentBean" />
 
@@ -163,6 +177,7 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="hourFactor" />
+                <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

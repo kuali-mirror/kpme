@@ -1,27 +1,131 @@
 <?xml version='1.0' encoding='UTF-8'?> 
 <chapter xml:id="tk-config" xmlns:xlink="http://www.w3.org/1999/xlink"
 	xmlns="http://docbook.org/ns/docbook" version="5.0">
-    <title>TimeKeeping Configuration</title>
-    <para>This chapter discusses all rules and configurations for Timekeeping module of KPME. All
+    <title>Timekeeping Configuration</title>
+    <para>This chapter discusses all rules and configurations for Time keeping module of KPME. All
         rules and configurations can be accessed through maintenance documents listed under
-        <emphasis role="bold">Time Keeping</emphasis> section on the maintenance tab. </para>
+        <emphasis role="bold">Timekeeping</emphasis> section on the maintenance tab. </para>
+    <mediaobject>
+        <imageobject>
+            <imagedata fileref="../images/tk/TimeKeepingBox.png" format="PNG" scale="100"/>
+        </imageobject>
+        <caption>
+            <para>Timekeeping section on the application's maintenance tab.</para>
+        </caption>
+    </mediaobject>
+    <para> Please note that most of the configurations in Time keeping module rely heavily on
+        configurations made in HR and payroll module and therefore cannot be completed without
+        setting those up properly.</para>
+    <!-- Clock Location Rule   -->
     <section>
         <title>Clock Location Rule</title>
-        <para>This feature enables administrates to define approved IP addresses for clock entry.
-            Clock location rules can be set system wide, or as granular as a specific employee job
-            record. The most specific rule for that assignment will be enforced. </para>
+        <para>This feature enables administrators to restrict clock entry locations by defining
+            approved IP addresses. Clock location rules can be set system wide, or as granular as a
+            specific employee job record. In case of having more than one valid clock location rule
+            for an assignment, the most specific rule for that assignment will be enforced by the
+            system. </para>
         <important>
             <para>A clock location rule will not restrict the clock action from an unapproved IP but
-                will add a note to the timesheet that the clock action was from an "unapproved
-                location".</para>
+                will add a note to the timesheet indicating that the clock action was from an
+                "unapproved location".</para>
         </important>
         <para>Regardless of a rule, the IP address is captured on every clock action and can be seen
             in the Clock Log Inquiry page.</para>
         <para> Table below shows fields used to record and maintain a clock location rule along with
             their description.</para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/tk/ClockLocRuleMaintDoc.png" format="PNG" scale="40"
+                        />
+            </imageobject>
+            <caption>
+                <para>Clock Location Rule Maintenance document</para>
+            </caption>
+        </mediaobject>
+        <procedure>
+            <title>Setting up a clock location rule</title>
+            <step>
+                <para>Go to Clock Location Rule Document Page by clicking on the link in Timekeeping
+                    section on the maintenance tab. </para>
+                <substeps>
+                    <step>
+                        <para>To create a new rule, click on the <emphasis role="bold">cerate
+                            new</emphasis> button on top right of the lookup page.</para>
+                    </step>
+                </substeps>
+            </step>
+            <step performance="required">
+                <para>On the <emphasis role="bold">Document Overview</emphasis>tab, Enter a short
+                    description of what you're going to do. Example: clock locatio rule for
+                    IU-UITS</para>
+                <substeps performance="optional">
+                    <step>
+                        <para>You can also fill out the non-required fields for a brief explanation
+                            of the work you are doing or an organization document number for
+                            reference.</para>
+                    </step>
+                </substeps>
+            </step>
+            <step performance="required">
+                <para> On the next tab, Clock Location Rule Maintenace, all fields are required,
+                    however you can skip specifying any of them by entering a % sign as wild card.
+                </para>
+            </step>
+            <step>
+                <para> Enter a date by either selecting from the small calentar widget or manually
+                    writing it in the effective date text box. </para>
+            </step>
+            <step performance="required">
+                <para>Enter a department Id to set the clock location for it. You can use the lookup
+                    to select a department by clicking the magnifying glass or enter the id manually
+                    in the input field. You can also use % to generalize this rule to all
+                    departments.</para>
+            </step>
+            <step performance="required">
+                <para>Enter a workarea. You have the same options as in the previous step.</para>
+            </step>
+            <step performance="required">
+                <para>Enter a principal Id to enforce your rule on only one employee or use % to
+                    cover all employees that match your other criteria.</para>
+            </step>
+            <step performance="required">
+                <para>Enter a job number.</para>
+            </step>
+            <step performance="required">
+                <para>Set the rule Active by checking the box. You can create a rule and leave the
+                    box unchecked. The rule will be created but will not be active and therefore
+                    will not affect employees' clock actions.</para>
+            </step>
+            <step performance="required">
+                <para>On the IP address tab, you need to specify an approved IP address. You can use
+                    wildcard in any of the portions to cover a larger set of addresses.</para>
+                <substeps performance="optional">
+                    <step>
+                        <para> You can add multiple addresses by adding them one by one. </para>
+                    </step>
+                </substeps>
+            </step>
+            <step>
+                <para>At this step, you've filled in all the required fields, so you can route your
+                    document by clicking submit button at the bottom of the page.</para>
+            </step>
+            <step>
+                <para>Make sure that your document is successfully submitted by looking for a
+                    message on top of the page saying <emphasis role="bold">Document was
+                        successfully submitted.</emphasis>. In case of any errors, you will see red
+                    markers appearing next to the fields that are filled correctly.</para>
+            </step>
+
+        </procedure>
+        <para>Like any other documents in the system, submitting the document will place it in the
+            workflow for furthur process. You can track the status of your document by looking it up
+            through document search. </para>
+
         <table>
             <title>Clock Location Rule Document Fields</title>
             <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.50*"/>
                 <thead>
                     <row>
                         <entry>fields</entry>
@@ -78,10 +182,12 @@
             </tgroup>
         </table>
         <tip>
+            <!-- TODO: is this a correct way of saying it? probably not-->
             <para> To eliminate a clock location rule, insert a new effective dated row and uncheck
                 the active box. </para>
         </tip>
     </section>
+    <!-- Daily Overtime Rule   -->
     <section>
         <title>Daily Overtime Rule</title>
         <para> The Daily Overtime Rule is used to define the parameters by which daily overtime is
@@ -89,11 +195,77 @@
             limited to specific populations by paytype, location, dept, and work area. All of these
             parameters can be replaced by a wild card value (%) allowing the user to designate a
             rule at different levels. </para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/tk/DailyOVTrule.png" format="PNG" scale="40"/>
+            </imageobject>
+            <caption>
+                <para>Daily Overtime Rule Maintenance Document</para>
+            </caption>
+        </mediaobject>
+        <procedure>
+            <title>Setting up a Daily Overtime Rule</title>
+            <step performance="required">
+                <para> Put in a short description of what you are doing. </para>
+            </step>
+            <step>
+                <para> Pick a date that you want your new rule to be effective from. </para>
+            </step>
+            <step>
+                <para> Select a Location for your rule. If a location is defined, only jobs in that
+                    exact location will be subject to daily overtime rule. </para>
+            </step>
+            <step>
+                <para> Select a pay type. If a pay type is defined, only entries associated with a
+                    job of this pay type will be subject to the defined rule. </para>
+            </step>
+            <step>
+                <para> Select a Department. If a department is defined, only entries associated with
+                    a job in this department will be subject to the this rule. </para>
+            </step>
+            <step>
+                <para> Select a work area. If a work area is defined, only entries associated with a
+                    job that has this work area will be subject to this rule. </para>
+            </step>
+            <step>
+                <para> Enter a maximum gap of time in minutes that is allowed before daily overtime
+                    is considered invalid. This field is explained in more detail later in this
+                    document. </para>
+            </step>
+            <step>
+                <para> Enter the number of hours which, if exceeded, result in daily overtime.
+                </para>
+            </step>
+            <step>
+                <para> Check the box if you want your rule to be active. Unchecked means that the
+                    rule is not active. </para>
+            </step>
+            <step>
+                <para> In "convert to Earn Code" you specify the earn code which hours will be
+                    converted to as overtime. <important>
+                        <para>Only earn codes that are designated as an Overtime Earn Code can be
+                            used</para>
+                    </important>
+                </para>
+            </step>
+            <step>
+                <para> In "Convert from Earn Group", select an earn group which contains the list of
+                    earn codes that are summed to the daily max hours to be converted to overtime.
+                </para>
+            </step>
+            <step>
+                <para> Route your rule document by clicking submit button at the bottom of the page.
+                </para>
+            </step>
+        </procedure>
+
         <para> The table below lists all fields on the Daily Overtime Rule Document along with their
             descriptions. </para>
         <table>
             <title>Daily Overtime Rule Document fields</title>
             <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.50*"/>
                 <thead>
                     <row>
                         <entry>fields</entry>
@@ -162,6 +334,7 @@
             </tgroup>
         </table>
     </section>
+    <!-- Weekly Overtime Rule   -->
     <section>
         <title>Weekly Overtime Rule</title>
         <para> The Weekly Ovetime Rule defines the steps necessary to calculate weekly overtime.
@@ -173,9 +346,20 @@
             <para>There is no create new link, the link directs straight to the page to add steps to
                 or edit the existing steps.</para>
         </note>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/tk/WeeklyOVTRule.png" format="PNG" scale="40"/>
+            </imageobject>
+            <caption>
+                <para>Weekly Overtime Rule Maintenance Document</para>
+            </caption>
+        </mediaobject>
+
         <table>
             <title>Weekly Overtime Rule Document fields</title>
             <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.50*"/>
                 <thead>
                     <row>
                         <entry>field</entry>
@@ -226,6 +410,7 @@
             </tgroup>
         </table>
     </section>
+    <!--  Dept Lunch Deduction Rule  -->
     <section>
         <title> Department Lunch Deduction Rule </title>
         <para>The Department Lunch Deduction rule is used to define automatic lunch deductions. This
@@ -234,9 +419,22 @@
             assignment will be enforced. Employees subject to the automatic lunch time deduction
             will not see the <emphasis role="bold">lunch in/out</emphasis> buttons (even if that
             system setting is enabled).</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/tk/DeptLunchRule.png" format="PNG" scale="40"
+                        />
+            </imageobject>
+            <caption>
+                <para>Department Lunch Deduction Rule Maintenance document</para>
+            </caption>
+        </mediaobject>
+
         <table>
             <title>Department Lunch Deduction Rule Document fields</title>
             <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.50*"/>
                 <thead>
                     <row>
                         <entry>field</entry>
@@ -309,9 +507,22 @@
             fractions of time and makes calculations less complicated for those employees trying to
             reach standard hours for the week. It also alleviates the rush to clock in or out right
             on the hour. </para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/tk/GracePeriodRule.png" format="PNG" scale="40"
+                        />
+            </imageobject>
+            <caption>
+                <para>Grace Period Rule Maintenance document</para>
+            </caption>
+        </mediaobject>
+
         <table>
             <title>Grace period rule</title>
             <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.50*"/>
                 <thead>
                     <row>
                         <entry>Rounded Time</entry>
@@ -375,9 +586,22 @@
             Payroll). The shift differential rule only assigns the additional earnings codes to
             shift hours within the specified shift time period. Any hours outside of the shift
             period will not be assigned shift.</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/tk/ShiftDiffRule.png" format="PNG" scale="40"
+                        />
+            </imageobject>
+            <caption>
+                <para>Shift Differential Rule Maintenance document</para>
+            </caption>
+        </mediaobject>
+
         <table>
             <title>Shift Differential Rule</title>
             <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.50*"/>
                 <thead>
                     <row>
                         <entry>field</entry>
@@ -464,9 +688,21 @@
         <para>System lunch rule is a system level setting which determines if the “Take Lunch” and
             “Return from Lunch” buttons display for clock entry employees. If the employee is
             subject to a lunch deduction rule, no lunch buttons will be displayed.</para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/tk/SysLunchRule.png" format="PNG" scale="40"
+                        />
+            </imageobject>
+            <caption>
+                <para>System Lunch Rule Maintenance document</para>
+            </caption>
+        </mediaobject>
+
         <table>
             <title>Fields on System Lunch Rule Document</title>
             <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.50*"/>
                 <thead>
                     <row>
                         <entry>field</entry>
@@ -503,9 +739,21 @@
             via clock entry or manual entry. This rule can be defined at various levels including at
             a system level. The timesheet shows the clock tab for entry if the most specific rule
             for that assignment is marked as a clock user.</para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/tk/TimeCollectionRule.png" format="PNG" scale="40"
+                        />
+            </imageobject>
+            <caption>
+                <para>Time Collection Rule Maintenance document</para>
+            </caption>
+        </mediaobject>
+
         <table>
             <title>Time Collection Rule Document Fields</title>
             <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.50*"/>
                 <thead>
                     <row>
                         <entry>Field</entry>

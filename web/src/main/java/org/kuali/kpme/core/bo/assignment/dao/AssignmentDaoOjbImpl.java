@@ -36,9 +36,9 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class AssignmentDaoImpl extends PlatformAwareDaoBaseOjb implements AssignmentDao {
+public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements AssignmentDao {
 
-    private static final Logger LOG = Logger.getLogger(AssignmentDaoImpl.class);
+    private static final Logger LOG = Logger.getLogger(AssignmentDaoOjbImpl.class);
      @Override
     public void saveOrUpdate(Assignment assignment) {
         this.getPersistenceBrokerTemplate().store(assignment);
@@ -183,16 +183,9 @@ public class AssignmentDaoImpl extends PlatformAwareDaoBaseOjb implements Assign
         Criteria root = new Criteria();
         root.addLessOrEqualThan("effectiveDate", asOfDate.toDate());
 
-        Criteria timestamp = new Criteria();
-        timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-        timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestamp);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-        root.addEqualTo("timestamp", timestampSubQuery);
-        
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, asOfDate, Assignment.EQUAL_TO_FIELDS, true));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, Assignment.EQUAL_TO_FIELDS, true));
+
 		Criteria activeFilter = new Criteria();
 		activeFilter.addEqualTo("active", true);
 		root.addAndCriteria(activeFilter);

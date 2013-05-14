@@ -57,8 +57,9 @@ public class GracePeriodRuleLookupableHelper extends KPMELookupableHelper {
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues){
         String hourFactor = fieldValues.get("hourFactor");
         String active = fieldValues.get("active");
+        String showHistory = fieldValues.get("history");
 
-        return TkServiceLocator.getGracePeriodService().getGracePeriodRules(hourFactor,active);
+        return TkServiceLocator.getGracePeriodService().getGracePeriodRules(hourFactor,active,showHistory);
     }
     
 }

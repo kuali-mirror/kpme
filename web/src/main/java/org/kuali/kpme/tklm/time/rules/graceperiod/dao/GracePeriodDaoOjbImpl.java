@@ -28,7 +28,7 @@ import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.kpme.tklm.time.rules.graceperiod.GracePeriodRule;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class GracePeriodDaoImpl extends PlatformAwareDaoBaseOjb implements GracePeriodDao {
+public class GracePeriodDaoOjbImpl extends PlatformAwareDaoBaseOjb implements GracePeriodDao {
 	public GracePeriodRule getGracePeriodRule(LocalDate asOfDate){
 		GracePeriodRule gracePeriodRule = null;
 		
@@ -63,7 +63,7 @@ public class GracePeriodDaoImpl extends PlatformAwareDaoBaseOjb implements Grace
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<GracePeriodRule> getGracePeriodRules(String hourFactor, String active) {
+    public List<GracePeriodRule> getGracePeriodRules(String hourFactor, String active, String showHistory) {
         List<GracePeriodRule> results = new ArrayList<GracePeriodRule>();
         
         Criteria root = new Criteria();
@@ -80,6 +80,11 @@ public class GracePeriodDaoImpl extends PlatformAwareDaoBaseOjb implements Grace
                 activeFilter.addEqualTo("active", false);
             }
             root.addAndCriteria(activeFilter);
+        }
+
+        if (StringUtils.equals(showHistory, "N")) {
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(GracePeriodRule.class, Collections.EMPTY_LIST, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(GracePeriodRule.class, Collections.EMPTY_LIST, false));
         }
         
         Query query = QueryFactory.newQuery(GracePeriodRule.class, root);

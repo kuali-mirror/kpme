@@ -13,38 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.bo.department;
+package org.kuali.kpme.core.bo.paygrade.web;
 
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.bo.paygrade.PayGrade;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 
-@SuppressWarnings("deprecation")
-public class DepartmentInquirableImpl extends KualiInquirableImpl {
+import java.util.Map;
 
-	private static final long serialVersionUID = 3618060549761453283L;
+public class PayGradeInquirableImpl extends KualiInquirableImpl {
+
+	private static final long serialVersionUID = -4002061046745019065L;
 
 	@Override
-	@SuppressWarnings("rawtypes")
 	public BusinessObject getBusinessObject(Map fieldValues) {
-		Department departmentObj = null;
-		
-		if (StringUtils.isNotBlank((String) fieldValues.get("hrDeptId"))) {
-			departmentObj = HrServiceLocator.getDepartmentService().getDepartment((String) fieldValues.get("hrDeptId"));
-        } else if (fieldValues.containsKey("dept") && fieldValues.containsKey("effectiveDate")) {
-            String department = (String) fieldValues.get("dept");
+        PayGrade payGrade = null;
+        if (StringUtils.isNotBlank((String) fieldValues.get("hrPayGradeId"))) {
+            payGrade = HrServiceLocator.getPayGradeService().getPayGrade((String) fieldValues.get("hrPayGradeId"));
+        } else if (fieldValues.containsKey("payGrade")
+                && fieldValues.containsKey("salGroup")
+                && fieldValues.containsKey("effectiveDate")) {
+            String pg = (String)fieldValues.get("payGrade");
+            String sg = (String)fieldValues.get("salGroup");
             LocalDate effectiveDate = TKUtils.formatDateString((String) fieldValues.get("effectiveDate"));
-            departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, effectiveDate);
+            
+            payGrade = HrServiceLocator.getPayGradeService().getPayGrade(pg, sg, effectiveDate);
         } else {
-        	departmentObj = (Department) super.getBusinessObject(fieldValues);
+            payGrade = (PayGrade) super.getBusinessObject(fieldValues);
         }
 
-		return departmentObj;
+
+		return payGrade;
 	}
 	
 }

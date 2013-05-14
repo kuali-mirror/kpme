@@ -36,6 +36,7 @@
 		        <ref bean="Department-org" />
 		        <ref bean="Department-effectiveDate" />
 		        <ref bean="Department-active" />
+		        <ref bean="Department-history" />
 		        <ref bean="Department-timestamp" />
             </list>
         </property>
@@ -206,6 +207,16 @@
         <property name="name" value="active" />
         <property name="label" value="Active" />
     </bean>
+    
+    <bean id="Department-history" parent="Department-history-parentBean" />
+    <bean id="Department-history-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="history" />
+        <property name="label" value="Show History" />
+        <property name="shortLabel" value="Show History" />
+        <property name="control">
+            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder" />
+        </property>
+    </bean>
 
 	<bean id="Department-timestamp" parent="Department-timestamp-parentBean" />
 	<bean id="Department-timestamp-parentBean" abstract="true" parent="AttributeDefinition">
@@ -222,7 +233,7 @@
     <!-- Business Object Inquiry Definition -->
 
     <bean id="Department-inquiryDefinition" parent="Department-inquiryDefinition-parentBean" />
-    <bean id="Department-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.bo.department.DepartmentInquirableImpl">
+    <bean id="Department-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.bo.department.web.DepartmentInquirableImpl">
         <property name="title" value="Department Inquiry" />
         <property name="translateCodes" value="false" />
         <property name="inquirySections">
@@ -295,6 +306,7 @@
 		        <bean parent="FieldDefinition" p:attributeName="dept" />
 		        <bean parent="FieldDefinition" p:attributeName="location" />
 		        <bean parent="FieldDefinition" p:attributeName="description" />
+		        <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 		        <bean parent="FieldDefinition" p:attributeName="active" />
             </list>
         </property>
@@ -308,9 +320,7 @@
             </list>
         </property>
     </bean>
-    
-    
-    
+
     <!-- KRAD Lookup View Definition -->
  
   <bean id="Department-LookupView" parent="Uif-LookupView">
@@ -322,6 +332,7 @@
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="dept" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y" />
       </list>
     </property>

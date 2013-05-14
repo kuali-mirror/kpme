@@ -69,7 +69,7 @@ public class PayGradeDaoSpringObjImpl  extends PlatformAwareDaoBaseOjb implement
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<PayGrade> getPayGrades(String payGrade, String payGradeDescr, String active) {
+    public List<PayGrade> getPayGrades(String payGrade, String payGradeDescr, String active, String showHistory) {
         List<PayGrade> results = new ArrayList<PayGrade>();
     	
     	Criteria root = new Criteria();
@@ -90,6 +90,11 @@ public class PayGradeDaoSpringObjImpl  extends PlatformAwareDaoBaseOjb implement
                 activeFilter.addEqualTo("active", false);
             }
             root.addAndCriteria(activeFilter);
+        }
+
+        if (StringUtils.equals(showHistory, "N")) {
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(PayGrade.class, PayGrade.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PayGrade.class, PayGrade.EQUAL_TO_FIELDS, false));
         }
         
         Query query = QueryFactory.newQuery(PayGrade.class, root);

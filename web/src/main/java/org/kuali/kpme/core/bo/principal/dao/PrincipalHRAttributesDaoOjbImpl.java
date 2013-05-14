@@ -34,7 +34,7 @@ import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implements PrincipalHRAttributesDao {
+public class PrincipalHRAttributesDaoOjbImpl extends PlatformAwareDaoBaseOjb implements PrincipalHRAttributesDao {
 
 	@Override
 	public PrincipalHRAttributes getPrincipalCalendar(String principalId,

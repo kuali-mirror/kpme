@@ -42,9 +42,7 @@ public class LocationDaoSpringObjImpl extends PlatformAwareDaoBaseOjb implements
 		
 		Query query = QueryFactory.newQuery(Location.class, root);
 		
-		Location l = (Location)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
-		
-		return l;
+		return (Location)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
 	@Override
@@ -87,6 +85,11 @@ public class LocationDaoSpringObjImpl extends PlatformAwareDaoBaseOjb implements
                 activeFilter.addEqualTo("active", false);
             }
             root.addAndCriteria(activeFilter);
+        }
+
+        if (StringUtils.equals(showHistory, "N")) {
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(Location.class, Location.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Location.class, Location.EQUAL_TO_FIELDS, false));
         }
         
         Query query = QueryFactory.newQuery(Location.class, root);

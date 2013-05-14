@@ -21,7 +21,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kpme.tklm.time.user.pref.UserPreferences;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class UserPreferenceDaoImpl extends PlatformAwareDaoBaseOjb implements UserPreferenceDao {
+public class UserPreferenceDaoOjbImpl extends PlatformAwareDaoBaseOjb implements UserPreferenceDao {
 	
 	
 	public UserPreferences getUserPreferences(String principalId){

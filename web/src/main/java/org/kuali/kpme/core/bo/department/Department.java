@@ -45,6 +45,7 @@ public class Department extends HrBusinessObject {
     private String location;
     private String chart;
     private String org;
+    private String history;
 
     private Location locationObj;
     private Chart chartObj;
@@ -175,4 +176,11 @@ public class Department extends HrBusinessObject {
 		this.inactiveRoleMembers = inactiveRoleMembers;
 	}
 	
+    public String getHistory() {
+        return history;
+    }
+
+    public void setHistory(String history) {
+        this.history = history;
+    }
 }

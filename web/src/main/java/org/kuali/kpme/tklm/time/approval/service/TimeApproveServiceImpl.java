@@ -60,6 +60,7 @@ import org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
+import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -324,8 +325,9 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			// highlight entry
 			ClockLog lastClockLog = TkServiceLocator.getClockLogService()
 					.getLastClockLog(principalId);
-			approvalSummaryRow
-					.setClockStatusMessage(createLabelForLastClockLog(lastClockLog));
+			if (isSynchronousUser(principalId)) {
+                approvalSummaryRow.setClockStatusMessage(createLabelForLastClockLog(lastClockLog));
+            }
 			if (lastClockLog != null
 					&& (StringUtils.equals(lastClockLog.getClockAction(),
 							TkConstants.CLOCK_IN) || StringUtils
@@ -347,6 +349,18 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		}
 		return rows;
 	}
+
+    private boolean isSynchronousUser(String principalId) {
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
+        boolean isSynchronousUser = false;
+        if (CollectionUtils.isNotEmpty(assignments)) {
+            for (Assignment assignment : assignments) {
+                TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), LocalDate.now());
+                isSynchronousUser |= (tcr == null || tcr.isClockUserFl());
+            }
+        }
+        return isSynchronousUser;
+    }
 
 	public List<TimesheetDocumentHeader> getDocumentHeadersByPrincipalIds(
 			DateTime payBeginDate, DateTime payEndDate, List<String> principalIds) {

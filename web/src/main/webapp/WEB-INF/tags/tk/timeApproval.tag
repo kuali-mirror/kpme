@@ -18,7 +18,9 @@
 	            </div>
 	        </c:if>
 	        <a href="changeTargetPerson.do?${row.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${row.name}</a> (${row.principalId})
-	        <br/>${row.clockStatusMessage}
+            <c:if test="${!empty row.clockStatusMessage}">
+                <br/>${row.clockStatusMessage}
+            </c:if>
 	        <br/>
 	    </display:column>
 	    <display:column title="Document ID <br/>&amp; Status" sortable="true" sortName="documentId">

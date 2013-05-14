@@ -31,7 +31,7 @@ public interface DepartmentService {
     @Cacheable(value= Department.CACHE_NAME, key="'hrDeptId=' + #p0")
     Department getDepartment(String hrDeptId);
     
-    List<Department> getDepartments(String userPrincipalId, String department, String location, String descr, String active);
+    List<Department> getDepartments(String userPrincipalId, String department, String location, String descr, String active, String showHistory);
     
     /**
 	 * get count of department with given department

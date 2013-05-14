@@ -41,17 +41,18 @@
         <table width="100%">
             <tr>
                 <td width="33%" valign="top">
-                <div class="portlet">
-                <div class="header">
-                <center><h2>You are not authorized to access this portion of the application.</h2></center>
-                </div>
-                <div class="portlet-content">${error.message} 
-                <c:if test="${not empty stacktrace }">
-                    <hr />
-                    <pre style="font-size:11px; font-family: Verdana, Arial, Helvetica, sans-serif;">${stacktrace}</font></pre>
-                </c:if>
-                </div>
-                
+                    <div class="portlet">
+                        <div class="header">
+                            <center><h2>You are not authorized to access this portion of the application.</h2></center> <br />
+                            <center><a href="Time.do">Return</a><br/></center>
+                        </div>
+                        <div class="portlet-content">${error.message}
+                            <c:if test="${not empty stacktrace }">
+                                <hr />
+                                <pre style="font-size:11px; font-family: Verdana, Arial, Helvetica, sans-serif;">${stacktrace}</pre>
+                            </c:if>
+                        </div>
+                    </div>
                 </td>
             </tr>
         </table>

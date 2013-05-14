@@ -36,7 +36,7 @@ public class TimezoneServiceImpl implements TimezoneService {
         if(principalCalendar != null && principalCalendar.getTimezone() != null){
             return principalCalendar.getTimezone();
         }
-        List<Job> jobs = HrServiceLocator.getJobService().getJobs(HrContext.getPrincipalId(), LocalDate.now());
+        List<Job> jobs = HrServiceLocator.getJobService().getJobs(principalId, LocalDate.now());
         if (jobs.size() > 0) {
             // Grab the location off the first job in the list
             Location location = HrServiceLocator.getLocationService().getLocation(jobs.get(0).getLocation(), LocalDate.now());
@@ -71,6 +71,14 @@ public class TimezoneServiceImpl implements TimezoneService {
         }
     }
 
+    private DateTimeZone getUserTimezoneWithFallback(String principalId) {
+        String tzid = getUserTimezone(principalId);
+        if (StringUtils.isEmpty(tzid)) {
+            return TKUtils.getSystemDateTimeZone();
+        } else {
+            return DateTimeZone.forID(tzid);
+        }
+    }
 	@Override
 	public boolean isSameTimezone() {
 		String userTimezone = getUserTimezone();
