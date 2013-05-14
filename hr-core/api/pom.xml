@@ -57,7 +57,7 @@
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-ksb-api</artifactId>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-krad-app-framework</artifactId>
@@ -65,7 +65,7 @@
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-krad-web-framework</artifactId>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
