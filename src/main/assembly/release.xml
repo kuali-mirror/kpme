@@ -16,6 +16,10 @@
             <destName>KPME ${project.version} Known Issues.pdf</destName>
         </file>
         <file>
+            <source>${project.build.directory}/site/reference/pdf/system-admin-guide.pdf</source>
+            <destName>KPME ${project.version} System Administration Guide.pdf</destName>
+        </file>
+        <file>
             <source>${project.build.directory}/${project.artifactId}-${project.version}.war</source>
             <outputDirectory>binary</outputDirectory>
         </file>
