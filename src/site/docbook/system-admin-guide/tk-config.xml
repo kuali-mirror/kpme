@@ -603,6 +603,10 @@
             <para>To eliminate an existing rule, insert a new effective dated row and uncheck the
                 active box.</para>
         </tip>
+        <note>
+            <para>To show departmental lunch deductions on the timesheet, add a new Earn Code LUN
+                with a Record Method of Hours.</para>
+        </note>
     </section>
     <!-- Grace Period Rule -->
     <section>
