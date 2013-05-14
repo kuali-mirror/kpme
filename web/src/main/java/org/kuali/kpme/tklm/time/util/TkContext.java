@@ -15,7 +15,12 @@
  */
 package org.kuali.kpme.tklm.time.util;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -30,6 +35,13 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TkContext {
 
+	private static final ThreadLocal<Map<String, Object>> STORAGE_MAP = new ThreadLocal<Map<String, Object>>() {
+		@Override
+		protected Map<String, Object> initialValue() {
+			return Collections.synchronizedMap(new HashMap<String, Object>());
+		}
+	};
+	
 	public static String getPrincipalId() {
 		return GlobalVariables.getUserSession().getPrincipalId();
 	}
@@ -72,6 +84,14 @@ public class TkContext {
         return principalId;
     }
 
+	public static HttpServletRequest getHttpServletRequest() {
+		return (HttpServletRequest) getStorageMap().get("REQUEST");
+	}
+
+	public static void setHttpServletRequest(HttpServletRequest request) {
+		getStorageMap().put("REQUEST", request);
+	}
+    
 	public static boolean isSynchronous() {
     	boolean isSynchronous = false;
     	
@@ -103,5 +123,16 @@ public class TkContext {
     	
         return isSynchronous;
     }
+    
+	public static Map<String, Object> getStorageMap() {
+		return STORAGE_MAP.get();
+	}
 
+	public static void resetStorageMap() {
+		STORAGE_MAP.remove();
+	}
+
+	public static void clear() {
+		resetStorageMap();
+	}
 }

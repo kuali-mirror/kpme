@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.Interval;
-import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;

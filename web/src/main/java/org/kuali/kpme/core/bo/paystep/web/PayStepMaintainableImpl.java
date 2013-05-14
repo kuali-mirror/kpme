@@ -2,7 +2,7 @@ package org.kuali.kpme.core.bo.paystep.web;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
-import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.kuali.kpme.core.service.HrServiceLocator;
 
 public class PayStepMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -10,7 +10,7 @@ public class PayStepMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return PmServiceLocator.getPayStepService().getPayStepById(id);
+		return HrServiceLocator.getPayStepService().getPayStepById(id);
 	}
 
 }

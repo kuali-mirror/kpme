@@ -13,7 +13,7 @@ import java.util.Set;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.rice.kew.api.KewApiConstants;

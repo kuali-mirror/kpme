@@ -263,10 +263,10 @@ public class TKUtils {
         return dateTime;
     }
     
-   public static String getIPAddressFromRequest(HttpServletRequest request) {
+   public static String getIPAddressFromRequest(String remoteAddress) {
         // Check for IPv6 addresses - Not sure what to do with them at this point.
         // TODO: IPv6 - I see these on my local machine.
-        String ip = request.getRemoteAddr();
+        String ip = remoteAddress;
         if (ip.indexOf(':') > -1) {
             LOG.warn("ignoring IPv6 address for clock-in: " + ip);
             ip = "";

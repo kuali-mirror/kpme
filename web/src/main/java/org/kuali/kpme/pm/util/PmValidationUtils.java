@@ -35,10 +35,10 @@ public class PmValidationUtils {
 		if (PmValidationUtils.isWildCard(institutionCode)) {
 			valid = true;
 		} else if (asOfDate != null) {
-			Institution inst = PmServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
+			Institution inst = HrServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
 			valid = (inst != null);
 		} else {
-			List<Institution> instList = PmServiceLocator.getInstitutionService().getInstitutionsByCode(institutionCode);
+			List<Institution> instList = HrServiceLocator.getInstitutionService().getInstitutionsByCode(institutionCode);
 			valid = CollectionUtils.isNotEmpty(instList);
 		}
 		return valid;

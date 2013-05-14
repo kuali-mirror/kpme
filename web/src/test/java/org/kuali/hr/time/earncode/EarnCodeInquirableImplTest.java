@@ -24,7 +24,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
-import org.kuali.kpme.core.bo.earncode.EarnCodeInquirableImpl;
+import org.kuali.kpme.core.bo.earncode.web.EarnCodeInquirableImpl;
 
 public class EarnCodeInquirableImplTest extends KPMETestCase {
 	

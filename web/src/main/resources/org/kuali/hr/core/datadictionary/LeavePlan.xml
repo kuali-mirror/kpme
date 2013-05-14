@@ -253,7 +253,7 @@
 	<bean id="LeavePlan-inquiryDefinition" parent="LeavePlan-inquiryDefinition-parentBean" />
 
 	<bean id="LeavePlan-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.bo.leaveplan.LeavePlanInquirableImpl">
+		parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.bo.leaveplan.web.LeavePlanInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

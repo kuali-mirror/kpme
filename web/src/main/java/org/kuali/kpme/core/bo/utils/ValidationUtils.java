@@ -23,8 +23,8 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.authorization.DepartmentalRule;
-import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
@@ -44,7 +44,7 @@ import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.pm.PMConstants;
-import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -530,10 +530,10 @@ public class ValidationUtils {
 		if (PmValidationUtils.isWildCard(institutionCode)) {
 			valid = true;
 		} else if (asOfDate != null) {
-			Institution inst = PmServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
+			Institution inst = HrServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
 			valid = (inst != null);
 		} else {
-			List<Institution> instList = PmServiceLocator.getInstitutionService().getInstitutionsByCode(institutionCode);
+			List<Institution> instList = HrServiceLocator.getInstitutionService().getInstitutionsByCode(institutionCode);
 			valid = CollectionUtils.isNotEmpty(instList);
 		}
 		return valid;

@@ -100,8 +100,9 @@
         </property>
         <property name="databaseRepositoryFilePaths">
             <list>
-                <value>OJB-repository-time.xml</value>
+                <value>OJB-repository-core.xml</value>
                 <value>OJB-repository-coa.xml</value>
+                <value>OJB-repository-time.xml</value>
                 <value>OJB-repository-leave.xml</value>
                 <value>OJB-repository-position.xml</value>
             </list>
@@ -352,9 +353,9 @@
     
     <bean id="missedPunchDao" class="org.kuali.kpme.tklm.time.missedpunch.dao.MissedPunchDaoSpringOjbImpl" parent="platformAwareDao" />
     
-  	<bean id="accrualCategoryDao" class="org.kuali.kpme.core.bo.accrualcategory.dao.AccrualCategoryDaoOjbImpl" parent="platformAwareDao" />
+  	<bean id="accrualCategoryDao" class="org.kuali.kpme.core.accrualcategory.dao.AccrualCategoryDaoOjbImpl" parent="platformAwareDao" />
   	
-    <bean id="accrualCategoryRuleDao" class="org.kuali.kpme.core.bo.accrualcategory.rule.dao.AccrualCategoryRuleDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="accrualCategoryRuleDao" class="org.kuali.kpme.core.accrualcategory.rule.dao.AccrualCategoryRuleDaoOjbImpl" parent="platformAwareDao" />
     
     <bean id="balanceTransferDao" class="org.kuali.kpme.tklm.leave.transfer.dao.BalanceTransferDaoSpringOjbImpl" parent="platformAwareDao" />
 
@@ -573,10 +574,10 @@
         <property name="payGradeDao" ref="payGradeDao"/>
     </bean>
 
-    <bean id="accrualCategoryService" class="org.kuali.kpme.core.bo.accrualcategory.service.AccrualCategoryServiceImpl">
+    <bean id="accrualCategoryService" class="org.kuali.kpme.core.accrualcategory.service.AccrualCategoryServiceImpl">
         <property name="accrualCategoryDao" ref="accrualCategoryDao"/>
     </bean>
-    <bean id="accrualCategoryRuleService" class="org.kuali.kpme.core.bo.accrualcategory.rule.service.AccrualCategoryRuleServiceImpl">
+    <bean id="accrualCategoryRuleService" class="org.kuali.kpme.core.accrualcategory.rule.service.AccrualCategoryRuleServiceImpl">
         <property name="accrualCategoryRuleDao" ref="accrualCategoryRuleDao"/>
     </bean>
     <bean id="accrualService" class="org.kuali.kpme.tklm.leave.accrual.service.AccrualServiceImpl">
@@ -1037,7 +1038,7 @@
     </bean>  
     <bean id="accrualCategoryLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.accrualcategory.web.AccrualCategoryLookupableHelper"/>          
+            <bean class="org.kuali.kpme.core.accrualcategory.web.AccrualCategoryLookupableHelper"/>          
         </property>
     </bean> 
     <bean id="leaveAdjustmentLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">

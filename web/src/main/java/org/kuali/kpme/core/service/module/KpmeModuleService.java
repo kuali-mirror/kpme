@@ -18,7 +18,7 @@ package org.kuali.kpme.core.service.module;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.kpme.core.bo.paygrade.PayGrade;

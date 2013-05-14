@@ -1,7 +1,7 @@
 package org.kuali.kpme.core.service;
 
-import org.kuali.kpme.core.bo.accrualcategory.rule.service.AccrualCategoryRuleService;
-import org.kuali.kpme.core.bo.accrualcategory.service.AccrualCategoryService;
+import org.kuali.kpme.core.accrualcategory.rule.service.AccrualCategoryRuleService;
+import org.kuali.kpme.core.accrualcategory.service.AccrualCategoryService;
 import org.kuali.kpme.core.bo.assignment.service.AssignmentService;
 import org.kuali.kpme.core.bo.calendar.entry.service.CalendarEntryService;
 import org.kuali.kpme.core.bo.calendar.service.CalendarService;
@@ -9,10 +9,12 @@ import org.kuali.kpme.core.bo.department.service.DepartmentService;
 import org.kuali.kpme.core.bo.earncode.group.service.EarnCodeGroupService;
 import org.kuali.kpme.core.bo.earncode.security.service.EarnCodeSecurityService;
 import org.kuali.kpme.core.bo.earncode.service.EarnCodeService;
+import org.kuali.kpme.core.bo.institution.service.InstitutionService;
 import org.kuali.kpme.core.bo.job.service.JobService;
 import org.kuali.kpme.core.bo.leaveplan.service.LeavePlanService;
 import org.kuali.kpme.core.bo.location.service.LocationService;
 import org.kuali.kpme.core.bo.paygrade.service.PayGradeService;
+import org.kuali.kpme.core.bo.paystep.service.PayStepService;
 import org.kuali.kpme.core.bo.paytype.service.PayTypeService;
 import org.kuali.kpme.core.bo.person.service.PersonService;
 import org.kuali.kpme.core.bo.position.service.PositionService;
@@ -34,7 +36,7 @@ public class HrServiceLocator implements ApplicationContextAware {
 
 	public static String SPRING_BEANS = "classpath:SpringBeans.xml";
 	public static ApplicationContext CONTEXT;
-	
+
 	public static final String HR_PAY_CALENDAR_SERVICE = "calendarService";
 	public static final String HR_PAY_CALENDAR_ENTRY_SERVICE = "calendarEntryService";
 	public static final String HR_SALARY_GROUP_SERVICE = "salaryGroupService";
@@ -57,7 +59,9 @@ public class HrServiceLocator implements ApplicationContextAware {
 	public static final String HR_EARN_CODE = "earnCodeService";
 	public static final String HR_EARN_CODE_SECURITY = "earnCodeSecurityService";
 	public static final String HR_TIME_EARN_CODE_GROUP_SERVICE = "earnCodeGroupService";
-
+	public static final String HR_INSTITUTION_SERVICE = "institutionService";
+	public static final String HR_PAY_STEP_SERVICE = "payStepService";
+	
 	public static final String TK_TIME_ZONE_SERVICE = "timezoneService";
 	
     public static final String HR_GROUP_SERVICE = "hrGroupService";
@@ -151,6 +155,14 @@ public class HrServiceLocator implements ApplicationContextAware {
 	public static TimezoneService getTimezoneService(){
 		return (TimezoneService) CONTEXT.getBean(TK_TIME_ZONE_SERVICE);
 	}
+	
+	public static PayStepService getPayStepService() {
+		return (PayStepService) CONTEXT.getBean(HR_PAY_STEP_SERVICE);
+	}
+	
+    public static InstitutionService getInstitutionService() {
+    	return (InstitutionService) CONTEXT.getBean(HR_INSTITUTION_SERVICE);
+    }
 	
 	/* 
 	 * 

@@ -26,7 +26,7 @@
 	    <field-descriptor name="accountCreateDate"     column="ACCT_CREATE_DT"     jdbc-type="DATE" />
 	    <field-descriptor name="accountEffectiveDate"  column="ACCT_EFFECT_DT"     jdbc-type="DATE" />
 	    <field-descriptor name="accountExpirationDate" column="ACCT_EXPIRATION_DT" jdbc-type="DATE" />
-        <field-descriptor name="active"                column="ACCT_CLOSED_IND"    jdbc-type="VARCHAR" conversion="org.kuali.kfs.coa.util.OjbAccountActiveIndicatorConversion" />
+        <field-descriptor name="active"                column="ACCT_CLOSED_IND"    jdbc-type="VARCHAR" conversion="org.kuali.kpme.core.bo.utils.OjbAccountActiveIndicatorConversion" />
 	    <field-descriptor name="objectId"              column="OBJ_ID"             jdbc-type="VARCHAR" index="true" />
 	    <field-descriptor name="versionNumber"         column="VER_NBR"            jdbc-type="BIGINT"  locking="true" />
 	

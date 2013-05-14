@@ -18,8 +18,8 @@ package org.kuali.kpme.tklm.leave.donation;
 import java.math.BigDecimal;
 
 import org.kuali.kpme.core.KPMEConstants;
+import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.earncode.EarnCode;
 import org.kuali.rice.kim.api.identity.Person;
 

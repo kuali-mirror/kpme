@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kpme.core.KPMEConstants;
+import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.rice.krad.service.KRADServiceLocator;

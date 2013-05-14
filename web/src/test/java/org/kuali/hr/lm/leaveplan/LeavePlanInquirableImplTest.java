@@ -24,7 +24,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
-import org.kuali.kpme.core.bo.leaveplan.LeavePlanInquirableImpl;
+import org.kuali.kpme.core.bo.leaveplan.web.LeavePlanInquirableImpl;
 
 public class LeavePlanInquirableImplTest extends KPMETestCase {
 	

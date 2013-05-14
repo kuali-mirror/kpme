@@ -6,7 +6,7 @@ import java.util.Properties;
 
 import org.kuali.kpme.core.bo.paystep.PayStep;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
-import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -48,7 +48,7 @@ public class PayStepLookupableHelper extends KPMELookupableHelper {
         String payGrade = fieldValues.get("payGrade");
         String active = fieldValues.get("active");
 
-        List<PayStep> paySteps = PmServiceLocator.getPayStepService().getPaySteps(payStep, institution, campus, salaryGroup, payGrade, active);
+        List<PayStep> paySteps = HrServiceLocator.getPayStepService().getPaySteps(payStep, institution, campus, salaryGroup, payGrade, active);
 
         return paySteps;
     }

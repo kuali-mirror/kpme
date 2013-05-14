@@ -487,7 +487,7 @@
 	<bean id="EarnCode-inquiryDefinition" parent="EarnCode-inquiryDefinition-parentBean" />
 
 	<bean id="EarnCode-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.bo.earncode.EarnCodeInquirableImpl">
+		parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.bo.earncode.web.EarnCodeInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

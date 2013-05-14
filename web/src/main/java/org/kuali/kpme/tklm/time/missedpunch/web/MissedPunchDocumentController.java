@@ -125,7 +125,7 @@ public class MissedPunchDocumentController extends DocumentControllerBase {
 		MissedPunchForm missedPunchForm = (MissedPunchForm) form;
 		MissedPunchDocument missedPunchDocument = (MissedPunchDocument) missedPunchForm.getDocument();
 		MissedPunch missedPunch = (MissedPunch) missedPunchDocument.getMissedPunch();
-		TkServiceLocator.getMissedPunchService().addClockLog(missedPunch, TKUtils.getIPAddressFromRequest(request));
+		TkServiceLocator.getMissedPunchService().addClockLog(missedPunch, TKUtils.getIPAddressFromRequest(request.getRemoteAddr()));
         
     	return modelAndView;
     }
@@ -135,7 +135,7 @@ public class MissedPunchDocumentController extends DocumentControllerBase {
     public ModelAndView approve(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		MissedPunchDocument missedPunchDocument = (MissedPunchDocument) form.getDocument();
         MissedPunch missedPunch = (MissedPunch) missedPunchDocument.getMissedPunch();
-    	TkServiceLocator.getMissedPunchService().updateClockLog(missedPunch, TKUtils.getIPAddressFromRequest(request));
+    	TkServiceLocator.getMissedPunchService().updateClockLog(missedPunch, TKUtils.getIPAddressFromRequest(request.getRemoteAddr()));
         
     	return super.approve(form, result, request, response);
     }

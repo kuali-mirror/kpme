@@ -184,7 +184,7 @@
 	<!-- Business Object Inquiry Definition -->
   
   	<bean id="Location-inquiryDefinition" parent="Location-inquiryDefinition-parentBean" />
-	<bean id="Location-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.bo.location.LocationInquirableImpl">
+	<bean id="Location-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.bo.location.web.LocationInquirableImpl">
 		<property name="title" value="Location Inquiry" />
 		<property name="translateCodes" value="false" />
 		<property name="inquirySections">

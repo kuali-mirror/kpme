@@ -21,10 +21,10 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.bo.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.bo.accrualcategory.rule.AccrualCategoryRule;
-import org.kuali.kpme.core.bo.accrualcategory.rule.service.AccrualCategoryRuleService;
-import org.kuali.kpme.core.bo.accrualcategory.service.AccrualCategoryService;
+import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.accrualcategory.rule.service.AccrualCategoryRuleService;
+import org.kuali.kpme.core.accrualcategory.service.AccrualCategoryService;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.job.service.JobService;
 import org.kuali.kpme.core.bo.leaveplan.LeavePlan;

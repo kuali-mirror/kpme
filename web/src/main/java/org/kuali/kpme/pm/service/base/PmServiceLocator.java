@@ -24,8 +24,7 @@ import org.springframework.context.ApplicationContextAware;
 public class PmServiceLocator implements ApplicationContextAware {
 	public static String SPRING_BEANS = "classpath:SpringBeans.xml";
 	public static ApplicationContext CONTEXT;
-	public static final String PM_PAY_STEP_SERVICE = "payStepService";
-	public static final String PM_INSTITUTION_SERVICE = "institutionService";
+
     public static final String PM_POSITION_REPORT_TYPE_SERVICE = "positionReportTypeService";
     public static final String PM_POSITION_REPORT_GROUP_SERVICE = "positionReportGroupService";
     public static final String PM_POSITION_REPORT_CAT_SERVICE = "positionReportCatService";
@@ -40,10 +39,6 @@ public class PmServiceLocator implements ApplicationContextAware {
     public static final String PM_POSITION_DEPT_AFFL_SERVICE = "positionDepartmentAffiliationService";
     public static final String PM_POSITION_DEPT_SERVICE = "positionDepartmentService";
     public static final String PM_CLASSIFICATION_SERVICE = "classificationService";
-    
-    public static InstitutionService getInstitutionService() {
-    	return (InstitutionService) CONTEXT.getBean(PM_INSTITUTION_SERVICE);
-    }
     
     public static PositionReportTypeService getPositionReportTypeService() {
     	return (PositionReportTypeService) CONTEXT.getBean(PM_POSITION_REPORT_TYPE_SERVICE);
@@ -65,10 +60,6 @@ public class PmServiceLocator implements ApplicationContextAware {
     	return (PstnRptGrpSubCatService) CONTEXT.getBean(PM_PSTN_RPT_GRP_SUB_CAT_SERVICE);
     }
     
-	public static PayStepService getPayStepService() {
-		return (PayStepService) CONTEXT.getBean(PM_PAY_STEP_SERVICE);
-	}
-
 	public static PositionTypeService getPositionTypeService() {
 		return (PositionTypeService) CONTEXT.getBean(PM_POSITION_TYPE_SERVICE);
 	}

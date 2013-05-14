@@ -225,7 +225,7 @@ public class ClockAction extends TimesheetAction {
         	caf.setErrorMessage("The operation is already performed.");
             return mapping.findForward("basic");
         }
-        String ip = TKUtils.getIPAddressFromRequest(request);
+        String ip = TKUtils.getIPAddressFromRequest(request.getRemoteAddr());
         Assignment assignment = caf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(caf.getSelectedAssignment()));
         
         List<Assignment> lstAssingmentAsOfToday = HrServiceLocator.getAssignmentService().getAssignments(HrContext.getTargetPrincipalId(), LocalDate.now());
