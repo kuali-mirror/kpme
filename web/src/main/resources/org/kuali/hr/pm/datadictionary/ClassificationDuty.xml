@@ -59,21 +59,9 @@
 	<bean id="ClassDuty-percentage" parent="ClassDuty-percentage-parentBean" />
 	<bean id="ClassDuty-percentage-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="false" />
+		<property name="maxLength" value="10"/>
 		<property name="controlField">
-			<bean parent="Uif-SpinnerControl" p:size="20" p:align="center">
-				<property name="spinner">
-					<bean parent="Uif-Spinner" >
-						<property name="templateOptions">
-							<map merge="true">
-								<entry key="start" value="0.01"/>
-								<entry key="step" value="0.01"/>
-								<entry key="max" value="100"/>
-								<entry key="numberFormat" value="n"/>
-							</map>
-						</property>
-					</bean>
-				</property>
-			</bean>
+			<bean parent="Uif-TextControl" />
 		</property>
 		<property name="name" value="percentage" />
 		<property name="label" value="Percentage" />
@@ -91,27 +79,4 @@
 	    <property name="label" value="Position Class Id"/>
 	</bean> 
 	
-<!--*************************************************************************** 
-							Views
- ***************************************************************************-->  	
-
-<!--  Position Classification Duty Maintenance View -->
-<!--   <bean id="ClassDuty-MaintenanceView" parent="ClassDuty-MaintenanceView-parentBean"/> -->
-<!--   <bean id="ClassDuty-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView"> -->
-<!--     <property name="headerText" value="Position Classification Duty Maintenance"/> -->
-<!--     <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.ClassificationDuty"/> -->
-<!--     <property name="items"> -->
-<!--       <list merge="true"> -->
-<!--         <bean parent="Uif-MaintenanceGridSection"> -->
-<!--           <property name="items"> -->
-<!--             <list> -->
-<!-- 		        <bean parent="Uif-InputField" p:propertyName="name" /> -->
-<!-- 		        <bean parent="Uif-InputField" p:propertyName="description" /> -->
-<!-- 		        <bean parent="Uif-InputField" p:propertyName="percentage" /> -->
-<!--             </list> -->
-<!--           </property> -->
-<!--         </bean> -->
-<!--       </list> -->
-<!--     </property> -->
-<!--   </bean>  -->
 </beans>

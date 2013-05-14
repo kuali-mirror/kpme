@@ -63,7 +63,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 	}
 
 	@Override
-	public Map<String,List<String>> addClockAction(String principalId, String assignmentKey, String clockAction) {
+	public Map<String,List<String>> addClockAction(String principalId, String assignmentKey, String clockAction, String ipAddress) {
 		HashMap<String,List<String>> errorWarningMap = new HashMap<String,List<String>>();
 
 		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(AssignmentDescriptionKey.get(assignmentKey), LocalDate.now());
@@ -79,11 +79,9 @@ public class TkMobileServiceImpl implements TkMobileService {
 			throw new RuntimeException("Could not open timesheet");
 		}
         
-		String ip = TKUtils.getIPAddressFromRequest(HrContext.getHttpServletRequest());
-
         // processClockLog is the correct method to use. It creates and persists a clock log and a time block if necessary.
         // buildClockLog just creates a clock log object.
-        TkServiceLocator.getClockLogService().processClockLog(new DateTime(), assignment, td.getCalendarEntry(), ip,
+        TkServiceLocator.getClockLogService().processClockLog(new DateTime(), assignment, td.getCalendarEntry(), ipAddress,
                 LocalDate.now(), td, getCurrentClockAction(), principalId);
 
         // TODO: not sure what we want to return for the errorWarningMap

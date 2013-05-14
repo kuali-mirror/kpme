@@ -1,5 +1,6 @@
 package org.kuali.kpme.pm.service.base;
 
+import org.kuali.kpme.pm.classification.service.ClassificationService;
 import org.kuali.kpme.core.bo.institution.service.InstitutionService;
 import org.kuali.kpme.core.bo.paystep.service.PayStepService;
 import org.kuali.kpme.pm.positionappointment.service.PositionAppointmentService;
@@ -38,6 +39,7 @@ public class PmServiceLocator implements ApplicationContextAware {
     public static final String PM_POSITION_APPOINTMENT_SERVICE = "positionAppointmentService";
     public static final String PM_POSITION_DEPT_AFFL_SERVICE = "positionDepartmentAffiliationService";
     public static final String PM_POSITION_DEPT_SERVICE = "positionDepartmentService";
+    public static final String PM_CLASSIFICATION_SERVICE = "classificationService";
     
     public static InstitutionService getInstitutionService() {
     	return (InstitutionService) CONTEXT.getBean(PM_INSTITUTION_SERVICE);
@@ -97,6 +99,10 @@ public class PmServiceLocator implements ApplicationContextAware {
 	
 	public static PositionDepartmentService getPositionDepartmentService() {
 		return (PositionDepartmentService) CONTEXT.getBean(PM_POSITION_DEPT_SERVICE);
+	}
+	
+	public static ClassificationService getClassificationService() {
+		return (ClassificationService) CONTEXT.getBean(PM_CLASSIFICATION_SERVICE);
 	}
 
 	@Override

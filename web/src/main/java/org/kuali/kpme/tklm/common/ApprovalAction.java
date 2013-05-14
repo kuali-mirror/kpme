@@ -128,7 +128,7 @@ public class ApprovalAction extends KPMEAction{
 		    taf.setNextPayCalendarId(null);
 		}	
 		if (StringUtils.isBlank(page)) {
-	        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+	        String principalId = HrContext.getTargetPrincipalId();
 			Set<String> departments = new TreeSet<String>();
 			departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
 			departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));

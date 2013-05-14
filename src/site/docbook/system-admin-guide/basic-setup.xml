@@ -1,5 +1,432 @@
 <?xml version='1.0' encoding='UTF-8'?> 
 <chapter xml:id="basic-setup" xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns="http://docbook.org/ns/docbook" version="5.0">
-    <title>Basic Setup</title>
+	xmlns="http://docbook.org/ns/docbook" version="5.0">
+	<title>Basic Setup</title>
+    <section>
+        <title>KPME Navigation</title>
+        <para>
+            The first point of entry for any system administrator who is setting up the system is on the KPME portal page.  It is similar to the Rice portal
+            page but it has KPME-specific links included.  If this is your first time running the application, you may have it running on localhost using the 
+            application path "kpme-dev".  If this is true, proceed to 
+            <link xlink:href="http://localhost:8080/kpme-dev/portal.do">http://localhost:8080/kpme-dev/portal.do</link>.  More complicated setups will use
+            different paths but will always end with "portal.do".  Once at the page, go to the Maintenance tab and view the links.
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/kpmeportal.jpg" format="JPG" scale="40"/>
+                </imageobject>
+                <textobject>
+                    <phrase>KPME Portal</phrase>
+                </textobject>
+            </mediaobject>
+        </para>
+        <para>
+            On the left hand side of the page, there are several sections including the maintenance documents required for administering the system.  At the
+            top, there is a HR/Payroll section which this section of the guide will address.  Other sections include Timekeeping, Leave Management, and 
+            Administrative.
+        </para>
+    </section>
+	<section>
+		<title>Set up Calendars for leave and pay with leave entries</title>
+		<section>
+			<title>Calendar</title>
+			<para>
+				The system supports multiple pay cycles that are definable by start date/time and end date/time.  This allows for institutions to define 
+				multiple pay and leave calendars such as monthly, semi-monthly, biweekly, or weekly. For example, an institution may define a pay period 
+				beginning at Noon on a Thursday which runs 2 weeks to Noon the following Thursday.
+			</para>
+			<para>
+				The Timekeeping and Leave Managements modules must allow for institutions to define calendars for which employees will report their time and 
+				leave. These calendars may or  may not correspond to payroll calendars.  For example, institutions may choose to define leave reporting 
+				calendars to be from the 15th of the month to the 15th of the following month while the payroll calendar may be from the 1st of the month to the 
+				1st of the next month for the same employee.
+			</para>
+			<para>
+				The system can define calendars for Pay and Leave. These Calendars will be furthered defined by the Calendar Entries maintenance document with 
+				the reporting periods and also associated with employees on the Principal HR Attributes Maintenance Document.
+			</para>
+			<table frame="none">
+				<title>Calendar fields : </title>
+				<tgroup cols="2">
+					<colspec colname="c1" colnum="1" colwidth="2.00*" />
+					<colspec colname="c2" colnum="2" colwidth="4.00*" />
+					<thead>
+						<row>
+							<entry>Field</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Calendar Name</entry>
+							<entry>Text field used to defined the calendar entry for Pay or Leave reporting periods.</entry>
+						</row>
+						<row>
+							<entry>Calendar Descriptions</entry>
+							<entry>Text field used to describe the calendar.</entry>
+						</row>
+						<row>
+							<entry>Calendar Types</entry>
+							<entry>Indicate calendar is to be used for Pay or Leave reporting periods.</entry>
+						</row>
+						<row>
+							<entry>FLSA Begin Day</entry>
+							<entry>This value determines the FLSA period for overtime calculations.</entry>
+						</row>
+						<row>
+							<entry>FLSA Begin Time</entry>
+							<entry>Time of day when FLSA period begins.</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section>
+			<title>Calendar Entries</title>
+			<para>
+                The system can define calendars for Pay or Leave. The Calendar Entry maintenance page defines the pay period (timesheet) and/or leave 
+                reporting period.
+			</para>
+			<para>
+                Entries must be created for a time period before a timesheet and/or leave calendar can be created.
+            </para>
+			<table frame="none">
+				<title>Calendar Entries fields : </title>
+				<tgroup cols="2">
+					<colspec colname="c1" colnum="1" colwidth="2.00*" />
+					<colspec colname="c2" colnum="2" colwidth="4.00*" />
+					<thead>
+						<row>
+							<entry>Field</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Calendar Name</entry>
+							<entry>Calendar to be associated with Calendar Entries.</entry>
+						</row>
+						<row>
+							<entry>Begin Period Date/Time</entry>
+							<entry>Date period starts. This drives what calendar days show on the timesheet and/or leave calendar. </entry>
+						</row>
+						<row>
+							<entry>End Period Date/Time</entry>
+							<entry>Date period ends. This drives what calendars days show on the timesheet and/or leave calendar.</entry>
+						</row>
+						<row>
+							<entry>Batch Initiate Date/Time</entry>
+							<entry>Date batch should run to create timesheets and/or leave calendars for the reporting period.</entry>
+						</row>
+						<row>
+							<entry>Batch End Pay Period Date/Time</entry>
+							<entry>
+                                For Pay Calendar, date batch job should run to end all timeblocks for this pay period. This inserts clock outs at the end of 
+                                the pay period, and clock ins at the beginning of the subsequent pay period.
+							</entry>
+						</row>
+						<row>
+							<entry>Batch Employee Approval Date/Time</entry>
+							<entry>Date batch job should run to route timesheets and/or leave calendars from the employee to the approver.</entry>
+						</row>
+						<row>
+							<entry>Batch Supervisor Approval Date/Time</entry>
+							<entry>Date batch job should run to route timesheets and/or leave calendars from the approver to final status.</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+			<note>
+                <para>
+                    To learn more about how to configure the batch Date/Time fields, please see the Batch Jobs documentation.
+                </para>
+			</note>
+		</section>
+	</section>
+	<section>
+		<title>Earn Codes with Earn Code Security</title>
+		<section>
+			<title>Earn Code</title>
+			<para>
+                The Earn Code maintenance page is used to define codes to categorize employee’s hours/earnings and time off.  For each earn code, you can define 
+                how the employees records - in/out time, hours, days or flat dollar amount.  These codes may or may not be attached to an accrual category for
+				tracking leave against available balances or simple reporting.  Most earn code attributes are defined in the payroll system, but there are a few 
+				codes which need to be modified on the timesheet prior to the data being extracted to payroll.  An inflation factor and inflate minimum hours 
+				value are definable on the earn code document.  These actions occur on the recorded hours in the timesheet and therefore would NOT need to be 
+				done in the payroll system.  Additionally there are numerous flags on the earn code to limit availability and determine eligibility for accrual 
+				and scheduling leave.
+			</para>
+			<table frame="none">
+				<title>Earn Code fields : </title>
+				<tgroup cols="2">
+					<colspec colname="c1" colnum="1" colwidth="2.00*" />
+					<colspec colname="c2" colnum="2" colwidth="4.00*" />
+					<thead>
+						<row>
+							<entry>Field</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Effective Date</entry>
+							<entry>
+                                The Effective date for which the earn code will be effective. This date needs to be on/prior to the date the rule to takes 
+                                effect.  When editing, it will determine the date the new values go into effect.
+							</entry>
+						</row>
+						<row>
+							<entry>Earn Code</entry>
+							<entry>Alpha/Numeric code used to identify the earnings code.</entry>
+						</row>
+						<row>
+							<entry>Description</entry>
+							<entry>Long description of earnings classification.</entry>
+						</row>
+						<row>
+							<entry>Leave Plan</entry>
+							<entry>Employees with the indicated Leave Plan may have access to this Earn Code on their Leave Calendar and Time Sheet</entry>
+						</row>
+						<row>
+							<entry>Accrual Category</entry>
+							<entry>If a category is entered the usage is validated against the employee’s balances.</entry>
+						</row>
+						<row>
+							<entry>Accrual Balance Action</entry>
+							<entry>
+                                Supports validating against the Accrual Category associated with the Earn Code and instruct if it adjusts the balance of that 
+                                category.  Usage should validate against the available balance subtract from the total.  Adjustment would work without 
+                                validation and add/subtract the entry.
+							</entry>
+						</row>
+						<row>
+							<entry>Fractional time allowed</entry>
+							<entry>Define fractional unit of time used for reporting leave.  Indicate number of decimals.</entry>
+						</row>
+						<row>
+							<entry>Rounding Option</entry>
+							<entry>Used when calculating leave accruals and reporting.</entry>
+						</row>
+						<row>
+							<entry>Roll up to Earn Code</entry>
+							<entry>
+                                This field allows earn codes to be associated with another for payroll extract.  For example, you could associate all the Sick 
+                                codes with the regular sick earn code and not extract the detail into your payroll system. (Sick family leave, sick injury, etc. 
+                                could all be extracted.)
+							</entry>
+						</row>
+						<row>
+							<entry>Record Method</entry>
+							<entry>
+                                Determines the value that will be entered for the earn code.  The Time earn code requires in/out times, The Hours earn code 
+                                will require a hours amount, the Days earn code will require a days amount, and the Amount earn code will require a dollar 
+                                amount.
+							</entry>
+						</row>
+						<row>
+							<entry>Overtime Earn Code</entry>
+							<entry>
+                                Checked box indicates this may be used for overtime earn code. Codes with this checkbox are not available for entry on the 
+                                timesheet.
+							</entry>
+						</row>
+						<row>
+							<entry>Inflate Min Hours</entry>
+							<entry>
+                                Hours incurred will be inflated to this minimum hours value.  For example, Call Back Time rules specify the employee earns a
+								minimum number of hours, regardless of the time worked. Set an inflate minimum hours on the earn code and the employee will see
+								the number of hours correctly on the timesheet, instead of assuming it will be inflated later.
+							</entry>
+						</row>
+						<row>
+							<entry>Inflate Factor</entry>
+							<entry>
+                                The hours incurred will be multiplied by this factor. For example, Compensatory Time Earned (in lieu of overtime) is earned at
+								a factor of 1.5. When the employee earns comp time, this setting will inflate the hours by a factor of 1.5 and all hours shown 
+								on the timesheet will be the inflated value. The employee will know the exact number of hours earned.
+							</entry>
+						</row>
+						<row>
+							<entry>Eligible for Accrual</entry>
+							<entry>
+                                Flag indicating this type of leave is eligible for accrual. This applies to all accrual categories the employee is eligible for.
+							</entry>
+						</row>
+						<row>
+							<entry>Affect Pay</entry>
+							<entry>
+                                Flag indicating use of this earn code will affect the employee's pay and can be used by schools who are extracting data to their 
+                                payroll system. When earn code is used notification is sent to approver and department admin.
+							</entry>
+						</row>
+						<row>
+							<entry>Allow Scheduled Leave</entry>
+							<entry>Allow scheduling of leave on future leave calendars (i.e. weather related leave).</entry>
+						</row>
+						<row>
+							<entry>FMLA</entry>
+							<entry>FLMA Earn Code indicator. If Principal HR Attributes is
+								flagged for FMLA,
+								employee will have option to select this Leave
+								Code.
+							</entry>
+						</row>
+						<row>
+							<entry>Workman’s Comp</entry>
+							<entry>
+                                Workman's Comp Earn Code indicator. If Principal HR Attributes is flagged for Workman’s Comp, employee will have option to 
+                                select this Earn Code.
+							</entry>
+						</row>
+						<row>
+							<entry>Default Amount of Time</entry>
+							<entry>
+                                When a user selects earn code the specified amount of time will appear in the amount of leave taken. User can change the hours 
+                                as needed once populated.
+							</entry>
+						</row>
+						<row>
+							<entry>Allow Negative Accrual Balance</entry>
+							<entry>Allows usage to take the balance of the Accrual Category into the negative.</entry>
+						</row>
+						<row>
+							<entry>Active</entry>
+							<entry>
+                                Status of the category, checked indicates Active, unchecked indicates Inactive.  If the rule is being eliminated, insert a new 
+                                effective dated row and uncheck the active box.
+							</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+			<note>
+				<para>
+					Earn Codes must have an Earn Code Security entry to appear on the calendars. If an Earn Code does not have an Earn Code Security entry it 
+					will not be displayed by default.
+				</para>
+			</note>
+		</section>
+		<section>
+			<title>Earn Code Security</title>
+			<para>
+                The Earn Code Security maintenance page is used to define which roles (employee, approver) see specific earn codes on the timesheet and/or Leave 
+                Calendar. This is definable at the department, salary group or location value. These fields are accept wild cards (%).
+			</para>
+			<para>
+                Formerly called Department Earn Code in Timekeeping.
+			</para>
+			<table frame="none">
+				<title>Earn Code Security fields : </title>
+				<tgroup cols="2">
+					<colspec colname="c1" colnum="1" colwidth="2.00*" />
+					<colspec colname="c2" colnum="2" colwidth="4.00*" />
+					<thead>
+						<row>
+							<entry>Field</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Effective Date</entry>
+							<entry>
+                                The Effective date for which the earn code security rule will be effective. This date needs to be on/prior to the date the rule 
+                                to takes effect.  When editing, it will determine the date the new values go into effect.
+							</entry>
+						</row>
+						<row>
+							<entry>Department</entry>
+							<entry>If a department is defined, only entries associated with a job record in this department will be subject.</entry>
+						</row>
+						<row>
+							<entry>Salary Group</entry>
+							<entry>If a salary group is defined, only entries associated with a job rcd in this salary group will be subject.</entry>
+						</row>
+						<row>
+							<entry>Earn Code</entry>
+							<entry>This is the code to define values for earn code.</entry>
+						</row>
+						<row>
+							<entry>Earn Code Type</entry>
+							<entry>Determines if Earn Code should be displayed on Timesheet, Leave Calendar, or Both.</entry>
+						</row>
+						<row>
+							<entry>Location</entry>
+							<entry>If a location is defined, only entries associated with a job record in this location will be subject.</entry>
+						</row>
+						<row>
+							<entry>Employee/Approver</entry>
+							<entry>The role checked can select the specified code on the time/leave entry box.
+							</entry>
+						</row>
+						<row>
+							<entry>Active</entry>
+							<entry>
+                                Status of the department code rule, checked indicates Active, unchecked indicates Inactive.  If the rule is being eliminated, 
+                                insert a new effective dated row and uncheck the active box.
+							</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+	</section>
+	<section>
+		<title>Earn Code Groups</title>
+		<para>
+            The Earn Code Group maintenance page is used to define groupings of earn codes.  In timekeeping, these groups are also used to define the summary
+			sections on the timesheet and in the overtime rule setup page.
+		</para>
+		<para>
+			Earn Code Groups can also be used to alert the user with a warning or additional information needed when using certain earn codes on their timesheet 
+			or leave calendar.
+		</para>
+		<table frame="none">
+			<title>Earn Code Groups fields : </title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="2.00*" />
+				<colspec colname="c2" colnum="2" colwidth="4.00*" />
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry>
+                            The Effective date for which the department code rule will be effective. This date needs to be on/prior to the date the rule takes 
+                            effect.  When editing, it will determine the date the new values go into effect.
+						</entry>
+					</row>
+					<row>
+						<entry>Earn Group</entry>
+						<entry>Text field used to identify the group.</entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry>Text which describes the purpose of this grouping of earn codes.</entry>
+					</row>
+					<row>
+						<entry>Show on Summary</entry>
+						<entry>Text which describes the purpose of this grouping of earn codes.</entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>
+                            Status of the earn group, checked indicates Active, unchecked indicates Inactive. If the earn group is being eliminated, insert a 
+                            new effective dated row and uncheck the active box.
+						</entry>
+					</row>
+					<row>
+						<entry>Earn Code</entry>
+						<entry>
+                            In the Earn Group Definitions section, add the earn codes to be included in this group. The description is pulled in when the code 
+                            is added.
+						</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</section>
 </chapter>

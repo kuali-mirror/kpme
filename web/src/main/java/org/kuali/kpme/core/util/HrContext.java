@@ -158,15 +158,7 @@ public class HrContext {
 
     public static void setCurrentLeaveCalendarDocumentId(String leaveCalendarDocumentId) {
         HrContext.getStorageMap().put(LDOC_KEY, leaveCalendarDocumentId);
-    }	
-
-	public static HttpServletRequest getHttpServletRequest() {
-		return (HttpServletRequest) getStorageMap().get("REQUEST");
-	}
-
-	public static void setHttpServletRequest(HttpServletRequest request) {
-		getStorageMap().put("REQUEST", request);
-	}
+    }
 
 	public static Map<String, Object> getStorageMap() {
 		return STORAGE_MAP.get();

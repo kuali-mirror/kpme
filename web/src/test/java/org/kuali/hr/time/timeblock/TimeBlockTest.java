@@ -71,8 +71,8 @@ public class TimeBlockTest extends KPMETestCase {
 		CalendarEntry payCalendarEntry = new CalendarEntry();
 		DateTime beginPeriodDateTime = new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		DateTime endPeriodDateTime = new DateTime(2010, 1, 15, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		payCalendarEntry.setBeginPeriodDateTime(beginPeriodDateTime.toDate());
-		payCalendarEntry.setEndPeriodDateTime(endPeriodDateTime.toDate());
+		payCalendarEntry.setBeginPeriodFullDateTime(beginPeriodDateTime);
+		payCalendarEntry.setEndPeriodFullDateTime(endPeriodDateTime);
 		
 		List<Interval> dayInterval = TKUtils.getDaySpanForCalendarEntry(payCalendarEntry);
 		DateTime beginDateTime = new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
@@ -153,8 +153,8 @@ public class TimeBlockTest extends KPMETestCase {
 		Calendar payCalendar = new Calendar();
 		
 		CalendarEntry payCalendarEntry = new CalendarEntry();
-		payCalendarEntry.setBeginPeriodDateTime(beginTime.toDate());
-		payCalendarEntry.setEndPeriodDateTime(endTime.toDate());
+		payCalendarEntry.setBeginPeriodFullDateTime(beginTime);
+		payCalendarEntry.setEndPeriodFullDateTime(endTime);
 		
 		List<TimeBlock> lstTimeBlocks = setupTimeBlocks(beginTime, endTime, payCalendarEntry);
 		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(lstTimeBlocks, payCalendarEntry, payCalendar);

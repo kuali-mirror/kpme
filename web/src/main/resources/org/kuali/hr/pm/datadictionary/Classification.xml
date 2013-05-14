@@ -331,6 +331,7 @@
 	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
 	        		 p:fieldConversions="institutionCode:institution"/>
 	   		 </property>
+	   		 <property name="quickfinder.autoSearch" value="true"/>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="salaryGroup">
@@ -338,6 +339,7 @@
 	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.salarygroup.SalaryGroup" 
 	        		 p:fieldConversions="hrSalGroup:salaryGroup"/>
 	   		 </property>
+	   		 <property name="quickfinder.autoSearch" value="true"/>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="percentTime" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="benefitsEligible" />
@@ -347,18 +349,21 @@
        			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.leaveplan.LeavePlan" 
         			 p:fieldConversions="leavePlan:leavePlan"/>
    		 	</property>
+   		 	<property name="quickfinder.autoSearch" value="true"/>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportGroup">
         	<property name="quickfinder">
 	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" 
 	        		 p:fieldConversions="positionReportGroup:positionReportGroup"/>
-	   		 </property>
+	   		</property>
+	   		<property name="quickfinder.autoSearch" value="true"/> 
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionType">
        		<property name="quickfinder">
 	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positiontyp.PositionType" 
 	        		 p:fieldConversions="positionType:positionType"/>
-	   		 </property>
+	   		</property>
+	   		<property name="quickfinder.autoSearch" value="true"/>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="poolEligible" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="tenureEligible" />
@@ -422,14 +427,197 @@
 			        <bean parent="Uif-LinkField" p:label="External Reference" 
  						p:href="@{#root.dataObject.externalReference}" p:linkText="@{#root.dataObject.externalReference}" p:target="_blank" />
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
+			        
 	        	</list>
 	     	 </property>
 	     	 <property name="title" value="Position Classification Inquiry"/>
 	   	   </bean>
+	   	   <bean parent="Classification-qualificationList"/>
+	       <bean parent="Classification-dutyList"/>
+	       <bean parent="Classification-flagList"/>
       </list>
     </property>
   </bean> 
   
+   <!-- Required Qualification List, used by maintenance view -->
+   <bean id="Classification-qualifications" abstract="true" parent="Uif-TableCollectionGroup">
+	  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationQualification" />
+	  <property name="propertyName" value="qualificationList" />
+	  <property name="addLinePlacement" value="BOTTOM" />
+	  <property name="layoutManager.generateAutoSequence" value="true" />
+	  <property name="layoutManager.richTable.render" value="false" />
+	  <property name="layoutManager.numberOfColumns" value="4" />
+	  <property name="items">
+	    <list>
+           <bean parent="Uif-InputField" p:propertyName="qualificationType" p:readOnly="@{!#isAddLine}">
+           		<property name="control">
+					<bean parent="Uif-DropdownControl"/>
+				</property>
+				<property name="optionsFinder">
+					<bean class="org.kuali.kpme.pm.util.PstnQlfrTypeKeyValueFinder" />
+				</property>
+           </bean>
+           <bean parent="Uif-InputField" p:propertyName="qualifier" p:readOnly="@{!#isAddLine}"
+            		p:refreshWhenChangedPropertyNames="#lp.qualificationType">
+           		<property name="control">
+					<bean parent="Uif-DropdownControl"/>
+				</property>
+				<property name="optionsFinder">
+					<bean class="org.kuali.kpme.pm.util.PositionClassQualifierKeyValueFinder" />
+				</property>
+           </bean>
+           <bean parent="Uif-InputField" p:propertyName="qualificationValue" p:readOnly="@{!#isAddLine}"
+           			p:refreshWhenChangedPropertyNames="#lp.qualificationType">
+           		<property name="control">
+					<bean parent="Uif-DropdownControl"/>
+				</property>
+				<property name="optionsFinder">
+					<bean class="org.kuali.kpme.pm.util.QualifierValueKeyValueFinder" />
+				</property>
+				<property name="propertyReplacers">
+				    <list>
+<!-- 				   		 if the typevalue of selected type is not select,  use text control instead -->
+				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="control" p:condition="#line.typeValue ne 'S'"> 
+				           <property name="replacement">
+				            <bean parent="Uif-TextControl" />
+				           </property>
+				        </bean>
+				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="validCharactersConstraint" p:condition="#line.typeValue eq 'T'"> 
+				           <property name="replacement">
+				            <bean parent="AnyCharacterPatternConstraint" />
+				           </property>
+				        </bean>
+				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="validCharactersConstraint" p:condition="#line.typeValue eq 'N'"> 
+				           <property name="replacement">
+				            <bean parent="NumericPatternConstraint" />
+				           </property>
+				        </bean>
+			        </list>
+		        </property>
+           </bean>
+	    </list>
+	  </property>
+	</bean>
+	
+	<!-- Required Qualification List, used by inquiry view -->
+	<bean id="Classification-qualificationList" abstract="true" parent="Uif-Disclosure-TableCollectionSection"
+        p:layoutManager.numberOfColumns="4">
+    <property name="headerText" value="Required Qualification"/>
+    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationQualification"/>
+    <property name="propertyName" value="qualificationList"/>
+    <property name="layoutManager.renderSequenceField" value="false"/>
+    <property name="layoutManager.separateAddLine" value="true"/>
+    <property name="layoutManager.richTable.render" value="false"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="qualificationType"/>
+        <bean parent="Uif-InputField" p:propertyName="qualifier" />
+        <bean parent="Uif-InputField" p:propertyName="qualificationValue"/>
+      </list>
+    </property>
+  </bean>
+  
+<!-- Duties List, used by maintenance views -->
+   <bean id="Classification-duties" abstract="true" parent="Uif-TableCollectionSection" p:align="left">
+		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationDuty" />
+		  <property name="propertyName" value="dutyList" />
+		  <property name="addLinePlacement" value="BOTTOM" />
+		  <property name="layoutManager.generateAutoSequence" value="true" />
+		  <property name="layoutManager.numberOfColumns" value="4" />
+		  <property name="layoutManager.richTable.templateOptions">
+		  	<map>
+		  		<entry key="bFilter" value="false"/>
+		  		<entry key="bPaginate" value="false"/>
+		  		<entry key="bInfo" value="false"/>
+		  	</map>
+		  </property>
+		  <property name="layoutManager.columnCalculations">
+		      <list>
+		        <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="percentage"
+		        	p:showPageTotal="false" p:recalculateTotalClientside="true">
+		        </bean>
+		      </list>
+	      </property>
+		  <property name="items">
+			  <list>
+			  	 <bean parent="Uif-InputField" p:propertyName="name" p:readOnly="@{!#isAddLine}" />
+		         <bean parent="Uif-InputField" p:propertyName="description" p:readOnly="@{!#isAddLine}" />
+		         <bean parent="Uif-InputField" p:propertyName="percentage"
+		         		p:exclusiveMin="0" p:inclusiveMax="100" p:constraintText="Must be a number between 0 and 100.">
+		         	<property name="validCharactersConstraint">
+			        	<bean parent="FixedPointPatternConstraint" p:allowNegative="false" p:precision="5" p:scale="2" />
+					</property>
+				 </bean>						         
+			  </list>
+		  </property>
+	</bean>
+	
+	<!-- Duties List, used by inquiry views -->
+   <bean id="Classification-dutyList" abstract="true" parent="Uif-Disclosure-TableCollectionSection" >
+		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationDuty" />
+		  <property name="headerText" value="Duties"/>
+		  <property name="propertyName" value="dutyList" />
+		  <property name="layoutManager.renderSequenceField" value="false"/>
+		  <property name="layoutManager.separateAddLine" value="true"/>
+		  <property name="layoutManager.richTable.render" value="false"/>
+		  <property name="items">
+			  <list>
+			  	 <bean parent="Uif-InputField" p:propertyName="name" />
+		         <bean parent="Uif-InputField" p:propertyName="description"/>
+		         <bean parent="Uif-InputField" p:propertyName="percentage"/>						         
+			  </list>
+		  </property>
+	</bean>
+	
+	<!-- Flags List, used by maintenance views -->
+	<bean id="Classification-flags" abstract="true" parent="Uif-TableCollectionGroup">
+		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationFlag" />
+		  <property name="propertyName" value="flagList" />
+		  <property name="addLinePlacement" value="BOTTOM" />
+		  <property name="layoutManager.richTable.render" value="false" />
+		  <property name="layoutManager.generateAutoSequence" value="true" />
+		  <property name="layoutManager.numberOfColumns" value="4" />
+		  <property name="items">
+		    <list>
+	           <bean parent="Uif-InputField" p:propertyName="category" p:readOnly="@{!#isAddLine}" >
+	           		<property name="control">
+						<bean parent="Uif-DropdownControl"/>
+					</property>
+					<property name="optionsFinder">
+						<bean class="org.kuali.kpme.pm.util.FlagCategoryKeyValueFinder" p:addBlankOption="false"/>
+					</property>
+	           </bean>
+	           <bean parent="Uif-InputField" p:propertyName="names" p:readOnly="@{!#isAddLine}"
+	            		p:refreshWhenChangedPropertyNames="#lp.category">
+	            	<property name="control">
+	            		<bean parent="Uif-HorizontalCheckboxesControl" />
+	            	</property>
+					<property name="optionsFinder">
+						<bean class="org.kuali.kpme.pm.util.FlagNameKeyValueFinder" p:addBlankOption="false"/>
+					</property>
+	           </bean>
+		    </list>
+		  </property>
+	</bean>
+	
+	<!-- Flags List, used by inquiry view -->
+	<bean id="Classification-flagList" abstract="true" parent="Uif-Disclosure-TableCollectionSection"
+        p:layoutManager.numberOfColumns="4">
+	    <property name="headerText" value="Flags"/>
+	    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationFlag"/>
+	    <property name="propertyName" value="flagList"/>
+	    <property name="layoutManager.renderSequenceField" value="false"/>
+	    <property name="layoutManager.separateAddLine" value="true"/>
+	    <property name="layoutManager.richTable.render" value="false"/>
+	    <property name="items">
+	      <list>
+	        <bean parent="Uif-InputField" p:propertyName="category"/>
+	        <bean parent="Uif-InputField" p:propertyName="names" />
+	      </list>
+	    </property>
+  </bean>
+	
+   
 <!--  Position Classification Maintenance View -->
   <bean id="Classification-MaintenanceView" parent="Classification-MaintenanceView-parentBean"/>
   <bean id="Classification-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
@@ -459,6 +647,7 @@
 				   			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
 				        			 p:fieldConversions="institutionCode:institution"/>
 						</property>
+						<property name="quickfinder.autoSearch" value="true"/>
 			        </bean>
 			        <bean parent="Uif-InputField" p:propertyName="campus" />
 		         </list>
@@ -475,12 +664,14 @@
 				       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" 
 				        		 p:fieldConversions="positionReportGroup:positionReportGroup"/>
 				   		</property>
+				   		<property name="quickfinder.autoSearch" value="true"/>
 			        </bean>
 			       	<bean parent="Uif-InputField" p:propertyName="positionType">
 						 <property name="quickfinder">
 				       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positiontype.PositionType" 
 				        		 p:fieldConversions="positionType:positionType"/>
 				   		 </property>
+				   		 <property name="quickfinder.autoSearch" value="true"/>
 			        </bean>
 			        <bean parent="Uif-InputField" p:propertyName="poolEligible" />
 			        <bean parent="Uif-InputField" p:propertyName="tenureEligible" />
@@ -497,7 +688,8 @@
 				       <property name="quickfinder">
 				       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.salarygroup.SalaryGroup" 
 				        		 p:fieldConversions="hrSalGroup:salaryGroup"/>
-				   		</property>
+				   	   </property>
+				   	   <property name="quickfinder.autoSearch" value="true"/>
 			       </bean>
 			       <bean parent="Uif-InputField" p:propertyName="percentTime" p:exclusiveMin="0" p:inclusiveMax="100"
 			        	 p:constraintText="Must be a number between 0 and 100.">
@@ -531,127 +723,39 @@
 			       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.leaveplan.LeavePlan"
 			        			 p:fieldConversions="leavePlan:leavePlan"/>
 			   		 	</property>
+			   		 	<property name="quickfinder.autoSearch" value="true"/>
 			       </bean>
 		         </list>
 	         </property>
         </bean>
-        
-        <bean parent="Uif-MaintenanceGridSection">
-	        <property name="headerText" value="Position Class Flags"/>
-	        <property name="items">
-		        <list>
-			        <bean parent="Uif-TableCollectionGroup">
-						  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationFlag" />
-						  <property name="propertyName" value="flagList" />
-						  <property name="addLinePlacement" value="BOTTOM" />
-						  <property name="layoutManager.richTable.render" value="false" />
-						  <property name="layoutManager.generateAutoSequence" value="true" />
-						  <property name="layoutManager.numberOfColumns" value="4" />
-						  <property name="items">
-						    <list>
-					           <bean parent="Uif-InputField" p:propertyName="category" p:readOnly="@{!#isAddLine}" >
-					           		<property name="control">
-										<bean parent="Uif-DropdownControl"/>
-									</property>
-									<property name="optionsFinder">
-										<bean class="org.kuali.kpme.pm.util.FlagCategoryKeyValueFinder" p:addBlankOption="false"/>
-									</property>
-					           </bean>
-					           <bean parent="Uif-InputField" p:propertyName="names" p:readOnly="@{!#isAddLine}"
-					            		p:refreshWhenChangedPropertyNames="#lp.category">
-					            	<property name="control">
-					            		<bean parent="Uif-HorizontalCheckboxesControl" />
-					            	</property>
-									<property name="optionsFinder">
-										<bean class="org.kuali.kpme.pm.util.FlagNameKeyValueFinder" p:addBlankOption="false"/>
-									</property>
-					           </bean>
-						    </list>
-						  </property>
-					</bean>
-		        </list>
-	         </property>
-        </bean>
- 
+         
         <bean parent="Uif-TabGroup">
 		  <property name="items">
 		    <list>
 		      <bean parent="Uif-HorizontalBoxSection" p:headerText="Required Qualification">
 		      	<property name="items">
 		      		<list>
-		      	 	 <bean parent="Uif-TableCollectionGroup">
-						  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationQualification" />
-						  <property name="propertyName" value="qualificationList" />
-						  <property name="addLinePlacement" value="BOTTOM" />
-						  <property name="layoutManager.generateAutoSequence" value="true" />
-						  <property name="layoutManager.richTable.render" value="false" />
-						  <property name="layoutManager.numberOfColumns" value="4" />
-						  <property name="items">
-						    <list>
-					           <bean parent="Uif-InputField" p:propertyName="qualificationType" p:readOnly="@{!#isAddLine}">
-					           		<property name="control">
-										<bean parent="Uif-DropdownControl"/>
-									</property>
-									<property name="optionsFinder">
-										<bean class="org.kuali.kpme.pm.util.PstnQlfrTypeKeyValueFinder" />
-									</property>
-					           </bean>
-					           <bean parent="Uif-InputField" p:propertyName="qualifier" p:readOnly="@{!#isAddLine}"
-					            		p:refreshWhenChangedPropertyNames="#lp.qualificationType">
-					           		<property name="control">
-										<bean parent="Uif-DropdownControl"/>
-									</property>
-									<property name="optionsFinder">
-										<bean class="org.kuali.kpme.pm.util.PositionClassQualifierKeyValueFinder" />
-									</property>
-					           </bean>
-					           <bean parent="Uif-InputField" p:propertyName="qualificationValue" p:readOnly="@{!#isAddLine}"
-					           			p:refreshWhenChangedPropertyNames="#lp.qualificationType">
-					           		<property name="control">
-										<bean parent="Uif-DropdownControl"/>
-									</property>
-									<property name="optionsFinder">
-										<bean class="org.kuali.kpme.pm.util.QualifierValueKeyValueFinder" />
-									</property>
-					           </bean>
-						    </list>
-						  </property>
-					</bean>
+		      			<bean parent="Classification-qualifications"/>
 					</list>
 		      	 </property>
 		      </bean>
+		      
 			  <bean parent="Uif-HorizontalBoxSection" p:headerText="Duties" >
 			  	<property name="items">
 		      		<list>
-		      	 	 <bean parent="Uif-TableCollectionSection" p:align="left">
-						  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationDuty" />
-						  <property name="propertyName" value="dutyList" />
-						  <property name="addLinePlacement" value="BOTTOM" />
-						  <property name="layoutManager.generateAutoSequence" value="true" />
-						  <property name="layoutManager.richTable.render" value="false" />
-						  <property name="layoutManager.numberOfColumns" value="4" />
-<!-- 						  <property name="layoutManager.columnCalculations"> -->
-<!-- 						      <list> -->
-<!-- 						        <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="percentage" -->
-<!-- 						        	p:showGroupTotal="true" p:showPageTotal="false" p:recalculateTotalClientside="true"/> -->
-<!-- 						      </list> -->
-<!-- 					      </property> -->
-						  <property name="items">
-							  <list>
-							  	 <bean parent="Uif-InputField" p:propertyName="name" p:readOnly="@{!#isAddLine}" />
-						         <bean parent="Uif-InputField" p:propertyName="description" p:readOnly="@{!#isAddLine}" />
-						         <bean parent="Uif-InputField" p:propertyName="percentage" p:readOnly="@{!#isAddLine}"
-						         		p:exclusiveMin="0" p:inclusiveMax="100" p:constraintText="Must be a number between 0 and 100.">
-						         	<property name="validCharactersConstraint">
-							        	<bean parent="FixedPointPatternConstraint" p:allowNegative="false" p:precision="5" p:scale="2" />
-									</property>
-								 </bean>						         
-							  </list>
-						  </property>
-					</bean>
+		      			<bean parent="Classification-duties"/>
 				  </list>
 			    </property>			  
 		      </bean>
+		      
+		      <bean parent="Uif-HorizontalBoxSection" p:headerText="Flags">
+		      	<property name="items">
+		      		<list>
+		      		<bean parent="Classification-flags"/>
+		      		</list>
+	      		</property>
+	      	  </bean>
+		      
 		   </list>
 		  </property>
 		</bean>

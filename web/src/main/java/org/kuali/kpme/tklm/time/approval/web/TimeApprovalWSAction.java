@@ -37,6 +37,7 @@ import org.joda.time.DateTime;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.common.ApprovalForm;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -66,7 +67,7 @@ public class TimeApprovalWSAction extends KPMEAction {
             endDate = endDate.plusDays(1);
             List<String> workAreaList = new ArrayList<String>();
 	        if(StringUtil.isEmpty(taaf.getSelectedWorkArea())) {
-	        	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+	        	String principalId = HrContext.getTargetPrincipalId();
 	        	
 	        	Set<Long> workAreas = new HashSet<Long>();
 	        	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));

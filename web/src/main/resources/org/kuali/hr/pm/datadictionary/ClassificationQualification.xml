@@ -11,6 +11,7 @@
 	      <list>
 	        <ref bean="PositionClassQualification-pmClassificationQualificationId"/>
 	        <ref bean="PositionClassQualification-qualificationType"/>
+	        <ref bean="PositionClassQualification-typeValue"/>
 	        <ref bean="PositionClassQualification-qualifier"/>
 	        <ref bean="PositionClassQualification-qualificationValue"/>
 	        <ref bean="PositionClassQualification-pmPositionClassId"/>
@@ -40,27 +41,34 @@
 <!-- 			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.pm.util.PstnQlfrTypeKeyValueFinder" p:includeKeyInLabel="true"/> -->
 <!-- 		</property> -->
 		<property name="controlField">
-			<bean parent="Uif-DropdownControl"/>
+			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
-<!-- 		<property name="optionsFinderClass" value="org.kuali.kpme.pm.util.PstnQlfrTypeKeyValueFinder"/> -->
 <!-- 			<bean class="org.kuali.hr.pm.util.PstnQlfrTypeKeyValueFinder" p:blankOption="true"/> -->
 <!-- 		</property> -->
 		<property name="name" value="qualificationType" />
 		<property name="label" value="Qualification Type" />
 		<property name="description" value="Qualification Type" />
 	</bean>	
+	
+	<bean id="PositionClassQualification-typeValue" parent="PositionClassQualification-typeValue-parentBean" />
+	<bean id="PositionClassQualification-typeValue-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="maxLength" value="50"/>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="50" />
+		</property>
+		<property name="name" value="typeValue" />
+		<property name="label" value="Type Value" />
+		<property name="description" value="Type Value" />
+	</bean>
 
 	<bean id="PositionClassQualification-qualifier" parent="PositionClassQualification-qualifier-parentBean" />
 	<bean id="PositionClassQualification-qualifier-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
 		<property name="maxLength" value="20"/>
-<!-- 		<property name="controlField"> -->
-<!-- 			<bean parent="Uif-TextControl" p:size="10" /> -->
-<!-- 		</property> -->
 		<property name="controlField">
-			<bean parent="Uif-DropdownControl"/>
+			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
-		<property name="optionsFinderClass" value="org.kuali.kpme.pm.util.PositionClassQualifierKeyValueFinder"/>		
 		<property name="name" value="qualifier" />
 		<property name="label" value="Qualifier" />
 		<property name="description" value="Qualifier" />

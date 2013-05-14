@@ -100,7 +100,6 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	
 	    //lets try to create a user session
 	    GlobalVariables.setUserSession(new UserSession("admin"));
-	    HrContext.setHttpServletRequest(new MockHttpServletRequest());
         setWebClient(new WebClient(BrowserVersion.FIREFOX_17));
         getWebClient().getOptions().setJavaScriptEnabled(true);
         getWebClient().getOptions().setTimeout(0);

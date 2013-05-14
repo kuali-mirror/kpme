@@ -83,37 +83,23 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     }
 
     public Date getBeginPeriodDate() {
-    	Date beginPeriodDate = null;
-    	
-    	if (beginPeriodDateTime != null) {
-    		beginPeriodDate = new Date(beginPeriodDateTime.getTime());
-    	}
-    	
-    	return beginPeriodDate;
+    	return beginPeriodDateTime != null ? LocalDate.fromDateFields(beginPeriodDateTime).toDate() : null;
     }
     
     public void setBeginPeriodDate(Date beginPeriodDate) {
-    	DateTime dateTime = new DateTime(beginPeriodDateTime);
-    	LocalDate localDate = new LocalDate(beginPeriodDate);
-    	LocalTime localTime = new LocalTime(beginPeriodDateTime);
-    	beginPeriodDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    	LocalDate localDate = beginPeriodDate != null ? LocalDate.fromDateFields(beginPeriodDate) : null;
+    	LocalTime localTime = beginPeriodDateTime != null ? LocalTime.fromDateFields(beginPeriodDateTime) : LocalTime.MIDNIGHT;
+    	beginPeriodDateTime = localDate != null ? localDate.toDateTime(localTime).toDate() : null;
     }
     
     public Time getBeginPeriodTime() {
-    	Time beginPeriodTime = null;
-    	
-    	if (beginPeriodDateTime != null) {
-    		beginPeriodTime = new Time(beginPeriodDateTime.getTime());
-    	}
-    	
-    	return beginPeriodTime;
+    	return beginPeriodDateTime != null ? new Time(beginPeriodDateTime.getTime()) : null;
     }
     
     public void setBeginPeriodTime(Time beginPeriodTime) {
-    	DateTime dateTime = new DateTime(beginPeriodDateTime);
-    	LocalDate localDate = new LocalDate(beginPeriodDateTime);
-    	LocalTime localTime = new LocalTime(beginPeriodTime);
-    	beginPeriodDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    	LocalDate localDate = beginPeriodDateTime != null ? LocalDate.fromDateFields(beginPeriodDateTime) : LocalDate.now();
+    	LocalTime localTime = beginPeriodTime != null ? LocalTime.fromDateFields(beginPeriodTime) : null;
+    	beginPeriodDateTime = localTime != null ? localTime.toDateTime(localDate.toDateTimeAtStartOfDay()).toDate() : null;
     }
     
     public DateTime getBeginPeriodFullDateTime() {
@@ -125,7 +111,7 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     }
     
     public LocalDateTime getBeginPeriodLocalDateTime() {
-        return getBeginPeriodFullDateTime().toLocalDateTime();
+        return getBeginPeriodFullDateTime() != null ? getBeginPeriodFullDateTime().toLocalDateTime() : null;
     }
     
     public Date getEndPeriodDateTime() {
@@ -137,37 +123,23 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     }
 
     public Date getEndPeriodDate() {
-    	Date endPeriodDate = null;
-    	
-    	if (endPeriodDateTime != null) {
-    		endPeriodDate = new Date(endPeriodDateTime.getTime());
-    	}
-    	
-    	return endPeriodDate;
+    	return endPeriodDateTime != null ? LocalDate.fromDateFields(endPeriodDateTime).toDate() : null;
     }
     
     public void setEndPeriodDate(Date endPeriodDate) {
-    	DateTime dateTime = new DateTime(endPeriodDateTime);
-    	LocalDate localDate = new LocalDate(endPeriodDate);
-    	LocalTime localTime = new LocalTime(endPeriodDateTime);
-    	endPeriodDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    	LocalDate localDate = endPeriodDate != null ? LocalDate.fromDateFields(endPeriodDate) : null;
+    	LocalTime localTime = endPeriodDateTime != null ? LocalTime.fromDateFields(endPeriodDateTime) : LocalTime.MIDNIGHT;
+    	endPeriodDateTime = localDate != null ? localDate.toDateTime(localTime).toDate() : null;
     }
 
     public Time getEndPeriodTime() {
-    	Time endPeriodTime = null;
-    	
-    	if (endPeriodDateTime != null) {
-    		endPeriodTime = new Time(endPeriodDateTime.getTime());
-    	}
-    	
-    	return endPeriodTime;
+    	return endPeriodDateTime != null ? new Time(endPeriodDateTime.getTime()) : null;
     }
     
-    public void setEndPeriodTime(Time endPeriodDate) {
-    	DateTime dateTime = new DateTime(endPeriodDateTime);
-    	LocalDate localDate = new LocalDate(endPeriodDateTime);
-    	LocalTime localTime = new LocalTime(endPeriodDate);
-    	endPeriodDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    public void setEndPeriodTime(Time endPeriodTime) {
+    	LocalDate localDate = endPeriodDateTime != null ? LocalDate.fromDateFields(endPeriodDateTime) : LocalDate.now();
+    	LocalTime localTime = endPeriodTime != null ? LocalTime.fromDateFields(endPeriodTime) : null;
+    	endPeriodDateTime = localTime != null ? localTime.toDateTime(localDate.toDateTimeAtStartOfDay()).toDate() : null;
     }
     
     public DateTime getEndPeriodFullDateTime() {
@@ -179,7 +151,7 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     }
     
     public LocalDateTime getEndPeriodLocalDateTime() {
-        return getEndPeriodFullDateTime().toLocalDateTime();
+        return getEndPeriodFullDateTime() != null ? getEndPeriodFullDateTime().toLocalDateTime() : null;
     }
 
     public Date getBatchInitiateDateTime() {
@@ -191,37 +163,23 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     }
     
     public Date getBatchInitiateDate() {
-    	Date batchInitiateDate = null;
-    	
-    	if (batchInitiateDateTime != null) {
-    		batchInitiateDate = new Date(batchInitiateDateTime.getTime());
-    	}
-    	
-    	return batchInitiateDate;
+    	return batchInitiateDateTime != null ? LocalDate.fromDateFields(batchInitiateDateTime).toDate() : null;
     }
     
     public void setBatchInitiateDate(Date batchInitiateDate) {
-    	DateTime dateTime = new DateTime(batchInitiateDateTime);
-    	LocalDate localDate = new LocalDate(batchInitiateDate);
-    	LocalTime localTime = new LocalTime(batchInitiateDateTime);
-    	batchInitiateDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    	LocalDate localDate = batchInitiateDate != null ? LocalDate.fromDateFields(batchInitiateDate) : null;
+    	LocalTime localTime = batchInitiateDateTime != null ? LocalTime.fromDateFields(batchInitiateDateTime) : LocalTime.MIDNIGHT;
+    	batchInitiateDateTime = localDate != null ? localDate.toDateTime(localTime).toDate() : null;
     }
 
     public Time getBatchInitiateTime() {
-    	Time batchInitiateTime = null;
-    	
-    	if (batchInitiateDateTime != null) {
-    		batchInitiateTime = new Time(batchInitiateDateTime.getTime());
-    	}
-    	
-    	return batchInitiateTime;
+    	return batchInitiateDateTime != null ? new Time(batchInitiateDateTime.getTime()) : null;
     }
     
-    public void setBatchInitiateTime(Time batchInitiateDate) {
-    	DateTime dateTime = new DateTime(batchInitiateDateTime);
-    	LocalDate localDate = new LocalDate(batchInitiateDateTime);
-    	LocalTime localTime = new LocalTime(batchInitiateDate);
-    	batchInitiateDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    public void setBatchInitiateTime(Time batchInitiateTime) {
+    	LocalDate localDate = batchInitiateDateTime != null ? LocalDate.fromDateFields(batchInitiateDateTime) : LocalDate.now();
+    	LocalTime localTime = batchInitiateTime != null ? LocalTime.fromDateFields(batchInitiateTime) : null;
+    	batchInitiateDateTime = localTime != null ? localTime.toDateTime(localDate.toDateTimeAtStartOfDay()).toDate() : null;
     }
     
     public DateTime getBatchInitiateFullDateTime() {
@@ -241,37 +199,23 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     }
     
     public Date getBatchEndPayPeriodDate() {
-    	Date batchEndPayPeriodDate = null;
-    	
-    	if (batchEndPayPeriodDateTime != null) {
-    		batchEndPayPeriodDate = new Date(batchEndPayPeriodDateTime.getTime());
-    	}
-    	
-    	return batchEndPayPeriodDate;
+    	return batchEndPayPeriodDateTime != null ? LocalDate.fromDateFields(batchEndPayPeriodDateTime).toDate() : null;
     }
     
     public void setBatchEndPayPeriodDate(Date batchEndPayPeriodDate) {
-    	DateTime dateTime = new DateTime(batchEndPayPeriodDateTime);
-    	LocalDate localDate = new LocalDate(batchEndPayPeriodDate);
-    	LocalTime localTime = new LocalTime(batchEndPayPeriodDateTime);
-    	batchEndPayPeriodDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    	LocalDate localDate = batchEndPayPeriodDate != null ? LocalDate.fromDateFields(batchEndPayPeriodDate) : null;
+    	LocalTime localTime = batchEndPayPeriodDateTime != null ? LocalTime.fromDateFields(batchEndPayPeriodDateTime) : LocalTime.MIDNIGHT;
+    	batchEndPayPeriodDateTime = localDate != null ? localDate.toDateTime(localTime).toDate() : null;
     }
 
     public Time getBatchEndPayPeriodTime() {
-    	Time batchEndPayPeriodTime = null;
-    	
-    	if (batchEndPayPeriodDateTime != null) {
-    		batchEndPayPeriodTime = new Time(batchEndPayPeriodDateTime.getTime());
-    	}
-    	
-    	return batchEndPayPeriodTime;
+    	return batchEndPayPeriodDateTime != null ? new Time(batchEndPayPeriodDateTime.getTime()) : null;
     }
     
-    public void setBatchEndPayPeriodTime(Time batchEndPayPeriodDate) {
-    	DateTime dateTime = new DateTime(batchEndPayPeriodDateTime);
-    	LocalDate localDate = new LocalDate(batchEndPayPeriodDateTime);
-    	LocalTime localTime = new LocalTime(batchEndPayPeriodDate);
-    	batchEndPayPeriodDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    public void setBatchEndPayPeriodTime(Time batchEndPayPeriodTime) {
+    	LocalDate localDate = batchEndPayPeriodDateTime != null ? LocalDate.fromDateFields(batchEndPayPeriodDateTime) : LocalDate.now();
+    	LocalTime localTime = batchEndPayPeriodTime != null ? LocalTime.fromDateFields(batchEndPayPeriodTime) : null;
+    	batchEndPayPeriodDateTime = localTime != null ? localTime.toDateTime(localDate.toDateTimeAtStartOfDay()).toDate() : null;
     }
     
     public DateTime getBatchEndPayPeriodFullDateTime() {
@@ -291,37 +235,23 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     }
     
     public Date getBatchEmployeeApprovalDate() {
-    	Date batchEmployeeApprovalDate = null;
-    	
-    	if (batchEmployeeApprovalDateTime != null) {
-    		batchEmployeeApprovalDate = new Date(batchEmployeeApprovalDateTime.getTime());
-    	}
-    	
-    	return batchEmployeeApprovalDate;
+    	return batchEmployeeApprovalDateTime != null ? LocalDate.fromDateFields(batchEmployeeApprovalDateTime).toDate() : null;
     }
     
     public void setBatchEmployeeApprovalDate(Date batchEmployeeApprovalDate) {
-    	DateTime dateTime = new DateTime(batchEmployeeApprovalDateTime);
-    	LocalDate localDate = new LocalDate(batchEmployeeApprovalDate);
-    	LocalTime localTime = new LocalTime(batchEmployeeApprovalDateTime);
-    	batchEmployeeApprovalDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    	LocalDate localDate = batchEmployeeApprovalDate != null ? LocalDate.fromDateFields(batchEmployeeApprovalDate) : null;
+    	LocalTime localTime = batchEmployeeApprovalDateTime != null ? LocalTime.fromDateFields(batchEmployeeApprovalDateTime) : LocalTime.MIDNIGHT;
+    	batchEmployeeApprovalDateTime = localDate != null ? localDate.toDateTime(localTime).toDate() : null;
     }
 
     public Time getBatchEmployeeApprovalTime() {
-    	Time batchEmployeeApprovalTime = null;
-    	
-    	if (batchEmployeeApprovalDateTime != null) {
-    		batchEmployeeApprovalTime = new Time(batchEmployeeApprovalDateTime.getTime());
-    	}
-    	
-    	return batchEmployeeApprovalTime;
+    	return batchEmployeeApprovalDateTime != null ? new Time(batchEmployeeApprovalDateTime.getTime()) : null;
     }
     
-    public void setBatchEmployeeApprovalTime(Time batchEmployeeApprovalDate) {
-    	DateTime dateTime = new DateTime(batchEmployeeApprovalDateTime);
-    	LocalDate localDate = new LocalDate(batchEmployeeApprovalDateTime);
-    	LocalTime localTime = new LocalTime(batchEmployeeApprovalDate);
-    	batchEmployeeApprovalDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    public void setBatchEmployeeApprovalTime(Time batchEmployeeApprovalTime) {
+    	LocalDate localDate = batchEmployeeApprovalDateTime != null ? LocalDate.fromDateFields(batchEmployeeApprovalDateTime) : LocalDate.now();
+    	LocalTime localTime = batchEmployeeApprovalTime != null ? LocalTime.fromDateFields(batchEmployeeApprovalTime) : null;
+    	batchEmployeeApprovalDateTime = localTime != null ? localTime.toDateTime(localDate.toDateTimeAtStartOfDay()).toDate() : null;
     }
     
     public DateTime getBatchEmployeeApprovalFullDateTime() {
@@ -341,37 +271,23 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     }
     
     public Date getBatchSupervisorApprovalDate() {
-    	Date batchSupervisorApprovalDate = null;
-    	
-    	if (batchSupervisorApprovalDateTime != null) {
-    		batchSupervisorApprovalDate = new Date(batchSupervisorApprovalDateTime.getTime());
-    	}
-    	
-    	return batchSupervisorApprovalDate;
+    	return batchSupervisorApprovalDateTime != null ? LocalDate.fromDateFields(batchSupervisorApprovalDateTime).toDate() : null;
     }
     
     public void setBatchSupervisorApprovalDate(Date batchSupervisorApprovalDate) {
-    	DateTime dateTime = new DateTime(batchSupervisorApprovalDateTime);
-    	LocalDate localDate = new LocalDate(batchSupervisorApprovalDate);
-    	LocalTime localTime = new LocalTime(batchSupervisorApprovalDateTime);
-    	batchSupervisorApprovalDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    	LocalDate localDate = batchSupervisorApprovalDate != null ? LocalDate.fromDateFields(batchSupervisorApprovalDate) : null;
+    	LocalTime localTime = batchSupervisorApprovalDateTime != null ? LocalTime.fromDateFields(batchSupervisorApprovalDateTime) : LocalTime.MIDNIGHT;
+    	batchSupervisorApprovalDateTime = localDate != null ? localDate.toDateTime(localTime).toDate() : null;
     }
 
     public Time getBatchSupervisorApprovalTime() {
-    	Time batchSupervisorApprovalTime = null;
-    	
-    	if (batchSupervisorApprovalDateTime != null) {
-    		batchSupervisorApprovalTime = new Time(batchSupervisorApprovalDateTime.getTime());
-    	}
-    	
-    	return batchSupervisorApprovalTime;
+    	return batchSupervisorApprovalDateTime != null ? new Time(batchSupervisorApprovalDateTime.getTime()) : null;
     }
     
-    public void setBatchSupervisorApprovalTime(Time batchSupervisorApprovalDate) {
-    	DateTime dateTime = new DateTime(batchSupervisorApprovalDateTime);
-    	LocalDate localDate = new LocalDate(batchSupervisorApprovalDateTime);
-    	LocalTime localTime = new LocalTime(batchSupervisorApprovalDate);
-    	batchSupervisorApprovalDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    public void setBatchSupervisorApprovalTime(Time batchSupervisorApprovalTime) {
+    	LocalDate localDate = batchSupervisorApprovalDateTime != null ? LocalDate.fromDateFields(batchSupervisorApprovalDateTime) : LocalDate.now();
+    	LocalTime localTime = batchSupervisorApprovalTime != null ? LocalTime.fromDateFields(batchSupervisorApprovalTime) : null;
+    	batchSupervisorApprovalDateTime = localTime != null ? localTime.toDateTime(localDate.toDateTimeAtStartOfDay()).toDate() : null;
     }
     
     public DateTime getBatchSupervisorApprovalFullDateTime() {

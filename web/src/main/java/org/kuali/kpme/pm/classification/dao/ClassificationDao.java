@@ -1,5 +1,7 @@
 package org.kuali.kpme.pm.classification.dao;
 
-public interface ClassificationDao {
+import org.kuali.kpme.pm.classification.Classification;
 
+public interface ClassificationDao {
+    public Classification getClassificationById(String pmClassificationId);
 }

@@ -410,7 +410,10 @@
  	<bean id="positionAppointmentDao" class="org.kuali.kpme.pm.positionappointment.dao.PositionAppointmentDaoObjImpl" parent="platformAwareDao" />	
  	
  	<bean id="pstnContractTypeDao" class="org.kuali.kpme.pm.pstncontracttype.dao.PstnContractTypeDaoObjImpl" parent="platformAwareDao" />
-
+ 	
+ 	<bean id="classificationDao" class="org.kuali.kpme.pm.classification.dao.ClassificationDaoObjImpl" parent="platformAwareDao" />
+ 	
+    <!-- Time Services for Business Logic -->
     <bean id="missedPunchService" class="org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchServiceImpl">
         <property name="missedPunchDao" ref="missedPunchDao" />
         <property name="assignmentService" ref="assignmentService" />
@@ -736,6 +739,10 @@
     
     <bean id="positionDepartmentService" class="org.kuali.kpme.pm.positiondepartment.service.PositionDepartmentServiceImpl">
         <property name="positionDepartmentDao" ref="positionDepartmentDao"/>
+    </bean>
+  
+  	<bean id="classificationService" class="org.kuali.kpme.pm.classification.service.ClassificationServiceImpl">
+        <property name="classificationDao" ref="classificationDao"/>
     </bean>
   
     <bean id="accrualCategoryMaxCarryOverService" class="org.kuali.kpme.tklm.leave.accrual.service.AccrualCategoryMaxCarryOverServiceImpl">

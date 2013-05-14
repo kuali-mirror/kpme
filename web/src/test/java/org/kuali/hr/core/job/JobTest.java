@@ -74,8 +74,8 @@ public class JobTest extends KPMETestCase {
 		DateTime beginPeriodDateTime = new DateTime(2010, 7, 1, 0, 0, 0);
 		DateTime endPeriodDateTime = new DateTime(2010, 7, 15, 0, 0, 0);
 
-		payCalendarDates.setBeginPeriodDateTime(beginPeriodDateTime.toDate());
-		payCalendarDates.setEndPeriodDateTime(endPeriodDateTime.toDate());
+		payCalendarDates.setBeginPeriodFullDateTime(beginPeriodDateTime);
+		payCalendarDates.setEndPeriodFullDateTime(endPeriodDateTime);
 		payCalendarDates.setCalendarName(CALENDAR_GROUP);
 
 		KRADServiceLocator.getBusinessObjectService().save(payCalendarDates);

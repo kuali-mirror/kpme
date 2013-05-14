@@ -1,8 +1,12 @@
 package org.kuali.kpme.pm.classification.validation;
 
+import java.math.BigDecimal;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.utils.ValidationUtils;
 import org.kuali.kpme.pm.classification.Classification;
+import org.kuali.kpme.pm.classification.ClassificationDuty;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
@@ -19,10 +23,10 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 			valid &= this.validateInstitution(clss);
 			valid &= this.validateCampus(clss);
 			valid &= this.validateSalGroup(clss);
-//			valid &= this.validatePercentTime(clss);
 			valid &= this.validateLeavePlan(clss);
 			valid &= this.validateReportingGroup(clss);
 			valid &= this.validatePositionType(clss);
+			valid &= this.validatePercentTime(clss);
 		}
 		return valid;
 	}
@@ -102,6 +106,25 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 
 				return false;
 		}
+		return true;
+	}
+	
+	private boolean validatePercentTime(Classification clss) {
+		if(CollectionUtils.isNotEmpty(clss.getDutyList())) {
+			BigDecimal sum = BigDecimal.ZERO;
+			for(ClassificationDuty aDuty : clss.getDutyList()) {
+				if(aDuty != null && aDuty.getPercentage() != null) {
+					sum = sum.add(aDuty.getPercentage());
+				}
+			}
+			if(sum.compareTo(new BigDecimal(100)) > 0) {
+				String[] parameters = new String[1];
+				parameters[0] = sum.toString();
+				
+				this.putFieldError("dataObject.dutyList", "duty.percentage.exceedsMaximum", parameters);
+				return false;
+			}
+		}		
 		return true;
 	}
 	

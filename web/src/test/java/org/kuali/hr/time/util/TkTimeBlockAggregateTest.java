@@ -43,8 +43,8 @@ public class TkTimeBlockAggregateTest extends KPMETestCase {
 		cal.setFlsaBeginTime(new Time((new DateTime(2012, 3, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis())));
 
 		CalendarEntry pcd = new CalendarEntry();
-		pcd.setBeginPeriodDateTime((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).toDate()));
-		pcd.setEndPeriodDateTime((new DateTime(2010, 1, 6, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).toDate()));
+		pcd.setBeginPeriodFullDateTime(new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()));
+		pcd.setEndPeriodFullDateTime(new DateTime(2010, 1, 6, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()));
 
 		List<TimeBlock> blocks = getSomeTimeBlocks();
 		TkTimeBlockAggregate tba = new TkTimeBlockAggregate(blocks, pcd, cal);

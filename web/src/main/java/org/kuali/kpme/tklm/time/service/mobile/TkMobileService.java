@@ -31,5 +31,5 @@ public interface TkMobileService {
     public String getClockEntryInfo(@WebParam(name = "principalId") String principalId);
 
     @XmlJavaTypeAdapter(MultiValuedStringMapAdapter.class)
-    public Map<String, List<String>> addClockAction(@WebParam(name = "principalId") String principalId, @WebParam(name = "assignmentKey") String assignmentKey, @WebParam(name = "clockAction") String clockAction);
+    public Map<String, List<String>> addClockAction(@WebParam(name = "principalId") String principalId, @WebParam(name = "assignmentKey") String assignmentKey, @WebParam(name = "clockAction") String clockAction, @WebParam(name = "ipAddress") String ipAddress);
 }

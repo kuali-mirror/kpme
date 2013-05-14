@@ -9,7 +9,7 @@ public class PMConstants {
 
 	 public static final class PSTN_QLFR_TYPE_VALUE {
 	        public static final String TEXT = "T";
-	        public static final String NUMBER = "n";
+	        public static final String NUMBER = "N";
 	        public static final String SELECT = "S";
 	 }
 	

@@ -1,13 +1,17 @@
 package org.kuali.kpme.pm.classification;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
+import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
 public class ClassificationQualification extends HrBusinessObject {
 	private static final long serialVersionUID = 1L;
 	
 	private String pmClassificationQualificationId;
 	private String qualificationType;
+	private String typeValue;		// for GUI only
 	private String qualifier;
 	private String qualificationValue;
 	private String pmPositionClassId;
@@ -75,6 +79,20 @@ public class ClassificationQualification extends HrBusinessObject {
 	public void setPmClassificationQualificationId(
 			String pmClassificationQualificationId) {
 		this.pmClassificationQualificationId = pmClassificationQualificationId;
+	}
+
+	public String getTypeValue() {
+		if(StringUtils.isNotEmpty(this.getQualificationType())) {
+			PstnQlfrType aTypeObj = PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeById(this.getQualificationType());
+			if(aTypeObj != null) {
+				return aTypeObj.getTypeValue();
+			}
+		}
+		return "";
+	}
+
+	public void setTypeValue(String typeValue) {
+		this.typeValue = typeValue;
 	}
 
 }
