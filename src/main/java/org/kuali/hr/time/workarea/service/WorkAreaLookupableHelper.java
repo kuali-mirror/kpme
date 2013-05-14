@@ -24,8 +24,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
+import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -55,8 +55,10 @@ public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 		
 		WorkArea workArea = (WorkArea) businessObject;
 		String tkWorkAreaId = workArea.getTkWorkAreaId();
-		String location = TkServiceLocator.getDepartmentService().getDepartment(workArea.getDept(), TKUtils.getCurrentDate()).getLocation();
+		
 		String department = workArea.getDept();
+		Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(workArea.getDept(), TKUtils.getCurrentDate());
+		String location = departmentObj != null ? departmentObj.getLocation() : null;
 		
 		boolean systemAdmin = TKUser.isSystemAdmin();
 		boolean locationAdmin = TKUser.getLocationAdminAreas().contains(location);
