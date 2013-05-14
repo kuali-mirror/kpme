@@ -526,7 +526,15 @@
                 <para>Submit the document after filling out all required fields.</para>
             </step>
         </procedure>
-
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/tk/lunchBlock.png" format="PNG" scale="40"/>
+            </imageobject>
+            <caption>
+                <para>This is how a lunch deduction appears on an employee's timesheet</para>
+            </caption>
+        </mediaobject>
+        
         <table>
             <title>Department Lunch Deduction Rule Document fields</title>
             <tgroup cols="2">
