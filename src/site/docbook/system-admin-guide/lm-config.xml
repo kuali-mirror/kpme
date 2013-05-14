@@ -491,7 +491,7 @@
 					</mediaobject>
 				</listitem>
 				<listitem>
-					<para>Enter a value for Max Balance. This value will be used for all principals within the selected Leave Plan, but can also be overridden through the use of KPME’s Employee Overrides.</para>
+					<para>Enter a value for Max Balance. This value will be used for all principals within the selected Leave Plan, but can also be overridden through the use of KPME’s Employee Overrides. Please see the Leave Management Administration documentation for more on the use of Employee Overrides.</para>
 				</listitem>
 				<listitem>
 					<para>Select the frequency with which the max balance action should occur via Max Balance Action Frequency</para>
@@ -546,6 +546,7 @@
 								</listitem>
 								<listitem>
 									<para>Optionally enter the Max Transfer Amount. If no value is given, there will be no limit to the amount that can be transferred.</para>
+									<note>This amount can be overriden on a person-by-person basis. See the Employee Overrides section of the Leave Administration documentation for the configuration of Max Transfer Amount Employee Overrides.</note>
 								</listitem>
 							</orderedlist>
 							<mediaobject>
@@ -573,6 +574,7 @@
 							<orderedlist numeration="lowerroman">
 								<listitem>
 									<para>Enter the Max Payout Amount. If no value is given for this field, there will be no limit to the amount of leave that can be moved to the Max Payout Earn Code.</para>
+									<note>This amount can be overriden on a person-by-person basis. See the Employee Overrides section of the Leave Administration documentation for the configuration of Max Payout Amount Employee Overrides.</note>
 								</listitem>
 								<listitem>
 									<para>Enter the Max Payout Earn Code by either typing it in, or using the quick find icon to locate the code.</para>
@@ -631,7 +633,9 @@
 			<para>Aside from the basic carryover rule, there are two situations where a carryover rule is defined in conjunction with another rule that is given special attention. These situations follow basic carryover configuration, under Conjunctive Rules.</para>
 			<section>
 				<title>Basic Carryover Configuration</title>
-				<para>To define a basic carryover limit, simply enter a value into the Max Annual Carry Over field, relative to the selected Unit of Time for the accrual category.</para>
+				<para>To define a basic carryover limit, simply enter a value into the Max Annual Carry Over field, relative to the selected Unit of Time for the accrual category. This amount can be adjusted on a principal-by-principal basis. See the Employee Overrides section of the Leave Management Administration documentation for details.</para>
+				<note>The carryover process can be automated via a batch job. Please see the Batch Jobs documentation for information on how to automate the carryover process.</note>
+				<note>Maximum Carryover can be overriden through the use of KPME's Employee Overrides. See the Leave Management Administrative Documentation for Max Annual Carry Override configuration.</note>
 			</section>
 			<para>With a maximum carry over limit defined, the balance for an accrual category will automatically be adjusted when submitting a calendar containing the last day of the calendar year. This day is derived from the leave plan defined on the accrual category to which this rule is attached.
 			This adjustment is achieved by placing a leave block in an amount of the adjustment on the employee’s calendar.</para>
@@ -767,6 +771,7 @@
 			<title>Maximum Usage Limit Configuration</title>
 			<para>To define a usage limit, simply enter a value into the “Max Usage” field, relative to the selected Unit of Time for the accrual category.</para>
 			<para>With a maximum usage limit defined, an employee will not be allowed to add leave blocks to their calendar if the amount in the leave block, when added to the YTD usage as of the requested leave date, exceeds this limit.</para>
+			<note>Maximum usage can be overriden through the use of KPME Leave Management's Employee Override feature. Please see the Leave Management Administration documentation's section on Employee Overrides.</note>
 		</section>
 		<section>
 			<title>Multiple Accrual Category Rules</title>
@@ -785,121 +790,6 @@
 			<para>The first rule defines a LOSE action with frequency leave approve if the balance exceeds 6 hours. It is in effect from the date of hire of an employee up to the end of their second month of service.</para>
 			<para>The second rule defines a TRANSFER action with frequency LEAVE APPROVE if the balance exceeds 10 hours. It goes into effect at the start of the third month of service and remains in effect up to the end of the fourth month of service</para>
 			<para>The third rule defines a TRANSFER action with frequency ON-DEMAND if the balance exceeds 14 hours. It goes into effect at the start of the employee's fifth month of service, extending through the remainder of service.</para>
-		</section>
-	</section>
-	<section>
-		<title>System Scheduled Time Off</title>
-		<para>KPME Leave Management supports the designation of specific dates with time off that are associated with an earn code via System Scheduled Time Off.</para>
-		<mediaobject>
-			<imageobject>
-				<imagedata fileref="../images/lm/newsstodoc.jpg" format="JPG" scale="50"/>
-			</imageobject>
-			<textobject>
-				<phrase>System Scheduled Time Off Maintenance Document</phrase>
-			</textobject>
-			<caption>
-				<phrase>The System Scheduled Time Off Maintenance Document.</phrase>
-			</caption>
-		</mediaobject>
-		<mediaobject>
-			<imageobject>
-				<imagedata fileref="../images/req-ssto.jpg" format="JPG" scale="47"/>
-			</imageobject>
-			<textobject>
-				<phrase>System Scheduled Time Off Field Summary</phrase>
-			</textobject>
-			<caption>Field Summary for <link xlink:href="https://wiki.kuali.org/display/KPME/System+Scheduled+Time+Off">System Scheduled Time Off</link></caption>
-		</mediaobject>
-		<section>
-			<title>Configuration</title>
-			<para>This example will move through configuring a system scheduled time off.<note>System Scheduled Time Off requires use of an Earn Code from which some of its properties are derived.
-			For instruction on Earn Code configuration, see the chapter "Basic Configuration"</note></para>
-			<orderedlist>
-				<listitem>
-					<para>Navigate to the System Scheduled Time Off Lookup via the link provided in the Leave Managment section of the Maintenance Tab.</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/sstolink.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>The Create New Button</phrase>
-						</textobject>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>Within the System Scheduled Time Off Lookup View, click 
-					<inlinemediaobject>
-							<imageobject>
-								<imagedata fileref="../images/createnewbutton.jpg" format="JPG" scale="50"/>
-							</imageobject>
-							<textobject>
-								<phrase>create new</phrase>
-							</textobject>
-						</inlinemediaobject>, located:
-					</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/sstocreatenew.jpg" format="JPG" scale="50" />
-						</imageobject>
-						<textobject>
-							<phrase>The Create New Button</phrase>
-						</textobject>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>Within the Document Overview tab of the System Scheduled Time Off Maintenance Document, enter the required description.</para>
-				</listitem>
-				<listitem>
-					<para>Select an effective date from the current date up to one year in the future.</para>
-				</listitem>
-				<listitem>
-					<para>Enter or use the quick finder to return an earn code for the Earn Code field.</para>
-					<note>
-						When using the quick finder, the earn code returned will auto-populate the Accrual Category and Leave Plan fields from the values defined on that Earn Code.
-					</note>
-				</listitem>
-				<listitem>
-					<para>Select the Accrued Date.</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/sstoearncode.jpg" format="JPG" scale="45"/>
-						</imageobject>
-						<textobject>
-							<phrase>System Scheduled Time Off accrued date defined</phrase>
-						</textobject>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>Enter the Location or use the quick finder to return a location.</para>
-				</listitem>
-				<listitem>
-					<para>Enter a description.</para>
-				</listitem>
-				<listitem>
-					<para>Enter the Amount of Time that can be taken for the scheduled time off.</para>
-				</listitem>
-				<listitem>
-					<para>Select "Bank" for Unused Time.</para>
-				</listitem>
-				<listitem>
-					<para>Select whether the Holiday is Premium</para>
-				</listitem>
-				<listitem>
-					<para>Ensure that the "Active" box is checked</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/sstocomplete.jpg" format="JPG" scale="45" />
-						</imageobject>
-						<textobject>
-							<phrase>Completed System Scheduled Time Off Maintenance Document</phrase>
-						</textobject>
-						<caption>A Basic Completed System Scheduled Time Off Maintenance Document</caption>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>Finally, Submit the document.</para>
-				</listitem>
-			</orderedlist>
 		</section>
 	</section>
 	<section>
@@ -1103,6 +993,234 @@
 				</textobject>
 				<caption>The warning message on the calendar has changed to a simple notification/reminder, and the requested leave blocks change to "Approved" status.<note>The forfeiture and amount transfered amounts have been adjusted with respect to the transfer amount.</note></caption>
 			</mediaobject>
+		</section>
+	</section>
+		<section>
+		<title>System Scheduled Time Off</title>
+		<para>KPME Leave Management supports University Holiday designation via System Scheduled Time Off (SSTO). This feature effectively replaces Holiday Calendar in previous versions of KPME's Timekeeping.
+		</para>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="../images/lm/newsstodoc.jpg" format="JPG" scale="50"/>
+			</imageobject>
+			<textobject>
+				<phrase>System Scheduled Time Off Maintenance Document</phrase>
+			</textobject>
+			<caption>
+				<phrase>The System Scheduled Time Off Maintenance Document.</phrase>
+			</caption>
+		</mediaobject>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="../images/req-ssto.jpg" format="JPG" scale="47"/>
+			</imageobject>
+			<textobject>
+				<phrase>System Scheduled Time Off Field Summary</phrase>
+			</textobject>
+			<caption>Field Summary for <link xlink:href="https://wiki.kuali.org/display/KPME/System+Scheduled+Time+Off">System Scheduled Time Off</link></caption>
+		</mediaobject>
+		<section>
+			<title>Floating Holiday Configuration</title>
+			<para>This example will move through basic configuration of system scheduled time off.<note>System Scheduled Time Off requires use of an Earn Code from which some of its properties are derived.
+			For instruction on Earn Code configuration, see the chapter "Basic Configuration"</note></para>
+			<orderedlist>
+				<listitem>
+					<para>Navigate to the System Scheduled Time Off Lookup via the link provided in the Leave Managment section of the Maintenance Tab.</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/sstolink.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>The Create New Button</phrase>
+						</textobject>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Within the System Scheduled Time Off Lookup View, click 
+					<inlinemediaobject>
+							<imageobject>
+								<imagedata fileref="../images/createnewbutton.jpg" format="JPG" scale="50"/>
+							</imageobject>
+							<textobject>
+								<phrase>create new</phrase>
+							</textobject>
+						</inlinemediaobject>, located:
+					</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/sstocreatenew.jpg" format="JPG" scale="50" />
+						</imageobject>
+						<textobject>
+							<phrase>The Create New Button</phrase>
+						</textobject>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Within the Document Overview tab of the System Scheduled Time Off Maintenance Document, enter the required description.</para>
+				</listitem>
+				<listitem>
+					<para>Select an effective date from the current date up to one year in the future.</para>
+				</listitem>
+				<listitem>
+					<para>Enter or use the quick finder to return an earn code for the Earn Code field.</para>
+					<note>
+						When using the quick finder, the earn code returned will auto-populate the Accrual Category and Leave Plan fields from the values defined on that Earn Code.
+					</note>
+				</listitem>
+				<listitem>
+					<para>Select the Accrued Date.</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/sstoearncode.jpg" format="JPG" scale="45"/>
+						</imageobject>
+						<textobject>
+							<phrase>System Scheduled Time Off accrued date defined</phrase>
+						</textobject>
+					</mediaobject>
+					<note>The accrued date should be the date that the Amount of Time for this SSTO is accumulated.</note>
+				</listitem>
+				<listitem>
+					<para>No Scheduled Time Off Date is required for floating holiday</para>
+				</listitem>
+				<listitem>
+					<para>Enter the Location or use the quick finder to return a location.</para>
+				</listitem>
+				<listitem>
+					<para>Enter a description.</para>
+				</listitem>
+				<listitem>
+					<para>Enter the Amount of Time that can be taken for the scheduled time off.</para>
+				</listitem>
+				<listitem>
+					<para>Select "Bank" for Unused Time.</para>
+					<note>Refer to the field summary at the start of this section for field requirements when selecting the Unused time.
+						A value of "Bank" indicates the Amount of Time will be placed into the Accrual Category on the supplied Accrued Date.
+						"Transfer" indicates the Amount of Time, adjusted by the Transfer Conversion Factor, will be available for transfer
+						once the holiday accrual appears on the employees calendar.
+						"No Unused Time Allowed" will generate a leave block on the calendar that cannot be removed or edited by the employee. If No Unused Time Allowed is selected,
+						specify the same date for Scheduled Time Off Date and Accrued Date.</note>
+				</listitem>
+				<listitem>
+					<para>Select whether this System Scheduled Time off is a premium holiday. A "Yes" indicates a higher rate of pay for employees who work this day.</para>
+				</listitem>
+				<listitem>
+					<para>Ensure that the "Active" box is checked</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/sstocomplete.jpg" format="JPG" scale="45" />
+						</imageobject>
+						<textobject>
+							<phrase>Completed System Scheduled Time Off Maintenance Document</phrase>
+						</textobject>
+						<caption>A Basic System Scheduled Time Off Maintenance Document</caption>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Finally, Submit the document.</para>
+				</listitem>
+			</orderedlist>
+			<para>The resulting accrual leave block generated by the floating holiday SSTO definition will appear on the employee's calendar as shown:</para>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/lm/sstobank1.jpg" format="JPG" scale="45"/>
+				</imageobject>
+				<textobject>
+					<phrase>Accrual generated when "Bank" is option selected as Unused Time.</phrase>
+				</textobject>
+				<caption>A single accrual will be generated for SSTO's when "Bank" is selected for Unused Time option.</caption>
+			</mediaobject>
+			<para>The following images show an SSTO defined with "No Unused Time Allowed", and the resulting leave blocks on an employees calendar.</para>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/lm/sstounuseddef.jpg" format="JPG" scale="45"/>
+				</imageobject>
+				<textobject>
+					<phrase>Example SSTO definition with "No Unused Time Allowed".</phrase>
+				</textobject>
+				<caption>A sample SSTO definition with No Unused Time Allowed</caption>
+			</mediaobject>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/lm/sstounusedblock.jpg" format="JPG" scale="45"/>
+				</imageobject>
+				<textobject>
+					<phrase>Resulting leave blocks generated by the SSTO on the accrued/scheduled time off date.</phrase>
+				</textobject>
+				<caption>No Unused Time Allowed creates one accrual leave block and one usage leave block on the employees calendar.</caption>
+			</mediaobject>
+		</section>
+		<section>
+			<title>Transferable System Scheduled Time Off</title>
+			<para>This section will move through the steps required by employees in order for them to transfer unused time. We begin with a sample SSTO definition.</para>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/lm/sstotransferdef.jpg" format="JPG" scale="60"/>
+				</imageobject>
+				<textobject>
+					<phrase>Example SSTO definition that allows for the transfer of unused time.</phrase>
+				</textobject>
+				<caption>A sample transferable SSTO</caption>
+			</mediaobject>
+			<para>This SSTO results in the following leave blocks on the employees calendar:</para>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/lm/sstotransfer1.jpg" format="JPG" scale="60"/>
+				</imageobject>
+				<textobject>
+					<phrase>One accrual leave block is created on the accrued date, with the usage leave block created on the scheduled time off date.</phrase>
+				</textobject>
+				<caption>Resulting leave blocks created by the above transferable SSTO definition.</caption>
+			</mediaobject>
+			<para>To initiate the transfer the unused time, employees must:</para>
+			<orderedlist>
+				<listitem>
+					<para>Click the x on the usage leave block.</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/sstotransfer4.jpg" format="JPG" scale="60"/>
+						</imageobject>
+						<textobject>
+							<phrase>Deleting the usage leave block created by the transferable SSTO will trigger the transfer of unused time</phrase>
+						</textobject>
+						<caption>The usage leave block generated by the transferable SSTO, when removed, triggers the balance transfer document.</caption>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>In the dialog box that appears, confirm the deletion of the usage leave block.</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/sstotransfer2.jpg" format="JPG" scale="75"/>
+						</imageobject>
+						<textobject>
+							<phrase>Deleting the usage leave block created by the transferable SSTO will trigger the transfer of unused time</phrase>
+						</textobject>
+						<caption>Employees must first confirm the removal of the usage leave block in order to be presented with the transfer document.</caption>
+					</mediaobject>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/sstotransfer3.jpg" format="JPG" scale="45"/>
+						</imageobject>
+						<textobject>
+							<phrase>The balance transfer document resulting from the confirmation of usage leave block removal on a transferable SSTO</phrase>
+						</textobject>
+						<caption>The balance transfer document is pre-populated with values defined in the transferable SSTO at the start of this example.</caption>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Finally, submit the balance transfer document</para>
+				</listitem>
+			</orderedlist>
+			<para>Upon successful submission of the Balance Transfer document, both leave blocks generated by the transferable SSTO are replaced with a single leave block representing the transaction that has taken place.</para>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/lm/sstotransfer5.jpg" format="JPG" scale="45"/>
+				</imageobject>
+				<textobject>
+					<phrase>The resulting leave block generated by the transfer of unused time for the SSTO defined at the start of this section.</phrase>
+				</textobject>
+				<caption>A single leave block replaces the SSTO generated leave blocks. This leave block remains in requested status until the balance transfer document is approved or disapproved.</caption>
+			</mediaobject>
+			<note>If the balance transfer document is disapproved, the system retro-actively adds the SSTO generated leave blocks back to the calendar.</note>
 		</section>
 	</section>
 </chapter>
