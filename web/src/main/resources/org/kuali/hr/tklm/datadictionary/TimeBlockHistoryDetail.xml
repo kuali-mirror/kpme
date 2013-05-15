@@ -1,0 +1,329 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="TimeBlockHistoryDetail" parent="TimeBlockHistoryDetail-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kpme.tklm.time.timeblock.TimeBlockHistoryDetail"/>
+        <property name="titleAttribute" value="tkTimeBlockHistoryDetailId"/>
+        <property name="attributes">
+            <list>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.tkTimeBlockId"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.documentId"/>
+                <ref bean="TimeBlockHistoryDetail-earnCode"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.beginTimestamp"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.endTimestamp"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.workArea"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.task"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.jobNumber"/>
+                <ref bean="TimeBlockHistoryDetail-hours"/>
+                <ref bean="TimeBlockHistoryDetail-amount"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.timestamp"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.userPrincipalId"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.principalId"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.actionHistory"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.timesheetDocumentHeader.documentId"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.timesheetDocumentHeader.documentStatus"/>
+                <ref bean="TimeBlockHistoryDetail-beginDate"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.clockLogCreated"/>
+            </list>
+        </property>
+        <property name="relationships">
+            <list>
+                <bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="principal" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="timeBlockHistory.principalId"
+								p:targetName="principalId" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="userPrincipal" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="timeBlockHistory.userPrincipalId"
+                                p:targetName="principalId" />
+                        </list>
+                    </property>
+                </bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="timeBlockHistory" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkTimeBlockHistoryId"
+								p:targetName="tkTimeBlockHistoryId" />
+						</list>
+					</property>
+				</bean>
+            </list>
+        </property>
+
+        <property name="objectLabel" value="timeBlockHistory"/>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.tkTimeBlockId" parent="TimeBlockHistoryDetail-timeBlockHistory.tkTimeBlockId-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.tkTimeBlockId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="TimeBlockHistoryDetail Id"/>
+        <property name="maxLength" value="60"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="60" />
+		</property>
+        <property name="name" value="timeBlockHistory.tkTimeBlockId"/>
+        <property name="label" value="TimeBlock History Id"/>
+    </bean>
+
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.documentId" parent="TimeBlockHistoryDetail-timeBlockHistory.documentId-parentBean"/>
+
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.documentId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="true"/>
+
+        <property name="maxLength" value="14"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="14"/>
+        </property>
+
+        <property name="name" value="timeBlockHistory.documentId"/>
+        <property name="label" value="Document Id"/>
+        <property name="description" value="Document Id"/>
+    </bean>
+
+
+    <bean id="TimeBlockHistoryDetail-earnCode" parent="TimeBlockHistoryDetail-earnCode-parentBean"/>
+
+    <bean id="TimeBlockHistoryDetail-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="true"/>
+        <property name="maxLength" value="15"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="15"/>
+        </property>
+        <property name="name" value="earnCode"/>
+        <property name="label" value="Earn Code"/>
+        <property name="description" value="Earn Code"/>
+    </bean>
+
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.beginTimestamp" parent="TimeBlockHistoryDetail-timeBlockHistory.beginTimestamp-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.beginTimestamp-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="Begin Time"/>
+        <property name="maxLength" value="15"/>
+        <property name="control">
+            <bean parent="LookupReadonlyControlDefinition" p:size="15"/>
+        </property>
+        <property name="formatterClass"
+                  value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+        <property name="name" value="timeBlockHistory.beginTimestamp"/>
+        <property name="label" value=" Begin Time"/>
+    </bean>
+
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.endTimestamp" parent="TimeBlockHistoryDetail-timeBlockHistory.endTimestamp-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.endTimestamp-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="End Time"/>
+        <property name="maxLength" value="15"/>
+        <property name="control">
+            <bean parent="LookupReadonlyControlDefinition" p:size="15"/>
+        </property>
+        <property name="formatterClass"
+                  value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+        <property name="name" value="timeBlockHistory.endTimestamp"/>
+        <property name="label" value="End Time"/>
+    </bean>
+    
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.workArea" parent="TimeBlockHistoryDetail-timeBlockHistory.workArea-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.workArea-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="Work Area"/>
+        <property name="maxLength" value="15"/>
+        <property name="control">
+    	  <bean parent="TextControlDefinition" p:size="15"/>
+   		</property>
+        <property name="name" value="timeBlockHistory.workArea"/>
+        <property name="label" value="Work Area"/>
+    </bean>
+    
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.task" parent="TimeBlockHistoryDetail-timeBlockHistory.task-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.task-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="Task"/>
+        <property name="maxLength" value="15"/>
+        <property name="control">
+    	  <bean parent="TextControlDefinition" p:size="15"/>
+   		</property>
+        <property name="name" value="timeBlockHistory.task"/>
+        <property name="label" value="Task"/>
+    </bean>
+    
+  	<bean id="TimeBlockHistoryDetail-timeBlockHistory.jobNumber" parent="TimeBlockHistoryDetail-timeBlockHistory.jobNumber-parentBean" />
+ 	<bean id="TimeBlockHistoryDetail-timeBlockHistory.jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
+      	<property name="shortLabel" value="Job Number"/>
+      	<property name="maxLength" value="7"/>
+     	<property name="control" >
+     		<bean parent="TextControlDefinition" p:size="10"/>
+     	</property>
+	    <property name="name" value="timeBlockHistory.jobNumber" />
+	    <property name="label" value="Job Number" />
+ 	 </bean>
+    
+    <bean id="TimeBlockHistoryDetail-beginDate" parent="TimeBlockHistoryDetail-beginDate-parentBean" />
+	<bean id="TimeBlockHistoryDetail-beginDate-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Date" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
+		<property name="name" value="beginDate" />
+		<property name="label" value="Date" />
+	</bean> 
+
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.timestamp" parent="TimeBlockHistoryDetail-timeBlockHistory.timestamp-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.timestamp-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="Timestamp"/>
+        <property name="maxLength" value="15"/>
+        <property name="control">
+            <bean parent="LookupReadonlyControlDefinition" p:size="15"/>
+        </property>
+        <property name="formatterClass"
+                  value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+        <property name="name" value="timeBlockHistory.timestamp"/>
+        <property name="label" value="Time Stamp"/>
+    </bean>
+
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.clockLogCreated" parent="TimeBlockHistoryDetail-timeBlockHistory.clockLogCreated-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.clockLogCreated-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="Clock Log Created"/>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+        <property name="name" value="timeBlockHistory.clockLogCreated"/>
+        <property name="label" value="Clock Log Created"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+    </bean>
+
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.userPrincipalId" parent="TimeBlockHistoryDetail-timeBlockHistory.userPrincipalId-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="User Principal Id"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false"/>
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="name" value="timeBlockHistory.userPrincipalId"/>
+        <property name="label" value="User Principal Id"/>
+    </bean>
+
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.principalId" parent="TimeBlockHistoryDetail-timeBlockHistory.principalId-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.principalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Principal Id"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false"/>
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="name" value="timeBlockHistory.principalId"/>
+        <property name="label" value="Principal Id"/>
+    </bean>
+
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.actionHistory" parent="TimeBlockHistoryDetail-timeBlockHistory.actionHistory-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.actionHistory-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Action History"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false"/>
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="name" value="timeBlockHistory.actionHistory"/>
+        <property name="label" value="Action History"/>
+        <property name="formatterClass" value="org.kuali.kpme.tklm.time.timeblock.service.TimeBlockActionHistoryFormatter"/>
+    </bean>
+
+    <bean id="TimeBlockHistoryDetail-hours" parent="TimeBlockHistoryDetail-hours-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-hours-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="true"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="name" value="hours"/>
+        <property name="label" value="Hours"/>
+        <property name="description" value="hours"/>
+    </bean>
+
+    <bean id="TimeBlockHistoryDetail-amount" parent="TimeBlockHistoryDetail-amount-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-amount-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="true"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="name" value="amount"/>
+        <property name="label" value="Amount"/>
+        <property name="description" value="amount"/>
+    </bean>
+    
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.timesheetDocumentHeader.documentId"
+          parent="TimeBlockHistoryDetail-timeBlockHistory.timesheetDocumentHeader.documentId-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.timesheetDocumentHeader.documentId-parentBean" abstract="true"
+          parent="TimesheetDocumentHeader-documentId">
+        <property name="name" value="timeBlockHistory.timesheetDocumentHeader.documentId"/>
+        <property name="label" value="Document Id"/>
+        <property name="required" value="false"/>
+    </bean>
+
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.timesheetDocumentHeader.documentStatus"
+          parent="TimeBlockHistoryDetail-timeBlockHistory.timesheetDocumentHeader.documentStatus-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.timesheetDocumentHeader.documentStatus-parentBean" abstract="true"
+          parent="TimesheetDocumentHeader-documentStatus">
+        <property name="name" value="timeBlockHistory.timesheetDocumentHeader.documentStatus"/>
+        <property name="label" value="Document Status"/>
+        <property name="required" value="false"/>
+    </bean>
+    
+</beans>

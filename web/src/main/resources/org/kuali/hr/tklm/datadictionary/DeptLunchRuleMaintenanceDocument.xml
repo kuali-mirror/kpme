@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:dd="http://rice.kuali.org/dd"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="DeptLunchRuleMaintenanceDocument" parent="DeptLunchRuleMaintenanceDocument-parentBean"/>
+
+  <bean id="DeptLunchRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
+  		p:businessObjectClass="org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule"
+ 		p:businessRulesClass="org.kuali.kpme.tklm.time.rules.lunch.department.validation.DeptLunchRuleRule"
+        p:documentAuthorizerClass="org.kuali.kpme.tklm.time.rules.lunch.department.authorization.DepartmentLunchRuleAuthorizer"
+  		p:maintainableClass="org.kuali.kpme.tklm.time.rules.lunch.department.web.DeptLunchRuleMaintainableImpl">
+    <property name="maintainableSections">
+      <list>
+        <ref bean="DeptLunchRuleMaintenanceDocument-DeptLunchRuleMaintenance"/>
+      </list>
+    </property>
+    <property name="documentTypeName" value="DeptLunchRuleDocumentType"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kpme.tklm.time.rules.lunch.department.validation.DeptLunchRuleEffectiveDatePrompt"/>
+  </bean>
+
+  <!-- Maintenance Section Definitions -->
+
+  <bean id="DeptLunchRuleMaintenanceDocument-DeptLunchRuleMaintenance" parent="DeptLunchRuleMaintenanceDocument-DeptLunchRuleMaintenance-parentBean"/>
+  <bean id="DeptLunchRuleMaintenanceDocument-DeptLunchRuleMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Department Lunch Rule Maintenance"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="jobNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="deductionMins" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="shiftHours" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" p:required="true"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>
