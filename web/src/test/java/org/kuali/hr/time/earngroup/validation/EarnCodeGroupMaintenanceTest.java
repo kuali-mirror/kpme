@@ -222,7 +222,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         finalPage = element.click();
 //        HtmlUnitUtil.createTempFile(finalPage);
         Assert.assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Document was successfully submitted."));
-        Assert.assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Status: 	 FINAL"));
+        Assert.assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("FINAL"));
     }
 
     @Test

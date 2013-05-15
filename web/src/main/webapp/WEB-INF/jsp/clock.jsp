@@ -63,6 +63,7 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
     <script type="text/javascript" src="krad/scripts/krad.variables.js"></script>
     <script type="text/javascript" src="krad/scripts/krad.message.js"></script>
     <script type="text/javascript" src="krad/scripts/krad.widget.js"></script>
+    <script type="text/javascript" src="krad/scripts/krad.url.js"></script>
     <script type="text/javascript" src="krad/scripts/krad.utility.js"></script>
     <script type="text/javascript" src="krad/scripts/krad.initialize.js"></script>
 
