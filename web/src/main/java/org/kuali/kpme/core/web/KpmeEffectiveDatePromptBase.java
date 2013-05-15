@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.core.web;
 
-import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -35,7 +34,7 @@ public abstract class KpmeEffectiveDatePromptBase extends PromptBeforeValidation
         PersistableBusinessObject bo = (PersistableBusinessObject)maintenanceDocument.getNewMaintainableObject().getDataObject();
         boolean askQuestion = futureEffectiveDateExists(bo);
         if (askQuestion) {
-            String questionText = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("warning.future.eff.date");
+            String questionText = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString("warning.future.eff.date");
             boolean confirm = super.askOrAnalyzeYesNoQuestion("FutureEffectiveDateRecordExists", questionText);
             if (!confirm) {
                 super.abortRulesCheck();
