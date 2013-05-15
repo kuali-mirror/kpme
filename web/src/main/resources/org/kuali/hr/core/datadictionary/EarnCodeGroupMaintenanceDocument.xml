@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="EarnCodeGroupMaintenanceDocument" parent="EarnCodeGroupMaintenanceDocument-parentBean" />
+
+	<bean id="EarnCodeGroupMaintenanceDocument-parentBean" abstract="true"
+		parent="MaintenanceDocumentEntry" 
+		p:businessObjectClass="org.kuali.kpme.core.bo.earncode.group.EarnCodeGroup"
+		p:businessRulesClass="org.kuali.kpme.core.bo.earncode.group.validation.EarnCodeGroupValidation"
+		p:maintainableClass="org.kuali.kpme.core.bo.earncode.group.web.EarnCodeGroupMaintainableImpl"
+		p:documentAuthorizerClass="org.kuali.kpme.core.bo.earncode.group.authorization.EarnCodeGroupAuthorizer">
+		<property name="maintainableSections">
+			<list>
+				<ref bean="EarnCodeGroupMaintenanceDocument-EarnCodeGroupMaintenance" />
+				<ref bean="EarnCodeGroupMaintenanceDocument-EarnCodeGroupDefMaintenance" />
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>hrEarnCodeGroupId</value>
+			</list>
+		</property>
+		<property name="documentTypeName" value="EarnCodeGroupDocumentType" />
+        <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.bo.earncode.group.validation.EarnCodeGroupEffectiveDatePrompt"/>
+	</bean>
+
+	<!-- Maintenance Section Definitions -->
+
+	<bean id="EarnCodeGroupMaintenanceDocument-EarnCodeGroupMaintenance"
+		parent="EarnCodeGroupMaintenanceDocument-EarnCodeGroupMaintenance-parentBean" />
+	<bean id="EarnCodeGroupMaintenanceDocument-EarnCodeGroupMaintenance-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="title" value="Earn Code Group Maintenance" />
+		<property name="maintainableItems">
+			<list>
+			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="earnCodeGroup"
+					p:required="true" p:readOnlyAfterAdd="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="descr"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="showSummary"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="active"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="warningText"
+					p:required="false" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Earn Group Def maintenance section -->
+
+	<bean id="EarnCodeGroupMaintenanceDocument-EarnCodeGroupDefMaintenance"
+		parent="EarnCodeGroupMaintenanceDocument-EarnCodeGroupDefMaintenance-parentBean" />
+	<bean
+		id="EarnCodeGroupMaintenanceDocument-EarnCodeGroupDefMaintenance-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="earnCodeGroups" />
+		<property name="title" value="Earn Code Group Defintions" />
+		<property name="defaultOpen" value="true" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableCollectionDefinition">
+					<property name="name" value="earnCodeGroups" />
+					<property name="businessObjectClass"
+						value="org.kuali.kpme.core.bo.earncode.group.EarnCodeGroupDefinition" />
+					<property name="alwaysAllowCollectionDeletion" value="true" />
+					<property name="maintainableFields">
+						<list>
+							<bean parent="MaintainableFieldDefinition" p:name="earnCode"
+								p:required="true" p:readOnlyAfterAdd="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="earnCodeDesc"
+								p:unconditionallyReadOnly="true" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+</beans>

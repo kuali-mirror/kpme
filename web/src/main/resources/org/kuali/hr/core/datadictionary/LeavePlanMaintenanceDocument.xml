@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:dd="http://rice.kuali.org/dd"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="LeavePlanMaintenanceDocument" parent="LeavePlanMaintenanceDocument-parentBean"/>
+
+  <bean id="LeavePlanMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
+  		p:businessObjectClass="org.kuali.kpme.core.bo.leaveplan.LeavePlan"
+  		p:businessRulesClass="org.kuali.kpme.core.bo.leaveplan.validation.LeavePlanValidation"
+  		p:maintainableClass="org.kuali.kpme.core.bo.leaveplan.web.LeavePlanMaintainableServiceImpl"
+  		p:documentAuthorizerClass="org.kuali.kpme.core.bo.leaveplan.authorization.LeavePlanAuthorizer">
+    <property name="maintainableSections">
+      <list>
+        <ref bean="LeavePlanMaintenanceDocument-LeavePlanMaintenance"/>
+      </list>
+    </property>
+    <property name="documentTypeName" value="LeavePlanDocumentType"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.bo.leaveplan.validation.LeavePlanEffectiveDatePrompt"/>
+  </bean>
+
+  <!-- Maintenance Section Definitions -->
+
+  <bean id="LeavePlanMaintenanceDocument-LeavePlanMaintenance" parent="LeavePlanMaintenanceDocument-LeavePlanMaintenance-parentBean"/>
+
+  <bean id="LeavePlanMaintenanceDocument-LeavePlanMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Leave Plan Maintenance"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="leavePlan" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="descr" />
+      	<bean parent="MaintainableFieldDefinition" p:name="planningMonths" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="calendarYearStart" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="batchPriorYearCarryOverStartDate" />
+      	<bean parent="MaintainableFieldDefinition" p:name="batchPriorYearCarryOverStartTime" />
+      	<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
+      </list>
+    </property>
+  </bean>
+
+</beans>
