@@ -145,11 +145,6 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
     public List<CalendarEntry> getFutureCalendarEntries(String hrCalendarId, DateTime currentDate, int numberOfEntries) {
         return calendarEntryDao.getFutureCalendarEntries(hrCalendarId, currentDate, numberOfEntries);
     }
-
-    @Override
-    public CalendarEntry getCalendarEntryByBeginAndEndDate(DateTime beginPeriodDate, DateTime endPeriodDate) {
-        return calendarEntryDao.getCalendarEntryByBeginAndEndDate(beginPeriodDate, endPeriodDate);
-    }
     
     @Override
     public List<CalendarEntry> getCalendarEntriesEndingBetweenBeginAndEndDate(String hrCalendarId, DateTime beginDate, DateTime endDate) {

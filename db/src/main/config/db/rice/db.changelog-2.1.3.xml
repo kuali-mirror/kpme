@@ -24,16 +24,16 @@
         <sqlFile path="src/main/config/db/rice/2.1.3/oracle/update_final_oracle.sql" endDelimiter="\n/\s*\n|\n/\s*$" />
     </changeSet>
     
+    <changeSet id="rice-client-2.1.3-oracle" author="jjhanso" dbms="oracle" context="rice-client-bootstrap">
+        <sqlFile path="src/main/config/db/rice/2.1.3/oracle/update_client_final_oracle.sql" endDelimiter="\n/\s*\n|\n/\s*$" />
+    </changeSet>
+    
     <changeSet id="rice-server-2.1.3-mysql" author="jjhanso" dbms="mysql" context="rice-server-bootstrap">
         <sqlFile path="src/main/config/db/rice/2.1.3/mysql/update_final_mysql.sql" />
     </changeSet>
     
     <changeSet id="rice-client-2.1.3-mysql" author="jjhanso" dbms="mysql" context="rice-client-bootstrap">
         <sqlFile path="src/main/config/db/rice/2.1.3/mysql/update_client_final_mysql.sql" />
-    </changeSet>
-
-    <changeSet id="rice-client-2.1.3-oraclel" author="jjhanso" dbms="oracle" context="rice-client-bootstrap">
-        <sqlFile path="src/main/config/db/rice/2.1.3/oracle/update_client_final_oracle.sql" />
     </changeSet>
 
 </databaseChangeLog>

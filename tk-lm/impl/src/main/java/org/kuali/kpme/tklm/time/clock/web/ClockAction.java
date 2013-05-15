@@ -182,32 +182,27 @@ public class ClockAction extends TimesheetAction {
     }
     
     public void assignShowDistributeButton(ClockActionForm caf) {
+    	caf.setShowDistrubuteButton(false);
+    	
     	TimesheetDocument timesheetDocument = caf.getTimesheetDocument();
-    	if(timesheetDocument != null) {
-    		List<Assignment> assignments = timesheetDocument.getAssignments();
-    		if(assignments.size() <= 1) {
-    			caf.setShowDistrubuteButton(false);
-    			return;
-    		}
-    		List<TimeCollectionRule> ruleList = new ArrayList<TimeCollectionRule> ();
-    		for(Assignment assignment: assignments) {
-    			TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(),assignment.getEffectiveLocalDate());
-		    	if(rule != null) {
-		    		if(rule.isHrsDistributionF()) {
-		    			ruleList.add(rule);
-		    		}
+    	if (timesheetDocument != null) {
+    		int eligibleAssignmentCount = 0;
+    		for (Assignment assignment : timesheetDocument.getAssignments()) {
+    			String department = assignment.getJob() != null ? assignment.getJob().getDept() : null;
+    			Long workArea = assignment.getWorkArea();
+    			String payType = assignment.getJob() != null ? assignment.getJob().getHrPayType() : null;
+    			TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(department, workArea, payType, timesheetDocument.getDocEndDate());
+		    	if (rule != null && rule.isHrsDistributionF()) {
+		    		eligibleAssignmentCount++;
+		    	}
+		    	
+		    	// Only show the distribute button if there is more than one eligible assignment
+		    	if (eligibleAssignmentCount > 1) {
+		    		caf.setShowDistrubuteButton(true);
+		    		break;
 		    	}
     		}
-    		// if there's only one eligible assignment, don't show the distribute button
-    		if(ruleList.size() <= 1) {
-    			caf.setShowDistrubuteButton(false);
-    			return;	
-    		} else {
-	    		caf.setShowDistrubuteButton(true);
-				return;
-    		}
     	}
-    	caf.setShowDistrubuteButton(false);
     }
     
 
