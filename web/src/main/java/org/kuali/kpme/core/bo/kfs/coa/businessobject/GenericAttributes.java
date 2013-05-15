@@ -15,9 +15,9 @@
  */
 package org.kuali.kpme.core.bo.kfs.coa.businessobject;
 
-import org.kuali.rice.krad.bo.AttributeReferenceDummy;
+import org.kuali.rice.krad.datadictionary.AttributeReference;
 
-public class GenericAttributes extends AttributeReferenceDummy {
+public class GenericAttributes extends AttributeReference {
 
     private Integer genericFiscalYear;
 

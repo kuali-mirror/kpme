@@ -90,7 +90,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 		final boolean needsSpring = false;
 		if (needsSpring) {
 			transactionalLifecycle = new TransactionalLifecycle();
-			transactionalLifecycle.setTransactionManager(KRADServiceLocatorInternal.getTransactionManager());
+			//transactionalLifecycle.setTransactionManager(KRADServiceLocatorInternal.getTransactionManager());
 			transactionalLifecycle.start();
 		}
 
