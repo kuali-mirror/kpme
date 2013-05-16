@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean name="WeeklyOvertimeRule" parent="WeeklyOvertimeRule-parentBean" />
+
+	<bean id="WeeklyOvertimeRule-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kpme.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule" />
+		<property name="titleAttribute" value="tkWeeklyOvertimeRuleId" />
+		<property name="objectLabel" value="Weekly Overtime Rule" />
+		<property name="lookupDefinition">
+			<ref bean="WeeklyOvertimeRule-lookupDefinition" />
+		</property>
+		<property name="inquiryDefinition">
+			<ref bean="WeeklyOvertimeRule-inquiryDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="WeeklyOvertimeRule-maxHoursEarnGroup" />
+				<ref bean="WeeklyOvertimeRule-convertFromEarnGroup" />
+				<ref bean="WeeklyOvertimeRule-convertToEarnCode" />
+				<ref bean="WeeklyOvertimeRule-effectiveDate" />
+				<ref bean="WeeklyOvertimeRule-step" />
+				<ref bean="WeeklyOvertimeRule-maxHours" />
+				<ref bean="WeeklyOvertimeRule-userPrincipalId" />
+				<ref bean="WeeklyOvertimeRule-timestamp" />
+				<ref bean="WeeklyOvertimeRule-active" />
+				<ref bean="WeeklyOvertimeRule-ovtEarnCode" />
+			</list>
+		</property>
+		
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="maxHoursEarnGroupObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="maxHoursEarnGroup"
+								p:targetName="earnCodeGroup" />
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="convertFromEarnGroupObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="convertFromEarnGroup"
+								p:targetName="earnCodeGroup" />
+						</list>
+					</property>
+					
+				</bean>
+				
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="convertToEarnCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="convertToEarnCode"
+								p:targetName="earnCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="ovtEarnCode" 
+								p:targetName="ovtEarnCode" />
+						</list>
+					</property>
+				</bean>				
+			</list>
+		</property>	
+	</bean>
+
+	<bean id="WeeklyOvertimeRule-maxHoursEarnGroup" parent="WeeklyOvertimeRule-maxHoursEarnGroup-parentBean" />
+	<bean id="WeeklyOvertimeRule-maxHoursEarnGroup-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Max Hour EarnGroup" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="maxHoursEarnGroup" />
+		<property name="label" value="Max Hour Earn Group" />
+	</bean>
+	<bean id="WeeklyOvertimeRule-convertFromEarnGroup" parent="WeeklyOvertimeRule-convertFromEarnGroup-parentBean" />
+	<bean id="WeeklyOvertimeRule-convertFromEarnGroup-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Convert from EarnGroup" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="convertFromEarnGroup" />
+		<property name="label" value="Convert from Earn Group" />
+	</bean>
+	<bean id="WeeklyOvertimeRule-convertToEarnCode" parent="WeeklyOvertimeRule-convertToEarnCode-parentBean" />
+	<bean id="WeeklyOvertimeRule-convertToEarnCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Convert to EarnCode" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="15" />
+		</property>
+		<property name="name" value="convertToEarnCode" />
+		<property name="label" value="Convert to Earn Code" />
+	</bean>
+
+	<bean id="WeeklyOvertimeRule-effectiveDate" parent="WeeklyOvertimeRule-effectiveDate-parentBean" />
+	<bean id="WeeklyOvertimeRule-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+
+
+	<bean id="WeeklyOvertimeRule-step" parent="WeeklyOvertimeRule-step-parentBean" />
+	<bean id="WeeklyOvertimeRule-step-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Step" />
+		<property name="maxLength" value="2" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="2" />
+		</property>
+		<property name="name" value="step" />
+		<property name="label" value="Step" />
+	</bean>
+
+	<bean id="WeeklyOvertimeRule-maxHours" parent="WeeklyOvertimeRule-maxHours-parentBean" />
+	<bean id="WeeklyOvertimeRule-maxHours-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Max Hours" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+		<property name="name" value="maxHours" />
+		<property name="label" value="Max Hours" />
+	</bean>
+
+	<bean id="WeeklyOvertimeRule-userPrincipalId" parent="WeeklyOvertimeRule-userPrincipalId-parentBean" />
+	<bean id="WeeklyOvertimeRule-userPrincipalId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="User PrincipalId" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		 <property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="name" value="userPrincipalId" />
+		<property name="label" value="User Principal Id" />
+	</bean>
+	
+	<bean id="WeeklyOvertimeRule-timestamp" parent="WeeklyOvertimeRule-timestamp-parentBean" />
+	<bean id="WeeklyOvertimeRule-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="timestamp" />
+		<property name="maxLength" value="15" />
+
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
+	
+	<bean id="WeeklyOvertimeRule-active" parent="WeeklyOvertimeRule-active-parentBean" />
+	<bean id="WeeklyOvertimeRule-active-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Active" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+	</bean>
+	
+	<bean id="WeeklyOvertimeRule-ovtEarnCode" parent="WeeklyOvertimeRule-ovtEarnCode-parentBean" />
+	<bean id="WeeklyOvertimeRule-ovtEarnCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="ovtEarnCode" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+		<property name="name" value="ovtEarnCode" />
+		<property name="label" value="Overtime Earn Code" />
+	</bean>
+	
+	<!--  Inquiry Definitions  -->
+
+	<bean id="WeeklyOvertimeRule-lookupDefinition" parent="WeeklyOvertimeRule-lookupDefinition-parentBean" />
+	<bean id="WeeklyOvertimeRule-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="lookupableID" value="weeklyOvertimeRuleLookupable" />
+		<property name="lookupFields">
+			<list>				
+				<bean parent="FieldDefinition" p:attributeName="maxHoursEarnGroup" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="maxHoursEarnGroup" />
+				<bean parent="FieldDefinition" p:attributeName="convertFromEarnGroup" />
+				<bean parent="FieldDefinition" p:attributeName="convertToEarnCode" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="step" />
+				<bean parent="FieldDefinition" p:attributeName="maxHours" />				
+			</list>
+		</property>
+		<property name="title" value="Weekly Overtime Rule Lookup" />
+	</bean>
+
+	<bean id="WeeklyOvertimeRule-inquiryDefinition" parent="WeeklyOvertimeRule-inquiryDefinition-parentBean" />
+	<bean id="WeeklyOvertimeRule-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="maxHoursEarnGroup" />
+							<bean parent="FieldDefinition" p:attributeName="convertFromEarnGroup" />
+							<bean parent="FieldDefinition" p:attributeName="convertToEarnCode" />
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="step" />
+							<bean parent="FieldDefinition" p:attributeName="maxHours" />
+						</list>
+					</property>
+					<property name="title" value="Weekly Overtime Rule Inquiry" />
+				</bean>
+			</list>
+		</property>
+		<property name="translateCodes" value="false"/>
+		<property name="title" value="Weekly Overtime Rule Inquiry" />
+	</bean>
+</beans>

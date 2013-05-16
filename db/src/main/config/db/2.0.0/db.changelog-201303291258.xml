@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+    <changeSet id="1" author="kbtaylor" context="kpme-server-bootstrap">
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0001" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Open Document')" />
+            <column name="NMSPC_CD" value="KPME-TK" />
+            <column name="NM" value="View Timesheet" />
+            <column name="DESC_TXT" value="Allows users to view a Timesheet" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0001" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0001" />
+            <column name="ATTR_VAL" value="TimesheetDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0002" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document')" />
+            <column name="NMSPC_CD" value="KPME-TK" />
+            <column name="NM" value="Edit Saved Timesheet" />
+            <column name="DESC_TXT" value="Allows users to edit a saved Timesheet" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0002" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0002" />
+            <column name="ATTR_VAL" value="TimesheetDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0003" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeStatusCode')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0002" />
+            <column name="ATTR_VAL" value="S" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0003" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document')" />
+            <column name="NMSPC_CD" value="KPME-TK" />
+            <column name="NM" value="Edit Enroute Timesheet" />
+            <column name="DESC_TXT" value="Allows users to edit an enroute Timesheet" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0004" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0003" />
+            <column name="ATTR_VAL" value="TimesheetDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0005" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeStatusCode')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0003" />
+            <column name="ATTR_VAL" value="R" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0004" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document')" />
+            <column name="NMSPC_CD" value="KPME-TK" />
+            <column name="NM" value="Edit Final Timesheet" />
+            <column name="DESC_TXT" value="Allows users to edit a final Timesheet" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0006" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0004" />
+            <column name="ATTR_VAL" value="TimesheetDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0007" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeStatusCode')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0004" />
+            <column name="ATTR_VAL" value="F" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0005" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Route Document')" />
+            <column name="NMSPC_CD" value="KPME-TK" />
+            <column name="NM" value="Submit Timesheet" />
+            <column name="DESC_TXT" value="Allows users to submit a Timesheet" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0008" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0005" />
+            <column name="ATTR_VAL" value="TimesheetDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0006" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Administer Routing for Document')" />
+            <column name="NMSPC_CD" value="KPME-TK" />
+            <column name="NM" value="Super User Administer Timesheet" />
+            <column name="DESC_TXT" value="Allows super users to administer a Timesheet" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0009" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0006" />
+            <column name="ATTR_VAL" value="TimesheetDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0007" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Open Document')" />
+            <column name="NMSPC_CD" value="KPME-LM" />
+            <column name="NM" value="View Leave Calendar" />
+            <column name="DESC_TXT" value="Allows users to view a Leave Calendar" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0010" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0007" />
+            <column name="ATTR_VAL" value="LeaveCalendarDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0008" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document')" />
+            <column name="NMSPC_CD" value="KPME-LM" />
+            <column name="NM" value="Edit Saved Leave Calendar" />
+            <column name="DESC_TXT" value="Allows users to edit a saved Leave Calendar" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0011" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0008" />
+            <column name="ATTR_VAL" value="LeaveCalendarDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0012" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeStatusCode')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0008" />
+            <column name="ATTR_VAL" value="S" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0009" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document')" />
+            <column name="NMSPC_CD" value="KPME-LM" />
+            <column name="NM" value="Edit Enroute Leave Calendar" />
+            <column name="DESC_TXT" value="Allows users to edit an enroute Leave Calendar" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0013" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0009" />
+            <column name="ATTR_VAL" value="LeaveCalendarDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0014" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeStatusCode')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0009" />
+            <column name="ATTR_VAL" value="R" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0010" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document')" />
+            <column name="NMSPC_CD" value="KPME-LM" />
+            <column name="NM" value="Edit Final Leave Calendar" />
+            <column name="DESC_TXT" value="Allows users to edit a final Leave Calendar" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0015" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0010" />
+            <column name="ATTR_VAL" value="LeaveCalendarDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0016" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeStatusCode')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0010" />
+            <column name="ATTR_VAL" value="F" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0011" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Route Document')" />
+            <column name="NMSPC_CD" value="KPME-LM" />
+            <column name="NM" value="Submit Leave Calendar" />
+            <column name="DESC_TXT" value="Allows users to submit a Leave Calendar" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0017" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0011" />
+            <column name="ATTR_VAL" value="LeaveCalendarDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0012" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Administer Routing for Document')" />
+            <column name="NMSPC_CD" value="KPME-LM" />
+            <column name="NM" value="Super User Administer Leave Calendar" />
+            <column name="DESC_TXT" value="Allows super users to administer a Leave Calendar" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0018" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0012" />
+            <column name="ATTR_VAL" value="LeaveCalendarDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0013" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Open Document')" />
+            <column name="NMSPC_CD" value="KPME-LM" />
+            <column name="NM" value="View Leave Request" />
+            <column name="DESC_TXT" value="Allows users to view a Leave Request" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0019" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0013" />
+            <column name="ATTR_VAL" value="LeaveRequestDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0014" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document')" />
+            <column name="NMSPC_CD" value="KPME-LM" />
+            <column name="NM" value="Edit Saved Leave Request" />
+            <column name="DESC_TXT" value="Allows users to edit a saved Leave Request" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0020" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0014" />
+            <column name="ATTR_VAL" value="LeaveRequestDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0021" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeStatusCode')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0014" />
+            <column name="ATTR_VAL" value="S" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0015" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document')" />
+            <column name="NMSPC_CD" value="KPME-LM" />
+            <column name="NM" value="Edit Enroute Leave Request" />
+            <column name="DESC_TXT" value="Allows users to edit an enroute Leave Request" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0022" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0015" />
+            <column name="ATTR_VAL" value="LeaveRequestDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0023" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeStatusCode')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0015" />
+            <column name="ATTR_VAL" value="R" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0016" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document')" />
+            <column name="NMSPC_CD" value="KPME-LM" />
+            <column name="NM" value="Edit Final Leave Request" />
+            <column name="DESC_TXT" value="Allows users to edit a final Leave Request" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0024" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0016" />
+            <column name="ATTR_VAL" value="LeaveRequestDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0025" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeStatusCode')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type &amp; Routing Node or State')" />
+            <column name="PERM_ID" value="KPME0016" />
+            <column name="ATTR_VAL" value="F" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0017" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Route Document')" />
+            <column name="NMSPC_CD" value="KPME-LM" />
+            <column name="NM" value="Submit Leave Request" />
+            <column name="DESC_TXT" value="Allows users to submit a Leave Request" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0026" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0017" />
+            <column name="ATTR_VAL" value="LeaveRequestDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0018" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Administer Routing for Document')" />
+            <column name="NMSPC_CD" value="KPME-LM" />
+            <column name="NM" value="Super User Administer Leave Request" />
+            <column name="DESC_TXT" value="Allows super users to administer a Leave Request" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0027" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0018" />
+            <column name="ATTR_VAL" value="LeaveRequestDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0019" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Recall Document')"/>
+            <column name="NMSPC_CD" value="KPME-LM"/>
+            <column name="NM" value="Recall Leave Request"/>
+            <column name="DESC_TXT" value="Allows users to recall a Leave Request" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0028" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)')" />
+            <column name="PERM_ID" value="KPME0019"/>
+            <column name="ATTR_VAL" value="LeaveRequestDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+</databaseChangeLog>

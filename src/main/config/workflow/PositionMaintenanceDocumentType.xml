@@ -24,7 +24,7 @@
     	<documentType>
     		<name>PositionMaintenanceDocumentType</name>
     		<parent>RiceDocument</parent>
-    		<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+    		<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.kpme.core.bo.position.Position</docHandler>
     		<label>Position Document</label>
     	</documentType>    
      </documentTypes>

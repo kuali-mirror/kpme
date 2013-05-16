@@ -1,0 +1,61 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1" author="yingzhou" context="kpme-client-bootstrap">
+   		<addColumn tableName="HR_SAL_GROUP_T">
+   			<column name="INSTITUTION" type="VARCHAR(15)" defaultValue="*">
+            	<constraints nullable="false" />
+            </column>
+            <column name="CAMPUS" type="VARCHAR(15)" defaultValue="*">
+            	<constraints nullable="false" />
+            </column>
+            <column name="PRCT_TM" type="DECIMAL(5,2)">
+            	<constraints nullable="true" />
+            </column>
+            <column name="PY_MNTHS" type="INTEGER">
+            	<constraints nullable="true" />
+            </column>
+            <column name="WRK_MNTHS" type="INTEGER">
+            	<constraints nullable="true" />
+            </column>
+            <column name="BNFT_ELIG" type="VARCHAR(1)" defaultValue="N">
+                <constraints nullable="false" />
+            </column>
+            <column name="LV_ELIG" type="VARCHAR(1)" defaultValue="N">
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="2" author="yingzhou" context="kpme-client-bootstrap">
+        <comment>drop the table that is duplicate</comment>
+        <dropTable tableName="PM_SALARY_GROUP_T" />
+    </changeSet>
+    
+    <changeSet id="3-oracle" author="yingzhou" dbms="oracle" context="kpme-client-bootstrap">
+        <comment>drop the table that is duplicate</comment>
+        <dropSequence sequenceName="PM_SALARY_GROUP_S" />
+    </changeSet>
+    <changeSet id="3-mysql" author="yingzhou" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>drop the table that is duplicate</comment>
+        <dropTable tableName="PM_SALARY_GROUP_S" />
+    </changeSet>
+   
+</databaseChangeLog>

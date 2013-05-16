@@ -1,0 +1,82 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<bean id="ClassDuty" parent="ClassDuty-parentBean"/>
+ 	<bean id="ClassDuty-parentBean" abstract="true" parent="BusinessObjectEntry">
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.ClassificationDuty"/>
+	    <property name="attributes">
+	      <list>
+	        <ref bean="ClassDuty-pmDutyId"/>
+	        <ref bean="ClassDuty-name"/>
+	        <ref bean="ClassDuty-description"/>
+	        <ref bean="ClassDuty-percentage"/>
+	        <ref bean="ClassDuty-pmPositionClassId"/>
+	      </list>
+	    </property>
+	    <property name="objectLabel" value="Position Classification Duty"/>
+  	</bean>
+
+<!-- Attribute Definitions -->  
+	 <bean id="ClassDuty-pmDutyId" parent="ClassDuty-pmDutyId-parentBean"/>
+	 <bean id="ClassDuty-pmDutyId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="required" value="false" />
+	    <property name="forceUppercase" value="false"/>
+	    <property name="shortLabel" value="id"/>
+	    <property name="controlField">
+	      <bean parent="Uif-TextControl" p:size="60"/>
+	    </property>
+	    <property name="name" value="pmDutyId"/>
+	    <property name="label" value="Position Class Duty Id"/>
+	 </bean> 
+	 
+	<bean id="ClassDuty-name" parent="ClassDuty-name-parentBean" />
+	<bean id="ClassDuty-name-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="maxLength" value="20"/>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="20"/>
+		</property>
+		<property name="name" value="name" />
+		<property name="label" value="Name" />
+		<property name="description" value="Name" />
+	</bean>	
+
+	<bean id="ClassDuty-description" parent="ClassDuty-description-parentBean" />
+	<bean id="ClassDuty-description-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="maxLength" value="20"/>
+		<property name="controlField">
+			<bean parent="Uif-TextAreaControl" />
+		</property>
+		<property name="name" value="description" />
+		<property name="label" value="Description" />
+		<property name="description" value="Description" />
+	</bean>	
+	
+	<bean id="ClassDuty-percentage" parent="ClassDuty-percentage-parentBean" />
+	<bean id="ClassDuty-percentage-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="false" />
+		<property name="maxLength" value="10"/>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" />
+		</property>
+		<property name="name" value="percentage" />
+		<property name="label" value="Percentage" />
+	</bean>	
+
+ 	<bean id="ClassDuty-pmPositionClassId" parent="ClassDuty-pmPositionClassId-parentBean"/>
+	<bean id="ClassDuty-pmPositionClassId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="required" value="false" />
+	    <property name="forceUppercase" value="false"/>
+	    <property name="shortLabel" value="id"/>
+	    <property name="controlField">
+	      <bean parent="Uif-TextControl" p:size="60"/>
+	    </property>
+	    <property name="name" value="pmPositionClassId"/>
+	    <property name="label" value="Position Class Id"/>
+	</bean> 
+	
+</beans>

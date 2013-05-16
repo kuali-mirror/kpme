@@ -1,0 +1,76 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="LocationPrincipalRoleMemberBo" parent="LocationPrincipalRoleMemberBo-parentBean" />
+	<bean id="LocationPrincipalRoleMemberBo-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo" />
+		<property name="objectLabel" value="Role Member" />
+		<property name="attributes">
+            <list>
+                <ref bean="LocationPrincipalRoleMemberBo-effectiveDate" />
+                <ref bean="LocationPrincipalRoleMemberBo-principalId" />
+                <ref bean="LocationPrincipalRoleMemberBo-principalName" />
+                <ref bean="LocationPrincipalRoleMemberBo-roleName" />
+                <ref bean="LocationPrincipalRoleMemberBo-expirationDate" />
+                <ref bean="LocationPrincipalRoleMemberBo-active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+    <bean id="LocationPrincipalRoleMemberBo-effectiveDate" parent="LocationPrincipalRoleMemberBo-effectiveDate-parentBean" />
+    <bean id="LocationPrincipalRoleMemberBo-effectiveDate-parentBean" abstract="true" parent="PrincipalRoleMemberBo-effectiveDate">
+        <property name="name" value="effectiveDate" />
+    </bean>
+	
+    <bean id="LocationPrincipalRoleMemberBo-principalId" parent="LocationPrincipalRoleMemberBo-principalId-parentBean" />
+    <bean id="LocationPrincipalRoleMemberBo-principalId-parentBean" abstract="true" parent="PrincipalRoleMemberBo-principalId">
+        <property name="name" value="principalId" />
+    </bean>
+    
+    <bean id="LocationPrincipalRoleMemberBo-principalName" parent="LocationPrincipalRoleMemberBo-principalName-parentBean" />
+    <bean id="LocationPrincipalRoleMemberBo-principalName-parentBean" abstract="true" parent="PrincipalRoleMemberBo-principalName">
+        <property name="name" value="principalName" />
+    </bean>
+    
+    <bean id="LocationPrincipalRoleMemberBo-roleName" parent="LocationPrincipalRoleMemberBo-roleName-parentBean" />
+    <bean id="LocationPrincipalRoleMemberBo-roleName-parentBean" abstract="true" parent="PrincipalRoleMemberBo-roleName">
+        <property name="name" value="roleName" />
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kpme.core.role.location.LocationRoleValuesFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
+    </bean>
+    
+    <bean id="LocationPrincipalRoleMemberBo-expirationDate" parent="LocationPrincipalRoleMemberBo-expirationDate-parentBean" />
+    <bean id="LocationPrincipalRoleMemberBo-expirationDate-parentBean" abstract="true" parent="PrincipalRoleMemberBo-expirationDate">
+        <property name="name" value="expirationDate" />
+    </bean>
+    
+    <bean id="LocationPrincipalRoleMemberBo-active" parent="LocationPrincipalRoleMemberBo-active-parentBean" />
+    <bean id="LocationPrincipalRoleMemberBo-active-parentBean" abstract="true" parent="PrincipalRoleMemberBo-active">
+        <property name="name" value="active" />
+    </bean>
+</beans>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="kbtaylor" context="kpme-server-test" dbms="mysql">
+        <insert tableName="krim_entity_id_s">
+            <column name="id" value="10013" />
+        </insert>
+        <insert tableName="krim_entity_nm_id_s">
+            <column name="id" value="10013" />
+        </insert>
+        <insert tableName="krim_grp_mbr_id_s">
+            <column name="ID" value="10000" />
+        </insert>
+        <insert tableName="krim_role_mbr_id_s">
+            <column name="ID" value="10032" />
+        </insert>
+        <insert tableName="krim_attr_data_id_s">
+            <column name="ID" value="10017" />
+        </insert>
+    </changeSet>
+    
+    <changeSet id="2" author="kbtaylor" context="kpme-server-test">
+        <loadData tableName="krim_entity_t" file="src/test/config/db/test/krim_entity_t.csv" />
+        <loadData tableName="krim_entity_ent_typ_t" file="src/test/config/db/test/krim_entity_ent_typ_t.csv" />
+        <loadData tableName="krim_entity_nm_t" file="src/test/config/db/test/krim_entity_nm_t.csv" />
+        <loadData tableName="krim_prncpl_t" file="src/test/config/db/test/krim_prncpl_t.csv" />
+        <loadData tableName="krim_grp_mbr_t" file="src/test/config/db/test/krim_grp_mbr_t.csv" />
+        <loadData tableName="krim_role_mbr_t" file="src/test/config/db/test/krim_role_mbr_t.csv" />
+        <loadData tableName="krim_role_mbr_attr_data_t" file="src/test/config/db/test/krim_role_mbr_attr_data_t.csv" />
+    </changeSet>
+    
+    <changeSet id="3" author="djunk" context="kpme-client-test">
+        <createTable tableName="kr_unittest_t">
+            <column name="foo" type="VARCHAR(1)"/>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="4" author="djunk" context="kpme-client-test" dbms="mysql">
+        <insert tableName="hr_calendar_entries_s">
+            <column name="id" value="100" />
+        </insert>
+        <insert tableName="hr_calendar_s">
+            <column name="id" value="2" />
+        </insert>
+        <insert tableName="hr_dept_s">
+            <column name="id" value="110" />
+        </insert>
+        <insert tableName="hr_earn_code_group_def_s">
+            <column name="id" value="109" />
+        </insert>
+        <insert tableName="hr_earn_code_group_s">
+            <column name="id" value="104" />
+        </insert>
+        <insert tableName="hr_earn_code_s">
+            <column name="id" value="23" />
+        </insert>
+        <insert tableName="hr_earn_code_security_s">
+            <column name="id" value="24" />
+        </insert>
+        <insert tableName="hr_job_s">
+            <column name="id" value="24" />
+        </insert>
+        <insert tableName="hr_paytype_s">
+            <column name="id" value="2" />
+        </insert>
+        <insert tableName="hr_position_id_s">
+            <column name="id" value="1" />
+        </insert>
+        <insert tableName="hr_position_s">
+            <column name="id" value="1" />
+        </insert>
+        <insert tableName="hr_principal_attribute_s">
+            <column name="id" value="2" />
+        </insert>
+        <insert tableName="hr_sal_group_s">
+            <column name="id" value="14" />
+        </insert>
+        <insert tableName="lm_accrual_category_s">
+            <column name="id" value="1" />
+        </insert>
+        <insert tableName="tk_assignment_s">
+            <column name="id" value="18" />
+        </insert>
+        <insert tableName="tk_clock_log_s">
+            <column name="id" value="1" />
+        </insert>
+        <insert tableName="tk_dept_lunch_rl_s">
+            <column name="id" value="3" />
+        </insert>
+        <insert tableName="tk_system_lunch_rl_s">
+            <column name="id" value="1" />
+        </insert>
+        <insert tableName="tk_task_s">
+            <column name="id" value="104" />
+        </insert>
+        <insert tableName="tk_time_collection_rl_s">
+            <column name="id" value="4" />
+        </insert>
+        <insert tableName="tk_work_area_s">
+            <column name="id" value="106" />
+        </insert>
+    </changeSet>
+    
+    <changeSet id="5" author="djunk" context="kpme-client-test">
+        <loadData tableName="hr_calendar_entries_t" file="src/test/config/db/test/hr_calendar_entries_t.csv" />
+        <loadData tableName="hr_calendar_t" file="src/test/config/db/test/hr_calendar_t.csv" />
+        <loadData tableName="hr_dept_t" file="src/test/config/db/test/hr_dept_t.csv" />
+        <loadData tableName="hr_earn_code_group_def_t" file="src/test/config/db/test/hr_earn_code_group_def_t.csv" />
+        <loadData tableName="hr_earn_code_group_t" file="src/test/config/db/test/hr_earn_code_group_t.csv" />
+        <loadData tableName="hr_earn_code_security_t" file="src/test/config/db/test/hr_earn_code_security_t.csv" />
+        <loadData tableName="hr_earn_code_t" file="src/test/config/db/test/hr_earn_code_t.csv" />
+        <loadData tableName="hr_job_t" file="src/test/config/db/test/hr_job_t.csv" />
+        <loadData tableName="hr_paytype_t" file="src/test/config/db/test/hr_paytype_t.csv" />
+        <loadData tableName="hr_principal_attributes_t" file="src/test/config/db/test/hr_principal_attributes_t.csv" />
+        <loadData tableName="hr_position_t" file="src/test/config/db/test/hr_position_t.csv" />
+        <loadData tableName="hr_sal_group_t" file="src/test/config/db/test/hr_sal_group_t.csv" />
+        <loadData tableName="lm_accrual_category_t" file="src/test/config/db/test/lm_accrual_category_t.csv" />
+        <loadData tableName="tk_assignment_t" file="src/test/config/db/test/tk_assignment_t.csv" />
+        <loadData tableName="tk_dept_lunch_rl_t" file="src/test/config/db/test/tk_dept_lunch_rl_t.csv" />
+        <loadData tableName="tk_grace_period_rl_t" file="/src/test/config/db/test/tk_grace_period_rl_t.csv" />
+        <loadData tableName="tk_system_lunch_rl_t" file="src/test/config/db/test/tk_system_lunch_rl_t.csv" />
+        <loadData tableName="tk_task_t" file="src/test/config/db/test/tk_task_t.csv" />
+        <loadData tableName="tk_time_collection_rl_t" file="src/test/config/db/test/tk_time_collection_rl_t.csv" />
+        <loadData tableName="tk_user_pref_t" file="src/test/config/db/test/tk_user_pref_t.csv" />
+        <loadData tableName="tk_work_area_t" file="src/test/config/db/test/tk_work_area_t.csv" />
+    </changeSet>
+
+</databaseChangeLog>

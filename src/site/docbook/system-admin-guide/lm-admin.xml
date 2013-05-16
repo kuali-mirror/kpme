@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0' encoding='UTF-8'?> 
 <chapter xml:id="lm-admin" xmlns:xlink="http://www.w3.org/1999/xlink"
 	xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Leave Management Administrative Tools</title>
@@ -304,7 +304,7 @@
 			</tgroup>
 		</table>		
 	</section>
-	   <section>
+	<section>
         <title>Leave Payout</title>
         <mediaobject>
             <imageobject>

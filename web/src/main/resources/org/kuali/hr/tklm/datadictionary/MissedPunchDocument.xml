@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="MissedPunchDocument" parent="MissedPunchDocument-parentBean" />
+	<bean id="MissedPunchDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+		<property name="documentTypeName" value="MissedPunchDocumentType" />
+		<property name="documentClass" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument" />
+        <property name="businessRulesClass" value="org.kuali.kpme.tklm.time.missedpunch.validation.MissedPunchDocumentRule" />
+        <property name="documentAuthorizerClass" value="org.kuali.kpme.tklm.time.missedpunch.authorization.MissedPunchDocumentAuthorizer" />
+		<property name="attributes">
+			<list>
+				<ref bean="MissedPunchDocument-documentNumber" />
+				<ref bean="MissedPunchDocument-tkMissedPunchId" />
+			</list>
+		</property>
+		<property name="relationships">
+            <list>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="missedPunch" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="tkMissedPunchId" p:targetName="tkMissedPunchId" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+	</bean>
+	
+    <bean id="MissedPunchDocument-documentNumber" parent="MissedPunchDocument-documentNumber-parentBean" />
+    <bean id="MissedPunchDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
+    
+    <bean id="MissedPunchDocument-tkMissedPunchId" parent="MissedPunchDocument-tkMissedPunchId-parentBean" />
+    <bean id="MissedPunchDocument-tkMissedPunchId-parentBean" abstract="true" parent="MissedPunch-tkMissedPunchId" />
+    
+    <!--  Document View -->
+
+    <bean id="MissedPunch-DocumentView" parent="MissedPunch-DocumentView-parentBean" />
+    <bean id="MissedPunch-DocumentView-parentBean" abstract="true" parent="Uif-TransactionalDocumentView">
+        <property name="headerText" value="Missed Punch" />
+        <property name="formClass" value="org.kuali.kpme.tklm.time.missedpunch.web.MissedPunchForm" />
+        <property name="documentClass" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument"/>
+        <property name="items">
+            <list merge="true">
+	            <bean parent="Uif-DocumentPage">
+	                <property name="items">
+	                    <list merge="true">
+                            <bean parent="Uif-Disclosure-GridSection" p:headerText="Missed Punch">
+                                <property name="items">
+                                    <list merge="true">
+			                            <bean parent="Uif-InputField" p:propertyName="missedPunch.principalId"
+			                                 p:readOnly="@{!#empty(#dp.missedPunch.principalId)}" />
+			                            <bean parent="Uif-InputField" p:propertyName="missedPunch.timesheetDocumentId"
+			                                 p:readOnly="@{!#empty(#dp.missedPunch.timesheetDocumentId)}" />
+			                            <bean parent="Uif-InputField" p:propertyName="missedPunch.assignmentKey"
+			                                 p:refreshWhenChangedPropertyNames="#dp.missedPunch.timesheetDocumentId" />
+			                            <bean parent="Uif-InputField" p:propertyName="missedPunch.actionDate" />
+			                            <bean parent="Uif-InputField" p:propertyName="missedPunch.actionTime" />
+			                            <bean parent="Uif-InputField" p:propertyName="missedPunch.clockAction" />
+                                    </list>
+                                </property>
+                            </bean>
+	                    </list>
+	                </property>
+	            </bean>
+            </list>
+        </property>
+    </bean>
+    
+</beans>

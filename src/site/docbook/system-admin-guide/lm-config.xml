@@ -2,7 +2,6 @@
 <chapter xml:id="lm-config" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Leave Management Configuration</title>
-
 	<para>This chapter discusses the configuration of key leave management business objects. The order in which the sections are presented are
 		important in that they generally build on each other. That is, to configure an accrual category, a leave plan should already be configured.
 		While it is possible to configure a leave plan at the time of accrual category configuration, such a configuration would lead to documentation hopping

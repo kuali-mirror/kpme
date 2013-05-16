@@ -1,0 +1,218 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<bean id="PstnContractType" parent="PstnContractType-parentBean"/>
+ 	<bean id="PstnContractType-parentBean" abstract="true" parent="BusinessObjectEntry">
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.pstncontracttype.PstnContractType"/>
+	    <property name="attributes">
+	      <list>
+	        <ref bean="PstnContractType-pmCntrctTypeId"/>
+	        <ref bean="PstnContractType-effectiveDate"/>	        
+	        <ref bean="PstnContractType-name"/>
+	        <ref bean="PstnContractType-description"/>
+	        <ref bean="PstnContractType-institution"/>
+	        <ref bean="PstnContractType-campus"/>
+	        <ref bean="PstnContractType-active"/>
+	      </list>
+	    </property>
+	    <property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="campusObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="campus"
+								p:targetName="code" />
+						</list>
+					</property>
+				</bean>	
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="institutionObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="institution"
+								p:targetName="institutionCode" />
+						</list>
+					</property>
+				</bean>	
+			</list>
+		</property>
+	    <property name="objectLabel" value="Position Contract Type"/>
+  	</bean>
+
+<!-- Attribute Definitions -->  
+	 <bean id="PstnContractType-pmCntrctTypeId" parent="PstnContractType-pmCntrctTypeId-parentBean"/>
+	 <bean id="PstnContractType-pmCntrctTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="required" value="false" />
+	    <property name="forceUppercase" value="false"/>
+	    <property name="shortLabel" value="id"/>
+	    <property name="controlField">
+	      <bean parent="Uif-TextControl" p:size="10"/>
+	    </property>
+	    <property name="name" value="pmCntrctTypeId"/>
+	    <property name="label" value="Position Contract Type Id"/>
+	 </bean>   
+	 
+	<bean id="PstnContractType-effectiveDate" parent="PstnContractType-effectiveDate-parentBean" />
+	<bean id="PstnContractType-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Effective Date" />
+		<property name="controlField">
+			<bean parent="Uif-DateControl" p:size="10" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+	
+	<bean id="PstnContractType-name" parent="PstnContractType-name-parentBean" />
+	<bean id="PstnContractType-name-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="maxLength" value="10"/>
+		<property name="shortLabel" value="Name" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
+		<property name="name" value="name" />
+		<property name="label" value="Name" />
+		<property name="description" value="Contract Type Name" />
+	</bean>	
+	
+	<bean id="PstnContractType-description" parent="PstnContractType-description-parentBean" />
+	<bean id="PstnContractType-description-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="false" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="100" />
+		</property>
+		<property name="name" value="description" />
+		<property name="label" value="Description" />
+	</bean>
+	
+	<bean id="PstnContractType-institution" parent="PstnContractType-institution-parentBean" />
+	<bean id="PstnContractType-institution-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Institution" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
+		<property name="name" value="institution" />
+		<property name="label" value="Institution" />
+	</bean>
+	
+	<bean id="PstnContractType-campus" parent="PstnContractType-campus-parentBean" />
+	<bean id="PstnContractType-campus-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Campus" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
+		<property name="name" value="campus" />
+		<property name="label" value="Campus" />
+	</bean>
+	
+    <bean id="PstnContractType-active" parent="PstnContractType-active-parentBean"/>
+ 	<bean id="PstnContractType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
+   		<property name="name" value="active"/>
+  	</bean>  
+
+<!--*************************************************************************** 
+							Views
+ ***************************************************************************-->  	
+  	
+  <!-- Position Type Lookup View -->
+ 
+  <bean id="PstnContractType-LookupView" parent="Uif-LookupView">
+    <property name="headerText" value="Position Contract Type Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstncontracttype.PstnContractType" />
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" />       
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
+	         <property name="quickfinder">
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
+	        		 p:fieldConversions="institutionCode:institution"/>
+	   		 </property>
+        </bean>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-InputField" p:propertyName="name" >
+        	<property name="inquiry">
+	       		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.pstncontracttype.PstnContractType" 
+	        	p:inquiryParameters="pmCntrctTypeId:pmCntrctTypeId"/>
+    		</property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="institution" />
+        <bean parent="Uif-InputField" p:propertyName="campus" />
+        <bean parent="Uif-InputField" p:propertyName="active"/>
+      </list>
+    </property>
+  </bean> 
+ 
+ <!-- Position Type Inquiry View -->
+  <bean id="PstnContractType-InquiryView" parent="Uif-InquiryView">
+    <property name="headerText" value="Position Contract Type Inquiry"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstncontracttype.PstnContractType"/>
+    <property name="singlePageView" value="true"/>
+    <property name="items">
+      <list>
+  			<bean parent="Uif-Disclosure-GridSection">
+		      <property name="layoutManager.numberOfColumns" value="2"/>
+		      <property name="items">
+	       	 	<list>
+		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+			        <bean parent="Uif-DataField" p:propertyName="name" />
+			        <bean parent="Uif-DataField" p:propertyName="description" />
+			        <bean parent="Uif-DataField" p:propertyName="institution" />
+			        <bean parent="Uif-DataField" p:propertyName="campus" />
+			        <bean parent="Uif-DataField" p:propertyName="active"/>
+	        	</list>
+	     	 </property>
+	     	 <property name="title" value="Position Contract Type Inquiry"/>
+	   	   </bean>
+      </list>
+    </property>
+  </bean> 
+  
+<!--  Position Type Maintenance View -->
+  <bean id="PstnContractType-MaintenanceView" parent="PstnContractType-MaintenanceView-parentBean"/>
+  <bean id="PstnContractType-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+    <property name="headerText" value="Position Contract Type Maintenance"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstncontracttype.PstnContractType"/>
+    <property name="items">
+      <list merge="true">
+        <bean parent="Uif-MaintenanceGridSection">
+          <property name="items">
+            <list>
+	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+		        <bean parent="Uif-InputField" p:propertyName="name" />
+		        <bean parent="Uif-InputField" p:propertyName="description" />
+		        <bean parent="Uif-InputField" p:propertyName="institution" >
+			        <property name="quickfinder">
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
+		        			 p:fieldConversions="institutionCode:institution"/>
+		   			</property>
+		        </bean>
+		        <bean parent="Uif-InputField" p:propertyName="campus" />
+		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean> 
+</beans>
