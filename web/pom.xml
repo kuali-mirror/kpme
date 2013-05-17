@@ -15,7 +15,10 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.kuali.kpme</groupId>
@@ -23,24 +26,23 @@
         <version>2.0.0-SNAPSHOT</version>
     </parent>
     <name>KPME Web</name>
-    <artifactId>web</artifactId>
+    <artifactId>kpme-web</artifactId>
     <packaging>war</packaging>
-
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>hr-core-impl</artifactId>
+            <artifactId>kpme-core-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>pm-impl</artifactId>
+            <artifactId>kpme-pm-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>tk-lm-impl</artifactId>
+            <artifactId>kpme-tk-lm-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -230,6 +232,7 @@
             </exclusions>
         </dependency>
     </dependencies>
+    
     <build>
         <resources>
             <resource>
@@ -421,4 +424,5 @@
             </plugin>
         </plugins>
     </build>
+    
 </project>

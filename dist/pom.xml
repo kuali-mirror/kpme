@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.kuali.kpme</groupId>
+        <artifactId>kpme</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+    </parent>
+    <name>KPME Distribution</name>
+    <artifactId>kpme-dist</artifactId>
+    <packaging>pom</packaging>
+    
+    <profiles>
+        <profile>
+            <id>kuali-release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>filter-documentation-source</id>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <phase>prepare-package</phase>
+                                <configuration>
+                                    <outputDirectory>${docbook.filtered}</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${docbook.src}</directory>
+                                            <filtering>true</filtering>
+                                            <includes>
+                                                <include>**/*.xml</include>
+                                                <include>**/*.css</include>
+                                                <include>**/*.xsl</include>
+                                            </includes>
+                                        </resource>
+                                        <resource>
+                                            <directory>${docbook.src}</directory>
+                                            <filtering>false</filtering>
+                                            <excludes>
+                                                <exclude>**/*.xml</exclude>
+                                                <exclude>**/*.css</exclude>
+                                                <exclude>**/*.xsl</exclude>
+                                            </excludes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy-documentation-resources</id>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <phase>prepare-package</phase>
+                                <configuration>
+                                    <outputDirectory>${docbook.dest}</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${docbook.filtered}</directory>
+                                            <filtering>false</filtering>
+                                            <excludes>
+                                                <exclude>**/*.xml</exclude>
+                                                <exclude>**/*.xsl</exclude>
+                                            </excludes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.agilejava.docbkx</groupId>
+                        <artifactId>docbkx-maven-plugin</artifactId>
+                        <configuration>
+	                        <sourceDirectory>${docbook.filtered}/books</sourceDirectory>
+	                        <xincludeSupported>true</xincludeSupported>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>generate-html-docs</id>
+                                <goals>
+                                    <goal>generate-html</goal>
+                                </goals>
+                                <phase>prepare-package</phase>
+                                <configuration>
+                                    <htmlStylesheet>../css/stylesheet.css</htmlStylesheet>
+                                    <targetDirectory>${docbook.dest}/html</targetDirectory>
+                                    <tableBordersWithCss>true</tableBordersWithCss>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>generate-pdf-docs</id>
+                                <goals>
+                                    <goal>generate-pdf</goal>
+                                </goals>
+                                <phase>prepare-package</phase>
+                                <configuration>
+                                    <foCustomization>${docbook.filtered}/stylesheets/fo-stylesheet.xsl</foCustomization>
+                                    <targetDirectory>${docbook.dest}/pdf</targetDirectory>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>generate-multi-page-html-docs</id>
+                                <goals>
+                                    <goal>generate-html</goal>
+                                </goals>
+                                <phase>prepare-package</phase>
+                                <configuration>
+                                    <chunkedOutput>true</chunkedOutput>
+                                    <htmlStylesheet>../../css/stylesheet.css</htmlStylesheet>
+                                    <targetDirectory>${docbook.dest}/html-multi</targetDirectory>
+                                    <imgSrcPath>../</imgSrcPath>
+                                    <tableBordersWithCss>true</tableBordersWithCss>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>release</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>${project.basedir}/src/main/assembly/release.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
+</project>

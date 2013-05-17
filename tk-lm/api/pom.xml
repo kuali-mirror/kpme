@@ -16,20 +16,25 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <name>Timekeeping Leave Management API</name>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.kuali.kpme</groupId>
-        <artifactId>tk-lm</artifactId>
+        <artifactId>kpme-tk-lm</artifactId>
         <version>2.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>tk-lm-api</artifactId>
+    <name>KPME Timekeeping and Leave Management API</name>
+    <artifactId>kpme-tk-lm-api</artifactId>
+    
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>hr-core-api</artifactId>
+            <artifactId>kpme-core-api</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
+    
 </project>
