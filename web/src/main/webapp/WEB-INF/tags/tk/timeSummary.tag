@@ -8,84 +8,97 @@
 <c:set var="beginPosition" value="${workedHoursLength - headerLength}"/>  
 
 <div id="timesheet-summary">
-	<div class="summaryTitle" style="clear:both; text-align:center; font-weight: bold; margin-bottom: 5px;">Summary <%--(<a href="#" id="basic">Basic</a> / <a href="#" id="advance">Advanced</a> ) --%></div>
-	<div id="timesheet-table-basic">
-
-		<table>
-			<thead>
-				<tr class="ui-state-default">
-				<th></th>
-					<c:forEach items="${timeSummary.summaryHeader}" var="entry">
-						<th scope="col">${entry}</th>
-					</c:forEach>
-				</tr>
-			</thead>
-	    	<tbody>
-				<tr style="border-bottom-style: double; font-weight: bold;">
-					<td>Worked Hours:</td>
-					<c:if test="${beginPosition<0}">
-						<c:set var="beginPosition" value="0" />
-					</c:if>
-					<c:forEach items="${timeSummary.workedHours}" begin="${beginPosition}" var="entry">
-						<td>${entry}</td>
-					</c:forEach>
-				</tr>
-				<c:forEach items="${timeSummary.sections}" var="section">
-					<c:forEach items="${section.earnCodeSections}" var="earnCodeSection">
-						<tr>
-							<td>${earnCodeSection.earnCode}: ${earnCodeSection.description}</td>
+	<div class="summaryTitle" style="clear:both; text-align:center; font-weight: bold; margin-bottom: 5px;">Summary</div>
+    <div id="timesheet-table-basic">
+        <table>
+            <thead>
+                <tr class="ui-state-default">
+                    <th></th>
+                    <c:forEach items="${timeSummary.summaryHeader}" var="entry">
+                        <th scope="col">${entry}</th>
+                    </c:forEach>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom-style: double; font-weight: bold;">
+    				<td>Worked Hours:</td>
+                    <c:if test="${beginPosition<0}">
+                        <c:set var="beginPosition" value="0" />
+                    </c:if>
+                    <c:forEach items="${timeSummary.workedHours}" begin="${beginPosition}" var="entry">
+                        <td>${entry}</td>
+                    </c:forEach>
+                </tr>
+                <c:forEach items="${timeSummary.sections}" var="section">
+                    <c:forEach items="${section.earnCodeSections}" var="earnCodeSection">
+                        <tr>
+                            <td>${earnCodeSection.earnCode}: ${earnCodeSection.description}</td>
 						</tr>
-						<c:forEach items="${earnCodeSection.assignmentsRows}" var="assignRow">
-						<c:set var="periodTotal" value="${assignRow.total[fn:length(assignRow.total)-1]}"/> 
-						<c:if test="${periodTotal ne '0.00' and periodTotal != 0}">
-						<tr style="border-bottom-style: double; font-weight: bold;">
-							<td class="${assignRow.cssClass}">${assignRow.descr}</td>
-							<c:choose>
-							<c:when test="${!earnCodeSection.isAmountEarnCode}">
-								<c:forEach items="${assignRow.total}" var="entry">
-									<c:choose>
-									<c:when test="${entry ne '0.00' and entry != 0}">
-										<td class="${assignRow.cssClass}">${entry}</td>
-									</c:when>
-									<c:otherwise>
-										<td/>
-									</c:otherwise>
-									</c:choose>								
-								</c:forEach>
-							</c:when>
-							<c:otherwise>
-								<c:forEach items="${assignRow.amount}" var="entry">
-									<c:choose>
-									<c:when test="${entry ne '0.00' and entry != 0}">
-										<td class="${assignRow.cssClass}">$${entry}</td>
-									</c:when>
-									<c:otherwise>
-										<td/>
-									</c:otherwise>
-									</c:choose>								
-								</c:forEach>
-							</c:otherwise>
-							</c:choose>
-						</tr>
-						</c:if>
-						</c:forEach>	
-					</c:forEach>
-					<tr>
-						<td>${section.earnGroup}</td>
-							<c:forEach items="${section.totals}" var="entry">
-								<c:choose>
-								<c:when test="${entry ne '0.00' and entry != 0}">
-									<td>${entry}</td>
-								</c:when>
-								<c:otherwise>
-									<td/>
-								</c:otherwise>	
-								</c:choose>							
-							</c:forEach>
-					</tr>
-				</c:forEach>
-		   </tbody>
-		</table>
+						<c:forEach items="${earnCodeSection.assignmentsRows}" var="assignmentRow">
+                            <c:set var="periodTotal" value="${assignmentRow.assignmentColumns[fn:length(assignmentRow.assignmentColumns) - 1].total}"/>
+                            <c:if test="${periodTotal ne '0.00' and periodTotal != 0}">
+                                <tr style="border-bottom-style: double; font-weight: bold;">
+                                    <td class="${assignmentRow.cssClass}">${assignmentRow.descr}</td>
+                                        <c:choose>
+                                            <c:when test="${earnCodeSection.isAmountEarnCode}">
+                                                <c:forEach items="${assignmentRow.assignmentColumns}" var="assignmentColumn">
+                                                    <c:choose>
+                                                        <c:when test="${assignmentColumn.amount ne '0.00' and assignmentColumn.amount != 0}">
+                                                            <c:choose>
+                                                                <c:when test="${assignmentColumn.weeklyTotal}">
+                                                                    <td class="${assignmentColumn.cssClass}">${assignmentColumn.amount}</td>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <td>${assignmentColumn.amount}</td>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <td/>
+                                                        </c:otherwise>
+                                                    </c:choose>                            
+                                                </c:forEach>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:forEach items="${assignmentRow.assignmentColumns}" var="assignmentColumn">
+                                                    <c:choose>
+                                                        <c:when test="${assignmentColumn.total ne '0.00' and assignmentColumn.total != 0}">
+                                                            <c:choose>
+                                                                <c:when test="${assignmentColumn.weeklyTotal}">
+                                                                    <td class="${assignmentColumn.cssClass}">${assignmentColumn.total}</td>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <td>${assignmentColumn.total}</td>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:when>
+                                                    <c:otherwise>
+                                                        <td/>
+                                                    </c:otherwise>
+                                                </c:choose>                            
+                                            </c:forEach>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </tr>
+                            </c:if>
+                        </c:forEach>
+                    </c:forEach>
+                    <tr>
+                        <td>${section.earnGroup}</td>
+                        <c:forEach items="${section.totals}" var="entry">
+                            <c:choose>
+                                <c:when test="${entry ne '0.00' and entry != 0}">
+                                    <td>${entry}</td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td/>
+                                </c:otherwise> 
+                            </c:choose>                        
+                        </c:forEach>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
 	</div>
 	<c:if test="${not empty timeSummary.maxedLeaveRows}">
 	<div id="maxed-leave-table">

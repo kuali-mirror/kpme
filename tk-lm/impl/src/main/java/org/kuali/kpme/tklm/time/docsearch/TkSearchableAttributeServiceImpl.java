@@ -88,13 +88,17 @@ public class TkSearchableAttributeServiceImpl implements
 
 		for(Long workArea : workAreas){
 			WorkArea workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, asOfDate);
-			if(deptToListOfWorkAreas.containsKey(workAreaObj.getDept())){
-				List<Long> deptWorkAreas = deptToListOfWorkAreas.get(workAreaObj.getDept());
-				deptWorkAreas.add(workArea);
-			} else {
-				List<Long> deptWorkAreas = new ArrayList<Long>();
-				deptWorkAreas.add(workArea);
-				deptToListOfWorkAreas.put(workAreaObj.getDept(), deptWorkAreas);
+			String department = workAreaObj != null ? workAreaObj.getDept() : null;
+			
+			if (department != null) {
+				if(deptToListOfWorkAreas.containsKey(department)){
+					List<Long> deptWorkAreas = deptToListOfWorkAreas.get(workAreaObj.getDept());
+					deptWorkAreas.add(workArea);
+				} else {
+					List<Long> deptWorkAreas = new ArrayList<Long>();
+					deptWorkAreas.add(workArea);
+					deptToListOfWorkAreas.put(department, deptWorkAreas);
+				}
 			}
 		}
 		StringBuilder sb = new StringBuilder();

@@ -58,7 +58,6 @@ public class TimeSummary implements Serializable {
             for (EarnCodeSection earnCodeSection : earnGroupSection.getEarnCodeSections()) {
                 Map<String, Object> ecs = new HashMap<String, Object>();
 
-
                 ecs.put("earnCode", earnCodeSection.getEarnCode());
                 ecs.put("desc", earnCodeSection.getDescription());
                 ecs.put("totals", earnCodeSection.getTotals());
@@ -66,15 +65,22 @@ public class TimeSummary implements Serializable {
 
                 List<Map<String, Object>> assignmentRows = new ArrayList<Map<String, Object>>();
                 for (AssignmentRow assignmentRow : earnCodeSection.getAssignmentsRows()) {
-
                     Map<String, Object> ar = new HashMap<String, Object>();
 
-                    ar.put("assignmentKey", assignmentRow.getAssignmentKey());
                     ar.put("descr", assignmentRow.getDescr());
                     ar.put("cssClass", assignmentRow.getCssClass());
-                    ar.put("amount", assignmentRow.getAmount());
-                    ar.put("total", assignmentRow.getTotal());
-                    ar.put("amount", assignmentRow.getAmount());
+                    ar.put("assignmentKey", assignmentRow.getAssignmentKey());
+                    
+                    List<Map<String, Object>> assignmentColumns = new ArrayList<Map<String, Object>>();
+                    for (AssignmentColumn assignmentColumn : assignmentRow.getAssignmentColumns()) {
+                    	Map<String, Object> ac = new HashMap<String, Object>();
+
+                    	ac.put("cssClass", assignmentColumn.getCssClass());
+                    	ac.put("amount", assignmentColumn.getAmount());
+                    	ac.put("total", assignmentColumn.getTotal());
+
+                    	assignmentColumns.add(ac);
+                    }
 
                     assignmentRows.add(ar);
                 }

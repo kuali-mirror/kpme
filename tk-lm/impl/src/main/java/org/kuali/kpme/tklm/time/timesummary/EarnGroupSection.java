@@ -41,9 +41,10 @@ public class EarnGroupSection implements Serializable {
 	}
 	
 	public void addEarnCodeSection(EarnCodeSection earnCodeSection, List<Boolean> dayArrangements){
-		for(AssignmentRow assignRow : earnCodeSection.getAssignmentsRows()){
-			for(int i = 0;i<(assignRow.getTotal().size()-1);i++){
-				BigDecimal value = totals.get(i).add(assignRow.getTotal().get(i), HrConstants.MATH_CONTEXT);
+		for(AssignmentRow assignRow : earnCodeSection.getAssignmentsRows()) {
+			for (int i = 0; i < assignRow.getAssignmentColumns().size() - 1; i++) {
+				AssignmentColumn assignmentColumn = assignRow.getAssignmentColumns().get(i);
+				BigDecimal value = totals.get(i).add(assignmentColumn.getTotal(), HrConstants.MATH_CONTEXT);
 				totals.set(i, value.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING));
 			}
 		}

@@ -53,6 +53,7 @@ import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.kpme.tklm.time.timesummary.AssignmentColumn;
 import org.kuali.kpme.tklm.time.timesummary.AssignmentRow;
 import org.kuali.kpme.tklm.time.timesummary.EarnCodeSection;
 import org.kuali.kpme.tklm.time.timesummary.EarnGroupSection;
@@ -227,11 +228,10 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 									}
 									assignRow.setDescr(assignment.getAssignmentDescription());
 								}
-								for(int i = 0;i<(numEntries-1);i++){
-									assignRow.getTotal().add(BigDecimal.ZERO);
-									assignRow.getAmount().add(BigDecimal.ZERO);
-								}
 								assignRow.setEarnCodeSection(earnCodeSection);
+								for (int i = 0; i < numEntries - 1; i++) {
+									assignRow.getAssignmentColumns().add(new AssignmentColumn());
+								}
 								earnCodeSection.addAssignmentRow(assignRow);
 							}
 							assignRow.addToTotal(dayCount, thd.getHours());

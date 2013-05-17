@@ -16,6 +16,7 @@
 package org.kuali.kpme.core.bo.job;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
@@ -84,7 +85,7 @@ public class Job extends HrBusinessObject {
 
 	public BigDecimal getFte() {
 		if ( this.standardHours != null ) {
-			return this.standardHours.divide(new BigDecimal(40)).setScale(2);
+			return this.standardHours.divide(new BigDecimal(40)).setScale(2, RoundingMode.HALF_EVEN);
 		} else {
 			return fte;
 		}
@@ -92,7 +93,7 @@ public class Job extends HrBusinessObject {
 
 	public void setFte() {
 		if ( this.standardHours != null ) {
-			this.fte = this.standardHours.divide(new BigDecimal(40)).setScale(2);
+			this.fte = this.standardHours.divide(new BigDecimal(40)).setScale(2, RoundingMode.HALF_EVEN);
 		} else {
 			this.fte = new BigDecimal(0).setScale(2);
 		}

@@ -35,7 +35,6 @@ import org.joda.time.DateTimeFieldType;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
-import org.joda.time.LocalDate.Property;
 import org.joda.time.Period;
 import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.assignment.Assignment;
@@ -80,15 +79,7 @@ public class TKUtils {
         return DateTimeZone.forID(TKUtils.getSystemTimeZone());
     }
 
-    public static final LocalDate END_OF_TIME;
-
-    static
-    {
-    	Property year = LocalDate.now().year();
-    	Property month = LocalDate.now().monthOfYear();
-    	Property day = LocalDate.now().dayOfMonth();
-        END_OF_TIME = new LocalDate(year.getMaximumValueOverall(), month.getMaximumValueOverall(), day.getMaximumValueOverall());
-    }
+    public static final LocalDate END_OF_TIME = new LocalDate(9999, 12, 31);
 
     public static long getDaysBetween(LocalDate startDate, LocalDate endDate) {
     	long daysBetween = 0;
