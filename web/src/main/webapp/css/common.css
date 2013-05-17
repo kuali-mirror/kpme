@@ -820,7 +820,57 @@ label.error {
 }
 
 .assignment4 {
-    background-color: #FFFFCC;
+    background-color: #0000CC;
+    color: white;
+}
+
+.assignment5 {
+    background-color: #CC66CC;
+    color: white;
+}
+
+.assignment6 {
+    background-color: #999900;
+    color: white;
+}
+
+.assignment7 {
+    background-color: #336666;
+    color: white;
+}
+
+.assignment8 {
+    background-color: #0099CC;
+    color: white;
+}
+
+.assignment9 {
+    background-color: #CC0000;
+    color: white;
+}
+
+.assignment10 {
+    background-color: #00CC00;
+    color: white;
+}
+
+.assignment11 {
+    background-color: #CCCC66;
+    color: white;
+}
+
+.assignment12 {
+    background-color: #999999;
+    color: white;
+}
+
+.assignment13 {
+    background-color: #330033;
+    color: white;
+}
+
+.assignment14 {
+    background-color: #CC00CC;
     color: white;
 }
 

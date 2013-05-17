@@ -87,6 +87,12 @@ public class LeaveBlockRenderer {
         	else
         		return "accrual";
         }
+        else if(this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER_ADJUSTMENT)) {
+        	if(this.leaveBlock.getDescription().equals(LMConstants.MAX_CARRY_OVER_ADJUSTMENT))
+        		return "carryover adjustment";
+        	else
+	 	 	 		return "adjustment";
+        }
         else if(this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER)) {
         	if(this.leaveBlock.getDescription().contains("Forfeited"))
         		return "transfer forfeiture";

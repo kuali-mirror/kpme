@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.payout.LeavePayout;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -104,25 +105,19 @@ public class LeavePayoutMaintainableImpl extends
             }
             
             List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(documentId);
-            LeaveBlock carryOverBlock = null;
             for(LeaveBlock lb : leaveBlocks) {
             	if(StringUtils.equals(lb.getAccrualCategory(),payout.getFromAccrualCategory())
-            			&& StringUtils.equals(lb.getDescription(),"Max carry over adjustment")
-            			&& lb.getAccrualGenerated()) {
-            		carryOverBlock = lb;
+            			&& StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER_ADJUSTMENT)) {
+            		BigDecimal adjustment = new BigDecimal(0);
+            		if(payout.getPayoutAmount() != null)
+            			adjustment = adjustment.add(payout.getPayoutAmount().abs());
+            		if(payout.getForfeitedAmount() != null)
+            			adjustment = adjustment.add(payout.getForfeitedAmount().abs());
+            		BigDecimal adjustedLeaveAmount = lb.getLeaveAmount().abs().subtract(adjustment);
+            		lb.setLeaveAmount(adjustedLeaveAmount.negate());
+            		LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
             	}
             }
-            if(carryOverBlock != null) {
-            	BigDecimal adjustment = new BigDecimal(0);
-            	if(payout.getPayoutAmount() != null)
-            		adjustment = adjustment.add(payout.getPayoutAmount().abs());
-            	if(payout.getForfeitedAmount() != null)
-            		adjustment = adjustment.add(payout.getForfeitedAmount().abs());
-            	BigDecimal adjustedLeaveAmount = carryOverBlock.getLeaveAmount().abs().subtract(adjustment);
-            	carryOverBlock.setLeaveAmount(adjustedLeaveAmount.negate());
-        		LmServiceLocator.getLeaveBlockService().updateLeaveBlock(carryOverBlock, routedByPrincipalId);
-            }
-            
         } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
             //When payout document is canceled, set all leave block's request statuses to deferred
             for(LeaveBlock lb : payout.getLeaveBlocks()) {

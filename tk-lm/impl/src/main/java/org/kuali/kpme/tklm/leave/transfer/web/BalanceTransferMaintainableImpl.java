@@ -123,22 +123,18 @@ public class BalanceTransferMaintainableImpl extends
                 }
             }
             List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveLocalDate());
-            LeaveBlock carryOverBlock = null;
             for(LeaveBlock lb : leaveBlocks) {
             	if(StringUtils.equals(lb.getAccrualCategory(),balanceTransfer.getFromAccrualCategory())
-            			&& StringUtils.equals(lb.getDescription(),"Max carry over adjustment")) {
-            		carryOverBlock = lb;
+            			&& StringUtils.equals(lb.getLeaveBlockType(),LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER_ADJUSTMENT)) {
+            		BigDecimal adjustment = new BigDecimal(0);
+            		if(balanceTransfer.getTransferAmount() != null)
+            			adjustment = adjustment.add(balanceTransfer.getTransferAmount().abs());
+            		if(balanceTransfer.getForfeitedAmount() != null)
+            			adjustment = adjustment.add(balanceTransfer.getForfeitedAmount().abs());
+            		BigDecimal adjustedLeaveAmount = lb.getLeaveAmount().abs().subtract(adjustment);
+            		lb.setLeaveAmount(adjustedLeaveAmount.negate());
+            		LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
             	}
-            }
-            if(carryOverBlock != null) {
-            	BigDecimal adjustment = new BigDecimal(0);
-            	if(balanceTransfer.getTransferAmount() != null)
-            		adjustment = adjustment.add(balanceTransfer.getTransferAmount().abs());
-            	if(balanceTransfer.getForfeitedAmount() != null)
-            		adjustment = adjustment.add(balanceTransfer.getForfeitedAmount().abs());
-            	BigDecimal adjustedLeaveAmount = carryOverBlock.getLeaveAmount().abs().subtract(adjustment);
-            	carryOverBlock.setLeaveAmount(adjustedLeaveAmount.negate());
-        		LmServiceLocator.getLeaveBlockService().updateLeaveBlock(carryOverBlock, routedByPrincipalId);
             }
         } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
             //When transfer document is canceled, set all leave block's request statuses to deferred

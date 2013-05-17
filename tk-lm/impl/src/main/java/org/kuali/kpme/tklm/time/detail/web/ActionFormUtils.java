@@ -132,8 +132,8 @@ public class ActionFormUtils {
         Collections.sort(assignmentKeys);
 
         for (int i = 0; i < assignmentKeys.size(); i++) {
-            // pick a color from a five color palette
-            aMap.put(assignmentKeys.get(i), "assignment" + Integer.toString(i % 5));
+            // pick a color from a 15 color palette
+            aMap.put(assignmentKeys.get(i), "assignment" + Integer.toString(i % 15));
         }
 
         return aMap;

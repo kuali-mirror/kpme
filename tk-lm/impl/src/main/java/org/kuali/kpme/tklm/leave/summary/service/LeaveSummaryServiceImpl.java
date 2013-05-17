@@ -306,14 +306,24 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                 carryOver = carryOver.add(value);
                                 BigDecimal use = lsr.getPriorYearsUsage().containsKey(key) ? lsr.getPriorYearsUsage().get(key) : BigDecimal.ZERO;
                                 carryOver = carryOver.add(use);
-                                if (acRule != null  && acRule.getMaxCarryOver() != null && acRule.getMaxCarryOver() < carryOver.longValue()) {
-                                    carryOver = new BigDecimal(acRule.getMaxCarryOver());
-                                }
+                                EmployeeOverride carryOverOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), ac.getAccrualCategory(), "MAC", endDate);
+                 	 	 	 	if (acRule != null  && acRule.getMaxCarryOver() != null) {
+                 	 	 	 		BigDecimal carryOverDisplay = BigDecimal.ZERO;
+                 	 	 	 		if(carryOverOverride != null)
+                 	 	 	 			carryOverDisplay = new BigDecimal(carryOverOverride.getOverrideValue() < carryOver.longValue() ? carryOverOverride.getOverrideValue() : carryOver.longValue());
+                 	 	 	 		else
+                 	 	 	 			carryOverDisplay =  new BigDecimal(acRule.getMaxCarryOver() < carryOver.longValue() ? acRule.getMaxCarryOver() : carryOver.longValue());
+                 	 	 	 		carryOver = carryOverDisplay;
+                 	 	 	 	}
                             }
                             
                             lsr.setCarryOver(carryOver);
                             if (acRule != null && acRule.getMaxCarryOver() != null) {
-                                lsr.setMaxCarryOver(new BigDecimal(acRule.getMaxCarryOver()));
+                            	EmployeeOverride carryOverOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), ac.getAccrualCategory(), "MAC", endDate);
+                 	 	 	 	if(carryOverOverride != null)
+                 	 	 	 		lsr.setMaxCarryOver(new BigDecimal(carryOverOverride.getOverrideValue()));
+                 	 	 	 	else
+                 	 	 	 		lsr.setMaxCarryOver(new BigDecimal(acRule.getMaxCarryOver() < carryOver.longValue() ? acRule.getMaxCarryOver() : carryOver.longValue()));
                             }
 
                             //handle future leave blocks

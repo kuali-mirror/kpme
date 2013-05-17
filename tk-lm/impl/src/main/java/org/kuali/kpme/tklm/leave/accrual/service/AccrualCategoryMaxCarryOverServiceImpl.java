@@ -231,9 +231,9 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 	@SuppressWarnings("unchecked")
 	private void addAdjustmentLeaveBlock(String documentId, String principalId, LocalDate leaveDate, AccrualCategory accrualCategory, BigDecimal adjustmentAmount) {
 		LeaveBlock leaveBlock = new LeaveBlock.Builder(leaveDate, documentId, principalId, accrualCategory.getEarnCode(), adjustmentAmount)
-        	.description("Max carry over adjustment")
+        	.description(LMConstants.MAX_CARRY_OVER_ADJUSTMENT)
         	.accrualCategory(accrualCategory.getAccrualCategory())
-        	.leaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER)
+        	.leaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER_ADJUSTMENT)
         	.requestStatus(HrConstants.REQUEST_STATUS.REQUESTED)
         	.principalIdModified(principalId)
         	.timestamp(TKUtils.getCurrentTimestamp())

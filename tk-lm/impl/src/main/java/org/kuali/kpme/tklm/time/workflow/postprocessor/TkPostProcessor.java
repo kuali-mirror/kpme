@@ -143,7 +143,7 @@ public class TkPostProcessor extends DefaultPostProcessor {
 			//approve the carry over leave block.
 			List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, timesheetDocumentHeader.getBeginDateTime().toLocalDate(), endDate.toLocalDate());
 			for(LeaveBlock lb : leaveBlocks) {
-				if(StringUtils.equals(lb.getDescription(),"Max carry over adjustment")) {
+				if(StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER_ADJUSTMENT)) {
 					lb.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 					LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, HrContext.getPrincipalId());
 				}
