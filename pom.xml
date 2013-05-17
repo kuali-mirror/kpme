@@ -32,11 +32,11 @@
     <url>http://${kuali.site.hostname}/kpme/${project.version}</url>
 
     <modules>
+        <module>db</module>
         <module>core</module>
         <module>tk-lm</module>
         <module>pm</module>
         <module>web</module>
-        <module>db</module>
         <module>dist</module>
     </modules>
 
