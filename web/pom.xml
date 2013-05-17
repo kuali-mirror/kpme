@@ -397,32 +397,52 @@
                     <attachClasses>true</attachClasses>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>${jetty.version}</version>
-                <configuration>
-                    <webAppConfig>
-                        <contextPath>/kpme-dev</contextPath>
-                    </webAppConfig>
-                    <contextXml>${basedir}/src/main/webapp/WEB-INF/jetty-context.xml</contextXml>
-                    <systemProperties>
-                        <systemProperty>
-                            <name>metadata-complete</name>
-                            <value>true</value>
-                        </systemProperty>
-                    </systemProperties>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>${mysql.jdbc.artifactId}</artifactId>
-                        <version>${mysql.jdbc.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                </dependencies>
-            </plugin>
         </plugins>
     </build>
-    
+
+    <profiles>
+        <profile>
+            <id>jetty</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.mortbay.jetty</groupId>
+                        <artifactId>jetty-maven-plugin</artifactId>
+                        <version>${jetty.version}</version>
+                        <configuration>
+                            <webAppConfig>
+                                <contextPath>/kpme-dev</contextPath>
+                            </webAppConfig>
+                            <contextXml>${basedir}/src/main/webapp/WEB-INF/jetty-context.xml</contextXml>
+                            <systemProperties>
+                                <systemProperty>
+                                    <name>metadata-complete</name>
+                                    <value>true</value>
+                                </systemProperty>
+                            </systemProperties>
+                            <webAppSourceDirectory>${project.build.directory}/${project.build.finalName}</webAppSourceDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>jetty-run</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>mysql</groupId>
+                                <artifactId>${mysql.jdbc.artifactId}</artifactId>
+                                <version>${mysql.jdbc.version}</version>
+                                <scope>runtime</scope>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>

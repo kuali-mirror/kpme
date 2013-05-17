@@ -37,6 +37,7 @@
         <module>tk-lm</module>
         <module>pm</module>
         <module>web</module>
+        <module>env</module>
         <module>dist</module>
     </modules>
 
