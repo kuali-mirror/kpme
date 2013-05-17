@@ -487,47 +487,47 @@
                                 <exclude>**/jquery*.js</exclude>
                                 <exclude>**/qunit*.js</exclude>
                                 <exclude>**/underscore*.js</exclude>
+                                <exclude>db/src/main/config/db/rice/**/*.sql</exclude>
+                                <exclude>dist/src/main/assembly/**</exclude>
+                                <exclude>dist/src/site/docbook/**</exclude>
+                                <exclude>env/src/main/scripts/**</exclude>
                                 <exclude>src/license/**</exclude>
-                                <exclude>src/main/assembly/**</exclude>
-                                <exclude>src/main/config/db/rice/**/*.sql</exclude>
-                                <exclude>src/main/config/launch/**</exclude>
-                                <exclude>src/main/webapp/acknowledgments.jsp</exclude>
-                                <exclude>src/main/webapp/favicon.ico</exclude>
-                                <exclude>src/main/webapp/portal.jsp</exclude>
-                                <exclude>src/main/webapp/core/</exclude>
-                                <exclude>src/main/webapp/kcb/</exclude>
-                                <exclude>src/main/webapp/ken/</exclude>
-                                <exclude>src/main/webapp/kew/</exclude>
-                                <exclude>src/main/webapp/kim/</exclude>
-                                <exclude>src/main/webapp/kr/</exclude>
-                                <exclude>src/main/webapp/krad/</exclude>
-                                <exclude>src/main/webapp/krms/</exclude>
-                                <exclude>src/main/webapp/ksb/</exclude>
-                                <exclude>src/main/webapp/rice-portal/</exclude>
-                                <exclude>src/main/webapp/WEB-INF/dwr-kew.xml</exclude>
-                                <exclude>src/main/webapp/WEB-INF/dwr-kns.xml</exclude>
-                                <exclude>src/main/webapp/WEB-INF/krad-base-servlet.xml</exclude>
-                                <exclude>src/main/webapp/WEB-INF/krad-servlet.xml</exclude>
-                                <exclude>src/main/webapp/WEB-INF/kradguest-servlet.xml</exclude>
-                                <exclude>src/main/webapp/WEB-INF/validator-rules.xml</exclude>
-                                <exclude>src/main/webapp/WEB-INF/jsp/dummy_login.jsp</exclude>
-                                <exclude>src/main/webapp/WEB-INF/jsp/moduleLocked.jsp</exclude>
-                                <exclude>src/main/webapp/WEB-INF/jsp/recurseCheckTabHighlight.jsp</exclude>
-                                <exclude>src/main/webapp/WEB-INF/jsp/recurseRowDisplay.jsp</exclude>
-                                <exclude>src/main/webapp/WEB-INF/jsp/recurseTreeNode.jsp</exclude>
-                                <exclude>src/main/webapp/WEB-INF/tags/kew/</exclude>
-                                <exclude>src/main/webapp/WEB-INF/tags/kim/</exclude>
-                                <exclude>src/main/webapp/WEB-INF/tags/kr/</exclude>
-                                <exclude>src/main/webapp/WEB-INF/tags/krad/</exclude>
-                                <exclude>src/main/webapp/WEB-INF/tags/rice-portal/administrationTab.tag</exclude>
-                                <exclude>src/main/webapp/WEB-INF/tags/rice-portal/iframePortletContainer.tag</exclude>
-                                <exclude>src/main/webapp/WEB-INF/tags/rice-portal/immutableBar.tag</exclude>
-                                <exclude>src/main/webapp/WEB-INF/tags/rice-portal/portalBottom.tag</exclude>
-                                <exclude>src/main/webapp/WEB-INF/tags/rice-portal/portalLink.tag</exclude>
-                                <exclude>src/main/webapp/WEB-INF/tags/rice-portal/portalTop.tag</exclude>
-                                <exclude>src/main/webapp/WEB-INF/tags/rice-portal/channel/</exclude>
-                                <exclude>src/main/webapp/WEB-INF/tld/</exclude>
-                                <exclude>src/site/docbook/**</exclude>
+                                <exclude>web/src/main/webapp/acknowledgments.jsp</exclude>
+                                <exclude>web/src/main/webapp/favicon.ico</exclude>
+                                <exclude>web/src/main/webapp/portal.jsp</exclude>
+                                <exclude>web/src/main/webapp/core/</exclude>
+                                <exclude>web/src/main/webapp/kcb/</exclude>
+                                <exclude>web/src/main/webapp/ken/</exclude>
+                                <exclude>web/src/main/webapp/kew/</exclude>
+                                <exclude>web/src/main/webapp/kim/</exclude>
+                                <exclude>web/src/main/webapp/kr/</exclude>
+                                <exclude>web/src/main/webapp/krad/</exclude>
+                                <exclude>web/src/main/webapp/krms/</exclude>
+                                <exclude>web/src/main/webapp/ksb/</exclude>
+                                <exclude>web/src/main/webapp/rice-portal/</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/dwr-kew.xml</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/dwr-kns.xml</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/krad-base-servlet.xml</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/krad-servlet.xml</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/kradguest-servlet.xml</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/validator-rules.xml</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/jsp/dummy_login.jsp</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/jsp/moduleLocked.jsp</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/jsp/recurseCheckTabHighlight.jsp</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/jsp/recurseRowDisplay.jsp</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/jsp/recurseTreeNode.jsp</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/tags/kew/</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/tags/kim/</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/tags/kr/</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/tags/krad/</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/tags/rice-portal/administrationTab.tag</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/tags/rice-portal/iframePortletContainer.tag</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/tags/rice-portal/immutableBar.tag</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/tags/rice-portal/portalBottom.tag</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/tags/rice-portal/portalLink.tag</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/tags/rice-portal/portalTop.tag</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/tags/rice-portal/channel/</exclude>
+                                <exclude>web/src/main/webapp/WEB-INF/tld/</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
