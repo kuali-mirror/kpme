@@ -16,13 +16,10 @@
 package org.kuali.kpme.tklm.time.timeblock.web;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.bo.department.Department;
@@ -31,7 +28,6 @@ import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistoryDetail;
 import org.kuali.rice.kim.api.KimConstants;
@@ -44,23 +40,15 @@ public class TimeBlockHistoryLookupableHelperServiceImpl extends KPMELookupableH
 
 	private static final long serialVersionUID = -4201048176986460032L;
 
-	private static final String DOCUMENT_STATUS = "timesheetDocumentHeader.documentStatus";
 	private static final String BEGIN_DATE = "beginDate";
+	private static final String BEGIN_TIMESTAMP = "beginTimestamp";
 
 	@Override
 	public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 		List<TimeBlockHistory> results = new ArrayList<TimeBlockHistory>();
 
-		String documentStatus = StringUtils.EMPTY;
-		String beginDate = StringUtils.EMPTY;
-
-		if (fieldValues.containsKey(DOCUMENT_STATUS)) {
-			documentStatus = fieldValues.get(DOCUMENT_STATUS);
-			fieldValues.remove(DOCUMENT_STATUS);
-		}
-
 		if (fieldValues.containsKey(BEGIN_DATE)) {
-			beginDate = fieldValues.get(BEGIN_DATE);
+			fieldValues.put(BEGIN_TIMESTAMP, fieldValues.get(BEGIN_DATE));
 			fieldValues.remove(BEGIN_DATE);
 		}
 
@@ -71,55 +59,8 @@ public class TimeBlockHistoryLookupableHelperServiceImpl extends KPMELookupableH
 			results.add(timeBlockHistory);
 		}
 
-		results = filterByDocumentStatus(results, documentStatus);
-		results = filterByBeginDate(results, beginDate);
 		results = filterByPrincipalId(results, GlobalVariables.getUserSession().getPrincipalId());
 		results = addDetails(results);
-
-		Collections.sort(results, new Comparator<TimeBlockHistory>() {
-			@Override
-			public int compare(TimeBlockHistory timeBlockHistory1, TimeBlockHistory timeBlockHistory2) {
-				return timeBlockHistory1.getTkTimeBlockHistoryId().compareTo(timeBlockHistory2.getTkTimeBlockHistoryId());
-			}
-		});
-
-		return results;
-	}
-
-	private List<TimeBlockHistory> filterByDocumentStatus(List<TimeBlockHistory> timeBlockHistories, String documentStatus) {
-		List<TimeBlockHistory> results = new ArrayList<TimeBlockHistory>();
-
-		if (StringUtils.isNotEmpty(documentStatus)) {
-			for (TimeBlockHistory timeBlockHistory : timeBlockHistories) {
-				if (timeBlockHistory.getTimesheetDocumentHeader() != null) {
-					if (timeBlockHistory.getTimesheetDocumentHeader().getDocumentStatus() != null) {
-						if (timeBlockHistory.getTimesheetDocumentHeader().getDocumentStatus().equals(documentStatus)) {
-							results.add(timeBlockHistory);
-						}
-					}
-				}
-			}
-		} else {
-			results.addAll(timeBlockHistories);
-		}
-
-		return results;
-	}
-
-	private List<TimeBlockHistory> filterByBeginDate(List<TimeBlockHistory> timeBlockHistories, String beginDate) {
-		List<TimeBlockHistory> results = new ArrayList<TimeBlockHistory>();
-
-		if (StringUtils.isNotEmpty(beginDate)) {
-			for (TimeBlockHistory timeBlockHistory : timeBlockHistories) {
-				if (timeBlockHistory.getBeginDate() != null) {
-					if (TKUtils.isDateEqualOrBetween(timeBlockHistory.getBeginDateTime(), beginDate)) {
-						results.add(timeBlockHistory);
-					}
-				}
-			}
-		} else {
-			results.addAll(timeBlockHistories);
-		}
 
 		return results;
 	}

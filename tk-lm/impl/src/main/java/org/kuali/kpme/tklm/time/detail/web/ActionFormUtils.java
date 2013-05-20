@@ -217,8 +217,9 @@ public class ActionFormUtils {
 
             timeBlockMap.put("documentId", timeBlock.getDocumentId());
             timeBlockMap.put("title", workAreaDesc);
+            EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), timeBlock.getBeginDateTime().toLocalDate());
             timeBlockMap.put("earnCode", timeBlock.getEarnCode());
-            timeBlockMap.put("earnCodeDesc", HrServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), LocalDate.now()).getDescription());
+            timeBlockMap.put("earnCodeDesc", ec != null ? ec.getDescription() : StringUtils.EMPTY);
             //TODO: need to cache this or pre-load it when the app boots up
             // EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), timeBlock.getBeginDateTime().toLocalDate());
             timeBlockMap.put("earnCodeType", timeBlock.getEarnCodeType());

@@ -44,6 +44,9 @@ import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class TKUtils {
 
@@ -496,5 +499,31 @@ public class TKUtils {
 
 		 return valid;
 	 }
+	 
+	/*
+	 * Cleans a numerical input so that it can be successfully used with lookups
+	 */
+	public static BigDecimal cleanNumeric( String value ) {
+		String cleanedValue = value.replaceAll( "[^-0-9.]", "" );
+		// ensure only one "minus" at the beginning, if any
+		if ( cleanedValue.lastIndexOf( '-' ) > 0 ) {
+			if ( cleanedValue.charAt( 0 ) == '-' ) {
+				cleanedValue = "-" + cleanedValue.replaceAll( "-", "" );
+			} else {
+				cleanedValue = cleanedValue.replaceAll( "-", "" );
+			}
+		}
+		// ensure only one decimal in the string
+		int decimalLoc = cleanedValue.lastIndexOf( '.' );
+		if ( cleanedValue.indexOf( '.' ) != decimalLoc ) {
+			cleanedValue = cleanedValue.substring( 0, decimalLoc ).replaceAll( "\\.", "" ) + cleanedValue.substring( decimalLoc );
+		}
+		try {
+			return new BigDecimal( cleanedValue );
+		} catch ( NumberFormatException ex ) {
+			GlobalVariables.getMessageMap().putError(KRADConstants.DOCUMENT_ERRORS, RiceKeyConstants.ERROR_CUSTOM, new String[] { "Invalid Numeric Input: " + value });
+			return null;
+		}
+	}
 
 }

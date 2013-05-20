@@ -26,6 +26,8 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.utils.OjbSubQueryUtil;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
+import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -96,7 +98,7 @@ public class WorkAreaDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
 		}
 		
 		if (StringUtils.isNotBlank(workArea)) {
-			root.addLike("workArea", workArea);
+			addNumericCriteria(root, "workArea", workArea);
 		}
 		
 		if (StringUtils.isNotBlank(description)) {
@@ -145,5 +147,22 @@ public class WorkAreaDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
 		crit.addEqualTo("workArea", workArea);
 		Query query = QueryFactory.newQuery(WorkArea.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query); 
+	}
+	
+	private static void addNumericCriteria(Criteria criteria, String propertyName, String propertyValue) {
+		if (StringUtils.contains(propertyValue, SearchOperator.BETWEEN.op())) {
+			String[] rangeValues = StringUtils.split(propertyValue, SearchOperator.BETWEEN.op());
+			criteria.addBetween(propertyName, TKUtils.cleanNumeric(rangeValues[0]), TKUtils.cleanNumeric( rangeValues[1] ));
+		} else if (propertyValue.startsWith(SearchOperator.GREATER_THAN_EQUAL.op())) {
+			criteria.addGreaterOrEqualThan(propertyName, TKUtils.cleanNumeric(propertyValue));
+		} else if (propertyValue.startsWith(SearchOperator.LESS_THAN_EQUAL.op())) {
+			criteria.addLessOrEqualThan(propertyName, TKUtils.cleanNumeric(propertyValue));
+		} else if (propertyValue.startsWith(SearchOperator.GREATER_THAN.op())) {
+			criteria.addGreaterThan(propertyName, TKUtils.cleanNumeric( propertyValue ) );
+		} else if (propertyValue.startsWith(SearchOperator.LESS_THAN.op())) {
+			criteria.addLessThan(propertyName, TKUtils.cleanNumeric(propertyValue));
+		} else {
+			criteria.addEqualTo(propertyName, TKUtils.cleanNumeric(propertyValue));
+		}
 	}
 }

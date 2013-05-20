@@ -36,5 +36,6 @@
 	
 	<include file="src/main/config/db/db.changelog-1.5.0.xml" />
 	<include file="src/main/config/db/db.changelog-1.5.1.xml" />
+	<include file="src/main/config/db/db.changelog-1.5.2.xml" />
     
 </databaseChangeLog>

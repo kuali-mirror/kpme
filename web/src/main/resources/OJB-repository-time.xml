@@ -65,7 +65,7 @@
             <inverse-foreignkey field-ref="tkTimeBlockId" />
         </collection-descriptor>
 
-        <collection-descriptor name="timeBlockHistories" element-class-ref="org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory" auto-retrieve="true" auto-update="false">
+        <collection-descriptor name="timeBlockHistories" element-class-ref="org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory" auto-retrieve="false" proxy="true" auto-update="false">
             <inverse-foreignkey field-ref="tkTimeBlockId" />
         </collection-descriptor>
     </class-descriptor>
@@ -94,7 +94,15 @@
         <field-descriptor name="modifiedByPrincipalId"  column="MODIFIED_BY_PRINCIPAL_ID"   jdbc-type="VARCHAR"     nullable="false" primarykey="false" />
         <field-descriptor name="timestampModified"      column="TIMESTAMP_MODIFIED"         jdbc-type="TIMESTAMP"   nullable="false" primarykey="false" />
         
-        <collection-descriptor name="timeBlockHistoryDetails" element-class-ref="org.kuali.kpme.tklm.time.timeblock.TimeBlockHistoryDetail" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <reference-descriptor name="timeBlock" class-ref="org.kuali.kpme.tklm.time.timeblock.TimeBlock" auto-retrieve="false" auto-update="false" proxy="true" >
+            <foreignkey field-ref="tkTimeBlockId" />
+        </reference-descriptor>
+
+        <reference-descriptor name="timesheetDocumentHeader" class-ref="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader" auto-retrieve="false" auto-update="false" proxy="true" >
+            <foreignkey field-ref="documentId" />
+        </reference-descriptor>
+
+        <collection-descriptor name="timeBlockHistoryDetails" element-class-ref="org.kuali.kpme.tklm.time.timeblock.TimeBlockHistoryDetail" auto-retrieve="false" proxy="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="tkTimeBlockHistoryId" />
         </collection-descriptor>
     </class-descriptor>

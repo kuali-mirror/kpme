@@ -103,7 +103,7 @@
     <!-- Attribute Definitions -->
     <bean id="TimeBlockHistory-tkTimeBlockId" parent="TimeBlockHistory-tkTimeBlockId-parentBean"/>
     <bean id="TimeBlockHistory-tkTimeBlockId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="shortLabel" value="Time Block History Id"/>
+        <property name="shortLabel" value="Time Block Id"/>
         <property name="maxLength" value="60"/>
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
@@ -114,7 +114,7 @@
 			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
         <property name="name" value="tkTimeBlockId"/>
-        <property name="label" value="Time Block History Id"/>
+        <property name="label" value="Time Block Id"/>
     </bean>
 
     <bean id="TimeBlockHistory-documentId" parent="TimeBlockHistory-documentId-parentBean"/>
@@ -234,15 +234,15 @@
     <bean id="TimeBlockHistory-timestamp" parent="TimeBlockHistory-timestamp-parentBean"/>
     <bean id="TimeBlockHistory-timestamp-parentBean" abstract="true"
           parent="AttributeDefinition">
-        <property name="shortLabel" value="Timestamp"/>
+        <property name="shortLabel" value="Modified Time"/>
         <property name="maxLength" value="15"/>
         <property name="control">
-            <bean parent="LookupReadonlyControlDefinition" p:size="15"/>
+            <bean parent="TextControlDefinition" p:size="15" p:datePicker="true" />
         </property>
         <property name="formatterClass"
                   value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
         <property name="name" value="timestamp"/>
-        <property name="label" value="Time Stamp"/>
+        <property name="label" value="Modified Time"/>
     </bean>
 
     <bean id="TimeBlockHistory-clockLogCreated" parent="TimeBlockHistory-clockLogCreated-parentBean"/>
@@ -365,8 +365,9 @@
                         <list>
                             <bean parent="FieldDefinition" p:attributeName="tkTimeBlockId"/>
                             <bean parent="FieldDefinition" p:attributeName="documentId"/>
-                            <bean parent="FieldDefinition" p:attributeName="jobNumber"/>
+                            <bean parent="FieldDefinition" p:attributeName="principalId"/>
                             <bean parent="FieldDefinition" p:attributeName="workArea"/>
+                            <bean parent="FieldDefinition" p:attributeName="jobNumber"/>
                             <bean parent="FieldDefinition" p:attributeName="earnCode"/>
                             <bean parent="FieldDefinition" p:attributeName="beginTimestamp"/>
                             <bean parent="FieldDefinition" p:attributeName="endTimestamp"/>
@@ -397,10 +398,10 @@
             <bean parent="SortDefinition">
                 <property name="attributeNames">
                     <list>
-                        <value>timestamp</value>
+                        <value>tkTimeBlockId</value>
                     </list>
                 </property>
-                <property name="sortAscending" value="false"/>
+                <property name="sortAscending" value="true"/>
             </bean>
         </property>
         <property name="lookupableID" value="timeBlockHistoryLookupable"/>
@@ -411,15 +412,17 @@
                 <bean parent="FieldDefinition" p:attributeName="userPrincipalId"/>
                 <bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.documentStatus" />
                 <bean parent="FieldDefinition" p:attributeName="beginDate"/>
+                <bean parent="FieldDefinition" p:attributeName="timestamp"/>
             </list>
         </property>
         <property name="resultFields">
             <list>
-                 <bean parent="FieldDefinition" p:attributeName="tkTimeBlockId"/>
                  <bean parent="FieldDefinition" p:attributeName="documentId" p:noInquiry="true"/>
-                 <bean parent="FieldDefinition" p:attributeName="jobNumber"/>
+                 <bean parent="FieldDefinition" p:attributeName="principalId"/>
+                 <bean parent="FieldDefinition" p:attributeName="tkTimeBlockId"/>
                  <bean parent="FieldDefinition" p:attributeName="workArea"/>
                  <bean parent="FieldDefinition" p:attributeName="task"/>
+                 <bean parent="FieldDefinition" p:attributeName="jobNumber"/>
                  <bean parent="FieldDefinition" p:attributeName="earnCode"/>
                  <bean parent="FieldDefinition" p:attributeName="beginTimestamp"/>
                  <bean parent="FieldDefinition" p:attributeName="endTimestamp"/>
@@ -428,7 +431,6 @@
                  <bean parent="FieldDefinition" p:attributeName="clockLogCreated"/>
                  <bean parent="FieldDefinition" p:attributeName="actionHistory"/>
                  <bean parent="FieldDefinition" p:attributeName="userPrincipalId"/>
-                 <bean parent="FieldDefinition" p:attributeName="principalId"/>
                  <bean parent="FieldDefinition" p:attributeName="timestamp"/>
             </list>
         </property>
