@@ -36,7 +36,7 @@
     <param name="rice.server.url">${application.url}</param>
 
     <!-- Filter Override -->
-    <param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter</param>
+    <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
     <param name="filtermapping.login.1">/*</param>
     
 	<!-- Rice Run Modes -->
