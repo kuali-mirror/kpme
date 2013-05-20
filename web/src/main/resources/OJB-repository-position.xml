@@ -258,10 +258,7 @@
         <field-descriptor name="qualifier"    						column="QUALIFIER"             	 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
         <field-descriptor name="qualificationValue"    				column="QLFCTN_VL"             	 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="pmPositionClassId"   				column="PM_PSTN_CL_ID"    		jdbc-type="VARCHAR"     length="60"  		nullable="false" />
-<!--         <field-descriptor name="displayOrder"   					column="DSPLY_ORDER"    		jdbc-type="VARCHAR"     length="2" 			nullable="false" /> -->
-<!--         <field-descriptor name="effectiveDate" 						column="EFFDT"             		jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" /> -->
         <field-descriptor name="timestamp"     						column="TIMESTAMP"          	jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.tklm.common.TkTimestampConverter" />
-<!--         <field-descriptor name="active"         					column="ACTIVE"             	jdbc-type="VARCHAR"     length="1" nullable="false"    conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" /> -->
         <field-descriptor name="objectId"      						column="OBJ_ID"             	jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber" 						column="VER_NBR"            	jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
@@ -283,6 +280,34 @@
         <field-descriptor name="category"    				column="CATEGORY"           jdbc-type="VARCHAR"     length="20" 		nullable="false" />
         <field-descriptor name="names"    					column="NAMES"      		jdbc-type="VARCHAR"     length="100" 		nullable="false" />
         <field-descriptor name="pmPositionClassId"   		column="PM_PSTN_CL_ID"    	jdbc-type="VARCHAR"     length="60"  		nullable="false" />
+		<field-descriptor name="objectId"      				column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber" 				column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
+
+    <!-- Position Department Affliation-->
+    <!-- Business Keys - [positionDeptAfflType : effectiveDate : timestamp] -->
+    <class-descriptor class="org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation" table="PM_PSTN_DEPT_AFFL_T">
+        <field-descriptor name="pmPositionDeptAfflId"   column="PM_PSTN_DEPT_AFFL_ID"  	jdbc-type="VARCHAR"     length="60" 	  primarykey="true" autoincrement="true" sequence-name="PM_PSTN_DEPT_AFFL_S" />
+        <field-descriptor name="positionDeptAfflType"   column="PSTN_DEPT_AFFL_TYP"		jdbc-type="VARCHAR"     length="60" 	  nullable="false" />
+        <field-descriptor name="active"                 column="ACTIVE"                 jdbc-type="VARCHAR"     length="1" 		  nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="primaryIndicator"       column="PRIMARY_INDICATOR"      jdbc-type="VARCHAR"     length="1" 		  nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="effectiveDate"          column="EFFDT"    		        jdbc-type="DATE"        nullable="true"	  conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false"  conversion="org.kuali.kpme.tklm.common.TkTimestampConverter" />
+        <field-descriptor name="objectId"               column="OBJ_ID"          	    jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
+
+    <!-- Position Department-->
+    <!-- Business Keys - [department : effectiveDate : timestamp] -->
+    <class-descriptor class="org.kuali.kpme.pm.positiondepartment.PositionDepartment" table="PM_PSTN_DEPT_T">
+        <field-descriptor name="pmPositionDeptId"       column="PM_PSTN_DEPT_ID"  	     jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_DEPT_S" />
+        <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
+        <field-descriptor name="campus"    				column="CAMPUS"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
+        <field-descriptor name="department"    			column="DEPT"					 jdbc-type="VARCHAR"     length="21" 		nullable="false" />
+        <field-descriptor name="positionDeptAffl"       column="PSTN_DEPT_AFFL_TYP"		 jdbc-type="VARCHAR"     length="60" 	  nullable="false" />
+        <field-descriptor name="active"              	column="ACTIVE"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="effectiveDate"      	column="EFFDT"    		 		 jdbc-type="DATE"        nullable="true"	conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"             	 jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.tklm.common.TkTimestampConverter" />
 		<field-descriptor name="objectId"      				column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber" 				column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
@@ -314,6 +339,79 @@
         <field-descriptor name="active"              	column="ACTIVE"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="effectiveDate"      	column="EFFDT"    		 		 jdbc-type="DATE"        nullable="true"	conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="timestamp"              column="TIMESTAMP"             	 jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.tklm.common.TkTimestampConverter" />
+        <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
+
+     <!-- Position Responsibilty Option -->
+    <!-- Business Keys - [name : description : effectiveDate : timestamp] -->
+    <class-descriptor class="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption" table="PSTN_RPS_OPT_T">
+        <field-descriptor name="prOptionId" 			column="PSTN_RPS_OPT_ID" 		 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PSTN_RPS_OPT_S" />
+        <field-descriptor name="prOptionName"     		column="NAME"					 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
+        <field-descriptor name="prDescription"  		column="DESCRIPTION"     		 jdbc-type="VARCHAR"     length="500"  		nullable="true" />
+        <field-descriptor name="active"              	column="ACTIVE"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="effectiveDate"      	column="EFFDT"    		 		 jdbc-type="DATE"        nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"             	 jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.tklm.common.TkTimestampConverter" />
+        <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
+
+    <!--  Position -->
+    <!-- Business Keys - [positionNumber : effectiveDate : timestamp] -->
+    <class-descriptor class="org.kuali.kpme.pm.position.Position" table="HR_POSITION_T">
+        <field-descriptor name="hrPositionId"   column="HR_POSITION_ID" jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="HR_POSITION_ID_S" />
+        <field-descriptor name="positionNumber" column="POSITION_NBR"   jdbc-type="VARCHAR"     length="20" autoincrement="true" sequence-name="HR_POSITION_S" />
+        <field-descriptor name="description"    column="DESCRIPTION"    jdbc-type="VARCHAR"     length="30" nullable="false" primarykey="false" />
+        <field-descriptor name="objectId"       column="OBJ_ID"         jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"  column="VER_NBR"        jdbc-type="BIGINT"      locking="true" />
+        <field-descriptor name="active"         column="ACTIVE"         jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="effectiveDate"  column="EFFDT"          jdbc-type="DATE"        nullable="true" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.tklm.common.TkTimestampConverter" />
+
+
+ 		<collection-descriptor name="qualificationList" element-class-ref="org.kuali.kpme.pm.position.PositionQualification">
+         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+             <inverse-foreignkey field-ref="hrPositionId" />
+         </collection-descriptor>
+<!--         <collection-descriptor name="dutyList" element-class-ref="org.kuali.kpme.pm.position.PositionDuty" -->
+<!--         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false"> -->
+<!--             <inverse-foreignkey field-ref="hrPositionId" /> -->
+<!--         </collection-descriptor>     -->
+<!--     	<collection-descriptor name="flagList" element-class-ref="org.kuali.kpme.pm.position.PstnFlag" -->
+<!--         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false"> -->
+<!--             <inverse-foreignkey field-ref="hrPositionId" /> -->
+<!--         </collection-descriptor> -->
+    </class-descriptor>
+
+    <!-- Position Qualification -->
+    <class-descriptor class="org.kuali.kpme.pm.position.PositionQualification" table="PM_PSTN_QLFCTN_T">
+        <field-descriptor name="pmQualificationId"   				column="PM_QLFCTN_ID"    		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_QLFCTN_S" />
+        <field-descriptor name="qualificationType"    				column="QLFCTN_TP"      		 jdbc-type="VARCHAR"     length="20" 		nullable="false" />
+        <field-descriptor name="qualifier"    						column="QUALIFIER"             	 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
+        <field-descriptor name="qualificationValue"    				column="QLFCTN_VL"             	 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
+        <field-descriptor name="hrPositionId"   					column="HR_PSTN_ID"    			jdbc-type="VARCHAR"     length="60"  		nullable="false" />
+        <field-descriptor name="timestamp"     						column="TIMESTAMP"          	jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.tklm.common.TkTimestampConverter" />
+        <field-descriptor name="objectId"      						column="OBJ_ID"             	jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber" 						column="VER_NBR"            	jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
+
+    !-- Position Duty -->
+    <class-descriptor class="org.kuali.kpme.pm.position.PositionDuty" table="PM_PSTN_DUTY_T">
+        <field-descriptor name="pmDutyId"   				column="PM_DUTY_ID"    		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_DUTY_S" />
+        <field-descriptor name="name"    					column="NAME"      			jdbc-type="VARCHAR"     length="20" 		nullable="false" />
+        <field-descriptor name="description"    			column="DESCR"             	jdbc-type="VARCHAR"     length="300" 		nullable="false" />
+        <field-descriptor name="percentage"      			column="PRCTG"         		jdbc-type="DECIMAL"     length="10" 		nullable="true" />
+        <field-descriptor name="hrPositionId"   			column="HR_PSTN_ID"    		jdbc-type="VARCHAR"     length="60"  		nullable="false" />
+    	<field-descriptor name="objectId"      				column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber" 				column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
+
+    <!-- Position  Flag -->
+    <class-descriptor class="org.kuali.kpme.pm.position.PstnFlag" table="PM_PSTN_FLAG_T">
+        <field-descriptor name="pmFlagId"   				column="PM_FLAG_ID"    		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_FLAG_S" />
+        <field-descriptor name="category"    				column="CATEGORY"           jdbc-type="VARCHAR"     length="20" 		nullable="false" />
+        <field-descriptor name="names"    					column="NAMES"      		jdbc-type="VARCHAR"     length="100" 		nullable="false" />
+        <field-descriptor name="hrPositionId"   			column="HR_PSTN_ID"    		jdbc-type="VARCHAR"     length="60"  		nullable="false" />
         <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>

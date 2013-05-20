@@ -18,14 +18,14 @@ package org.kuali.kpme.core.bo.position.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.bo.position.Position;
+import org.kuali.kpme.core.bo.position.PositionBase;
 
 public interface PositionDao {
-	public Position getPosition(String hrPositionId);
-    public Position getPosition(String positionNumber, LocalDate effectiveDate);
+	public PositionBase getPosition(String hrPositionId);
+    public PositionBase getPosition(String positionNumber, LocalDate effectiveDate);
     //public PositionNumber getNextUniquePositionNumber();
 
     //void saveOrUpdate(PositionNumber positionNumber);
 
-    public List<Position> getPositions(String positionNum, String description, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+    public List<PositionBase> getPositions(String positionNum, String description, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 }

@@ -84,27 +84,5 @@
 	    <property name="label" value="Position Class Id"/>
 	</bean> 
 	
-<!--*************************************************************************** 
-							Views
-***************************************************************************-->  	
-
-<!--  Position Classification Duty Maintenance View -->
-  <bean id="ClassFlag-MaintenanceView" parent="ClassFlag-MaintenanceView-parentBean"/>
-  <bean id="ClassFlag-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
-    <property name="headerText" value="Position Classification Flag Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.ClassificationFlag"/>
-    <property name="items">
-      <list merge="true">
-        <bean parent="Uif-MaintenanceGridSection">
-          <property name="items">
-            <list>
-		        <bean parent="Uif-InputField" p:propertyName="category" />
-		        <bean parent="Uif-InputField" p:propertyName="names" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean> 
 
 </beans>

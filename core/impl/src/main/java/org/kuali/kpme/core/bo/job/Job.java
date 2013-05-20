@@ -24,7 +24,7 @@ import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.bo.location.Location;
 import org.kuali.kpme.core.bo.paygrade.PayGrade;
 import org.kuali.kpme.core.bo.paytype.PayType;
-import org.kuali.kpme.core.bo.position.Position;
+import org.kuali.kpme.core.bo.position.PositionBase;
 import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -70,7 +70,7 @@ public class Job extends HrBusinessObject {
 	private transient Location locationObj;
     private transient PayGrade payGradeObj;
     private transient SalaryGroup salaryGroupObj;
-    private transient Position positionObj;
+    private transient PositionBase positionObj;
     
     private BigDecimal fte = new BigDecimal(0); //kpme1465, chen
     private String flsaStatus;
@@ -301,11 +301,11 @@ public class Job extends HrBusinessObject {
 		return positionNumber;
 	}
 
-	public void setPositionObj(Position positionObj) {
+	public void setPositionObj(PositionBase positionObj) {
 		this.positionObj = positionObj;
 	}
 
-	public Position getPositionObj() {
+	public PositionBase getPositionObj() {
 		return positionObj;
 	}
 

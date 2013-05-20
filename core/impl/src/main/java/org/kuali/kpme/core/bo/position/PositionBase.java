@@ -15,12 +15,15 @@
  */
 package org.kuali.kpme.core.bo.position;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 
 import com.google.common.collect.ImmutableList;
 
-public class Position extends HrBusinessObject {
+public class PositionBase extends HrBusinessObject {
 
 	private static final long serialVersionUID = -3258249005786874634L;
 	//KPME-2273/1965 Primary Business Keys List.	
@@ -35,6 +38,7 @@ public class Position extends HrBusinessObject {
 	private String description;
 	private String history;
 	
+
 	@Override
 	public String getId() {
 		return getHrPositionId();
@@ -81,5 +85,5 @@ public class Position extends HrBusinessObject {
 	public void setHistory(String history) {
 		this.history = history;
 	}
-	
+
 }

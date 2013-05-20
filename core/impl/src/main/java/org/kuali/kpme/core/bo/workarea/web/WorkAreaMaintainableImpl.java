@@ -25,7 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
-import org.kuali.kpme.core.bo.position.Position;
+import org.kuali.kpme.core.bo.position.PositionBase;
 import org.kuali.kpme.core.bo.task.Task;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
@@ -143,7 +143,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         	PositionRoleMemberBo roleMember = (PositionRoleMemberBo) newCollectionLines.get(collectionName);
             if (roleMember != null) {
             	if (!StringUtils.isEmpty(roleMember.getPositionNumber())) {
-            		Position position = HrServiceLocator.getPositionService().getPosition(roleMember.getPositionNumber(), workArea.getEffectiveLocalDate());
+            		PositionBase position = HrServiceLocator.getPositionService().getPosition(roleMember.getPositionNumber(), workArea.getEffectiveLocalDate());
             		if (position == null) {
             			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"positionRoleMembers", 
                 				"error.role.positionNumber.notexist", roleMember.getPositionNumber());

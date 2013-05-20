@@ -22,7 +22,7 @@ import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.department.Department;
 import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
 import org.kuali.kpme.core.bo.paygrade.PayGrade;
-import org.kuali.kpme.core.bo.position.Position;
+import org.kuali.kpme.core.bo.position.PositionBase;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.bo.task.Task;
@@ -77,7 +77,7 @@ public class KpmeModuleService extends ModuleServiceBase {
             keyList.add("effectiveDate");
             retList.add(keyList);
             return retList;
-        } else if (Position.class.isAssignableFrom(businessObjectInterfaceClass)) {
+        } else if (PositionBase.class.isAssignableFrom(businessObjectInterfaceClass)) {
             List<List<String>> retList = new ArrayList<List<String>>();
             List<String> keyList = new ArrayList<String>();
             keyList.add("positionNumber");

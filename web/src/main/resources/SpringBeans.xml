@@ -113,6 +113,8 @@
                 <value>org/kuali/hr/tklm/datadictionary</value>
                 <value>org/kuali/hr/pm/datadictionary</value>
                 <value>org/kuali/kfs/coa/datadictionary</value>
+                <!-- DummyLogin, will need in rice 2.3M3 -->
+                <!--<value>classpath:/org/kuali/rice/krad/login/DummyLoginView.xml</value>-->
             </list>
         </property>
     </bean>

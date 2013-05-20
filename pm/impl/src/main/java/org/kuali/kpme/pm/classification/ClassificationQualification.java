@@ -18,10 +18,11 @@ package org.kuali.kpme.pm.classification;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
-public class ClassificationQualification extends HrBusinessObject {
+public class ClassificationQualification extends PersistableBusinessObjectBase {
 	private static final long serialVersionUID = 1L;
 	
 	private String pmClassificationQualificationId;
@@ -31,22 +32,7 @@ public class ClassificationQualification extends HrBusinessObject {
 	private String qualificationValue;
 	private String pmPositionClassId;
 	private String displayOrder;
-	
-	@Override
-	public String getId() {
-		return this.getPmClassificationQualificationId();
-	}
-
-	@Override
-	public void setId(String id) {
-		this.setPmClassificationQualificationId(id);
-	}
-
-	@Override
-	protected String getUniqueKey() {
-		return this.getQualificationType() + "_" + this.getQualificationValue() + "_" + this.getPmPositionClassId();
-	}
-	
+		
 	public String getQualificationType() {
 		return qualificationType;
 	}

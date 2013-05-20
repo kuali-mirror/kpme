@@ -18,15 +18,15 @@ package org.kuali.kpme.core.bo.position.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.bo.position.Position;
+import org.kuali.kpme.core.bo.position.PositionBase;
 import org.springframework.cache.annotation.Cacheable;
 
 public interface PositionService {
-    @Cacheable(value= Position.CACHE_NAME, key="'hrPositionId=' + #p0")
-	public Position getPosition(String hrPositionId);
+    @Cacheable(value= PositionBase.CACHE_NAME, key="'hrPositionId=' + #p0")
+	public PositionBase getPosition(String hrPositionId);
 
-    @Cacheable(value= Position.CACHE_NAME, key="'hrPositionNbr=' + #p0  + '|' + 'effectiveDate=' + #p1")
-    public Position getPosition(String hrPositionNbr, LocalDate effectiveDate);
+    @Cacheable(value= PositionBase.CACHE_NAME, key="'hrPositionNbr=' + #p0  + '|' + 'effectiveDate=' + #p1")
+    public PositionBase getPosition(String hrPositionNbr, LocalDate effectiveDate);
     
-    List<Position> getPositions(String positionNum, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
+    List<PositionBase> getPositions(String positionNum, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }

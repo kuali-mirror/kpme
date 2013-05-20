@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<bean id="PositionResponsibilityOption" parent="PositionResponsibilityOption-parentBean"/>
+ 	<bean id="PositionResponsibilityOption-parentBean" abstract="true" parent="BusinessObjectEntry">
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption"/>
+	    <property name="attributes">
+	      <list>
+	        <ref bean="PositionResponsibilityOption-prOptionId"/>
+	        <ref bean="PositionResponsibilityOption-effectiveDate"/>
+	        <ref bean="PositionResponsibilityOption-prOptionName"/>
+	        <ref bean="PositionResponsibilityOption-prDescription"/>
+	        <ref bean="PositionResponsibilityOption-active"/>
+		 </list>
+	    </property>
+	    <property name="objectLabel" value="Position Responsibility Option"/>
+  	</bean>
+
+<!-- Attribute Definitions -->  
+	 <bean id="PositionResponsibilityOption-prOptionId" parent="PositionResponsibilityOption-prOptionId-parentBean"/>
+	 <bean id="PositionResponsibilityOption-prOptionId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="required" value="false" />
+	    <property name="forceUppercase" value="false"/>
+	    <property name="shortLabel" value="id"/>
+	    <property name="controlField">
+	      <bean parent="Uif-TextControl" p:size="100"/>
+	    </property>
+
+	    <property name="name" value="prOptionId"/>
+	    <property name="label" value="Position Responsibility Option Id"/>
+	 </bean>   
+	 
+	<bean id="PositionResponsibilityOption-effectiveDate" parent="PositionResponsibilityOption-effectiveDate-parentBean" />
+	<bean id="PositionResponsibilityOption-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Effective Date" />
+		<property name="controlField">
+			<bean parent="Uif-DateControl" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+	
+	<bean id="PositionResponsibilityOption-prOptionName" parent="PositionResponsibilityOption-prOptionName-parentBean" />
+	<bean id="PositionResponsibilityOption-prOptionName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Category" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
+		<property name="name" value="prOptionName" />
+		<property name="label" value="Name" />
+		<property name="description" value="Position Responsibility Option Name" />
+	</bean>	
+
+	<bean id="PositionResponsibilityOption-prDescription" parent="PositionResponsibilityOption-prDescription-parentBean" />
+	<bean id="PositionResponsibilityOption-prDescription-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="yes" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="100" />
+		</property>
+		<property name="name" value="prDescription" />
+		<property name="label" value="Description" />
+		<property name="description" value="Position Responsibility Description Name" />
+	</bean>
+
+    <bean id="PositionResponsibilityOption-active" parent="PositionResponsibilityOption-active-parentBean"/>
+ 	<bean id="PositionResponsibilityOption-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
+   		<property name="name" value="active"/>
+  	</bean>  
+
+<!--*************************************************************************** 
+							Views
+ ***************************************************************************-->  	
+  	
+  <!-- Position Responsibility Option Lookup View -->
+ 
+  <bean id="PositionResponsibilityOption-LookupView" parent="Uif-LookupView">
+    <property name="headerText" value="Position Responsibility Option Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption" />
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="prOptionName" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="prDescription" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+     	<bean parent="Uif-DataField" p:propertyName="prOptionName">
+        	<property name="inquiry">
+      			 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption" 
+       			 	p:inquiryParameters="prOptionId:prOptionId"/>
+  			</property>
+        </bean>
+       	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-DataField" p:propertyName="prDescription" />
+        
+        <bean parent="Uif-DataField" p:propertyName="active"/>
+      </list>
+    </property>
+  </bean> 
+ 
+ <!-- Position Responsibility Option Inquiry View -->
+ 
+  <bean id="PositionResponsibilityOption-InquiryView" parent="Uif-InquiryView">
+    <property name="headerText" value="Position Responsibility Option Inquiry"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption"/>
+    <property name="singlePageView" value="true"/>
+    <property name="items">
+      <list>
+  			<bean parent="Uif-Disclosure-GridSection">
+		      <property name="layoutManager.numberOfColumns" value="2"/>
+		      <property name="items">
+	       	 	<list>
+	       	 		
+	        			
+		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+			       	<bean parent="Uif-DataField" p:propertyName="prOptionName" />
+			       	<bean parent="Uif-DataField" p:propertyName="prDescription" />
+			        <bean parent="Uif-DataField" p:propertyName="active"/>
+	        	</list>
+	     	 </property>
+	     	 <property name="title" value="Position Responsibility Option Inquiry"/>
+	   	   </bean>
+      </list>
+    </property>
+  </bean> 
+  
+<!--  Position Responsibility Option Maintenance View -->
+  <bean id="PositionResponsibilityOption-MaintenanceView" parent="PositionResponsibilityOption-MaintenanceView-parentBean"/>
+  <bean id="PositionResponsibilityOption-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+    <property name="headerText" value="Position Responsibility Option Maintenance"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption"/>
+    <property name="items">
+      <list merge="true">
+        <bean parent="Uif-MaintenanceGridSection">
+          <property name="items">
+            <list>
+	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+		       	<bean parent="Uif-InputField" p:propertyName="prOptionName" />
+        		<bean parent="Uif-InputField" p:propertyName="prDescription" />
+		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean> 
+</beans>

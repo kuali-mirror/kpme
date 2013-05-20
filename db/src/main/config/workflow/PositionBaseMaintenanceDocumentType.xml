@@ -22,9 +22,9 @@
     <documentTypes xmlns="ns:workflow/DocumentType"
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     	<documentType>
-    		<name>PositionMaintenanceDocumentType</name>
+    		<name>PositionBaseMaintenanceDocumentType</name>
     		<parent>RiceDocument</parent>
-    		<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.kpme.pm.position.Position</docHandler>
+    		<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.kpme.core.bo.position.PositionBase</docHandler>
     		<label>Position Document</label>
     	</documentType>    
      </documentTypes>

@@ -32,7 +32,6 @@
 	        <ref bean="PositionClassQualification-qualifier"/>
 	        <ref bean="PositionClassQualification-qualificationValue"/>
 	        <ref bean="PositionClassQualification-pmPositionClassId"/>
-	        <ref bean="PositionClassQualification-displayOrder"/>
 	      </list>
 	    </property>
 	    <property name="objectLabel" value="Position Classification Qualification"/>
@@ -114,40 +113,5 @@
 	    <property name="name" value="pmPositionClassId"/>
 	    <property name="label" value="Position Class Id"/>
 	</bean> 
-	
-	<bean id="PositionClassQualification-displayOrder" parent="PositionClassQualification-displayOrder-parentBean" />
-	<bean id="PositionClassQualification-displayOrder-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="required" value="false" />
-		<property name="maxLength" value="2"/>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="2" />
-		</property>
-		<property name="name" value="displayOrder" />
-		<property name="label" value="Display Order" />
-		<property name="description" value="Display Order" />
-	</bean>	
-	
-<!--*************************************************************************** 
-							Views
- ***************************************************************************-->  	
 
-<!--  Position Class Qualification Maintenance View -->
-  <bean id="PositionClassQualification-MaintenanceView" parent="PositionClassQualification-MaintenanceView-parentBean"/>
-  <bean id="PositionClassQualification-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
-    <property name="headerText" value="Position Classification Qualification Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.ClassificationQualification"/>
-    <property name="items">
-      <list merge="true">
-        <bean parent="Uif-MaintenanceGridSection">
-          <property name="items">
-            <list>
-		        <bean parent="Uif-InputField" p:propertyName="qualificationType" />
-		        <bean parent="Uif-InputField" p:propertyName="qualifier" />
-		        <bean parent="Uif-InputField" p:propertyName="qualificationValue" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean> 
 </beans>

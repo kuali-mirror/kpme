@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.core.bo.position.validation;
 
-import org.kuali.kpme.core.bo.position.Position;
+import org.kuali.kpme.core.bo.position.PositionBase;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
@@ -26,7 +26,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Position");
 		
-		Position position = (Position)this.getNewDataObject();
+		PositionBase position = (PositionBase)this.getNewDataObject();
 
 		if (position != null) {
 			valid = true;

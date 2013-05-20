@@ -25,9 +25,9 @@
                            http://rice.kuali.org/dd
                            http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PositionMaintenanceDocument" parent="PositionMaintenanceDocument-parentBean"/>
-  <bean id="PositionMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
-  		p:dataObjectClass="org.kuali.kpme.core.bo.position.Position"
+  <bean id="PositionBaseMaintenanceDocument" parent="PositionBaseMaintenanceDocument-parentBean"/>
+  <bean id="PositionBaseMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
+  		p:dataObjectClass="org.kuali.kpme.core.bo.position.PositionBase"
   		p:businessRulesClass="org.kuali.kpme.core.bo.position.validation.PositionValidation"
   		p:maintainableClass="org.kuali.kpme.core.bo.position.web.PositionMaintainableServiceImpl"
   		p:documentAuthorizerClass="org.kuali.kpme.core.bo.position.authorization.PositionAuthorizer">
@@ -36,7 +36,7 @@
             <value>positionNumber</value>
         </list>
     </property>
-    <property name="documentTypeName" value="PositionMaintenanceDocumentType"/>
+    <property name="documentTypeName" value="PositionBaseMaintenanceDocumentType"/>
     
     <!-- 05.02.2013 This is a kns property, which will be supported in rice 2.3 -->
     <!-- We will need to find a work around before KPME release in August
@@ -47,22 +47,20 @@
 
   <!-- Maintenance Section Definitions -->
 
-  <bean id="PositionMaintenanceDocument-MaintenanceView" parent="PositionMaintenanceDocument-PositionMaintenance-parentBean"/>
-  <bean id="PositionMaintenanceDocument-PositionMaintenance-parentBean" abstract="true" parent="Uif-MaintenanceView">
+  <bean id="PositionBaseMaintenanceDocument-MaintenanceView" parent="PositionBaseMaintenanceDocument-PositionBaseMaintenance-parentBean"/>
+  <bean id="PositionBaseMaintenanceDocument-PositionBaseMaintenance-parentBean" abstract="true" parent="Uif-MaintenanceView">
     <property name="headerText" value="Position Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.bo.position.Position"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.bo.position.PositionBase"/>
     <property name="items">
-      <list>
-        <bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:unconditionallyReadOnly="true" p:required="false"/>
-        <!--<bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kpme.core.bo.kfs.sys.businessobject.defaultvalue.NextUniquePositionNumberFinder"/>-->
+      <list merge="true">
         <bean parent="Uif-MaintenanceGridSection">
         	<property name="items">
             	<list>
-			        <bean parent="Uif-InputField" p:propertyName="positionNumber" p:readOnly="true" p:required="false"/>
-			        <!--<bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.NextUniquePositionNumberFinder"/>-->
-			        <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
-			        <bean parent="Uif-InputField" p:propertyName="description" p:required="true"/>
-			        <bean parent="Uif-InputField" p:propertyName="active" p:required="true"/>
+                    <bean parent="Uif-InputField" p:propertyName="positionNumber" p:readOnly="true" p:required="false"/>
+                    <!--<bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.NextUniquePositionNumberFinder"/>-->
+                    <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
+                    <bean parent="Uif-InputField" p:propertyName="description" p:required="true"/>
+                    <bean parent="Uif-InputField" p:propertyName="active" p:required="true"/>
 			    </list>
 			</property>
 	    </bean>

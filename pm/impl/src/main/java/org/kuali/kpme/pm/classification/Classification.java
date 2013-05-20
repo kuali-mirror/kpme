@@ -22,10 +22,17 @@ import java.util.List;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
+import com.google.common.collect.ImmutableList;
+
 public class Classification extends HrBusinessObject {
 
 	private static final long serialVersionUID = 1L;
-
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+											    .add("positionClass")
+											    .add("classificationTitle")
+											    .add("institution")
+											    .add("campus")
+											    .build();
 	private String pmPositionClassId;
 	private String positionClass;
 	private String classificationTitle;

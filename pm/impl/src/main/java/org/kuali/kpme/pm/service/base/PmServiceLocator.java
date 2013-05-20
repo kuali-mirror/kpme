@@ -18,6 +18,7 @@ package org.kuali.kpme.pm.service.base;
 import org.kuali.kpme.pm.classification.service.ClassificationService;
 import org.kuali.kpme.core.bo.institution.service.InstitutionService;
 import org.kuali.kpme.core.bo.paystep.service.PayStepService;
+import org.kuali.kpme.pm.positionResponsibilityOption.service.PositionResponsibilityOptionService;
 import org.kuali.kpme.pm.positionappointment.service.PositionAppointmentService;
 import org.kuali.kpme.pm.positiondepartment.service.PositionDepartmentService;
 import org.kuali.kpme.pm.positiondepartmentaffiliation.service.PositionDepartmentAffiliationService;
@@ -54,6 +55,7 @@ public class PmServiceLocator implements ApplicationContextAware {
     public static final String PM_POSITION_DEPT_AFFL_SERVICE = "positionDepartmentAffiliationService";
     public static final String PM_POSITION_DEPT_SERVICE = "positionDepartmentService";
     public static final String PM_CLASSIFICATION_SERVICE = "classificationService";
+    public static final String PM_POSITION_RESPONSIBILITY_OPTION_SERVICE = "positionResponsibilityOptionService";
     
     public static PositionReportTypeService getPositionReportTypeService() {
     	return (PositionReportTypeService) CONTEXT.getBean(PM_POSITION_REPORT_TYPE_SERVICE);
@@ -109,6 +111,10 @@ public class PmServiceLocator implements ApplicationContextAware {
 	
 	public static ClassificationService getClassificationService() {
 		return (ClassificationService) CONTEXT.getBean(PM_CLASSIFICATION_SERVICE);
+	}
+	
+	public static PositionResponsibilityOptionService getPositionResponsibilityOptionService() {
+		return (PositionResponsibilityOptionService) CONTEXT.getBean(PM_POSITION_RESPONSIBILITY_OPTION_SERVICE);
 	}
 
 	@Override

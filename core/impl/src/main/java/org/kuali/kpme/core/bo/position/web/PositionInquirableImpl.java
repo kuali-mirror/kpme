@@ -17,7 +17,7 @@ package org.kuali.kpme.core.bo.position.web;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.bo.position.Position;
+import org.kuali.kpme.core.bo.position.PositionBase;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
@@ -32,7 +32,7 @@ public class PositionInquirableImpl extends KualiInquirableImpl {
 	@Override
 	@SuppressWarnings("rawtypes")
 	public BusinessObject getBusinessObject(Map fieldValues) {
-		Position position = null;
+		PositionBase position = null;
 		
 		if (StringUtils.isNotBlank((String)fieldValues.get("hrPositionId"))) {
             position = HrServiceLocator.getPositionService().getPosition((String) fieldValues.get("hrPositionId"));
@@ -44,7 +44,7 @@ public class PositionInquirableImpl extends KualiInquirableImpl {
 			
 		    position = HrServiceLocator.getPositionService().getPosition(positionNumber, effectiveDate);
 		} else {
-			position = (Position) super.getBusinessObject(fieldValues);
+			position = (PositionBase) super.getBusinessObject(fieldValues);
 		}
 
 		return position;
