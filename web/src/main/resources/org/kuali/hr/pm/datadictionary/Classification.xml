@@ -323,7 +323,7 @@
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.Classification" />
     <property name="criteriaFields">
       <list>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionClass" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="classificationTitle" />       
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
@@ -373,28 +373,28 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
-        <bean parent="Uif-InputField" p:propertyName="positionClass">
+        <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-DataField" p:propertyName="positionClass">
          	<property name="inquiry">
 	       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.classification.Classification"
 	        	 	p:inquiryParameters="pmPositionClassId:pmPositionClassId"/>
     		</property>
         </bean>
-        <bean parent="Uif-InputField" p:propertyName="classificationTitle" />
-        <bean parent="Uif-InputField" p:propertyName="institution" />
-        <bean parent="Uif-InputField" p:propertyName="campus" />
-        <bean parent="Uif-InputField" p:propertyName="salaryGroup" />
-        <bean parent="Uif-InputField" p:propertyName="percentTime" />
-        <bean parent="Uif-InputField" p:propertyName="benefitsEligible" />
-        <bean parent="Uif-InputField" p:propertyName="leaveEligible" />
-        <bean parent="Uif-InputField" p:propertyName="leavePlan" />
-        <bean parent="Uif-InputField" p:propertyName="positionReportGroup" />
-        <bean parent="Uif-InputField" p:propertyName="positionType" />
-        <bean parent="Uif-InputField" p:propertyName="poolEligible" />
-        <bean parent="Uif-InputField" p:propertyName="tenureEligible" />
+        <bean parent="Uif-DataField" p:propertyName="classificationTitle" />
+        <bean parent="Uif-DataField" p:propertyName="institution" />
+        <bean parent="Uif-DataField" p:propertyName="campus" />
+        <bean parent="Uif-DataField" p:propertyName="salaryGroup" />
+        <bean parent="Uif-DataField" p:propertyName="percentTime" />
+        <bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
+        <bean parent="Uif-DataField" p:propertyName="leaveEligible" />
+        <bean parent="Uif-DataField" p:propertyName="leavePlan" />
+        <bean parent="Uif-DataField" p:propertyName="positionReportGroup" />
+        <bean parent="Uif-DataField" p:propertyName="positionType" />
+        <bean parent="Uif-DataField" p:propertyName="poolEligible" />
+        <bean parent="Uif-DataField" p:propertyName="tenureEligible" />
  		<bean parent="Uif-LinkField" p:label="External Reference" 
  			p:href="@{#line.externalReference}" p:linkText="@{#line.externalReference}" p:target="_blank" />
-        <bean parent="Uif-InputField" p:propertyName="active"/>
+        <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
   </bean> 

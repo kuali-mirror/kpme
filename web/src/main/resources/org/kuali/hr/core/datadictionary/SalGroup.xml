@@ -217,7 +217,7 @@
     <property name="dataObjectClassName" value="org.kuali.kpme.core.bo.salarygroup.SalaryGroup" />
     <property name="criteriaFields">
       <list>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrSalGroup" />       
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 	         <property name="quickfinder">
@@ -240,20 +240,20 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
-        <bean parent="Uif-InputField" p:propertyName="hrSalGroup">
+        <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-DataField" p:propertyName="hrSalGroup">
          	<property name="inquiry">
 	       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.bo.salarygroup.SalaryGroup" 
 	        	 p:inquiryParameters="hrSalGroupId:hrSalGroupId"/>
     		</property>
         </bean>
-        <bean parent="Uif-InputField" p:propertyName="institution" />
-        <bean parent="Uif-InputField" p:propertyName="campus" />
-        <bean parent="Uif-InputField" p:propertyName="percentTime" />
-        <bean parent="Uif-InputField" p:propertyName="benefitsEligible" />
-        <bean parent="Uif-InputField" p:propertyName="leaveEligible" />
-        <bean parent="Uif-InputField" p:propertyName="leavePlan" />
-        <bean parent="Uif-InputField" p:propertyName="active"/>
+        <bean parent="Uif-DataField" p:propertyName="institution" />
+        <bean parent="Uif-DataField" p:propertyName="campus" />
+        <bean parent="Uif-DataField" p:propertyName="percentTime" />
+        <bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
+        <bean parent="Uif-DataField" p:propertyName="leaveEligible" />
+        <bean parent="Uif-DataField" p:propertyName="leavePlan" />
+        <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
   </bean> 

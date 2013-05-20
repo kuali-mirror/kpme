@@ -344,21 +344,21 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="payGrade">
+                <bean parent="Uif-DataField" p:propertyName="payGrade">
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.bo.paygrade.PayGrade"
                               p:inquiryParameters="hrPayGradeId:hrPayGradeId"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="salGroup"/>
-                <bean parent="Uif-InputField" p:propertyName="description" />
-                <bean parent="Uif-InputField" p:propertyName="minRate" />
-                <bean parent="Uif-InputField" p:propertyName="midPointRate" />
-                <bean parent="Uif-InputField" p:propertyName="maxRate" />
-                <bean parent="Uif-InputField" p:propertyName="rateType" />
-                <bean parent="Uif-InputField" p:propertyName="timestamp" />
-                <bean parent="Uif-InputField" p:propertyName="effectiveDate"/>
-                <bean parent="Uif-InputField" p:propertyName="active"/>
+                <bean parent="Uif-DataField" p:propertyName="salGroup"/>
+                <bean parent="Uif-DataField" p:propertyName="description" />
+                <bean parent="Uif-DataField" p:propertyName="minRate" />
+                <bean parent="Uif-DataField" p:propertyName="midPointRate" />
+                <bean parent="Uif-DataField" p:propertyName="maxRate" />
+                <bean parent="Uif-DataField" p:propertyName="rateType" />
+                <bean parent="Uif-DataField" p:propertyName="timestamp" />
+                <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
+                <bean parent="Uif-DataField" p:propertyName="active"/>
             </list>
         </property>
     </bean>

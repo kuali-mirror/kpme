@@ -310,12 +310,12 @@
     </property>
     <property name="resultFields">
       <list>
-      	<bean parent="Uif-InputField" p:propertyName="payStep" />
-		<bean parent="Uif-InputField" p:propertyName="institution" />
-		<bean parent="Uif-InputField" p:propertyName="campus" />
-		<bean parent="Uif-InputField" p:propertyName="salaryGroup" />
-		<bean parent="Uif-InputField" p:propertyName="payGrade" />
-		<bean parent="Uif-InputField" p:propertyName="effectiveDate"/>
+      	<bean parent="Uif-DataField" p:propertyName="payStep" />
+		<bean parent="Uif-DataField" p:propertyName="institution" />
+		<bean parent="Uif-DataField" p:propertyName="campus" />
+		<bean parent="Uif-DataField" p:propertyName="salaryGroup" />
+		<bean parent="Uif-DataField" p:propertyName="payGrade" />
+		<bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
       </list>
     </property>
   </bean>

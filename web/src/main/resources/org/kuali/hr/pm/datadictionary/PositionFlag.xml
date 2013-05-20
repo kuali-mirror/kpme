@@ -102,7 +102,7 @@
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionflag.PositionFlag" />
     <property name="criteriaFields">
       <list>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="category" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionFlagName" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
@@ -110,16 +110,16 @@
     </property>
     <property name="resultFields">
       <list>
-     	<bean parent="Uif-InputField" p:propertyName="positionFlagName">
+     	<bean parent="Uif-DataField" p:propertyName="positionFlagName">
         	<property name="inquiry">
       			 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionflag.PositionFlag" 
        			 	p:inquiryParameters="pmPositionFlagId:pmPositionFlagId"/>
   			</property>
         </bean>
-       	<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
-        <bean parent="Uif-InputField" p:propertyName="category" />
+       	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-DataField" p:propertyName="category" />
         
-        <bean parent="Uif-InputField" p:propertyName="active"/>
+        <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
   </bean> 

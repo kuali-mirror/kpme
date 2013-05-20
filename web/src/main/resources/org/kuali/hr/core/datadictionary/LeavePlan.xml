@@ -321,19 +321,19 @@
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="calendarYearStart" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="planningMonths" />
-		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y" />
       </list>
     </property>
     <property name="resultFields">
       <list>
-		<bean parent="Uif-InputField" p:propertyName="leavePlan" />
-		<bean parent="Uif-InputField" p:propertyName="calendarYearStart" />
-		<bean parent="Uif-InputField" p:propertyName="descr" />
-		<bean parent="Uif-InputField" p:propertyName="planningMonths" />
-		<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
-		<bean parent="Uif-InputField" p:propertyName="timestamp" />
-		<bean parent="Uif-InputField" p:propertyName="active" />
+		<bean parent="Uif-DataField" p:propertyName="leavePlan" />
+		<bean parent="Uif-DataField" p:propertyName="calendarYearStart" />
+		<bean parent="Uif-DataField" p:propertyName="descr" />
+		<bean parent="Uif-DataField" p:propertyName="planningMonths" />
+		<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+		<bean parent="Uif-DataField" p:propertyName="timestamp" />
+		<bean parent="Uif-DataField" p:propertyName="active" />
       </list>
     </property>
   </bean>

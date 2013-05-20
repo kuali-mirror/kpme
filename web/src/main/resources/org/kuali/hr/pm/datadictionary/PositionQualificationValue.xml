@@ -76,8 +76,8 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="Uif-InputField" p:propertyName="pmPstnQlfctnVlId" />
-        <bean parent="Uif-InputField" p:propertyName="vlName" />
+        <bean parent="Uif-DataField" p:propertyName="pmPstnQlfctnVlId" />
+        <bean parent="Uif-DataField" p:propertyName="vlName" />
       </list>
     </property>
   </bean> 

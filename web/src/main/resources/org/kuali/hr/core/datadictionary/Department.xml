@@ -339,11 +339,11 @@
 
     <property name="resultFields">
       <list>
-		<bean parent="Uif-InputField" p:propertyName="dept" />
-		<bean parent="Uif-InputField" p:propertyName="location" />
-		<bean parent="Uif-InputField" p:propertyName="description" />
-		<bean parent="Uif-InputField" p:propertyName="timestamp" />
-		<bean parent="Uif-InputField" p:propertyName="active" />
+		<bean parent="Uif-DataField" p:propertyName="dept" />
+		<bean parent="Uif-DataField" p:propertyName="location" />
+		<bean parent="Uif-DataField" p:propertyName="description" />
+		<bean parent="Uif-DataField" p:propertyName="timestamp" />
+		<bean parent="Uif-DataField" p:propertyName="active" />
       </list>
     </property>
   </bean>

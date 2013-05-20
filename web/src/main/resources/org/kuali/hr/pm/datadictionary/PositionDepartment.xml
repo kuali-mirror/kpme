@@ -158,7 +158,7 @@
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positiondepartment.PositionDepartment" />
     <property name="criteriaFields">
       <list>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 	         <property name="quickfinder">
 	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
@@ -183,18 +183,18 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
         
-        <bean parent="Uif-InputField" p:propertyName="institution" />
-        <bean parent="Uif-InputField" p:propertyName="campus" />
-       <bean parent="Uif-InputField" p:propertyName="department" >
+        <bean parent="Uif-DataField" p:propertyName="institution" />
+        <bean parent="Uif-DataField" p:propertyName="campus" />
+        <bean parent="Uif-DataField" p:propertyName="department" >
         	<property name="inquiry">
 	       		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positiondepartment.PositionDepartment"
 	        	p:inquiryParameters="pmPositionDeptId:pmPositionDeptId"/>
     		</property>
         </bean>
-        <bean parent="Uif-InputField" p:propertyName="positionDeptAffl" />
-        <bean parent="Uif-InputField" p:propertyName="active"/>
+        <bean parent="Uif-DataField" p:propertyName="positionDeptAffl" />
+        <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
   </bean> 

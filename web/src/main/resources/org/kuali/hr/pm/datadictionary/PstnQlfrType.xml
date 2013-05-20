@@ -149,7 +149,7 @@
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType" />
     <property name="criteriaFields">
       <list>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="type" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr" />
@@ -160,18 +160,18 @@
     </property>
     <property name="resultFields">
       <list>
-     	<bean parent="Uif-InputField" p:propertyName="code">
+     	<bean parent="Uif-DataField" p:propertyName="code">
         	<property name="inquiry">
       			 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType" 
        			 	p:inquiryParameters="pmPstnQlfrTypeId:pmPstnQlfrTypeId"/>
   			</property>
         </bean>
-       	<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
-        <bean parent="Uif-InputField" p:propertyName="type" />
-        <bean parent="Uif-InputField" p:propertyName="descr" />
-        <bean parent="Uif-InputField" p:propertyName="typeValue" />
-        <bean parent="Uif-InputField" p:propertyName="selectValues" />
-        <bean parent="Uif-InputField" p:propertyName="active"/>
+       	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-DataField" p:propertyName="type" />
+        <bean parent="Uif-DataField" p:propertyName="descr" />
+        <bean parent="Uif-DataField" p:propertyName="typeValue" />
+        <bean parent="Uif-DataField" p:propertyName="selectValues" />
+        <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
   </bean> 

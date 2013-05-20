@@ -222,7 +222,7 @@
 	    <property name="criteriaFields">
 	      <list>
 			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportType" />
-			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
 			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution" />
 			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
 			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
@@ -230,11 +230,11 @@
 	    </property>
 	    <property name="resultFields">
 	      <list>
-			<bean parent="Uif-InputField" p:propertyName="positionReportType" />
-			<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
-			<bean parent="Uif-InputField" p:propertyName="institution" />
-			<bean parent="Uif-InputField" p:propertyName="campus" />
-			<bean parent="Uif-InputField" p:propertyName="active" />
+			<bean parent="Uif-DataField" p:propertyName="positionReportType" />
+			<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+			<bean parent="Uif-DataField" p:propertyName="institution" />
+			<bean parent="Uif-DataField" p:propertyName="campus" />
+			<bean parent="Uif-DataField" p:propertyName="active" />
 	      </list>
 	    </property>
    </bean>
