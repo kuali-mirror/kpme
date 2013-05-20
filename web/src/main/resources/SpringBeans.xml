@@ -289,33 +289,33 @@
     </bean>
 
     <!-- DAOs for wrapping database criteria queries -->
-    <bean id="taskDao" class="org.kuali.kpme.core.bo.task.dao.TaskDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="taskDao" class="org.kuali.kpme.core.bo.task.dao.TaskDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="positionDao" class="org.kuali.kpme.core.bo.position.dao.PositionDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="positionDao" class="org.kuali.kpme.core.bo.position.dao.PositionDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="clockLogDao" class="org.kuali.kpme.tklm.time.clocklog.dao.ClockLogDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="clockLogDao" class="org.kuali.kpme.tklm.time.clocklog.dao.ClockLogDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="assignmentDao" class="org.kuali.kpme.core.bo.assignment.dao.AssignmentDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="workAreaDao" class="org.kuali.kpme.core.bo.workarea.dao.WorkAreaDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="workAreaDao" class="org.kuali.kpme.core.bo.workarea.dao.WorkAreaDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="timeBlockDao" class="org.kuali.kpme.tklm.time.timeblock.dao.TimeBlockDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="timeBlockDao" class="org.kuali.kpme.tklm.time.timeblock.dao.TimeBlockDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="timeBlockHistoryDao" class="org.kuali.kpme.tklm.time.timeblock.dao.TimeBlockHistoryDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="timeBlockHistoryDao" class="org.kuali.kpme.tklm.time.timeblock.dao.TimeBlockHistoryDaoOjbImpl" parent="platformAwareDao" />
     
-    <bean id="timeBlockHistoryDetailDao" class="org.kuali.kpme.tklm.time.timeblock.dao.TimeBlockHistoryDetailDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="timeBlockHistoryDetailDao" class="org.kuali.kpme.tklm.time.timeblock.dao.TimeBlockHistoryDetailDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="jobDao" class="org.kuali.kpme.core.bo.job.dao.JobDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="jobDao" class="org.kuali.kpme.core.bo.job.dao.JobDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="payTypeDao" class="org.kuali.kpme.core.bo.paytype.dao.PayTypeDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="payTypeDao" class="org.kuali.kpme.core.bo.paytype.dao.PayTypeDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="calendarDao" class="org.kuali.kpme.core.bo.calendar.dao.CalendarDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="calendarEntryDao" class="org.kuali.kpme.core.bo.calendar.entry.dao.CalendarEntryDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="timesheetDocumentHeaderDao" class="org.kuali.kpme.tklm.time.workflow.dao.TimesheetDocumentHeaderDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="timesheetDocumentHeaderDao" class="org.kuali.kpme.tklm.time.workflow.dao.TimesheetDocumentHeaderDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="dailyOvertimeRuleDao" class="org.kuali.kpme.tklm.time.rules.overtime.daily.dao.DailyOvertimeRuleDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="dailyOvertimeRuleDao" class="org.kuali.kpme.tklm.time.rules.overtime.daily.dao.DailyOvertimeRuleDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="clockLocationDao" class="org.kuali.kpme.tklm.time.rules.clocklocation.dao.ClockLocationDaoOjbImpl" parent="platformAwareDao" />
 
@@ -329,11 +329,11 @@
 
     <bean id="earnCodeGroupDao" class="org.kuali.kpme.core.bo.earncode.group.dao.EarnCodeGroupDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="timeHourDetailDao" class="org.kuali.kpme.tklm.time.timehourdetail.dao.TimeHourDetailDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="timeHourDetailDao" class="org.kuali.kpme.tklm.time.timehourdetail.dao.TimeHourDetailDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="weeklyOvertimeRuleDao" class="org.kuali.kpme.tklm.time.rules.overtime.weekly.dao.WeeklyOvertimeRuleDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="weeklyOvertimeRuleDao" class="org.kuali.kpme.tklm.time.rules.overtime.weekly.dao.WeeklyOvertimeRuleDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="shiftDifferentialRuleDao" class="org.kuali.kpme.tklm.time.rules.shiftdifferential.dao.ShiftDifferentialRuleDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="shiftDifferentialRuleDao" class="org.kuali.kpme.tklm.time.rules.shiftdifferential.dao.ShiftDifferentialRuleDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="gracePeriodDao" class="org.kuali.kpme.tklm.time.rules.graceperiod.dao.GracePeriodDaoOjbImpl" parent="platformAwareDao" />
 
@@ -345,41 +345,41 @@
     
     <bean id="userPrefDao" class="org.kuali.kpme.tklm.time.user.pref.dao.UserPreferenceDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="salaryGroupDao" class="org.kuali.kpme.core.bo.salarygroup.dao.SalaryGroupDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="salaryGroupDao" class="org.kuali.kpme.core.bo.salarygroup.dao.SalaryGroupDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="locationDao" class="org.kuali.kpme.core.bo.location.dao.LocationDaoSpringObjImpl" parent="platformAwareDao" />
+    <bean id="locationDao" class="org.kuali.kpme.core.bo.location.dao.LocationDaoObjImpl" parent="platformAwareDao" />
 
-    <bean id="payGradeDao" class="org.kuali.kpme.core.bo.paygrade.dao.PayGradeDaoSpringObjImpl" parent="platformAwareDao" />
+    <bean id="payGradeDao" class="org.kuali.kpme.core.bo.paygrade.dao.PayGradeDaoObjImpl" parent="platformAwareDao" />
     
-    <bean id="missedPunchDao" class="org.kuali.kpme.tklm.time.missedpunch.dao.MissedPunchDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="missedPunchDao" class="org.kuali.kpme.tklm.time.missedpunch.dao.MissedPunchDaoOjbImpl" parent="platformAwareDao" />
     
   	<bean id="accrualCategoryDao" class="org.kuali.kpme.core.accrualcategory.dao.AccrualCategoryDaoOjbImpl" parent="platformAwareDao" />
   	
     <bean id="accrualCategoryRuleDao" class="org.kuali.kpme.core.accrualcategory.rule.dao.AccrualCategoryRuleDaoOjbImpl" parent="platformAwareDao" />
     
-    <bean id="balanceTransferDao" class="org.kuali.kpme.tklm.leave.transfer.dao.BalanceTransferDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="balanceTransferDao" class="org.kuali.kpme.tklm.leave.transfer.dao.BalanceTransferDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="leavePayoutDao" class="org.kuali.kpme.tklm.leave.payout.dao.LeavePayoutDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="leavePayoutDao" class="org.kuali.kpme.tklm.leave.payout.dao.LeavePayoutDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="leavePlanDao" class="org.kuali.kpme.core.bo.leaveplan.dao.LeavePlanDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="leavePlanDao" class="org.kuali.kpme.core.bo.leaveplan.dao.LeavePlanDaoOjbImpl" parent="platformAwareDao" />
     
-    <bean id="leaveDonationDao" class="org.kuali.kpme.tklm.leave.donation.dao.LeaveDonationDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="leaveDonationDao" class="org.kuali.kpme.tklm.leave.donation.dao.LeaveDonationDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="systemScheduledTimeOffDao" class="org.kuali.kpme.tklm.leave.timeoff.dao.SystemScheduledTimeOffDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="systemScheduledTimeOffDao" class="org.kuali.kpme.tklm.leave.timeoff.dao.SystemScheduledTimeOffDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="leaveBlockDao" class="org.kuali.kpme.tklm.leave.block.dao.LeaveBlockDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="leaveBlockDao" class="org.kuali.kpme.tklm.leave.block.dao.LeaveBlockDaoOjbImpl" parent="platformAwareDao" />
     
-    <bean id="leaveBlockHistoryDao" class="org.kuali.kpme.tklm.leave.block.dao.LeaveBlockHistoryDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="leaveBlockHistoryDao" class="org.kuali.kpme.tklm.leave.block.dao.LeaveBlockHistoryDaoOjbImpl" parent="platformAwareDao" />
     
     <bean id="leaveCalendarDocumentHeaderDao" class="org.kuali.kpme.tklm.leave.workflow.dao.LeaveCalendarDocumentHeaderDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="leaveCalendarDao" class="org.kuali.kpme.tklm.leave.calendar.dao.LeaveCalendarDaoOjbImpl" parent="platformAwareDao" />
     
-    <bean id="employeeOverrideDao" class="org.kuali.kpme.tklm.leave.override.dao.EmployeeOverrideDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="employeeOverrideDao" class="org.kuali.kpme.tklm.leave.override.dao.EmployeeOverrideDaoOjbImpl" parent="platformAwareDao" />
     
-    <bean id="leaveAdjustmentDao" class="org.kuali.kpme.tklm.leave.adjustment.dao.LeaveAdjustmentDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="leaveAdjustmentDao" class="org.kuali.kpme.tklm.leave.adjustment.dao.LeaveAdjustmentDaoOjbImpl" parent="platformAwareDao" />
     
-    <bean id="principalAccrualRanDao" class="org.kuali.kpme.tklm.leave.accrual.dao.PrincipalAccrualRanDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="principalAccrualRanDao" class="org.kuali.kpme.tklm.leave.accrual.dao.PrincipalAccrualRanDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="leaveRequestDocumentDao" class="org.kuali.kpme.tklm.leave.request.dao.LeaveRequestDocumentDaoOjbImpl" parent="platformAwareDao" />
     

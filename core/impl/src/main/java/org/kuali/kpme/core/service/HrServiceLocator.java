@@ -31,7 +31,6 @@ import org.kuali.kpme.core.bo.location.service.LocationService;
 import org.kuali.kpme.core.bo.paygrade.service.PayGradeService;
 import org.kuali.kpme.core.bo.paystep.service.PayStepService;
 import org.kuali.kpme.core.bo.paytype.service.PayTypeService;
-import org.kuali.kpme.core.bo.person.service.PersonService;
 import org.kuali.kpme.core.bo.position.service.PositionService;
 import org.kuali.kpme.core.bo.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.bo.salarygroup.service.SalaryGroupService;
@@ -167,10 +166,6 @@ public class HrServiceLocator implements ApplicationContextAware {
 	
 	public static CalendarEntryService getCalendarEntryService() {
 		return (CalendarEntryService)CONTEXT.getBean(HR_PAY_CALENDAR_ENTRY_SERVICE);
-	}
-
-	public static PersonService getPersonService(){
-		return (PersonService)CONTEXT.getBean(HR_PERSON_SERVICE);
 	}
 
 	public static TimezoneService getTimezoneService(){
