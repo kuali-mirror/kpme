@@ -16,7 +16,6 @@
 package org.kuali.kpme.tklm.time.missedpunch.service;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +23,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.assignment.service.AssignmentService;
+import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.timezone.TimezoneService;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.common.TkConstants;
@@ -90,14 +91,18 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
         Assignment assignment = timesheetDocument.getAssignment(assignmentDescriptionKey);
+        CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
         ClockLog lastClockLog = getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
         Long zoneOffset = getTimezoneService().getTimezoneOffsetFromServerTime(DateTimeZone.forID(lastClockLog.getClockTimestampTimezone()));
         DateTime clockLogDateTime = new DateTime(missedPunch.getActionFullDateTime().getMillis() - zoneOffset);
-
-        ClockLog clockLog = getClockLogService().buildClockLog(clockLogDateTime, new Timestamp(clockLogDateTime.getMillis()), assignment, timesheetDocument, 
-        		missedPunch.getClockAction(), ipAddress);
+        String clockAction = missedPunch.getClockAction();
+        String principalId = timesheetDocument.getPrincipalId();
+        
+        ClockLog clockLog = getClockLogService().processClockLog(clockLogDateTime, assignment, calendarEntry, ipAddress, LocalDate.now(), timesheetDocument, 
+        		clockAction, principalId);
 
         getClockLogService().saveClockLog(clockLog);
+        missedPunch.setActionFullDateTime(clockLog.getClockDateTime());
         missedPunch.setTkClockLogId(clockLog.getTkClockLogId());
 
         if (StringUtils.equals(clockLog.getClockAction(), TkConstants.CLOCK_OUT) ||
@@ -144,14 +149,18 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
         Assignment assignment = timesheetDocument.getAssignment(assignmentDescriptionKey);
+        CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
         ClockLog lastLog = getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
         Long zoneOffset = getTimezoneService().getTimezoneOffsetFromServerTime(DateTimeZone.forID(lastLog.getClockTimestampTimezone()));
         DateTime clockLogDateTime = new DateTime(missedPunch.getActionFullDateTime().getMillis() - zoneOffset);
-
-        ClockLog clockLog = getClockLogService().buildClockLog(clockLogDateTime, new Timestamp(clockLogDateTime.getMillis()), assignment, timesheetDocument, 
-        		missedPunch.getClockAction(), ipAddress);
+        String clockAction = missedPunch.getClockAction();
+        String principalId = timesheetDocument.getPrincipalId();
+        
+        ClockLog clockLog = getClockLogService().processClockLog(clockLogDateTime, assignment, calendarEntry, ipAddress, LocalDate.now(), timesheetDocument, 
+        		clockAction, principalId);
         
         getClockLogService().saveClockLog(clockLog);
+        missedPunch.setActionFullDateTime(clockLog.getClockDateTime());
         missedPunch.setTkClockLogId(clockLog.getTkClockLogId());
         
         if (logEndId != null || logBeginId != null) {

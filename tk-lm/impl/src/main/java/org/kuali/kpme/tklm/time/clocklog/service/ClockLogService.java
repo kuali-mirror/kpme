@@ -58,18 +58,6 @@ public interface ClockLogService {
 	 */
 	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntry calendarEntry);
 
-    /**
-     * Build ClockLog based on criteria passed in
-     * @param clockDateTime  -- time with grace rule applied if there is one
-     * @param originalTimestamp  -- time without grace rule applied
-     * @param assignment
-     * @param timesheetDocument
-     * @param clockAction
-     * @param ip
-     * @return
-     */
-	public ClockLog buildClockLog(DateTime clockDateTime, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip);
-	
 	/**
 	 * Process clock log created
 	 * @param clockDateTime
@@ -90,8 +78,6 @@ public interface ClockLogService {
      * @return
      */
     public ClockLog getClockLog(String tkClockLogId);
-
-    ClockLog buildClockLog(DateTime clockDateTime, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip, String userPrincipalId);
 
     ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId);
     

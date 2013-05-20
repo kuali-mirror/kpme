@@ -120,13 +120,7 @@ public class ClockLogServiceImpl implements ClockLogService {
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, userPrincipalId);
     }
 
-    @Override
-    public ClockLog buildClockLog(DateTime clockDateTime, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip) {
-        return buildClockLog(clockDateTime, originalTimestamp, assignment, timesheetDocument, clockAction, ip, HrContext.getPrincipalId());
-    }
-
-    @Override
-    public ClockLog buildClockLog(DateTime clockDateTime, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip, String userPrincipalId) {
+    private ClockLog buildClockLog(DateTime clockDateTime, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip, String userPrincipalId) {
         String principalId = timesheetDocument.getPrincipalId();
 
         ClockLog clockLog = new ClockLog();

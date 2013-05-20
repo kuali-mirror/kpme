@@ -42,7 +42,7 @@ public class SqlTimeFormatter extends Formatter {
 		Object o = null;
 
 		try {
-            o = new Time(LocalTime.parse(source, sdFormat).getMillisOfDay());
+            o = new Time(LocalTime.parse(source, sdFormat).toDateTimeToday().getMillis());
 		} catch (Exception e) {
 			throw new FormatException("parsing", "error.invalidTime", source, e);
 		}
