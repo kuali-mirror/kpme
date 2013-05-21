@@ -102,7 +102,7 @@
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption" />
     <property name="criteriaFields">
       <list>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="prOptionName" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="prDescription" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>

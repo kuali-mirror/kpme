@@ -250,7 +250,7 @@
 			<list>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N"/>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
 			</list>
