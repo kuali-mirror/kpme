@@ -477,7 +477,7 @@
 				<property name="propertyReplacers">
 				    <list>
 <!-- 				   		 if the typevalue of selected type is not select,  use text control instead -->
-				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="control" p:condition="#line.typeValue ne 'S'"> 
+				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="control" p:condition="#line.typeValue eq 'T' or #line.typeValue eq 'N'"> 
 				           <property name="replacement">
 				            <bean parent="Uif-TextControl" />
 				           </property>
