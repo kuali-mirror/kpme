@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.web;
+package org.kuali.kpme.tklm.common;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -24,6 +24,7 @@ import java.util.Map;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.job.Job;
+import org.kuali.kpme.core.web.KPMEForm;
 import org.kuali.rice.kim.api.identity.Person;
 
 public class PersonInfoActionForm extends KPMEForm {

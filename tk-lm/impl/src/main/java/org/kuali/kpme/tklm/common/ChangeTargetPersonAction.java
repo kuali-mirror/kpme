@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.admin.web;
+package org.kuali.kpme.tklm.common;
 
 import java.util.List;
 
@@ -36,6 +36,8 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
+import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -116,10 +118,10 @@ public class ChangeTargetPersonAction extends KPMEAction {
 			Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 
-            if (HrServiceLocator.getHRRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
-            		|| HrServiceLocator.getHRRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
-            		|| HrServiceLocator.getHRRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())
-            		|| HrServiceLocator.getHRRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())) {
+            if (TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
+            		|| LmServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
+            		|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())
+            		|| LmServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())) {
                 return true;
             }
         }
@@ -136,10 +138,10 @@ public class ChangeTargetPersonAction extends KPMEAction {
 			Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 			
-        	if (HrServiceLocator.getHRRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-        			|| HrServiceLocator.getHRRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-        			|| HrServiceLocator.getHRRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
-        			|| HrServiceLocator.getHRRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {
+        	if (TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+        			|| LmServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+        			|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+        			|| LmServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {
                 return true;
             }
         }

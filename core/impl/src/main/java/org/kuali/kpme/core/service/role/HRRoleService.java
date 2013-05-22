@@ -31,33 +31,6 @@ public interface HRRoleService {
 	 * @return the id for the role {@code roleName}.
 	 */
 	String getRoleIdByName(String roleName);
-	
-	/**
-	 * Gets the id for the role in TK namespace {@code roleName}.
-	 * 
-	 * @param roleName The name of the role
-	 * 
-	 * @return the id for the role {@code roleName}.
-	 */
-	String getTkRoleIdByName(String roleName);
-	
-	/**
-	 * Gets the id for the role in LM namespace {@code roleName}.
-	 * 
-	 * @param roleName The name of the role
-	 * 
-	 * @return the id for the role {@code roleName}.
-	 */
-	String getLmRoleIdByName(String roleName);
-	
-	/**
-	 * Gets the id for the role in PM namespace {@code roleName}.
-	 * 
-	 * @param roleName The name of the role
-	 * 
-	 * @return the id for the role {@code roleName}.
-	 */
-	String getPmRoleIdByName(String roleName);
 
 	/**
 	 * Checks whether the given {@code principalId} has the role {@code roleName}.
