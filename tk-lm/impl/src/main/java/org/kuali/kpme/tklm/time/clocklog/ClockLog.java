@@ -18,8 +18,6 @@ package org.kuali.kpme.tklm.time.clocklog;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import javax.persistence.Transient;
-
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.bo.job.Job;
 import org.kuali.kpme.core.bo.task.Task;
@@ -43,6 +41,7 @@ public class ClockLog extends PersistableBusinessObjectBase {
 		            .build();
 	
 	private String tkClockLogId;
+	private String documentId;
     private String principalId;
     private Long jobNumber;
     private Long workArea;
@@ -54,9 +53,7 @@ public class ClockLog extends PersistableBusinessObjectBase {
     private String userPrincipalId;
     private Timestamp timestamp;
     private boolean unapprovedIP = false;
-    @Transient
-    private String documentId;
-    
+
     private boolean clockedByMissedPunch;
 
     private transient Job job;
@@ -64,13 +61,21 @@ public class ClockLog extends PersistableBusinessObjectBase {
     private transient Task taskObj;
 
     private transient Person principal;
-
-	public Job getJob() {
-		return job;
+    
+	public String getTkClockLogId() {
+		return tkClockLogId;
 	}
 
-	public void setJob(Job job) {
-		this.job = job;
+	public void setTkClockLogId(String tkClockLogId) {
+		this.tkClockLogId = tkClockLogId;
+	}
+	
+	public String getDocumentId() {
+		return documentId;
+	}
+
+	public void setDocumentId(String documentId) {
+		this.documentId = documentId;
 	}
 
 	public String getPrincipalId() {
@@ -166,13 +171,13 @@ public class ClockLog extends PersistableBusinessObjectBase {
 
 	return ret;
     }
-
-	public String getTkClockLogId() {
-		return tkClockLogId;
+	
+	public Job getJob() {
+		return job;
 	}
 
-	public void setTkClockLogId(String tkClockLogId) {
-		this.tkClockLogId = tkClockLogId;
+	public void setJob(Job job) {
+		this.job = job;
 	}
 
 	public WorkArea getWorkAreaObj() {
@@ -227,14 +232,6 @@ public class ClockLog extends PersistableBusinessObjectBase {
 
 	public void setUnapprovedIP(boolean unapprovedIP) {
 		this.unapprovedIP = unapprovedIP;
-	}
-
-	public String getDocumentId() {
-		return documentId;
-	}
-
-	public void setDocumentId(String documentId) {
-		this.documentId = documentId;
 	}
 	
 }

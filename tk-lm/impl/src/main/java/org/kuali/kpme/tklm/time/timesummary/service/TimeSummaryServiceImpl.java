@@ -197,8 +197,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 								earnCodeSection = new EarnCodeSection();
 								earnCodeSection.setEarnCode(thd.getEarnCode());
 								EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(thd.getEarnCode(), asOfDate);
-								earnCodeSection.setDescription(earnCodeObj.getDescription());
-								earnCodeSection.setIsAmountEarnCode((earnCodeObj.getRecordMethod()!= null && earnCodeObj.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_AMOUNT)) ? true : false);
+								earnCodeSection.setDescription(earnCodeObj != null ? earnCodeObj.getDescription() : null);
+				 	 	 	 	earnCodeSection.setIsAmountEarnCode(earnCodeObj != null ? HrConstants.EARN_CODE_AMOUNT.equalsIgnoreCase(earnCodeObj.getRecordMethod()) : false);
 								for(int i = 0;i<(numEntries-1);i++){
 									earnCodeSection.getTotals().add(BigDecimal.ZERO);
 								}

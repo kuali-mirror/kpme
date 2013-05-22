@@ -366,7 +366,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(a.getDept(), a.getWorkArea(), asOfDate);
         
         boolean isClockUser = tcr == null || tcr.isClockUserFl();
-        boolean isUsersTimesheet = StringUtils.equals(HrContext.getPrincipalId(),a.getPrincipalId());
+        boolean isUsersTimesheet = StringUtils.equals(HrContext.getTargetPrincipalId(),a.getPrincipalId());
 
         // Reg earn codes will typically not be defined in the earn code security table
         EarnCode regularEarnCode = HrServiceLocator.getEarnCodeService().getEarnCode(job.getPayTypeObj().getRegEarnCode(), asOfDate);

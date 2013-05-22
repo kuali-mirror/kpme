@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-2394: Adding document id to clock log for better performance</comment>
+        <addColumn tableName="TK_CLOCK_LOG_T">
+            <column name="DOCUMENT_ID" type="VARCHAR(14)" />
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="2" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-2394: Adding document id to clock log for better performance</comment>
+        <sql>
+            UPDATE TK_CLOCK_LOG_T CL SET DOCUMENT_ID = (SELECT DOCUMENT_ID FROM TK_DOCUMENT_HEADER_T WHERE PRINCIPAL_ID = CL.PRINCIPAL_ID AND PAY_BEGIN_DT &lt;= CL.CLOCK_TS AND PAY_END_DT &gt; CL.CLOCK_TS);
+        </sql>
+    </changeSet>
+    
+    <changeSet id="3" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-2394: Adding document id to clock log for better performance</comment>
+        <addNotNullConstraint tableName="TK_CLOCK_LOG_T" columnName="DOCUMENT_ID" columnDataType="VARCHAR(14) NOT NULL" />
+        <addNotNullConstraint tableName="TK_CLOCK_LOG_T" columnName="PRINCIPAL_ID" columnDataType="VARCHAR(40) NOT NULL" />
+        <addNotNullConstraint tableName="TK_CLOCK_LOG_T" columnName="JOB_NUMBER" columnDataType="BIGINT NOT NULL" />
+        <addNotNullConstraint tableName="TK_CLOCK_LOG_T" columnName="WORK_AREA" columnDataType="BIGINT NOT NULL" />
+        <addNotNullConstraint tableName="TK_CLOCK_LOG_T" columnName="TASK" columnDataType="BIGINT NOT NULL" />
+        <addNotNullConstraint tableName="TK_CLOCK_LOG_T" columnName="CLOCK_TS_TZ" columnDataType="VARCHAR(50) NOT NULL" />
+        <addNotNullConstraint tableName="TK_CLOCK_LOG_T" columnName="CLOCK_ACTION" columnDataType="VARCHAR(2) NOT NULL" />
+        <dropIndex tableName="TK_CLOCK_LOG_T" indexName="TK_CLOCK_LOG_IDX1" />
+        <createIndex tableName="TK_CLOCK_LOG_T" indexName="TK_CLOCK_LOG_IDX1" unique="true">
+            <column name="DOCUMENT_ID" />
+            <column name="PRINCIPAL_ID" />
+            <column name="JOB_NUMBER" />
+            <column name="WORK_AREA" />
+            <column name="TASK" />
+            <column name="CLOCK_TS" />
+            <column name="CLOCK_TS_TZ" />
+            <column name="CLOCK_ACTION" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+    </changeSet>
+    
+</databaseChangeLog>

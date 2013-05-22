@@ -37,6 +37,7 @@ import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.missedpunch.dao.MissedPunchDao;
 import org.kuali.kpme.tklm.time.rules.TkRuleControllerService;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.service.TimeBlockService;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -101,7 +102,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         ClockLog clockLog = getClockLogService().processClockLog(clockLogDateTime, assignment, calendarEntry, ipAddress, LocalDate.now(), timesheetDocument, 
         		clockAction, principalId);
 
-        getClockLogService().saveClockLog(clockLog);
+        clockLog = TkServiceLocator.getClockLogService().saveClockLog(clockLog);
         missedPunch.setActionFullDateTime(clockLog.getClockDateTime());
         missedPunch.setTkClockLogId(clockLog.getTkClockLogId());
 

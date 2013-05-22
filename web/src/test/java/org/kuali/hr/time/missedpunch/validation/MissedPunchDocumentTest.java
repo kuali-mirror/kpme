@@ -150,7 +150,7 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 		setFieldValue(mPunchPage, "document.clockAction", "CI");
 		setFieldValue(mPunchPage, "document.actionDate", "12/20/2009");
 		setFieldValue(mPunchPage, "document.actionTime", "5:50 AM");
-		setFieldValue(mPunchPage, "document.assignment", "2_1234_2");
+//		setFieldValue(mPunchPage, "document.assignment", "2_1234_2");
 
 		elementSubmit = mPunchPage.getElementByName("methodToCall.route");
 
@@ -169,7 +169,7 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 		setFieldValue(mPunchPage, "document.actionDate", "01/19/2012");
 		setFieldValue(mPunchPage, "document.actionTime", "5:50 AM");
 		setFieldValue(mPunchPage, "document.clockAction", "CI");
-		setFieldValue(mPunchPage, "document.assignment", "2_1234_2");
+//		setFieldValue(mPunchPage, "document.assignment", "2_1234_2");
 
 		HtmlElement elementSubmit1 = mPunchPage.getElementByName("methodToCall.route");
 		mPunchPage = elementSubmit1.click();

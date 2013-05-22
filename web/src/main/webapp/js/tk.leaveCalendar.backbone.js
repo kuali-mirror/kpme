@@ -129,7 +129,7 @@ $(function () {
             var id = (e.target || e.srcElement).id;
             var value = (e.target || e.srcElement).value;
             // Use Datejs to parse the value
-            var dateTime = Date.parse(value);
+            var dateTime = Date.parseExact(value, CONSTANTS.TIME_FORMAT.TIME_FOR_VALIDATION);
             if (_.isNull(dateTime)) {
                 // Date.js returns null if it couldn't understand the format from user's input.
                 // If that's the case, clear the values on the form and make the border red.

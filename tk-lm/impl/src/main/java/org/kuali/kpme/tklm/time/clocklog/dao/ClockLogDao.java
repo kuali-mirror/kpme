@@ -63,4 +63,6 @@ public interface ClockLogDao {
 	 * @return
 	 */
 	public ClockLog getClockLog(String tkClockLogId);
+	
+	public void deleteClockLogsForDocumentId(String documentId);
 }

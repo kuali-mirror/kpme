@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.common;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.web.KPMEForm;
 
@@ -32,6 +33,7 @@ public class BatchJobActionForm extends KPMEForm {
     private String leavePlan;
     
     static {
+    	BATCH_JOB_NAMES.add(StringUtils.EMPTY);
     	BATCH_JOB_NAMES.add(HrConstants.BATCH_JOB_NAMES.INITIATE);
     	BATCH_JOB_NAMES.add(HrConstants.BATCH_JOB_NAMES.END_PAY_PERIOD);
     	BATCH_JOB_NAMES.add(HrConstants.BATCH_JOB_NAMES.END_REPORTING_PERIOD);
@@ -67,7 +69,5 @@ public class BatchJobActionForm extends KPMEForm {
 	public void setLeavePlan(String leavePlan) {
 		this.leavePlan = leavePlan;
 	}
-    
-    
 
 }

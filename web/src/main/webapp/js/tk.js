@@ -88,6 +88,7 @@ var CONSTANTS = {
     },
     TIME_FORMAT : {
         DATE_FOR_OUTPUT : 'M/d/yyyy',
+        TIME_FOR_VALIDATION: ['ht', 'h tt', 'h:mmt', 'Hmm', 'H:mm'],
         TIME_FOR_OUTPUT : 'hh:mm tt',
         TIME_FOR_SYSTEM : 'H:mm'
     }
@@ -320,31 +321,6 @@ $(document).ready(function() {
             }).focus(function() {
                 if (this.className != 'error') this.select();
             });
-
-    // Button for iFrame show/hide to show the missed punch items
-    // The iFrame is added to the missed-punch-dialog as a child element.
-    // tdocid is a variable that is set from the form value in 'clock.jsp'
-    $('#missed-punch-iframe-button').click(function() {
-
-        $('#missed-punch-dialog').empty();
-        $('#missed-punch-dialog').append('<iframe width="1024" height="650" src="kr-krad/missedPunch?viewId=MissedPunch-SubmitView&methodToCall=start&dataObjectClassName=org.kuali.kpme.tklm.time.missedpunch.MissedPunch&timesheetDocumentId=' + tdocid + '"></iframe>');
-
-        $('#missed-punch-dialog').dialog({
-            autoOpen: true,
-            height: 'auto',
-            width: 'auto',
-            modal: true,
-            buttons: {
-                //"test" : function() {
-                //}
-            },
-            beforeClose: function(event, ui) {
-                var URL = unescape(window.parent.location.pathname);
-                window.parent.location.href = URL;
-                window.close();
-            }
-        });
-    });
 
     $("#bdRow1, #edRow1").change(function() {
         $(this).removeClass('ui-state-error');
@@ -756,7 +732,7 @@ function addTimeBlockRow(form, tempArr) {
     el.size = 10;
     cellBeginTime.appendChild(el);
     var timeChangeId = '#' + idString;
-    var timeFormatMessage = "Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30";
+    var timeFormatMessage = "Supported formats:<br/>9a, 9 am, 9:00a, 3p, 3 pm, 3:00p, 900, 15:00";
 // help button for time format
     el = document.createElement('input');
     el.type = 'button';

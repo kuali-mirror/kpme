@@ -131,5 +131,12 @@ public class ClockLogDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Clock
     	
     	return (ClockLog) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ClockLog.class, criteria));
     }
+    
+    @Override
+	public void deleteClockLogsForDocumentId(String documentId) {
+    	Criteria crit = new Criteria();
+    	crit.addEqualTo("documentId", documentId);
+    	this.getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(ClockLog.class, crit));
+    }
 
 }

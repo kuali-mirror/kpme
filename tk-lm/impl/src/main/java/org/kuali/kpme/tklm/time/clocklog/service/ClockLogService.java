@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.clocklog.service;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -31,7 +30,7 @@ public interface ClockLogService {
 	 * Save clock log 
 	 * @param clockLog
 	 */
-    public void saveClockLog(ClockLog clockLog);
+    public ClockLog saveClockLog(ClockLog clockLog);
     /**
      * Fetch last clock log for principal id
      * @param principalId
@@ -80,6 +79,8 @@ public interface ClockLogService {
     public ClockLog getClockLog(String tkClockLogId);
 
     ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId);
+    
+    public void deleteClockLogsForDocumentId(String documentId);
     
     /**
      * Get warning messages for clock actions taken from unapproved IP address on given timesheet document

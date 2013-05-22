@@ -45,8 +45,8 @@ public class ClockLogServiceImpl implements ClockLogService {
     public ClockLogServiceImpl() {
     }
 
-    public void saveClockLog(ClockLog clockLog) {
-        clockLogDao.saveOrUpdate(clockLog);
+    public ClockLog saveClockLog(ClockLog clockLog) {
+    	return KRADServiceLocator.getBusinessObjectService().save(clockLog);
     }
 
     @Override
@@ -121,12 +121,9 @@ public class ClockLogServiceImpl implements ClockLogService {
     }
 
     private ClockLog buildClockLog(DateTime clockDateTime, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip, String userPrincipalId) {
-        String principalId = timesheetDocument.getPrincipalId();
-
         ClockLog clockLog = new ClockLog();
-        clockLog.setPrincipalId(principalId);
-        //        AssignmentDescriptionKey assignmentDesc = HrServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssign);
-        //        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(timesheetDocument, selectedAssign);
+        clockLog.setDocumentId(timesheetDocument.getDocumentId());
+        clockLog.setPrincipalId(timesheetDocument.getPrincipalId());
         clockLog.setJob(timesheetDocument.getJob(assignment.getJobNumber()));
         clockLog.setJobNumber(assignment.getJobNumber());
         clockLog.setWorkArea(assignment.getWorkArea());
@@ -162,6 +159,11 @@ public class ClockLogServiceImpl implements ClockLogService {
     public ClockLog getClockLog(String tkClockLogId) {
         return clockLogDao.getClockLog(tkClockLogId);
     }
+    
+    @Override
+	public void deleteClockLogsForDocumentId(String documentId) {
+    	clockLogDao.deleteClockLogsForDocumentId(documentId);
+	}
 
     public List<String> getUnapprovedIPWarning(List<TimeBlock> timeBlocks) {
 		 List<String> warningMessages = new ArrayList<String>();

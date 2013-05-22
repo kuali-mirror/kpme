@@ -34,6 +34,7 @@
 		</property>
 		<property name="attributes">
 			<list>
+			    <ref bean="ClockLog-documentId"/>
                 <ref bean="ClockLog-tkClockLogId" />
 				<ref bean="ClockLog-principalId" />
 				<ref bean="ClockLog-jobNumber" />
@@ -46,7 +47,6 @@
 				<ref bean="ClockLog-userPrincipalId" />
 				<ref bean="ClockLog-timestamp" />
 				<ref bean="ClockLog-clockedByMissedPunch"/>
-				<ref bean="ClockLog-documentId"/>
 			</list>
 		</property>
 		 
@@ -90,9 +90,6 @@
 
 	<!-- Attribute Definition -->
 	
-	<bean id="ClockLog-documentId" parent="ClockLog-documentId-parentBean"/>
-    <bean id="ClockLog-documentId-parentBean" abstract="true" parent="TimesheetDocumentHeader-documentId"/>
-  
     <bean id="ClockLog-tkClockLogId" parent="ClockLog-tkClockLogId-parentBean" />
     <bean id="ClockLog-tkClockLogId-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="shortLabel" value="Clock Log Id" />
@@ -103,6 +100,9 @@
         <property name="name" value="tkClockLogId" />
         <property name="label" value="Clock Log Id" />
     </bean>
+    
+    <bean id="ClockLog-documentId" parent="ClockLog-documentId-parentBean"/>
+    <bean id="ClockLog-documentId-parentBean" abstract="true" parent="TimesheetDocumentHeader-documentId"/>
 
 	<!-- PrincipalId -->
 	<bean id="ClockLog-principalId" parent="ClockLog-principalId-parentBean" />

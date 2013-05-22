@@ -39,6 +39,7 @@ public class DeleteDocumentAction extends KPMEAction {
             LeaveCalendarDocumentHeader ldh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
             
             if(tdh != null) {
+            	TkServiceLocator.getClockLogService().deleteClockLogsForDocumentId(documentId);
                 TkServiceLocator.getTimeBlockService().deleteTimeBlocksAssociatedWithDocumentId(documentId);
     		    TkServiceLocator.getTimesheetService().deleteTimesheet(documentId);
             } else if (ldh != null) {

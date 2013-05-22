@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.bo.department.Department;
@@ -47,8 +45,6 @@ import org.kuali.rice.krad.util.UrlFactory;
 public class ClockLogLookupableHelper extends KPMELookupableHelper {
 
     private static final long serialVersionUID = -469827905426221716L;
-
-    private static final String DOCUMENT_ID = "documentId";
 
     @Override
     @SuppressWarnings("rawtypes")
@@ -79,13 +75,6 @@ public class ClockLogLookupableHelper extends KPMELookupableHelper {
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<ClockLog> results = new ArrayList<ClockLog>();
 
-        String documentId = StringUtils.EMPTY;
-
-        if (fieldValues.containsKey(DOCUMENT_ID)) {
-            documentId = fieldValues.get(DOCUMENT_ID);
-            fieldValues.remove(DOCUMENT_ID);
-        }
-
         List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
 
         for (BusinessObject searchResult : searchResults) {
@@ -93,34 +82,7 @@ public class ClockLogLookupableHelper extends KPMELookupableHelper {
             results.add(clockLog);
         }
 
-        results = filterByDocumentId(results, documentId);
         results = filterByPrincipalId(results, GlobalVariables.getUserSession().getPrincipalId());
-
-        return results;
-    }
-
-    private List<ClockLog> filterByDocumentId(List<ClockLog> clockLogs, String documentId) {
-        List<ClockLog> results = new ArrayList<ClockLog>();
-
-        if (StringUtils.isNotEmpty(documentId)) {
-            TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
-            if (timesheetDocumentHeader != null) {
-                String principalId = timesheetDocumentHeader.getPrincipalId();
-                DateTime beginDate =  timesheetDocumentHeader.getBeginDateTime();
-                DateTime endDate =  timesheetDocumentHeader.getEndDateTime();
-
-                for (ClockLog clockLog : clockLogs) {
-                    clockLog.setDocumentId(principalId);
-                    if (clockLog.getPrincipalId().equalsIgnoreCase(principalId)) {
-                        if (clockLog.getClockDateTime().compareTo(beginDate) >= 0 && clockLog.getClockDateTime().compareTo(endDate) <= 0) {
-                            results.add(clockLog);
-                        }
-                    }
-                }
-            }
-        } else {
-            results.addAll(clockLogs);
-        }
 
         return results;
     }
