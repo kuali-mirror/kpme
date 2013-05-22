@@ -26,7 +26,7 @@
         <form-bean name="KualiLogoutForm" type="org.kuali.rice.kns.web.struts.form.KualiLogoutForm" />
         <!-- Rice content End -->
         
-        <form-bean name="ChangeTargetPersonForm" type="org.kuali.kpme.core.admin.web.ChangeTargetPersonForm"/>
+        <form-bean name="ChangeTargetPersonForm" type="org.kuali.kpme.tklm.common.ChangeTargetPersonForm"/>
         <form-bean name="InitiateDocumentForm" type="org.kuali.kpme.tklm.common.InitiateDocumentForm"/>
         <form-bean name="DeleteDocumentForm" type="org.kuali.kpme.tklm.common.DeleteDocumentForm"/>
         <form-bean name="CalculateLeaveAccrualsForm" type="org.kuali.kpme.tklm.common.CalculateLeaveAccrualsForm"/>
@@ -38,7 +38,7 @@
         <form-bean name="TimeDetailWSActionForm" type="org.kuali.kpme.tklm.time.detail.web.TimeDetailWSActionForm"/>
         <form-bean name="TimeApprovalActionForm" type="org.kuali.kpme.tklm.time.approval.web.TimeApprovalActionForm"/>
         <form-bean name="TimeApprovalWSActionForm" type="org.kuali.kpme.tklm.time.approval.web.TimeApprovalWSActionForm"/>
-        <form-bean name="PersonInfoActionForm" type="org.kuali.kpme.core.web.PersonInfoActionForm"/>
+        <form-bean name="PersonInfoActionForm" type="org.kuali.kpme.tklm.common.PersonInfoActionForm"/>
         <form-bean name="TimesheetActionForm" type="org.kuali.kpme.tklm.time.timesheet.web.TimesheetActionForm"/>
         <form-bean name="TimesheetSubmitActionForm" type="org.kuali.kpme.tklm.time.timesheet.web.TimesheetSubmitActionForm"/>
         <form-bean name="HelpActionForm" type="org.kuali.kpme.tklm.time.help.web.HelpActionForm"/>
@@ -102,7 +102,7 @@
         </action>
         <!-- Rice content End -->
         
-        <action path="/changeTargetPerson" name="ChangeTargetPersonForm" type="org.kuali.kpme.core.admin.web.ChangeTargetPersonAction">
+        <action path="/changeTargetPerson" name="ChangeTargetPersonForm" type="org.kuali.kpme.tklm.common.ChangeTargetPersonAction">
             <forward name="basic" path="/portal.jsp"/>
         </action>
         
@@ -188,7 +188,7 @@
         </action>
         
         <action path="/PersonInfo" name="PersonInfoActionForm" scope="request" input="/WEB-INF/jsp/personInfo.jsp"
-                type="org.kuali.kpme.core.web.PersonInfoAction" parameter="methodToCall" validate="false">
+                type="org.kuali.kpme.tklm.common.PersonInfoAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/personInfo.jsp"/>
         </action>
         
