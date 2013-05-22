@@ -52,7 +52,7 @@
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.1.xsd">
     <import resource="classpath:RiceConfigSpringBeans.xml" />
-    <import resource="classpath:SpringBeans.xml" />
+    <import resource="classpath*:SpringBeans.xml" />
 
     <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
         <property name="configLocations">

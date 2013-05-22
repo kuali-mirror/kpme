@@ -23,6 +23,6 @@
     <import resource="classpath:RiceConfigSpringBeans.xml" />
     <import resource="classpath:OverrideSpringBeans.xml" />
     
-    <import resource="classpath:SpringBeans.xml" />
+    <import resource="classpath*:SpringBeans.xml" />
 
 </beans>

@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+                           http://www.springframework.org/schema/cache
+                           http://www.springframework.org/schema/cache/spring-cache.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-3.1.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+    
+    <aop:aspectj-autoproxy/>
+
+<!--
+
+	beanNames property should be merged Lookupable bean names are set in core.
+
+     <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
+        <property name="localServiceName" value="KPME-Context"/>
+        <property name="serviceNameSpaceURI" value="KPME" />
+        <property name="beanNames">
+            <set>
+                <value>calendarLookupable</value>
+                <value>timeBlockLookupable</value> 
+				<value>timeBlockHistoryLookupable</value> 
+				<value>timeBlockHistoryDetailLookupable</value>
+				<value>jobLookupable</value> 
+				<value>systemLunchRuleLookupable</value> 
+				<value>earnCodeSecurityLookupable</value>
+				<value>earnCodeLookupable</value> 
+				<value>earnCodeGroupLookupable</value> 
+				<value>payTypeLookupable</value> 
+				<value>positionLookupable</value> 
+				<value>salaryGroupLookupable</value> 
+				<value>dailyOvertimeRuleLookupable</value> 
+				<value>departmentLookupable</value> 
+				<value>workAreaLookupable</value> 
+				<value>clockLocationRuleLookupable</value> 
+				<value>departmentLunchRuleLookupable</value> 
+				<value>gracePeriodRuleLookupable</value> 
+				<value>shiftDifferentialRuleLookupable</value> 
+				<value>weeklyOvertimeRuleLookupable</value> 
+				<value>timeCollectionRuleLookupable</value> 
+				<value>assignmentLookupable</value> 
+				<value>clockLogLookupable</value>
+				<value>locationLookupable</value> 
+				<value>calendarEntryLookupable</value>
+				<value>payGradeLookupable</value> 
+				<value>principalHRAttributesLookupable</value> 				
+				<value>accountLookupable</value> 
+				<value>chartLookupable</value> 
+				<value>objectCodeLookupable</value> 
+				<value>organizationLookupable</value> 
+				<value>projectCodeLookupable</value> 
+				<value>subAccountLookupable</value> 
+				<value>subObjectCodeLookupable</value> 
+				<value>taskLookupable</value> 
+				<value>leavePlanLookupable</value> 
+				<value>systemScheduledTimeOffLookupable</value> 
+				<value>leaveDonationLookupable</value> 
+				<value>accrualCategoryLookupable</value> 
+				<value>leaveAdjustmentLookupable</value> 
+				<value>employeeOverrideLookupable</value>
+				<value>balanceTransferLookupable</value>
+                <value>leavePayoutLookupable</value>
+                <value>missedPunchLookupable</value>
+                <value>institutionLookupable</value>
+                <value>positionReportTypeLookupable</value>
+                <value>positionReportGroupLookupable</value>
+                <value>positionReportCatLookupable</value>
+                <value>positionReportSubCatLookupable</value>                
+                <value>payStepLookupable</value>
+                <value>positionTypeLookupable</value>
+                <value>positionAppointmentLookupable</value>
+                <value>pstnContractTypeLookupable</value>
+                <value>positionDepartmentAffiliationLookupable</value>
+                <value>positionDepartmentLookupable</value>
+            </set>
+        </property>
+    </bean>
+ -->
+
+
+	<!-- TK-LM DAOs -->
+
+
+
+    <bean id="clockLogDao" class="org.kuali.kpme.tklm.time.clocklog.dao.ClockLogDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="timeBlockDao" class="org.kuali.kpme.tklm.time.timeblock.dao.TimeBlockDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="timeBlockHistoryDao" class="org.kuali.kpme.tklm.time.timeblock.dao.TimeBlockHistoryDaoOjbImpl" parent="platformAwareDao" />
+    
+    <bean id="timeBlockHistoryDetailDao" class="org.kuali.kpme.tklm.time.timeblock.dao.TimeBlockHistoryDetailDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="timesheetDocumentHeaderDao" class="org.kuali.kpme.tklm.time.workflow.dao.TimesheetDocumentHeaderDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="dailyOvertimeRuleDao" class="org.kuali.kpme.tklm.time.rules.overtime.daily.dao.DailyOvertimeRuleDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="clockLocationDao" class="org.kuali.kpme.tklm.time.rules.clocklocation.dao.ClockLocationDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="timeCollectionRuleDao" class="org.kuali.kpme.tklm.time.rules.timecollection.dao.TimeCollectionRuleDaoServiceImpl" parent="platformAwareDao" />
+
+    <bean id="timeHourDetailDao" class="org.kuali.kpme.tklm.time.timehourdetail.dao.TimeHourDetailDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="weeklyOvertimeRuleDao" class="org.kuali.kpme.tklm.time.rules.overtime.weekly.dao.WeeklyOvertimeRuleDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="shiftDifferentialRuleDao" class="org.kuali.kpme.tklm.time.rules.shiftdifferential.dao.ShiftDifferentialRuleDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="gracePeriodDao" class="org.kuali.kpme.tklm.time.rules.graceperiod.dao.GracePeriodDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="systemLunchRuleDao" class="org.kuali.kpme.tklm.time.rules.lunch.sys.dao.SystemLunchRuleDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="deptLunchRuleDao" class="org.kuali.kpme.tklm.time.rules.lunch.department.dao.DepartmentLunchRuleDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="principalHRAttributesDao" class="org.kuali.kpme.core.bo.principal.dao.PrincipalHRAttributesDaoOjbImpl" parent="platformAwareDao" />
+    
+    <bean id="userPrefDao" class="org.kuali.kpme.tklm.time.user.pref.dao.UserPreferenceDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="missedPunchDao" class="org.kuali.kpme.tklm.time.missedpunch.dao.MissedPunchDaoOjbImpl" parent="platformAwareDao" />
+    
+    <bean id="balanceTransferDao" class="org.kuali.kpme.tklm.leave.transfer.dao.BalanceTransferDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="leavePayoutDao" class="org.kuali.kpme.tklm.leave.payout.dao.LeavePayoutDaoOjbImpl" parent="platformAwareDao" />
+    
+    <bean id="leaveDonationDao" class="org.kuali.kpme.tklm.leave.donation.dao.LeaveDonationDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="systemScheduledTimeOffDao" class="org.kuali.kpme.tklm.leave.timeoff.dao.SystemScheduledTimeOffDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="leaveBlockDao" class="org.kuali.kpme.tklm.leave.block.dao.LeaveBlockDaoOjbImpl" parent="platformAwareDao" />
+    
+    <bean id="leaveBlockHistoryDao" class="org.kuali.kpme.tklm.leave.block.dao.LeaveBlockHistoryDaoOjbImpl" parent="platformAwareDao" />
+    
+    <bean id="leaveCalendarDocumentHeaderDao" class="org.kuali.kpme.tklm.leave.workflow.dao.LeaveCalendarDocumentHeaderDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="leaveCalendarDao" class="org.kuali.kpme.tklm.leave.calendar.dao.LeaveCalendarDaoOjbImpl" parent="platformAwareDao" />
+    
+    <bean id="employeeOverrideDao" class="org.kuali.kpme.tklm.leave.override.dao.EmployeeOverrideDaoOjbImpl" parent="platformAwareDao" />
+    
+    <bean id="leaveAdjustmentDao" class="org.kuali.kpme.tklm.leave.adjustment.dao.LeaveAdjustmentDaoOjbImpl" parent="platformAwareDao" />
+    
+    <bean id="principalAccrualRanDao" class="org.kuali.kpme.tklm.leave.accrual.dao.PrincipalAccrualRanDaoOjbImpl" parent="platformAwareDao" />
+
+    <bean id="leaveRequestDocumentDao" class="org.kuali.kpme.tklm.leave.request.dao.LeaveRequestDocumentDaoOjbImpl" parent="platformAwareDao" />
+
+
+
+	<!-- TK-LM Service Definitions -->
+
+
+
+    <bean id="principalAccrualRanService" class="org.kuali.kpme.tklm.leave.accrual.service.PrincipalAccrualRanServiceImpl">
+        <property name="principalAccrualRanDao" ref="principalAccrualRanDao"/>
+    </bean>
+    
+    <bean id="leaveSummaryService" class="org.kuali.kpme.tklm.leave.summary.service.LeaveSummaryServiceImpl"/>
+    
+    <bean id="leaveApprovalService" class="org.kuali.kpme.tklm.leave.approval.service.LeaveApprovalServiceImpl">
+        <property name="principalHRAttributesDao" ref="principalHRAttributesDao"/>
+    </bean>
+
+    <bean id="leaveRequestDocumentService" class="org.kuali.kpme.tklm.leave.request.service.LeaveRequestDocumentServiceImpl">
+        <property name="leaveRequestDocumentDao" ref="leaveRequestDocumentDao"/>
+    </bean>
+  
+    <bean id="accrualCategoryMaxCarryOverService" class="org.kuali.kpme.tklm.leave.accrual.service.AccrualCategoryMaxCarryOverServiceImpl">
+        <property name="accrualCategoryService" ref="accrualCategoryService" />
+	    <property name="accrualCategoryRuleService" ref="accrualCategoryRuleService" />
+	    <property name="employeeOverrideService" ref="employeeOverrideService" />
+	    <property name="jobService" ref="jobService" />
+	    <property name="leaveBlockService" ref="leaveBlockService" />
+	    <property name="leavePlanService" ref="leavePlanService" />
+	    <property name="principalHRAttributesService" ref="principalHRAttributesService" />
+    </bean>
+    
+    <bean id="tkPermissionService" class="org.kuali.kpme.tklm.time.service.permission.TKPermissionServiceImpl">
+        <property name="departmentService" ref="departmentService" />
+        <property name="permissionService" ref="kimPermissionService" />
+        <property name="timesheetService" ref="timesheetService" />
+        <property name="workAreaService" ref="workAreaService" />
+    </bean>
+    
+    <bean id="lmPermissionService" class="org.kuali.kpme.tklm.leave.service.permission.LMPermissionServiceImpl">
+        <property name="departmentService" ref="departmentService" />
+        <property name="permissionService" ref="kimPermissionService" />
+        <property name="leaveCalendarService" ref="leaveCalendarService" />
+        <property name="leaveRequestDocumentService" ref="leaveRequestDocumentService" />
+        <property name="workAreaService" ref="workAreaService" />
+    </bean>
+
+   <bean id="tkRoleService" class="org.kuali.kpme.tklm.time.service.role.TKRoleServiceImpl">
+        <property name="departmentService" ref="departmentService" />
+        <property name="groupService" ref="kimGroupService" />
+        <property name="kimTypeInfoService" ref="kimTypeInfoService" />
+        <property name="roleService" ref="kimRoleService" />
+        <property name="workAreaService" ref="workAreaService" />
+    </bean>
+    
+    <bean id="lmRoleService" class="org.kuali.kpme.tklm.leave.service.role.LMRoleServiceImpl">
+        <property name="departmentService" ref="departmentService" />
+        <property name="groupService" ref="kimGroupService" />
+        <property name="kimTypeInfoService" ref="kimTypeInfoService" />
+        <property name="roleService" ref="kimRoleService" />
+        <property name="workAreaService" ref="workAreaService" />
+    </bean>
+    
+    <bean id="missedPunchService" class="org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchServiceImpl">
+        <property name="missedPunchDao" ref="missedPunchDao" />
+        <property name="assignmentService" ref="assignmentService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="clockLogService" ref="clockLogService" />
+        <property name="documentService" ref="documentService" />
+        <property name="identityService" ref="kimIdentityService" />
+        <property name="timeBlockService" ref="timeBlockService" />
+        <property name="timesheetService" ref="timesheetService" />
+        <property name="timezoneService" ref="timezoneService" />
+        <property name="tkRuleControllerService" ref="tkRuleControllerService" />
+    </bean>
+
+    <bean id="deptLunchRuleService" class="org.kuali.kpme.tklm.time.rules.lunch.department.service.DepartmentLunchRuleServiceImpl">
+        <property name="deptLunchRuleDao" ref="deptLunchRuleDao"/>
+    </bean>
+
+    <bean id="systemLunchRuleService" class="org.kuali.kpme.tklm.time.rules.lunch.sys.service.SystemLunchRuleServiceImpl">
+        <property name="systemLunchRuleDao" ref="systemLunchRuleDao"/>
+    </bean>
+
+    <bean id="gracePeriodService" class="org.kuali.kpme.tklm.time.rules.graceperiod.service.GracePeriodServiceImpl">
+        <property name="gracePeriodDao" ref="gracePeriodDao"/>
+    </bean>
+
+    <bean id="clockLogService" class="org.kuali.kpme.tklm.time.clocklog.service.ClockLogServiceImpl">
+        <property name="clockLogDao" ref="clockLogDao"/>
+    </bean>
+
+    <bean id="clockLocationService" class="org.kuali.kpme.tklm.time.rules.clocklocation.service.ClockLocationRuleServiceImpl">
+        <property name="clockLocationDao" ref="clockLocationDao"/>
+    </bean>
+
+    <bean id="weeklyOvertimeRuleService"
+          class="org.kuali.kpme.tklm.time.rules.overtime.weekly.service.WeeklyOvertimeRuleServiceImpl">
+        <property name="weeklyOvertimeRuleDao" ref="weeklyOvertimeRuleDao"/>
+    </bean>
+
+    <bean id="shiftDifferentialRuleService"
+          class="org.kuali.kpme.tklm.time.rules.shiftdifferential.service.ShiftDifferentialRuleServiceImpl">
+        <property name="shiftDifferentialRuleDao" ref="shiftDifferentialRuleDao"/>
+    </bean>
+
+    <bean id="dailyOvertimeRuleService"
+          class="org.kuali.kpme.tklm.time.rules.overtime.daily.service.DailyOvertimeRuleServiceImpl">
+        <property name="dailyOvertimeRuleDao" ref="dailyOvertimeRuleDao"/>
+    </bean>
+
+    <bean id="timeCollectionRuleService"
+          class="org.kuali.kpme.tklm.time.rules.timecollection.service.TimeCollectionRuleServiceImpl">
+        <property name="timeCollectRuleDao" ref="timeCollectionRuleDao"/>
+    </bean>
+
+    <bean id="timeBlockService" class="org.kuali.kpme.tklm.time.timeblock.service.TimeBlockServiceImpl">
+        <property name="timeBlockDao" ref="timeBlockDao"/>
+    </bean>
+
+    <bean id="timeBlockHistoryService" class="org.kuali.kpme.tklm.time.timeblock.service.TimeBlockHistoryServiceImpl">
+        <property name="timeBlockHistoryDao" ref="timeBlockHistoryDao"/>
+    </bean>
+    
+    <bean id="timeBlockHistoryDetailService" class="org.kuali.kpme.tklm.time.timeblock.service.TimeBlockHistoryDetailServiceImpl">
+        <property name="timeBlockHistoryDetailDao" ref="timeBlockHistoryDetailDao"/>
+    </bean>
+
+    <bean id="timeBlockLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.time.timeblock.web.TimeBlockLookupableHelperServiceImpl"/>
+        </property>
+    </bean>
+
+    <bean id="timeBlockHistoryLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.time.timeblock.web.TimeBlockHistoryLookupableHelperServiceImpl"/>
+        </property>
+    </bean>
+
+    <bean id="timesheetDocumentHeaderService"
+          class="org.kuali.kpme.tklm.time.workflow.service.TimesheetDocumentHeaderServiceImpl">
+        <property name="timesheetDocumentHeaderDao" ref="timesheetDocumentHeaderDao"/>
+    </bean>
+
+    <bean id="timesheetService" class="org.kuali.kpme.tklm.time.timesheet.service.TimesheetServiceImpl">
+    </bean>
+
+    <bean id="timeHourDetailService" class="org.kuali.kpme.tklm.time.timehourdetail.service.TimeHourDetailServiceImpl">
+        <property name="timeHourDetailDao" ref="timeHourDetailDao"/>
+    </bean>
+
+    <bean id="userPrefService" class="org.kuali.kpme.tklm.time.user.pref.service.UserPreferenceServiceImpl">
+        <property name="userPrefDao" ref="userPrefDao"/>
+    </bean>
+
+    <bean id="accrualService" class="org.kuali.kpme.tklm.leave.accrual.service.AccrualServiceImpl">
+    </bean>
+    
+    <bean id="balanceTransferService" class="org.kuali.kpme.tklm.leave.transfer.service.BalanceTransferServiceImpl">
+    	<property name="balanceTransferDao" ref="balanceTransferDao"/>
+    </bean>
+    
+    <bean id="accrualCategoryMaxBalanceService" class="org.kuali.kpme.tklm.leave.accrual.service.AccrualCategoryMaxBalanceServiceImpl"/>
+
+    <bean id="leavePayoutService" class="org.kuali.kpme.tklm.leave.payout.service.LeavePayoutServiceImpl">
+        <property name="leavePayoutDao" ref="leavePayoutDao"/>
+    </bean>
+
+    <bean id="leaveDonationService" class="org.kuali.kpme.tklm.leave.donation.service.LeaveDonationServiceImpl">
+        <property name="leaveDonationDao" ref="leaveDonationDao"/>
+    </bean>
+
+    <bean id="systemScheduledTimeOffService" class="org.kuali.kpme.tklm.leave.timeoff.service.SystemScheduledTimeOffServiceImpl">
+        <property name="systemScheduledTimeOffDao" ref="systemScheduledTimeOffDao"/>
+    </bean>
+
+    <bean id="leaveBlockService" class="org.kuali.kpme.tklm.leave.block.service.LeaveBlockServiceImpl">
+        <property name="leaveBlockDao" ref="leaveBlockDao"/>
+    </bean>
+    
+    <bean id="leaveBlockHistoryService" class="org.kuali.kpme.tklm.leave.block.service.LeaveBlockHistoryServiceImpl">
+        <property name="leaveBlockHistoryDao" ref="leaveBlockHistoryDao"/>
+    </bean>
+    
+    <bean id="leaveCalendarService" class="org.kuali.kpme.tklm.leave.calendar.service.LeaveCalendarServiceImpl">
+        <property name="leaveCalendarDao" ref="leaveCalendarDao"/>
+    </bean>
+
+    <bean id="leaveCalendarDocumentHeaderService" class="org.kuali.kpme.tklm.leave.workflow.service.LeaveCalendarDocumentHeaderServiceImpl">
+        <property name="leaveCalendarDocumentHeaderDao" ref="leaveCalendarDocumentHeaderDao"/>
+    </bean>
+    
+    <bean id="employeeOverrideService" class="org.kuali.kpme.tklm.leave.override.service.EmployeeOverrideServiceImpl">
+        <property name="employeeOverrideDao" ref="employeeOverrideDao"/>
+    </bean>
+    
+    <bean id="leaveAdjustmentService" class="org.kuali.kpme.tklm.leave.adjustment.service.LeaveAdjustmentServiceImpl">
+        <property name="leaveAdjustmentDao" ref="leaveAdjustmentDao"/>
+    </bean>
+    
+    <bean id="timeSummaryService" class="org.kuali.kpme.tklm.time.timesummary.service.TimeSummaryServiceImpl"/>
+
+    <bean id="tkServiceLocator" class="org.kuali.kpme.tklm.time.service.TkServiceLocator" />
+
+    <bean id="lmServiceLocator" class="org.kuali.kpme.tklm.leave.service.LmServiceLocator"/>
+    
+    <bean id="tkRuleControllerService" class="org.kuali.kpme.tklm.time.rules.TkRuleControllerServiceImpl"/>
+
+    <bean id="tkSearchableAttributeService" class="org.kuali.kpme.tklm.time.docsearch.TkSearchableAttributeServiceImpl"/>
+
+    <bean id="timeApproveService" class="org.kuali.kpme.tklm.time.approval.service.TimeApproveServiceImpl"/>
+
+    <bean name="tkMobileService" class="org.kuali.kpme.tklm.time.service.mobile.TkMobileServiceImpl"/>
+
+    <bean id="tkMobileServiceExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="service" ref="tkMobileService"/>
+                <property name="serviceNameSpaceURI" value="tkMobileService"/>
+                <property name="localServiceName" value="tkMobileService"/>
+                <property name="busSecurity" value="false"/>
+                <property name="jaxWsService" value="true"/>
+            </bean>
+        </property>
+    </bean>
+    
+    
+    
+ 	<!-- TK-LM Lookupable Bean Definitions -->
+
+
+          
+    <bean id="balanceTransferLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    	<property name="lookupableHelperService">
+    		<bean class="org.kuali.kpme.tklm.leave.transfer.web.BalanceTransferLookupableHelper"/>
+    	</property>    
+    </bean>
+    <bean id="leavePayoutLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.leave.payout.web.LeavePayoutLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="systemLunchRuleLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.time.rules.lunch.sys.web.SystemLunchRuleLookupableHelper"/>
+        </property>
+    </bean>
+	<bean id="dailyOvertimeRuleLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.time.rules.overtime.daily.web.DailyOvertimeRuleLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="clockLocationRuleLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.time.rules.clocklocation.web.ClockLocationRuleLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="departmentLunchRuleLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.time.rules.lunch.department.web.DepartmentLunchRuleLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="gracePeriodRuleLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.time.rules.graceperiod.web.GracePeriodRuleLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="shiftDifferentialRuleLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.time.rules.shiftdifferential.web.ShiftDifferentialRuleLookupableHelper"/>
+        </property>
+    </bean>
+
+    <bean id="weeklyOvertimeRuleLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.time.rules.overtime.weekly.web.WeeklyOvertimeRuleLookupableHelper"/>
+        </property>
+    </bean>
+
+    <bean id="timeCollectionRuleLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.time.rules.timecollection.web.TimeCollectionRuleLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="clockLogLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.time.clocklog.web.ClockLogLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="systemScheduledTimeOffLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.leave.timeoff.web.SystemScheduledTimeOffLookupableHelper"/>
+        </property>
+    </bean>
+    
+    <bean id="leaveDonationLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.leave.donation.web.LeaveDonationLookupableHelper"/>
+        </property>
+    </bean>  
+    <bean id="leaveAdjustmentLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.leave.adjustment.web.LeaveAdjustmentLookupableHelper"/>
+        </property>
+    </bean> 
+    <bean id="employeeOverrideLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.leave.override.web.EmployeeOverrideLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="missedPunchLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchLookupableHelper"/>
+        </property>
+    </bean>
+
+</beans>
