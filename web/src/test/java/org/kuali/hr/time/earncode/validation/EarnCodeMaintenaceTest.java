@@ -133,8 +133,6 @@ public class EarnCodeMaintenaceTest extends KPMETestCase {
 	@Ignore
 	public void testDeactivateEarnCodeWithActiveTimeBlock() throws Exception {
 		
-		EarnCode earnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCode.class, hrEarnCodeId);
-		
 		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_MAINT_URL);
 		List<DomElement> lstElements = earnCodeLookUp.getElementsByIdAndOrName("history");
 		for(DomElement e : lstElements) {
@@ -161,8 +159,6 @@ public class EarnCodeMaintenaceTest extends KPMETestCase {
 	
 	@Test
 	public void testDeactivateEarnCodeWithInActiveTimeBlock() throws Exception {
-		
-		EarnCode earnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCode.class, hrEarnCodeId);
 		
 		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_MAINT_URL);
 		List<DomElement> lstElements = earnCodeLookUp.getElementsByIdAndOrName("history");
