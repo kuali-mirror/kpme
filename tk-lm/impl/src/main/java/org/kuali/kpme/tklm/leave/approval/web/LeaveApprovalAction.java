@@ -346,7 +346,6 @@ public class LeaveApprovalAction extends ApprovalAction{
 		    laaf.setLeaveCalendarDates(LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntry));
 		    List<String> principalIds = this.getPrincipalIdsToPopulateTable(laaf); 
             this.setApprovalTables(laaf, principalIds, request, payCalendarEntry);
-            laaf.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(laaf.getPayCalendarEntry()));
         }
 	}
 	

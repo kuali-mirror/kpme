@@ -56,7 +56,7 @@ public class LeaveCalendarWSAction extends KPMEAction {
 
         String documentId = lcf.getDocumentId();
         // if the reload was trigger by changing of the selectedPayPeriod, use the passed in parameter as the calendar entry id
-        String calendarEntryId = StringUtils.isNotBlank(request.getParameter("selectedPP")) ? request.getParameter("selectedPP") : lcf.getCalEntryId();
+        String calendarEntryId = StringUtils.isNotBlank(request.getParameter("selectedPP")) ? request.getParameter("selectedPP") : lcf.getHrCalendarEntryId();
 
         // Here - viewPrincipal will be the principal of the user we intend to
         // view, be it target user, backdoor or otherwise.

@@ -168,7 +168,7 @@ $(document).ready(function() {
     });
     
  // create navigation buttons for leave calendar
-    var calId = $('#calEntryId').val();
+    var calId = $('#hrCalendarEntryId').val();
     var prevCalId = $('#prevCalEntryId').val();
     var nextCalId = $('#nextCalEntryId').val();
     
@@ -180,7 +180,7 @@ $(document).ready(function() {
     });
 
     $('#nav_prev_lc').click(function() {
-        window.location = 'LeaveCalendar.do?documentId=' + prevDocId+'&calEntryId='+prevCalId;
+        window.location = 'LeaveCalendar.do?documentId=' + prevDocId+'&hrCalendarEntryId='+prevCalId;
     });
 
     $('#nav_next_lc').button({
@@ -191,7 +191,7 @@ $(document).ready(function() {
     });
 
     $('#nav_next_lc').click(function() {
-        window.location = 'LeaveCalendar.do?documentId=' + nextDocId+'&calEntryId='+nextCalId;
+        window.location = 'LeaveCalendar.do?documentId=' + nextDocId+'&hrCalendarEntryId='+nextCalId;
     });
 
     //create navigation for approval tab

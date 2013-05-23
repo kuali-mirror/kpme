@@ -55,7 +55,6 @@ public class KPMEAction extends KualiAction {
     }
 
 	public ActionForward userLogout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        HrContext.clear();
 		request.getSession().invalidate();
         ActionRedirect redirect = new ActionRedirect();
         redirect.setPath("portal.do");

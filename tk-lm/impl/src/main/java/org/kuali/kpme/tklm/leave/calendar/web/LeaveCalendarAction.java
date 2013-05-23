@@ -94,57 +94,92 @@ public class LeaveCalendarAction extends KPMEAction {
 
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        String principalId = GlobalVariables.getUserSession().getPrincipalId();
-        CalendarDocument leaveCalendarDocument = HrContext.getCurrentLeaveCalendarDocument();
-
-        if (leaveCalendarDocument != null && !HrServiceLocator.getHRPermissionService().canViewCalendarDocument(principalId, leaveCalendarDocument)) {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "LeaveCalendarAction: docid: " + leaveCalendarDocument.getDocumentId(), "");
+    	LeaveCalendarForm leaveCalendarForm = (LeaveCalendarForm) form;
+    	
+    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        
+    	if (StringUtils.isNotBlank(leaveCalendarForm.getDocumentId())) {
+	    	CalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarForm.getDocumentId());
+	        if (!HrServiceLocator.getHRPermissionService().canViewCalendarDocument(principalId, leaveCalendarDocument)) {
+	            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "LeaveCalendarAction: docid: " + leaveCalendarDocument.getDocumentId(), "");
+	        }
+    	}
+    }
+    
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward("basic");
+        String command = request.getParameter("command");
+        
+    	if (StringUtils.equals(command, "displayDocSearchView") || StringUtils.equals(command, "displayActionListView")) {
+        	String documentId = (String) request.getParameter("docId");
+        	LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
+        	String timesheetPrincipalName = KimApiServiceLocator.getPersonService().getPerson(leaveCalendarDocument.getPrincipalId()).getPrincipalName();
+        	
+        	String principalId = HrContext.getTargetPrincipalId();
+        	String principalName = KimApiServiceLocator.getPersonService().getPerson(principalId).getPrincipalName();
+        	
+        	StringBuilder builder = new StringBuilder();
+        	if (!StringUtils.equals(principalName, timesheetPrincipalName)) {
+        		if (StringUtils.equals(command, "displayDocSearchView")) {
+            		builder.append("changeTargetPerson.do?methodToCall=changeTargetPerson");
+            		builder.append("&documentId=");
+            		builder.append(documentId);
+            		builder.append("&principalName=");
+            		builder.append(timesheetPrincipalName);
+            		builder.append("&targetUrl=LeaveCalendar.do");
+            		builder.append("?documentId=" + documentId);
+            		builder.append("&returnUrl=LeaveApproval.do");
+            	} else {
+            		builder.append("LeaveApproval.do");
+            	}
+        	} else {
+        		builder.append("LeaveCalendar.do");
+        		builder.append("?documentId=" + documentId);
+        	}
+        	
+        	forward = new ActionRedirect(builder.toString());
         }
+    	
+    	return forward;
     }
     
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
-		String documentId = lcf.getDocumentId();
-		
-        if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
-        		|| StringUtils.equals(request.getParameter("command"), "displayActionListView") ) {
-        	documentId = (String) request.getParameter("docId");
-        }
+		LeaveCalendarForm leaveCalendarForm = (LeaveCalendarForm) form;
+		String documentId = leaveCalendarForm.getDocumentId();
+		String principalId = HrContext.getTargetPrincipalId();
 
-        LOG.debug("DOCID: " + documentId);
-        
 		// if the reload was trigger by changing of the selectedPayPeriod, use the passed in parameter as the calendar entry id
-		String calendarEntryId = StringUtils.isNotBlank(request.getParameter("selectedPP")) ? request.getParameter("selectedPP") : lcf.getCalEntryId();
+		String calendarEntryId = StringUtils.isNotBlank(request.getParameter("selectedPP")) ? request.getParameter("selectedPP") : leaveCalendarForm.getHrCalendarEntryId();
 		
-		// Here - viewPrincipal will be the principal of the user we intend to
-		// view, be it target user, backdoor or otherwise.
-		String viewPrincipal = HrContext.getTargetPrincipalId();
 		CalendarEntry calendarEntry = null;
-
-		LeaveCalendarDocument lcd = null;
-		LeaveCalendarDocumentHeader lcdh = null;
-
-		// By handling the prev/next in the execute method, we are saving one
-		// fetch/construction of a LeaveCalendarDocument. If it were broken out into
-		// methods, we would first fetch the current document, and then fetch
-		// the next one instead of doing it in the single action.
+		LeaveCalendarDocument leaveCalendarDocument = null;
 		if (StringUtils.isNotBlank(documentId)) {
-			lcd = LmServiceLocator.getLeaveCalendarService()
-					.getLeaveCalendarDocument(documentId);
-			calendarEntry = lcd.getCalendarEntry();
-		} else if (StringUtils.isNotBlank(calendarEntryId)) {
-			// do further procedure
-			calendarEntry = HrServiceLocator.getCalendarEntryService()
-					.getCalendarEntry(calendarEntryId);
+			leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
+			
+			if (leaveCalendarDocument != null) {
+				calendarEntry = leaveCalendarDocument.getCalendarEntry();
+			}
 		} else {
-			// Default to whatever is active for "today".
-			calendarEntry = HrServiceLocator.getCalendarService()
-					.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
+			if (StringUtils.isNotBlank(calendarEntryId)) {
+				calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(calendarEntryId);
+			} else {
+				calendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(principalId, new LocalDate().toDateTimeAtStartOfDay());
+			}
+			
+			if (LmServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(principalId, calendarEntry)) {
+				leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(principalId, calendarEntry);
+			} else {
+				LeaveCalendarDocumentHeader header = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
+				if (header != null) {
+					leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(header.getDocumentId());
+				}
+			}
 		}
-		lcf.setCalendarEntry(calendarEntry);
+
+		leaveCalendarForm.setCalendarEntry(calendarEntry);
 		if(calendarEntry != null) {
-			lcf.setCalEntryId(calendarEntry.getHrCalendarEntryId());
+			leaveCalendarForm.setHrCalendarEntryId(calendarEntry.getHrCalendarEntryId());
 		}
 		// check configuration setting for allowing accrual service to be ran from leave calendar
 		String runAccrualFlag = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.RUN_ACCRUAL_FROM_CALENDAR);
@@ -152,37 +187,27 @@ public class LeaveCalendarAction extends KPMEAction {
 			// run accrual for future dates only, use planning month of leave plan for accrual period
 			// only run the accrual if the calendar entry contains future dates
 			if(calendarEntry != null && calendarEntry.getEndPeriodDate().after(LocalDate.now().toDate())) {
-				if(LmServiceLocator.getLeaveAccrualService().statusChangedSinceLastRun(viewPrincipal)) {
-					LmServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
+				if(LmServiceLocator.getLeaveAccrualService().statusChangedSinceLastRun(principalId)) {
+					LmServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
 				}
 			}
 		}
 		
-		if(lcd == null) {
-			// use jobs to find out if this leave calendar should have a document created or not
-			boolean createFlag = LmServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(viewPrincipal, calendarEntry);
-			if(createFlag) {
-				lcd = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
-			} else {
-				LeaveCalendarDocumentHeader header = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
-				if(header != null) {
-					lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(header.getDocumentId());
-				}
-			}
-		}
-		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
+
+		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
 		List<String> assignmentKeys = new ArrayList<String>();
         for(Assignment assign : assignments) {
         	assignmentKeys.add(assign.getAssignmentKey());
         }
-		if (lcd != null) {
-			lcf.setDocumentId(lcd.getDocumentId());
-			lcf.setAssignmentDescriptions(lcd.getAssignmentDescriptions());
-            lcdh = lcd.getDocumentHeader();
+		LeaveCalendarDocumentHeader lcdh = null;
+		if (leaveCalendarDocument != null) {
+			leaveCalendarForm.setDocumentId(leaveCalendarDocument.getDocumentId());
+			leaveCalendarForm.setAssignmentDescriptions(leaveCalendarDocument.getAssignmentDescriptions());
+            lcdh = leaveCalendarDocument.getDocumentHeader();
 		} else {
-			lcf.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments));  
+			leaveCalendarForm.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments));  
 		}
-		setupDocumentOnFormContext(lcf, lcd);
+		setupDocumentOnFormContext(leaveCalendarForm, leaveCalendarDocument);
 		ActionForward forward = super.execute(mapping, form, request, response);
 		//no window exists if mapping->forward = closeBalanceTransferDoc.
 		if (forward.getRedirect()) {
@@ -191,36 +216,36 @@ public class LeaveCalendarAction extends KPMEAction {
 
         LeaveCalendar calendar = null;
         if (calendarEntry != null) {
-            calendar = new LeaveCalendar(viewPrincipal, calendarEntry, assignmentKeys);
-            lcf.setLeaveCalendar(calendar);
+            calendar = new LeaveCalendar(principalId, calendarEntry, assignmentKeys);
+            leaveCalendarForm.setLeaveCalendar(calendar);
         }
 		
-		this.populateCalendarAndPayPeriodLists(request, lcf);
+		this.populateCalendarAndPayPeriodLists(request, leaveCalendarForm);
 
 		// KPME-1447
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         if (lcdh != null && lcdh.getPrincipalId() != null && lcdh.getBeginDate() != null && lcdh.getEndDate() != null) {
             leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(lcdh.getPrincipalId(), LocalDate.fromDateFields(lcdh.getBeginDate()), LocalDate.fromDateFields(lcdh.getEndDate()), assignmentKeys);
         } else if(calendarEntry != null){
-            leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), assignmentKeys);
+            leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), assignmentKeys);
         } 
         
         // leave summary
         if (calendarEntry != null) {
             //check to see if we are on a previous leave plan
-            PrincipalHRAttributes principalCal = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
+            PrincipalHRAttributes principalCal = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
             if(principalCal != null) {
 
                 DateTime currentYearBeginDate = HrServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(principalCal.getLeavePlan(), LocalDate.now());
                 DateTime calEntryEndDate = calendarEntry.getEndPeriodFullDateTime();
 	            if (calEntryEndDate.getMillis() > currentYearBeginDate.getMillis()) {
 	            	//current or future year
-	                LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
-	                lcf.setLeaveSummary(ls);
+	                LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
+	                leaveCalendarForm.setLeaveSummary(ls);
                 } else {
                     //current year roll over date has been passed, all previous calendars belong to the previous leave plan calendar year.
                     DateTime effDate = HrServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalCal.getLeavePlan(), calEntryEndDate.minusDays(1).toLocalDate());
-                    LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(viewPrincipal, effDate.toLocalDate());
+                    LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(principalId, effDate.toLocalDate());
                     //override title element (based on date passed in)
                     DateFormat formatter = new SimpleDateFormat("MMMM d");
                     DateFormat formatter2 = new SimpleDateFormat("MMMM d yyyy");
@@ -232,7 +257,7 @@ public class LeaveCalendarAction extends KPMEAction {
                     ls.setPendingDatesString(aString);
                     DateTimeFormatter fmt = DateTimeFormat.forPattern("MMM d, yyyy");
                     ls.setNote("Values as of: " + fmt.print(effDate));
-                    lcf.setLeaveSummary(ls);
+                    leaveCalendarForm.setLeaveSummary(ls);
                 }
 
             }
@@ -247,7 +272,7 @@ public class LeaveCalendarAction extends KPMEAction {
         // which row(s) to transfer when user submits the calendar for approval.
 
         if(ObjectUtils.isNotNull(calendarEntry)) {
-            PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
+            PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 	        List<BalanceTransfer> losses = new ArrayList<BalanceTransfer>();
 
 	        Interval calendarInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(), calendarEntry.getEndPeriodDate().getTime());
@@ -258,9 +283,9 @@ public class LeaveCalendarAction extends KPMEAction {
 	        	effectiveDate = calendarEntry.getEndPeriodDate();
 	        
             if(ObjectUtils.isNotNull(principalCalendar)) {
-    	        maxBalInfractions = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, viewPrincipal);
+    	        maxBalInfractions = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, principalId);
     	        
-		        LeaveSummary summary = lcf.getLeaveSummary();
+		        LeaveSummary summary = leaveCalendarForm.getLeaveSummary();
     	        for(Entry<String,Set<LeaveBlock>> entry : maxBalInfractions.entrySet()) {
     	        	for(LeaveBlock lb : entry.getValue()) {
     	        		AccrualCategory accrualCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveLocalDate());
@@ -271,7 +296,7 @@ public class LeaveCalendarAction extends KPMEAction {
 			        			aDate = HrServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalCalendar.getLeavePlan(), lb.getLeaveLocalDate());
 			        		}
 			        		else {
-				        		Calendar cal = HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, new LocalDate(lb.getLeaveDate()), true);
+				        		Calendar cal = HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, new LocalDate(lb.getLeaveDate()), true);
 				        		CalendarEntry leaveEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(cal.getHrCalendarId(), new DateTime(lb.getLeaveDate()));
 				        		aDate = new DateTime(leaveEntry.getEndPeriodDate());
 			        		}
@@ -279,9 +304,9 @@ public class LeaveCalendarAction extends KPMEAction {
 			        		if(calendarInterval.contains(aDate.getMillis()) && aDate.toDate().compareTo(calendarEntry.getEndPeriodDate()) <= 0) {
 				        		//may want to calculate summary for all rows, displayable or not, and determine displayability via tags.
 				    			AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
-				    			BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(viewPrincipal, accrualCategory, lb.getLeaveLocalDate());
+				    			BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, lb.getLeaveLocalDate());
 					        	
-					        	BalanceTransfer loseTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveLocalDate());
+					        	BalanceTransfer loseTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(principalId, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveLocalDate());
 					        	boolean valid = BalanceTransferValidationUtils.validateTransfer(loseTransfer);
 					        	if(valid)
 					        		losses.add(loseTransfer);
@@ -320,11 +345,11 @@ public class LeaveCalendarAction extends KPMEAction {
         				}
     	        	}
     	        }
-	        	lcf.setLeaveSummary(summary);
+	        	leaveCalendarForm.setLeaveSummary(summary);
             }
-	        lcf.setForfeitures(losses);
+	        leaveCalendarForm.setForfeitures(losses);
 	        
-	        Map<String,Set<String>> transactions = LeaveCalendarValidationUtil.validatePendingTransactions(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
+	        Map<String,Set<String>> transactions = LeaveCalendarValidationUtil.validatePendingTransactions(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 
 	        allMessages.get("infoMessages").addAll(transactions.get("infoMessages"));
 	        allMessages.get("warningMessages").addAll(transactions.get("warningMessages"));
@@ -336,11 +361,11 @@ public class LeaveCalendarAction extends KPMEAction {
         
         // add warning messages based on max carry over balances for each accrual category
         if(calendarEntry != null) {
-	        PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
+	        PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 			if (principalCalendar != null) {
 				List<AccrualCategory> accrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalCalendar.getLeavePlan(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 				for (AccrualCategory accrualCategory : accrualCategories) {
-					if (LmServiceLocator.getAccrualCategoryMaxCarryOverService().exceedsAccrualCategoryMaxCarryOver(accrualCategory.getAccrualCategory(), viewPrincipal, calendarEntry, calendarEntry.getEndPeriodFullDateTime().toLocalDate())) {
+					if (LmServiceLocator.getAccrualCategoryMaxCarryOverService().exceedsAccrualCategoryMaxCarryOver(accrualCategory.getAccrualCategory(), principalId, calendarEntry, calendarEntry.getEndPeriodFullDateTime().toLocalDate())) {
 						String message = "Your pending leave balance is greater than the annual max carry over for accrual category '" + accrualCategory.getAccrualCategory() + "' and upon approval, the excess balance will be lost.";
 						if (!allMessages.get("warningMessages").contains(message)) {
                             allMessages.get("warningMessages").add(message);
@@ -349,7 +374,7 @@ public class LeaveCalendarAction extends KPMEAction {
 				}
 				
 				// KPME-1279 check for Absent Earn code to add warning.
-				List<EarnCode> earnCodes = HrServiceLocator.getEarnCodeService().getEarnCodesForPrincipal(viewPrincipal, calendarEntry.getEndPeriodFullDateTime().toLocalDate(), true);
+				List<EarnCode> earnCodes = HrServiceLocator.getEarnCodeService().getEarnCodesForPrincipal(principalId, calendarEntry.getEndPeriodFullDateTime().toLocalDate(), true);
 				if(earnCodes != null && !earnCodes.isEmpty()) {
 					for (EarnCode earnCodeObj : earnCodes) {
 						if(earnCodeObj != null) {
@@ -375,15 +400,15 @@ public class LeaveCalendarAction extends KPMEAction {
         infoMessages.addAll(allMessages.get("infoMessages"));
         actionMessages.addAll(allMessages.get("actionMessages"));
 
-        lcf.setWarningMessages(warningMessages);
-        lcf.setInfoMessages(infoMessages);
-        lcf.setActionMessages(actionMessages);
+        leaveCalendarForm.setWarningMessages(warningMessages);
+        leaveCalendarForm.setInfoMessages(infoMessages);
+        leaveCalendarForm.setActionMessages(actionMessages);
         
 		// KPME-1690
 //        LeaveCalendar leaveCalender = new LeaveCalendar(viewPrincipal, calendarEntry);
         if (calendarEntry != null) {
             LeaveBlockAggregate aggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry, calendar);
-            lcf.setLeaveBlockString(LeaveActionFormUtils.getLeaveBlocksJson(aggregate.getFlattenedLeaveBlockList()));
+            leaveCalendarForm.setLeaveBlockString(LeaveActionFormUtils.getLeaveBlocksJson(aggregate.getFlattenedLeaveBlockList()));
         }
         //lcf.setLeaveBlockString(ActionFormUtils.getLeaveBlocksJson(aggregate.getFlattenedLeaveBlockList()));
 		
@@ -648,11 +673,8 @@ public class LeaveCalendarAction extends KPMEAction {
 		// some leave calendar may not have leaveCalendarDocument created based on the jobs status of this employee
 		if(lcd != null) {
 			if (lcd.getDocumentHeader() != null) {
-				HrContext.setCurrentLeaveCalendarDocumentId(lcd.getDocumentId());
 				leaveForm.setDocumentId(lcd.getDocumentId());
 			}
-			HrContext.setCurrentLeaveCalendarDocument(lcd);
-	        HrContext.setCurrentLeaveCalendarDocumentId(lcd.getDocumentId());
 			leaveForm.setLeaveCalendarDocument(lcd);
 	        leaveForm.setDocumentId(lcd.getDocumentId());
 	        calEntry = lcd.getCalendarEntry();
@@ -719,7 +741,7 @@ public class LeaveCalendarAction extends KPMEAction {
                 }
             }
         }
-		if(leaveForm.getViewLeaveTabsWithNEStatus()) {
+		if(HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithNEStatus()) {
 			if(isFutureDate) {
                 setDocEditable(leaveForm, lcd);
 			} else {
@@ -736,10 +758,8 @@ public class LeaveCalendarAction extends KPMEAction {
 		}
 		leaveForm.setCalendarEntry(calEntry);
 		if(calEntry != null) {
-			leaveForm.setCalEntryId(calEntry.getHrCalendarEntryId());
+			leaveForm.setHrCalendarEntryId(calEntry.getHrCalendarEntryId());
 		}
-		leaveForm.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(calEntry));
-
 	}
 
     private void setDocEditable(LeaveCalendarForm leaveForm, LeaveCalendarDocument lcd) {
@@ -757,11 +777,11 @@ public class LeaveCalendarAction extends KPMEAction {
     			 }
              }
     	} else {
+    		DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(lcd.getDocumentId());
 	        if (HrContext.isSystemAdmin() && !StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())) {
 	            leaveForm.setDocEditable(true);
 	        } else {
-	            boolean docFinal = lcd.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL);
-	            if (!docFinal) {
+	            if (!DocumentStatus.FINAL.equals(documentStatus)) {
 	                if(StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
 	                        || HrContext.isSystemAdmin()
 	                        || TkContext.isLocationAdmin()
@@ -771,9 +791,8 @@ public class LeaveCalendarAction extends KPMEAction {
 	                }
 	
 	                //if the leave Calendar has been approved by at least one of the approvers, the employee should not be able to edit it
-	                if (StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
-	                        && lcd.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.ENROUTE)) {
-	                    Collection actions = KEWServiceLocator.getActionTakenService().findByDocIdAndAction(lcd.getDocumentHeader().getDocumentId(), HrConstants.DOCUMENT_ACTIONS.APPROVE);
+	                if (StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId()) && DocumentStatus.ENROUTE.equals(documentStatus)) {
+	                    Collection actions = KEWServiceLocator.getActionTakenService().findByDocIdAndAction(lcd.getDocumentId(), HrConstants.DOCUMENT_ACTIONS.APPROVE);
 	                    if(!actions.isEmpty()) {
 	                        leaveForm.setDocEditable(false);
 	                    }
@@ -789,9 +808,8 @@ public class LeaveCalendarAction extends KPMEAction {
 		CalendarEntry calendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 		lcf.setCalendarEntry(calendarEntry);
 		if(calendarEntry != null) {
-			lcf.setCalEntryId(calendarEntry.getHrCalendarEntryId());
+			lcf.setHrCalendarEntryId(calendarEntry.getHrCalendarEntryId());
 		}
-		lcf.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(calendarEntry));
 	
 		LeaveCalendarDocument lcd = null;
 		// use jobs to find out if this leave calendar should have a document created or not
@@ -828,7 +846,7 @@ public class LeaveCalendarAction extends KPMEAction {
 				.getCalendarEntry(request.getParameter("selectedPP").toString());
 			if(ce != null) {
 				String viewPrincipal = HrContext.getTargetPrincipalId();
-				lcf.setCalEntryId(ce.getHrCalendarEntryId());
+				lcf.setHrCalendarEntryId(ce.getHrCalendarEntryId());
 				LeaveCalendarDocument lcd = null;
 				// use jobs to find out if this leave calendar should have a document created or not
 				boolean createFlag = LmServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(viewPrincipal, ce);
@@ -931,43 +949,6 @@ public class LeaveCalendarAction extends KPMEAction {
     public ActionForward leavePayout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 
         return mapping.findForward("basic");
-    }
-    
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = mapping.findForward("basic");
-        String command = request.getParameter("command");
-        
-    	if (StringUtils.equals(command, "displayDocSearchView") || StringUtils.equals(command, "displayActionListView")) {
-        	String docId = (String) request.getParameter("docId");
-        	LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(docId);
-        	String timesheetPrincipalName = KimApiServiceLocator.getPersonService().getPerson(leaveCalendarDocument.getPrincipalId()).getPrincipalName();
-        	
-        	String principalId = HrContext.getTargetPrincipalId();
-        	String principalName = KimApiServiceLocator.getPersonService().getPerson(principalId).getPrincipalName();
-        	
-        	StringBuilder builder = new StringBuilder();
-        	if (!StringUtils.equals(principalName, timesheetPrincipalName)) {
-        		if (StringUtils.equals(command, "displayDocSearchView")) {
-            		builder.append("changeTargetPerson.do?methodToCall=changeTargetPerson");
-            		builder.append("&documentId=");
-            		builder.append(docId);
-            		builder.append("&principalName=");
-            		builder.append(timesheetPrincipalName);
-            		builder.append("&targetUrl=LeaveCalendar.do");
-            		builder.append("?docmentId=" + docId);
-            		builder.append("&returnUrl=LeaveApproval.do");
-            	} else {
-            		builder.append("LeaveApproval.do");
-            	}
-        	} else {
-        		builder.append("LeaveCalendar.do");
-        		builder.append("?docmentId=" + docId);
-        	}
-        	
-        	forward = new ActionRedirect(builder.toString());
-        }
-    	
-    	return forward;
     }
 
 }

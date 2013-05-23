@@ -19,47 +19,27 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.struts.action.ActionMapping;
 import org.kuali.kpme.core.TkCommonCalendarForm;
-import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 
 public class TimesheetActionForm extends TkCommonCalendarForm {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 6938733178369007689L;
-	private TimesheetDocument timesheetDocument;
+	private static final long serialVersionUID = -1323339639503231411L;
 
+	private TimesheetDocument timesheetDocument;
 
 	/**Job Number -> Formatted department earn codes  */
 	private Map<Long,String> earnCodeDescriptions;
 	/** String (concat(job number, work_area, task)) -> Formatted Assignment Descriptions */
 	private Map<String,String>  assignmentDescriptions;
-	private CalendarEntry payCalendarDates;
 	private String selectedAssignment;
 	private String selectedEarnCode;
 	private String transferAccrualCategory;
 
 	private String calNav;
-	private String documentId;
 
-	private Date beginPeriodDateTime;
-	private Date endPeriodDateTime;
-
-    private String prevDocumentId;
-    private String nextDocumentId;
     private List<BalanceTransfer> forfeitures;
-
-	@Override
-	public void reset(ActionMapping mapping, HttpServletRequest request) {
-		super.reset(mapping, request);
-		//setDocumentId("");
-	}
 
 	public TimesheetDocument getTimesheetDocument() {
 		return timesheetDocument;
@@ -101,14 +81,6 @@ public class TimesheetActionForm extends TkCommonCalendarForm {
 		this.selectedEarnCode = selectedEarnCode;
 	}
 
-	public CalendarEntry getPayCalendarDates() {
-		return payCalendarDates;
-	}
-
-	public void setPayCalendarDates(CalendarEntry payCalendarDates) {
-		this.payCalendarDates = payCalendarDates;
-	}
-
 	public String getCalNav() {
 		return calNav;
 	}
@@ -118,36 +90,12 @@ public class TimesheetActionForm extends TkCommonCalendarForm {
 	}
 
 	public Date getBeginPeriodDateTime() {
-		return getPayCalendarDates().getBeginPeriodDateTime();
+		return getCalendarEntry().getBeginPeriodDateTime();
 	}
 
 	public Date getEndPeriodDateTime() {
-		return getPayCalendarDates().getEndPeriodDateTime();
+		return getCalendarEntry().getEndPeriodDateTime();
 	}
-
-	public String getDocumentId() {
-		return documentId;
-	}
-
-	public void setDocumentId(String documentId) {
-		this.documentId = documentId;
-	}
-
-    public String getPrevDocumentId() {
-        return prevDocumentId;
-    }
-
-    public void setPrevDocumentId(String prevDocumentId) {
-        this.prevDocumentId = prevDocumentId;
-    }
-
-    public String getNextDocumentId() {
-        return nextDocumentId;
-    }
-
-    public void setNextDocumentId(String nextDocumentId) {
-        this.nextDocumentId = nextDocumentId;
-    }
 
 	public String getTransferAccrualCategory() {
 		return transferAccrualCategory;

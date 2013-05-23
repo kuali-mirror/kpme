@@ -47,7 +47,6 @@
                     <tbody>
                         <tr>
                             <td align="right">
-                            <%--<c:if test="${!Form.onCurrentPeriod}" >--%>
                                 <span class="header-title-right">
 	       		                    <a href="${calendarLocation}?methodToCall=gotoCurrentPayPeriod"
                                         target="_self" id="cpplink">
@@ -61,7 +60,6 @@
                                         </c:choose>
                                     </a>
                                 </span>
-                            <%--</c:if>--%>
                             </td>
                         </tr>
                         <tr>

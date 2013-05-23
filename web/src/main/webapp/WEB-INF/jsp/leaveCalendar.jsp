@@ -81,7 +81,7 @@
                 <html:hidden property="methodToCall" value="" styleId="methodToCall"/>
                 <html:hidden property="beginPeriodDateTime" value="${Form.beginPeriodDateTime}" styleId="beginPeriodDateTime"/>
                 <html:hidden property="endPeriodDateTime" value="${Form.endPeriodDateTime}" styleId="endPeriodDateTime"/>
-                <html:hidden property="calEntryId" value="${Form.calEntryId}" styleId="calEntryId"/>
+                <html:hidden property="hrCalendarEntryId" value="${Form.hrCalendarEntryId}" styleId="hrCalendarEntryId"/>
                 <html:hidden property="leaveBlockId" value="" styleId="leaveBlockId"/>
 
                 <div class="ui-widget timesheet-panel" id="timesheet-panel">

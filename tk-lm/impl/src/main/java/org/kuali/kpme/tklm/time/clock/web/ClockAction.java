@@ -65,9 +65,10 @@ public class ClockAction extends TimesheetAction {
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         super.checkTKAuthorization(form, methodToCall); // Checks for read access first.
 
+        ClockActionForm clockActionForm = (ClockActionForm) form;
+
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
-    	String documentId = HrContext.getCurrentTimesheetDocumentId();
-    	CalendarDocument timesheetDocument = HrContext.getCurrentTimesheetDocument();
+    	CalendarDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(clockActionForm.getDocumentId());
         // Check for write access to Timeblock.
         if (StringUtils.equals(methodToCall, "clockAction") ||
                 StringUtils.equals(methodToCall, "addTimeBlock") ||
@@ -240,7 +241,7 @@ public class ClockAction extends TimesheetAction {
         }
         
                
-        ClockLog clockLog = TkServiceLocator.getClockLogService().processClockLog(new DateTime(), assignment, caf.getPayCalendarDates(), ip,
+        ClockLog clockLog = TkServiceLocator.getClockLogService().processClockLog(new DateTime(), assignment, caf.getCalendarEntry(), ip,
                 LocalDate.now(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), HrContext.getTargetPrincipalId());
 
         caf.setClockLog(clockLog);

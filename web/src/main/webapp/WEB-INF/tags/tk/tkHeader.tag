@@ -117,33 +117,19 @@
 							</td>
 							<td>${employeeName}</td>
 						</tr>
-						<c:if test="${form.documentIdFromContext ne null}">
+						<c:if test="${Form.documentId ne null}">
 							<tr>
 								<td align="right">${prefix} <bean:message
 										key="approval.documentId" />:
 								</td>
-								<td>${form.documentIdFromContext}</td>
+								<td>${Form.documentId}</td>
 							</tr>
 							<tr>
 								<td align="right">${prefix} <bean:message
 										key="time.detail.documentStatus" />:
 								</td>
-								<td>${tagSupport.documentStatus[form.documentStatus]}</td>
+								<td>${Form.documentStatus}</td>
 							</tr>
-						</c:if>
-						<c:if test="${form.leaveDocumentIdFromContext ne null}">
-							<tr>
-								<td align="right">${prefix} <bean:message
-										key="approval.documentId" />:
-								</td>
-								<td>${form.leaveDocumentIdFromContext}</td>
-							</tr>
-                            <tr>
-                                <td align="right">${prefix} <bean:message
-                                        key="time.detail.documentStatus" />:
-                                </td>
-                                <td>${tagSupport.documentStatus[form.leaveCalendarDocumentStatus]}</td>
-                            </tr>
 						</c:if>
 					</table>
 

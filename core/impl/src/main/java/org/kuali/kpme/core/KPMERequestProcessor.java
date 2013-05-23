@@ -41,7 +41,6 @@ public class KPMERequestProcessor extends KualiRequestProcessor {
 		
 		Date startTime = new Date();
 		
-		HrContext.clear();
 		super.process(request, response);
 
 		String header = " Browser: " + request.getHeader("User-Agent");

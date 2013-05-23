@@ -25,8 +25,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.kpme.core.util.HrContext;
-
 public class TkMobileFilter implements Filter {
 
 	@Override
@@ -37,7 +35,6 @@ public class TkMobileFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
         HttpServletRequest hsRequest = (HttpServletRequest) request;
-        HrContext.clear();
 		chain.doFilter(hsRequest, response);
 
 	}

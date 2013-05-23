@@ -19,15 +19,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.TkCommonCalendarForm;
-import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendar;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
@@ -38,29 +33,23 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 
     private static final DateTimeFormatter SDF_NO_TZ = DateTimeFormat.forPattern("EEE MMM d HH:mm:ss yyyy");
 
-    private String documentId;
     private LeaveCalendar leaveCalendar;
     private LeaveCalendarDocument leaveCalendarDocument;
-    CalendarEntry calendarEntry;
+    
     private String startDate;
     private String endDate;
     private String selectedEarnCode;
     private BigDecimal leaveAmount;
     private String description;
     private String leaveBlockId;
-    private String prevDocumentId;
-    private String nextDocumentId;
     private String prevCalEntryId;
     private String nextCalEntryId;
-    private String calEntryId;
 	/** String (concat(job number, work_area, task)) -> Formatted Assignment Descriptions */
 	private Map<String,String>  assignmentDescriptions;
 	private String selectedAssignment;
 	private String spanningWeeks; // KPME-1446
 	private String leaveBlockString;  // KPME-1447
 	private boolean isDocEditable;
-	private String currentPayCalStartDate;
-	private String currentPayCalEndDate;
 	private DateTime currentPayCalStart;
 	private DateTime currentPayCalEnd;
 	private LeaveSummary leaveSummary;
@@ -68,10 +57,7 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
     private List<BalanceTransfer> forfeitures;
 	private String startTime;
 	private String endTime;
-    
-    public boolean isCurrentLeavePeriod () {
-    	return (LocalDate.now().toDate().compareTo(calendarEntry.getBeginPeriodDate()) >= 0 && LocalDate.now().toDate().compareTo(calendarEntry.getEndPeriodDate()) < 0);
-    }
+
 	public DateTime getCurrentPayCalStart() {
 		return currentPayCalStart;
 	}
@@ -96,20 +82,12 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 		}
 	}
 
-	public void setCurrentPayCalStartDate(String currentPayCalStartDate) {
-		this.currentPayCalStartDate = currentPayCalStartDate;
-	}
-
 	public String getCurrentPayCalEndDate() {
 		if(currentPayCalEnd != null) {
 			return this.currentPayCalEnd.toString(SDF_NO_TZ);
 		} else {
 			return null;
 		}
-	}
-
-	public void setCurrentPayCalEndDate(String currentPayCalEndDate) {
-		this.currentPayCalEndDate = currentPayCalEndDate;
 	}
 
 	public boolean isDocEditable() {
@@ -176,41 +154,12 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 		this.nextCalEntryId = nextCalEntryId;
 	}
 
-	public String getCalEntryId() {
-		return calEntryId;
-	}
-
-	public void setCalEntryId(String calEntryId) {
-		this.calEntryId = calEntryId;
-	}
-
-	@Override
-    public void reset(ActionMapping mapping, HttpServletRequest request) {
-        super.reset(mapping, request);
-    }
-
     public LeaveCalendar getLeaveCalendar() {
         return leaveCalendar;
     }
 
     public void setLeaveCalendar(LeaveCalendar leaveCalendar) {
         this.leaveCalendar = leaveCalendar;
-    }
-
-    public String getDocumentId() {
-        return documentId;
-    }
-
-    public void setDocumentId(String documentId) {
-        this.documentId = documentId;
-    }
-
-    public CalendarEntry getCalendarEntry() {
-        return calendarEntry;
-    }
-
-    public void setCalendarEntry(CalendarEntry calendarEntry) {
-        this.calendarEntry = calendarEntry;
     }
 
     public LeaveCalendarDocument getLeaveCalendarDocument() {
@@ -259,22 +208,6 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 
     public void setLeaveBlockId(String leaveBlockId) {
         this.leaveBlockId = leaveBlockId;
-    }
-
-    public String getNextDocumentId() {
-        return nextDocumentId;
-    }
-
-    public void setNextDocumentId(String nextDocumentId) {
-        this.nextDocumentId = nextDocumentId;
-    }
-
-    public String getPrevDocumentId() {
-        return prevDocumentId;
-    }
-
-    public void setPrevDocumentId(String prevDocumentId) {
-        this.prevDocumentId = prevDocumentId;
     }
 
     public String getBeginPeriodDateTime() {

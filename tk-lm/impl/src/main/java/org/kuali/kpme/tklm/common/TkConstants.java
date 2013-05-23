@@ -192,10 +192,6 @@ public class TkConstants {
         CLOCK_ACTION_STRINGS.put(LUNCH_OUT, "Lunch Out"); // Going to Lunch
     }
 
-    // calendar navigation
-    public static final String NEXT_TIMESHEET = "next";
-    public static final String PREV_TIMESHEET = "prev";
-
     // document ID request parameter name
     public static final String DOCUMENT_ID_REQUEST_NAME = "docid";
     //Threshold in hours for clockin highlighting on approvers tab

@@ -17,6 +17,8 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
+<%@ taglib uri="/WEB-INF/tld/kpme-func.tld" prefix="kpmefunc" %>
+
 <%@ taglib tagdir="/WEB-INF/tags/tk" prefix="tk"%>
 <%@ taglib tagdir="/WEB-INF/tags/tk/admin" prefix="admin"%>
 <%@ taglib tagdir="/WEB-INF/tags/tk/departmentAdmin" prefix="departmentAdmin"%>

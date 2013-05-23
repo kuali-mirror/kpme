@@ -15,34 +15,15 @@
  */
 package org.kuali.kpme.core.util;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class HrContext {
-
-    private static final String TDOC_OBJ_KEY = "_TDOC_O_KEY";
-    private static final String TDOC_KEY = "_TDOC_ID_KEY";
-    private static final String LDOC_OBJ_KEY = "_LDOC_O_KEY";
-    private static final String LDOC_KEY = "_LDOC_ID_KEY";
-
-	private static final ThreadLocal<Map<String, Object>> STORAGE_MAP = new ThreadLocal<Map<String, Object>>() {
-		@Override
-		protected Map<String, Object> initialValue() {
-			return Collections.synchronizedMap(new HashMap<String, Object>());
-		}
-	};
 	
 	public static String getPrincipalId() {
 		return GlobalVariables.getUserSession().getPrincipalId();
@@ -126,58 +107,6 @@ public class HrContext {
     
 	public static boolean isTargetActiveEmployee() {
 		return CollectionUtils.isNotEmpty(HrServiceLocator.getAssignmentService().getAssignments(getTargetPrincipalId(), LocalDate.now()));
-	}
-
-    public static CalendarDocument getCurrentTimesheetDocument() {
-        return (CalendarDocument) HrContext.getStorageMap().get(TDOC_OBJ_KEY);
-    }
-
-    public static void setCurrentTimesheetDocument(CalendarDocument tdoc) {
-        HrContext.getStorageMap().put(TDOC_OBJ_KEY, tdoc);
-    }
-
-    public static String getCurrentTimesheetDocumentId() {
-        return (String)HrContext.getStorageMap().get(TDOC_KEY);
-    }
-
-    public static void setCurrentTimesheetDocumentId(String timesheetDocumentId) {
-        HrContext.getStorageMap().put(TDOC_KEY, timesheetDocumentId);
-    }
-
-    public static CalendarDocument getCurrentLeaveCalendarDocument() {
-        return  (CalendarDocument) HrContext.getStorageMap().get(LDOC_OBJ_KEY);
-    }
-
-    public static void setCurrentLeaveCalendarDocument(CalendarDocument ldoc) {
-        HrContext.getStorageMap().put(LDOC_OBJ_KEY, ldoc);
-    }
-
-    public static String getCurrentLeaveCalendarDocumentId() {
-        return (String)HrContext.getStorageMap().get(LDOC_KEY);
-    }
-
-    public static void setCurrentLeaveCalendarDocumentId(String leaveCalendarDocumentId) {
-        HrContext.getStorageMap().put(LDOC_KEY, leaveCalendarDocumentId);
-    }	
-
-	public static HttpServletRequest getHttpServletRequest() {
-		return (HttpServletRequest) getStorageMap().get("REQUEST");
-	}
-
-	public static void setHttpServletRequest(HttpServletRequest request) {
-		getStorageMap().put("REQUEST", request);
-	}
-
-	public static Map<String, Object> getStorageMap() {
-		return STORAGE_MAP.get();
-	}
-
-	public static void resetStorageMap() {
-		STORAGE_MAP.remove();
-	}
-
-	public static void clear() {
-		resetStorageMap();
 	}
 	
 }

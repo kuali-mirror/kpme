@@ -15,9 +15,10 @@
  */
 package org.kuali.kpme.core.web;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.HrContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class KPMEForm extends KualiForm {
@@ -55,34 +56,24 @@ public class KPMEForm extends KualiForm {
 	public String getWorkflowUrl(){
 		return ConfigContext.getCurrentContextConfig().getProperty("workflow.url");
 	}
-	
-	public String getDocumentIdFromContext(){
-		return HrContext.getCurrentTimesheetDocumentId();
-	}
 
     public String getDocumentStatus() {
-        return HrContext.getCurrentTimesheetDocument().getDocumentHeader().getDocumentStatus();
-    }
-
-    public String getLeaveCalendarDocumentStatus() {
-        return HrContext.getCurrentLeaveCalendarDocument().getDocumentHeader().getDocumentStatus();
-    }
-    
-    public boolean getLeaveEnabled() {
-    	boolean canViewLeaveTab= false;
-        canViewLeaveTab = this.getViewLeaveTabsWithNEStatus() || HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithEStatus();
-        return canViewLeaveTab; 
+    	String documentStatus = StringUtils.EMPTY;
+    	
+    	if (StringUtils.isNotBlank(getDocumentId())) {
+        	documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(getDocumentId()).getLabel();
+    	}
+    	
+    	return documentStatus;
     }
     
     public boolean getTimeEnabled() {
     	return HrServiceLocator.getHRPermissionService().canViewTimeTabs();
     }
     
-    public String getLeaveDocumentIdFromContext(){
-		return HrContext.getCurrentLeaveCalendarDocumentId();
-	}
- 
-    public boolean getViewLeaveTabsWithNEStatus() {
-    	return HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithNEStatus();
+    public boolean getLeaveEnabled() {
+    	return HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithNEStatus() 
+    			|| HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithEStatus();
     }
+
 }

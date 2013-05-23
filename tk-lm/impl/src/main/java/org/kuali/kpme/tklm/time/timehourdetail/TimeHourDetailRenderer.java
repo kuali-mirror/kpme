@@ -21,7 +21,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
@@ -33,8 +32,10 @@ public class TimeHourDetailRenderer {
 
     public TimeHourDetailRenderer(TimeHourDetail d) {
         this.timeHourDetail = d;
-        if(HrContext.getCurrentTimesheetDocument() != null) {
-	        List<String> ovtEarnCodes = HrServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(HrContext.getCurrentTimesheetDocument().getAsOfDate());
+
+        TimeBlock timeBlock = TkServiceLocator.getTimeBlockService().getTimeBlock(timeHourDetail.getTkTimeBlockId());
+        if (timeBlock != null) {
+	        List<String> ovtEarnCodes = HrServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(timeBlock.getBeginDateTime().toLocalDate());
 	        if(ovtEarnCodes != null && !ovtEarnCodes.isEmpty()){
 	        	setOvertimeEarnCode(ovtEarnCodes.contains(d.getEarnCode()));
 	        }

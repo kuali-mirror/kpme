@@ -83,7 +83,7 @@
         					<c:forEach var="leaveEntry" items="${Form.leaveEntries}">
         						<tr>
         							<td>
-        							    <a href="LeaveCalendar.do?documentId=${leaveEntry.documentId}&calEntryId=${leaveEntry.calendarId}">
+        							    <a href="LeaveCalendar.do?documentId=${leaveEntry.documentId}&hrCalendarEntryId=${leaveEntry.calendarId}">
                                             <fmt:formatDate type="date" value="${leaveEntry.leaveDate}" pattern="MMM-dd-yyyy" />
                                         </a>
         							</td>
@@ -116,7 +116,7 @@
 					uid="correctedEntries">
 					<display:column title="Date of Leave">
 						<a
-							href="LeaveCalendar.do?documentId=${correctedEntries.documentId}&calEntryId=${correctedEntries.calendarId}">
+							href="LeaveCalendar.do?documentId=${correctedEntries.documentId}&hrCalendarEntryId=${correctedEntries.calendarId}">
 							<fmt:formatDate type="date" value="${correctedEntries.leaveDate}"
 								pattern="MMM-dd-yyyy" />
 						</a>
@@ -143,7 +143,7 @@
 					uid="inActiveEntries">
 					<display:column title="Date of Leave">
 						<a
-							href="LeaveCalendar.do?documentId=${inActiveEntries.documentId}&calEntryId=${inActiveEntries.calendarId}">
+							href="LeaveCalendar.do?documentId=${inActiveEntries.documentId}&hrCalendarEntryId=${inActiveEntries.calendarId}">
 							<fmt:formatDate type="date" value="${inActiveEntries.leaveDate}"
 								pattern="MMM-dd-yyyy" />
 						</a>

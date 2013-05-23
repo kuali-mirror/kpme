@@ -24,7 +24,6 @@ public interface LeaveCalendarDocumentHeaderService {
     LeaveCalendarDocumentHeader getDocumentHeader(String documentId);
     LeaveCalendarDocumentHeader getDocumentHeader(String principalId, DateTime beginDate, DateTime endDate);
     void saveOrUpdate(LeaveCalendarDocumentHeader leaveCalendarDocumentHeader);
-    LeaveCalendarDocumentHeader getPrevOrNextDocumentHeader(String prevOrNext, String principalId);
     
     public List<LeaveCalendarDocumentHeader> getDocumentHeaders(DateTime beginDate, DateTime endDate);
     /*

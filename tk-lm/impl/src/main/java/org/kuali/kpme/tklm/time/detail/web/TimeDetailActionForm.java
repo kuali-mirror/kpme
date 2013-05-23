@@ -96,7 +96,7 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 	}
 
 	public String getIsVirtualWorkDay() {
-		return Boolean.toString(TKUtils.isVirtualWorkDay(getPayCalendarDates().getBeginPeriodFullDateTime()));
+		return Boolean.toString(TKUtils.isVirtualWorkDay(getCalendarEntry().getBeginPeriodFullDateTime()));
 	}
 
 	public TimeSummary getTimeSummary() {

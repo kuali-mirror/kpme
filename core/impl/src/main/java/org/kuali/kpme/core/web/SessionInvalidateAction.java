@@ -27,8 +27,6 @@ public class SessionInvalidateAction extends KPMEAction {
 
     public ActionForward invalidateUserSession (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        HrContext.resetStorageMap();
-
         return mapping.findForward("basic");
     }
 }

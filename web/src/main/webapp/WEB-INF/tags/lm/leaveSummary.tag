@@ -47,7 +47,7 @@
                                 <td>${row.accruedBalance}<c:if test="${not empty Form.documentId}"><c:if test="${row.transferable || row.payoutable}"><br/></c:if>
     							<c:if test="${row.transferable}">
     								<c:choose>
-    									<c:when test="${Form.currentLeavePeriod}">
+    									<c:when test="${Form.onCurrentPeriod}">
             								<input type="button" id="lm-transfer-button_${row.accrualCategoryRuleId}" class="button" value="Transfer" name="transfer"/>
     									</c:when>
     									<c:otherwise>
@@ -57,7 +57,7 @@
 								</c:if>
     							<c:if test="${row.payoutable}">
      								<c:choose>
-    									<c:when test="${Form.currentLeavePeriod}">
+    									<c:when test="${Form.onCurrentPeriod}">
 	                						<input type="button" id="lm-payout-button_${row.accrualCategoryRuleId}" class="button" value="Payout" name="payout"/>
 	        							</c:when>
 	        							<c:otherwise>

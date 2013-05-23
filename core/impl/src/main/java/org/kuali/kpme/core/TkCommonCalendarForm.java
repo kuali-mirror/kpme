@@ -20,63 +20,110 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
+import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.web.KPMEForm;
 
 public class TkCommonCalendarForm extends KPMEForm {
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 7437602046032470340L;
+	
+    private String prevDocumentId;
+    private String nextDocumentId;
+    
+    private String hrCalendarEntryId;
 	
 	private List<String> calendarYears = new ArrayList<String>();
     private Map<String,String> payPeriodsMap = new HashMap<String,String>();
     
+    private CalendarEntry calendarEntry;
+    
     private String selectedCalendarYear;
     private String selectedPayPeriod;
-    private boolean onCurrentPeriod;
-//    private List<String> warnings;
 
-    private List<String> errorMessages;
-    private List<String> warningMessages = new ArrayList<String>(); ;        // Messages like: "you might lose leave if you don't act." or "you're over the limit - use / transfer / payout leave or risk forfeiting."  i.e. just warns of an upcoming consequence
-    private List<String> infoMessages = new ArrayList<String>(); ;           // Messages like: "leave was forfeted on this calendar" i.e. reports what happened or presents additional info to user.
-    private List<String> actionMessages = new ArrayList<String>();           // Messages like: "must approve transfer / payout doc ( or take other action ) before this calendar can be approved / submitted." i.e.: messages that informs about a required action.
+    private List<String> errorMessages = new ArrayList<String>();
+    // Messages like: "you might lose leave if you don't act." or "you're over the limit - use / transfer / payout leave or risk forfeiting."  i.e. just warns of an upcoming consequence
+    private List<String> warningMessages = new ArrayList<String>();
+    // Messages like: "leave was forfeted on this calendar" i.e. reports what happened or presents additional info to user.
+    private List<String> infoMessages = new ArrayList<String>();
+    // Messages like: "must approve transfer / payout doc ( or take other action ) before this calendar can be approved / submitted." i.e.: messages that informs about a required action.
+    private List<String> actionMessages = new ArrayList<String>();
 
+    public String getNextDocumentId() {
+        return nextDocumentId;
+    }
+
+    public void setNextDocumentId(String nextDocumentId) {
+        this.nextDocumentId = nextDocumentId;
+    }
+
+    public String getPrevDocumentId() {
+        return prevDocumentId;
+    }
+
+    public void setPrevDocumentId(String prevDocumentId) {
+        this.prevDocumentId = prevDocumentId;
+    }
+    
+	public String getHrCalendarEntryId() {
+		return hrCalendarEntryId;
+	}
+
+	public void setHrCalendarEntryId(String hrCalendarEntryId) {
+		this.hrCalendarEntryId = hrCalendarEntryId;
+	}
+    
 	public List<String> getCalendarYears() {
 		return calendarYears;
 	}
+	
 	public void setCalendarYears(List<String> calendarYears) {
 		this.calendarYears = calendarYears;
 	}
 	
-	public String getSelectedCalendarYear() {
-		return selectedCalendarYear;
-	}
-	public void setSelectedCalendarYear(String selectedCalendarYear) {
-		this.selectedCalendarYear = selectedCalendarYear;
-	}
-	public String getSelectedPayPeriod() {
-		return selectedPayPeriod;
-	}
-	public void setSelectedPayPeriod(String selectedPayPeriod) {
-		this.selectedPayPeriod = selectedPayPeriod;
-	}
 	public Map<String, String> getPayPeriodsMap() {
 		return payPeriodsMap;
 	}
+	
 	public void setPayPeriodsMap(Map<String, String> payPeriodsMap) {
 		this.payPeriodsMap = payPeriodsMap;
 	}
-	public boolean isOnCurrentPeriod() {
-		return onCurrentPeriod;
-	}
-	public void setOnCurrentPeriod(boolean onCurrentPeriod) {
-		this.onCurrentPeriod = onCurrentPeriod;
+	
+    public CalendarEntry getCalendarEntry() {
+        return calendarEntry;
+    }
+
+    public void setCalendarEntry(CalendarEntry calendarEntry) {
+        this.calendarEntry = calendarEntry;
+    }
+	
+	public String getSelectedCalendarYear() {
+		return selectedCalendarYear;
 	}
 	
-//    public List<String> getWarnings() {
-//        return warnings;
-//    }
-//
-//    public void setWarnings(List<String> warnings) {
-//        this.warnings = warnings;
-//    }
+	public void setSelectedCalendarYear(String selectedCalendarYear) {
+		this.selectedCalendarYear = selectedCalendarYear;
+	}
+	
+	public String getSelectedPayPeriod() {
+		return selectedPayPeriod;
+	}
+	
+	public void setSelectedPayPeriod(String selectedPayPeriod) {
+		this.selectedPayPeriod = selectedPayPeriod;
+	}
+
+	public boolean isOnCurrentPeriod() {
+		boolean isOnCurrentPeriod = false;
+		
+		if (getCalendarEntry() != null) {
+			DateTime beginPeriodDateTime = getCalendarEntry().getBeginPeriodFullDateTime();
+			DateTime endPeriodDateTime = getCalendarEntry().getEndPeriodFullDateTime();
+			isOnCurrentPeriod = (beginPeriodDateTime.isEqualNow() || beginPeriodDateTime.isBeforeNow()) && endPeriodDateTime.isAfterNow();
+		}
+		
+		return isOnCurrentPeriod;
+	}
 
     public List<String> getErrorMessages() {
         return errorMessages;
@@ -109,7 +156,5 @@ public class TkCommonCalendarForm extends KPMEForm {
     public void setActionMessages(List<String> actionMessages) {
         this.actionMessages = actionMessages;
     }
-
-    //TODO: create a mehtod to get all existing messages on the form. action/info/warning
 
 }

@@ -54,13 +54,6 @@ public interface TimesheetDocumentHeaderService {
 	 * @return
 	 */
     public TimesheetDocumentHeader getNextDocumentHeader(String principalId, DateTime payEndDate);
-    /**
-     * Fetch previous or next Document Header -- uses the current Document from context.
-     * @param prevOrNext
-     * @param principalId
-     * @return
-     */
-    TimesheetDocumentHeader getPrevOrNextDocumentHeader(String prevOrNext, String principalId);
 	/**
 	 * Fetch document headers for a given pay period begin date and end date
 	 * @param payBeginDate

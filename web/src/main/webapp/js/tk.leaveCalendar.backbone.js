@@ -288,7 +288,7 @@ $(function () {
         
         deleteLeaveBlock : function (e) {
             var key = _(e).parseEventKey();
-            var calId = $('#calEntryId').val();
+            var calId = $('#hrCalendarEntryId').val();
             
 //            if (this.checkPermissions()) {
             	if (confirm('You are about to delete a leave block. Click OK to confirm the delete.')) {
@@ -312,7 +312,7 @@ $(function () {
 		                }
 	           		});
             	} else {
-            		window.location = "LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=" + key.id + "&calEntryId=" + calId;
+            		window.location = "LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=" + key.id + "&hrCalendarEntryId=" + calId;
             	}
               }	
 //            }
@@ -702,7 +702,7 @@ $(function () {
             if (isValid) {
            
                 var docId = $('#documentId').val();
-                var calId = $('#calEntryId').val();
+                var calId = $('#hrCalendarEntryId').val();
                 var params = {};
                 params['startDate'] = $('#startDate').val();
                 params['endDate'] = $('#endDate').val();
@@ -712,12 +712,12 @@ $(function () {
                 params['selectedEarnCode'] = $('#selectedEarnCode option:selected').val();
                 params['spanningWeeks'] = $('#spanningWeeks').is(':checked') ? 'y' : 'n'; // KPME-1446
                 params['leaveBlockId'] = $('#leaveBlockId').val();
-                params['calEntryId'] = $('#calEntryId').val();
+                params['hrCalendarEntryId'] = $('#hrCalendarEntryId').val();
 
                 // validate leaveblocks
                 $.ajax({
                     async : false,
-                    url : "LeaveCalendarWS.do?methodToCall=validateLeaveEntry&documentId=" + docId + "&calEntryId=" + calId,
+                    url : "LeaveCalendarWS.do?methodToCall=validateLeaveEntry&documentId=" + docId + "&hrCalendarEntryId=" + calId,
                     data : params,
                     cache : false,
                     type : "post",

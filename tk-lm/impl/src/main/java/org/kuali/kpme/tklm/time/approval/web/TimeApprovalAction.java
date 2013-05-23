@@ -279,9 +279,7 @@ public class TimeApprovalAction extends ApprovalAction{
 		    
 		    taaf.setApprovalRows(approvalRows);
 		    taaf.setResultSize(principalIds.size());
-		}
-		
-		taaf.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(taaf.getPayCalendarEntry()));
+		}		
 	}
 	
 	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form,

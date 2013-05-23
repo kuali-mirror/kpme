@@ -92,16 +92,16 @@ public class TimeDetailWSAction extends TimesheetAction {
 
     public List<String> validateLeaveEntry(TimeDetailActionFormBase tdaf) throws Exception {
     	List<String> errorMsgList = new ArrayList<String>();
-    	CalendarEntry payCalendarEntry = tdaf.getPayCalendarDates();
+    	CalendarEntry payCalendarEntry = tdaf.getCalendarEntry();
     	if(ObjectUtils.isNotNull(payCalendarEntry)) {
-			LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(HrContext.getTargetPrincipalId(), tdaf.getPayCalendarDates());
+			LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(HrContext.getTargetPrincipalId(), tdaf.getCalendarEntry());
 			LeaveBlock lb = null;
 			if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
 				lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(tdaf.getLmLeaveBlockId());
 			}
 			
 			// Validate LeaveBlock timings and all that
-			errorMsgList.addAll(LeaveCalendarValidationUtil.validateParametersForLeaveEntry(tdaf.getSelectedEarnCode(), tdaf.getPayCalendarDates(),
+			errorMsgList.addAll(LeaveCalendarValidationUtil.validateParametersForLeaveEntry(tdaf.getSelectedEarnCode(), tdaf.getCalendarEntry(),
 					tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getStartTime(), tdaf.getEndTime(), tdaf.getSelectedAssignment(), null, tdaf.getLmLeaveBlockId()));
 			
 			errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalanceForUsage(tdaf.getSelectedEarnCode(), 
