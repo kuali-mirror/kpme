@@ -65,17 +65,7 @@ public class ActionFormUtils {
         
         TimesheetDocument tdoc = tdaf.getTimesheetDocument();
         
-        Map<String, List<LocalDate>> earnCodeMap = new HashMap<String, List<LocalDate>>();
-        for(TimeBlock tb : tdoc.getTimeBlocks()) {
-        	if(!earnCodeMap.containsKey(tb.getEarnCode())) {
-        		List<LocalDate> lst = new ArrayList<LocalDate>();
-        		lst.add(tb.getBeginDateTime().toLocalDate());
-        		earnCodeMap.put(tb.getEarnCode(), lst);
-        	}
-        	else
-        		earnCodeMap.get(tb.getEarnCode()).add(tb.getBeginDateTime().toLocalDate());
-        }
-        warningMessages = HrServiceLocator.getEarnCodeGroupService().warningTextFromEarnCodeGroupsOfDocument(earnCodeMap);
+        warningMessages = HrServiceLocator.getEarnCodeGroupService().getWarningTextFromEarnCodeGroups(tdoc.getEarnCodeMap());
         addUniqueWarningsToForm(tdaf, warningMessages);
     }
 

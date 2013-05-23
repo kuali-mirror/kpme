@@ -578,7 +578,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     private String getYearKey(LocalDate leaveDate, LeavePlan lp){
         String yearKey = Integer.toString(leaveDate.getYear());
         
-        LocalDate leavePlanDate = new LocalDate(leaveDate.getYear(), Integer.parseInt(lp.getCalendarYearStartMonth()) - 1, Integer.parseInt(lp.getCalendarYearStartDayOfMonth()));
+        LocalDate leavePlanDate = new LocalDate(leaveDate.getYear(), Integer.parseInt(lp.getCalendarYearStartMonth()), Integer.parseInt(lp.getCalendarYearStartDayOfMonth()));
 
         if (leaveDate.isBefore(leavePlanDate)) {
             yearKey = Integer.toString(leaveDate.getYear() - 1);

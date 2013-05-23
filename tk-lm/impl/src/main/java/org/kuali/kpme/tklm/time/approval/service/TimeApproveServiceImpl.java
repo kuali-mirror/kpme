@@ -40,12 +40,15 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.json.simple.JSONValue;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.bo.calendar.web.CalendarDay;
+import org.kuali.kpme.core.bo.calendar.web.CalendarWeek;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.bo.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
@@ -57,12 +60,16 @@ import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
+import org.kuali.kpme.tklm.time.calendar.TkCalendar;
+import org.kuali.kpme.tklm.time.calendar.TkCalendarDay;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.web.TimeBlockRenderer;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailRenderer;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
@@ -240,9 +247,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			List<String> principalIds, List<String> payCalendarLabels,
 			CalendarEntry payCalendarEntry) {
 
+		List<Map<String, Object>> timeBlockJsonMap = new ArrayList<Map<String,Object>>();
 		List<ApprovalTimeSummaryRow> rows = new LinkedList<ApprovalTimeSummaryRow>();
 		Map<String, TimesheetDocumentHeader> principalDocumentHeader = getPrincipalDocumentHeader(
-				principalIds, payBeginDate, payEndDate);
+                principalIds, payBeginDate, payEndDate);
 
 		Calendar payCalendar = HrServiceLocator.getCalendarService()
 				.getCalendar(payCalendarEntry.getHrCalendarId());
@@ -251,6 +259,12 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		List<Interval> dayIntervals = TKUtils
 				.getDaySpanForCalendarEntry(payCalendarEntry);
 
+		
+		String color = null;
+		
+		Map<String, String> userColorMap = new HashMap<String, String>();
+		Set<String> randomColors = new HashSet<String>();
+		
 		for (String principalId : principalIds) {
 			TimesheetDocumentHeader tdh = new TimesheetDocumentHeader();
 			String documentId = "";
@@ -287,9 +301,54 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 	else
                 		earnCodeMap.get(tb.getEarnCode()).add(tb.getBeginDateTime().toLocalDate());
                 }
-                warnings = HrServiceLocator.getEarnCodeGroupService().warningTextFromEarnCodeGroupsOfDocument(earnCodeMap);
-
+                warnings = HrServiceLocator.getEarnCodeGroupService().getWarningTextFromEarnCodeGroups(earnCodeMap);
+                
+                // Get Timesheet blocks
+                
+    	       
+                List<Interval> intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry);
+                TkTimeBlockAggregate tbAggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry, payCalendar, true,intervals);
+                // use both time aggregate to populate the calendar
+                TkCalendar cal = TkCalendar.getCalendar(tbAggregate);
+                
+                
+                for (CalendarWeek week : cal.getWeeks()) {
+                	for(CalendarDay day : week.getDays()) {
+                		TkCalendarDay tkDay = (TkCalendarDay) day;
+                		for (TimeBlockRenderer renderer : tkDay.getBlockRenderers()) {
+                			Map<String, Object> timeBlockMap = new HashMap<String, Object>();
+                			
+                			// set title..
+                			StringBuffer title = new StringBuffer();
+                			if(!renderer.getEarnCodeType().equalsIgnoreCase(HrConstants.EARN_CODE_AMOUNT)) {
+	                			if(renderer.getDetailRenderers() != null && !renderer.getDetailRenderers().isEmpty()) {
+	                				for(TimeHourDetailRenderer thdr : renderer.getDetailRenderers()) {
+	                					title.append("\n");
+	                					title = new StringBuffer(thdr.getTitle());
+	                					title.append(" - "+thdr.getHours());
+	                				}
+	                			}
+                			}
+                			
+                			timeBlockMap.put("start", tkDay.getDateString());
+                			timeBlockMap.put("title", renderer.getTitle() + "\n" +renderer.getTimeRange() + "\n" + title.toString());
+                			timeBlockMap.put("id", tkDay.getDayNumberString());
+                			if(!userColorMap.containsKey(principalId)) {
+		    	        		color = TKUtils.getRandomColor(randomColors);
+		    	        		randomColors.add(color);
+		    	        		userColorMap.put(principalId, color);
+		    	        	}
+		    	        	color = userColorMap.get(principalId);
+		    	        	timeBlockMap.put("color", userColorMap.get(principalId));
+		    	        	timeBlockMap.put("className", "event-approval");
+                			timeBlockJsonMap.add(timeBlockMap);
+                		}
+                	}
+                }
+                
+				warnings = HrServiceLocator.getEarnCodeGroupService().getWarningTextFromEarnCodeGroups(td.getEarnCodeMap());
 			}
+			
 			Map<String, Set<String>> transactionalWarnings = LeaveCalendarValidationUtil.validatePendingTransactions(principalId, payCalendarEntry.getBeginPeriodFullDateTime().toLocalDate(), payCalendarEntry.getEndPeriodFullDateTime().toLocalDate());
 			
 			warnings.addAll(transactionalWarnings.get("infoMessages"));
@@ -311,6 +370,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 			approvalSummaryRow.setName(principalId);
 			approvalSummaryRow.setPrincipalId(principalId);
+			approvalSummaryRow.setColor(userColorMap.get(principalId));
 			approvalSummaryRow.setPayCalendarGroup(calGroup);
 			approvalSummaryRow.setDocumentId(documentId);
 			approvalSummaryRow.setHoursToPayLabelMap(hoursToPayLabelMap);
@@ -346,6 +406,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 			}
 			rows.add(approvalSummaryRow);
+		}
+		
+		String outputString = JSONValue.toJSONString(timeBlockJsonMap);
+		if(rows != null && !rows.isEmpty()) {
+			rows.get(0).setOutputString(outputString);
 		}
 		return rows;
 	}

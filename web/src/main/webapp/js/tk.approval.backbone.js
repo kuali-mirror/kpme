@@ -48,6 +48,48 @@ $(function () {
     });
     var EarnCodeSections = new EarnCodeSectionCollection;
 
+    
+    var eventJson = jQuery.parseJSON($("#outputString").val());
+    totals = "<b>5</b>\n<i>(2)</i>, <b>2</b>\n<i>(3)</i>";
+    
+   
+    
+    /**
+     * ====================
+     * Load FullCalendar
+     * ====================
+     */
+    var selectedPayPeriodId = $('#pceid').val();
+    var startDates = $('#payBeginDate').text().split('/');
+    var endDates = $('#payEndDate').text().split('/');
+        	$('#calendar').fullCalendar({
+            	header: {
+    				left: '',
+    				center: '',
+    				right: ''
+    			},
+    			editable: true,
+    			firstDay : 0,
+    			weekMode : 'variable',
+    			weekNumbers : true,
+    			weekNumberCalculation: 'counter',
+    			weekNumberTitle: 'Week',
+    			showCustomWeekData: false,
+    			weekTotalArray: totals,
+    			sdate: new Date(startDates[2],startDates[0]-1, startDates[1]),
+    			edate: new Date(endDates[2],endDates[0]-1, endDates[1]),
+//    			sdate: new Date(2013, 3, 27),
+//    			edate: new Date(2013, 4, 25),
+    			titleFormat: {
+    			    month: "MMM d yyyy { 'to' MMM d yyyy}"
+    			},
+    			events: eventJson, 
+    			eventRender: function (event, element) {
+    				element.draggable = false;
+    				event.editable = false;
+    	        }
+            });
+
     /**
      * ====================
      * Views

@@ -55,10 +55,10 @@ public interface EarnCodeGroupService {
 	
 	/**
 	 * Returns list of warning text from earn group that is used by time blocks of the timesheetDocument
-	 * @param earnCodeMap A mapping of earn codes to the begin dates of the time blocks for which the earn code is in use.
+	 * @param earnCodeMap A map with a key of earn codes to the begin dates of the time blocks for which the earn code is in use.
 	 * @return
 	 */
-	public List<String> warningTextFromEarnCodeGroupsOfDocument(Map<String,List<LocalDate>> earnCodeMap);
+	public List<String> getWarningTextFromEarnCodeGroups(Map<String, List<LocalDate>> earnCodeMap);
     /**
      * get the count of earn groups by given earnGroup
      * @param earnGroup

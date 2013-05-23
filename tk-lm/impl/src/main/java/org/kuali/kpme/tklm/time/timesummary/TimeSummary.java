@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,8 @@ public class TimeSummary implements Serializable {
 	private List<EarnGroupSection> sections = new ArrayList<EarnGroupSection>();
 	private List<LeaveSummaryRow> maxedLeaveRows = new ArrayList<LeaveSummaryRow>();
 	private List<BigDecimal> workedHours = new ArrayList<BigDecimal>();
+	private Map<String, BigDecimal> weekTotalMap = new LinkedHashMap<String, BigDecimal>();
+	private Map<String, BigDecimal> flsaWeekTotalMap = new LinkedHashMap<String, BigDecimal>();
 
 	public List<String> getSummaryHeader() {
 		return summaryHeader;
@@ -50,7 +53,7 @@ public class TimeSummary implements Serializable {
 		this.workedHours = workedHours;
 	}
 
-    public String toJsonString() {
+	public String toJsonString() {
 
         List<Map<String, Object>> earnCodeSections = new ArrayList<Map<String, Object>>();
 
@@ -62,6 +65,7 @@ public class TimeSummary implements Serializable {
                 ecs.put("desc", earnCodeSection.getDescription());
                 ecs.put("totals", earnCodeSection.getTotals());
                 ecs.put("isAmountEarnCode", earnCodeSection.getIsAmountEarnCode());
+                ecs.put("assignmentSize", earnCodeSection.getAssignmentsRows().size() + 1);
 
                 List<Map<String, Object>> assignmentRows = new ArrayList<Map<String, Object>>();
                 for (AssignmentRow assignmentRow : earnCodeSection.getAssignmentsRows()) {
@@ -84,7 +88,27 @@ public class TimeSummary implements Serializable {
 
                     assignmentRows.add(ar);
                 }
-
+                
+                List<Map<String, Object>> weekTotalRows = new java.util.LinkedList<Map<String, Object>>();
+                for(String key : this.weekTotalMap.keySet()) {
+                	Map<String, Object> wt = new HashMap<String, Object>();
+                	wt.put("weekName", key);
+                	wt.put("weekTotal", weekTotalMap.get(key));
+                	weekTotalRows.add(wt);
+                }
+                
+                ecs.put("weekTotals", weekTotalRows);
+                
+                List<Map<String, Object>> flsaWeekTotalRows = new java.util.LinkedList<Map<String, Object>>();
+                for(String key : this.flsaWeekTotalMap.keySet()) {
+                	Map<String, Object> wt = new HashMap<String, Object>();
+                	wt.put("weekName", key);
+                	wt.put("weekTotal", flsaWeekTotalMap.get(key));
+                	flsaWeekTotalRows.add(wt);
+                }
+                
+                ecs.put("flsaWeekTotals", flsaWeekTotalRows);
+                
                 ecs.put("assignmentRows", assignmentRows);
                 ecs.put("earnGroup", earnGroupSection.getEarnGroup());
                 ecs.put("totals", earnGroupSection.getTotals());
@@ -96,11 +120,35 @@ public class TimeSummary implements Serializable {
 
         return JSONValue.toJSONString(earnCodeSections);
     }
+	
 	public List<LeaveSummaryRow> getMaxedLeaveRows() {
 		return maxedLeaveRows;
 	}
+	
 	public void setMaxedLeaveRows(List<LeaveSummaryRow> maxedLeaveRows) {
 		this.maxedLeaveRows = maxedLeaveRows;
 	}
+	/**
+	 * @return the weekTotalMap
+	 */
+	public Map<String, BigDecimal> getWeekTotalMap() {
+		return weekTotalMap;
+	}
+	/**
+	 * @param weekTotalMap the weekTotalMap to set
+	 */
+	public void setWeekTotalMap(Map<String, BigDecimal> weekTotalMap) {
+		this.weekTotalMap = weekTotalMap;
+	}
+	
+	public Map<String, BigDecimal> getFlsaWeekTotalMap() {
+		return flsaWeekTotalMap;
+	}
+	
+	public void setFlsaWeekTotalMap(Map<String, BigDecimal> flsaWeekTotalMap) {
+		this.flsaWeekTotalMap = flsaWeekTotalMap;
+	}
 
+	
+	
 }

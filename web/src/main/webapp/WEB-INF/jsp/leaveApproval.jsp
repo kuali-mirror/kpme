@@ -19,6 +19,7 @@
 <c:set var="Form" value="${LeaveApprovalActionForm}" scope="request"/>
 <jsp:useBean id="tagSupport" class="org.kuali.kpme.tklm.common.TagSupport"/>
 
+
 <tk:tkHeader tabId="leaveApprovals">
 <html:form action="/LeaveApproval.do" method="POST">
 <html:hidden property="methodToCall" value=""/>
@@ -30,13 +31,15 @@
 <html:hidden property="prevPayCalendarId" value="${Form.prevPayCalendarId}"/>
 <html:hidden property="nextPayCalendarId" value="${Form.nextPayCalendarId}"/>
 <html:hidden styleId="roleName" property="roleName" value="${Form.roleName}"/>
-
+<html:hidden styleId="outputString" property="outputString" value="${Form.outputString}"/>
 
 <script src="js/underscore-1.3.1.min.js"></script>
 <script src="js/underscore.string-2.0.0.js"></script>
 <script src="js/backbone-0.9.1.min.js"></script>
 <script src="js/common.calendar.backbone.js"></script>
 <script src="js/lm.approval.backbone.js"></script>
+<script src="js/common.fullcalendar.js"></script>
+
 
 <div class="approvals">
     <table class="navigation">
@@ -65,6 +68,7 @@
 
 </div>
 </html:form>
+<link type="text/css" href='css/fullcalendar.css' rel='stylesheet' />
 
 
 </tk:tkHeader>
@@ -72,12 +76,10 @@
 <%-- Leave Calendar detail template --%>
 <script type="text/template" id="leaveDetail-template">   	
     <tr class="leaveDetailRow_<@= docId @>">
-        <td colspan="2" class="<@= section.cssClass @>">
+		 
+        <td colspan="3" class="<@= section.cssClass @>">
 			<b><@= section.accrualCategory @></b>
       	</td>
-        <@ _.each(section.daysDetail, function(tot) { @>
-             <td><@= tot == 0 ? "" : tot @></td>
-        <@ }); @>
 		<td><@= section.periodUsage @></td>
 		<td><@= section.availableBalance @></td>
     </tr>

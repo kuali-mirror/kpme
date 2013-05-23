@@ -74,7 +74,7 @@ public class EarnCodeGroupServiceImpl implements EarnCodeGroupService {
     }
     
     @Override
-    public List<String> warningTextFromEarnCodeGroupsOfDocument(Map<String,List<LocalDate>> earnCodeMap) {
+    public List<String> getWarningTextFromEarnCodeGroups(Map<String, List<LocalDate>> earnCodeMap) {
     	List<String> warningMessages = new ArrayList<String>();
     	
     	Set<String> aSet = new HashSet<String>();

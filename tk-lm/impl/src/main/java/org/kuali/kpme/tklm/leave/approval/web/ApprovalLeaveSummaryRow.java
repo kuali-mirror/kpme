@@ -52,6 +52,7 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 	private List<LeaveBlock> leaveBlockList = new ArrayList<LeaveBlock>();
 	private Map<Date, Map<String, BigDecimal>> earnCodeLeaveHours = new LinkedHashMap<Date, Map<String, BigDecimal>>();
 	private Boolean exemptEmployee;
+	private String color;
 	
     /**
      * Is this record ready to be approved?
@@ -202,6 +203,22 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 
 	public void setExemptEmployee(Boolean exemptEmployee) {
 		this.exemptEmployee = exemptEmployee;
+	}
+
+
+	/**
+	 * @return the color
+	 */
+	public String getColor() {
+		return color;
+	}
+
+
+	/**
+	 * @param color the color to set
+	 */
+	public void setColor(String color) {
+		this.color = color;
 	}
 	
 	

@@ -2,6 +2,10 @@
 
 <jsp:useBean id="tagSupport" class="org.kuali.kpme.tklm.common.TagSupport"/>
 
+<br/>
+<table width="100%"><tr><td width="80%" valign="top"><div id='calendar'></div>&nbsp;</td>
+
+<td width="20%"  valign="top">&nbsp;
 <div id="leave-approval">
 	<display:table name="${Form.leaveApprovalRows}" requestURI="LeaveApproval.do?methodToCall=loadApprovalTab" excludedParams="*"
 	               pagesize="20" id="row"
@@ -9,13 +13,15 @@
         <%--<display:caption style="text-align:right; margin-right:205px;">
             <div>approved/usage: <span class="approvals-approved">bold</span></div><div>planned/defered: <span class="approvals-requested">italics</span></div>
         </display:caption>--%>
-
-        <display:column title="Name" sortable="true" sortName="name" style="${row.moreThanOneCalendar ? 'background-color: #F08080;' : ''}">
-	    	<c:if test="${not empty row.documentId }">
-	            <div class="ui-state-default ui-corner-all" style="float:left;">
+		 <display:column  style="background-color: ${row.color};width:8px ; vertical-align:middle" >
+		 <c:if test="${not empty row.documentId }">
+	            <div class="ui-state-default ui-corner-all" >
 	                <span id="showLeaveDetailButton_${row.documentId}" class="ui-icon ui-icon-plus rowInfo"></span>
 	            </div>
-            </c:if>
+          </c:if>
+          </display:column>
+        <display:column title="Name" sortable="true" sortName="name" style="${row.moreThanOneCalendar ? 'background-color: #F08080;' : ''}">
+	    	
 	    
 	        <a href="changeTargetPerson.do?${row.userTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=LeaveApproval.do">${row.name}</a> (${row.principalId})
 	         <br/>${row.lastApproveMessage}
@@ -100,30 +106,7 @@
 	        </div>
    		<%--</display:column>--%>
         </display:column>
-        <c:forEach var="leaveCalendarDate" items="${Form.leaveCalendarDates}">
-            <fmt:formatDate var="leaveCalendarDayName" value="${leaveCalendarDate}" pattern="E"/>
-            <fmt:formatDate var="leaveCalendarDayNumber" value="${leaveCalendarDate}" pattern="dd"/>
-        	<display:column title="${leaveCalendarDayName} </br> ${leaveCalendarDayNumber}">
-        		<c:forEach var="earnCodeMap" items="${row.earnCodeLeaveHours[leaveCalendarDate]}" >
-                    <c:set var="key" value="${fn:split(earnCodeMap.key, '|')}"/>
-                    <c:set var="ac" value="${key[0]}"/>
-                    <c:set var="styleClass" value="approvals-default"/>
-                    <c:set var="status" value="${key[1]}"/>
-                      <c:choose>
-                        <c:when test="${status == 'A' or status == 'U'}">
-                            <c:set var="styleClass" value="approvals-approved"/>
-                        </c:when>
-                        <c:when test="${status == 'P' or status == 'F'}">
-                            <c:set var="styleClass" value="approvals-requested"/>
-                        </c:when>
-                      </c:choose>
-                    <div class="${styleClass}">
-                      ${ac}<br/>
-                      ${earnCodeMap.value}
-                    </div>
-        		</c:forEach>
-        	</display:column>
-   		</c:forEach>
+       
    		<display:column title="Action">
             <c:if test="${row.exemptEmployee}">
                 <lm:lmApprovalRowButtons appRow="${row}"/>
@@ -140,3 +123,4 @@
 
 	</display:table>
 </div>
+</td></tr></table>

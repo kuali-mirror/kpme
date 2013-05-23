@@ -46,13 +46,65 @@ $(function () {
     });
     var AccrualCategorySections = new AccrualCategorySectionCollection;
     
-
+//    var Event = Backbone.Model.extend();
+//    
+//    var Events = Backbone.Collection.extend({
+//        model: Event,
+//        url: "events"
+//    });
+//    
+    
+    var eventJson = jQuery.parseJSON($("#outputString").val());
+    if(eventJson == null) {
+    	eventJson = "[]";
+    }
+     
     /**
      * ====================
-     * Views
+     * Load FullCalendar
      * ====================
      */
-    
+    var selectedPayPeriodId = $('#pceid').val();
+    var startDates = $('#payBeginDate').text().split('/');
+    var endDates = $('#payEndDate').text().split('/');
+//    var EventsView = Backbone.View.extend({
+//        initialize: function(){
+//            _.bindAll(this);
+//            this.collection.bind('reset', this.addAll);
+//        },
+//        render: function() {
+        	$('#calendar').fullCalendar({
+            	header: {
+    				left: '',
+    				center: '',
+    				right: ''
+    			},
+    			editable: true,
+    			weekMode : 'variable',
+    			sdate: new Date(startDates[2],startDates[0]-1, startDates[1]),
+    			edate: new Date(endDates[2],endDates[0]-1, endDates[1]),
+//    			sdate: new Date(2013, 3, 27),
+//    			edate: new Date(2013, 4, 25),
+    			titleFormat: {
+    			    month: "MMM d yyyy { 'to' MMM d yyyy}"
+    			},
+    			events: eventJson,
+    			eventRender: function (event, element) {
+    				element.draggable = false;
+    				event.editable = false;
+    	        }
+            });
+//        },
+//        addAll: function(){
+//            this.el.fullCalendar('addEventSource', this.collection.toJSON());
+//        }
+//    });
+        	
+        	/**
+             * ====================
+             * Views
+             * ====================
+             */
     // view for Leave Calendar Summary. 
     var LeaveSummaryView = Backbone.View.extend({
         el : $("body"),
@@ -97,10 +149,9 @@ $(function () {
 	                // add the title row for the detail section
 					var firstMap = AccrualCategorySections.first().toJSON();
 					var daysNumber = firstMap["daysSize"] + 2;
-	                var tempString = "<tr class='leaveDetailRow_" + docId + "'><th colspan='" + daysNumber + "'/><th>Period Usage</th><th>Available</th></tr>"
+	                var tempString = "<tr class='leaveDetailRow_" + docId + "'><th colspan='3'/><th>Period Usage</th><th>Available</th></tr>"
 	                $parent.after(tempString);
                 }
-
                 // change the icon from - to +
                 $element.removeClass('ui-icon-plus').addClass('ui-icon-minus');
             } else {
@@ -126,4 +177,8 @@ $(function () {
     // Initialize the view.
     var leaveView = new LeaveSummaryView;
         
+//    var events = new Events();
+//    new EventsView({el: $("#calendar"), collection: events}).render();
+//    events.fetch();
+    
 });

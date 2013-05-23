@@ -63,6 +63,10 @@ public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow
     private String selected = "off";
     private TimeSummary timeSummary;
     private BigDecimal periodTotal = BigDecimal.ZERO;
+    private String outputString;
+    private String color;
+    /** A Map (Weeks) of Mapped totals (week total mapping) */
+    private Map<String, BigDecimal> weekTotalMap;
     
     public String getApprovalStatusMessage() {
 		return approvalStatusMessage;
@@ -263,4 +267,47 @@ public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow
     public int compareTo(ApprovalTimeSummaryRow row) {
         return name.compareToIgnoreCase(row.getName());
     }
+
+	/**
+	 * @return the outputString
+	 */
+	public String getOutputString() {
+		return outputString;
+	}
+
+	/**
+	 * @param outputString the outputString to set
+	 */
+	public void setOutputString(String outputString) {
+		this.outputString = outputString;
+	}
+
+	/**
+	 * @return the color
+	 */
+	public String getColor() {
+		return color;
+	}
+
+	/**
+	 * @param color the color to set
+	 */
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	/**
+	 * @return the weekTotalMap
+	 */
+	public Map<String, BigDecimal> getWeekTotalMap() {
+		return weekTotalMap;
+	}
+
+	/**
+	 * @param weekTotalMap the weekTotalMap to set
+	 */
+	public void setWeekTotalMap(Map<String, BigDecimal> weekTotalMap) {
+		this.weekTotalMap = weekTotalMap;
+	}
+	
 }

@@ -116,6 +116,7 @@ public class TimeApprovalAction extends ApprovalAction{
 		TimeApprovalActionForm taaf = (TimeApprovalActionForm)form;
 		taaf.setSearchField(null);
 		taaf.setSearchTerm(null);
+		taaf.setOutputString(null);
 		taaf.getWorkAreaDescr().clear();
 		
         CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrPyCalendarEntryId());
@@ -143,6 +144,11 @@ public class TimeApprovalAction extends ApprovalAction{
     	else {
     		Collections.sort(principalIds);
 	        taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, principalIds)));
+	        
+	        if (taaf.getApprovalRows() != null && !taaf.getApprovalRows().isEmpty()) {
+	        	taaf.setOutputString(taaf.getApprovalRows().get(0).getOutputString());
+	        }
+	        
 	        taaf.setResultSize(principalIds.size());
     	}
     	
@@ -156,6 +162,7 @@ public class TimeApprovalAction extends ApprovalAction{
 		TimeApprovalActionForm taaf = (TimeApprovalActionForm)form;
 		taaf.setSearchField(null);
 		taaf.setSearchTerm(null);
+		taaf.setOutputString(null);
 
 	    CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrPyCalendarEntryId());
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntry, new ArrayList<Boolean>()));
@@ -179,6 +186,7 @@ public class TimeApprovalAction extends ApprovalAction{
 				throws Exception {
 		ActionForward fwd = mapping.findForward("basic");
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
+        taaf.setOutputString(null);
         DateTime currentDate = null;
         CalendarEntry payCalendarEntry = null;
         Calendar currentPayCalendar = null;
@@ -211,6 +219,10 @@ public class TimeApprovalAction extends ApprovalAction{
 	        populateCalendarAndPayPeriodLists(request, taaf);
         }
         setupDocumentOnFormContext(request,taaf, payCalendarEntry, page);
+
+        if (taaf.getApprovalRows() != null && !taaf.getApprovalRows().isEmpty()) {
+        	taaf.setOutputString(taaf.getApprovalRows().get(0).getOutputString());
+        }
         return fwd;
 	}
 
@@ -226,7 +238,6 @@ public class TimeApprovalAction extends ApprovalAction{
 			taaf.setResultSize(0);
 		} else {
 		    List<ApprovalTimeSummaryRow> approvalRows = getApprovalRows(taaf, getSubListPrincipalIds(request, principalIds));
-		    
 		    final String sortField = request.getParameter("sortField");
 		    if (StringUtils.equals(sortField, "Name")) {
 			    final boolean sortNameAscending = Boolean.parseBoolean(request.getParameter("sortNameAscending"));

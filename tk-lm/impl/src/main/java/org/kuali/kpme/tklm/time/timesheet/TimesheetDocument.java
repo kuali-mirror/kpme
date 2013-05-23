@@ -15,11 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.timesheet;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.assignment.Assignment;
@@ -126,6 +122,20 @@ public class TimesheetDocument extends CalendarDocument {
 	public String getDocumentId(){
 		return this.getDocumentHeader().getDocumentId();
 	}
+
+    public Map<String, List<LocalDate>> getEarnCodeMap() {
+        Map<String, List<LocalDate>> earnCodeMap = new HashMap<String, List<LocalDate>>();
+        for(TimeBlock tb : getTimeBlocks()) {
+            if(!earnCodeMap.containsKey(tb.getEarnCode())) {
+                List<LocalDate> lst = new ArrayList<LocalDate>();
+                lst.add(tb.getBeginDateTime().toLocalDate());
+                earnCodeMap.put(tb.getEarnCode(), lst);
+            } else {
+                earnCodeMap.get(tb.getEarnCode()).add(tb.getBeginDateTime().toLocalDate());
+            }
+        }
+        return earnCodeMap;
+    }
 	
     public Map<String, String> getAssignmentDescriptions(boolean clockOnlyAssignments) {
         Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();

@@ -2,6 +2,12 @@
 
 <jsp:useBean id="tagSupport" class="org.kuali.kpme.tklm.common.TagSupport"/>
 
+
+<br/>
+<table width="100%"><tr><td width="80%" valign="top"><div id='calendar'></div>&nbsp;</td>
+
+<td width="20%"  valign="top">&nbsp;
+
 <div id="time-approval">
 	<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do?methodToCall=loadApprovalTab" excludedParams="*"
 	               pagesize="20" id="row"
@@ -10,13 +16,14 @@
 	    <c:if test="${row.clockedInOverThreshold}">
 	        <c:set var="nameStyle" value="background-color: #F08080;"/>
 	    </c:if>
-	    <display:column title="Name" sortable="true" sortName="name" style="${nameStyle}">
-	        <c:if test="${row.periodTotal > 0}">
-	            <div class="ui-state-default ui-corner-all" style="float:left;">
-	                    <%--<span id="showDetailButton_${row_rowNum-1}" class="ui-icon ui-icon-plus rowInfo"></span>--%>
+	    <display:column  style="background-color: ${row.color};width:5px ; vertical-align:middle" >
+		 	<c:if test="${row.periodTotal > 0}">
+	            <div class="ui-state-default ui-corner-all" >
 	                <span id="showDetailButton_${row.documentId}" class="ui-icon ui-icon-plus rowInfo"></span>
 	            </div>
-	        </c:if>
+            </c:if>
+          </display:column>
+	    <display:column title="Name" sortable="true" sortName="name" style="${nameStyle}">
 	        <a href="changeTargetPerson.do?${row.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${row.name}</a> (${row.principalId})
             <c:if test="${!empty row.clockStatusMessage}">
                 <br/>${row.clockStatusMessage}
@@ -94,20 +101,17 @@
 	            <span id="approvals-status" class="approvals-status">${row.approvalStatus}</span>
 	        </div>
 	    <%--</display:column>--%>
-        </display:column>
+        </display:column>	
 	    <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
-	        <display:column title="${payCalLabel}">
+	       
 	            <c:choose>
-	                <c:when test="${fn:contains(payCalLabel,'Week')}">
+	                <c:when test="${fn:contains(payCalLabel,'Period')}">
+	                 <display:column title="${payCalLabel}">
 	                    <span style="font-weight: bold;">${row.hoursToPayLabelMap[payCalLabel]}</span>
-	                    <br/>
-	                    <span style="font-style: italic;">(${row.hoursToFlsaPayLabelMap[payCalLabel]})</span>
+	                   </display:column>
 	                </c:when>
-	                <c:otherwise>
-	                    ${row.hoursToPayLabelMap[payCalLabel]}
-	                </c:otherwise>
 	            </c:choose>
-	        </display:column>
+	        
 	    </c:forEach>
 	    <display:column title="Action">
 	        <tk:tkApprovalRowButtons appRow="${row}"/>
@@ -121,3 +125,5 @@
 	    </display:column>
 	</display:table>
 </div>
+
+</td></tr></table>

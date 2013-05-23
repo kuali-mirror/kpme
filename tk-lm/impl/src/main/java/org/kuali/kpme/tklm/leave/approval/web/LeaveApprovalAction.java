@@ -15,12 +15,16 @@
  */
 package org.kuali.kpme.tklm.leave.approval.web;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +42,7 @@ import org.displaytag.util.ParamEncoder;
 import org.hsqldb.lib.StringUtil;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.json.simple.JSONValue;
 import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.Calendar;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
@@ -46,6 +51,7 @@ import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.ApprovalAction;
 import org.kuali.kpme.tklm.common.ApprovalForm;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
@@ -179,6 +185,7 @@ public class LeaveApprovalAction extends ApprovalAction{
 	private void setApprovalTables(LeaveApprovalActionForm laaf, List<String> principalIds, HttpServletRequest request, CalendarEntry payCalendarEntry) {
 		laaf.setLeaveCalendarDates(LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntry));
 		
+		laaf.setOutputString(null);
 		if (principalIds.isEmpty()) {
 			laaf.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
 			laaf.setResultSize(0);
@@ -227,6 +234,40 @@ public class LeaveApprovalAction extends ApprovalAction{
 		    
 			laaf.setLeaveApprovalRows(approvalRows);
 		    laaf.setResultSize(principalIds.size());
+		    
+		    Map<String, String> userColorMap = new HashMap<String, String>();
+	        Set<String> randomColors = new HashSet<String>();
+		    List<Map<String, String>> approvalRowsMap = new ArrayList<Map<String, String>>();
+		    if(approvalRows != null && !approvalRows.isEmpty()) {
+		    	for (ApprovalLeaveSummaryRow row : approvalRows) {
+		    		for (Date date : laaf.getLeaveCalendarDates()) {
+		    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+						String dateString = formatter.format(date);
+		    			Map<String, BigDecimal> earnCodeMap = row.getEarnCodeLeaveHours().get(date);
+		    			if(earnCodeMap != null && !earnCodeMap.isEmpty()) {
+			    			for (String key : earnCodeMap.keySet()){
+			    				String color = null;
+			    				
+			    				Map<String, String> event = new HashMap<String, String>();
+			    				event.put("title", (key.split("[|]"))[0] + "-" +earnCodeMap.get(key).toString());
+			    			    event.put("start", dateString);
+			    			    
+			    			    if(!userColorMap.containsKey(row.getPrincipalId())) {
+			    	        		color = TKUtils.getRandomColor(randomColors);
+			    	        		randomColors.add(color);
+			    	        		userColorMap.put(row.getPrincipalId(), color);
+			    	        	}
+			    	        	row.setColor(userColorMap.get(row.getPrincipalId()));
+			            		event.put("color", userColorMap.get(row.getPrincipalId()));
+			            		event.put("className", "event-approval");
+			    				approvalRowsMap.add(event);
+			    			}
+		    			}
+		    		}
+		    	}
+		    }
+		    
+		    laaf.setOutputString(JSONValue.toJSONString(approvalRowsMap));
 		}
 	}
 	
@@ -337,6 +378,7 @@ public class LeaveApprovalAction extends ApprovalAction{
  			  laaf.setSelectedDept(null);
  			  laaf.setSearchField(null);
  			  laaf.setSearchTerm(null);
+ 			  laaf.setOutputString(null);
  	      }
 	}
     
