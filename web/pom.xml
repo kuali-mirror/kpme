@@ -412,7 +412,23 @@
                         <configuration>
                             <webAppConfig>
                                 <contextPath>/kpme-dev</contextPath>
+                                <extraClasspath>
+                                    ../core/api/target/classes,
+                                    ../core/impl/target/classes,
+                                    ../pm/api/target/classes,
+                                    ../pm/impl/target/classes,
+                                    ../tk-lm/api/target/classes,
+                                    ../tk-lm/impl/target/classes
+                                </extraClasspath>
                             </webAppConfig>
+                            <scanTargets>
+                                <scanTarget>../core/api/target/classes</scanTarget>
+                                <scanTarget>../core/impl/target/classes</scanTarget>
+                                <scanTarget>../pm/api/target/classes</scanTarget>
+                                <scanTarget>../pm/impl/target/classes</scanTarget>
+                                <scanTarget>../tk-lm/api/target/classes</scanTarget>
+                                <scanTarget>../tk-lm/impl/target/classes</scanTarget>
+                            </scanTargets>
                             <contextXml>${basedir}/src/main/webapp/WEB-INF/jetty-context.xml</contextXml>
                             <systemProperties>
                                 <systemProperty>
@@ -420,12 +436,11 @@
                                     <value>true</value>
                                 </systemProperty>
                             </systemProperties>
-                            <webAppSourceDirectory>${project.build.directory}/${project.build.finalName}</webAppSourceDirectory>
                         </configuration>
                         <executions>
                             <execution>
                                 <id>jetty-run</id>
-                                <phase>verify</phase>
+                                <phase>compile</phase>
                                 <goals>
                                     <goal>run</goal>
                                 </goals>
