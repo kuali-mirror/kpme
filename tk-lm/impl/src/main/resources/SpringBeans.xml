@@ -43,76 +43,50 @@
     
     <aop:aspectj-autoproxy/>
 
-<!--
+	<!-- This bean merges lookupable bean names with those defined within parent bean in core -->
 
-	beanNames property should be merged Lookupable bean names are set in core.
-
-     <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
-        <property name="localServiceName" value="KPME-Context"/>
-        <property name="serviceNameSpaceURI" value="KPME" />
+     <bean id="kpmeTKLMResourceLoaderConfigurer" parent="kpmeResourceLoaderConfigurer">
         <property name="beanNames">
             <set>
-                <value>calendarLookupable</value>
                 <value>timeBlockLookupable</value> 
 				<value>timeBlockHistoryLookupable</value> 
 				<value>timeBlockHistoryDetailLookupable</value>
-				<value>jobLookupable</value> 
 				<value>systemLunchRuleLookupable</value> 
-				<value>earnCodeSecurityLookupable</value>
-				<value>earnCodeLookupable</value> 
-				<value>earnCodeGroupLookupable</value> 
-				<value>payTypeLookupable</value> 
-				<value>positionLookupable</value> 
-				<value>salaryGroupLookupable</value> 
 				<value>dailyOvertimeRuleLookupable</value> 
-				<value>departmentLookupable</value> 
-				<value>workAreaLookupable</value> 
 				<value>clockLocationRuleLookupable</value> 
 				<value>departmentLunchRuleLookupable</value> 
 				<value>gracePeriodRuleLookupable</value> 
 				<value>shiftDifferentialRuleLookupable</value> 
 				<value>weeklyOvertimeRuleLookupable</value> 
 				<value>timeCollectionRuleLookupable</value> 
-				<value>assignmentLookupable</value> 
 				<value>clockLogLookupable</value>
-				<value>locationLookupable</value> 
-				<value>calendarEntryLookupable</value>
-				<value>payGradeLookupable</value> 
-				<value>principalHRAttributesLookupable</value> 				
-				<value>accountLookupable</value> 
-				<value>chartLookupable</value> 
-				<value>objectCodeLookupable</value> 
-				<value>organizationLookupable</value> 
-				<value>projectCodeLookupable</value> 
-				<value>subAccountLookupable</value> 
-				<value>subObjectCodeLookupable</value> 
-				<value>taskLookupable</value> 
-				<value>leavePlanLookupable</value> 
 				<value>systemScheduledTimeOffLookupable</value> 
 				<value>leaveDonationLookupable</value> 
-				<value>accrualCategoryLookupable</value> 
 				<value>leaveAdjustmentLookupable</value> 
 				<value>employeeOverrideLookupable</value>
 				<value>balanceTransferLookupable</value>
                 <value>leavePayoutLookupable</value>
                 <value>missedPunchLookupable</value>
-                <value>institutionLookupable</value>
-                <value>positionReportTypeLookupable</value>
-                <value>positionReportGroupLookupable</value>
-                <value>positionReportCatLookupable</value>
-                <value>positionReportSubCatLookupable</value>                
-                <value>payStepLookupable</value>
-                <value>positionTypeLookupable</value>
-                <value>positionAppointmentLookupable</value>
-                <value>pstnContractTypeLookupable</value>
-                <value>positionDepartmentAffiliationLookupable</value>
-                <value>positionDepartmentLookupable</value>
             </set>
         </property>
     </bean>
- -->
 
+	<!-- This bean merges repository file path and data dictionary package values with those defined within parent bean defined in core -->
 
+	<bean id="kpmeTKLMModuleConfiguration" parent="kpmeModuleConfiguration">
+		<property name="databaseRepositoryFilePaths">
+			<list merge="true">
+				<value>OJB-repository-time.xml</value>
+                <value>OJB-repository-leave.xml</value>
+			</list>
+		</property>
+		<property name="dataDictionaryPackages">
+			<list merge="true">
+                <value>org/kuali/hr/tklm/datadictionary</value>
+			</list>
+		</property>
+	</bean>
+	
 	<!-- TK-LM DAOs -->
 
 
@@ -312,6 +286,8 @@
             <bean class="org.kuali.kpme.tklm.time.timeblock.web.TimeBlockHistoryLookupableHelperServiceImpl"/>
         </property>
     </bean>
+    
+    <bean id="timeBlockSerializerService" class="org.kuali.kpme.tklm.time.scheduler.TimeBlockSerializerService" />
 
     <bean id="timesheetDocumentHeaderService"
           class="org.kuali.kpme.tklm.time.workflow.service.TimesheetDocumentHeaderServiceImpl">
@@ -488,6 +464,101 @@
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchLookupableHelper"/>
         </property>
+    </bean>
+    
+    <!-- TK-LM Quartz Jobs -->
+
+    <bean id="batchJobService" class="org.kuali.kpme.tklm.common.BatchJobServiceImpl">
+        <property name="scheduler" ref="kpmeScheduler" />
+        <property name="assignmentService" ref="assignmentService" />
+        <property name="calendarService" ref="calendarService" />
+        <property name="clockLogService" ref="clockLogService" />
+        <property name="leaveCalendarDocumentHeaderService" ref="leaveCalendarDocumentHeaderService" />
+        <property name="missedPunchService" ref="missedPunchService" />
+        <property name="principalHRAttributesService" ref="principalHRAttributesService" />
+        <property name="timesheetDocumentHeaderService" ref="timesheetDocumentHeaderService" />
+    </bean>
+    
+    
+    <!-- Leave Calendar Delinquency Job -->
+    
+    <bean id="leaveCalendarDelinquencyJob" class="org.kuali.kpme.tklm.leave.batch.LeaveCalendarDelinquencyJob" scope="singleton">
+        <property name="calendarEntriesPollingWindow" value="${kpme.batch.calendarEntriesPollingWindow.days}" />
+        <property name="calendarEntryService" ref="calendarEntryService" />
+        <property name="kpmeNotificationService" ref="kpmeNotificationService" />
+        <property name="leaveCalendarDocumentHeaderService" ref="leaveCalendarDocumentHeaderService" />
+        <property name="principalHRAttributesService" ref="principalHRAttributesService" />
+    </bean>
+    
+    <bean id="leaveCalendarDelinquencyJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="org.kuali.kpme.tklm.leave.batch.LeaveCalendarDelinquencyJob" />
+    </bean>
+    <bean id="leaveCalendarDelinquencyTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="leaveCalendarDelinquencyJobBean" />
+        <property name="cronExpression" value="${kpme.batch.leaveCalendarDelinquency.cronExpression}" />
+    </bean>
+
+	<!-- TimeBlock Serializer Job -->
+
+    <bean id="timeBlockSerializerJobBean" class="org.kuali.kpme.tklm.time.scheduler.TimeBlockSerializerJobBean" scope="singleton">
+        <property name="timeBlockSerializerService" ref="timeBlockSerializerService"/>
+    </bean>
+    <bean id="serializerJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="org.kuali.kpme.tklm.time.scheduler.TimeBlockSerializerJobBean" />
+    </bean>
+    <bean id="serializerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="serializerJob" />
+        <property name="cronExpression" value="${kpme.batch.serializer.cronExpression}"/>
+    </bean>
+
+	<!-- Accrual Job -->
+    
+    <bean id="accrualJob" class="org.kuali.kpme.tklm.leave.batch.AccrualJob" scope="singleton">
+        <property name="accrualService" ref="accrualService" />
+        <property name="assignmentService" ref="assignmentService" />
+        <property name="leavePlanService" ref="leavePlanService" />
+        <property name="principalHRAttributesService" ref="principalHRAttributesService" />
+    </bean>
+    <bean id="accrualJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="org.kuali.kpme.tklm.leave.batch.AccrualJob" />
+    </bean>
+    <bean id="accrualTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="accrualJobBean" />
+        <property name="cronExpression" value="${kpme.batch.accrual.cronExpression}" />
+    </bean>
+    
+   	<!--  CarryOverSchedule Batch JOB -->
+   	
+    <bean id="carryOverSchedulerJob" class="org.kuali.kpme.tklm.leave.batch.CarryOverSchedulerJob" scope="singleton">
+        <property name="leavePlanPollingWindow" value="${kpme.batch.leavePlanPollingWindow.days}" />
+        <property name="batchJobService" ref="batchJobService" />
+    </bean>
+    
+	<bean id="carryOverSchedulerJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="org.kuali.kpme.tklm.leave.batch.CarryOverSchedulerJob" />
+    </bean>
+    
+    <bean id="carryOverSchedulerTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+        <property name="jobDetail" ref="carryOverSchedulerJobBean" />
+        <property name="startDelay" value="${kpme.batch.startDelay.milliseconds}" />
+        <property name="repeatInterval" value="${kpme.batch.repeatInterval.milliseconds}" />
+    </bean>
+
+	<!-- Calendar Entry Scheduler Job -->
+
+    <bean id="calendarEntrySchedulerJob" class="org.kuali.kpme.tklm.common.CalendarEntrySchedulerJob" scope="singleton">
+        <property name="calendarEntriesPollingWindow" value="${kpme.batch.calendarEntriesPollingWindow.days}" />
+        <property name="batchJobService" ref="batchJobService" />
+    </bean>
+    
+    <bean id="calendarEntrySchedulerJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="org.kuali.kpme.tklm.common.CalendarEntrySchedulerJob" />
+    </bean>
+    
+    <bean id="calendarEntrySchedulerTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+        <property name="jobDetail" ref="calendarEntrySchedulerJobBean" />
+        <property name="startDelay" value="${kpme.batch.startDelay.milliseconds}" />
+        <property name="repeatInterval" value="${kpme.batch.repeatInterval.milliseconds}" />
     </bean>
 
 </beans>

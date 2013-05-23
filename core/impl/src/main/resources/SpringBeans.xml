@@ -102,16 +102,11 @@
             <list>
                 <value>OJB-repository-core.xml</value>
                 <value>OJB-repository-coa.xml</value>
-                <value>OJB-repository-time.xml</value>
-                <value>OJB-repository-leave.xml</value>
-                <value>OJB-repository-position.xml</value>
             </list>
         </property>
         <property name="dataDictionaryPackages">
             <list>
                 <value>org/kuali/hr/core/datadictionary</value>
-                <value>org/kuali/hr/tklm/datadictionary</value>
-                <value>org/kuali/hr/pm/datadictionary</value>
                 <value>org/kuali/kfs/coa/datadictionary</value>
                 <!-- DummyLogin, will need in rice 2.3M3 -->
                 <!--<value>classpath:/org/kuali/rice/krad/login/DummyLoginView.xml</value>-->
@@ -226,7 +221,7 @@
     
     <bean name="springContext" class="org.kuali.kpme.core.sys.context.SpringContext" />
     
-    <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
+    <bean id="kpmeResourceLoaderConfigurer" class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
         <property name="localServiceName" value="KPME-Context"/>
         <property name="serviceNameSpaceURI" value="KPME" />
         <property name="beanNames">
@@ -669,22 +664,9 @@
 
 
 
-    <!-- Quartz Batch Jobs -->
+    <!-- Quartz Scheduling -->
     
     
-    
-    <bean id="batchJobService" class="org.kuali.kpme.tklm.common.BatchJobServiceImpl">
-        <property name="scheduler" ref="kpmeScheduler" />
-        <property name="assignmentService" ref="assignmentService" />
-        <property name="calendarService" ref="calendarService" />
-        <property name="clockLogService" ref="clockLogService" />
-        <property name="leaveCalendarDocumentHeaderService" ref="leaveCalendarDocumentHeaderService" />
-        <property name="missedPunchService" ref="missedPunchService" />
-        <property name="principalHRAttributesService" ref="principalHRAttributesService" />
-        <property name="timesheetDocumentHeaderService" ref="timesheetDocumentHeaderService" />
-    </bean>
-    
-    <bean id="timeBlockSerializerService" class="org.kuali.kpme.tklm.time.scheduler.TimeBlockSerializerService" />
     
     <bean id="kpmeScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" destroy-method="stop">
         <property name="overwriteExistingJobs" value="true" />
@@ -714,79 +696,6 @@
                 <ref bean="carryOverSchedulerTrigger" />
             </list>
         </property>
-    </bean>
-    
-    <bean id="accrualJob" class="org.kuali.kpme.tklm.leave.batch.AccrualJob" scope="singleton">
-        <property name="accrualService" ref="accrualService" />
-        <property name="assignmentService" ref="assignmentService" />
-        <property name="leavePlanService" ref="leavePlanService" />
-        <property name="principalHRAttributesService" ref="principalHRAttributesService" />
-    </bean>
-    <bean id="accrualJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
-        <property name="jobClass" value="org.kuali.kpme.tklm.leave.batch.AccrualJob" />
-    </bean>
-    <bean id="accrualTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-        <property name="jobDetail" ref="accrualJobBean" />
-        <property name="cronExpression" value="${kpme.batch.accrual.cronExpression}" />
-    </bean>
-    
-   	<!--  CarryOverSchedule Batch JOB -->
-   	
-    <bean id="carryOverSchedulerJob" class="org.kuali.kpme.tklm.leave.batch.CarryOverSchedulerJob" scope="singleton">
-        <property name="leavePlanPollingWindow" value="${kpme.batch.leavePlanPollingWindow.days}" />
-        <property name="batchJobService" ref="batchJobService" />
-    </bean>
-    
-	<bean id="carryOverSchedulerJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
-        <property name="jobClass" value="org.kuali.kpme.tklm.leave.batch.CarryOverSchedulerJob" />
-    </bean>
-    
-    <bean id="carryOverSchedulerTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
-        <property name="jobDetail" ref="carryOverSchedulerJobBean" />
-        <property name="startDelay" value="${kpme.batch.startDelay.milliseconds}" />
-        <property name="repeatInterval" value="${kpme.batch.repeatInterval.milliseconds}" />
-    </bean>
-
-    <bean id="calendarEntrySchedulerJob" class="org.kuali.kpme.tklm.common.CalendarEntrySchedulerJob" scope="singleton">
-        <property name="calendarEntriesPollingWindow" value="${kpme.batch.calendarEntriesPollingWindow.days}" />
-        <property name="batchJobService" ref="batchJobService" />
-    </bean>
-    
-    <bean id="calendarEntrySchedulerJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
-        <property name="jobClass" value="org.kuali.kpme.tklm.common.CalendarEntrySchedulerJob" />
-    </bean>
-    
-    <bean id="calendarEntrySchedulerTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
-        <property name="jobDetail" ref="calendarEntrySchedulerJobBean" />
-        <property name="startDelay" value="${kpme.batch.startDelay.milliseconds}" />
-        <property name="repeatInterval" value="${kpme.batch.repeatInterval.milliseconds}" />
-    </bean>
-    
-    <bean id="leaveCalendarDelinquencyJob" class="org.kuali.kpme.tklm.leave.batch.LeaveCalendarDelinquencyJob" scope="singleton">
-        <property name="calendarEntriesPollingWindow" value="${kpme.batch.calendarEntriesPollingWindow.days}" />
-        <property name="calendarEntryService" ref="calendarEntryService" />
-        <property name="kpmeNotificationService" ref="kpmeNotificationService" />
-        <property name="leaveCalendarDocumentHeaderService" ref="leaveCalendarDocumentHeaderService" />
-        <property name="principalHRAttributesService" ref="principalHRAttributesService" />
-    </bean>
-    
-    <bean id="leaveCalendarDelinquencyJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
-        <property name="jobClass" value="org.kuali.kpme.tklm.leave.batch.LeaveCalendarDelinquencyJob" />
-    </bean>
-    <bean id="leaveCalendarDelinquencyTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-        <property name="jobDetail" ref="leaveCalendarDelinquencyJobBean" />
-        <property name="cronExpression" value="${kpme.batch.leaveCalendarDelinquency.cronExpression}" />
-    </bean>
-
-    <bean id="timeBlockSerializerJobBean" class="org.kuali.kpme.tklm.time.scheduler.TimeBlockSerializerJobBean" scope="singleton">
-        <property name="timeBlockSerializerService" ref="timeBlockSerializerService"/>
-    </bean>
-    <bean id="serializerJob" class="org.springframework.scheduling.quartz.JobDetailBean">
-        <property name="jobClass" value="org.kuali.kpme.tklm.time.scheduler.TimeBlockSerializerJobBean" />
-    </bean>
-    <bean id="serializerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-        <property name="jobDetail" ref="serializerJob" />
-        <property name="cronExpression" value="${kpme.batch.serializer.cronExpression}"/>
     </bean>
 
 </beans>
