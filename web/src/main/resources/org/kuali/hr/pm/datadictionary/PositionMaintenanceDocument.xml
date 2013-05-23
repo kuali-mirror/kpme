@@ -61,6 +61,14 @@
 			        <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
 			        <bean parent="Uif-InputField" p:propertyName="description" p:required="true"/>
 			        <bean parent="Uif-InputField" p:propertyName="active" p:required="true"/>
+			        
+			        <bean parent="Uif-InputField" p:propertyName="pmPositionClassId" >
+				        <property name="quickfinder">
+				   			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.classification.Classification" 
+				        			 p:fieldConversions="pmPositionClassId:pmPositionClassId"/>
+						</property>
+			        </bean>
+			        			       
 			     </list>
 			</property>
 	    </bean>
@@ -74,20 +82,20 @@
 						</list>
 			      	 </property>
 			      </bean>
-<!-- 				  <bean parent="Uif-HorizontalBoxSection" p:headerText="Duties" > -->
-<!-- 				  	<property name="items"> -->
-<!-- 			      		<list> -->
-<!-- 			      			<bean parent="Position-duties"/> -->
-<!-- 					  </list> -->
-<!-- 				    </property>			   -->
-<!-- 			      </bean> -->
-<!-- 			      <bean parent="Uif-HorizontalBoxSection" p:headerText="Flags"> -->
-<!-- 			      	<property name="items"> -->
-<!-- 			      		<list> -->
-<!-- 			      		<bean parent="Position-flags"/> -->
-<!-- 			      		</list> -->
-<!-- 		      		</property> -->
-<!-- 		      	  </bean> -->
+				  <bean parent="Uif-HorizontalBoxSection" p:headerText="Duties" >
+				  	<property name="items">
+			      		<list>
+			      			<bean parent="Position-duties"/>
+					  </list>
+				    </property>			  
+			      </bean>
+			      <bean parent="Uif-HorizontalBoxSection" p:headerText="Flags">
+			      	<property name="items">
+			      		<list>
+			      		<bean parent="Position-flags"/>
+			      		</list>
+		      		</property>
+		      	  </bean>
 			   </list>
 			  </property>
 		</bean>

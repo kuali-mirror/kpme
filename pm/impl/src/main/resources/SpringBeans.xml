@@ -104,7 +104,9 @@
  	
  	<bean id="classificationDao" class="org.kuali.kpme.pm.classification.dao.ClassificationDaoObjImpl" parent="platformAwareDao" />
  	
+ 	<bean id="classificationDutyDao" class="org.kuali.kpme.pm.classification.duty.dao.ClassificationDutyDaoObjImpl" parent="platformAwareDao" />
  	
+ 	<bean id="classificationFlagDao" class="org.kuali.kpme.pm.classification.flag.dao.ClassificationFlagDaoObjImpl" parent="platformAwareDao" />
  	
 	<!-- PM Service Definitions -->
 
@@ -168,6 +170,13 @@
         <property name="classificationDao" ref="classificationDao"/>
     </bean>
 
+	<bean id="classificationDutyService" class="org.kuali.kpme.pm.classification.duty.service.ClassificationDutyServiceImpl">
+        <property name="classificationDutyDao" ref="classificationDutyDao"/>
+    </bean>
+    
+    <bean id="classificationFlagService" class="org.kuali.kpme.pm.classification.flag.service.ClassificationFlagServiceImpl">
+        <property name="classificationFlagDao" ref="classificationFlagDao"/>
+    </bean>
 
 
     <!-- PM Lookupable Definitions -->

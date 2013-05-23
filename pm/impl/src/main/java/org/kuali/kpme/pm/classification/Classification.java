@@ -20,6 +20,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
+import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
 import com.google.common.collect.ImmutableList;

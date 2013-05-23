@@ -23,7 +23,7 @@
 	
 	<bean id="ClassFlag" parent="ClassFlag-parentBean"/>
  	<bean id="ClassFlag-parentBean" abstract="true" parent="BusinessObjectEntry">
-	    <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.ClassificationFlag"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.flag.ClassificationFlag"/>
 	    <property name="attributes">
 	      <list>
 	        <ref bean="ClassFlag-pmFlagId"/>

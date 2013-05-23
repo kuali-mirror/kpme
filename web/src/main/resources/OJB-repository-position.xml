@@ -210,11 +210,11 @@
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="pmPositionClassId" />
         </collection-descriptor>
-        <collection-descriptor name="dutyList" element-class-ref="org.kuali.kpme.pm.classification.ClassificationDuty"
+        <collection-descriptor name="dutyList" element-class-ref="org.kuali.kpme.pm.classification.duty.ClassificationDuty"
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="pmPositionClassId" />
         </collection-descriptor>
-        <collection-descriptor name="flagList" element-class-ref="org.kuali.kpme.pm.classification.ClassificationFlag"
+        <collection-descriptor name="flagList" element-class-ref="org.kuali.kpme.pm.classification.flag.ClassificationFlag"
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="pmPositionClassId" />
         </collection-descriptor>
@@ -262,7 +262,7 @@
     </class-descriptor>
     
    <!-- Position Classification Duty -->
-    <class-descriptor class="org.kuali.kpme.pm.classification.ClassificationDuty" table="PM_PSTN_CL_DUTY_T">
+    <class-descriptor class="org.kuali.kpme.pm.classification.duty.ClassificationDuty" table="PM_PSTN_CL_DUTY_T">
         <field-descriptor name="pmDutyId"   				column="PM_DUTY_ID"    		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_CL_DUTY_S" />
         <field-descriptor name="name"    					column="NAME"      			jdbc-type="VARCHAR"     length="20" 		nullable="false" />
         <field-descriptor name="description"    			column="DESCR"             	jdbc-type="VARCHAR"     length="300" 		nullable="false" />
@@ -273,7 +273,7 @@
     </class-descriptor>
     
     <!-- Position Classification Flag -->
-    <class-descriptor class="org.kuali.kpme.pm.classification.ClassificationFlag" table="PM_PSTN_CL_FLAG_T">
+    <class-descriptor class="org.kuali.kpme.pm.classification.flag.ClassificationFlag" table="PM_PSTN_CL_FLAG_T">
         <field-descriptor name="pmFlagId"   				column="PM_FLAG_ID"    		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_CL_FLAG_S" />
         <field-descriptor name="category"    				column="CATEGORY"           jdbc-type="VARCHAR"     length="20" 		nullable="false" />
         <field-descriptor name="names"    					column="NAMES"      		jdbc-type="VARCHAR"     length="100" 		nullable="false" />
@@ -366,19 +366,20 @@
         <field-descriptor name="effectiveDate"  column="EFFDT"          jdbc-type="DATE"        nullable="true" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.tklm.common.TkTimestampConverter" />
 
+		<field-descriptor name="pmPositionClassId"    	column="PM_PSTN_CL_ID"  jdbc-type="VARCHAR"     length="60" />
 
  		<collection-descriptor name="qualificationList" element-class-ref="org.kuali.kpme.pm.position.PositionQualification">
          		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
              <inverse-foreignkey field-ref="hrPositionId" />
          </collection-descriptor>
-<!--         <collection-descriptor name="dutyList" element-class-ref="org.kuali.kpme.pm.position.PositionDuty" -->
-<!--         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false"> -->
-<!--             <inverse-foreignkey field-ref="hrPositionId" /> -->
-<!--         </collection-descriptor>     -->
-<!--     	<collection-descriptor name="flagList" element-class-ref="org.kuali.kpme.pm.position.PstnFlag" -->
-<!--         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false"> -->
-<!--             <inverse-foreignkey field-ref="hrPositionId" /> -->
-<!--         </collection-descriptor> -->
+        <collection-descriptor name="dutyList" element-class-ref="org.kuali.kpme.pm.position.PositionDuty"
+        		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="hrPositionId" />
+        </collection-descriptor>    
+    	<collection-descriptor name="flagList" element-class-ref="org.kuali.kpme.pm.position.PstnFlag"
+        		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="hrPositionId" />
+        </collection-descriptor>
     </class-descriptor>
 
     <!-- Position Qualification -->

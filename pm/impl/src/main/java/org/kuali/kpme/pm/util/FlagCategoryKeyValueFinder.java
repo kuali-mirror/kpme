@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.classification.Classification;
 import org.kuali.kpme.pm.positionflag.PositionFlag;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
@@ -49,9 +50,9 @@ public class FlagCategoryKeyValueFinder extends UifKeyValuesFinderBase {
 	public List<KeyValue> getKeyValues(ViewModel model) {
 		List<KeyValue> options = new ArrayList<KeyValue>();
 		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model; 
-		Classification cf = (Classification) docForm.getDocument().getNewMaintainableObject().getDataObject();
-		if(cf.getEffectiveDate() != null) {
-			List<PositionFlag> flagList = PmServiceLocator.getPositionFlagService().getAllActivePositionFlags(null, null, cf.getEffectiveLocalDate());
+		HrBusinessObject anHrObject = (HrBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
+		if(anHrObject.getEffectiveDate() != null) {
+			List<PositionFlag> flagList = PmServiceLocator.getPositionFlagService().getAllActivePositionFlags(null, null, anHrObject.getEffectiveLocalDate());
 			options.add(new ConcreteKeyValue("", "Select category to see flags"));
 			if(CollectionUtils.isNotEmpty(flagList)) {
 				for(PositionFlag aFlag : flagList) {

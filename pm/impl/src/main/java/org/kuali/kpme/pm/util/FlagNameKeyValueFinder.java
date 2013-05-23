@@ -21,8 +21,10 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.classification.Classification;
-import org.kuali.kpme.pm.classification.ClassificationFlag;
+import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
+import org.kuali.kpme.pm.flag.Flag;
 import org.kuali.kpme.pm.positionflag.PositionFlag;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -38,11 +40,10 @@ public class FlagNameKeyValueFinder extends UifKeyValuesFinderBase {
 	public List<KeyValue> getKeyValues(ViewModel model) {
 		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
 		List<KeyValue> options = new ArrayList<KeyValue>();
-		
-		Classification cf = (Classification) docForm.getDocument().getNewMaintainableObject().getDataObject();
-		LocalDate aDate = cf.getEffectiveLocalDate() != null ? cf.getEffectiveLocalDate() : null;
+		HrBusinessObject anHrObject = (HrBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
+		LocalDate aDate = anHrObject.getEffectiveLocalDate() != null ? anHrObject.getEffectiveLocalDate() : null;
 
-		ClassificationFlag aFlagObj = (ClassificationFlag) docForm.getNewCollectionLines().get("document.newMaintainableObject.dataObject.flagList");
+		Flag aFlagObj = (Flag) docForm.getNewCollectionLines().get("document.newMaintainableObject.dataObject.flagList");
 		String category = null;
 		if(aFlagObj != null && StringUtils.isNotEmpty(aFlagObj.getCategory())) {
 			category = aFlagObj.getCategory();

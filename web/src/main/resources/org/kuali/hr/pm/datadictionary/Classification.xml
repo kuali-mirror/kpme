@@ -69,13 +69,13 @@
 	          <property name="label" value="Classification Qualifications" />
 	        </bean>
 	        <bean parent="CollectionDefinition">
-	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.ClassificationDuty" />
+	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.duty.ClassificationDuty" />
 	          <property name="name" value="dutyList" />
 	          <property name="shortLabel" value="Duties" />
 	          <property name="label" value="Classification Duties" />
 	        </bean>
 	        <bean parent="CollectionDefinition">
-	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.ClassificationFlag" />
+	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.flag.ClassificationFlag" />
 	          <property name="name" value="flagList" />
 	          <property name="shortLabel" value="Flags" />
 	          <property name="label" value="Classification Flags" />
@@ -519,7 +519,7 @@
   
 <!-- Duties List, used by maintenance views -->
    <bean id="Classification-duties" abstract="true" parent="Uif-TableCollectionSection" p:align="left">
-		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationDuty" />
+		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.duty.ClassificationDuty" />
 		  <property name="propertyName" value="dutyList" />
 		  <property name="addLinePlacement" value="BOTTOM" />
 		  <property name="layoutManager.generateAutoSequence" value="true" />
@@ -554,7 +554,7 @@
 	
 	<!-- Duties List, used by inquiry views -->
    <bean id="Classification-dutyList" abstract="true" parent="Uif-Disclosure-TableCollectionSection" >
-		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationDuty" />
+		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.duty.ClassificationDuty" />
 		  <property name="headerText" value="Duties"/>
 		  <property name="propertyName" value="dutyList" />
 		  <property name="layoutManager.renderSequenceField" value="false"/>
@@ -571,7 +571,7 @@
 	
 	<!-- Flags List, used by maintenance views -->
 	<bean id="Classification-flags" abstract="true" parent="Uif-TableCollectionGroup">
-		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationFlag" />
+		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.flag.ClassificationFlag" />
 		  <property name="propertyName" value="flagList" />
 		  <property name="addLinePlacement" value="BOTTOM" />
 		  <property name="layoutManager.richTable.render" value="false" />
@@ -604,7 +604,7 @@
 	<bean id="Classification-flagList" abstract="true" parent="Uif-Disclosure-TableCollectionSection"
         p:layoutManager.numberOfColumns="4">
 	    <property name="headerText" value="Flags"/>
-	    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationFlag"/>
+	    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.flag.ClassificationFlag"/>
 	    <property name="propertyName" value="flagList"/>
 	    <property name="layoutManager.renderSequenceField" value="false"/>
 	    <property name="layoutManager.separateAddLine" value="true"/>

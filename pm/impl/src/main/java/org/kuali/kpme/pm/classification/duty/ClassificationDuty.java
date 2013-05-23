@@ -13,35 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.classification;
+package org.kuali.kpme.pm.classification.duty;
+
+import java.math.BigDecimal;
 
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class ClassificationFlag extends PersistableBusinessObjectBase {
+public class ClassificationDuty extends PersistableBusinessObjectBase {
 	private static final long serialVersionUID = 1L;
 	
-	private String pmFlagId;
-	private String category;
-	private String names;
+	private String pmDutyId;
+	private String name;
+	private String description;
+	private BigDecimal percentage;
 	private String pmPositionClassId;
 	
-	public String getPmFlagId() {
-		return pmFlagId;
+	public String getPmDutyId() {
+		return pmDutyId;
 	}
-	public void setPmFlagId(String pmFlagId) {
-		this.pmFlagId = pmFlagId;
+	public void setPmDutyId(String pmDutyId) {
+		this.pmDutyId = pmDutyId;
 	}
-	public String getCategory() {
-		return category;
+	public String getName() {
+		return name;
 	}
-	public void setCategory(String category) {
-		this.category = category;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getNames() {
-		return names;
+	public String getDescription() {
+		return description;
 	}
-	public void setNames(String names) {
-		this.names = names;
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public BigDecimal getPercentage() {
+		return percentage;
+	}
+	public void setPercentage(BigDecimal percentage) {
+		this.percentage = percentage;
 	}
 	public String getPmPositionClassId() {
 		return pmPositionClassId;
@@ -49,4 +58,5 @@ public class ClassificationFlag extends PersistableBusinessObjectBase {
 	public void setPmPositionClassId(String pmPositionClassId) {
 		this.pmPositionClassId = pmPositionClassId;
 	}
+	
 }

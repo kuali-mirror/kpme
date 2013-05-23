@@ -23,7 +23,7 @@
 	
 	<bean id="ClassDuty" parent="ClassDuty-parentBean"/>
  	<bean id="ClassDuty-parentBean" abstract="true" parent="BusinessObjectEntry">
-	    <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.ClassificationDuty"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.duty.ClassificationDuty"/>
 	    <property name="attributes">
 	      <list>
 	        <ref bean="ClassDuty-pmDutyId"/>
