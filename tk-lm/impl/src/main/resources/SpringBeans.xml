@@ -47,7 +47,7 @@
 
      <bean id="kpmeTKLMResourceLoaderConfigurer" parent="kpmeResourceLoaderConfigurer">
         <property name="beanNames">
-            <set>
+            <set merge="true">
                 <value>timeBlockLookupable</value> 
 				<value>timeBlockHistoryLookupable</value> 
 				<value>timeBlockHistoryDetailLookupable</value>
@@ -88,8 +88,6 @@
 	</bean>
 	
 	<!-- TK-LM DAOs -->
-
-
 
     <bean id="clockLogDao" class="org.kuali.kpme.tklm.time.clocklog.dao.ClockLogDaoOjbImpl" parent="platformAwareDao" />
 
