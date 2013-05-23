@@ -17,22 +17,6 @@
 -->
 <descriptor-repository version="1.0">
 
-    <jdbc-connection-descriptor
-        jcd-alias="kpmeDataSource"
-        default-connection="true"
-        jdbc-level="3.0"
-        batch-mode="false"
-        useAutoCommit="0"
-        ignoreAutoCommitExceptions="false">
-
-        <sequence-manager className="org.kuali.rice.core.framework.persistence.ojb.ConfigurableSequenceManager">
-                <attribute attribute-name="property.prefix" attribute-value="datasource.ojb.sequenceManager" />
-        </sequence-manager>
-
-        <object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />
-        <connection-pool maxActive="150" />
-    </jdbc-connection-descriptor>
-
     <!-- Time Block -->
     <!-- Business Keys - [timestamp : jobNumber : workArea : task] -->
     <class-descriptor class="org.kuali.kpme.tklm.time.timeblock.TimeBlock" table="TK_TIME_BLOCK_T">
