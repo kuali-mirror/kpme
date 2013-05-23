@@ -21,6 +21,7 @@
     <c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isSystemAdmin()%>' />
     <c:set var="globalViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isGlobalViewOnly()%>' />
     <c:set var="locationAdmin" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationAdmin()%>' />
+    <c:set var="locationViewOnly" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationViewOnly()%>' />
 </c:if>
 <div id="tabs" class="tabposition">
 	<ul>
@@ -48,7 +49,7 @@
 		</c:if>
 		
         <%-- Maintenance --%>
-        <c:if test="${systemAdmin || globalViewOnly || locationAdmin}">
+        <c:if test="${systemAdmin || globalViewOnly || locationAdmin || locationViewOnly}">
             <c:if test='${selectedTab == "maintenance"}'>
                 <li class="red">
                     <a class="red" href="portal.do?selectedTab=maintenance"

@@ -370,31 +370,34 @@ public class LeaveCalendarValidationUtil {
 
     // KPME-2010
     public static List<String> validateSpanningWeeks(LeaveCalendarWSForm lcf) {
-    	boolean spanningWeeks = lcf.getSpanningWeeks().equalsIgnoreCase("y");
-        EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(lcf.getSelectedEarnCode(), TKUtils.formatDateString(lcf.getStartDate()));
-    	DateTime startDate = null;
-    	DateTime endDate = null;
-
-        if (ec != null && !ec.getRecordMethod().equals(HrConstants.RECORD_METHOD.TIME)) {
-        	startDate = TKUtils.formatDateString(lcf.getStartDate()).toDateTimeAtStartOfDay();
-            endDate = TKUtils.formatDateString(lcf.getEndDate()).toDateTimeAtStartOfDay();
-        } else {
-        	startDate = TKUtils.formatDateTimeString(lcf.getStartDate());
-        	endDate = TKUtils.formatDateTimeString(lcf.getEndDate());
-        }
+    	List<String> errors = new ArrayList<String>();
     	
-        List<String> errors = new ArrayList<String>();
-    	boolean valid = true;
-    	while ((startDate.isBefore(endDate) || startDate.isEqual(endDate)) && valid) {
-           	if (!spanningWeeks && 
-        		(startDate.getDayOfWeek() == DateTimeConstants.SATURDAY || startDate.getDayOfWeek() == DateTimeConstants.SUNDAY)) {
-        		valid = false;
-        	}
-           	startDate = startDate.plusDays(1);
-        }
-        if (!valid) {
-        	errors.add("Weekend day is selected, but include weekends checkbox is not checked");            //errorMessages
-        }
+    	boolean spanningWeeks = lcf.getSpanningWeeks().equalsIgnoreCase("y");
+    	if (!spanningWeeks) {
+	        EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(lcf.getSelectedEarnCode(), TKUtils.formatDateString(lcf.getStartDate()));
+	    	DateTime startDate = null;
+	    	DateTime endDate = null;
+	
+	        if (ec != null && !ec.getRecordMethod().equals(HrConstants.RECORD_METHOD.TIME)) {
+	        	startDate = TKUtils.formatDateString(lcf.getStartDate()).toDateTimeAtStartOfDay();
+	            endDate = TKUtils.formatDateString(lcf.getEndDate()).toDateTimeAtStartOfDay();
+	        } else {
+	        	startDate = TKUtils.formatDateTimeString(lcf.getStartDate());
+	        	endDate = TKUtils.formatDateTimeString(lcf.getEndDate());
+	        }
+	    	
+	        boolean isOnlyWeekendSpan = true;
+	        while ((startDate.isBefore(endDate) || startDate.isEqual(endDate)) && isOnlyWeekendSpan) {
+	        	if (startDate.getDayOfWeek() != DateTimeConstants.SATURDAY && startDate.getDayOfWeek() != DateTimeConstants.SUNDAY) {
+	        		isOnlyWeekendSpan = false;
+	        	}
+	        	startDate = startDate.plusDays(1);
+	        }
+	        if (isOnlyWeekendSpan) {
+	        	errors.add("Weekend day is selected, but include weekends checkbox is not checked");            //errorMessages
+	        }
+    	}
+    	
     	return errors;
     }
     

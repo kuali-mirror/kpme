@@ -18,8 +18,9 @@
     <c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isSystemAdmin()%>' />
     <c:set var="globalViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isGlobalViewOnly()%>' />
     <c:set var="locationAdmin" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationAdmin()%>' />
+    <c:set var="locationViewOnly" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationViewOnly()%>' />
 </c:if>
-<c:if test="${not systemAdmin && not globalViewOnly && not locationAdmin}">
+<c:if test="${not systemAdmin && not globalViewOnly && not locationAdmin && not locationViewOnly}">
     <jsp:forward page="portal.do?selectedTab=main"/>
 </c:if>
 <td class="content" valign="top">

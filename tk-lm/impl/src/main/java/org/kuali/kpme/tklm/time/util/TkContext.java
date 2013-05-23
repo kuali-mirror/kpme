@@ -56,6 +56,16 @@ public class TkContext {
         		|| LmServiceLocator.getLMRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime());
 	}
 	
+	public static boolean isLocationViewOnly() {
+        return TkServiceLocator.getTKRoleService().principalHasRole(getPrincipalId(), KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), new DateTime())
+        		|| LmServiceLocator.getLMRoleService().principalHasRole(getPrincipalId(), KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), new DateTime());
+	}
+	
+	public static boolean isTargetLocationViewOnly() {
+        return TkServiceLocator.getTKRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), new DateTime())
+        		|| LmServiceLocator.getLMRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), new DateTime());
+	}
+	
 	public static boolean isDepartmentAdmin() {
     	return TkServiceLocator.getTKRoleService().principalHasRole(getPrincipalId(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime())
     			|| LmServiceLocator.getLMRoleService().principalHasRole(getPrincipalId(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime());

@@ -279,9 +279,9 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		}
 
 		DateTime startTime = new DateTime(2011, 2, 17, 9, 0, 0, 0,
-				TKUtils.getSystemDateTimeZone());  // Friday
+				TKUtils.getSystemDateTimeZone());  // Thursday
 		DateTime endTime = new DateTime(2011, 2, 20, 11, 0, 0, 0,
-				TKUtils.getSystemDateTimeZone());  // Monday
+				TKUtils.getSystemDateTimeZone());  // Sunday
 
 		// Setup TimeDetailActionForm1
 		TimeDetailActionFormBase addTB = TimeDetailTestUtils
@@ -294,6 +294,10 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 				"There should no error in this time detail submission", 0,
 				errors.size());
 
+		startTime = new DateTime(2011, 2, 19, 9, 0, 0, 0,
+				TKUtils.getSystemDateTimeZone());  // Saturday
+		endTime = new DateTime(2011, 2, 20, 11, 0, 0, 0,
+				TKUtils.getSystemDateTimeZone());  // Sunday
 
 		// Setup TimeDetailActionForm2
 		addTB = TimeDetailTestUtils

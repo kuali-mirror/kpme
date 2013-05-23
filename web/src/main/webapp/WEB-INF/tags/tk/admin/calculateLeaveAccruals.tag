@@ -15,38 +15,42 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<channel:portalChannelTop channelTitle="Calculate Leave Accruals" />
-<div class="body">
-    <div id="content">
-        <html:form action="/calculateLeaveAccruals" method="post">
-            <table>
-                <tr>
-                    <td>Principal Name:</td>
-                    <td>
-                        <html:text property="principalName" size="20" />
-                        <kul:lookup boClassName="org.kuali.rice.kim.impl.identity.PersonImpl" fieldConversions="principalName:principalName" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>Start Date:</td>
-                    <td>
-                        <html:text property="startDate" size="12" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>End Date:</td>
-                    <td>
-                        <html:text property="endDate" size="12" />
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <html:submit property="methodToCall.runAccruals" value="Submit" />
-                        <html:submit property="methodToCall.clearAccruals" value="Clear" />
-                    </td>
-                </tr>
-            </table>
-        </html:form>
+<c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isSystemAdmin()%>' />
+
+<c:if test="${systemAdmin}">
+    <channel:portalChannelTop channelTitle="Calculate Leave Accruals" />
+    <div class="body">
+        <div id="content">
+            <html:form action="/calculateLeaveAccruals" method="post">
+                <table>
+                    <tr>
+                        <td>Principal Name:</td>
+                        <td>
+                            <html:text property="principalName" size="20" />
+                            <kul:lookup boClassName="org.kuali.rice.kim.impl.identity.PersonImpl" fieldConversions="principalName:principalName" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Start Date:</td>
+                        <td>
+                            <html:text property="startDate" size="12" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>End Date:</td>
+                        <td>
+                            <html:text property="endDate" size="12" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <html:submit property="methodToCall.runAccruals" value="Submit" />
+                            <html:submit property="methodToCall.clearAccruals" value="Clear" />
+                        </td>
+                    </tr>
+                </table>
+            </html:form>
+        </div>
     </div>
-</div>
-<channel:portalChannelBottom />
+    <channel:portalChannelBottom />
+</c:if>

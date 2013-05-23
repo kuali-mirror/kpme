@@ -5,6 +5,7 @@
     <c:set var="locationAdmin" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationAdmin()%>' />
     <c:set var="departmentAdmin" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isDepartmentAdmin()%>' />
     <c:set var="globalViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isGlobalViewOnly()%>' />
+    <c:set var="locationViewOnly" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationViewOnly()%>' />
     <c:set var="targetSystemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isTargetSystemAdmin()%>' />
     <c:set var="targetTimesheetApprover" value='<%=org.kuali.kpme.core.util.HrContext.isTargetAnyApprover()%>' />
     <c:set var="targetTimesheetReviewer" value='<%=org.kuali.kpme.core.util.HrContext.isTargetReviewer()%>' />   
@@ -14,7 +15,7 @@
 
 <div id="tab-section">
     <li id="help" class="ui-state-default ui-corner-top"><a href="Help.do">Help</a></li>
-    <c:if test="${systemAdmin || locationAdmin || departmentAdmin || globalViewOnly}">
+    <c:if test="${systemAdmin || locationAdmin || departmentAdmin || globalViewOnly || locationViewOnly}">
         <li id="departmentAdmin" class="ui-state-default ui-corner-top"><a href="DepartmentAdmin.do">Department Admin</a></li>
     </c:if>
     <li id="personInfo" class="ui-state-default ui-corner-top"><a href="PersonInfo.do">Person Info</a></li>
