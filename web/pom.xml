@@ -378,7 +378,9 @@
                                         <include>WEB-INF/tags/rice-portal/portalLink.tag</include>
                                         <include>WEB-INF/tags/rice-portal/portalTop.tag</include>
                                         <include>WEB-INF/tags/rice-portal/channel/</include>
-                                        <include>WEB-INF/tld/</include>
+                                        <include>WEB-INF/tld/kuali-func.tld</include>
+                                        <include>WEB-INF/tld/kuali-struts-html-el.tld</include>
+                                        <include>WEB-INF/tld/kuali-struts-html.tld</include>
                                     </includes>
                                     <excludes>
                                         <exclude>**/.svn</exclude>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<taglib xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd" version="2.1">
+
+    <description>KPME functions library</description>
+    <display-name>KPME functions</display-name>
+    <tlib-version>1.0</tlib-version>
+    <short-name>kpmefunc</short-name>
+
+    <function>
+        <description>Determines if a Timesheet's route button should be displayed</description>
+        <name>isTimesheetRouteButtonDisplaying</name>
+        <function-class>org.kuali.kpme.tklm.common.WorkflowTagSupport</function-class>
+        <function-signature>java.lang.Boolean isTimesheetRouteButtonDisplaying(java.lang.String)</function-signature>
+    </function>
+    
+    <function>
+        <description>Determines if a Leave Calendar's route button should be displayed</description>
+        <name>isLeaveCalendarRouteButtonDisplaying</name>
+        <function-class>org.kuali.kpme.tklm.common.WorkflowTagSupport</function-class>
+        <function-signature>java.lang.Boolean isLeaveCalendarRouteButtonDisplaying(java.lang.String)</function-signature>
+    </function>
+    
+    <function>
+        <description>Determines if a Timesheet's route button should be enabled</description>
+        <name>isTimesheetRouteButtonEnabled</name>
+        <function-class>org.kuali.kpme.tklm.common.WorkflowTagSupport</function-class>
+        <function-signature>java.lang.Boolean isTimesheetRouteButtonEnabled(java.lang.String)</function-signature>
+    </function>
+    
+    <function>
+        <description>Determines if a Leave Calendar's route button should be enabled</description>
+        <name>isLeaveCalendarRouteButtonEnabled</name>
+        <function-class>org.kuali.kpme.tklm.common.WorkflowTagSupport</function-class>
+        <function-signature>java.lang.Boolean isLeaveCalendarRouteButtonEnabled(java.lang.String)</function-signature>
+    </function>
+    
+    <function>
+        <description>Determines if a Timesheet's approve button should be displayed</description>
+        <name>isTimesheetApprovalButtonsDisplaying</name>
+        <function-class>org.kuali.kpme.tklm.common.WorkflowTagSupport</function-class>
+        <function-signature>java.lang.Boolean isTimesheetApprovalButtonsDisplaying(java.lang.String)</function-signature>
+    </function>
+    
+    <function>
+        <description>Determines if a Leave Calendar's approve button should be displayed</description>
+        <name>isLeaveCalendarApprovalButtonsDisplaying</name>
+        <function-class>org.kuali.kpme.tklm.common.WorkflowTagSupport</function-class>
+        <function-signature>java.lang.Boolean isLeaveCalendarApprovalButtonsDisplaying(java.lang.String)</function-signature>
+    </function>
+    
+    <function>
+        <description>Determines if a Timesheet's approve button should be enabled</description>
+        <name>isTimesheetApprovalButtonsEnabled</name>
+        <function-class>org.kuali.kpme.tklm.common.WorkflowTagSupport</function-class>
+        <function-signature>java.lang.Boolean isTimesheetApprovalButtonsEnabled(java.lang.String)</function-signature>
+    </function>
+    
+    <function>
+        <description>Determines if a Leave Calendar's approve button should be enabled</description>
+        <name>isLeaveCalendarApprovalButtonsEnabled</name>
+        <function-class>org.kuali.kpme.tklm.common.WorkflowTagSupport</function-class>
+        <function-signature>java.lang.Boolean isLeaveCalendarApprovalButtonsEnabled(java.lang.String)</function-signature>
+    </function>
+ </taglib>
