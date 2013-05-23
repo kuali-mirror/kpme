@@ -62,7 +62,7 @@
 
 	<bean id="kpmePositionModuleConfiguration" parent="kpmeModuleConfiguration">
 		<property name="databaseRepositoryFilePaths">
-			<list merge="true">
+			<list>
                 <value>OJB-repository-position.xml</value>
 			</list>
 		</property>
