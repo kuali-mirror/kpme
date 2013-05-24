@@ -158,7 +158,7 @@
 			<bean parent="Uif-HorizontalRadioControl" />
 		</property>
 		<property name="optionsFinder">
-			<bean class="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder"/>
+			<bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
 		</property>
 		<property name="name" value="history" />
 		<property name="label" value="Show History" />

@@ -27,6 +27,7 @@ import org.kuali.kpme.pm.positionreportcat.service.PositionReportCatService;
 import org.kuali.kpme.pm.positionreportgroup.service.PositionReportGroupService;
 import org.kuali.kpme.pm.positionreportsubcat.service.PositionReportSubCatService;
 import org.kuali.kpme.pm.positionreporttype.service.PositionReportTypeService;
+import org.kuali.kpme.pm.positionresponsibility.service.PositionResponsibilityService;
 import org.kuali.kpme.pm.positiontype.service.PositionTypeService;
 import org.kuali.kpme.pm.pstncontracttype.service.PstnContractTypeService;
 import org.kuali.kpme.pm.pstnqlfctnvl.service.PositionQualificationValueService;
@@ -58,7 +59,8 @@ public class PmServiceLocator implements ApplicationContextAware {
     public static final String PM_CLASSIFICATION_DUTY_SERVICE = "classificationDutyService";
     public static final String PM_CLASSIFICATION_FLAG_SERVICE = "classificationFlagService";
     public static final String PM_POSITION_RESPONSIBILITY_OPTION_SERVICE = "positionResponsibilityOptionService";
-    
+    public static final String PM_POSITION_RESPONSIBILITY_SERVICE = "positionResponsibilityService";
+
     public static PositionReportTypeService getPositionReportTypeService() {
     	return (PositionReportTypeService) CONTEXT.getBean(PM_POSITION_REPORT_TYPE_SERVICE);
     }
@@ -125,6 +127,10 @@ public class PmServiceLocator implements ApplicationContextAware {
 	
 	public static PositionResponsibilityOptionService getPositionResponsibilityOptionService() {
 		return (PositionResponsibilityOptionService) CONTEXT.getBean(PM_POSITION_RESPONSIBILITY_OPTION_SERVICE);
+	}
+	
+	public static PositionResponsibilityService getPositionResponsibilityService() {
+		return (PositionResponsibilityService) CONTEXT.getBean(PM_POSITION_RESPONSIBILITY_SERVICE);
 	}
 
 	@Override

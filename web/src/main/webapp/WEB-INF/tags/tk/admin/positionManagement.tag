@@ -90,7 +90,13 @@
           <li>
          	<portal:portalLink displayTitle="true" title="Position Responsibilty Option" 
          			url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y"/>
+        </li> 
+        <!--  
+          <li>
+         	<portal:portalLink displayTitle="true" title="Position Responsibilty" 
+         			url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.hr.pm.positionresponsibility.PositionResponsibility&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y"/>
         </li>  
+        --> 
 	</ul>
 </div>
 <channel:portalChannelBottom />

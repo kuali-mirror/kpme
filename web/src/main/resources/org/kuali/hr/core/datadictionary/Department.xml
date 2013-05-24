@@ -214,7 +214,7 @@
         <property name="label" value="Show History" />
         <property name="shortLabel" value="Show History" />
         <property name="control">
-            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder" />
+            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder" />
         </property>
     </bean>
 

@@ -372,14 +372,32 @@
          		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
              <inverse-foreignkey field-ref="hrPositionId" />
          </collection-descriptor>
-        <collection-descriptor name="dutyList" element-class-ref="org.kuali.kpme.pm.position.PositionDuty"
+        <!--<collection-descriptor name="dutyList" element-class-ref="org.kuali.kpme.pm.position.PositionDuty"
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="hrPositionId" />
         </collection-descriptor>    
     	<collection-descriptor name="flagList" element-class-ref="org.kuali.kpme.pm.position.PstnFlag"
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="hrPositionId" />
+        </collection-descriptor>-->
+        <collection-descriptor name="positionResponsibilityList" element-class-ref="org.kuali.kpme.pm.positionresponsibility.PositionResponsibility"
+        		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="hrPositionId" />
         </collection-descriptor>
+    </class-descriptor>
+
+    <!-- Position Responsibilty  -->
+    <class-descriptor class="org.kuali.kpme.pm.positionresponsibility.PositionResponsibility" table="PM_PSTN_RPS_T">
+        <field-descriptor name="positionResponsibilityId" 		column="PM_PSTN_RPS_ID" 		 		jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PSTN_RPS_OPT_S" />
+        <field-descriptor name="institution"     		  		column="INSTITUTION"			 		jdbc-type="VARCHAR"     length="50" 		nullable="false" />
+        <field-descriptor name="campus"  		          		column="CAMPUS"     		 	 		jdbc-type="VARCHAR"     length="50"  		nullable="false" />
+       	<field-descriptor name="hrPositionId"   				column="HR_PSTN_ID"    					jdbc-type="VARCHAR"     length="60"  		nullable="false" />
+       	<field-descriptor name="percentTime"      				column="PRCT_TM"         				jdbc-type="DECIMAL"     length="10" 		nullable="true" />
+       	<field-descriptor name="active"              			column="ACTIVE"           		 		jdbc-type="VARCHAR"     length="1" 			nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="effectiveDate"      			column="EFFDT"    		 		 		jdbc-type="DATE"        nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="timestamp"              		column="TIMESTAMP"             	 		jdbc-type="TIMESTAMP"   nullable="false" 	conversion="org.kuali.kpme.tklm.common.TkTimestampConverter" />
+        <field-descriptor name="objectId"               		column="OBJ_ID"                	        jdbc-type="VARCHAR"     index="true" />
+       	<field-descriptor name="versionNumber"          		column="VER_NBR"               	 		jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
 
     <!-- Position Qualification -->

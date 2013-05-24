@@ -92,9 +92,13 @@
  	
  	<bean id="pstnQlfctnVlDao" class="org.kuali.kpme.pm.pstnqlfctnvl.dao.PositionQualificationValueDaoObjImpl" parent="platformAwareDao" />
  	
- 	<bean id="pstnQlfrTypeDao" class="org.kuali.kpme.pm.pstnqlfrtype.dao.PstnQlfrTypeDaoObjImpl" parent="platformAwareDao" /> 
- 	
- 	<bean id="positionDepartmentAffiliationDao" class="org.kuali.kpme.pm.positiondepartmentaffiliation.dao.PositionDepartmentAffiliationDaoObjImpl" parent="platformAwareDao" />
+ 	<bean id="pstnQlfrTypeDao" class="org.kuali.kpme.pm.pstnqlfrtype.dao.PstnQlfrTypeDaoObjImpl" parent="platformAwareDao" />
+
+    <bean id="positionResponsibilityOptionDao" class="org.kuali.kpme.pm.positionResponsibilityOption.dao.PositionResponsibilityOptionDaoObjImpl" parent="platformAwareDao" />
+
+    <bean id="positionResponsibilityDao" class="org.kuali.kpme.pm.positionresponsibility.dao.PositionResponsibilityDaoObjImpl" parent="platformAwareDao" />
+
+    <bean id="positionDepartmentAffiliationDao" class="org.kuali.kpme.pm.positiondepartmentaffiliation.dao.PositionDepartmentAffiliationDaoObjImpl" parent="platformAwareDao" />
  	
  	<bean id="positionDepartmentDao" class="org.kuali.kpme.pm.positiondepartment.dao.PositionDepartmentDaoObjImpl" parent="platformAwareDao" />	
  	
@@ -164,6 +168,14 @@
     
     <bean id="positionDepartmentService" class="org.kuali.kpme.pm.positiondepartment.service.PositionDepartmentServiceImpl">
         <property name="positionDepartmentDao" ref="positionDepartmentDao"/>
+    </bean>
+
+    <bean id="positionResponsibilityOptionService" class="org.kuali.kpme.pm.positionResponsibilityOption.service.PositionResponsibilityOptionServiceImpl">
+        <property name="positionResponsibilityOptionDao" ref="positionResponsibilityOptionDao"/>
+    </bean>
+
+    <bean id="positionResponsibilityService" class="org.kuali.kpme.pm.positionresponsibility.service.PositionResponsibilityServiceImpl">
+        <property name="positionResponsibilityDao" ref="positionResponsibilityDao"/>
     </bean>
   
   	<bean id="classificationService" class="org.kuali.kpme.pm.classification.service.ClassificationServiceImpl">

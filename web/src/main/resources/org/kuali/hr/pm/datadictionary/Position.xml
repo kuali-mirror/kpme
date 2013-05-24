@@ -1,25 +1,16 @@
-<!--
-
-    Copyright 2004-2013 The Kuali Foundation
-
-    Licensed under the Educational Community License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-    http://www.opensource.org/licenses/ecl2.php
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
--->
+<!-- Copyright 2004-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-        
+
 	<bean id="Position" parent="Position-parentBean" />
 	<bean id="Position-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="dataObjectClass" value="org.kuali.kpme.pm.position.Position" />
@@ -31,21 +22,21 @@
 				<ref bean="Position-description" />
 				<ref bean="Position-pmPositionClassId"/>
 				<ref bean="Position-effectiveDate" />
-				<ref bean="Position-history"/>
+				<ref bean="Position-history" />
 				<ref bean="Position-active" />
 				<ref bean="Position-timestamp" />
 			</list>
-		</property>	
-		
+		</property>
+
 		<property name="collections">
 	      <list>
 	        <bean parent="CollectionDefinition">
 	          <property name="dataObjectClass" value="org.kuali.kpme.pm.position.PositionQualification" />
-	          <property name="name" value="qualificationList" />
-	          <property name="shortLabel" value="Qualifications" />
-	          <property name="label" value="Position Qualifications" />
-	        </bean>
-	        <bean parent="CollectionDefinition">
+                <property name="name" value="qualificationList" />
+                <property name="shortLabel" value="Qualifications" />
+                <property name="label" value="Position Qualifications" />
+            </bean>
+			<bean parent="CollectionDefinition">
 	          <property name="dataObjectClass" value="org.kuali.kpme.pm.position.PositionDuty" />
 	          <property name="name" value="dutyList" />
 	          <property name="shortLabel" value="Duties" />
@@ -57,11 +48,18 @@
 	          <property name="shortLabel" value="Flags" />
 	          <property name="label" value="Position Flags" />
 	        </bean>
+	        <bean parent="CollectionDefinition">
+                <property name="dataObjectClass"
+                    value="org.kuali.kpme.pm.positionresponsibility.PositionResponsibility" />
+                <property name="name" value="positionResponsibilityList" />
+                <property name="shortLabel" value="Flags" />
+                <property name="label" value="Position Responsibilities" />
+            </bean>
 	      </list>
 	    </property>
 		
 	</bean>
-	
+
 	<!-- Attribute Definitions -->
 
 	<bean id="Position-hrPositionId" parent="Position-hrPositionId-parentBean" />
@@ -130,10 +128,10 @@
 		<property name="name" value="effectiveDate" />
 		<property name="label" value="Effective Date" />
 	</bean>
-	
+
 	<bean id="Position-active" parent="Position-active-parentBean" />
 	<bean id="Position-active-parentBean" abstract="true"
-		parent="AttributeReferenceDummy-activeIndicator" >
+		parent="AttributeReferenceDummy-activeIndicator">
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 	</bean>
@@ -146,10 +144,11 @@
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="15" />
 		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
+		<property name="formatterClass"
+			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
 		<property name="name" value="timestamp" />
 		<property name="label" value="Time Stamp" />
-	</bean> 
+	</bean>
 
 	<bean id="Position-history" parent="Position-history-parentBean" />
 	<bean id="Position-history-parentBean" abstract="true"
@@ -159,7 +158,7 @@
 			<bean parent="Uif-HorizontalRadioControl" />
 		</property>
 		<property name="optionsFinder">
-			<bean class="org.kuali.kpme.tklm.time.util.TkHistoryKeyValueFinder"/>
+			<bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
 		</property>
 		<property name="name" value="history" />
 		<property name="label" value="Show History" />
@@ -176,44 +175,47 @@
 	</bean> 	
 	
 	<!-- Position Qualification List, used by inquiry view -->
-	<bean id="Position-qualificationList" abstract="true" parent="Uif-Disclosure-TableCollectionSection"
-        p:layoutManager.numberOfColumns="4">
-    <property name="headerText" value="Required Qualification"/>
-    <property name="collectionObjectClass" value="org.kuali.kpme.pm.position.PositionQualification"/>
-    <property name="propertyName" value="qualificationList"/>
-    <property name="layoutManager.renderSequenceField" value="false"/>
-    <property name="layoutManager.separateAddLine" value="true"/>
-    <property name="layoutManager.richTable.render" value="false"/>
-    <property name="items">
-      <list>
-        <bean parent="Uif-InputField" p:propertyName="qualificationType"/>
-        <bean parent="Uif-InputField" p:propertyName="qualifier" />
-        <bean parent="Uif-InputField" p:propertyName="qualificationValue"/>
-      </list>
-    </property>
-  </bean>	
+	<bean id="Position-qualificationList" abstract="true"
+		parent="Uif-Disclosure-TableCollectionSection"
+		p:layoutManager.numberOfColumns="4">
+		<property name="headerText" value="Required Qualification" />
+		<property name="collectionObjectClass"
+			value="org.kuali.kpme.pm.position.PositionQualification" />
+		<property name="propertyName" value="qualificationList" />
+		<property name="layoutManager.renderSequenceField" value="false" />
+		<property name="layoutManager.separateAddLine" value="true" />
+		<property name="layoutManager.richTable.render" value="false" />
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="qualificationType" />
+				<bean parent="Uif-InputField" p:propertyName="qualifier" />
+				<bean parent="Uif-InputField" p:propertyName="qualificationValue" />
+			</list>
+		</property>
+	</bean>
 	
 	<!-- Duties List, used by inquiry views -->
    <bean id="Position-dutyList" abstract="true" parent="Uif-Disclosure-TableCollectionSection" >
 		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.position.PositionDuty" />
-		  <property name="headerText" value="Duties"/>
-		  <property name="propertyName" value="dutyList" />
-		  <property name="layoutManager.renderSequenceField" value="false"/>
-		  <property name="layoutManager.separateAddLine" value="true"/>
-		  <property name="layoutManager.richTable.render" value="false"/>
-		  <property name="items">
-			  <list>
-			  	 <bean parent="Uif-InputField" p:propertyName="name" />
-		         <bean parent="Uif-InputField" p:propertyName="description"/>
-		         <bean parent="Uif-InputField" p:propertyName="percentage"/>						         
-			  </list>
-		  </property>
+		<property name="headerText" value="Duties" />
+		<property name="propertyName" value="dutyList" />
+		<property name="layoutManager.renderSequenceField" value="false" />
+		<property name="layoutManager.separateAddLine" value="true" />
+		<property name="layoutManager.richTable.render" value="false" />
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="name" />
+				<bean parent="Uif-InputField" p:propertyName="description" />
+				<bean parent="Uif-InputField" p:propertyName="percentage" />
+			</list>
+		</property>
 	</bean>
-	
+
 	<!-- Flags List, used by inquiry view -->
-	<bean id="Position-flagList" abstract="true" parent="Uif-Disclosure-TableCollectionSection"
-        p:layoutManager.numberOfColumns="4">
-	    <property name="headerText" value="Flags"/>
+	<bean id="Position-flagList" abstract="true"
+		parent="Uif-Disclosure-TableCollectionSection"
+		p:layoutManager.numberOfColumns="4">
+		<property name="headerText" value="Flags" />
 	    <property name="collectionObjectClass" value="org.kuali.kpme.pm.position.PstnFlag"/>
 	    <property name="propertyName" value="flagList"/>
 	    <property name="layoutManager.renderSequenceField" value="false"/>
@@ -249,11 +251,11 @@
 			</list>
 		</property>
 	</bean>
-	
 
-	<!-- Look up Definitions  -->
-	<bean id="Position-LookupView" parent="Uif-LookupView" >
-	    <property name="headerText" value="Position Lookup" />
+
+	<!-- Look up Definitions -->
+	<bean id="Position-LookupView" parent="Uif-LookupView">
+		<property name="headerText" value="Position Lookup" />
 	    <property name="dataObjectClassName" value="org.kuali.kpme.pm.position.Position" />
 	    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.bo.position.web.PositionLookupableHelper" />
 	    <property name="criteriaFields">
@@ -261,8 +263,10 @@
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N"/>
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history"
+					p:defaultValue="N" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active"
+					p:defaultValue="Y" />
 			</list>
 		</property>
 		<property name="resultFields">
@@ -270,9 +274,9 @@
 				<bean parent="Uif-DataField" p:propertyName="positionNumber" >
 					<property name="inquiry">
 	       		 		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.position.Position"
-	        	 			p:inquiryParameters="hrPositionId:hrPositionId"/>
-    				</property>
-    			</bean>
+							p:inquiryParameters="hrPositionId:hrPositionId" />
+					</property>
+				</bean>
 				<bean parent="Uif-DataField" p:propertyName="description" />
 				<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
 				<bean parent="Uif-DataField" p:propertyName="timestamp" />
@@ -280,25 +284,25 @@
 			</list>
 		</property>
 	</bean>
-	
-<!--*************************************************************************** 
-				Views used by Maintenance View 
- ***************************************************************************-->  
+
+	<!--*************************************************************************** 
+		Views used by Maintenance View *************************************************************************** -->
 	<!-- Required Qualification List, used by maintenance view -->
    <bean id="Position-qualifications" abstract="true" parent="Uif-TableCollectionGroup">
 	  <property name="collectionObjectClass" value="org.kuali.kpme.pm.position.PositionQualification" />
-	  <property name="propertyName" value="qualificationList" />
-	  <property name="addLinePlacement" value="BOTTOM" />
-	  <property name="layoutManager.generateAutoSequence" value="true" />
-	  <property name="layoutManager.richTable.render" value="false" />
-	  <property name="layoutManager.numberOfColumns" value="4" />
-	  <property name="items">
-	    <list>
-           <bean parent="Uif-InputField" p:propertyName="qualificationType" p:readOnly="@{!#isAddLine}">
-           		<property name="control">
-					<bean parent="Uif-DropdownControl"/>
-				</property>
-				<property name="optionsFinder">
+		<property name="propertyName" value="qualificationList" />
+		<property name="addLinePlacement" value="BOTTOM" />
+		<property name="layoutManager.generateAutoSequence" value="true" />
+		<property name="layoutManager.richTable.render" value="false" />
+		<property name="layoutManager.numberOfColumns" value="4" />
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="qualificationType"
+					p:readOnly="@{!#isAddLine}">
+					<property name="control">
+						<bean parent="Uif-DropdownControl" />
+					</property>
+					<property name="optionsFinder">
 					<bean class="org.kuali.kpme.pm.util.PstnQlfrTypeKeyValueFinder" />
 				</property>
            </bean>
@@ -345,8 +349,9 @@
 	</bean>
 
 
-<!-- Duties List, used by maintenance views -->
-   <bean id="Position-duties" abstract="true" parent="Uif-TableCollectionSection" p:align="left">
+	<!-- Duties List, used by maintenance views -->
+	<bean id="Position-duties" abstract="true" parent="Uif-TableCollectionSection"
+		p:align="left">
 		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.position.PositionDuty" />
 		  <property name="propertyName" value="dutyList" />
 		  <property name="refreshWhenChangedPropertyNames" value="pmPositionClassId" /> 
@@ -376,9 +381,9 @@
 		         	<property name="validCharactersConstraint">
 			        	<bean parent="FixedPointPatternConstraint" p:allowNegative="false" p:precision="5" p:scale="2" />
 					</property>
-				 </bean>						         
-			  </list>
-		  </property>
+				</bean>
+			</list>
+		</property>
 	</bean>
 
 	<!-- Flags List, used by maintenance views -->
@@ -393,26 +398,77 @@
 		  <property name="items">
 		    <list>
 	           <bean parent="Uif-InputField" p:propertyName="category" p:readOnly="@{!#isAddLine}" >
-	           		<property name="control">
-						<bean parent="Uif-DropdownControl"/>
+					<property name="control">
+						<bean parent="Uif-DropdownControl" />
 					</property>
 					<property name="optionsFinder">
 						<bean class="org.kuali.kpme.pm.util.FlagCategoryKeyValueFinder" p:addBlankOption="false"/>
 					</property>
-	           </bean>
-	           <bean parent="Uif-InputField" p:propertyName="names" p:readOnly="@{!#isAddLine}"
-	            		p:refreshWhenChangedPropertyNames="#lp.category">
-	            	<property name="control">
-	            		<bean parent="Uif-HorizontalCheckboxesControl" />
-	            	</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="names"
+					p:readOnly="@{!#isAddLine}" p:refreshWhenChangedPropertyNames="#lp.category">
+					<property name="control">
+						<bean parent="Uif-HorizontalCheckboxesControl" />
+					</property>
 					<property name="optionsFinder">
 						<bean class="org.kuali.kpme.pm.util.FlagNameKeyValueFinder" p:addBlankOption="false"/>
 					</property>
-	           </bean>
-		    </list>
-		  </property>
+				</bean>
+			</list>
+		</property>
 	</bean>
-	
-	
+
+	<!-- Responsibility List, used by maintenance views -->
+	<bean id="Position-responsibilities" abstract="true"
+		parent="Uif-TableCollectionGroup">
+		<property name="collectionObjectClass"
+			value="org.kuali.kpme.pm.positionresponsibility.PositionResponsibility" />
+		<property name="propertyName" value="positionResponsibilityList" />
+		<property name="addLinePlacement" value="BOTTOM" />
+		<property name="layoutManager.richTable.render" value="false" />
+		<property name="layoutManager.generateAutoSequence" value="true" />
+		<property name="layoutManager.numberOfColumns" value="7" />
+		<property name="items">
+			<list>
+			
+				<bean parent="Uif-InputField" p:propertyName="institution">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution"
+							p:fieldConversions="institutionCode:institution" />
+					</property>
+				</bean>
+				
+				 <bean parent="Uif-InputField" p:propertyName="campus" />
+				
+				<bean parent="Uif-InputField" p:propertyName="percentTime"
+					p:exclusiveMin="0" p:inclusiveMax="100"
+					p:constraintText="Must be a number between 0 and 100.">
+					<property name="validCharactersConstraint">
+						<bean parent="FixedPointPatternConstraint" p:allowNegative="false"
+							p:precision="5" p:scale="2" />
+					</property>
+				</bean>
+				
+				<bean parent="Uif-InputField" p:propertyName="positionResponsibilityOption"
+					p:readOnly="@{!#isAddLine}">
+					<property name="control">
+						<bean parent="Uif-DropdownControl" />
+					</property>
+					<property name="optionsFinder">
+						<bean class="org.kuali.kpme.pm.util.PstnRspOptionKeyValueFinder" />
+					</property>
+				</bean>
+				 
+				<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+				<bean parent="Uif-InputField" p:propertyName="active"
+					p:defaultValue="true" />
+				
+
+			</list>
+		</property>
+	</bean>
+
+
+
 </beans>
 

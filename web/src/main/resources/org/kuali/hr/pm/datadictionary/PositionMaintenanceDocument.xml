@@ -96,9 +96,20 @@
 			      		</list>
 		      		</property>
 		      	  </bean>
+ 						<bean parent="Uif-HorizontalBoxSection" p:headerText="Position Responsibilities">
+			      	<property name="items">
+			      		<list>
+			      			<bean parent="Position-responsibilities"/>
+						</list>
+			      	 </property>
+			      </bean>
+				
 			   </list>
 			  </property>
 		</bean>
+		  
+			      
+			     
 	    
       </list>
     </property>

@@ -20,7 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.position.PositionBase;
 import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
-import org.kuali.kpme.pm.positionflag.PositionFlag;
+import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
 import java.util.ArrayList;
@@ -33,6 +33,7 @@ public class Position extends PositionBase {
 	private List<PositionQualification> qualificationList = new LinkedList<PositionQualification>();
     private List<PositionDuty> dutyList = new LinkedList<PositionDuty>();
     private List<PstnFlag> flagList = new LinkedList<PstnFlag>();
+    private List<PositionResponsibility> positionResponsibilityList = new LinkedList<PositionResponsibility>();
     
     private String pmPositionClassId;
 
@@ -57,6 +58,14 @@ public class Position extends PositionBase {
 		return dutyList;
 	}
 
+	public List<PositionResponsibility> getPositionResponsibilityList() {
+		return positionResponsibilityList;
+	}
+
+	public void setPositionResponsibilityList(
+			List<PositionResponsibility> positionResponsibilityList) {
+		this.positionResponsibilityList = positionResponsibilityList;
+	}
 	public void setDutyList(List<PositionDuty> dutyList) {
 		this.dutyList = dutyList;
 	}

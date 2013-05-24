@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.util;
+package org.kuali.kpme.core.web;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
-public class TkHistoryKeyValueFinder extends KeyValuesBase {
+public class KpmeHistoryKeyValueFinder extends KeyValuesBase {
 
 	@Override
 	public List<KeyValue> getKeyValues() {

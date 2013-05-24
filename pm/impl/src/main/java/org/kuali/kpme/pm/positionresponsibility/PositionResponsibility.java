@@ -15,11 +15,13 @@
  */
 package org.kuali.kpme.pm.positionresponsibility;
 
+import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.rice.location.impl.campus.CampusBo;
+
 import java.math.BigDecimal;
 
-import org.kuali.kpme.core.bo.HrBusinessObject;
 
-public class PositionResponsibilty extends HrBusinessObject {
+public class PositionResponsibility extends HrBusinessObject {
 
 	/**
 	 * 
@@ -28,10 +30,12 @@ public class PositionResponsibilty extends HrBusinessObject {
 	
 	private String positionResponsibilityId;
 	private String institution;
-	private String campus;
-	private String positionResponsibility;
-	private BigDecimal percentage;
-	
+	private String campus; //location
+	private String positionResponsibilityOption;
+	private BigDecimal percentTime;
+	private String hrPositionId;
+	private CampusBo campusObj;
+
 	public String getPositionResponsibilityId() {
 		return positionResponsibilityId;
 	}
@@ -56,35 +60,56 @@ public class PositionResponsibilty extends HrBusinessObject {
 		this.campus = campus;
 	}
 
-	public String getPositionResponsibility() {
-		return positionResponsibility;
+	public String getPositionResponsibilityOption() {
+		return positionResponsibilityOption;
 	}
 
-	public void setPositionResponsibility(String positionResponsibility) {
-		this.positionResponsibility = positionResponsibility;
+	public void setPositionResponsibilityOption(String positionResponsibilityOption) {
+		this.positionResponsibilityOption = positionResponsibilityOption;
 	}
 
-	public BigDecimal getPercentage() {
-		return percentage;
+	
+	public BigDecimal getPercentTime() {
+		return percentTime;
 	}
 
-	public void setPercentage(BigDecimal percentage) {
-		this.percentage = percentage;
-	}
-
-	@Override
-	public String getId() {
-		return this.getPositionResponsibilityId();
-	}
-	@Override
-	public void setId(String id) {
-		this.setPositionResponsibilityId(id);
-		
+	public void setPercentTime(BigDecimal percentTime) {
+		this.percentTime = percentTime;
 	}
 
 	@Override
 	protected String getUniqueKey() {
 		return this.getInstitution() + "_" + this.getCampus();
 	}
+	
+	public CampusBo getCampusObj() {
+		return campusObj;
+	}
 
+	public void setCampusObj(CampusBo campusObj) {
+		this.campusObj = campusObj;
+	}
+
+	public String getHrPositionId() {
+		return hrPositionId;
+	}
+
+	public void setHrPositionId(String hrPositionId) {
+		this.hrPositionId = hrPositionId;
+	}
+
+	@Override
+	public String getId() {
+		return this.getPositionResponsibilityId();
+	}
+
+	@Override
+	public void setId(String id) {
+		this.setPositionResponsibilityId(id);
+		
+	}
+
+	
+	
+	
 }

@@ -15,10 +15,13 @@
  */
 package org.kuali.kpme.pm.positionResponsibilityOption.dao;
 
+import java.util.List;
+
 import org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption;
 
 public interface PositionResponsibilityOptionDao {
 	
 	public PositionResponsibilityOption getPositionResponsibilityOptionById(String prOptionId);
+	public List<PositionResponsibilityOption> getAllActivePstnRspOptions();
 
 }
