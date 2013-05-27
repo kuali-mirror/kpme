@@ -15,8 +15,6 @@
  */
 package org.kuali.hr.time.assignment.service;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -24,23 +22,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.kpme.core.bo.assignment.Assignment;
-import org.kuali.kpme.core.bo.assignment.dao.AssignmentDao;
 import org.kuali.kpme.core.bo.assignment.service.AssignmentService;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+
+import java.util.List;
 
 public class AssignmentServiceImplTest extends KPMETestCase {
 
 	private static final Logger LOG = Logger.getLogger(AssignmentServiceImplTest.class);
-	AssignmentDao assignmentDao = null;
 	AssignmentService assignmentService = null;
 
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		assignmentDao = TkServiceLocator.getAssignmentDao();
 		assignmentService=HrServiceLocator.getAssignmentService();
 	}
 	

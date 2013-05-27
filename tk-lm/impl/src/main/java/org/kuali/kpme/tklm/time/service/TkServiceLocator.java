@@ -51,11 +51,10 @@ import org.springframework.transaction.support.TransactionTemplate;
 import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 
 public class TkServiceLocator implements ApplicationContextAware {
-	public static String SPRING_BEANS = "classpath:SpringBeans.xml";
+	public static String SPRING_BEANS = "classpath:org/kuali/kpme/tklm/config/TKLMSpringBeans.xml";
 	private static ApplicationContext CONTEXT;
 	public static final String HR_BATCH_JOB_SERVICE = "batchJobService";
 	public static final String TK_CLOCK_LOG_SERVICE = "clockLogService";
-	public static final String TK_ASSIGNMENT_DAO     = "assignmentDao";
 	public static final String TK_TIME_BLOCK_SERVICE = "timeBlockService";
 	public static final String TK_TIME_BLOCK_HISTORY_SERVICE = "timeBlockHistoryService";
 	public static final String TK_TIME_BLOCK_HISTORY_DETAIL_SERVICE = "timeBlockHistoryDetailService";
@@ -127,10 +126,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	
 	public static TimeBlockHistoryDetailService getTimeBlockHistoryDetailService(){
 		return (TimeBlockHistoryDetailService)CONTEXT.getBean(TK_TIME_BLOCK_HISTORY_DETAIL_SERVICE);
-	}
-
-	public static AssignmentDao getAssignmentDao() {
-	    return (AssignmentDao)CONTEXT.getBean(TK_ASSIGNMENT_DAO);
 	}
 
 	public static PersistenceBrokerTemplate getTkPersistenceBrokerTemplate() {

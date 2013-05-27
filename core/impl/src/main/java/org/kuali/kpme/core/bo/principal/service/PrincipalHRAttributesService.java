@@ -123,4 +123,10 @@ public interface PrincipalHRAttributesService {
      * @return
      */
     public List<String> getUniqueTimePayGroups();
+
+    /**
+     * Get List of all active pay groups for a list of principal ids
+     * @return
+     */
+    public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds);
 }

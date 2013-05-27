@@ -51,8 +51,32 @@
                            http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.1.xsd">
-    <import resource="classpath:RiceConfigSpringBeans.xml" />
-    <import resource="classpath*:SpringBeans.xml" />
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" value="#{bootstrapConfig.getProperties()}" />
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
+        <property name="arguments">
+            <list>
+                <ref bean="bootstrapConfig"/>
+            </list>
+        </property>
+    </bean>
+
+    <import resource="classpath:org/kuali/kpme/core/config/RiceConfigSpringBeans.xml" />
+
+    <bean id="kpmeCoreConfigurer" class="org.kuali.kpme.core.sys.KpmeModuleConfigurer">
+        <constructor-arg type="java.lang.String" value="core"/>
+    </bean>
+
+    <bean id="tklmConfigurer" class="org.kuali.kpme.core.sys.KpmeModuleConfigurer">
+        <constructor-arg type="java.lang.String" value="tklm"/>
+    </bean>
+
+    <bean id="positionConfigurer" class="org.kuali.kpme.core.sys.KpmeModuleConfigurer">
+        <constructor-arg type="java.lang.String" value="pm"/>
+    </bean>
 
     <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
         <property name="configLocations">

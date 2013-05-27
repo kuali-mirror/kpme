@@ -48,7 +48,7 @@ import org.springframework.context.ApplicationContextAware;
 
 public class HrServiceLocator implements ApplicationContextAware {
 
-	public static String SPRING_BEANS = "classpath:SpringBeans.xml";
+	public static String SPRING_BEANS = "classpath:org/kuai/kpme/core/config/CORESpringBeans.xml";
 	public static ApplicationContext CONTEXT;
 	
 	public static final String HR_PAY_CALENDAR_SERVICE = "calendarService";

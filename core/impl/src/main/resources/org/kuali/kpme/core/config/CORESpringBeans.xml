@@ -40,10 +40,9 @@
                            http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.1.xsd">
-                           
-    <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
-    <import resource="classpath:DataSourceSpringBeans.xml" />
-    
+
+    <import resource="classpath:org/kuali/kpme/core/config/KPMECommonSpringBeans.xml"/>
+
     <aop:aspectj-autoproxy/>
 
     <!-- caching setup -->
@@ -81,21 +80,22 @@
     <!-- end cache setup -->
 
     <bean id="kpmeModuleService" class="org.kuali.kpme.core.service.module.KpmeModuleService">
-        <property name="moduleConfiguration" ref="kpmeModuleConfiguration"/>
+        <property name="moduleConfiguration" ref="kpmeCoreModuleConfiguration"/>
         <property name="kualiModuleService" ref="kualiModuleService"/>
     </bean>
     
-    <bean id="kpmeModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
-        <property name="namespaceCode" value="TK"/>
+    <bean id="kpmeCoreModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+        <property name="namespaceCode" value="KPME-CORE"/>
         <property name="initializeDataDictionary" value="true"/>
         <property name="packagePrefixes">
             <list>
-                <value>org.kuali.kpme.tklm.time.domain</value>
+                <!--<value>org.kuali.kpme.tklm.time.domain</value>-->
+                <value>org.kuali.kpme.core</value>
                 <value>org.kuali.kfs.coa.domain</value>
                 <value>org.kuali.kpme.core.bo.kfs.coa.businessobject</value>
-                <value>org.kuali.kpme.tklm.time</value>
+                <!--<value>org.kuali.kpme.tklm.time</value>
                 <value>org.kuali.kpme.kfs</value>
-                <value>org.kuali.kpme</value>
+                <value>org.kuali.kpme</value>-->
             </list>
         </property>
         <property name="databaseRepositoryFilePaths">
@@ -114,37 +114,7 @@
         </property>
     </bean>
     
-    <bean id="businessObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="businessObjectService" />
-    </bean>
-    
-    <bean id="documentService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="documentService" />
-    </bean>
-    
-    <bean id="kimGroupService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kimGroupService" />
-    </bean>
-    
-    <bean id="kimIdentityService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kimIdentityService" />
-    </bean>
-    
-    <bean id="kimPermissionService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kimPermissionService" />
-    </bean>
-    
-    <bean id="kimRoleService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kimRoleService" />
-    </bean>
-    
-    <bean id="kimTypeInfoService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kimTypeInfoService" />
-    </bean>
-    
-    <bean id="kualiModuleService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kualiModuleService" />
-    </bean>
+
     
     <bean id="mailer" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="mailer" />
@@ -154,45 +124,7 @@
         <property name="serviceName" value="parameterService" />
     </bean>
     
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
-    </bean>
-    
-    <bean id="transactionAdvisor" class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
-        <property name="classFilter" ref="transactionAdvisorClassFilter" />
-        <property name="transactionInterceptor" ref="transactionInterceptor" />
-    </bean>
 
-    <bean id="transactionAdvisorClassFilter" class="org.kuali.rice.core.impl.util.spring.ClassOrMethodAnnotationFilter">
-       <constructor-arg value="org.springframework.transaction.annotation.Transactional" />
-    </bean>
-    
-    <bean id="transactionInterceptor" class="org.kuali.rice.core.framework.persistence.jta.KualiTransactionInterceptor">
-        <property name="transactionManager" ref="transactionManager" />
-        <property name="transactionAttributeSource" ref="transactionAttributeSource" />
-    </bean>
-    
-    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
-        <property name="userTransaction">
-            <ref local="userTransaction" />
-        </property>
-        <property name="transactionManager">
-            <ref local="jtaTransactionManager" />
-        </property>
-    </bean>
-    
-    <bean id="userTransaction" class="org.kuali.rice.core.framework.persistence.jta.UserTransactionFactoryBean" lazy-init="true" />
-
-    <bean id="jtaTransactionManager" class="org.kuali.rice.core.framework.persistence.jta.TransactionManagerFactoryBean" lazy-init="true" />
-    
-    <bean id="transactionAttributeSource" class="org.kuali.rice.core.impl.util.spring.AnnotationAndNameMatchingTransactionAttributeSource">
-        <property name="annotationTransactionAttributeSource" ref="annotationTransactionAttributeSource" />
-        <property name="transactionTimeout" value="${transaction.timeout}" />
-    </bean>
-    
-    <bean id="annotationTransactionAttributeSource" class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
-    
-    <bean id="commonDefaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
     
     <bean id="docHandlerUrlPrefixPublishingService" class="org.kuali.kpme.core.service.dochandler.DocHandlerUrlPrefixPublishingServiceImpl">
         <property name="parameterApplicationId" value="KUALI" />
@@ -205,32 +137,15 @@
         <property name="parameterService" ref="parameterService" />
     </bean>
     
-    <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
-        <property name="jcdAlias" value="kradApplicationDataSource" />
-        <property name="dbPlatform" ref="dbPlatform" />
-    </bean>
-    
-    <bean id="platformAwareDaoJdbc" class="org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc" abstract="true">
-        <property name="dataSource" ref="kpmeDataSource" />
-        <property name="dbPlatform" ref="dbPlatform" />
-    </bean>
-    
-    <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="dbPlatform" />
-    </bean>
-    
-    <bean name="springContext" class="org.kuali.kpme.core.sys.context.SpringContext" />
-    
     <bean id="kpmeResourceLoaderConfigurer" class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
         <property name="localServiceName" value="KPME-Context"/>
-        <property name="serviceNameSpaceURI" value="KPME" />
+        <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/core/v2_0" />
         <property name="beanNames">
             <set>
                 <value>calendarLookupable</value>
-                <value>timeBlockLookupable</value> 
-				<value>timeBlockHistoryLookupable</value> 
-				<!--<value>timeBlockHistoryDetailLookupable</value>-->
-				<value>jobLookupable</value> 
+                <!--<value>timeBlockLookupable</value>
+				<value>timeBlockHistoryLookupable</value>-->
+				<value>jobLookupable</value>
 				<value>systemLunchRuleLookupable</value> 
 				<value>earnCodeSecurityLookupable</value>
 				<value>earnCodeLookupable</value> 
@@ -241,12 +156,12 @@
 				<value>dailyOvertimeRuleLookupable</value> 
 				<value>departmentLookupable</value> 
 				<value>workAreaLookupable</value> 
-				<value>clockLocationRuleLookupable</value> 
+				<!--<value>clockLocationRuleLookupable</value>
 				<value>departmentLunchRuleLookupable</value> 
 				<value>gracePeriodRuleLookupable</value> 
 				<value>shiftDifferentialRuleLookupable</value> 
 				<value>weeklyOvertimeRuleLookupable</value> 
-				<value>timeCollectionRuleLookupable</value> 
+				<value>timeCollectionRuleLookupable</value> -->
 				<value>assignmentLookupable</value> 
 				<value>clockLogLookupable</value>
 				<value>locationLookupable</value> 
@@ -261,17 +176,17 @@
 				<value>subAccountLookupable</value> 
 				<value>subObjectCodeLookupable</value> 
 				<value>taskLookupable</value> 
-				<value>leavePlanLookupable</value> 
-				<value>systemScheduledTimeOffLookupable</value> 
-				<value>leaveDonationLookupable</value> 
-				<value>accrualCategoryLookupable</value> 
-				<value>leaveAdjustmentLookupable</value> 
-				<value>employeeOverrideLookupable</value>
-				<value>balanceTransferLookupable</value>
+				<value>leavePlanLookupable</value>
+                <!--<value>systemScheduledTimeOffLookupable</value>
+                <value>leaveDonationLookupable</value>
+                <value>accrualCategoryLookupable</value>
+                <value>leaveAdjustmentLookupable</value>
+                <value>employeeOverrideLookupable</value>
+                <value>balanceTransferLookupable</value>
                 <value>leavePayoutLookupable</value>
-                <value>missedPunchLookupable</value>
+                <value>missedPunchLookupable</value>-->
                 <value>institutionLookupable</value>
-                <value>positionReportTypeLookupable</value>
+                <!--<value>positionReportTypeLookupable</value>
                 <value>positionReportGroupLookupable</value>
                 <value>positionReportCatLookupable</value>
                 <value>positionReportSubCatLookupable</value>                
@@ -280,7 +195,7 @@
                 <value>positionAppointmentLookupable</value>
                 <value>pstnContractTypeLookupable</value>
                 <value>positionDepartmentAffiliationLookupable</value>
-                <value>positionDepartmentLookupable</value>
+                <value>positionDepartmentLookupable</value>-->
             </set>
         </property>
     </bean>
@@ -288,15 +203,12 @@
 
 
     <!-- System Definitions -->
-    
-    
-    
-    <bean id="rice.ksb.serviceBus" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <bean id="rice.ksb.import.serviceBus" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="rice.ksb.serviceBus" />
     </bean>
 
     <bean id="kpme.serviceExporter" abstract="true" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter"
-          p:serviceBus-ref="rice.ksb.serviceBus" />
+          p:serviceBus-ref="rice.ksb.import.serviceBus" />
           
     <bean id="kpme.callback.service" class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" abstract="true">
         <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/core/v2_0" />
@@ -362,9 +274,11 @@
 
     <bean id="payStepDao" class="org.kuali.kpme.core.bo.paystep.dao.PayStepDaoOjbImpl" parent="platformAwareDao" />
 
+    <bean id="principalHRAttributesDao" class="org.kuali.kpme.core.bo.principal.dao.PrincipalHRAttributesDaoOjbImpl" parent="platformAwareDao" />
 
 
-	<!-- CORE Service Definitions -->
+
+    <!-- CORE Service Definitions -->
 
     
     
@@ -664,38 +578,6 @@
 
 
 
-    <!-- Quartz Scheduling -->
-    
-    
-    
-    <bean id="kpmeScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" destroy-method="stop">
-        <property name="overwriteExistingJobs" value="true" />
-        <property name="waitForJobsToCompleteOnShutdown" value="false" />
-        <property name="transactionManager" ref="transactionManager" />
-        <property name="dataSource" ref="kpmeDataSource" />
-        <property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" />
-        <property name="quartzProperties">
-            <props>
-                <prop key="org.quartz.scheduler.instanceId">AUTO</prop>
-                <prop key="org.quartz.scheduler.instanceName">KPMEQuartzScheduler</prop>
-                <prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
-                <prop key="org.quartz.jobStore.dataSource">kpmeDataSource</prop>
-                <prop key="org.quartz.jobStore.useProperties">true</prop>
-                <prop key="org.quartz.jobStore.isClustered">true</prop>
-                <prop key="org.quartz.plugin.jobHistory.class">org.quartz.plugins.history.LoggingJobHistoryPlugin</prop>
-                <prop key="org.quartz.plugin.triggHistory.class">org.quartz.plugins.history.LoggingTriggerHistoryPlugin</prop>
-                <prop key="org.quartz.threadPool.threadCount">${kpme.org.quartz.threadPool.threadCount}</prop>
-            </props>
-        </property>
-        <property name="triggers">
-            <list>
-                <ref bean="accrualTrigger" />
-                <ref bean="calendarEntrySchedulerTrigger" />
-                <ref bean="leaveCalendarDelinquencyTrigger" />
-                <ref bean="serializerTrigger" />
-                <ref bean="carryOverSchedulerTrigger" />
-            </list>
-        </property>
-    </bean>
+
 
 </beans>

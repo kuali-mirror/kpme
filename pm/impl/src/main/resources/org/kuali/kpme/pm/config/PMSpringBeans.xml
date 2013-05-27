@@ -40,10 +40,13 @@
                            http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.1.xsd">
-    
+
+
+    <import resource="classpath:org/kuali/kpme/core/config/KPMECommonSpringBeans.xml"/>
+
     <aop:aspectj-autoproxy/>
 
-    <bean id="kpmePositionResourceLoader" parent="kpmeResourceLoaderConfigurer">
+    <!--<bean id="kpmePositionResourceLoader" parent="kpmeResourceLoaderConfigurer">
         <property name="beanNames">
             <set merge="true">
                 <value>positionReportTypeLookupable</value>
@@ -57,11 +60,18 @@
                 <value>positionDepartmentLookupable</value>
             </set>
         </property>
-    </bean>
+    </bean>-->
 
 
-	<bean id="kpmePositionModuleConfiguration" parent="kpmeModuleConfiguration">
-		<property name="databaseRepositoryFilePaths">
+	<bean id="kpmePositionModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+        <property name="namespaceCode" value="KPME-PM"/>
+        <property name="initializeDataDictionary" value="true"/>
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kpme.pm</value>
+            </list>
+        </property>
+        <property name="databaseRepositoryFilePaths">
 			<list>
                 <value>OJB-repository-position.xml</value>
 			</list>

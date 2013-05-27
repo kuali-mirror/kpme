@@ -36,6 +36,7 @@ import org.kuali.kpme.core.bo.assignment.Assignment;
 import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.bo.principal.dao.PrincipalHRAttributesDao;
+import org.kuali.kpme.core.bo.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -54,10 +55,10 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	public static final int DAYS_WINDOW_DELTA = 31;
-    private PrincipalHRAttributesDao principalHRAttributesDao;
+    private PrincipalHRAttributesService principalHRAttributesService;
 
-    public void setPrincipalHRAttributesDao(PrincipalHRAttributesDao principalHRAttributesDao) {
-        this.principalHRAttributesDao = principalHRAttributesDao;
+    public void setPrincipalHRAttributesService(PrincipalHRAttributesService principalHRAttributesService) {
+        this.principalHRAttributesService = principalHRAttributesService;
     }
 
 	@Override
@@ -291,7 +292,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 
     @Override
     public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds) {
-        return principalHRAttributesDao.getUniqueLeavePayGroupsForPrincipalIds(principalIds);
+        return principalHRAttributesService.getUniqueLeavePayGroupsForPrincipalIds(principalIds);
     }
 	
 	@Override

@@ -39,7 +39,7 @@ import org.springframework.context.ApplicationContextAware;
 
 
 public class PmServiceLocator implements ApplicationContextAware {
-	public static String SPRING_BEANS = "classpath:SpringBeans.xml";
+	public static String SPRING_BEANS = "classpath:org/kuali/kpme/pm/config/PMSpringBeans.xml";
 	public static ApplicationContext CONTEXT;
 
     public static final String PM_POSITION_REPORT_TYPE_SERVICE = "positionReportTypeService";

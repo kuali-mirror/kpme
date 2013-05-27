@@ -22,31 +22,36 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
+    <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
+    <import resource="classpath:org/kuali/kpme/core/config/DataSourceSpringBeans.xml" />
+
+    <!--<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" ref="configProperties" />
+    </bean>
+
     <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
         <property name="configLocations">
             <list>
                 <value>classpath:META-INF/kpme-config.xml</value>
             </list>
         </property>
-    </bean>
+    </bean>-->
 
-    <bean id="configProperties" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <!--<bean id="configProperties" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="targetObject" ref="bootstrapConfig" />
         <property name="targetMethod" value="getProperties" />
-    </bean>
+    </bean>-->
 
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="properties" ref="configProperties" />
-    </bean>
 
-    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+
+    <!--<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
         <property name="arguments">
             <list>
                 <ref bean="bootstrapConfig"/>
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
         <property name="dataSource" ref="kpmeDataSource" />
@@ -61,7 +66,7 @@
         <property name="messageDataSource" ref="kpmeDataSource" />
         <property name="nonTransactionalMessageDataSource" ref="nonTransactionalDataSource" />
         <property name="bamDataSource" ref="riceDataSource" />
-        <property name="properties" ref="configProperties" />
+        <!--<property name="properties" ref="configProperties" />-->
     </bean>
 
     <bean id="kradConfigurer" class="org.kuali.rice.krad.config.KRADConfigurer">
@@ -73,16 +78,16 @@
 
     <bean id="kimConfigurer" class="org.kuali.rice.kim.config.KIMConfigurer">
         <property name="dataSource" ref="riceDataSource" />
-        <property name="properties" ref="configProperties" />
+        <!--<property name="properties" ref="configProperties" />-->
     </bean>
 
     <bean id="kewConfigurer" class="org.kuali.rice.kew.config.KEWConfigurer">
         <property name="dataSource" ref="riceDataSource" />
-        <property name="properties" ref="configProperties" />
+       <!-- <property name="properties" ref="configProperties" />-->
     </bean>
 
     <bean id="kenConfigurer" class="org.kuali.rice.ken.impl.config.KENConfigurer">
-        <property name="properties" ref="configProperties" />
+        <!--<property name="properties" ref="configProperties" />-->
     </bean>
 
     <bean id="edlConfigurer" class="org.kuali.rice.edl.impl.config.EDLConfigurer"/>

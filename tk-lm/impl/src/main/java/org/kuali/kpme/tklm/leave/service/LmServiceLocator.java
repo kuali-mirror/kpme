@@ -40,7 +40,7 @@ import org.springframework.context.ApplicationContextAware;
 
 public class LmServiceLocator implements ApplicationContextAware {
 
-	public static String SPRING_BEANS = "classpath:SpringBeans.xml";
+	public static String SPRING_BEANS = "classpath:org/kuali/kpme/tklm/config/TKLMSpringBeans.xml";
 	private static ApplicationContext CONTEXT;
 
     public static final String LM_ACCRUAL_SERVICE = "accrualService";

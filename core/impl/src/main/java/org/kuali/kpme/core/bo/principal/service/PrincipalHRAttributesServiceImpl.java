@@ -144,4 +144,12 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
     public List<String> getUniqueTimePayGroups() {
     	return this.principalHRAttributesDao.getUniqueTimePayGroups();
     }
+
+    /**
+     * Get List of all active pay calendars
+     * @return
+     */
+    public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds) {
+        return this.principalHRAttributesDao.getUniqueLeavePayGroupsForPrincipalIds(principalIds);
+    }
 }

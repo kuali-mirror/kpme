@@ -40,14 +40,19 @@
                            http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.1.xsd">
-    
+
+    <import resource="classpath:org/kuali/kpme/core/config/KPMECommonSpringBeans.xml"/>
+
     <aop:aspectj-autoproxy/>
 
 	<!-- This bean merges lookupable bean names with those defined within parent bean in core -->
 
-     <bean id="kpmeTKLMResourceLoaderConfigurer" parent="kpmeResourceLoaderConfigurer">
-        <property name="beanNames">
-            <set merge="true">
+    <!-- <bean id="kpmeTKLMResourceLoaderConfigurer" class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
+         <property name="localServiceName" value="KPME-TKLM-Context"/>
+         <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/tklm/v2_0" />
+
+         <property name="beanNames">
+            <set>
                 <value>timeBlockLookupable</value> 
 				<value>timeBlockHistoryLookupable</value> 
 				<value>timeBlockHistoryDetailLookupable</value>
@@ -69,19 +74,37 @@
                 <value>missedPunchLookupable</value>
             </set>
         </property>
+    </bean>-->
+
+    <bean id="dataDictionaryService"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dataDictionaryService" />
     </bean>
 
-	<!-- This bean merges repository file path and data dictionary package values with those defined within parent bean defined in core -->
+    <bean id="kpmeTKLMModuleService" class="org.kuali.kpme.core.service.module.KpmeModuleService">
+        <property name="moduleConfiguration" ref="kpmeTKLMModuleConfiguration"/>
+        <property name="kualiModuleService" ref="kualiModuleService"/>
+    </bean>
 
-	<bean id="kpmeTKLMModuleConfiguration" parent="kpmeModuleConfiguration">
-		<property name="databaseRepositoryFilePaths">
+	<bean id="kpmeTKLMModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+        <property name="namespaceCode" value="KPME-TKLM"/>
+        <property name="initializeDataDictionary" value="true"/>
+        <property name="dataDictionaryService" ref="dataDictionaryService"/>
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kpme.tklm.leave.</value>
+                <value>org.kuali.kpme.tklm.time.</value>
+            </list>
+        </property>
+        <property name="databaseRepositoryFilePaths">
 			<list>
 				<value>OJB-repository-time.xml</value>
                 <value>OJB-repository-leave.xml</value>
 			</list>
 		</property>
 		<property name="dataDictionaryPackages">
-			<list merge="true">
+			<list>
+                <!--<value>org/kuali/hr/core/datadictionary</value>-->
                 <value>org/kuali/hr/tklm/datadictionary</value>
 			</list>
 		</property>
@@ -117,8 +140,7 @@
 
     <bean id="deptLunchRuleDao" class="org.kuali.kpme.tklm.time.rules.lunch.department.dao.DepartmentLunchRuleDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="principalHRAttributesDao" class="org.kuali.kpme.core.bo.principal.dao.PrincipalHRAttributesDaoOjbImpl" parent="platformAwareDao" />
-    
+
     <bean id="userPrefDao" class="org.kuali.kpme.tklm.time.user.pref.dao.UserPreferenceDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="missedPunchDao" class="org.kuali.kpme.tklm.time.missedpunch.dao.MissedPunchDaoOjbImpl" parent="platformAwareDao" />
@@ -148,11 +170,56 @@
     <bean id="leaveRequestDocumentDao" class="org.kuali.kpme.tklm.leave.request.dao.LeaveRequestDocumentDaoOjbImpl" parent="platformAwareDao" />
 
 
+    <!-- KPME Core Services -->
+    <bean id="kpme.core.principalHRAttributesService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="principalHRAttributesService" />
+    </bean>
+
+    <bean id="kpme.core.accrualCategoryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="accrualCategoryService" />
+    </bean>
+
+    <bean id="kpme.core.accrualCategoryRuleService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="accrualCategoryRuleService" />
+    </bean>
+
+    <bean id="kpme.core.jobService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="jobService" />
+    </bean>
+
+    <bean id="kpme.core.leavePlanService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="leavePlanService" />
+    </bean>
+
+    <bean id="kpme.core.departmentService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="departmentService" />
+    </bean>
+
+    <bean id="kpme.core.workAreaService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="workAreaService" />
+    </bean>
+
+    <bean id="kpme.core.assignmentService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="assignmentService" />
+    </bean>
+
+    <bean id="kpme.core.timezoneService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="timezoneService" />
+    </bean>
+
+    <bean id="kpme.core.calendarService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="calendarService" />
+    </bean>
+
+    <bean id="kpme.core.calendarEntryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="calendarEntryService" />
+    </bean>
+
+    <bean id="kpme.core.kpmeNotificationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kpmeNotificationService" />
+    </bean>
 
 	<!-- TK-LM Service Definitions -->
-
-
-
     <bean id="principalAccrualRanService" class="org.kuali.kpme.tklm.leave.accrual.service.PrincipalAccrualRanServiceImpl">
         <property name="principalAccrualRanDao" ref="principalAccrualRanDao"/>
     </bean>
@@ -160,7 +227,7 @@
     <bean id="leaveSummaryService" class="org.kuali.kpme.tklm.leave.summary.service.LeaveSummaryServiceImpl"/>
     
     <bean id="leaveApprovalService" class="org.kuali.kpme.tklm.leave.approval.service.LeaveApprovalServiceImpl">
-        <property name="principalHRAttributesDao" ref="principalHRAttributesDao"/>
+        <property name="principalHRAttributesService" ref="kpme.core.principalHRAttributesService"/>
     </bean>
 
     <bean id="leaveRequestDocumentService" class="org.kuali.kpme.tklm.leave.request.service.LeaveRequestDocumentServiceImpl">
@@ -168,56 +235,56 @@
     </bean>
   
     <bean id="accrualCategoryMaxCarryOverService" class="org.kuali.kpme.tklm.leave.accrual.service.AccrualCategoryMaxCarryOverServiceImpl">
-        <property name="accrualCategoryService" ref="accrualCategoryService" />
-	    <property name="accrualCategoryRuleService" ref="accrualCategoryRuleService" />
+        <property name="accrualCategoryService" ref="kpme.core.accrualCategoryService" />
+	    <property name="accrualCategoryRuleService" ref="kpme.core.accrualCategoryRuleService" />
 	    <property name="employeeOverrideService" ref="employeeOverrideService" />
-	    <property name="jobService" ref="jobService" />
+	    <property name="jobService" ref="kpme.core.jobService" />
 	    <property name="leaveBlockService" ref="leaveBlockService" />
-	    <property name="leavePlanService" ref="leavePlanService" />
-	    <property name="principalHRAttributesService" ref="principalHRAttributesService" />
+	    <property name="leavePlanService" ref="kpme.core.leavePlanService" />
+	    <property name="principalHRAttributesService" ref="kpme.core.principalHRAttributesService" />
     </bean>
     
     <bean id="tkPermissionService" class="org.kuali.kpme.tklm.time.service.permission.TKPermissionServiceImpl">
-        <property name="departmentService" ref="departmentService" />
+        <property name="departmentService" ref="kpme.core.departmentService" />
         <property name="permissionService" ref="kimPermissionService" />
         <property name="timesheetService" ref="timesheetService" />
-        <property name="workAreaService" ref="workAreaService" />
+        <property name="workAreaService" ref="kpme.core.workAreaService" />
     </bean>
     
     <bean id="lmPermissionService" class="org.kuali.kpme.tklm.leave.service.permission.LMPermissionServiceImpl">
-        <property name="departmentService" ref="departmentService" />
+        <property name="departmentService" ref="kpme.core.departmentService" />
         <property name="permissionService" ref="kimPermissionService" />
         <property name="leaveCalendarService" ref="leaveCalendarService" />
         <property name="leaveRequestDocumentService" ref="leaveRequestDocumentService" />
-        <property name="workAreaService" ref="workAreaService" />
+        <property name="workAreaService" ref="kpme.core.workAreaService" />
     </bean>
 
    <bean id="tkRoleService" class="org.kuali.kpme.tklm.time.service.role.TKRoleServiceImpl">
-        <property name="departmentService" ref="departmentService" />
+        <property name="departmentService" ref="kpme.core.departmentService" />
         <property name="groupService" ref="kimGroupService" />
         <property name="kimTypeInfoService" ref="kimTypeInfoService" />
         <property name="roleService" ref="kimRoleService" />
-        <property name="workAreaService" ref="workAreaService" />
+        <property name="workAreaService" ref="kpme.core.workAreaService" />
     </bean>
     
     <bean id="lmRoleService" class="org.kuali.kpme.tklm.leave.service.role.LMRoleServiceImpl">
-        <property name="departmentService" ref="departmentService" />
+        <property name="departmentService" ref="kpme.core.departmentService" />
         <property name="groupService" ref="kimGroupService" />
         <property name="kimTypeInfoService" ref="kimTypeInfoService" />
         <property name="roleService" ref="kimRoleService" />
-        <property name="workAreaService" ref="workAreaService" />
+        <property name="workAreaService" ref="kpme.core.workAreaService" />
     </bean>
     
     <bean id="missedPunchService" class="org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchServiceImpl">
         <property name="missedPunchDao" ref="missedPunchDao" />
-        <property name="assignmentService" ref="assignmentService" />
+        <property name="assignmentService" ref="kpme.core.assignmentService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="clockLogService" ref="clockLogService" />
         <property name="documentService" ref="documentService" />
         <property name="identityService" ref="kimIdentityService" />
         <property name="timeBlockService" ref="timeBlockService" />
         <property name="timesheetService" ref="timesheetService" />
-        <property name="timezoneService" ref="timezoneService" />
+        <property name="timezoneService" ref="kpme.core.timezoneService" />
         <property name="tkRuleControllerService" ref="tkRuleControllerService" />
     </bean>
 
@@ -377,9 +444,6 @@
     
     
  	<!-- TK-LM Lookupable Bean Definitions -->
-
-
-          
     <bean id="balanceTransferLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
     		<bean class="org.kuali.kpme.tklm.leave.transfer.web.BalanceTransferLookupableHelper"/>
@@ -468,12 +532,12 @@
 
     <bean id="batchJobService" class="org.kuali.kpme.tklm.common.BatchJobServiceImpl">
         <property name="scheduler" ref="kpmeScheduler" />
-        <property name="assignmentService" ref="assignmentService" />
-        <property name="calendarService" ref="calendarService" />
+        <property name="assignmentService" ref="kpme.core.assignmentService" />
+        <property name="calendarService" ref="kpme.core.calendarService" />
         <property name="clockLogService" ref="clockLogService" />
         <property name="leaveCalendarDocumentHeaderService" ref="leaveCalendarDocumentHeaderService" />
         <property name="missedPunchService" ref="missedPunchService" />
-        <property name="principalHRAttributesService" ref="principalHRAttributesService" />
+        <property name="principalHRAttributesService" ref="kpme.core.principalHRAttributesService" />
         <property name="timesheetDocumentHeaderService" ref="timesheetDocumentHeaderService" />
     </bean>
     
@@ -482,10 +546,10 @@
     
     <bean id="leaveCalendarDelinquencyJob" class="org.kuali.kpme.tklm.leave.batch.LeaveCalendarDelinquencyJob" scope="singleton">
         <property name="calendarEntriesPollingWindow" value="${kpme.batch.calendarEntriesPollingWindow.days}" />
-        <property name="calendarEntryService" ref="calendarEntryService" />
-        <property name="kpmeNotificationService" ref="kpmeNotificationService" />
+        <property name="calendarEntryService" ref="kpme.core.calendarEntryService" />
+        <property name="kpmeNotificationService" ref="kpme.core.kpmeNotificationService" />
         <property name="leaveCalendarDocumentHeaderService" ref="leaveCalendarDocumentHeaderService" />
-        <property name="principalHRAttributesService" ref="principalHRAttributesService" />
+        <property name="principalHRAttributesService" ref="kpme.core.principalHRAttributesService" />
     </bean>
     
     <bean id="leaveCalendarDelinquencyJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
@@ -513,9 +577,9 @@
     
     <bean id="accrualJob" class="org.kuali.kpme.tklm.leave.batch.AccrualJob" scope="singleton">
         <property name="accrualService" ref="accrualService" />
-        <property name="assignmentService" ref="assignmentService" />
-        <property name="leavePlanService" ref="leavePlanService" />
-        <property name="principalHRAttributesService" ref="principalHRAttributesService" />
+        <property name="assignmentService" ref="kpme.core.assignmentService" />
+        <property name="leavePlanService" ref="kpme.core.leavePlanService" />
+        <property name="principalHRAttributesService" ref="kpme.core.principalHRAttributesService" />
     </bean>
     <bean id="accrualJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
         <property name="jobClass" value="org.kuali.kpme.tklm.leave.batch.AccrualJob" />
@@ -559,4 +623,37 @@
         <property name="repeatInterval" value="${kpme.batch.repeatInterval.milliseconds}" />
     </bean>
 
+    <!-- Quartz Scheduling -->
+
+
+
+    <bean id="kpmeScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" destroy-method="stop">
+        <property name="overwriteExistingJobs" value="true" />
+        <property name="waitForJobsToCompleteOnShutdown" value="false" />
+        <property name="transactionManager" ref="transactionManager" />
+        <property name="dataSource" ref="kpmeDataSource" />
+        <property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" />
+        <property name="quartzProperties">
+            <props>
+                <prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+                <prop key="org.quartz.scheduler.instanceName">KPMEQuartzScheduler</prop>
+                <prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
+                <prop key="org.quartz.jobStore.dataSource">kpmeDataSource</prop>
+                <prop key="org.quartz.jobStore.useProperties">true</prop>
+                <prop key="org.quartz.jobStore.isClustered">true</prop>
+                <prop key="org.quartz.plugin.jobHistory.class">org.quartz.plugins.history.LoggingJobHistoryPlugin</prop>
+                <prop key="org.quartz.plugin.triggHistory.class">org.quartz.plugins.history.LoggingTriggerHistoryPlugin</prop>
+                <prop key="org.quartz.threadPool.threadCount">${kpme.org.quartz.threadPool.threadCount}</prop>
+            </props>
+        </property>
+        <property name="triggers">
+            <list>
+                <ref bean="accrualTrigger" />
+                <ref bean="calendarEntrySchedulerTrigger" />
+                <ref bean="leaveCalendarDelinquencyTrigger" />
+                <ref bean="serializerTrigger" />
+                <ref bean="carryOverSchedulerTrigger" />
+            </list>
+        </property>
+    </bean>
 </beans>
