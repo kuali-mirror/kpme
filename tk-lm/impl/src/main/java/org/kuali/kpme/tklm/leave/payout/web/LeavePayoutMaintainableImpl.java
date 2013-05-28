@@ -104,7 +104,7 @@ public class LeavePayoutMaintainableImpl extends
                 }
             }
             
-            List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(documentId);
+            List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(payout.getLeaveCalendarDocumentId());
             for(LeaveBlock lb : leaveBlocks) {
             	if(StringUtils.equals(lb.getAccrualCategory(),payout.getFromAccrualCategory())
             			&& StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER_ADJUSTMENT)) {

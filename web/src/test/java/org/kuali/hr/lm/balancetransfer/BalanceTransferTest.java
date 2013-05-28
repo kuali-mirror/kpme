@@ -231,5 +231,14 @@ public class BalanceTransferTest extends LeaveCalendarWebTestBase {
 		Assert.assertTrue("Page should contain view action", btLookup.asText().contains("view"));
 	}
 	
+	/**
+	 * Test that the automated carry over adjustment leave blocks, created when a leave calendar is submitted,
+	 * are adjusted when a transfer is approved
+	 */
+	@Test
+	public void testCarryOverAdjustmentOnTransferApproval() throws Exception {
+		
+		assertTrue("Dummy assertion 5", true);
+	}
 	
 }

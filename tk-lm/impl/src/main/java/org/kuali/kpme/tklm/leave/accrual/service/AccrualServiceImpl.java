@@ -365,7 +365,9 @@ public class AccrualServiceImpl implements AccrualService {
 					sstoUsageList.add(lb);
 				}
 			} else {
-				LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), runAsPrincipalId);
+				if(!(StringUtils.equals(lb.getLeaveBlockType(),LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER) ||
+								StringUtils.equals(lb.getLeaveBlockType(),LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT)))
+					LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), runAsPrincipalId);
 			}
 		}
 		

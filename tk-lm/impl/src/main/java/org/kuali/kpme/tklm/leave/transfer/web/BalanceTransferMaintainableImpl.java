@@ -122,7 +122,7 @@ public class BalanceTransferMaintainableImpl extends
                     LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
                 }
             }
-            List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveLocalDate());
+            List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(balanceTransfer.getLeaveCalendarDocumentId());
             for(LeaveBlock lb : leaveBlocks) {
             	if(StringUtils.equals(lb.getAccrualCategory(),balanceTransfer.getFromAccrualCategory())
             			&& StringUtils.equals(lb.getLeaveBlockType(),LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER_ADJUSTMENT)) {
