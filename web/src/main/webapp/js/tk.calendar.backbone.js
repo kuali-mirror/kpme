@@ -311,6 +311,7 @@ $(function () {
                             }
                         },
                         Cancel : function () {
+                            $('.block-error').removeClass();
                             $(this).dialog("close");
 
                         }

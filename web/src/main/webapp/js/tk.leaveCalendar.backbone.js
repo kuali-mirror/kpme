@@ -245,6 +245,7 @@ $(function () {
                         }
                     },
                     Cancel : function () {
+                        $('.block-error').removeClass();
                     	$('.cal-table td').removeClass('ui-selected');
                         $(this).dialog("close");
 
