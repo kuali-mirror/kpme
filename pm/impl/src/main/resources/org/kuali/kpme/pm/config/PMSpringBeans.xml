@@ -44,7 +44,7 @@
 
     <import resource="classpath:org/kuali/kpme/core/config/KPMECommonSpringBeans.xml"/>
 
-    <aop:aspectj-autoproxy/>
+    <!--<aop:aspectj-autoproxy/>-->
 
     <!--<bean id="kpmePositionResourceLoader" parent="kpmeResourceLoaderConfigurer">
         <property name="beanNames">
@@ -63,7 +63,7 @@
     </bean>-->
 
 
-	<bean id="kpmePositionModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+	<bean id="kpmePositionModuleConfiguration" class="org.kuali.kpme.core.sys.KpmeModuleConfiguration">
         <property name="namespaceCode" value="KPME-PM"/>
         <property name="initializeDataDictionary" value="true"/>
         <property name="packagePrefixes">
@@ -78,7 +78,7 @@
 		</property>
 		<property name="dataDictionaryPackages">
 			<list merge="true">
-                <value>org/kuali/hr/pm/datadictionary</value>
+                <value>classpath:org/kuali/kpme/pm/datadictionary/*.xml</value>
 			</list>
 		</property>
 	</bean>

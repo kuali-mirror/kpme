@@ -43,7 +43,7 @@
 
     <import resource="classpath:org/kuali/kpme/core/config/KPMECommonSpringBeans.xml"/>
 
-    <aop:aspectj-autoproxy/>
+    <!--<aop:aspectj-autoproxy/>-->
 
     <!-- caching setup -->
     <bean id="kpmeCacheAdminService" class="org.kuali.rice.core.impl.cache.CacheAdminServiceImpl"
@@ -84,7 +84,7 @@
         <property name="kualiModuleService" ref="kualiModuleService"/>
     </bean>
     
-    <bean id="kpmeCoreModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+    <bean id="kpmeCoreModuleConfiguration" class="org.kuali.kpme.core.sys.KpmeModuleConfiguration">
         <property name="namespaceCode" value="KPME-CORE"/>
         <property name="initializeDataDictionary" value="true"/>
         <property name="packagePrefixes">
@@ -106,8 +106,8 @@
         </property>
         <property name="dataDictionaryPackages">
             <list>
-                <value>org/kuali/hr/core/datadictionary</value>
-                <value>org/kuali/kfs/coa/datadictionary</value>
+                <value>classpath:org/kuali/kpme/core/datadictionary/*.xml</value>
+                <value>classpath:org/kuali/kfs/coa/datadictionary/*.xml</value>
                 <!-- DummyLogin, will need in rice 2.3M3 -->
                 <!--<value>classpath:/org/kuali/rice/krad/login/DummyLoginView.xml</value>-->
             </list>

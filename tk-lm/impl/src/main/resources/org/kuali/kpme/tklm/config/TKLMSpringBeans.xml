@@ -43,7 +43,7 @@
 
     <import resource="classpath:org/kuali/kpme/core/config/KPMECommonSpringBeans.xml"/>
 
-    <aop:aspectj-autoproxy/>
+    <!--<aop:aspectj-autoproxy/>-->
 
 	<!-- This bean merges lookupable bean names with those defined within parent bean in core -->
 
@@ -86,7 +86,7 @@
         <property name="kualiModuleService" ref="kualiModuleService"/>
     </bean>
 
-	<bean id="kpmeTKLMModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+	<bean id="kpmeTKLMModuleConfiguration" class="org.kuali.kpme.core.sys.KpmeModuleConfiguration">
         <property name="namespaceCode" value="KPME-TKLM"/>
         <property name="initializeDataDictionary" value="true"/>
         <property name="dataDictionaryService" ref="dataDictionaryService"/>
@@ -105,7 +105,7 @@
 		<property name="dataDictionaryPackages">
 			<list>
                 <!--<value>org/kuali/hr/core/datadictionary</value>-->
-                <value>org/kuali/hr/tklm/datadictionary</value>
+                <value>classpath:org/kuali/kpme/tklm/datadictionary/*.xml</value>
 			</list>
 		</property>
 	</bean>
