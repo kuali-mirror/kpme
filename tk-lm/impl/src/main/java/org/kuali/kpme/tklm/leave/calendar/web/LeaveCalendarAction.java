@@ -802,31 +802,6 @@ public class LeaveCalendarAction extends KPMEAction {
     	}
     }
 	
-	public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
-		String viewPrincipal = HrContext.getTargetPrincipalId();
-		CalendarEntry calendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
-		lcf.setCalendarEntry(calendarEntry);
-		if(calendarEntry != null) {
-			lcf.setHrCalendarEntryId(calendarEntry.getHrCalendarEntryId());
-		}
-	
-		LeaveCalendarDocument lcd = null;
-		// use jobs to find out if this leave calendar should have a document created or not
-		boolean createFlag = LmServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(viewPrincipal, calendarEntry);
-		if(createFlag) {
-			 lcd = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
-		}
-		if (lcd != null) {
-			lcf.setAssignmentDescriptions(lcd.getAssignmentDescriptions());
-		} else {
-			List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
-			lcf.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments));  
-		}
-		setupDocumentOnFormContext(lcf, lcd);
-		return mapping.findForward("basic");
-	  }
-	
 	//Triggered by changes of pay period drop down list, reload the whole page based on the selected pay period
 	public ActionForward changeCalendarYear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		  

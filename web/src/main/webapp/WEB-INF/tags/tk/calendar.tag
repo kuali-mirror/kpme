@@ -48,8 +48,7 @@
                         <tr>
                             <td align="right">
                                 <span class="header-title-right">
-	       		                    <a href="${calendarLocation}?methodToCall=gotoCurrentPayPeriod"
-                                        target="_self" id="cpplink">
+	       		                    <a href="${calendarLocation}" target="_self" id="cpplink">
                                         <c:choose>
                                             <c:when test="${calType eq 'payCalendar'}">
                                                 Current Pay Period

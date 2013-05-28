@@ -607,14 +607,6 @@ public class TimeDetailAction extends TimesheetAction {
         
         return mapping.findForward("basic");
     }
-      
-  public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	  String viewPrincipal = HrContext.getTargetPrincipalId();
-      CalendarEntry pce = HrServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
-      TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, pce);
-      setupDocumentOnFormContext((TimesheetActionForm)form, td);
-	  return mapping.findForward("basic");
-  }
   
   //Triggered by changes of pay period drop down list, reload the whole page based on the selected pay period
   public ActionForward changeCalendarYear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
