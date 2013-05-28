@@ -22,8 +22,8 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.json.simple.JSONValue;
-import org.kuali.kpme.core.bo.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.bo.workarea.WorkArea;
+import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;

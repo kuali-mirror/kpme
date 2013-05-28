@@ -16,8 +16,8 @@
 package org.kuali.kpme.pm.positiondepartment;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.bo.department.Department;
-import org.kuali.kpme.core.bo.institution.Institution;
+import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
 import org.kuali.rice.location.impl.campus.CampusBo;
 

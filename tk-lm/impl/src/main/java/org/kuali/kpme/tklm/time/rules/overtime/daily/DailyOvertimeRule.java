@@ -18,13 +18,13 @@ package org.kuali.kpme.tklm.time.rules.overtime.daily;
 import java.math.BigDecimal;
 
 import org.kuali.kpme.core.KPMEConstants;
-import org.kuali.kpme.core.bo.department.Department;
-import org.kuali.kpme.core.bo.earncode.EarnCode;
-import org.kuali.kpme.core.bo.earncode.group.EarnCodeGroup;
-import org.kuali.kpme.core.bo.location.Location;
-import org.kuali.kpme.core.bo.paytype.PayType;
-import org.kuali.kpme.core.bo.task.Task;
-import org.kuali.kpme.core.bo.workarea.WorkArea;
+import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
+import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.paytype.PayType;
+import org.kuali.kpme.core.task.Task;
+import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.time.rules.TkRule;
 
 import com.google.common.collect.ImmutableList;

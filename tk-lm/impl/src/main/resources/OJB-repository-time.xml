@@ -141,7 +141,7 @@
         <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
 
         <!--
-        <reference-descriptor name="department" class-ref="org.kuali.kpme.core.bo.department.Department" auto-retrieve="true" auto-delete="false" auto-update="false">
+        <reference-descriptor name="department" class-ref="org.kuali.kpme.core.department.Department" auto-retrieve="true" auto-delete="false" auto-update="false">
             <foreignkey field-ref="departmentName" />
         </reference-descriptor>
         -->

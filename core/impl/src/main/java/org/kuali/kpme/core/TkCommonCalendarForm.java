@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.web.KPMEForm;
 
 public class TkCommonCalendarForm extends KPMEForm {

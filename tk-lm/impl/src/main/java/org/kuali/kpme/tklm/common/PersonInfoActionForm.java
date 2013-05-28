@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.bo.assignment.Assignment;
-import org.kuali.kpme.core.bo.job.Job;
+import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.web.KPMEForm;
 import org.kuali.rice.kim.api.identity.Person;
 

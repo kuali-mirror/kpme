@@ -33,12 +33,12 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
-import org.kuali.kpme.core.bo.assignment.Assignment;
-import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.bo.earncode.EarnCode;
-import org.kuali.kpme.core.bo.job.Job;
-import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
-import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -568,7 +568,7 @@ public class AccrualServiceImpl implements AccrualService {
 		// get all pay calendar entries for this employee. used to determine interval dates
 		Map<String, List<CalendarEntry>> calEntryMap = new HashMap<String, List<CalendarEntry>>();
 		for(String calName : calNameSet) {
-			org.kuali.kpme.core.bo.calendar.Calendar aCal = HrServiceLocator.getCalendarService().getCalendarByGroup(calName);
+			org.kuali.kpme.core.calendar.Calendar aCal = HrServiceLocator.getCalendarService().getCalendarByGroup(calName);
 			if(aCal != null) {
 				List<CalendarEntry> aList = HrServiceLocator.getCalendarEntryService().getAllCalendarEntriesForCalendarId(aCal.getHrCalendarId());
 				Collections.sort(aList);

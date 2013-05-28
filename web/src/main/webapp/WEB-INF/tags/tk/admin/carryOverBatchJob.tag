@@ -29,7 +29,7 @@
                             <html:text property="leavePlan" />
                         </td>
                         <td>
-                        	<kul:lookup boClassName="org.kuali.kpme.core.bo.leaveplan.LeavePlan" fieldConversions="leavePlan:leavePlan" />
+                        	<kul:lookup boClassName="org.kuali.kpme.core.leaveplan.LeavePlan" fieldConversions="leavePlan:leavePlan" />
                         </td>
                     </tr>
                     <tr>

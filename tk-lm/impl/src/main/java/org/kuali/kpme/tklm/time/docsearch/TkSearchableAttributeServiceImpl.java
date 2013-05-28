@@ -22,9 +22,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.bo.assignment.Assignment;
-import org.kuali.kpme.core.bo.job.Job;
-import org.kuali.kpme.core.bo.workarea.WorkArea;
+import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
 import org.kuali.kpme.core.document.calendar.CalendarDocumentContract;
 import org.kuali.kpme.core.service.HrServiceLocator;

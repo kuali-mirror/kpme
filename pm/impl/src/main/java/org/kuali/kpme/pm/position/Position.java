@@ -17,7 +17,7 @@ package org.kuali.kpme.pm.position;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.bo.position.PositionBase;
+import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;

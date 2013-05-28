@@ -28,9 +28,9 @@
   <bean id="PositionMaintenanceDocument" parent="PositionMaintenanceDocument-parentBean"/>
   <bean id="PositionMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
   		p:dataObjectClass="org.kuali.kpme.pm.position.Position"
-  		p:businessRulesClass="org.kuali.kpme.core.bo.position.validation.PositionValidation"
-  		p:maintainableClass="org.kuali.kpme.core.bo.position.web.PositionMaintainableServiceImpl"
-  		p:documentAuthorizerClass="org.kuali.kpme.core.bo.position.authorization.PositionAuthorizer">
+  		p:businessRulesClass="org.kuali.kpme.core.position.validation.PositionValidation"
+  		p:maintainableClass="org.kuali.kpme.core.position.web.PositionMaintainableServiceImpl"
+  		p:documentAuthorizerClass="org.kuali.kpme.core.position.authorization.PositionAuthorizer">
     <property name="lockingKeys">
         <list>
             <value>positionNumber</value>
@@ -40,7 +40,7 @@
     
     <!-- 05.02.2013 This is a kns property, which will be supported in rice 2.3 -->
     <!-- We will need to find a work around before KPME release in August
-    <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.bo.position.validation.PositionEffectiveDatePrompt"/>  
+    <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.position.validation.PositionEffectiveDatePrompt"/>
     -->
 
   </bean>

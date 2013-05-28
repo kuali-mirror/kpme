@@ -24,7 +24,7 @@
 
 	<bean id="EarnCodeGroupDefinition-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kpme.core.bo.earncode.group.EarnCodeGroupDefinition" />
+		<property name="businessObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="Earn Code Group Definition" />
 		<property name="lookupDefinition">

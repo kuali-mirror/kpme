@@ -24,7 +24,7 @@
 	
 	<bean id="SalaryGroup" parent="SalaryGroup-parentBean"/>
  	<bean id="SalaryGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
-	    <property name="dataObjectClass" value="org.kuali.kpme.core.bo.salarygroup.SalaryGroup"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.core.salarygroup.SalaryGroup"/>
 	    <property name="attributes">
 	      <list>
 	        <ref bean="SalaryGroup-hrSalGroupId"/>
@@ -214,14 +214,14 @@
  
   <bean id="SalaryGroup-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="Salary Group Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.bo.salarygroup.SalaryGroup" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroup" />
     <property name="criteriaFields">
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrSalGroup" />       
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 	         <property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
 	        		 p:fieldConversions="institutionCode:institution"/>
 	   		 </property>
         </bean>
@@ -231,7 +231,7 @@
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="leaveEligible" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="leavePlan">
         	<property name="quickfinder">
-       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.leaveplan.LeavePlan" 
+       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlan"
         			 p:fieldConversions="leavePlan:leavePlan"/>
    		 	</property>
         </bean>
@@ -243,7 +243,7 @@
         <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
         <bean parent="Uif-DataField" p:propertyName="hrSalGroup">
          	<property name="inquiry">
-	       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.bo.salarygroup.SalaryGroup" 
+	       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
 	        	 p:inquiryParameters="hrSalGroupId:hrSalGroupId"/>
     		</property>
         </bean>
@@ -261,7 +261,7 @@
  <!-- Salary Group Inquiry View -->
   <bean id="SalaryGroup-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Salary Group Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.bo.salarygroup.SalaryGroup"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroup"/>
     <property name="singlePageView" value="true"/>
     <property name="items">
       <list>
@@ -291,7 +291,7 @@
   <bean id="SalaryGroup-MaintenanceView" parent="SalaryGroup-MaintenanceView-parentBean"/>
   <bean id="SalaryGroup-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
     <property name="headerText" value="Salary Group Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.bo.salarygroup.SalaryGroup"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroup"/>
     <property name="items">
       <list merge="true">
         <bean parent="Uif-MaintenanceGridSection">
@@ -302,7 +302,7 @@
 		        <bean parent="Uif-InputField" p:propertyName="descr" />
 		        <bean parent="Uif-InputField" p:propertyName="institution" >
 			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution" 
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
 		        			 p:fieldConversions="institutionCode:institution"/>
 		   			</property>
 		        </bean>
@@ -336,7 +336,7 @@
 				         </bean>
 			        </property>
 			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.leaveplan.LeavePlan" 
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlan"
 		        			 p:fieldConversions="leavePlan:leavePlan"/>
 		   		 	</property>
 		        </bean>

@@ -38,7 +38,7 @@
                             <html:text property="hrCalendarEntryId" />
                         </td>
                         <td>
-                            <kul:lookup boClassName="org.kuali.kpme.core.bo.calendar.entry.CalendarEntry" fieldConversions="hrCalendarEntryId:hrCalendarEntryId" />
+                            <kul:lookup boClassName="org.kuali.kpme.core.calendar.entry.CalendarEntry" fieldConversions="hrCalendarEntryId:hrCalendarEntryId" />
                         </td>
                     </tr>
                     <tr>

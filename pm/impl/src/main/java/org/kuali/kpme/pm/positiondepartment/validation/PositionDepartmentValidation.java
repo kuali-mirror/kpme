@@ -16,7 +16,7 @@
 package org.kuali.kpme.pm.positiondepartment.validation;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.bo.utils.ValidationUtils;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;

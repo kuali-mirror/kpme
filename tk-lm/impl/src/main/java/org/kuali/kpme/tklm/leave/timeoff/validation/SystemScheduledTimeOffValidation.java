@@ -19,8 +19,8 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.bo.earncode.EarnCode;
-import org.kuali.kpme.core.bo.utils.ValidationUtils;
+import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;

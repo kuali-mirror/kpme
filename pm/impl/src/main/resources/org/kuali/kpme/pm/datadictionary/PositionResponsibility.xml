@@ -248,7 +248,7 @@
 							<bean parent="Uif-InputField" p:propertyName="institution">
 								<property name="quickfinder">
 									<bean parent="Uif-QuickFinderByScript"
-										p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution"
+										p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
 										p:fieldConversions="institutionCode:institution" />
 								</property>
 							</bean>

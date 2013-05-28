@@ -20,11 +20,10 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.bo.job.Job;
-import org.kuali.kpme.core.bo.location.Location;
-import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 

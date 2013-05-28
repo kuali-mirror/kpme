@@ -19,12 +19,12 @@ import java.math.BigDecimal;
 import java.sql.Time;
 
 import org.kuali.kpme.core.KPMEConstants;
-import org.kuali.kpme.core.bo.calendar.Calendar;
-import org.kuali.kpme.core.bo.earncode.EarnCode;
-import org.kuali.kpme.core.bo.earncode.group.EarnCodeGroup;
-import org.kuali.kpme.core.bo.location.Location;
-import org.kuali.kpme.core.bo.paygrade.PayGrade;
-import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
+import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
+import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.paygrade.PayGrade;
+import org.kuali.kpme.core.salarygroup.SalaryGroup;
 import org.kuali.kpme.tklm.time.rules.TkRule;
 
 import com.google.common.collect.ImmutableList;

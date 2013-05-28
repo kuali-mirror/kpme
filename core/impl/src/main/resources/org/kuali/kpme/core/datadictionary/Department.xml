@@ -23,7 +23,7 @@
 
     <bean id="Department" parent="Department-parentBean" />
     <bean id="Department-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kpme.core.bo.department.Department" />
+        <property name="businessObjectClass" value="org.kuali.kpme.core.department.Department" />
         <property name="titleAttribute" value="dept" />
         <property name="objectLabel" value="Department" />
         <property name="attributes">
@@ -233,7 +233,7 @@
     <!-- Business Object Inquiry Definition -->
 
     <bean id="Department-inquiryDefinition" parent="Department-inquiryDefinition-parentBean" />
-    <bean id="Department-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.bo.department.web.DepartmentInquirableImpl">
+    <bean id="Department-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.department.web.DepartmentInquirableImpl">
         <property name="title" value="Department Inquiry" />
         <property name="translateCodes" value="false" />
         <property name="inquirySections">

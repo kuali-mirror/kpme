@@ -22,7 +22,7 @@
         
 	<bean id="PositionBase" parent="PositionBase-parentBean" />
 	<bean id="PositionBase-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="dataObjectClass" value="org.kuali.kpme.core.bo.position.PositionBase" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.position.PositionBase" />
 		<property name="objectLabel" value="Position" />
 		<property name="attributes">
 			<list>
@@ -220,7 +220,7 @@
 	<!--  Inquiry Definitions  -->
   	<bean id="PositionBase-InquiryView" parent="Uif-InquiryView" >
 		<property name="headerText" value="Position Inquiry"/>
-    	<property name="dataObjectClassName" value="org.kuali.kpme.core.bo.position.PositionBase"/>
+    	<property name="dataObjectClassName" value="org.kuali.kpme.core.position.PositionBase"/>
     	<property name="singlePageView" value="true"/>
 		<property name="items">
 			<list>
@@ -244,8 +244,8 @@
 	<!-- Look up Definitions  -->
 	<bean id="PositionBase-LookupView" parent="Uif-LookupView" >
 	    <property name="headerText" value="Position Lookup" />
-	    <property name="dataObjectClassName" value="org.kuali.kpme.core.bo.position.PositionBase" />
-	    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.bo.position.web.PositionLookupableHelper" />
+	    <property name="dataObjectClassName" value="org.kuali.kpme.core.position.PositionBase" />
+	    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.position.web.PositionLookupableHelper" />
 	    <property name="criteriaFields">
 			<list>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber" />
@@ -259,7 +259,7 @@
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="positionNumber" >
 					<property name="inquiry">
-	       		 		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.bo.position.PositionBase"
+	       		 		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
 	        	 			p:inquiryParameters="hrPositionId:hrPositionId"/>
     				</property>
     			</bean>

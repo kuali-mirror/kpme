@@ -19,14 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.bo.department.Department;
-import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
-import org.kuali.kpme.core.bo.paygrade.PayGrade;
-import org.kuali.kpme.core.bo.position.PositionBase;
-import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
-import org.kuali.kpme.core.bo.salarygroup.SalaryGroup;
-import org.kuali.kpme.core.bo.task.Task;
-import org.kuali.kpme.core.bo.workarea.WorkArea;
+import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.paygrade.PayGrade;
+import org.kuali.kpme.core.position.PositionBase;
+import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.salarygroup.SalaryGroup;
+import org.kuali.kpme.core.task.Task;
+import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.krad.service.impl.ModuleServiceBase;
 
 

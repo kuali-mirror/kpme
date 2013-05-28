@@ -18,7 +18,7 @@
 -->
   <bean id="Account" parent="Account-parentBean"/>
   <bean id="Account-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kpme.core.bo.kfs.coa.businessobject.Account"/>
+    <property name="businessObjectClass" value="org.kuali.kpme.core.kfs.coa.businessobject.Account"/>
     <property name="inquiryDefinition" ref="Account-inquiryDefinition"/>
     <property name="lookupDefinition" ref="Account-lookupDefinition"/>
     <property name="titleAttribute" value="accountNumber"/>

@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.timehourdetail;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;

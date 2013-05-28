@@ -23,8 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.kpme.core.bo.earncode.EarnCode;
-import org.kuali.kpme.core.bo.earncode.web.EarnCodeInquirableImpl;
+import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.web.EarnCodeInquirableImpl;
 
 public class EarnCodeInquirableImplTest extends KPMETestCase {
 	

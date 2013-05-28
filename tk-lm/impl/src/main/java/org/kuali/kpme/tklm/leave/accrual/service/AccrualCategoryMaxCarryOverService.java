@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.leave.accrual.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 
 public interface AccrualCategoryMaxCarryOverService {
 

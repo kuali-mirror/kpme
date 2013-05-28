@@ -22,8 +22,8 @@ import java.util.List;
 import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
-import org.kuali.kpme.core.bo.earncode.EarnCode;
-import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
+import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.leaveplan.LeavePlan;
 
 import com.google.common.collect.ImmutableList;
 

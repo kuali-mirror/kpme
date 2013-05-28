@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.authorization.DepartmentalRule;
-import org.kuali.kpme.core.bo.utils.ValidationUtils;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.common.AuthorizationValidationUtils;

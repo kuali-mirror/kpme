@@ -23,7 +23,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;

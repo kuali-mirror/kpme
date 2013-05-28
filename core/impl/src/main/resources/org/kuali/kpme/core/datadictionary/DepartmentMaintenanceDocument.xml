@@ -24,10 +24,10 @@
 
     <bean id="DepartmentMaintenanceDocument" parent="DepartmentMaintenanceDocument-parentBean" />
     <bean id="DepartmentMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
-  		  p:businessObjectClass="org.kuali.kpme.core.bo.department.Department"
-  		  p:businessRulesClass="org.kuali.kpme.core.bo.department.validation.DepartmentValidation"
-  		  p:documentAuthorizerClass="org.kuali.kpme.core.bo.department.authorization.DepartmentAuthorizer"
-  		  p:maintainableClass="org.kuali.kpme.core.bo.department.web.DepartmentMaintainableImpl">
+  		  p:businessObjectClass="org.kuali.kpme.core.department.Department"
+  		  p:businessRulesClass="org.kuali.kpme.core.department.validation.DepartmentValidation"
+  		  p:documentAuthorizerClass="org.kuali.kpme.core.department.authorization.DepartmentAuthorizer"
+  		  p:maintainableClass="org.kuali.kpme.core.department.web.DepartmentMaintainableImpl">
 
         <property name="documentTypeName" value="DepartmentMaintenanceDocumentType" />
 	    <property name="maintainableSections">
@@ -42,7 +42,7 @@
                 <value>dept</value>
             </list>
         </property>
-        <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.bo.department.validation.DepartmentEffectiveDatePrompt" />
+        <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.department.validation.DepartmentEffectiveDatePrompt" />
     </bean>
 
     <bean id="DepartmentMaintenanceDocument-DepartmentMaintenance" parent="DepartmentMaintenanceDocument-DepartmentMaintenance-parentBean" />
@@ -101,7 +101,7 @@
 					<property name="includeAddLine" value="false" />
 					<property name="maintainableFields">
 						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kpme.core.bo.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
+							<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kpme.core.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
 							<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="principalName" p:unconditionallyReadOnly="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:unconditionallyReadOnly="true" />

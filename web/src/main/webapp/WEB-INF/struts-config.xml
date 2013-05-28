@@ -32,7 +32,7 @@
         <form-bean name="CalculateLeaveAccrualsForm" type="org.kuali.kpme.tklm.common.CalculateLeaveAccrualsForm"/>
         <form-bean name="BatchJobActionForm" type="org.kuali.kpme.tklm.common.BatchJobActionForm"/>
         <form-bean name="CarryOverBatchJobActionForm" type="org.kuali.kpme.tklm.leave.batch.web.CarryOverBatchJobActionForm"/>
-        <form-bean name="CalendarEntryActionForm" type="org.kuali.kpme.core.bo.calendar.entry.web.CalendarEntryActionForm"/>
+        <form-bean name="CalendarEntryActionForm" type="org.kuali.kpme.core.calendar.entry.web.CalendarEntryActionForm"/>
         <form-bean name="ClockActionForm" type="org.kuali.kpme.tklm.time.clock.web.ClockActionForm"/>
         <form-bean name="TimeDetailActionForm" type="org.kuali.kpme.tklm.time.detail.web.TimeDetailActionForm"/>
         <form-bean name="TimeDetailWSActionForm" type="org.kuali.kpme.tklm.time.detail.web.TimeDetailWSActionForm"/>
@@ -126,7 +126,7 @@
             <forward name="basic" path="/portal.jsp"/>
         </action>
         
-        <action path="/calendarEntry" name="CalendarEntryActionForm" type="org.kuali.kpme.core.bo.calendar.entry.web.CalendarEntryAction">
+        <action path="/calendarEntry" name="CalendarEntryActionForm" type="org.kuali.kpme.core.calendar.entry.web.CalendarEntryAction">
             <forward name="basic" path="/portal.jsp"/>
         </action>
 

@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.timeblock.dao;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.bo.assignment.Assignment;
+import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 
 public interface TimeBlockDao {

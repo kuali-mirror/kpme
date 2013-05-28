@@ -92,7 +92,7 @@
                 <!--<value>org.kuali.kpme.tklm.time.domain</value>-->
                 <value>org.kuali.kpme.core</value>
                 <value>org.kuali.kfs.coa.domain</value>
-                <value>org.kuali.kpme.core.bo.kfs.coa.businessobject</value>
+                <value>org.kuali.kpme.core.kfs.coa.businessobject</value>
                 <!--<value>org.kuali.kpme.tklm.time</value>
                 <value>org.kuali.kpme.kfs</value>
                 <value>org.kuali.kpme</value>-->
@@ -234,47 +234,47 @@
     
     
     
-    <bean id="taskDao" class="org.kuali.kpme.core.bo.task.dao.TaskDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="taskDao" class="org.kuali.kpme.core.task.dao.TaskDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="positionDao" class="org.kuali.kpme.core.bo.position.dao.PositionDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="positionDao" class="org.kuali.kpme.core.position.dao.PositionDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="assignmentDao" class="org.kuali.kpme.core.bo.assignment.dao.AssignmentDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="assignmentDao" class="org.kuali.kpme.core.assignment.dao.AssignmentDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="workAreaDao" class="org.kuali.kpme.core.bo.workarea.dao.WorkAreaDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="workAreaDao" class="org.kuali.kpme.core.workarea.dao.WorkAreaDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="jobDao" class="org.kuali.kpme.core.bo.job.dao.JobDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="jobDao" class="org.kuali.kpme.core.job.dao.JobDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="payTypeDao" class="org.kuali.kpme.core.bo.paytype.dao.PayTypeDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="payTypeDao" class="org.kuali.kpme.core.paytype.dao.PayTypeDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="calendarDao" class="org.kuali.kpme.core.bo.calendar.dao.CalendarDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="calendarDao" class="org.kuali.kpme.core.calendar.dao.CalendarDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="calendarEntryDao" class="org.kuali.kpme.core.bo.calendar.entry.dao.CalendarEntryDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="calendarEntryDao" class="org.kuali.kpme.core.calendar.entry.dao.CalendarEntryDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="departmentDao" class="org.kuali.kpme.core.bo.department.dao.DepartmentDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="departmentDao" class="org.kuali.kpme.core.department.dao.DepartmentDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="earnCodeSecurityDao" class="org.kuali.kpme.core.bo.earncode.security.dao.EarnCodeSecurityDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="earnCodeSecurityDao" class="org.kuali.kpme.core.earncode.security.dao.EarnCodeSecurityDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="earnCodeDao" class="org.kuali.kpme.core.bo.earncode.dao.EarnCodeDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="earnCodeDao" class="org.kuali.kpme.core.earncode.dao.EarnCodeDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="earnCodeGroupDao" class="org.kuali.kpme.core.bo.earncode.group.dao.EarnCodeGroupDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="earnCodeGroupDao" class="org.kuali.kpme.core.earncode.group.dao.EarnCodeGroupDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="salaryGroupDao" class="org.kuali.kpme.core.bo.salarygroup.dao.SalaryGroupDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="salaryGroupDao" class="org.kuali.kpme.core.salarygroup.dao.SalaryGroupDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="locationDao" class="org.kuali.kpme.core.bo.location.dao.LocationDaoObjImpl" parent="platformAwareDao" />
+    <bean id="locationDao" class="org.kuali.kpme.core.location.dao.LocationDaoObjImpl" parent="platformAwareDao" />
 
-    <bean id="payGradeDao" class="org.kuali.kpme.core.bo.paygrade.dao.PayGradeDaoObjImpl" parent="platformAwareDao" />
+    <bean id="payGradeDao" class="org.kuali.kpme.core.paygrade.dao.PayGradeDaoObjImpl" parent="platformAwareDao" />
     
   	<bean id="accrualCategoryDao" class="org.kuali.kpme.core.accrualcategory.dao.AccrualCategoryDaoOjbImpl" parent="platformAwareDao" />
   	
     <bean id="accrualCategoryRuleDao" class="org.kuali.kpme.core.accrualcategory.rule.dao.AccrualCategoryRuleDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="leavePlanDao" class="org.kuali.kpme.core.bo.leaveplan.dao.LeavePlanDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="leavePlanDao" class="org.kuali.kpme.core.leaveplan.dao.LeavePlanDaoOjbImpl" parent="platformAwareDao" />
         
-    <bean id="institutionDao" class="org.kuali.kpme.core.bo.institution.dao.InstitutionDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="institutionDao" class="org.kuali.kpme.core.institution.dao.InstitutionDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="payStepDao" class="org.kuali.kpme.core.bo.paystep.dao.PayStepDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="payStepDao" class="org.kuali.kpme.core.paystep.dao.PayStepDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="principalHRAttributesDao" class="org.kuali.kpme.core.bo.principal.dao.PrincipalHRAttributesDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="principalHRAttributesDao" class="org.kuali.kpme.core.principal.dao.PrincipalHRAttributesDaoOjbImpl" parent="platformAwareDao" />
 
 
 
@@ -282,11 +282,11 @@
 
     
     
-    <bean id="payStepService" class="org.kuali.kpme.core.bo.paystep.service.PayStepServiceImpl">
+    <bean id="payStepService" class="org.kuali.kpme.core.paystep.service.PayStepServiceImpl">
         <property name="payStepDao" ref="payStepDao"/>
     </bean>
     
-    <bean id="institutionService" class="org.kuali.kpme.core.bo.institution.service.InstitutionServiceImpl">
+    <bean id="institutionService" class="org.kuali.kpme.core.institution.service.InstitutionServiceImpl">
         <property name="institutionDao" ref="institutionDao"/>
     </bean>
     
@@ -299,7 +299,7 @@
     
     <bean id="hrServiceLocator" class="org.kuali.kpme.core.service.HrServiceLocator"/>
 
-    <bean id="leavePlanService" class="org.kuali.kpme.core.bo.leaveplan.service.LeavePlanServiceImpl">
+    <bean id="leavePlanService" class="org.kuali.kpme.core.leaveplan.service.LeavePlanServiceImpl">
         <property name="leavePlanDao" ref="leavePlanDao"/>
     </bean>
 
@@ -311,68 +311,68 @@
         <property name="accrualCategoryRuleDao" ref="accrualCategoryRuleDao"/>
     </bean>
 
-    <bean id="locationService" class="org.kuali.kpme.core.bo.location.service.LocationServiceImpl">
+    <bean id="locationService" class="org.kuali.kpme.core.location.service.LocationServiceImpl">
         <property name="locationDao" ref="locationDao"/>
     </bean>
 
-    <bean id="payGradeService" class="org.kuali.kpme.core.bo.paygrade.service.PayGradeServiceImpl">
+    <bean id="payGradeService" class="org.kuali.kpme.core.paygrade.service.PayGradeServiceImpl">
         <property name="payGradeDao" ref="payGradeDao"/>
     </bean>
 
     <bean id="principalHRAttributesService"
-          class="org.kuali.kpme.core.bo.principal.service.PrincipalHRAttributesServiceImpl">
+          class="org.kuali.kpme.core.principal.service.PrincipalHRAttributesServiceImpl">
         <property name="principalHRAttributesDao" ref="principalHRAttributesDao"/>
     </bean>
 
-    <bean id="earnCodeSecurityService" class="org.kuali.kpme.core.bo.earncode.security.service.EarnCodeSecurityServiceImpl">
+    <bean id="earnCodeSecurityService" class="org.kuali.kpme.core.earncode.security.service.EarnCodeSecurityServiceImpl">
         <property name="earnCodeSecurityDao" ref="earnCodeSecurityDao"/>
     </bean>
 
-    <bean id="departmentService" class="org.kuali.kpme.core.bo.department.service.DepartmentServiceImpl">
+    <bean id="departmentService" class="org.kuali.kpme.core.department.service.DepartmentServiceImpl">
         <property name="departmentDao" ref="departmentDao"/>
     </bean>
 
-    <bean id="earnCodeService" class="org.kuali.kpme.core.bo.earncode.service.EarnCodeServiceImpl">
+    <bean id="earnCodeService" class="org.kuali.kpme.core.earncode.service.EarnCodeServiceImpl">
         <property name="earnCodeDao" ref="earnCodeDao"/>
     </bean>
 
-    <bean id="earnCodeGroupService" class="org.kuali.kpme.core.bo.earncode.group.service.EarnCodeGroupServiceImpl">
+    <bean id="earnCodeGroupService" class="org.kuali.kpme.core.earncode.group.service.EarnCodeGroupServiceImpl">
         <property name="earnCodeGroupDao" ref="earnCodeGroupDao"/>
     </bean>
 
-    <bean id="salaryGroupService" class="org.kuali.kpme.core.bo.salarygroup.service.SalaryGroupServiceImpl">
+    <bean id="salaryGroupService" class="org.kuali.kpme.core.salarygroup.service.SalaryGroupServiceImpl">
         <property name="salaryGroupDao" ref="salaryGroupDao"/>
     </bean>
 
-    <bean id="workAreaService" class="org.kuali.kpme.core.bo.workarea.service.WorkAreaServiceImpl">
+    <bean id="workAreaService" class="org.kuali.kpme.core.workarea.service.WorkAreaServiceImpl">
         <property name="workAreaDao" ref="workAreaDao"/>
     </bean>
 
-    <bean id="jobService" class="org.kuali.kpme.core.bo.job.service.JobServiceImpl">
+    <bean id="jobService" class="org.kuali.kpme.core.job.service.JobServiceImpl">
         <property name="jobDao" ref="jobDao"/>
     </bean>
 
-    <bean id="taskService" class="org.kuali.kpme.core.bo.task.service.TaskServiceImpl">
+    <bean id="taskService" class="org.kuali.kpme.core.task.service.TaskServiceImpl">
         <property name="taskDao" ref="taskDao"/>
     </bean>
 
-    <bean id="payTypeService" class="org.kuali.kpme.core.bo.paytype.service.PayTypeServiceImpl">
+    <bean id="payTypeService" class="org.kuali.kpme.core.paytype.service.PayTypeServiceImpl">
         <property name="payTypeDao" ref="payTypeDao"/>
     </bean>
 
-    <bean id="calendarService" class="org.kuali.kpme.core.bo.calendar.service.CalendarServiceImpl">
+    <bean id="calendarService" class="org.kuali.kpme.core.calendar.service.CalendarServiceImpl">
         <property name="calendarDao" ref="calendarDao"/>
     </bean>
 
-    <bean id="calendarEntryService" class="org.kuali.kpme.core.bo.calendar.entry.service.CalendarEntryServiceImpl">
+    <bean id="calendarEntryService" class="org.kuali.kpme.core.calendar.entry.service.CalendarEntryServiceImpl">
         <property name="calendarEntryDao" ref="calendarEntryDao"/>
     </bean>
 
-    <bean id="assignmentService" class="org.kuali.kpme.core.bo.assignment.service.AssignmentServiceImpl">
+    <bean id="assignmentService" class="org.kuali.kpme.core.assignment.service.AssignmentServiceImpl">
         <property name="assignmentDao" ref="assignmentDao"/>
     </bean>
 
-    <bean id="positionService" class="org.kuali.kpme.core.bo.position.service.PositionServiceImpl">
+    <bean id="positionService" class="org.kuali.kpme.core.position.service.PositionServiceImpl">
         <property name="positionDao" ref="positionDao"/>
     </bean>
     
@@ -394,27 +394,27 @@
         <property name="workAreaService" ref="workAreaService" />
     </bean>
      
-    <bean id="workAreaRoleTypeService" class="org.kuali.kpme.core.bo.workarea.service.WorkAreaRoleTypeServiceImpl" />
+    <bean id="workAreaRoleTypeService" class="org.kuali.kpme.core.workarea.service.WorkAreaRoleTypeServiceImpl" />
 
     <bean id="workAreaRoleTypeService.exporter" parent="kpme.callback.service"
           p:callbackService-ref="workAreaRoleTypeService"
           p:localServiceName="workAreaRoleTypeService"
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
-    <bean id="departmentRoleTypeService" class="org.kuali.kpme.core.bo.department.service.DepartmentRoleTypeServiceImpl" />
+    <bean id="departmentRoleTypeService" class="org.kuali.kpme.core.department.service.DepartmentRoleTypeServiceImpl" />
     
     <bean id="departmentRoleTypeService.exporter" parent="kpme.callback.service"
           p:callbackService-ref="departmentRoleTypeService"
           p:localServiceName="departmentRoleTypeService"
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
           
-    <bean id="locationRoleTypeService" class="org.kuali.kpme.core.bo.location.service.LocationRoleTypeServiceImpl" />
+    <bean id="locationRoleTypeService" class="org.kuali.kpme.core.location.service.LocationRoleTypeServiceImpl" />
     
     <bean id="locationRoleTypeService.exporter" parent="kpme.callback.service"
           p:callbackService-ref="locationRoleTypeService"
           p:localServiceName="locationRoleTypeService"
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
     
-    <bean id="positionDerivedRoleTypeService" class="org.kuali.kpme.core.bo.position.service.PositionDerivedRoleTypeServiceImpl">
+    <bean id="positionDerivedRoleTypeService" class="org.kuali.kpme.core.position.service.PositionDerivedRoleTypeServiceImpl">
         <property name="roleService" ref="kimRoleService" />
         <property name="jobService" ref="jobService" />
     </bean>
@@ -439,35 +439,35 @@
 
     <bean id="calendarLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.calendar.web.CalendarLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.calendar.web.CalendarLookupableHelper"/>
         </property>
     </bean>
     <bean id="jobLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.job.web.JobLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.job.web.JobLookupableHelper"/>
         </property>
     </bean>
     <bean id="earnCodeSecurityLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.earncode.security.web.EarnCodeSecurityLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.earncode.security.web.EarnCodeSecurityLookupableHelper"/>
         </property>
     </bean>
     <bean id="earnCodeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.earncode.web.EarnCodeLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.earncode.web.EarnCodeLookupableHelper"/>
         </property>
     </bean>
     <bean id="earnCodeGroupLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.earncode.group.web.EarnCodeGroupLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.earncode.group.web.EarnCodeGroupLookupableHelper"/>
         </property>
     </bean>
     <bean id="payTypeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.paytype.web.PayTypeLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.paytype.web.PayTypeLookupableHelper"/>
         </property>
     </bean>
-    <bean id="positionLookupable" class="org.kuali.kpme.core.bo.position.web.PositionLookupableHelper" scope="singleton">
+    <bean id="positionLookupable" class="org.kuali.kpme.core.position.web.PositionLookupableHelper" scope="singleton">
         <property name="dataDictionaryService">
 			<bean
 				class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -477,87 +477,87 @@
     </bean>
     <bean id="salaryGroupLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.salarygroup.web.SalaryGroupLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.salarygroup.web.SalaryGroupLookupableHelper"/>
         </property>
     </bean>
     <bean id="departmentLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.department.web.DepartmentLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.department.web.DepartmentLookupableHelper"/>
         </property>
     </bean>
     <bean id="workAreaLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.workarea.web.WorkAreaLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.workarea.web.WorkAreaLookupableHelper"/>
         </property>
     </bean>
     <bean id="assignmentLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.assignment.web.AssignmentLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.assignment.web.AssignmentLookupableHelper"/>
         </property>
     </bean>
     <bean id="locationLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.location.web.LocationLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.location.web.LocationLookupableHelper"/>
         </property>
     </bean>
     <bean id="calendarEntryLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.calendar.entry.web.CalendarEntryLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.calendar.entry.web.CalendarEntryLookupableHelper"/>
         </property>
     </bean>
     <bean id="payGradeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.paygrade.web.PayGradeLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.paygrade.web.PayGradeLookupableHelper"/>
         </property>
     </bean>
     <bean id="principalHRAttributesLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.principal.web.PrincipalHRAttributesLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.principal.web.PrincipalHRAttributesLookupableHelper"/>
         </property>
     </bean>
     <bean id="accountLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.kfs.coa.businessobject.service.AccountLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.kfs.coa.businessobject.service.AccountLookupableHelper"/>
         </property>
     </bean>
     <bean id="chartLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.kfs.coa.businessobject.service.ChartLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.kfs.coa.businessobject.service.ChartLookupableHelper"/>
         </property>
     </bean>
     <bean id="objectCodeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.kfs.coa.businessobject.service.ObjectCodeLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.kfs.coa.businessobject.service.ObjectCodeLookupableHelper"/>
         </property>
     </bean>
     <bean id="organizationLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.kfs.coa.businessobject.service.OrganizationLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.kfs.coa.businessobject.service.OrganizationLookupableHelper"/>
         </property>
     </bean>
     <bean id="projectCodeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.kfs.coa.businessobject.service.ProjectCodeLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.kfs.coa.businessobject.service.ProjectCodeLookupableHelper"/>
         </property>
     </bean>
     <bean id="subAccountLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.kfs.coa.businessobject.service.SubAccountLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.kfs.coa.businessobject.service.SubAccountLookupableHelper"/>
         </property>
     </bean>
     <bean id="subObjectCodeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.kfs.coa.businessobject.service.SubObjectCodeLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.kfs.coa.businessobject.service.SubObjectCodeLookupableHelper"/>
         </property>
     </bean>
     <bean id="taskLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.task.web.TaskLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.task.web.TaskLookupableHelper"/>
         </property>
     </bean>
    <bean id="leavePlanLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.bo.leaveplan.web.LeavePlanLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.leaveplan.web.LeavePlanLookupableHelper"/>
         </property>
     </bean>
     <bean id="accrualCategoryLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
@@ -567,12 +567,12 @@
     </bean> 
     <bean id="institutionLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
-    		<bean class="org.kuali.kpme.core.bo.institution.web.InstitutionLookupableHelper"/>
+    		<bean class="org.kuali.kpme.core.institution.web.InstitutionLookupableHelper"/>
     	</property>    
     </bean>
     <bean id="payStepLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
-    		<bean class="org.kuali.kpme.core.bo.paystep.web.PayStepLookupableHelper"/>
+    		<bean class="org.kuali.kpme.core.paystep.web.PayStepLookupableHelper"/>
     	</property>    
     </bean>
 

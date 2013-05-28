@@ -24,10 +24,10 @@
 
 	<bean id="WorkAreaMaintenanceDocument" parent="WorkAreaMaintenanceDocument-parentBean" />
 	<bean id="WorkAreaMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-		  p:businessObjectClass="org.kuali.kpme.core.bo.workarea.WorkArea"
-		  p:businessRulesClass="org.kuali.kpme.core.bo.workarea.validation.WorkAreaMaintenanceDocumentRule"
-          p:documentAuthorizerClass="org.kuali.kpme.core.bo.workarea.authorization.WorkAreaAuthorizer"
-		  p:maintainableClass="org.kuali.kpme.core.bo.workarea.web.WorkAreaMaintainableImpl">
+		  p:businessObjectClass="org.kuali.kpme.core.workarea.WorkArea"
+		  p:businessRulesClass="org.kuali.kpme.core.workarea.validation.WorkAreaMaintenanceDocumentRule"
+          p:documentAuthorizerClass="org.kuali.kpme.core.workarea.authorization.WorkAreaAuthorizer"
+		  p:maintainableClass="org.kuali.kpme.core.workarea.web.WorkAreaMaintainableImpl">
 		
 		<property name="documentTypeName" value="WorkAreaMaintenanceDocumentType" />
 		<property name="maintainableSections">
@@ -50,7 +50,7 @@
 				<value>workArea</value>
 			</list>
 		</property>
-		<property name="promptBeforeValidationClass" value="org.kuali.kpme.core.bo.workarea.validation.WorkAreaEffectiveDatePrompt" />
+		<property name="promptBeforeValidationClass" value="org.kuali.kpme.core.workarea.validation.WorkAreaEffectiveDatePrompt" />
 	</bean>
 
 	<bean id="WorkAreaMaintenanceDocument-WorkAreaMaintenance" parent="WorkAreaMaintenanceDocument-WorkAreaMaintenance-parentBean" />
@@ -80,7 +80,7 @@
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="name" value="tasks" />
-					<property name="businessObjectClass" value="org.kuali.kpme.core.bo.task.Task" />
+					<property name="businessObjectClass" value="org.kuali.kpme.core.task.Task" />
 					<property name="alwaysAllowCollectionDeletion" value="true" />
 					<property name="maintainableFields">
 						<list>
@@ -136,7 +136,7 @@
 					<property name="includeAddLine" value="false" />
 					<property name="maintainableFields">
 						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kpme.core.bo.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
+							<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kpme.core.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
 							<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="principalName" p:unconditionallyReadOnly="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:unconditionallyReadOnly="true" />
@@ -188,7 +188,7 @@
                     <property name="includeAddLine" value="false" />
                     <property name="maintainableFields">
                         <list>
-                            <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kpme.core.bo.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
+                            <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kpme.core.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
                             <bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:required="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:unconditionallyReadOnly="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false" />

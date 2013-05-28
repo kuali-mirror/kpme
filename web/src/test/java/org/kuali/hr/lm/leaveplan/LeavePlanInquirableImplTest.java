@@ -23,8 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
-import org.kuali.kpme.core.bo.leaveplan.web.LeavePlanInquirableImpl;
+import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.web.LeavePlanInquirableImpl;
 
 public class LeavePlanInquirableImplTest extends KPMETestCase {
 	

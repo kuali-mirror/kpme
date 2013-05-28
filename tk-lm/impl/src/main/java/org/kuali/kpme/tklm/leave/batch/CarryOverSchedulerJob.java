@@ -21,7 +21,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.common.BatchJobService;
 import org.quartz.JobExecutionContext;

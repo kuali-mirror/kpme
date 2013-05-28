@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.bo.assignment.Assignment;
+import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;

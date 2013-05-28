@@ -16,8 +16,8 @@
 package org.kuali.kpme.tklm.common;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.bo.leaveplan.LeavePlan;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.quartz.SchedulerException;
 
 public interface BatchJobService {

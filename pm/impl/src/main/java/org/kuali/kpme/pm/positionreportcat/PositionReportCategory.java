@@ -16,7 +16,7 @@
 package org.kuali.kpme.pm.positionreportcat;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.bo.institution.Institution;
+import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.pm.positionreporttype.PositionReportType;
 import org.kuali.rice.location.impl.campus.CampusBo;
 

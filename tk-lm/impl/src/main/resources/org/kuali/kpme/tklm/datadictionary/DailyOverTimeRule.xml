@@ -198,7 +198,7 @@
       		<bean parent="TextControlDefinition" p:size="10"/>
     	</property>    
     	<property name="name" value="workArea"/>
-     	<property name="formatterClass" value="org.kuali.kpme.core.bo.workarea.WorkAreaFormatter"/>
+     	<property name="formatterClass" value="org.kuali.kpme.core.workarea.WorkAreaFormatter"/>
     	<property name="label" value="Work Area"/>
 	</bean>
 	<!-- maxGap  -->

@@ -18,7 +18,7 @@
 -->
   <bean id="AccountMaintenanceDocument" parent="AccountMaintenanceDocument-parentBean"/>
 
-  <bean id="AccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kpme.core.bo.kfs.coa.businessobject.Account" p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+  <bean id="AccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kpme.core.kfs.coa.businessobject.Account" p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="AccountMaintenanceDocument-AccountMaintenance"/>
@@ -69,7 +69,7 @@
     <property name="title" value="Account Maintenance"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="accountEffectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kpme.core.bo.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountEffectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kpme.core.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountName" p:required="true"/>
@@ -102,7 +102,7 @@
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kpme.core.bo.kfs.coa.businessobject.Account"/>
+    						<property name="businessObjectClassName" value="org.kuali.kpme.core.kfs.coa.businessobject.Account"/>
     						<property name="attributeName" value="organizationCode"/>
     					</bean>
     				</property>

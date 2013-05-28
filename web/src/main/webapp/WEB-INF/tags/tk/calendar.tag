@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 
-<%@ attribute name="cal" required="true" type="org.kuali.kpme.core.bo.calendar.CalendarParent" %>
+<%@ attribute name="cal" required="true" type="org.kuali.kpme.core.calendar.CalendarParent" %>
 <%@ attribute name="docId" required="true" type="java.lang.String" %>
 <%@ attribute name="calType" required="true" type="java.lang.String" %>
 

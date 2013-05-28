@@ -19,7 +19,7 @@
   <bean id="SubObjectCode" parent="SubObjectCode-parentBean"/>
 
   <bean id="SubObjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kpme.core.bo.kfs.coa.businessobject.SubObjectCode"/>
+    <property name="businessObjectClass" value="org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode"/>
     <property name="inquiryDefinition">
       <ref bean="SubObjectCode-inquiryDefinition"/>
     </property>
@@ -167,7 +167,7 @@
     </property>
     <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear" p:defaultValueFinderClass="org.kuali.kpme.core.bo.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear" p:defaultValueFinderClass="org.kuali.kpme.core.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
         <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
         <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
         <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>

@@ -39,7 +39,7 @@
                             <html:text property="hrPyCalendarEntryId" />
                         </td>
                         <td>
-                        	<kul:lookup boClassName="org.kuali.kpme.core.bo.calendar.entry.CalendarEntry" fieldConversions="hrCalendarEntryId:hrPyCalendarEntryId" />
+                        	<kul:lookup boClassName="org.kuali.kpme.core.calendar.entry.CalendarEntry" fieldConversions="hrCalendarEntryId:hrPyCalendarEntryId" />
                         </td>
                     </tr>
                     <tr>

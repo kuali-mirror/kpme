@@ -21,7 +21,7 @@
 
   <bean id="Calendar" parent="Calendar-parentBean"/>
   <bean id="Calendar-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kpme.core.bo.calendar.Calendar"/>
+    <property name="businessObjectClass" value="org.kuali.kpme.core.calendar.Calendar"/>
     <property name="titleAttribute" value="hrCalendarId"/>
     <property name="objectLabel" value="Calendar"/>
     <property name="lookupDefinition">
@@ -110,7 +110,7 @@
   <bean id="Calendar-calendarTypes-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Calendar Types"/>    
     <property name="control">
-		<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.bo.calendar.CalendarTypesKeyValue">
+		<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.calendar.CalendarTypesKeyValue">
 		</bean>
 	</property> 
     <property name="name" value="calendarTypes"/>

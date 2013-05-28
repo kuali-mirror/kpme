@@ -17,7 +17,7 @@ package org.kuali.kpme.tklm.leave.override.validation;
 
 import org.apache.cxf.common.util.StringUtils;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.bo.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.rice.kns.document.MaintenanceDocument;

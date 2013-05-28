@@ -16,8 +16,8 @@
 package org.kuali.kpme.tklm.time.batch;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.bo.calendar.Calendar;
-import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;

@@ -17,7 +17,7 @@ package org.kuali.kpme.tklm.time.clocklog.dao;
 
 import java.util.List;
 
-import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 
 public interface ClockLogDao {

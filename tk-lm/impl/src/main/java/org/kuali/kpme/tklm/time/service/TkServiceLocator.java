@@ -17,7 +17,6 @@
 package org.kuali.kpme.tklm.time.service;
 //import org.kuali.hr.time.paytype.service.PayTypeService;
 //import org.kuali.hr.time.permission.service.TKPermissionService;
-import org.kuali.kpme.core.bo.assignment.dao.AssignmentDao;
 import org.kuali.kpme.tklm.common.BatchJobService;
 import org.kuali.kpme.tklm.time.approval.service.TimeApproveService;
 import org.kuali.kpme.tklm.time.clocklog.service.ClockLogService;

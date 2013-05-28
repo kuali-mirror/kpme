@@ -18,7 +18,7 @@ package org.kuali.kpme.core.service.permission;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.bo.assignment.Assignment;
+import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
 
 public interface HRPermissionService {

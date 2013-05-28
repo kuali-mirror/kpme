@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.bo.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCode;
 
 
 public class AccrualCategoryRule extends HrBusinessObject {

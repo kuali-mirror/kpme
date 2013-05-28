@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.calendar;
 
-import org.kuali.kpme.core.bo.calendar.web.CalendarWeek;
+import org.kuali.kpme.core.calendar.web.CalendarWeek;
 
 public class TkCalendarWeek extends CalendarWeek {
 //	private List<TkCalendarDay> days = new ArrayList<TkCalendarDay>();

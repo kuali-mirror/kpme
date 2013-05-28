@@ -22,8 +22,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.kpme.core.bo.earncode.security.EarnCodeSecurity;
-import org.kuali.kpme.core.bo.earncode.security.service.EarnCodeSecurityService;
+import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.earncode.security.service.EarnCodeSecurityService;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
 public class EarnCodeSecurityServiceImplTest extends KPMETestCase {

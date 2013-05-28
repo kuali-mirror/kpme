@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.rules;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;

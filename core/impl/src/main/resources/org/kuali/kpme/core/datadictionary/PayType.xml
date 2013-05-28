@@ -23,7 +23,7 @@
 	<bean name="PayType" parent="PayType-parentBean" />
 
 	<bean id="PayType-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kpme.core.bo.paytype.PayType" />
+		<property name="businessObjectClass" value="org.kuali.kpme.core.paytype.PayType" />
 		<property name="titleAttribute" value="payTypeId" />
 		<property name="objectLabel" value="Pay Type" />
 		<property name="inquiryDefinition">
@@ -276,7 +276,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Pay Frequency" />
 				<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.bo.paytype.valuesfinder.PayFrequencyKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.paytype.valuesfinder.PayFrequencyKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="payFrequency" />

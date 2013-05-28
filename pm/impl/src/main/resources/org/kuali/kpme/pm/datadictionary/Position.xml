@@ -274,7 +274,7 @@
 	<bean id="Position-LookupView" parent="Uif-LookupView">
 		<property name="headerText" value="Position Lookup" />
 	    <property name="dataObjectClassName" value="org.kuali.kpme.pm.position.Position" />
-	    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.bo.position.web.PositionLookupableHelper" />
+	    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.position.web.PositionLookupableHelper" />
 	    <property name="criteriaFields">
 			<list>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber" />
@@ -450,7 +450,7 @@
 			
 				<bean parent="Uif-InputField" p:propertyName="institution">
 					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.bo.institution.Institution"
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
 							p:fieldConversions="institutionCode:institution" />
 					</property>
 				</bean>

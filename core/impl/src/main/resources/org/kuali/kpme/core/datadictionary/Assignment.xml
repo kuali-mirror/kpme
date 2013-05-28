@@ -23,7 +23,7 @@
 	<bean id="Assignment" parent="Assignment-parentBean" />
 
 	<bean id="Assignment-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kpme.core.bo.assignment.Assignment" />
+		<property name="businessObjectClass" value="org.kuali.kpme.core.assignment.Assignment" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="Assignment" />
 		<property name="inquiryDefinition">
@@ -334,7 +334,7 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="InquiryCollectionDefinition" p:attributeName="assignmentAccounts"
-								p:businessObjectClass="org.kuali.kpme.core.bo.assignment.account.AssignmentAccount">
+								p:businessObjectClass="org.kuali.kpme.core.assignment.account.AssignmentAccount">
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="finCoaCd" />

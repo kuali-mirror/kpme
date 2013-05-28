@@ -19,7 +19,7 @@
   <bean id="Organization" parent="Organization-parentBean"/>
 
   <bean id="Organization-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kpme.core.bo.kfs.coa.businessobject.Organization"/>
+    <property name="businessObjectClass" value="org.kuali.kpme.core.kfs.coa.businessobject.Organization"/>
     <property name="inquiryDefinition">
       <ref bean="Organization-inquiryDefinition"/>
     </property>
@@ -117,7 +117,7 @@
       </list>
     </property>
     <!--  what's this? -->
-    <!-- property name="inquirableClass" value="org.kuali.kpme.core.bo.kfs.coa.businessobject.inquiry.OrgInquirable"/ -->
+    <!-- property name="inquirableClass" value="org.kuali.kpme.core.kfs.coa.businessobject.inquiry.OrgInquirable"/ -->
   </bean>
 
 <!-- Business Object Lookup Definition -->

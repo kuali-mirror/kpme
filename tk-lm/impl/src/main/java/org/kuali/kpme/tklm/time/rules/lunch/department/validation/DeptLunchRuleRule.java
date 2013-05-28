@@ -17,7 +17,7 @@ package org.kuali.kpme.tklm.time.rules.lunch.department.validation;
 
 import java.math.BigDecimal;
 
-import org.kuali.kpme.core.bo.utils.ValidationUtils;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;

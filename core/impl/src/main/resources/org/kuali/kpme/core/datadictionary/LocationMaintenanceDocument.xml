@@ -24,9 +24,9 @@
 
     <bean id="LocationMaintenanceDocument" parent="LocationMaintenanceDocument-parentBean" />
     <bean id="LocationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		  p:businessObjectClass="org.kuali.kpme.core.bo.location.Location"
-  		  p:documentAuthorizerClass="org.kuali.kpme.core.bo.location.authorization.LocationAuthorizer"
-  		  p:maintainableClass="org.kuali.kpme.core.bo.location.web.LocationMaintainableImpl">
+  		  p:businessObjectClass="org.kuali.kpme.core.location.Location"
+  		  p:documentAuthorizerClass="org.kuali.kpme.core.location.authorization.LocationAuthorizer"
+  		  p:maintainableClass="org.kuali.kpme.core.location.web.LocationMaintainableImpl">
 
         <property name="documentTypeName" value="LocationMaintenanceDocumentType" />
         <property name="maintainableSections">
@@ -41,7 +41,7 @@
                 <value>location</value>
             </list>
         </property>
-        <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.bo.location.validation.LocationEffectiveDatePrompt" />
+        <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.location.validation.LocationEffectiveDatePrompt" />
     </bean>
 
     <bean id="LocationMaintenanceDocument-LocationMaintenance" parent="LocationMaintenanceDocument-LocationMaintenance-parentBean" />
@@ -98,7 +98,7 @@
                     <property name="includeAddLine" value="false" />
                     <property name="maintainableFields">
                         <list>
-                            <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kpme.core.bo.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
+                            <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kpme.core.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
                             <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="principalName" p:unconditionallyReadOnly="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:unconditionallyReadOnly="true" />

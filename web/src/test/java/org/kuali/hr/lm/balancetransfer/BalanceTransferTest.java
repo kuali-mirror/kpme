@@ -28,7 +28,7 @@ import org.kuali.hr.lm.leaveCalendar.LeaveCalendarWebTestBase;
 import org.kuali.hr.lm.util.LeaveCalendarTestUtils;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.kpme.core.bo.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;

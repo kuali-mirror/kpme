@@ -19,9 +19,9 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.bo.job.Job;
-import org.kuali.kpme.core.bo.task.Task;
-import org.kuali.kpme.core.bo.workarea.WorkArea;
+import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.task.Task;
+import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
