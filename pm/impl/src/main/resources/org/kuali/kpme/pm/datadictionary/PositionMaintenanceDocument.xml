@@ -75,28 +75,41 @@
 	    <bean parent="Uif-TabGroup">
 			  <property name="items">
 			    <list>
-			      <bean parent="Uif-HorizontalBoxSection" p:headerText="Required Qualification">
+			      <bean parent="Uif-VerticalBoxSection" p:headerText="Qualification">
 			      	<property name="items">
 			      		<list>
-			      			<bean parent="Position-qualifications"/>
+			      			<bean parent="Uif-VerticalBoxSection" p:headerText="Required Qualification">
+				      			<property name="items">
+				      				<list>
+					      				<bean parent="Position-requiredQualList"/>
+					      			</list>
+					      		</property>
+				      		</bean>
+				      		<bean parent="Uif-VerticalBoxSection" p:headerText="Preferred Qualification">
+				      			<property name="items">
+				      				<list>
+					      				<bean parent="Position-qualifications"/>
+					      			</list>
+					      		</property>
+				      		</bean>
 						</list>
 			      	 </property>
 			      </bean>
-				  <bean parent="Uif-HorizontalBoxSection" p:headerText="Duties" >
+				  <bean parent="Uif-VerticalBoxSection" p:headerText="Duties" >
 				  	<property name="items">
 			      		<list>
 			      			<bean parent="Position-duties"/>
 					  </list>
 				    </property>			  
 			      </bean>
-			      <bean parent="Uif-HorizontalBoxSection" p:headerText="Flags">
+			      <bean parent="Uif-VerticalBoxSection" p:headerText="Flags">
 			      	<property name="items">
 			      		<list>
 			      		<bean parent="Position-flags"/>
 			      		</list>
 		      		</property>
 		      	  </bean>
- 						<bean parent="Uif-HorizontalBoxSection" p:headerText="Position Responsibilities">
+ 				  <bean parent="Uif-VerticalBoxSection" p:headerText="Position Responsibilities">
 			      	<property name="items">
 			      		<list>
 			      			<bean parent="Position-responsibilities"/>
@@ -107,9 +120,6 @@
 			   </list>
 			  </property>
 		</bean>
-		  
-			      
-			     
 	    
       </list>
     </property>

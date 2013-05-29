@@ -20,6 +20,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
+import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
+import org.kuali.kpme.pm.positionflag.PositionFlag;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
@@ -36,6 +38,8 @@ public class Position extends PositionBase {
     private List<PositionResponsibility> positionResponsibilityList = new LinkedList<PositionResponsibility>();
     
     private String pmPositionClassId;
+    
+    private List<ClassificationQualification> requiredQualList = new ArrayList<ClassificationQualification>(); 	// read only required qualifications that comes from assiciated Classification
 
     public List<PositionDuty> getDutyList() {
     	if(CollectionUtils.isEmpty(dutyList) && StringUtils.isNotEmpty(this.getPmPositionClassId())) {
@@ -108,5 +112,26 @@ public class Position extends PositionBase {
 
 	public void setPmPositionClassId(String id) {
 		this.pmPositionClassId = id;
+	}
+	
+	public List<ClassificationQualification> getRequiredQualList() {
+		if(StringUtils.isNotEmpty(this.getPmPositionClassId())) {
+			// when Position Classification Id is changed, change the requiredQualList with it
+			if(CollectionUtils.isEmpty(requiredQualList) ||
+					(CollectionUtils.isNotEmpty(requiredQualList) 
+							&& !requiredQualList.get(0).getPmPositionClassId().equals(this.getPmPositionClassId()))) {
+				List<ClassificationQualification> aList = PmServiceLocator.getClassificationQualService()
+						.getQualListForClassification(this.getPmPositionClassId());
+				if(CollectionUtils.isNotEmpty(aList))
+					this.setRequiredQualList(aList);
+			} else {
+				
+			}
+		}
+ 		return requiredQualList;
+	}
+	
+	public void setRequiredQualList(List<ClassificationQualification> aList) {
+			requiredQualList = aList;
 	}
 }

@@ -17,6 +17,7 @@ package org.kuali.kpme.pm.service.base;
 
 import org.kuali.kpme.pm.classification.duty.service.ClassificationDutyService;
 import org.kuali.kpme.pm.classification.flag.service.ClassificationFlagService;
+import org.kuali.kpme.pm.classification.qual.service.ClassificationQualificationService;
 import org.kuali.kpme.pm.classification.service.ClassificationService;
 import org.kuali.kpme.pm.positionResponsibilityOption.service.PositionResponsibilityOptionService;
 import org.kuali.kpme.pm.positionappointment.service.PositionAppointmentService;
@@ -56,6 +57,7 @@ public class PmServiceLocator implements ApplicationContextAware {
     public static final String PM_POSITION_DEPT_AFFL_SERVICE = "positionDepartmentAffiliationService";
     public static final String PM_POSITION_DEPT_SERVICE = "positionDepartmentService";
     public static final String PM_CLASSIFICATION_SERVICE = "classificationService";
+    public static final String PM_CLASSIFICATION_QUAL_SERVICE = "classificationQualificationService";
     public static final String PM_CLASSIFICATION_DUTY_SERVICE = "classificationDutyService";
     public static final String PM_CLASSIFICATION_FLAG_SERVICE = "classificationFlagService";
     public static final String PM_POSITION_RESPONSIBILITY_OPTION_SERVICE = "positionResponsibilityOptionService";
@@ -115,6 +117,10 @@ public class PmServiceLocator implements ApplicationContextAware {
 	
 	public static ClassificationService getClassificationService() {
 		return (ClassificationService) CONTEXT.getBean(PM_CLASSIFICATION_SERVICE);
+	}
+	
+	public static ClassificationQualificationService getClassificationQualService() {
+		return (ClassificationQualificationService) CONTEXT.getBean(PM_CLASSIFICATION_QUAL_SERVICE);
 	}
 	
 	public static ClassificationDutyService getClassificationDutyService() {

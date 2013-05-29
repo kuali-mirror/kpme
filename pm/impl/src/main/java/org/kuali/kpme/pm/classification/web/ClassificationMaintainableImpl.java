@@ -18,9 +18,9 @@ package org.kuali.kpme.pm.classification.web;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.pm.classification.Classification;
-import org.kuali.kpme.pm.classification.ClassificationQualification;
 import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
+import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
 

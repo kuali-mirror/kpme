@@ -63,7 +63,7 @@
 		<property name="collections">
 	      <list>
 	        <bean parent="CollectionDefinition">
-	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.ClassificationQualification" />
+	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification" />
 	          <property name="name" value="qualificationList" />
 	          <property name="shortLabel" value="Qualifications" />
 	          <property name="label" value="Classification Qualifications" />
@@ -441,7 +441,7 @@
   
    <!-- Required Qualification List, used by maintenance view -->
    <bean id="Classification-qualifications" abstract="true" parent="Uif-TableCollectionGroup">
-	  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationQualification" />
+	  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification" />
 	  <property name="propertyName" value="qualificationList" />
 	  <property name="addLinePlacement" value="BOTTOM" />
 	  <property name="layoutManager.generateAutoSequence" value="true" />
@@ -476,7 +476,7 @@
 				</property>
 				<property name="propertyReplacers">
 				    <list>
-<!-- 				   		 if the typevalue of selected type is not select,  use text control instead -->
+<!-- 				   		 if the typevalue of selected type is not Select,  use text control instead -->
 				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="control" p:condition="#line.typeValue eq 'T' or #line.typeValue eq 'N'"> 
 				           <property name="replacement">
 				            <bean parent="Uif-TextControl" />
@@ -503,7 +503,7 @@
 	<bean id="Classification-qualificationList" abstract="true" parent="Uif-Disclosure-TableCollectionSection"
         p:layoutManager.numberOfColumns="4">
     <property name="headerText" value="Required Qualification"/>
-    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationQualification"/>
+    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification"/>
     <property name="propertyName" value="qualificationList"/>
     <property name="layoutManager.renderSequenceField" value="false"/>
     <property name="layoutManager.separateAddLine" value="true"/>

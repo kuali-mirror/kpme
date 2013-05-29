@@ -49,11 +49,11 @@
 	      <list>
 	        <bean parent="CollectionDefinition">
 	          <property name="dataObjectClass" value="org.kuali.kpme.pm.position.PositionQualification" />
-                <property name="name" value="qualificationList" />
-                <property name="shortLabel" value="Qualifications" />
-                <property name="label" value="Position Qualifications" />
-            </bean>
-			<bean parent="CollectionDefinition">
+	          <property name="name" value="qualificationList" />
+	          <property name="shortLabel" value="Qualifications" />
+	          <property name="label" value="Position Qualifications" />
+	        </bean>
+	        <bean parent="CollectionDefinition">
 	          <property name="dataObjectClass" value="org.kuali.kpme.pm.position.PositionDuty" />
 	          <property name="name" value="dutyList" />
 	          <property name="shortLabel" value="Duties" />
@@ -64,6 +64,12 @@
 	          <property name="name" value="flagList" />
 	          <property name="shortLabel" value="Flags" />
 	          <property name="label" value="Position Flags" />
+	        </bean>
+	        <bean parent="CollectionDefinition">
+	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification" />
+	          <property name="name" value="requiredQualList" />
+	          <property name="shortLabel" value="Required Qualifications" />
+	          <property name="label" value="Required Qualifications" />
 	        </bean>
 	        <bean parent="CollectionDefinition">
                 <property name="dataObjectClass"
@@ -246,6 +252,22 @@
 	    </property>
     </bean>
     
+    <!-- Required Qualification List, used by inquiry and maint view -->
+	<bean id="Position-requiredQualList" abstract="true" parent="Uif-ListCollectionSection" >
+	    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification"/>
+	    <property name="propertyName" value="requiredQualList"/>
+	    <property name="header.render" value="false" />
+        <property name="layoutManager.lineGroupPrototype.layoutManager.orientation" value="HORIZONTAL" />
+        <property name="refreshWhenChangedPropertyNames" value="pmPositionClassId" />
+	    <property name="items">
+	      <list>
+	        <bean parent="Uif-DataField" p:propertyName="qualificationType"/>
+	        <bean parent="Uif-DataField" p:propertyName="qualifier" />
+	        <bean parent="Uif-DataField" p:propertyName="qualificationValue" />
+	      </list>
+	    </property>
+    </bean>
+    
 	<!--  Inquiry Definitions  -->
   	<bean id="Position-InquiryView" parent="Uif-InquiryView" >
 		<property name="headerText" value="Position Inquiry"/>
@@ -265,6 +287,10 @@
 					</property>
 					<property name="title" value="Position" />
 				</bean>
+				<bean parent="Position-qualificationList"/>
+	       		<bean parent="Position-dutyList"/>
+	      		<bean parent="Position-flagList"/>
+	      		<bean parent="Position-requiredQualList"/>
 			</list>
 		</property>
 	</bean>
@@ -301,11 +327,12 @@
 			</list>
 		</property>
 	</bean>
-
-	<!--*************************************************************************** 
-		Views used by Maintenance View *************************************************************************** -->
+	
+<!--*************************************************************************** 
+				Views used by Maintenance View 
+ ***************************************************************************-->  
 	<!-- Required Qualification List, used by maintenance view -->
-   <bean id="Position-qualifications" abstract="true" parent="Uif-TableCollectionGroup">
+   <bean id="Position-qualifications" abstract="true" parent="Uif-TableCollectionGroup" >
 	  <property name="collectionObjectClass" value="org.kuali.kpme.pm.position.PositionQualification" />
 		<property name="propertyName" value="qualificationList" />
 		<property name="addLinePlacement" value="BOTTOM" />

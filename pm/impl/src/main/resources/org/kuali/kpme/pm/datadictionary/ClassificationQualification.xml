@@ -23,7 +23,7 @@
 	
 	<bean id="PositionClassQualification" parent="PositionClassQualification-parentBean"/>
  	<bean id="PositionClassQualification-parentBean" abstract="true" parent="BusinessObjectEntry">
-	    <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.ClassificationQualification"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification"/>
 	    <property name="attributes">
 	      <list>
 	        <ref bean="PositionClassQualification-pmClassificationQualificationId"/>
@@ -68,7 +68,6 @@
 	
 	<bean id="PositionClassQualification-typeValue" parent="PositionClassQualification-typeValue-parentBean" />
 	<bean id="PositionClassQualification-typeValue-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="required" value="true" />
 		<property name="maxLength" value="50"/>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="50" />

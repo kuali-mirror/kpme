@@ -64,7 +64,6 @@
 	
 	<bean id="PositionQualification-typeValue" parent="PositionQualification-typeValue-parentBean" />
 	<bean id="PositionQualification-typeValue-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="required" value="true" />
 		<property name="maxLength" value="50"/>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="50" />
