@@ -16,9 +16,9 @@
 package org.kuali.kpme.tklm.leave.calendar.web;
 
 
-import org.kuali.kpme.core.TkCommonCalendarForm;
+import org.kuali.kpme.tklm.common.CalendarForm;
 
-public class LeaveCalendarSubmitForm extends TkCommonCalendarForm {
+public class LeaveCalendarSubmitForm extends CalendarForm {
     private String action;
     private String documentId;
 

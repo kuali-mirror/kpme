@@ -35,20 +35,20 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.core.web.KPMEForm;
+import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class ApprovalAction extends KPMEAction{
+public abstract class CalendarApprovalFormAction extends KPMEAction{
 
 	@Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -91,12 +91,12 @@ public class ApprovalAction extends KPMEAction{
 			    if (!HrContext.isReviewer() && !HrContext.isAnyApprover() && !HrContext.isSystemAdmin()
 			    		&& !TkContext.isLocationAdmin() && !HrContext.isGlobalViewOnly() && !TkContext.isDepartmentViewOnly()
 			    		&& !TkContext.isDepartmentAdmin()) {
-			        throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "ApprovalAction", "");
+			        throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "CalendarApprovalFormAction", "");
 			    }
 			}
 	
 	protected void resetMainFields(ActionForm form) {
-		ApprovalForm taf = (ApprovalForm) form;
+		CalendarApprovalForm taf = (CalendarApprovalForm) form;
 		taf.setSearchField(null);
 		taf.setSearchTerm(null);
 		taf.setSelectedWorkArea(null);
@@ -107,7 +107,7 @@ public class ApprovalAction extends KPMEAction{
 	}
 	
 	protected void setupDocumentOnFormContext(HttpServletRequest request,
-			ApprovalForm taf, CalendarEntry payCalendarEntry, String page) {
+			CalendarApprovalForm taf, CalendarEntry payCalendarEntry, String page) {
 		if(payCalendarEntry == null) {
 			return;
 		}
@@ -164,7 +164,7 @@ public class ApprovalAction extends KPMEAction{
     public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	
     	String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));         
-    	ApprovalForm taf = (ApprovalForm) form;
+    	CalendarApprovalForm taf = (CalendarApprovalForm) form;
     	DateTime currentDate = new LocalDate().toDateTimeAtStartOfDay();
         Calendar currentPayCalendar = HrServiceLocator.getCalendarService().getCalendarByGroup(taf.getSelectedPayCalendarGroup());
         CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(currentPayCalendar.getHrCalendarId(), currentDate);
@@ -180,7 +180,7 @@ public class ApprovalAction extends KPMEAction{
     
     // Triggered by changes of calendar year drop down list, reloads the pay period list
     public ActionForward changeCalendarYear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	ApprovalForm taf = (ApprovalForm) form;
+    	CalendarApprovalForm taf = (CalendarApprovalForm) form;
     	if(!StringUtils.isEmpty(request.getParameter("selectedCY"))) {
     		taf.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
     		populateCalendarAndPayPeriodLists(request, taf);
@@ -191,7 +191,7 @@ public class ApprovalAction extends KPMEAction{
     // Triggered by changes of pay period drop down list, reloads the whole page based on the selected pay period
     public ActionForward changePayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
       String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
-      ApprovalForm taf = (ApprovalForm) form;
+      CalendarApprovalForm taf = (CalendarApprovalForm) form;
   	  if(!StringUtils.isEmpty(request.getParameter("selectedPP"))) {
   		  taf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
   		  CalendarEntry pce = HrServiceLocator.getCalendarEntryService()
@@ -204,7 +204,7 @@ public class ApprovalAction extends KPMEAction{
   	  return mapping.findForward("basic");
 	}
     // sets the CalendarYear and Pay Period lists. Should be overridden by subclasses
-    protected void populateCalendarAndPayPeriodLists(HttpServletRequest request, ApprovalForm taf) {
+    protected void populateCalendarAndPayPeriodLists(HttpServletRequest request, CalendarApprovalForm taf) {
     	
     }
 

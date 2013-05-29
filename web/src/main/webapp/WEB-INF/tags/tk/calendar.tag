@@ -25,7 +25,7 @@
             </td>
             <%-- Displayed month and prev/next buttons --%>
             <td align="center" width="40%">
-                <c:if test="${Form.prevDocumentId ne null || (calType eq 'leaveCalendar' && Form.prevCalEntryId ne null)}">
+                <c:if test="${Form.prevDocumentId ne null || (calType eq 'leaveCalendar' && Form.prevHrCalendarEntryId ne null)}">
                     <button id="${calType == 'payCalendar' ? 'nav_prev' : 'nav_prev_lc' }"
                             class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                             role="button" title="Previous">
@@ -33,7 +33,7 @@
                     </button>
                 </c:if>
                 <span class="header-title-center">${cal.calendarTitle}</span>
-                <c:if test="${Form.nextDocumentId ne null || (calType eq 'leaveCalendar' && Form.nextCalEntryId ne null)}">
+                <c:if test="${Form.nextDocumentId ne null || (calType eq 'leaveCalendar' && Form.nextHrCalendarEntryId ne null)}">
                     <button id="${calType == 'payCalendar' ? 'nav_next' : 'nav_next_lc' }"
                             class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                             role="button" title="Next">

@@ -21,8 +21,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,196 +28,80 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.hsqldb.lib.StringUtil;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.workarea.WorkArea;
-import org.kuali.kpme.core.role.KPMERole;
-import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.ApprovalAction;
+import org.kuali.kpme.tklm.common.ApprovalFormAction;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
+import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionItem;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class LeaveRequestApprovalAction  extends ApprovalAction {
+public class LeaveRequestApprovalAction extends ApprovalFormAction {
 	
-    private static final Logger LOG = Logger.getLogger(LeaveRequestApprovalAction.class);
     public static final String DOC_SEPARATOR = "----";	// separator for documents
     public static final String ID_SEPARATOR = "____";	// separator for documentId and reason string
     public static final String DOC_NOT_FOUND = "Leave request document not found with id ";
     public static final String LEAVE_BLOCK_NOT_FOUND = "Leave Block not found for Leave request document ";
     
+    @Override
+	protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+		if (!HrContext.isReviewer() && !HrContext.isAnyApprover() && !HrContext.isSystemAdmin() && !TkContext.isLocationAdmin() 
+				&& !HrContext.isGlobalViewOnly() && !TkContext.isDepartmentViewOnly() && !TkContext.isDepartmentAdmin()) {
+			throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "ApprovalFormAction", "");
+		}
+	}
+	
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);
-		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
 		
-		LocalDate currentDate = LocalDate.now();
-		List<Long> workAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(HrContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), currentDate.toDateTimeAtStartOfDay(), true);
-		List<String> principalIds = new ArrayList<String>();
-        for (Long workArea : workAreas) {
-            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
-            for (Assignment a : assignments) {
-                principalIds.add(a.getPrincipalId());
-            }
-        }
-
-        // Set calendar groups
-        List<String> calGroups =  new ArrayList<String>();
-        if (CollectionUtils.isNotEmpty(principalIds)) {
-            calGroups = LmServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroupsForPrincipalIds(principalIds);
-        }
-        lraaForm.setPayCalendarGroups(calGroups);		
+        LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
+        
+	    List<ActionItem> items = getActionItems(lraaForm.getSelectedPayCalendarGroup(), lraaForm.getSelectedDept(), getWorkAreas(lraaForm));
+		lraaForm.setEmployeeRows(getEmployeeRows(items));
 		
-        String principalId = GlobalVariables.getUserSession().getPrincipalId();
-		Set<String> departments = new TreeSet<String>();
-		departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
-		departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
-		departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-	    lraaForm.setDepartments(new ArrayList<String>(departments));
-		
-		// build employee rows to display on the page
-	    List<ActionItem> items = filterActionsWithSeletedParameters(lraaForm.getSelectedPayCalendarGroup(),
-				lraaForm.getSelectedDept(), this.getWorkAreaList(lraaForm));
-		List<LeaveRequestApprovalEmployeeRow> rowList = this.getEmployeeRows(items);
-		lraaForm.setEmployeeRows(rowList);
 		return forward;
 	}
 	
-	public ActionForward loadApprovalTab(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward fwd = mapping.findForward("basic");
-		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
-        LocalDate currentDate = LocalDate.now();
-        
-        //reset state
-        if(StringUtils.isEmpty(lraaForm.getSelectedDept())) {
-        	resetState(form, request);
-        
-        	List<Long> workAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(HrContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), currentDate.toDateTimeAtStartOfDay(), true);
-        	List<String> principalIds = new ArrayList<String>();
-	        for (Long workArea : workAreas) {
-	            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
-	            for (Assignment a : assignments) {
-	                principalIds.add(a.getPrincipalId());
-	            }
-	        }
-	        // Set calendar groups
-	        List<String> calGroups =  new ArrayList<String>();
-	        if (CollectionUtils.isNotEmpty(principalIds)) {
-	            calGroups = LmServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroupsForPrincipalIds(principalIds);
-	        }
-	        lraaForm.setPayCalendarGroups(calGroups);
-	        if (StringUtils.isBlank(lraaForm.getSelectedPayCalendarGroup())
-	                && CollectionUtils.isNotEmpty(calGroups)) {
-	        	lraaForm.setSelectedPayCalendarGroup(calGroups.get(0));
-	        }
-	        
-	        String principalId = GlobalVariables.getUserSession().getPrincipalId();
-			Set<String> departments = new TreeSet<String>();
-			departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
-			departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
-			departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-		    lraaForm.setDepartments(new ArrayList<String>(departments));
-
-		    if (StringUtils.isBlank(lraaForm.getSelectedDept())
-	                && lraaForm.getDepartments().size() == 1) {
-	        	lraaForm.setSelectedDept(lraaForm.getDepartments().get(0));
-	        	lraaForm.getWorkAreaDescr().clear();
-	        	
-	        	List<WorkArea> workAreaObjs = HrServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), currentDate);
-	            for (WorkArea workAreaObj : workAreaObjs) {
-	            	Long workArea = workAreaObj.getWorkArea();
-	            	String description = workAreaObj.getDescription();
-	            	
-	            	if (HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
-	            			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
-	            			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
-	            		lraaForm.getWorkAreaDescr().put(workArea, description + "(" + workArea + ")");
-	            	}
-	            }
-	        }		    
-        }
-        
-        // build employee rows to display on the page
-        List<ActionItem> items = filterActionsWithSeletedParameters(lraaForm.getSelectedPayCalendarGroup(),
-				lraaForm.getSelectedDept(), this.getWorkAreaList(lraaForm));
-        List<LeaveRequestApprovalEmployeeRow> rowList = this.getEmployeeRows(items);
-        lraaForm.setEmployeeRows(rowList);	     
-        
-        return fwd;
-	}
-	
-	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		// resets the common fields for approval pages
-		super.resetMainFields(form);
-		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
-		lraaForm.setEmployeeRows(new ArrayList<LeaveRequestApprovalEmployeeRow>());
+	@Override
+	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ActionForward actionForward = super.selectNewDept(mapping, form, request, response);
 		
-		return loadApprovalTab(mapping, form, request, response);
-	}	
-	
-	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
 		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
-		lraaForm.getWorkAreaDescr().clear();
-		
-		String principalId = GlobalVariables.getUserSession().getPrincipalId();
-    	List<WorkArea> workAreaObjs = HrServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), LocalDate.now());
-        for (WorkArea workAreaObj : workAreaObjs) {
-        	Long workArea = workAreaObj.getWorkArea();
-        	String description = workAreaObj.getDescription();
-        	
-        	if (HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
-        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
-        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
-        		lraaForm.getWorkAreaDescr().put(workArea, description + "(" + workArea + ")");
-        	}
-        }
         
-    	// filter actions with selected calendarGroup, Dept and workarea
-    	List<ActionItem> items = filterActionsWithSeletedParameters(lraaForm.getSelectedPayCalendarGroup(),
-    				lraaForm.getSelectedDept(), this.getWorkAreaList(lraaForm));
-    	List<LeaveRequestApprovalEmployeeRow> rowList = this.getEmployeeRows(items);
-		lraaForm.setEmployeeRows(rowList);	
+    	List<ActionItem> items = getActionItems(lraaForm.getSelectedPayCalendarGroup(), lraaForm.getSelectedDept(), getWorkAreas(lraaForm));
+		lraaForm.setEmployeeRows(getEmployeeRows(items));	
  	
-		return mapping.findForward("basic");
+		return actionForward;
 	}
 	
-	public ActionForward selectNewWorkArea(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
+	@Override
+	public ActionForward selectNewWorkArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ActionForward actionForward = super.selectNewWorkArea(mapping, form, request, response);
 		    
-		// filter actions with selected calendarGroup, Dept and workarea
-    	List<ActionItem> items = filterActionsWithSeletedParameters(lraaForm.getSelectedPayCalendarGroup(),
-    				lraaForm.getSelectedDept(), this.getWorkAreaList(lraaForm));
-    	List<LeaveRequestApprovalEmployeeRow> rowList = this.getEmployeeRows(items);
-		lraaForm.setEmployeeRows(rowList);
+		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
         
-		return mapping.findForward("basic");
+    	List<ActionItem> items = getActionItems(lraaForm.getSelectedPayCalendarGroup(), lraaForm.getSelectedDept(), getWorkAreas(lraaForm));
+		lraaForm.setEmployeeRows(getEmployeeRows(items));	
+        
+		return actionForward;
 	}
 	
-	private List<ActionItem> filterActionsWithSeletedParameters(String calGroup, String dept, List<String> workAreaList) {
+	private List<ActionItem> getActionItems(String calGroup, String dept, List<String> workAreaList) {
 		String principalId = HrContext.getTargetPrincipalId();
 		List<ActionItem> actionList = KewApiServiceLocator.getActionListService().getActionItemsForPrincipal(principalId);
 		List<ActionItem> resultsList = new ArrayList<ActionItem>();
@@ -246,28 +128,6 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		}
         
         return resultsList;
-	}
-	
-	private List<String> getWorkAreaList(LeaveRequestApprovalActionForm lraaForm) {
-		List<String> workAreaList = new ArrayList<String>();
-	    if(StringUtil.isEmpty(lraaForm.getSelectedWorkArea())) {
-	    	for(Long aKey : lraaForm.getWorkAreaDescr().keySet()) {
-	    		workAreaList.add(aKey.toString());
-	    	}
-	    } else {
-	    	workAreaList.add(lraaForm.getSelectedWorkArea());
-	    }
-	    return workAreaList;
-	}
-	
-	public void resetState(ActionForm form, HttpServletRequest request) {
-		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
-    	lraaForm.getDepartments().clear();
-    	lraaForm.getWorkAreaDescr().clear();
-    	lraaForm.setEmployeeRows(new ArrayList<LeaveRequestApprovalEmployeeRow>());
-    	lraaForm.setSelectedDept(null);
-    	lraaForm.setSearchField(null);
-    	lraaForm.setSearchTerm(null);
 	}
 	
 	public ActionForward takeActionOnEmployee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

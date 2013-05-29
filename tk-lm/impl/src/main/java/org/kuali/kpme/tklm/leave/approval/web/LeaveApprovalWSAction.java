@@ -38,7 +38,7 @@ import org.json.simple.JSONValue;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.web.KPMEAction;
-import org.kuali.kpme.tklm.common.ApprovalForm;
+import org.kuali.kpme.tklm.common.CalendarApprovalForm;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -86,7 +86,7 @@ public class LeaveApprovalWSAction extends KPMEAction {
         			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, laaf.getSelectedPayCalendarGroup(),
         					endDate, beginDate, endDate); 
 
-		        if (StringUtils.equals(laaf.getSearchField(), ApprovalForm.ORDER_BY_PRINCIPAL)) {
+		        if (StringUtils.equals(laaf.getSearchField(), CalendarApprovalForm.ORDER_BY_PRINCIPAL)) {
 		            for (String id : principalIds) {
 		                if(StringUtils.contains(id, laaf.getSearchTerm())) {
 		                    Map<String, String> labelValue = new HashMap<String, String>();
@@ -95,7 +95,7 @@ public class LeaveApprovalWSAction extends KPMEAction {
 		                    results.add(labelValue);
 		                }
 		            }
-		        } else if (StringUtils.equals(laaf.getSearchField(), ApprovalForm.ORDER_BY_DOCID)) {
+		        } else if (StringUtils.equals(laaf.getSearchField(), CalendarApprovalForm.ORDER_BY_DOCID)) {
 		            Map<String, LeaveCalendarDocumentHeader> principalDocumentHeaders =
 		                    LmServiceLocator.getLeaveApprovalService().getPrincipalDocumentHeader(principalIds, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
 	

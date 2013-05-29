@@ -18,10 +18,10 @@ package org.kuali.kpme.tklm.time.approval.web;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kpme.tklm.common.ApprovalForm;
+import org.kuali.kpme.tklm.common.CalendarApprovalForm;
 import org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
 
-public class TimeApprovalActionForm extends ApprovalForm {
+public class TimeApprovalActionForm extends CalendarApprovalForm {
 
 	private static final long serialVersionUID = 339670908525224389L;
 	

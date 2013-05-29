@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core;
+package org.kuali.kpme.tklm.common;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ import org.joda.time.DateTime;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.web.KPMEForm;
 
-public class TkCommonCalendarForm extends KPMEForm {
+public abstract class CalendarForm extends KPMEForm {
 
 	private static final long serialVersionUID = 7437602046032470340L;
 	
@@ -32,6 +32,9 @@ public class TkCommonCalendarForm extends KPMEForm {
     private String nextDocumentId;
     
     private String hrCalendarEntryId;
+    
+    private String prevHrCalendarEntryId;
+    private String nextHrCalendarEntryId;
 	
 	private List<String> calendarYears = new ArrayList<String>();
     private Map<String,String> payPeriodsMap = new HashMap<String,String>();
@@ -71,6 +74,22 @@ public class TkCommonCalendarForm extends KPMEForm {
 
 	public void setHrCalendarEntryId(String hrCalendarEntryId) {
 		this.hrCalendarEntryId = hrCalendarEntryId;
+	}
+	
+	public String getPrevHrCalendarEntryId() {
+		return prevHrCalendarEntryId;
+	}
+
+	public void setPrevHrCalendarEntryId(String prevHrCalendarEntryId) {
+		this.prevHrCalendarEntryId = prevHrCalendarEntryId;
+	}
+
+	public String getNextHrCalendarEntryId() {
+		return nextHrCalendarEntryId;
+	}
+
+	public void setNextHrCalendarEntryId(String nextHrCalendarEntryId) {
+		this.nextHrCalendarEntryId = nextHrCalendarEntryId;
 	}
     
 	public List<String> getCalendarYears() {

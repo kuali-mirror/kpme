@@ -66,8 +66,8 @@
  	<html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
     <html:hidden property="prevDocumentId" value="${Form.prevDocumentId}" styleId="prevDocumentId"/>
     <html:hidden property="nextDocumentId" value="${Form.nextDocumentId}" styleId="nextDocumentId"/>
-    <html:hidden property="prevCalEntryId" value="${Form.prevCalEntryId}" styleId="prevCalEntryId"/>
-    <html:hidden property="nextCalEntryId" value="${Form.nextCalEntryId}" styleId="nextCalEntryId"/>
+    <html:hidden property="prevHrCalendarEntryId" value="${Form.prevHrCalendarEntryId}" styleId="prevHrCalendarEntryId"/>
+    <html:hidden property="nextHrCalendarEntryId" value="${Form.nextHrCalendarEntryId}" styleId="nextHrCalendarEntryId"/>
     <html:hidden property="docEditable" value="${Form.docEditable}" styleId="docEditable"/>
     <html:hidden property="currentPayCalStartDate" value="${Form.currentPayCalStartDate}" styleId="currentPayCalStartDate"/>
     <html:hidden property="currentPayCalEndDate" value="${Form.currentPayCalEndDate}" styleId="currentPayCalEndDate"/>

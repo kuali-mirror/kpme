@@ -39,7 +39,7 @@ import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
-import org.kuali.kpme.tklm.common.ApprovalForm;
+import org.kuali.kpme.tklm.common.CalendarApprovalForm;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
@@ -84,7 +84,7 @@ public class TimeApprovalWSAction extends KPMEAction {
 					endDate.toLocalDate(), beginDate.toLocalDate(), endDate.toLocalDate()); 
 	        
 	        
-	        if (StringUtils.equals(taaf.getSearchField(), ApprovalForm.ORDER_BY_PRINCIPAL)) {
+	        if (StringUtils.equals(taaf.getSearchField(), CalendarApprovalForm.ORDER_BY_PRINCIPAL)) {
 	            for (String id : principalIds) {
 	                if(StringUtils.contains(id, taaf.getSearchTerm())) {
 	                    Map<String, String> labelValue = new HashMap<String, String>();
@@ -93,7 +93,7 @@ public class TimeApprovalWSAction extends KPMEAction {
 	                    results.add(labelValue);
 	                }
 	            }
-	        } else if (StringUtils.equals(taaf.getSearchField(), ApprovalForm.ORDER_BY_DOCID)) {
+	        } else if (StringUtils.equals(taaf.getSearchField(), CalendarApprovalForm.ORDER_BY_DOCID)) {
 	            Map<String, TimesheetDocumentHeader> principalDocumentHeaders =
 
 	            		TkServiceLocator.getTimeApproveService().getPrincipalDocumentHeader(principalIds, beginDate, endDate);

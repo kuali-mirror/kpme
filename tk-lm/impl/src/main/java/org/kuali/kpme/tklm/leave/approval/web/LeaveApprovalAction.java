@@ -52,15 +52,15 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.ApprovalAction;
-import org.kuali.kpme.tklm.common.ApprovalForm;
+import org.kuali.kpme.tklm.common.CalendarApprovalFormAction;
+import org.kuali.kpme.tklm.common.CalendarApprovalForm;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class LeaveApprovalAction extends ApprovalAction{
+public class LeaveApprovalAction extends CalendarApprovalFormAction{
 	
 	public ActionForward searchResult(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -338,7 +338,7 @@ public class LeaveApprovalAction extends ApprovalAction{
 	}
 
 	@Override
-	protected void setupDocumentOnFormContext(HttpServletRequest request,ApprovalForm form, CalendarEntry payCalendarEntry, String page) {
+	protected void setupDocumentOnFormContext(HttpServletRequest request,CalendarApprovalForm form, CalendarEntry payCalendarEntry, String page) {
 		super.setupDocumentOnFormContext(request, form, payCalendarEntry, page);
 		LeaveApprovalActionForm laaf = (LeaveApprovalActionForm)form;
 
@@ -382,7 +382,7 @@ public class LeaveApprovalAction extends ApprovalAction{
 	}
     
     @Override
-    protected void populateCalendarAndPayPeriodLists(HttpServletRequest request, ApprovalForm taf) {
+    protected void populateCalendarAndPayPeriodLists(HttpServletRequest request, CalendarApprovalForm taf) {
     	 LeaveApprovalActionForm laaf = (LeaveApprovalActionForm) taf;
 		// set calendar year list
 		Set<String> yearSet = new HashSet<String>();

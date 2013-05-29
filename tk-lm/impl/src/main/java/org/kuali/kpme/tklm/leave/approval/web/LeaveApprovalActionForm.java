@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.kpme.tklm.common.ApprovalForm;
+import org.kuali.kpme.tklm.common.CalendarApprovalForm;
 
-public class LeaveApprovalActionForm extends ApprovalForm {
+public class LeaveApprovalActionForm extends CalendarApprovalForm {
 	
 	private static final long serialVersionUID = 1L;
 	

@@ -699,11 +699,11 @@ public class LeaveCalendarAction extends KPMEAction {
         			startCalDate = principalHRAttributes.getServiceDate();
         			if(startCalDate != null) {
         				if(!(calPreEntry.getBeginPeriodDate().compareTo(startCalDate) < 0)) {
-                     		leaveForm.setPrevCalEntryId(calPreEntry
+                     		leaveForm.setPrevHrCalendarEntryId(calPreEntry
                                     .getHrCalendarEntryId());
                 		} 
                 	} else {
-                		leaveForm.setPrevCalEntryId(calPreEntry
+                		leaveForm.setPrevHrCalendarEntryId(calPreEntry
                         .getHrCalendarEntryId());
         			}
         		}
@@ -735,7 +735,7 @@ public class LeaveCalendarAction extends KPMEAction {
                                     .compareTo(
                                             futureCalEntry
                                                     .getBeginPeriodDateTime()) <= 0) {
-                        leaveForm.setNextCalEntryId(calNextEntry
+                        leaveForm.setNextHrCalendarEntryId(calNextEntry
                                 .getHrCalendarEntryId());
                     }
                 }

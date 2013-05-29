@@ -223,7 +223,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 			   && StringUtils.isNotEmpty(lb.getScheduleTimeOffId()) 
 			   && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) < 0) {
 		   SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
-		   if(ssto != null && ssto.getUnusedTime().equals(LMConstants.UNUSED_TIME.TRANSFER)) {
+		   if(ssto != null && LMConstants.UNUSED_TIME.TRANSFER.equals(ssto.getUnusedTime())) {
 			   String viewPrincipal = HrContext.getTargetPrincipalId();
 			   CalendarEntry ce = HrServiceLocator.getCalendarService()
 						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());

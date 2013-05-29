@@ -19,11 +19,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kpme.core.TkCommonCalendarForm;
+import org.kuali.kpme.tklm.common.CalendarForm;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 
-public class TimesheetActionForm extends TkCommonCalendarForm {
+public class TimesheetActionForm extends CalendarForm {
 
 	private static final long serialVersionUID = -1323339639503231411L;
 

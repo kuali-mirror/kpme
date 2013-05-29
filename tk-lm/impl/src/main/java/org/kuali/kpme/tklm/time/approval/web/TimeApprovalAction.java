@@ -45,8 +45,8 @@ import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
-import org.kuali.kpme.tklm.common.ApprovalAction;
-import org.kuali.kpme.tklm.common.ApprovalForm;
+import org.kuali.kpme.tklm.common.CalendarApprovalFormAction;
+import org.kuali.kpme.tklm.common.CalendarApprovalForm;
 import org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -54,7 +54,7 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class TimeApprovalAction extends ApprovalAction{
+public class TimeApprovalAction extends CalendarApprovalFormAction{
 	
 	public ActionForward searchResult(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -227,7 +227,7 @@ public class TimeApprovalAction extends ApprovalAction{
 	}
 
 	@Override
-	protected void setupDocumentOnFormContext(HttpServletRequest request,ApprovalForm form, CalendarEntry payCalendarEntry, String page) {
+	protected void setupDocumentOnFormContext(HttpServletRequest request,CalendarApprovalForm form, CalendarEntry payCalendarEntry, String page) {
 		super.setupDocumentOnFormContext(request, form, payCalendarEntry, page);
 		TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
 		taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntry, new ArrayList<Boolean>()));
@@ -318,7 +318,7 @@ public class TimeApprovalAction extends ApprovalAction{
 	}
 	
     @Override
-    protected void populateCalendarAndPayPeriodLists(HttpServletRequest request, ApprovalForm taf) {
+    protected void populateCalendarAndPayPeriodLists(HttpServletRequest request, CalendarApprovalForm taf) {
     	TimeApprovalActionForm taaf = (TimeApprovalActionForm)taf;
 		// set calendar year list
 		Set<String> yearSet = new HashSet<String>();

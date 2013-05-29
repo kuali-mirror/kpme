@@ -169,8 +169,8 @@ $(document).ready(function() {
     
  // create navigation buttons for leave calendar
     var calId = $('#hrCalendarEntryId').val();
-    var prevCalId = $('#prevCalEntryId').val();
-    var nextCalId = $('#nextCalEntryId').val();
+    var prevCalId = $('#prevHrCalendarEntryId').val();
+    var nextCalId = $('#nextHrCalendarEntryId').val();
     
     $('#nav_prev_lc').button({
         icons: {

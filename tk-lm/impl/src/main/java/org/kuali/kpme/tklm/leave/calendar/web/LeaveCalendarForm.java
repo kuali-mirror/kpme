@@ -22,14 +22,14 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.kuali.kpme.core.TkCommonCalendarForm;
+import org.kuali.kpme.tklm.common.CalendarForm;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendar;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 
 @SuppressWarnings("serial")
-public class LeaveCalendarForm extends TkCommonCalendarForm {
+public class LeaveCalendarForm extends CalendarForm {
 
     private static final DateTimeFormatter SDF_NO_TZ = DateTimeFormat.forPattern("EEE MMM d HH:mm:ss yyyy");
 
@@ -42,8 +42,7 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
     private BigDecimal leaveAmount;
     private String description;
     private String leaveBlockId;
-    private String prevCalEntryId;
-    private String nextCalEntryId;
+
 	/** String (concat(job number, work_area, task)) -> Formatted Assignment Descriptions */
 	private Map<String,String>  assignmentDescriptions;
 	private String selectedAssignment;
@@ -136,22 +135,6 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 
 	public void setAssignmentDescriptions(Map<String, String> assignmentDescriptions) {
 		this.assignmentDescriptions = assignmentDescriptions;
-	}
-
-	public String getPrevCalEntryId() {
-		return prevCalEntryId;
-	}
-
-	public void setPrevCalEntryId(String prevCalEntryId) {
-		this.prevCalEntryId = prevCalEntryId;
-	}
-
-	public String getNextCalEntryId() {
-		return nextCalEntryId;
-	}
-
-	public void setNextCalEntryId(String nextCalEntryId) {
-		this.nextCalEntryId = nextCalEntryId;
 	}
 
     public LeaveCalendar getLeaveCalendar() {
