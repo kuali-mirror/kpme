@@ -103,4 +103,22 @@
     <bean id="annotationTransactionAttributeSource" class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
 
     <bean id="commonDefaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+
+    <bean id="kpme.serviceExporter" abstract="true" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter"
+          p:serviceBus-ref="rice.ksb.import.serviceBus" />
+
+    <!-- System Definitions -->
+    <bean id="rice.ksb.import.serviceBus" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="rice.ksb.serviceBus" />
+    </bean>
+
+    <bean id="kpme.soap.service" class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" abstract="true">
+        <!--<property name="serviceNameSpaceURI" value="http://kpme.kuali.org/core/v2_0" />-->
+        <property name="jaxWsService" value="true" />
+        <property name="priority" value="3" />
+        <property name="retryAttempts" value="0" />
+        <property name="busSecurity" value="true" />
+        <property name="serviceVersion" value="${kpme.version}" />
+        <property name="servicePath" value="" />
+    </bean>
 </beans>

@@ -44,24 +44,43 @@
 
     <import resource="classpath:org/kuali/kpme/core/config/KPMECommonSpringBeans.xml"/>
 
-    <!--<aop:aspectj-autoproxy/>-->
+    <!-- caching setup -->
+    <bean id="kpmePmCacheAdminService" class="org.kuali.rice.core.impl.cache.CacheAdminServiceImpl"
+          p:cacheManager-ref="kpmePmLocalCacheManager" />
 
-    <!--<bean id="kpmePositionResourceLoader" parent="kpmeResourceLoaderConfigurer">
-        <property name="beanNames">
-            <set merge="true">
-                <value>positionReportTypeLookupable</value>
-                <value>positionReportGroupLookupable</value>
-                <value>positionReportCatLookupable</value>
-                <value>positionReportSubCatLookupable</value>                
-                <value>positionTypeLookupable</value>
-                <value>positionAppointmentLookupable</value>
-                <value>pstnContractTypeLookupable</value>
-                <value>positionDepartmentAffiliationLookupable</value>
-                <value>positionDepartmentLookupable</value>
-            </set>
+    <bean id="kpmePmLocalCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager">
+            <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:configLocation="${kpme.pm.ehcache.config.location}" />
         </property>
-    </bean>-->
+    </bean>
 
+    <!-- the distributed cache manager that calls into the CacheAdminService on the ksb -->
+    <bean id="kpmePmDistributedCacheManager" class="org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator">
+        <property name="cacheManager" ref="kpmePmLocalCacheManager" />
+        <property name="serviceName" value="{http://kpme.kuali.org/pm/v2_0}kpmePmCacheAdminService" />
+    </bean>
+
+    <bean id="kpme.pm.CacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl">
+        <property name="cacheManager" ref="kpmePmDistributedCacheManager" />
+    </bean>
+
+    <bean id="kpmePmCacheAdminService.exporter" parent="kpme.serviceExporter">
+        <property name="serviceDefinition">
+            <bean parent="kpme.pm.soap.service" p:service-ref="kpmePmCacheAdminService" p:localServiceName="kpmePmCacheAdminService"
+                  p:queue="false" />
+        </property>
+    </bean>
+
+    <bean id="kpme.pm.import.globalCacheManager" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="globalCacheManager" />
+    </bean>
+
+    <cache:annotation-driven cache-manager="kpme.pm.import.globalCacheManager" />
+    <!-- end cache setup -->
+
+    <bean id="kpme.pm.soap.service" parent="kpme.soap.service" abstract="true">
+        <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/pm/v2_0" />
+    </bean>
 
 	<bean id="kpmePositionModuleConfiguration" class="org.kuali.kpme.core.sys.KpmeModuleConfiguration">
         <property name="namespaceCode" value="KPME-PM"/>

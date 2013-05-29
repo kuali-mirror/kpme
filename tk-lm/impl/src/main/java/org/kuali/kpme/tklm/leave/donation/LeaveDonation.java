@@ -21,12 +21,13 @@ import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 
 import com.google.common.collect.ImmutableList;
 
 public class LeaveDonation extends HrBusinessObject {
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "LeaveDonation";
+    public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "LeaveDonation";
     private static final long serialVersionUID = 1L;
     //KPME-2273/1965 Primary Business Keys List.	
     public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()

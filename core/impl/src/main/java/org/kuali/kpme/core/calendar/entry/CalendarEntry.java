@@ -22,16 +22,16 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class CalendarEntry extends PersistableBusinessObjectBase implements Comparable<CalendarEntry>{
 
 	private static final long serialVersionUID = -1977756526579659122L;
 
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "CalendarEntry";
+	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "CalendarEntry";
 
     private String hrCalendarEntryId;
     private String hrCalendarId;

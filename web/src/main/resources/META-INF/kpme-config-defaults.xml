@@ -29,7 +29,9 @@
     <param name="kpme.system.timezone"></param>
 
     <!-- Caching Defaults -->
-    <param name="kpme.ehcache.config.location" override="false">classpath:kpme.ehcache.xml</param>
+    <param name="kpme.core.ehcache.config.location" override="false">classpath:kpme.core.ehcache.xml</param>
+    <param name="kpme.pm.ehcache.config.location" override="false">classpath:kpme.pm.ehcache.xml</param>
+    <param name="kpme.tklm.ehcache.config.location" override="false">classpath:kpme.tklm.ehcache.xml</param>
     
     <!-- Bundled (Development) mode Rice URL -->
     <param name="application.host">localhost</param>

@@ -1,0 +1,43 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="false" monitoring="autodetect"
+         dynamicConfig="true" name="kpmeTklmCacheManager">
+
+    <defaultCache eternal="false"
+                  overflowToDisk="false"
+                  copyOnRead="false"
+                  copyOnWrite="false"/>
+    <cache name="http://kpme.kuali.org/tklm/ClockLocationRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="http://kpme.kuali.org/tklm/DailyOvertimeRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="http://kpme.kuali.org/tklm/DeptLunchRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="http://kpme.kuali.org/tklm/GracePeriodRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+
+    <cache name="http://kpme.kuali.org/tklm/LeaveBlock" maxEntriesLocalHeap="300000" timeToLiveSeconds="900"/>
+    <cache name="http://kpme.kuali.org/tklm/LeaveCode" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="http://kpme.kuali.org/tklm/LeaveDonation" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="http://kpme.kuali.org/tklm/ShiftDifferentialRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="http://kpme.kuali.org/tklm/SystemLunchRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="http://kpme.kuali.org/tklm/SystemScheduledTimeOff" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+
+    <cache name="http://kpme.kuali.org/tklm/TimeBlock" maxEntriesLocalHeap="300000" timeToLiveSeconds="900"/>
+    <cache name="http://kpme.kuali.org/tklm/TimeCollectionRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="http://kpme.kuali.org/tklm/UserPreferences" maxEntriesLocalHeap="10000" timeToLiveSeconds="900" copyOnRead="true" copyOnWrite="true"/>
+    <cache name="http://kpme.kuali.org/tklm/WeeklyOvertimeRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+</ehcache>

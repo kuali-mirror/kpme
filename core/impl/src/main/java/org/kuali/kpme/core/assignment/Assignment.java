@@ -21,11 +21,11 @@ import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.assignment.account.AssignmentAccount;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.task.Task;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
@@ -46,7 +46,7 @@ public class Assignment extends HrBusinessObject {
             .build();
 
    
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Assignment";
+	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Assignment";
 
 	private String tkAssignmentId;
 	private String principalId;

@@ -29,7 +29,7 @@ public interface DepartmentService {
      * @param hrDeptId
      * @return
      */
-    @Cacheable(value=KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Department", key="'hrDeptId=' + #p0")
+    @Cacheable(value=Department.CACHE_NAME, key="'hrDeptId=' + #p0")
     Department getDepartment(String hrDeptId);
     
     List<Department> getDepartments(String userPrincipalId, String department, String location, String descr, String active, String showHistory);
@@ -47,7 +47,7 @@ public interface DepartmentService {
 	 * @param asOfDate
 	 * @return
 	 */
-    @Cacheable(value=KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Department", key="'department=' + #p0 + '|' + 'asOfDate=' + #p1")
+    @Cacheable(value=Department.CACHE_NAME, key="'department=' + #p0 + '|' + 'asOfDate=' + #p1")
 	Department getDepartment(String department, LocalDate asOfDate);
 
     /**
@@ -58,7 +58,7 @@ public interface DepartmentService {
      * @param asOfDate Effective date
      * @return A List<Department> object.
      */
-    @Cacheable(value=KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Department", key="'chart=' + #p0 + '|' + 'asOfDate=' + #p1")
+    @Cacheable(value=Department.CACHE_NAME, key="'chart=' + #p0 + '|' + 'asOfDate=' + #p1")
     List<Department> getDepartments(String location, LocalDate asOfDate);
 
 }

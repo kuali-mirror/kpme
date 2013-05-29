@@ -17,8 +17,8 @@ package org.kuali.kpme.core.salarygroup;
 
 import java.math.BigDecimal;
 
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
 import com.google.common.collect.ImmutableList;
@@ -26,7 +26,7 @@ public class SalaryGroup extends HrBusinessObject {
 
 	private static final long serialVersionUID = 8169672203236887348L;
 
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "SalaryGroup";
+	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "SalaryGroup";
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("hrSalGroup")

@@ -46,37 +46,37 @@
     <!--<aop:aspectj-autoproxy/>-->
 
     <!-- caching setup -->
-    <bean id="kpmeCacheAdminService" class="org.kuali.rice.core.impl.cache.CacheAdminServiceImpl"
-          p:cacheManager-ref="kpmeLocalCacheManager" />
+    <bean id="kpmeCoreCacheAdminService" class="org.kuali.rice.core.impl.cache.CacheAdminServiceImpl"
+          p:cacheManager-ref="kpmeCoreLocalCacheManager" />
 
-    <bean id="kpmeLocalCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+    <bean id="kpmeCoreLocalCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
         <property name="cacheManager">
-            <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:configLocation="${kpme.ehcache.config.location}" />
+            <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:configLocation="${kpme.core.ehcache.config.location}" />
         </property>
     </bean>
 
     <!-- the distributed cache manager that calls into the CacheAdminService on the ksb -->
-    <bean id="kpmeDistributedCacheManager" class="org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator">
-        <property name="cacheManager" ref="kpmeLocalCacheManager" />
-        <property name="serviceName" value="{http://kpme.kuali.org/core/v2_0}kpmeCacheAdminService" />
+    <bean id="kpmeCoreDistributedCacheManager" class="org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator">
+        <property name="cacheManager" ref="kpmeCoreLocalCacheManager" />
+        <property name="serviceName" value="{http://kpme.kuali.org/core/v2_0}kpmeCoreCacheAdminService" />
     </bean>
 
-    <bean id="kpmeCacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl">
-        <property name="cacheManager" ref="kpmeDistributedCacheManager" />
+    <bean id="kpme.core.cacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl">
+        <property name="cacheManager" ref="kpmeCoreDistributedCacheManager" />
     </bean>
 
-    <bean id="kpmeCacheAdminService.exporter" parent="kpme.serviceExporter">
+    <bean id="kpmeCoreCacheAdminService.exporter" parent="kpme.serviceExporter">
         <property name="serviceDefinition">
-            <bean parent="kpme.soap.service" p:service-ref="kpmeCacheAdminService" p:localServiceName="kpmeCacheAdminService"
+            <bean parent="kpme.core.soap.service" p:service-ref="kpmeCoreCacheAdminService" p:localServiceName="kpmeCoreCacheAdminService"
                   p:queue="false" />
         </property>
     </bean>
 
-    <bean id="kpme.import.globalCacheManager" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <bean id="kpme.core.import.globalCacheManager" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="globalCacheManager" />
     </bean>
 
-    <cache:annotation-driven cache-manager="kpme.import.globalCacheManager" />
+    <cache:annotation-driven cache-manager="kpme.core.import.globalCacheManager" />
     <!-- end cache setup -->
 
     <bean id="kpmeModuleService" class="org.kuali.kpme.core.service.module.KpmeModuleService">
@@ -202,26 +202,16 @@
 
 
 
-    <!-- System Definitions -->
-    <bean id="rice.ksb.import.serviceBus" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="rice.ksb.serviceBus" />
-    </bean>
 
-    <bean id="kpme.serviceExporter" abstract="true" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter"
-          p:serviceBus-ref="rice.ksb.import.serviceBus" />
+
+
           
     <bean id="kpme.callback.service" class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" abstract="true">
         <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/core/v2_0" />
     </bean>
 
-    <bean id="kpme.soap.service" class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" abstract="true">
+    <bean id="kpme.core.soap.service" parent="kpme.soap.service" abstract="true">
         <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/core/v2_0" />
-        <property name="jaxWsService" value="true" />
-        <property name="priority" value="3" />
-        <property name="retryAttempts" value="0" />
-        <property name="busSecurity" value="true" />
-        <property name="serviceVersion" value="${kpme.version}" />
-        <property name="servicePath" value="" />
     </bean>
     
     <bean name="tkJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">

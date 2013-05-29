@@ -20,7 +20,6 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
@@ -30,12 +29,13 @@ import org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
 
 import com.google.common.collect.ImmutableList;
+import org.kuali.kpme.core.util.HrConstants;
 
 public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 
 	private static final long serialVersionUID = 2637145083387914260L;
 
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "WorkArea";
+	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "WorkArea";
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
 	            .add("workArea")

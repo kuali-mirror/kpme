@@ -17,10 +17,10 @@ package org.kuali.kpme.core.paygrade;
 
 import java.math.BigDecimal;
 
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
 import com.google.common.collect.ImmutableList;
@@ -33,7 +33,7 @@ public class PayGrade extends HrBusinessObject {
             .add("payGrade")            
             .build();
 
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "PayGrade";
+	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PayGrade";
 
 	private String hrPayGradeId;
 	private String payGrade;

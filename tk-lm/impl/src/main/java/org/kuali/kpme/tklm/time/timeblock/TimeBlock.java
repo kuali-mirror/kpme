@@ -49,7 +49,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
      *
      */
     private static final long serialVersionUID = -4164042707879641855L;
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "TimeBlock";
+    public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "TimeBlock";
 
     private String tkTimeBlockId;
     private String documentId;

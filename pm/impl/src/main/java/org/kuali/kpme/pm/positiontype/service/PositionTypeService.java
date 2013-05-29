@@ -18,7 +18,9 @@ package org.kuali.kpme.pm.positiontype.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.pm.positiontype.PositionType;
+import org.springframework.cache.annotation.Cacheable;
 
 public interface PositionTypeService {
 	/**
@@ -26,6 +28,7 @@ public interface PositionTypeService {
 	 * @param pmPositionTypeId
 	 * @return
 	 */
+    @Cacheable(value= PositionType.CACHE_NAME, key="'pmPositionTypeId=' + #p0")
 	public PositionType getPositionTypeById(String pmPositionTypeId);
 	
 	/**

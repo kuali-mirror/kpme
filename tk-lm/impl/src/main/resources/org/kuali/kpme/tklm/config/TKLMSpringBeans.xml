@@ -43,38 +43,39 @@
 
     <import resource="classpath:org/kuali/kpme/core/config/KPMECommonSpringBeans.xml"/>
 
-    <!--<aop:aspectj-autoproxy/>-->
+    <!-- caching setup -->
+    <bean id="kpmeTklmCacheAdminService" class="org.kuali.rice.core.impl.cache.CacheAdminServiceImpl"
+          p:cacheManager-ref="kpmeTklmLocalCacheManager" />
 
-	<!-- This bean merges lookupable bean names with those defined within parent bean in core -->
-
-    <!-- <bean id="kpmeTKLMResourceLoaderConfigurer" class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
-         <property name="localServiceName" value="KPME-TKLM-Context"/>
-         <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/tklm/v2_0" />
-
-         <property name="beanNames">
-            <set>
-                <value>timeBlockLookupable</value> 
-				<value>timeBlockHistoryLookupable</value> 
-				<value>timeBlockHistoryDetailLookupable</value>
-				<value>systemLunchRuleLookupable</value> 
-				<value>dailyOvertimeRuleLookupable</value> 
-				<value>clockLocationRuleLookupable</value> 
-				<value>departmentLunchRuleLookupable</value> 
-				<value>gracePeriodRuleLookupable</value> 
-				<value>shiftDifferentialRuleLookupable</value> 
-				<value>weeklyOvertimeRuleLookupable</value> 
-				<value>timeCollectionRuleLookupable</value> 
-				<value>clockLogLookupable</value>
-				<value>systemScheduledTimeOffLookupable</value> 
-				<value>leaveDonationLookupable</value> 
-				<value>leaveAdjustmentLookupable</value> 
-				<value>employeeOverrideLookupable</value>
-				<value>balanceTransferLookupable</value>
-                <value>leavePayoutLookupable</value>
-                <value>missedPunchLookupable</value>
-            </set>
+    <bean id="kpmeTklmLocalCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager">
+            <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:configLocation="${kpme.tklm.ehcache.config.location}" />
         </property>
-    </bean>-->
+    </bean>
+
+    <!-- the distributed cache manager that calls into the CacheAdminService on the ksb -->
+    <bean id="kpmeTklmDistributedCacheManager" class="org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator">
+        <property name="cacheManager" ref="kpmeTklmLocalCacheManager" />
+        <property name="serviceName" value="{http://kpme.kuali.org/tklm/v2_0}kpmeTklmCacheAdminService" />
+    </bean>
+
+    <bean id="kpme.tklm.CacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl">
+        <property name="cacheManager" ref="kpmeTklmDistributedCacheManager" />
+    </bean>
+
+    <bean id="kpmeTklmCacheAdminService.exporter" parent="kpme.serviceExporter">
+        <property name="serviceDefinition">
+            <bean parent="kpme.tklm.soap.service" p:service-ref="kpmeTklmCacheAdminService" p:localServiceName="kpmeTklmCacheAdminService"
+                  p:queue="false" />
+        </property>
+    </bean>
+
+    <bean id="kpme.tklm.import.globalCacheManager" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="globalCacheManager" />
+    </bean>
+
+    <cache:annotation-driven cache-manager="kpme.tklm.import.globalCacheManager" />
+    <!-- end cache setup -->
 
     <bean id="dataDictionaryService"
           class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -109,6 +110,10 @@
 			</list>
 		</property>
 	</bean>
+
+    <bean id="kpme.tklm.soap.service" parent="kpme.soap.service" abstract="true">
+        <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/tklm/v2_0" />
+    </bean>
 	
 	<!-- TK-LM DAOs -->
 

@@ -23,12 +23,13 @@ import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.workarea.WorkArea;
 
 import com.google.common.collect.ImmutableList;
+import org.kuali.kpme.tklm.common.TkConstants;
 
 public class TimeCollectionRule extends HrBusinessObject implements DepartmentalRule {
 
 	private static final long serialVersionUID = 7892616560736184294L;
 
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "TimeCollectionRule";
+	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "TimeCollectionRule";
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("workArea")

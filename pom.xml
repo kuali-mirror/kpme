@@ -280,6 +280,11 @@
             <artifactId>rice-ksb-web</artifactId>
             <version>${rice.version}</version>
         </dependency>
+          <dependency>
+              <groupId>org.kuali.rice</groupId>
+              <artifactId>rice-core-web</artifactId>
+              <version>${rice.version}</version>
+          </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-it-internal-tools</artifactId>

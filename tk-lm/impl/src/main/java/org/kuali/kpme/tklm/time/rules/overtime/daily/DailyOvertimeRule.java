@@ -25,6 +25,7 @@ import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.TkRule;
 
 import com.google.common.collect.ImmutableList;
@@ -41,7 +42,7 @@ public class DailyOvertimeRule extends TkRule {
 	            .build();
 
 		
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "DailyOvertimeRule";
+	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "DailyOvertimeRule";
 
 	private String tkDailyOvertimeRuleId;
 

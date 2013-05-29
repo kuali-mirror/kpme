@@ -18,10 +18,11 @@ package org.kuali.kpme.tklm.time.user.pref;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class UserPreferences extends PersistableBusinessObjectBase {
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "UserPreferences";
+    public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "UserPreferences";
     /**
 	 *
 	 */

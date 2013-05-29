@@ -26,6 +26,7 @@ import java.util.TimeZone;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.kpme.core.KPMEConstants;
 
 public class TkConstants {
 
@@ -238,4 +239,10 @@ public class TkConstants {
     public static final String DAILY_OVT_CODE = "DOT";
     
     public static final String BATCH_USER_PRINCIPAL_NAME = "kpme.batch.user.principalName";
+
+    public static final class CacheNamespace {
+        public static final String MODULE_NAME = "tklm";
+        public static final String NAMESPACE_PREFIX = KPMEConstants.CacheNamespace.ROOT_NAMESPACE_PREFIX + "/"
+                + MODULE_NAME +'/';
+    }
 }

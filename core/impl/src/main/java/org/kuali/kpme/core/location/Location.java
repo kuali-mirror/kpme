@@ -20,11 +20,11 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo;
 
 import com.google.common.collect.ImmutableList;
+import org.kuali.kpme.core.util.HrConstants;
 
 public class Location extends HrBusinessObject {
 
@@ -33,7 +33,7 @@ public class Location extends HrBusinessObject {
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
 	            .add("location")
 	            .build();
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Location";
+	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Location";
 
 	private String hrLocationId;
 	private String location;

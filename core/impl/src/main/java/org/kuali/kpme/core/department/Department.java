@@ -20,7 +20,6 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
 import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
@@ -28,12 +27,13 @@ import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo;
 
 import com.google.common.collect.ImmutableList;
+import org.kuali.kpme.core.util.HrConstants;
 
 public class Department extends HrBusinessObject {
 
 	private static final long serialVersionUID = 5476378484272246487L;
 
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Department";
+	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Department";
 	//KPME-2273/1965 Primary Business Keys List.		
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("dept")

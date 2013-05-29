@@ -18,10 +18,10 @@ package org.kuali.kpme.core.principal;
 import java.util.Date;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
@@ -34,7 +34,7 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("principalId")
             .build();
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "PrincipalHRAttributes";
+	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PrincipalHRAttributes";
 
 	private String hrPrincipalAttributeId;
 	private String principalId;

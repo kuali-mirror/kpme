@@ -15,8 +15,10 @@
  */
 package org.kuali.kpme.pm.positiontype;
 
+import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.institution.Institution;
+import org.kuali.kpme.pm.PMConstants;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
 import com.google.common.collect.ImmutableList;
@@ -26,6 +28,8 @@ public class PositionType extends HrBusinessObject {
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
 		    .add("positionType")
 		    .build();
+
+    public static final String CACHE_NAME = PMConstants.CacheNamespace.NAMESPACE_PREFIX + "PositionType";
 
 	private static final long serialVersionUID = 1L;
 	

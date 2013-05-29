@@ -18,23 +18,53 @@ package org.kuali.kpme.core.cache;
 
 import java.util.List;
 
-import org.kuali.kpme.core.service.HrServiceLocator;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator;
 
 public class CacheUtils {
+    private static final Logger LOG = Logger.getLogger(CacheUtils.class);
+
     public static void flushCache(String cacheName) {
         //flush cache
-        DistributedCacheManagerDecorator distributedCacheManagerDecorator =
-                HrServiceLocator.getDistributedCacheManager();
-        distributedCacheManagerDecorator.getCache(cacheName).clear();
+        //DistributedCacheManagerDecorator distributedCacheManagerDecorator =
+        //        HrServiceLocator.getDistributedCacheManager();
+
+        String cacheDecoratorName = extractCacheDecoratorName(cacheName);
+        if (StringUtils.isNotEmpty(cacheDecoratorName)) {
+            DistributedCacheManagerDecorator distributedCacheManagerDecorator =
+                    GlobalResourceLoader.getService(cacheDecoratorName);
+            if (distributedCacheManagerDecorator != null) {
+                distributedCacheManagerDecorator.getCache(cacheName).clear();
+            } else {
+                LOG.error("DistributedCacheManagerDecorator: " + cacheDecoratorName + " not found.  Cache: " + cacheName + " was not flushed.");
+            }
+        }
     }
 
     public static void flushCaches(List<String> cacheNames) {
         //flush cache
-        DistributedCacheManagerDecorator distributedCacheManagerDecorator =
-                HrServiceLocator.getDistributedCacheManager();
         for (String cache : cacheNames) {
-            distributedCacheManagerDecorator.getCache(cache).clear();
+            String cacheDecoratorName = extractCacheDecoratorName(cache);
+            if (StringUtils.isNotEmpty(cacheDecoratorName)) {
+                DistributedCacheManagerDecorator distributedCacheManagerDecorator =
+                        GlobalResourceLoader.getService(cacheDecoratorName);
+                if (distributedCacheManagerDecorator != null) {
+                    distributedCacheManagerDecorator.getCache(cache).clear();
+                } else {
+                    LOG.error("DistributedCacheManagerDecorator: " + cacheDecoratorName + " not found.  Cache: " + cache + " was not flushed.");
+                }
+            }
         }
+    }
+
+    private static String extractCacheDecoratorName(String cacheName) {
+        String[] splitName = cacheName.split("/");
+        if (splitName.length >= 2) {
+            return "kpme" + StringUtils.capitalize(splitName[1]) + "DistributedCacheManager";
+        }
+        LOG.warn("Unable to extract cache decorator bean name from " + cacheName + ". Cache will not be flushed");
+        return StringUtils.EMPTY;
     }
 }

@@ -15,20 +15,19 @@
  */
 package org.kuali.kpme.core.accrualcategory;
 
+import com.google.common.collect.ImmutableList;
+import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.util.HrConstants;
+
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.kuali.kpme.core.KPMEConstants;
-import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
-import org.kuali.kpme.core.earncode.EarnCode;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
-
-import com.google.common.collect.ImmutableList;
-
 public class AccrualCategory extends HrBusinessObject {
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "AccrualCategory";
+    public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "AccrualCategory";
     
     //KPME-2273/1965 Primary Business Keys List. Will be using this from now on instead.
     public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()

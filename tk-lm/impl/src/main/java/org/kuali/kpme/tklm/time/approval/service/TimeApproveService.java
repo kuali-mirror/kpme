@@ -27,6 +27,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
@@ -53,7 +54,7 @@ public interface TimeApproveService {
 
 //	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<String> principalIds);
 
-    @Cacheable(value= KPMEConstants.KPME_GLOBAL_CACHE_NAME, key="'{PayCalendarLabelsForApprovalTab}' + 'payBeginDate=' + #p0 + '|' + 'payEndDate=' + #p1")
+    @Cacheable(value= HrConstants.CacheNamespace.KPME_GLOBAL_CACHE_NAME, key="'{PayCalendarLabelsForApprovalTab}' + 'payBeginDate=' + #p0 + '|' + 'payEndDate=' + #p1")
 	public List<String> getPayCalendarLabelsForApprovalTab(DateTime payBeginDate, DateTime payEndDate);
 
     /**

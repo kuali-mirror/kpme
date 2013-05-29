@@ -18,7 +18,6 @@ package org.kuali.kpme.core.job;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.location.Location;
@@ -41,7 +40,7 @@ public class Job extends HrBusinessObject {
 	            .add("principalId")
 	            .add("jobNumber")	            
 	            .build();	
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Job";
+	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Job";
 	
 	private String location;
 	private String hrPayType;

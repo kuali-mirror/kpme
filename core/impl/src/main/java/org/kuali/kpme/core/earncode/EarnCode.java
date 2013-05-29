@@ -23,11 +23,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.google.common.collect.ImmutableList;
@@ -36,7 +36,7 @@ public class EarnCode extends HrBusinessObject {
 
 	private static final long serialVersionUID = -1470603919624794932L;
 	
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "EarnCode";
+	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "EarnCode";
     private static final String[] PRIVATE_CACHES_FOR_FLUSH = {EarnCodeSecurity.CACHE_NAME, EarnCode.CACHE_NAME};
     public static final List<String> CACHE_FLUSH = Collections.unmodifiableList(Arrays.asList(PRIVATE_CACHES_FOR_FLUSH));
     //KPME-2273/1965 Primary Business Keys List.

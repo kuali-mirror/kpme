@@ -17,6 +17,7 @@ package org.kuali.kpme.core.service.timezone;
 
 import org.joda.time.DateTimeZone;
 import org.kuali.kpme.core.KPMEConstants;
+import org.kuali.kpme.core.util.HrConstants;
 import org.springframework.cache.annotation.Cacheable;
 
 public interface TimezoneService {
@@ -45,7 +46,7 @@ public interface TimezoneService {
      *
      * @return String timezone, see: http://joda-time.sourceforge.net/timezones.html
      */
-    @Cacheable(value= KPMEConstants.KPME_GLOBAL_CACHE_NAME, key="'{UserTimezone}' + 'principalId=' + #p0")
+    @Cacheable(value= HrConstants.CacheNamespace.KPME_GLOBAL_CACHE_NAME, key="'{UserTimezone}' + 'principalId=' + #p0")
     public String getUserTimezone(String principalId);
 
 	/**

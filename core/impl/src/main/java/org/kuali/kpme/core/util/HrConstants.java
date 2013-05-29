@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
@@ -348,4 +349,11 @@ public class HrConstants {
     public static final BigDecimal BIG_DECIMAL_MS_IN_H = BIG_DECIMAL_1000.multiply(BIG_DECIMAL_60).multiply(BIG_DECIMAL_60);
     public static final BigDecimal BIG_DECIMAL_MS_IN_M = BIG_DECIMAL_1000.multiply(BIG_DECIMAL_60);
     public static final BigDecimal BIG_DECIMAL_HRS_IN_DAY = new BigDecimal(24);
+
+    public static final class CacheNamespace {
+        public static final String MODULE_NAME = "core";
+        public static final String NAMESPACE_PREFIX = KPMEConstants.CacheNamespace.ROOT_NAMESPACE_PREFIX + "/"
+                + MODULE_NAME + "/";
+        public static final String KPME_GLOBAL_CACHE_NAME = NAMESPACE_PREFIX + "Global";
+    }
 }

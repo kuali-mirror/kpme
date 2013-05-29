@@ -15,6 +15,8 @@
  */
 package org.kuali.kpme.pm;
 
+import org.kuali.kpme.core.KPMEConstants;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -51,5 +53,11 @@ public class PMConstants {
 		 PSTN_CLSS_QLFR_VALUE_MAP.put(PSTN_CLSS_QLFR_VALUE.LESS_THAN, PSTN_CLSS_QLFR_VALUE.LESS_THAN);
 		 PSTN_CLSS_QLFR_VALUE_MAP.put(PSTN_CLSS_QLFR_VALUE.LESS_EQUAL, PSTN_CLSS_QLFR_VALUE.LESS_EQUAL);
 	 }
+
+    public static final class CacheNamespace {
+        public static final String MODULE_NAME = "pm";
+        public static final String NAMESPACE_PREFIX = KPMEConstants.CacheNamespace.ROOT_NAMESPACE_PREFIX + "/"
+                + MODULE_NAME + "/";
+    }
 
 }

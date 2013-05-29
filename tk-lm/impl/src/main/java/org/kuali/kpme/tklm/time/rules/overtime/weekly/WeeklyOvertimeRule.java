@@ -20,13 +20,14 @@ import java.math.BigDecimal;
 import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.TkRule;
 
 public class WeeklyOvertimeRule extends TkRule {
 
 	private static final long serialVersionUID = 5229797885418317405L;
 
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "WeeklyOvertimeRule";
+	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "WeeklyOvertimeRule";
 
 	private String tkWeeklyOvertimeRuleId;
 	private String maxHoursEarnGroup;

@@ -19,12 +19,13 @@ import java.math.BigDecimal;
 
 import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.tklm.common.TkConstants;
 
 public class GracePeriodRule extends HrBusinessObject {
 
 	private static final long serialVersionUID = 2756221187837436165L;
 
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "GracePeriodRule";
+	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "GracePeriodRule";
 
 	private String tkGracePeriodRuleId;
 	private BigDecimal hourFactor;

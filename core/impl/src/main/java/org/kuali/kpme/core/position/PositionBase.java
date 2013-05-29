@@ -15,10 +15,10 @@
  */
 package org.kuali.kpme.core.position;
 
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 
 import com.google.common.collect.ImmutableList;
+import org.kuali.kpme.core.util.HrConstants;
 
 public class PositionBase extends HrBusinessObject {
 
@@ -28,7 +28,7 @@ public class PositionBase extends HrBusinessObject {
             .add("positionNumber")
             .build();
 
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Position";
+	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Position";
 	
 	private String hrPositionId;
 	private String positionNumber;
