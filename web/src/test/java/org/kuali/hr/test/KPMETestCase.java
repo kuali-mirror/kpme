@@ -24,7 +24,6 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.kuali.hr.core.HrTestConstants;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.ClearDatabaseLifecycle;
 import org.kuali.hr.time.util.DatabaseCleanupDataLifecycle;
 import org.kuali.hr.time.util.LoadDatabaseDataLifeCycle;
@@ -43,6 +42,7 @@ import org.kuali.rice.test.lifecycles.JettyServerLifecycle;
 import org.kuali.rice.test.lifecycles.JettyServerLifecycle.ConfigMode;
 import org.kuali.rice.test.lifecycles.KPMEXmlDataLoaderLifecycle;
 import org.springframework.cache.CacheManager;
+
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlButtonInput;

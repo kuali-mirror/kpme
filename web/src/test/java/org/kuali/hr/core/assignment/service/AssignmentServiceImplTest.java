@@ -15,6 +15,8 @@
  */
 package org.kuali.hr.core.assignment.service;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -26,8 +28,6 @@ import org.kuali.kpme.core.assignment.service.AssignmentService;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
-
-import java.util.List;
 
 public class AssignmentServiceImplTest extends KPMETestCase {
 

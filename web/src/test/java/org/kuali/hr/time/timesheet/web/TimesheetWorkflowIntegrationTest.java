@@ -28,7 +28,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.util.filter.TestAutoLoginFilter;
 import org.kuali.kpme.core.assignment.Assignment;
