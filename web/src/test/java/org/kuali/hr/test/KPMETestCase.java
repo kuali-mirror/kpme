@@ -27,7 +27,7 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.ClearDatabaseLifecycle;
 import org.kuali.hr.time.util.DatabaseCleanupDataLifecycle;
 import org.kuali.hr.time.util.LoadDatabaseDataLifeCycle;
-import org.kuali.hr.util.HrTestConstants;
+import org.kuali.kpme.core.HrTestConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;

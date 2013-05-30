@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.time.test;
 
-import org.kuali.hr.util.HrTestConstants;
+import org.kuali.kpme.core.HrTestConstants;
 
 public final class TkTestConstants {
 	

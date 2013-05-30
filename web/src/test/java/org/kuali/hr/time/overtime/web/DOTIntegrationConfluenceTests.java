@@ -30,7 +30,7 @@ import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.timesheet.web.TimesheetWebTestBase;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
-import org.kuali.hr.util.HrTestConstants;
+import org.kuali.kpme.core.HrTestConstants;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
