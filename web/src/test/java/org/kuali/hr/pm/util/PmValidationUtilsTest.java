@@ -57,7 +57,7 @@ public class PmValidationUtilsTest extends KPMETestCase {
 		results = PmValidationUtils.validateCampus(campus);	// non-existing
 		Assert.assertFalse(results);
 		
-		campus = "BL";	// existing campus
+		campus = "TS";	// existing campus
 		results = PmValidationUtils.validateCampus(campus);
 		Assert.assertTrue(results);
 		
