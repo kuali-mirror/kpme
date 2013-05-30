@@ -237,10 +237,10 @@ public class TimeApprovalAction extends CalendarApprovalFormAction{
 			taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
 			taaf.setResultSize(0);
 		} else {
-		    List<ApprovalTimeSummaryRow> approvalRows = getApprovalRows(taaf, getSubListPrincipalIds(request, principalIds));
-		    final String sortField = request.getParameter("sortField");
-		    if (StringUtils.equals(sortField, "Name")) {
-			    final boolean sortNameAscending = Boolean.parseBoolean(request.getParameter("sortNameAscending"));
+		    List<ApprovalTimeSummaryRow> approvalRows = getApprovalRows(taaf, principalIds);
+		    final String sortField = getSortField(request);
+		    if (StringUtils.isEmpty(sortField) || StringUtils.equals(sortField, "name")) {
+		    	final boolean sortNameAscending = isAscending(request);
 		    	Collections.sort(approvalRows, new Comparator<ApprovalTimeSummaryRow>() {
 					@Override
 					public int compare(ApprovalTimeSummaryRow row1, ApprovalTimeSummaryRow row2) {
@@ -251,8 +251,8 @@ public class TimeApprovalAction extends CalendarApprovalFormAction{
 						}
 					}
 		    	});
-		    } else if (StringUtils.equals(sortField, "DocumentID")) {
-			    final boolean sortDocumentIdAscending = Boolean.parseBoolean(request.getParameter("sortDocumentIDAscending"));
+		    } else if (StringUtils.equals(sortField, "documentID")) {
+		    	final boolean sortDocumentIdAscending = isAscending(request);
 		    	Collections.sort(approvalRows, new Comparator<ApprovalTimeSummaryRow>() {
 					@Override
 					public int compare(ApprovalTimeSummaryRow row1, ApprovalTimeSummaryRow row2) {
@@ -263,8 +263,8 @@ public class TimeApprovalAction extends CalendarApprovalFormAction{
 						}
 					}
 		    	});
-		    } else if (StringUtils.equals(sortField, "Status")) {
-			    final boolean sortStatusIdAscending = Boolean.parseBoolean(request.getParameter("sortStatusAscending"));
+		    } else if (StringUtils.equals(sortField, "status")) {
+		    	final boolean sortStatusIdAscending = isAscending(request);;
 		    	Collections.sort(approvalRows, new Comparator<ApprovalTimeSummaryRow>() {
 					@Override
 					public int compare(ApprovalTimeSummaryRow row1, ApprovalTimeSummaryRow row2) {
@@ -277,7 +277,10 @@ public class TimeApprovalAction extends CalendarApprovalFormAction{
 		    	});
 		    }
 		    
-		    taaf.setApprovalRows(approvalRows);
+		    Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : (Integer.parseInt(page) - 1)*HrConstants.PAGE_SIZE;
+		    Integer endIndex = beginIndex + HrConstants.PAGE_SIZE > approvalRows.size() ? approvalRows.size() : beginIndex + HrConstants.PAGE_SIZE;
+		    
+		    taaf.setApprovalRows(approvalRows.subList(beginIndex, endIndex)); 	
 		    taaf.setResultSize(principalIds.size());
 		}		
 	}

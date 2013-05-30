@@ -4,9 +4,9 @@
 
 <table id="approvals-filter">
     <tr>
-        <td>
-            Pay Calendar Group:
-            <label for="pay calendar groups">
+        <td style="white-space:nowrap;">
+            Calendar:
+            <%--<label for="selectedPayCalendarGroup">--%>
                 <select id="selectedPayCalendarGroup" name="selectedPayCalendarGroup"
                         onchange="this.form.methodToCall.value='selectNewPayCalendar'; this.form.submit();">
                     <c:forEach var="payCalendarGroup" items="${Form.payCalendarGroups}">
@@ -20,9 +20,9 @@
                         </c:choose>
                     </c:forEach>
                 </select>
-            </label>
+            <%--</label>--%>
         </td>
-        <td>
+        <td style="white-space:nowrap;">
             Department:
             <select id="selectedDept" name="selectedDept"
                     onchange="this.form.methodToCall.value='selectNewDept'; this.form.submit();">
@@ -39,7 +39,7 @@
                 </c:forEach>
             </select>
         </td>
-        <td>
+        <td style="white-space:nowrap;">
             Work Area:
             <label for="work areas">
                 <select id="selectedWorkArea" name="selectedWorkArea"

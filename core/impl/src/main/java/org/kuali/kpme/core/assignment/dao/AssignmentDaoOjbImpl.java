@@ -277,7 +277,7 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
         }
 
         if (StringUtils.isNotBlank(workArea)) {
-            root.addLike("workArea", workArea);
+            OjbSubQueryUtil.addNumericCriteria(root, "workArea", workArea);
         }
         
         if (StringUtils.isNotBlank(active)) {

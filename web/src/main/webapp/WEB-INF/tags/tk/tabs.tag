@@ -6,9 +6,8 @@
     <c:set var="departmentAdmin" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isDepartmentAdmin()%>' />
     <c:set var="globalViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isGlobalViewOnly()%>' />
     <c:set var="locationViewOnly" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationViewOnly()%>' />
-    <c:set var="targetSystemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isTargetSystemAdmin()%>' />
-    <c:set var="targetTimesheetApprover" value='<%=org.kuali.kpme.core.util.HrContext.isTargetAnyApprover()%>' />
-    <c:set var="targetTimesheetReviewer" value='<%=org.kuali.kpme.core.util.HrContext.isTargetReviewer()%>' />   
+    <c:set var="approver" value='<%=org.kuali.kpme.core.util.HrContext.isAnyApprover()%>' />
+    <c:set var="reviewer" value='<%=org.kuali.kpme.core.util.HrContext.isReviewer()%>' />   
     <c:set var="targetActiveEmployee" value='<%=org.kuali.kpme.core.util.HrContext.isTargetActiveEmployee()%>' />
     <c:set var="targetSynchronous" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isTargetSynchronous()%>' />
 </c:if>
@@ -19,11 +18,11 @@
         <li id="departmentAdmin" class="ui-state-default ui-corner-top"><a href="DepartmentAdmin.do">Department Admin</a></li>
     </c:if>
     <li id="personInfo" class="ui-state-default ui-corner-top"><a href="PersonInfo.do">Person Info</a></li>
-    <c:if test="${targetTimesheetApprover || targetTimesheetReviewer}">
+    <c:if test="${approver || reviewer}">
         <li id="approvals" class="ui-state-default ui-corner-top"><a
                 href="TimeApproval.do?methodToCall=loadApprovalTab">Time Approval</a></li>
     </c:if>
-    <c:if test="${targetTimesheetApprover || targetTimesheetReviewer}">
+    <c:if test="${approver || reviewer}">
     	<li id="leaveApprovals" class="ui-state-default ui-corner-top"><a
             href="LeaveApproval.do?methodToCall=loadApprovalTab">Leave Approval</a></li>
     </c:if>

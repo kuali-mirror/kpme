@@ -62,10 +62,14 @@ public class CalendarServiceImpl implements CalendarService {
         	calendar = getCalendarByGroup(principalCalendar.getLeaveCalendar());
         }
         
+        if (calendar == null) {
+        	return null;
+        }
         CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate(calendar.getHrCalendarId(), payEndDate);
         
-        if(ObjectUtils.isNotNull(calendarEntry))
+        if(ObjectUtils.isNotNull(calendarEntry)) {
         	calendarEntry.setCalendarObj(calendar);
+        }
         
         return calendarEntry;
     }

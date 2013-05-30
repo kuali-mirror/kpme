@@ -18,10 +18,12 @@ package org.kuali.kpme.core.util;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.LocalDate;
+import org.kuali.rice.core.api.search.SearchOperator;
 
 public class OjbSubQueryUtil {
 
@@ -89,4 +91,22 @@ public class OjbSubQueryUtil {
 
         return timestampSubQuery;
     }
+    
+    public static void addNumericCriteria(Criteria criteria, String propertyName, String propertyValue) {
+        if (StringUtils.contains(propertyValue, SearchOperator.BETWEEN.op())) {
+            String[] rangeValues = StringUtils.split(propertyValue, SearchOperator.BETWEEN.op());
+            criteria.addBetween(propertyName, TKUtils.cleanNumeric(rangeValues[0]), TKUtils.cleanNumeric( rangeValues[1] ));
+        } else if (propertyValue.startsWith(SearchOperator.GREATER_THAN_EQUAL.op())) {
+            criteria.addGreaterOrEqualThan(propertyName, TKUtils.cleanNumeric(propertyValue));
+        } else if (propertyValue.startsWith(SearchOperator.LESS_THAN_EQUAL.op())) {
+            criteria.addLessOrEqualThan(propertyName, TKUtils.cleanNumeric(propertyValue));
+        } else if (propertyValue.startsWith(SearchOperator.GREATER_THAN.op())) {
+            criteria.addGreaterThan(propertyName, TKUtils.cleanNumeric( propertyValue ) );
+        } else if (propertyValue.startsWith(SearchOperator.LESS_THAN.op())) {
+            criteria.addLessThan(propertyName, TKUtils.cleanNumeric(propertyValue));
+        } else {
+            criteria.addEqualTo(propertyName, TKUtils.cleanNumeric(propertyValue));
+        }
+    }
+    
 }
