@@ -1,4 +1,4 @@
-package org.kuali.kpme.core;
+package org.kuali.hr.core;
 
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
