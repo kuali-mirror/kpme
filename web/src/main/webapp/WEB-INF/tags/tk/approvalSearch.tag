@@ -26,25 +26,20 @@ the id is used in approval.js--%>
             </td>
             <td>
                 <div style="text-align: center">
-                    <c:if test="${Form.prevPayCalendarId ne null}">
+                    <c:if test="${Form.prevHrCalendarEntryId ne null}">
                         <button id="nav_prev_ac" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" title="Previous">
                             <span class="ui-button-text">Previous</span>
                         </button>
-                        <%--<input type="button" class="prev" value="Previous" name="Previous"--%>
-                               <%--onclick="this.form.hrPyCalendarEntryId.value='${Form.prevPayCalendarId}'; this.form.methodToCall.value='loadApprovalTab'; this.form.submit();"/>--%>
                     </c:if>
-                    <span id="payBeginDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate
-                            value="${Form.payBeginDate}" pattern="MM/dd/yyyy"/></span> -
-                    <span id="payEndDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate
-                            value="${Form.payEndDate}" pattern="MM/dd/yyyy"/></span>
-                    <c:if test="${Form.nextPayCalendarId ne null}">
+                    <span id="beginCalendarEntryDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate
+                            value="${Form.beginCalendarEntryDate}" pattern="MM/dd/yyyy"/></span> -
+                    <span id="endCalendarEntryDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate
+                            value="${Form.endCalendarEntryDate}" pattern="MM/dd/yyyy"/></span>
+                    <c:if test="${Form.nextHrCalendarEntryId ne null}">
                         <button id="nav_next_ac" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" title="Next">
                             <span class="ui-button-text">Next</span>
                         </button>
-
-                        <%--<input type="button" class="next" value="Next" name="Next"--%>
-                               <%--onclick="this.form.hrPyCalendarEntryId.value='${Form.nextPayCalendarId}'; this.form.methodToCall.value='loadApprovalTab'; this.form.submit();"/>--%>
-                    </c:if>
+                   </c:if>
                 </div>
             </td>
             <td>

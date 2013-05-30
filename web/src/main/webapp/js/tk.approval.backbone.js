@@ -60,8 +60,8 @@ $(function () {
      * ====================
      */
     var selectedPayPeriodId = $('#pceid').val();
-    var startDates = $('#payBeginDate').text().split('/');
-    var endDates = $('#payEndDate').text().split('/');
+    var startDates = $('#beginCalendarEntryDate').text().split('/');
+    var endDates = $('#endCalendarEntryDate').text().split('/');
         	$('#calendar').fullCalendar({
             	header: {
     				left: '',

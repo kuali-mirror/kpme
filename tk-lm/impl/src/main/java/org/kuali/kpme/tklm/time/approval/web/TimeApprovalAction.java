@@ -74,13 +74,13 @@ public class TimeApprovalAction extends CalendarApprovalFormAction{
         	taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
         	taaf.setResultSize(0);
         } else {
-        	taaf.setResultSize(principalIds.size());	
-	        taaf.setApprovalRows(getApprovalRows(taaf, principalIds));
-	        
-        	CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrPyCalendarEntryId());
-   	        taaf.setPayCalendarEntry(payCalendarEntry);
+        	CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrCalendarEntryId());
+   	        taaf.setCalendarEntry(payCalendarEntry);
    	        taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntry, new ArrayList<Boolean>()));
         	
+        	taaf.setResultSize(principalIds.size());	
+	        taaf.setApprovalRows(getApprovalRows(taaf, principalIds));
+
 	        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(taaf.getSearchTerm(), payCalendarEntry.getEndPeriodFullDateTime().toLocalDate());
 	        if(!assignments.isEmpty()){
 	        	 for(Long wa : taaf.getWorkAreaDescr().keySet()){
@@ -119,12 +119,12 @@ public class TimeApprovalAction extends CalendarApprovalFormAction{
 		taaf.setOutputString(null);
 		taaf.getWorkAreaDescr().clear();
 		
-        CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrPyCalendarEntryId());
-        taaf.setPayCalendarEntry(payCalendarEntry);
+        CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrCalendarEntryId());
+        taaf.setCalendarEntry(payCalendarEntry);
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntry, new ArrayList<Boolean>()));
 
 		String principalId = GlobalVariables.getUserSession().getPrincipalId();
-    	List<WorkArea> workAreaObjs = HrServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), LocalDate.fromDateFields(taaf.getPayBeginDate()));
+    	List<WorkArea> workAreaObjs = HrServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), payCalendarEntry.getBeginPeriodFullDateTime().toLocalDate());
         for (WorkArea workAreaObj : workAreaObjs) {
         	Long workArea = workAreaObj.getWorkArea();
         	String description = workAreaObj.getDescription();
@@ -164,7 +164,7 @@ public class TimeApprovalAction extends CalendarApprovalFormAction{
 		taaf.setSearchTerm(null);
 		taaf.setOutputString(null);
 
-	    CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrPyCalendarEntryId());
+	    CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrCalendarEntryId());
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntry, new ArrayList<Boolean>()));
         
         List<String> principalIds = this.getPrincipalIdsToPopulateTable(taaf); 
@@ -205,17 +205,17 @@ public class TimeApprovalAction extends CalendarApprovalFormAction{
         }
         
         // Set current pay calendar entries if present. Decide if the current date should be today or the end period date
-        if (taaf.getHrPyCalendarEntryId() != null) {
-        	payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrPyCalendarEntryId());
+        if (taaf.getHrCalendarEntryId() != null) {
+        	payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrCalendarEntryId());
         } else {
             currentDate = new LocalDate().toDateTimeAtStartOfDay();
             currentPayCalendar = HrServiceLocator.getCalendarService().getCalendarByGroup(taaf.getSelectedPayCalendarGroup());
             payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(currentPayCalendar.getHrCalendarId(), currentDate);
         }
-        taaf.setPayCalendarEntry(payCalendarEntry);
+        taaf.setCalendarEntry(payCalendarEntry);
         
         
-        if(taaf.getPayCalendarEntry() != null) {
+        if(taaf.getCalendarEntry() != null) {
 	        populateCalendarAndPayPeriodLists(request, taaf);
         }
         setupDocumentOnFormContext(request,taaf, payCalendarEntry, page);
@@ -300,7 +300,9 @@ public class TimeApprovalAction extends CalendarApprovalFormAction{
      * @return
      */
     protected List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm taaf, List<String> assignmentPrincipalIds) {
-        return TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(new DateTime(taaf.getPayBeginDate()), new DateTime(taaf.getPayEndDate()), taaf.getSelectedPayCalendarGroup(), assignmentPrincipalIds, taaf.getPayCalendarLabels(), taaf.getPayCalendarEntry());
+        DateTime beginDate = taaf.getCalendarEntry().getBeginPeriodFullDateTime();
+        DateTime endDate = taaf.getCalendarEntry().getEndPeriodFullDateTime();
+    	return TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(beginDate, endDate, taaf.getSelectedPayCalendarGroup(), assignmentPrincipalIds, taaf.getPayCalendarLabels(), taaf.getCalendarEntry());
     }
 	
     public void resetState(ActionForm form, HttpServletRequest request) {
@@ -327,7 +329,7 @@ public class TimeApprovalAction extends CalendarApprovalFormAction{
 		if(!StringUtils.isEmpty(request.getParameter("selectedCY"))) {
 			taaf.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
 		} else {
-			taaf.setSelectedCalendarYear(sdf.format(taaf.getPayCalendarEntry().getBeginPeriodDate()));
+			taaf.setSelectedCalendarYear(sdf.format(taaf.getCalendarEntry().getBeginPeriodDate()));
 		}
 		
 		List<CalendarEntry> pcListForYear = new ArrayList<CalendarEntry>();
@@ -348,7 +350,7 @@ public class TimeApprovalAction extends CalendarApprovalFormAction{
 		if(!StringUtils.isEmpty(request.getParameter("selectedPP"))) {
 			taaf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
 		} else {
-			taaf.setSelectedPayPeriod(taaf.getPayCalendarEntry().getHrCalendarEntryId());
+			taaf.setSelectedPayPeriod(taaf.getCalendarEntry().getHrCalendarEntryId());
 			taaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(pcListForYear, null));
 		}
 		if(taaf.getPayPeriodsMap().isEmpty()) {
@@ -357,23 +359,18 @@ public class TimeApprovalAction extends CalendarApprovalFormAction{
 	}
     
     private List<String> getPrincipalIdsToPopulateTable(TimeApprovalActionForm taf) {
-        if (taf.getPayBeginDate() == null
-                && taf.getPayEndDate() == null) {
-            return Collections.emptyList();
-        }
-        List<String> workAreaList = new ArrayList<String>();
-        if(StringUtil.isEmpty(taf.getSelectedWorkArea())) {
-        	for(Long aKey : taf.getWorkAreaDescr().keySet()) {
-        		workAreaList.add(aKey.toString());
+        List<String> workAreas = new ArrayList<String>();
+        if (StringUtil.isEmpty(taf.getSelectedWorkArea())) {
+        	for (Long workAreaKey : taf.getWorkAreaDescr().keySet()) {
+        		workAreas.add(workAreaKey.toString());
         	}
         } else {
-        	workAreaList.add(taf.getSelectedWorkArea());
+        	workAreas.add(taf.getSelectedWorkArea());
         }
-        LocalDate endDate = LocalDate.fromDateFields(taf.getPayEndDate());
-        LocalDate beginDate = LocalDate.fromDateFields(taf.getPayBeginDate());
+        String calendar = taf.getSelectedPayCalendarGroup();
+        LocalDate endDate = taf.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate().minusDays(1);
+        LocalDate beginDate = taf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
 
-        List<String> idList = TkServiceLocator.getTimeApproveService()
-        		.getTimePrincipalIdsWithSearchCriteria(workAreaList, taf.getSelectedPayCalendarGroup(), endDate, beginDate, endDate);      
-        return idList;
+        return TkServiceLocator.getTimeApproveService().getTimePrincipalIdsWithSearchCriteria(workAreas, calendar, endDate, beginDate, endDate);      
 	}	
 }

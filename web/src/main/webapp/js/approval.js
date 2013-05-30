@@ -48,58 +48,6 @@ $(document).ready(function () {
         $('.sortable a').attr('href', $('.sortable a').attr('href') + '&sortField=' + field + '&sort' + field + 'Ascending=' + ascending);
     });
 
-    /**
-     * This is to create auto complete w/o using jQuery UI.
-     * The code below hasn't been finished yet, but it's commentted out in case we need this in the future.
-     */
-//    $('#search').click(function () {
-//        var searchField = $("#searchField").val();
-//        var searchValue = $("#searchValue").val();
-//        var beginDate = $("#beginDate").html();
-//        var endDate = $("#endDate").html();
-//        var hrPyCalendarEntryId = $("#pceid").val();
-//        var selectedPayCalendarGroup = $("#selectedPayCalendarGroup").val();
-//
-//        $.ajax({
-//            url:'TimeApprovalWS.do?methodToCall=searchApprovalRows&searchField=' + searchField + '&searchTerm=' + searchValue +
-//                    "&payBeginDateForSearch=" + beginDate + "&payEndDateForSearch=" + endDate +
-//                    '&selectedPayCalendarGroup=' + selectedPayCalendarGroup,
-//            dataType:"json",
-//            success:function (data) {
-//                console.log("Test1");
-//                // create a div for the result
-//                var topPosition = $("#searchValue").offset().top;
-//                var leftPosition = $("#searchValue").offset().left;
-//                var width = $("#searchValue").width();
-//                var height = $("#searchValue").height();
-//                var cssObj = {
-//                    'top':topPosition + height + 7,
-//                    'left':leftPosition,
-//                    'width':width + "px",
-//                    'height':height + "px"
-//                };
-//
-//                var menu = $("<ul></ul>")
-//                        .addClass("ui-autocomplete ui-menu ui-widget ui-widget-content ui-corner-all")
-//                        .css(cssObj)
-//
-////                <li class="ui-menu-item" role="menuitem"><a class="ui-corner-all" tabindex="-1">JavaScript</a></li>
-//
-//                console.log(menu.data());
-//                menu.appendTo("body");
-//
-//                var json = jQuery.parseJSON(data);
-//                $.each(data, function () {
-//                    $.each(this, function (id, result) {
-//                        var menuItems = $("<a></a>")
-//                                .addClass("ui-corner-all");
-//                    });
-//                });
-//
-//            }
-//        });
-//    });
-
     /*
      * for search on TimeApproval page
      */
@@ -111,16 +59,11 @@ $(document).ready(function () {
             $('#loading-value').ajaxStop(function () {
                 $(this).hide();
             });
-            //var payBeginDate = $('#payBeginDateForSearch').val();
-            //var payEndDate = $('#payEndDateForSearch').val();
-            var hrPyCalendarEntryId = $("#pceid").val();
-            var selectedPayCalendarGroup = $("#selectedPayCalendarGroup").val();
 
-            var urlString = 'TimeApprovalWS.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() 
+            var urlString = 'TimeApprovalWS.do?methodToCall=searchApprovalRows'
+                + '&searchField=' + $('#searchField').val() 
             	+ '&searchTerm=' + request.term 
-            	+ "&payBeginDateForSearch=" + $("#payBeginDate").html() 
-            	+ "&payEndDateForSearch=" + $("#payEndDate").html() 
-            	+ '&selectedPayCalendarGroup=' + selectedPayCalendarGroup 
+            	+ '&selectedPayCalendarGroup=' + $("#selectedPayCalendarGroup").val()
             	+ '&selectedDept=' + $('#selectedDept').val() 
             	+ '&selectedWorkArea=' + $('#selectedWorkArea').val();
             $.ajax({
@@ -161,14 +104,11 @@ $(document).ready(function () {
             $('#loading-value').ajaxStop(function () {
                 $(this).hide();
             });
-            var hrPyCalendarEntryId = $("#pceid").val();
-            var selectedPayCalendarGroup = $("#selectedPayCalendarGroup").val();
             
-            var urlString = 'LeaveApprovalWS.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() 
+            var urlString = 'LeaveApprovalWS.do?methodToCall=searchApprovalRows'
+                + '&searchField=' + $('#searchField').val() 
             	+ '&searchTerm=' + request.term 
-            	+ "&payBeginDateForSearch=" + $("#payBeginDate").html() 
-            	+ "&payEndDateForSearch=" + $("#payEndDate").html() 
-            	+ '&selectedPayCalendarGroup=' + selectedPayCalendarGroup 
+            	+ '&selectedPayCalendarGroup=' + $("#selectedPayCalendarGroup").val()
             	+ '&selectedDept=' + $('#selectedDept').val() 
             	+ '&selectedWorkArea=' + $('#selectedWorkArea').val();
             $.ajax({

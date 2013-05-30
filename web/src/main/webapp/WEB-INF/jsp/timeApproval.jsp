@@ -22,14 +22,9 @@
 <tk:tkHeader tabId="approvals">
 <html:form action="/TimeApproval.do" method="POST">
 <html:hidden property="methodToCall" value=""/>
-<html:hidden styleId="rit" property="rowsInTotal" value="${fn:length(Form.approvalRows)}"/>
-<html:hidden styleId="pcid" property="hrPyCalendarId" value="${Form.hrPyCalendarId}"/>
-<html:hidden styleId="pceid" property="hrPyCalendarEntryId" value="${Form.hrPyCalendarEntryId}"/>
-<html:hidden styleId="payBeginDateForSearch" property="payBeginDateForSearch" value="${Form.payBeginDateForSearch}"/>
-<html:hidden styleId="payEndDateForSearch" property="payEndDateForSearch" value="${Form.payEndDateForSearch}"/>
-<html:hidden property="prevPayCalendarId" value="${Form.prevPayCalendarId}"/>
-<html:hidden property="nextPayCalendarId" value="${Form.nextPayCalendarId}"/>
-<html:hidden styleId="roleName" property="roleName" value="${Form.roleName}"/>
+<html:hidden styleId="pceid" property="hrCalendarEntryId" value="${Form.hrCalendarEntryId}"/>
+<html:hidden property="prevHrCalendarEntryId" value="${Form.prevHrCalendarEntryId}"/>
+<html:hidden property="nextHrCalendarEntryId" value="${Form.nextHrCalendarEntryId}"/>
 <html:hidden styleId="outputString" property="outputString" value="${Form.outputString}"/>
 
 

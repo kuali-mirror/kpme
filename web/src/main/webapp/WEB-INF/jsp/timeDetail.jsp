@@ -49,7 +49,6 @@
         <html:hidden property="isVirtualWorkDay" value="${Form.isVirtualWorkDay}" styleId="isVirtualWorkDay"/>
         <html:hidden property="serverTimezone" value="${Form.serverTimezone}" styleId="serverTimezone"/>
         <html:hidden property="userTimezone" value="${Form.userTimezone}" styleId="userTimezone"/>
-        <html:hidden property="calNav" value="${Form.calNav}" styleId="calNav"/>
         <html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
         <html:hidden property="prevDocumentId" value="${Form.prevDocumentId}" styleId="prevDocumentId"/>
         <html:hidden property="nextDocumentId" value="${Form.nextDocumentId}" styleId="nextDocumentId"/>

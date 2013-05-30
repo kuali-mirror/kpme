@@ -16,6 +16,7 @@
 package org.kuali.kpme.tklm.common;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,11 +36,14 @@ public abstract class CalendarForm extends KPMEForm {
     
     private String prevHrCalendarEntryId;
     private String nextHrCalendarEntryId;
+    
+	private Date beginCalendarEntryDate;
+	private Date endCalendarEntryDate;
+	
+    private CalendarEntry calendarEntry;
 	
 	private List<String> calendarYears = new ArrayList<String>();
     private Map<String,String> payPeriodsMap = new HashMap<String,String>();
-    
-    private CalendarEntry calendarEntry;
     
     private String selectedCalendarYear;
     private String selectedPayPeriod;
@@ -91,7 +95,23 @@ public abstract class CalendarForm extends KPMEForm {
 	public void setNextHrCalendarEntryId(String nextHrCalendarEntryId) {
 		this.nextHrCalendarEntryId = nextHrCalendarEntryId;
 	}
-    
+
+	public Date getBeginCalendarEntryDate() {
+		return beginCalendarEntryDate;
+	}
+
+	public void setBeginCalendarEntryDate(Date beginCalendarEntryDate) {
+		this.beginCalendarEntryDate = beginCalendarEntryDate;
+	}
+
+	public Date getEndCalendarEntryDate() {
+		return endCalendarEntryDate;
+	}
+
+	public void setEndCalendarEntryDate(Date endCalendarEntryDate) {
+		this.endCalendarEntryDate = endCalendarEntryDate;
+	}
+
 	public List<String> getCalendarYears() {
 		return calendarYears;
 	}

@@ -31,8 +31,7 @@ $(function () {
     
          changeCalendarYear : function () {
          	var selectedCY = $("#selectedCalendarYear option:selected").text();
-         	var docId = $('#documentId').val();
-         	var newLoc = window.location.pathname + '?methodToCall=changeCalendarYear&selectedCY=' + selectedCY + '&documentId=' + docId;
+         	var newLoc = window.location.pathname + '?methodToCall=changeCalendarYear&selectedCY=' + selectedCY;
              window.location = newLoc;
              
          },

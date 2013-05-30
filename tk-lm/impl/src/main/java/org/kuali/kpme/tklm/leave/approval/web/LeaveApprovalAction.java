@@ -75,14 +75,14 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction{
     	laaf.setSearchField("principalId");
         List<String> principalIds = new ArrayList<String>();
         principalIds.add(laaf.getSearchTerm());
-        CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrPyCalendarEntryId());
+        CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrCalendarEntryId());
         if (principalIds.isEmpty()) {
         	laaf.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
         	laaf.setResultSize(0);
         } else {
         	this.setApprovalTables(laaf, principalIds, request, payCalendarEntry);
         	
-   	        laaf.setPayCalendarEntry(payCalendarEntry);
+   	        laaf.setCalendarEntry(payCalendarEntry);
    	        laaf.setLeaveCalendarDates(LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntry));
         	
 	        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(laaf.getSearchTerm(), payCalendarEntry.getEndPeriodFullDateTime().toLocalDate());
@@ -125,12 +125,12 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction{
 		laaf.getWorkAreaDescr().clear();
 		laaf.setSelectedWorkArea("");
 		
-        CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrPyCalendarEntryId());
-        laaf.setPayCalendarEntry(payCalendarEntry);
+        CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrCalendarEntryId());
+        laaf.setCalendarEntry(payCalendarEntry);
         laaf.setLeaveCalendarDates(LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntry));
 
 		String principalId = GlobalVariables.getUserSession().getPrincipalId();
-    	List<WorkArea> workAreaObjs = HrServiceLocator.getWorkAreaService().getWorkAreas(laaf.getSelectedDept(), LocalDate.fromDateFields(laaf.getPayBeginDate()));
+    	List<WorkArea> workAreaObjs = HrServiceLocator.getWorkAreaService().getWorkAreas(laaf.getSelectedDept(), payCalendarEntry.getBeginPeriodFullDateTime().toLocalDate());
         for (WorkArea workAreaObj : workAreaObjs) {
         	Long workArea = workAreaObj.getWorkArea();
         	String description = workAreaObj.getDescription();
@@ -156,7 +156,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction{
 		laaf.setSearchField(null);
 		laaf.setSearchTerm(null);
 
-	    CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrPyCalendarEntryId());
+	    CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrCalendarEntryId());
         laaf.setLeaveCalendarDates(LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntry));
    
         List<String> idList = this.getPrincipalIdsToPopulateTable(laaf);
@@ -166,20 +166,19 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction{
 	}	
 
 	private List<String> getPrincipalIdsToPopulateTable(LeaveApprovalActionForm laaf) {
-        List<String> workAreaList = new ArrayList<String>();
-        if(StringUtil.isEmpty(laaf.getSelectedWorkArea())) {
-        	for(Long aKey : laaf.getWorkAreaDescr().keySet()) {
-        		workAreaList.add(aKey.toString());
+        List<String> workAreas = new ArrayList<String>();
+        if (StringUtil.isEmpty(laaf.getSelectedWorkArea())) {
+        	for (Long workAreaKey : laaf.getWorkAreaDescr().keySet()) {
+        		workAreas.add(workAreaKey.toString());
         	}
         } else {
-        	workAreaList.add(laaf.getSelectedWorkArea());
+        	workAreas.add(laaf.getSelectedWorkArea());
         }
-        LocalDate endDate = LocalDate.fromDateFields(laaf.getPayEndDate());
-        LocalDate beginDate = LocalDate.fromDateFields(laaf.getPayBeginDate());
+        String calendar = laaf.getSelectedPayCalendarGroup();
+        LocalDate endDate = laaf.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate().minusDays(1);
+        LocalDate beginDate = laaf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
 
-        List<String> idList = LmServiceLocator.getLeaveApprovalService()
-        		.getLeavePrincipalIdsWithSearchCriteria(workAreaList, laaf.getSelectedPayCalendarGroup(), endDate, beginDate, endDate);      
-        return idList;
+        return LmServiceLocator.getLeaveApprovalService().getLeavePrincipalIdsWithSearchCriteria(workAreas, calendar, endDate, beginDate, endDate);
 	}	
 	
 	private void setApprovalTables(LeaveApprovalActionForm laaf, List<String> principalIds, HttpServletRequest request, CalendarEntry payCalendarEntry) {
@@ -288,9 +287,9 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction{
         }
 
         // Set current pay calendar entries if present. Decide if the current date should be today or the end period date
-        if (laaf.getHrPyCalendarEntryId() != null) {
+        if (laaf.getHrCalendarEntryId() != null) {
             if(payCalendarEntry == null){
-               payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrPyCalendarEntryId());
+               payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrCalendarEntryId());
             }
             currentDate = payCalendarEntry.getEndPeriodFullDateTime().toLocalDate();
         } else {
@@ -319,18 +318,18 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction{
         }
         
         // Set current pay calendar entries if present. Decide if the current date should be today or the end period date
-        if (laaf.getHrPyCalendarEntryId() != null) {
-            payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrPyCalendarEntryId());
+        if (laaf.getHrCalendarEntryId() != null) {
+            payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrCalendarEntryId());
         } else {
             currentPayCalendar = HrServiceLocator.getCalendarService().getCalendarByGroup(laaf.getSelectedPayCalendarGroup());
             if (currentPayCalendar != null) {
                 payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(currentPayCalendar.getHrCalendarId(), currentDate.toDateTimeAtStartOfDay());
             }
         }
-        laaf.setPayCalendarEntry(payCalendarEntry);
+        laaf.setCalendarEntry(payCalendarEntry);
         
         
-        if(laaf.getPayCalendarEntry() != null) {
+        if(laaf.getCalendarEntry() != null) {
 	        populateCalendarAndPayPeriodLists(request, laaf);
         }
         setupDocumentOnFormContext(request,laaf, payCalendarEntry, page);
@@ -363,7 +362,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction{
 	   
     protected List<ApprovalLeaveSummaryRow> getApprovalLeaveRows(LeaveApprovalActionForm laaf, List<String> assignmentPrincipalIds) {
         return LmServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows
-        	(assignmentPrincipalIds, laaf.getPayCalendarEntry(), laaf.getLeaveCalendarDates());
+        	(assignmentPrincipalIds, laaf.getCalendarEntry(), laaf.getLeaveCalendarDates());
     }
 	
     public void resetState(ActionForm form, HttpServletRequest request) {
@@ -391,7 +390,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction{
 		if(!StringUtils.isEmpty(request.getParameter("selectedCY"))) {
 			laaf.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
 		} else {
-			laaf.setSelectedCalendarYear(sdf.format(laaf.getPayCalendarEntry().getBeginPeriodDate()));
+			laaf.setSelectedCalendarYear(sdf.format(laaf.getCalendarEntry().getBeginPeriodDate()));
 		}
 		
 		List<CalendarEntry> pcListForYear = new ArrayList<CalendarEntry>();
@@ -414,7 +413,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction{
 		if(!StringUtils.isEmpty(request.getParameter("selectedPP"))) {
 			laaf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
 		} else {
-			laaf.setSelectedPayPeriod(laaf.getPayCalendarEntry().getHrCalendarEntryId());
+			laaf.setSelectedPayPeriod(laaf.getCalendarEntry().getHrCalendarEntryId());
 			laaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(pcListForYear, null));
 		}
 		if(laaf.getPayPeriodsMap().isEmpty()) {

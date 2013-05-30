@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.approval.web;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -61,56 +60,54 @@ public class LeaveApprovalWSAction extends KPMEAction {
 	 
 	  public ActionForward searchApprovalRows(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		  LeaveApprovalWSActionForm laaf = (LeaveApprovalWSActionForm) form;
-	        List<Map<String, String>> results = new LinkedList<Map<String, String>>();
-	        if(StringUtils.isNotEmpty(laaf.getPayBeginDateForSearch()) 
-	        		&& StringUtils.isNotEmpty(laaf.getPayEndDateForSearch()) ) {
-		        LocalDate beginDate = LocalDate.fromDateFields(new SimpleDateFormat("MM/dd/yyyy").parse(laaf.getPayBeginDateForSearch()));
-		        LocalDate endDate = LocalDate.fromDateFields(new SimpleDateFormat("MM/dd/yyyy").parse(laaf.getPayEndDateForSearch()));
-                //the endDate we get here is coming from approval.js and is extracted from html. we need to add a day to cover the last day in the pay period.
-                endDate = endDate.plusDays(1);
-                List<String> workAreaList = new ArrayList<String>();
-		        if (StringUtil.isEmpty(laaf.getSelectedWorkArea())) {
-		        	String principalId = GlobalVariables.getUserSession().getPrincipalId();
-		        	
-		        	Set<Long> workAreas = new HashSet<Long>();
-		        	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-		            workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+		  List<Map<String, String>> results = new LinkedList<Map<String, String>>();
 
-		        	for(Long workArea : workAreas) {
-		        		workAreaList.add(workArea.toString());
-		        	}
-		        } else {
-		        	workAreaList.add(laaf.getSelectedWorkArea());
-		        } 
-		        List<String> principalIds = LmServiceLocator.getLeaveApprovalService()
-        			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, laaf.getSelectedPayCalendarGroup(),
-        					endDate, beginDate, endDate); 
+		  List<String> workAreaList = new ArrayList<String>();
+		  if (StringUtil.isEmpty(laaf.getSelectedWorkArea())) {
+			  String principalId = GlobalVariables.getUserSession().getPrincipalId();
+			
+			  Set<Long> workAreas = new HashSet<Long>();
+			  workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+			  workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+			
+			  for(Long workArea : workAreas) {
+				  workAreaList.add(workArea.toString());
+			  }
+		  } else {
+			  workAreaList.add(laaf.getSelectedWorkArea());
+		  }
+		  
+		  LocalDate endDate = laaf.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate();
+		  LocalDate beginDate = laaf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
+	        
+		  List<String> principalIds = LmServiceLocator.getLeaveApprovalService()
+				  .getLeavePrincipalIdsWithSearchCriteria(workAreaList, laaf.getSelectedPayCalendarGroup(),
+						  endDate, beginDate, endDate); 
 
-		        if (StringUtils.equals(laaf.getSearchField(), CalendarApprovalForm.ORDER_BY_PRINCIPAL)) {
-		            for (String id : principalIds) {
-		                if(StringUtils.contains(id, laaf.getSearchTerm())) {
-		                    Map<String, String> labelValue = new HashMap<String, String>();
-		                    labelValue.put("id", id);
-		                    labelValue.put("result", id);
-		                    results.add(labelValue);
-		                }
-		            }
-		        } else if (StringUtils.equals(laaf.getSearchField(), CalendarApprovalForm.ORDER_BY_DOCID)) {
-		            Map<String, LeaveCalendarDocumentHeader> principalDocumentHeaders =
-		                    LmServiceLocator.getLeaveApprovalService().getPrincipalDocumentHeader(principalIds, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
+		  if (StringUtils.equals(laaf.getSearchField(), CalendarApprovalForm.ORDER_BY_PRINCIPAL)) {
+			  for (String id : principalIds) {
+				  if(StringUtils.contains(id, laaf.getSearchTerm())) {
+					  Map<String, String> labelValue = new HashMap<String, String>();
+					  labelValue.put("id", id);
+					  labelValue.put("result", id);
+					  results.add(labelValue);
+				  }
+			  }
+		  } else if (StringUtils.equals(laaf.getSearchField(), CalendarApprovalForm.ORDER_BY_DOCID)) {
+			  Map<String, LeaveCalendarDocumentHeader> principalDocumentHeaders =
+					  LmServiceLocator.getLeaveApprovalService().getPrincipalDocumentHeader(principalIds, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
 	
-		            for (Map.Entry<String,LeaveCalendarDocumentHeader> entry : principalDocumentHeaders.entrySet()) {
-		                if (StringUtils.contains(entry.getValue().getDocumentId(), laaf.getSearchTerm())) {
-		                    Map<String, String> labelValue = new HashMap<String, String>();
-//                            labelValue.put("id", entry.getValue().getDocumentId() + " (" + entry.getValue().getPrincipalId() + ")");
-                            //removing principalId to make select/submit the result from dropdown work
-                            labelValue.put("id", entry.getValue().getDocumentId());
-		                    labelValue.put("result", entry.getValue().getPrincipalId());
-		                    results.add(labelValue);
-		                }
-		            }
-		        }
-	        }
+			  for (Map.Entry<String,LeaveCalendarDocumentHeader> entry : principalDocumentHeaders.entrySet()) {
+				  if (StringUtils.contains(entry.getValue().getDocumentId(), laaf.getSearchTerm())) {
+					  Map<String, String> labelValue = new HashMap<String, String>();
+//					  labelValue.put("id", entry.getValue().getDocumentId() + " (" + entry.getValue().getPrincipalId() + ")");
+					  //removing principalId to make select/submit the result from dropdown work
+					  labelValue.put("id", entry.getValue().getDocumentId());
+					  labelValue.put("result", entry.getValue().getPrincipalId());
+					  results.add(labelValue);
+				  }
+			  }
+		  }
 		
 	      laaf.setOutputString(JSONValue.toJSONString(results));
 	        

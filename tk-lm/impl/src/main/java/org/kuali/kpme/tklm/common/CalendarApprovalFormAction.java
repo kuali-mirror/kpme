@@ -101,9 +101,9 @@ public abstract class CalendarApprovalFormAction extends KPMEAction{
 		taf.setSearchTerm(null);
 		taf.setSelectedWorkArea(null);
 		taf.setSelectedDept(null);
-		taf.setPayBeginDate(null);
-		taf.setPayEndDate(null);
-		taf.setHrPyCalendarEntryId(null);
+		taf.setBeginCalendarEntryDate(null);
+		taf.setEndCalendarEntryDate(null);
+		taf.setHrCalendarEntryId(null);
 	}
 	
 	protected void setupDocumentOnFormContext(HttpServletRequest request,
@@ -111,23 +111,22 @@ public abstract class CalendarApprovalFormAction extends KPMEAction{
 		if(payCalendarEntry == null) {
 			return;
 		}
-		taf.setHrPyCalendarId(payCalendarEntry.getHrCalendarId());
-		taf.setHrPyCalendarEntryId(payCalendarEntry.getHrCalendarEntryId());
-		taf.setPayBeginDate(payCalendarEntry.getBeginPeriodDateTime());
-		taf.setPayEndDate(DateUtils.addMilliseconds(payCalendarEntry.getEndPeriodDateTime(),-1));
+		taf.setHrCalendarEntryId(payCalendarEntry.getHrCalendarEntryId());
+		taf.setBeginCalendarEntryDate(payCalendarEntry.getBeginPeriodDateTime());
+		taf.setEndCalendarEntryDate(DateUtils.addMilliseconds(payCalendarEntry.getEndPeriodDateTime(),-1));
 		
-		CalendarEntry prevPayCalendarEntry = HrServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(taf.getHrPyCalendarId(), payCalendarEntry);
+		CalendarEntry prevPayCalendarEntry = HrServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(payCalendarEntry.getHrCalendarId(), payCalendarEntry);
 		if (prevPayCalendarEntry != null) {
-		    taf.setPrevPayCalendarId(prevPayCalendarEntry.getHrCalendarEntryId());
+		    taf.setPrevHrCalendarEntryId(prevPayCalendarEntry.getHrCalendarEntryId());
 		} else {
-		    taf.setPrevPayCalendarId(null);
+		    taf.setPrevHrCalendarEntryId(null);
 		}
 		
-		CalendarEntry nextPayCalendarEntry = HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(taf.getHrPyCalendarId(), payCalendarEntry);
+		CalendarEntry nextPayCalendarEntry = HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(payCalendarEntry.getHrCalendarId(), payCalendarEntry);
 		if (nextPayCalendarEntry != null) {
-		    taf.setNextPayCalendarId(nextPayCalendarEntry.getHrCalendarEntryId());
+		    taf.setNextHrCalendarEntryId(nextPayCalendarEntry.getHrCalendarEntryId());
 		} else {
-		    taf.setNextPayCalendarId(null);
+		    taf.setNextHrCalendarEntryId(null);
 		}	
 		if (StringUtils.isBlank(page)) {
 	        String principalId = HrContext.getTargetPrincipalId();
@@ -145,7 +144,7 @@ public abstract class CalendarApprovalFormAction extends KPMEAction{
 		    	if (StringUtils.isEmpty(taf.getSelectedDept()))
 		    		taf.setSelectedDept(taf.getDepartments().get(0));
 		        
-		    	List<WorkArea> workAreaObjs = HrServiceLocator.getWorkAreaService().getWorkAreas(taf.getSelectedDept(), LocalDate.fromDateFields(taf.getPayBeginDate()));
+		    	List<WorkArea> workAreaObjs = HrServiceLocator.getWorkAreaService().getWorkAreas(taf.getSelectedDept(), payCalendarEntry.getBeginPeriodFullDateTime().toLocalDate());
 		        for (WorkArea workAreaObj : workAreaObjs) {
 		        	Long workArea = workAreaObj.getWorkArea();
 		        	String description = workAreaObj.getDescription();
@@ -168,7 +167,7 @@ public abstract class CalendarApprovalFormAction extends KPMEAction{
     	DateTime currentDate = new LocalDate().toDateTimeAtStartOfDay();
         Calendar currentPayCalendar = HrServiceLocator.getCalendarService().getCalendarByGroup(taf.getSelectedPayCalendarGroup());
         CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(currentPayCalendar.getHrCalendarId(), currentDate);
-        taf.setPayCalendarEntry(payCalendarEntry);
+        taf.setCalendarEntry(payCalendarEntry);
         taf.setSelectedCalendarYear(new SimpleDateFormat("yyyy").format(payCalendarEntry.getBeginPeriodDate()));
         taf.setSelectedPayPeriod(payCalendarEntry.getHrCalendarEntryId());
         populateCalendarAndPayPeriodLists(request, taf);
@@ -197,7 +196,7 @@ public abstract class CalendarApprovalFormAction extends KPMEAction{
   		  CalendarEntry pce = HrServiceLocator.getCalendarEntryService()
   		  	.getCalendarEntry(request.getParameter("selectedPP").toString());
   		  if(pce != null) {
-  			  taf.setPayCalendarEntry(pce);
+  			  taf.setCalendarEntry(pce);
   			  setupDocumentOnFormContext(request, taf, pce, page);
   		  }
   	  }

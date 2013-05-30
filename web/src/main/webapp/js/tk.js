@@ -140,8 +140,8 @@ $(document).ready(function() {
     var docId = $('#documentId').val();
     var prevDocId = $('#prevDocumentId').val();
     var nextDocId = $('#nextDocumentId').val();
-    var prevPayCalendarId = $('input[name=prevPayCalendarId]').val();
-    var nextPayCalendarId = $('input[name=nextPayCalendarId]').val();
+    var prevHrCalendarEntryId = $('input[name=prevHrCalendarEntryId]').val();
+    var nextHrCalendarEntryId = $('input[name=nextHrCalendarEntryId]').val();
 
 
     // create navigation buttons
@@ -203,7 +203,7 @@ $(document).ready(function() {
     });
 
     $('#nav_prev_ac').click(function() {
-        this.form.hrPyCalendarEntryId.value = prevPayCalendarId;
+        this.form.hrCalendarEntryId.value = prevHrCalendarEntryId;
         this.form.methodToCall.value='loadApprovalTab';
         this.form.submit();
     });
@@ -216,7 +216,7 @@ $(document).ready(function() {
     });
 
     $('#nav_next_ac').click(function() {
-        this.form.hrPyCalendarEntryId.value = nextPayCalendarId;
+        this.form.hrCalendarEntryId.value = nextHrCalendarEntryId;
         this.form.methodToCall.value='loadApprovalTab';
         this.form.submit();
     });
