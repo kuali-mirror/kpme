@@ -150,7 +150,7 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         // Routing is initiated via javascript, we need to extract the routing
         // action from the button element to perform this action.
         HtmlButtonInput routeButton = (HtmlButtonInput)page.getElementById("ts-route-button");
-        String routeHref = TkTestUtils.getOnClickHref(routeButton);
+        String routeHref = HtmlUnitUtil.getOnClickHref(routeButton);
         // The 'only' way to do the button click.
         page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.BASE_URL + "/" + routeHref);
         //HtmlUnitUtil.createTempFile(page, "RouteClicked");
@@ -175,7 +175,7 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         // Click Approve
         // And Verify
         //
-        routeHref = TkTestUtils.getOnClickHref(approveButton);
+        routeHref = HtmlUnitUtil.getOnClickHref(approveButton);
         TestAutoLoginFilter.OVERRIDE_ID = "eric";
         page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.BASE_URL + "/" + routeHref);
         TestAutoLoginFilter.OVERRIDE_ID = "";

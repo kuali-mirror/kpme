@@ -20,18 +20,27 @@ import java.io.FileOutputStream;
 import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSelect;
+import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
+import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 
 public class HtmlUnitUtil {
     private static final Logger LOG = Logger.getLogger(HtmlUnitUtil.class);
@@ -65,6 +74,148 @@ public class HtmlUnitUtil {
 	return page.asText().indexOf(text) >= 0;
     }
 
+	/**
+	 *
+	 * @param page: current html page
+	 * @param criteria: The key is the field name and the value is a string array which contains the field value and the field type which can be chosen from TkTestConstants
+	 * @return HtmlPage resultPage
+	 * @throws Exception
+	 */
+	public static HtmlPage fillOutForm(HtmlPage page, Map<String, Object> criteria) throws Exception {
+		HtmlForm lookupForm = HtmlUnitUtil.getDefaultForm(page);
+		String formFieldPrefix = "";
+		HtmlPage resultPage = null;
+		HtmlSelect select = null;
+		HtmlInput input = null;
+		HtmlCheckBoxInput checkBox = null;
+		HtmlTextArea textArea = null;
+
+
+		// Common class of both HtmlInput and HtmlTextArea -- since either of these can appear
+		// on a web-form.
+		HtmlElement htmlBasicInput = null;
+
+		Set<Map.Entry<String, Object>> entries = criteria.entrySet();
+		Iterator<Map.Entry<String, Object>> it = entries.iterator();
+
+		while (it.hasNext()) {
+			Map.Entry<String,Object> entry = it.next();
+
+			// if the field type is not <input>
+			if(entry.getValue() instanceof String[]) {
+				String key = Arrays.asList((String[])entry.getValue()).get(0).toString();
+				String value = Arrays.asList((String[])entry.getValue()).get(1).toString();
+
+				// drop-down
+				if(key.equals(TkTestConstants.FormElementTypes.DROPDOWN)) {
+
+					try {
+						select = (HtmlSelect) lookupForm.getSelectByName(formFieldPrefix  + entry.getKey());
+					} catch (Exception e) {
+						select = (HtmlSelect) lookupForm.getElementById(formFieldPrefix  + entry.getKey());
+					}
+                   //  try to get a useful option, other than the typical blank default, by getting the last option
+                   //  if the size of the options list is zero, then there is a problem. might as well error here with an array out of bounds.
+                   resultPage = (HtmlPage) select.getOption(select.getOptionSize()-1).setSelected(true);
+                   HtmlUnitUtil.createTempFile(resultPage);
+               }
+				// check box
+				else if(key.equals(TkTestConstants.FormElementTypes.CHECKBOX)) {
+					try {
+					  checkBox = page.getHtmlElementById(formFieldPrefix  + entry.getKey());
+					}
+					catch(Exception e) {
+						checkBox = page.getElementByName(formFieldPrefix  + entry.getKey());
+					}
+					resultPage = (HtmlPage) checkBox.setChecked(Boolean.parseBoolean(value));
+				}
+				// text area
+				else if(key.equals(TkTestConstants.FormElementTypes.TEXTAREA)) {
+					try {
+					   textArea = page.getHtmlElementById(formFieldPrefix  + entry.getKey());
+					} catch (Exception e){
+						textArea = page.getElementByName(formFieldPrefix  + entry.getKey());
+					}
+					textArea.setText(Arrays.asList((String[])entry.getValue()).get(1).toString());
+				}
+			} else {
+				try {
+					htmlBasicInput = page.getHtmlElementById(formFieldPrefix + entry.getKey());
+					if (htmlBasicInput instanceof HtmlTextArea) {
+						textArea = (HtmlTextArea)htmlBasicInput;
+						textArea.setText(entry.getValue().toString());
+						resultPage = (HtmlPage) textArea.getPage();
+					} else if (htmlBasicInput instanceof HtmlInput) {
+						input = (HtmlInput)htmlBasicInput;
+						resultPage = (HtmlPage) input.setValueAttribute(entry.getValue().toString());
+					} else {
+						LOG.error("Request to populate a non-input html form field.");
+					}
+				} catch (Exception e) {
+					htmlBasicInput = page.getElementByName(formFieldPrefix + entry.getKey());
+
+					if (htmlBasicInput instanceof HtmlTextArea) {
+						textArea = (HtmlTextArea)htmlBasicInput;
+						textArea.setText(entry.getValue().toString());
+						resultPage = (HtmlPage) textArea.getPage();
+					} else if (htmlBasicInput instanceof HtmlInput) {
+						input = (HtmlInput)htmlBasicInput;
+						resultPage = (HtmlPage) input.setValueAttribute(entry.getValue().toString());
+					} else {
+						LOG.error("Request to populate a non-input html form field.");
+					}
+				}
+			}
+		}
+		HtmlUnitUtil.createTempFile(resultPage);
+		return resultPage;
+	}
+	
+   /**
+    * Method to obtain the HREF onclick='' value from the button when
+    * the client side typically processes the request.
+    * @param button
+    */
+   public static String getOnClickHref(HtmlElement button) {
+       NamedNodeMap attributes = button.getAttributes();
+       Node node = attributes.getNamedItem("onclick");
+
+       //location.href='TimesheetSubmit.do?action=R&documentId=2000&methodToCall=approveTimesheet'
+       String hrefRaw = node.getNodeValue();
+       int sidx = hrefRaw.indexOf("='");
+
+       return hrefRaw.substring(sidx+2, hrefRaw.length() - 1);
+   }
+	/**
+	 *
+	 * @param page: current html page //NOTE doesnt seem to work currently for js setting of form variables
+	 * @param name: the button name
+	 * @return
+	 * @throws Exception
+	 */
+	public static HtmlPage clickButton(HtmlPage page, String name) throws Exception {
+		HtmlForm form = HtmlUnitUtil.getDefaultForm(page);
+		HtmlSubmitInput input = form.getInputByName(name);
+		return (HtmlPage) input.click();
+	}
+	
+	public static HtmlPage clickClockInOrOutButton(HtmlPage page) throws Exception {
+		HtmlForm form = HtmlUnitUtil.getDefaultForm(page);
+		
+		HtmlSubmitInput input = form.getInputByName("clockAction");
+		form.getInputByName("methodToCall").setValueAttribute("clockAction");
+		return (HtmlPage) input.click();
+	}
+	
+	public static HtmlPage clickLunchInOrOutButton(HtmlPage page, String lunchAction) throws Exception {
+		HtmlForm form = HtmlUnitUtil.getDefaultForm(page);
+		
+		HtmlSubmitInput input = form.getInputByName("clockAction");
+		form.getInputByName("methodToCall").setValueAttribute("clockAction");
+		form.getInputByName("currentClockAction").setValueAttribute(lunchAction);
+		return (HtmlPage) input.click();
+	}
+    
 	public static HtmlPage clickInputContainingText(HtmlPage page, String...values) throws Exception {
 		page = (HtmlPage)getInputContainingText(page, values).click();
 		return page;

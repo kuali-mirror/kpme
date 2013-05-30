@@ -40,12 +40,12 @@ public class TimezoneTest extends KPMETestCase {
     	Map<String, Object> criteria = new LinkedHashMap<String, Object>();
     	criteria.put("selectedAssignment", new String[]{TkTestConstants.FormElementTypes.DROPDOWN, "30_30_30"});
     	// choose the first assignment from the drop down
-    	page = TkTestUtils.fillOutForm(page, criteria);
+    	page = HtmlUnitUtil.fillOutForm(page, criteria);
     	Assert.assertNotNull(page);
     	// clock in
-    	page = TkTestUtils.clickButton(page, "clockAction");
+    	page = HtmlUnitUtil.clickButton(page, "clockAction");
     	// clock out 
-    	page = TkTestUtils.clickButton(page, "clockAction");
+    	page = HtmlUnitUtil.clickButton(page, "clockAction");
     	HtmlUnitUtil.createTempFile(page);
     	
     	DateTimeZone dateTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone());

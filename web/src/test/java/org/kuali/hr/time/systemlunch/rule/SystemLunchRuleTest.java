@@ -64,24 +64,24 @@ public class SystemLunchRuleTest extends KPMETestCase {
     	criteria.put("selectedAssignment", new String[]{TkTestConstants.FormElementTypes.DROPDOWN, "2_1234_2"});
     	HtmlUnitUtil.createTempFile(page);
     	// choose the first assignment from the drop down
-    	page = TkTestUtils.fillOutForm(page, criteria);
+    	page = HtmlUnitUtil.fillOutForm(page, criteria);
     	Assert.assertNotNull(page);
         //Thread.sleep(3000);
     	// clock in
-    	page = TkTestUtils.clickClockInOrOutButton(page);
+    	page = HtmlUnitUtil.clickClockInOrOutButton(page);
         Thread.sleep(3000);
     	HtmlUnitUtil.createTempFile(page);
     	Assert.assertTrue("The take lunch button didn't appear", page.asXml().contains("lunchOut"));
         Thread.sleep(3000);
     	// the lunch in button should display after clocking in
-    	page = TkTestUtils.clickLunchInOrOutButton(page, "LO");
+    	page = HtmlUnitUtil.clickLunchInOrOutButton(page, "LO");
         //Thread.sleep(3000);
     	Assert.assertTrue("The return from lunch button didn't appear", page.asXml().contains("lunchIn"));
     	Thread.sleep(3000);
     	Assert.assertEquals(TkConstants.LUNCH_OUT, TkServiceLocator.getClockLogService().getLastClockLog(HrContext.getPrincipalId()).getClockAction());
         //Thread.sleep(3000);
     	// the lunch out button should display after lunching in
-    	page = TkTestUtils.clickLunchInOrOutButton(page, "LI");
+    	page = HtmlUnitUtil.clickLunchInOrOutButton(page, "LI");
     	Thread.sleep(3000);
     	Assert.assertEquals(TkConstants.LUNCH_IN, TkServiceLocator.getClockLogService().getLastClockLog(HrContext.getPrincipalId()).getClockAction());
     	
