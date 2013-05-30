@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.pm.test;
 
-import org.kuali.hr.time.test.HtmlUnitUtil;
+import org.kuali.kpme.core.util.HtmlUnitUtil;
 
 public final class PmTestConstants {
 	

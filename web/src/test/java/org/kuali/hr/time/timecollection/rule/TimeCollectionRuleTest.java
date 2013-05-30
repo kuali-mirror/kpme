@@ -18,7 +18,7 @@ package org.kuali.hr.time.timecollection.rule;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.test.KPMETestCase;
+import org.kuali.kpme.core.KPMETestCase;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;

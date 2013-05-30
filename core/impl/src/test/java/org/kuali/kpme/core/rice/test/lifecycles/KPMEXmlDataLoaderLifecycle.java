@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.rice.test.lifecycles;
+package org.kuali.kpme.core.rice.test.lifecycles;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
 import org.kuali.rice.kew.batch.KEWXmlDataLoader;
+import org.kuali.rice.test.lifecycles.KEWXmlDataLoaderLifecycle;
 
 
 public class KPMEXmlDataLoaderLifecycle extends BaseLifecycle {

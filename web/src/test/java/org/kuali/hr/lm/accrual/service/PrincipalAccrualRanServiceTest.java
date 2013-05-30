@@ -21,7 +21,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.test.KPMETestCase;
+import org.kuali.kpme.core.KPMETestCase;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.accrual.PrincipalAccrualRan;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;

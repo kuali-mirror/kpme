@@ -16,7 +16,7 @@
 package org.kuali.hr.core.salarygroup;
 
 import org.junit.Test;
-import org.kuali.hr.test.KPMETestCase;
+import org.kuali.kpme.core.KPMETestCase;
 
 public class SalGroupTest extends KPMETestCase {
 	

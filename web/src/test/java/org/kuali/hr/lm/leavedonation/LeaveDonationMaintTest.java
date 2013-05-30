@@ -22,10 +22,10 @@ import junit.framework.Assert;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
-import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.kpme.core.KPMETestCase;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.HtmlUnitUtil;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;

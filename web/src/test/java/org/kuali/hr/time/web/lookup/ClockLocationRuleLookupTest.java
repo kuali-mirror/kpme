@@ -18,8 +18,8 @@ package org.kuali.hr.time.web.lookup;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.test.HtmlUnitUtil;
+import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.util.HtmlUnitUtil;
 
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;

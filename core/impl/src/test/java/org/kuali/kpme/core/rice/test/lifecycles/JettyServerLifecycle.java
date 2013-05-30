@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.rice.test.lifecycles;
+package org.kuali.kpme.core.rice.test.lifecycles;
 
 import java.net.BindException;
 import java.util.HashMap;
@@ -25,7 +25,6 @@ import org.kuali.rice.core.api.lifecycle.Lifecycle;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
 import org.kuali.rice.core.api.util.RiceUtilities;
-import org.kuali.rice.test.launch.JettyLauncher;
 
 
 /**

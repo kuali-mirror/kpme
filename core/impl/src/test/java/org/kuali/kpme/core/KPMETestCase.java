@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.hr.test;
+package org.kuali.kpme.core;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,12 +22,12 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
-import org.kuali.hr.core.HrTestConstants;
-import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.util.ClearDatabaseLifecycle;
-import org.kuali.hr.time.util.DatabaseCleanupDataLifecycle;
-import org.kuali.hr.time.util.LoadDatabaseDataLifeCycle;
+import org.kuali.kpme.core.util.ClearDatabaseLifecycle;
+import org.kuali.kpme.core.util.DatabaseCleanupDataLifecycle;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.core.util.HrTestConstants;
+import org.kuali.kpme.core.util.HtmlUnitUtil;
+import org.kuali.kpme.core.util.LoadDatabaseDataLifeCycle;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
@@ -38,9 +38,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.test.RiceInternalSuiteDataTestCase;
 import org.kuali.rice.test.TransactionalLifecycle;
-import org.kuali.rice.test.lifecycles.JettyServerLifecycle;
-import org.kuali.rice.test.lifecycles.JettyServerLifecycle.ConfigMode;
-import org.kuali.rice.test.lifecycles.KPMEXmlDataLoaderLifecycle;
+import org.kuali.kpme.core.rice.test.lifecycles.JettyServerLifecycle;
+import org.kuali.kpme.core.rice.test.lifecycles.JettyServerLifecycle.ConfigMode;
+import org.kuali.kpme.core.rice.test.lifecycles.KPMEXmlDataLoaderLifecycle;
 import org.springframework.cache.CacheManager;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;

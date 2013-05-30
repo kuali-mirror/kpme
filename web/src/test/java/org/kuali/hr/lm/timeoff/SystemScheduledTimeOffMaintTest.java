@@ -18,10 +18,10 @@ package org.kuali.hr.lm.timeoff;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.core.HrTestConstants;
-import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.util.HrTestConstants;
+import org.kuali.kpme.core.util.HtmlUnitUtil;
 import org.kuali.kpme.core.util.TKUtils;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;

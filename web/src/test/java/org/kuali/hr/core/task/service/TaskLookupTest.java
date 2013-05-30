@@ -18,9 +18,9 @@ package org.kuali.hr.core.task.service;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.core.HrTestConstants;
-import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.test.HtmlUnitUtil;
+import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.util.HrTestConstants;
+import org.kuali.kpme.core.util.HtmlUnitUtil;
 
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;

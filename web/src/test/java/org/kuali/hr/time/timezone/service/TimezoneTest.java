@@ -22,10 +22,11 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.kpme.core.KPMETestCase;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrTestConstants;
+import org.kuali.kpme.core.util.HtmlUnitUtil;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -37,7 +38,7 @@ public class TimezoneTest extends KPMETestCase {
 		Assert.assertNotNull(page);
     	
     	Map<String, Object> criteria = new LinkedHashMap<String, Object>();
-    	criteria.put("selectedAssignment", new String[]{TkTestConstants.FormElementTypes.DROPDOWN, "30_30_30"});
+    	criteria.put("selectedAssignment", new String[]{HrTestConstants.FormElementTypes.DROPDOWN, "30_30_30"});
     	// choose the first assignment from the drop down
     	page = HtmlUnitUtil.fillOutForm(page, criteria);
     	Assert.assertNotNull(page);

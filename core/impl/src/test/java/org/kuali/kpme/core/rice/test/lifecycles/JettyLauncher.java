@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.rice.test.launch;
+package org.kuali.kpme.core.rice.test.lifecycles;
 
 import java.io.File;
 import java.util.ArrayList;

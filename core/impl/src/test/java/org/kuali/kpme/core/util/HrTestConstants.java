@@ -1,4 +1,4 @@
-package org.kuali.hr.core;
+package org.kuali.kpme.core.util;
 
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
@@ -72,7 +72,12 @@ public class HrTestConstants {
 		public static final String CALENDAR_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.calendar.Calendar&returnLocation="+BASE_URL+"/portal.do&hideReturnLink=true&docFormKey=88888888";
 		
 	    public static final String PORTAL_URL = BASE_URL + "/portal.do";
-    
+	}
+	
+	public static class FormElementTypes {
+		public static final String DROPDOWN = "dropDown";
+		public static final String CHECKBOX = "checkBox";
+		public static final String TEXTAREA = "textArea";
 	}
 	
 }

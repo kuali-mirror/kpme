@@ -25,7 +25,7 @@ import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.hr.test.KPMETestCase;
+import org.kuali.kpme.core.KPMETestCase;
 import org.kuali.kpme.pm.positionappointment.PositionAppointment;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 

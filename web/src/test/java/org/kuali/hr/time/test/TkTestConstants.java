@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.time.test;
 
-import org.kuali.hr.core.HrTestConstants;
+import org.kuali.kpme.core.util.HrTestConstants;
 
 public final class TkTestConstants {
 	
@@ -102,12 +102,6 @@ public final class TkTestConstants {
         public static final String TIME_COLLECTION_RULE_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule&methodToCall=start";
 	
 		public static final String DAILY_OVERTIME_RULE_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule&methodToCall=start";
-	}
-
-	public static class FormElementTypes {
-		public static final String DROPDOWN = "dropDown";
-		public static final String CHECKBOX = "checkBox";
-		public static final String TEXTAREA = "textArea";
 	}
 
 }

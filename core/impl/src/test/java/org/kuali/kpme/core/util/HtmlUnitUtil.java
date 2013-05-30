@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.hr.time.test;
+package org.kuali.kpme.core.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -107,7 +107,7 @@ public class HtmlUnitUtil {
 				String value = Arrays.asList((String[])entry.getValue()).get(1).toString();
 
 				// drop-down
-				if(key.equals(TkTestConstants.FormElementTypes.DROPDOWN)) {
+				if(key.equals(HrTestConstants.FormElementTypes.DROPDOWN)) {
 
 					try {
 						select = (HtmlSelect) lookupForm.getSelectByName(formFieldPrefix  + entry.getKey());
@@ -120,7 +120,7 @@ public class HtmlUnitUtil {
                    HtmlUnitUtil.createTempFile(resultPage);
                }
 				// check box
-				else if(key.equals(TkTestConstants.FormElementTypes.CHECKBOX)) {
+				else if(key.equals(HrTestConstants.FormElementTypes.CHECKBOX)) {
 					try {
 					  checkBox = page.getHtmlElementById(formFieldPrefix  + entry.getKey());
 					}
@@ -130,7 +130,7 @@ public class HtmlUnitUtil {
 					resultPage = (HtmlPage) checkBox.setChecked(Boolean.parseBoolean(value));
 				}
 				// text area
-				else if(key.equals(TkTestConstants.FormElementTypes.TEXTAREA)) {
+				else if(key.equals(HrTestConstants.FormElementTypes.TEXTAREA)) {
 					try {
 					   textArea = page.getHtmlElementById(formFieldPrefix  + entry.getKey());
 					} catch (Exception e){

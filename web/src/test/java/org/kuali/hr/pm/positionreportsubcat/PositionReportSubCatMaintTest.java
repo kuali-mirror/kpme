@@ -19,8 +19,8 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.kuali.hr.pm.test.PmTestConstants;
-import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.test.HtmlUnitUtil;
+import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.util.HtmlUnitUtil;
 import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 

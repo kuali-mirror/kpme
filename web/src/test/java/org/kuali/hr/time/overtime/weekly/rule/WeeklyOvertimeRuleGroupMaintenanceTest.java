@@ -17,7 +17,7 @@ package org.kuali.hr.time.overtime.weekly.rule;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.time.test.HtmlUnitUtil;
+import org.kuali.kpme.core.util.HtmlUnitUtil;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;

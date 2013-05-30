@@ -16,7 +16,7 @@
 package org.kuali.hr.lm.employeeoverride;
 
 import org.junit.Ignore;
-import org.kuali.hr.test.KPMETestCase;
+import org.kuali.kpme.core.KPMETestCase;
 
 @Ignore
 public class EmployeeOverrideMaintTest extends KPMETestCase{

@@ -22,7 +22,7 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.hr.test.KPMETestCase;
+import org.kuali.kpme.core.KPMETestCase;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.service.AssignmentService;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
