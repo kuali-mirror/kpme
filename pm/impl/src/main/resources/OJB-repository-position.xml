@@ -206,7 +206,7 @@
         <field-descriptor name="objectId"      			column="OBJ_ID"             	jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber" 			column="VER_NBR"            	jdbc-type="BIGINT"      locking="true" />
         
-        <collection-descriptor name="qualificationList" element-class-ref="org.kuali.kpme.pm.classification.ClassificationQualification"
+        <collection-descriptor name="qualificationList" element-class-ref="org.kuali.kpme.pm.classification.qual.ClassificationQualification"
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="pmPositionClassId" />
         </collection-descriptor>
@@ -250,7 +250,7 @@
     </class-descriptor>
     
     <!-- Position Classification Qualification -->
-    <class-descriptor class="org.kuali.kpme.pm.classification.ClassificationQualification" table="PM_PSTN_CL_QLFCTN_T">
+    <class-descriptor class="org.kuali.kpme.pm.classification.qual.ClassificationQualification" table="PM_PSTN_CL_QLFCTN_T">
         <field-descriptor name="pmClassificationQualificationId"   	column="PM_PSTN_CL_QLFCTN_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_CL_QLFCTN_S" />
         <field-descriptor name="qualificationType"    				column="QLFCTN_TP"      		 jdbc-type="VARCHAR"     length="20" 		nullable="false" />
         <field-descriptor name="qualifier"    						column="QUALIFIER"             	 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
