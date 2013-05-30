@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 import org.kuali.kpme.core.assignment.account.AssignmentAccount;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -36,7 +37,7 @@ public class AssignmentAccountMaintTest extends KPMETestCase{
 	
 	@Test
 	public void testAssignmentAccountMaint() throws Exception {	 
-		HtmlPage assignmentAccountLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ASSIGNMENT_ACCOUNT_MAINT_URL);
+		HtmlPage assignmentAccountLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.ASSIGNMENT_ACCOUNT_MAINT_URL);
 		assignmentAccountLookup = HtmlUnitUtil.clickInputContainingText(assignmentAccountLookup, "search");
 		Assert.assertTrue("Page contains test assignmentAccount", assignmentAccountLookup.asText().contains(TEST_ASSIGN_ID.toString()));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(assignmentAccountLookup, "edit",assignmentAccountId.toString());

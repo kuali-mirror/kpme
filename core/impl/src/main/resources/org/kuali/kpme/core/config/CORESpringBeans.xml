@@ -137,33 +137,22 @@
         <property name="parameterService" ref="parameterService" />
     </bean>
     
-    <bean id="kpmeResourceLoaderConfigurer" class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
+<!--     <bean id="kpmeResourceLoaderConfigurer" class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
         <property name="localServiceName" value="KPME-Context"/>
         <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/core/v2_0" />
         <property name="beanNames">
             <set>
                 <value>calendarLookupable</value>
-                <!--<value>timeBlockLookupable</value>
-				<value>timeBlockHistoryLookupable</value>-->
 				<value>jobLookupable</value>
-				<value>systemLunchRuleLookupable</value> 
 				<value>earnCodeSecurityLookupable</value>
 				<value>earnCodeLookupable</value> 
 				<value>earnCodeGroupLookupable</value> 
 				<value>payTypeLookupable</value> 
 				<value>positionLookupable</value> 
-				<value>salaryGroupLookupable</value> 
-				<value>dailyOvertimeRuleLookupable</value> 
+				<value>salaryGroupLookupable</value>
 				<value>departmentLookupable</value> 
 				<value>workAreaLookupable</value> 
-				<!--<value>clockLocationRuleLookupable</value>
-				<value>departmentLunchRuleLookupable</value> 
-				<value>gracePeriodRuleLookupable</value> 
-				<value>shiftDifferentialRuleLookupable</value> 
-				<value>weeklyOvertimeRuleLookupable</value> 
-				<value>timeCollectionRuleLookupable</value> -->
 				<value>assignmentLookupable</value> 
-				<value>clockLogLookupable</value>
 				<value>locationLookupable</value> 
 				<value>calendarEntryLookupable</value>
 				<value>payGradeLookupable</value> 
@@ -177,28 +166,10 @@
 				<value>subObjectCodeLookupable</value> 
 				<value>taskLookupable</value> 
 				<value>leavePlanLookupable</value>
-                <!--<value>systemScheduledTimeOffLookupable</value>
-                <value>leaveDonationLookupable</value>
-                <value>accrualCategoryLookupable</value>
-                <value>leaveAdjustmentLookupable</value>
-                <value>employeeOverrideLookupable</value>
-                <value>balanceTransferLookupable</value>
-                <value>leavePayoutLookupable</value>
-                <value>missedPunchLookupable</value>-->
                 <value>institutionLookupable</value>
-                <!--<value>positionReportTypeLookupable</value>
-                <value>positionReportGroupLookupable</value>
-                <value>positionReportCatLookupable</value>
-                <value>positionReportSubCatLookupable</value>                
-                <value>payStepLookupable</value>
-                <value>positionTypeLookupable</value>
-                <value>positionAppointmentLookupable</value>
-                <value>pstnContractTypeLookupable</value>
-                <value>positionDepartmentAffiliationLookupable</value>
-                <value>positionDepartmentLookupable</value>-->
             </set>
         </property>
-    </bean>
+    </bean> -->
 
 
 

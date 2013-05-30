@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -35,7 +36,7 @@ public class AccrualCategoryMaintTest extends KPMETestCase {
 
 	@Test
 	public void testAccrualCategoryMaint() throws Exception {
-		HtmlPage accuralCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
+		HtmlPage accuralCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		Assert.assertEquals("Active is not default to Yes", accuralCategoryLookup.getElementById("activeYes").asText(), "checked");
 		accuralCategoryLookup = HtmlUnitUtil.clickInputContainingText(accuralCategoryLookup, "search");
 		Assert.assertTrue("Page contains test AccuralCategory", accuralCategoryLookup.asText().contains(TEST_CODE.toString()));

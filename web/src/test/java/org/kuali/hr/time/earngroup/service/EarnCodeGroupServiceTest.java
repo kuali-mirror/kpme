@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
@@ -37,7 +38,7 @@ public class EarnCodeGroupServiceTest extends KPMETestCase{
 	
 	@Test
 	public void testEarnGroupMaintenancePage() throws Exception{				
-		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_GROUP_MAINT_URL);
+		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.EARN_CODE_GROUP_MAINT_URL);
 		earnCodeLookUp = HtmlUnitUtil.clickInputContainingText(earnCodeLookUp, "search");
 		HtmlUnitUtil.createTempFile(earnCodeLookUp);
 		Assert.assertTrue("Page contains REG entry", earnCodeLookUp.asText().contains("REG"));	

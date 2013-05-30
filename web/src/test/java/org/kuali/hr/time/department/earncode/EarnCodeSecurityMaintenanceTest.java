@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -43,7 +44,7 @@ public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
 
 	@Test
 	public void testEarnCodeSecurityMaint() throws Exception {
-		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_SECURITY_MAINT_URL);
+		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.EARN_CODE_SECURITY_MAINT_URL);
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
 		Assert.assertTrue("Page contains test EarnCodeSecurity", deptEarnCodeLookup.asText().contains(DEPT));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", "hrEarnCodeSecurityId=" + hrDeptEarnCodeId);
@@ -58,7 +59,7 @@ public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
         String testEarnCode = "testEarnCode";
 
 
-		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_SECURITY_MAINT_URL);
+		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.EARN_CODE_SECURITY_MAINT_URL);
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
 		Assert.assertTrue("Page contains test EarnCodeSecurity", deptEarnCodeLookup.asText().contains(DEPT));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", "hrEarnCodeSecurityId");
@@ -104,7 +105,7 @@ public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
 	
 	@Test
 	public void testEditingEarnCodeSecurityMaint() throws Exception {
-		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_SECURITY_MAINT_URL);
+		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.EARN_CODE_SECURITY_MAINT_URL);
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
 		Assert.assertTrue("Page contains TEST-DEPT", deptEarnCodeLookup.asText().contains(DEPT));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", "hrEarnCodeSecurityId=" + hrDeptEarnCodeId);
@@ -112,7 +113,7 @@ public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
 		Assert.assertFalse("Maintenance Page contains Warning message",maintPage.asText().contains("There is a newer version of this Department Earn Code."));
 		
 		this.createDuplicateEarnCodeSecurity();
-		deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_SECURITY_MAINT_URL);
+		deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.EARN_CODE_SECURITY_MAINT_URL);
 		this.setFieldValue(deptEarnCodeLookup, "earnCode", EARN_CODE);
 		this.setFieldValue(deptEarnCodeLookup, "dept", DEPT);
 		this.setFieldValue(deptEarnCodeLookup, "effectiveDate", "08/01/2010");

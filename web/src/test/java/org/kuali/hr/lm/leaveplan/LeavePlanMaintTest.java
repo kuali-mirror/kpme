@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
@@ -37,7 +38,7 @@ public class LeavePlanMaintTest extends KPMETestCase {
 	public void testLeavePlanMonthsSave() throws Exception {
 		
 		//get the page with planning months
-		HtmlPage leavePlan = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.LEAVE_PLAN_MAINT_URL);
+		HtmlPage leavePlan = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.LEAVE_PLAN_MAINT_URL);
 		LOG.debug("Leave plan text page is : " + leavePlan.asText());
 		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(leavePlan, "search");
 		HtmlUnitUtil.createTempFile(resultPage);
@@ -76,7 +77,7 @@ public class LeavePlanMaintTest extends KPMETestCase {
 	public void testInactivateLeavePlan() throws Exception {
 		
 		//get the page with planning months
-		HtmlPage leavePlan = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.LEAVE_PLAN_MAINT_URL);
+		HtmlPage leavePlan = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.LEAVE_PLAN_MAINT_URL);
 		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(leavePlan, "search");
 		HtmlUnitUtil.createTempFile(resultPage);
 		Assert.assertTrue("Maintenance page contains:\n" + "Testing LP Inactive Flag", resultPage.asText().contains("Testing LP Inactive Flag"));
@@ -96,7 +97,7 @@ public class LeavePlanMaintTest extends KPMETestCase {
 	public void testRequiredFields() throws Exception {
 		
 		//get the page with planning months
-		HtmlPage leavePlan = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.LEAVE_PLAN_MAINT_URL);
+		HtmlPage leavePlan = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.LEAVE_PLAN_MAINT_URL);
 		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(leavePlan, "search");
 		HtmlUnitUtil.createTempFile(resultPage);
 		Assert.assertTrue("Maintenance page contains:\n" + "Testing Leave Plan Months", resultPage.asText().contains("Testing Leave Plan Months"));

@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
@@ -43,7 +44,7 @@ public class AssignmentMaintTest extends KPMETestCase {
 	
 	@Test
 	public void testAssignmentMaint() throws Exception {
-		HtmlPage assignmentLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ASSIGNMENT_MAINT_URL);
+		HtmlPage assignmentLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.ASSIGNMENT_MAINT_URL);
 		setFieldValue(assignmentLookUp, "workArea", "30");
 		assignmentLookUp = HtmlUnitUtil.clickInputContainingText(assignmentLookUp, "search");
 		Assert.assertTrue("Page contains test assignment", assignmentLookUp.asText().contains(TEST_CODE.toString()));
@@ -57,7 +58,7 @@ public class AssignmentMaintTest extends KPMETestCase {
 	@Test
 	public void testAssignmentCreateNew() throws Exception {
 		
-    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ASSIGNMENT_MAINT_NEW_URL);
+    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.ASSIGNMENT_MAINT_NEW_URL);
     	Assert.assertNotNull(page);
     	HtmlForm form = page.getFormByName("KualiForm");
     	Assert.assertNotNull("Search form was missing from page.", form);
@@ -81,7 +82,7 @@ public class AssignmentMaintTest extends KPMETestCase {
 	@Test
 	public void testAssignmentCreateNewJobValidation() throws Exception {
 		
-		HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ASSIGNMENT_MAINT_NEW_URL);
+		HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.ASSIGNMENT_MAINT_NEW_URL);
 		Assert.assertNotNull(page);
 		HtmlForm form = page.getFormByName("KualiForm");
 		Assert.assertNotNull("Search form was missing from page.", form);

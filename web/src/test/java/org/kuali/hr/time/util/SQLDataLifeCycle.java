@@ -33,7 +33,7 @@ import junit.framework.Assert;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.enhydra.jdbc.pool.StandardXAPoolDataSource;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -58,8 +58,8 @@ public class SQLDataLifeCycle  extends BaseLifecycle {
     }
 
     public void start() throws Exception {
-        final StandardXAPoolDataSource dataSource = (StandardXAPoolDataSource) TkServiceLocator.getBean("kpmeDataSource");
-        final PlatformTransactionManager transactionManager = TkServiceLocator.getPlatformTransactionManager();
+        final StandardXAPoolDataSource dataSource = (StandardXAPoolDataSource) HrServiceLocator.getBean("kpmeDataSource");
+        final PlatformTransactionManager transactionManager = HrServiceLocator.getPlatformTransactionManager();
         final String schemaName = dataSource.getUser().toUpperCase();
         loadData(transactionManager, dataSource, schemaName);
         super.start();

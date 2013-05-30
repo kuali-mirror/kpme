@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
@@ -30,7 +31,7 @@ public class TaskLookupTest extends KPMETestCase {
 	
 	@Test
     public void testLookup() throws Exception{
-    	String baseUrl = TkTestConstants.Urls.TASK_MAINT_URL;	
+    	String baseUrl = HrTestConstants.Urls.TASK_MAINT_URL;	
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
     	Assert.assertNotNull(page);
     	Assert.assertTrue("Could not find text 'Task Lookup' in page.", StringUtils.contains(page.asText(), "Task Lookup"));

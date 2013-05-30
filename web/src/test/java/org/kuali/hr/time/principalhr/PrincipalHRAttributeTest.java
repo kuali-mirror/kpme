@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -29,7 +30,7 @@ public class PrincipalHRAttributeTest extends KPMETestCase {
 		//confirm maintenance page renders default data
 		//confirm non existent pay calendar throws error
 		//confirm non existenet holiday calendar throws error
-		HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.PRIN_HR_MAINT_URL);
+		HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.PRIN_HR_MAINT_URL);
     	page = HtmlUnitUtil.clickInputContainingText(page, "search");
     	HtmlUnitUtil.createTempFile(page);
     	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit","hrPrincipalAttributeId=2004");

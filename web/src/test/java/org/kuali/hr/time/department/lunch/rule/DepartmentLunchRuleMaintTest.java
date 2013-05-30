@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -115,7 +116,7 @@ public class DepartmentLunchRuleMaintTest extends KPMETestCase {
 				departmentLunchRuleLookUp, "edit",
 				deptLunchRuleIdWithInvalidWorkArea.toString());
 		
-		setFieldValue(maintPage, TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "shiftHours", "34");
+		setFieldValue(maintPage, HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "shiftHours", "34");
 		setFieldValue(maintPage, "document.documentHeader.documentDescription", "test");
 		HtmlPage resultantPageAfterEdit = HtmlUnitUtil.clickInputContainingText(maintPage, "submit");		
 		HtmlUnitUtil.createTempFile(resultantPageAfterEdit);

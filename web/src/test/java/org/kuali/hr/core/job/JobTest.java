@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.job.Job;
@@ -103,7 +104,7 @@ public class JobTest extends KPMETestCase {
 
 	@Test
 	public void jobMaintenancePage() throws Exception{
-		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.JOB_MAINT_URL);
+		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.JOB_MAINT_URL);
 		lookupPage = HtmlUnitUtil.clickInputContainingText(lookupPage, "search");
 		HtmlUnitUtil.createTempFile(lookupPage);
 		Assert.assertTrue("Page contains admin entry", lookupPage.asText().contains("admin"));
@@ -137,7 +138,7 @@ public class JobTest extends KPMETestCase {
 
 	@Test
 	public void testMaintenancePageEdit() throws Exception {
-		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.JOB_MAINT_URL);
+		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.JOB_MAINT_URL);
 		lookupPage = HtmlUnitUtil.clickInputContainingText(lookupPage, "search");
 		HtmlPage editPage = HtmlUnitUtil.clickAnchorContainingText(lookupPage, "edit", jobId.toString());
 		//input bad dept, sal group, job location, pay type, pay grade

@@ -30,6 +30,7 @@ import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.timesheet.web.TimesheetWebTestBase;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
+import org.kuali.hr.util.HrTestConstants;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
@@ -131,7 +132,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
 
 
     public void deleteTimesheet(String tdocId) throws Exception {
-        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.PORTAL_URL);
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.PORTAL_URL);
         Assert.assertNotNull(page);
         page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.DELETE_TIMESHEET_URL + "?deleteDocumentId="+tdocId);
         HtmlUnitUtil.createTempFile(page, "Deleted");

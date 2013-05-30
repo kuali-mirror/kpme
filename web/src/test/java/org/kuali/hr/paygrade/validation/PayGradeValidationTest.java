@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.FrameWindow;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
@@ -37,7 +38,7 @@ public class PayGradeValidationTest extends KPMETestCase{
 	@Ignore
 	@Test
 	public void testValidateSalGroup() throws Exception {
-        String baseUrl = TkTestConstants.Urls.PAY_GRADE_MAINT_NEW_URL;
+        String baseUrl = HrTestConstants.Urls.PAY_GRADE_MAINT_NEW_URL;
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.BASE_URL, true);
         page = HtmlUnitUtil.clickAnchorContainingText(page,"Maintenance");
         HtmlUnitUtil.createTempFile(page);

@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -59,7 +60,7 @@ public class WorkAreaMaintenanceDocumentTest extends KPMETestCase {
 
     @Test
     public void testCreateNew() throws Exception {
-    	String baseUrl = TkTestConstants.Urls.WORK_AREA_MAINT_NEW_URL;
+    	String baseUrl = HrTestConstants.Urls.WORK_AREA_MAINT_NEW_URL;
         Long workArea = this.maxWorkArea()+1;
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
     	Assert.assertNotNull(page);
@@ -101,7 +102,7 @@ public class WorkAreaMaintenanceDocumentTest extends KPMETestCase {
         Assert.assertTrue("page does not contains:\n" + workArea.toString(), lastPage.asText().contains(workArea.toString()));
         
         // search page should find the new work area
-        HtmlPage searchPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.WORK_AREA_MAINT_URL);
+        HtmlPage searchPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.WORK_AREA_MAINT_URL);
         searchPage = HtmlUnitUtil.clickInputContainingText(searchPage, "search");
         Assert.assertTrue("Page contains test Earn Code", searchPage.asText().contains(workArea.toString()));
 		

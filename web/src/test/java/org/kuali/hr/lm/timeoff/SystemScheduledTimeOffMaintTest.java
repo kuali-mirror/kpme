@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 import org.kuali.kpme.core.util.TKUtils;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -103,7 +104,7 @@ public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 	  	Assert.assertNotNull("Could not locate submit button", input);
 	  	HtmlElement element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
-	  	Assert.assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
+	  	Assert.assertTrue("page text does not contain:\n" + HrTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(HrTestConstants.EFFECTIVE_DATE_ERROR));
 	  	Assert.assertTrue("page text does not contain:\n" + ACCRUED_DATE_PAST_ERROR, page.asText().contains(ACCRUED_DATE_PAST_ERROR));
 	  	Assert.assertTrue("page text does not contain:\n" + SCHEDULED_TO_DATE_PAST_ERROR, page.asText().contains(SCHEDULED_TO_DATE_PAST_ERROR));
 	}

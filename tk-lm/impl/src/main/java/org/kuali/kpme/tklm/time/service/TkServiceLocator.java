@@ -174,14 +174,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static TkSearchableAttributeService getTkSearchableAttributeService(){
 		return (TkSearchableAttributeService) CONTEXT.getBean(TK_SEARCH_ATTR_SERVICE);
 	}
-
-	public static PlatformTransactionManager getPlatformTransactionManager() {
-		return (PlatformTransactionManager)CONTEXT.getBean("transactionManager");
-	}
-
-	public static TransactionTemplate getTransactionTemplate() {
-		return new TransactionTemplate(getPlatformTransactionManager());
-	}
     
     public static TKPermissionService getTKPermissionService() {
     	return (TKPermissionService) CONTEXT.getBean(TK_PERMISSION_SERVICE);
@@ -196,10 +188,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 	    CONTEXT = arg0;
 	}
-
-    public static Object getBean(String beanName) {
-        return CONTEXT.getBean(beanName);
-    }
 	
 
     /**

@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
@@ -105,7 +106,7 @@ public class EarnCodeMaintenaceTest extends KPMETestCase {
 	 
 	@Test
 	public void testEditExistingEarnCode() throws Exception {
-		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_MAINT_URL);
+		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.EARN_CODE_MAINT_URL);
 		List<DomElement> lstElements = earnCodeLookUp.getElementsByIdAndOrName("history");
 		for(DomElement e : lstElements) {
 			HtmlRadioButtonInput radioButton = (HtmlRadioButtonInput) e;
@@ -133,7 +134,7 @@ public class EarnCodeMaintenaceTest extends KPMETestCase {
 	@Ignore
 	public void testDeactivateEarnCodeWithActiveTimeBlock() throws Exception {
 		
-		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_MAINT_URL);
+		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.EARN_CODE_MAINT_URL);
 		List<DomElement> lstElements = earnCodeLookUp.getElementsByIdAndOrName("history");
 		for(DomElement e : lstElements) {
 			HtmlRadioButtonInput radioButton = (HtmlRadioButtonInput) e;
@@ -160,7 +161,7 @@ public class EarnCodeMaintenaceTest extends KPMETestCase {
 	@Test
 	public void testDeactivateEarnCodeWithInActiveTimeBlock() throws Exception {
 		
-		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_MAINT_URL);
+		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.EARN_CODE_MAINT_URL);
 		List<DomElement> lstElements = earnCodeLookUp.getElementsByIdAndOrName("history");
 		for(DomElement e : lstElements) {
 			HtmlRadioButtonInput radioButton = (HtmlRadioButtonInput) e;

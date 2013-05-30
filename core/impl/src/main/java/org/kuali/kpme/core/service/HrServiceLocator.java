@@ -45,6 +45,8 @@ import org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 public class HrServiceLocator implements ApplicationContextAware {
 
@@ -84,7 +86,19 @@ public class HrServiceLocator implements ApplicationContextAware {
     //Move to [Sys|Hr]ServiceLocator
 	public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
     public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";    
+
+    public static Object getBean(String beanName) {
+        return CONTEXT.getBean(beanName);
+    }
     
+	public static PlatformTransactionManager getPlatformTransactionManager() {
+		return (PlatformTransactionManager)CONTEXT.getBean("transactionManager");
+	}
+
+	public static TransactionTemplate getTransactionTemplate() {
+		return new TransactionTemplate(getPlatformTransactionManager());
+	}
+       
 	public static PayStepService getPayStepService() {
 		return (PayStepService) CONTEXT.getBean(HR_PAY_STEP_SERVICE);
 	}

@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
@@ -40,7 +41,7 @@ public class CalendarMaintTest extends KPMETestCase {
 	public void testDisplayCalendarTypeRadioOptions() throws Exception {
 		
 		//verify the lookup page doesn't contain the both radio button
-		HtmlPage calendarPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.CALENDAR_MAINT_URL);
+		HtmlPage calendarPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.CALENDAR_MAINT_URL);
 		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(calendarPage, "search");
 		HtmlUnitUtil.createTempFile(resultPage);
 		Assert.assertTrue("Lookup page contains:\n" + "The both radio button is not present", resultPage.asText().contains("Both"));
@@ -54,7 +55,7 @@ public class CalendarMaintTest extends KPMETestCase {
 	
 	@Test
 	public void testRequiredFields() throws Exception {
-	  	String baseUrl = TkTestConstants.Urls.CALENDAR_MAINT_NEW_URL;
+	  	String baseUrl = HrTestConstants.Urls.CALENDAR_MAINT_NEW_URL;
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 

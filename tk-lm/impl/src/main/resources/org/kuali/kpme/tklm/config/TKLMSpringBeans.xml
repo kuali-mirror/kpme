@@ -70,12 +70,47 @@
         </property>
     </bean>
 
+    <bean id="kpme.tklm.soap.service" parent="kpme.soap.service" abstract="true">
+        <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/tklm/v2_0" />
+    </bean>
+
     <bean id="kpme.tklm.import.globalCacheManager" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="globalCacheManager" />
     </bean>
 
     <cache:annotation-driven cache-manager="kpme.tklm.import.globalCacheManager" />
     <!-- end cache setup -->
+
+	<!-- This bean merges lookupable bean names with those defined within parent bean in core -->
+
+<!--     <bean id="kpmeTKLMResourceLoaderConfigurer" class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
+         <property name="localServiceName" value="KPME-TKLM-Context"/>
+         <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/tklm/v2_0" />
+
+         <property name="beanNames">
+            <set>
+                <value>timeBlockLookupable</value> 
+				<value>timeBlockHistoryLookupable</value> 
+				<value>timeBlockHistoryDetailLookupable</value>
+				<value>systemLunchRuleLookupable</value>
+				<value>dailyOvertimeRuleLookupable</value> 
+				<value>clockLocationRuleLookupable</value> 
+				<value>departmentLunchRuleLookupable</value> 
+				<value>gracePeriodRuleLookupable</value> 
+				<value>shiftDifferentialRuleLookupable</value> 
+				<value>weeklyOvertimeRuleLookupable</value> 
+				<value>timeCollectionRuleLookupable</value> 
+				<value>clockLogLookupable</value>
+				<value>systemScheduledTimeOffLookupable</value> 
+				<value>leaveDonationLookupable</value> 
+				<value>leaveAdjustmentLookupable</value> 
+				<value>employeeOverrideLookupable</value>
+				<value>balanceTransferLookupable</value>
+                <value>leavePayoutLookupable</value>
+                <value>missedPunchLookupable</value>
+            </set>
+        </property>
+    </bean> -->
 
     <bean id="dataDictionaryService"
           class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -110,10 +145,6 @@
 			</list>
 		</property>
 	</bean>
-
-    <bean id="kpme.tklm.soap.service" parent="kpme.soap.service" abstract="true">
-        <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/tklm/v2_0" />
-    </bean>
 	
 	<!-- TK-LM DAOs -->
 

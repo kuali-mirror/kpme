@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -50,31 +51,31 @@ public class PayCalendarEntriesMaintenaceTest extends KPMETestCase {
 		HtmlTextInput text  = (HtmlTextInput) page.getHtmlElementById("document.documentHeader.documentDescription");
 		text.setValueAttribute("test");
 		HtmlUnitUtil.createTempFile(page);
-		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "calendarName");
+		text  = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "calendarName");
 		text.setValueAttribute("TTT");	// set an invalid pay calendar		
-		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "beginPeriodDate");
+		text  = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "beginPeriodDate");
 		text.setValueAttribute("02/21/2011");		
-		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "beginPeriodTime");
+		text  = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "beginPeriodTime");
 		text.setValueAttribute("08:00 am");		
-		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "endPeriodDate");
+		text  = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "endPeriodDate");
 		text.setValueAttribute("02/28/2011");		
-		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "endPeriodTime");
+		text  = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "endPeriodTime");
 		text.setValueAttribute("08:00 am");    
-		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "batchInitiateDate");
+		text  = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "batchInitiateDate");
 		text.setValueAttribute("02/16/2011");		
-		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "batchInitiateTime");
+		text  = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "batchInitiateTime");
 		text.setValueAttribute("08:00 am");		
-		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "batchEndPayPeriodDate");
+		text  = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "batchEndPayPeriodDate");
 		text.setValueAttribute("02/21/2011");		
-		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "batchEndPayPeriodTime");
+		text  = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "batchEndPayPeriodTime");
 		text.setValueAttribute("08:00 am"); 
-		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "batchEmployeeApprovalDate");
+		text  = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "batchEmployeeApprovalDate");
 		text.setValueAttribute("02/17/2011");		
-		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "batchEmployeeApprovalTime");
+		text  = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "batchEmployeeApprovalTime");
 		text.setValueAttribute("08:00 am");
-		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "batchSupervisorApprovalDate");
+		text  = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "batchSupervisorApprovalDate");
 		text.setValueAttribute("02/18/2011");		
-		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "batchSupervisorApprovalTime");
+		text  = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "batchSupervisorApprovalTime");
 		text.setValueAttribute("08:00 am");
 		
 		HtmlElement element = page.getElementByName("methodToCall.route");
@@ -83,7 +84,7 @@ public class PayCalendarEntriesMaintenaceTest extends KPMETestCase {
 		// error for invalid pay calendar
         Assert.assertTrue("Maintenance Page contains error messages", page1.asText().contains("You must specify a valid Calendar."));
 
-		text  = (HtmlTextInput) page1.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "calendarName");
+		text  = (HtmlTextInput) page1.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "calendarName");
 		text.setValueAttribute("BW-CAL");	// set a valid pay calendar	
         
 		element = page1.getElementByName("methodToCall.route");

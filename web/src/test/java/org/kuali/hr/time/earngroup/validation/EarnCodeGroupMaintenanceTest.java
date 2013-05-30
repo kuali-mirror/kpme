@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition;
@@ -114,7 +115,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
 
     @Test
     public void testEditExistingEarnGroup() throws Exception {
-        HtmlPage earnGroupLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_GROUP_MAINT_URL);
+        HtmlPage earnGroupLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.EARN_CODE_GROUP_MAINT_URL);
         earnGroupLookUp = HtmlUnitUtil.clickInputContainingText(earnGroupLookUp, "search");
         Assert.assertTrue("Page contains test Earn Group", earnGroupLookUp.asText().contains("test"));
         HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnGroupLookUp, "edit", hrEarnGroupId.toString());
@@ -123,7 +124,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         text.setValueAttribute("test1");
 
         // pull out earn group RGG to edit.
-        earnGroupLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_GROUP_MAINT_URL);
+        earnGroupLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.EARN_CODE_GROUP_MAINT_URL);
         earnGroupLookUp = HtmlUnitUtil.clickInputContainingText(earnGroupLookUp, "search");
         Assert.assertTrue("Page contains test Earn Group", earnGroupLookUp.asText().contains("test RGG"));
         HtmlPage testEditRGGPage = HtmlUnitUtil.clickAnchorContainingText(earnGroupLookUp, "edit", hrEarnGroupIdRGG.toString());
@@ -164,21 +165,21 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
 
         HtmlTextInput text = (HtmlTextInput) page.getHtmlElementById("document.documentHeader.documentDescription");
         text.setValueAttribute("test");
-        text = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "descr");
+        text = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "descr");
         text.setValueAttribute("Test Earn Group");
-        text = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "earnCodeGroup");
+        text = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "earnCodeGroup");
         text.setValueAttribute("Test");
         // set an old effective date so that the earn code that's added later is not effective by that date
-        text = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "effectiveDate");
+        text = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "effectiveDate");
         text.setValueAttribute("12/01/2008");
 
-        HtmlCheckBoxInput checkbox = (HtmlCheckBoxInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "showSummary");
+        HtmlCheckBoxInput checkbox = (HtmlCheckBoxInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "showSummary");
         checkbox.setChecked(true);
-        checkbox = (HtmlCheckBoxInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "active");
+        checkbox = (HtmlCheckBoxInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "active");
         checkbox.setChecked(true);
 
         // add an Earn code that is being used by another active earn group, submit, should generate error message
-        text = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "add.earnCodeGroups.earnCode");
+        text = (HtmlTextInput) page.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "add.earnCodeGroups.earnCode");
         text.setValueAttribute(EARN_CODE);
         HtmlElement element = HtmlUnitUtil.getInputContainingText(page, "methodToCall.addLine.earnCodeGroups");
         HtmlPage page1 = element.click();
@@ -188,14 +189,14 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         Assert.assertTrue("Maintenance Page contains error messages", page1.asText().contains("The specified Earncode '" + EARN_CODE + "' does not exist."));
 
         // set the effective date to one that works for the earn code
-        text = (HtmlTextInput) page1.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "effectiveDate");
+        text = (HtmlTextInput) page1.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "effectiveDate");
         text.setValueAttribute("5/01/2011");
         element = HtmlUnitUtil.getInputContainingText(page1, "methodToCall.addLine.earnCodeGroups");
         HtmlPage page2 = element.click();
         Assert.assertFalse("Page contains Error", page2.asText().contains("error"));
 
         // add the same earn code again to get the duplicate error
-        text = (HtmlTextInput) page2.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "add.earnCodeGroups.earnCode");
+        text = (HtmlTextInput) page2.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "add.earnCodeGroups.earnCode");
         text.setValueAttribute(EARN_CODE);
         element = HtmlUnitUtil.getInputContainingText(page2, "methodToCall.addLine.earnCodeGroups");
         page1 = element.click();
@@ -212,7 +213,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         Assert.assertFalse("Page contains Error", page3.asText().contains("error"));
 
         //add an earn code that is not being used, submit, should get success message
-        text = (HtmlTextInput) page3.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "add.earnCodeGroups.earnCode");
+        text = (HtmlTextInput) page3.getHtmlElementById(HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "add.earnCodeGroups.earnCode");
         text.setValueAttribute("XZZ");
         element = HtmlUnitUtil.getInputContainingText(page3, "methodToCall.addLine.earnCodeGroups");
         page1 = element.click();
@@ -263,11 +264,11 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
 
     private void populateEarnGroup(HtmlPage page, String effDateString) {
         setFieldValue(page, "document.documentHeader.documentDescription", "test");
-        setFieldValue(page, TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "descr", "Test Earn Group");
-        setFieldValue(page, TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "earnCodeGroup", "MM");
-        setFieldValue(page, TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "effectiveDate", effDateString);
-        setFieldValue(page, TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "showSummary", "on");
-        setFieldValue(page, TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "active", "on");
+        setFieldValue(page, HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "descr", "Test Earn Group");
+        setFieldValue(page, HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "earnCodeGroup", "MM");
+        setFieldValue(page, HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "effectiveDate", effDateString);
+        setFieldValue(page, HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "showSummary", "on");
+        setFieldValue(page, HrTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "active", "on");
     }
 
 

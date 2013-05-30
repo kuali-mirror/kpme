@@ -31,7 +31,7 @@ import junit.framework.Assert;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.enhydra.jdbc.pool.StandardXAPoolDataSource;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
 import org.springframework.jdbc.core.ConnectionCallback;
@@ -110,8 +110,8 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 
 	public void start() throws Exception {
 		if (new Boolean(ConfigContext.getCurrentContextConfig().getProperty("tk.use.clearDatabaseLifecycle"))) {
-			final StandardXAPoolDataSource dataSource = (StandardXAPoolDataSource) TkServiceLocator.getBean("kpmeDataSource");
-			final PlatformTransactionManager transactionManager = (PlatformTransactionManager) TkServiceLocator.getPlatformTransactionManager();
+			final StandardXAPoolDataSource dataSource = (StandardXAPoolDataSource) HrServiceLocator.getBean("kpmeDataSource");
+			final PlatformTransactionManager transactionManager = (PlatformTransactionManager) HrServiceLocator.getPlatformTransactionManager();
 			final String schemaName = dataSource.getUser().toUpperCase();
 			clearTables(transactionManager, dataSource, schemaName);
 			super.start();

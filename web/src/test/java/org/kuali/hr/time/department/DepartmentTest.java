@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.util.HrTestConstants;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -28,7 +29,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class DepartmentTest extends KPMETestCase {
 	@Test
 	public void testDepartmentMaint() throws Exception {
-		HtmlPage deptLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.DEPT_MAINT_URL);
+		HtmlPage deptLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.DEPT_MAINT_URL);
 		deptLookup = HtmlUnitUtil.clickInputContainingText(deptLookup, "search");
 		Assert.assertTrue("Page contains test dept", deptLookup.asText().contains("TEST"));
 		HtmlUnitUtil.createTempFile(deptLookup);

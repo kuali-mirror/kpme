@@ -27,6 +27,7 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.ClearDatabaseLifecycle;
 import org.kuali.hr.time.util.DatabaseCleanupDataLifecycle;
 import org.kuali.hr.time.util.LoadDatabaseDataLifeCycle;
+import org.kuali.hr.util.HrTestConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -34,7 +35,6 @@ import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
 import org.kuali.rice.core.impl.services.CoreImplServiceLocator;
 import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.service.KRADServiceLocatorInternal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.test.RiceInternalSuiteDataTestCase;
@@ -43,8 +43,6 @@ import org.kuali.rice.test.lifecycles.JettyServerLifecycle;
 import org.kuali.rice.test.lifecycles.JettyServerLifecycle.ConfigMode;
 import org.kuali.rice.test.lifecycles.KPMEXmlDataLoaderLifecycle;
 import org.springframework.cache.CacheManager;
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlButtonInput;
@@ -266,20 +264,20 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	    HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
 	    Assert.assertNotNull("Could not locate submit button", input);
 	  	page = ((HtmlButtonInput)page.getElementByName("methodToCall.route")).click();
-	  	Assert.assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
+	  	Assert.assertTrue("page text does not contain:\n" + HrTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(HrTestConstants.EFFECTIVE_DATE_ERROR));
 	  	LocalDate futureDate = LocalDate.now().plusYears(2); // 2 years in the future
 	  	String futureDateString = "01/01/" + Integer.toString(futureDate.getYear());
 	  	
 	  	// use dates 2 years in the future
 	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", futureDateString);
 	  	page = ((HtmlButtonInput)page.getElementByName("methodToCall.route")).click();
-	  	Assert.assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
+	  	Assert.assertTrue("page text does not contain:\n" + HrTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(HrTestConstants.EFFECTIVE_DATE_ERROR));
 	  	LocalDate validDate = LocalDate.now().plusMonths(5); // 5 month in the future
 	  	String validDateString = Integer.toString(validDate.getMonthOfYear()) + '/' + Integer.toString(validDate.getDayOfMonth()) 
 	  		+ '/' + Integer.toString(validDate.getYear());
 	  	setFieldValue(page, "document.newMaintainableObject.effectiveDate", validDateString);
 	  	page = ((HtmlElement)page.getElementByName("methodToCall.route")).click();
-	  	Assert.assertFalse("page text contains:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
+	  	Assert.assertFalse("page text contains:\n" + HrTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(HrTestConstants.EFFECTIVE_DATE_ERROR));
 	}
 
     public class ClearCacheLifecycle extends BaseLifecycle {

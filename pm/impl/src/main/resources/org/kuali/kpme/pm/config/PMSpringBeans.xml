@@ -81,6 +81,22 @@
     <bean id="kpme.pm.soap.service" parent="kpme.soap.service" abstract="true">
         <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/pm/v2_0" />
     </bean>
+<!-- 
+    <bean id="kpmePositionResourceLoader" parent="kpmeResourceLoaderConfigurer">
+        <property name="beanNames">
+            <set merge="true">
+                <value>positionReportTypeLookupable</value>
+                <value>positionReportGroupLookupable</value>
+                <value>positionReportCatLookupable</value>
+                <value>positionReportSubCatLookupable</value>                
+                <value>positionTypeLookupable</value>
+                <value>positionAppointmentLookupable</value>
+                <value>pstnContractTypeLookupable</value>
+                <value>positionDepartmentAffiliationLookupable</value>
+                <value>positionDepartmentLookupable</value>
+            </set>
+        </property>
+    </bean> -->
 
 	<bean id="kpmePositionModuleConfiguration" class="org.kuali.kpme.core.sys.KpmeModuleConfiguration">
         <property name="namespaceCode" value="KPME-PM"/>
