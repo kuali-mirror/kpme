@@ -20,10 +20,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
-import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
-import org.kuali.rice.location.impl.campus.CampusBo;
 
 import com.google.common.collect.ImmutableList;
 
@@ -34,13 +33,13 @@ public class Classification extends HrBusinessObject {
 											    .add("positionClass")
 											    .add("classificationTitle")
 											    .add("institution")
-											    .add("campus")
+											    .add("location")
 											    .build();
 	private String pmPositionClassId;
 	private String positionClass;
 	private String classificationTitle;
 	private String institution;
-	private String campus;
+	private String location;
 	// salary group fields
 	private String salaryGroup;
 	private BigDecimal percentTime;
@@ -59,7 +58,7 @@ public class Classification extends HrBusinessObject {
 	
 	// list of position flags, need to add flag maint section to Position maint doc
 	
-	private CampusBo campusObj;
+	private Location locationObj;
 	
 	@Override
 	public String getId() {
@@ -100,12 +99,12 @@ public class Classification extends HrBusinessObject {
 		this.institution = institution;
 	}
 
-	public String getCampus() {
-		return campus;
+	public String getLocation() {
+		return location;
 	}
 
-	public void setCampus(String campus) {
-		this.campus = campus;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public String getSalaryGroup() {
@@ -205,12 +204,12 @@ public class Classification extends HrBusinessObject {
 		this.pmPositionClassId = pmPositionClassId;
 	}
 
-	public CampusBo getCampusObj() {
-		return campusObj;
+	public Location getLocationObj() {
+		return locationObj;
 	}
 
-	public void setCampusObj(CampusBo campusObj) {
-		this.campusObj = campusObj;
+	public void setLocationObj(Location locationObj) {
+		this.locationObj = locationObj;
 	}
 
 	public List<ClassificationDuty> getDutyList() {

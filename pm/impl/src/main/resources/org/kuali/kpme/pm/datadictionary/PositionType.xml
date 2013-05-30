@@ -31,21 +31,12 @@
 	        <ref bean="PositionType-positionType"/>
 	        <ref bean="PositionType-description"/>
 	        <ref bean="PositionType-institution"/>
-	        <ref bean="PositionType-campus"/>
+	        <ref bean="PositionType-location"/>
 	        <ref bean="PositionType-active"/>
 	      </list>
 	    </property>
-	    <property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="campusObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="campus"
-								p:targetName="code" />
-						</list>
-					</property>
-				</bean>	
+	   <property name="relationships">
+			<list>		
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="institutionObj" />
 					<property name="primitiveAttributes">
@@ -123,18 +114,19 @@
 		<property name="label" value="Institution" />
 	</bean>
 	
-	<bean id="PositionType-campus" parent="PositionType-campus-parentBean" />
-	<bean id="PositionType-campus-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="PositionType-location" parent="PositionType-location-parentBean" />
+	<bean id="PositionType-location-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Campus" />
+		<property name="shortLabel" value="Location" />
+		<property name="maxLength" value="15" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern"/>
 		</property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
-		<property name="name" value="campus" />
-		<property name="label" value="Campus" />
+		<property name="name" value="location" />
+		<property name="label" value="Location" />
 	</bean>
 	
     <bean id="PositionType-active" parent="PositionType-active-parentBean"/>
@@ -158,11 +150,16 @@
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionType" />       
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 	         <property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution" 
 	        		 p:fieldConversions="institutionCode:institution"/>
 	   		 </property>
         </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
+        	<property name="quickfinder">
+							<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+								p:fieldConversions="location:location" />
+			</property>
+        </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
     </property>
@@ -176,7 +173,9 @@
     		</property>
         </bean>
         <bean parent="Uif-DataField" p:propertyName="institution" />
-        <bean parent="Uif-DataField" p:propertyName="campus" />
+        <bean parent="Uif-DataField" p:propertyName="location" >
+        	
+        </bean>
         <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
@@ -197,7 +196,7 @@
 			        <bean parent="Uif-DataField" p:propertyName="positionType" />
 			        <bean parent="Uif-DataField" p:propertyName="description" />
 			        <bean parent="Uif-DataField" p:propertyName="institution" />
-			        <bean parent="Uif-DataField" p:propertyName="campus" />
+			        <bean parent="Uif-DataField" p:propertyName="location" />
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
 	        	</list>
 	     	 </property>
@@ -222,11 +221,16 @@
 		        <bean parent="Uif-InputField" p:propertyName="description" />
 		        <bean parent="Uif-InputField" p:propertyName="institution" >
 			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution" 
 		        			 p:fieldConversions="institutionCode:institution"/>
 		   			</property>
 		        </bean>
-		        <bean parent="Uif-InputField" p:propertyName="campus" />
+		        <bean parent="Uif-InputField" p:propertyName="location" >
+		        	<property name="quickfinder">
+							<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+								p:fieldConversions="location:location" />
+					</property>
+		        </bean>
 		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
             </list>
           </property>

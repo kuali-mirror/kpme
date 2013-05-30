@@ -42,7 +42,7 @@ public class PositionReportGroupDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 	}
 
 	@Override
-	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String institution, String campus, LocalDate asOfDate) {
+	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String institution, String location, LocalDate asOfDate) {
 		List<PositionReportGroup> prgList = new ArrayList<PositionReportGroup>();
 		Criteria root = new Criteria();
 
@@ -54,9 +54,9 @@ public class PositionReportGroupDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 				&& !StringUtils.equals(institution, HrConstants.WILDCARD_CHARACTER)) {
 			root.addEqualTo("institution", institution); 
 		}
-		if(StringUtils.isNotEmpty(campus) 
-				&& !StringUtils.equals(campus, HrConstants.WILDCARD_CHARACTER)) {
-			root.addEqualTo("campus", campus); 
+		if(StringUtils.isNotEmpty(location) 
+				&& !StringUtils.equals(location, HrConstants.WILDCARD_CHARACTER)) {
+			root.addEqualTo("location", location); 
 		}
         
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportGroup.class, asOfDate, PositionReportGroup.EQUAL_TO_FIELDS, false));

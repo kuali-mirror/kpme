@@ -18,8 +18,8 @@ package org.kuali.kpme.pm.positiondepartment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.institution.Institution;
+import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
-import org.kuali.rice.location.impl.campus.CampusBo;
 
 import com.google.common.collect.ImmutableList;
 public class PositionDepartment extends HrBusinessObject {
@@ -32,11 +32,11 @@ public class PositionDepartment extends HrBusinessObject {
 	
 	private String pmPositionDeptId;
 	private String institution;
-	private String campus;
+	private String location;
 	private String department;
 	private String positionDeptAffl;
 		
-	private CampusBo campusObj;
+	private Location locationObj;
 	private Institution institutionObj;
 	private Department departmentObj;
 	private PositionDepartmentAffiliation positionDeptAfflObj;
@@ -53,7 +53,7 @@ public class PositionDepartment extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		return  getInstitution() + "_" + getCampus() + "_" + getDepartment() + "_" + getPositionDeptAffl()	;
+		return  getInstitution() + "_" + getLocation() + "_" + getDepartment() + "_" + getPositionDeptAffl()	;
 	}
 
 	/**
@@ -113,18 +113,34 @@ public class PositionDepartment extends HrBusinessObject {
 		this.institution = institution;
 	}
 
+	
+	
 	/**
-	 * @return the campus
+	 * @return the location
 	 */
-	public String getCampus() {
-		return campus;
+	public String getLocation() {
+		return location;
 	}
 
 	/**
-	 * @param campus the campus to set
+	 * @param location the location to set
 	 */
-	public void setCampus(String campus) {
-		this.campus = campus;
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	/**
+	 * @return the locationObj
+	 */
+	public Location getLocationObj() {
+		return locationObj;
+	}
+
+	/**
+	 * @param locationObj the locationObj to set
+	 */
+	public void setLocationObj(Location locationObj) {
+		this.locationObj = locationObj;
 	}
 
 	/**
@@ -139,20 +155,6 @@ public class PositionDepartment extends HrBusinessObject {
 	 */
 	public void setDepartment(String department) {
 		this.department = department;
-	}
-
-	/**
-	 * @return the campusObj
-	 */
-	public CampusBo getCampusObj() {
-		return campusObj;
-	}
-
-	/**
-	 * @param campusObj the campusObj to set
-	 */
-	public void setCampusObj(CampusBo campusObj) {
-		this.campusObj = campusObj;
 	}
 
 	/**
@@ -182,7 +184,5 @@ public class PositionDepartment extends HrBusinessObject {
 	public void setDepartmentObj(Department departmentObj) {
 		this.departmentObj = departmentObj;
 	}
-
-	
 
 }

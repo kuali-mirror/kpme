@@ -34,7 +34,7 @@ public class PositionAppointmentServiceTest extends KPMETestCase {
 	private final String pmPositionAppointmentId = "123456789";
 	private final String positionAppointment = "testAppointment";
 	private final String institution = "testInst";
-	private final String campus = "TS";
+	private final String location = "BL";
 
 	@Before
 	public void setUp() throws Exception {
@@ -58,7 +58,7 @@ public class PositionAppointmentServiceTest extends KPMETestCase {
 	public void testGetPositionAppointmentList() throws Exception {
 
 		LocalDate todayDate = new LocalDate();
-		List<PositionAppointment> positionAppointments = PmServiceLocator.getPositionAppointmentService().getPositionAppointmentList(positionAppointment, institution, campus, todayDate);
+		List<PositionAppointment> positionAppointments = PmServiceLocator.getPositionAppointmentService().getPositionAppointmentList(positionAppointment, institution, location, todayDate);
 		assertTrue(positionAppointments.size() == 1);
 	}
 	

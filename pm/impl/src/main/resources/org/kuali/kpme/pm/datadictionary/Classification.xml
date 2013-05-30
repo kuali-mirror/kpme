@@ -31,7 +31,7 @@
 	        <ref bean="Classification-positionClass"/>
 	        <ref bean="Classification-classificationTitle"/>
 	        <ref bean="Classification-institution"/>
-	        <ref bean="Classification-campus"/>
+	        <ref bean="Classification-location"/>
 	        <ref bean="Classification-salaryGroup"/>
 	        <ref bean="Classification-percentTime"/>
 	        <ref bean="Classification-benefitsEligible"/>
@@ -46,24 +46,11 @@
 	        <ref bean="Classification-active"/>
 		 </list>
 	    </property>
-	    <property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="campusObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="campus"
-								p:targetName="code" />
-						</list>
-					</property>
-				</bean>	
-			</list>
-		</property>
 		
 		<property name="collections">
 	      <list>
 	        <bean parent="CollectionDefinition">
-	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification" />
+	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.ClassificationQualification" />
 	          <property name="name" value="qualificationList" />
 	          <property name="shortLabel" value="Qualifications" />
 	          <property name="label" value="Classification Qualifications" />
@@ -135,18 +122,19 @@
 		<property name="label" value="Institution" />
 	</bean>
 	
-	<bean id="Classification-campus" parent="Classification-campus-parentBean" />
-	<bean id="Classification-campus-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="Classification-location" parent="Classification-location-parentBean" />
+	<bean id="Classification-location-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Campus" />
+		<property name="shortLabel" value="Location" />
+		<property name="maxLength" value="15" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern"/>
 		</property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
-		<property name="name" value="campus" />
-		<property name="label" value="Campus" />
+		<property name="name" value="location" />
+		<property name="label" value="Location" />
 	</bean>
 	
 	<bean id="Classification-salaryGroup" parent="Classification-salaryGroup-parentBean" />
@@ -333,7 +321,13 @@
 	   		 </property>
 	   		 <property name="quickfinder.autoSearch" value="true"/>
         </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
+	        <property name="quickfinder">
+					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+						p:fieldConversions="location:location" />
+			</property>
+		</bean>
+        
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="salaryGroup">
        		<property name="quickfinder">
 	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
@@ -382,7 +376,7 @@
         </bean>
         <bean parent="Uif-DataField" p:propertyName="classificationTitle" />
         <bean parent="Uif-DataField" p:propertyName="institution" />
-        <bean parent="Uif-DataField" p:propertyName="campus" />
+        <bean parent="Uif-DataField" p:propertyName="location" />
         <bean parent="Uif-DataField" p:propertyName="salaryGroup" />
         <bean parent="Uif-DataField" p:propertyName="percentTime" />
         <bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
@@ -414,7 +408,7 @@
 			        <bean parent="Uif-DataField" p:propertyName="positionClass" />
 			        <bean parent="Uif-DataField" p:propertyName="classificationTitle" />
 			        <bean parent="Uif-DataField" p:propertyName="institution" />
-			        <bean parent="Uif-DataField" p:propertyName="campus" />
+			        <bean parent="Uif-DataField" p:propertyName="location" />
 			        <bean parent="Uif-DataField" p:propertyName="salaryGroup" />
 			        <bean parent="Uif-DataField" p:propertyName="percentTime" />
 			        <bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
@@ -441,7 +435,7 @@
   
    <!-- Required Qualification List, used by maintenance view -->
    <bean id="Classification-qualifications" abstract="true" parent="Uif-TableCollectionGroup">
-	  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification" />
+	  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationQualification" />
 	  <property name="propertyName" value="qualificationList" />
 	  <property name="addLinePlacement" value="BOTTOM" />
 	  <property name="layoutManager.generateAutoSequence" value="true" />
@@ -476,7 +470,7 @@
 				</property>
 				<property name="propertyReplacers">
 				    <list>
-<!-- 				   		 if the typevalue of selected type is not Select,  use text control instead -->
+<!-- 				   		 if the typevalue of selected type is not select,  use text control instead -->
 				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="control" p:condition="#line.typeValue eq 'T' or #line.typeValue eq 'N'"> 
 				           <property name="replacement">
 				            <bean parent="Uif-TextControl" />
@@ -503,7 +497,7 @@
 	<bean id="Classification-qualificationList" abstract="true" parent="Uif-Disclosure-TableCollectionSection"
         p:layoutManager.numberOfColumns="4">
     <property name="headerText" value="Required Qualification"/>
-    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification"/>
+    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationQualification"/>
     <property name="propertyName" value="qualificationList"/>
     <property name="layoutManager.renderSequenceField" value="false"/>
     <property name="layoutManager.separateAddLine" value="true"/>
@@ -649,7 +643,13 @@
 						</property>
 						<property name="quickfinder.autoSearch" value="true"/>
 			        </bean>
-			        <bean parent="Uif-InputField" p:propertyName="campus" />
+			        <bean parent="Uif-InputField" p:propertyName="location" >
+			        	<property name="quickfinder">
+							<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+								p:fieldConversions="location:location" />
+						</property>
+						<property name="quickfinder.autoSearch" value="true"/>
+			        </bean>
 		         </list>
 	         </property>
         </bean>

@@ -40,8 +40,8 @@ public class PositionReportTypeServiceImpl implements PositionReportTypeService 
 	}
 
 	@Override
-	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String institution, String campus, LocalDate asOfDate) {
-		return positionReportTypeDao.getPositionReportTypeList(positionReportType, institution, campus, asOfDate);
+	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String institution, String location, LocalDate asOfDate) {
+		return positionReportTypeDao.getPositionReportTypeList(positionReportType, institution, location, asOfDate);
 	}
 	
 	@Override
@@ -55,8 +55,8 @@ public class PositionReportTypeServiceImpl implements PositionReportTypeService 
 	}
 
 	@Override
-	public List<PositionReportType> getPrtListWithCampusAndDate(String campus,LocalDate asOfDate) {
-		return positionReportTypeDao.getPrtListWithCampusAndDate(campus, asOfDate);
+	public List<PositionReportType> getPrtListWithLocationAndDate(String location,LocalDate asOfDate) {
+		return positionReportTypeDao.getPrtListWithLocationAndDate(location, asOfDate);
 	}
 
 }

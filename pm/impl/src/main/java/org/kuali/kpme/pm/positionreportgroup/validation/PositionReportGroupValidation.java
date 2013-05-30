@@ -16,6 +16,7 @@
 package org.kuali.kpme.pm.positionreportgroup.validation;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -32,7 +33,7 @@ public class PositionReportGroupValidation extends MaintenanceDocumentRuleBase  
 		if (prg != null) {
 			valid = true;
 			valid &= this.validateInstitution(prg);
-			valid &= this.validateCampus(prg);
+			valid &= this.validateLocation(prg);
 		}
 		return valid;
 	}
@@ -48,11 +49,11 @@ public class PositionReportGroupValidation extends MaintenanceDocumentRuleBase  
 		}
 	}
 	
-	private boolean validateCampus(PositionReportGroup prg) {
-		if (StringUtils.isNotEmpty(prg.getCampus())
-				&& !PmValidationUtils.validateCampus(prg.getCampus())) {
-			this.putFieldError("campus", "error.existence", "Campus '"
-					+ prg.getCampus() + "'");
+	private boolean validateLocation(PositionReportGroup prg) {
+		if (StringUtils.isNotEmpty(prg.getLocation())
+				&& !ValidationUtils.validateLocation(prg.getLocation(), prg.getEffectiveLocalDate())) {
+			this.putFieldError("location", "error.existence", "Location '"
+					+ prg.getLocation() + "'");
 			return false;
 		} else {
 			return true;

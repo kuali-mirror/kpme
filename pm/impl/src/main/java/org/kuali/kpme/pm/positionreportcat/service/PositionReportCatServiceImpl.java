@@ -31,8 +31,8 @@ public class PositionReportCatServiceImpl implements PositionReportCatService {
 	}
 	
 	@Override
-	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String institution, String campus, LocalDate asOfDate) {
-		return positionReportCatDao.getPositionReportCatList(positionReportCat, positionReportType, institution, campus, asOfDate);
+	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String institution, String location, LocalDate asOfDate) {
+		return positionReportCatDao.getPositionReportCatList(positionReportCat, positionReportType, institution, location, asOfDate);
 	}
 
 	public PositionReportCatDao getPositionReportCatDao() {

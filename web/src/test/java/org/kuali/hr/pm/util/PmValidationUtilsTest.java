@@ -57,7 +57,7 @@ public class PmValidationUtilsTest extends KPMETestCase {
 		results = PmValidationUtils.validateCampus(campus);	// non-existing
 		Assert.assertFalse(results);
 		
-		campus = "TS";	// existing campus
+		campus = "BL";	// existing campus
 		results = PmValidationUtils.validateCampus(campus);
 		Assert.assertTrue(results);
 		
@@ -114,7 +114,7 @@ public class PmValidationUtilsTest extends KPMETestCase {
 		results = PmValidationUtils.validateCampusWithPRT(prt, campus, aDate.toLocalDate()); // existing, right date, wrong campus
 		Assert.assertFalse(results);
 		
-		campus = "TS";
+		campus = "BL";
 		results = PmValidationUtils.validateCampusWithPRT(prt, campus, aDate.toLocalDate()); 
 		Assert.assertTrue(results);
 	}
@@ -165,7 +165,7 @@ public class PmValidationUtilsTest extends KPMETestCase {
 		results = PmValidationUtils.validatePositionReportSubCat(prsc, institution, campus, aDate.toLocalDate());   // existing, right date, right institution, wrong campus
 		Assert.assertFalse(results);
 		
-		campus = "TS";
+		campus = "BL";
 		results = PmValidationUtils.validatePositionReportSubCat(prsc, institution, campus, aDate.toLocalDate());  
 		Assert.assertTrue(results);
 	}
@@ -194,7 +194,7 @@ public class PmValidationUtilsTest extends KPMETestCase {
 		results = PmValidationUtils.validatePstnRptGrp(prg, institution, campus, aDate.toLocalDate());   // existing, right date, right institution, wrong campus
 		Assert.assertFalse(results);
 		
-		campus = "TS";
+		campus = "BL";
 		results = PmValidationUtils.validatePstnRptGrp(prg, institution, campus, aDate.toLocalDate()); 
 		Assert.assertTrue(results);
 	}

@@ -42,7 +42,7 @@ public class PositionReportTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implem
 	}
 
 	@Override
-	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String institution, String campus, LocalDate asOfDate) {
+	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String institution, String location, LocalDate asOfDate) {
 		List<PositionReportType> prtList = new ArrayList<PositionReportType>();
 		Criteria root = new Criteria();
 		if(StringUtils.isNotEmpty(positionReportType) 
@@ -53,9 +53,9 @@ public class PositionReportTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implem
 				&& !PmValidationUtils.isWildCard(institution)) {
 			root.addEqualTo("institution", institution); 
 		}
-		if(StringUtils.isNotEmpty(campus) 
-				&& !PmValidationUtils.isWildCard(campus)) {
-			root.addEqualTo("campus", campus); 
+		if(StringUtils.isNotEmpty(location) 
+				&& !PmValidationUtils.isWildCard(location)) {
+			root.addEqualTo("location", location); 
 		}
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportType.class, asOfDate, PositionReportType.EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportType.class, PositionReportType.EQUAL_TO_FIELDS, false));
@@ -108,11 +108,11 @@ public class PositionReportTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implem
 	}
 	
 	@Override
-	public List<PositionReportType> getPrtListWithCampusAndDate(String campus,LocalDate asOfDate) {
+	public List<PositionReportType> getPrtListWithLocationAndDate(String location,LocalDate asOfDate) {
 		List<PositionReportType> prtList = new ArrayList<PositionReportType>();
 		Criteria root = new Criteria();
 
-        root.addEqualTo("campus", campus); 
+        root.addEqualTo("location", location); 
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportType.class, asOfDate, PositionReportType.EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportType.class, PositionReportType.EQUAL_TO_FIELDS, false));
         

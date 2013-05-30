@@ -39,7 +39,7 @@ public class PositionReportSubCatDaoObjImpl extends PlatformAwareDaoBaseOjb  imp
         return (PositionReportSubCategory) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 	
-	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String campus, LocalDate asOfDate) {
+	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String location, LocalDate asOfDate) {
 		List<PositionReportSubCategory> prscList = new ArrayList<PositionReportSubCategory>();
 		Criteria root = new Criteria();
 		if(StringUtils.isNotEmpty(pstnRptSubCat) 
@@ -50,9 +50,9 @@ public class PositionReportSubCatDaoObjImpl extends PlatformAwareDaoBaseOjb  imp
 				&& !StringUtils.equals(institution, HrConstants.WILDCARD_CHARACTER)) {
 			root.addEqualTo("institution", institution); 
 		}
-		if(StringUtils.isNotEmpty(campus) 
-				&& !StringUtils.equals(campus, HrConstants.WILDCARD_CHARACTER)) {
-			root.addEqualTo("campus", campus); 
+		if(StringUtils.isNotEmpty(location) 
+				&& !StringUtils.equals(location, HrConstants.WILDCARD_CHARACTER)) {
+			root.addEqualTo("location", location); 
 		}
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportSubCategory.class, asOfDate, PositionReportSubCategory.EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportSubCategory.class, PositionReportSubCategory.EQUAL_TO_FIELDS, false));

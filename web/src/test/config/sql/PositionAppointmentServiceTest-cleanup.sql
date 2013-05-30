@@ -15,5 +15,6 @@
 --
 
 delete from PM_PSTN_APPOINTMENT_T where pstn_appointment = 'testAppointment';
-delete from KRLC_CMP_T where CAMPUS_CD = 'TS';
+#delete from KRLC_CMP_T where CAMPUS_CD = 'TS';
+DELETE FROM HR_LOCATION_T WHERE HR_LOCATION_ID >= 1000;
 delete from PM_INSTITUTION_T where pm_institution_id >= 5000;

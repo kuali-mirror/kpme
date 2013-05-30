@@ -34,7 +34,7 @@ import com.google.common.collect.ImmutableList;
 public class PositionAppointmentDaoObjImpl extends PlatformAwareDaoBaseOjb implements PositionAppointmentDao {
 
 	private static final ImmutableList<String> PRG_EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-			.add("positionAppointment").add("institution").add("campus")
+			.add("positionAppointment").add("institution").add("location")
 			.build();
 
 	public PositionAppointment getPositionAppointmentById(String pmPositionAppointmentId) {
@@ -46,7 +46,7 @@ public class PositionAppointmentDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 		return (PositionAppointment) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
-	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String institution, String campus, LocalDate asOfDate) {
+	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String institution, String location, LocalDate asOfDate) {
 		
 		List<PositionAppointment> prgList = new ArrayList<PositionAppointment>();
 		Criteria root = new Criteria();
@@ -59,8 +59,8 @@ public class PositionAppointmentDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 			root.addEqualTo("institution", institution);
 		}
 		
-		if (StringUtils.isNotEmpty(campus) && !StringUtils.equals(campus, HrConstants.WILDCARD_CHARACTER)) {
-			root.addEqualTo("campus", campus);
+		if (StringUtils.isNotEmpty(location) && !StringUtils.equals(location, HrConstants.WILDCARD_CHARACTER)) {
+			root.addEqualTo("location", location);
 		}
 
 		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionAppointment.class, asOfDate, PRG_EQUAL_TO_FIELDS, false));

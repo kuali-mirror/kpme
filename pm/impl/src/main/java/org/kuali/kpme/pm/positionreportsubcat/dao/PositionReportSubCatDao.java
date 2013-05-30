@@ -23,5 +23,5 @@ import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory;
 public interface PositionReportSubCatDao {
 	public PositionReportSubCategory getPositionReportSubCatById(String pmPositionReportSubCatId);
 	
-	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String campus, LocalDate asOfDate);
+	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String location, LocalDate asOfDate);
 }

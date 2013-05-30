@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.institution.Institution;
+import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.paygrade.PayGrade;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.util.HrConstants;
@@ -39,7 +40,7 @@ public class PayStep extends HrBusinessObject implements Comparable {
 	private String pmPayStepId;
 	private String payStep;
 	private String institution;
-	private String campus;
+	private String location;
 	private String salaryGroup;
 	private String payGrade;
 	private int stepNumber;
@@ -48,7 +49,7 @@ public class PayStep extends HrBusinessObject implements Comparable {
 	private String serviceUnit;
 	
 	private Institution institutionObj;
-	private CampusBo campusObj;
+	private Location locationObj;
 	private SalaryGroup salaryGroupObj;
 	private PayGrade PayGradeObj;
 
@@ -116,12 +117,12 @@ public class PayStep extends HrBusinessObject implements Comparable {
 		this.institution = institution;
 	}
 
-	public String getCampus() {
-		return campus;
+	public String getLocation() {
+		return location;
 	}
 
-	public void setCampus(String campus) {
-		this.campus = campus;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public String getSalaryGroup() {
@@ -203,12 +204,12 @@ public class PayStep extends HrBusinessObject implements Comparable {
 		this.institutionObj = institutionObj;
 	}
 
-	public CampusBo getCampusObj() {
-		return campusObj;
+	public Location getLocationObj() {
+		return locationObj;
 	}
 
-	public void setCampusObj(CampusBo campusObj) {
-		this.campusObj = campusObj;
+	public void setLocationObj(Location locationObj) {
+		this.locationObj = locationObj;
 	}
 
 	public SalaryGroup getSalaryGroupObj() {

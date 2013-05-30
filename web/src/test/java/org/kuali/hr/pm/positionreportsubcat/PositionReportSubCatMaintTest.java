@@ -54,8 +54,8 @@ public class PositionReportSubCatMaintTest extends KPMETestCase {
 	  			page.asText().contains("Position Report Type (Position Report Type) is a required field."));
 	  	Assert.assertTrue("page text does not contain:\n" + "Institution (Institution) is a required field.",
 	  			page.asText().contains("Institution (Institution) is a required field."));
-	  	Assert.assertTrue("page text does not contain:\n" + "Campus (Campus) is a required field.", 
-	  			page.asText().contains("Campus (Campus) is a required field."));
+	  	Assert.assertTrue("page text does not contain:\n" + "Location (Location) is a required field.", 
+	  			page.asText().contains("Location (Location) is a required field."));
 	}
 	
 	@Test
@@ -77,7 +77,7 @@ public class PositionReportSubCatMaintTest extends KPMETestCase {
 //	    setFieldValue(page, "document.newMaintainableObject.positionReportCat", "nonCat");	// non-existing PositionReportCategory
 //	    setFieldValue(page, "document.newMaintainableObject.positionReportType.div", "testPRT"); 
 	    setFieldValue(page, "document.newMaintainableObject.institution", "nonExistInst");	//nonexisting institution
-	    setFieldValue(page, "document.newMaintainableObject.campus", "nonCam");	//nonexisting campus
+	    setFieldValue(page, "document.newMaintainableObject.location", "nonCam");	//nonexisting location
 	  	
 	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
 	  	Assert.assertNotNull("Could not locate submit button", input);
@@ -86,17 +86,17 @@ public class PositionReportSubCatMaintTest extends KPMETestCase {
 	  	HtmlUnitUtil.createTempFile(page);
 		Assert.assertTrue("page text contains:\n" + "The specified Instituion 'nonExistInst' does not exist.", 
 	  			page.asText().contains("The specified Instituion 'nonExistInst' does not exist."));
-	  	Assert.assertTrue("page text contains:\n" + "The specified Campus 'nonCam' does not exist.", 
-	  			page.asText().contains("The specified Campus 'nonCam' does not exist."));
+	  	Assert.assertTrue("page text contains:\n" + "The specified Location 'nonCam' does not exist.", 
+	  			page.asText().contains("The specified Location 'nonCam' does not exist."));
 
 	  	setFieldValue(page, "document.newMaintainableObject.institution", "testInst"); // matching institution	  	
-	  	setFieldValue(page, "document.newMaintainableObject.campus", "TS"); // matching campus
+	  	setFieldValue(page, "document.newMaintainableObject.location", "BL"); // matching Location
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	Assert.assertFalse("page text should NOT contain:\n" + "The specified Instituion 'nonExistInst' does not exist.", 
 	  			page.asText().contains("The specified Instituion 'nonExistInst' does not exist."));
-	  	Assert.assertFalse("page text should NOT contain:\n" + "The specified Campus 'nonCam' does not exist.", 
-	  			page.asText().contains("The specified Campus 'nonCam' does not exist."));
+	  	Assert.assertFalse("page text should NOT contain:\n" + "The specified Location 'nonCam' does not exist.", 
+	  			page.asText().contains("The specified Location 'nonCam' does not exist."));
 	
 	}
 }

@@ -29,12 +29,12 @@ public interface PstnContractTypeService {
 	public PstnContractType getPstnContractTypeById(String pmCntrctTypeId);
 	
 	/**
-	 * Get list of PstnContractType with given group, institution, campus and effective date
+	 * Get list of PstnContractType with given group, institution, location and effective date
 	 * wild card allowed
 	 * @param institution
-	 * @param campus
+	 * @param location
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PstnContractType> getPstnContractTypeList(String institution, String campus, LocalDate asOfDate);
+	public List<PstnContractType> getPstnContractTypeList(String institution, String location, LocalDate asOfDate);
 }

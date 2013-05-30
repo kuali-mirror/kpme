@@ -26,7 +26,6 @@
     <property name="documentTypeName" value="ClassificationMaintenanceDocumentType" />
     <property name="businessRulesClass" value="org.kuali.kpme.pm.classification.validation.ClassificationValidation"/>
     <property name="maintainableClass" value="org.kuali.kpme.pm.classification.web.ClassificationMaintainableImpl"/>
-<!--     <property name="maintainableClass" value="org.kuali.kpme.pm.classification.web.ClassificationMaintainableImpl"/> -->
   </bean>
   
 </beans>

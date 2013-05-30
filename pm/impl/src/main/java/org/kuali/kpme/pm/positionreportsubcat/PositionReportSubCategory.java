@@ -17,8 +17,8 @@ package org.kuali.kpme.pm.positionreportsubcat;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.institution.Institution;
+import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
-import org.kuali.rice.location.impl.campus.CampusBo;
 
 import com.google.common.collect.ImmutableList;
 
@@ -35,9 +35,9 @@ public class PositionReportSubCategory extends HrBusinessObject {
 	private String positionReportType;
 	private String description;
 	private String institution;
-	private String campus;
+	private String location;
 	
-	private CampusBo campusObj;
+	private Location locationObj;
 	private Institution institutionObj;
 	private PositionReportCategory prcObj;
 	
@@ -105,20 +105,20 @@ public class PositionReportSubCategory extends HrBusinessObject {
 		this.institution = institution;
 	}
 
-	public String getCampus() {
-		return campus;
+	public String getLocation() {
+		return location;
 	}
 
-	public void setCampus(String campus) {
-		this.campus = campus;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
-	public CampusBo getCampusObj() {
-		return campusObj;
+	public Location getLocationObj() {
+		return locationObj;
 	}
 
-	public void setCampusObj(CampusBo campusObj) {
-		this.campusObj = campusObj;
+	public void setLocationObj(Location locationObj) {
+		this.locationObj = locationObj;
 	}
 
 	public Institution getInstitutionObj() {

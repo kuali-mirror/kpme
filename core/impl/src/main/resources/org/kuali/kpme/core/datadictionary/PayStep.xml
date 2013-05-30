@@ -29,7 +29,7 @@
 				<ref bean="PayStep-effectiveDate" />
 				<ref bean="PayStep-payStep" />
 				<ref bean="PayStep-institution" />
-				<ref bean="PayStep-campus" />
+				<ref bean="PayStep-location" />
 				<ref bean="PayStep-salaryGroup" />
 				<ref bean="PayStep-payGrade" />
 				<ref bean="PayStep-stepNumber" />
@@ -37,19 +37,6 @@
 				<ref bean="PayStep-serviceAmount" />
 				<ref bean="PayStep-serviceUnit" />
 				<ref bean="PayStep-active" />
-			</list>
-		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="campusObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="campus"
-								p:targetName="code" />
-						</list>
-					</property>
-				</bean>
 			</list>
 		</property>
 		<property name="objectLabel" value="Pay Step" />
@@ -128,16 +115,16 @@
 		<property name="label" value="Institution" />
 	</bean>
 	
-	<bean id="PayStep-campus" parent="PayStep-campus-parentBean" />
-	<bean id="PayStep-campus-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Campus" />
+	<bean id="PayStep-location" parent="PayStep-location-parentBean" />
+	<bean id="PayStep-location-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Location" />
  		<property name="required" value="true" />
-		<property name="maxLength" value="10" />
+		<property name="maxLength" value="15" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
-		<property name="name" value="campus" />
-		<property name="label" value="Campus" />
+		<property name="name" value="location" />
+		<property name="label" value="Location" />
 	</bean>
 	
 	<bean id="PayStep-stepNumber" parent="PayStep-stepNumber-parentBean" />
@@ -202,7 +189,7 @@
 							<bean parent="Uif-DataField" p:propertyName="payStep" />
 							<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
 							<bean parent="Uif-DataField" p:propertyName="institution" />
-							<bean parent="Uif-DataField" p:propertyName="campus" />
+							<bean parent="Uif-DataField" p:propertyName="location" />
 							<bean parent="Uif-DataField" p:propertyName="salaryGroup" />
 							<bean parent="Uif-DataField" p:propertyName="payGrade" />
 							<bean parent="Uif-DataField" p:propertyName="stepNumber" />
@@ -237,7 +224,12 @@
 				                  p:fieldConversions="institutionCode:institution"/>
 				        </property>
 					</bean>
-			        <bean parent="Uif-InputField" p:propertyName="campus" p:required="true" />
+			        <bean parent="Uif-InputField" p:propertyName="location" p:required="true" >
+			        	<property name="quickfinder">
+							<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+								p:fieldConversions="location:location" />
+						</property>
+			        </bean>
 					<bean parent="Uif-InputField" p:propertyName="salaryGroup" p:required="true">
 						<property name="quickfinder">
 				            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
@@ -292,7 +284,12 @@
 	                  p:fieldConversions="institutionCode:institution"/>
 	        </property>
 		</bean>
-		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus"/>
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location">
+			 <property name="quickfinder">
+							<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+								p:fieldConversions="location:location" />
+			</property>
+		</bean>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="salaryGroup">
 			<property name="quickfinder">
 	            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
@@ -312,7 +309,7 @@
       <list>
       	<bean parent="Uif-DataField" p:propertyName="payStep" />
 		<bean parent="Uif-DataField" p:propertyName="institution" />
-		<bean parent="Uif-DataField" p:propertyName="campus" />
+		<bean parent="Uif-DataField" p:propertyName="location" />
 		<bean parent="Uif-DataField" p:propertyName="salaryGroup" />
 		<bean parent="Uif-DataField" p:propertyName="payGrade" />
 		<bean parent="Uif-DataField" p:propertyName="effectiveDate"/>

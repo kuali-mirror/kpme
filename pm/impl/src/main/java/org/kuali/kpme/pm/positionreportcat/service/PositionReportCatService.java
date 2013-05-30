@@ -34,10 +34,10 @@ public interface PositionReportCatService {
 	 * @param positionReportCat
 	 * @param positionReportType
 	 * @param institution
-	 * @param campus
+	 * @param location
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String institution, String campus, LocalDate asOfDate);
+	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String institution, String location, LocalDate asOfDate);
 
 }

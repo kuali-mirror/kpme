@@ -24,5 +24,5 @@ public interface PstnContractTypeDao {
 	
 	public PstnContractType getPstnContractTypeById(String pmCntrctTypeId);
 	
-	public List<PstnContractType> getPstnContractTypeList(String institution, String campus, LocalDate asOfDate);
+	public List<PstnContractType> getPstnContractTypeList(String institution, String location, LocalDate asOfDate);
 }

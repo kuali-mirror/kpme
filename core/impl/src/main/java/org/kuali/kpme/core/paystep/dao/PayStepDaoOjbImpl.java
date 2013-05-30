@@ -43,7 +43,7 @@ public class PayStepDaoOjbImpl extends PlatformAwareDaoBaseOjb implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PayStep> getPaySteps(String payStep, String institution,
-			String campus, String salaryGroup, String payGrade, String active) {
+			String location, String salaryGroup, String payGrade, String active) {
 		List<PayStep> results = new ArrayList<PayStep>();
 		
 		Criteria crit = new Criteria();
@@ -52,9 +52,9 @@ public class PayStepDaoOjbImpl extends PlatformAwareDaoBaseOjb implements
 		if(StringUtils.isNotBlank(institution)
 				&& !StringUtils.equals(institution, HrConstants.WILDCARD_CHARACTER))
 			crit.addEqualTo("institution", institution);
-		if(StringUtils.isNotBlank(campus)
-				&& !StringUtils.equals(campus, HrConstants.WILDCARD_CHARACTER))
-			crit.addEqualTo("campus", campus);
+		if(StringUtils.isNotBlank(location)
+				&& !StringUtils.equals(location, HrConstants.WILDCARD_CHARACTER))
+			crit.addEqualTo("location", location);
 		if(StringUtils.isNotBlank(salaryGroup))
 			crit.addEqualTo("salaryGroup", salaryGroup);
 		if(StringUtils.isNotBlank(payGrade))

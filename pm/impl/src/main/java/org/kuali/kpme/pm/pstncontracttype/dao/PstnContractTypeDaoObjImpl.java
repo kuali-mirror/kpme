@@ -42,16 +42,16 @@ public class PstnContractTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implemen
 	}
 
 	@Override
-	public List<PstnContractType> getPstnContractTypeList(String institution, String campus, LocalDate asOfDate) {
+	public List<PstnContractType> getPstnContractTypeList(String institution, String location, LocalDate asOfDate) {
 		List<PstnContractType> pctList = new ArrayList<PstnContractType>();
 		Criteria root = new Criteria();
  		if(StringUtils.isNotEmpty(institution) 
 				&& !StringUtils.equals(institution, HrConstants.WILDCARD_CHARACTER)) {
 			root.addEqualTo("institution", institution); 
 		}
-		if(StringUtils.isNotEmpty(campus) 
-				&& !StringUtils.equals(campus, HrConstants.WILDCARD_CHARACTER)) {
-			root.addEqualTo("campus", campus); 
+		if(StringUtils.isNotEmpty(location) 
+				&& !StringUtils.equals(location, HrConstants.WILDCARD_CHARACTER)) {
+			root.addEqualTo("location", location); 
 		}
         
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PstnContractType.class, asOfDate, PstnContractType.EQUAL_TO_FIELDS, false));

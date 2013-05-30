@@ -33,7 +33,7 @@ public class PayStepValidation extends MaintenanceDocumentRuleBase {
 		PayStep payStep = (PayStep) this.getNewDataObject();
 		
 		isValid &= validateInstitution(payStep);
-		isValid &= validateCampus(payStep);
+		isValid &= validateLocation(payStep);
 		isValid &= validateSalaryGroup(payStep);
 		isValid &= validatePayGrade(payStep);
 		isValid &= validatePayGradeInSalaryGroup(payStep);
@@ -77,13 +77,13 @@ public class PayStepValidation extends MaintenanceDocumentRuleBase {
 		}
 	}
 
-	private boolean validateCampus(PayStep payStep) {
-		if (StringUtils.isNotEmpty(payStep.getCampus())
-				&& ValidationUtils.validateCampus(payStep.getCampus())) {
+	private boolean validateLocation(PayStep payStep) {
+		if (StringUtils.isNotEmpty(payStep.getLocation())
+				&& ValidationUtils.validateLocation(payStep.getLocation(), payStep.getEffectiveLocalDate())) {
 			return true;
 		} else {
-			this.putFieldError("campus", "error.existence", "Campus '"
-					+ payStep.getCampus() + "'");
+			this.putFieldError("location", "error.existence", "Location '"
+					+ payStep.getLocation() + "'");
 			return false;
 		}
 	}

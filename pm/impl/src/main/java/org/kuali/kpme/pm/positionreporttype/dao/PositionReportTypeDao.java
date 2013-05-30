@@ -24,11 +24,11 @@ public interface PositionReportTypeDao {
 	
 	public PositionReportType getPositionReportTypeById(String pmPositionReportTypeId);
 	
-	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String institution, String campus, LocalDate asOfDate);
+	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String institution, String location, LocalDate asOfDate);
 	
 	public List<PositionReportType> getPositionReportTypeListByType(String positionReportType);
 	
 	public List<PositionReportType> getPrtListWithInstitutionCodeAndDate(String institutionCode, LocalDate asOfDate);
 
-	public List<PositionReportType> getPrtListWithCampusAndDate(String campus, LocalDate asOfDate);
+	public List<PositionReportType> getPrtListWithLocationAndDate(String location, LocalDate asOfDate);
 }

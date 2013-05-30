@@ -36,7 +36,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 		if (clss != null) {
 			valid = true;
 			valid &= this.validateInstitution(clss);
-			valid &= this.validateCampus(clss);
+			valid &= this.validateLocation(clss);
 			valid &= this.validateSalGroup(clss);
 			valid &= this.validateLeavePlan(clss);
 			valid &= this.validateReportingGroup(clss);
@@ -57,11 +57,11 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 		}
 	}
 	
-	private boolean validateCampus(Classification clss) {
-		if (StringUtils.isNotEmpty(clss.getCampus())
-				&& !PmValidationUtils.validateCampus(clss.getCampus())) {
-			this.putFieldError("dataObject.campus", "error.existence", "Campus '"
-					+ clss.getCampus() + "'");
+	private boolean validateLocation(Classification clss) {
+		if (StringUtils.isNotEmpty(clss.getLocation())
+				&& !ValidationUtils.validateLocation(clss.getLocation(), clss.getEffectiveLocalDate())) {
+			this.putFieldError("dataObject.location", "error.existence", "Location '"
+					+ clss.getLocation() + "'");
 			return false;
 		} else {
 			return true;
@@ -95,13 +95,13 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 		if (StringUtils.isNotEmpty(clss.getPositionReportGroup())
 				&& (PmValidationUtils.isWildCard(clss.getPositionReportGroup())
 					|| (!PmValidationUtils.isWildCard(clss.getPositionReportGroup()) 
-							&& !PmValidationUtils.validatePstnRptGrp(clss.getPositionReportGroup(),clss.getInstitution(), clss.getCampus(), clss.getEffectiveLocalDate())))) {
+							&& !PmValidationUtils.validatePstnRptGrp(clss.getPositionReportGroup(),clss.getInstitution(), clss.getLocation(), clss.getEffectiveLocalDate())))) {
 			String[] parameters = new String[4];
 			parameters[0] = clss.getPositionReportGroup();
 			parameters[1] = clss.getInstitution();
-			parameters[2] = clss.getCampus();
+			parameters[2] = clss.getLocation();
 			parameters[3] = clss.getEffectiveLocalDate().toString();
-			this.putFieldError("dataObject.positionReportGroup", "institution.campus.inconsistent.positionReportGroup", parameters);
+			this.putFieldError("dataObject.positionReportGroup", "institution.location.inconsistent.positionReportGroup", parameters);
 
 			return false;
 		} 
@@ -111,13 +111,13 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 		if (StringUtils.isNotEmpty(clss.getPositionType())
 				&& (PmValidationUtils.isWildCard(clss.getPositionType())
 					|| (!PmValidationUtils.isWildCard(clss.getPositionType()) 
-							&& !PmValidationUtils.validatePositionType(clss.getPositionType(),clss.getInstitution(), clss.getCampus(), clss.getEffectiveLocalDate())))) {
+							&& !PmValidationUtils.validatePositionType(clss.getPositionType(),clss.getInstitution(), clss.getLocation(), clss.getEffectiveLocalDate())))) {
 				String[] parameters = new String[4];
 				parameters[0] = clss.getPositionType();
 				parameters[1] = clss.getInstitution();
-				parameters[2] = clss.getCampus();
+				parameters[2] = clss.getLocation();
 				parameters[3] = clss.getEffectiveLocalDate().toString();
-				this.putFieldError("dataObject.positionType", "institution.campus.inconsistent.positionType", parameters);
+				this.putFieldError("dataObject.positionType", "institution.location.inconsistent.positionType", parameters);
 
 				return false;
 		}

@@ -16,6 +16,7 @@
 package org.kuali.kpme.pm.pstnrptgrpsubcat.validation;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -32,7 +33,7 @@ public class PstnRptGrpSubCatValidation extends MaintenanceDocumentRuleBase {
 			valid = true;
 			valid &= this.validatePstnRptSubCat(prgsc);
 			valid &= this.validateInstitution(prgsc);
-			valid &= this.validateCampus(prgsc);
+			valid &= this.validateLocation(prgsc);
 			valid &= this.validatePstnRptGroup(prgsc);
 			
 		}
@@ -42,13 +43,13 @@ public class PstnRptGrpSubCatValidation extends MaintenanceDocumentRuleBase {
 	private boolean validatePstnRptSubCat(PositionReportGroupSubCategory prgsc) {
 		if (StringUtils.isNotEmpty(prgsc.getPositionReportSubCat())
 				&& StringUtils.isNotEmpty(prgsc.getInstitution())
-				&& StringUtils.isNotEmpty(prgsc.getCampus())
-				&& !PmValidationUtils.validatePositionReportSubCat(prgsc.getPositionReportSubCat(), prgsc.getInstitution(), prgsc.getCampus(), prgsc.getEffectiveLocalDate())) {
+				&& StringUtils.isNotEmpty(prgsc.getLocation())
+				&& !PmValidationUtils.validatePositionReportSubCat(prgsc.getPositionReportSubCat(), prgsc.getInstitution(), prgsc.getLocation(), prgsc.getEffectiveLocalDate())) {
 			String[] parameters = new String[3];
 			parameters[0] = prgsc.getPositionReportSubCat();
 			parameters[1] = prgsc.getInstitution();
-			parameters[2] = prgsc.getCampus();
-			this.putFieldError("dataObject.positionReportSubCat", "institution.campus.inconsistent.positionReportSubCat", parameters);
+			parameters[2] = prgsc.getLocation();
+			this.putFieldError("dataObject.positionReportSubCat", "institution.location.inconsistent.positionReportSubCat", parameters);
 			return false;
 		} else {
 			return true;
@@ -66,11 +67,11 @@ public class PstnRptGrpSubCatValidation extends MaintenanceDocumentRuleBase {
 		}
 	}
 	
-	private boolean validateCampus(PositionReportGroupSubCategory prgsc) {
-		if (StringUtils.isNotEmpty(prgsc.getCampus())
-				&& !PmValidationUtils.validateCampus(prgsc.getCampus())) {
-			this.putFieldError("dataObject.campus", "error.existence", "Campus '"
-					+ prgsc.getCampus() + "'");
+	private boolean validateLocation(PositionReportGroupSubCategory prgsc) {
+		if (StringUtils.isNotEmpty(prgsc.getLocation())
+				&& !ValidationUtils.validateLocation(prgsc.getLocation(), prgsc.getEffectiveLocalDate())) {
+			this.putFieldError("dataObject.location", "error.existence", "Location '"
+					+ prgsc.getLocation() + "'");
 			return false;
 		} else {
 			return true;
@@ -80,14 +81,14 @@ public class PstnRptGrpSubCatValidation extends MaintenanceDocumentRuleBase {
 	private boolean validatePstnRptGroup(PositionReportGroupSubCategory prgsc) {
 		if (StringUtils.isNotEmpty(prgsc.getPositionReportGroup())
 				&& StringUtils.isNotEmpty(prgsc.getInstitution())
-				&& StringUtils.isNotEmpty(prgsc.getCampus())
-				&& !PmValidationUtils.validatePstnRptGrp(prgsc.getPositionReportGroup(), prgsc.getInstitution(), prgsc.getCampus(), prgsc.getEffectiveLocalDate())) {
+				&& StringUtils.isNotEmpty(prgsc.getLocation())
+				&& !PmValidationUtils.validatePstnRptGrp(prgsc.getPositionReportGroup(), prgsc.getInstitution(), prgsc.getLocation(), prgsc.getEffectiveLocalDate())) {
 			String[] parameters = new String[4];
 			parameters[0] = prgsc.getPositionReportGroup();
 			parameters[1] = prgsc.getInstitution();
-			parameters[2] = prgsc.getCampus();
+			parameters[2] = prgsc.getLocation();
 			parameters[3] = prgsc.getEffectiveLocalDate().toString();
-			this.putFieldError("dataObject.positionReportGroup", "institution.campus.inconsistent.positionReportGroup", parameters);
+			this.putFieldError("dataObject.positionReportGroup", "institution.location.inconsistent.positionReportGroup", parameters);
 			return false;
 		} else {
 			return true;

@@ -29,13 +29,13 @@ public interface PositionReportGroupService {
 	public PositionReportGroup getPositionReportGroupById(String pmPositionReportGroupId);
 	
 	/**
-	 * Get list of PositionReportGroup with given group, institution, campus and effective date
+	 * Get list of PositionReportGroup with given group, institution, location and effective date
 	 * wild card allowed
 	 * @param positionReportGroup
 	 * @param institution
-	 * @param campus
+	 * @param location
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String institution, String campus, LocalDate asOfDate);
+	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String institution, String location, LocalDate asOfDate);
 }

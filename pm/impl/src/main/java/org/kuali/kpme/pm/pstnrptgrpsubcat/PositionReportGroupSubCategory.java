@@ -16,7 +16,7 @@
 package org.kuali.kpme.pm.pstnrptgrpsubcat;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.rice.location.impl.campus.CampusBo;
+import org.kuali.kpme.core.location.Location;
 
 public class PositionReportGroupSubCategory extends HrBusinessObject {
 	private static final long serialVersionUID = 1L;
@@ -27,9 +27,9 @@ public class PositionReportGroupSubCategory extends HrBusinessObject {
 	private String positionReportSubCat;
 	private String description;
 	private String institution;
-	private String campus;
+	private String location;
 
-	private CampusBo campusObj;	
+	private Location locationObj;	
 	
 	@Override
 	public String getId() {
@@ -94,20 +94,20 @@ public class PositionReportGroupSubCategory extends HrBusinessObject {
 		this.institution = institution;
 	}
 
-	public String getCampus() {
-		return campus;
+	public String getLocation() {
+		return location;
 	}
 
-	public void setCampus(String campus) {
-		this.campus = campus;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
-	public CampusBo getCampusObj() {
-		return campusObj;
+	public Location getLocationObj() {
+		return locationObj;
 	}
 
-	public void setCampusObj(CampusBo campusObj) {
-		this.campusObj = campusObj;
+	public void setLocationObj(Location locationObj) {
+		this.locationObj = locationObj;
 	}
 
 }

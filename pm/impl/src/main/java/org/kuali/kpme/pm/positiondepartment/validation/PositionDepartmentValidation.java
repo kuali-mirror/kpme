@@ -33,7 +33,7 @@ public class PositionDepartmentValidation extends MaintenanceDocumentRuleBase  {
 		if (positionDepartment != null) {
 			valid = true;
 			valid &= this.validateInstitution(positionDepartment);
-			valid &= this.validateCampus(positionDepartment);
+			valid &= this.validateLocation(positionDepartment);
 			valid &= this.validateDepartment(positionDepartment);
 			valid &= this.validateAffiliation(positionDepartment);
 		}
@@ -51,11 +51,11 @@ public class PositionDepartmentValidation extends MaintenanceDocumentRuleBase  {
 		}
 	}
 	
-	private boolean validateCampus(PositionDepartment positionDepartment) {
-		if (StringUtils.isNotEmpty(positionDepartment.getCampus())
-				&& !PmValidationUtils.validateCampus(positionDepartment.getCampus())) {
-			this.putFieldError("campus", "error.existence", "Campus '"
-					+ positionDepartment.getCampus() + "'");
+	private boolean validateLocation(PositionDepartment positionDepartment) {
+		if (StringUtils.isNotEmpty(positionDepartment.getLocation())
+				&& !ValidationUtils.validateLocation(positionDepartment.getLocation(), positionDepartment.getEffectiveLocalDate())) {
+			this.putFieldError("location", "error.existence", "Location '"
+					+ positionDepartment.getLocation() + "'");
 			return false;
 		} else {
 			return true;
@@ -63,7 +63,7 @@ public class PositionDepartmentValidation extends MaintenanceDocumentRuleBase  {
 	}
 	
 	private boolean validateDepartment(PositionDepartment positionDepartment) {
-		if (StringUtils.isNotEmpty(positionDepartment.getCampus())
+		if (StringUtils.isNotEmpty(positionDepartment.getLocation())
 				&& !ValidationUtils.validateDepartment(positionDepartment.getDepartment(), positionDepartment.getEffectiveLocalDate())) {
 			this.putFieldError("department", "error.existence", "Department '"
 					+ positionDepartment.getDepartment() + "'");

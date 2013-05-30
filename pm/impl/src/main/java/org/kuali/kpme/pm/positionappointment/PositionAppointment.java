@@ -17,7 +17,7 @@ package org.kuali.kpme.pm.positionappointment;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.institution.Institution;
-import org.kuali.rice.location.impl.campus.CampusBo;
+import org.kuali.kpme.core.location.Location;
 
 public class PositionAppointment extends HrBusinessObject {
 	
@@ -27,9 +27,9 @@ public class PositionAppointment extends HrBusinessObject {
 	private String positionAppointment;
 	private String description;
 	private String institution;
-	private String campus;
+	private String location;
 	
-	private CampusBo campusObj;
+	private Location locationObj;
 	private Institution institutionObj;
 
 
@@ -65,12 +65,12 @@ public class PositionAppointment extends HrBusinessObject {
 		this.institution = institution;
 	}
 
-	public String getCampus() {
-		return campus;
+	public String getLocation() {
+		return location;
 	}
 
-	public void setCampus(String campus) {
-		this.campus = campus;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	@Override
 	public String getId() {
@@ -83,17 +83,17 @@ public class PositionAppointment extends HrBusinessObject {
 	}
 	
 	/**
-	 * @return the campusObj
+	 * @return the locationObj
 	 */
-	public CampusBo getCampusObj() {
-		return campusObj;
+	public Location getLocationObj() {
+		return locationObj;
 	}
 
 	/**
-	 * @param campusObj the campusObj to set
+	 * @param locationObj the locationObj to set
 	 */
-	public void setCampusObj(CampusBo campusObj) {
-		this.campusObj = campusObj;
+	public void setLocationObj(Location locationObj) {
+		this.locationObj = locationObj;
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class PositionAppointment extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		return getPositionAppointment() + "_" + getInstitution() + "_" + getCampus();
+		return getPositionAppointment() + "_" + getInstitution() + "_" + getLocation();
 	}
 
 }

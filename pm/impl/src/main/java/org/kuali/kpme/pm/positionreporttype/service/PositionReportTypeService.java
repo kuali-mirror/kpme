@@ -30,15 +30,15 @@ public interface PositionReportTypeService {
 	public PositionReportType getPositionReportTypeById(String pmPositionReportTypeId);
 
 	/**
-	 * Get list of PositionReportType with given type, institution, campus and effective date
+	 * Get list of PositionReportType with given type, institution, location and effective date
 	 * wild card allowed
 	 * @param positionReportType
 	 * @param institution
-	 * @param campus
+	 * @param location
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String institution, String campus, LocalDate asOfDate);
+	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String institution, String location, LocalDate asOfDate);
 	
 	/**
 	 * Retrieve list of position report type by given positionReportType 
@@ -56,11 +56,11 @@ public interface PositionReportTypeService {
 	public List<PositionReportType> getPrtListWithInstitutionCodeAndDate(String institutionCode, LocalDate asOfDate);
 	
 	/**
-	 * Retrieve list of Position Report Type with given campus and effectiveDate
-	 * @param campus
+	 * Retrieve list of Position Report Type with given location and effectiveDate
+	 * @param location
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PositionReportType> getPrtListWithCampusAndDate(String campus, LocalDate asOfDate);
+	public List<PositionReportType> getPrtListWithLocationAndDate(String location, LocalDate asOfDate);
 	
 }

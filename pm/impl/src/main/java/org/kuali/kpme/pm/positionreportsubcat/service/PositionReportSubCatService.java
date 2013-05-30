@@ -30,14 +30,14 @@ public interface PositionReportSubCatService {
 	public PositionReportSubCategory getPositionReportSubCatById(String pmPositionReportSubCatId);
 	
 	/**
-	 * retrieve list of active PositionReportSubCategory with given pstnRptSubCat, institution, campus and effective date
+	 * retrieve list of active PositionReportSubCategory with given pstnRptSubCat, institution, location and effective date
 	 * wild card allowed
 	 * @param pstnRptSubCat
 	 * @param institution
-	 * @param campus
+	 * @param location
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String campus, LocalDate asOfDate);
+	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String location, LocalDate asOfDate);
 
 }

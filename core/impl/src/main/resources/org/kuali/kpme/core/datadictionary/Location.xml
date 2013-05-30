@@ -266,5 +266,31 @@
 			</list>
 		</property>
 	</bean>
+	
+	<!-- KRAD Lookup View Definition -->
+
+  <bean id="Location-LookupView" parent="Uif-LookupView">
+    <property name="headerText" value="Location Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.bo.location.Location" />
+
+    <property name="criteriaFields">
+	    <list>
+					<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" />
+					<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
+					<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+		</list>
+    </property>
+    
+    <property name="resultFields">
+	    <list>
+			<bean parent="Uif-DataField" p:propertyName="location" />
+			<bean parent="Uif-DataField" p:propertyName="timezone" />
+			<bean parent="Uif-DataField" p:propertyName="description" />
+			<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+			<bean parent="Uif-DataField" p:propertyName="timestamp" />
+			<bean parent="Uif-DataField" p:propertyName="active" />
+		</list>
+    </property>
+  </bean>
 
 </beans>

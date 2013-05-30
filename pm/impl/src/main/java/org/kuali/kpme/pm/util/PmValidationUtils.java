@@ -162,17 +162,17 @@ public class PmValidationUtils {
 	 * @return
 	 */
 	
-	public static boolean validatePositionReportSubCat(String pstnRptSubCat, String institution, String campus, LocalDate asOfDate) {
+	public static boolean validatePositionReportSubCat(String pstnRptSubCat, String institution, String location, LocalDate asOfDate) {
 		if(asOfDate != null) {
-			List<PositionReportSubCategory> prscList = PmServiceLocator.getPositionReportSubCatService().getPositionReportSubCat(pstnRptSubCat, institution, campus, asOfDate);
+			List<PositionReportSubCategory> prscList = PmServiceLocator.getPositionReportSubCatService().getPositionReportSubCat(pstnRptSubCat, institution, location, asOfDate);
 			return CollectionUtils.isNotEmpty(prscList);
 		}
 		return false;
 	}
 	
-	public static boolean validatePstnRptGrp(String PstnRptGrp, String institution, String campus, LocalDate asOfDate) {
+	public static boolean validatePstnRptGrp(String PstnRptGrp, String institution, String location, LocalDate asOfDate) {
 		if(asOfDate != null) {
-			List<PositionReportGroup> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(PstnRptGrp, institution, campus, asOfDate);
+			List<PositionReportGroup> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(PstnRptGrp, institution, location, asOfDate);
 			return CollectionUtils.isNotEmpty(prgList);
 		}
 		return false;

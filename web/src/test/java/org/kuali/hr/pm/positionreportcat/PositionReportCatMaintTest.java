@@ -58,8 +58,8 @@ public class PositionReportCatMaintTest extends KPMETestCase {
 	  			page.asText().contains("Position Report Type (Position Report Type) is a required field."));
 	  	Assert.assertTrue("page text does not contain:\n" + "Institution (Institution) is a required field.",
 	  			page.asText().contains("Institution (Institution) is a required field."));
-	  	Assert.assertTrue("page text does not contain:\n" + "Campus (Campus) is a required field.", 
-	  			page.asText().contains("Campus (Campus) is a required field."));
+	  	Assert.assertTrue("page text does not contain:\n" + "Location (Location) is a required field.", 
+	  			page.asText().contains("Location (Location) is a required field."));
 	}
 	
 	@Test
@@ -82,44 +82,44 @@ public class PositionReportCatMaintTest extends KPMETestCase {
 	    setFieldValue(page, "document.newMaintainableObject.positionReportCat", prcString);
 	    setFieldValue(page, "document.newMaintainableObject.positionReportType", "noType"); // non-existing positionReportType
 	    setFieldValue(page, "document.newMaintainableObject.institution", "nonExistInst");	//nonexisting institution
-	    setFieldValue(page, "document.newMaintainableObject.campus", "nonCam");	//nonexisting campus
+	    setFieldValue(page, "document.newMaintainableObject.location", "nonCam");	//nonexisting location
 	  	
 	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
 	  	Assert.assertNotNull("Could not locate submit button", input);
 	  	HtmlElement element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	HtmlUnitUtil.createTempFile(page);
-	  	Assert.assertTrue("page text contains:\n" + "There's no Position Report Type 'noType' found with Institution 'nonExistInst' and Campus 'nonCam'.", 
-	  			page.asText().contains("There's no Position Report Type 'noType' found with Institution 'nonExistInst' and Campus 'nonCam'."));
+	  	Assert.assertTrue("page text contains:\n" + "There's no Position Report Type 'noType' found with Institution 'nonExistInst' and Location 'nonCam'.", 
+	  			page.asText().contains("There's no Position Report Type 'noType' found with Institution 'nonExistInst' and Location 'nonCam'."));
 		Assert.assertTrue("page text contains:\n" + "The specified Instituion 'nonExistInst' does not exist.", 
 	  			page.asText().contains("The specified Instituion 'nonExistInst' does not exist."));
-	  	Assert.assertTrue("page text contains:\n" + "The specified Campus 'nonCam' does not exist.", 
-	  			page.asText().contains("The specified Campus 'nonCam' does not exist."));
+	  	Assert.assertTrue("page text contains:\n" + "The specified Location 'nonCam' does not exist.", 
+	  			page.asText().contains("The specified Location 'nonCam' does not exist."));
 	  	
-	  	setFieldValue(page, "document.newMaintainableObject.positionReportType", prtString); // postionReportType and campus do not match
-	  	setFieldValue(page, "document.newMaintainableObject.campus", "NN"); // existing, non-matching campus
+	  	setFieldValue(page, "document.newMaintainableObject.positionReportType", prtString); // postionReportType and location do not match
+	  	setFieldValue(page, "document.newMaintainableObject.location", "NN"); // existing, non-matching location
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
-	  	Assert.assertTrue("page text contains:\n" + "There's no Position Report Type 'testPRT' found with Institution 'nonExistInst' and Campus 'NN'.", 
-	  			page.asText().contains("There's no Position Report Type 'testPRT' found with Institution 'nonExistInst' and Campus 'NN'."));
-	  	Assert.assertFalse("page text contains:\n" + "The specified Campus 'NN' does not exist.", 
-	  			page.asText().contains("The specified Campus 'NN' does not exist."));
+	  	Assert.assertTrue("page text contains:\n" + "There's no Position Report Type 'testPRT' found with Institution 'nonExistInst' and Location 'NN'.", 
+	  			page.asText().contains("There's no Position Report Type 'testPRT' found with Institution 'nonExistInst' and Location 'NN'."));
+	  	Assert.assertFalse("page text contains:\n" + "The specified Location 'NN' does not exist.", 
+	  			page.asText().contains("The specified Locaiton 'NN' does not exist."));
 	  	
 	  	setFieldValue(page, "document.newMaintainableObject.institution", "II"); // existing, non-matching institution
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
-	  	Assert.assertTrue("page text contains:\n" + "There's no Position Report Type 'testPRT' found with Institution 'II' and Campus 'NN'.", 
-	  			page.asText().contains("There's no Position Report Type 'testPRT' found with Institution 'II' and Campus 'NN'."));
+	  	Assert.assertTrue("page text contains:\n" + "There's no Position Report Type 'testPRT' found with Institution 'II' and Location 'NN'.", 
+	  			page.asText().contains("There's no Position Report Type 'testPRT' found with Institution 'II' and Location 'NN'."));
 	  	Assert.assertFalse("page text contains:\n" + "The specified Instituion 'II' does not exist.", 
 	  			page.asText().contains("The specified Instituion 'II' does not exist."));
 	  	
 	  	setFieldValue(page, "document.newMaintainableObject.institution", "testInst"); // matching institution	  	
-	  	setFieldValue(page, "document.newMaintainableObject.campus", "TS"); // matching campus
+	  	setFieldValue(page, "document.newMaintainableObject.location", "BL"); // matching location
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	Assert.assertFalse("page text contains error", page.asText().contains("error"));
 	  	
-	  	prcList = PmServiceLocator.getPositionReportCatService().getPositionReportCatList(prcString, prtString, "testInst", "TS", effectiveDate.toLocalDate());
+	  	prcList = PmServiceLocator.getPositionReportCatService().getPositionReportCatList(prcString, prtString, "testInst", "BL", effectiveDate.toLocalDate());
 	  	Assert.assertTrue("There should be Position Report Category with name " + prcString, CollectionUtils.isNotEmpty(prcList));
 	  	
 	}

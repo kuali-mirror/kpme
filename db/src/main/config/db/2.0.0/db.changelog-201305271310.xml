@@ -1,0 +1,48 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1" author="jkakkad" context="kpme-client-bootstrap">
+        
+        <comment>KPME-2379 : Changed Campus references to Location for Position Management</comment>
+        <!--  Classification -->
+        <renameColumn tableName="PM_PSTN_CL_T" oldColumnName="CAMPUS" newColumnName="LOCATION" columnDataType="VARCHAR(15) NOT NULL" />
+        <!--  Paystep -->
+        <renameColumn tableName="PM_PAY_STEP_T" oldColumnName="CAMPUS" newColumnName="LOCATION" columnDataType="VARCHAR(15) NOT NULL" />
+        <!--  Position Appointment -->
+        <renameColumn tableName="PM_PSTN_APPOINTMENT_T" oldColumnName="CAMPUS" newColumnName="LOCATION" columnDataType="VARCHAR(15) NOT NULL" />
+        <!-- Position Department -->
+        <renameColumn tableName="PM_PSTN_DEPT_T" oldColumnName="CAMPUS" newColumnName="LOCATION" columnDataType="VARCHAR(15) NOT NULL" />
+        <!-- Position Report Category -->
+        <renameColumn tableName="PM_PSTN_RPT_CAT_T" oldColumnName="CAMPUS" newColumnName="LOCATION" columnDataType="VARCHAR(15) NOT NULL" />
+        <!-- Position Report Group -->
+        <renameColumn tableName="PM_PSTN_RPT_GRP_T" oldColumnName="CAMPUS" newColumnName="LOCATION" columnDataType="VARCHAR(15) NOT NULL" />
+        <!-- Position Report Type -->
+        <renameColumn tableName="PM_PSTN_RPT_TYP_T" oldColumnName="CAMPUS" newColumnName="LOCATION" columnDataType="VARCHAR(15) NOT NULL" />
+        <!-- Position Report Subcategory -->
+        <renameColumn tableName="PM_PSTN_RPT_SUB_CAT_T" oldColumnName="CAMPUS" newColumnName="LOCATION" columnDataType="VARCHAR(15) NOT NULL" />
+        <!-- Position Report group Sub Category -->
+        <renameColumn tableName="PM_PSTN_RPT_GRP_SUB_CAT_T" oldColumnName="CAMPUS" newColumnName="LOCATION" columnDataType="VARCHAR(15) NOT NULL" />
+		<!-- Position Type --> 
+       <renameColumn tableName="PM_PSTN_TYP_T" oldColumnName="CAMPUS" newColumnName="LOCATION" columnDataType="VARCHAR(15) NOT NULL" />
+		<!-- Position Contract Type -->
+        <renameColumn tableName="PM_PSTN_CNTRCT_TYP_T" oldColumnName="CAMPUS" newColumnName="LOCATION" columnDataType="VARCHAR(15) NOT NULL" />
+        
+    </changeSet>
+</databaseChangeLog>

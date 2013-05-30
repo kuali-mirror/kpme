@@ -18,9 +18,7 @@ package org.kuali.kpme.pm.positiontype.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.pm.positiontype.PositionType;
-import org.springframework.cache.annotation.Cacheable;
 
 public interface PositionTypeService {
 	/**
@@ -28,17 +26,16 @@ public interface PositionTypeService {
 	 * @param pmPositionTypeId
 	 * @return
 	 */
-    @Cacheable(value= PositionType.CACHE_NAME, key="'pmPositionTypeId=' + #p0")
 	public PositionType getPositionTypeById(String pmPositionTypeId);
 	
 	/**
-	 * Get list of PositionType with given group, institution, campus and effective date
+	 * Get list of PositionType with given group, institution, location and effective date
 	 * wild card allowed
 	 * @param positionType
 	 * @param institution
-	 * @param campus
+	 * @param location
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PositionType> getPositionTypeList(String positionType, String institution, String campus, LocalDate asOfDate);
+	public List<PositionType> getPositionTypeList(String positionType, String institution, String location, LocalDate asOfDate);
 }

@@ -31,14 +31,14 @@ public interface PositionAppointmentService {
 	public PositionAppointment getPositionAppointmentById(String pmPositionAppointmentId);
 
 	/**
-	 * Get list of PositionAppointment with given group, institution, campus and
+	 * Get list of PositionAppointment with given group, institution, location and
 	 * effective date wild card allowed
 	 * 
 	 * @param positionAppointment
 	 * @param institution
-	 * @param campus
+	 * @param location
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String institution, String campus, LocalDate asOfDate);
+	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String institution, String location, LocalDate asOfDate);
 }

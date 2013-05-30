@@ -38,7 +38,7 @@
 				<ref bean="PositionReportCat-positionReportType" />
 				<ref bean="PositionReportCat-description" />
 				<ref bean="PositionReportCat-institution" />
-				<ref bean="PositionReportCat-campus" />
+				<ref bean="PositionReportCat-location" />
 				<ref bean="PositionReportCat-active" />
 			</list>
 		</property>
@@ -54,11 +54,11 @@
 					</property>
 				</bean>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="campusObj" />
+					<property name="objectAttributeName" value="locationObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="campus"
-								p:targetName="code" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
+								p:targetName="location" />
 						</list>
 					</property>
 				</bean>
@@ -158,10 +158,10 @@
 		<property name="label" value="Institution" />
 	</bean>
 	
-	<bean id="PositionReportCat-campus" parent="PositionReportCat-campus-parentBean" />
-	<bean id="PositionReportCat-campus-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Campus" />
-		<property name="maxLength" value="10" />
+	<bean id="PositionReportCat-location" parent="PositionReportCat-location-parentBean" />
+	<bean id="PositionReportCat-location-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Location" />
+		<property name="maxLength" value="15" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
@@ -170,8 +170,8 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="campus" />
-		<property name="label" value="Campus" />
+		<property name="name" value="location" />
+		<property name="label" value="Location" />
 	</bean>
 	
 	<bean id="PositionReportCat-active" parent="PositionReportCat-active-parentBean" />
@@ -195,7 +195,7 @@
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 							<bean parent="FieldDefinition" p:attributeName="positionReportType" />
 							<bean parent="FieldDefinition" p:attributeName="institution" />
-							<bean parent="FieldDefinition" p:attributeName="campus" />
+							<bean parent="FieldDefinition" p:attributeName="location" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
@@ -222,7 +222,7 @@
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="positionReportType" />
 				<bean parent="FieldDefinition" p:attributeName="institution" />
-				<bean parent="FieldDefinition" p:attributeName="campus" />
+				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
@@ -232,7 +232,7 @@
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="positionReportType" />
 				<bean parent="FieldDefinition" p:attributeName="institution" />
-				<bean parent="FieldDefinition" p:attributeName="campus" />
+				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
@@ -249,7 +249,12 @@
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportType" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution" />
-		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
+			 <property name="quickfinder">
+							<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+								p:fieldConversions="location:location" />
+						</property>
+		</bean>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
       </list>
     </property>
@@ -259,7 +264,7 @@
 		<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
 		<bean parent="Uif-DataField" p:propertyName="positionReportType" />
 		<bean parent="Uif-DataField" p:propertyName="institution" />
-		<bean parent="Uif-DataField" p:propertyName="campus" />
+		<bean parent="Uif-DataField" p:propertyName="location" />
 		<bean parent="Uif-DataField" p:propertyName="active" />
       </list>
     </property>

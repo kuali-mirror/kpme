@@ -17,7 +17,7 @@ package org.kuali.kpme.pm.positionreporttype;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.institution.Institution;
-import org.kuali.rice.location.impl.campus.CampusBo;
+import org.kuali.kpme.core.location.Location;
 
 import com.google.common.collect.ImmutableList;
 
@@ -33,9 +33,9 @@ public class PositionReportType extends HrBusinessObject {
 	private String positionReportType;
 	private String description;
 	private String institution;
-	private String campus;
+	private String location;
 	
-	private CampusBo campusObj;
+	private Location locationObj;
 	private Institution institutionObj;	
 	
 	@Override
@@ -50,7 +50,7 @@ public class PositionReportType extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		return getPositionReportType() + "_" + getInstitution() + "_" + getCampus();
+		return getPositionReportType() + "_" + getInstitution() + "_" + getLocation();
 	}
 
 	public String getPositionReportType() {
@@ -93,20 +93,20 @@ public class PositionReportType extends HrBusinessObject {
 		this.institutionObj = institutionObj;
 	}
 
-	public String getCampus() {
-		return campus;
+	public String getLocation() {
+		return location;
 	}
 
-	public void setCampus(String campus) {
-		this.campus = campus;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
-	public CampusBo getCampusObj() {
-		return campusObj;
+	public Location getLocationObj() {
+		return locationObj;
 	}
 
-	public void setCampusObj(CampusBo campusObj) {
-		this.campusObj = campusObj;
+	public void setLocationObj(Location locationObj) {
+		this.locationObj = locationObj;
 	}
 
 }

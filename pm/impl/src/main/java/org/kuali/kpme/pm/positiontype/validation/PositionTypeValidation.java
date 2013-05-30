@@ -16,6 +16,7 @@
 package org.kuali.kpme.pm.positiontype.validation;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positiontype.PositionType;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -32,7 +33,7 @@ public class PositionTypeValidation extends MaintenanceDocumentRuleBase  {
 		if (positionType != null) {
 			valid = true;
 			valid &= this.validateInstitution(positionType);
-			valid &= this.validateCampus(positionType);
+			valid &= this.validateLocation(positionType);
 		}
 		return valid;
 	}
@@ -48,11 +49,11 @@ public class PositionTypeValidation extends MaintenanceDocumentRuleBase  {
 		}
 	}
 	
-	private boolean validateCampus(PositionType positionType) {
-		if (StringUtils.isNotEmpty(positionType.getCampus())
-				&& !PmValidationUtils.validateCampus(positionType.getCampus())) {
-			this.putFieldError("campus", "error.existence", "Campus '"
-					+ positionType.getCampus() + "'");
+	private boolean validateLocation(PositionType positionType) {
+		if (StringUtils.isNotEmpty(positionType.getLocation())
+				&& !ValidationUtils.validateLocation(positionType.getLocation(), positionType.getEffectiveLocalDate())) {
+			this.putFieldError("location", "error.existence", "Location '"
+					+ positionType.getLocation() + "'");
 			return false;
 		} else {
 			return true;

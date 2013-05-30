@@ -16,6 +16,7 @@
 package org.kuali.kpme.pm.positionreportcat.validation;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -32,7 +33,7 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 		if (prc != null) {
 			valid = true;
 			valid &= this.validateInstitution(prc);
-			valid &= this.validateCampus(prc);
+			valid &= this.validateLocation(prc);
 			valid &= this.validatePositionReportType(prc);
 		}
 		return valid;
@@ -40,12 +41,12 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 	
 	private boolean validatePositionReportType(PositionReportCategory prc) {
 		if (StringUtils.isNotEmpty(prc.getPositionReportType())
-				&& !PmValidationUtils.validatePositionReportType(prc.getPositionReportType(), prc.getInstitution(), prc.getCampus(), prc.getEffectiveLocalDate())) {
+				&& !PmValidationUtils.validatePositionReportType(prc.getPositionReportType(), prc.getInstitution(), prc.getLocation(), prc.getEffectiveLocalDate())) {
 			String[] parameters = new String[3];
 			parameters[0] = prc.getPositionReportType();
 			parameters[1] = prc.getInstitution();
-			parameters[2] = prc.getCampus();
-			this.putFieldError("positionReportType", "institution.campus.inconsistent.positionReportType", parameters);
+			parameters[2] = prc.getLocation();
+			this.putFieldError("positionReportType", "institution.location.inconsistent.positionReportType", parameters);
 			return false;
 		}
 		return true;
@@ -62,11 +63,11 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 		return true;
 	}
 	
-	private boolean validateCampus(PositionReportCategory prc) {
-		if (StringUtils.isNotEmpty(prc.getCampus())) {
-			if(!PmValidationUtils.validateCampus(prc.getCampus())) {
-				this.putFieldError("campus", "error.existence", "Campus '"
-						+ prc.getCampus() + "'");
+	private boolean validateLocation(PositionReportCategory prc) {
+		if (StringUtils.isNotEmpty(prc.getLocation())) {
+			if(!ValidationUtils.validateLocation(prc.getLocation(), prc.getEffectiveLocalDate())) {
+				this.putFieldError("location", "error.existence", "Location '"
+						+ prc.getLocation() + "'");
 				return false;
 			}
 		}

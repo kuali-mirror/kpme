@@ -39,8 +39,8 @@ public class PositionReportSubCatServiceImpl implements PositionReportSubCatServ
 		this.positionReportSubCatDao = positionReportSubCatDao;
 	}
 	
-	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String campus, LocalDate asOfDate) {
-		return positionReportSubCatDao.getPositionReportSubCat(pstnRptSubCat, institution, campus, asOfDate);
+	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String location, LocalDate asOfDate) {
+		return positionReportSubCatDao.getPositionReportSubCat(pstnRptSubCat, institution, location, asOfDate);
 	}
 
 }

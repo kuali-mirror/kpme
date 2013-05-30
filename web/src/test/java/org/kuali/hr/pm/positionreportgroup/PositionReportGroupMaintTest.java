@@ -56,8 +56,8 @@ public class PositionReportGroupMaintTest extends KPMETestCase {
 	  			page.asText().contains("Position Report Group (Position Report Group) is a required field."));
 	  	Assert.assertTrue("page text does not contain:\n" + "Institution (Institution) is a required field.",
 	  			page.asText().contains("Institution (Institution) is a required field."));
-	  	Assert.assertTrue("page text does not contain:\n" + "Campus (Campus) is a required field.", 
-	  			page.asText().contains("Campus (Campus) is a required field."));
+	  	Assert.assertTrue("page text does not contain:\n" + "Location (Location) is a required field.", 
+	  			page.asText().contains("Location (Location) is a required field."));
 	}
 	
 	@Test
@@ -78,7 +78,7 @@ public class PositionReportGroupMaintTest extends KPMETestCase {
 	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2012");
 	    setFieldValue(page, "document.newMaintainableObject.positionReportGroup", prgString);
 	    setFieldValue(page, "document.newMaintainableObject.institution", "nonExistInst");	//nonexisting institution
-	    setFieldValue(page, "document.newMaintainableObject.campus", "nonCam");	//nonexisting campus
+	    setFieldValue(page, "document.newMaintainableObject.location", "nonCam");	//nonexisting location
 	  	
 	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
 	  	Assert.assertNotNull("Could not locate submit button", input);
@@ -87,8 +87,8 @@ public class PositionReportGroupMaintTest extends KPMETestCase {
 	  	HtmlUnitUtil.createTempFile(page);
 		Assert.assertTrue("page text contains:\n" + "The specified Instituion 'nonExistInst' does not exist.", 
 	  			page.asText().contains("The specified Instituion 'nonExistInst' does not exist."));
-	  	Assert.assertTrue("page text contains:\n" + "The specified Campus 'nonCam' does not exist.", 
-	  			page.asText().contains("The specified Campus 'nonCam' does not exist."));
+	  	Assert.assertTrue("page text contains:\n" + "The specified Location 'nonCam' does not exist.", 
+	  			page.asText().contains("The specified Location 'nonCam' does not exist."));
 	  	  	
 	  	setFieldValue(page, "document.newMaintainableObject.institution", "testInst"); // existing institution
 	  	element = page.getElementByName("methodToCall.route");
@@ -96,12 +96,13 @@ public class PositionReportGroupMaintTest extends KPMETestCase {
 	  	Assert.assertFalse("page text contains:\n" + "The specified Instituion 'testInst' does not exist.", 
 	  			page.asText().contains("The specified Instituion 'testInst' does not exist."));
 	  	
-	  	setFieldValue(page, "document.newMaintainableObject.campus", "TS"); // existing campus
+	  	setFieldValue(page, "document.newMaintainableObject.location", "BL"); // existing location
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
+	  	System.out.println("Page text is >>> "+page.asText());
 	  	Assert.assertFalse("page text contains error", page.asText().contains("error"));
 	  	
-	  	prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(prgString, "testInst", "TS", effectiveDate.toLocalDate());
+	  	prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(prgString, "testInst", "BL", effectiveDate.toLocalDate());
 	  	Assert.assertTrue("There should be Position Report Group with name " + prgString, CollectionUtils.isNotEmpty(prgList));
 	  	
 	}

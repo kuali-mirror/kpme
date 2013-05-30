@@ -31,8 +31,8 @@ public class PositionAppointmentServiceImpl  implements PositionAppointmentServi
 	}
 
 
-	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String institution, String campus, LocalDate asOfDate) {
-		return positionAppointmentDao.getPositionAppointmentList(positionAppointment, institution, campus, asOfDate);
+	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String institution, String location, LocalDate asOfDate) {
+		return positionAppointmentDao.getPositionAppointmentList(positionAppointment, institution, location, asOfDate);
 	}
 
 	public PositionAppointmentDao getPositionAppointmentDao() {
