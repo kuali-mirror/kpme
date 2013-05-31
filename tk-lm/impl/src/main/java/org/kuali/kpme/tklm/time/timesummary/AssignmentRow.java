@@ -111,7 +111,7 @@ public class AssignmentRow implements Serializable {
 		BigDecimal weeklyAmount = BigDecimal.ZERO;
 		BigDecimal weeklyTotal = BigDecimal.ZERO;
 
-		for (ListIterator<AssignmentColumn> iterator = getAssignmentColumns().listIterator(index); iterator.hasPrevious() && iterator.previousIndex() >= (index - weekSize - 1); ) {
+		for (ListIterator<AssignmentColumn> iterator = getAssignmentColumns().listIterator(index); iterator.hasPrevious() && iterator.previousIndex() >= (index - weekSize); ) {
 			AssignmentColumn assignmentColumn = iterator.previous();
 			weeklyAmount = weeklyAmount.add(assignmentColumn.getAmount(), HrConstants.MATH_CONTEXT);
 			weeklyTotal = weeklyTotal.add(assignmentColumn.getTotal(), HrConstants.MATH_CONTEXT);

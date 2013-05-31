@@ -66,14 +66,17 @@ public class TimeSummary implements Serializable {
                 ecs.put("totals", earnCodeSection.getTotals());
                 ecs.put("isAmountEarnCode", earnCodeSection.getIsAmountEarnCode());
                 ecs.put("assignmentSize", earnCodeSection.getAssignmentsRows().size() + 1);
-
+                ecs.put("earnGroup", earnGroupSection.getEarnGroup());
+                ecs.put("totals", earnGroupSection.getTotals());
+                
                 List<Map<String, Object>> assignmentRows = new ArrayList<Map<String, Object>>();
                 for (AssignmentRow assignmentRow : earnCodeSection.getAssignmentsRows()) {
                     Map<String, Object> ar = new HashMap<String, Object>();
 
                     ar.put("descr", assignmentRow.getDescr());
-                    ar.put("cssClass", assignmentRow.getCssClass());
                     ar.put("assignmentKey", assignmentRow.getAssignmentKey());
+                    ar.put("cssClass", assignmentRow.getCssClass());
+     	 	 	 	ar.put("earnCode", earnCodeSection.getEarnCode());
                     
                     List<Map<String, Object>> assignmentColumns = new ArrayList<Map<String, Object>>();
                     for (AssignmentColumn assignmentColumn : assignmentRow.getAssignmentColumns()) {
@@ -82,12 +85,16 @@ public class TimeSummary implements Serializable {
                     	ac.put("cssClass", assignmentColumn.getCssClass());
                     	ac.put("amount", assignmentColumn.getAmount());
                     	ac.put("total", assignmentColumn.getTotal());
+                    	ac.put("isWeeklyTotal", assignmentColumn.isWeeklyTotal());
 
                     	assignmentColumns.add(ac);
                     }
+                    ar.put("assignmentColumns", assignmentColumns);
 
                     assignmentRows.add(ar);
                 }
+                
+                ecs.put("assignmentRows", assignmentRows);
                 
                 List<Map<String, Object>> weekTotalRows = new java.util.LinkedList<Map<String, Object>>();
                 for(String key : this.weekTotalMap.keySet()) {
@@ -108,10 +115,6 @@ public class TimeSummary implements Serializable {
                 }
                 
                 ecs.put("flsaWeekTotals", flsaWeekTotalRows);
-                
-                ecs.put("assignmentRows", assignmentRows);
-                ecs.put("earnGroup", earnGroupSection.getEarnGroup());
-                ecs.put("totals", earnGroupSection.getTotals());
 
                 earnCodeSections.add(ecs);
             }
