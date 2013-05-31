@@ -20,11 +20,11 @@
     <li id="personInfo" class="ui-state-default ui-corner-top"><a href="PersonInfo.do">Person Info</a></li>
     <c:if test="${approver || reviewer}">
         <li id="approvals" class="ui-state-default ui-corner-top"><a
-                href="TimeApproval.do?methodToCall=loadApprovalTab">Time Approval</a></li>
+                href="TimeApproval.do">Time Approval</a></li>
     </c:if>
     <c:if test="${approver || reviewer}">
     	<li id="leaveApprovals" class="ui-state-default ui-corner-top"><a
-            href="LeaveApproval.do?methodToCall=loadApprovalTab">Leave Approval</a></li>
+            href="LeaveApproval.do">Leave Approval</a></li>
     </c:if>
     <c:if test="${targetActiveEmployee}">
         <c:if test="${Form.leaveEnabled}">

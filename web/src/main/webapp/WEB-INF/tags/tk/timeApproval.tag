@@ -9,7 +9,7 @@
 <td width="20%"  valign="top">&nbsp;
 
 <div id="time-approval">
-	<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do?methodToCall=loadApprovalTab" excludedParams="*"
+	<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do" excludedParams="*"
 	               pagesize="20" id="row"
 	               class="approvals-table" partialList="true" size="${Form.resultSize}" sort="external" defaultsort="0">
 	    <c:set var="nameStyle" value=""/>

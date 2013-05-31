@@ -78,6 +78,11 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
 	}
 	
 	@Override
+	protected List<String> getCalendars(List<String> principalIds) {
+		return LmServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroupsForPrincipalIds(principalIds);
+	}
+	
+	@Override
 	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward actionForward = super.selectNewDept(mapping, form, request, response);
 		

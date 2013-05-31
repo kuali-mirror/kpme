@@ -15,8 +15,8 @@
  */
 package org.kuali.kpme.tklm.common;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -31,40 +31,105 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
-import org.kuali.kpme.core.web.KPMEAction;
-import org.kuali.kpme.core.web.KPMEForm;
-import org.kuali.kpme.core.workarea.WorkArea;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public abstract class CalendarApprovalFormAction extends KPMEAction{
-
-	@Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if (form instanceof KPMEForm) {
-           String methodToCall = ((KPMEForm)form).getMethodToCall();
-           if(StringUtils.isEmpty(methodToCall)) {
-        	   super.execute(mapping, form, request, response);
-        	   return loadApprovalTab(mapping, form, request, response); 
-           }
-        }
-        return super.execute(mapping, form, request, response);
-    }
+public abstract class CalendarApprovalFormAction extends ApprovalFormAction {
 	
-	public ActionForward loadApprovalTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return mapping.findForward("basic");
+	@Override
+	protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+		if (!HrContext.isReviewer() && !HrContext.isAnyApprover() && !HrContext.isSystemAdmin() && !TkContext.isLocationAdmin() && !HrContext.isGlobalViewOnly() 
+				&& !TkContext.isDepartmentViewOnly() && !TkContext.isDepartmentAdmin()) {
+			throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "CalendarApprovalFormAction", "");
+		}
 	}
+	
+	@Override
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ActionForward actionForward = super.execute(mapping, form, request, response);
+		
+        CalendarApprovalForm calendarApprovalForm = (CalendarApprovalForm) form;
+        
+        setCalendarFields(request, calendarApprovalForm);
+        
+        CalendarEntry calendarEntry = null;
+        if (calendarApprovalForm.getHrCalendarEntryId() != null) {
+        	calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(calendarApprovalForm.getHrCalendarEntryId());
+        } else {
+        	Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByGroup(calendarApprovalForm.getSelectedPayCalendarGroup());
+            if (calendar != null) {
+                calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), LocalDate.now().toDateTimeAtStartOfDay());
+            }
+        }
+        calendarApprovalForm.setHrCalendarEntryId(calendarEntry.getHrCalendarEntryId());
+        calendarApprovalForm.setCalendarEntry(calendarEntry);
+        calendarApprovalForm.setBeginCalendarEntryDate(calendarEntry.getBeginPeriodDateTime());
+        calendarApprovalForm.setEndCalendarEntryDate(DateUtils.addMilliseconds(calendarEntry.getEndPeriodDateTime(),-1));
+		
+		CalendarEntry prevCalendarEntry = HrServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
+		calendarApprovalForm.setPrevHrCalendarEntryId(prevCalendarEntry != null ? prevCalendarEntry.getHrCalendarEntryId() : null);
+		
+		CalendarEntry nextCalendarEntry = HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
+		calendarApprovalForm.setNextHrCalendarEntryId(nextCalendarEntry != null ? nextCalendarEntry.getHrCalendarEntryId() : null);
+		
+		if (StringUtils.isBlank(calendarApprovalForm.getSelectedPayPeriod())) {
+			calendarApprovalForm.setSelectedPayPeriod(calendarApprovalForm.getHrCalendarEntryId());
+		}
+
+		return actionForward;
+	}
+	
+    protected void setCalendarFields(HttpServletRequest request, CalendarApprovalForm calendarApprovalForm) {
+		Set<String> calendarYears = new TreeSet<String>(Collections.reverseOrder());
+		List<CalendarEntry> calendarEntries = new ArrayList<CalendarEntry>();
+		
+		if (!StringUtils.isEmpty(request.getParameter("selectedCY"))) {
+			calendarApprovalForm.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
+		} else {
+			if (calendarApprovalForm.getCalendarEntry() != null) {
+				calendarApprovalForm.setSelectedCalendarYear(calendarApprovalForm.getCalendarEntry().getBeginPeriodFullDateTime().toString("yyyy"));
+			} else {
+				CalendarEntry calendarEntry = null;
+		        if (calendarApprovalForm.getHrCalendarEntryId() != null) {
+		        	calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(calendarApprovalForm.getHrCalendarEntryId());
+		        } else {
+		        	Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByGroup(calendarApprovalForm.getSelectedPayCalendarGroup());
+		            if (calendar != null) {
+		                calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), LocalDate.now().toDateTimeAtStartOfDay());
+		            }
+		        }
+		        calendarApprovalForm.setSelectedCalendarYear(calendarEntry.getBeginPeriodFullDateTime().toString("yyyy"));
+			}
+		}
+		
+	    for (CalendarEntry calendarEntry : getCalendarEntries()) {
+	    	String calendarEntryYear = calendarEntry.getBeginPeriodFullDateTime().toString("yyyy");
+	    	calendarYears.add(calendarEntryYear);
+	    	if (StringUtils.equals(calendarEntryYear, calendarApprovalForm.getSelectedCalendarYear())) {
+	    		calendarEntries.add(calendarEntry);
+	    	}
+	    }
+	    calendarApprovalForm.setCalendarYears(new ArrayList<String>(calendarYears));
+		
+		if (!StringUtils.isEmpty(request.getParameter("selectedPP"))) {
+			calendarApprovalForm.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
+			calendarApprovalForm.setHrCalendarEntryId(request.getParameter("selectedPP").toString());
+		} else {
+			calendarApprovalForm.setSelectedPayPeriod(calendarApprovalForm.getHrCalendarEntryId());
+		}
+		
+		calendarApprovalForm.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(calendarEntries, null));
+	}
+    
+    protected abstract List<CalendarEntry> getCalendarEntries();
 	
 	protected List<String> getSubListPrincipalIds(HttpServletRequest request, List<String> assignmentPrincipalIds) {
 	    String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
@@ -85,111 +150,19 @@ public abstract class CalendarApprovalFormAction extends KPMEAction{
 	protected String getSortField(HttpServletRequest request) {
 	    return request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_SORT)));
 	}
-	
-	protected void checkTKAuthorization(ActionForm form, String methodToCall)
-			throws AuthorizationException {
-			    if (!HrContext.isReviewer() && !HrContext.isAnyApprover() && !HrContext.isSystemAdmin()
-			    		&& !TkContext.isLocationAdmin() && !HrContext.isGlobalViewOnly() && !TkContext.isDepartmentViewOnly()
-			    		&& !TkContext.isDepartmentAdmin()) {
-			        throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "CalendarApprovalFormAction", "");
-			    }
-			}
-	
-	protected void resetMainFields(ActionForm form) {
-		CalendarApprovalForm taf = (CalendarApprovalForm) form;
-		taf.setSearchField(null);
-		taf.setSearchTerm(null);
-		taf.setSelectedWorkArea(null);
-		taf.setSelectedDept(null);
-		taf.setBeginCalendarEntryDate(null);
-		taf.setEndCalendarEntryDate(null);
-		taf.setHrCalendarEntryId(null);
-	}
-	
-	protected void setupDocumentOnFormContext(HttpServletRequest request,
-			CalendarApprovalForm taf, CalendarEntry payCalendarEntry, String page) {
-		if(payCalendarEntry == null) {
-			return;
-		}
-		taf.setHrCalendarEntryId(payCalendarEntry.getHrCalendarEntryId());
-		taf.setBeginCalendarEntryDate(payCalendarEntry.getBeginPeriodDateTime());
-		taf.setEndCalendarEntryDate(DateUtils.addMilliseconds(payCalendarEntry.getEndPeriodDateTime(),-1));
-		
-		CalendarEntry prevPayCalendarEntry = HrServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(payCalendarEntry.getHrCalendarId(), payCalendarEntry);
-		if (prevPayCalendarEntry != null) {
-		    taf.setPrevHrCalendarEntryId(prevPayCalendarEntry.getHrCalendarEntryId());
-		} else {
-		    taf.setPrevHrCalendarEntryId(null);
-		}
-		
-		CalendarEntry nextPayCalendarEntry = HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(payCalendarEntry.getHrCalendarId(), payCalendarEntry);
-		if (nextPayCalendarEntry != null) {
-		    taf.setNextHrCalendarEntryId(nextPayCalendarEntry.getHrCalendarEntryId());
-		} else {
-		    taf.setNextHrCalendarEntryId(null);
-		}	
-		if (StringUtils.isBlank(page)) {
-	        String principalId = HrContext.getTargetPrincipalId();
-			Set<String> departments = new TreeSet<String>();
-			//departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
-			//departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
-			//departments.addAll(HrServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-            departments.addAll(TkServiceLocator.getTKRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime(), true));
-            departments.addAll(TkServiceLocator.getTKRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime(), true));
-            departments.addAll(LmServiceLocator.getLMRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime(), true));
-            departments.addAll(LmServiceLocator.getLMRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime(), true));
-		    taf.setDepartments(new ArrayList<String>(departments));
-		    
-		    if (taf.getDepartments().size() == 1 || taf.getSelectedDept() != null) {
-		    	if (StringUtils.isEmpty(taf.getSelectedDept()))
-		    		taf.setSelectedDept(taf.getDepartments().get(0));
-		        
-		    	List<WorkArea> workAreaObjs = HrServiceLocator.getWorkAreaService().getWorkAreas(taf.getSelectedDept(), payCalendarEntry.getBeginPeriodFullDateTime().toLocalDate());
-		        for (WorkArea workAreaObj : workAreaObjs) {
-		        	Long workArea = workAreaObj.getWorkArea();
-		        	String description = workAreaObj.getDescription();
-		        	
-		        	if (HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
-		        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
-		        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
-		        		taf.getWorkAreaDescr().put(workArea, description + "(" + workArea + ")");
-		        	}
-		        }
-		    }
-		}
 
-	}
-	
-    public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	
-    	String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));         
-    	CalendarApprovalForm taf = (CalendarApprovalForm) form;
-    	DateTime currentDate = new LocalDate().toDateTimeAtStartOfDay();
-        Calendar currentPayCalendar = HrServiceLocator.getCalendarService().getCalendarByGroup(taf.getSelectedPayCalendarGroup());
-        CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(currentPayCalendar.getHrCalendarId(), currentDate);
-        taf.setCalendarEntry(payCalendarEntry);
-        taf.setSelectedCalendarYear(new SimpleDateFormat("yyyy").format(payCalendarEntry.getBeginPeriodDate()));
-        taf.setSelectedPayPeriod(payCalendarEntry.getHrCalendarEntryId());
-        populateCalendarAndPayPeriodLists(request, taf);
-        setupDocumentOnFormContext(request, taf, payCalendarEntry, page);
-        return mapping.findForward("basic");
-    }
-    
-   
-    
     // Triggered by changes of calendar year drop down list, reloads the pay period list
     public ActionForward changeCalendarYear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	CalendarApprovalForm taf = (CalendarApprovalForm) form;
     	if(!StringUtils.isEmpty(request.getParameter("selectedCY"))) {
     		taf.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
-    		populateCalendarAndPayPeriodLists(request, taf);
+    		setCalendarFields(request, taf);
     	}
     	return mapping.findForward("basic");
     }
 
     // Triggered by changes of pay period drop down list, reloads the whole page based on the selected pay period
     public ActionForward changePayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-      String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
       CalendarApprovalForm taf = (CalendarApprovalForm) form;
   	  if(!StringUtils.isEmpty(request.getParameter("selectedPP"))) {
   		  taf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
@@ -197,15 +170,9 @@ public abstract class CalendarApprovalFormAction extends KPMEAction{
   		  	.getCalendarEntry(request.getParameter("selectedPP").toString());
   		  if(pce != null) {
   			  taf.setCalendarEntry(pce);
-  			  setupDocumentOnFormContext(request, taf, pce, page);
   		  }
   	  }
   	  return mapping.findForward("basic");
 	}
-    // sets the CalendarYear and Pay Period lists. Should be overridden by subclasses
-    protected void populateCalendarAndPayPeriodLists(HttpServletRequest request, CalendarApprovalForm taf) {
-    	
-    }
-
 
 }

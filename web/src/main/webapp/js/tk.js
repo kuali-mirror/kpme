@@ -204,7 +204,6 @@ $(document).ready(function() {
 
     $('#nav_prev_ac').click(function() {
         this.form.hrCalendarEntryId.value = prevHrCalendarEntryId;
-        this.form.methodToCall.value='loadApprovalTab';
         this.form.submit();
     });
 
@@ -217,7 +216,6 @@ $(document).ready(function() {
 
     $('#nav_next_ac').click(function() {
         this.form.hrCalendarEntryId.value = nextHrCalendarEntryId;
-        this.form.methodToCall.value='loadApprovalTab';
         this.form.submit();
     });
 

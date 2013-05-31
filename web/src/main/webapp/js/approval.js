@@ -235,12 +235,12 @@ $(document).ready(function () {
     /* for TimeApproval page */
     $("#refresh").click(function(){
        // location.reload();
-        location.replace('TimeApproval.do?methodToCall=loadApprovalTab');
+        location.replace('TimeApproval.do');
     });
     
     /* for LeaveApproval page */
     $("#leaveRefresh").click(function(){
-         location.replace('LeaveApproval.do?methodToCall=loadApprovalTab');
+         location.replace('LeaveApproval.do');
      });
 
     // add css styles to the note and warning buttons

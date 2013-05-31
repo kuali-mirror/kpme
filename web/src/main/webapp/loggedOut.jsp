@@ -35,7 +35,7 @@
                 <a href="portal.do?selectedTab=maintenance">Maintenance</a><br/>
                 <a href="Clock.do">Clock</a><br/>
                 <a href="TimeDetail.do">TimeDetail</a><br/>
-                <a href="TimeApproval.do?methodToCall=loadApprovalTab">Time Approval</a><br/>
+                <a href="TimeApproval.do">Time Approval</a><br/>
                 <a href="PersonInfo.do">Person Info</a><br/>
             </p>
         </div>

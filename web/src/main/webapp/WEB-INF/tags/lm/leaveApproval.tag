@@ -7,7 +7,7 @@
 
 <td width="20%"  valign="top">&nbsp;
 <div id="leave-approval">
-	<display:table name="${Form.leaveApprovalRows}" requestURI="LeaveApproval.do?methodToCall=loadApprovalTab" excludedParams="*"
+	<display:table name="${Form.leaveApprovalRows}" requestURI="LeaveApproval.do" excludedParams="*"
 	               pagesize="20" id="row"
 	               class="approvals-table"
 	               size="${Form.resultSize}" 

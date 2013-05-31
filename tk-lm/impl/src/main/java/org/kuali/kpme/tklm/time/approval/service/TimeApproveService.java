@@ -24,7 +24,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.util.HrConstants;
@@ -43,12 +42,10 @@ public interface TimeApproveService {
      * Obtains a Map of Lists of ApprovalTimeSummaryRows. The Key to the map is
      * the PayCalendar Group name.
      *
-     * @param payBeginDate
-     * @param payEndDate
      * @param calGroup Specify a calendar group to filter by.
      * @return A Map<String, List<ApprovalTimeSummaryRow>> container.
      */
-	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(DateTime payBeginDate, DateTime payEndDate, String calGroup, List<String> principalIds, List<String> payCalendarLabels, CalendarEntry payCalendarEntry);
+	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(String calGroup, List<String> principalIds, List<String> payCalendarLabels, CalendarEntry payCalendarEntry);
 	
 
 

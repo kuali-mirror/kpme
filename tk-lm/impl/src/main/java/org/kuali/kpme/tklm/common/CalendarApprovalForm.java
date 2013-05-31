@@ -16,12 +16,15 @@
 package org.kuali.kpme.tklm.common;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class CalendarApprovalForm extends CalendarForm {
+import org.joda.time.DateTime;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+
+public abstract class CalendarApprovalForm extends ApprovalForm {
 	
 	private static final long serialVersionUID = -173408280988754540L;
 	
@@ -29,21 +32,121 @@ public abstract class CalendarApprovalForm extends CalendarForm {
     public static final String ORDER_BY_DOCID = "documentId";
     public static final String ORDER_BY_STATUS = "Status";
     public static final String ORDER_BY_WORKAREA = "WorkArea";
-
-    private List<String> payCalendarGroups = new LinkedList<String>();
-    private String selectedPayCalendarGroup;
-    private String selectedDept;
-    private String selectedWorkArea;
-
-    private Map<Long,String> workAreaDescr = new HashMap<Long,String>();
+    
+    private String hrCalendarEntryId;
+    
+    private String prevHrCalendarEntryId;
+    private String nextHrCalendarEntryId;
+    
+	private Date beginCalendarEntryDate;
+	private Date endCalendarEntryDate;
+	
+    private CalendarEntry calendarEntry;
+	
+	private List<String> calendarYears = new ArrayList<String>();
+    private Map<String,String> payPeriodsMap = new HashMap<String,String>();
+    
+    private String selectedCalendarYear;
+    private String selectedPayPeriod;
 
     private String outputString;
 
     private String searchField;
     private String searchTerm;
 
-    private List<String> departments = new ArrayList<String>();
     private Integer resultSize = 0;
+    
+	public String getHrCalendarEntryId() {
+		return hrCalendarEntryId;
+	}
+
+	public void setHrCalendarEntryId(String hrCalendarEntryId) {
+		this.hrCalendarEntryId = hrCalendarEntryId;
+	}
+	
+	public String getPrevHrCalendarEntryId() {
+		return prevHrCalendarEntryId;
+	}
+
+	public void setPrevHrCalendarEntryId(String prevHrCalendarEntryId) {
+		this.prevHrCalendarEntryId = prevHrCalendarEntryId;
+	}
+
+	public String getNextHrCalendarEntryId() {
+		return nextHrCalendarEntryId;
+	}
+
+	public void setNextHrCalendarEntryId(String nextHrCalendarEntryId) {
+		this.nextHrCalendarEntryId = nextHrCalendarEntryId;
+	}
+
+	public Date getBeginCalendarEntryDate() {
+		return beginCalendarEntryDate;
+	}
+
+	public void setBeginCalendarEntryDate(Date beginCalendarEntryDate) {
+		this.beginCalendarEntryDate = beginCalendarEntryDate;
+	}
+
+	public Date getEndCalendarEntryDate() {
+		return endCalendarEntryDate;
+	}
+
+	public void setEndCalendarEntryDate(Date endCalendarEntryDate) {
+		this.endCalendarEntryDate = endCalendarEntryDate;
+	}
+
+	public List<String> getCalendarYears() {
+		return calendarYears;
+	}
+	
+	public void setCalendarYears(List<String> calendarYears) {
+		this.calendarYears = calendarYears;
+	}
+	
+	public Map<String, String> getPayPeriodsMap() {
+		return payPeriodsMap;
+	}
+	
+	public void setPayPeriodsMap(Map<String, String> payPeriodsMap) {
+		this.payPeriodsMap = payPeriodsMap;
+	}
+	
+    public CalendarEntry getCalendarEntry() {
+        return calendarEntry;
+    }
+
+    public void setCalendarEntry(CalendarEntry calendarEntry) {
+        this.calendarEntry = calendarEntry;
+    }
+	
+	public String getSelectedCalendarYear() {
+		return selectedCalendarYear;
+	}
+	
+	public void setSelectedCalendarYear(String selectedCalendarYear) {
+		this.selectedCalendarYear = selectedCalendarYear;
+	}
+	
+	public String getSelectedPayPeriod() {
+		return selectedPayPeriod;
+	}
+	
+	public void setSelectedPayPeriod(String selectedPayPeriod) {
+		this.selectedPayPeriod = selectedPayPeriod;
+	}
+
+	public boolean isOnCurrentPeriod() {
+		boolean isOnCurrentPeriod = false;
+		
+		if (getCalendarEntry() != null) {
+			DateTime beginPeriodDateTime = getCalendarEntry().getBeginPeriodFullDateTime();
+			DateTime endPeriodDateTime = getCalendarEntry().getEndPeriodFullDateTime();
+			isOnCurrentPeriod = (beginPeriodDateTime.isEqualNow() || beginPeriodDateTime.isBeforeNow()) && endPeriodDateTime.isAfterNow();
+		}
+		
+		return isOnCurrentPeriod;
+	}
 
     public String getOutputString() {
         return outputString;
@@ -69,38 +172,6 @@ public abstract class CalendarApprovalForm extends CalendarForm {
         this.searchTerm = searchTerm;
     }
 
-    public List<String> getPayCalendarGroups() {
-        return payCalendarGroups;
-    }
-
-    public void setPayCalendarGroups(List<String> payCalendarGroups) {
-        this.payCalendarGroups = payCalendarGroups;
-    }
-
-    public String getSelectedPayCalendarGroup() {
-        return selectedPayCalendarGroup;
-    }
-
-    public void setSelectedPayCalendarGroup(String selectedPayCalendarGroup) {
-        this.selectedPayCalendarGroup = selectedPayCalendarGroup;
-    }
-
-    public String getSelectedDept() {
-        return selectedDept;
-    }
-
-    public void setSelectedDept(String selectedDept) {
-        this.selectedDept = selectedDept;
-    }
-
-    public List<String> getDepartments() {
-        return departments;
-    }
-
-    public void setDepartments(List<String> departments) {
-        this.departments = departments;
-    }
-
     public int getResultSize() {
         return resultSize;
     }
@@ -108,21 +179,5 @@ public abstract class CalendarApprovalForm extends CalendarForm {
     public void setResultSize(Integer resultSize) {
         this.resultSize = resultSize;
     }
-
-    public String getSelectedWorkArea() {
-        return selectedWorkArea;
-    }
-
-    public void setSelectedWorkArea(String selectedWorkArea) {
-        this.selectedWorkArea = selectedWorkArea;
-    }
-
-	public Map<Long,String> getWorkAreaDescr() {
-		return workAreaDescr;
-	}
-
-	public void setWorkAreaDescr(Map<Long,String> workAreaDescr) {
-		this.workAreaDescr = workAreaDescr;
-	}
 
 }

@@ -28,10 +28,10 @@
             <a href="LeaveCalendar.do">Leave Calendar</a>
         </li>
         <li>
-            <a href="TimeApproval.do?methodToCall=loadApprovalTab">Time Approval</a>
+            <a href="TimeApproval.do">Time Approval</a>
         </li>
         <li>
-            <a href="LeaveApproval.do?methodToCall=loadApprovalTab">Leave Approval</a>
+            <a href="LeaveApproval.do">Leave Approval</a>
         </li>
         <li>
             <a href="TimeDetail.do">Time Detail</a>

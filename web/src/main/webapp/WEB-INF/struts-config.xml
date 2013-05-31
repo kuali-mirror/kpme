@@ -170,7 +170,7 @@
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>
 
-        <action path="/TimeApproval" name="TimeApprovalActionForm" scope="session" input="/WEB-INF/jsp/timeApproval.jsp"
+        <action path="/TimeApproval" name="TimeApprovalActionForm" scope="request" input="/WEB-INF/jsp/timeApproval.jsp"
                 type="org.kuali.kpme.tklm.time.approval.web.TimeApprovalAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/timeApproval.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
@@ -261,7 +261,7 @@
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>
         
-        <action path="/LeaveApproval" name="LeaveApprovalActionForm" scope="session" input="/WEB-INF/jsp/leaveApproval.jsp"
+        <action path="/LeaveApproval" name="LeaveApprovalActionForm" scope="request" input="/WEB-INF/jsp/leaveApproval.jsp"
                 type="org.kuali.kpme.tklm.leave.approval.web.LeaveApprovalAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/leaveApproval.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>

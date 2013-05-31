@@ -242,11 +242,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(
-			DateTime payBeginDate, DateTime payEndDate, String calGroup,
-			List<String> principalIds, List<String> payCalendarLabels,
-			CalendarEntry payCalendarEntry) {
-
+	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(String calGroup, List<String> principalIds, List<String> payCalendarLabels, CalendarEntry payCalendarEntry) {
+		DateTime payBeginDate = payCalendarEntry.getBeginPeriodFullDateTime();
+		DateTime payEndDate = payCalendarEntry.getEndPeriodFullDateTime();
+		
 		List<Map<String, Object>> timeBlockJsonMap = new ArrayList<Map<String,Object>>();
 		List<ApprovalTimeSummaryRow> rows = new LinkedList<ApprovalTimeSummaryRow>();
 		Map<String, TimesheetDocumentHeader> principalDocumentHeader = getPrincipalDocumentHeader(

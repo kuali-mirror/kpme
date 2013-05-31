@@ -30,7 +30,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -40,157 +39,119 @@ import org.apache.struts.action.ActionMapping;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.hsqldb.lib.StringUtil;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.workarea.WorkArea;
-import org.kuali.kpme.core.role.KPMERole;
-import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.CalendarApprovalFormAction;
-import org.kuali.kpme.tklm.common.CalendarApprovalForm;
-import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
-import org.kuali.rice.krad.util.GlobalVariables;
 
-public class LeaveApprovalAction extends CalendarApprovalFormAction{
+public class LeaveApprovalAction extends CalendarApprovalFormAction {
 	
-	public ActionForward searchResult(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		LeaveApprovalActionForm laaf = (LeaveApprovalActionForm)form;
+	@Override
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ActionForward actionForward = super.execute(mapping, form, request, response);
 		
-        if (StringUtils.equals("documentId", laaf.getSearchField())) {
-        	LeaveCalendarDocumentHeader lcd = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(laaf.getSearchTerm());
-        	laaf.setSearchTerm(lcd != null ? lcd.getPrincipalId() : StringUtils.EMPTY);
+		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
+        
+		leaveApprovalActionForm.setLeaveCalendarDates(LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(leaveApprovalActionForm.getCalendarEntry()));
+		setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm));
+        
+        return actionForward;
+	}
+	
+	@Override
+	protected List<String> getCalendars(List<String> principalIds) {
+		return LmServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroupsForPrincipalIds(principalIds);
+	}
+	
+	@Override
+    protected List<CalendarEntry> getCalendarEntries() {
+		return LmServiceLocator.getLeaveApprovalService().getAllLeavePayCalendarEntriesForApprover(HrContext.getTargetPrincipalId(), LocalDate.now());
+	}
+	
+	@Override
+	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ActionForward actionForward = super.selectNewPayCalendar(mapping, form, request, response);
+		
+		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
+
+        leaveApprovalActionForm.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
+		
+		return actionForward;
+	}
+	
+	@Override
+	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ActionForward actionForward = super.selectNewDept(mapping, form, request, response);
+		
+		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
+	
+        setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm));
+    	
+		return actionForward;
+	}
+	
+	@Override
+	public ActionForward selectNewWorkArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ActionForward actionForward = super.selectNewWorkArea(mapping, form, request, response);
+		
+		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
+
+		setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm));
+        
+		return actionForward;
+	}	
+	
+	public ActionForward searchResult(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
+		
+        if (StringUtils.equals("documentId", leaveApprovalActionForm.getSearchField())) {
+        	LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(leaveApprovalActionForm.getSearchTerm());
+        	leaveApprovalActionForm.setSearchTerm(leaveCalendarDocumentHeader != null ? leaveCalendarDocumentHeader.getPrincipalId() : StringUtils.EMPTY);
         }
         
-    	laaf.setSearchField("principalId");
+    	leaveApprovalActionForm.setSearchField("principalId");
         List<String> principalIds = new ArrayList<String>();
-        principalIds.add(laaf.getSearchTerm());
-        CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrCalendarEntryId());
+        principalIds.add(leaveApprovalActionForm.getSearchTerm());
+        
         if (principalIds.isEmpty()) {
-        	laaf.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
-        	laaf.setResultSize(0);
+        	leaveApprovalActionForm.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
+        	leaveApprovalActionForm.setResultSize(0);
         } else {
-        	this.setApprovalTables(laaf, principalIds, request, payCalendarEntry);
-        	
-   	        laaf.setCalendarEntry(payCalendarEntry);
-   	        laaf.setLeaveCalendarDates(LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntry));
-        	
-	        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(laaf.getSearchTerm(), payCalendarEntry.getEndPeriodFullDateTime().toLocalDate());
-	        if(!assignments.isEmpty()){
-	        	 for(Long wa : laaf.getWorkAreaDescr().keySet()){
-	        		for (Assignment assign : assignments) {
-		             	if (assign.getWorkArea().toString().equals(wa.toString())) {
-		             		laaf.setSelectedWorkArea(wa.toString());
-		             		break;
-		             	}
-	        		}
-	             }
-	        }
+        	setApprovalTables(leaveApprovalActionForm, request, principalIds);
+        	leaveApprovalActionForm.setResultSize(principalIds.size());
         }
  
 		return mapping.findForward("basic");
 	}
 	
-    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LeaveApprovalActionForm laaf = (LeaveApprovalActionForm) form;
-       
-        List<ApprovalLeaveSummaryRow> lstLeaveRows = laaf.getLeaveApprovalRows();
-        for (ApprovalLeaveSummaryRow ar : lstLeaveRows) {
-            if (ar.isApprovable() && StringUtils.equals(ar.getSelected(), "on")) {
-                String documentNumber = ar.getDocumentId();
-                LeaveCalendarDocument lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentNumber);
-                LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(HrContext.getPrincipalId(), lcd);
-            }
-        }  
-        
-        return mapping.findForward("basic");
-    }
-        
-	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		LeaveApprovalActionForm laaf = (LeaveApprovalActionForm)form;
-		laaf.setSearchField(null);
-		laaf.setSearchTerm(null);
-		laaf.getWorkAreaDescr().clear();
-		laaf.setSelectedWorkArea("");
-		
-        CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrCalendarEntryId());
-        laaf.setCalendarEntry(payCalendarEntry);
-        laaf.setLeaveCalendarDates(LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntry));
-
-		String principalId = GlobalVariables.getUserSession().getPrincipalId();
-    	List<WorkArea> workAreaObjs = HrServiceLocator.getWorkAreaService().getWorkAreas(laaf.getSelectedDept(), payCalendarEntry.getBeginPeriodFullDateTime().toLocalDate());
-        for (WorkArea workAreaObj : workAreaObjs) {
-        	Long workArea = workAreaObj.getWorkArea();
-        	String description = workAreaObj.getDescription();
-        	
-        	if (HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
-        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
-        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
-        		laaf.getWorkAreaDescr().put(workArea, description + "(" + workArea + ")");
-        	}
-        }
-	
-        List<String> principalIds = this.getPrincipalIdsToPopulateTable(laaf);
-    	this.setApprovalTables(laaf, principalIds, request, payCalendarEntry);
-    	
-    	this.populateCalendarAndPayPeriodLists(request, laaf);
-		return mapping.findForward("basic");
-	}
-	
-	public ActionForward selectNewWorkArea(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		LeaveApprovalActionForm laaf = (LeaveApprovalActionForm)form;
-		laaf.setSearchField(null);
-		laaf.setSearchTerm(null);
-
-	    CalendarEntry payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrCalendarEntryId());
-        laaf.setLeaveCalendarDates(LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntry));
-   
-        List<String> idList = this.getPrincipalIdsToPopulateTable(laaf);
-        this.setApprovalTables(laaf, idList , request, payCalendarEntry);
-        
-		return mapping.findForward("basic");
-	}	
-
-	private List<String> getPrincipalIdsToPopulateTable(LeaveApprovalActionForm laaf) {
+	protected List<String> getPrincipalIds(LeaveApprovalActionForm leaveApprovalActionForm) {
         List<String> workAreas = new ArrayList<String>();
-        if (StringUtil.isEmpty(laaf.getSelectedWorkArea())) {
-        	for (Long workAreaKey : laaf.getWorkAreaDescr().keySet()) {
+        if (StringUtil.isEmpty(leaveApprovalActionForm.getSelectedWorkArea())) {
+        	for (Long workAreaKey : leaveApprovalActionForm.getWorkAreaDescr().keySet()) {
         		workAreas.add(workAreaKey.toString());
         	}
         } else {
-        	workAreas.add(laaf.getSelectedWorkArea());
+        	workAreas.add(leaveApprovalActionForm.getSelectedWorkArea());
         }
-        String calendar = laaf.getSelectedPayCalendarGroup();
-        LocalDate endDate = laaf.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate().minusDays(1);
-        LocalDate beginDate = laaf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
+        String calendar = leaveApprovalActionForm.getSelectedPayCalendarGroup();
+        LocalDate endDate = leaveApprovalActionForm.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate().minusDays(1);
+        LocalDate beginDate = leaveApprovalActionForm.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
 
         return LmServiceLocator.getLeaveApprovalService().getLeavePrincipalIdsWithSearchCriteria(workAreas, calendar, endDate, beginDate, endDate);
 	}	
 	
-	private void setApprovalTables(LeaveApprovalActionForm laaf, List<String> principalIds, HttpServletRequest request, CalendarEntry payCalendarEntry) {
-		laaf.setLeaveCalendarDates(LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntry));
-		
-		laaf.setOutputString(null);
+	private void setApprovalTables(LeaveApprovalActionForm leaveApprovalActionForm, HttpServletRequest request, List<String> principalIds) {
 		if (principalIds.isEmpty()) {
-			laaf.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
-			laaf.setResultSize(0);
+			leaveApprovalActionForm.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
+			leaveApprovalActionForm.setResultSize(0);
 		} else {
-			List<ApprovalLeaveSummaryRow> approvalRows = getApprovalLeaveRows(laaf, principalIds); 
+			List<ApprovalLeaveSummaryRow> approvalRows = getApprovalLeaveRows(leaveApprovalActionForm, principalIds); 
 			String sortField = getSortField(request);
 			if (StringUtils.isEmpty(sortField) || StringUtils.equals(sortField, "name")) {
 				final boolean sortNameAscending = isAscending(request);
@@ -234,15 +195,15 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction{
 			Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : (Integer.parseInt(page) - 1)*HrConstants.PAGE_SIZE;
 			Integer endIndex = beginIndex + HrConstants.PAGE_SIZE > approvalRows.size() ? approvalRows.size() : beginIndex + HrConstants.PAGE_SIZE;
 
-			laaf.setLeaveApprovalRows(approvalRows.subList(beginIndex, endIndex));
-		    laaf.setResultSize(principalIds.size());
+			leaveApprovalActionForm.setLeaveApprovalRows(approvalRows.subList(beginIndex, endIndex));
+		    leaveApprovalActionForm.setResultSize(principalIds.size());
 		    
 		    Map<String, String> userColorMap = new HashMap<String, String>();
 	        Set<String> randomColors = new HashSet<String>();
 		    List<Map<String, String>> approvalRowsMap = new ArrayList<Map<String, String>>();
 		    if(approvalRows != null && !approvalRows.isEmpty()) {
 		    	for (ApprovalLeaveSummaryRow row : approvalRows) {
-		    		for (Date date : laaf.getLeaveCalendarDates()) {
+		    		for (Date date : leaveApprovalActionForm.getLeaveCalendarDates()) {
 		    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 						String dateString = formatter.format(date);
 		    			Map<String, BigDecimal> earnCodeMap = row.getEarnCodeLeaveHours().get(date);
@@ -269,159 +230,27 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction{
 		    	}
 		    }
 		    
-		    laaf.setOutputString(JSONValue.toJSONString(approvalRowsMap));
+		    leaveApprovalActionForm.setOutputString(JSONValue.toJSONString(approvalRowsMap));
 		}
-	}
-	
-	@Override
-	public ActionForward loadApprovalTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-				throws Exception {
-		ActionForward fwd = mapping.findForward("basic");
-        LeaveApprovalActionForm laaf = (LeaveApprovalActionForm) form;
-        LocalDate currentDate = null;
-        CalendarEntry payCalendarEntry = null;
-        Calendar currentPayCalendar = null;
-        String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
-
-
-        //reset state
-        if(StringUtils.isBlank(laaf.getSelectedDept())){
-        	resetState(form, request);
-        }
-
-        // Set current pay calendar entries if present. Decide if the current date should be today or the end period date
-        if (laaf.getHrCalendarEntryId() != null) {
-            if(payCalendarEntry == null){
-               payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrCalendarEntryId());
-            }
-            currentDate = payCalendarEntry.getEndPeriodFullDateTime().toLocalDate();
-        } else {
-            currentDate = LocalDate.now();
-        }
-        List<Long> workAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(HrContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), currentDate.toDateTimeAtStartOfDay(), true);
-        List<String> principalIds = new ArrayList<String>();
-        for (Long workArea : workAreas) {
-            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
-            for (Assignment a : assignments) {
-                principalIds.add(a.getPrincipalId());
-            }
-        }
-
-        // Set calendar groups
-        List<String> calGroups =  new ArrayList<String>();
-        if (CollectionUtils.isNotEmpty(principalIds)) {
-            calGroups = LmServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroupsForPrincipalIds(principalIds);
-        }
-        laaf.setPayCalendarGroups(calGroups);
-
-        if (StringUtils.isBlank(laaf.getSelectedPayCalendarGroup())
-                && CollectionUtils.isNotEmpty(calGroups)) {
-            laaf.setSelectedPayCalendarGroup(calGroups.get(0));
-
-        }
-        
-        // Set current pay calendar entries if present. Decide if the current date should be today or the end period date
-        if (laaf.getHrCalendarEntryId() != null) {
-            payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrCalendarEntryId());
-        } else {
-            currentPayCalendar = HrServiceLocator.getCalendarService().getCalendarByGroup(laaf.getSelectedPayCalendarGroup());
-            if (currentPayCalendar != null) {
-                payCalendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(currentPayCalendar.getHrCalendarId(), currentDate.toDateTimeAtStartOfDay());
-            }
-        }
-        laaf.setCalendarEntry(payCalendarEntry);
-        
-        
-        if(laaf.getCalendarEntry() != null) {
-	        populateCalendarAndPayPeriodLists(request, laaf);
-        }
-        setupDocumentOnFormContext(request,laaf, payCalendarEntry, page);
-        return fwd;
-	}
-
-	@Override
-	protected void setupDocumentOnFormContext(HttpServletRequest request,CalendarApprovalForm form, CalendarEntry payCalendarEntry, String page) {
-		super.setupDocumentOnFormContext(request, form, payCalendarEntry, page);
-		LeaveApprovalActionForm laaf = (LeaveApprovalActionForm)form;
-
-        if (payCalendarEntry != null) {
-		    laaf.setLeaveCalendarDates(LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntry));
-		    List<String> principalIds = this.getPrincipalIdsToPopulateTable(laaf); 
-            this.setApprovalTables(laaf, principalIds, request, payCalendarEntry);
-        }
-	}
-	
-	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		// resets the common fields for approval pages
-		super.resetMainFields(form);
-		LeaveApprovalActionForm laaf = (LeaveApprovalActionForm)form;
-        // KPME-909
-        laaf.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
-		
-		return loadApprovalTab(mapping, form, request, response);
 	}
 	   
-    protected List<ApprovalLeaveSummaryRow> getApprovalLeaveRows(LeaveApprovalActionForm laaf, List<String> assignmentPrincipalIds) {
-        return LmServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows
-        	(assignmentPrincipalIds, laaf.getCalendarEntry(), laaf.getLeaveCalendarDates());
+    protected List<ApprovalLeaveSummaryRow> getApprovalLeaveRows(LeaveApprovalActionForm leaveApprovalActionForm, List<String> assignmentPrincipalIds) {
+        return LmServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows(assignmentPrincipalIds, leaveApprovalActionForm.getCalendarEntry(), leaveApprovalActionForm.getLeaveCalendarDates());
     }
 	
-    public void resetState(ActionForm form, HttpServletRequest request) {
-    	  LeaveApprovalActionForm laaf = (LeaveApprovalActionForm) form;
- 	      String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
- 	      
- 	      if (StringUtils.isBlank(page)) {
- 			  laaf.getDepartments().clear();
- 			  laaf.getWorkAreaDescr().clear();
- 			  laaf.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
- 			  laaf.setSelectedDept(null);
- 			  laaf.setSearchField(null);
- 			  laaf.setSearchTerm(null);
- 			  laaf.setOutputString(null);
- 	      }
-	}
-    
-    @Override
-    protected void populateCalendarAndPayPeriodLists(HttpServletRequest request, CalendarApprovalForm taf) {
-    	 LeaveApprovalActionForm laaf = (LeaveApprovalActionForm) taf;
-		// set calendar year list
-		Set<String> yearSet = new HashSet<String>();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-		// if selected calendar year is passed in
-		if(!StringUtils.isEmpty(request.getParameter("selectedCY"))) {
-			laaf.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
-		} else {
-			laaf.setSelectedCalendarYear(sdf.format(laaf.getCalendarEntry().getBeginPeriodDate()));
-		}
-		
-		List<CalendarEntry> pcListForYear = new ArrayList<CalendarEntry>();
-		List<CalendarEntry> pceList =  new ArrayList<CalendarEntry>();
-		pceList.addAll(LmServiceLocator.getLeaveApprovalService()
-			.getAllLeavePayCalendarEntriesForApprover(HrContext.getPrincipalId(), LocalDate.now()));
-		
-	    for(CalendarEntry pce : pceList) {
-	    	yearSet.add(sdf.format(pce.getBeginPeriodDate()));
-	    	if(sdf.format(pce.getBeginPeriodDate()).equals(laaf.getSelectedCalendarYear())) {
-	    		pcListForYear.add(pce);
-	    	}
-	    }
-	    List<String> yearList = new ArrayList<String>(yearSet);
-	    Collections.sort(yearList);
-	    Collections.reverse(yearList);	// newest on top
-	    laaf.setCalendarYears(yearList);
-		
-		// set pay period list contents
-		if(!StringUtils.isEmpty(request.getParameter("selectedPP"))) {
-			laaf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
-		} else {
-			laaf.setSelectedPayPeriod(laaf.getCalendarEntry().getHrCalendarEntryId());
-			laaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(pcListForYear, null));
-		}
-		if(laaf.getPayPeriodsMap().isEmpty()) {
-		    laaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(pcListForYear, null));
-		}
-	}
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LeaveApprovalActionForm laaf = (LeaveApprovalActionForm) form;
+       
+        List<ApprovalLeaveSummaryRow> lstLeaveRows = laaf.getLeaveApprovalRows();
+        for (ApprovalLeaveSummaryRow ar : lstLeaveRows) {
+            if (ar.isApprovable() && StringUtils.equals(ar.getSelected(), "on")) {
+                String documentNumber = ar.getDocumentId();
+                LeaveCalendarDocument lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentNumber);
+                LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(HrContext.getPrincipalId(), lcd);
+            }
+        }  
+        
+        return mapping.findForward("basic");
+    }
 
 }

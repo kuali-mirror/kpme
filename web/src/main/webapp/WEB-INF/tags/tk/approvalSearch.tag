@@ -51,8 +51,7 @@ the id is used in approval.js--%>
         	<td></td>
             <td align="center">
         	<c:if test="${!Form.onCurrentPeriod}" >
-	        		<a href="${KualiForm.backLocation}?methodToCall=gotoCurrentPayPeriod"
-	                  	 target="_self" id="cppLink">Go to Current Period</a>
+	        		<a href="${KualiForm.backLocation}" target="_self" id="cppLink">Go to Current Period</a>
         	</c:if>
             </td>
             <td align="center">
