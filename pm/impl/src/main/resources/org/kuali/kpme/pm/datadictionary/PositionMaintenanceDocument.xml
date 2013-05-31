@@ -116,7 +116,13 @@
 						</list>
 			      	 </property>
 			      </bean>
-				
+				  <bean parent="Uif-VerticalBoxSection" p:headerText="Funding">
+			      	<property name="items">
+			      		<list>
+			      			<bean parent="Position-fundings"/>
+						</list>
+			      	 </property>
+			      </bean>
 			   </list>
 			  </property>
 		</bean>

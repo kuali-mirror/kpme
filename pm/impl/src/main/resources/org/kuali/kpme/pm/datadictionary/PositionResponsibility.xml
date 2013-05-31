@@ -30,7 +30,7 @@
 				<ref bean="PositionResponsibility-positionResponsibilityId" />
 				<ref bean="PositionResponsibility-effectiveDate" />
 				<ref bean="PositionResponsibility-institution" />
-				<ref bean="PositionResponsibility-campus" />
+				<ref bean="PositionResponsibility-location" />
 				<ref bean="PositionResponsibility-positionResponsibilityOption" />
 				<ref bean="PositionResponsibility-percentTime" />
 				<ref bean="PositionResponsibility-active" />
@@ -43,7 +43,7 @@
 					<property name="objectAttributeName" value="campusObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="campus"
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
 								p:targetName="code" />
 						</list>
 					</property>
@@ -96,19 +96,19 @@
 		<property name="label" value="Institution" />
 	</bean>
 
-	<bean id="PositionResponsibility-campus" parent="PositionResponsibility-campus-parentBean" />
-	<bean id="PositionResponsibility-campus-parentBean" abstract="true"
+	<bean id="PositionResponsibility-location" parent="PositionResponsibility-location-parentBean" />
+	<bean id="PositionResponsibility-location-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Campus" />
+		<property name="shortLabel" value="Location" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern" />
 		</property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
-		<property name="name" value="campus" />
-		<property name="label" value="Campus" />
+		<property name="name" value="location" />
+		<property name="label" value="Location" />
 	</bean>
 
 	<!-- here comes the position responsibility option look up 

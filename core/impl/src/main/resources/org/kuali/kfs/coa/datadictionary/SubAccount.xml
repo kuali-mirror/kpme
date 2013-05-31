@@ -159,4 +159,29 @@
       </list>
     </property>
   </bean>
+  
+   <!-- KRAD Lookup View Definition -->
+  <bean id="SubAccount-LookupView" parent="Uif-LookupView">
+    <property name="headerText" value="Sub Account Lookup View" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.kfs.coa.businessobject.SubAccount" />
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="chartOfAccountsCode"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="accountNumber"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="subAccountNumber"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="subAccountName"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+       	<bean parent="Uif-DataField" p:propertyName="chartOfAccountsCode"/>
+        <bean parent="Uif-DataField" p:propertyName="accountNumber"/>
+        <bean parent="Uif-DataField" p:propertyName="subAccountNumber"/>
+        <bean parent="Uif-DataField" p:propertyName="subAccountName"/>
+        <bean parent="Uif-DataField" p:propertyName="active"/>
+      </list>
+    </property>
+  </bean>
+  
 </beans>

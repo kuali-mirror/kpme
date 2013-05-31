@@ -43,6 +43,7 @@
        <renameColumn tableName="PM_PSTN_TYP_T" oldColumnName="CAMPUS" newColumnName="LOCATION" columnDataType="VARCHAR(15) NOT NULL" />
 		<!-- Position Contract Type -->
         <renameColumn tableName="PM_PSTN_CNTRCT_TYP_T" oldColumnName="CAMPUS" newColumnName="LOCATION" columnDataType="VARCHAR(15) NOT NULL" />
-        
+        <!-- Position Responsibility -->
+        <renameColumn tableName="PM_PSTN_RPS_T" oldColumnName="CAMPUS" newColumnName="LOCATION" columnDataType="VARCHAR(15) NOT NULL" />
     </changeSet>
 </databaseChangeLog>

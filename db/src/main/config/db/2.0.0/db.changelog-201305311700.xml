@@ -1,0 +1,76 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet id="1-oracle" author="yingzhou" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="PM_PSTN_FNDNG_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="1-mysql" author="yingzhou" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE PM_PSTN_FNDNG_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE PM_PSTN_FNDNG_S AUTO_INCREMENT = 10000;
+        </sql>
+    </changeSet>
+	<changeSet id="2" author="yingzhou" context="kpme-client-bootstrap">
+        <createTable tableName="PM_PSTN_FNDNG_T">
+        
+            <column name="PM_PSTN_FNDNG_ID" type="VARCHAR(60)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="HR_PSTN_ID" type="VARCHAR(60)">
+                <constraints nullable="false" />
+            </column>
+            <column name="CHART" type="VARCHAR(50)" />
+            <column name="ORG" type="VARCHAR(50)" />
+            <column name="ACCNT" type="VARCHAR(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="SUB_ACCNT" type="VARCHAR(50)" />
+            <column name="OBJ_CD" type="VARCHAR(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="SUB_OBJ_CD" type="VARCHAR(50)" />
+            <column name="ORG_REF_CD" type="VARCHAR(50)" />
+            <column name="PRCNT" type="DECIMAL(5,2)" />
+            <column name="AMNT" type="DECIMAL(5,2)" />
+            <column name="PRIORITY_FLG"  type="VARCHAR(1)" />
+            <column name="ACTIVE" type="VARCHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column name="EFFDT" type="DATE" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00" />
+            <column name="OBJ_ID" type="VARCHAR(36)" />       
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
+           	 </column>
+        </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB" />
+		</modifySql>
+    </changeSet>
+	<changeSet id="3" author="yingzhou" context="kpme-client-bootstrap">
+		<addForeignKeyConstraint baseTableName="PM_PSTN_FNDNG_T" baseColumnNames="HR_PSTN_ID"
+           referencedTableName="HR_POSITION_T" referencedColumnNames="HR_POSITION_ID"
+           constraintName="FK_PSTN_FNDNG" />
+	</changeSet>
+</databaseChangeLog>

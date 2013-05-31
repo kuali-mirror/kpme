@@ -194,4 +194,30 @@
       </list>
     </property>
   </bean>
+  
+  <!-- KRAD Lookup View Definition -->
+  <bean id="Account-LookupView" parent="Uif-LookupView">
+    <property name="headerText" value="Account KRAD Lookup View" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.kfs.coa.businessobject.Account" />
+    <property name="criteriaFields">
+      <list>
+      	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="chartOfAccountsCode"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="accountNumber"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="accountName"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="organizationCode"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="closed"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-DataField" p:propertyName="chartOfAccountsCode"/>
+        <bean parent="Uif-DataField" p:propertyName="accountNumber"/>
+        <bean parent="Uif-DataField" p:propertyName="accountName"/>
+        <bean parent="Uif-DataField" p:propertyName="organizationCode"/>
+        <bean parent="Uif-DataField" p:propertyName="closed"/>
+        <bean parent="Uif-DataField" p:propertyName="accountCreateDate"/>
+        <bean parent="Uif-DataField" p:propertyName="accountExpirationDate"/>
+      </list>
+    </property>
+  </bean>
 </beans>

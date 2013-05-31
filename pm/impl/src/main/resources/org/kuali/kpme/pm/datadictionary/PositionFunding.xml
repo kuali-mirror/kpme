@@ -1,0 +1,235 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="PositionFunding" parent="PositionFunding-parentBean" />
+	<bean id="PositionFunding-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="dataObjectClass" value="org.kuali.kpme.pm.position.funding.PositionFunding" />
+		<property name="attributes">
+			<list>
+				<ref bean="PositionFunding-pmPositionFunctionId" />
+				<ref bean="PositionFunding-hrPositionId"/>
+				<ref bean="PositionFunding-chart" />
+				<ref bean="PositionFunding-org" />
+				<ref bean="PositionFunding-account" />
+				<ref bean="PositionFunding-subAccount" />
+				<ref bean="PositionFunding-objectCode" />
+				<ref bean="PositionFunding-subObjectCode" />
+				<ref bean="PositionFunding-orgRefCode" />
+				<ref bean="PositionFunding-percent" />
+				<ref bean="PositionFunding-amount" />
+				<ref bean="PositionFunding-priorityFlag" />
+				<ref bean="PositionFunding-effectiveDate" />
+				<ref bean="PositionFunding-active" />
+				
+			</list>
+		</property>
+		<property name="objectLabel" value="Position Funding" />
+	</bean>
+
+	<!-- Attribute Definitions -->
+	<bean id="PositionFunding-pmPositionFunctionId" parent="PositionFunding-pmPositionFunctionId-parentBean" />
+	<bean id="PositionFunding-pmPositionFunctionId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="false" />
+		<property name="forceUppercase" value="false" />
+		<property name="shortLabel" value="id" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
+		<property name="name" value="pmPositionFunctionId" />
+		<property name="label" value="Position Funding Id" />
+	</bean>
+	
+	<bean id="PositionFunding-hrPositionId" parent="PositionFunding-hrPositionId-parentBean"/>
+	<bean id="PositionFunding-hrPositionId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="required" value="false" />
+	    <property name="forceUppercase" value="false"/>
+	    <property name="shortLabel" value="id"/>
+	    <property name="controlField">
+	      <bean parent="Uif-TextControl" p:size="60"/>
+	    </property>
+	    <property name="name" value="hrPositionId"/>
+	    <property name="label" value="Position Id"/>
+	</bean> 
+
+	<bean id="PositionFunding-chart" parent="PositionFunding-chart-parentBean" />
+	<bean id="PositionFunding-chart-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Chart" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="20" />
+		</property>
+		<property name="name" value="chart" />
+		<property name="label" value="Chart" />
+	</bean>
+	
+	<bean id="PositionFunding-org" parent="PositionFunding-org-parentBean" />
+	<bean id="PositionFunding-org-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Org" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="20" />
+		</property>
+		<property name="name" value="org" />
+		<property name="label" value="Org" />
+	</bean>
+	
+	<bean id="PositionFunding-account" parent="PositionFunding-account-parentBean" />
+	<bean id="PositionFunding-account-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Account" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="20" />
+		</property>
+		<property name="name" value="account" />
+		<property name="label" value="Account" />
+	</bean>
+	
+	<bean id="PositionFunding-subAccount" parent="PositionFunding-subAccount-parentBean" />
+	<bean id="PositionFunding-subAccount-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="SubAccount" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="20" />
+		</property>
+		<property name="name" value="subAccount" />
+		<property name="label" value="Sub Account" />
+	</bean>
+	
+	<bean id="PositionFunding-objectCode" parent="PositionFunding-objectCode-parentBean" />
+	<bean id="PositionFunding-objectCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Obj Code" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="20" />
+		</property>
+		<property name="name" value="objectCode" />
+		<property name="label" value="Object Code" />
+	</bean>
+	
+	<bean id="PositionFunding-subObjectCode" parent="PositionFunding-subObjectCode-parentBean" />
+	<bean id="PositionFunding-subObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="SubObj Code" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="20" />
+		</property>
+		<property name="name" value="subObjectCode" />
+		<property name="label" value="Sub Object Code" />
+	</bean>
+	
+	<bean id="PositionFunding-orgRefCode" parent="PositionFunding-orgRefCode-parentBean" />
+	<bean id="PositionFunding-orgRefCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="OrgRef Code" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="20" />
+		</property>
+		<property name="name" value="orgRefCode" />
+		<property name="label" value="Org Ref Code" />
+	</bean>
+	
+	<bean id="PositionFunding-percent" parent="PositionFunding-percent-parentBean" />
+	<bean id="PositionFunding-percent-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="controlField">
+			<bean parent="Uif-SpinnerControl">
+				<property name="spinner">
+					<bean parent="Uif-Spinner">
+						<property name="templateOptions">
+							<map merge="true">
+								<entry key="start" value="0.01" />
+								<entry key="step" value="0.01" />
+								<entry key="max" value="100" />
+								<entry key="numberFormat" value="n" />
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+		<property name="name" value="percent" />
+		<property name="label" value="Percent" />
+	</bean>
+
+	<bean id="PositionFunding-amount" parent="PositionFunding-amount-parentBean" />
+	<bean id="PositionFunding-amount-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="controlField">
+			<bean parent="Uif-SpinnerControl">
+				<property name="spinner">
+					<bean parent="Uif-Spinner">
+						<property name="templateOptions">
+							<map merge="true">
+								<entry key="start" value="0.01" />
+								<entry key="step" value="0.01" />
+								<entry key="numberFormat" value="n" />
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+		<property name="name" value="amount" />
+		<property name="label" value="Amount" />
+	</bean>
+	
+	<bean id="PositionFunding-priorityFlag" parent="PositionFunding-priorityFlag-parentBean" />
+	<bean id="PositionFunding-priorityFlag-parentBean" abstract="true" 
+		parent="AttributeReferenceDummy-activeIndicator" p:label="Priority?">
+		<property name="name" value="priorityFlag" />
+	</bean>
+
+	<bean id="PositionFunding-effectiveDate" parent="PositionFunding-effectiveDate-parentBean" />
+	<bean id="PositionFunding-effectiveDate-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="controlField">
+			<bean parent="Uif-DateControl" p:size="10" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>	
+
+	<bean id="PositionFunding-active" parent="PositionFunding-active-parentBean" />
+	<bean id="PositionFunding-active-parentBean" abstract="true"
+		parent="AttributeReferenceDummy-activeIndicator" p:label="Active?">
+		<property name="required" value="true" />
+		<property name="name" value="active" />
+	</bean>
+
+</beans>

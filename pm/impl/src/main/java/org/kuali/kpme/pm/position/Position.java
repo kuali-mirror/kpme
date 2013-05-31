@@ -15,19 +15,19 @@
  */
 package org.kuali.kpme.pm.position;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
-import org.kuali.kpme.pm.positionflag.PositionFlag;
+import org.kuali.kpme.pm.position.funding.PositionFunding;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Position extends PositionBase {
 	private static final long serialVersionUID = 1L;
@@ -36,6 +36,7 @@ public class Position extends PositionBase {
     private List<PositionDuty> dutyList = new LinkedList<PositionDuty>();
     private List<PstnFlag> flagList = new LinkedList<PstnFlag>();
     private List<PositionResponsibility> positionResponsibilityList = new LinkedList<PositionResponsibility>();
+    private List<PositionFunding> fundingList = new ArrayList<PositionFunding>();
     
     private String pmPositionClassId;
     
@@ -133,5 +134,13 @@ public class Position extends PositionBase {
 	
 	public void setRequiredQualList(List<ClassificationQualification> aList) {
 			requiredQualList = aList;
+	}
+
+	public List<PositionFunding> getFundingList() {
+		return fundingList;
+	}
+
+	public void setFundingList(List<PositionFunding> fundingList) {
+		this.fundingList = fundingList;
 	}
 }

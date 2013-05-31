@@ -227,9 +227,9 @@
 		<property name="layoutManager.richTable.render" value="false" />
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="name" />
-				<bean parent="Uif-InputField" p:propertyName="description" />
-				<bean parent="Uif-InputField" p:propertyName="percentage" />
+				<bean parent="Uif-DataField" p:propertyName="name" />
+				<bean parent="Uif-DataField" p:propertyName="description" />
+				<bean parent="Uif-DataField" p:propertyName="percentage" />
 			</list>
 		</property>
 	</bean>
@@ -246,8 +246,8 @@
 	    <property name="layoutManager.richTable.render" value="false"/>
 	    <property name="items">
 	      <list>
-	        <bean parent="Uif-InputField" p:propertyName="category"/>
-	        <bean parent="Uif-InputField" p:propertyName="names" />
+	        <bean parent="Uif-DataField" p:propertyName="category"/>
+	        <bean parent="Uif-DataField" p:propertyName="names" />
 	      </list>
 	    </property>
     </bean>
@@ -482,7 +482,7 @@
 					</property>
 				</bean>
 				
-				 <bean parent="Uif-InputField" p:propertyName="campus" />
+				 <bean parent="Uif-InputField" p:propertyName="location" />
 				
 				<bean parent="Uif-InputField" p:propertyName="percentTime"
 					p:exclusiveMin="0" p:inclusiveMax="100"
@@ -512,7 +512,52 @@
 		</property>
 	</bean>
 
-
-
+	<!-- Funding List, used by maintenance views -->
+	<bean id="Position-fundings" abstract="true" parent="Uif-TableCollectionGroup">
+		<property name="collectionObjectClass" value="org.kuali.kpme.pm.position.funding.PositionFunding" />
+		<property name="propertyName" value="fundingList" />
+		<property name="addLinePlacement" value="BOTTOM" />
+		<property name="layoutManager.richTable.render" value="false" />
+		<property name="layoutManager.generateAutoSequence" value="true" />
+		<property name="layoutManager.numberOfColumns" value="7" />
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+				<bean parent="Uif-InputField" p:propertyName="chart" />
+				<bean parent="Uif-InputField" p:propertyName="org" />
+				<bean parent="Uif-InputField" p:propertyName="account">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.Account"
+							p:fieldConversions="accountNumber:account" />
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="subAccount">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.SubAccount"
+							p:fieldConversions="accountNumber:subAccount" />
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="objectCode" />
+				<bean parent="Uif-InputField" p:propertyName="subObjectCode" />
+				<bean parent="Uif-InputField" p:propertyName="orgRefCode" />
+				<bean parent="Uif-InputField" p:propertyName="percent"
+					p:exclusiveMin="0" p:inclusiveMax="100"
+					p:constraintText="Must be a number between 0 and 100.">
+					<property name="validCharactersConstraint">
+						<bean parent="FixedPointPatternConstraint" p:allowNegative="false"
+							p:precision="5" p:scale="2" />
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="amount" p:exclusiveMin="0" >
+					<property name="validCharactersConstraint">
+						<bean parent="FixedPointPatternConstraint" p:allowNegative="false"
+							p:precision="5" p:scale="2" />
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="priorityFlag" />
+				<bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" />
+			</list>
+		</property>
+	</bean>
 </beans>
 

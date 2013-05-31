@@ -30,7 +30,7 @@ public class PositionResponsibility extends HrBusinessObject {
 	
 	private String positionResponsibilityId;
 	private String institution;
-	private String campus; //location
+	private String location;
 	private String positionResponsibilityOption;
 	private BigDecimal percentTime;
 	private String hrPositionId;
@@ -52,14 +52,6 @@ public class PositionResponsibility extends HrBusinessObject {
 		this.institution = institution;
 	}
 
-	public String getCampus() {
-		return campus;
-	}
-
-	public void setCampus(String campus) {
-		this.campus = campus;
-	}
-
 	public String getPositionResponsibilityOption() {
 		return positionResponsibilityOption;
 	}
@@ -79,7 +71,7 @@ public class PositionResponsibility extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		return this.getInstitution() + "_" + this.getCampus();
+		return this.getInstitution() + "_" + this.getLocation();
 	}
 	
 	public CampusBo getCampusObj() {
@@ -107,6 +99,14 @@ public class PositionResponsibility extends HrBusinessObject {
 	public void setId(String id) {
 		this.setPositionResponsibilityId(id);
 		
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	
