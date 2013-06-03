@@ -63,9 +63,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
  */
 public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 
-	private static final String FILE_PREFIX = System.getProperty("user.dir") + "/../db/src/main/config/workflow/";
+	private static final String FILE_PREFIX = System.getProperty("user.dir") + "/../../db/src/main/config/workflow/";
 
-	private static final String RELATIVE_WEBAPP_ROOT = "/src/main/webapp";
+	private static final String RELATIVE_WEBAPP_ROOT = "/../../web/src/main/webapp";
 	
 	private TransactionalLifecycle transactionalLifecycle;
     private WebClient webClient;
@@ -111,7 +111,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
         HrContext.clearTargetUser();
         getWebClient().closeAllWindows();
 	    new DatabaseCleanupDataLifecycle(this.getClass()).start();
-	    
+
 		final boolean needsSpring = true;
 		if (needsSpring) {
 		    if ( (transactionalLifecycle != null) && (transactionalLifecycle.isStarted()) ) {

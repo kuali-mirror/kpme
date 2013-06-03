@@ -263,7 +263,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="FLSA Status" />
 				<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.flsa.TkFlsaStatusKeyValueFinder">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.flsa.TkFlsaStatusKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="flsaStatus" />

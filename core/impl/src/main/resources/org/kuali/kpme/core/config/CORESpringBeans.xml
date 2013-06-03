@@ -91,8 +91,6 @@
             <list>
                 <!--<value>org.kuali.kpme.tklm.time.domain</value>-->
                 <value>org.kuali.kpme.core</value>
-                <value>org.kuali.kfs.coa.domain</value>
-                <value>org.kuali.kpme.core.kfs.coa.businessobject</value>
                 <!--<value>org.kuali.kpme.tklm.time</value>
                 <value>org.kuali.kpme.kfs</value>
                 <value>org.kuali.kpme</value>-->

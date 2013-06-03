@@ -1,0 +1,5 @@
+<config>
+
+    <param name="kpme.pm.ehcache.config.location" override="false">classpath:kpme.pm.ehcache.xml</param>
+
+</config>

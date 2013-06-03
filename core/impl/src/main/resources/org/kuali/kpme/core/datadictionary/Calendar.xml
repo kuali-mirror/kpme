@@ -88,7 +88,7 @@
  		<bean parent="AlphaNumericValidationPattern"/>
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kpme.tklm.time.flsa.FlsaDayKeyValue" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.flsa.FlsaDayKeyValue" p:includeKeyInLabel="false"/>
     </property>
     <property name="name" value="flsaBeginDay"/>
     <property name="label" value="Flsa Begin Day"/>
