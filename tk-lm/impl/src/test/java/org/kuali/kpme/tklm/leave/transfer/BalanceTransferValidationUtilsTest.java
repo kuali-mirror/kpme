@@ -20,7 +20,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.KPMETestCase;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.kpme.tklm.leave.transfer.validation.BalanceTransferValidationUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 

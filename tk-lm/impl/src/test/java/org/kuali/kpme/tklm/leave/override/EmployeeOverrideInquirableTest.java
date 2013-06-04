@@ -21,7 +21,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.KPMETestCase;
 import org.kuali.kpme.core.inquirable.KPMEInquirableImpl;
-import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 

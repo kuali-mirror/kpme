@@ -15,9 +15,9 @@
  */
 package org.kuali.kpme.pm.positionresponsibility.service;
 
-import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
 public class PositionResponsibilityMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	

@@ -16,6 +16,8 @@
 package org.kuali.kpme.core.department.web;
 
 
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.department.Department;
@@ -23,8 +25,6 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
-
-import java.util.Map;
 
 public class DepartmentInquirableImpl extends KualiInquirableImpl {
 

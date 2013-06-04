@@ -20,7 +20,6 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public abstract class KpmeEffectiveDatePromptBase extends PromptBeforeValidationBase {
     @Override

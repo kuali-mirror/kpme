@@ -16,9 +16,9 @@
 package org.kuali.kpme.tklm.time.rules.overtime.daily.validation;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;

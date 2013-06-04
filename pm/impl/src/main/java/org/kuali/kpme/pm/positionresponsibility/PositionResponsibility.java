@@ -15,10 +15,10 @@
  */
 package org.kuali.kpme.pm.positionresponsibility;
 
+import java.math.BigDecimal;
+
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.rice.location.impl.campus.CampusBo;
-
-import java.math.BigDecimal;
 
 
 public class PositionResponsibility extends HrBusinessObject {

@@ -20,9 +20,9 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
 import org.kuali.kpme.core.department.Department;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.workarea.WorkArea;
 
 @SuppressWarnings("deprecation")
 public class WorkAreaAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {

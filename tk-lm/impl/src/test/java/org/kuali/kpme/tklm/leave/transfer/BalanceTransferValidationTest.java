@@ -23,7 +23,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.KPMETestCase;
-import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 

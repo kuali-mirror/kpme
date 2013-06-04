@@ -65,9 +65,10 @@ public interface AccrualService {
 	 * calculate future accrual for given principal id
 	 * @param principalId
 	 * @param asOfDate
+	 * @param string 
 	 * @return
 	 */
-	public void calculateFutureAccrualUsingPlanningMonth(String principalId, LocalDate asOfDate);
+	public void calculateFutureAccrualUsingPlanningMonth(String principalId, LocalDate asOfDate, String string);
 
 	/**
 	 * get the accrual interval date of the previous accrual period with given parameters

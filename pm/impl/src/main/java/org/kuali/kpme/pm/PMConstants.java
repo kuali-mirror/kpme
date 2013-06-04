@@ -15,10 +15,10 @@
  */
 package org.kuali.kpme.pm;
 
-import org.kuali.kpme.core.KPMEConstants;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import org.kuali.kpme.core.KPMEConstants;
 
 public class PMConstants {
 	

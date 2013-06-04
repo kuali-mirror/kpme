@@ -18,7 +18,6 @@ package org.kuali.kpme.tklm.time.rules.clocklocation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;

@@ -24,7 +24,6 @@ import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.paygrade.PayGrade;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.rice.location.impl.campus.CampusBo;
 
 import com.google.common.collect.ImmutableList;
 

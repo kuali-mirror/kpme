@@ -16,7 +16,6 @@
 package org.kuali.kpme.core.service.timezone;
 
 import org.joda.time.DateTimeZone;
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.util.HrConstants;
 import org.springframework.cache.annotation.Cacheable;
 

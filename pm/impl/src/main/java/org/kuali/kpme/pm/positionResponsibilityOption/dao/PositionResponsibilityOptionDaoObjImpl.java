@@ -23,7 +23,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption;
-import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 

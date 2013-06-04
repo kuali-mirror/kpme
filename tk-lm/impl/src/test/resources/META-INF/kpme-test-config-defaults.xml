@@ -37,11 +37,7 @@
 	<param name="dev.mode">true</param>
 	<param name="test.mode">true</param>
 	<param name="ken.test.mode">true</param>
-	
-	<param name="tk.use.clearDatabaseLifecycle">true</param>
-	
-    <param name="filter.login.class">org.kuali.kpme.core.util.TestAutoLoginFilter</param>
-    <param name="filtermapping.login.1">/*</param>
-    <param name="filter.login.autouser">admin</param>
+    
+    <param name="tk.use.clearDatabaseLifceycle">true</param>
     
 </config>

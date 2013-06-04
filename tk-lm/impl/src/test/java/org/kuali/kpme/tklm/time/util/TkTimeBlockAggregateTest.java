@@ -26,11 +26,9 @@ import org.junit.Test;
 import org.kuali.kpme.core.KPMETestCase;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.kpme.tklm.utils.TkTestUtils;
 
 public class TkTimeBlockAggregateTest extends KPMETestCase {
@@ -48,7 +46,7 @@ public class TkTimeBlockAggregateTest extends KPMETestCase {
 
 		List<TimeBlock> blocks = getSomeTimeBlocks();
 		TkTimeBlockAggregate tba = new TkTimeBlockAggregate(blocks, pcd, cal);
-		List<FlsaWeek> weeks = tba.getFlsaWeeks(DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone()));
+		List<FlsaWeek> weeks = tba.getFlsaWeeks(DateTimeZone.UTC);
 	}
 
 

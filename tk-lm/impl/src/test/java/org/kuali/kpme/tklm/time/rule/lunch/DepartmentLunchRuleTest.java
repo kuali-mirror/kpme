@@ -24,7 +24,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.KPMETestCase;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -82,8 +81,7 @@ public class DepartmentLunchRuleTest extends KPMETestCase {
 											1234L, "edna", 1L, JAN_AS_OF_DATE.toLocalDate());
 		Assert.assertTrue("dept lunch rule fetched ", deptLunchRule!=null);
 
-        HrContext.setTargetPrincipalId("edna");
-		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(JAN_AS_OF_DATE);
+		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(JAN_AS_OF_DATE, "edna");
 
 		for(TimeBlock tb : doc.getTimeBlocks()){
 			tb.setClockLogCreated(true);

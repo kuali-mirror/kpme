@@ -22,7 +22,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.KPMETestCase;
-import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.earncode.security.service.EarnCodeSecurityService;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
@@ -75,7 +74,7 @@ public class EarnCodeSecurityServiceImplTest extends KPMETestCase {
 		Assert.assertEquals("Search returned the wrong number of results.", 18, allResults.size());
 		
 		List<EarnCodeSecurity> restrictedResults = HrServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities("testuser6", null, null, null, null, null, null, "Y", "N");
-		Assert.assertEquals("Search returned the wrong number of results.", 10, restrictedResults.size());
+		Assert.assertEquals("Search returned the wrong number of results.", 11, restrictedResults.size());
 	}
 
 }

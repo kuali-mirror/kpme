@@ -33,7 +33,6 @@ import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
@@ -49,10 +48,10 @@ public class TkTestUtils {
 
 	private static final Logger LOG = Logger.getLogger(TkTestUtils.class);
 
-	public static TimesheetDocument populateBlankTimesheetDocument(DateTime calDate) {
+	public static TimesheetDocument populateBlankTimesheetDocument(DateTime calDate, String principalId) {
 		try {
-			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(HrContext.getTargetPrincipalId(),
-							HrServiceLocator.getCalendarService().getCurrentCalendarDates(HrContext.getTargetPrincipalId(),
+			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId,
+							HrServiceLocator.getCalendarService().getCurrentCalendarDates(principalId,
                                     calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
@@ -64,18 +63,18 @@ public class TkTestUtils {
 		}
 	}
 
-	public static TimesheetDocument populateTimesheetDocument(DateTime calDate) {
+	public static TimesheetDocument populateTimesheetDocument(DateTime calDate, String principalId) {
 		try {
-			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(HrContext.getTargetPrincipalId(),
-							HrServiceLocator.getCalendarService().getCurrentCalendarDates(HrContext.getTargetPrincipalId(),
+			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId,
+							HrServiceLocator.getCalendarService().getCurrentCalendarDates(principalId,
 									calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
 			}
 
 			//refetch clean document
-			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(HrContext.getTargetPrincipalId(),
-					HrServiceLocator.getCalendarService().getCurrentCalendarDates(HrContext.getTargetPrincipalId(), calDate));
+			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId,
+					HrServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, calDate));
 			List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 			for(int i = 0;i<5;i++){
 				TimeBlock timeBlock = createTimeBlock(timesheet, i+1, 10);
@@ -172,8 +171,8 @@ public class TkTestUtils {
 		return timeBlock;
 	}
 
-	public static List<Job> getJobs(LocalDate calDate){
-		return HrServiceLocator.getJobService().getJobs(HrContext.getPrincipalId(), calDate);
+	public static List<Job> getJobs(LocalDate calDate, String principalId){
+		return HrServiceLocator.getJobService().getJobs(principalId, calDate);
 	}
 
 	@SuppressWarnings("serial")
@@ -251,7 +250,7 @@ public class TkTestUtils {
 	 * Helper method to generate time blocks suitable for db persistence in
 	 * unit tests.
 	 */
-	public static List<TimeBlock> createUniformActualTimeBlocks(TimesheetDocument timesheetDocument, Assignment assignment, String earnCode, DateTime start, int days, BigDecimal hours, BigDecimal amount) {
+	public static List<TimeBlock> createUniformActualTimeBlocks(TimesheetDocument timesheetDocument, Assignment assignment, String earnCode, DateTime start, int days, BigDecimal hours, BigDecimal amount, String principalId) {
 		TimeBlockService service = TkServiceLocator.getTimeBlockService();
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 
@@ -259,7 +258,7 @@ public class TkTestUtils {
 			DateTime ci = start.plusDays(i);
 			DateTime co = ci.plusHours(hours.intValue());
 
-			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, ci, co, hours, amount, false, false, HrContext.getPrincipalId()));
+			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, ci, co, hours, amount, false, false, principalId));
 		}
 
 		return blocks;

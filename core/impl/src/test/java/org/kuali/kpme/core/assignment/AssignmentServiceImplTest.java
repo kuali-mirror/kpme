@@ -23,7 +23,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.KPMETestCase;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.service.AssignmentService;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;

@@ -30,10 +30,10 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.util.OjbSubQueryUtil;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.core.util.OjbSubQueryUtil;
+import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements AssignmentDao {

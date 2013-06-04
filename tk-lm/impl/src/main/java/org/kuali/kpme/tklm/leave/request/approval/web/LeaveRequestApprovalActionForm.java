@@ -18,7 +18,6 @@ package org.kuali.kpme.tklm.leave.request.approval.web;
 import java.util.List;
 
 import org.kuali.kpme.tklm.common.ApprovalForm;
-import org.kuali.kpme.tklm.common.CalendarApprovalForm;
 
 public class LeaveRequestApprovalActionForm extends ApprovalForm {
 	

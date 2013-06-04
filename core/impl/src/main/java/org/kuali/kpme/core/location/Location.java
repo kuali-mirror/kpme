@@ -22,9 +22,9 @@ import javax.persistence.Transient;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo;
+import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
-import org.kuali.kpme.core.util.HrConstants;
 
 public class Location extends HrBusinessObject {
 

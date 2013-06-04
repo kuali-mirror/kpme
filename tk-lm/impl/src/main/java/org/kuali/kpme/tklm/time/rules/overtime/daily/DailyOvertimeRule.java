@@ -17,7 +17,6 @@ package org.kuali.kpme.tklm.time.rules.overtime.daily;
 
 import java.math.BigDecimal;
 
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;

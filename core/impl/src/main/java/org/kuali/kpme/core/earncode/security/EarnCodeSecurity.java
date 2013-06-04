@@ -25,9 +25,9 @@ import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
+import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
-import org.kuali.kpme.core.util.HrConstants;
 
 public class EarnCodeSecurity extends HrBusinessObject {
 

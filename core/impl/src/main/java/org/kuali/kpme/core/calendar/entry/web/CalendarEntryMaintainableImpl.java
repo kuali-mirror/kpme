@@ -15,9 +15,9 @@
  */
 package org.kuali.kpme.core.calendar.entry.web;
 
+import org.kuali.kpme.core.cache.CacheUtils;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.cache.CacheUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 

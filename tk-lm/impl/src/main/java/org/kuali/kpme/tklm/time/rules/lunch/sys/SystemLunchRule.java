@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.rules.lunch.sys;
 
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.TkRule;
 

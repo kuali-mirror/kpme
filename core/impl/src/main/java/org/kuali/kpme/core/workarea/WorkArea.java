@@ -24,12 +24,12 @@ import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.earncode.EarnCode;
-import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
+import org.kuali.kpme.core.task.Task;
+import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
-import org.kuali.kpme.core.util.HrConstants;
 
 public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 

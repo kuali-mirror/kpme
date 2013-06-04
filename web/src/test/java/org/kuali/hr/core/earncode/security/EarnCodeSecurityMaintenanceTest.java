@@ -22,17 +22,17 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.hr.KPMEWebTestCase;
+import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.util.HrTestConstants;
-import org.kuali.kpme.core.util.HtmlUnitUtil;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
+public class EarnCodeSecurityMaintenanceTest extends KPMEWebTestCase{
 	private static final DateTime TEST_DATE_OLD = new DateTime(2009, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	private static final DateTime TEST_DATE_NEW = new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	private static final String EARN_CODE = "RGN";
@@ -113,11 +113,11 @@ public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
 		
 		this.createDuplicateEarnCodeSecurity();
 		deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.EARN_CODE_SECURITY_MAINT_URL);
-		this.setFieldValue(deptEarnCodeLookup, "earnCode", EARN_CODE);
-		this.setFieldValue(deptEarnCodeLookup, "dept", DEPT);
-		this.setFieldValue(deptEarnCodeLookup, "effectiveDate", "08/01/2010");
-		this.setFieldValue(deptEarnCodeLookup, "activeYes", "on");
-		this.setFieldValue(deptEarnCodeLookup, "historyYes", "on");
+		HtmlUnitUtil.setFieldValue(deptEarnCodeLookup, "earnCode", EARN_CODE);
+		HtmlUnitUtil.setFieldValue(deptEarnCodeLookup, "dept", DEPT);
+		HtmlUnitUtil.setFieldValue(deptEarnCodeLookup, "effectiveDate", "08/01/2010");
+		HtmlUnitUtil.setFieldValue(deptEarnCodeLookup, "activeYes", "on");
+		HtmlUnitUtil.setFieldValue(deptEarnCodeLookup, "historyYes", "on");
 		
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
 		maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", "hrEarnCodeSecurityId="+hrDeptEarnCodeId);

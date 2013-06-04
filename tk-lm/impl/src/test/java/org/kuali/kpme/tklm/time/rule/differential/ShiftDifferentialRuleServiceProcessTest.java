@@ -32,7 +32,6 @@ import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.service.ShiftDifferentialRuleService;
@@ -159,12 +158,12 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
 		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), beginPeriodDate.toLocalDate());
-		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO));
+		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO, "admin"));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust, HrServiceLocator.getCalendarService().getCalendar(endOfAugust.getHrCalendarId()), true);
 		tdoc.setTimeBlocks(blocks);
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 		TkTestUtils.verifyAggregateHourSumsFlatList("August Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("RGN", new BigDecimal(2));}},aggregate);
-		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), aggregate.getFlattenedTimeBlockList(), HrContext.getPrincipalId());
+		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), aggregate.getFlattenedTimeBlockList(), "admin");
 
 
 		// September
@@ -242,7 +241,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
 		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), endOfAugust.getBeginPeriodFullDateTime().toLocalDate());
-		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO));
+		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO, "admin"));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust, HrServiceLocator.getCalendarService().getCalendar(endOfAugust.getHrCalendarId()), true);
 
 
@@ -250,7 +249,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		tdoc.setTimeBlocks(blocks);
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 		TkTestUtils.verifyAggregateHourSumsFlatList("August Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("RGN", new BigDecimal(2));}},aggregate);
-		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), aggregate.getFlattenedTimeBlockList(), HrContext.getPrincipalId());
+		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), aggregate.getFlattenedTimeBlockList(), "admin");
 
 
 		// September
@@ -311,7 +310,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("RGN", new BigDecimal(14));}},aggregate,2);
 
 		// Run Rule
-		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start);
+		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
 		tdoc.setTimeBlocks(blocks);
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
@@ -359,7 +358,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(12));}},aggregate,2);
 
 		// Run Rule
-		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start);
+		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
 		tdoc.setTimeBlocks(blocks);
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
@@ -479,7 +478,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(4));put("HOL", new BigDecimal(4));}},aggregate,2);
 
 		// Run Rule
-		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start);
+		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
 		tdoc.setTimeBlocks(blocks);
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 

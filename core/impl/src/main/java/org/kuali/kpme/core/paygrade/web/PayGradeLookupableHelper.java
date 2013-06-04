@@ -35,8 +35,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.kpme.core.paygrade.PayGrade;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.paygrade.PayGrade;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;

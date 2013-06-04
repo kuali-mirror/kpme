@@ -15,15 +15,14 @@
  */
 package org.kuali.kpme.tklm.time.rules.timecollection;
 
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.tklm.common.TkConstants;
 
 import com.google.common.collect.ImmutableList;
-import org.kuali.kpme.tklm.common.TkConstants;
 
 public class TimeCollectionRule extends HrBusinessObject implements DepartmentalRule {
 

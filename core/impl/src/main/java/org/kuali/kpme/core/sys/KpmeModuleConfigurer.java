@@ -15,16 +15,14 @@
  */
 package org.kuali.kpme.core.sys;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.config.ConfigurationException;
-import org.kuali.rice.core.api.config.module.RunMode;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import org.kuali.rice.core.api.config.module.RunMode;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
 
 public class KpmeModuleConfigurer extends ModuleConfigurer {
 

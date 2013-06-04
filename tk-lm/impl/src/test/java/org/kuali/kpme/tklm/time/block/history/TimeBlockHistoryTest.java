@@ -23,7 +23,6 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.KPMETestCase;
-import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -40,9 +39,9 @@ public class TimeBlockHistoryTest extends KPMETestCase {
 
     @Test
     public void testTimeBlockHistory() throws Exception {
-        TimesheetDocument td = TkTestUtils.populateBlankTimesheetDocument(DEFAULT_EFFDT);
-        List<TimeBlock> tbs = TkServiceLocator.getTimeBlockService().buildTimeBlocks(td.getAssignments().get(0), "RGH", td, beginDateTime, endDateTime, new BigDecimal("8"), BigDecimal.ZERO, true, false, HrContext.getPrincipalId());
-        TkServiceLocator.getTimeBlockService().saveTimeBlocks(td.getTimeBlocks(), tbs, HrContext.getPrincipalId());
+        TimesheetDocument td = TkTestUtils.populateBlankTimesheetDocument(DEFAULT_EFFDT, "admin");
+        List<TimeBlock> tbs = TkServiceLocator.getTimeBlockService().buildTimeBlocks(td.getAssignments().get(0), "RGH", td, beginDateTime, endDateTime, new BigDecimal("8"), BigDecimal.ZERO, true, false, "admin");
+        TkServiceLocator.getTimeBlockService().saveTimeBlocks(td.getTimeBlocks(), tbs, "admin");
 
         List<TimeBlockHistory> tbhs = new ArrayList<TimeBlockHistory>();
         for(TimeBlock tb : td.getTimeBlocks()) {

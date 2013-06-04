@@ -21,23 +21,23 @@ import java.util.ListIterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-//import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.task.Task;
-import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.KPMERoleMemberBo;
 import org.kuali.kpme.core.role.PositionRoleMemberBo;
 import org.kuali.kpme.core.role.PrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.util.TKUtils;
-//import org.kuali.kpme.tklm.common.AuthorizationValidationUtils;
+import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+//import org.kuali.kpme.core.authorization.DepartmentalRule;
+//import org.kuali.kpme.tklm.common.AuthorizationValidationUtils;
 //import org.kuali.rice.krad.util.GlobalVariables;
 
 @SuppressWarnings("deprecation")

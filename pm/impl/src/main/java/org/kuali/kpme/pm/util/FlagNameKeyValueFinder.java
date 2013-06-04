@@ -22,8 +22,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.pm.classification.Classification;
-import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
 import org.kuali.kpme.pm.flag.Flag;
 import org.kuali.kpme.pm.positionflag.PositionFlag;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;

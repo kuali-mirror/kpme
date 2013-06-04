@@ -36,11 +36,11 @@ import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.earncode.security.EarnCodeType;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import com.google.common.collect.Ordering;

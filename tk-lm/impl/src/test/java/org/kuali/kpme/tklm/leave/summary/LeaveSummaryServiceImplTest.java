@@ -25,8 +25,6 @@ import org.kuali.kpme.core.KPMETestCase;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 
 public class LeaveSummaryServiceImplTest extends KPMETestCase {
 	

@@ -54,9 +54,9 @@ import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
-import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -188,7 +188,7 @@ public class LeaveCalendarAction extends KPMEAction {
 			// only run the accrual if the calendar entry contains future dates
 			if(calendarEntry != null && calendarEntry.getEndPeriodDate().after(LocalDate.now().toDate())) {
 				if(LmServiceLocator.getLeaveAccrualService().statusChangedSinceLastRun(principalId)) {
-					LmServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
+					LmServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), HrContext.getPrincipalId());
 				}
 			}
 		}

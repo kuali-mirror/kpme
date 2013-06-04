@@ -23,9 +23,9 @@ import org.joda.time.DateTime;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.department.service.DepartmentService;
+import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.core.workarea.service.WorkAreaService;
-import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.KimConstants;
 

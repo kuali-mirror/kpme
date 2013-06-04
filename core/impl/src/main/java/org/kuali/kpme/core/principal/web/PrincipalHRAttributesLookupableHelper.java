@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;

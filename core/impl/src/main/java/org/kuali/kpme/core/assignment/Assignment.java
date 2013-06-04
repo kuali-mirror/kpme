@@ -21,14 +21,14 @@ import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.assignment.account.AssignmentAccount;
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.workarea.WorkArea;
-import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 

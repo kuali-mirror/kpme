@@ -31,7 +31,6 @@ import org.junit.Test;
 import org.kuali.kpme.core.KPMETestCase;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.service.LeaveBlockService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 

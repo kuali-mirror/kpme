@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.pm.classification.Classification;
 import org.kuali.kpme.pm.positionflag.PositionFlag;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;

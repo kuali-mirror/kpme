@@ -18,7 +18,6 @@ package org.kuali.kpme.tklm.time.rules.shiftdifferential;
 import java.math.BigDecimal;
 import java.sql.Time;
 
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;

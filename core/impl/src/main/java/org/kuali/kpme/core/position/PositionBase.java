@@ -16,9 +16,9 @@
 package org.kuali.kpme.core.position;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
-import org.kuali.kpme.core.util.HrConstants;
 
 public class PositionBase extends HrBusinessObject {
 

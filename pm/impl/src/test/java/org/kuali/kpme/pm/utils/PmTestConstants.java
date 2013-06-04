@@ -15,12 +15,13 @@
  */
 package org.kuali.kpme.pm.utils;
 
-import org.kuali.kpme.core.util.HtmlUnitUtil;
+import org.kuali.kpme.core.util.HrTestConstants;
 
 public final class PmTestConstants {
 	
+	private static final String BASE_URL = HrTestConstants.BASE_URL;
+	
 	public static class Urls {
-		public static String BASE_URL = HtmlUnitUtil.getBaseURL();
 		
 		public static final String POSITION_REPORT_TYPE_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.pm.positionreporttype.PositionReportType&methodToCall=start";
 		

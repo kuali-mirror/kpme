@@ -17,7 +17,6 @@ package org.kuali.kpme.tklm.time.rules.lunch.department;
 
 import java.math.BigDecimal;
 
-import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;

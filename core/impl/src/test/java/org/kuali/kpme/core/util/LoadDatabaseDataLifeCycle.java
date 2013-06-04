@@ -40,7 +40,7 @@ public class LoadDatabaseDataLifeCycle extends SQLDataLifeCycle {
     }
 
 	public void loadData(final PlatformTransactionManager transactionManager, final DataSource dataSource, final String schemaName) {
-		LOG.info("Clearing tables for schema " + schemaName);
+		LOG.info("Populating tables for schema " + schemaName);
 		Assert.assertNotNull("DataSource could not be located.", dataSource);
 
 		if (schemaName == null || schemaName.equals("")) {

@@ -16,16 +16,16 @@
 package org.kuali.kpme.core.sys;
 
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.datadictionary.DataDictionaryException;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class KpmeModuleConfiguration extends ModuleConfiguration {
     @Override

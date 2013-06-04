@@ -25,9 +25,9 @@ import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
 import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo;
+import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
-import org.kuali.kpme.core.util.HrConstants;
 
 public class Department extends HrBusinessObject {
 

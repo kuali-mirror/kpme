@@ -19,7 +19,7 @@ import org.kuali.kpme.core.util.HrTestConstants;
 
 public final class TkTestConstants {
 	
-	public static String BASE_URL = HrTestConstants.BASE_URL;
+	private static String BASE_URL = HrTestConstants.BASE_URL;
 
 	public static class Urls {
 

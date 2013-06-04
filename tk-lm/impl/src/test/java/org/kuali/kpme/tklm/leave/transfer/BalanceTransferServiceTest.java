@@ -33,7 +33,6 @@ import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
-import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BalanceTransferServiceTest extends KPMETestCase {

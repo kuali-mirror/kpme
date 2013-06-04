@@ -20,11 +20,11 @@ import java.util.Map;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
-import org.kuali.kpme.core.position.PositionBase;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.core.cache.CacheUtils;
+import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;

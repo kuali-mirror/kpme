@@ -28,7 +28,6 @@ import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -68,7 +67,7 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		
 		// Create the rule.
 		this.setupWeeklyOvertimeRule("REG", "OVT", "REG", 1, new BigDecimal(40), DEFAULT_EFFDT.toLocalDate());		
-		TimesheetDocument timesheetDocument = TkTestUtils.populateBlankTimesheetDocument(DEFAULT_EFFDT);
+		TimesheetDocument timesheetDocument = TkTestUtils.populateBlankTimesheetDocument(DEFAULT_EFFDT, "admin");
 		timesheetDocument.setTimeBlocks(timeBlocks);
 		TkServiceLocator.getWeeklyOvertimeRuleService().processWeeklyOvertimeRule(timesheetDocument, aggregate);
 		
@@ -104,8 +103,8 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		CalendarEntry endOfMarch = HrServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfMarch);
 		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), beginPeriodDate.toLocalDate());
-		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 3, BigDecimal.TEN, BigDecimal.ZERO);
-		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), timeBlocks, HrContext.getPrincipalId());
+		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 3, BigDecimal.TEN, BigDecimal.ZERO, "admin");
+		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), timeBlocks, "admin");
 		tdoc.setTimeBlocks(timeBlocks);
 		
 		// Verify previous calendar times
@@ -120,7 +119,7 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		payCalendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDates("admin", start);
 		aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
 		TkTestUtils.verifyAggregateHourSums("Pre-Rules verification", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("REG", new BigDecimal(20));}},aggregate,0);
-		TimesheetDocument timesheetDocument = TkTestUtils.populateBlankTimesheetDocument(start);
+		TimesheetDocument timesheetDocument = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
 		timesheetDocument.setTimeBlocks(timeBlocks);
 		
 		// Create Rule
@@ -153,7 +152,7 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
         CalendarEntry endOfJune = HrServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
 		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), beginPeriodDate.toLocalDate());
-		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 4, new BigDecimal(11), BigDecimal.ZERO);
+		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 4, new BigDecimal(11), BigDecimal.ZERO, "admin");
 		
 		tdoc.setTimeBlocks(timeBlocks);
 		
@@ -168,7 +167,7 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		// Create and Process Previous month to have totals set up correctly
 		TkServiceLocator.getWeeklyOvertimeRuleService().processWeeklyOvertimeRule(tdoc, aggregate);
 		TkTestUtils.verifyAggregateHourSums("Prior month", new HashMap<String,BigDecimal>() {{put("OVT", new BigDecimal(4));put("RGN", new BigDecimal(40));}},aggregate,2);
-		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), aggregate.getFlattenedTimeBlockList(), HrContext.getPrincipalId());
+		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), aggregate.getFlattenedTimeBlockList(), "admin");
 		
 		// April time blocks & document
 		start = new DateTime(2010, 7, 1, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
@@ -176,7 +175,7 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		payCalendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDates("admin", start);
 		aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
 		TkTestUtils.verifyAggregateHourSums("Pre-Rules verification", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("RGN", new BigDecimal(22));}},aggregate,0);
-		TimesheetDocument timesheetDocument = TkTestUtils.populateBlankTimesheetDocument(start);
+		TimesheetDocument timesheetDocument = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
 		timesheetDocument.setTimeBlocks(timeBlocks);		
 
 		// Apply
@@ -233,10 +232,10 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
         CalendarEntry endOfJune = HrServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
 		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), beginPeriodDate.toLocalDate());		
-		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "ABC", start, 1, new BigDecimal(11), BigDecimal.ZERO));
-		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "XYZ", start.plusDays(1), 1, new BigDecimal(11), BigDecimal.ZERO));
-		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "ABC", start.plusDays(2), 1, new BigDecimal(11), BigDecimal.ZERO));
-		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "XYZ", start.plusDays(3), 1, new BigDecimal(11), BigDecimal.ZERO));		
+		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "ABC", start, 1, new BigDecimal(11), BigDecimal.ZERO, "admin"));
+		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "XYZ", start.plusDays(1), 1, new BigDecimal(11), BigDecimal.ZERO, "admin"));
+		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "ABC", start.plusDays(2), 1, new BigDecimal(11), BigDecimal.ZERO, "admin"));
+		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "XYZ", start.plusDays(3), 1, new BigDecimal(11), BigDecimal.ZERO, "admin"));		
 		tdoc.setTimeBlocks(timeBlocks);
 
 		// Verify previous calendar times
@@ -245,7 +244,7 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		// Create and Process Previous month to have totals set up correctly
 		TkServiceLocator.getWeeklyOvertimeRuleService().processWeeklyOvertimeRule(tdoc, aggregate);
 		TkTestUtils.verifyAggregateHourSums("Prior month", new HashMap<String,BigDecimal>() {{put("OVT", new BigDecimal(2));put("RGN", new BigDecimal(40));put("ABC", new BigDecimal(1));put("XYZ", new BigDecimal(1));}},aggregate,2);
-		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), aggregate.getFlattenedTimeBlockList(), HrContext.getPrincipalId());
+		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), aggregate.getFlattenedTimeBlockList(), "admin");
 		
 		// April time blocks & document
 		start = new DateTime(2010, 7, 1, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
@@ -253,7 +252,7 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		payCalendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDates("admin", start);
 		aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
 		TkTestUtils.verifyAggregateHourSums("Pre-Rules verification", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("REG", new BigDecimal(22));}},aggregate,0);
-		TimesheetDocument timesheetDocument = TkTestUtils.populateBlankTimesheetDocument(start);
+		TimesheetDocument timesheetDocument = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
 		timesheetDocument.setTimeBlocks(timeBlocks);		
 
 		// Apply

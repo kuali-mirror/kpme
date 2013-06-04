@@ -20,43 +20,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.joda.time.LocalDate;
-import org.junit.Assert;
+import org.kuali.kpme.core.rice.test.lifecycles.KPMEXmlDataLoaderLifecycle;
 import org.kuali.kpme.core.util.ClearDatabaseLifecycle;
 import org.kuali.kpme.core.util.DatabaseCleanupDataLifecycle;
-import org.kuali.kpme.core.util.HrContext;
-import org.kuali.kpme.core.util.HrTestConstants;
-import org.kuali.kpme.core.util.HtmlUnitUtil;
 import org.kuali.kpme.core.util.LoadDatabaseDataLifeCycle;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
 import org.kuali.rice.core.impl.services.CoreImplServiceLocator;
-import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.test.RiceInternalSuiteDataTestCase;
+import org.kuali.rice.test.TestHarnessServiceLocator;
 import org.kuali.rice.test.TransactionalLifecycle;
-import org.kuali.kpme.core.rice.test.lifecycles.JettyServerLifecycle;
-import org.kuali.kpme.core.rice.test.lifecycles.JettyServerLifecycle.ConfigMode;
-import org.kuali.kpme.core.rice.test.lifecycles.KPMEXmlDataLoaderLifecycle;
 import org.springframework.cache.CacheManager;
 
-import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlButtonInput;
-import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
-import com.gargoylesoftware.htmlunit.html.HtmlSelect;
-import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 /**
  *  Default test base for a full KPME unit test.
@@ -97,10 +77,10 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 		new LoadDatabaseDataLifeCycle(this.getClass()).start();
 	
 	    //lets try to create a user session
-	    GlobalVariables.setUserSession(new UserSession("admin"));
+/*	    GlobalVariables.setUserSession(new UserSession("admin"));
         setWebClient(new WebClient(BrowserVersion.FIREFOX_17));
         getWebClient().getOptions().setJavaScriptEnabled(true);
-        getWebClient().getOptions().setTimeout(0);
+        getWebClient().getOptions().setTimeout(0);*/
 	}
 	
 	@Override
@@ -108,8 +88,8 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	    // runs custom SQL at the end of each test.
 	    // useful for difficult to reset test additions, not handled by
 	    // our ClearDatabaseLifecycle.
-        HrContext.clearTargetUser();
-        getWebClient().closeAllWindows();
+        //HrContext.clearTargetUser();
+        //getWebClient().closeAllWindows();
 	    new DatabaseCleanupDataLifecycle(this.getClass()).start();
 
 		final boolean needsSpring = true;
@@ -156,21 +136,21 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	    /**
 	     * Loads the TestHarnessSpringBeans.xml file which obtains connections to the DB for us
 	     */
-	    /*lifecycles.add(getTestHarnessSpringResourceLoader());*/
+	    lifecycles.add(getTestHarnessSpringResourceLoader());
 	
 	    /**
 	     * Establishes the TestHarnessServiceLocator so that it has a reference to the Spring context
 	     * created from TestHarnessSpringBeans.xml
 	     */
-	    /*lifecycles.add(new BaseLifecycle() {
+	    lifecycles.add(new BaseLifecycle() {
 	        @Override
 	        public void start() throws Exception {
 	            TestHarnessServiceLocator.setContext(getTestHarnessSpringResourceLoader().getContext());
 	            super.start();
 	        }
-	    });*/
+	    });
 	
-	    lifecycles.add(new Lifecycle() {
+/*	    lifecycles.add(new Lifecycle() {
 			private JettyServerLifecycle jettyServerLifecycle;
 	
 			public boolean isStarted() {
@@ -179,7 +159,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	
 			public void start() throws Exception {
 	            System.setProperty("web.bootstrap.spring.file", "classpath:TestHarnessSpringBeans.xml");
-	            jettyServerLifecycle = new JettyServerLifecycle(HtmlUnitUtil.getPort(), HtmlUnitUtil.getContext(), RELATIVE_WEBAPP_ROOT);
+	            jettyServerLifecycle = new JettyServerLifecycle(getPort(), getContext(), RELATIVE_WEBAPP_ROOT);
 	            jettyServerLifecycle.setConfigMode(ConfigMode.OVERRIDE);
 				jettyServerLifecycle.start();
 			}
@@ -187,7 +167,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 			public void stop() throws Exception {
 				this.jettyServerLifecycle.stop();
 			}
-		});
+		});*/
 	
 	    ClearDatabaseLifecycle clearDatabaseLifecycle = new ClearDatabaseLifecycle();
 	    clearDatabaseLifecycle.getAlternativeTablesToClear().add("KREW_RULE_T");
@@ -209,51 +189,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 		return lifecycles;
 	}
 
-	protected final void setFieldValue(HtmlPage page, String fieldId, String fieldValue) {
-	    HtmlElement element = page.getHtmlElementById(fieldId);
-	    Assert.assertTrue("element " + fieldId + " is null, page: " + page.asText(), element != null);
-	
-	    if (element instanceof HtmlTextInput) {
-	        HtmlTextInput textField = (HtmlTextInput) element;
-	        textField.setValueAttribute(fieldValue);
-	    } else if (element instanceof HtmlTextArea) {
-	        HtmlTextArea textAreaField = (HtmlTextArea) element;
-	        textAreaField.setText(fieldValue);
-	    } else if (element instanceof HtmlHiddenInput) {
-	        HtmlHiddenInput hiddenField = (HtmlHiddenInput) element;
-	        hiddenField.setValueAttribute(fieldValue);
-	    } else if (element instanceof HtmlSelect) {
-	        HtmlSelect selectField = (HtmlSelect) element;
-	        try {
-	            selectField.setSelectedAttribute(fieldValue, true);
-	        } catch (IllegalArgumentException e) {
-	            Assert.fail("select element [" + element.asText() + "] " + e.getMessage());
-	        }
-	    } else if (element instanceof HtmlCheckBoxInput) {
-	        HtmlCheckBoxInput checkboxField = (HtmlCheckBoxInput) element;
-	        if (fieldValue.equals("on")) {
-	            checkboxField.setChecked(true);
-	        } else if (fieldValue.equals("off")) {
-	            checkboxField.setChecked(false);
-	        } else {
-	        	Assert.assertTrue("Invalid checkbox value", false);
-	        }
-	    } else if (element instanceof HtmlFileInput) {
-	        HtmlFileInput fileInputField = (HtmlFileInput) element;
-	        fileInputField.setValueAttribute(fieldValue);
-	    } else if (element instanceof HtmlRadioButtonInput) {
-	    	HtmlRadioButtonInput radioButton = (HtmlRadioButtonInput) element;
-	    	if (fieldValue.equals("on")) {
-	    		radioButton.setChecked(true);
-	    	} else if (fieldValue.equals("off")) {
-	    		radioButton.setChecked(false);
-	    	}
-	    } else {
-	    	Assert.fail("Unknown control field: " + fieldId);
-	    }
-	}
-
-	public void futureEffectiveDateValidation(String baseUrl) throws Exception {
+/*	public void futureEffectiveDateValidation(String baseUrl) throws Exception {
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	
@@ -279,7 +215,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	  	page = ((HtmlElement)page.getElementByName("methodToCall.route")).click();
 	  	Assert.assertFalse("page text contains:\n" + HrTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(HrTestConstants.EFFECTIVE_DATE_ERROR));
 	}
-
+*/
     public class ClearCacheLifecycle extends BaseLifecycle {
         private final Logger LOG = Logger.getLogger(ClearCacheLifecycle.class);
 
@@ -311,6 +247,22 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 
     public void setWebClient(WebClient webClient) {
         this.webClient = webClient;
+    }
+    
+    public static String getBaseURL() {
+	    return ConfigContext.getCurrentContextConfig().getProperty("application.url");
+    }
+    
+    public static String getContext() {
+    	return "/" + ConfigContext.getCurrentContextConfig().getProperty("app.context.name");
+    }
+
+    public static String getTempDir() {
+	return ConfigContext.getCurrentContextConfig().getProperty("temp.dir");
+    }
+
+    public static Integer getPort() {
+	return new Integer(ConfigContext.getCurrentContextConfig().getProperty("kns.test.port"));
     }
 
 }

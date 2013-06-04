@@ -22,7 +22,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.KPMETestCase;
-import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.job.service.JobService;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;

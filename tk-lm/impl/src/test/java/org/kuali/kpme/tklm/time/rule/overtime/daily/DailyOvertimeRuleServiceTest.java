@@ -81,7 +81,7 @@ public class DailyOvertimeRuleServiceTest extends KPMETestCase {
 		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("REG", new BigDecimal(18));}},aggregate,2);
 
 		// Run Rule
-		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start);
+		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
 		tdoc.setTimeBlocks(blocks);
 		TkServiceLocator.getDailyOvertimeRuleService().processDailyOvertimeRules(tdoc, aggregate);
 
@@ -112,7 +112,7 @@ public class DailyOvertimeRuleServiceTest extends KPMETestCase {
 		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("REG", new BigDecimal(18));}},aggregate,2);
 
 		// Run Rule
-		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start);
+		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
 		tdoc.setTimeBlocks(blocks);
 		TkServiceLocator.getDailyOvertimeRuleService().processDailyOvertimeRules(tdoc, aggregate);
 

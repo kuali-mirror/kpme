@@ -859,7 +859,7 @@ public class AccrualServiceImpl implements AccrualService {
 	}
 	
 	@Override
-	public void calculateFutureAccrualUsingPlanningMonth(String principalId, LocalDate asOfDate) {
+	public void calculateFutureAccrualUsingPlanningMonth(String principalId, LocalDate asOfDate, String runAsPrincipalId) {
 		PrincipalHRAttributes phra = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
 		if(phra != null) {
 			// use the date from pay period to get the leave plan
@@ -876,7 +876,8 @@ public class AccrualServiceImpl implements AccrualService {
 				if(endDate.getDayOfMonth() > endDate.dayOfMonth().getMaximumValue()) {
 					endDate = endDate.withDayOfMonth(endDate.dayOfMonth().getMaximumValue());
 				}
-				runAccrual(principalId, startDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay(), true);
+				runAccrual(principalId, startDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay(), true, runAsPrincipalId);
+
 			}
 		}
 	}

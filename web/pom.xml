@@ -239,6 +239,20 @@
      		<scope>test</scope>
      		<type>test-jar</type>
         </dependency>
+        <dependency>
+         	<groupId>${project.groupId}</groupId>
+        	<artifactId>kpme-tk-lm-impl</artifactId>
+        	<version>${project.version}</version>
+     		<scope>test</scope>
+     		<type>test-jar</type>       
+        </dependency>
+        <dependency>
+         	<groupId>${project.groupId}</groupId>
+        	<artifactId>kpme-pm-impl</artifactId>
+        	<version>${project.version}</version>
+     		<scope>test</scope>
+     		<type>test-jar</type>       
+        </dependency>
     </dependencies>
     
     <build>

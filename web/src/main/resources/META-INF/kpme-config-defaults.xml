@@ -38,8 +38,9 @@
     <param name="rice.server.url">${application.url}</param>
 
     <!-- Filter Override -->
-    <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
+    <param name="filter.login.class">org.kuali.hr.TestAutoLoginFilter</param>
     <param name="filtermapping.login.1">/*</param>
+    <param name="filter.login.autouser">admin</param>
     
 	<!-- Rice Run Modes -->
 	<!-- When changing runmodes to embedded/remote make sure to update rice server DB & turn dev.mode to false -->
