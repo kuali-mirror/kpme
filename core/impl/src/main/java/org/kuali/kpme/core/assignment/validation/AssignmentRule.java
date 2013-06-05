@@ -195,11 +195,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	protected boolean validateAccount(AssignmentAccount assignmentAccount) {
 		boolean valid = false;
 		LOG.debug("Validating Account: " + assignmentAccount.getAccountNbr());
-		Map<String, String> fields = new HashMap<String, String>();
-		fields.put("accountNumber", assignmentAccount.getAccountNbr());
-		Collection account = KRADServiceLocator.getBusinessObjectService()
-				.findMatching(Account.class, fields);
-		valid = account.size() > 0;
+		valid = ValidationUtils.validateAccount(assignmentAccount.getAccountNbr());
 		if (!valid) {
 			this.putGlobalError("error.existence", "Account Number '"
 					+ assignmentAccount.getAccountNbr() + "'");
@@ -211,11 +207,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		boolean valid = false;
 		LOG.debug("Validating ObjectCode: "
 				+ assignmentAccount.getFinObjectCd());
-		Map<String, String> fields = new HashMap<String, String>();
-		fields.put("financialObjectCode", assignmentAccount.getFinObjectCd());
-		Collection objectCode = KRADServiceLocator.getBusinessObjectService()
-				.findMatching(ObjectCode.class, fields);
-		valid = objectCode.size() > 0;
+		valid = ValidationUtils.validateObjectCode(assignmentAccount.getFinObjectCd());
 		if (!valid) {
 			this.putGlobalError("error.existence", "Object Code '"
 					+ assignmentAccount.getFinObjectCd() + "'");
@@ -228,12 +220,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		LOG.debug("Validating SubObjectCode: "
 				+ assignmentAccount.getFinSubObjCd());
 		if (assignmentAccount.getFinSubObjCd() != null) {
-			Map<String, String> fields = new HashMap<String, String>();
-			fields.put("financialSubObjectCode", assignmentAccount
-					.getFinSubObjCd());
-			Collection subObjectCode = KRADServiceLocator.getBusinessObjectService()
-					.findMatching(SubObjectCode.class, fields);
-			valid = subObjectCode.size() > 0;
+			valid = ValidationUtils.validateSubObjectCode(assignmentAccount.getFinSubObjCd());
 			if (!valid) {
 				this.putGlobalError("error.existence", "SubObject Code '"
 						+ assignmentAccount.getFinSubObjCd() + "'");

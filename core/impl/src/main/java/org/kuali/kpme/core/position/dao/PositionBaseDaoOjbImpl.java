@@ -27,7 +27,7 @@ import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class PositionDaoOjbImpl extends PlatformAwareDaoBaseOjb implements PositionDao {
+public class PositionBaseDaoOjbImpl extends PlatformAwareDaoBaseOjb implements PositionBaseDao {
     
     @Override
     public PositionBase getPosition(String hrPositionId) {

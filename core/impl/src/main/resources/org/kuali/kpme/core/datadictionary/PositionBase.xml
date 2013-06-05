@@ -245,7 +245,7 @@
 	<bean id="PositionBase-LookupView" parent="Uif-LookupView" >
 	    <property name="headerText" value="Position Lookup" />
 	    <property name="dataObjectClassName" value="org.kuali.kpme.core.position.PositionBase" />
-	    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.position.web.PositionLookupableHelper" />
+	    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.position.web.PositionBaseLookupableHelper" />
 	    <property name="criteriaFields">
 			<list>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber" />

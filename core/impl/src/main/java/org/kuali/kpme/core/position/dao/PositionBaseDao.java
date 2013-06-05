@@ -13,20 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.position.service;
+package org.kuali.kpme.core.position.dao;
 
 import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.position.PositionBase;
-import org.springframework.cache.annotation.Cacheable;
 
-public interface PositionService {
-    @Cacheable(value= PositionBase.CACHE_NAME, key="'hrPositionId=' + #p0")
+public interface PositionBaseDao {
 	public PositionBase getPosition(String hrPositionId);
+    public PositionBase getPosition(String positionNumber, LocalDate effectiveDate);
+    //public PositionNumber getNextUniquePositionNumber();
 
-    @Cacheable(value= PositionBase.CACHE_NAME, key="'hrPositionNbr=' + #p0  + '|' + 'effectiveDate=' + #p1")
-    public PositionBase getPosition(String hrPositionNbr, LocalDate effectiveDate);
-    
-    List<PositionBase> getPositions(String positionNum, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
+    //void saveOrUpdate(PositionNumber positionNumber);
+
+    public List<PositionBase> getPositions(String positionNum, String description, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 }

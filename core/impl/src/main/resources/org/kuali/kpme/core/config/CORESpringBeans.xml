@@ -195,7 +195,7 @@
     
     <bean id="taskDao" class="org.kuali.kpme.core.task.dao.TaskDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="positionDao" class="org.kuali.kpme.core.position.dao.PositionDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="positionBaseDao" class="org.kuali.kpme.core.position.dao.PositionBaseDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="assignmentDao" class="org.kuali.kpme.core.assignment.dao.AssignmentDaoOjbImpl" parent="platformAwareDao" />
 
@@ -331,8 +331,8 @@
         <property name="assignmentDao" ref="assignmentDao"/>
     </bean>
 
-    <bean id="positionService" class="org.kuali.kpme.core.position.service.PositionServiceImpl">
-        <property name="positionDao" ref="positionDao"/>
+    <bean id="positionBaseService" class="org.kuali.kpme.core.position.service.PositionBaseServiceImpl">
+        <property name="positionBaseDao" ref="positionBaseDao"/>
     </bean>
     
     <bean id="hrGroupService" class="org.kuali.kpme.core.service.group.HRGroupServiceImpl">
@@ -426,7 +426,7 @@
             <bean class="org.kuali.kpme.core.paytype.web.PayTypeLookupableHelper"/>
         </property>
     </bean>
-    <bean id="positionLookupable" class="org.kuali.kpme.core.position.web.PositionLookupableHelper" scope="singleton">
+    <bean id="positionBaseLookupable" class="org.kuali.kpme.core.position.web.PositionBaseLookupableHelper" scope="singleton">
         <property name="dataDictionaryService">
 			<bean
 				class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">

@@ -19,33 +19,34 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.position.PositionBase;
-import org.kuali.kpme.core.position.dao.PositionDao;
+import org.kuali.kpme.core.position.dao.PositionBaseDao;
 
-public class PositionServiceImpl implements PositionService {
+public class PositionBaseServiceImpl implements PositionBaseService {
 
-	private PositionDao positionDao;
+	private PositionBaseDao positionBaseDao;
 	
 	@Override
 	public PositionBase getPosition(String hrPositionId) {
-		return positionDao.getPosition(hrPositionId);
+		return positionBaseDao.getPosition(hrPositionId);
 	}
 
     @Override
     public PositionBase getPosition(String hrPositionNbr, LocalDate effectiveDate) {
-        return positionDao.getPosition(hrPositionNbr, effectiveDate);
+        return positionBaseDao.getPosition(hrPositionNbr, effectiveDate);
     }
 
     @Override
     public List<PositionBase> getPositions(String positionNum, String positionDescr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
-        return positionDao.getPositions(positionNum, positionDescr, fromEffdt, toEffdt, active, showHistory);
+        return positionBaseDao.getPositions(positionNum, positionDescr, fromEffdt, toEffdt, active, showHistory);
     }
 
-    public PositionDao getPositionDao() {
-		return positionDao;
+	public PositionBaseDao getPositionBaseDao() {
+		return positionBaseDao;
 	}
 
-	public void setPositionDao(PositionDao positionDao) {
-		this.positionDao = positionDao;
+	public void setPositionBaseDao(PositionBaseDao positionBaseDao) {
+		this.positionBaseDao = positionBaseDao;
 	}
+
 
 }

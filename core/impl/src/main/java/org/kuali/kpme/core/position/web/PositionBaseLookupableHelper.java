@@ -27,7 +27,7 @@ import org.kuali.rice.krad.web.form.LookupForm;
 
 @SuppressWarnings("deprecation")
 //public class PositionLookupableHelper extends KPMELookupableHelper {
-public class PositionLookupableHelper extends LookupableImpl {
+public class PositionBaseLookupableHelper extends LookupableImpl {
 	
 	private static final long serialVersionUID = -131891943631454679L;
 

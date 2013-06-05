@@ -21,7 +21,7 @@ import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 
 @SuppressWarnings("deprecation")
-public class PositionAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
+public class PositionBaseAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
 
 	private static final long serialVersionUID = 1013650349529679077L;
 

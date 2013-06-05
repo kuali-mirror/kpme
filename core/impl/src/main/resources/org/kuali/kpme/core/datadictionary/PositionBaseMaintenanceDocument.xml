@@ -28,9 +28,9 @@
   <bean id="PositionBaseMaintenanceDocument" parent="PositionBaseMaintenanceDocument-parentBean"/>
   <bean id="PositionBaseMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
   		p:dataObjectClass="org.kuali.kpme.core.position.PositionBase"
-  		p:businessRulesClass="org.kuali.kpme.core.position.validation.PositionValidation"
-  		p:maintainableClass="org.kuali.kpme.core.position.web.PositionMaintainableServiceImpl"
-  		p:documentAuthorizerClass="org.kuali.kpme.core.position.authorization.PositionAuthorizer">
+  		p:businessRulesClass="org.kuali.kpme.core.position.validation.PositionBaseValidation"
+  		p:maintainableClass="org.kuali.kpme.core.position.web.PositionBaseMaintainableServiceImpl"
+  		p:documentAuthorizerClass="org.kuali.kpme.core.position.authorization.PositionBaseAuthorizer">
     <property name="lockingKeys">
         <list>
             <value>positionNumber</value>

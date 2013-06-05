@@ -16,6 +16,7 @@
 package org.kuali.kpme.core.util;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,11 @@ import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.institution.Institution;
+import org.kuali.kpme.core.kfs.coa.businessobject.Account;
 import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
+import org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kpme.core.kfs.coa.businessobject.SubAccount;
+import org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.paygrade.PayGrade;
@@ -564,5 +569,40 @@ public class ValidationUtils {
 	public static boolean isWildCard(String aString) {
 		return (StringUtils.equals(aString, HrConstants.WILDCARD_CHARACTER) ||
 					StringUtils.equals(aString, "*"));
+	}
+	
+	public static boolean validateAccount(String accountNumber) {
+		Map<String, String> fields = new HashMap<String, String>();
+		fields.put("accountNumber", accountNumber);
+		Collection accountList = KRADServiceLocator.getBusinessObjectService()
+				.findMatching(Account.class, fields);
+		boolean valid = accountList.size() > 0;
+		return valid;
+	}
+	
+	public static boolean validateSubAccount(String subAccountNumber) {
+		Map<String, String> fields = new HashMap<String, String>();
+		fields.put("subAccountNumber", subAccountNumber);
+		Collection subAccountList = KRADServiceLocator.getBusinessObjectService()
+				.findMatching(SubAccount.class, fields);
+		boolean valid = subAccountList.size() > 0;
+		return valid;
+	}
+	
+	public static boolean validateObjectCode(String objectCode) {
+		Map<String, String> fields = new HashMap<String, String>();
+		fields.put("financialObjectCode", objectCode);
+		Collection objectCodeList = KRADServiceLocator.getBusinessObjectService().findMatching(ObjectCode.class, fields);
+		boolean valid = objectCodeList.size() > 0;
+		return valid;
+	}
+	
+	public static boolean validateSubObjectCode(String subObjectCode) {
+		Map<String, String> fields = new HashMap<String, String>();
+		fields.put("financialSubObjectCode", subObjectCode);
+		Collection subObjectCodeList = KRADServiceLocator.getBusinessObjectService()
+				.findMatching(SubObjectCode.class, fields);
+		boolean valid = subObjectCodeList.size() > 0;
+		return valid;
 	}
 }

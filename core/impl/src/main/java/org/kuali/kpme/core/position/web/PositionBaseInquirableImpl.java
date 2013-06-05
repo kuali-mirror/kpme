@@ -15,8 +15,6 @@
  */
 package org.kuali.kpme.core.position.web;
 
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.position.PositionBase;
@@ -25,7 +23,9 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 
-public class PositionInquirableImpl extends KualiInquirableImpl {
+import java.util.Map;
+
+public class PositionBaseInquirableImpl extends KualiInquirableImpl {
 
 	private static final long serialVersionUID = 6232629850941402875L;
 

@@ -268,6 +268,31 @@
 	    </property>
     </bean>
     
+    <!-- Funding List, used by inquiry view -->
+	<bean id="Position-fundingList" abstract="true" parent="Uif-Disclosure-TableCollectionSection">
+		<property name="collectionObjectClass" value="org.kuali.kpme.pm.position.funding.PositionFunding" />
+		<property name="propertyName" value="fundingList" />
+			    <property name="layoutManager.renderSequenceField" value="false"/>
+	    <property name="layoutManager.separateAddLine" value="true"/>
+	    <property name="layoutManager.richTable.render" value="false"/>
+		<property name="items">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+				<bean parent="Uif-DataField" p:propertyName="chart" />
+				<bean parent="Uif-DataField" p:propertyName="org" />
+				<bean parent="Uif-DataField" p:propertyName="account" />
+				<bean parent="Uif-DataField" p:propertyName="subAccount"/>
+				<bean parent="Uif-DataField" p:propertyName="objectCode" />
+				<bean parent="Uif-DataField" p:propertyName="subObjectCode" />
+				<bean parent="Uif-DataField" p:propertyName="orgRefCode" />
+				<bean parent="Uif-DataField" p:propertyName="percent" />
+				<bean parent="Uif-DataField" p:propertyName="amount" />
+				<bean parent="Uif-DataField" p:propertyName="priorityFlag" />
+				<bean parent="Uif-DataField" p:propertyName="active"/>
+			</list>
+		</property>
+	</bean>
+    
 	<!--  Inquiry Definitions  -->
   	<bean id="Position-InquiryView" parent="Uif-InquiryView" >
 		<property name="headerText" value="Position Inquiry"/>
@@ -291,6 +316,7 @@
 	       		<bean parent="Position-dutyList"/>
 	      		<bean parent="Position-flagList"/>
 	      		<bean parent="Position-requiredQualList"/>
+	      		<bean parent="Position-fundingList" />
 			</list>
 		</property>
 	</bean>
@@ -300,7 +326,7 @@
 	<bean id="Position-LookupView" parent="Uif-LookupView">
 		<property name="headerText" value="Position Lookup" />
 	    <property name="dataObjectClassName" value="org.kuali.kpme.pm.position.Position" />
-	    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.position.web.PositionLookupableHelper" />
+<!-- 	    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.position.web.PositionLookupableHelper" /> -->
 	    <property name="criteriaFields">
 			<list>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber" />
@@ -534,11 +560,21 @@
 				<bean parent="Uif-InputField" p:propertyName="subAccount">
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.SubAccount"
-							p:fieldConversions="accountNumber:subAccount" />
+							p:fieldConversions="subAccountNumber:subAccount" />
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="objectCode" />
-				<bean parent="Uif-InputField" p:propertyName="subObjectCode" />
+				<bean parent="Uif-InputField" p:propertyName="objectCode">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode"
+							p:fieldConversions="financialObjectCode:objectCode" />
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="subObjectCode">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode"
+							p:fieldConversions="financialSubObjectCode:subObjectCode" />
+					</property>
+				</bean>
 				<bean parent="Uif-InputField" p:propertyName="orgRefCode" />
 				<bean parent="Uif-InputField" p:propertyName="percent"
 					p:exclusiveMin="0" p:inclusiveMax="100"

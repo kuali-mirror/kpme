@@ -28,9 +28,12 @@
   <bean id="PositionMaintenanceDocument" parent="PositionMaintenanceDocument-parentBean"/>
   <bean id="PositionMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
   		p:dataObjectClass="org.kuali.kpme.pm.position.Position"
-  		p:businessRulesClass="org.kuali.kpme.core.position.validation.PositionValidation"
-  		p:maintainableClass="org.kuali.kpme.core.position.web.PositionMaintainableServiceImpl"
-  		p:documentAuthorizerClass="org.kuali.kpme.core.position.authorization.PositionAuthorizer">
+  		p:businessRulesClass="org.kuali.kpme.pm.position.validation.PositionValidation">
+    <property name="maintainableClass" value="org.kuali.kpme.pm.position.web.PositionMaintainableServiceImpl"/>
+  		<!-- 
+  		p:maintainableClass="org.kuali.kpme.pm.position.web.PositionMaintainableServiceImpl"
+  		p:documentAuthorizerClass="org.kuali.kpme.core.position.authorization.PositionBaseAuthorizer">
+  		 -->
     <property name="lockingKeys">
         <list>
             <value>positionNumber</value>
@@ -51,6 +54,8 @@
   <bean id="PositionMaintenanceDocument-PositionMaintenance-parentBean" abstract="true" parent="Uif-MaintenanceView">
     <property name="headerText" value="Position Maintenance"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.position.Position"/>
+    <property name="viewHelperServiceClass"
+              value="org.kuali.kpme.pm.position.web.PositionMaintainableServiceImpl"/>
     <property name="items">
       <list merge="true">
         <bean parent="Uif-MaintenanceGridSection">

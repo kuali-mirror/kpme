@@ -120,6 +120,7 @@
 
 	<!-- PM DAO Definitions -->
 
+	<bean id="positionDao" class="org.kuali.kpme.pm.position.dao.PositionDaoObjImpl" parent="platformAwareDao" />
         
     <bean id="positionReportTypeDao" class="org.kuali.kpme.pm.positionreporttype.dao.PositionReportTypeDaoObjImpl" parent="platformAwareDao" />
     
@@ -159,11 +160,17 @@
  	
  	<bean id="classificationQualificationDao" class="org.kuali.kpme.pm.classification.qual.dao.ClassificationQualificationDaoObjImpl" parent="platformAwareDao" />
  	
+ 	<bean id="positionFundingDao" class="org.kuali.kpme.pm.position.funding.dao.PositionFundingDaoObjImpl" parent="platformAwareDao" />
+ 	
 	<!-- PM Service Definitions -->
 
 
 
  	<bean id="pmServiceLocator" class="org.kuali.kpme.pm.service.base.PmServiceLocator" />
+    
+    <bean id="positionService" class="org.kuali.kpme.pm.position.service.PositionServiceImpl">
+        <property name="positionDao" ref="positionDao"/>
+    </bean>
     
     <bean id="positionReportTypeService" class="org.kuali.kpme.pm.positionreporttype.service.PositionReportTypeServiceImpl">
         <property name="positionReportTypeDao" ref="positionReportTypeDao"/>
@@ -239,6 +246,10 @@
     
 	<bean id="classificationQualificationService" class="org.kuali.kpme.pm.classification.qual.service.ClassificationQualificationServiceImpl">
         <property name="classQualDao" ref="classificationQualificationDao"/>
+    </bean>
+    
+	<bean id="positionFundingService" class="org.kuali.kpme.pm.position.funding.service.PositionFundingServiceImpl">
+        <property name="positionFundingDao" ref="positionFundingDao"/>
     </bean>
 
     <!-- PM Lookupable Definitions -->

@@ -177,4 +177,29 @@
       </list>
     </property>
   </bean>
+  
+   <!-- KRAD Lookup View Definition -->
+  <bean id="ObjectCode-LookupView" parent="Uif-LookupView">
+    <property name="headerText" value="ObjectCode KRAD Lookup View" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode" />
+    <property name="criteriaFields">
+      <list>
+      	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="universityFiscalYear" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="chartOfAccountsCode"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="financialObjectCode"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="financialObjectCodeName"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="financialObjectCodeShortName"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+      	<bean parent="Uif-DataField" p:propertyName="universityFiscalYear"/>
+        <bean parent="Uif-DataField" p:propertyName="chartOfAccountsCode"/>
+        <bean parent="Uif-DataField" p:propertyName="financialObjectCode"/>
+        <bean parent="Uif-DataField" p:propertyName="financialObjectCodeName"/>
+        <bean parent="Uif-DataField" p:propertyName="active"/>
+      </list>
+    </property>
+  </bean>
 </beans>

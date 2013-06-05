@@ -13,19 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.position.dao;
+package org.kuali.kpme.core.position.validation;
 
-import java.util.List;
-
-import org.joda.time.LocalDate;
 import org.kuali.kpme.core.position.PositionBase;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
-public interface PositionDao {
-	public PositionBase getPosition(String hrPositionId);
-    public PositionBase getPosition(String positionNumber, LocalDate effectiveDate);
-    //public PositionNumber getNextUniquePositionNumber();
+public class PositionBaseValidation extends MaintenanceDocumentRuleBase {
 
-    //void saveOrUpdate(PositionNumber positionNumber);
+	@Override
+	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+		boolean valid = false;
+		LOG.debug("entering custom validation for Position");
+		
+		PositionBase position = (PositionBase)this.getNewDataObject();
 
-    public List<PositionBase> getPositions(String positionNum, String description, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+		if (position != null) {
+			valid = true;
+		}
+		
+		return valid;
+	}
 }

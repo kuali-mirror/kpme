@@ -13,25 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.position.validation;
+package org.kuali.kpme.core.position.service;
 
+import java.util.List;
+
+import org.joda.time.LocalDate;
 import org.kuali.kpme.core.position.PositionBase;
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
+import org.springframework.cache.annotation.Cacheable;
 
-public class PositionValidation extends MaintenanceDocumentRuleBase {
+public interface PositionBaseService {
+    @Cacheable(value= PositionBase.CACHE_NAME, key="'hrPositionId=' + #p0")
+	public PositionBase getPosition(String hrPositionId);
 
-	@Override
-	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-		boolean valid = false;
-		LOG.debug("entering custom validation for Position");
-		
-		PositionBase position = (PositionBase)this.getNewDataObject();
-
-		if (position != null) {
-			valid = true;
-		}
-		
-		return valid;
-	}
+    @Cacheable(value= PositionBase.CACHE_NAME, key="'hrPositionNbr=' + #p0  + '|' + 'effectiveDate=' + #p1")
+    public PositionBase getPosition(String hrPositionNbr, LocalDate effectiveDate);
+    
+    List<PositionBase> getPositions(String positionNum, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }
