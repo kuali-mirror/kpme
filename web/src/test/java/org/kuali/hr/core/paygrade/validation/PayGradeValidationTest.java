@@ -22,8 +22,8 @@ import junit.framework.Assert;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
-import org.kuali.kpme.core.KPMETestCase;
 import org.kuali.kpme.core.util.HrTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.FrameWindow;
@@ -33,7 +33,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class PayGradeValidationTest extends KPMETestCase{
+public class PayGradeValidationTest extends KPMEWebTestCase {
 	@Ignore
 	@Test
 	public void testValidateSalGroup() throws Exception {

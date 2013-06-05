@@ -19,10 +19,10 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
-public class EarnCodeGroupServiceTest extends KPMETestCase{
+public class EarnCodeGroupServiceTest extends KPMEUnitTestCase{
 	@Test
 	public void testEarnGroupFetch() throws Exception{
 		EarnCodeGroup earnGroup = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup("REG", LocalDate.now());

@@ -26,7 +26,7 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
@@ -40,7 +40,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 /**
  * A really basic unit test testing persistence and searching over persisted business objects.
  */
-public class ClockLocationRuleTest extends KPMETestCase {
+public class ClockLocationRuleTest extends KPMEUnitTestCase {
 
     private static final Logger LOG = Logger.getLogger(ClockLocationRuleTest.class);
 

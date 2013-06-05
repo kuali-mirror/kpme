@@ -22,10 +22,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.earncode.web.EarnCodeInquirableImpl;
 
-public class EarnCodeInquirableImplTest extends KPMETestCase {
+public class EarnCodeInquirableImplTest extends KPMEUnitTestCase {
 	
 	@SuppressWarnings("unchecked")
 	@Test

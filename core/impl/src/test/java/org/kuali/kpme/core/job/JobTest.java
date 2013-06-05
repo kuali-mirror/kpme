@@ -25,7 +25,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.paytype.PayType;
@@ -38,7 +38,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
  *
  *
  */
-public class JobTest extends KPMETestCase {
+public class JobTest extends KPMEUnitTestCase {
 
 	private static final String CALENDAR_GROUP = "BWN-CAL";
 	private static Long jobId = 23L;//id entered in the bootstrap SQL

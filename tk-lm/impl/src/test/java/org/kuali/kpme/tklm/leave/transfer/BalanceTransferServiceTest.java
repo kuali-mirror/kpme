@@ -25,7 +25,7 @@ import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
@@ -35,7 +35,7 @@ import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class BalanceTransferServiceTest extends KPMETestCase {
+public class BalanceTransferServiceTest extends KPMEUnitTestCase {
 
 	/**
 	 * Leave Calendar Document Test data

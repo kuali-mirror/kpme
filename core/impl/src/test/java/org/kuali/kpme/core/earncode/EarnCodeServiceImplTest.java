@@ -18,11 +18,11 @@ package org.kuali.kpme.core.earncode;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.earncode.service.EarnCodeService;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
-public class EarnCodeServiceImplTest extends KPMETestCase {
+public class EarnCodeServiceImplTest extends KPMEUnitTestCase {
 
 
 	public static final String TEST_USER = "admin";

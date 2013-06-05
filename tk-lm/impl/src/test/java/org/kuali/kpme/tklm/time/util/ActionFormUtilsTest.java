@@ -23,7 +23,7 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
@@ -32,7 +32,7 @@ import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.utils.TkTestUtils;
 
-public class ActionFormUtilsTest extends KPMETestCase {
+public class ActionFormUtilsTest extends KPMEUnitTestCase {
 	
 	@Test
 	public void testBuildAssignmentStyleClassMap() {

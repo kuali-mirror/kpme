@@ -29,6 +29,7 @@ import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.util.HrTestConstants;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 //import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -73,7 +74,7 @@ public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
 		KRADServiceLocator.getBusinessObjectService().save(earnCode);	
 		hrEarnCodeId = earnCode.getHrEarnCodeId();
 		
-/*		TimeBlock timeBlock = new TimeBlock();
+		TimeBlock timeBlock = new TimeBlock();
 		timeBlock.setAmount(BigDecimal.ONE);
 		timeBlock.setAssignmentKey("somedesc");
 		timeBlock.setJobNumber(new Long(30));
@@ -92,7 +93,7 @@ public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
 		timeBlock.setDocumentId("10039");
 
 		KRADServiceLocator.getBusinessObjectService().save(timeBlock);
-		timeBlockId = timeBlock.getTkTimeBlockId();*/
+		timeBlockId = timeBlock.getTkTimeBlockId();
 	}
 
 	@Override
@@ -202,7 +203,6 @@ public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
         Assert.assertTrue("Maintenance Page does not return warning about active timeblock existence.", finalPage.asText().contains("Can not inactivate earn code 'RGN'. It is used in active time blocks"));
 	}
 	
-	@Ignore
 	@Test
 	public void testDeactivateEarnCodeWithInActiveTimeBlock() throws Exception {
 		

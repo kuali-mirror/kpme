@@ -16,9 +16,9 @@
 package org.kuali.kpme.core.salarygroup;
 
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 
-public class SalaryGroupTest extends KPMETestCase {
+public class SalaryGroupTest extends KPMEUnitTestCase {
 	
 	@Test
 	public void testSalGroupMaintenancePage() throws Exception{	

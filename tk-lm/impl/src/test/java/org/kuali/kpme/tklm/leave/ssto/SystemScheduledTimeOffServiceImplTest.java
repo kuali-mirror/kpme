@@ -19,11 +19,11 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 
-public class SystemScheduledTimeOffServiceImplTest extends KPMETestCase {
+public class SystemScheduledTimeOffServiceImplTest extends KPMEUnitTestCase {
 	
 	@Test
 	public void testSearchSystemScheduledTimeOffs() throws Exception {

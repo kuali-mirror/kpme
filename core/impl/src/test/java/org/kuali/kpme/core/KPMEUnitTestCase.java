@@ -23,12 +23,14 @@ import org.apache.log4j.Logger;
 import org.kuali.kpme.core.rice.test.lifecycles.KPMEXmlDataLoaderLifecycle;
 import org.kuali.kpme.core.util.ClearDatabaseLifecycle;
 import org.kuali.kpme.core.util.DatabaseCleanupDataLifecycle;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.LoadDatabaseDataLifeCycle;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
 import org.kuali.rice.core.impl.services.CoreImplServiceLocator;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.test.RiceInternalSuiteDataTestCase;
@@ -36,19 +38,14 @@ import org.kuali.rice.test.TestHarnessServiceLocator;
 import org.kuali.rice.test.TransactionalLifecycle;
 import org.springframework.cache.CacheManager;
 
-import com.gargoylesoftware.htmlunit.WebClient;
-
 /**
  *  Default test base for a full KPME unit test.
  */
-public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
+public abstract class KPMEUnitTestCase extends RiceInternalSuiteDataTestCase {
 
 	private static final String FILE_PREFIX = System.getProperty("user.dir") + "/../../db/src/main/config/workflow/";
 
-	private static final String RELATIVE_WEBAPP_ROOT = "/../../web/src/main/webapp";
-	
 	private TransactionalLifecycle transactionalLifecycle;
-    private WebClient webClient;
 	
 	@Override
 	protected String getModuleName() {
@@ -76,11 +73,8 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	
 		new LoadDatabaseDataLifeCycle(this.getClass()).start();
 	
-	    //lets try to create a user session
-/*	    GlobalVariables.setUserSession(new UserSession("admin"));
-        setWebClient(new WebClient(BrowserVersion.FIREFOX_17));
-        getWebClient().getOptions().setJavaScriptEnabled(true);
-        getWebClient().getOptions().setTimeout(0);*/
+	    GlobalVariables.setUserSession(new UserSession("admin"));
+
 	}
 	
 	@Override
@@ -88,8 +82,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	    // runs custom SQL at the end of each test.
 	    // useful for difficult to reset test additions, not handled by
 	    // our ClearDatabaseLifecycle.
-        //HrContext.clearTargetUser();
-        //getWebClient().closeAllWindows();
+		HrContext.clearTargetUser();
 	    new DatabaseCleanupDataLifecycle(this.getClass()).start();
 
 		final boolean needsSpring = true;
@@ -150,25 +143,6 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	        }
 	    });
 	
-/*	    lifecycles.add(new Lifecycle() {
-			private JettyServerLifecycle jettyServerLifecycle;
-	
-			public boolean isStarted() {
-				return jettyServerLifecycle.isStarted();
-			}
-	
-			public void start() throws Exception {
-	            System.setProperty("web.bootstrap.spring.file", "classpath:TestHarnessSpringBeans.xml");
-	            jettyServerLifecycle = new JettyServerLifecycle(getPort(), getContext(), RELATIVE_WEBAPP_ROOT);
-	            jettyServerLifecycle.setConfigMode(ConfigMode.OVERRIDE);
-				jettyServerLifecycle.start();
-			}
-	
-			public void stop() throws Exception {
-				this.jettyServerLifecycle.stop();
-			}
-		});*/
-	
 	    ClearDatabaseLifecycle clearDatabaseLifecycle = new ClearDatabaseLifecycle();
 	    clearDatabaseLifecycle.getAlternativeTablesToClear().add("KREW_RULE_T");
 	    clearDatabaseLifecycle.getAlternativeTablesToClear().add("KREW_RULE_RSP_T");
@@ -189,33 +163,6 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 		return lifecycles;
 	}
 
-/*	public void futureEffectiveDateValidation(String baseUrl) throws Exception {
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
-	  	Assert.assertNotNull(page);
-	
-	  	HtmlForm form = page.getFormByName("KualiForm");
-	  	Assert.assertNotNull("Search form was missing from page.", form);
-	  	// use past dates
-	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2011");
-	    HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
-	    Assert.assertNotNull("Could not locate submit button", input);
-	  	page = ((HtmlButtonInput)page.getElementByName("methodToCall.route")).click();
-	  	Assert.assertTrue("page text does not contain:\n" + HrTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(HrTestConstants.EFFECTIVE_DATE_ERROR));
-	  	LocalDate futureDate = LocalDate.now().plusYears(2); // 2 years in the future
-	  	String futureDateString = "01/01/" + Integer.toString(futureDate.getYear());
-	  	
-	  	// use dates 2 years in the future
-	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", futureDateString);
-	  	page = ((HtmlButtonInput)page.getElementByName("methodToCall.route")).click();
-	  	Assert.assertTrue("page text does not contain:\n" + HrTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(HrTestConstants.EFFECTIVE_DATE_ERROR));
-	  	LocalDate validDate = LocalDate.now().plusMonths(5); // 5 month in the future
-	  	String validDateString = Integer.toString(validDate.getMonthOfYear()) + '/' + Integer.toString(validDate.getDayOfMonth()) 
-	  		+ '/' + Integer.toString(validDate.getYear());
-	  	setFieldValue(page, "document.newMaintainableObject.effectiveDate", validDateString);
-	  	page = ((HtmlElement)page.getElementByName("methodToCall.route")).click();
-	  	Assert.assertFalse("page text contains:\n" + HrTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(HrTestConstants.EFFECTIVE_DATE_ERROR));
-	}
-*/
     public class ClearCacheLifecycle extends BaseLifecycle {
         private final Logger LOG = Logger.getLogger(ClearCacheLifecycle.class);
 
@@ -239,14 +186,6 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
             super.stop();
         }
 
-    }
-
-    public WebClient getWebClient() {
-        return this.webClient;
-    }
-
-    public void setWebClient(WebClient webClient) {
-        this.webClient = webClient;
     }
     
     public static String getBaseURL() {

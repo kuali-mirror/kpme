@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.rule.overtime.daily;
+package org.kuali.hr.time.overtime.daily.rule.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
@@ -35,7 +35,7 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.kpme.tklm.utils.TkTestUtils;
 
-public class DailyOvertimeRuleServiceTest extends KPMETestCase {
+public class DailyOvertimeRuleServiceTest extends KPMEWebTestCase {
 
 	public static final String USER_PRINCIPAL_ID = "admin";
 	private DateTime JAN_AS_OF_DATE = new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());

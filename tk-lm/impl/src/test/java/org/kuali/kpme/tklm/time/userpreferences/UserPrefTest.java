@@ -22,12 +22,12 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.user.pref.UserPreferences;
 
-public class UserPrefTest extends KPMETestCase{
+public class UserPrefTest extends KPMEUnitTestCase{
 	@Test
 	public void testUserPrefFetch() throws Exception{
 		UserPreferences userPref = TkServiceLocator.getUserPreferenceService().getUserPreferences("admin");

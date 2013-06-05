@@ -22,13 +22,13 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.rules.graceperiod.GracePeriodRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-public class GracePeriodRuleServiceTest extends KPMETestCase{
+public class GracePeriodRuleServiceTest extends KPMEUnitTestCase{
 
 	@Test
 	public void testGracePeriodRuleFetch() throws Exception{

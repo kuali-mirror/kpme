@@ -19,10 +19,10 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
-public class DepartmentServiceImplTest extends KPMETestCase {
+public class DepartmentServiceImplTest extends KPMEUnitTestCase {
 	
 	@Test
 	public void testSearchDepartments() throws Exception {

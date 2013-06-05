@@ -18,13 +18,13 @@ package org.kuali.kpme.tklm.time.rule.collection;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-public class TimeCollectionRuleTest extends KPMETestCase{
+public class TimeCollectionRuleTest extends KPMEUnitTestCase{
 
 	@Test
 	public void testTimeCollectionRuleFetch() throws Exception{

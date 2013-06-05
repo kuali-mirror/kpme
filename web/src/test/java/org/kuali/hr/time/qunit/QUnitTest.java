@@ -24,9 +24,8 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
-import org.kuali.kpme.core.KPMETestCase;
-
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -36,7 +35,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 
 @Ignore
-public class QUnitTest extends KPMETestCase {
+public class QUnitTest extends KPMEWebTestCase {
 
 	private static final Logger LOG = Logger.getLogger(QUnitTest.class);
 	private List<String> failures;

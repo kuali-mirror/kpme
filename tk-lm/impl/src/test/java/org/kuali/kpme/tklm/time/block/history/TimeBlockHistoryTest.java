@@ -22,7 +22,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -31,7 +31,7 @@ import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.utils.TkTestUtils;
 
-public class TimeBlockHistoryTest extends KPMETestCase {
+public class TimeBlockHistoryTest extends KPMEUnitTestCase {
 
     private static DateTime DEFAULT_EFFDT =new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
     private static DateTime beginDateTime = new DateTime(2010, 1, 1, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone());

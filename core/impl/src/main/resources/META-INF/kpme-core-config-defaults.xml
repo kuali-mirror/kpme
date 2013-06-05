@@ -18,6 +18,9 @@
 <!-- This config should not reference other config locations.  It should only contain properties that are specific to KPME or are different from the Rice defaults. -->
 <config>
 	
+	<param name="kpme.module.name">CORE</param>
+	
+	
 	<!-- KPME Defaults -->
 	<param name="module.name">kpme</param>
     <param name="app.code">${module.name}</param>

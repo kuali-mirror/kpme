@@ -19,11 +19,11 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
 
-public class WorkAreaServiceImplTest extends KPMETestCase {
+public class WorkAreaServiceImplTest extends KPMEUnitTestCase {
 	
 	@Test
 	public void testSearchWorkAreas() throws Exception {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.rule.differential;
+package org.kuali.hr.time.shiftdiff.rule;
 
 import java.math.BigDecimal;
 import java.sql.Time;
@@ -27,7 +27,7 @@ import org.joda.time.LocalTime;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -46,7 +46,7 @@ import org.kuali.kpme.tklm.utils.TkTestUtils;
  * @author djunk
  *
  */
-public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
+public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 
 
 	public static final String USER_PRINCIPAL_ID = "admin";

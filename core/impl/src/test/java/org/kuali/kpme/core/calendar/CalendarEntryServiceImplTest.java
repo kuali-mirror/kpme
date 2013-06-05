@@ -23,13 +23,13 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.entry.service.CalendarEntryService;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 
-public class CalendarEntryServiceImplTest extends KPMETestCase {
+public class CalendarEntryServiceImplTest extends KPMEUnitTestCase {
 	private CalendarEntryService ceService;
 	@Before
 	public void setUp() throws Exception{

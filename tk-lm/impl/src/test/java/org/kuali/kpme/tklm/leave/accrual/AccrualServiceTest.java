@@ -22,7 +22,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMETestCase;
+import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.LMConstants;
@@ -30,7 +30,7 @@ import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
-public class AccrualServiceTest extends KPMETestCase {
+public class AccrualServiceTest extends KPMEUnitTestCase {
 	 DateTime START_DATE = new DateTime(2012, 2, 20, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	 DateTime END_DATE = new DateTime(2012, 5, 3, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	

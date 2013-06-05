@@ -17,6 +17,8 @@
 -->
 <config>
 
+	<param name="kpme.module.name" override="true">TKLM</param>
+
     <param name="kpme.tklm.ehcache.config.location" override="false">classpath:kpme.tklm.ehcache.xml</param>
 
     <!-- KPME Batch Processing -->
