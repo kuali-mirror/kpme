@@ -54,6 +54,8 @@ import org.kuali.kpme.tklm.time.timesummary.EarnGroupSection;
 import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 
+import com.google.common.collect.Lists;
+
 public class TimeApprovalWSAction extends KPMEAction {
 
     /**
@@ -141,7 +143,10 @@ public class TimeApprovalWSAction extends KPMEAction {
 				}
 			}
 		}
-	 	 	
+	 	
+		//reverse sections for javascripts $parent.after (always inserting directly after parent element, which reverses order)
+
+		ts.setSections(Lists.reverse(ts.getSections()));
         taaf.setOutputString(ts.toJsonString());
         return mapping.findForward("ws");
     }

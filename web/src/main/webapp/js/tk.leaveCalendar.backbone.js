@@ -208,11 +208,8 @@ $(function () {
                 },
                 buttons : {
                     "Add" : function () {
-                        /**
-                         * In case we have more needs to auto-adjust user's input, we should consider moving them to a separate method.
-                         */
-                        if (!_.isEmpty($("#endTime").val())) {
-                            // If the end time is 12:00 am, change the end date to the next day
+                       // If the end time is 12:00 am, change the end date to the next day if it has not already been done
+                        if (!_.isEmpty($("#startDate").val()) && !_.isEmpty($("#endDate").val()) && !_.isEmpty($("#endTime").val())) {
                             var midnight = Date.parse($('#endDate').val()).set({
                                 hour : 0,
                                 minute : 0,
@@ -220,14 +217,16 @@ $(function () {
                                 millisecond : 0
                             });
 
-                            // Parse the date by the format like 1/2/2011 8:0
+                            var startDate = Date.parse($('#startDate').val());
+                            var endDate = Date.parse($('#endDate').val());
                             var endDateTime = Date.parse($('#endDate').val() + " " + $('#endTime').val());
-
+                            
                             // Compare and see if the end time is at midnight
-                            if (Date.compare(midnight, endDateTime) == 0) {
+                            if (Date.compare(startDate, endDate) == 0 && Date.compare(midnight, endDateTime) == 0) {
                                 $('#endDate').val(endDateTime.add(1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
                             }
                         }
+                        
                         var isValid = true;
                         $('#acrossDays').val($('#acrossDays').is(':checked') ? 'y' : 'n');
                         $('#spanningWeeks').val($('#spanningWeeks').is(':checked') ? 'y' : 'n');  // KPME-1446

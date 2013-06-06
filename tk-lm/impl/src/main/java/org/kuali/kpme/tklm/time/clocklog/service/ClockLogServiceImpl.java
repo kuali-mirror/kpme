@@ -50,18 +50,21 @@ public class ClockLogServiceImpl implements ClockLogService {
     }
 
     @Override
-    public ClockLog processClockLog(DateTime clockDateTime, Assignment assignment,CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, String principalId) {
-        return processClockLog(clockDateTime, assignment, pe, ip, asOfDate, td, clockAction, principalId, HrContext.getPrincipalId());
+    public ClockLog processClockLog(DateTime clockDateTime, Assignment assignment,CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId) {
+        return processClockLog(clockDateTime, assignment, pe, ip, asOfDate, td, clockAction, runRules, principalId, HrContext.getPrincipalId());
     }
 
     @Override
-    public ClockLog processClockLog(DateTime clockDateTime, Assignment assignment,CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId) {
+    public ClockLog processClockLog(DateTime clockDateTime, Assignment assignment,CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId, String userPrincipalId) {
         // process rules
         DateTime roundedClockDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockDateTime, pe.getBeginPeriodFullDateTime().toLocalDate());
 
         ClockLog clockLog = buildClockLog(roundedClockDateTime, new Timestamp(System.currentTimeMillis()), assignment, td, clockAction, ip, userPrincipalId);
-        TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, asOfDate);
-
+        
+        if (runRules) {
+        	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, asOfDate);
+        }
+        
         // If the clock action is clock out or lunch out, create a time block besides the clock log
         if (StringUtils.equals(clockAction, TkConstants.CLOCK_OUT) || StringUtils.equals(clockAction, TkConstants.LUNCH_OUT)) {
             processTimeBlock(clockLog, assignment, pe, td, clockAction, principalId, userPrincipalId);
@@ -111,7 +114,7 @@ public class ClockLogServiceImpl implements ClockLogService {
         newTimeBlocks.addAll(aList);
 
         //reset time block
-        TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks);
+        TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks, td.getAsOfDate());
 
         //apply any rules for this action
         TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.CLOCK_OUT, newTimeBlocks, pe, td, principalId);

@@ -296,18 +296,38 @@ public class TimesheetServiceImpl implements TimesheetService {
         TkServiceLocator.getTimesheetDocumentHeaderService().deleteTimesheetHeader(documentId);
     }
 
-    public TimeBlock resetWorkedHours(TimeBlock timeBlock) {
+    public TimeBlock resetWorkedHours(TimeBlock timeBlock, LocalDate asOfDate) {
+    	EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), asOfDate);
+    	
         if (timeBlock.getBeginTime() != null && timeBlock.getEndTime() != null && StringUtils.equals(timeBlock.getEarnCodeType(), HrConstants.EARN_CODE_TIME)) {
             BigDecimal hours = TKUtils.getHoursBetween(timeBlock.getBeginTime().getTime(), timeBlock.getEndTime().getTime());
+
+            //If earn code has an inflate min hours check if it is greater than zero
+            //and compare if the hours specified is less than min hours awarded for this
+            //earn code
+            if (earnCodeObj.getInflateMinHours() != null) {
+            	if ((earnCodeObj.getInflateMinHours().compareTo(BigDecimal.ZERO) != 0) &&
+            			earnCodeObj.getInflateMinHours().compareTo(hours) > 0) {
+            		hours = earnCodeObj.getInflateMinHours();
+            	}
+            }
+            //If earn code has an inflate factor multiple hours specified by the factor
+            if (earnCodeObj.getInflateFactor() != null) {
+            	if ((earnCodeObj.getInflateFactor().compareTo(new BigDecimal(1.0)) != 0)
+            			&& (earnCodeObj.getInflateFactor().compareTo(BigDecimal.ZERO)!= 0) ) {
+            		hours = earnCodeObj.getInflateFactor().multiply(hours, HrConstants.MATH_CONTEXT).setScale(HrConstants.BIG_DECIMAL_SCALE);
+            	}
+            }
+            
             timeBlock.setHours(hours);
         }
         return timeBlock;
     }
 
     @Override
-    public void resetTimeBlock(List<TimeBlock> timeBlocks) {
+    public void resetTimeBlock(List<TimeBlock> timeBlocks, LocalDate asOfDate) {
         for (TimeBlock tb : timeBlocks) {
-            resetWorkedHours(tb);
+            resetWorkedHours(tb, asOfDate);
         }
         TkServiceLocator.getTimeBlockService().resetTimeHourDetail(timeBlocks);
     }
@@ -378,8 +398,6 @@ public class TimesheetServiceImpl implements TimesheetService {
         } else {
             //  if you are a clock user and this is your timesheet and you are processing the reg earn code, do not add this earn code. Use the clock in/out mechanism.
         	if (!isClockUser || !isUsersTimesheet) {
-                // do not add reg earn code. use clock.
-            } else {
                 earnCodes.add(regularEarnCode);
             }
         }

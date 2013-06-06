@@ -82,7 +82,7 @@ public class TkMobileServiceImpl implements TkMobileService {
         // processClockLog is the correct method to use. It creates and persists a clock log and a time block if necessary.
         // buildClockLog just creates a clock log object.
         TkServiceLocator.getClockLogService().processClockLog(new DateTime(), assignment, td.getCalendarEntry(), ipAddress,
-                LocalDate.now(), td, getCurrentClockAction(), principalId);
+                LocalDate.now(), td, getCurrentClockAction(), true, principalId);
 
         // TODO: not sure what we want to return for the errorWarningMap
 

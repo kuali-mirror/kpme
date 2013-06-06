@@ -83,6 +83,10 @@ public class AssignmentRow implements Serializable {
 	public void setAssignmentColumns(List<AssignmentColumn> assignmentColumns) {
 		this.assignmentColumns = assignmentColumns;
 	}
+	
+	public void addAssignmentColumn(AssignmentColumn assignmentColumn) {
+		this.assignmentColumns.add(assignmentColumn);
+	}
 
 	public void addToAmount(int index, BigDecimal amount) {
 		if (amount != null) {

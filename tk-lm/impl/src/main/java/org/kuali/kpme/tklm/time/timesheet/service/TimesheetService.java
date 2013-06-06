@@ -81,7 +81,7 @@ public interface TimesheetService {
 	 */
 	public void deleteTimesheet(String documentId);
 	
-	public void resetTimeBlock(List<TimeBlock> timeBlock);
+	public void resetTimeBlock(List<TimeBlock> timeBlock, LocalDate asOfDate);
 
     void approveTimesheet(String principalId, TimesheetDocument timesheetDocument, String action);
 

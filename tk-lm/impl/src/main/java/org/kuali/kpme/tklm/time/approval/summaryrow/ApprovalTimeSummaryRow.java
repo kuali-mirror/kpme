@@ -31,6 +31,7 @@ import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
@@ -164,26 +165,28 @@ public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow
      * @return true if a valid TK_APPROVER / TK_PROCESSOR can approve, false otherwise.
      */
     public boolean isApprovable() {
-    	boolean isEnroute =  StringUtils.equals(getApprovalStatus(), "ENROUTE") ;
+    	boolean isApprovable = false;
 
-        if(isEnroute){
-        
-        	TimesheetDocument doc = TkServiceLocator.getTimesheetService().getTimesheetDocument(this.documentId);
-        	//is there a pending bt doc?
-        	if (!TkServiceLocator.getTimesheetService().isReadyToApprove(doc)) {
-        		return false;
-        	}
-        	
-        	DocumentRouteHeaderValue routeHeader = TkServiceLocator.getTimeApproveService().getRouteHeader(this.getDocumentId());
-        	boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(HrContext.getPrincipalId(), routeHeader, new SecuritySession(HrContext.getPrincipalId()));
-        	if(authorized){
-        		List<String> principalsToApprove = KEWServiceLocator.getActionRequestService().getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId(KewApiConstants.ACTION_REQUEST_APPROVE_REQ, this.getDocumentId());
-        		if(!principalsToApprove.isEmpty() && principalsToApprove.contains(HrContext.getPrincipalId())){
-            		return true;
-            	}
-        	}
-        }
-        return false;
+    	if (DocumentStatus.ENROUTE.equals(getApprovalStatus())) {
+    		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(getDocumentId());
+    		if (timesheetDocument != null) {
+    			String timesheetPrincipalId = timesheetDocument.getPrincipalId();
+    			String approverPrincipalId = HrContext.getPrincipalId();
+
+    			if (!StringUtils.equals(timesheetPrincipalId, approverPrincipalId) && TkServiceLocator.getTimesheetService().isReadyToApprove(timesheetDocument)) {
+    				DocumentRouteHeaderValue routeHeader = TkServiceLocator.getTimeApproveService().getRouteHeader(getDocumentId());
+    				boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(approverPrincipalId, routeHeader, new SecuritySession(approverPrincipalId));
+    				if (authorized) {
+    					List<String> approverPrincipalIds = KEWServiceLocator.getActionRequestService().getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId(KewApiConstants.ACTION_REQUEST_APPROVE_REQ, getDocumentId());
+    					if (approverPrincipalIds.contains(approverPrincipalId)) {
+    						isApprovable = true;
+    					}
+    				}
+    			}
+    		}
+    	}
+    	
+        return isApprovable;
     }
 
     /**

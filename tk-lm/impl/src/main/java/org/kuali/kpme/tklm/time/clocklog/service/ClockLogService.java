@@ -69,7 +69,7 @@ public interface ClockLogService {
 	 * @param principalId
 	 * @return
 	 */
-    ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, String principalId);
+    ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId);
     
     /**
      * Fetch clock log by id
@@ -78,7 +78,7 @@ public interface ClockLogService {
      */
     public ClockLog getClockLog(String tkClockLogId);
 
-    ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId);
+    ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId, String userPrincipalId);
     
     public void deleteClockLogsForDocumentId(String documentId);
     

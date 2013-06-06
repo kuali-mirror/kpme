@@ -36,51 +36,54 @@
 						</tr>
 						<c:forEach items="${earnCodeSection.assignmentsRows}" var="assignmentRow">
                             <c:set var="periodTotal" value="${assignmentRow.assignmentColumns[fn:length(assignmentRow.assignmentColumns) - 1].total}"/>
-                            <c:if test="${periodTotal ne '0.00' and periodTotal != 0}">
-                                <tr style="border-bottom-style: double; font-weight: bold;">
-                                    <td class="${assignmentRow.cssClass}">${assignmentRow.descr}</td>
-                                        <c:choose>
-                                            <c:when test="${earnCodeSection.isAmountEarnCode}">
-                                                <c:forEach items="${assignmentRow.assignmentColumns}" var="assignmentColumn">
+                            <c:choose>
+                                <c:when test="${earnCodeSection.isAmountEarnCode}">
+                                    <tr style="border-bottom-style: double; font-weight: bold;">
+                                        <td class="${assignmentRow.cssClass}">${assignmentRow.descr}</td>
+                                        <c:forEach items="${assignmentRow.assignmentColumns}" var="assignmentColumn">
+                                            <c:choose>
+                                                <c:when test="${assignmentColumn.amount ne '0.00' and assignmentColumn.amount != 0}">
                                                     <c:choose>
-                                                        <c:when test="${assignmentColumn.amount ne '0.00' and assignmentColumn.amount != 0}">
-                                                            <c:choose>
-                                                                <c:when test="${assignmentColumn.weeklyTotal}">
-                                                                    <td class="${assignmentColumn.cssClass}">${assignmentColumn.amount}</td>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <td>${assignmentColumn.amount}</td>
-                                                                </c:otherwise>
-                                                            </c:choose>
+                                                        <c:when test="${assignmentColumn.weeklyTotal}">
+                                                            <td class="${assignmentColumn.cssClass}">${assignmentColumn.amount}</td>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <td/>
+                                                            <td>${assignmentColumn.amount}</td>
                                                         </c:otherwise>
-                                                    </c:choose>                            
-                                                </c:forEach>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:forEach items="${assignmentRow.assignmentColumns}" var="assignmentColumn">
-                                                    <c:choose>
-                                                        <c:when test="${assignmentColumn.total ne '0.00' and assignmentColumn.total != 0}">
-                                                            <c:choose>
-                                                                <c:when test="${assignmentColumn.weeklyTotal}">
-                                                                    <td class="${assignmentColumn.cssClass}">${assignmentColumn.total}</td>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <td>${assignmentColumn.total}</td>
-                                                                </c:otherwise>
-                                                            </c:choose>
-                                                        </c:when>
+                                                    </c:choose>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td></td>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
+                                    </tr>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:if test="${periodTotal ne '0.00' and periodTotal != 0}">
+                                        <tr style="border-bottom-style: double; font-weight: bold;">
+                                            <td class="${assignmentRow.cssClass}">${assignmentRow.descr}</td>
+                                            <c:forEach items="${assignmentRow.assignmentColumns}" var="assignmentColumn">
+                                                <c:choose>
+                                                    <c:when test="${assignmentColumn.total ne '0.00' and assignmentColumn.total != 0}">
+                                                        <c:choose>
+                                                            <c:when test="${assignmentColumn.weeklyTotal}">
+                                                                <td class="${assignmentColumn.cssClass}">${assignmentColumn.total}</td>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <td>${assignmentColumn.total}</td>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:when>
                                                     <c:otherwise>
-                                                        <td/>
+                                                        <td></td>
                                                     </c:otherwise>
-                                                </c:choose>                            
+                                                </c:choose>
                                             </c:forEach>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </tr>
-                            </c:if>
+                                        </tr>
+                                    </c:if>
+                                </c:otherwise>
+                            </c:choose>
                         </c:forEach>
                     </c:forEach>
                     <tr>
@@ -92,8 +95,8 @@
                                 </c:when>
                                 <c:otherwise>
                                     <td/>
-                                </c:otherwise> 
-                            </c:choose>                        
+                                </c:otherwise>
+                            </c:choose>
                         </c:forEach>
                     </tr>
                 </c:forEach>

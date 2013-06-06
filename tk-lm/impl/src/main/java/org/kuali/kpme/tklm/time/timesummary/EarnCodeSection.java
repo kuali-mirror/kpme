@@ -48,10 +48,11 @@ public class EarnCodeSection implements Serializable {
 	}
 	
 	public void addAssignmentRow(AssignmentRow assignRow) {
-		for (int i = 0; i < assignRow.getAssignmentColumns().size() - 1; i++) {
-			AssignmentColumn assignmentColumn = assignRow.getAssignmentColumns().get(i);
+		int i = 0;
+			for (AssignmentColumn assignmentColumn : assignRow.getAssignmentColumns()) {
 			BigDecimal value = totals.get(i).add(assignmentColumn.getTotal(), HrConstants.MATH_CONTEXT);			
 			totals.set(i, value.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING));
+			i++;
 		}
 		assignKeyToAssignmentRowMap.put(assignRow.getAssignmentKey(), assignRow);
 		assignmentsRows.add(assignRow);

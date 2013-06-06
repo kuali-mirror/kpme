@@ -31,6 +31,7 @@ import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
@@ -59,31 +60,27 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
      * @return true if a valid TK_APPROVER / TK_PROCESSOR can approve, false otherwise.
      */
     public boolean isApprovable() {
-    	boolean isEnroute =  StringUtils.equals(getApprovalStatus(), "ENROUTE") ;
+    	boolean isApprovable = false;
 
-        if(isEnroute){
-            LeaveCalendarDocument doc = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(this.documentId);
-            //is there a pending bt doc?
-            if (doc == null || !LmServiceLocator.getLeaveCalendarService().isReadyToApprove(doc)) {
-                return false;
-            }
-        	DocumentRouteHeaderValue routeHeader = TkServiceLocator.getTimeApproveService().getRouteHeader(this.getDocumentId());
-//            // check if there are any pending calendars are there
-//        	LeaveCalendarDocumentHeader lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getMinBeginDatePendingLeaveCalendar(this.principalId);
-//            if (lcdh != null){             //if there were any pending document
-//                //check to see if it's before the current document. if it is, then this document is not approvable.
-//                if (LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(this.documentId).getBeginDate().compareTo(lcdh.getEndDate()) >= 0){
-//                    return false;
-//                }
-//            }
-            boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(HrContext.getPrincipalId(), routeHeader, new SecuritySession(HrContext.getPrincipalId()));
-        	if(authorized){
-        		List<String> principalsToApprove = KEWServiceLocator.getActionRequestService().getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId(KewApiConstants.ACTION_REQUEST_APPROVE_REQ, this.getDocumentId());
-        		if(!principalsToApprove.isEmpty() && principalsToApprove.contains(HrContext.getPrincipalId())){
-            		return true;
-            	}
-        	}
-        }
+    	if (DocumentStatus.ENROUTE.equals(getApprovalStatus())) {
+    		LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(getDocumentId());
+    		if (leaveCalendarDocument != null) {
+    			String leaveCalendarPrincipalId = leaveCalendarDocument.getPrincipalId();
+    			String approverPrincipalId = HrContext.getPrincipalId();
+
+    			if (!StringUtils.equals(leaveCalendarPrincipalId, approverPrincipalId) && LmServiceLocator.getLeaveCalendarService().isReadyToApprove(leaveCalendarDocument)) {
+    				DocumentRouteHeaderValue routeHeader = TkServiceLocator.getTimeApproveService().getRouteHeader(getDocumentId());
+    				boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(approverPrincipalId, routeHeader, new SecuritySession(approverPrincipalId));
+    				if (authorized) {
+    					List<String> approverPrincipalIds = KEWServiceLocator.getActionRequestService().getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId(KewApiConstants.ACTION_REQUEST_APPROVE_REQ, getDocumentId());
+    					if (approverPrincipalIds.contains(approverPrincipalId)) {
+    						isApprovable = true;
+    					}
+    				}
+    			}
+    		}
+    	}
+	 	 	 	
         return false;
     }
 	

@@ -99,8 +99,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         String clockAction = missedPunch.getClockAction();
         String principalId = timesheetDocument.getPrincipalId();
         
-        ClockLog clockLog = getClockLogService().processClockLog(clockLogDateTime, assignment, calendarEntry, ipAddress, LocalDate.now(), timesheetDocument, 
-        		clockAction, principalId);
+        ClockLog clockLog = getClockLogService().processClockLog(clockLogDateTime, assignment, calendarEntry, ipAddress, LocalDate.now(), timesheetDocument, clockAction, false, principalId);
 
         clockLog = TkServiceLocator.getClockLogService().saveClockLog(clockLog);
         missedPunch.setActionFullDateTime(clockLog.getClockDateTime());
@@ -157,8 +156,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         String clockAction = missedPunch.getClockAction();
         String principalId = timesheetDocument.getPrincipalId();
         
-        ClockLog clockLog = getClockLogService().processClockLog(clockLogDateTime, assignment, calendarEntry, ipAddress, LocalDate.now(), timesheetDocument, 
-        		clockAction, principalId);
+        ClockLog clockLog = getClockLogService().processClockLog(clockLogDateTime, assignment, calendarEntry, ipAddress, LocalDate.now(), timesheetDocument, clockAction, false, principalId);
         
         getClockLogService().saveClockLog(clockLog);
         missedPunch.setActionFullDateTime(clockLog.getClockDateTime());
@@ -228,7 +226,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         newTimeBlocks.addAll(blocks);
 
         //reset time block
-        getTimesheetService().resetTimeBlock(newTimeBlocks);
+        getTimesheetService().resetTimeBlock(newTimeBlocks, tdoc.getAsOfDate());
         //apply any rules for this action
         getTkRuleControllerService().applyRules(
                 TkConstants.ACTIONS.CLOCK_OUT, newTimeBlocks,

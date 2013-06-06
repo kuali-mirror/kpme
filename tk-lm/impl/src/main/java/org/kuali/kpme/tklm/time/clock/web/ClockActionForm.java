@@ -293,65 +293,43 @@ public class ClockActionForm extends TimesheetActionForm {
 	}
 
 	public void findTimeBlocksToDistribute() {
-		 String pId = this.getPrincipalId();
-		 if(pId != null) {
-			 TimesheetDocument td = this.getTimesheetDocument();
-			 if(td != null && !td.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL)) {
-				 List<TimeBlock> tbList = new ArrayList<TimeBlock>();
-				 if(td != null) {
-					 for(TimeBlock tbTemp : td.getTimeBlocks()) {
-						 if(tbTemp.getClockLogCreated()) {
-							 tbList.add(tbTemp);
-						 }
-					 }
-				 }
-				 List<Assignment> assignmentList = HrServiceLocator.getAssignmentService().getAssignments(pId, null);
-				 List<String> aList = new ArrayList<String>();
-				 Map<String, List<TimeBlock>> tbMap = new HashMap<String, List<TimeBlock>>();
-				 Map<String, String> map2 = new HashMap<String, String>();
-				 LinkedHashMap<String, String> desMap = new LinkedHashMap<String, String>();  // for populating assignment dropdown list when click Edit button
+		if (getTimesheetDocument() != null && !HrConstants.ROUTE_STATUS.FINAL.equals(getTimesheetDocument().getDocumentHeader().getDocumentStatus())) {
+			LinkedHashMap<String, String> desList = new LinkedHashMap<String, String>();
+			List<String> distributeAssignList = new ArrayList<String>();
+			for (Assignment assignment : getTimesheetDocument().getAssignments()) {
+				TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveLocalDate());
+				if (rule != null && rule.isHrsDistributionF() && rule.isClockUserFl()) {
+					desList.put(assignment.getTkAssignmentId().toString(), assignment.getAssignmentDescription());
+					distributeAssignList.add(assignment.getAssignmentDescription()+ "=" + assignment.getTkAssignmentId().toString());
+				}
+			}
+			setDesList(desList);
+			setDistributeAssignList(distributeAssignList);
 
-				 for(Assignment assignment : assignmentList) {
-					TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveLocalDate());
-					if(rule != null && rule.isHrsDistributionF() && rule.isClockUserFl()) {
-						aList.add(assignment.getAssignmentDescription()+ "=" + assignment.getTkAssignmentId().toString());
-						desMap.put(assignment.getTkAssignmentId().toString(), assignment.getAssignmentDescription());
-
-						for(TimeBlock tb: tbList){
-							if(assignment.getWorkArea().equals(tb.getWorkArea())) {
-								List<TimeBlock> tempList = tbMap.get(assignment.getAssignmentDescription());
-								if(tempList == null) {
-									tempList = new ArrayList<TimeBlock>();
-								}
-								tempList.add(tb);
-								Collections.sort(tempList);
-								tbMap.put(assignment.getAssignmentDescription(), tempList);
-								map2.put(assignment.getAssignmentDescription(),assignment.getTkAssignmentId().toString() );
+			Map<String, List<TimeBlock>> timeBlocksMap = new HashMap<String, List<TimeBlock>>();
+			for (TimeBlock timeBlock : getTimesheetDocument().getTimeBlocks()) {
+				if (timeBlock.getClockLogCreated()) {
+					Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(AssignmentDescriptionKey.get(timeBlock.getAssignmentKey()), getTimesheetDocument().getAsOfDate());
+					if (assignment != null) {
+						TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveLocalDate());
+						if (rule != null && rule.isHrsDistributionF() && rule.isClockUserFl()) {
+							List<TimeBlock> timeBlockList = timeBlocksMap.get(assignment.getAssignmentDescription());
+							if (timeBlockList == null) {
+								timeBlockList = new ArrayList<TimeBlock>();
 							}
+							timeBlockList.add(timeBlock);
+							Collections.sort(timeBlockList);
+							timeBlocksMap.put(assignment.getAssignmentDescription(), timeBlockList);	
 						}
 					}
-				 }
-
-				 this.setTimeBlocksMap(tbMap);
-				 this.setDesList(desMap);
-
-				 List<String> list1= new ArrayList<String>();
-				 for(String aString : tbMap.keySet()) {
-					 list1.add(aString);
-				 }
-
-				 //remove duplicate
-				 HashSet h = new HashSet(aList);
-				 aList.clear();
-				 aList.addAll(h);
-				 Collections.sort(aList);
-				 this.setAssignDescriptionsList(list1);
-				 this.setDistributeAssignList(aList);
-			 }
-		 }
-
+				}
+			}
+			
+			setTimeBlocksMap(timeBlocksMap);
+			setAssignDescriptionsList(new ArrayList<String>(timeBlocksMap.keySet()));
+		}
 	}
-
+					
 	public String getCurrentAssignmentKey() {
 		return currentAssignmentKey;
 	}
