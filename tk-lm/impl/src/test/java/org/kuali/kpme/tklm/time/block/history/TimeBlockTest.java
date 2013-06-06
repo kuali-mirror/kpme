@@ -24,15 +24,15 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.TKLMUnitTestCase;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 
-public class TimeBlockTest extends KPMEUnitTestCase {
+public class TimeBlockTest extends TKLMUnitTestCase {
 	
 	@Test
 	public void testTimeBlockComparison() throws Exception {

@@ -19,11 +19,11 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMEUnitTestCase;
+import org.kuali.kpme.tklm.TKLMUnitTestCase;
 import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 
-public class ClockLocationRuleServiceImplTest extends KPMEUnitTestCase {
+public class ClockLocationRuleServiceImplTest extends TKLMUnitTestCase {
 	
 	@Test
 	public void testSearchClockLocationRules() throws Exception {

@@ -77,7 +77,7 @@
     <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
         <property name="configLocations">
             <list>
-                <value>classpath:META-INF/kpme-test-config.xml</value>
+                <value>classpath:META-INF/pm-test-config.xml</value>
             </list>
         </property>
     </bean>

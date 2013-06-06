@@ -21,11 +21,11 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMEUnitTestCase;
+import org.kuali.kpme.core.CoreUnitTestCase;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 
-public class PrincipalHRAttributeServiceTest extends KPMEUnitTestCase {
+public class PrincipalHRAttributeServiceTest extends CoreUnitTestCase {
 	@Test
 	public void testGetPrincipalHrAtributes() {
 		List<PrincipalHRAttributes> phraList = new ArrayList<PrincipalHRAttributes>();

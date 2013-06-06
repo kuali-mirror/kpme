@@ -51,7 +51,6 @@
                            http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.1.xsd">
-                           
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{bootstrapConfig.getProperties()}" />
     </bean>
@@ -71,14 +70,10 @@
         <constructor-arg type="java.lang.String" value="core"/>
     </bean>
 
-    <bean id="tklmConfigurer" class="org.kuali.kpme.core.sys.KpmeModuleConfigurer">
-        <constructor-arg type="java.lang.String" value="tklm"/>
-    </bean>
-
     <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
         <property name="configLocations">
             <list>
-                <value>classpath:META-INF/kpme-test-config.xml</value>
+                <value>classpath:META-INF/core-test-config.xml</value>
             </list>
         </property>
     </bean>

@@ -17,6 +17,7 @@ package org.kuali.kpme.core;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -202,6 +203,11 @@ public abstract class KPMEUnitTestCase extends RiceInternalSuiteDataTestCase {
 
     public static Integer getPort() {
 	return new Integer(ConfigContext.getCurrentContextConfig().getProperty("kns.test.port"));
+    }
+    
+    @Override
+    protected List<String> getTestHarnessSpringBeansLocation() {
+    	return Collections.singletonList("classpath:"+getModuleName().toLowerCase()+"TestHarnessSpringBeans.xml");
     }
 
 }

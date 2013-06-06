@@ -21,10 +21,10 @@ import java.math.BigDecimal;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMEUnitTestCase;
+import org.kuali.kpme.tklm.TKLMUnitTestCase;
 
 
-public class BalanceTransferTest extends KPMEUnitTestCase {
+public class BalanceTransferTest extends TKLMUnitTestCase {
     private static final Logger LOG = Logger.getLogger(BalanceTransferTest.class);
     public static final String USER_PRINCIPAL_ID = "admin";
 	private BalanceTransfer balanceTransfer;

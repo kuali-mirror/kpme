@@ -21,12 +21,12 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMEUnitTestCase;
+import org.kuali.kpme.tklm.TKLMUnitTestCase;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.utils.TkTestUtils;
 
-public class TimeSummaryTest extends KPMEUnitTestCase {
+public class TimeSummaryTest extends TKLMUnitTestCase {
 
 	@Test
 	public void testTimeBlockTimeHourDetailBreakup() throws Exception{

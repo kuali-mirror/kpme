@@ -17,6 +17,7 @@ package org.kuali.hr;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -162,7 +163,7 @@ public abstract class KPMEWebTestCase extends RiceInternalSuiteDataTestCase {
 			}
 	
 			public void start() throws Exception {
-	            System.setProperty("web.bootstrap.spring.file", "classpath:WebTestHarnessSpringBeans.xml");
+	            System.setProperty("web.bootstrap.spring.file", "classpath:TestHarnessSpringBeans.xml");
 	            jettyServerLifecycle = new JettyServerLifecycle(getPort(), getContext(), RELATIVE_WEBAPP_ROOT);
 	            jettyServerLifecycle.setConfigMode(ConfigMode.OVERRIDE);
 				jettyServerLifecycle.start();

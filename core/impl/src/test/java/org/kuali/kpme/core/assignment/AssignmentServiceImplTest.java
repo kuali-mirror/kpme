@@ -22,13 +22,13 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMEUnitTestCase;
+import org.kuali.kpme.core.CoreUnitTestCase;
 import org.kuali.kpme.core.assignment.service.AssignmentService;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 
-public class AssignmentServiceImplTest extends KPMEUnitTestCase {
+public class AssignmentServiceImplTest extends CoreUnitTestCase {
 
 	private static final Logger LOG = Logger.getLogger(AssignmentServiceImplTest.class);
 	AssignmentService assignmentService = null;

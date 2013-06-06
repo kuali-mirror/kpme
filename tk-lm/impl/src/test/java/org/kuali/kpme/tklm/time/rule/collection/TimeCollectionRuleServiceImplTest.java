@@ -19,11 +19,11 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMEUnitTestCase;
+import org.kuali.kpme.tklm.TKLMUnitTestCase;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 
-public class TimeCollectionRuleServiceImplTest extends KPMEUnitTestCase {
+public class TimeCollectionRuleServiceImplTest extends TKLMUnitTestCase {
 	
 	@Test
 	public void testSearchTimeCollectionRules() throws Exception {

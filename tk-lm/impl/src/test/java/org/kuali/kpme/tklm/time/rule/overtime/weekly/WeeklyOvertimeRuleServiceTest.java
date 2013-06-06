@@ -23,12 +23,12 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.TKLMUnitTestCase;
 import org.kuali.kpme.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
@@ -42,7 +42,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
  * @author djunk
  *
  */
-public class WeeklyOvertimeRuleServiceTest extends KPMEUnitTestCase {
+public class WeeklyOvertimeRuleServiceTest extends TKLMUnitTestCase {
 	
 	private static DateTime DEFAULT_EFFDT = new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	private static Long DEFAULT_JOB_NUMBER = 30L;

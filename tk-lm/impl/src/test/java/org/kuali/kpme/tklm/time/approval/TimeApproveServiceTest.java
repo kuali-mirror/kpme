@@ -24,12 +24,12 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMEUnitTestCase;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.TKLMUnitTestCase;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 
-public class TimeApproveServiceTest extends KPMEUnitTestCase {
+public class TimeApproveServiceTest extends TKLMUnitTestCase {
 	
 	@Test
 	public void testGetTimePrincipalIdsWithSearchCriteria() throws ParseException {

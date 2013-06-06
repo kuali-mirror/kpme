@@ -22,11 +22,11 @@ import java.util.HashMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kpme.core.KPMEUnitTestCase;
+import org.kuali.kpme.tklm.TKLMUnitTestCase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-public class BalanceTransferValidationTest extends KPMEUnitTestCase {
+public class BalanceTransferValidationTest extends TKLMUnitTestCase {
 
 	private BusinessObjectService boService;
 	
