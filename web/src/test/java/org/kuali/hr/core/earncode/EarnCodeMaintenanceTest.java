@@ -110,7 +110,6 @@ public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
 
 		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.EARN_CODE_MAINT_URL);
 		earnCodeLookUp = HtmlUnitUtil.clickInputContainingText(earnCodeLookUp, "search");
-		System.out.println(earnCodeLookUp.asText());
 		Assert.assertTrue("Page must contain SDR entry", earnCodeLookUp.asText().contains("SDR"));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnCodeLookUp, "edit","1");
 
