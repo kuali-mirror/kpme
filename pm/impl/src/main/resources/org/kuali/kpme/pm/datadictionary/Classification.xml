@@ -435,7 +435,7 @@
   
    <!-- Required Qualification List, used by maintenance view -->
    <bean id="Classification-qualifications" abstract="true" parent="Uif-TableCollectionGroup">
-	  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationQualification" />
+	  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification" />
 	  <property name="propertyName" value="qualificationList" />
 	  <property name="addLinePlacement" value="BOTTOM" />
 	  <property name="layoutManager.generateAutoSequence" value="true" />
@@ -497,7 +497,7 @@
 	<bean id="Classification-qualificationList" abstract="true" parent="Uif-Disclosure-TableCollectionSection"
         p:layoutManager.numberOfColumns="4">
     <property name="headerText" value="Required Qualification"/>
-    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.ClassificationQualification"/>
+    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification"/>
     <property name="propertyName" value="qualificationList"/>
     <property name="layoutManager.renderSequenceField" value="false"/>
     <property name="layoutManager.separateAddLine" value="true"/>
