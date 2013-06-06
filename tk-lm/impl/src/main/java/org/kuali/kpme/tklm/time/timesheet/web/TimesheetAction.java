@@ -59,7 +59,9 @@ public class TimesheetAction extends CalendarFormAction {
         ActionForward forward = mapping.findForward("basic");
     	String command = request.getParameter("command");
     	
-    	if (StringUtils.equals(command, "displayDocSearchView") || StringUtils.equals(command, "displayActionListView")) {
+    	if (StringUtils.equals(command, "displayDocSearchView")
+    			|| StringUtils.equals(command, "displayActionListView")
+    			|| StringUtils.equals(command, "displaySuperUserView")) {
         	String documentId = (String) request.getParameter("docId");
         	TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
         	String timesheetPrincipalName = KimApiServiceLocator.getPersonService().getPerson(timesheetDocument.getPrincipalId()).getPrincipalName();
@@ -69,7 +71,8 @@ public class TimesheetAction extends CalendarFormAction {
         	
         	StringBuilder builder = new StringBuilder();
         	if (!StringUtils.equals(principalName, timesheetPrincipalName)) {
-            	if (StringUtils.equals(command, "displayDocSearchView")) {
+            	if (StringUtils.equals(command, "displayDocSearchView")
+            		|| StringUtils.equals(command, "displaySuperUserView")) {
             		builder.append("changeTargetPerson.do?methodToCall=changeTargetPerson");
             		builder.append("&documentId=");
             		builder.append(documentId);

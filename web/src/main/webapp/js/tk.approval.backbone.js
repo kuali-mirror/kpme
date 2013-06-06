@@ -141,14 +141,14 @@ $(function () {
                 // This triggerS the ajax call to fetch the time summary rows.
                 this.fetchTimeSummary(docId);
 
-                // Here we loop through the colleciton and insert the content to the template
-                EarnCodeSections.forEach(function (earnCodeSection, index) {
+                //EarnCodeSections.forEach(function (earnCodeSection) {
+                for (var i=0;i<EarnCodeSections.models.length;i++) {
                     $parent.after(self.template({
                         // This is the time summary rows
-                        "section" : earnCodeSection.toJSON(),
+                        "section" : EarnCodeSections.models[i].toJSON(),
                         // This is to check if the time summary row is the last one in the collection.
                         // If so, it will then render the earn group section.
-                        "isLast" : index == 0 ? true : false,
+                        "isLast" : i == 0 ? true : false,
                         // This is to give each <tr> in the time summary section an identifier,
                         // so when the minus icon is clicked, it will remove the appened html.
                         "docId" : docId

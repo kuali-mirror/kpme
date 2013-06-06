@@ -109,7 +109,9 @@ public class LeaveCalendarAction extends CalendarFormAction {
         ActionForward forward = mapping.findForward("basic");
         String command = request.getParameter("command");
         
-    	if (StringUtils.equals(command, "displayDocSearchView") || StringUtils.equals(command, "displayActionListView")) {
+    	if (StringUtils.equals(command, "displayDocSearchView") 
+    			|| StringUtils.equals(command, "displayActionListView")
+    			|| StringUtils.equals(command, "displaySuperUserView")) {
         	String documentId = (String) request.getParameter("docId");
         	LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
         	String leaveCalendarPrincipalName = KimApiServiceLocator.getPersonService().getPerson(leaveCalendarDocument.getPrincipalId()).getPrincipalName();
@@ -119,7 +121,8 @@ public class LeaveCalendarAction extends CalendarFormAction {
         	
         	StringBuilder builder = new StringBuilder();
         	if (!StringUtils.equals(principalName, leaveCalendarPrincipalName)) {
-        		if (StringUtils.equals(command, "displayDocSearchView")) {
+        		if (StringUtils.equals(command, "displayDocSearchView")
+        				|| StringUtils.equals(command, "displaySuperUserView")) {
             		builder.append("changeTargetPerson.do?methodToCall=changeTargetPerson");
             		builder.append("&documentId=");
             		builder.append(documentId);

@@ -238,7 +238,7 @@ $(document).ready(function() {
    
 
     // datepicker
-    $('#startDate, #endDate, #bdRow1, #edRow1, #bdRow2, #edRow2').datepicker({
+    $('#startDate, #endDate, .bdRow, .edRow1').datepicker({
         changeMonth : true,
         changeYear : true,
         showOn : 'button',
@@ -287,7 +287,7 @@ $(document).ready(function() {
     // http://flowplayer.org/tools/tooltip/index.html
     $(" .holidayNameHelp").tooltip({ effect: 'slide'});
 
-    $("#beginTimeHelp, #startTimeHelp, #endTimeHelp, #beginTimeHelp1, #endTimeHelp1, #hourHelp").tooltip({
+    $(".beginTimeHelp, .endTimeHelp").tooltip({
 
         // place tooltip on the right edge
         position : "center right",
@@ -319,40 +319,22 @@ $(document).ready(function() {
                 if (this.className != 'error') this.select();
             });
 
-    $("#bdRow1, #edRow1").change(function() {
-        $(this).removeClass('ui-state-error');
-        recalculateHrs(1);
-    });
-
-    $("#bdRow2, #edRow2").change(function() {
-        $(this).removeClass('ui-state-error');
-        recalculateHrs(2);
-    });
-
-    $("#btRow1, #etRow1").change(function() {
+    $("#tblNewTimeBlocks").on("change", ".assignmentRow", function() {
         $(this).removeClass('ui-state-error');
         cleanTips();
-        formatTime($(this));
-        recalculateHrs(1);
-    });
-
-    $("#btRow2, #etRow2").change(function() {
-        $(this).removeClass('ui-state-error');
-        cleanTips();
-        formatTime($(this));
-        recalculateHrs(2);
     });
     
-    $("#assignmentRow1").change(function() {
+    $("#tblNewTimeBlocks").on("change", ".bdRow, .edRow", function() {
         $(this).removeClass('ui-state-error');
-        cleanTips();
+        recalculateHrs($(this).closest("tr").index() + 1);
     });
 
-    $("#assignmentRow2").change(function() {
+    $("#tblNewTimeBlocks").on("change", ".btRow, .etRow", function() {
         $(this).removeClass('ui-state-error');
         cleanTips();
+        formatTime($(this));
+        recalculateHrs($(this).closest("tr").index() + 1);
     });
-
 
     $('#saveTimeBlock').click(function() {
         var validFlag = true;
@@ -380,28 +362,29 @@ $(document).ready(function() {
         var form1 = document.forms[0];
         var originalEndDateTime = new Date(form1.endTimestamp.value);
         var originalBeginDateTime = new Date(form1.beginTimestamp.value);
-        assignValueCol = '';
+        var previousAssignValue = '';
         for (var i = 1; i < rowLength - 1; i++) {
-            var assignValue = $("#assignmentRow" + i).val();
-            var beginDate = $("#bdRow" + i).val();
-            var endDate = $("#edRow" + i).val();
-            var beginTime = $("#btRow" + i).val();
-            var endTime = $("#etRow" + i).val();
-            var hrs = $("#hrRow" + i).val();
+            var assignValue = $("#tblNewTimeBlocks tbody tr:nth-child(" + i + ") td .assignmentRow").val();
+            var beginDate = $("#tblNewTimeBlocks tbody tr:nth-child(" + i + ") td .bdRow").val();
+            var endDate = $("#tblNewTimeBlocks tbody tr:nth-child(" + i + ") td .edRow").val();
+            var beginTime = $("#tblNewTimeBlocks tbody tr:nth-child(" + i + ") td .btRow").val();
+            var endTime = $("#tblNewTimeBlocks tbody tr:nth-child(" + i + ") td .etRow").val();
+            var hrs = $("#tblNewTimeBlocks tbody tr:nth-child(" + i + ") td .hrRow").val();
             
-            aFlag = checkAssignments($("#assignmentRow" + i), assignValue, assignValueCol);
-            if(!aFlag) {
+            if(!checkAdjacentAssignments($("#tblNewTimeBlocks tbody tr:nth-child(" + i + ") td .assignmentRow"), assignValue, previousAssignValue)) {
             	return false;
             }
+            previousAssignValue = assignValue;
+            
             assignValueCol += assignValue + valueSeperator;
             beginDateCol += beginDate + valueSeperator;
             endDateCol += endDate + valueSeperator;
             hrsCol += hrs + valueSeperator;
 
-            validFlag &= checkLength($("#bdRow" + i), "Date/Time", 10, 10);
-            validFlag &= checkLength($("#edRow" + i), "Date/Time", 10, 10);
-            validFlag &= checkLength($("#btRow" + i), "Date/Time", 8, 8);
-            validFlag &= checkLength($("#etRow" + i), "Date/Time", 8, 8);
+            validFlag &= checkLength($("#tblNewTimeBlocks tbody tr:nth-child(" + i + ") td .bdRow"), "Date/Time", 10, 10);
+            validFlag &= checkLength($("#tblNewTimeBlocks tbody tr:nth-child(" + i + ") td .edRow"), "Date/Time", 10, 10);
+            validFlag &= checkLength($("#tblNewTimeBlocks tbody tr:nth-child(" + i + ") td .btRow"), "Date/Time", 8, 8);
+            validFlag &= checkLength($("#tblNewTimeBlocks tbody tr:nth-child(" + i + ") td .etRow"), "Date/Time", 8, 8);
 
             if (validFlag) {
                 var dateString = beginDate + ' ' + beginTime;
@@ -451,11 +434,11 @@ $(document).ready(function() {
                 if (hrsDifferent <= 0) {
                     updateTips("Hours for item " + i + "not valid");
                     var hrs = hrsDifferent / 3600000;
-                    $("#hrRow" + i).val(hrs);
+                    $("#tblNewTimeBlocks tbody tr:nth-child(" + i + ") td .hrRow").val(hrs);
                     return false;
                 }
                 var hrs = Math.round(hrsDifferent * 100 / 3600000) / 100;
-                $("#hrRow" + i).val(hrs);
+                $("#tblNewTimeBlocks tbody tr:nth-child(" + i + ") td .hrRow").val(hrs);
                 totalHrs += hrs;
             }// end of if
             else {
@@ -631,10 +614,10 @@ function checkLength(o, n, min, max) {
     return true;
 }
 
-function checkAssignments(o, anAssignment, assignments) {
-    if (assignments.indexOf(anAssignment) >= 0) {
+function checkAdjacentAssignments(o, assignment, previousAssignment) {
+    if (assignment === previousAssignment) {
         o.addClass('ui-state-error');
-        updateValidationMessage("Distributed assignments should all be different.");
+        updateValidationMessage("Adjacent distributed assignments should all be different.");
         return false;
     }
     return true;
@@ -659,38 +642,19 @@ function updateValidationMessage(t) {
 }
 
 function addTimeBlockRow(form, tempArr) {
-
+    var timeFormatMessage = "Supported formats:<br/>9a, 9 am, 9:00a, 9:00 am, 3p, 3 pm, 3:00p, 3:00 pm, 900, 15:00";
+    
     var tbl = document.getElementById('tblNewTimeBlocks');
     var lastRow = tbl.rows.length;
-    // if there's no header row in the table, then iteration = lastRow + 1
-    var iteration = lastRow - 1;
+    var iteration = lastRow - 2;
 
     var row = tbl.insertRow(iteration);
 
     //Assignment Dropdown list
-    var cellCount = row.insertCell(0);
-    var textNode = document.createTextNode(iteration);
-    cellCount.appendChild(textNode);
-
-    var cellAssignment = row.insertCell(1);
+    var cellAssignment = row.insertCell(0);
     var sel = document.createElement('select');
-    var idString = 'assignmentRow' + iteration;
-    sel.name = idString;
-    sel.id = idString;
-
-//	var initString = form.assignmentList.value;
-//	var subString1 = initString.substring(1, initString.length-1);
-//	var assignList= subString1.split(',');
-
-//	for(var i=0; i< assignList.length; i++) {
-//		var tempString = ltrim(assignList[i]);
-//		tempString = rtrim(tempString);
-//		sel.options[i] = new Option(tempString, tempString);
-//		if(tempString == originalAssign) {
-//			sel.options[i].selected=true;
-//		}
-//	}
-
+    sel.id = 'assignmentRow' + iteration;
+    sel.id = 'assignmentRow';
     var originalAssign = form.originalAssignment.value;
     var initString = form.distributeAssignList.value;
     var string1 = initString.substring(1, initString.length - 1);
@@ -710,139 +674,73 @@ function addTimeBlockRow(form, tempArr) {
     cellAssignment.appendChild(sel);
 
     // begin date/time
-    var cellBeginDate = row.insertCell(2);
+    var cellBeginDate = row.insertCell(1);
     var el = document.createElement('input');
-    idString = 'bdRow' + iteration;
-    el.type = "text";
-    el.name = idString;
-    el.id = idString;
+    el.id = 'bdRow' + iteration;
+    el.className = 'bdRow';
     el.size = 10;
     el.value = form.beginDateOnly.value;
-    var datePickerId = '#' + idString;
     cellBeginDate.appendChild(el);
 
-    var cellBeginTime = row.insertCell(3);
+    var cellBeginTime = row.insertCell(2);
     var el = document.createElement('input');
-    idString = 'btRow' + iteration;
-    el.name = idString;
-    el.id = idString;
+    el.id = 'btRow' + iteration;
+    el.className = 'btRow';
     el.size = 10;
+    el.value = $("#tblNewTimeBlocks tbody tr:nth-child(" + (iteration - 1) + ") td .etRow").val()
     cellBeginTime.appendChild(el);
-    var timeChangeId = '#' + idString;
-    var timeFormatMessage = "Supported formats:<br/>9a, 9 am, 9:00a, 9:00 am, 3p, 3 pm, 3:00p, 3:00 pm, 900, 15:00";
-// help button for time format
     el = document.createElement('input');
     el.type = 'button';
     el.style.width = "20px";
     el.style.height = "23px";
     el.title = timeFormatMessage;
-    el.id = "beginTimeHelp" + iteration;
+    el.className = "beginTimeHelp";
     el.value = "?";
     cellBeginTime.appendChild(el);
     el.removeAttribute("tabindex");
-    var timeHelpId = '#' + el.id; 	// for tooltip
 
     //end date/time
-    var cellEndDate = row.insertCell(4);
+    var cellEndDate = row.insertCell(3);
     var el = document.createElement('input');
-    idString = 'edRow' + iteration;
-    el.name = idString;
-    el.id = idString;
+    el.id = 'edRow' + iteration;
+    el.className = 'edRow';
     el.size = 10;
     el.value = form.endDateOnly.value;
-    datePickerId += ', #' + idString;
     cellEndDate.appendChild(el);
 
-
-    var cellEndTime = row.insertCell(5);
+    var cellEndTime = row.insertCell(4);
     var el = document.createElement('input');
-    idString = 'etRow' + iteration;
-    el.name = idString;
-    el.id = idString;
+    el.id = 'etRow' + iteration;
+    el.className = 'etRow';
     el.size = 10;
-    el.value = form.endTimeOnly.value;
     cellEndTime.appendChild(el);
-    timeChangeId += ', #' + idString;
-
     el = document.createElement('input');
     el.type = 'button';
     el.style.width = "20px";
     el.style.height = "23px";
     el.title = timeFormatMessage;
-    el.id = "endTimeHelp" + iteration;
+    el.className = "endTimeHelp";
     el.removeAttribute("tabindex");
-//	el.tabindex="999";
     el.value = "?";
     cellEndTime.appendChild(el);
-    timeHelpId += ', #' + el.id; 	// for tooltip
 
-    var cellHours = row.insertCell(6);
+    var cellHours = row.insertCell(5);
     var el = document.createElement('input');
-    idString = 'hrRow' + iteration;
-    el.name = idString;
-    el.id = idString;
+    el.id = 'hrRow' + iteration;
+    el.className = 'hrRow';
     el.size = 5;
-//    el.value = form.hours.value;
     el.disabled = true;
     cellHours.appendChild(el);
-    var hrId = '#' + idString;
 
-    row.insertCell(7);
+    row.insertCell(6);
     recalculateTotal();
-
-    // datepicker
-    $(datePickerId).datepicker({
-        changeMonth : true,
-        changeYear : true,
-        showOn : 'button',
-        showAnim : 'fadeIn',
-        buttonImage : 'kr/static/images/cal.gif',
-        buttonImageOnly : true,
-        buttonText : 'Select a date',
-        showButtonPanel : true,
-        constrainInput : true,
-        minDate : new Date($('#beginDate').val()),
-        maxDate : new Date($('#endDate').val())
-    });
-
-    //time format helper
-    $(timeHelpId).tooltip({
-        // place tooltip on the right edge
-        position : "center right",
-        // a little tweaking of the position
-        offset : [-2, 10],
-        // use the built-in fadeIn/fadeOut effect
-        effect : "fade",
-        // custom opacity setting
-        opacity : 0.7,
-        fadeInSpeed : 100
-    });
-
-    $(datePickerId).change(function() {
-        $(this).removeClass('ui-state-error');
-        recalculateHrs(iteration);
-    });
-
-    $(timeChangeId).change(function() {
-        $(this).removeClass('ui-state-error');
-        cleanTips();
-        formatTime($(this));
-        recalculateHrs(iteration);
-    });
-    
-    $('assignmentRow' + iteration).change(function() {
-        $(this).removeClass('ui-state-error');
-        cleanTips();
-    });
-    
-
 }
 
 function recalculateHrs(itr) {
-    var beginDate = $("#bdRow" + itr).val();
-    var endDate = $("#edRow" + itr).val();
-    var beginTime = $("#btRow" + itr).val();
-    var endTime = $("#etRow" + itr).val();
+    var beginDate = $("#tblNewTimeBlocks tbody tr:nth-child(" + itr + ") td .bdRow").val();
+    var endDate = $("#tblNewTimeBlocks tbody tr:nth-child(" + itr + ") td .edRow").val();
+    var beginTime = $("#tblNewTimeBlocks tbody tr:nth-child(" + itr + ") td .btRow").val();
+    var endTime = $("#tblNewTimeBlocks tbody tr:nth-child(" + itr + ") td .etRow").val();
     var validFlag = true;
     var tbl = document.getElementById('tblNewTimeBlocks');
     var rowLength = tbl.rows.length;
@@ -850,10 +748,10 @@ function recalculateHrs(itr) {
     var originalEndDateTime = new Date(form1.endTimestamp.value);
     var originalBeginDateTime = new Date(form1.beginTimestamp.value);
 
-    validFlag &= checkLength($("#bdRow" + itr), "Date/Time", 10, 10);
-    validFlag &= checkLength($("#edRow" + itr), "Date/Time", 10, 10);
-    validFlag &= checkLength($("#btRow" + itr), "Date/Time", 8, 8);
-    validFlag &= checkLength($("#etRow" + itr), "Date/Time", 8, 8);
+    validFlag &= checkLength($("#tblNewTimeBlocks tbody tr:nth-child(" + itr + ") td .bdRow"), "Date/Time", 10, 10);
+    validFlag &= checkLength($("#tblNewTimeBlocks tbody tr:nth-child(" + itr + ") td .edRow"), "Date/Time", 10, 10);
+    validFlag &= checkLength($("#tblNewTimeBlocks tbody tr:nth-child(" + itr + ") td .btRow"), "Date/Time", 8, 8);
+    validFlag &= checkLength($("#tblNewTimeBlocks tbody tr:nth-child(" + itr + ") td .etRow"), "Date/Time", 8, 8);
 
     if (validFlag) {
         var dateString = beginDate + ' ' + beginTime;
@@ -877,11 +775,11 @@ function recalculateHrs(itr) {
             updateTips("Hours for item " + itr + " not valid");
             var hrs = hrsDifferent / 3600000;
             hrs = Math.round(hrs * 100) / 100;
-            $("#hrRow" + itr).val(hrs);
+            $("#tblNewTimeBlocks tbody tr:nth-child(" + itr + ") td .hrRow").val(hrs);
             return false;
         }
         var hrs = Math.round(hrsDifferent * 100 / 3600000) / 100;
-        $("#hrRow" + itr).val(hrs);
+        $("#tblNewTimeBlocks tbody tr:nth-child(" + itr + ") td .hrRow").val(hrs);
 
         recalculateTotal();
     }
@@ -895,7 +793,7 @@ function recalculateTotal() {
     var rowLength = tbl.rows.length;
     var totalHrs = 0;
     for (var i = 1; i < rowLength - 1; i++) {
-        var hrs = $("#hrRow" + i).val();
+        var hrs = $("#tblNewTimeBlocks tbody tr:nth-child(" + i + ") td .hrRow").val();
         if (hrs != undefined && hrs != "") {
             totalHrs += parseFloat(hrs);
         }

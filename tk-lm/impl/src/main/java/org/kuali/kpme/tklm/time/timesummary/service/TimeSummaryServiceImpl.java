@@ -128,6 +128,15 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
     			if (egs1 == null && egs2 == null) {
     				return 0;
     			}
+    			//'other' earn group needs to be last.
+    			boolean isOther1 = StringUtils.equals(egs1.getEarnGroup(), OTHER_EARN_GROUP);
+    			boolean isOther2 = StringUtils.equals(egs2.getEarnGroup(), OTHER_EARN_GROUP);
+    			if (isOther1 ^ isOther2) {
+    				return isOther1 ? 1 : -1;
+    			}
+    			if (isOther1 &&  isOther1) {
+    				return 0;
+    			}
     			return egs1.getEarnGroup().compareTo(egs2.getEarnGroup());
     		}
     	});
@@ -135,9 +144,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
     	List<EarnGroupSection> copy = new ArrayList<EarnGroupSection>(sections);
     	//loop through in reverse
     	for (EarnGroupSection egs : copy) {
-    		Set<String> intersection = new HashSet<String>(regularEarnCodes);
-    		intersection.retainAll(egs.getEarnCodeToEarnCodeSectionMap().keySet());
-    		if (intersection.size() > 0) {
+    		if (!CollectionUtils.intersection(regularEarnCodes, egs.getEarnCodeToEarnCodeSectionMap().keySet()).isEmpty()) {
     			sortedList.add(egs);
     			sections.remove(egs);
     		}

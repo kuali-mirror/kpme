@@ -167,7 +167,7 @@ public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow
     public boolean isApprovable() {
     	boolean isApprovable = false;
 
-    	if (DocumentStatus.ENROUTE.equals(getApprovalStatus())) {
+    	if (DocumentStatus.ENROUTE.getLabel().equals(getApprovalStatus())) {
     		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(getDocumentId());
     		if (timesheetDocument != null) {
     			String timesheetPrincipalId = timesheetDocument.getPrincipalId();

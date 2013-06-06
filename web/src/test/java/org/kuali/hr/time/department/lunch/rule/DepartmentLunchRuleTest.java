@@ -104,10 +104,10 @@ public class DepartmentLunchRuleTest extends KPMEWebTestCase {
 
 	@Test
 	public void testSearchDepartmentLunchRules() throws Exception {
-		List<DeptLunchRule> allResults = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRules("admin", null, null, null, null, "Y");
+		List<DeptLunchRule> allResults = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRules("admin", null, null, null, null, null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 2, allResults.size());
 		
-		List<DeptLunchRule> restrictedResults = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRules("fran", null, null, null, null, "Y");
+		List<DeptLunchRule> restrictedResults = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRules("fran", null, null, null, null, null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 0, restrictedResults.size());
 	}
 	

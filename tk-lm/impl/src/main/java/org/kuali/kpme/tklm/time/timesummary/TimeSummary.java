@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.json.simple.JSONValue;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
@@ -59,7 +60,7 @@ public class TimeSummary implements Serializable {
 
         for (EarnGroupSection earnGroupSection : this.sections) {
             for (EarnCodeSection earnCodeSection : earnGroupSection.getEarnCodeSections()) {
-                Map<String, Object> ecs = new HashMap<String, Object>();
+                Map<String, Object> ecs = new TreeMap<String, Object>();
 
                 ecs.put("earnCode", earnCodeSection.getEarnCode());
                 ecs.put("desc", earnCodeSection.getDescription());
@@ -71,7 +72,7 @@ public class TimeSummary implements Serializable {
                 
                 List<Map<String, Object>> assignmentRows = new ArrayList<Map<String, Object>>();
                 for (AssignmentRow assignmentRow : earnCodeSection.getAssignmentsRows()) {
-                    Map<String, Object> ar = new HashMap<String, Object>();
+                    Map<String, Object> ar = new TreeMap<String, Object>();
 
                     ar.put("descr", assignmentRow.getDescr());
                     ar.put("assignmentKey", assignmentRow.getAssignmentKey());
@@ -80,7 +81,7 @@ public class TimeSummary implements Serializable {
                     
                     List<Map<String, Object>> assignmentColumns = new ArrayList<Map<String, Object>>();
                     for (AssignmentColumn assignmentColumn : assignmentRow.getAssignmentColumns()) {
-                    	Map<String, Object> ac = new HashMap<String, Object>();
+                    	Map<String, Object> ac = new TreeMap<String, Object>();
 
                     	ac.put("cssClass", assignmentColumn.getCssClass());
                     	ac.put("amount", assignmentColumn.getAmount());

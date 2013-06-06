@@ -68,9 +68,8 @@
 		 	<p id="validation" class="validation">All form fields are required.</p>
 		 	<div id="edit-panel">
 				<table id="tblNewTimeBlocks" style="border-collapse:collapse;border: 1px solid #000;">
-					<thead>
+                    <thead>
 						<tr class="ui-state-default">
-							<td>Count</td>
 							<td>Assignment</td>
 							<td>Begin Date</td>
 							<td>Begin Time</td>
@@ -79,12 +78,11 @@
 							<td>Hours</td>
 							<td>Action</td>
 						</tr>
-						</thead>
-						<tbody>
-						  <tr>
-							<td>1</td>
+                    </thead>
+                    <tbody>
+                        <tr>
 							<td>
-								 <select name="assignmentRow1" id="assignmentRow1">
+								 <select id="assignmentRowFirst" class="assignmentRow">
 									<c:forEach var="assignment" items="${Form.desList}">
 										<c:choose>
 											<c:when test='${assignment.value == Form.currentAssignmentDescription}'>
@@ -98,33 +96,32 @@
 								</select>
 							</td>
 							<td>
-								<input type="text" name="bdRow1" id="bdRow1" size="10" value="${Form.currentTimeBlock.beginTimeDisplayDateOnlyString }" />
+								<input type="text" id="bdRowFirst" class="bdRow" size="10" value="${Form.currentTimeBlock.beginTimeDisplayDateOnlyString }" />
 							</td>
 
 							<td>
-								<input type="text" name="btRow1" id="btRow1" disabled="disabled" size="10" value="${Form.currentTimeBlock.beginTimeDisplayTimeOnlyString}" />
+								<input type="text" id="btRowFirst" class="btRow" disabled="disabled" size="10" value="${Form.currentTimeBlock.beginTimeDisplayTimeOnlyString}" />
                             </td>
 							<td>
-								<input type="text" name="edRow1" id="edRow1" size="10" value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString }" />
+								<input type="text" id="edRowFirst" class="edRow" size="10" value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString }" />
 							</td>
 							<td>
-								<input name="etRow1" id="etRow1" size="10" >
-								<input type="button" style="width: 20px; height: 23px;" id="endTimeHelp1" value="?"
+								<input id="etRowFirst" class="etRow" size="10" >
+								<input type="button" style="width: 20px; height: 23px;" class="endTimeHelp" value="?"
 									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30, 2:30">
-									
 							</td>
 							<td>
-								<input name="hrRow1" id="hrRow1" disabled="disabled" size="5" />
+								<input id="hrRowFirst" class="hrRow" disabled="disabled" size="5" />
 							</td>
-							<td></td>
-					      </tr>
-							
-
-						  <tr>
-							<td>2</td>
 							<td>
-								 <select name="assignmentRow2" id="assignmentRow2">
-									<c:forEach var="assignment" items="${Form.desList}">
+                                <input class="button" value="Add" type="button" name="addTimeBlock" id="addTimeBlock"
+                                    onclick="javascript: addTimeBlockRow(this.form);" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select id="assignmentRowLast" class="assignmentRow">
+                                    <c:forEach var="assignment" items="${Form.desList}">
 										<c:choose>
 											<c:when test='${assignment.value == Form.currentAssignmentDescription}'>
 												<option value="${assignment.key}" selected>${assignment.value}</option>
@@ -137,45 +134,35 @@
 								</select>
 							</td>
 							<td>
-								<input type="text" name="bdRow2" id="bdRow2" size="10" value="${Form.currentTimeBlock.beginTimeDisplayDateOnlyString }" />
+								<input type="text" id="bdRowLast" class="bdRow" size="10" value="${Form.currentTimeBlock.beginTimeDisplayDateOnlyString }" />
 							</td>
 
 							<td>
-								<input name="btRow2" id="btRow2" size="10">
-								<input type="button" style="width: 20px; height: 23px;" id="beginTimeHelp1" value="?"
+								<input id="btRowLast" class="btRow" size="10">
+								<input type="button" style="width: 20px; height: 23px;" class="beginTimeHelp" value="?"
 									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30, 2:30">
 							</td>
 							<td>
-								<input type="text" name="edRow2" id="edRow2" size="10" value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString }" />
+								<input type="text" id="edRowLast" class="edRow" size="10" value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString }" />
 							</td>
 							<td>
-								<input name="etRow2" id="etRow2" size="10" disabled="disabled" value="${Form.currentTimeBlock.endTimeDisplayTimeOnlyString}" />
-								<input type="button" style="width: 20px; height: 23px;" id="endTimeHelp1" value="?"
+								<input id="etRowLast" class="etRow" size="10" disabled="disabled" value="${Form.currentTimeBlock.endTimeDisplayTimeOnlyString}" />
+								<input type="button" style="width: 20px; height: 23px;" class="endTimeHelp" value="?"
 									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30, 2:30">
 							</td>
 							<td>
-								<input name="hrRow2" id="hrRow2" disabled="disabled" size="5" />
+								<input id="hrRowLast" class="hrRow" disabled="disabled" size="5" />
 							</td>
-							<td>
-								<input class="button" value="Add" type="button" name="addTimeBlock" id="addTimeBlock"
-									onclick="javascript: addTimeBlockRow(this.form);" />
-							</td>
-						  </tr>
-							
-							
-							
+                            <td></td>
+                        </tr>
 					</tbody>
 					<tfoot>
 						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td colspan="4" />
 							<td>Total Hours:</td>
 							<td>
 								<input name="hrsTotal" id="hrsTotal" disabled="disabled" size="5"/>
-								</td>
+							</td>
 							<td></td>
 						</tr>
 					</tfoot>

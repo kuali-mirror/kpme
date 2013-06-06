@@ -59,12 +59,12 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 		if(deptLunchRule!=null){
 			return deptLunchRule;
 		}
-		deptLunchRule = deptLunchRuleDao.getDepartmentLunchRule(dept, -1L, "%", -1L, asOfDate);
+		deptLunchRule = deptLunchRuleDao.getDepartmentLunchRule(dept, -1L, principalId, -1L, asOfDate);
 
 		if(deptLunchRule!=null){
 			return deptLunchRule;
 		}
-		deptLunchRule = deptLunchRuleDao.getDepartmentLunchRule(dept, -1L, principalId, -1L, asOfDate);
+		deptLunchRule = deptLunchRuleDao.getDepartmentLunchRule(dept, -1L, "%", -1L, asOfDate);
 		return deptLunchRule;
 	}
 
@@ -127,10 +127,11 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 	}
 
     @Override
-    public List<DeptLunchRule> getDepartmentLunchRules(String userPrincipalId, String dept, String workArea, String principalId, String jobNumber, String active) {
+    public List<DeptLunchRule> getDepartmentLunchRules(String userPrincipalId, String dept, String workArea, String principalId, String jobNumber, 
+    												   LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
     	List<DeptLunchRule> results = new ArrayList<DeptLunchRule>();
         
-    	List<DeptLunchRule> departmentLunchRuleObjs = deptLunchRuleDao.getDepartmentLunchRules(dept, workArea, principalId, jobNumber, active);
+    	List<DeptLunchRule> departmentLunchRuleObjs = deptLunchRuleDao.getDepartmentLunchRules(dept, workArea, principalId, jobNumber, fromEffdt, toEffdt, active, showHistory);
     
     	for (DeptLunchRule departmentLunchRuleObj : departmentLunchRuleObjs) {
         	String department = departmentLunchRuleObj.getDept();

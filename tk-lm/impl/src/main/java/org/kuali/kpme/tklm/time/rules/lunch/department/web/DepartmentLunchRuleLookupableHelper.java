@@ -21,6 +21,7 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -71,12 +72,15 @@ public class DepartmentLunchRuleLookupableHelper extends KPMELookupableHelper {
         String dept = fieldValues.get("dept");
         String workArea = fieldValues.get("workArea");
         String active = fieldValues.get("active");
+        String history = fieldValues.get("history");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
 
         if (StringUtils.equals(workArea,"%") || StringUtils.equals(workArea,"*")){
             workArea = "";
         }
         
         return TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRules(GlobalVariables.getUserSession().getPrincipalId(), dept,
-                workArea, principalId, jobNumber, active);
+                workArea, principalId, jobNumber, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, history);
     }
 }

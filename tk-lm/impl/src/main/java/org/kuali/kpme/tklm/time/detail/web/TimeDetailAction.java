@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.SystemUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -69,8 +71,11 @@ import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class TimeDetailAction extends TimesheetAction {
 
@@ -298,6 +303,11 @@ public class TimeDetailAction extends TimesheetAction {
      */
     public ActionForward deleteTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+        
+        String principalId = HrContext.getPrincipalId();
+        String targetPrincipalId = HrContext.getTargetPrincipalId();
+        String documentId = tdaf.getDocumentId();
+	 	 	
         //Grab timeblock to be deleted from form
         List<TimeBlock> timeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
         TimeBlock deletedTimeBlock = null;
@@ -331,6 +341,8 @@ public class TimeDetailAction extends TimesheetAction {
         TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
 
+        generateTimesheetChangedNotification(principalId, targetPrincipalId, documentId);
+        
         return mapping.findForward("basic");
     }
 
@@ -343,6 +355,10 @@ public class TimeDetailAction extends TimesheetAction {
      */
     public ActionForward addTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+        
+        String principalId = HrContext.getPrincipalId();
+        String targetPrincipalId = HrContext.getTargetPrincipalId();
+        String documentId = tdaf.getDocumentId();
         
         if(StringUtils.isNotEmpty(tdaf.getTkTimeBlockId())) {
         	// the user is changing an existing time block, so need to delete this time block
@@ -362,6 +378,8 @@ public class TimeDetailAction extends TimesheetAction {
         
        // ActionFormUtils.validateHourLimit(tdaf);
         ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
+        
+        generateTimesheetChangedNotification(principalId, targetPrincipalId, documentId);
 
         return mapping.findForward("basic");
     }
@@ -549,16 +567,21 @@ public class TimeDetailAction extends TimesheetAction {
         return mapping.findForward("basic");
     }
   
-  public ActionForward deleteLeaveBlock(ActionMapping mapping,ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+  public ActionForward deleteLeaveBlock(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	  TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+	  
+	  String principalId = HrContext.getPrincipalId();
+	  String targetPrincipalId = HrContext.getTargetPrincipalId();
+	  String documentId = tdaf.getDocumentId();
 	  String leaveBlockId = tdaf.getLmLeaveBlockId();
 
       LeaveBlock blockToDelete = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
       if (blockToDelete != null && LmServiceLocator.getLMPermissionService().canDeleteLeaveBlock(HrContext.getPrincipalId(), blockToDelete)) {
 		    LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, HrContext.getPrincipalId());
-      }
       
+		    generateTimesheetChangedNotification(principalId, targetPrincipalId, documentId);
+      }
+
       // if the leave block is NOT eligible for accrual, rerun accrual service for the leave calendar the leave block is on
       EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(blockToDelete.getEarnCode(), blockToDelete.getLeaveLocalDate());
       if(ec != null && ec.getEligibleForAccrual().equals("N")) {
@@ -570,6 +593,30 @@ public class TimeDetailAction extends TimesheetAction {
       }
 		
       return mapping.findForward("basic");
+	}
+  
+	private void generateTimesheetChangedNotification(String principalId, String targetPrincipalId, String documentId) {
+		if (!StringUtils.equals(principalId, targetPrincipalId)) {
+			EntityNamePrincipalName person = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
+			if (person != null && person.getDefaultName() != null) {
+				String subject = "Timesheet Modification Notice";
+				StringBuilder message = new StringBuilder();
+				message.append("Your Timesheet was changed by ");
+				message.append(person.getDefaultName().getCompositeNameUnmasked());
+				message.append(" on your behalf.");
+				message.append(SystemUtils.LINE_SEPARATOR);
+				message.append(getTimesheetURL(documentId));
+
+				HrServiceLocator.getKPMENotificationService().sendNotification(subject, message.toString(), targetPrincipalId);
+			}
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	private String getTimesheetURL(String documentId) {
+		Properties params = new Properties();
+		params.put("documentId", documentId);
+		return UrlFactory.parameterizeUrl(getApplicationBaseUrl() + "/TimeDetail.do", params);
 	}
 
 }

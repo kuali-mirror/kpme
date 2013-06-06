@@ -62,7 +62,7 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
     public boolean isApprovable() {
     	boolean isApprovable = false;
 
-    	if (DocumentStatus.ENROUTE.equals(getApprovalStatus())) {
+    	if (DocumentStatus.ENROUTE.getLabel().equals(getApprovalStatus())) {
     		LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(getDocumentId());
     		if (leaveCalendarDocument != null) {
     			String leaveCalendarPrincipalId = leaveCalendarDocument.getPrincipalId();
@@ -81,7 +81,7 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
     		}
     	}
 	 	 	 	
-        return false;
+        return isApprovable;
     }
 	
 	 
