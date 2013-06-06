@@ -19,9 +19,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.tklm.common.CalendarForm;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendar;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
@@ -30,8 +27,6 @@ import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 
 @SuppressWarnings("serial")
 public class LeaveCalendarForm extends CalendarForm {
-
-    private static final DateTimeFormatter SDF_NO_TZ = DateTimeFormat.forPattern("EEE MMM d HH:mm:ss yyyy");
 
     private LeaveCalendar leaveCalendar;
     private LeaveCalendarDocument leaveCalendarDocument;
@@ -49,45 +44,11 @@ public class LeaveCalendarForm extends CalendarForm {
 	private String spanningWeeks; // KPME-1446
 	private String leaveBlockString;  // KPME-1447
 	private boolean isDocEditable;
-	private DateTime currentPayCalStart;
-	private DateTime currentPayCalEnd;
 	private LeaveSummary leaveSummary;
     private boolean leavePlanningCalendar;
     private List<BalanceTransfer> forfeitures;
 	private String startTime;
 	private String endTime;
-
-	public DateTime getCurrentPayCalStart() {
-		return currentPayCalStart;
-	}
-
-	public void setCurrentPayCalStart(DateTime currentPayCalStart) {
-		this.currentPayCalStart = currentPayCalStart;
-	}
-
-	public DateTime getCurrentPayCalEnd() {
-		return currentPayCalEnd;
-	}
-
-	public void setCurrentPayCalEnd(DateTime currentPayCalEnd) {
-		this.currentPayCalEnd = currentPayCalEnd;
-	}
-
-	public String getCurrentPayCalStartDate() {
-		if(currentPayCalStart != null) {
-			return this.currentPayCalStart.toString(SDF_NO_TZ);
-		} else {
-			return null;
-		}
-	}
-
-	public String getCurrentPayCalEndDate() {
-		if(currentPayCalEnd != null) {
-			return this.currentPayCalEnd.toString(SDF_NO_TZ);
-		} else {
-			return null;
-		}
-	}
 
 	public boolean isDocEditable() {
 		return isDocEditable;
@@ -191,14 +152,6 @@ public class LeaveCalendarForm extends CalendarForm {
 
     public void setLeaveBlockId(String leaveBlockId) {
         this.leaveBlockId = leaveBlockId;
-    }
-
-    public String getBeginPeriodDateTime() {
-        return leaveCalendar.getBeginDateTime().toString(SDF_NO_TZ);
-    }
-
-    public String getEndPeriodDateTime() {
-        return leaveCalendar.getEndDateTime().toString(SDF_NO_TZ);
     }
 
 	public String getSelectedEarnCode() {

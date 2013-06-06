@@ -53,11 +53,6 @@ public class TimeDetailWSAction extends TimesheetAction {
 
     private static final Logger LOG = Logger.getLogger(TimeDetailWSAction.class);
 
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return super.execute(mapping, form, request, response);
-    }
-
     /**
      * This is an ajax call triggered after a user submits the time entry form.
      * If there is any error, it will return error messages as a json object.
@@ -129,6 +124,7 @@ public class TimeDetailWSAction extends TimesheetAction {
 
     public ActionForward getEarnCodeJson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailWSActionForm tdaf = (TimeDetailWSActionForm) form;
+        
         List<Map<String, Object>> earnCodeList = new LinkedList<Map<String, Object>>();
 
         if (StringUtils.isNotBlank(tdaf.getSelectedAssignment())) {
@@ -157,8 +153,10 @@ public class TimeDetailWSAction extends TimesheetAction {
                 }
             }
         }
+        
         LOG.info(tdaf.toString());
         tdaf.setOutputString(JSONValue.toJSONString(earnCodeList));
+        
         return mapping.findForward("ws");
     }
 

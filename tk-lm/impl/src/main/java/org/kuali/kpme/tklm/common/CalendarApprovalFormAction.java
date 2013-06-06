@@ -54,11 +54,7 @@ public abstract class CalendarApprovalFormAction extends ApprovalFormAction {
 	
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward actionForward = super.execute(mapping, form, request, response);
-		
         CalendarApprovalForm calendarApprovalForm = (CalendarApprovalForm) form;
-        
-        setCalendarFields(request, calendarApprovalForm);
         
         CalendarEntry calendarEntry = null;
         if (calendarApprovalForm.getHrCalendarEntryId() != null) {
@@ -69,67 +65,45 @@ public abstract class CalendarApprovalFormAction extends ApprovalFormAction {
                 calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), LocalDate.now().toDateTimeAtStartOfDay());
             }
         }
-        calendarApprovalForm.setHrCalendarEntryId(calendarEntry.getHrCalendarEntryId());
-        calendarApprovalForm.setCalendarEntry(calendarEntry);
-        calendarApprovalForm.setBeginCalendarEntryDate(calendarEntry.getBeginPeriodDateTime());
-        calendarApprovalForm.setEndCalendarEntryDate(DateUtils.addMilliseconds(calendarEntry.getEndPeriodDateTime(),-1));
+        
+        if (calendarEntry != null) {
+	        calendarApprovalForm.setHrCalendarEntryId(calendarEntry.getHrCalendarEntryId());
+	        calendarApprovalForm.setCalendarEntry(calendarEntry);
+	        calendarApprovalForm.setBeginCalendarEntryDate(calendarEntry.getBeginPeriodDateTime());
+	        calendarApprovalForm.setEndCalendarEntryDate(DateUtils.addMilliseconds(calendarEntry.getEndPeriodDateTime(), -1));
 		
-		CalendarEntry prevCalendarEntry = HrServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
-		calendarApprovalForm.setPrevHrCalendarEntryId(prevCalendarEntry != null ? prevCalendarEntry.getHrCalendarEntryId() : null);
-		
-		CalendarEntry nextCalendarEntry = HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
-		calendarApprovalForm.setNextHrCalendarEntryId(nextCalendarEntry != null ? nextCalendarEntry.getHrCalendarEntryId() : null);
-		
-		if (StringUtils.isBlank(calendarApprovalForm.getSelectedPayPeriod())) {
-			calendarApprovalForm.setSelectedPayPeriod(calendarApprovalForm.getHrCalendarEntryId());
-		}
-
-		return actionForward;
+			CalendarEntry prevCalendarEntry = HrServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
+			calendarApprovalForm.setPrevHrCalendarEntryId(prevCalendarEntry != null ? prevCalendarEntry.getHrCalendarEntryId() : null);
+			
+			CalendarEntry nextCalendarEntry = HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
+			calendarApprovalForm.setNextHrCalendarEntryId(nextCalendarEntry != null ? nextCalendarEntry.getHrCalendarEntryId() : null);
+			
+	        setCalendarFields(request, calendarApprovalForm);
+        }
+        
+		return super.execute(mapping, form, request, response);
 	}
 	
     protected void setCalendarFields(HttpServletRequest request, CalendarApprovalForm calendarApprovalForm) {
 		Set<String> calendarYears = new TreeSet<String>(Collections.reverseOrder());
-		List<CalendarEntry> calendarEntries = new ArrayList<CalendarEntry>();
+		List<CalendarEntry> calendarEntries = getCalendarEntries(calendarApprovalForm.getCalendarEntry());
 		
-		if (!StringUtils.isEmpty(request.getParameter("selectedCY"))) {
-			calendarApprovalForm.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
-		} else {
-			if (calendarApprovalForm.getCalendarEntry() != null) {
-				calendarApprovalForm.setSelectedCalendarYear(calendarApprovalForm.getCalendarEntry().getBeginPeriodFullDateTime().toString("yyyy"));
-			} else {
-				CalendarEntry calendarEntry = null;
-		        if (calendarApprovalForm.getHrCalendarEntryId() != null) {
-		        	calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(calendarApprovalForm.getHrCalendarEntryId());
-		        } else {
-		        	Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByGroup(calendarApprovalForm.getSelectedPayCalendarGroup());
-		            if (calendar != null) {
-		                calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), LocalDate.now().toDateTimeAtStartOfDay());
-		            }
-		        }
-		        calendarApprovalForm.setSelectedCalendarYear(calendarEntry.getBeginPeriodFullDateTime().toString("yyyy"));
-			}
-		}
-		
-	    for (CalendarEntry calendarEntry : getCalendarEntries()) {
+	    for (CalendarEntry calendarEntry : calendarEntries) {
 	    	String calendarEntryYear = calendarEntry.getBeginPeriodFullDateTime().toString("yyyy");
 	    	calendarYears.add(calendarEntryYear);
-	    	if (StringUtils.equals(calendarEntryYear, calendarApprovalForm.getSelectedCalendarYear())) {
-	    		calendarEntries.add(calendarEntry);
-	    	}
 	    }
-	    calendarApprovalForm.setCalendarYears(new ArrayList<String>(calendarYears));
-		
-		if (!StringUtils.isEmpty(request.getParameter("selectedPP"))) {
-			calendarApprovalForm.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
-			calendarApprovalForm.setHrCalendarEntryId(request.getParameter("selectedPP").toString());
-		} else {
-			calendarApprovalForm.setSelectedPayPeriod(calendarApprovalForm.getHrCalendarEntryId());
-		}
-		
-		calendarApprovalForm.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(calendarEntries, null));
+	    
+        String currentCalendarYear = calendarApprovalForm.getCalendarEntry().getBeginPeriodFullDateTime().toString("yyyy");
+        String selectedCalendarYear = StringUtils.isNotBlank(calendarApprovalForm.getSelectedCalendarYear()) ? calendarApprovalForm.getSelectedCalendarYear() : currentCalendarYear;
+	    
+        calendarApprovalForm.setCalendarYears(new ArrayList<String>(calendarYears));
+        calendarApprovalForm.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(ActionFormUtils.getAllCalendarEntriesForYear(calendarEntries, selectedCalendarYear), null));
+	    
+        calendarApprovalForm.setSelectedCalendarYear(selectedCalendarYear);
+        calendarApprovalForm.setSelectedPayPeriod(calendarApprovalForm.getCalendarEntry().getHrCalendarEntryId());
 	}
     
-    protected abstract List<CalendarEntry> getCalendarEntries();
+    protected abstract List<CalendarEntry> getCalendarEntries(CalendarEntry currentCalendarEntry);
 	
 	protected List<String> getSubListPrincipalIds(HttpServletRequest request, List<String> assignmentPrincipalIds) {
 	    String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
@@ -149,30 +123,6 @@ public abstract class CalendarApprovalFormAction extends ApprovalFormAction {
 
 	protected String getSortField(HttpServletRequest request) {
 	    return request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_SORT)));
-	}
-
-    // Triggered by changes of calendar year drop down list, reloads the pay period list
-    public ActionForward changeCalendarYear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	CalendarApprovalForm taf = (CalendarApprovalForm) form;
-    	if(!StringUtils.isEmpty(request.getParameter("selectedCY"))) {
-    		taf.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
-    		setCalendarFields(request, taf);
-    	}
-    	return mapping.findForward("basic");
-    }
-
-    // Triggered by changes of pay period drop down list, reloads the whole page based on the selected pay period
-    public ActionForward changePayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-      CalendarApprovalForm taf = (CalendarApprovalForm) form;
-  	  if(!StringUtils.isEmpty(request.getParameter("selectedPP"))) {
-  		  taf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
-  		  CalendarEntry pce = HrServiceLocator.getCalendarEntryService()
-  		  	.getCalendarEntry(request.getParameter("selectedPP").toString());
-  		  if(pce != null) {
-  			  taf.setCalendarEntry(pce);
-  		  }
-  	  }
-  	  return mapping.findForward("basic");
 	}
 
 }

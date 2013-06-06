@@ -94,5 +94,8 @@ public class LeaveCalendarDocument extends CalendarDocument {
         return getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
     }
 	
+    public LocalDate getDocEndDate(){
+		return getCalendarEntry().getEndPeriodFullDateTime().toLocalDate();
+	}
 	
 }

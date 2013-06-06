@@ -85,101 +85,83 @@ public class ClockAction extends TimesheetAction {
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.execute(mapping, form, request, response);
-        ClockActionForm caf = (ClockActionForm) form;
-        caf.setCurrentServerTime(String.valueOf(new Date().getTime()));
-        caf.getUserSystemOffsetServerTime();
-        caf.setShowLunchButton(TkServiceLocator.getSystemLunchRuleService().isShowLunchButton());
-        caf.setAssignmentDescriptions(caf.getTimesheetDocument().getAssignmentDescriptions(true));
-        if (caf.isShowLunchButton()) {
-            // We don't need to worry about the assignments and lunch rules
-            // if the global lunch rule is turned off.
-
-            // Check for presence of department lunch rule.
-            Map<String, Boolean> assignmentDeptLunchRuleMap = new HashMap<String, Boolean>();
-            if (caf.getTimesheetDocument() != null) {
-                for (Assignment a : caf.getTimesheetDocument().getAssignments()) {
-                    String key = AssignmentDescriptionKey.getAssignmentKeyString(a);
-                    DeptLunchRule deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(a.getDept(), a.getWorkArea(), caf.getPrincipalId(), a.getJobNumber(), LocalDate.now());
-                    assignmentDeptLunchRuleMap.put(key, deptLunchRule != null);
-                }
-            }
-            caf.setAssignmentLunchMap(assignmentDeptLunchRuleMap);
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        
+        ClockActionForm clockActionForm = (ClockActionForm) form;
+        
+        TimesheetDocument timesheetDocument = clockActionForm.getTimesheetDocument();
+        
+        if (timesheetDocument != null) {
+	        if (!timesheetDocument.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.ENROUTE)
+	                && !timesheetDocument.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL)) {
+        	
+		        String principalId = HrContext.getTargetPrincipalId();
+		        if (principalId != null) {
+		            clockActionForm.setPrincipalId(principalId);
+		        }
+		        clockActionForm.setCurrentServerTime(String.valueOf(System.currentTimeMillis()));
+		        clockActionForm.setAssignmentDescriptions(timesheetDocument.getAssignmentDescriptions(true));
+		        
+		        if (clockActionForm.getEditTimeBlockId() != null) {
+		            clockActionForm.setCurrentTimeBlock(TkServiceLocator.getTimeBlockService().getTimeBlock(clockActionForm.getEditTimeBlockId()));
+		        }
+		        
+		        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
+		        if (lastClockLog != null) {
+		            DateTime lastClockDateTime = lastClockLog.getClockDateTime();
+		            String lastClockZone = lastClockLog.getClockTimestampTimezone();
+		            if (StringUtils.isEmpty(lastClockZone)) {
+		                lastClockZone = TKUtils.getSystemTimeZone();
+		            }
+		            // zone will not be null. At this point is Valid or Exception.
+		            // Exception would indicate bad data stored in the system. We can wrap this, but
+		            // for now, the thrown exception is probably more valuable.
+		            DateTimeZone zone = DateTimeZone.forID(lastClockZone);
+		            DateTime clockWithZone = lastClockDateTime.withZone(zone);
+		            clockActionForm.setLastClockTimeWithZone(clockWithZone.toDate());
+		            clockActionForm.setLastClockTimestamp(lastClockDateTime.toDate());
+		            clockActionForm.setLastClockAction(lastClockLog.getClockAction());
+		        }
+		        
+		        if (lastClockLog == null || StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_OUT)) {
+		            clockActionForm.setCurrentClockAction(TkConstants.CLOCK_IN);
+		        } else {
+		            if (StringUtils.equals(lastClockLog.getClockAction(), TkConstants.LUNCH_OUT) && TkServiceLocator.getSystemLunchRuleService().isShowLunchButton()) {
+		                clockActionForm.setCurrentClockAction(TkConstants.LUNCH_IN);
+		            } else {
+		                clockActionForm.setCurrentClockAction(TkConstants.CLOCK_OUT);
+		            }
+		            // if the current clock action is clock out, displays only the clocked-in assignment
+		            String selectedAssignment = new AssignmentDescriptionKey(lastClockLog.getJobNumber(), lastClockLog.getWorkArea(), lastClockLog.getTask()).toAssignmentKeyString();
+		            clockActionForm.setSelectedAssignment(selectedAssignment);
+		            Assignment assignment = timesheetDocument.getAssignment(AssignmentDescriptionKey.get(selectedAssignment));
+		            Map<String, String> assignmentDesc = HrServiceLocator.getAssignmentService().getAssignmentDescriptions(assignment);
+		            clockActionForm.setAssignmentDescriptions(assignmentDesc);
+		        }
+		        
+		        clockActionForm.setShowLunchButton(TkServiceLocator.getSystemLunchRuleService().isShowLunchButton());
+		        clockActionForm.setShowMissedPunchButton(true);
+		        assignShowDistributeButton(clockActionForm);
+		        
+		        if (clockActionForm.isShowLunchButton()) {
+		            // We don't need to worry about the assignments and lunch rules
+		            // if the global lunch rule is turned off.
+		
+		            // Check for presence of department lunch rule.
+		            Map<String, Boolean> assignmentDeptLunchRuleMap = new HashMap<String, Boolean>();
+		            for (Assignment a : timesheetDocument.getAssignments()) {
+	                    String key = AssignmentDescriptionKey.getAssignmentKeyString(a);
+	                    DeptLunchRule deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(a.getDept(), a.getWorkArea(), clockActionForm.getPrincipalId(), a.getJobNumber(), LocalDate.now());
+	                    assignmentDeptLunchRuleMap.put(key, deptLunchRule != null);
+	                }
+		            clockActionForm.setAssignmentLunchMap(assignmentDeptLunchRuleMap);
+		        }
+	        } else {
+	        	clockActionForm.setErrorMessage("Your current timesheet is already submitted for Approval. Clock action is not allowed on this timesheet.");
+	        }
         }
-        String principalId = HrContext.getTargetPrincipalId();
-        if (principalId != null) {
-            caf.setPrincipalId(principalId);
-        }
-
-        //if there is no timesheet
-        if(caf.getTimesheetDocument() == null) {
-            //don't bother printing this message if we already have an error
-            if (!GlobalVariables.getMessageMap().hasErrors()) {
-                caf.setErrorMessage("You do not currently have a timesheet. Clock action is not allowed.");
-            }
-            return mapping.findForward("basic");
-        }
-        //if the timesheet document is enroute aor final, don't allow clock action
-        if(caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.ENROUTE)
-                || caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL)) {
-            caf.setErrorMessage("Your current timesheet is already submitted for Approval. Clock action is not allowed on this timesheet.");
-            return mapping.findForward("basic");
-        }
-
-
-        this.assignShowDistributeButton(caf);
-        // if the time sheet document is final or enroute, do not allow missed punch
-        if(caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.ENROUTE)
-        		|| caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL)) {
-        	caf.setShowMissedPunchButton(false);
-        } else {
-        	caf.setShowMissedPunchButton(true);
-        }
-
-        String tbIdString = caf.getEditTimeBlockId();
-        if (tbIdString != null) {
-            caf.setCurrentTimeBlock(TkServiceLocator.getTimeBlockService().getTimeBlock(caf.getEditTimeBlockId()));
-        }
-
-        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
-        if (lastClockLog != null) {
-            DateTime lastClockDateTime = lastClockLog.getClockDateTime();
-            String lastClockZone = lastClockLog.getClockTimestampTimezone();
-            if (StringUtils.isEmpty(lastClockZone)) {
-                lastClockZone = TKUtils.getSystemTimeZone();
-            }
-            // zone will not be null. At this point is Valid or Exception.
-            // Exception would indicate bad data stored in the system. We can wrap this, but
-            // for now, the thrown exception is probably more valuable.
-            DateTimeZone zone = DateTimeZone.forID(lastClockZone);
-            DateTime clockWithZone = lastClockDateTime.withZone(zone);
-            caf.setLastClockTimeWithZone(clockWithZone.toDate());
-            caf.setLastClockTimestamp(lastClockDateTime.toDate());
-            caf.setLastClockAction(lastClockLog.getClockAction());
-        }
-
-        if (lastClockLog == null || StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_OUT)) {
-            caf.setCurrentClockAction(TkConstants.CLOCK_IN);
-        } else {
-
-            if (StringUtils.equals(lastClockLog.getClockAction(), TkConstants.LUNCH_OUT) && TkServiceLocator.getSystemLunchRuleService().isShowLunchButton()) {
-                caf.setCurrentClockAction(TkConstants.LUNCH_IN);
-            }
-//	   	    	else if(StringUtils.equals(lastClockLog.getClockAction(),TkConstants.LUNCH_OUT)) {
-//	   	    		caf.setCurrentClockAction(TkConstants.LUNCH_IN);
-//	   	    	}
-            else {
-                caf.setCurrentClockAction(TkConstants.CLOCK_OUT);
-            }
-            // if the current clock action is clock out, displays only the clocked-in assignment
-            String selectedAssignment = new AssignmentDescriptionKey(lastClockLog.getJobNumber(), lastClockLog.getWorkArea(), lastClockLog.getTask()).toAssignmentKeyString();
-            caf.setSelectedAssignment(selectedAssignment);
-            Assignment assignment = caf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(selectedAssignment));
-            Map<String, String> assignmentDesc = HrServiceLocator.getAssignmentService().getAssignmentDescriptions(assignment);
-            caf.setAssignmentDescriptions(assignmentDesc);
-
-        }
-        return forward;
+        
+        return actionForward;
     }
     
     public void assignShowDistributeButton(ClockActionForm caf) {

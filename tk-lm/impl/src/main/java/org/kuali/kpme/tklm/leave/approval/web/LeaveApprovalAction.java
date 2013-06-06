@@ -70,7 +70,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 	}
 	
 	@Override
-    protected List<CalendarEntry> getCalendarEntries() {
+    protected List<CalendarEntry> getCalendarEntries(CalendarEntry currentCalendarEntry) {
 		return LmServiceLocator.getLeaveApprovalService().getAllLeavePayCalendarEntriesForApprover(HrContext.getTargetPrincipalId(), LocalDate.now());
 	}
 	

@@ -20,7 +20,7 @@ $(function () {
     	 el : $("body"),
     	 events : {
              "change #selectedCalendarYear" : "changeCalendarYear",
-             "change #selectedPayPeriod" : "changePayPeriod"
+             "change #selectedPayPeriod" : "changeCalendarEntry"
          },
          initialize : function () {
         	 return this;
@@ -30,15 +30,15 @@ $(function () {
          },
     
          changeCalendarYear : function () {
-         	var selectedCY = $("#selectedCalendarYear option:selected").text();
-         	var newLoc = window.location.pathname + '?methodToCall=changeCalendarYear&selectedCY=' + selectedCY;
+         	var selectedCalendarYear = $("#selectedCalendarYear option:selected").text();
+         	var newLoc = window.location.pathname + '?selectedCalendarYear=' + selectedCalendarYear;
              window.location = newLoc;
              
          },
          
-         changePayPeriod : function () {
-          	var selectedPP = $("#selectedPayPeriod option:selected").val();
-        	var newLoc = window.location.pathname + '?methodToCall=changePayPeriod&selectedPP=' + selectedPP ;
+         changeCalendarEntry : function () {
+          	var hrCalendarEntryId = $("#selectedPayPeriod option:selected").val();
+        	var newLoc = window.location.pathname + '?hrCalendarEntryId=' + hrCalendarEntryId ;
             window.location = newLoc ;
          }
     

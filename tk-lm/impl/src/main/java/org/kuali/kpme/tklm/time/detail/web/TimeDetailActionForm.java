@@ -21,10 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.Interval;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.calendar.TkCalendar;
@@ -33,18 +30,11 @@ import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 
 public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
-    private static DateTimeFormatter SDF_NO_TZ = DateTimeFormat.forPattern("EEE MMM d HH:mm:ss yyyy");
-
-    /**
-     *
-     */
     private static final long serialVersionUID = 5277197287612035236L;
 
 
 	private TimeBlock timeBlock;
 	private String clockAction;
-	private String serverTimezone;
-	private String userTimezone;
 	private TimeSummary timeSummary;
 	private Map<String, String> assignStyleClassMap = new HashMap<String, String>();
     private String timeBlockString;
@@ -96,7 +86,13 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 	}
 
 	public String getIsVirtualWorkDay() {
-		return Boolean.toString(TKUtils.isVirtualWorkDay(getCalendarEntry().getBeginPeriodFullDateTime()));
+		String isVirtualWorkDay = "false";
+		
+		if (getCalendarEntry() != null) {
+			isVirtualWorkDay = Boolean.toString(TKUtils.isVirtualWorkDay(getCalendarEntry().getBeginPeriodFullDateTime()));
+		}
+		
+		return isVirtualWorkDay;
 	}
 
 	public TimeSummary getTimeSummary() {
@@ -130,18 +126,16 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     public void setTimeBlockString(String timeBlockString) {
         this.timeBlockString = timeBlockString;
     }
-
-    public String getBeginPeriodDTNoTZ() {
-        return SDF_NO_TZ.print(new DateTime(this.getBeginPeriodDateTime()));
-    }
-
-    public String getEndPeriodDTNoTZ() {
-        return SDF_NO_TZ.print(new DateTime(this.getEndPeriodDateTime()));
-    }
     
-
     public boolean isCurrentTimesheet() {
-    	return (LocalDate.now().toDate().compareTo(this.getBeginPeriodDateTime()) >= 0 && LocalDate.now().toDate().compareTo(this.getEndPeriodDateTime()) < 0 );
+    	boolean isCurrentTimesheet = false;
+    	
+    	if (getCalendarEntry() != null) {
+    		Interval interval = new Interval(getCalendarEntry().getBeginPeriodFullDateTime(), getCalendarEntry().getEndPeriodFullDateTime());
+    		isCurrentTimesheet = interval.containsNow();
+    	}
+    	
+    	return isCurrentTimesheet;
     }
 
 	public String getDocEditable() {

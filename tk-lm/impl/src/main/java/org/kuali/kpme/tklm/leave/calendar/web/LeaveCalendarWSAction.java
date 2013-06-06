@@ -28,84 +28,23 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.joda.time.LocalDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 
-public class LeaveCalendarWSAction extends KPMEAction {
+public class LeaveCalendarWSAction extends LeaveCalendarAction {
 
     private static final Logger LOG = Logger.getLogger(LeaveCalendarWSAction.class);
-
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //return super.execute(mapping, form, request, response);
-        LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
-
-        String documentId = lcf.getDocumentId();
-        // if the reload was trigger by changing of the selectedPayPeriod, use the passed in parameter as the calendar entry id
-        String calendarEntryId = StringUtils.isNotBlank(request.getParameter("selectedPP")) ? request.getParameter("selectedPP") : lcf.getHrCalendarEntryId();
-
-        // Here - viewPrincipal will be the principal of the user we intend to
-        // view, be it target user, backdoor or otherwise.
-        String viewPrincipal = HrContext.getTargetPrincipalId();
-        CalendarEntry calendarEntry = null;
-
-        LeaveCalendarDocument lcd = null;
-        // By handling the prev/next in the execute method, we are saving one
-        // fetch/construction of a TimesheetDocument. If it were broken out into
-        // methods, we would first fetch the current document, and then fetch
-        // the next one instead of doing it in the single action.
-        if (StringUtils.isNotBlank(documentId)) {
-            lcd = LmServiceLocator.getLeaveCalendarService()
-                    .getLeaveCalendarDocument(documentId);
-            calendarEntry = lcd.getCalendarEntry();
-        } else if (StringUtils.isNotBlank(calendarEntryId)) {
-            // do further procedure
-            calendarEntry = HrServiceLocator.getCalendarEntryService()
-                    .getCalendarEntry(calendarEntryId);
-            lcd = LmServiceLocator.getLeaveCalendarService()
-                    .getLeaveCalendarDocument(viewPrincipal, calendarEntry);
-        } else {
-            // Default to whatever is active for "today".
-            calendarEntry = HrServiceLocator.getCalendarService()
-                    .getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
-            lcd = LmServiceLocator.getLeaveCalendarService()
-                    .openLeaveCalendarDocument(viewPrincipal, calendarEntry);
-        }
-
-        lcf.setCalendarEntry(calendarEntry);
-
-        if (lcd != null) {
-            lcf.setAssignmentDescriptions(lcd.getAssignmentDescriptions());
-            setupDocumentOnFormContext(lcf, lcd);
-            
-        } else {
-    		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
-        	lcf.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments));
-            LOG.error("Null leave calendar document in LeaveCalendarAction.");
-        }
-
-        ActionForward forward = super.execute(mapping, form, request, response);
-        if (forward.getRedirect()) {
-            return forward;
-        }
-
-        return forward;
-    }
-
         
     public ActionForward getEarnCodeInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
@@ -121,23 +60,12 @@ public class LeaveCalendarWSAction extends KPMEAction {
     }
 
     public ActionForward getEarnCodeJson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //TODO: copied from TimeDetailWSAction.  Need to reduce code duplication
         LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
-
-
-        if(request.getParameter("selectedPayPeriod") != null) {
-            lcf.setSelectedPayPeriod(request.getParameter("selectedPayPeriod"));
-            CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry(request.getParameter("selectedPayPeriod"));
-            lcf.setCalendarEntry(ce);
-        }
-        lcf.setPrincipalId(HrContext.getTargetPrincipalId());
-        boolean isPlanningCal = LmServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(lcf.getPrincipalId(), lcf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), lcf.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
-        lcf.setLeavePlanningCalendar(isPlanningCal);
 
         List<Map<String, Object>> earnCodeList = new LinkedList<Map<String, Object>>();
 
         if (StringUtils.isNotBlank(lcf.getSelectedAssignment())) {
-            List<Assignment> assignments = lcf.getLeaveCalendarDocument().getAssignments();
+        	List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(HrContext.getTargetPrincipalId(), lcf.getCalendarEntry());
             AssignmentDescriptionKey key = AssignmentDescriptionKey.get(lcf.getSelectedAssignment());
             for (Assignment assignment : assignments) {
             	if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
@@ -159,8 +87,10 @@ public class LeaveCalendarWSAction extends KPMEAction {
                 }
             }
         }
-        //LOG.info(lcf.toString());
+        
+        LOG.info(lcf.toString());
         lcf.setOutputString(JSONValue.toJSONString(earnCodeList));
+        
         return mapping.findForward("ws");
     }
     

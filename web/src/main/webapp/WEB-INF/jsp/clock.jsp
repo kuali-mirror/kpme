@@ -68,68 +68,67 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
     <script type="text/javascript" src="krad/scripts/krad.initialize.js"></script>
 
 	<html:form action="/Clock.do">
-	<html:hidden property="methodToCall" value=""/>
-	<html:hidden property="currentClockAction" styleId="clockAction"/>
-	<html:hidden property="lastClockedInTime" value="${Form.lastClockTimestamp}" styleId="lastClockedInTime"/>
-	<html:hidden property="currentServerTime" value="${Form.currentServerTime}" styleId="currentServerTime"/>
-	<html:hidden property="userSystemOffsetServerTime" value="${Form.userSystemOffsetServerTime}" styleId="userSystemOffsetServerTime"/>
-
-	<div id="errorMessage" style="color:red;font-size:14px">
-		<c:if test="${Form.errorMessage ne null}">
-			<b>Error</b> : ${Form.errorMessage}
-		</c:if>
-	</div>
-	<div id="clock">
-		<table>
-			<tr class="header"><td colspan="2"><bean:message key="clock.title"/></td></tr>
-			<tr>
-				<td class="sub-header"><bean:message key="clock.currentTime"/> : </td>
-				<td><div class="jClock"></div></td>
-			</tr>
-			<tr>
-				<td class="sub-header"><bean:message key="clock.workStatus"/> : </td>
-				<td>${lastClockActionMessage}
-				<fmt:timeZone value="${Form.targetUserTimezone}"><fmt:formatDate type="both" value="${Form.lastClockTimeWithZone}" pattern="EEE, MMMM d yyyy hh:mm:ss a, zzzz"/></fmt:timeZone>
-				</td>
-			</tr>
-			<tr>
-				<td class="sub-header"><bean:message key="clock.clockAssignment"/> : </td>
-				<td>
-					<tk:assignment assignments="${Form.assignmentDescriptions}"/>
-				</td>
-			</tr>
-			<tr class="footer">
-				<td colspan="2" align="center">
-                    <input id="clock-button" type="submit" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction';"/>
-                    <c:choose>
-						<c:when test="${Form.currentClockAction eq 'CO'}">
-                           <c:choose>
-                               <c:when test="${Form.showLunchButton}">
-						        <input type="submit" class="button" value="Take Lunch" name="lunchOut" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LO';"/>
-                               </c:when>
-                           </c:choose>
-						</c:when>
-						<c:when test="${Form.currentClockAction eq 'LI'}">
-						   <input type="submit" class="button" value="Return From Lunch" name="lunchIn" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LI';"/>
-						</c:when>
-                    </c:choose>
-                    <c:if test="${Form.showMissedPunchButton}">
-						<input type="button" class="button" value="Missed Punch" name="missedPunch" onClick="javascript: showLightboxUrl(extractUrlBase() + '/kr-krad/missedPunch?&methodToCall=start&viewId=MissedPunch-SubmitView&missedPunch.timesheetDocumentId=' + tdocid, {minHeight: 500, maxWidth: 600})" /> 				
-					</c:if>
-					<c:if test="${Form.showDistributeButton}">
-						<input id="distribute-button" type="button" class="button" value="Distribute Time Blocks"
-							name="distributeTime" onclick="javascrpt: window.open(extractUrlBase()+'/Clock.do?methodToCall=distributeTimeBlocks', 'distributePopup')"/>
-					</c:if>
-				</td>
-			</tr>
-		</table>
-	</div>
-
+    	<html:hidden property="methodToCall" value=""/>
+    	<html:hidden property="currentClockAction" styleId="clockAction"/>
+    	<html:hidden property="lastClockedInTime" value="${Form.lastClockTimestamp}" styleId="lastClockedInTime"/>
+    	<html:hidden property="currentServerTime" value="${Form.currentServerTime}" styleId="currentServerTime"/>
+    	<html:hidden property="userSystemOffsetServerTime" value="${Form.userSystemOffsetServerTime}" styleId="userSystemOffsetServerTime"/>
+    
+    	<div id="errorMessage" style="color:red;font-size:14px">
+    		<c:if test="${Form.errorMessage ne null}">
+    			<b>Error</b> : ${Form.errorMessage}
+    		</c:if>
+    	</div>
+    	
+    	<c:if test="${not empty Form.documentId}">
+        	<div id="clock">
+        		<table>
+        			<tr class="header"><td colspan="2"><bean:message key="clock.title"/></td></tr>
+        			<tr>
+        				<td class="sub-header"><bean:message key="clock.currentTime"/> : </td>
+        				<td><div class="jClock"></div></td>
+        			</tr>
+        			<tr>
+        				<td class="sub-header"><bean:message key="clock.workStatus"/> : </td>
+        				<td>${lastClockActionMessage}
+        				<fmt:timeZone value="${Form.targetUserTimezone}"><fmt:formatDate type="both" value="${Form.lastClockTimeWithZone}" pattern="EEE, MMMM d yyyy hh:mm:ss a, zzzz"/></fmt:timeZone>
+        				</td>
+        			</tr>
+        			<tr>
+        				<td class="sub-header"><bean:message key="clock.clockAssignment"/> : </td>
+        				<td>
+        					<tk:assignment assignments="${Form.assignmentDescriptions}"/>
+        				</td>
+        			</tr>
+        			<tr class="footer">
+        				<td colspan="2" align="center">
+                            <input id="clock-button" type="submit" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction';"/>
+                            <c:choose>
+        						<c:when test="${Form.currentClockAction eq 'CO'}">
+                                   <c:choose>
+                                       <c:when test="${Form.showLunchButton}">
+        						        <input type="submit" class="button" value="Take Lunch" name="lunchOut" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LO';"/>
+                                       </c:when>
+                                   </c:choose>
+        						</c:when>
+        						<c:when test="${Form.currentClockAction eq 'LI'}">
+        						   <input type="submit" class="button" value="Return From Lunch" name="lunchIn" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LI';"/>
+        						</c:when>
+                            </c:choose>
+                            <c:if test="${Form.showMissedPunchButton}">
+        						<input type="button" class="button" value="Missed Punch" name="missedPunch" onClick="javascript: showLightboxUrl(extractUrlBase() + '/kr-krad/missedPunch?&methodToCall=start&viewId=MissedPunch-SubmitView&missedPunch.timesheetDocumentId=' + tdocid, {minHeight: 500, maxWidth: 600})" /> 				
+        					</c:if>
+        					<c:if test="${Form.showDistributeButton}">
+        						<input id="distribute-button" type="button" class="button" value="Distribute Time Blocks"
+        							name="distributeTime" onclick="javascrpt: window.open(extractUrlBase()+'/Clock.do?methodToCall=distributeTimeBlocks', 'distributePopup')"/>
+        					</c:if>
+        				</td>
+        			</tr>
+        		</table>
+        	</div>
+        	<div id="missed-punch-dialog" title="Missed Punch" style="display:none;" />
+            <tk:note/>
+        </c:if>
 	</html:form>
 </tk:tkHeader>
 
-<div id="missed-punch-dialog" title="Missed Punch" style="display:none;">
-
-</div>
-
-<tk:note/>

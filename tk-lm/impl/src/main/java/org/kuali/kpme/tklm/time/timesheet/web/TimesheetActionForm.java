@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.timesheet.web;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -87,14 +86,6 @@ public class TimesheetActionForm extends CalendarForm {
 
 	public void setCalNav(String calNav) {
 		this.calNav = calNav;
-	}
-
-	public Date getBeginPeriodDateTime() {
-		return getCalendarEntry().getBeginPeriodDateTime();
-	}
-
-	public Date getEndPeriodDateTime() {
-		return getCalendarEntry().getEndPeriodDateTime();
 	}
 
 	public String getTransferAccrualCategory() {

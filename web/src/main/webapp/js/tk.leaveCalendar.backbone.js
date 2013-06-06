@@ -57,12 +57,11 @@ $(function () {
         // Create an earn code model
     EarnCode = Backbone.Model;
 
-    var selectedPP = $("#selectedPayPeriod option:selected").val();
+    var hrCalendarEntryId = $("#selectedPayPeriod option:selected").val();
     // Create a collection for earn codes
     EarnCodeCollection = Backbone.Collection.extend({
         model : EarnCode,
-//        url : "LeaveCalendarWS.do?methodToCall=getEarnCodeJson"
-        url : "LeaveCalendarWS.do?methodToCall=getEarnCodeJson&selectedPayPeriod=" + selectedPP
+        url : "LeaveCalendarWS.do?methodToCall=getEarnCodeJson&hrCalendarEntryId=" + hrCalendarEntryId
     });
 
     var EarnCodes = new EarnCodeCollection;
@@ -831,8 +830,8 @@ $(function () {
         
         checkPermissions : function(startDate, endDate) {
 			var isValid = false;
-			var curStartDate = $("#currentPayCalStartDate").val();
-			var curEndDate = $("#currentPayCalEndDate").val();
+			var curStartDate = $("#beginPeriodDateTime").val();
+			var curEndDate = $("#endPeriodDateTime").val();
 			var currentDay = new Date(beginPeriodDateTimeObj);
 			var targetDay;
 			if(!_.isUndefined(startDate) && !_.isUndefined(endDate)) {

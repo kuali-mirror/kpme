@@ -383,16 +383,17 @@ public class ActionFormUtils {
 		return plannningMonths;
     }
     
-    public static List<CalendarEntry> getAllCalendarEntriesForYear(List<CalendarEntry> entries, String year) {
-    	List<CalendarEntry> results = new ArrayList<CalendarEntry>();
-    	DateFormat df = new SimpleDateFormat("yyyy");
-    	 
-    	for(CalendarEntry ce : entries) {
-    		if(df.format(ce.getBeginPeriodDate()).equals(year)) {
-    			results.add(ce);
-    		}
-    	}
-    	return results;
+    public static List<CalendarEntry> getAllCalendarEntriesForYear(List<CalendarEntry> calendarEntries, String year) {
+    	List<CalendarEntry> allCalendarEntriesForYear = new ArrayList<CalendarEntry>();
+    	
+	    for (CalendarEntry calendarEntry : calendarEntries) {
+	    	String calendarEntryYear = calendarEntry.getBeginPeriodFullDateTime().toString("yyyy");
+	    	if (StringUtils.equals(calendarEntryYear, year)) {
+	    		allCalendarEntriesForYear.add(calendarEntry);
+	    	}
+	    }
+    	
+    	return allCalendarEntriesForYear;
     }
     
 }

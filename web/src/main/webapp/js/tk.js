@@ -136,15 +136,12 @@ $(document).ready(function() {
         }
     });
 
-
-    var docId = $('#documentId').val();
-    var prevDocId = $('#prevDocumentId').val();
-    var nextDocId = $('#nextDocumentId').val();
+    var prevDocumentId = $('input[name=prevDocumentId]').val();
+    var nextDocumentId = $('input[name=nextDocumentId]').val();
     var prevHrCalendarEntryId = $('input[name=prevHrCalendarEntryId]').val();
     var nextHrCalendarEntryId = $('input[name=nextHrCalendarEntryId]').val();
 
-
-    // create navigation buttons
+    // create navigation buttons for timesheet
     $('#nav_prev').button({
         icons: {
             primary: "ui-icon-triangle-1-w"
@@ -153,7 +150,8 @@ $(document).ready(function() {
     });
 
     $('#nav_prev').click(function() {
-        window.location = 'TimeDetail.do?documentId=' + prevDocId;
+        this.form.documentId.value = prevDocumentId;
+        this.form.submit();
     });
 
     $('#nav_next').button({
@@ -164,14 +162,11 @@ $(document).ready(function() {
     });
 
     $('#nav_next').click(function() {
-        window.location = 'TimeDetail.do?documentId=' + nextDocId;
+        this.form.documentId.value = nextDocumentId;
+        this.form.submit();
     });
     
- // create navigation buttons for leave calendar
-    var calId = $('#hrCalendarEntryId').val();
-    var prevCalId = $('#prevHrCalendarEntryId').val();
-    var nextCalId = $('#nextHrCalendarEntryId').val();
-    
+    // create navigation buttons for leave calendar    
     $('#nav_prev_lc').button({
         icons: {
             primary: "ui-icon-triangle-1-w"
@@ -180,7 +175,9 @@ $(document).ready(function() {
     });
 
     $('#nav_prev_lc').click(function() {
-        window.location = 'LeaveCalendar.do?documentId=' + prevDocId+'&hrCalendarEntryId='+prevCalId;
+        this.form.documentId.value = prevDocumentId;
+        this.form.hrCalendarEntryId.value = prevHrCalendarEntryId;
+        this.form.submit();
     });
 
     $('#nav_next_lc').button({
@@ -191,7 +188,9 @@ $(document).ready(function() {
     });
 
     $('#nav_next_lc').click(function() {
-        window.location = 'LeaveCalendar.do?documentId=' + nextDocId+'&hrCalendarEntryId='+nextCalId;
+        this.form.documentId.value = nextDocumentId;
+        this.form.hrCalendarEntryId.value = nextHrCalendarEntryId;
+        this.form.submit();
     });
 
     //create navigation for approval tab

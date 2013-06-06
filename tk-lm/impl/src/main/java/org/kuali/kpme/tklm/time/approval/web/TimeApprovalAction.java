@@ -68,7 +68,7 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 	}
 	
 	@Override
-    protected List<CalendarEntry> getCalendarEntries() {
+    protected List<CalendarEntry> getCalendarEntries(CalendarEntry currentCalendarEntry) {
 		return TkServiceLocator.getTimeApproveService().getAllPayCalendarEntriesForApprover(HrContext.getTargetPrincipalId(), LocalDate.now());
 	}
 	

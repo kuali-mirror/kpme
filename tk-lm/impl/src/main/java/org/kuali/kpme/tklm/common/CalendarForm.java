@@ -21,13 +21,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.web.KPMEForm;
 
 public abstract class CalendarForm extends KPMEForm {
 
 	private static final long serialVersionUID = 7437602046032470340L;
+	
+    private static final DateTimeFormatter SDF_NO_TZ = DateTimeFormat.forPattern("EEE MMM d HH:mm:ss yyyy");
 	
     private String prevDocumentId;
     private String nextDocumentId;
@@ -151,6 +156,26 @@ public abstract class CalendarForm extends KPMEForm {
 	public void setSelectedPayPeriod(String selectedPayPeriod) {
 		this.selectedPayPeriod = selectedPayPeriod;
 	}
+	
+    public String getBeginPeriodDateTime() {
+    	String beginPeriodDateTime = StringUtils.EMPTY;
+    	
+    	if (getCalendarEntry() != null) {
+    		beginPeriodDateTime = getCalendarEntry().getBeginPeriodFullDateTime().toString(SDF_NO_TZ);
+    	}
+    	
+    	return beginPeriodDateTime;
+    }
+
+    public String getEndPeriodDateTime() {
+    	String endPeriodDateTime = StringUtils.EMPTY;
+    	
+    	if (getCalendarEntry() != null) {
+    		endPeriodDateTime = getCalendarEntry().getEndPeriodFullDateTime().toString(SDF_NO_TZ);
+    	}
+    	
+    	return endPeriodDateTime;
+    }
 
 	public boolean isOnCurrentPeriod() {
 		boolean isOnCurrentPeriod = false;

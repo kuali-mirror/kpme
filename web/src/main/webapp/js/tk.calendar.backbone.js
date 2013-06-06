@@ -1224,8 +1224,8 @@ $(function () {
      */
     var mouseDownIndex = null;
     var currentMouseIndex = null;
-    var beginPeriodDateTimeObj = $('#beginPeriodDate').val() !== undefined ? new Date($('#beginPeriodDate').val()) : d + '/' + m + '/' + y;
-    var endPeriodDateTimeObj = $('#endPeriodDate').val() !== undefined ? new Date($('#endPeriodDate').val()) : d + '/' + m + '/' + y;
+    var beginPeriodDateTimeObj = $('#beginPeriodDateTime').val() !== undefined ? new Date($('#beginPeriodDateTime').val()) : d + '/' + m + '/' + y;
+    var endPeriodDateTimeObj = $('#endPeriodDateTime').val() !== undefined ? new Date($('#endPeriodDateTime').val()) : d + '/' + m + '/' + y;
     var tableCells = $('td[id^="day_"]');
     tableCells.disableSelection();
 
