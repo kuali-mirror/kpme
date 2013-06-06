@@ -50,7 +50,7 @@
 		<property name="collections">
 	      <list>
 	        <bean parent="CollectionDefinition">
-	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.ClassificationQualification" />
+	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification" />
 	          <property name="name" value="qualificationList" />
 	          <property name="shortLabel" value="Qualifications" />
 	          <property name="label" value="Classification Qualifications" />
