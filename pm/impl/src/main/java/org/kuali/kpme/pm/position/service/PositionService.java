@@ -15,9 +15,14 @@
  */
 package org.kuali.kpme.pm.position.service;
 
+import java.util.List;
+
+import org.joda.time.LocalDate;
 import org.kuali.kpme.pm.position.Position;
 
 public interface PositionService {
 
 	public Position getPosition(String id);
+	
+	public List<Position> getPositions(String positionNum, String description, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 }

@@ -15,21 +15,32 @@
  */
 package org.kuali.kpme.pm.position.service;
 
+import java.util.List;
+
+import org.joda.time.LocalDate;
 import org.kuali.kpme.pm.position.Position;
 import org.kuali.kpme.pm.position.dao.PositionDao;
 
 public class PositionServiceImpl implements PositionService {
 
 	private PositionDao positionDao;
+	
 	@Override
 	public Position getPosition(String id) {
 		return positionDao.getPosition(id);
 	}
+	@Override
+	public List<Position> getPositions(String positionNum, String description,
+			LocalDate fromEffdt, LocalDate toEffdt, String active,
+			String showHistory) {
+		return positionDao.getPositions(positionNum, description, fromEffdt, toEffdt, active, showHistory);
+	}
+	
 	public PositionDao getPositionDao() {
 		return positionDao;
 	}
 	public void setPositionDao(PositionDao positionDao) {
 		this.positionDao = positionDao;
 	}
-
+	
 }

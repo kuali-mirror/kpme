@@ -64,7 +64,7 @@ public class HrServiceLocator implements ApplicationContextAware {
     public static final String HR_PERSON_SERVICE = "tkPersonService";
     public static final String HR_BATCH_JOB_SERVICE = "batchJobService";
     public static final String HR_BATCH_JOB_ENTRY_SERVICE = "batchJobEntryService";
-    public static final String HR_POSITION_SERVICE = "positionService";
+    public static final String HR_POSITION_SERVICE = "positionBaseService";
     public static final String HR_LEAVE_PLAN_SERVICE = "leavePlanService";
 	public static final String HR_PRINCIPAL_HR_ATTRIBUTES_SERVICE = "principalHRAttributesService";
 	public static final String HR_ASSIGNMENT_SERVICE = "assignmentService";

@@ -15,8 +15,12 @@
  */
 package org.kuali.kpme.pm.position.dao;
 
+import java.util.List;
+
+import org.joda.time.LocalDate;
 import org.kuali.kpme.pm.position.Position;
 
 public interface PositionDao {
 	public Position getPosition(String id);
+	public List<Position> getPositions(String positionNum, String description, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 }

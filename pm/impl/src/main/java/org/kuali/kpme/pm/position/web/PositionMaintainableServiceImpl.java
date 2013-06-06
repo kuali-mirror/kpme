@@ -19,8 +19,16 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.pm.classification.Classification;
+import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
+import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
+import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
 import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionDuty;
+import org.kuali.kpme.pm.position.PositionQualification;
+import org.kuali.kpme.pm.position.PstnFlag;
 import org.kuali.kpme.pm.position.funding.PositionFunding;
+import org.kuali.kpme.pm.positionflag.PositionFlag;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
@@ -38,29 +46,50 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 		return PmServiceLocator.getPositionService().getPosition(id);
 	}
 	
-//	@Override
-//    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model,
-//            Object addLine) {
-//        boolean isValid = true;
-//        if (model instanceof MaintenanceDocumentForm) {
-//	        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
-//	        MaintenanceDocument document = maintenanceForm.getDocument();
-//	        if (document.getNewMaintainableObject().getDataObject() instanceof Position) {
-//	        	Position aPosition = (Position) document.getNewMaintainableObject().getDataObject();
-//	        	// Funding line validation
-//		        if (addLine instanceof PositionFunding) {
-//		        	PositionFunding pf = (PositionFunding) addLine;
-//		        	boolean results = this.validateAddFundingLine(pf, aPosition);
-//		        	if(!results) {
-//		        		GlobalVariables.getMessageMap().addToErrorPath("document");
-//		        		return false;
-//		        	}
-//		        }
-//	        }
-//        }
-//
-//        return isValid;
-//    }
+	@Override
+	public void customSaveLogic(HrBusinessObject hrObj){
+		Position aPosition = (Position) hrObj;
+		for(PositionQualification aQual : aPosition.getQualificationList()) {
+			aQual.setHrPositionId(aPosition.getHrPositionId());
+			aQual.setPmQualificationId(null);
+		}
+		for(PositionDuty aDuty : aPosition.getDutyList()) {
+			aDuty.setHrPositionId(aPosition.getHrPositionId());
+			aDuty.setPmDutyId(null);
+		}
+		for(PstnFlag aFlag : aPosition.getFlagList()) {
+			aFlag.setHrPositionId(aPosition.getHrPositionId());
+			aFlag.setPmFlagId(null);
+		}
+		for(PositionFunding aFunding : aPosition.getFundingList()) {
+			aFunding.setHrPositionId(aPosition.getHrPositionId());
+			aFunding.setPmPositionFunctionId(null);
+		}
+		
+	}
+	
+	@Override
+    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model,
+            Object addLine) {
+        boolean isValid = super.performAddLineValidation(view, collectionGroup, model, addLine);
+        if (model instanceof MaintenanceDocumentForm) {
+	        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+	        MaintenanceDocument document = maintenanceForm.getDocument();
+	        if (document.getNewMaintainableObject().getDataObject() instanceof Position) {
+	        	Position aPosition = (Position) document.getNewMaintainableObject().getDataObject();
+	        	// Funding line validation
+		        if (addLine instanceof PositionFunding) {
+		        	PositionFunding pf = (PositionFunding) addLine;
+		        	boolean results = this.validateAddFundingLine(pf, aPosition);
+		        	if(!results) {
+		        		return false;
+		        	}
+		        }
+	        }
+        }
+
+        return isValid;
+    }
 	
 	protected boolean validateAddFundingLine(PositionFunding pf, Position aPosition) {
     	if(pf.getEffectiveDate() != null && aPosition.getEffectiveDate() != null) {
@@ -77,8 +106,10 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
     		if(!results) {
 //    			GlobalVariables.getMessageMap().putError(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "dataObject","error.funding.account.notExist", pf.getAccount());
     			 
-    			GlobalVariables.getMessageMap().addToErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "dataObject.fundingList");
-    			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "dataObject.fundingList", "error testing");
+//    			GlobalVariables.getMessageMap().addToErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "dataObject.fundingList");
+//    			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "dataObject.fundingList", "error testing");
+    			GlobalVariables.getMessageMap().addToErrorPath("Position-fundings");
+    			GlobalVariables.getMessageMap().putError("Position-fundings", "error.funding.account.notExist", pf.getAccount());
     			return results;
     		}
     	}

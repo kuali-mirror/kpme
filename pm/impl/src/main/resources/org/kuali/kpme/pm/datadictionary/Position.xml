@@ -201,7 +201,7 @@
 	<bean id="Position-qualificationList" abstract="true"
 		parent="Uif-Disclosure-TableCollectionSection"
 		p:layoutManager.numberOfColumns="4">
-		<property name="headerText" value="Required Qualification" />
+		<property name="headerText" value="Preferred Qualification" />
 		<property name="collectionObjectClass"
 			value="org.kuali.kpme.pm.position.PositionQualification" />
 		<property name="propertyName" value="qualificationList" />
@@ -256,7 +256,8 @@
 	<bean id="Position-requiredQualList" abstract="true" parent="Uif-ListCollectionSection" >
 	    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification"/>
 	    <property name="propertyName" value="requiredQualList"/>
-	    <property name="header.render" value="false" />
+	    <property name="headerText" value="Required Qualification" />
+<!-- 	    <property name="header.render" value="false" /> -->
         <property name="layoutManager.lineGroupPrototype.layoutManager.orientation" value="HORIZONTAL" />
         <property name="refreshWhenChangedPropertyNames" value="pmPositionClassId" />
 	    <property name="items">
@@ -272,7 +273,8 @@
 	<bean id="Position-fundingList" abstract="true" parent="Uif-Disclosure-TableCollectionSection">
 		<property name="collectionObjectClass" value="org.kuali.kpme.pm.position.funding.PositionFunding" />
 		<property name="propertyName" value="fundingList" />
-			    <property name="layoutManager.renderSequenceField" value="false"/>
+		<property name="headerText" value="Funding" />
+		<property name="layoutManager.renderSequenceField" value="false"/>
 	    <property name="layoutManager.separateAddLine" value="true"/>
 	    <property name="layoutManager.richTable.render" value="false"/>
 		<property name="items">
@@ -326,7 +328,7 @@
 	<bean id="Position-LookupView" parent="Uif-LookupView">
 		<property name="headerText" value="Position Lookup" />
 	    <property name="dataObjectClassName" value="org.kuali.kpme.pm.position.Position" />
-<!-- 	    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.position.web.PositionLookupableHelper" /> -->
+	    <property name="viewHelperServiceClass" value="org.kuali.kpme.pm.position.web.PositionLookupableHelper" />
 	    <property name="criteriaFields">
 			<list>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber" />

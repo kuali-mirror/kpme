@@ -256,7 +256,7 @@
         <field-descriptor name="qualifier"    						column="QUALIFIER"             	 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
         <field-descriptor name="qualificationValue"    				column="QLFCTN_VL"             	 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="pmPositionClassId"   				column="PM_PSTN_CL_ID"    		jdbc-type="VARCHAR"     length="60"  		nullable="false" />
-        <field-descriptor name="timestamp"     						column="TIMESTAMP"          	jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
+<!--         <field-descriptor name="timestamp"     						column="TIMESTAMP"          	jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" /> -->
         <field-descriptor name="objectId"      						column="OBJ_ID"             	jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber" 						column="VER_NBR"            	jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
