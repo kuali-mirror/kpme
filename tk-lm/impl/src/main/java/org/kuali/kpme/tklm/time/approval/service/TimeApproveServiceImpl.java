@@ -860,6 +860,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     	Set<Long> workAreas = new HashSet<Long>();
     	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
         workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+        workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
 
 		// Get all of the principals within our window of time.
 		for (Long waNum : workAreas) {

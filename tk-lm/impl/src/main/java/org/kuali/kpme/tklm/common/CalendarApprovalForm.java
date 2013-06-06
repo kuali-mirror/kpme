@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.document.calendar.CalendarDocument;
 
 public abstract class CalendarApprovalForm extends ApprovalForm {
 	
@@ -48,6 +49,8 @@ public abstract class CalendarApprovalForm extends ApprovalForm {
     
     private String selectedCalendarYear;
     private String selectedPayPeriod;
+    
+    private CalendarDocument calendarDocument;
 
     private String outputString;
 
@@ -134,6 +137,14 @@ public abstract class CalendarApprovalForm extends ApprovalForm {
 	
 	public void setSelectedPayPeriod(String selectedPayPeriod) {
 		this.selectedPayPeriod = selectedPayPeriod;
+	}
+
+	public CalendarDocument getCalendarDocument() {
+		return calendarDocument;
+	}
+
+	public void setCalendarDocument(CalendarDocument calendarDocument) {
+		this.calendarDocument = calendarDocument;
 	}
 
 	public boolean isOnCurrentPeriod() {

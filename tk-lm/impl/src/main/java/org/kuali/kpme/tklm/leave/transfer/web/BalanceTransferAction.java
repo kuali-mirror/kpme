@@ -82,13 +82,13 @@ public class BalanceTransferAction extends KPMEAction {
 			else if(ObjectUtils.isNotNull(tsdh)) {
 				//Throws runtime exception, separate action forwards for timesheet/leave calendar transfers.
 				TimesheetDocument tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
-				calendarEntry = tsd.getCalendarEntry();
+				calendarEntry = tsd != null ? tsd.getCalendarEntry() : null;
 				strutsActionForward = "timesheetTransferSuccess";
 				methodToCall = "approveTimesheet";
 			}
 			else {
 				LeaveCalendarDocument lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
-				calendarEntry = lcd.getCalendarEntry();
+				calendarEntry = lcd != null ? lcd.getCalendarEntry() : null;
 				strutsActionForward = "leaveCalendarTransferSuccess";
 				methodToCall = "approveLeaveCalendar";
 			}
@@ -203,17 +203,15 @@ public class BalanceTransferAction extends KPMEAction {
 				if(!StringUtils.equals(aRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
 					throw new RuntimeException("attempted to execute on-demand balance transfer for accrual category with action frequency " + aRule.getMaxBalanceActionFrequency());
 				else {
-					TimesheetDocument tsd = null;
-					LeaveCalendarDocument lcd = null;
 					String principalId = null;
 
 					if(isTimesheet) {
-						tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
-						principalId = tsd.getPrincipalId();
+						TimesheetDocument tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
+			 	 	 	principalId = tsd == null ? null : tsd.getPrincipalId();
 					}
 					else {
-						lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
-						principalId = lcd.getPrincipalId();
+						LeaveCalendarDocument lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
+			 	 	 	principalId = lcd == null ? null : lcd.getPrincipalId();
 					}
 
 					AccrualCategoryRule accrualRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
@@ -285,6 +283,7 @@ public class BalanceTransferAction extends KPMEAction {
 			ActionForward forward = new ActionForward(mapping.findForward("basic"));
 			LeaveCalendarDocument lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocumentId);
 			
+			String principalId = lcd == null ? null : lcd.getPrincipalId();
 			LeaveBlock leaveBlock = eligibleTransfers.get(0);
 			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
 			String accrualCategoryRuleId = leaveBlock.getAccrualCategoryRuleId();
@@ -292,9 +291,9 @@ public class BalanceTransferAction extends KPMEAction {
 				
 				AccrualCategoryRule accrualRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
 				AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
-				BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(lcd.getPrincipalId(), accrualCategory, leaveBlock.getLeaveLocalDate());
+				BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, leaveBlock.getLeaveLocalDate());
 				
-				BalanceTransfer balanceTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(lcd.getPrincipalId(), accrualCategoryRuleId, accruedBalance, effectiveDate);
+				BalanceTransfer balanceTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(principalId, accrualCategoryRuleId, accruedBalance, effectiveDate);
 				
 				balanceTransfer.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 				
@@ -307,7 +306,7 @@ public class BalanceTransferAction extends KPMEAction {
                         LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(balanceTransfer.getForfeitedLeaveBlockId());
                         KRADServiceLocator.getBusinessObjectService().save(balanceTransfer);
                         forfeitedLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
-                        LmServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, lcd.getPrincipalId());
+                        LmServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, principalId);
 
                         if(ObjectUtils.isNotNull(leaveCalendarDocumentId)) {
                             if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
@@ -361,6 +360,7 @@ public class BalanceTransferAction extends KPMEAction {
 			String timesheetDocumentId = request.getParameter("documentId");
 			ActionForward forward = new ActionForward(mapping.findForward("basic"));
 			TimesheetDocument tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
+			String principalId = tsd == null ? null : tsd.getPrincipalId();
 			
 			LeaveBlock leaveBlock = eligibleTransfers.get(0);
 			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
@@ -368,9 +368,9 @@ public class BalanceTransferAction extends KPMEAction {
 			if(!StringUtils.isBlank(accrualCategoryRuleId)) {
 				AccrualCategoryRule accrualRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
 				AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
-				BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(tsd.getPrincipalId(), accrualCategory, leaveBlock.getLeaveLocalDate());
+				BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, leaveBlock.getLeaveLocalDate());
 
-				BalanceTransfer balanceTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(tsd.getPrincipalId(), accrualCategoryRuleId, accruedBalance, effectiveDate);
+				BalanceTransfer balanceTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(principalId, accrualCategoryRuleId, accruedBalance, effectiveDate);
 				balanceTransfer.setLeaveCalendarDocumentId(timesheetDocumentId);
 	
 				if(ObjectUtils.isNotNull(balanceTransfer)) {
@@ -384,7 +384,7 @@ public class BalanceTransferAction extends KPMEAction {
 						// May need to update to save the business object to KPME's tables for record keeping.
 						LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(balanceTransfer.getForfeitedLeaveBlockId());
 						forfeitedLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
-						LmServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, tsd.getPrincipalId());
+						LmServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, principalId);
 
 						if(ObjectUtils.isNotNull(timesheetDocumentId)) {
 							if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||

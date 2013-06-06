@@ -157,10 +157,15 @@ public class TimesheetServiceImpl implements TimesheetService {
             //this.loadHolidaysOnTimesheet(timesheetDocument, principalId, begin, end);
         } else {
             timesheetDocument = this.getTimesheetDocument(header.getDocumentId());
-            timesheetDocument.setCalendarEntry(calendarDates);
+            if (timesheetDocument != null) {
+            	timesheetDocument.setCalendarEntry(calendarDates);
+            }
         }
 
-        timesheetDocument.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(timesheetDocument));
+        if (timesheetDocument != null) {
+        	timesheetDocument.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(timesheetDocument));
+        }
+        
         return timesheetDocument;
     }
 
@@ -364,7 +369,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(a.getDept(), a.getWorkArea(), asOfDate);
         
         boolean isClockUser = tcr == null || tcr.isClockUserFl();
-        boolean isUsersTimesheet = StringUtils.equals(HrContext.getTargetPrincipalId(),a.getPrincipalId());
+        boolean isUsersTimesheet = StringUtils.equals(HrContext.getPrincipalId(),a.getPrincipalId());
 
         // Reg earn codes will typically not be defined in the earn code security table
         EarnCode regularEarnCode = HrServiceLocator.getEarnCodeService().getEarnCode(job.getPayTypeObj().getRegEarnCode(), asOfDate);
@@ -372,7 +377,7 @@ public class TimesheetServiceImpl implements TimesheetService {
             throw new RuntimeException("No regular earn code defined for job pay type.");
         } else {
             //  if you are a clock user and this is your timesheet and you are processing the reg earn code, do not add this earn code. Use the clock in/out mechanism.
-            if (isClockUser && isUsersTimesheet) {
+        	if (!isClockUser || !isUsersTimesheet) {
                 // do not add reg earn code. use clock.
             } else {
                 earnCodes.add(regularEarnCode);

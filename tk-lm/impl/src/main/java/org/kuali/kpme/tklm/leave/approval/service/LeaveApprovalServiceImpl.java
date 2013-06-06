@@ -203,6 +203,10 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		
 		List<Map<String, Object>> acRows = new ArrayList<Map<String, Object>>();
 		
+		if (lcdh == null) {
+			return acRows;
+		}
+		
 		String principalId = lcdh.getPrincipalId();
         CalendarEntry calendarEntry = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcdh.getDocumentId()).getCalendarEntry();
 		//CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(lcdh.getBeginDate(), lcdh.getEndDate());
@@ -301,6 +305,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
     	Set<Long> workAreas = new HashSet<Long>();
     	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
         workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+        workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
 
 		// Get all of the principals within our window of time.
 		for (Long waNum : workAreas) {

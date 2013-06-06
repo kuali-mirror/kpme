@@ -22,21 +22,17 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
-import org.joda.time.LocalDate;
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.rice.krad.exception.AuthorizationException;
@@ -52,39 +48,23 @@ public abstract class CalendarApprovalFormAction extends ApprovalFormAction {
 		}
 	}
 	
-	@Override
-	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CalendarApprovalForm calendarApprovalForm = (CalendarApprovalForm) form;
-        
-        CalendarEntry calendarEntry = null;
-        if (calendarApprovalForm.getHrCalendarEntryId() != null) {
-        	calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(calendarApprovalForm.getHrCalendarEntryId());
-        } else {
-        	Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByGroup(calendarApprovalForm.getSelectedPayCalendarGroup());
-            if (calendar != null) {
-                calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), LocalDate.now().toDateTimeAtStartOfDay());
-            }
-        }
-        
-        if (calendarEntry != null) {
-	        calendarApprovalForm.setHrCalendarEntryId(calendarEntry.getHrCalendarEntryId());
-	        calendarApprovalForm.setCalendarEntry(calendarEntry);
-	        calendarApprovalForm.setBeginCalendarEntryDate(calendarEntry.getBeginPeriodDateTime());
-	        calendarApprovalForm.setEndCalendarEntryDate(DateUtils.addMilliseconds(calendarEntry.getEndPeriodDateTime(), -1));
-		
-			CalendarEntry prevCalendarEntry = HrServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
-			calendarApprovalForm.setPrevHrCalendarEntryId(prevCalendarEntry != null ? prevCalendarEntry.getHrCalendarEntryId() : null);
-			
-			CalendarEntry nextCalendarEntry = HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
-			calendarApprovalForm.setNextHrCalendarEntryId(nextCalendarEntry != null ? nextCalendarEntry.getHrCalendarEntryId() : null);
-			
-	        setCalendarFields(request, calendarApprovalForm);
-        }
-        
-		return super.execute(mapping, form, request, response);
+	protected void setSearchFields(CalendarApprovalForm calendarApprovalForm) {
+		super.setSearchFields(calendarApprovalForm);
+
+		if (calendarApprovalForm.getCalendarDocument() != null) {
+			calendarApprovalForm.setSelectedPayCalendarGroup(calendarApprovalForm.getCalendarDocument().getCalendarEntry().getCalendarName());
+
+			for (Assignment assignment : calendarApprovalForm.getCalendarDocument().getAssignments()) {
+				WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), assignment.getEffectiveLocalDate());
+				if (calendarApprovalForm.getDepartments().contains(workArea.getDept())) {
+					calendarApprovalForm.setSelectedDept(workArea.getDept());
+					break;
+				}
+			}
+		}
 	}
 	
-    protected void setCalendarFields(HttpServletRequest request, CalendarApprovalForm calendarApprovalForm) {
+    protected void setCalendarFields(CalendarApprovalForm calendarApprovalForm) {
 		Set<String> calendarYears = new TreeSet<String>(Collections.reverseOrder());
 		List<CalendarEntry> calendarEntries = getCalendarEntries(calendarApprovalForm.getCalendarEntry());
 		

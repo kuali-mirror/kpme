@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -33,6 +34,7 @@ import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.hsqldb.lib.StringUtil;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -48,11 +50,44 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 	
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward actionForward = super.execute(mapping, form, request, response);
-        
 		TimeApprovalActionForm timeApprovalActionForm = (TimeApprovalActionForm) form;
+        String documentId = timeApprovalActionForm.getDocumentId();
+        
+        CalendarEntry calendarEntry = null;
+        if (StringUtils.isNotBlank(documentId)) {
+        	TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
+
+			if (timesheetDocument != null) {
+				calendarEntry = timesheetDocument.getCalendarEntry();
+				timeApprovalActionForm.setCalendarDocument(timesheetDocument);
+			}
+        } else if (timeApprovalActionForm.getHrCalendarEntryId() != null) {
+        	calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(timeApprovalActionForm.getHrCalendarEntryId());
+        } else {
+        	Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByGroup(timeApprovalActionForm.getSelectedPayCalendarGroup());
+            if (calendar != null) {
+                calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), LocalDate.now().toDateTimeAtStartOfDay());
+            }
+        }
+        
+        if (calendarEntry != null) {
+        	timeApprovalActionForm.setHrCalendarEntryId(calendarEntry.getHrCalendarEntryId());
+        	timeApprovalActionForm.setCalendarEntry(calendarEntry);
+        	timeApprovalActionForm.setBeginCalendarEntryDate(calendarEntry.getBeginPeriodDateTime());
+        	timeApprovalActionForm.setEndCalendarEntryDate(DateUtils.addMilliseconds(calendarEntry.getEndPeriodDateTime(), -1));
 		
-        timeApprovalActionForm.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(timeApprovalActionForm.getCalendarEntry(), new ArrayList<Boolean>()));
+			CalendarEntry prevCalendarEntry = HrServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
+			timeApprovalActionForm.setPrevHrCalendarEntryId(prevCalendarEntry != null ? prevCalendarEntry.getHrCalendarEntryId() : null);
+			
+			CalendarEntry nextCalendarEntry = HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
+			timeApprovalActionForm.setNextHrCalendarEntryId(nextCalendarEntry != null ? nextCalendarEntry.getHrCalendarEntryId() : null);
+			
+	        setCalendarFields(timeApprovalActionForm);
+        }
+        
+		ActionForward actionForward = super.execute(mapping, form, request, response);
+		
+		timeApprovalActionForm.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(timeApprovalActionForm.getCalendarEntry(), new ArrayList<Boolean>()));
         setApprovalTables(timeApprovalActionForm, request, getPrincipalIds(timeApprovalActionForm));
         
         if (timeApprovalActionForm.getApprovalRows() != null && !timeApprovalActionForm.getApprovalRows().isEmpty()) {
@@ -69,7 +104,7 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 	
 	@Override
     protected List<CalendarEntry> getCalendarEntries(CalendarEntry currentCalendarEntry) {
-		return TkServiceLocator.getTimeApproveService().getAllPayCalendarEntriesForApprover(HrContext.getTargetPrincipalId(), LocalDate.now());
+		return TkServiceLocator.getTimeApproveService().getAllPayCalendarEntriesForApprover(HrContext.getPrincipalId(), LocalDate.now());
 	}
 	
 	@Override

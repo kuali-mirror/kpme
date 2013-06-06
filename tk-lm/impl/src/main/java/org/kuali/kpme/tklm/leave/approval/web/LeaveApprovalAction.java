@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -41,7 +42,9 @@ import org.displaytag.util.ParamEncoder;
 import org.hsqldb.lib.StringUtil;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
+import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
@@ -54,14 +57,47 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 	
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
+        String documentId = leaveApprovalActionForm.getDocumentId();
+        
+        CalendarEntry calendarEntry = null;
+        if (StringUtils.isNotBlank(documentId)) {
+        	LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
+
+			if (leaveCalendarDocument != null) {
+				calendarEntry = leaveCalendarDocument.getCalendarEntry();
+				leaveApprovalActionForm.setCalendarDocument(leaveCalendarDocument);
+			}
+        } else if (leaveApprovalActionForm.getHrCalendarEntryId() != null) {
+        	calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveApprovalActionForm.getHrCalendarEntryId());
+        } else {
+        	Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByGroup(leaveApprovalActionForm.getSelectedPayCalendarGroup());
+            if (calendar != null) {
+                calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), LocalDate.now().toDateTimeAtStartOfDay());
+            }
+        }
+        
+        if (calendarEntry != null) {
+        	leaveApprovalActionForm.setHrCalendarEntryId(calendarEntry.getHrCalendarEntryId());
+        	leaveApprovalActionForm.setCalendarEntry(calendarEntry);
+        	leaveApprovalActionForm.setBeginCalendarEntryDate(calendarEntry.getBeginPeriodDateTime());
+        	leaveApprovalActionForm.setEndCalendarEntryDate(DateUtils.addMilliseconds(calendarEntry.getEndPeriodDateTime(), -1));
+		
+			CalendarEntry prevCalendarEntry = HrServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
+			leaveApprovalActionForm.setPrevHrCalendarEntryId(prevCalendarEntry != null ? prevCalendarEntry.getHrCalendarEntryId() : null);
+			
+			CalendarEntry nextCalendarEntry = HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
+			leaveApprovalActionForm.setNextHrCalendarEntryId(nextCalendarEntry != null ? nextCalendarEntry.getHrCalendarEntryId() : null);
+			
+	        setCalendarFields(leaveApprovalActionForm);
+        }
+        
 		ActionForward actionForward = super.execute(mapping, form, request, response);
 		
-		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
-        
 		leaveApprovalActionForm.setLeaveCalendarDates(LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(leaveApprovalActionForm.getCalendarEntry()));
 		setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm));
-        
-        return actionForward;
+	
+		return actionForward;
 	}
 	
 	@Override

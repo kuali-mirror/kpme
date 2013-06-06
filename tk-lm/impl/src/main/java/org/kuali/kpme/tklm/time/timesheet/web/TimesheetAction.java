@@ -80,6 +80,7 @@ public class TimesheetAction extends CalendarFormAction {
             		builder.append("&returnUrl=TimeApproval.do");
             	} else {
             		builder.append("TimeApproval.do");
+            		builder.append("?documentId=").append(documentId);
             	}
         	} else {
         		builder.append("TimeDetail.do");

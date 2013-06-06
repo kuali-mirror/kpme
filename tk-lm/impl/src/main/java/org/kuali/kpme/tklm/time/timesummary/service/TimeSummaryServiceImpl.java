@@ -71,7 +71,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument) {
 		TimeSummary timeSummary = new TimeSummary();
 
-		if(timesheetDocument.getTimeBlocks() == null) {
+		if(timesheetDocument == null || timesheetDocument.getTimeBlocks() == null) {
 			return timeSummary;
 		}
 
