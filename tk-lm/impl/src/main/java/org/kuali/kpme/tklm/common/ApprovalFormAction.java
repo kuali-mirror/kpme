@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -106,7 +107,9 @@ public abstract class ApprovalFormAction extends KPMEAction {
 				}
 			}
 			approvalForm.setDepartments(new ArrayList<String>(departments));
-			approvalForm.setSelectedDept(CollectionUtils.isNotEmpty(approvalForm.getDepartments()) ? approvalForm.getDepartments().get(0) : null);
+            if (StringUtils.isEmpty(approvalForm.getSelectedDept())) {
+			    approvalForm.setSelectedDept(CollectionUtils.isNotEmpty(approvalForm.getDepartments()) ? approvalForm.getDepartments().get(0) : null);
+            }
 		}
 		
 		approvalForm.getWorkAreaDescr().clear();

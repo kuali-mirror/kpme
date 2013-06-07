@@ -33,7 +33,7 @@ $(function () {
      */
 
         // Create a time block model
-    EarnCodeSection = Backbone.Model;
+    EarnGroupSection = Backbone.Model;
 
     /**
      * ====================
@@ -42,11 +42,11 @@ $(function () {
      */
 
         // Create a time block collection that holds multiple time blocks. This is essentially a list of hashmaps.
-    EarnCodeSectionCollection = Backbone.Collection.extend({
-        model : EarnCodeSection,
+    EarnGroupSectionCollection = Backbone.Collection.extend({
+        model : EarnGroupSection,
         url : "TimeApprovalWS.do?methodToCall=getTimeSummary"
     });
-    var EarnCodeSections = new EarnCodeSectionCollection;
+    var EarnGroupSections = new EarnGroupSectionCollection;
 
     
     var eventJson = jQuery.parseJSON($("#outputString").val());
@@ -142,10 +142,10 @@ $(function () {
                 this.fetchTimeSummary(docId);
 
                 //EarnCodeSections.forEach(function (earnCodeSection) {
-                for (var i=0;i<EarnCodeSections.models.length;i++) {
+                for (var i=0;i<EarnGroupSections.models.length;i++) {
                     $parent.after(self.template({
                         // This is the time summary rows
-                        "section" : EarnCodeSections.models[i].toJSON(),
+                        "section" : EarnGroupSections.models[i].toJSON(),
                         // This is to check if the time summary row is the last one in the collection.
                         // If so, it will then render the earn group section.
                         "isLast" : i == 0 ? true : false,
@@ -153,7 +153,7 @@ $(function () {
                         // so when the minus icon is clicked, it will remove the appened html.
                         "docId" : docId
                     }));
-                });
+                }
 
                 // change the icon from - to +
                 $element.removeClass('ui-icon-plus').addClass('ui-icon-minus');
@@ -169,7 +169,7 @@ $(function () {
          * @param documentId
          */
         fetchTimeSummary : function (documentId) {
-            EarnCodeSections.fetch({
+            EarnGroupSections.fetch({
                 async : false,
                 data : {
                     documentId : documentId

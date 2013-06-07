@@ -76,7 +76,7 @@
         <forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp"/>
         <forward name="updateTextArea" path="/kr/WEB-INF/jsp/TextArea.jsp" />
         <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do" />
-        <forward name="authorizationExceptionHandler" path="/kr/authorizationExceptionReport.do"/>
+        <forward name="authorizationExceptionHandler" path="/../kr/authorizationExceptionReport.do"/>
         <!-- Rice content End -->
         
         <forward name="unauthorized" path="/WEB-INF/jsp/unauthorized.jsp"/>

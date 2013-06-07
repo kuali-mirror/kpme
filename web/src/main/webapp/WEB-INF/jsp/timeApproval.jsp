@@ -58,45 +58,47 @@
 <%-- Hour detail template --%>
 
 <script type="text/template" id="hourDetail-template">
-    <tr class="hourDetailRow_<@= docId @>">
-        <td colspan="4"><@= section.earnCode @>: <@= section.desc @></td>
-		<td colspan="2" rowspan="<@= section.assignmentSize @>">
-			<table border = "0">
-				<tr class="hourDetailRow"><th colspan="2">Week Total</th></tr>
-                <@ _.each(section.weekTotals, function(weekTotal) { @>
-    				<tr class="hourDetailRow">
-    					<td><@= weekTotal.weekName @></td>
-    					<td><b><@= weekTotal.weekTotal == 0 ? "0" : weekTotal.weekTotal.toFixed(2) @></b>
-    				    <@ _.each(section.flsaWeekTotals, function(flsaWeekTotal) { @>
-                            <@ if(flsaWeekTotal.weekName == weekTotal.weekName) {@>
-                                (<i><@= flsaWeekTotal.weekTotal == 0 ? "0" : flsaWeekTotal.weekTotal.toFixed(2) @></i>)
-                            <@ } @>
-                        <@ }); @>
-                        </td>
-                    </tr>
-                <@ }); @>
-			</table>
-		</td> 
-    </tr> 
- 
-    <@ _.each(section.assignmentRows, function(assignmentRow) { @>
-        <tr class="hourDetailRow_<@= docId @>" style="border-bottom-style: double; font-weight: bold;">
-            <td colspan="3" class="<@= assignmentRow.cssClass @>"><b><@= assignmentRow.descr @></b></td>
-            <@ if (assignmentRow.isAmountEarnCode) { @>
-                <@ var amount = assignmentRow.assignmentColumns[assignmentRow.assignmentColumns.length - 1].amount @>
-                <td><@= amount == 0 ? "" : amount.toFixed(2) @></td>
-            <@ } else { @>
-                <@ var tot = assignmentRow.assignmentColumns[assignmentRow.assignmentColumns.length - 1].total @>
-                <td><@= tot == 0 ? "" : tot.toFixed(2) @></td>
-            <@ } @>
+    <@ _.each(section.earnCodeSections, function(earnCodeSection) { @>
+        <tr class="hourDetailRow_<@= docId @>">
+            <td colspan="4"><@= earnCodeSection.earnCode @>: <@= earnCodeSection.desc @></td>
+            <td colspan="2" rowspan="<@= section.assignmentSize @>">
+                <table border = "0">
+                    <tr class="hourDetailRow"><th colspan="2">Week Total</th></tr>
+                    <@ _.each(earnCodeSection.weekTotals, function(weekTotal) { @>
+                        <tr class="hourDetailRow">
+                            <td><@= weekTotal.weekName @></td>
+                            <td><b><@= weekTotal.weekTotal == 0 ? "0" : weekTotal.weekTotal.toFixed(2) @></b>
+                            <@ _.each(section.flsaWeekTotals, function(flsaWeekTotal) { @>
+                                <@ if(flsaWeekTotal.weekName == weekTotal.weekName) {@>
+                                    (<i><@= flsaWeekTotal.weekTotal == 0 ? "0" : flsaWeekTotal.weekTotal.toFixed(2) @></i>)
+                                <@ } @>
+                            <@ }); @>
+                            </td>
+                        </tr>
+                    <@ }); @>
+                </table>
+            </td>
         </tr>
+
+        <@ _.each(earnCodeSection.assignmentRows, function(assignmentRow) { @>
+            <tr class="hourDetailRow_<@= docId @>" style="border-bottom-style: double; font-weight: bold;">
+                <td colspan="3" class="<@= assignmentRow.cssClass @>"><b><@= assignmentRow.descr @></b></td>
+                <@ if (assignmentRow.isAmountEarnCode) { @>
+                    <@ var amount = assignmentRow.assignmentColumns[assignmentRow.assignmentColumns.length - 1].amount @>
+                    <td><@= amount == 0 ? "" : amount.toFixed(2) @></td>
+                <@ } else { @>
+                    <@ var tot = assignmentRow.assignmentColumns[assignmentRow.assignmentColumns.length - 1].total @>
+                    <td><@= tot == 0 ? "" : tot.toFixed(2) @></td>
+                <@ } @>
+            </tr>
+        <@ }); @>
     <@ }); @>
-    <@ if (isLast) { @>
+    <%--<@ if (isLast) { @>--%>
         <tr class="hourDetailRow_<@= docId @>">
             <td colspan="3"><@= section.earnGroup @></td>
     		<@ var total =  section.totals[section.totals.length - 1] @>
             <td><@= total == 0 ? "" : total.toFixed(2) @></td>
         </tr>
         <tr></tr>
-    <@ } @>
+    <%--<@ } @>--%>
 </script>

@@ -15,14 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.approval.web;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -46,11 +38,19 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.springframework.util.CollectionUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 public class TimeApprovalAction extends CalendarApprovalFormAction {
 	
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		TimeApprovalActionForm timeApprovalActionForm = (TimeApprovalActionForm) form;
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        TimeApprovalActionForm timeApprovalActionForm = (TimeApprovalActionForm) form;
         String documentId = timeApprovalActionForm.getDocumentId();
         
         CalendarEntry calendarEntry = null;
@@ -68,8 +68,9 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
             if (calendar != null) {
                 calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), LocalDate.now().toDateTimeAtStartOfDay());
             }
+
         }
-        
+
         if (calendarEntry != null) {
         	timeApprovalActionForm.setHrCalendarEntryId(calendarEntry.getHrCalendarEntryId());
         	timeApprovalActionForm.setCalendarEntry(calendarEntry);
@@ -84,9 +85,8 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 			
 	        setCalendarFields(timeApprovalActionForm);
         }
-        
-		ActionForward actionForward = super.execute(mapping, form, request, response);
-		
+        //ActionForward actionForward = super.execute(mapping, form, request, response);
+
 		timeApprovalActionForm.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(timeApprovalActionForm.getCalendarEntry(), new ArrayList<Boolean>()));
         setApprovalTables(timeApprovalActionForm, request, getPrincipalIds(timeApprovalActionForm));
         
@@ -173,6 +173,9 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
         	workAreas.add(timeApprovalActionForm.getSelectedWorkArea());
         }
         String calendar = timeApprovalActionForm.getSelectedPayCalendarGroup();
+        if (timeApprovalActionForm.getCalendarEntry() == null) {
+            return Collections.emptyList();
+        }
         LocalDate endDate = timeApprovalActionForm.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate().minusDays(1);
         LocalDate beginDate = timeApprovalActionForm.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
 

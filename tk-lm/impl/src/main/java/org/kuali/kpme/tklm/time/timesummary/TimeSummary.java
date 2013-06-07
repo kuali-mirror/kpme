@@ -55,10 +55,13 @@ public class TimeSummary implements Serializable {
 	}
 
 	public String toJsonString() {
-
-        List<Map<String, Object>> earnCodeSections = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> earnGroupSections = new ArrayList<Map<String, Object>>();
 
         for (EarnGroupSection earnGroupSection : this.sections) {
+            List<Map<String, Object>> earnCodeSections = new ArrayList<Map<String, Object>>();
+            Map<String, Object> egs = new TreeMap<String, Object>();
+            egs.put("earnGroup", earnGroupSection.getEarnGroup());
+            egs.put("totals", earnGroupSection.getTotals());
             for (EarnCodeSection earnCodeSection : earnGroupSection.getEarnCodeSections()) {
                 Map<String, Object> ecs = new TreeMap<String, Object>();
 
@@ -119,10 +122,11 @@ public class TimeSummary implements Serializable {
 
                 earnCodeSections.add(ecs);
             }
-
+            egs.put("earnCodeSections", earnCodeSections);
+            earnGroupSections.add(egs);
         }
 
-        return JSONValue.toJSONString(earnCodeSections);
+        return JSONValue.toJSONString(earnGroupSections);
     }
 	
 	public List<LeaveSummaryRow> getMaxedLeaveRows() {
