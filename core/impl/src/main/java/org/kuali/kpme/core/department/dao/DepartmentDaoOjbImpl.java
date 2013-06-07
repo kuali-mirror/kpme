@@ -108,11 +108,6 @@ public class DepartmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Dep
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            ImmutableList<String> fields = new ImmutableList.Builder<String>()
-                    .add("dept")
-                    .add("location")
-                    .add("description")
-                    .build();
             root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(Department.class, Department.EQUAL_TO_FIELDS, false));
             root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Department.class, Department.EQUAL_TO_FIELDS, false));
         }
