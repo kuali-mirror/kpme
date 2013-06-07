@@ -95,7 +95,7 @@ public interface TimesheetService {
 	 * @param asOfDate
 	 * @return
 	 */
-	@Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForTime}' + 'principalId=' + T(org.kuali.kpme.tklm.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.kpme.tklm.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'includeRegularEarnCode=' + false")
+	@Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForTime}' + 'principalId=' + T(org.kuali.kpme.tklm.time.util.TkContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.kpme.tklm.time.util.TkContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'includeRegularEarnCode=' + false")
 	public List<EarnCode> getEarnCodesForTime(Assignment assignment, LocalDate asOfDate);
 	
 	/**
@@ -104,6 +104,6 @@ public interface TimesheetService {
 	 * @param asOfDate
 	 * @return
 	 */
-	@Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForTime}' + 'principalId=' + T(org.kuali.kpme.tklm.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.kpme.tklm.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'includeRegularEarnCode=' + #p2")
+	@Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForTime}' + 'principalId=' + T(org.kuali.kpme.tklm.time.util.TkContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.kpme.tklm.time.util.TkContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'includeRegularEarnCode=' + #p2")
 	public List<EarnCode> getEarnCodesForTime(Assignment a, LocalDate asOfDate, boolean includeRegularEarnCode);
 }
