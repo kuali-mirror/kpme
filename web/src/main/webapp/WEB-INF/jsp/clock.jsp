@@ -133,7 +133,8 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
                                         <c:otherwise>
                                             <input disabled type="submit" class="button" value="Return From Lunch" name="lunchIn" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LI';"/>
                                         </c:otherwise>
-                                </c:choose>
+                                    </c:choose>
+                                </c:when>
                             </c:choose>
                             <c:choose>
                                 <c:when test="${Form.clockButtonEnabled}">
