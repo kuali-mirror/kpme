@@ -35,6 +35,18 @@
                 <ref bean="DepartmentPrincipalRoleMemberBo-active" />
 			</list>
 		</property>
+        <property name="relationships">
+            <list>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="person" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
 	</bean>
 
 	<!-- Attribute Definitions -->

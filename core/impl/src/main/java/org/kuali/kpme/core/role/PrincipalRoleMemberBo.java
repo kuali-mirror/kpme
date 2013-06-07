@@ -18,12 +18,15 @@ package org.kuali.kpme.core.role;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 @SuppressWarnings("unchecked")
 public abstract class PrincipalRoleMemberBo extends KPMERoleMemberBo {
 
 	private static final long serialVersionUID = -524283364141837235L;
+	
+	private Person person;
 	
 	public String getPrincipalId() {
 		return getMemberId();
@@ -38,14 +41,22 @@ public abstract class PrincipalRoleMemberBo extends KPMERoleMemberBo {
 		String principalFullName = StringUtils.EMPTY;
 		
 		if (getMemberId() != null) {
-			Person person = KimApiServiceLocator.getPersonService().getPerson(getMemberId());
+			EntityNamePrincipalName entityNamePrincipalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(getMemberId());
 			
-			if (person != null) {
-				principalFullName = person.getName();
+			if (entityNamePrincipalName != null) {
+				principalFullName = entityNamePrincipalName.getDefaultName().getCompositeName();
 			}
 		}
 		
 		return principalFullName;
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 	
 }

@@ -37,6 +37,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
+import org.springframework.util.CollectionUtils;
 
 public class WorkAreaServiceImpl implements WorkAreaService {
 
@@ -133,9 +134,11 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 	}
 
     private void populateWorkAreaRoleMembers(WorkArea workArea, LocalDate asOfDate) {
-    	Set<RoleMember> roleMembers = new HashSet<RoleMember>();
-    	
-    	if (workArea != null && asOfDate != null) {
+    	if (workArea != null && asOfDate != null 
+    			&& CollectionUtils.isEmpty(workArea.getPrincipalRoleMembers()) && CollectionUtils.isEmpty(workArea.getInactivePrincipalRoleMembers())
+    			&& CollectionUtils.isEmpty(workArea.getPositionRoleMembers()) && CollectionUtils.isEmpty(workArea.getInactivePositionRoleMembers())) {
+    		Set<RoleMember> roleMembers = new HashSet<RoleMember>();
+    		
 	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.REVIEWER.getRoleName(), workArea.getWorkArea(), asOfDate.toDateTimeAtStartOfDay(), false));
 	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), workArea.getWorkArea(), asOfDate.toDateTimeAtStartOfDay(), false));
 	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER_DELEGATE.getRoleName(), workArea.getWorkArea(), asOfDate.toDateTimeAtStartOfDay(), false));

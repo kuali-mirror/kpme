@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.location.Location;
@@ -75,9 +76,9 @@ public class LocationServiceImpl implements LocationService {
 	}
 	
     private void populateLocationRoleMembers(Location location, LocalDate asOfDate) {
-    	Set<RoleMember> roleMembers = new HashSet<RoleMember>();
-    	
-    	if (location != null && asOfDate != null) {
+    	if (location != null && asOfDate != null    			
+    			&& CollectionUtils.isEmpty(location.getRoleMembers()) && CollectionUtils.isEmpty(location.getInactiveRoleMembers())) {
+    		Set<RoleMember> roleMembers = new HashSet<RoleMember>();
 	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInLocation(KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
 	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInLocation(KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
 	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInLocation(KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));

@@ -115,10 +115,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     private void populateDepartmentRoleMembers(Department department, LocalDate asOfDate) {
-    	Set<RoleMember> roleMembers = new HashSet<RoleMember>();
-    	
     	if (department != null && asOfDate != null 
     			&& CollectionUtils.isEmpty(department.getRoleMembers()) && CollectionUtils.isEmpty(department.getInactiveRoleMembers())) {
+    		Set<RoleMember> roleMembers = new HashSet<RoleMember>();
+    		
 	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInDepartment(KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
 	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInDepartment(KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
 	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInDepartment(KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));

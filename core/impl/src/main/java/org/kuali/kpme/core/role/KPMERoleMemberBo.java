@@ -76,7 +76,9 @@ public abstract class KPMERoleMemberBo extends RoleMemberBo {
 	}
 	
 	public void setRoleName(String roleName) {
-		setRoleId(HrServiceLocator.getHRRoleService().getRoleIdByName(roleName));
+		if (StringUtils.isNotBlank(roleName)) {
+			setRoleId(HrServiceLocator.getHRRoleService().getRoleIdByName(roleName));
+		}
 	}
 
 }
