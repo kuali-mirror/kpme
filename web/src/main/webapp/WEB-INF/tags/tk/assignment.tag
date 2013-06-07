@@ -17,6 +17,13 @@
 				<option value="${assignment.key}">${assignment.value}</option>
 			</c:forEach>
 		</select>
+		<!-- bit of a hack to always have access to full assignment list so we can filter if necessary -->
+        <select id="selectedAssignmentHidden" name="selectedAssignmentHidden" style="visibility:hidden;">
+            <option value="" selected="selected">-- select an assignment --</option>
+            <c:forEach var="assignment" items="${assignments}">
+                <option value="${assignment.key}">${assignment.value}</option>
+            </c:forEach>
+        </select>
 	</c:otherwise>
 </c:choose>
 <span id='loading-earnCodes' style='display:none; margin-left:10px;'><img src='images/ajax-loader.gif' alt='Loading' style='vertical-align:middle;'/></span>

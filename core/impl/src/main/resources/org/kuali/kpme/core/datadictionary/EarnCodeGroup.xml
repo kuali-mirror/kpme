@@ -184,7 +184,8 @@
 	
 	<!--  Inquiry Definitions  -->
   
-  	<bean id="EarnCodeGroup-inquiryDefinition" parent="EarnCodeGroup-inquiryDefinition-parentBean" />
+  	<bean id="EarnCodeGroup-inquiryDefinition" parent="EarnCodeGroup-inquiryDefinition-parentBean"
+        p:inquirableClass="org.kuali.kpme.core.earncode.group.web.EarnCodeGroupInquirableImpl"/>
 
 	<bean id="EarnCodeGroup-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition">

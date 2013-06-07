@@ -161,8 +161,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             Job job = HrServiceLocator.getJobService().getJob(
                     HrContext.getTargetPrincipalId(), timeBlock.getJobNumber(),
                     timeBlock.getEndDateTime().toLocalDate());
-            PayType payType = HrServiceLocator.getPayTypeService().getPayType(
-                    job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
+            PayType payType = job.getPayTypeObj();
 
         	if (HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
         			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
@@ -195,7 +194,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                     && !timeBlock.getClockLogCreated()) {
                 if (StringUtils.equals(payType.getRegEarnCode(),
                 		timeBlock.getEarnCode())) {
-                    return true;
+                    return false;
                 }
 
                 List<EarnCodeSecurity> deptEarnCodes = HrServiceLocator

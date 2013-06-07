@@ -134,7 +134,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
     			if (isOther1 ^ isOther2) {
     				return isOther1 ? 1 : -1;
     			}
-    			if (isOther1 &&  isOther1) {
+    			if (isOther1 && isOther2) {
     				return 0;
     			}
     			return egs1.getEarnGroup().compareTo(egs2.getEarnGroup());

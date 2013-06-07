@@ -119,8 +119,14 @@ $(function () {
         url : "TimeDetailWS.do?methodToCall=getOvertimeEarnCodes"
     });
 
-    OvertimeEarnCodes = new OvertimeEarnCodeCollection;
+    var OvertimeEarnCodes = new OvertimeEarnCodeCollection;
 
+    // Create a collecton for overtime earn codes
+    RegEarnCodeAssignmentCollection = Backbone.Collection.extend({
+        url : "TimeDetailWS.do?methodToCall=getValidAssignments"
+    });
+
+    var assignmentsForRegEarnCode = new RegEarnCodeAssignmentCollection;
     /**
      * ====================
      * Views
@@ -231,6 +237,9 @@ $(function () {
                         if (!_.isUndefined(startDate) && !_.isUndefined(endDate)) {
                             $("#startDate").val(startDate);
                             $("#endDate").val(endDate);
+                            if ($("#selectedAssignment").is("select")) {
+                                $("#selectedAssignment").html($("#selectedAssignmentHidden").html());
+                            }
                         } else {
                             // If this is triggered directly by backbone, i.e. user clicked on the white area to create a new timeblock,
                             // Set the date by grabbing the div id.
@@ -244,6 +253,8 @@ $(function () {
                                 var dfd = $.Deferred();
                                 dfd.done(self.fetchEarnCode(_.getSelectedAssignmentValue()))
                                         .done(self.showFieldByEarnCodeType());
+                            } else {
+                                $("#selectedAssignment").html($("#selectedAssignmentHidden").html());
                             }
                         }
                         //May need a third condition to check if this method was triggered by shortcut.
@@ -329,7 +340,7 @@ $(function () {
             // but when we submit the form, we will want to keep all the original values.
             // That's why we call the fillInform() method below, so all the values will still be there when the form is submitted.
             dfd.done(self.fetchOvertimeEarnCode())
-                    .done($("#overtimePref option[value='" + currentOvertimePref + "']").attr("selected", "selected"))
+                    .done($("#overtimePref option[value='" + currentOvertimePref + "']").prop("selected", "selected"))
                     .done(_(timeBlock).fillInForm());
 
             $("#overtime-section").dialog({
@@ -383,7 +394,7 @@ $(function () {
             var isTimeBlockReadOnly = timeBlock.get("canEditTBAssgOnly") ? true : false;
 
             dfd.done(this.fetchEarnCode(timeBlock.get("assignment"), isTimeBlockReadOnly))
-                    .done($("#selectedEarnCode option[value='" + timeBlock.get("earnCode") + "']").attr("selected", "selected"))
+                    .done($("#selectedEarnCode option[value='" + timeBlock.get("earnCode") + "']").prop("selected", "selected"))
                     .done(this.showFieldByEarnCodeType())
                     .done(_(timeBlock).fillInForm())
                     .done(this.applyRules(timeBlock));
@@ -504,7 +515,7 @@ $(function () {
             $("#spanningWeeks").prop("checked", spanningWeeks);
 			dfd.done()
 				.done(this.fetchEarnCode(leaveBlock.get("assignment"), isLeaveBlockReadOnly))
-				.done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected"))
+				.done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").prop("selected", "selected"))
 				.done(this.showFieldByEarnCodeType())
 				.done(_(leaveBlock).leaveBlockFillInForm());
         },
@@ -543,10 +554,16 @@ $(function () {
             // We only need to worry about making fields disabled.
             if (e.get("canEditTBAssgOnly")) {
                 // Make everything read only except the assignment
-                $("input, select", $("#timesheet-panel")).attr("disabled", true);
+                //$("input, select", $("#timesheet-panel")).prop("disabled", true);
+                $("#timesheet-panel :input").prop("disabled", true);
                 // hide the date picker
                 $(".ui-datepicker-trigger").hide();
-                $("#selectedAssignment", $("#timesheet-panel")).attr("disabled", false);
+                $("#selectedAssignment", $("#timesheet-panel")).prop("disabled", false);
+                
+                //get a list of valid assignments for the earn code set
+                //we only allow changing of assignment if it contains the same
+                //earn code as the current.
+                this.filterAssignments();
 
                 // Unbind the change events.
                 // The events will be bound again when resetState() is called.
@@ -682,6 +699,31 @@ $(function () {
             currentMouseIndex = null;
 
         },
+        
+        filterAssignments : function(e) {
+            var earnCode = this.$('#selectedEarnCode option:selected').val();
+            assignmentsForRegEarnCode.fetch({
+                // Make the ajax call not async to be able to filter the assignments
+                async : false,
+                data : {
+                    selectedEarnCode : earnCode
+                }
+            });
+
+            //assignmentsForRegEarnCode.each(function(i) {
+
+            //});
+            //$("#selectedAssignment option").
+            var keys = new Array();
+            assignmentsForRegEarnCode.each(function(i) {
+                keys.push(i.get("assignment"));
+            });
+            $("#selectedAssignment option").each(function(i) {
+                if (jQuery.inArray($(this).val(), keys) == -1) {
+                    $(this).remove();
+                }
+            });
+        },
 
         fetchEarnCode : function (e, isTimeBlockReadOnly) {
 
@@ -708,11 +750,10 @@ $(function () {
             // If there is an earn code in the newly created collection that matches the old
             // earn code, keep the earn code selected.
             if(_.contains(EarnCodes.pluck('earnCode'),earnCode)) {
-            	$("#selectedEarnCode option:selected").attr("selected",false);
-//            	$("#selectedEarnCode option[value='" + earnCode + "']").attr("selected", "selected");
-                $("#selectedEarnCode option:first").attr("selected", "selected");
+            	$("#selectedEarnCode option:selected").prop("selected",false);
+//            	$("#selectedEarnCode option[value='" + earnCode + "']").prop("selected", "selected");
+                $("#selectedEarnCode option:first").prop("selected", "selected");
             }
-
         },
 
 
@@ -1057,8 +1098,8 @@ $(function () {
             $('.cal-table td').removeClass('ui-selected');
 
             // Remove all the readonly / disabled states
-            $("input, select", "#timesheet-panel").attr("disabled", false);
-            $("input, select", "#timesheet-panel").attr("readonly", false);
+            $("input, select", "#timesheet-panel").prop("disabled", false);
+            $("input, select", "#timesheet-panel").prop("readonly", false);
 
             // This is mainly to solve the issue where the change event on the assignment was unbound
             // when the user can only change the assignment on the timeblock.
@@ -1155,7 +1196,7 @@ $(function () {
             $('#endDate').val(timeBlock.get("endDate"));
             $('#endTime').val(timeBlock.get("endTime"));
             $('#endTimeHourMinute').val(timeBlock.get("endTimeHourMinute"));
-            $("#selectedAssignment option[value='" + timeBlock.get("assignment") + "']").attr("selected", "selected");
+            $("#selectedAssignment option[value='" + timeBlock.get("assignment") + "']").prop("selected", "selected");
             $('#tkTimeBlockId').val(timeBlock.get("tkTimeBlockId"));
             $('#hours').val(timeBlock.get("hours"));
             $('#amount').val(timeBlock.get("amount"));
@@ -1168,8 +1209,8 @@ $(function () {
 
         },
         leaveBlockFillInForm : function (leaveBlock) {
-            $("#selectedAssignment option[value='" + leaveBlock.get("assignment") + "']").attr("selected", "selected");
-            $("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected");
+            $("#selectedAssignment option[value='" + leaveBlock.get("assignment") + "']").prop("selected", "selected");
+            $("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").prop("selected", "selected");
             $('#lmLeaveBlockId').val(leaveBlock.get("lmLeaveBlockId"));
             $('#leaveAmount').val(leaveBlock.get("leaveAmount"));
             $('#startDate').val(leaveBlock.get("startDate"));

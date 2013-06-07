@@ -28,7 +28,8 @@ public class DeptLunchRuleEffectiveDatePrompt extends KpmeEffectiveDatePromptBas
     	boolean futureEffectiveDateExists = false;
     	
         DeptLunchRule deptLunchRule = (DeptLunchRule) pbo;
-        DeptLunchRule lastDeptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(deptLunchRule.getDept(), deptLunchRule.getWorkArea(), deptLunchRule.getPrincipalId(), deptLunchRule.getJobNumber(), TKUtils.END_OF_TIME);
+        DeptLunchRule lastDeptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRuleNoWildCards(deptLunchRule.getDept(), 
+        		deptLunchRule.getWorkArea(), deptLunchRule.getPrincipalId(), deptLunchRule.getJobNumber(), TKUtils.END_OF_TIME);
         if (lastDeptLunchRule != null && lastDeptLunchRule.getEffectiveLocalDate() != null && deptLunchRule.getEffectiveLocalDate() != null) {
         	futureEffectiveDateExists = lastDeptLunchRule.getEffectiveLocalDate().isAfter(deptLunchRule.getEffectiveLocalDate());
         }

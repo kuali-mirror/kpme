@@ -184,7 +184,7 @@
    <html:form action="/LeaveCalendarSubmit.do" styleId="forfeiture-form">
 		<html:hidden property="loseOnSubmit" value="${not empty Form.forfeitures}" styleId="loseOnSubmit"/>
 		 
-        <div class="ui-widget timesheet-panel" id="timesheet-panel">
+        <div class="ui-widget timesheet-panel" id="timesheet-panel-forfeit">
             <table>
 				<tr>
 					<th></th>

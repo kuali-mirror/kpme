@@ -67,6 +67,12 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 		deptLunchRule = deptLunchRuleDao.getDepartmentLunchRule(dept, -1L, "%", -1L, asOfDate);
 		return deptLunchRule;
 	}
+	
+	@Override
+	public DeptLunchRule getDepartmentLunchRuleNoWildCards(String dept, Long workArea,
+												String principalId, Long jobNumber, LocalDate asOfDate) {
+		return deptLunchRuleDao.getDepartmentLunchRule(dept, workArea, principalId, jobNumber, asOfDate);
+	}
 
 	/**
 	 * If the hours is greater or equal than the shift hours, deduct the hour from the deduction_mins field

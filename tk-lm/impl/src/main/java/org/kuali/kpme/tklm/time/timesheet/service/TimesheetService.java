@@ -25,6 +25,7 @@ import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.springframework.cache.annotation.Cacheable;
 
 public interface TimesheetService {
 
@@ -87,12 +88,22 @@ public interface TimesheetService {
 
     void routeTimesheet(String principalId, TimesheetDocument timesheetDocument, String action);
 	public boolean isReadyToApprove(TimesheetDocument document);
+	
 	/**
 	 * Previously in EarnCodeService
 	 * @param assignment
 	 * @param asOfDate
 	 * @return
 	 */
+	@Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForTime}' + 'principalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'includeRegularEarnCode=' + false")
 	public List<EarnCode> getEarnCodesForTime(Assignment assignment, LocalDate asOfDate);
 	
+	/**
+	 * Fetch a list of earn codes for Time usage, for a particular assignment as of a particular date
+	 * @param a
+	 * @param asOfDate
+	 * @return
+	 */
+	@Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForTime}' + 'principalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'includeRegularEarnCode=' + #p2")
+	public List<EarnCode> getEarnCodesForTime(Assignment a, LocalDate asOfDate, boolean includeRegularEarnCode);
 }

@@ -19,7 +19,7 @@ public class TimeDetailWSActionForm extends TimeDetailActionFormBase {
 
     private Boolean isTimeBlockReadOnly = Boolean.FALSE;
 
-    public Boolean getTimeBlockReadOnly() {
+    public Boolean isTimeBlockReadOnly() {
         return isTimeBlockReadOnly;
     }
 

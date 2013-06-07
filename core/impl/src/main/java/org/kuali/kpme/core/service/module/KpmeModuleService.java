@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.paygrade.PayGrade;
 import org.kuali.kpme.core.position.PositionBase;
@@ -46,6 +47,13 @@ public class KpmeModuleService extends ModuleServiceBase {
         	List<List<String>> retList = new ArrayList<List<String>>();
         	List<String> keyList = new ArrayList<String>();
         	keyList.add("earnCode");
+        	keyList.add("effectiveDate");
+        	retList.add(keyList);
+        	return retList;
+        } else if (EarnCodeGroup.class.isAssignableFrom(businessObjectInterfaceClass)) {
+        	List<List<String>> retList = new ArrayList<List<String>>();
+        	List<String> keyList = new ArrayList<String>();
+        	keyList.add("earnCodeGroup");
         	keyList.add("effectiveDate");
         	retList.add(keyList);
         	return retList;

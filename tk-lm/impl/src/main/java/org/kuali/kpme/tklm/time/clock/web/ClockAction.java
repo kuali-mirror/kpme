@@ -18,7 +18,6 @@ package org.kuali.kpme.tklm.time.clock.web;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +39,7 @@ import org.json.simple.JSONValue;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
+import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -95,9 +95,9 @@ public class ClockAction extends TimesheetAction {
 	        if (!timesheetDocument.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.ENROUTE)
 	                && !timesheetDocument.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL)) {
         	
-		        String principalId = HrContext.getTargetPrincipalId();
-		        if (principalId != null) {
-		            clockActionForm.setPrincipalId(principalId);
+		        String targetPrincipalId = HrContext.getTargetPrincipalId();
+		        if (targetPrincipalId != null) {
+		            clockActionForm.setPrincipalId(targetPrincipalId);
 		        }
 		        clockActionForm.setCurrentServerTime(String.valueOf(System.currentTimeMillis()));
 		        clockActionForm.setAssignmentDescriptions(timesheetDocument.getAssignmentDescriptions(true));
@@ -106,7 +106,7 @@ public class ClockAction extends TimesheetAction {
 		            clockActionForm.setCurrentTimeBlock(TkServiceLocator.getTimeBlockService().getTimeBlock(clockActionForm.getEditTimeBlockId()));
 		        }
 		        
-		        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
+		        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(targetPrincipalId);
 		        if (lastClockLog != null) {
 		            DateTime lastClockDateTime = lastClockLog.getClockDateTime();
 		            String lastClockZone = lastClockLog.getClockTimestampTimezone();
@@ -139,8 +139,24 @@ public class ClockAction extends TimesheetAction {
 		            clockActionForm.setAssignmentDescriptions(assignmentDesc);
 		        }
 		        
+		        if (StringUtils.equals(GlobalVariables.getUserSession().getPrincipalId(), HrContext.getTargetPrincipalId())) {
+		        	clockActionForm.setClockButtonEnabled(true);
+		        } else {
+		        	boolean isApproverOrReviewerForCurrentAssignment = false;
+		        	if (StringUtils.isNotBlank(clockActionForm.getSelectedAssignment())) {
+		        		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(AssignmentDescriptionKey.get(clockActionForm.getSelectedAssignment()), LocalDate.now());
+		        		if (assignment != null) {
+		        			String principalId = GlobalVariables.getUserSession().getPrincipalId();
+		        			Long workArea = assignment.getWorkArea();
+		        			isApproverOrReviewerForCurrentAssignment = HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
+		        					|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
+		        					|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime());
+		        		}
+		        	}
+		        	clockActionForm.setClockButtonEnabled(isApproverOrReviewerForCurrentAssignment);
+		        }
+		        
 		        clockActionForm.setShowLunchButton(TkServiceLocator.getSystemLunchRuleService().isShowLunchButton());
-		        clockActionForm.setShowMissedPunchButton(true);
 		        assignShowDistributeButton(clockActionForm);
 		        
 		        if (clockActionForm.isShowLunchButton()) {

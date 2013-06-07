@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.department.Department;
@@ -116,8 +117,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     private void populateDepartmentRoleMembers(Department department, LocalDate asOfDate) {
     	Set<RoleMember> roleMembers = new HashSet<RoleMember>();
     	
-    	if (department != null && asOfDate != null) {
-    		
+    	if (department != null && asOfDate != null 
+    			&& CollectionUtils.isEmpty(department.getRoleMembers()) && CollectionUtils.isEmpty(department.getInactiveRoleMembers())) {
 	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInDepartment(KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
 	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInDepartment(KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
 	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInDepartment(KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));

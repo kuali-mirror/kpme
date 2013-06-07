@@ -376,7 +376,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         return true;*/
 	}
 	
-    public List<EarnCode> getEarnCodesForTime(Assignment a, LocalDate asOfDate) {
+    public List<EarnCode> getEarnCodesForTime(Assignment a, LocalDate asOfDate, boolean includeRegularEarnCode) {
         //getEarnCodesForTime and getEarnCodesForLeave have some overlapping logic, but they were separated so that they could follow their own distinct logic, so consolidation of logic is not desirable.
 
         if (a == null) {
@@ -407,7 +407,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 //            throw new RuntimeException("No regular earn code defined for job pay type.");
         } else {
             //  if you are a clock user and this is your timesheet and you are processing the reg earn code, do not add this earn code. Use the clock in/out mechanism.
-        	if (!isClockUser || !isUsersTimesheet) {
+        	if (!isClockUser || !isUsersTimesheet || includeRegularEarnCode) {
                 earnCodes.add(regularEarnCode);
             }
         }
@@ -485,6 +485,10 @@ public class TimesheetServiceImpl implements TimesheetService {
 
         return earnCodes;
     }
+    
+    public List<EarnCode> getEarnCodesForTime(Assignment a, LocalDate asOfDate) {
+    	return getEarnCodesForTime(a, asOfDate, false);
+	}
 
     private boolean showEarnCodeIfHoliday(EarnCode earnCode, EarnCodeSecurity security) {
         if (earnCode.getEarnCode().equals(HrConstants.HOLIDAY_EARN_CODE)) {
