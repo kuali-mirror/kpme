@@ -18,6 +18,7 @@ package org.kuali.kpme.core.calendar.service;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.calendar.Calendar;
@@ -32,6 +33,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CalendarServiceImpl implements CalendarService {
 
+	private static final Logger LOG = Logger.getLogger(CalendarServiceImpl.class);
 	private CalendarDao calendarDao;
 
 	public void setCalendarDao(CalendarDao calendarDao) {
@@ -118,7 +120,8 @@ public class CalendarServiceImpl implements CalendarService {
         } else {
             PayType payType = job.getPayTypeObj();
             if (payType == null)  {
-                throw new RuntimeException("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
+//                throw new RuntimeException("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
+            	LOG.warn("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
             }
 
             PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, beginDate);
@@ -158,12 +161,15 @@ public class CalendarServiceImpl implements CalendarService {
         } else {
             PayType payType = job.getPayTypeObj();
             if (payType == null)  {
-                throw new RuntimeException("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
+//                throw new RuntimeException("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
+            	LOG.warn("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
             }
 
             PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
             if(principalCalendar == null){
-                throw new RuntimeException("No principal hr attribute setup for "+principalId);
+//                throw new RuntimeException("No principal hr attribute setup for "+principalId);
+            	LOG.warn("No principal hr attribute setup for "+principalId);
+            	return null;
             }
             if(!findLeaveCal) {
             	pcal = principalCalendar.getCalendar();

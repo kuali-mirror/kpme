@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
@@ -47,6 +48,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class LeavePayoutServiceImpl implements LeavePayoutService {
 
     private LeavePayoutDao leavePayoutDao;
+    private static final Logger LOG = Logger.getLogger(LeavePayoutServiceImpl.class);
 
     @Override
     public List<LeavePayout> getAllLeavePayoutsForPrincipalId(
@@ -211,9 +213,11 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 
 	@Override
 	public LeavePayout payout(LeavePayout leavePayout) {
-		if(ObjectUtils.isNull(leavePayout))
-			throw new RuntimeException("did not supply a valid LeavePayout object.");
-		else {
+		if(ObjectUtils.isNull(leavePayout)) {
+//			throw new RuntimeException("did not supply a valid LeavePayout object.");
+			LOG.error("did not supply a valid LeavePayout object.");
+			return null;
+		} else {
 			List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 			BigDecimal transferAmount = leavePayout.getPayoutAmount();
 			LeaveBlock aLeaveBlock = null;

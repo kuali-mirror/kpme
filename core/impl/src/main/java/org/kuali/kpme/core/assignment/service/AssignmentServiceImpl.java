@@ -212,13 +212,13 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public Map<String, String> getAssignmentDescriptions(Assignment assignment) {
+    	Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
         if (assignment == null) {
-            throw new RuntimeException("Assignment is null");
-        }
-
-        Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
-        assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
-
+        	LOG.warn("Assignment is null");
+//            throw new RuntimeException("Assignment is null");
+        } else { 
+	        assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
+        }	
         return assignmentDescriptions;
 
     }

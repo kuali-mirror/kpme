@@ -18,8 +18,10 @@ package org.kuali.kpme.core.paystep;
 import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.institution.Institution;
+import org.kuali.kpme.core.job.service.JobServiceImpl;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.paygrade.PayGrade;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
@@ -29,6 +31,7 @@ import com.google.common.collect.ImmutableList;
 
 public class PayStep extends HrBusinessObject implements Comparable {
 
+	private static final Logger LOG = Logger.getLogger(PayStep.class);
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
 		    .add("payStep")
@@ -93,8 +96,9 @@ public class PayStep extends HrBusinessObject implements Comparable {
 				
 				return otherServiceTime.compareTo(thisServiceTime);
 			}
-			else
-				throw new IllegalArgumentException("pay step must be within the same salary group and pay grade");
+			else 
+//				throw new IllegalArgumentException("pay step must be within the same salary group and pay grade");
+				LOG.error("pay step must be within the same salary group and pay grade");
 		}
 			
 		return 0;

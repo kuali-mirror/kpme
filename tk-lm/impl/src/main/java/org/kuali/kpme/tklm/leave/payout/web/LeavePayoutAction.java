@@ -1,5 +1,5 @@
 /**
- * Copyright 2004-2013 The Kuali Foundation
+  * Copyright 2004-2013 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -46,9 +47,12 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeavePayoutAction extends KPMEAction {
+	
+	private static final Logger LOG = Logger.getLogger(LeavePayoutAction.class);
 
 	public ActionForward leavePayoutOnLeaveApproval(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -74,7 +78,10 @@ public class LeavePayoutAction extends KPMEAction {
 			String strutsActionForward = "";
 			String methodToCall = "approveLeaveCalendar";
 			if(ObjectUtils.isNull(tsdh) && ObjectUtils.isNull(lcdh)) {
-				throw new RuntimeException("No document found");
+				LOG.error("No document found");
+//				throw new RuntimeException("No document found");
+				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.document.notfound");
+				mapping.findForward("basic");
 			}
 			else if(ObjectUtils.isNotNull(tsdh)) {
 				//Throws runtime exception, separate action forwards for timesheet/leave calendar payouts.
@@ -87,11 +94,14 @@ public class LeavePayoutAction extends KPMEAction {
 				LeaveCalendarDocument lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
 				calendarEntry = lcd == null ? null : lcd.getCalendarEntry();
 				strutsActionForward = "leaveCalendarPayoutSuccess";
-				methodToCall = "approveLeaveCalendar";
+				methodToCall = "approveLeaveCalendar";    
 			}
 			
 			if(ObjectUtils.isNull(calendarEntry)) {
-				throw new RuntimeException("Could not retreive calendar entry for document " + documentId);
+				LOG.error("Could not retreive calendar entry for document " + documentId);
+//				throw new RuntimeException("Could not retreive calendar entry for document " + documentId);
+				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.calendarentry.notfound", new String[] {documentId});
+				return mapping.findForward("basic");
 			}
 			
 			AccrualCategoryRule accrualRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
@@ -121,7 +131,7 @@ public class LeavePayoutAction extends KPMEAction {
 					forward.setPath(forward.getPath()+"?documentId="+documentId+"&action=R&methodToCall="+methodToCall);
 					return forward;
 				}
-				else
+				else  
 					return mapping.findForward("closeLeavePayoutDoc");
 			}
 			else
@@ -167,8 +177,12 @@ public class LeavePayoutAction extends KPMEAction {
 				return redirect;
 
 			}
-			else
-				throw new RuntimeException("Action should only be reachable through triggers with frequency ON_DEMAND or LEAVE_APPROVE");
+			else {
+				LOG.warn("Action should only be reachable through triggers with frequency ON_DEMAND or LEAVE_APPROVE");
+				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "action.reachable.through.triggers");
+//				throw new RuntimeException("Action should only be reachable through triggers with frequency ON_DEMAND or LEAVE_APPROVE");
+				return mapping.findForward("basic");
+			}
 	}
 	
 	//Entry point for LeavePayout.do for accrual category rule triggered payouts with action frequency On Demand.
@@ -193,9 +207,12 @@ public class LeavePayoutAction extends KPMEAction {
 			AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(leaveBlockId);
 			if(ObjectUtils.isNotNull(aRule)) {
 				//should somewhat safegaurd against url fabrication.
-				if(!StringUtils.equals(aRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
-					throw new RuntimeException("attempted to execute on-demand balance payout for accrual category with action frequency " + aRule.getMaxBalanceActionFrequency());
-				else {
+				if(!StringUtils.equals(aRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) {
+//					throw new RuntimeException("attempted to execute on-demand balance payout for accrual category with action frequency " + aRule.getMaxBalanceActionFrequency());
+					LOG.error("attempted to execute on-demand balance payout for accrual category with action frequency " + aRule.getMaxBalanceActionFrequency());
+					GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "attempted.payout.accrualcategory",new String[] { aRule.getMaxBalanceActionFrequency()});
+					return mapping.findForward("basic");
+				} else {
 					TimesheetDocument tsd = null;
 					LeaveCalendarDocument lcd = null;
 					String principalId = null;
@@ -238,16 +255,27 @@ public class LeavePayoutAction extends KPMEAction {
 							return forward;
 						}
 					}
-					else
-						throw new RuntimeException("could not initialize a balance payout");
-
+					else {
+//						throw new RuntimeException("could not initialize a balance payout");
+						LOG.error("could not initialize a balance payout");
+						GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "couldnot.initialize.payout");
+						return mapping.findForward("basic");
+					}
 				}
 			}
-			else
-				throw new RuntimeException("No rule for this accrual category could be found");
+			else {
+				LOG.error("No rule for this accrual category could be found");
+//				throw new RuntimeException("No rule for this accrual category could be found");
+				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "no.acccatrule.found");
+				return mapping.findForward("basic");
+			}
 		}
-		else
-			throw new RuntimeException("No accrual category rule id has been sent in the request.");
+		else { 
+			LOG.error("No accrual category rule id has been sent in the request.");
+			GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "no.acccat.ruleid.sent");
+			return mapping.findForward("basic");
+//			throw new RuntimeException("No accrual category rule id has been sent in the request.");
+		}
 	}
 
 	//Entry point for LeavePayout.do for accrual category rule triggered transfers with action frequency Leave Approve.
@@ -291,7 +319,7 @@ public class LeavePayoutAction extends KPMEAction {
 				LeavePayout leavePayout = LmServiceLocator.getLeavePayoutService().initializePayout(principalId, accrualCategoryRuleId, accruedBalance, effectiveDate);
 				leavePayout.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 	
-				if(ObjectUtils.isNotNull(leavePayout)) {
+				if(ObjectUtils.isNotNull(leavePayout)) { 
 	
 				if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.LOSE)) {
 					//payouts should never contain losses.
@@ -321,15 +349,29 @@ public class LeavePayoutAction extends KPMEAction {
 					return forward;
 				}
 
+			}  else {
+				LOG.error("could not initialize balance transfer.");
+				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "couldnot.initialize.baltransfer");
+				return mapping.findForward("basic");
+	
+//			throw new RuntimeException("could not initialize balance transfer");
 			}
-			throw new RuntimeException("could not initialize balance transfer");
 
 		}
-		else
-			throw new RuntimeException("unable to fetch the accrual category that triggerred this transfer");
+			else { 
+				LOG.error("unable to fetch the accrual category that triggerred this transfer");
+				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "unable.fetch.acccat");
+				return mapping.findForward("basic");
+//				throw new RuntimeException("unable to fetch the accrual category that triggerred this transfer");
+			}
 		}
-		else
-			throw new RuntimeException("No infractions given");
+		else {
+			LOG.error("No infractions given");
+			GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "no.infractions.given");
+			return mapping.findForward("basic");
+//			throw new RuntimeException("No infractions given");
+		}
+		return mapping.findForward("basic");
 	}
 	
 	public ActionForward approveTimesheet(ActionMapping mapping, ActionForm form,
@@ -401,15 +443,28 @@ public class LeavePayoutAction extends KPMEAction {
 						return forward;
 					}
 	
-				}
-				throw new RuntimeException("could not initialize balance transfer");
+				}  
+//				throw new RuntimeException("could not initialize balance transfer");
+				LOG.error("could not initialize balance transfer");
+				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "couldnot.initialize.baltransfer");
+				return mapping.findForward("basic");
 
 		}
-		else
-			throw new RuntimeException("unable to fetch the accrual category that triggerred this transfer");
+		else {
+			LOG.error("unable to fetch the accrual category that triggerred this transfer");
+			GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "unable.fetch.acccat");
+			return mapping.findForward("basic");
+			
+//			throw new RuntimeException("unable to fetch the accrual category that triggerred this transfer");
 		}
-		else
-			throw new RuntimeException("no eligible transfers exist");
+		}
+		else {
+			LOG.error("no eligible transfers exist");
+			GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.eligible.transfer.notExist");
+			return mapping.findForward("basic");
+		
+//			throw new RuntimeException("no eligible transfers exist");
+		}
 	}
 	
 	public ActionForward closeLeavePayoutDoc(ActionMapping mapping, ActionForm form,

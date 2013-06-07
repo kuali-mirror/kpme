@@ -143,7 +143,8 @@ public class SupervisorApprovalJob implements Job {
 			
 			scheduler.rescheduleJob(oldTrigger.getName(), oldTrigger.getGroup(), newTrigger);
 		} catch (SchedulerException se) {
-			throw new JobExecutionException(se);
+			LOG.error("Failure to execute job due to SchedulerException", se);
+//			throw new JobExecutionException(se);
 		}
 	}
 	

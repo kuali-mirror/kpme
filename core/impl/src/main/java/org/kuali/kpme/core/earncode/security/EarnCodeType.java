@@ -15,14 +15,18 @@
  */
 package org.kuali.kpme.core.earncode.security;
 
+import org.apache.log4j.Logger;
+
 
 public enum EarnCodeType {
+	
     TIME("T"),
     LEAVE("L"),
     BOTH("B");
 
     public final String code;
-
+    private static final Logger LOG = Logger.getLogger(EarnCodeType.class);
+    
     private EarnCodeType(String code) {
         this.code = code;
     }
@@ -40,6 +44,9 @@ public enum EarnCodeType {
                 return type;
             }
         }
-        throw new IllegalArgumentException("Failed to locate the EarnCodeType with the given code: " + code);
+//        throw new IllegalArgumentException("Failed to locate the EarnCodeType with the given code: " + code);
+        LOG.warn("Failed to locate the EarnCodeType with the given code: " + code);
+        return null;
+        
     }
 }

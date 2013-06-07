@@ -15,6 +15,9 @@
  */
 package org.kuali.kpme.tklm.leave.request;
 
+import org.apache.log4j.Logger;
+import org.kuali.kpme.tklm.leave.payout.web.LeavePayoutAction;
+
 
 public enum LeaveRequestActionValue {
     DEFER("W", "Defer"),
@@ -24,6 +27,7 @@ public enum LeaveRequestActionValue {
 
     public final String code;
     public final String label;
+    private static final Logger LOG = Logger.getLogger(LeaveRequestActionValue.class);
 
     private LeaveRequestActionValue(String code, String label) {
         this.code = code;
@@ -47,7 +51,9 @@ public enum LeaveRequestActionValue {
                 return type;
             }
         }
-        throw new IllegalArgumentException("Failed to locate the LeaveRequestAction with the given code: " + code);
+//        throw new IllegalArgumentException("Failed to locate the LeaveRequestAction with the given code: " + code);
+        LOG.warn("Failed to locate the LeaveRequestAction with the given code: " + code);
+        return null;
     }
 
 }

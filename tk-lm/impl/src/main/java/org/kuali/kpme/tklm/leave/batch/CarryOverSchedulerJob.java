@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.leave.batch;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -32,6 +33,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 public class CarryOverSchedulerJob extends QuartzJobBean {
 
 	private static int LEAVE_PLAN_POLLING_WINDOW;
+	private static final Logger LOG = Logger.getLogger(CarryOverSchedulerJob.class);
 	
 	private static BatchJobService batchJobService;
 
@@ -57,7 +59,8 @@ public class CarryOverSchedulerJob extends QuartzJobBean {
         		}
         	}
         } catch (SchedulerException se) {
-        	throw new JobExecutionException("Exception thrown during job scheduling of Carry over for Leave", se);
+        	LOG.warn("Exception thrown during job scheduling of Carry over for Leave", se);
+//        	throw new JobExecutionException("Exception thrown during job scheduling of Carry over for Leave", se);
         }
 	}
 	

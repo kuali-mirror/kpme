@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
@@ -48,6 +49,7 @@ import com.google.common.collect.Ordering;
 public class EarnCodeServiceImpl implements EarnCodeService {
 
 	private EarnCodeDao earnCodeDao;
+	private static final Logger LOG = Logger.getLogger(EarnCodeServiceImpl.class);
 
 	public void setEarnCodeDao(EarnCodeDao earnCodeDao) {
 		this.earnCodeDao = earnCodeDao;
@@ -57,9 +59,18 @@ public class EarnCodeServiceImpl implements EarnCodeService {
     public List<EarnCode> getEarnCodesForLeave(Assignment a, LocalDate asOfDate, boolean isLeavePlanningCalendar) {
         //getEarnCodesForTime and getEarnCodesForLeave have some overlapping logic, but they were separated so that they could follow their own distinct logic, so consolidation of logic is not desirable.
 
-        if (a == null) throw new RuntimeException("No assignment parameter.");
+        if (a == null){
+        	LOG.error("No assignment parameter.");
+        	return null;
+//        	throw new RuntimeException("No assignment parameter.");
+        }
+        
         Job job = a.getJob();
-        if (job == null || job.getPayTypeObj() == null) throw new RuntimeException("Null job or null job pay type on assignment.");
+        if (job == null || job.getPayTypeObj() == null) { 
+//        	throw new RuntimeException("Null job or null job pay type on assignment.");
+        	LOG.error("Null job or null job pay type on assignment.");
+        	return null;
+        }
 
         List<EarnCode> earnCodes = new LinkedList<EarnCode>();
         String earnTypeCode = EarnCodeType.LEAVE.getCode();
@@ -228,7 +239,9 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		String roundOption = HrConstants.ROUND_OPTION_MAP.get(earnCode.getRoundingOption());
 		BigDecimal fractScale = new BigDecimal(earnCode.getFractionalTimeAllowed());
 		if(roundOption == null) {
-			throw new RuntimeException("Rounding option of Earn Code " + earnCode.getEarnCode() + " is not recognized.");
+			LOG.error("Rounding option of Earn Code " + earnCode.getEarnCode() + " is not recognized.");
+        	return null;
+//			throw new RuntimeException("Rounding option of Earn Code " + earnCode.getEarnCode() + " is not recognized.");
 		}
 		BigDecimal roundedHours = hours;
 		if(roundOption.equals("Traditional")) {

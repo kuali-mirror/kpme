@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.department.Department;
@@ -40,6 +41,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
  */
 public class JobServiceImpl implements JobService {
 
+	private static final Logger LOG = Logger.getLogger(JobServiceImpl.class);
     private JobDao jobDao;
 
     @Override
@@ -90,13 +92,19 @@ public class JobServiceImpl implements JobService {
         if (chkDetails) {
             String hrPayType = job.getHrPayType();
             if (StringUtils.isBlank(hrPayType)) {
-                throw new RuntimeException("No pay type for this job!");
+//                throw new RuntimeException("No pay type for this job!");
+            	LOG.warn("No pay type for this job!");
+                return null;
             }
             PayType payType = HrServiceLocator.getPayTypeService().getPayType(
                     hrPayType, asOfDate);
-            if (payType == null)
-                throw new RuntimeException("No paytypes defined for this job!");
-            job.setPayTypeObj(payType);
+            if (payType == null) {
+//                throw new RuntimeException("No paytypes defined for this job!");
+            	LOG.warn("No paytypes defined for this job!");
+            	return null;
+            } else {
+            	job.setPayTypeObj(payType);
+            }
         }
         return job;
     }

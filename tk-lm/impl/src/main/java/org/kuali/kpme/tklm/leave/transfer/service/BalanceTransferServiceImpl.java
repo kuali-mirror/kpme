@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
@@ -47,6 +48,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BalanceTransferServiceImpl implements BalanceTransferService {
 
+	private static final Logger LOG = Logger.getLogger(BalanceTransferServiceImpl.class);
 	private BalanceTransferDao balanceTransferDao;
 	
 	@Override
@@ -218,9 +220,11 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 
 	@Override
 	public BalanceTransfer transfer(BalanceTransfer balanceTransfer) {
-		if(ObjectUtils.isNull(balanceTransfer))
-			throw new RuntimeException("did not supply a valid BalanceTransfer object.");
-		else {
+		if(ObjectUtils.isNull(balanceTransfer)) {
+			LOG.error("did not supply a valid BalanceTransfer object.");
+			return null;
+//			throw new RuntimeException("did not supply a valid BalanceTransfer object.");
+		} else {
 			List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 			BigDecimal transferAmount = balanceTransfer.getTransferAmount();
 			LeaveBlock aLeaveBlock = null;
@@ -378,9 +382,11 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 	
 	@Override
 	public BalanceTransfer transferSsto(BalanceTransfer balanceTransfer) {
-		if(ObjectUtils.isNull(balanceTransfer))
-			throw new RuntimeException("did not supply a valid BalanceTransfer object.");
-		else {
+		if(ObjectUtils.isNull(balanceTransfer)) {
+			LOG.warn("did not supply a valid BalanceTransfer object.");
+			return null;
+//			throw new RuntimeException("did not supply a valid BalanceTransfer object.");
+		} else {
 			List<LeaveBlock> sstoLbList = LmServiceLocator.getLeaveBlockService().getSSTOLeaveBlocks(balanceTransfer.getPrincipalId(), balanceTransfer.getSstoId(), balanceTransfer.getEffectiveLocalDate());
 			String leaveDocId = "";
 			if(CollectionUtils.isNotEmpty(sstoLbList)) {

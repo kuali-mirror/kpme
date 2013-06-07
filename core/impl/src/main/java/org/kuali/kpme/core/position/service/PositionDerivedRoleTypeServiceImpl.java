@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.job.service.JobService;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
-import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
@@ -33,6 +33,7 @@ import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 @SuppressWarnings("deprecation")
 public class PositionDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
+	private static final Logger LOG = Logger.getLogger(PositionDerivedRoleTypeServiceImpl.class);
 	private RoleService roleService;
 	private JobService jobService;
 	
@@ -52,11 +53,15 @@ public class PositionDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
 	@Override
 	public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String, String> qualification) {
         if (StringUtils.isBlank(namespaceCode)) {
-            throw new RiceIllegalArgumentException("namespaceCode was null or blank");
+        	LOG.error("namespaceCode was null or blank");
+        	return null;
+//            throw new RiceIllegalArgumentException("namespaceCode was null or blank");
         }
-
+        
         if (roleName == null) {
-            throw new RiceIllegalArgumentException("roleName was null");
+        	LOG.error("roleName was null");
+        	return null;
+//            throw new RiceIllegalArgumentException("roleName was null");
         }
         
         List<RoleMembership> roleMembers = new ArrayList<RoleMembership>();

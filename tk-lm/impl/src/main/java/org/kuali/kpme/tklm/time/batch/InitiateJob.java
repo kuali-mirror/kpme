@@ -16,6 +16,7 @@
 package org.kuali.kpme.tklm.time.batch;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -28,6 +29,8 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 public class InitiateJob implements Job {
+	
+	private static final Logger LOG = Logger.getLogger(InitiateJob.class);
 	
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
@@ -45,7 +48,8 @@ public class InitiateJob implements Job {
 				LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(principalId, calendarEntry);
 			}
 		} catch (WorkflowException we) {
-			throw new JobExecutionException("Failure to execute job due to WorkflowException", we);
+			LOG.error("Failure to execute job due to WorkflowException", we);
+//			throw new JobExecutionException("Failure to execute job due to WorkflowException", we);
 		}
 	}
 	

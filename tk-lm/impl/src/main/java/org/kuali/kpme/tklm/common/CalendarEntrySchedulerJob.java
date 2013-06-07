@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.common;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -28,6 +29,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 public class CalendarEntrySchedulerJob extends QuartzJobBean {
 
+	private static final Logger LOG = Logger.getLogger(CalendarEntrySchedulerJob.class);
 	private static int CALENDAR_ENTRIES_POLLING_WINDOW;
 	
 	private static BatchJobService batchJobService;
@@ -64,7 +66,8 @@ public class CalendarEntrySchedulerJob extends QuartzJobBean {
 	            }
 	        }
         } catch (SchedulerException se) {
-        	throw new JobExecutionException("Exception thrown during job scheduling", se);
+        	LOG.error("Exception thrown during job scheduling", se);
+//        	throw new JobExecutionException("Exception thrown during job scheduling", se);
         }
 	}
 	

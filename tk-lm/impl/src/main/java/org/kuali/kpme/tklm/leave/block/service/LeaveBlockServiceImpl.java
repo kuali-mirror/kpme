@@ -168,7 +168,9 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         	calBeginDateTime = ce.getBeginPeriodLocalDateTime().toDateTime();
         	calEndDateTime = ce.getEndPeriodLocalDateTime().toDateTime();
         } else {
-            throw new RuntimeException("Calendar Entry parameter is null.");
+        	LOG.error("Calendar Entry parameter is null.");
+        	return;
+//          throw new RuntimeException("Calendar Entry parameter is null.");
         }
         
         Interval calendarInterval = new Interval(calBeginDateTime, calEndDateTime);

@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.role.PositionRoleMemberBo;
 import org.kuali.rice.core.api.membership.MemberType;
@@ -35,6 +36,7 @@ import org.kuali.rice.kim.impl.role.RoleMemberBo;
 public class WorkAreaPositionRoleMemberBo extends PositionRoleMemberBo {
 
 	private static final long serialVersionUID = -321921468708618676L;
+	private static final Logger LOG = Logger.getLogger(WorkAreaPositionRoleMemberBo.class);
 
 	public static WorkAreaPositionRoleMemberBo from(RoleMemberBo roleMemberBo, Map<String, String> attributes) {
         if (roleMemberBo == null) { 
@@ -129,7 +131,8 @@ public class WorkAreaPositionRoleMemberBo extends PositionRoleMemberBo {
 
         public void setRoleId(String roleId) {
             if (StringUtils.isEmpty(roleId)) {
-                throw new IllegalArgumentException("roleId is empty");
+            	LOG.warn("roleId is empty");
+//                throw new IllegalArgumentException("roleId is empty");
             }
             this.roleId = roleId;
         }
@@ -148,7 +151,8 @@ public class WorkAreaPositionRoleMemberBo extends PositionRoleMemberBo {
 
         public void setMemberId(String memberId) {
             if (StringUtils.isBlank(memberId)) {
-                throw new IllegalArgumentException("memberId may not be null");
+            	LOG.warn("memberId may not be null");
+//                throw new IllegalArgumentException("memberId may not be null");
             }
             this.memberId = memberId;
         }
@@ -159,7 +163,8 @@ public class WorkAreaPositionRoleMemberBo extends PositionRoleMemberBo {
 
         public void setType(final MemberType type) {
             if (type == null) {
-                throw new IllegalArgumentException("type is null");
+            	LOG.warn("type is null");
+//                throw new IllegalArgumentException("type is null");
             }
             this.type = type;
         }

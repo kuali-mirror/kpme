@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.calendar.CalendarParent;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -36,6 +37,8 @@ import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailRenderer;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 
 public class TkCalendar extends CalendarParent {
+	
+	private static final Logger LOG = Logger.getLogger(TkCalendar.class);
     private CalendarEntry payCalEntry;
     private DateTime beginDateTime;
     private DateTime endDateTime;
@@ -51,8 +54,10 @@ public class TkCalendar extends CalendarParent {
     	 
         if (tbAggregate != null && lbAggregate != null) {
         	if(tbAggregate.getDayTimeBlockList().size() != lbAggregate.getDayLeaveBlockList().size()){
-        		throw new RuntimeException("TimeBlockAggregate and LeaveBlockAggregate should have the same size of Day Blocks List");
-        	}
+        		LOG.error("TimeBlockAggregate and LeaveBlockAggregate should have the same size of Day Blocks List");
+        		return null;
+//        		throw new RuntimeException("TimeBlockAggregate and LeaveBlockAggregate should have the same size of Day Blocks List");
+        	} 
         		
         	List<CalendarWeek> weeks = new ArrayList<CalendarWeek>();
 	        tc.setPayCalEntry(tbAggregate.getPayCalendarEntry());

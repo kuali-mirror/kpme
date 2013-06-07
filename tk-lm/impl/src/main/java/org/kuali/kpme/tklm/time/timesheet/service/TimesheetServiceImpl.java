@@ -379,9 +379,17 @@ public class TimesheetServiceImpl implements TimesheetService {
     public List<EarnCode> getEarnCodesForTime(Assignment a, LocalDate asOfDate) {
         //getEarnCodesForTime and getEarnCodesForLeave have some overlapping logic, but they were separated so that they could follow their own distinct logic, so consolidation of logic is not desirable.
 
-        if (a == null) throw new RuntimeException("No assignment parameter.");
+        if (a == null) {
+        	LOG.error("No assignment parameter.");
+        	return null;
+//        	throw new RuntimeException("No assignment parameter.");
+        }
         Job job = a.getJob();
-        if (job == null || job.getPayTypeObj() == null) throw new RuntimeException("Null job or null job pay type on assignment.");
+        if (job == null || job.getPayTypeObj() == null) {
+        	LOG.error("Null job or null job pay type on assignment.");
+        	return null;
+//        	throw new RuntimeException("Null job or null job pay type on assignment.");
+        }
 
         List<EarnCode> earnCodes = new LinkedList<EarnCode>();
         String earnTypeCode = EarnCodeType.TIME.getCode();
@@ -394,7 +402,9 @@ public class TimesheetServiceImpl implements TimesheetService {
         // Reg earn codes will typically not be defined in the earn code security table
         EarnCode regularEarnCode = HrServiceLocator.getEarnCodeService().getEarnCode(job.getPayTypeObj().getRegEarnCode(), asOfDate);
         if (regularEarnCode == null) {
-            throw new RuntimeException("No regular earn code defined for job pay type.");
+        	LOG.error("No regular earn code defined for job pay type.");
+        	return null;
+//            throw new RuntimeException("No regular earn code defined for job pay type.");
         } else {
             //  if you are a clock user and this is your timesheet and you are processing the reg earn code, do not add this earn code. Use the clock in/out mechanism.
         	if (!isClockUser || !isUsersTimesheet) {

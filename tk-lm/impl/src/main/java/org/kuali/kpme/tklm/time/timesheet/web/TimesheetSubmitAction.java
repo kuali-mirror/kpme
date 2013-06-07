@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -48,10 +49,12 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TimesheetSubmitAction extends KPMEAction {
 
+	private static final Logger LOG = Logger.getLogger(TimesheetSubmitAction.class);
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         TimesheetSubmitActionForm tsaf = (TimesheetSubmitActionForm)form;
@@ -82,7 +85,10 @@ public class TimesheetSubmitAction extends KPMEAction {
 					Calendar cal = pha.getLeaveCalObj();
 					if(cal == null) {
 						//non exempt leave eligible employee without a leave calendar?
-						throw new RuntimeException("Principal is without a leave calendar");
+						LOG.error("Principal is without a leave calendar");
+						GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "principal.without.leavecal");
+						return mapping.findForward("basic");
+//						throw new RuntimeException("Principal is without a leave calendar");
                     }
     				List<LeaveBlock> eligibleTransfers = new ArrayList<LeaveBlock>();
     				List<LeaveBlock> eligiblePayouts = new ArrayList<LeaveBlock>();

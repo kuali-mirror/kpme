@@ -71,21 +71,29 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 	public void runAccrual(String principalId, LocalDate asOfDate){
 		PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
 		if(principalHRAttributes == null){
-			throw new RuntimeException("Cannot find principal hr attributes for "+principalId);
+			LOG.error("Cannot find principal hr attributes for "+principalId);
+			return;
+//			throw new RuntimeException("Cannot find principal hr attributes for "+principalId);
 		}
 		//Grab the service date
 		LocalDate serviceDate = principalHRAttributes.getServiceLocalDate();
 		if(serviceDate == null){
-			throw new RuntimeException("Cannot find service date on principal hr attribute for "+principalId);
+			LOG.error("Cannot find service date on principal hr attribute for "+principalId);
+			return;
+//			throw new RuntimeException("Cannot find service date on principal hr attribute for "+principalId);
 		}
 		
 		String leavePlanStr = principalHRAttributes.getLeavePlan();
 		if(StringUtils.isBlank(leavePlanStr)){
-			throw new RuntimeException("Cannot find leave plan for "+principalId);
+			LOG.error("Cannot find leave plan for "+principalId);
+			return;
+//			throw new RuntimeException("Cannot find leave plan for "+principalId);
 		}
 		LeavePlan leavePlan = HrServiceLocator.getLeavePlanService().getLeavePlan(leavePlanStr, asOfDate);
 		if(leavePlan == null){
-			throw new RuntimeException("Cannot find leave plan object for leave plan " + leavePlanStr);
+			LOG.error("Cannot find leave plan object for leave plan " + leavePlanStr);
+			return;
+//			throw new RuntimeException("Cannot find leave plan object for leave plan " + leavePlanStr);
 		}
 
 		//Grab all the accrual categories for leave plan

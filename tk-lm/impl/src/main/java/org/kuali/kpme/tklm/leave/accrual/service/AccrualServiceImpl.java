@@ -81,7 +81,9 @@ public class AccrualServiceImpl implements AccrualService {
             LOG.info("AccrualServiceImpl.runAccrual() STARTED with Principal: "+principalId+" Start: "+startDate.toString()+" End: "+endDate.toString());
 		}
 		if(startDate.isAfter(endDate)) {
-			throw new RuntimeException("Start Date " + startDate.toString() + " should not be later than End Date " + endDate.toString());
+			LOG.error("Start Date " + startDate.toString() + " should not be later than End Date " + endDate.toString());
+			return;
+//			throw new RuntimeException("Start Date " + startDate.toString() + " should not be later than End Date " + endDate.toString());
 		}
 		//Inactivate all previous accrual-generated entries for this span of time
 		deactivateOldAccruals(principalId, startDate, endDate, runAsPrincipalId);
@@ -274,7 +276,7 @@ public class AccrualServiceImpl implements AccrualService {
 						//get not eligible for accrual hours based on leave block on this day
 						BigDecimal noAccrualHours = getNotEligibleForAccrualHours(principalId, currentDate.toLocalDate());
 						
-						if(noAccrualHours.compareTo(BigDecimal.ZERO) != 0 && totalOfStandardHours.compareTo(BigDecimal.ZERO) != 0) {
+						if(noAccrualHours != null && noAccrualHours.compareTo(BigDecimal.ZERO) != 0 && totalOfStandardHours.compareTo(BigDecimal.ZERO) != 0) {
 							BigDecimal dayHours = totalOfStandardHours.divide(new BigDecimal(5), 6, BigDecimal.ROUND_HALF_UP);
 							BigDecimal noAccrualRate = dayRate.multiply(noAccrualHours.divide(dayHours));
 							this.calculateHours(anAC.getLmAccrualCategoryId(), ftePercentage, noAccrualRate, accumulatedAccrualCatToNegativeAccrualAmounts);
@@ -305,7 +307,9 @@ public class AccrualServiceImpl implements AccrualService {
 			if(ssto != null) {
 				AccrualCategory anAC = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(ssto.getAccrualCategory(), ssto.getEffectiveLocalDate());
 				if(anAC == null) {
-					throw new RuntimeException("Cannot find Accrual Category for system scheduled time off " + ssto.getLmSystemScheduledTimeOffId());
+					LOG.error("Cannot find Accrual Category for system scheduled time off " + ssto.getLmSystemScheduledTimeOffId());
+					return;
+//					throw new RuntimeException("Cannot find Accrual Category for system scheduled time off " + ssto.getLmSystemScheduledTimeOffId());
 				}
 				BigDecimal hrs = ssto.getAmountofTime().multiply(ftePercentage);
 				// system scheduled time off leave block
@@ -392,7 +396,9 @@ public class AccrualServiceImpl implements AccrualService {
 		for(LeaveBlock lb : lbs) {
 			EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), currentDate);
 			if(ec == null) {
-				throw new RuntimeException("Cannot find Earn Code for Leave block " + lb.getLmLeaveBlockId());
+				LOG.error("Cannot find Earn Code for Leave block " + lb.getLmLeaveBlockId());
+				return null;
+//				throw new RuntimeException("Cannot find Earn Code for Leave block " + lb.getLmLeaveBlockId());
 			}
 			if(ec.getEligibleForAccrual().equals("N") && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) != 0) {
 				hours = hours.add(lb.getLeaveAmount());
@@ -407,7 +413,9 @@ public class AccrualServiceImpl implements AccrualService {
 		// Replacing Leave Code to earn code - KPME 1634
 		EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(anAC.getEarnCode(), anAC.getEffectiveLocalDate());
 		if(ec == null) {
-			throw new RuntimeException("Cannot find Earn Code for Accrual category " + anAC.getAccrualCategory());
+//			throw new RuntimeException("Cannot find Earn Code for Accrual category " + anAC.getAccrualCategory());
+			LOG.error("Cannot find Earn Code for Accrual category " + anAC.getAccrualCategory());
+			return;
 		}
 		// use rounding option and fract time allowed of Leave Code to round the leave block hours
 		BigDecimal roundedHours = HrServiceLocator.getEarnCodeService().roundHrsWithEarnCode(hrs, ec);

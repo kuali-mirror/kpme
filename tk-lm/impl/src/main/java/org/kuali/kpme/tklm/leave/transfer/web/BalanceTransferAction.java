@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -49,10 +50,13 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BalanceTransferAction extends KPMEAction {
 
+	private static final Logger LOG = Logger.getLogger(BalanceTransferAction.class);
+	
 	public ActionForward balanceTransferOnLeaveApproval(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -77,7 +81,10 @@ public class BalanceTransferAction extends KPMEAction {
 			String strutsActionForward = "";
 			String methodToCall = "approveLeaveCalendar";
 			if(ObjectUtils.isNull(tsdh) && ObjectUtils.isNull(lcdh)) {
-				throw new RuntimeException("No document found");
+				LOG.error("No document found");
+				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.document.notfound");
+				return mapping.findForward("basic");
+//				throw new RuntimeException("No document found");
 			}
 			else if(ObjectUtils.isNotNull(tsdh)) {
 				//Throws runtime exception, separate action forwards for timesheet/leave calendar transfers.
@@ -94,7 +101,10 @@ public class BalanceTransferAction extends KPMEAction {
 			}
 			
 			if(ObjectUtils.isNull(calendarEntry)) {
-				throw new RuntimeException("Could not retreive calendar entry for document " + documentId);
+				LOG.error("Could not retreive calendar entry for document " + documentId);
+				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.calendarentry.notfound", new String[] {documentId});
+				return mapping.findForward("basic");
+//				throw new RuntimeException("Could not retreive calendar entry for document " + documentId);
 			}
 			
 			AccrualCategoryRule accrualRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
@@ -174,8 +184,12 @@ public class BalanceTransferAction extends KPMEAction {
 				redirect.setPath(strutsActionForward);
 				return redirect;
 			}
-			else
-				throw new RuntimeException("Action should only be reachable through triggers with frequency ON_DEMAND or LEAVE_APPROVE");
+			else {
+				LOG.error("Action should only be reachable through triggers with frequency ON_DEMAND or LEAVE_APPROVE");
+				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "action.reachable.through.triggers");
+				return mapping.findForward("basic");
+//				throw new RuntimeException("Action should only be reachable through triggers with frequency ON_DEMAND or LEAVE_APPROVE");
+			}
 	}
 	
 	//Entry point for BalanceTransfer.do for accrual category rule triggered transfers with action frequency On Demand.
@@ -200,9 +214,12 @@ public class BalanceTransferAction extends KPMEAction {
 			AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
 			if(ObjectUtils.isNotNull(aRule)) {
 				//should somewhat safegaurd against url fabrication.
-				if(!StringUtils.equals(aRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
-					throw new RuntimeException("attempted to execute on-demand balance transfer for accrual category with action frequency " + aRule.getMaxBalanceActionFrequency());
-				else {
+				if(!StringUtils.equals(aRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) {
+//					throw new RuntimeException("attempted to execute on-demand balance transfer for accrual category with action frequency " + aRule.getMaxBalanceActionFrequency());
+					LOG.error("attempted to execute on-demand balance transfer for accrual category with action frequency " + aRule.getMaxBalanceActionFrequency());
+					GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "attempted.baltransfer.accrualcategory",new String[] { aRule.getMaxBalanceActionFrequency()});
+					return mapping.findForward("basic");
+				} else {
 					String principalId = null;
 
 					if(isTimesheet) {
@@ -242,16 +259,28 @@ public class BalanceTransferAction extends KPMEAction {
 							return forward;
 						}
 					}
-					else
-						throw new RuntimeException("could not initialize a balance transfer");
+					else {
+						LOG.error("could not initialize a balance transfer");
+						GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "couldnot.initialize.baltransfer");
+//						throw new RuntimeException("could not initialize a balance transfer");
+						return mapping.findForward("basic");
+					}
 
 				}
 			}
-			else
-				throw new RuntimeException("No rule for this accrual category could be found");
+			else {
+				LOG.error("No rule for this accrual category could be found");
+				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "no.acccatrule.found");
+				return mapping.findForward("basic");
+//				throw new RuntimeException("No rule for this accrual category could be found");
+			}
 		}
-		else
-			throw new RuntimeException("No accrual category rule id has been sent in the request.");
+		else {
+			LOG.error("No accrual category rule id has been sent in the request.");
+			GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "no.acccat.ruleid.sent");
+			return mapping.findForward("basic");
+//			throw new RuntimeException("No accrual category rule id has been sent in the request.");
+		}
 	}
 
 	//Entry point for BalanceTransfer.do for accrual category rule triggered transfers with action frequency Leave Approve.
@@ -325,12 +354,21 @@ public class BalanceTransferAction extends KPMEAction {
 						return forward;
 					}
 			    }
-			    throw new RuntimeException("could not initialize balance transfer");
+				LOG.error("could not initialize balance transfer");
+				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "couldnot.initialize.baltransfer");
+				return mapping.findForward("basic");
+//			    throw new RuntimeException("could not initialize balance transfer");
 		    } else {
-			    throw new RuntimeException("unable to fetch the accrual category that triggerred this transfer");
+				LOG.error("unable to fetch the accrual category that triggerred this transfer");
+				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "unable.fetch.acccat");
+				return mapping.findForward("basic");
+//			    throw new RuntimeException("unable to fetch the accrual category that triggerred this transfer");
             }
 		} else {
-			throw new RuntimeException("No infractions given");
+			LOG.error("No infractions given");
+			GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "no.infractions.given");
+			return mapping.findForward("basic");
+//			throw new RuntimeException("No infractions given");
         }
 	}
 	
@@ -404,14 +442,24 @@ public class BalanceTransferAction extends KPMEAction {
 					}
 	
 				}
-				throw new RuntimeException("could not initialize balance transfer");
-
+//				throw new RuntimeException("could not initialize balance transfer");
+				LOG.error("could not initialize balance transfer");
+				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "couldnot.initialize.baltransfer");
+				return mapping.findForward("basic");
 		}
-		else
-			throw new RuntimeException("unable to fetch the accrual category that triggerred this transfer");
+		else {
+			LOG.error("unable to fetch the accrual category that triggerred this transfer");
+			GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "unable.fetch.acccat");
+			return mapping.findForward("basic");
+//			throw new RuntimeException("unable to fetch the accrual category that triggerred this transfer");
 		}
-		else
-			throw new RuntimeException("no eligible transfers exist");
+		}
+		else {
+			LOG.error("no eligible transfers exist");
+			GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.eligible.transfer.notExist");
+			return mapping.findForward("basic");
+//			throw new RuntimeException("no eligible transfers exist");
+		}
 	}
 	
 	public ActionForward closeBalanceTransferDoc(ActionMapping mapping, ActionForm form,
@@ -437,7 +485,10 @@ public class BalanceTransferAction extends KPMEAction {
 		LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lbId);
 		// this leave block is a ssto usage block, need to use it fo find the accrualed leave block which has a positive amount
 		if(lb == null || StringUtils.isEmpty(lb.getScheduleTimeOffId())) {
-			throw new RuntimeException("could not find the System Scheduled Time Off leave block that needs to be transferred!");	
+			LOG.error("could not find the System Scheduled Time Off leave block that needs to be transferred!");
+			GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.SSTOlb.nonExist");
+			return;
+//			throw new RuntimeException("could not find the System Scheduled Time Off leave block that needs to be transferred!");	
 		}
 		SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
 		BigDecimal amountTransferred = ssto.getTransferConversionFactor() == null ? lb.getLeaveAmount() : lb.getLeaveAmount().multiply(ssto.getTransferConversionFactor());
@@ -467,11 +518,18 @@ public class BalanceTransferAction extends KPMEAction {
 		BalanceTransfer bt = btf.getBalanceTransfer();
 		
 		if(StringUtils.isEmpty(bt.getSstoId())) {
-			throw new RuntimeException("System Scheduled Time Off not found for this balance transfer!");
+			LOG.error("System Scheduled Time Off not found for this balance transfer!");
+			GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.SSTO.nonExist");
+			return mapping.findForward("basic");
+
+//			throw new RuntimeException("System Scheduled Time Off not found for this balance transfer!");
 		}
 		List<LeaveBlock> lbList = LmServiceLocator.getLeaveBlockService().getSSTOLeaveBlocks(bt.getPrincipalId(), bt.getSstoId(), bt.getEffectiveLocalDate());
 		if(CollectionUtils.isEmpty(lbList) || (CollectionUtils.isNotEmpty(lbList) && lbList.size() != 2)) {
-			throw new RuntimeException("There should be 2 system scheduled time off leave blocks!");
+			LOG.error("There should be 2 system scheduled time off leave blocks!");
+			GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.twoSSTOlb.notfound");
+			return mapping.findForward("basic");
+//			throw new RuntimeException("There should be 2 system scheduled time off leave blocks!");
 		}
 		LmServiceLocator.getBalanceTransferService().submitToWorkflow(bt);
 		// delete both SSTO accrualed and usage leave blocks

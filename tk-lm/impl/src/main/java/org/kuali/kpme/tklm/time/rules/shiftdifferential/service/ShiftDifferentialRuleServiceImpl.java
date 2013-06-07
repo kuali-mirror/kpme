@@ -375,8 +375,11 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 						// Check both Intervals, since the time blocks could still
 						// be applicable to the previous day.  These two intervals should
 						// not have any overlap.
-						if (previousDayShiftInterval.overlaps(shiftInterval))
-							throw new RuntimeException("Interval of greater than 24 hours created in the rules processing.");
+						if (previousDayShiftInterval.overlaps(shiftInterval)) {
+							LOG.error("Interval of greater than 24 hours created in the rules processing.");
+							return;
+//							throw new RuntimeException("Interval of greater than 24 hours created in the rules processing.");
+						}
 
                         // This block of code handles cases where you have time
                         // that spills to multiple days and a shift rule that

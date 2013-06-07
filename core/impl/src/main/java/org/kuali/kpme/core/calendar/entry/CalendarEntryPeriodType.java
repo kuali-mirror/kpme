@@ -15,6 +15,9 @@
  */
 package org.kuali.kpme.core.calendar.entry;
 
+import org.apache.log4j.Logger;
+import org.kuali.kpme.core.earncode.security.EarnCodeType;
+
 
 public enum CalendarEntryPeriodType {
     WEEKLY("W"),
@@ -23,6 +26,7 @@ public enum CalendarEntryPeriodType {
     MONTHLY("M");
 
     public final String code;
+    private static final Logger LOG = Logger.getLogger(CalendarEntryPeriodType.class);
 
     private CalendarEntryPeriodType(String code) {
         this.code = code;
@@ -39,9 +43,11 @@ public enum CalendarEntryPeriodType {
         for (CalendarEntryPeriodType type : values()) {
             if (type.code.equals(code)) {
                 return type;
-            }
+            } 
         }
-        throw new IllegalArgumentException("Failed to locate the CalendarEntryPeriodType with the given code: " + code);
+        // throw new IllegalArgumentException("Failed to locate the CalendarEntryPeriodType with the given code: " + code);
+        LOG.warn("Failed to locate the CalendarEntryPeriodType with the given code: " + code);
+        return null;
     }
 
 }
