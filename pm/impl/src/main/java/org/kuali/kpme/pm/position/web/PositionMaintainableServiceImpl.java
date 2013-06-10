@@ -15,6 +15,9 @@
  */
 package org.kuali.kpme.pm.position.web;
 
+import java.math.BigDecimal;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
@@ -77,6 +80,14 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 	        MaintenanceDocument document = maintenanceForm.getDocument();
 	        if (document.getNewMaintainableObject().getDataObject() instanceof Position) {
 	        	Position aPosition = (Position) document.getNewMaintainableObject().getDataObject();
+	        	// Duty line validation
+		        if (addLine instanceof PositionDuty) {
+		        	PositionDuty pd = (PositionDuty) addLine;
+		        	boolean results = this.validateDutyListPercentage(pd, aPosition);
+		        	if(!results) {
+		        		return false;
+		        	}
+		        }
 	        	// Funding line validation
 		        if (addLine instanceof PositionFunding) {
 		        	PositionFunding pf = (PositionFunding) addLine;
@@ -91,46 +102,58 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
         return isValid;
     }
 	
+	private boolean validateDutyListPercentage(PositionDuty pd, Position aPosition) {
+		if(CollectionUtils.isNotEmpty(aPosition.getDutyList()) && pd.getPercentage() != null) {
+			BigDecimal sum = pd.getPercentage();
+			for(PositionDuty aDuty : aPosition.getDutyList()) {
+				if(aDuty != null && aDuty.getPercentage() != null) {
+					sum = sum.add(aDuty.getPercentage());
+				}
+			}
+			if(sum.compareTo(new BigDecimal(100)) > 0) {
+				GlobalVariables.getMessageMap().putError("Position-duties", "duty.percentage.exceedsMaximum", sum.toString());
+				return false;
+			}
+		}		
+		return true;
+	}
+	
 	protected boolean validateAddFundingLine(PositionFunding pf, Position aPosition) {
     	if(pf.getEffectiveDate() != null && aPosition.getEffectiveDate() != null) {
     		if(pf.getEffectiveDate().compareTo(aPosition.getEffectiveDate()) < 0) {
     			String[] parameters = new String[2];
     			parameters[0] = pf.getEffectiveDate().toString();
     			parameters[1] = aPosition.getEffectiveDate().toString();
-    			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "dataObject.fundingList","error.funding.effdt.invalid", parameters);
+    			// using section id as the error key because KRAD does not support error matching on property names for collections as in 2.3M2
+    			GlobalVariables.getMessageMap().putError("Position-fundings","error.funding.effdt.invalid", parameters);
    			 	return false;
     		}
     	}
     	if(StringUtils.isNotEmpty(pf.getAccount())) {
     		boolean results = ValidationUtils.validateAccount(pf.getAccount());
     		if(!results) {
-//    			GlobalVariables.getMessageMap().putError(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "dataObject","error.funding.account.notExist", pf.getAccount());
-    			 
-//    			GlobalVariables.getMessageMap().addToErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "dataObject.fundingList");
-//    			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "dataObject.fundingList", "error testing");
-    			GlobalVariables.getMessageMap().addToErrorPath("Position-fundings");
-    			GlobalVariables.getMessageMap().putError("Position-fundings", "error.funding.account.notExist", pf.getAccount());
+    			GlobalVariables.getMessageMap().putError("Position-fundings", "error.existence", "Account '" + pf.getAccount() + "'");
     			return results;
     		}
     	}
     	if(StringUtils.isNotEmpty(pf.getSubAccount())) {
     		boolean results = ValidationUtils.validateSubAccount(pf.getSubAccount());
     		if(!results) {
-	   			 GlobalVariables.getMessageMap().putError("dataObject.fundingList","error.funding.subAccount.notExist", pf.getSubAccount());
+	   			 GlobalVariables.getMessageMap().putError("Position-fundings","error.existence", "SubAccount '" + pf.getSubAccount() + "'");
 	   			 return results;
     		}
     	}
     	if(StringUtils.isNotEmpty(pf.getObjectCode())) {
     		boolean results = ValidationUtils.validateObjectCode(pf.getObjectCode());
     		if(!results) {
-      			 GlobalVariables.getMessageMap().putError("dataObject.fundingList","error.funding.objectCode.notExist", pf.getObjectCode());
+      			 GlobalVariables.getMessageMap().putError("Position-fundings","error.existence", "ObjectCode '" + pf.getObjectCode() + "'");
       			 return results;
     		}
     	}
     	if(StringUtils.isNotEmpty(pf.getSubObjectCode())) {
     		boolean results = ValidationUtils.validateSubObjectCode(pf.getSubObjectCode());
     		if(!results) {
-      			 GlobalVariables.getMessageMap().putError("dataObject.fundingList","error.funding.subObjectCode.notExist", pf.getSubObjectCode());
+      			 GlobalVariables.getMessageMap().putError("Position-fundings","error.existence", "SubObjectCode '" + pf.getSubObjectCode() + "'");
       			 return results;
     		}
     	}

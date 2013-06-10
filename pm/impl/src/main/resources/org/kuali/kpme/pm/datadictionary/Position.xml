@@ -422,8 +422,7 @@
 
 
 	<!-- Duties List, used by maintenance views -->
-	<bean id="Position-duties" abstract="true" parent="Uif-TableCollectionSection"
-		p:align="left">
+	<bean id="Position-duties" parent="Uif-TableCollectionGroup" p:align="left">
 		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.position.PositionDuty" />
 		  <property name="propertyName" value="dutyList" />
 		  <property name="refreshWhenChangedPropertyNames" value="pmPositionClassId" /> 
@@ -541,7 +540,7 @@
 	</bean>
 
 	<!-- Funding List, used by maintenance views -->
-	<bean id="Position-fundings" abstract="true" parent="Uif-TableCollectionGroup">
+	<bean id="Position-fundings" parent="Uif-TableCollectionGroup">
 		<property name="collectionObjectClass" value="org.kuali.kpme.pm.position.funding.PositionFunding" />
 		<property name="propertyName" value="fundingList" />
 		<property name="addLinePlacement" value="BOTTOM" />

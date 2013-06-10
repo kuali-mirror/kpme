@@ -42,7 +42,6 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		if (aPosition != null) {
 			valid = true;
 			valid &= this.validateDutyListPercentage(aPosition);
-			valid &= this.validateFundingList(aPosition);
 		}
 		return valid;
 	}
@@ -64,82 +63,5 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		}		
 		return true;
 	}
-	
-	private boolean validateFundingList(Position aPosition) {
-		if(CollectionUtils.isNotEmpty(aPosition.getFundingList())) {
-			for(PositionFunding aPf : aPosition.getFundingList()) {
-				boolean results = this.validateAddFundingLine(aPf, aPosition);
-				if(!results)
-					return false;
-			}
-			
-		}
-		return true;
-	}
-	
-	protected boolean validateAddFundingLine(PositionFunding pf, Position aPosition) {
-    	if(pf.getEffectiveDate() != null && aPosition.getEffectiveDate() != null) {
-    		if(pf.getEffectiveDate().compareTo(aPosition.getEffectiveDate()) < 0) {
-    			String[] parameters = new String[2];
-    			parameters[0] = pf.getEffectiveDate().toString();
-    			parameters[1] = aPosition.getEffectiveDate().toString();
-    			this.putFieldError("dataObject.fundingList","error.funding.effdt.invalid", parameters);
-   			 	return false;
-    		}
-    	}
-    	if(StringUtils.isNotEmpty(pf.getAccount())) {
-    		boolean results = ValidationUtils.validateAccount(pf.getAccount());
-    		if(!results) {
-    			this.putFieldError("dataObject.fundingList","error.funding.account.notExist", pf.getAccount());
-    			return results;
-    		}
-    	}
-    	if(StringUtils.isNotEmpty(pf.getSubAccount())) {
-    		boolean results = ValidationUtils.validateSubAccount(pf.getSubAccount());
-    		if(!results) {
-    			this.putFieldError("dataObject.fundingList","error.funding.subAccount.notExist", pf.getSubAccount());
-	   			 return results;
-    		}
-    	}
-    	if(StringUtils.isNotEmpty(pf.getObjectCode())) {
-    		boolean results = ValidationUtils.validateObjectCode(pf.getObjectCode());
-    		if(!results) {
-    			this.putFieldError("dataObject.fundingList","error.funding.objectCode.notExist", pf.getObjectCode());
-      			 return results;
-    		}
-    	}
-    	if(StringUtils.isNotEmpty(pf.getSubObjectCode())) {
-    		boolean results = ValidationUtils.validateSubObjectCode(pf.getSubObjectCode());
-    		if(!results) {
-    			this.putFieldError("dataObject.fundingList","error.funding.subObjectCode.notExist", pf.getSubObjectCode());
-      			 return results;
-    		}
-    	}
-    	return true;
-    
-	}
-	
-
-//	@Override
-//	public boolean processCustomAddCollectionLineBusinessRules(
-//			MaintenanceDocument document, String collectionName,
-//			PersistableBusinessObject line) {
-//		boolean isValid = true;
-//       
-//        if (document.getNewMaintainableObject().getDataObject() instanceof Position) {
-//        	Position aPosition = (Position) document.getNewMaintainableObject().getDataObject();
-//        	// Funding line validation
-//	        if (line instanceof PositionFunding) {
-//	        	PositionFunding pf = (PositionFunding) line;
-//	        	boolean results = this.validateAddFundingLine(pf, aPosition);
-//	        	if(!results) {
-//	        		GlobalVariables.getMessageMap().addToErrorPath("document");
-//	        		return false;
-//	        	}
-//	        }
-//        }
-//
-//        return isValid;
-//	}
-	
+		
 }
