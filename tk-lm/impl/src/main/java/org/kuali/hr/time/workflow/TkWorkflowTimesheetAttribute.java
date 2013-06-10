@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.workflow;
+package org.kuali.hr.time.workflow;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,8 +26,8 @@ import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.identity.Id;
 import org.kuali.rice.kew.api.identity.PrincipalId;
 import org.kuali.rice.kew.api.rule.RoleName;
@@ -38,20 +38,20 @@ import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
 import org.kuali.rice.kim.api.role.RoleMember;
 
 @Deprecated
-public class TkWorkflowLeaveCalendarAttribute extends AbstractRoleAttribute {
+public class TkWorkflowTimesheetAttribute extends AbstractRoleAttribute {
 
-	private static final long serialVersionUID = 259874056843173666L;
+	private static final long serialVersionUID = -1745965455586658502L;
 	
-	private static final Logger LOG = Logger.getLogger(TkWorkflowLeaveCalendarAttribute.class);
+	private static final Logger LOG = Logger.getLogger(TkWorkflowTimesheetAttribute.class);
 
 	@Override
 	public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
 		List<String> roles = new ArrayList<String>();
-		String routeHeaderId = documentContent.getRouteContext().getDocument().getDocumentId();
-		LeaveCalendarDocument leaveDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(routeHeaderId);
+		Long routeHeaderId = new Long(documentContent.getRouteContext().getDocument().getDocumentId());
+		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId.toString());
 
-		if (leaveDocument != null) {
-			List<Assignment> assignments = leaveDocument.getAssignments();
+		if (timesheetDocument != null) {
+			List<Assignment> assignments = timesheetDocument.getAssignments();
 			for (Assignment assignment : assignments) {
 				String roleStr = roleName + "_" + assignment.getWorkArea();
 				if (!roles.contains(roleStr)) {
@@ -84,11 +84,8 @@ public class TkWorkflowLeaveCalendarAttribute extends AbstractRoleAttribute {
 
 		List<Id> principals = new ArrayList<Id>();
 		String routeHeaderId = routeContext.getDocument().getDocumentId();
-		LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(routeHeaderId);
-		WorkArea workArea = null;
-		if (leaveCalendarDocument != null) {
-			workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leaveCalendarDocument.getAsOfDate());
-		}
+		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId.toString());
+		WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, timesheetDocument.getAsOfDate());
 
 		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 		

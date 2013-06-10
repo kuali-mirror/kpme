@@ -39,7 +39,6 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.kpme.tklm.utils.TkTestConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 
 import com.gargoylesoftware.htmlunit.html.HtmlButtonInput;

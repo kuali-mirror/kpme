@@ -29,7 +29,6 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.kuali.kpme.core.util.HrTestConstants;
-import org.kuali.kpme.core.util.HrTestConstants.FormElementTypes;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;

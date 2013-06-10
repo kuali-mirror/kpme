@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.leave.workflow;
+package org.kuali.hr.lm.workflow;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,12 +22,14 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
-import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.rice.kew.api.identity.Id;
 import org.kuali.rice.kew.api.identity.PrincipalId;
 import org.kuali.rice.kew.api.rule.RoleName;
@@ -36,34 +38,24 @@ import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.AbstractRoleAttribute;
 import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
 import org.kuali.rice.kim.api.role.RoleMember;
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 @Deprecated
-public class BalanceTransferWorkflowAttribute extends AbstractRoleAttribute {
+public class LeaveRequestWorkflowAttribute extends AbstractRoleAttribute {
 
-	private static final long serialVersionUID = -1473150153290419492L;
+	private static final long serialVersionUID = -6939277052363491806L;
 	
-	private static final Logger LOG = Logger.getLogger(BalanceTransferWorkflowAttribute.class);
+	private static final Logger LOG = Logger.getLogger(LeaveRequestWorkflowAttribute.class);
 
     @Override
     public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
         List<String> roles = new ArrayList<String>();
         String documentNumber = documentContent.getRouteContext().getDocument().getDocumentId();
-        MaintenanceDocument document = null;
-		try {
-			document = (MaintenanceDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentNumber);
-		} catch (WorkflowException e) {
-			e.printStackTrace();
-		}
-		
-		BalanceTransfer balanceTransfer = null;
-		if (document != null && document.getNewMaintainableObject() != null) {
-			balanceTransfer = (BalanceTransfer) document.getNewMaintainableObject().getDataObject();
-		}
-		
-        if (balanceTransfer != null) {
-            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveLocalDate());
+        LeaveRequestDocument leaveRequestDocument = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(documentNumber);
+
+        if (leaveRequestDocument != null) {
+            LeaveBlock leaveBlock = leaveRequestDocument.getLeaveBlock();
+            CalendarEntry ce = getCalendarEntry(leaveBlock);
+            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(leaveBlock.getPrincipalId(), ce);
             for (Assignment assignment : assignments) {
                 String roleStr = roleName + "_" + assignment.getWorkArea();
                 if (!roles.contains(roleStr)) {
@@ -96,44 +88,29 @@ public class BalanceTransferWorkflowAttribute extends AbstractRoleAttribute {
 
         List<Id> principals = new ArrayList<Id>();
         String routeHeaderId = routeContext.getDocument().getDocumentId();
-        MaintenanceDocument document = null;
-		try {
-			document = (MaintenanceDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(routeHeaderId);
-		} catch (WorkflowException e) {
-			LOG.error("unable to retrieve the Maintenance Document with route hearder id: " + routeHeaderId);
-			e.printStackTrace();
+        LeaveRequestDocument leaveRequestDocument = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(routeHeaderId);
+        LeaveBlock leaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leaveRequestDocument.getLmLeaveBlockId());
+        WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leaveBlock.getLeaveLocalDate());
+
+        List<RoleMember> roleMembers = new ArrayList<RoleMember>();
+        
+		if (TkConstants.ROLE_TK_APPROVER.equals(roleName)) {
+	        roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), workAreaNumber, new DateTime(), true));
+	        roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER_DELEGATE.getRoleName(), workAreaNumber, new DateTime(), true));
 		}
-        
-        BalanceTransfer balanceTransfer = null;
-        if (document != null && document.getNewMaintainableObject() != null) {
-        	balanceTransfer = (BalanceTransfer) document.getNewMaintainableObject().getDataObject();
+		
+        for (RoleMember roleMember : roleMembers) {
+        	principals.add(new PrincipalId(roleMember.getMemberId()));
+	    }
+
+        if (principals.size() == 0) {
+            throw new RuntimeException("No principals to route to. Push to exception routing.");
         }
         
-        if (balanceTransfer != null) {
-	        WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, balanceTransfer.getEffectiveLocalDate());
-	
-	        List<RoleMember> roleMembers = new ArrayList<RoleMember>();
-	        
-			if (TkConstants.ROLE_TK_APPROVER.equals(roleName)) {
-		        roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), workAreaNumber, new DateTime(), true));
-		        roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER_DELEGATE.getRoleName(), workAreaNumber, new DateTime(), true));
-			}
-	
-	        for (RoleMember roleMember : roleMembers) {
-	        	principals.add(new PrincipalId(roleMember.getMemberId()));
-		    }
-	
-	        if (principals.size() == 0)  {
-	            throw new RuntimeException("No principals to route to. Push to exception routing.");
-            }
-	        
-	        rqr.setRecipients(principals);
-	        rqr.setAnnotation("Dept: "+ workArea.getDept()+", Work Area: "+workArea.getWorkArea());
-	        
-	        return rqr;
-        } else {
-        	throw new RuntimeException("no business object could be retreived");
-        }
+        rqr.setRecipients(principals);
+        rqr.setAnnotation("Dept: "+ workArea.getDept()+", Work Area: "+workArea.getWorkArea());
+
+        return rqr;
     }
 
     @Override
@@ -141,4 +118,7 @@ public class BalanceTransferWorkflowAttribute extends AbstractRoleAttribute {
         return Collections.emptyList();
     }
 
+    private CalendarEntry getCalendarEntry(LeaveBlock leaveBlock) {
+        return HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
+    }
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.leave.workflow;
+package org.kuali.hr.lm.workflow;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +26,7 @@ import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.leave.payout.LeavePayout;
+import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.identity.Id;
 import org.kuali.rice.kew.api.identity.PrincipalId;
@@ -40,11 +40,11 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 @Deprecated
-public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
+public class BalanceTransferWorkflowAttribute extends AbstractRoleAttribute {
 
-	private static final long serialVersionUID = 540529528227045564L;
+	private static final long serialVersionUID = -1473150153290419492L;
 	
-	private static final Logger LOG = Logger.getLogger(LeavePayoutWorkflowAttribute.class);
+	private static final Logger LOG = Logger.getLogger(BalanceTransferWorkflowAttribute.class);
 
     @Override
     public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
@@ -56,18 +56,19 @@ public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
 		} catch (WorkflowException e) {
 			e.printStackTrace();
 		}
-		LeavePayout leavePayout = null;
+		
+		BalanceTransfer balanceTransfer = null;
 		if (document != null && document.getNewMaintainableObject() != null) {
-			leavePayout = (LeavePayout) document.getNewMaintainableObject().getDataObject();
+			balanceTransfer = (BalanceTransfer) document.getNewMaintainableObject().getDataObject();
 		}
 		
-        if (leavePayout != null) {
-            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(leavePayout.getPrincipalId(), leavePayout.getEffectiveLocalDate());
+        if (balanceTransfer != null) {
+            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveLocalDate());
             for (Assignment assignment : assignments) {
                 String roleStr = roleName + "_" + assignment.getWorkArea();
                 if (!roles.contains(roleStr)) {
-                	roles.add(roleStr);
-            	}
+                    roles.add(roleStr);
+                }
             }
         }
         
@@ -99,25 +100,25 @@ public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
 		try {
 			document = (MaintenanceDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(routeHeaderId);
 		} catch (WorkflowException e) {
-			LOG.error("unable to retrieve the Maintenance Document with route header id: " + routeHeaderId);
+			LOG.error("unable to retrieve the Maintenance Document with route hearder id: " + routeHeaderId);
 			e.printStackTrace();
 		}
-		
-        LeavePayout leavePayout = null;
+        
+        BalanceTransfer balanceTransfer = null;
         if (document != null && document.getNewMaintainableObject() != null) {
-        	leavePayout = (LeavePayout) document.getNewMaintainableObject().getDataObject();
+        	balanceTransfer = (BalanceTransfer) document.getNewMaintainableObject().getDataObject();
         }
         
-        if (leavePayout != null) {
-	        WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leavePayout.getEffectiveLocalDate());
+        if (balanceTransfer != null) {
+	        WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, balanceTransfer.getEffectiveLocalDate());
 	
 	        List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 	        
-	        if (TkConstants.ROLE_TK_APPROVER.equals(roleName)) {
+			if (TkConstants.ROLE_TK_APPROVER.equals(roleName)) {
 		        roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), workAreaNumber, new DateTime(), true));
 		        roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER_DELEGATE.getRoleName(), workAreaNumber, new DateTime(), true));
 			}
-			
+	
 	        for (RoleMember roleMember : roleMembers) {
 	        	principals.add(new PrincipalId(roleMember.getMemberId()));
 		    }

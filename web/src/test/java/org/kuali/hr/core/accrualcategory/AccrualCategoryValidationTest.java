@@ -20,7 +20,6 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.apache.poi.util.SystemOutLogger;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;

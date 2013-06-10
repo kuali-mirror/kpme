@@ -30,7 +30,6 @@ import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.util.HrTestConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-//import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.DomElement;
@@ -41,6 +40,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
+//import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 
 public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
 	private static final DateTime TEST_DATE = new DateTime(2009, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());

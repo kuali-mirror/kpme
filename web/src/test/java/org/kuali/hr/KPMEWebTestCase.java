@@ -17,10 +17,10 @@ package org.kuali.hr;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.kpme.core.rice.test.lifecycles.KPMEXmlDataLoaderLifecycle;
 import org.kuali.kpme.core.util.ClearDatabaseLifecycle;
 import org.kuali.kpme.core.util.DatabaseCleanupDataLifecycle;
 import org.kuali.kpme.core.util.HrContext;
@@ -37,7 +37,6 @@ import org.kuali.rice.test.RiceInternalSuiteDataTestCase;
 import org.kuali.rice.test.TransactionalLifecycle;
 import org.kuali.rice.test.lifecycles.JettyServerLifecycle;
 import org.kuali.rice.test.lifecycles.JettyServerLifecycle.ConfigMode;
-import org.kuali.kpme.core.rice.test.lifecycles.KPMEXmlDataLoaderLifecycle;
 import org.springframework.cache.CacheManager;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
