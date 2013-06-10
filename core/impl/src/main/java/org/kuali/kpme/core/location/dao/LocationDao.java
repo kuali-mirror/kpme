@@ -35,7 +35,7 @@ public interface LocationDao {
 	 */
 	public Location getLocation(String hrLocationId);
 	
-	public int getLocationCount(String location);
+	public int getLocationCount(String location,  LocalDate asOfDate);
 
     List<Location> searchLocations(String location, String locationDescr, String active, String showHistory);
 }

@@ -18,6 +18,7 @@ package org.kuali.kpme.core.salarygroup;
 import java.math.BigDecimal;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
@@ -40,13 +41,13 @@ public class SalaryGroup extends HrBusinessObject {
 
 	// fields added to position management
 	private String institution;
-	private String campus;
+	private String location;
 	private BigDecimal percentTime;
 	private String benefitsEligible;
 	private String leaveEligible;
 	private String leavePlan;
 
-	private CampusBo campusObj;
+	private Location locationObj;
 
 	public boolean isHistory() {
 		return history;
@@ -82,7 +83,7 @@ public class SalaryGroup extends HrBusinessObject {
 
 	@Override
 	public String getUniqueKey() {
-		return getHrSalGroup() + "_" + getInstitution() + "_" + getCampus();
+		return getHrSalGroup() + "_" + getInstitution() + "_" + getLocation();
 	}
 
 	@Override
@@ -101,14 +102,6 @@ public class SalaryGroup extends HrBusinessObject {
 
 	public void setInstitution(String institution) {
 		this.institution = institution;
-	}
-
-	public String getCampus() {
-		return campus;
-	}
-
-	public void setCampus(String campus) {
-		this.campus = campus;
 	}
 
 	public BigDecimal getPercentTime() {
@@ -135,20 +128,28 @@ public class SalaryGroup extends HrBusinessObject {
 		this.leaveEligible = leaveEligible;
 	}
 
-	public CampusBo getCampusObj() {
-		return campusObj;
-	}
-
-	public void setCampusObj(CampusBo campusObj) {
-		this.campusObj = campusObj;
-	}
-
 	public String getLeavePlan() {
 		return leavePlan;
 	}
 
 	public void setLeavePlan(String leavePlan) {
 		this.leavePlan = leavePlan;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public Location getLocationObj() {
+		return locationObj;
+	}
+
+	public void setLocationObj(Location locationObj) {
+		this.locationObj = locationObj;
 	}
 
 }

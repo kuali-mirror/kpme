@@ -61,8 +61,8 @@ public class LocationServiceImpl implements LocationService {
 	}
 	
 	@Override
-	public int getLocationCount(String location) {
-		return locationDao.getLocationCount(location);
+	public int getLocationCount(String location,  LocalDate asOfDate) {
+		return locationDao.getLocationCount(location, asOfDate);
 	}
 	
 	public Location getLocation(String location, LocalDate asOfDate) {

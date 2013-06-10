@@ -271,7 +271,7 @@
 
   <bean id="Location-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="Location Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.bo.location.Location" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.location.Location" />
 
     <property name="criteriaFields">
 	    <list>

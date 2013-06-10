@@ -426,15 +426,15 @@
 	     	 </property>
 	     	 <property name="title" value="Position Classification Inquiry"/>
 	   	   </bean>
-	   	   <bean parent="Classification-qualificationList"/>
-	       <bean parent="Classification-dutyList"/>
-	       <bean parent="Classification-flagList"/>
+	   	   <bean parent="Classification-qualificationListInquiry"/>
+	       <bean parent="Classification-dutyListInquiry"/>
+	       <bean parent="Classification-flagListInquiry"/>
       </list>
     </property>
   </bean> 
   
    <!-- Required Qualification List, used by maintenance view -->
-   <bean id="Classification-qualifications" abstract="true" parent="Uif-TableCollectionGroup">
+   <bean id="Classification-qualifications" parent="Uif-TableCollectionGroup">
 	  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification" />
 	  <property name="propertyName" value="qualificationList" />
 	  <property name="addLinePlacement" value="BOTTOM" />
@@ -494,7 +494,7 @@
 	</bean>
 	
 	<!-- Required Qualification List, used by inquiry view -->
-	<bean id="Classification-qualificationList" abstract="true" parent="Uif-Disclosure-TableCollectionSection"
+	<bean id="Classification-qualificationListInquiry" parent="Uif-Disclosure-TableCollectionSection"
         p:layoutManager.numberOfColumns="4">
     <property name="headerText" value="Required Qualification"/>
     <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification"/>
@@ -512,7 +512,7 @@
   </bean>
   
 <!-- Duties List, used by maintenance views -->
-   <bean id="Classification-duties" abstract="true" parent="Uif-TableCollectionSection" p:align="left">
+   <bean id="Classification-duties" parent="Uif-TableCollectionGroup" p:align="left">
 		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.duty.ClassificationDuty" />
 		  <property name="propertyName" value="dutyList" />
 		  <property name="addLinePlacement" value="BOTTOM" />
@@ -547,7 +547,7 @@
 	</bean>
 	
 	<!-- Duties List, used by inquiry views -->
-   <bean id="Classification-dutyList" abstract="true" parent="Uif-Disclosure-TableCollectionSection" >
+   <bean id="Classification-dutyListInquiry" parent="Uif-Disclosure-TableCollectionSection" >
 		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.duty.ClassificationDuty" />
 		  <property name="headerText" value="Duties"/>
 		  <property name="propertyName" value="dutyList" />
@@ -564,7 +564,7 @@
 	</bean>
 	
 	<!-- Flags List, used by maintenance views -->
-	<bean id="Classification-flags" abstract="true" parent="Uif-TableCollectionGroup">
+	<bean id="Classification-flags" parent="Uif-TableCollectionGroup">
 		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.flag.ClassificationFlag" />
 		  <property name="propertyName" value="flagList" />
 		  <property name="addLinePlacement" value="BOTTOM" />
@@ -595,7 +595,7 @@
 	</bean>
 	
 	<!-- Flags List, used by inquiry view -->
-	<bean id="Classification-flagList" abstract="true" parent="Uif-Disclosure-TableCollectionSection"
+	<bean id="Classification-flagListInquiry" parent="Uif-Disclosure-TableCollectionSection"
         p:layoutManager.numberOfColumns="4">
 	    <property name="headerText" value="Flags"/>
 	    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.flag.ClassificationFlag"/>
@@ -612,155 +612,5 @@
   </bean>
 	
    
-<!--  Position Classification Maintenance View -->
-  <bean id="Classification-MaintenanceView" parent="Classification-MaintenanceView-parentBean"/>
-  <bean id="Classification-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
-    <property name="headerText" value="Position Classification Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.Classification"/>
-<!--      <property name="viewHelperServiceClass" value="org.kuali.kpme.pm.classification.web.ClassificationMaintainableImpl" /> -->
-<!--     <property name="formClass" value="org.kuali.kpme.pm.web.form.ClassificationForm" /> -->
-    <property name="items">
-      <list merge="true">
-        <bean parent="Uif-MaintenanceGridSection">
-         <property name="headerText" value="Position Classification Maintenance"/>
-          <property name="items">
-            <list>
-	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
-		        <bean parent="Uif-InputField" p:propertyName="positionClass" />
-		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
-            </list>
-          </property>
-        </bean>
-        
-        <bean parent="Uif-MaintenanceGridSection">
-	        <property name="headerText" value="Location"/>
-	        <property name="items">
-		        <list>
-			        <bean parent="Uif-InputField" p:propertyName="institution" >
-				        <property name="quickfinder">
-				   			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
-				        			 p:fieldConversions="institutionCode:institution"/>
-						</property>
-						<property name="quickfinder.autoSearch" value="true"/>
-			        </bean>
-			        <bean parent="Uif-InputField" p:propertyName="location" >
-			        	<property name="quickfinder">
-							<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
-								p:fieldConversions="location:location" />
-						</property>
-						<property name="quickfinder.autoSearch" value="true"/>
-			        </bean>
-		         </list>
-	         </property>
-        </bean>
-        
-        <bean parent="Uif-MaintenanceGridSection">
-	        <property name="headerText" value="Classification"/>
-	        <property name="items">
-		        <list>
-			        <bean parent="Uif-InputField" p:propertyName="classificationTitle" />
-			        <bean parent="Uif-InputField" p:propertyName="positionReportGroup">
-				        <property name="quickfinder">
-				       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" 
-				        		 p:fieldConversions="positionReportGroup:positionReportGroup"/>
-				   		</property>
-				   		<property name="quickfinder.autoSearch" value="true"/>
-			        </bean>
-			       	<bean parent="Uif-InputField" p:propertyName="positionType">
-						 <property name="quickfinder">
-				       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positiontype.PositionType" 
-				        		 p:fieldConversions="positionType:positionType"/>
-				   		 </property>
-				   		 <property name="quickfinder.autoSearch" value="true"/>
-			        </bean>
-			        <bean parent="Uif-InputField" p:propertyName="poolEligible" />
-			        <bean parent="Uif-InputField" p:propertyName="tenureEligible" />
-			        <bean parent="Uif-InputField" p:propertyName="externalReference" />
-		         </list>
-	         </property>
-        </bean>
-        
-        <bean parent="Uif-MaintenanceGridSection">
-	        <property name="headerText" value="Salary Group"/>
-	        <property name="items">
-		        <list>
-			       <bean parent="Uif-InputField" p:propertyName="salaryGroup">
-				       <property name="quickfinder">
-				       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
-				        		 p:fieldConversions="hrSalGroup:salaryGroup"/>
-				   	   </property>
-				   	   <property name="quickfinder.autoSearch" value="true"/>
-			       </bean>
-			       <bean parent="Uif-InputField" p:propertyName="percentTime" p:exclusiveMin="0" p:inclusiveMax="100"
-			        	 p:constraintText="Must be a number between 0 and 100.">
-			        	<property name="validCharactersConstraint">
-				        	<bean parent="FixedPointPatternConstraint" p:allowNegative="false" p:precision="5" p:scale="2" />
-						</property>
-					</bean>
-			        <bean parent="Uif-InputField" p:propertyName="benefitsEligible" />
-			        <bean parent="Uif-InputField" p:propertyName="leaveEligible" />
-			        <bean parent="Uif-InputField" p:propertyName="leavePlan"  p:constraintText="Required if Leave Eligible is Yes.">
-						<property name="caseConstraint">
-					        <bean parent="CaseConstraint">
-					        	<property name="propertyName" value="leaveEligible" />
-								<property name="whenConstraint">
-						  			<list>
-							          <bean parent="WhenConstraint">
-							              <property name="values">
-							                  <list>
-							                      <value>Y</value>
-							                  </list>
-							              </property>
-							              <property name="constraint">
-							                  <bean parent="RequiredConstraint" />
-							              </property>
-							          </bean>
-						         	 </list>
-						         </property>
-					         </bean>
-				        </property>
-				        <property name="quickfinder">
-			       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlan"
-			        			 p:fieldConversions="leavePlan:leavePlan"/>
-			   		 	</property>
-			   		 	<property name="quickfinder.autoSearch" value="true"/>
-			       </bean>
-		         </list>
-	         </property>
-        </bean>
-         
-        <bean parent="Uif-TabGroup">
-		  <property name="items">
-		    <list>
-		      <bean parent="Uif-HorizontalBoxSection" p:headerText="Required Qualification">
-		      	<property name="items">
-		      		<list>
-		      			<bean parent="Classification-qualifications"/>
-					</list>
-		      	 </property>
-		      </bean>
-		      
-			  <bean parent="Uif-HorizontalBoxSection" p:headerText="Duties" >
-			  	<property name="items">
-		      		<list>
-		      			<bean parent="Classification-duties"/>
-				  </list>
-			    </property>			  
-		      </bean>
-		      
-		      <bean parent="Uif-HorizontalBoxSection" p:headerText="Flags">
-		      	<property name="items">
-		      		<list>
-		      		<bean parent="Classification-flags"/>
-		      		</list>
-	      		</property>
-	      	  </bean>
-		      
-		   </list>
-		  </property>
-		</bean>
-          
-      </list>
-    </property>
-  </bean> 
+
 </beans>

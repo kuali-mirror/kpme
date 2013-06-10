@@ -208,13 +208,16 @@ public class ValidationUtils {
 	
 	public static boolean validateLocation(String location, LocalDate asOfDate) {
 		boolean valid = false;
-
-		if (asOfDate != null) {
-			Location l = HrServiceLocator.getLocationService().getLocation(location, asOfDate);
-			valid = (l != null);
-		} else {
-			int count = HrServiceLocator.getLocationService().getLocationCount(location);
-			valid = (count > 0);
+		if(StringUtils.isNotEmpty(location)) {
+			if (asOfDate != null) {
+				if(ValidationUtils.isWildCard(location)) {
+					int count = HrServiceLocator.getLocationService().getLocationCount(location, asOfDate);
+					valid = (count > 0);
+				} else {
+					Location l = HrServiceLocator.getLocationService().getLocation(location, asOfDate);
+					valid = (l != null);
+				}
+			}
 		}
 
 		return valid;

@@ -32,7 +32,7 @@ public class SalaryGroupValidation  extends MaintenanceDocumentRuleBase{
 		if (sg != null) {
 			valid = true;
 			valid &= this.validateInstitution(sg);
-			valid &= this.validateCampus(sg);
+			valid &= this.validateLocation(sg);
 			valid &= this.validateLeavePlan(sg);
 		}
 		return valid;
@@ -49,11 +49,11 @@ public class SalaryGroupValidation  extends MaintenanceDocumentRuleBase{
 		}
 	}
 	
-	private boolean validateCampus(SalaryGroup sg) {
-		if (StringUtils.isNotEmpty(sg.getCampus())
-				&& !ValidationUtils.validateCampus(sg.getCampus())) {
-			this.putFieldError("dataObject.campus", "error.existence", "Campus '"
-					+ sg.getCampus() + "'");
+	private boolean validateLocation(SalaryGroup sg) {
+		if (StringUtils.isNotEmpty(sg.getLocation())
+				&& !ValidationUtils.validateCampus(sg.getLocation())) {
+			this.putFieldError("dataObject.location", "error.existence", "Location '"
+					+ sg.getLocation() + "'");
 			return false;
 		} else {
 			return true;

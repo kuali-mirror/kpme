@@ -32,11 +32,12 @@ public interface LocationService {
 	public Location getLocation(String hrLocationId);
     
 	/**
-	 * Get location count by location
+	 * Get location count by location and date
 	 * @param location
+	 * @param asOfDate
 	 * @return
 	 */
-	public int getLocationCount(String location);
+	public int getLocationCount(String location,  LocalDate asOfDate);
     
 	/**
 	 * Get location as of a particular date

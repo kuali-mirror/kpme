@@ -25,6 +25,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LocationDaoObjImpl extends PlatformAwareDaoBaseOjb implements LocationDao {
@@ -55,9 +56,14 @@ public class LocationDaoObjImpl extends PlatformAwareDaoBaseOjb implements Locat
 	}
 	
 	@Override
-	public int getLocationCount(String location) {
+	public int getLocationCount(String location,  LocalDate asOfDate) {
 		Criteria crit = new Criteria();
-		crit.addEqualTo("location", location);
+		// allow wild card
+		if(StringUtils.isNotEmpty(location) && !ValidationUtils.isWildCard(location)) {
+			crit.addEqualTo("location", location);
+		}
+		crit.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Location.class, asOfDate, Location.EQUAL_TO_FIELDS, false));
+		crit.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Location.class, Location.EQUAL_TO_FIELDS, false));
 		Query query = QueryFactory.newQuery(Location.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query);
 	}

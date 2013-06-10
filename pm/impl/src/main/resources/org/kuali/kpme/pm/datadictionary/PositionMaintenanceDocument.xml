@@ -31,7 +31,6 @@
   		p:businessRulesClass="org.kuali.kpme.pm.position.validation.PositionValidation">
     <property name="maintainableClass" value="org.kuali.kpme.pm.position.web.PositionMaintainableServiceImpl"/>
   		<!-- 
-  		p:maintainableClass="org.kuali.kpme.pm.position.web.PositionMaintainableServiceImpl"
   		p:documentAuthorizerClass="org.kuali.kpme.core.position.authorization.PositionBaseAuthorizer">
   		 -->
     <property name="lockingKeys">

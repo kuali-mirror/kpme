@@ -32,7 +32,7 @@
 	        <ref bean="SalaryGroup-hrSalGroup"/>
 	        <ref bean="SalaryGroup-descr"/>
 	        <ref bean="SalaryGroup-institution"/>
-	        <ref bean="SalaryGroup-campus"/>
+	        <ref bean="SalaryGroup-location"/>
 	        <ref bean="SalaryGroup-percentTime"/>
 	        <ref bean="SalaryGroup-benefitsEligible"/>
 	        <ref bean="SalaryGroup-leaveEligible"/>
@@ -40,19 +40,6 @@
 	        <ref bean="SalaryGroup-active"/>
 		 </list>
 	    </property>
-	    <property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="campusObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="campus"
-								p:targetName="code" />
-						</list>
-					</property>
-				</bean>	
-			</list>
-		</property>
 	    <property name="objectLabel" value="SalaryGroup"/>
   	</bean>
 
@@ -119,18 +106,18 @@
 		<property name="label" value="Institution" />
 	</bean>
 	
-	<bean id="SalaryGroup-campus" parent="SalaryGroup-campus-parentBean" />
-	<bean id="SalaryGroup-campus-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="SalaryGroup-location" parent="SalaryGroup-location-parentBean" />
+	<bean id="SalaryGroup-location-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Campus" />
+		<property name="shortLabel" value="Location" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern"/>
 		</property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
-		<property name="name" value="campus" />
-		<property name="label" value="Campus" />
+		<property name="name" value="location" />
+		<property name="label" value="Location" />
 	</bean>
 	
 	<bean id="SalaryGroup-percentTime" parent="SalaryGroup-percentTime-parentBean" />
@@ -225,7 +212,12 @@
 	        		 p:fieldConversions="institutionCode:institution"/>
 	   		 </property>
         </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location">
+       		<property name="quickfinder">
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+	        		 p:fieldConversions="location:location" />
+	   		 </property>
+        </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="percentTime" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="benefitsEligible" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="leaveEligible" />
@@ -248,7 +240,7 @@
     		</property>
         </bean>
         <bean parent="Uif-DataField" p:propertyName="institution" />
-        <bean parent="Uif-DataField" p:propertyName="campus" />
+        <bean parent="Uif-DataField" p:propertyName="location" />
         <bean parent="Uif-DataField" p:propertyName="percentTime" />
         <bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
         <bean parent="Uif-DataField" p:propertyName="leaveEligible" />
@@ -273,7 +265,7 @@
 			        <bean parent="Uif-DataField" p:propertyName="hrSalGroup" />
 			        <bean parent="Uif-DataField" p:propertyName="descr" />
 			        <bean parent="Uif-DataField" p:propertyName="institution" />
-			        <bean parent="Uif-DataField" p:propertyName="campus" />
+			        <bean parent="Uif-DataField" p:propertyName="location" />
 			        <bean parent="Uif-DataField" p:propertyName="percentTime" />
 			        <bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
 			        <bean parent="Uif-DataField" p:propertyName="leaveEligible" />
@@ -306,7 +298,12 @@
 		        			 p:fieldConversions="institutionCode:institution"/>
 		   			</property>
 		        </bean>
-		        <bean parent="Uif-InputField" p:propertyName="campus" />
+		        <bean parent="Uif-InputField" p:propertyName="location">
+				        <property name="quickfinder">
+			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+			        		 p:fieldConversions="location:location" />
+			   		 </property>
+		        </bean>
 		        <bean parent="Uif-InputField" p:propertyName="percentTime" p:exclusiveMin="0" p:inclusiveMax="100"
 		        	 p:constraintText="Must be a number between 0 and 100.">
 		        	<property name="validCharactersConstraint">

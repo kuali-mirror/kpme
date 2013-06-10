@@ -53,14 +53,16 @@ public class PmValidationUtils {
 	 */
 	public static boolean validateInstitution(String institutionCode, LocalDate asOfDate) {
 		boolean valid = false;
-		if (PmValidationUtils.isWildCard(institutionCode)) {
-			valid = true;
-		} else if (asOfDate != null) {
-			Institution inst = HrServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
-			valid = (inst != null);
-		} else {
-			List<Institution> instList = HrServiceLocator.getInstitutionService().getInstitutionsByCode(institutionCode);
-			valid = CollectionUtils.isNotEmpty(instList);
+		if(StringUtils.isNotEmpty(institutionCode)) {		
+			if (PmValidationUtils.isWildCard(institutionCode)) {
+				valid = true;
+			} else if (asOfDate != null) {
+				Institution inst = HrServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
+				valid = (inst != null);
+			} else {
+				List<Institution> instList = HrServiceLocator.getInstitutionService().getInstitutionsByCode(institutionCode);
+				valid = CollectionUtils.isNotEmpty(instList);
+			}
 		}
 		return valid;
 	}
@@ -86,13 +88,15 @@ public class PmValidationUtils {
 	 * Validate if there exists Position Report Type that matches given postionReportType, institution, campus and exists before given date 
 	 * Wild card is allowed for String parameters
 	 * @param positionReportType
+	 * @param institution
+	 * @param location
 	 * @param asOfDate
 	 * @return
 	 */
-	public static boolean validatePositionReportType(String positionReportType, String institution, String campus, LocalDate asOfDate) {
+	public static boolean validatePositionReportType(String positionReportType, String institution, String location, LocalDate asOfDate) {
 		boolean valid = false;
 		if (asOfDate != null) {
-			List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeList(positionReportType, institution, campus, asOfDate);
+			List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeList(positionReportType, institution, location, asOfDate);
 			valid = (CollectionUtils.isNotEmpty(prtList));
 		} 
 		return valid;

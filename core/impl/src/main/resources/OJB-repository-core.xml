@@ -260,7 +260,7 @@
         <field-descriptor name="versionNumber"  column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
         <!--  new fields added to position management -->
         <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
-        <field-descriptor name="campus"    				column="CAMPUS"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
+        <field-descriptor name="location"    	        column="LOCATION"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="percentTime"      		column="PRCT_TM"         		 jdbc-type="DECIMAL"     length="10" 		nullable="true" />
         <field-descriptor name="benefitsEligible"        column="BNFT_ELIG"           	 jdbc-type="VARCHAR"     length="1" 		nullable="false" />
         <field-descriptor name="leaveEligible"          column="LV_ELIG"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false" />
