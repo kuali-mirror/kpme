@@ -140,16 +140,15 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
     	
     	return results;
     }
-    @Override
-    public List<String> getUniqueTimePayGroups() {
-    	return this.principalHRAttributesDao.getUniqueTimePayGroups();
-    }
 
-    /**
-     * Get List of all active pay calendars
-     * @return
-     */
-    public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds) {
-        return this.principalHRAttributesDao.getUniqueLeavePayGroupsForPrincipalIds(principalIds);
+    @Override
+    public List<String> getUniqueLeaveCalendars(List<String> principalIds) {
+        return this.principalHRAttributesDao.getUniqueLeaveCalendars(principalIds);
     }
+    
+    @Override
+    public List<String> getUniquePayCalendars(List<String> principalIds) {
+    	return this.principalHRAttributesDao.getUniquePayCalendars(principalIds);
+    }
+    
 }

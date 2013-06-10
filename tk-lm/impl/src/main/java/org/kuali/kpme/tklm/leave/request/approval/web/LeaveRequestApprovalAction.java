@@ -36,6 +36,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.ApprovalFormAction;
@@ -69,41 +70,41 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);
 		
-        LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
+        LeaveRequestApprovalActionForm leaveRequestApprovalActionForm = (LeaveRequestApprovalActionForm) form;
         
-	    List<ActionItem> items = getActionItems(lraaForm.getSelectedPayCalendarGroup(), lraaForm.getSelectedDept(), getWorkAreas(lraaForm));
-		lraaForm.setEmployeeRows(getEmployeeRows(items));
+        setSearchFields(leaveRequestApprovalActionForm);
+        
+	    List<ActionItem> items = getActionItems(leaveRequestApprovalActionForm.getSelectedPayCalendarGroup(), leaveRequestApprovalActionForm.getSelectedDept(), getWorkAreas(leaveRequestApprovalActionForm));
+		leaveRequestApprovalActionForm.setEmployeeRows(getEmployeeRows(items));
 		
 		return forward;
 	}
 	
 	@Override
 	protected List<String> getCalendars(List<String> principalIds) {
-		return LmServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroupsForPrincipalIds(principalIds);
+		return HrServiceLocator.getPrincipalHRAttributeService().getUniqueLeaveCalendars(principalIds);
 	}
 	
-	@Override
+	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return mapping.findForward("basic");
+	}
+	
 	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward actionForward = super.selectNewDept(mapping, form, request, response);
-		
-		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
+        LeaveRequestApprovalActionForm leaveRequestApprovalActionForm = (LeaveRequestApprovalActionForm) form;
         
-    	List<ActionItem> items = getActionItems(lraaForm.getSelectedPayCalendarGroup(), lraaForm.getSelectedDept(), getWorkAreas(lraaForm));
-		lraaForm.setEmployeeRows(getEmployeeRows(items));	
+    	List<ActionItem> items = getActionItems(leaveRequestApprovalActionForm.getSelectedPayCalendarGroup(), leaveRequestApprovalActionForm.getSelectedDept(), getWorkAreas(leaveRequestApprovalActionForm));
+    	leaveRequestApprovalActionForm.setEmployeeRows(getEmployeeRows(items));	
  	
-		return actionForward;
+		return mapping.findForward("basic");
 	}
 	
-	@Override
 	public ActionForward selectNewWorkArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward actionForward = super.selectNewWorkArea(mapping, form, request, response);
-		    
-		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
+        LeaveRequestApprovalActionForm leaveRequestApprovalActionForm = (LeaveRequestApprovalActionForm) form;
         
-    	List<ActionItem> items = getActionItems(lraaForm.getSelectedPayCalendarGroup(), lraaForm.getSelectedDept(), getWorkAreas(lraaForm));
-		lraaForm.setEmployeeRows(getEmployeeRows(items));	
+    	List<ActionItem> items = getActionItems(leaveRequestApprovalActionForm.getSelectedPayCalendarGroup(), leaveRequestApprovalActionForm.getSelectedDept(), getWorkAreas(leaveRequestApprovalActionForm));
+    	leaveRequestApprovalActionForm.setEmployeeRows(getEmployeeRows(items));	
         
-		return actionForward;
+		return mapping.findForward("basic");
 	}
 	
 	private List<ActionItem> getActionItems(String calGroup, String dept, List<String> workAreaList) {

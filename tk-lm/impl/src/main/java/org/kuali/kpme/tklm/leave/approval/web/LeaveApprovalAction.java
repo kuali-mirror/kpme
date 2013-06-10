@@ -60,6 +60,8 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
         String documentId = leaveApprovalActionForm.getDocumentId();
         
+        setSearchFields(leaveApprovalActionForm);
+        
         CalendarEntry calendarEntry = null;
         if (StringUtils.isNotBlank(documentId)) {
         	LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
@@ -92,55 +94,43 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 	        setCalendarFields(leaveApprovalActionForm);
         }
         
-		ActionForward actionForward = super.execute(mapping, form, request, response);
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+
+        if (calendarEntry != null) {
+			leaveApprovalActionForm.setLeaveCalendarDates(LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(calendarEntry));
+			setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm));
+		}
 		
-		leaveApprovalActionForm.setLeaveCalendarDates(LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(leaveApprovalActionForm.getCalendarEntry()));
-		setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm));
-	
 		return actionForward;
 	}
 	
 	@Override
 	protected List<String> getCalendars(List<String> principalIds) {
-		return LmServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroupsForPrincipalIds(principalIds);
+		return HrServiceLocator.getPrincipalHRAttributeService().getUniqueLeaveCalendars(principalIds);
 	}
 	
-	@Override
-    protected List<CalendarEntry> getCalendarEntries(CalendarEntry currentCalendarEntry) {
-		return LmServiceLocator.getLeaveApprovalService().getAllLeavePayCalendarEntriesForApprover(HrContext.getTargetPrincipalId(), LocalDate.now());
-	}
-	
-	@Override
 	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward actionForward = super.selectNewPayCalendar(mapping, form, request, response);
-		
 		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
 
         leaveApprovalActionForm.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
 		
-		return actionForward;
+		return mapping.findForward("basic");
 	}
 	
-	@Override
 	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward actionForward = super.selectNewDept(mapping, form, request, response);
-		
 		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
 	
         setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm));
     	
-		return actionForward;
+        return mapping.findForward("basic");
 	}
 	
-	@Override
 	public ActionForward selectNewWorkArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward actionForward = super.selectNewWorkArea(mapping, form, request, response);
-		
 		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
 
 		setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm));
         
-		return actionForward;
+		return mapping.findForward("basic");
 	}	
 	
 	public ActionForward searchResult(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

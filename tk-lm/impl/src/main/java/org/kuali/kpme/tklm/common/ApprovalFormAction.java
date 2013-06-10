@@ -20,14 +20,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.hsqldb.lib.StringUtil;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.assignment.Assignment;
@@ -38,33 +33,6 @@ import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public abstract class ApprovalFormAction extends KPMEAction {
-	
-	@Override
-	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.execute(mapping, form, request, response);
-        
-        setSearchFields((ApprovalForm) form);
-
-		return forward;
-	}
-	
-	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		setSearchFields((ApprovalForm) form);
-		
-		return mapping.findForward("basic");
-	}	
-	
-	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		setSearchFields((ApprovalForm) form);
-		
-		return mapping.findForward("basic");
-	}
-	
-	public ActionForward selectNewWorkArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		setSearchFields((ApprovalForm) form);
-		
-		return mapping.findForward("basic");
-	}
 	
 	protected void setSearchFields(ApprovalForm approvalForm) {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();

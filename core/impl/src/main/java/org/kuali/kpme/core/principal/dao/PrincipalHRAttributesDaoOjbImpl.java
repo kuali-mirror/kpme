@@ -238,57 +238,54 @@ public class PrincipalHRAttributesDaoOjbImpl extends PlatformAwareDaoBaseOjb imp
 
         return principals;
     }
-
-    @Override
-    public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds) {
-        if (CollectionUtils.isEmpty(principalIds)) {
-            return Collections.emptyList();
-        }
-        List<String> leaveCalendars = new ArrayList<String>();
-        Criteria crit = new Criteria();
-        crit.addEqualTo("active", true);
-        crit.addIn("principalId", principalIds);
-        ReportQueryByCriteria q = QueryFactory.newReportQuery(PrincipalHRAttributes.class, crit, true);
-        q.setDistinct(true);
-        q.setAttributes(new String[] {"leaveCalendar"});
-        Iterator iter = this.getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
-        while (iter.hasNext()) {
-            Object[] values = (Object[]) iter.next();
-            String leaveCalendar = (String)values[0];
-            if (StringUtils.isNotBlank(leaveCalendar)) {
-                leaveCalendars.add(leaveCalendar);
-            }
-        }
-        return leaveCalendars;
-    }
     
-    @SuppressWarnings("rawtypes")
 	@Override
-    public List<String> getUniqueTimePayGroups() {
+	@SuppressWarnings("rawtypes")
+    public List<String> getUniquePayCalendars(List<String> principalIds) {
         List<String> payCalendars = new ArrayList<String>();
-        Criteria crit = new Criteria();
-        crit.addEqualTo("active", true);
-        ReportQueryByCriteria q = QueryFactory.newReportQuery(PrincipalHRAttributes.class, crit, true);
-        q.setDistinct(true);
-        q.setAttributes(new String[] {"pay_calendar"});
-        Iterator iter = this.getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
-        while (iter.hasNext()) {
-            Object[] values = (Object[]) iter.next();
-            String leaveCalendar = (String)values[0];
+        
+        Criteria root = new Criteria();
+        root.addIn("principalId", principalIds);
+        root.addEqualTo("active", true);
+        
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(PrincipalHRAttributes.class, root, true);
+        query.setDistinct(true);
+        query.setAttributes(new String[] {"payCalendar"});
+        Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        while (iterator.hasNext()) {
+            Object[] values = (Object[]) iterator.next();
+            String leaveCalendar = (String) values[0];
             if (StringUtils.isNotBlank(leaveCalendar)) {
             	payCalendars.add(leaveCalendar);
             }
         }
+        
         return payCalendars;
     }
 
-//    @Override
-//	public PrincipalHRAttributes getPrincipalHRAttributes(String principalId) {
-//		Criteria crit = new Criteria();
-//		crit.addEqualTo("principalId", principalId);
-//		Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, crit);
-//		return (PrincipalHRAttributes)this.getPersistenceBrokerTemplate().getObjectByQuery(query);		
-//	}
+    @Override
+    @SuppressWarnings("rawtypes")
+    public List<String> getUniqueLeaveCalendars(List<String> principalIds) {
+        List<String> leaveCalendars = new ArrayList<String>();
+        
+        Criteria root = new Criteria();
+        root.addIn("principalId", principalIds);
+        root.addEqualTo("active", true);
+        
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(PrincipalHRAttributes.class, root, true);
+        query.setDistinct(true);
+        query.setAttributes(new String[] {"leaveCalendar"});
+        Iterator iterator = this.getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        while (iterator.hasNext()) {
+            Object[] values = (Object[]) iterator.next();
+            String leaveCalendar = (String) values[0];
+            if (StringUtils.isNotBlank(leaveCalendar)) {
+                leaveCalendars.add(leaveCalendar);
+            }
+        }
+        
+        return leaveCalendars;
+    }
     
     @Override
     public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, LocalDate asOfDate) {

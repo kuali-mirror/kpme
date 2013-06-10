@@ -35,8 +35,6 @@ import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
-import org.kuali.kpme.core.principal.service.PrincipalHRAttributesService;
-import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.common.LMConstants;
@@ -52,13 +50,9 @@ import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-public class LeaveApprovalServiceImpl implements LeaveApprovalService{
+public class LeaveApprovalServiceImpl implements LeaveApprovalService {
+	
 	public static final int DAYS_WINDOW_DELTA = 31;
-    private PrincipalHRAttributesService principalHRAttributesService;
-
-    public void setPrincipalHRAttributesService(PrincipalHRAttributesService principalHRAttributesService) {
-        this.principalHRAttributesService = principalHRAttributesService;
-    }
 
 	@Override
 	public List<ApprovalLeaveSummaryRow> getLeaveApprovalSummaryRows(List<String> principalIds, CalendarEntry payCalendarEntry, List<Date> leaveSummaryDates) {
@@ -293,46 +287,6 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		return accrualCategoryLeaveHours;
 	}
 
-    @Override
-    public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds) {
-        return principalHRAttributesService.getUniqueLeavePayGroupsForPrincipalIds(principalIds);
-    }
-	
-	@Override
-	public List<CalendarEntry> getAllLeavePayCalendarEntriesForApprover(String principalId, LocalDate currentDate) {
-		Set<String> principals = new HashSet<String>();
-
-    	Set<Long> workAreas = new HashSet<Long>();
-    	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-        workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
-        workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
-
-		// Get all of the principals within our window of time.
-		for (Long waNum : workAreas) {
-			List<Assignment> assignments = HrServiceLocator
-					.getAssignmentService().getActiveAssignmentsForWorkArea(waNum, currentDate);
-
-			if (assignments != null) {
-				for (Assignment assignment : assignments) {
-					principals.add(assignment.getPrincipalId());
-				}
-			}
-		}
-		List<LeaveCalendarDocumentHeader> documentHeaders = new ArrayList<LeaveCalendarDocumentHeader>();
-		for(String pid : principals) {
-			documentHeaders.addAll(LmServiceLocator.getLeaveCalendarDocumentHeaderService().getAllDocumentHeadersForPricipalId(pid));
-		}
-		Set<CalendarEntry> payPeriodSet = new HashSet<CalendarEntry>();
-		for(LeaveCalendarDocumentHeader lcdh : documentHeaders) {
-            CalendarEntry pe = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcdh.getDocumentId()).getCalendarEntry();
-    		if(pe != null) {
-    			payPeriodSet.add(pe);
-    		}
-        }
-		List<CalendarEntry> ppList = new ArrayList<CalendarEntry>(payPeriodSet);
-        
-		return ppList;
-	}
 	@Override
 	public void removeNonLeaveEmployees(List<String> principalIds) {
 		if(CollectionUtils.isNotEmpty(principalIds)) {

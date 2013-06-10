@@ -50,8 +50,11 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
+        
         TimeApprovalActionForm timeApprovalActionForm = (TimeApprovalActionForm) form;
         String documentId = timeApprovalActionForm.getDocumentId();
+        
+        setSearchFields(timeApprovalActionForm);
         
         CalendarEntry calendarEntry = null;
         if (StringUtils.isNotBlank(documentId)) {
@@ -68,7 +71,6 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
             if (calendar != null) {
                 calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), LocalDate.now().toDateTimeAtStartOfDay());
             }
-
         }
 
         if (calendarEntry != null) {
@@ -84,60 +86,45 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 			timeApprovalActionForm.setNextHrCalendarEntryId(nextCalendarEntry != null ? nextCalendarEntry.getHrCalendarEntryId() : null);
 			
 	        setCalendarFields(timeApprovalActionForm);
+	        
+			timeApprovalActionForm.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(timeApprovalActionForm.getCalendarEntry(), new ArrayList<Boolean>()));
+	        setApprovalTables(timeApprovalActionForm, request, getPrincipalIds(timeApprovalActionForm));
+	        
+	        if (timeApprovalActionForm.getApprovalRows() != null && !timeApprovalActionForm.getApprovalRows().isEmpty()) {
+	        	timeApprovalActionForm.setOutputString(timeApprovalActionForm.getApprovalRows().get(0).getOutputString());
+	        }
         }
-        //ActionForward actionForward = super.execute(mapping, form, request, response);
 
-		timeApprovalActionForm.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(timeApprovalActionForm.getCalendarEntry(), new ArrayList<Boolean>()));
-        setApprovalTables(timeApprovalActionForm, request, getPrincipalIds(timeApprovalActionForm));
-        
-        if (timeApprovalActionForm.getApprovalRows() != null && !timeApprovalActionForm.getApprovalRows().isEmpty()) {
-        	timeApprovalActionForm.setOutputString(timeApprovalActionForm.getApprovalRows().get(0).getOutputString());
-        }
-        
         return actionForward;
 	}
 	
 	@Override
 	protected List<String> getCalendars(List<String> principalIds) {
-		return HrServiceLocator.getPrincipalHRAttributeService().getUniqueTimePayGroups();
+		return HrServiceLocator.getPrincipalHRAttributeService().getUniquePayCalendars(principalIds);
 	}
 	
-	@Override
-    protected List<CalendarEntry> getCalendarEntries(CalendarEntry currentCalendarEntry) {
-		return TkServiceLocator.getTimeApproveService().getAllPayCalendarEntriesForApprover(HrContext.getPrincipalId(), LocalDate.now());
-	}
-	
-	@Override
 	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward actionForward = super.selectNewPayCalendar(mapping, form, request, response);
-
 		TimeApprovalActionForm timeApprovalActionForm = (TimeApprovalActionForm) form;
 		
 		timeApprovalActionForm.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
 		
-		return actionForward;
+		return mapping.findForward("basic");
 	}
 	
-	@Override
 	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward actionForward = super.selectNewDept(mapping, form, request, response);
-		
 		TimeApprovalActionForm timeApprovalActionForm = (TimeApprovalActionForm) form;
 		
 		setApprovalTables(timeApprovalActionForm, request, getPrincipalIds(timeApprovalActionForm));
     	
-		return actionForward;
+		return mapping.findForward("basic");
 	}
 	
-	@Override
 	public ActionForward selectNewWorkArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward actionForward = super.selectNewWorkArea(mapping, form, request, response);
-		
 		TimeApprovalActionForm timeApprovalActionForm = (TimeApprovalActionForm) form;
 
 		setApprovalTables(timeApprovalActionForm, request, getPrincipalIds(timeApprovalActionForm));
     	
-		return actionForward;
+		return mapping.findForward("basic");
 	}
 	
 	public ActionForward searchResult(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

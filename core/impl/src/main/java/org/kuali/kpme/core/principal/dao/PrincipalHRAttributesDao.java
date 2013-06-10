@@ -62,11 +62,11 @@ public interface PrincipalHRAttributesDao {
 	public List<PrincipalHRAttributes> getActivePrincipalHrAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate);
 	 
 	public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate);
-
-    public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds);
     
     public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
     
-    public List<String> getUniqueTimePayGroups();
+    public List<String> getUniquePayCalendars(List<String> principalIds);
+    
+    public List<String> getUniqueLeaveCalendars(List<String> principalIds);
     
 }

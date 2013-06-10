@@ -44,13 +44,6 @@ public interface LeaveApprovalService {
      */
     public List<Note> getNotesForDocument(String documentNumber);
 
-    public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds);
-	
-    /*
-     * returns all calendar entries with LeaveCalendarDocument created and can be approved by given principalId
-     */
-    public List<CalendarEntry> getAllLeavePayCalendarEntriesForApprover(String principalId, LocalDate currentDate);
-
     /*
      * remove the employees with no jobs that are eligible for leave from the given list of principal ids
      * 

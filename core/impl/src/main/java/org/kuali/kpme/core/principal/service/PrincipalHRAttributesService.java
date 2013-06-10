@@ -118,15 +118,17 @@ public interface PrincipalHRAttributesService {
      * @param showHistory     @return
      */
     public List<PrincipalHRAttributes> getPrincipalHrAtributes(String userPrincipalId, String principalId, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
-    /**
-     * Get List of all active pay calendars
-     * @return
-     */
-    public List<String> getUniqueTimePayGroups();
 
     /**
-     * Get List of all active pay groups for a list of principal ids
+     * Get List of all active pay calendars for the given principal ids.
      * @return
      */
-    public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds);
+    public List<String> getUniquePayCalendars(List<String> principalIds);
+    
+    /**
+     * Get List of all active leave calendars for the given principal ids.
+     * @return
+     */
+    public List<String> getUniqueLeaveCalendars(List<String> principalIds);
+    
 }

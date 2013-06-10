@@ -82,8 +82,10 @@ public abstract class CalendarApprovalFormAction extends ApprovalFormAction {
         calendarApprovalForm.setSelectedCalendarYear(selectedCalendarYear);
         calendarApprovalForm.setSelectedPayPeriod(calendarApprovalForm.getCalendarEntry().getHrCalendarEntryId());
 	}
-    
-    protected abstract List<CalendarEntry> getCalendarEntries(CalendarEntry currentCalendarEntry);
+
+    protected List<CalendarEntry> getCalendarEntries(CalendarEntry currentCalendarEntry) {
+		return HrServiceLocator.getCalendarEntryService().getAllCalendarEntriesForCalendarId(currentCalendarEntry.getHrCalendarId());
+	}
 	
 	protected List<String> getSubListPrincipalIds(HttpServletRequest request, List<String> assignmentPrincipalIds) {
 	    String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));

@@ -5,8 +5,19 @@
 the id is used in approval.js--%>
 <%@ attribute name="searchId" required="true" type="java.lang.String" %>
 
+<c:choose>
+   <c:when test="${calType eq 'payCalendar'}">
+       <c:set var="calendarLocation" value="TimeApproval.do"/>
+   </c:when>
+   <c:when test="${calType eq 'leaveCalendar'}">
+       <c:set var="calendarLocation" value="LeaveApproval.do"/>
+   </c:when>
+   <c:otherwise>
+        <c:set var="calendarLocation" value=""/>
+   </c:otherwise>
+</c:choose>
 
-<table class="navigation">   
+<table class="navigation">
         <tr>
             <td class="left">
                 Search By :
@@ -51,7 +62,7 @@ the id is used in approval.js--%>
         	<td></td>
             <td align="center">
         	<c:if test="${!Form.onCurrentPeriod}" >
-	        		<a href="${KualiForm.backLocation}" target="_self" id="cppLink">Go to Current Period</a>
+                <a href="${calendarLocation}" target="_self" id="cppLink">Go to Current Period</a>
         	</c:if>
             </td>
             <td align="center">

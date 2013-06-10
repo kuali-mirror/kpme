@@ -262,9 +262,7 @@
     
     <bean id="leaveSummaryService" class="org.kuali.kpme.tklm.leave.summary.service.LeaveSummaryServiceImpl"/>
     
-    <bean id="leaveApprovalService" class="org.kuali.kpme.tklm.leave.approval.service.LeaveApprovalServiceImpl">
-        <property name="principalHRAttributesService" ref="kpme.core.principalHRAttributesService"/>
-    </bean>
+    <bean id="leaveApprovalService" class="org.kuali.kpme.tklm.leave.approval.service.LeaveApprovalServiceImpl"/>
 
     <bean id="leaveRequestDocumentService" class="org.kuali.kpme.tklm.leave.request.service.LeaveRequestDocumentServiceImpl">
         <property name="leaveRequestDocumentDao" ref="leaveRequestDocumentDao"/>

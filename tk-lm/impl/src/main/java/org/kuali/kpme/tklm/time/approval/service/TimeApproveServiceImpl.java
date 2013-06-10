@@ -26,35 +26,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Hours;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.web.CalendarDay;
 import org.kuali.kpme.core.calendar.web.CalendarWeek;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
-import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
@@ -79,168 +69,9 @@ import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
 
-	private static final Logger LOG = Logger
-			.getLogger(TimeApproveServiceImpl.class);
-
-	public static final int DAYS_WINDOW_DELTA = 31;
-
-	public Map<String, CalendarEntry> getPayCalendarEntriesForDept(
-			String dept, LocalDate currentDate) {
-		DateTime minDt = currentDate.toDateTimeAtStartOfDay(TKUtils.getSystemDateTimeZone());
-		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
-		LocalDate windowDate = minDt.toLocalDate();
-
-		Map<String, CalendarEntry> pceMap = new HashMap<String, CalendarEntry>();
-		Set<String> principals = new HashSet<String>();
-		List<WorkArea> workAreasForDept = HrServiceLocator.getWorkAreaService()
-				.getWorkAreas(dept, currentDate);
-		// Get all of the principals within our window of time.
-		for (WorkArea workArea : workAreasForDept) {
-			Long waNum = workArea.getWorkArea();
-			List<Assignment> assignments = HrServiceLocator
-					.getAssignmentService().getActiveAssignmentsForWorkArea(
-							waNum, currentDate);
-
-			if (assignments != null) {
-				for (Assignment assignment : assignments) {
-					principals.add(assignment.getPrincipalId());
-				}
-			} else {
-				assignments = HrServiceLocator.getAssignmentService()
-						.getActiveAssignmentsForWorkArea(waNum, windowDate);
-				if (assignments != null) {
-					for (Assignment assignment : assignments) {
-						principals.add(assignment.getPrincipalId());
-					}
-				}
-			}
-		}
-
-		// Get the pay calendars
-		Set<Calendar> payCals = new HashSet<Calendar>();
-		for (String pid : principals) {
-			PrincipalHRAttributes pc = HrServiceLocator
-					.getPrincipalHRAttributeService().getPrincipalCalendar(pid,
-							currentDate);
-			if (pc == null)
-				pc = HrServiceLocator.getPrincipalHRAttributeService()
-						.getPrincipalCalendar(pid, windowDate);
-
-			if (pc != null) {
-				payCals.add(pc.getCalendar());
-			} else {
-				LOG.warn("PrincipalCalendar null for principal: '" + pid + "'");
-			}
-		}
-
-		// Grab the pay calendar entries + groups
-		for (Calendar pc : payCals) {
-			CalendarEntry pce = HrServiceLocator
-					.getCalendarEntryService()
-					.getCurrentCalendarEntryByCalendarId(
-                            pc.getHrCalendarId(), currentDate.toDateTimeAtStartOfDay());
-			pceMap.put(pc.getCalendarName(), pce);
-		}
-
-		return pceMap;
-	}
-
-	@Override
-	public Map<String, CalendarEntry> getPayCalendarEntriesForApprover(
-			String principalId, LocalDate currentDate, String dept) {
-
-		Map<String, CalendarEntry> pceMap = new HashMap<String, CalendarEntry>();
-		Set<String> principals = new HashSet<String>();
-		DateTime minDt = currentDate.toDateTimeAtStartOfDay(TKUtils.getSystemDateTimeZone());
-		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
-		LocalDate windowDate = minDt.toLocalDate();
-		
-    	Set<Long> workAreas = new HashSet<Long>();
-    	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-        workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
-
-		// Get all of the principals within our window of time.
-		for (Long waNum : workAreas) {
-			List<Assignment> assignments = HrServiceLocator
-					.getAssignmentService().getActiveAssignmentsForWorkArea(
-							waNum, currentDate);
-
-			if (assignments != null) {
-				for (Assignment assignment : assignments) {
-					principals.add(assignment.getPrincipalId());
-				}
-			}
-		}
-
-		// Get the pay calendars
-		Set<Calendar> payCals = new HashSet<Calendar>();
-		for (String pid : principals) {
-			PrincipalHRAttributes pc = HrServiceLocator
-					.getPrincipalHRAttributeService().getPrincipalCalendar(pid,
-                            currentDate);
-			if (pc == null)
-				pc = HrServiceLocator.getPrincipalHRAttributeService()
-						.getPrincipalCalendar(pid, windowDate);
-
-			if (pc != null) {
-				payCals.add(pc.getCalendar());
-			} else {
-				LOG.warn("PrincipalCalendar null for principal: '" + pid + "'");
-			}
-		}
-
-		// Grab the pay calendar entries + groups
-		for (Calendar pc : payCals) {
-			CalendarEntry pce = HrServiceLocator
-					.getCalendarEntryService()
-					.getCurrentCalendarEntryByCalendarId(
-                            pc.getHrCalendarId(), currentDate.toDateTimeAtStartOfDay());
-			pceMap.put(pc.getCalendarName(), pce);
-		}
-
-		return pceMap;
-	}
-
-	public SortedSet<String> getApproverPayCalendarGroups(DateTime payBeginDate,
-			DateTime payEndDate) {
-		SortedSet<String> pcg = new TreeSet<String>();
-
-    	Set<Long> workAreas = new HashSet<Long>();
-    	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-        workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
-
-		List<Assignment> assignments = new ArrayList<Assignment>();
-
-		for (Long workArea : workAreas) {
-			if (workArea != null) {
-				assignments.addAll(HrServiceLocator.getAssignmentService()
-						.getActiveAssignmentsForWorkArea(workArea,
-								payBeginDate.toLocalDate()));
-			}
-		}
-		if (!assignments.isEmpty()) {
-			for (Assignment assign : assignments) {
-				String principalId = assign.getPrincipalId();
-				TimesheetDocumentHeader tdh = TkServiceLocator
-						.getTimesheetDocumentHeaderService().getDocumentHeader(
-								principalId, payBeginDate, payEndDate);
-				if (tdh != null) {
-					String pyCalendarGroup = HrServiceLocator
-							.getPrincipalHRAttributeService()
-							.getPrincipalCalendar(principalId, tdh.getBeginDateTime().toLocalDate())
-							.getCalendar().getCalendarName();
-					pcg.add(pyCalendarGroup);
-				}
-			}
-		}
-		return pcg;
-	}
-
-	@SuppressWarnings("rawtypes")
 	@Override
 	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(String calGroup, List<String> principalIds, List<String> payCalendarLabels, CalendarEntry payCalendarEntry) {
 		DateTime payBeginDate = payCalendarEntry.getBeginPeriodFullDateTime();
@@ -426,95 +257,36 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         return isSynchronousUser;
     }
 
-	public List<TimesheetDocumentHeader> getDocumentHeadersByPrincipalIds(
-			DateTime payBeginDate, DateTime payEndDate, List<String> principalIds) {
-		List<TimesheetDocumentHeader> headers = new LinkedList<TimesheetDocumentHeader>();
-		for (String principalId : principalIds) {
-			TimesheetDocumentHeader tdh = TkServiceLocator
-					.getTimesheetDocumentHeaderService().getDocumentHeader(
-							principalId, payBeginDate, payEndDate);
-			if (tdh != null) {
-				headers.add(tdh);
-			}
-		}
-
-		return headers;
-	}
-
-	/**
-	 * Get pay calendar labels for approval tab
-	 */
-	public List<String> getPayCalendarLabelsForApprovalTab(DateTime payBeginDate,
-			DateTime payEndDate) {
-		// :)
-		// http://stackoverflow.com/questions/111933/why-shouldnt-i-use-hungarian-notation
-		List<String> lstPayCalendarLabels = new ArrayList<String>();
-		DateTime currTime = payBeginDate;
-		int dayCounter = 1;
-		int weekCounter = 1;
-
-		while (currTime.isBefore(payEndDate)) {
-			String labelForDay = createLabelForDay(currTime);
-			lstPayCalendarLabels.add(labelForDay);
-			currTime = currTime.plusDays(1);
-			if ((dayCounter % 7) == 0) {
-				lstPayCalendarLabels.add("Week " + weekCounter);
-				weekCounter++;
-			}
-			dayCounter++;
-		}
-		lstPayCalendarLabels.add("Total Hours");
-		return lstPayCalendarLabels;
-	}
-
 	private Map<String, Set<String>> findWarnings(String principalId, CalendarEntry calendarEntry) {
-//      List<String> warnings = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
-      Map<String, Set<String>> allMessages = new HashMap<String,Set<String>>();
-      allMessages.put("warningMessages", new HashSet<String>());
+		Map<String, Set<String>> allMessages = new HashMap<String,Set<String>>();
+		allMessages.put("warningMessages", new HashSet<String>());
 
-      Map<String, Set<LeaveBlock>> eligibilities;
-
-  	 eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, principalId);
-
-      if (eligibilities != null) {
-          for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
-        	  for(LeaveBlock lb : entry.getValue()) {
-        		  AccrualCategoryRule rule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
-        		  if (rule != null) {
-        			  AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
-        			  if (rule.getActionAtMaxBalance().equals(HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER)) {
-        				  //Todo: add link to balance transfer
-        				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");   //warningMessages
-        			  } else if (rule.getActionAtMaxBalance().equals(HrConstants.ACTION_AT_MAX_BALANCE.LOSE)) {
-        				  //Todo: compute and display amount of time lost.
-        				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");      //warningMessages
-        			  } else if (rule.getActionAtMaxBalance().equals(HrConstants.ACTION_AT_MAX_BALANCE.PAYOUT)) {
-        				  //Todo: display payout details.
-        				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");      //warningMessages            				  
-        			  }
-        		  }
-        	  }
-          }
-      }
-      
-      return allMessages;
-  }
+		Map<String, Set<LeaveBlock>> eligibilities;
 	
-	/**
-	 * Create label for a given pay calendar day
-	 * 
-	 * @param fromDate
-	 * @return
-	 */
-	private String createLabelForDay(DateTime fromDate) {
-		DateMidnight dateMidnight = new DateMidnight(fromDate);
-		if (dateMidnight.compareTo(fromDate) == 0) {
-			DateTimeFormatter fmt = DateTimeFormat.forPattern("MMM/dd");
-			return fmt.print(fromDate);
+		eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, principalId);
+	
+		if (eligibilities != null) {
+			for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
+				for(LeaveBlock lb : entry.getValue()) {
+					AccrualCategoryRule rule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+					if (rule != null) {
+						AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
+						if (rule.getActionAtMaxBalance().equals(HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER)) {
+							//Todo: add link to balance transfer
+							allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");   //warningMessages
+						} else if (rule.getActionAtMaxBalance().equals(HrConstants.ACTION_AT_MAX_BALANCE.LOSE)) {
+							//Todo: compute and display amount of time lost.
+							allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");      //warningMessages
+						} else if (rule.getActionAtMaxBalance().equals(HrConstants.ACTION_AT_MAX_BALANCE.PAYOUT)) {
+							//Todo: display payout details.
+							allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");      //warningMessages            				  
+						}
+					}
+				}
+			}
 		}
-		DateTime toDate = fromDate.plusDays(1);
-		DateTimeFormatter fmt = DateTimeFormat.forPattern("MMM/dd k:m:s");
-		return fmt.print(fromDate) + "-" + fmt.print(toDate);
+	      
+		return allMessages;
 	}
 
 	/**
@@ -545,114 +317,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			return "No previous clock information";
 		}
 
-	}
-
-	public List<Map<String, Map<String, BigDecimal>>> getHoursByDayAssignmentBuckets(
-			TkTimeBlockAggregate aggregate,
-			List<Assignment> approverAssignments, List<String> payCalendarLabels) {
-		Map<String, Assignment> mappedAssignments = mapAssignmentsByAssignmentKey(approverAssignments);
-		List<List<TimeBlock>> blocksByDay = aggregate.getDayTimeBlockList();
-
-		// (assignment_key, <List of Hours Summed by Day>)
-		Map<String, List<BigDecimal>> approverHours = new HashMap<String, List<BigDecimal>>();
-		Map<String, List<BigDecimal>> otherHours = new HashMap<String, List<BigDecimal>>();
-		for (int day = 0; day < blocksByDay.size(); day++) {
-			List<TimeBlock> dayBlocks = blocksByDay.get(day);
-			for (TimeBlock block : dayBlocks) {
-				List<BigDecimal> hours;
-				// Approver vs. Other :: Set our day-hour-list object
-				if (mappedAssignments.containsKey(block.getAssignmentKey())) {
-					hours = approverHours.get(block.getAssignmentKey());
-					if (hours == null) {
-						hours = new ArrayList<BigDecimal>();
-						approverHours.put(block.getAssignmentKey(), hours);
-					}
-				} else {
-					hours = otherHours.get(block.getAssignmentKey());
-					if (hours == null) {
-						hours = new ArrayList<BigDecimal>();
-						otherHours.put(block.getAssignmentKey(), hours);
-					}
-				}
-
-				// Fill in zeroes for days with 0 hours / no time blocks
-				for (int fill = hours.size(); fill <= day; fill++) {
-					hours.add(HrConstants.BIG_DECIMAL_SCALED_ZERO);
-				}
-
-				// Add time from time block to existing time.
-				BigDecimal timeToAdd = hours.get(day);
-				timeToAdd = timeToAdd.add(block.getHours(),
-						HrConstants.MATH_CONTEXT);
-				hours.set(day, timeToAdd);
-			}
-		}
-
-		// Compute Weekly / Period Summary Totals for each Assignment.
-		// assignment row, each row has a map of pay calendar label -> big
-		// decimal totals.
-		Map<String, Map<String, BigDecimal>> approverAssignToPayHourTotals = new HashMap<String, Map<String, BigDecimal>>();
-		Map<String, Map<String, BigDecimal>> otherAssignToPayHourTotals = new HashMap<String, Map<String, BigDecimal>>();
-
-		// Pass by Reference
-		generateSummaries(approverAssignToPayHourTotals, approverHours,
-				payCalendarLabels);
-		generateSummaries(otherAssignToPayHourTotals, otherHours,
-				payCalendarLabels);
-
-		// Add to our return list, "virtual" tuple.
-		List<Map<String, Map<String, BigDecimal>>> returnTuple = new ArrayList<Map<String, Map<String, BigDecimal>>>(
-				2);
-		returnTuple.add(approverAssignToPayHourTotals);
-		returnTuple.add(otherAssignToPayHourTotals);
-
-		return returnTuple;
-	}
-
-	// Helper method for above method.
-	private void generateSummaries(
-			Map<String, Map<String, BigDecimal>> payHourTotals,
-			Map<String, List<BigDecimal>> assignmentToHours,
-			List<String> payCalendarLabels) {
-		for (Entry<String, List<BigDecimal>> entry : assignmentToHours.entrySet()) {
-			// for every Assignment
-			Map<String, BigDecimal> hoursToPayLabelMap = new LinkedHashMap<String, BigDecimal>();
-			List<BigDecimal> dayTotals = entry.getValue();
-			int dayCount = 0;
-			BigDecimal weekTotal = new BigDecimal(0.00);
-			BigDecimal periodTotal = new BigDecimal(0.00);
-			for (String payCalendarLabel : payCalendarLabels) {
-				if (StringUtils.contains(payCalendarLabel, "Week")) {
-					hoursToPayLabelMap.put(payCalendarLabel, weekTotal);
-					weekTotal = new BigDecimal(0.00);
-				} else if (StringUtils
-						.contains(payCalendarLabel, "Total Hours")) {
-					hoursToPayLabelMap.put(payCalendarLabel, periodTotal);
-				} else {
-					BigDecimal dayTotal = HrConstants.BIG_DECIMAL_SCALED_ZERO;
-					if (dayCount < dayTotals.size())
-						dayTotal = dayTotals.get(dayCount);
-
-					hoursToPayLabelMap.put(payCalendarLabel, dayTotal);
-					weekTotal = weekTotal.add(dayTotal,
-							HrConstants.MATH_CONTEXT);
-					periodTotal = periodTotal.add(dayTotal);
-					dayCount++;
-				}
-			}
-			payHourTotals.put(entry.getKey(), hoursToPayLabelMap);
-		}
-	}
-
-	private Map<String, Assignment> mapAssignmentsByAssignmentKey(
-			List<Assignment> assignments) {
-		Map<String, Assignment> assignmentMap = new HashMap<String, Assignment>();
-		for (Assignment assignment : assignments) {
-			assignmentMap
-					.put(AssignmentDescriptionKey
-							.getAssignmentKeyString(assignment), assignment);
-		}
-		return assignmentMap;
 	}
 
 	/**
@@ -757,36 +421,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return hoursToFlsaWeekMap;
 	}
 
-	public boolean doesApproverHavePrincipalsForCalendarGroup(LocalDate asOfDate, String calGroup) {
-    	Set<Long> workAreas = new HashSet<Long>();
-    	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-        workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
-
-		for (Long workArea : workAreas) {
-			List<Assignment> assignments = HrServiceLocator
-					.getAssignmentService().getActiveAssignmentsForWorkArea(
-							workArea, asOfDate);
-			List<String> principalIds = new ArrayList<String>();
-			for (Assignment assign : assignments) {
-				if (principalIds.contains(assign.getPrincipalId())) {
-					continue;
-				}
-				principalIds.add(assign.getPrincipalId());
-			}
-
-			for (String principalId : principalIds) {
-				PrincipalHRAttributes principalCal = HrServiceLocator
-						.getPrincipalHRAttributeService().getPrincipalCalendar(
-								principalId, asOfDate);
-				if (StringUtils.equals(principalCal.getPayCalendar(),
-						calGroup)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
     @Override
 	public List<Note> getNotesForDocument(String documentNumber) {
         return KewApiServiceLocator.getNoteService().getNotes(documentNumber);
@@ -849,44 +483,9 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return principalDocumentHeader;
 	}
 
+	@Override
 	public DocumentRouteHeaderValue getRouteHeader(String documentId) {
 		return KEWServiceLocator.getRouteHeaderService().getRouteHeader(documentId);
-	}
-	
-	@Override
-	public List<CalendarEntry> getAllPayCalendarEntriesForApprover(String principalId, LocalDate currentDate) {
-		Set<String> principals = new HashSet<String>();
-		
-    	Set<Long> workAreas = new HashSet<Long>();
-    	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-        workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
-        workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
-
-		// Get all of the principals within our window of time.
-		for (Long waNum : workAreas) {
-			List<Assignment> assignments = HrServiceLocator
-					.getAssignmentService().getActiveAssignmentsForWorkArea(waNum, currentDate);
-
-			if (assignments != null) {
-				for (Assignment assignment : assignments) {
-					principals.add(assignment.getPrincipalId());
-				}
-			}
-		}
-		List<TimesheetDocumentHeader> documentHeaders = new ArrayList<TimesheetDocumentHeader>();
-		for(String pid : principals) {
-			documentHeaders.addAll(TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeadersForPrincipalId(pid));
-		}
-		Set<CalendarEntry> payPeriodSet = new HashSet<CalendarEntry>();
-		for(TimesheetDocumentHeader tdh : documentHeaders) {
-            CalendarEntry pe = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdh.getDocumentId()).getCalendarEntry();
-    		if(pe != null) {
-    			payPeriodSet.add(pe);
-    		}
-        }
-		List<CalendarEntry> ppList = new ArrayList<CalendarEntry>(payPeriodSet);
-        
-		return ppList;
 	}
 	
 }
