@@ -201,8 +201,4 @@ public class AccrualCategory extends HrBusinessObject {
 		return getLmAccrualCategoryId();
 	}
 	
-	protected void bleh() {
-		
-	}
-	
 }
