@@ -32,7 +32,6 @@
 			<label>Leave Calendar</label>
             <docHandler>${kuali.docHandler.url.prefix}/LeaveCalendar.do?methodToCall=docHandler</docHandler>
             <postProcessorName>org.kuali.kpme.tklm.leave.workflow.postprocessor.LmPostProcessor</postProcessorName>
-            <applicationId>KPME</applicationId>
             <active>true</active>
             <routingVersion>1</routingVersion>
 			<attributes>

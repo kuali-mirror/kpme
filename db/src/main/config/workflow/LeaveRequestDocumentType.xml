@@ -32,7 +32,6 @@
 			<label>Leave Request Document</label>
             <docHandler>${kuali.docHandler.url.prefix}/LeaveRequestApproval.do</docHandler>
             <postProcessorName>org.kuali.kpme.tklm.leave.workflow.postprocessor.LeaveRequestPostProcessor</postProcessorName>
-            <applicationId>KPME</applicationId>
             <active>true</active>
             <routingVersion>1</routingVersion>
 			<attributes>

@@ -31,7 +31,6 @@
             <description>Missed Punch Document</description>
             <label>MissedPunchDocument</label>
             <docHandler>${kuali.docHandler.url.prefix}/kpme/missedPunch?methodToCall=docHandler</docHandler>
-            <applicationId>KPME</applicationId>
             <active>true</active>
             <routingVersion>1</routingVersion>
             <routePaths>
