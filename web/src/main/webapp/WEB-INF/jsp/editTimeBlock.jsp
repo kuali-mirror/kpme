@@ -73,8 +73,10 @@
 							<td>Assignment</td>
 							<td>Begin Date</td>
 							<td>Begin Time</td>
+							<td></td>
 							<td>End Date</td>
 							<td>End Time</td>
+							<td></td>
 							<td>Hours</td>
 							<td>Action</td>
 						</tr>
@@ -96,22 +98,20 @@
 								</select>
 							</td>
 							<td>
-								<input type="text" id="bdRowFirst" class="bdRow" size="10" value="${Form.currentTimeBlock.beginTimeDisplayDateOnlyString }" />
+								<input disabled type="text" id="bdRowFirst" class="bdRow" size="10" value="${Form.currentTimeBlock.beginTimeDisplayDateOnlyString}" />
 							</td>
-
-							<td>
-								<input type="text" id="btRowFirst" class="btRow" disabled="disabled" size="10" value="${Form.currentTimeBlock.beginTimeDisplayTimeOnlyString}" />
+							<td colspan="2" align="left">
+								<input disabled type="text" id="btRowFirst" class="btRow" size="10" value="${Form.currentTimeBlock.beginTimeDisplayTimeOnlyString}" />
                             </td>
 							<td>
-								<input type="text" id="edRowFirst" class="edRow" size="10" value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString }" />
+								<input disabled type="text" id="edRowFirst" class="edRow" size="10" value="${Form.currentTimeBlock.beginTimeDisplayDateOnlyString}" />
+							</td>
+							<td colspan="2">
+								<input id="etRowFirst" class="etRow" size="10" /><input type="button" style="width: 20px; height: 23px;" class="endTimeHelp" value="?"
+									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30, 2:30" />
 							</td>
 							<td>
-								<input id="etRowFirst" class="etRow" size="10" >
-								<input type="button" style="width: 20px; height: 23px;" class="endTimeHelp" value="?"
-									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30, 2:30">
-							</td>
-							<td>
-								<input id="hrRowFirst" class="hrRow" disabled="disabled" size="5" />
+								<input disabled id="hrRowFirst" class="hrRow" disabled="disabled" size="5" />
 							</td>
 							<td>
                                 <input class="button" value="Add" type="button" name="addTimeBlock" id="addTimeBlock"
@@ -134,31 +134,27 @@
 								</select>
 							</td>
 							<td>
-								<input type="text" id="bdRowLast" class="bdRow" size="10" value="${Form.currentTimeBlock.beginTimeDisplayDateOnlyString }" />
+								<input disabled type="text" id="bdRowLast" class="bdRow" size="10" value="${Form.currentTimeBlock.beginTimeDisplayDateOnlyString }" />
 							</td>
-
-							<td>
-								<input id="btRowLast" class="btRow" size="10">
-								<input type="button" style="width: 20px; height: 23px;" class="beginTimeHelp" value="?"
-									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30, 2:30">
+							<td colspan="2">
+								<input id="btRowLast" class="btRow" size="10" /><input type="button" style="width: 20px; height: 23px;" class="beginTimeHelp" value="?"
+									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30, 2:30" />
 							</td>
 							<td>
-								<input type="text" id="edRowLast" class="edRow" size="10" value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString }" />
+								<input disabled type="text" id="edRowLast" class="edRow" size="10" value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString }" />
+							</td>
+							<td colspan="2" align="left">
+								<input disabled id="etRowLast" class="etRow" size="10" value="${Form.currentTimeBlock.endTimeDisplayTimeOnlyString}" />
 							</td>
 							<td>
-								<input id="etRowLast" class="etRow" size="10" disabled="disabled" value="${Form.currentTimeBlock.endTimeDisplayTimeOnlyString}" />
-								<input type="button" style="width: 20px; height: 23px;" class="endTimeHelp" value="?"
-									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30, 2:30">
-							</td>
-							<td>
-								<input id="hrRowLast" class="hrRow" disabled="disabled" size="5" />
+								<input disabled id="hrRowLast" class="hrRow" size="5" />
 							</td>
                             <td></td>
                         </tr>
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="4" />
+							<td colspan="7" />
 							<td>Total Hours:</td>
 							<td>
 								<input name="hrsTotal" id="hrsTotal" disabled="disabled" size="5"/>

@@ -28,6 +28,8 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.missedpunch.web.MissedPunchForm;
+import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
+import org.kuali.kpme.tklm.time.rules.lunch.sys.SystemLunchRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -63,11 +65,13 @@ public class MissedPunchClockActionKeyValuesFinder extends UifKeyValuesFinderBas
 	            	Long workArea = lastClock.getWorkArea();
 		            Long jobNumber = lastClock.getJobNumber();
 		
-		            if (!TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(LocalDate.now()).getShowLunchButton()) {
+		            SystemLunchRule systemLunchRule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(LocalDate.now());
+		            DeptLunchRule departmentLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(department, workArea, HrContext.getTargetPrincipalId(), jobNumber, LocalDate.now());
+		            if (systemLunchRule == null || !systemLunchRule.getShowLunchButton()) {
 		            	availableActions.remove(TkConstants.LUNCH_OUT);
 		            	availableActions.remove(TkConstants.LUNCH_IN);
 		            } else {
-		            	if (TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(department, workArea, HrContext.getTargetPrincipalId(), jobNumber, LocalDate.now()) != null) {
+		            	if (departmentLunchRule != null) {
 			            	availableActions.remove(TkConstants.LUNCH_OUT);
 			            	availableActions.remove(TkConstants.LUNCH_IN);
 		            	}

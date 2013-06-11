@@ -143,16 +143,25 @@ public class ClockAction extends TimesheetAction {
 		        	clockActionForm.setClockButtonEnabled(true);
 		        } else {
 		        	boolean isApproverOrReviewerForCurrentAssignment = false;
-		        	if (StringUtils.isNotBlank(clockActionForm.getSelectedAssignment())) {
-		        		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(AssignmentDescriptionKey.get(clockActionForm.getSelectedAssignment()), LocalDate.now());
-		        		if (assignment != null) {
-		        			String principalId = GlobalVariables.getUserSession().getPrincipalId();
-		        			Long workArea = assignment.getWorkArea();
-		        			isApproverOrReviewerForCurrentAssignment = HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
-		        					|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
-		        					|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime());
+		        	String selectedAssignment = StringUtils.EMPTY;
+		        	if (clockActionForm.getAssignmentDescriptions() != null) {
+		        		if (clockActionForm.getAssignmentDescriptions().size() == 1) {
+		        			for (String assignment : clockActionForm.getAssignmentDescriptions().keySet()) {
+		        				selectedAssignment = assignment;
+		        			}
+		        		} else {
+		        			selectedAssignment = clockActionForm.getSelectedAssignment();
 		        		}
 		        	}
+
+	        		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(AssignmentDescriptionKey.get(selectedAssignment), LocalDate.now());
+	        		if (assignment != null) {
+	        			String principalId = GlobalVariables.getUserSession().getPrincipalId();
+	        			Long workArea = assignment.getWorkArea();
+	        			isApproverOrReviewerForCurrentAssignment = HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
+	        					|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
+	        					|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime());
+	        		}
 		        	clockActionForm.setClockButtonEnabled(isApproverOrReviewerForCurrentAssignment);
 		        }
 		        
@@ -368,7 +377,10 @@ public class ClockAction extends TimesheetAction {
 		    	if(timeBlock.getHours().compareTo(BigDecimal.ZERO) == 0) { // ignore time blocks with zero hours
 		    		continue;
 		    	}
-			    Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
+		    	DateTimeZone dateTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+		    	DateTime timeBlockBeginTimestamp = new DateTime(timeBlock.getBeginTimestamp().getTime(), dateTimeZone).withZoneRetainFields(TKUtils.getSystemDateTimeZone());
+		    	DateTime timeBlockEndTimestamp = new DateTime(timeBlock.getEndTimestamp().getTime(), dateTimeZone).withZoneRetainFields(TKUtils.getSystemDateTimeZone());
+		    	Interval timeBlockInterval = new Interval(timeBlockBeginTimestamp, timeBlockEndTimestamp);
 			    if (timeBlockInterval.overlaps(addedTimeblockInterval)) {
 			        errorMsgList.add("The time block you are trying to add for entry " + index + " overlaps with an existing time block.");
 			        caf.setOutputString(JSONValue.toJSONString(errorMsgList));

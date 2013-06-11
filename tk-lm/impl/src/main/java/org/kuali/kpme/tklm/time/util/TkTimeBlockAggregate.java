@@ -15,7 +15,9 @@
  */
 package org.kuali.kpme.tklm.time.util;
 
+import java.math.BigDecimal;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -32,10 +34,13 @@ import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 
 public class TkTimeBlockAggregate {
@@ -321,6 +326,39 @@ public class TkTimeBlockAggregate {
 
 	public void setPayCalendar(Calendar payCalendar) {
 		this.payCalendar = payCalendar;
+	}
+	
+	//Very much a hack to add valid leave blocks to a time block aggregate...
+	public static TkTimeBlockAggregate combineTimeAndLeaveAggregates(TkTimeBlockAggregate tbAggregate, LeaveBlockAggregate lbAggregate) {
+		if (tbAggregate != null
+				&& lbAggregate != null
+				&& tbAggregate.getDayTimeBlockList().size() == lbAggregate.getDayLeaveBlockList().size()) {
+			for (int i = 0; i < tbAggregate.getDayTimeBlockList().size(); i++) {
+				List<LeaveBlock> leaveBlocks = lbAggregate.getDayLeaveBlockList().get(i);
+				if (CollectionUtils.isNotEmpty(leaveBlocks)) {
+					for (LeaveBlock lb : leaveBlocks) {
+						//convert leave block to generic time block and add to list
+						//conveniently, we only really need the hours amount
+						TimeBlock timeBlock = new TimeBlock();
+						timeBlock.setHours(lb.getLeaveAmount().negate());
+						timeBlock.setBeginTimestamp(new Timestamp(lb.getLeaveDate().getTime()));
+						timeBlock.setEndTimestamp(new Timestamp(new DateTime(lb.getLeaveDate()).plusMinutes(timeBlock.getHours().intValue()).getMillis()));
+						timeBlock.setAssignmentKey(lb.getAssignmentKey());
+						timeBlock.setEarnCode(lb.getEarnCode());
+						timeBlock.setPrincipalId(lb.getPrincipalId());
+						timeBlock.setWorkArea(lb.getWorkArea());
+						TimeHourDetail timeHourDetail = new TimeHourDetail();
+						timeHourDetail.setEarnCode(timeBlock.getEarnCode());
+						timeHourDetail.setHours(timeBlock.getHours());
+						timeHourDetail.setAmount(BigDecimal.ZERO);
+						timeBlock.addTimeHourDetail(timeHourDetail);
+						tbAggregate.getDayTimeBlockList().get(i).add(timeBlock);
+					}
+				}
+
+			}
+		}
+		return tbAggregate;
 	}
 
 }

@@ -92,7 +92,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         List<LeaveBlock> leaveBlocks =  LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(timesheetDocument.getPrincipalId(),
                 timesheetDocument.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate(), tAssignmentKeys);
         LeaveBlockAggregate leaveBlockAggregate = new LeaveBlockAggregate(leaveBlocks, timesheetDocument.getCalendarEntry());
-        tkTimeBlockAggregate = combineTimeAndLeaveAggregates(tkTimeBlockAggregate, leaveBlockAggregate);
+        tkTimeBlockAggregate = TkTimeBlockAggregate.combineTimeAndLeaveAggregates(tkTimeBlockAggregate, leaveBlockAggregate);
 
         
 		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate, timeSummary));
@@ -364,41 +364,6 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 		summaryHeader.add("Period Total");
 		return summaryHeader;
 	}
-
-    //kind of a hack
-    private TkTimeBlockAggregate combineTimeAndLeaveAggregates(TkTimeBlockAggregate tbAggregate, LeaveBlockAggregate lbAggregate) {
-        if (tbAggregate != null
-                && lbAggregate != null
-                && tbAggregate.getDayTimeBlockList().size() == lbAggregate.getDayLeaveBlockList().size()) {
-            for (int i = 0; i < tbAggregate.getDayTimeBlockList().size(); i++) {
-                List<LeaveBlock> leaveBlocks = lbAggregate.getDayLeaveBlockList().get(i);
-                if (CollectionUtils.isNotEmpty(leaveBlocks)) {
-                    for (LeaveBlock lb : leaveBlocks) {
-                        //convert leave block to generic time block and add to list
-                        //conveniently, we only really need the hours amount
-                        TimeBlock timeBlock = new TimeBlock();
-                        timeBlock.setHours(lb.getLeaveAmount().negate());
-                        timeBlock.setBeginDateTime(lb.getLeaveLocalDate().toDateTimeAtStartOfDay());
-                        timeBlock.setEndDateTime(lb.getLeaveLocalDate().toDateTimeAtStartOfDay().plusMinutes(timeBlock.getHours().intValue()));
-                        timeBlock.setAssignmentKey(lb.getAssignmentKey());
-                        timeBlock.setEarnCode(lb.getEarnCode());
-                        timeBlock.setPrincipalId(lb.getPrincipalId());
-                        timeBlock.setWorkArea(lb.getWorkArea());
-                        TimeHourDetail timeHourDetail = new TimeHourDetail();
-                        timeHourDetail.setEarnCode(timeBlock.getEarnCode());
-                        timeHourDetail.setHours(timeBlock.getHours());
-                        timeHourDetail.setAmount(BigDecimal.ZERO);
-                        timeBlock.addTimeHourDetail(timeHourDetail);
-                        tbAggregate.getDayTimeBlockList().get(i).add(timeBlock);
-                    }
-                }
-
-            }
-        }
-        return tbAggregate;
-    }
-
-
 
     /**
      * Provides the number of hours worked for the pay period indicated in the

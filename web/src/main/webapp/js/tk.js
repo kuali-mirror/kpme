@@ -238,7 +238,7 @@ $(document).ready(function() {
    
 
     // datepicker
-    $('#startDate, #endDate, .bdRow, .edRow1').datepicker({
+    $('#startDate, #endDate').datepicker({
         changeMonth : true,
         changeYear : true,
         showOn : 'button',
@@ -680,9 +680,11 @@ function addTimeBlockRow(form, tempArr) {
     el.className = 'bdRow';
     el.size = 10;
     el.value = form.beginDateOnly.value;
+    el.disabled = true;
     cellBeginDate.appendChild(el);
 
     var cellBeginTime = row.insertCell(2);
+    cellBeginTime.colSpan = 2;
     var el = document.createElement('input');
     el.id = 'btRow' + iteration;
     el.className = 'btRow';
@@ -706,9 +708,11 @@ function addTimeBlockRow(form, tempArr) {
     el.className = 'edRow';
     el.size = 10;
     el.value = form.endDateOnly.value;
+    el.disabled = true;
     cellEndDate.appendChild(el);
 
     var cellEndTime = row.insertCell(4);
+    cellEndTime.colSpan = 2;
     var el = document.createElement('input');
     el.id = 'etRow' + iteration;
     el.className = 'etRow';

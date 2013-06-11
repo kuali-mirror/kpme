@@ -191,12 +191,20 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             }
 
             if (principalId.equals(HrContext.getTargetPrincipalId())
-                    && !timeBlock.getClockLogCreated()) {
+                    && timeBlock.getClockLogCreated()) {
                 if (StringUtils.equals(payType.getRegEarnCode(),
                 		timeBlock.getEarnCode())) {
                     return false;
                 }
+            }
 
+            if (principalId.equals(HrContext.getTargetPrincipalId())
+            		&& !timeBlock.getClockLogCreated()) {
+            	if (StringUtils.equals(payType.getRegEarnCode(),
+            			timeBlock.getEarnCode())) {
+            		return true;
+            	}
+            	
                 List<EarnCodeSecurity> deptEarnCodes = HrServiceLocator
                         .getEarnCodeSecurityService().getEarnCodeSecurities(
                                 job.getDept(), job.getHrSalGroup(),

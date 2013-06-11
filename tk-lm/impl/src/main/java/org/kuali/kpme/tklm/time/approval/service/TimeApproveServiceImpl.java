@@ -47,6 +47,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
@@ -105,6 +106,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 						principal.getPrincipalId()).getDocumentId();
 			}
 			List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
+			List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 			List<Note> notes = new ArrayList<Note>();
 			List<String> warnings = new ArrayList<String>();
 
@@ -117,10 +119,17 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			}
 
 			if (StringUtils.isNotBlank(documentId)) {
-				timeBlocks = TkServiceLocator.getTimeBlockService()
-						.getTimeBlocks(documentId);
-                notes = getNotesForDocument(documentId);
                 TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
+                timeBlocks = td.getTimeBlocks();
+                //timeBlocks = TkServiceLocator.getTimeBlockService()
+                //              .getTimeBlocks(documentId);
+                List<String> assignKeys = new ArrayList<String>();
+                for(Assignment a : td.getAssignments()) {
+                	assignKeys.add(a.getAssignmentKey());
+                }
+                leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId,
+                		payBeginDate.toLocalDate(), payEndDate.toLocalDate(), assignKeys);
+                notes = getNotesForDocument(documentId);
                 Map<String, List<LocalDate>> earnCodeMap = new HashMap<String, List<LocalDate>>();
                 for(TimeBlock tb : td.getTimeBlocks()) {
                 	if(!earnCodeMap.containsKey(tb.getEarnCode())) {
@@ -190,12 +199,12 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			
 			Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(
 					principalId, payEndDate, payCalendarLabels,
-					timeBlocks, null, payCalendarEntry, payCalendar,
+					timeBlocks, leaveBlocks, null, payCalendarEntry, payCalendar,
 					dateTimeZone, dayIntervals);
 			
 			Map<String, BigDecimal> hoursToFlsaPayLabelMap = getHoursToFlsaWeekMap(
 					principalId, payEndDate, payCalendarLabels,
-					timeBlocks, null, payCalendarEntry, payCalendar,
+					timeBlocks, leaveBlocks, null, payCalendarEntry, payCalendar,
 					dateTimeZone, dayIntervals);
 
 			approvalSummaryRow.setName(principalId);
@@ -325,7 +334,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	@Override
 	public Map<String, BigDecimal> getHoursToPayDayMap(String principalId,
 			DateTime payEndDate, List<String> payCalendarLabels,
-			List<TimeBlock> lstTimeBlocks, Long workArea,
+			List<TimeBlock> lstTimeBlocks, List<LeaveBlock> leaveBlocks, Long workArea,
 			CalendarEntry payCalendarEntry, Calendar payCalendar,
 			DateTimeZone dateTimeZone, List<Interval> dayIntervals) {
 		Map<String, BigDecimal> hoursToPayLabelMap = new LinkedHashMap<String, BigDecimal>();
@@ -334,6 +343,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(
 				lstTimeBlocks, payCalendarEntry, payCalendar, true,
 				dayIntervals);
+		LeaveBlockAggregate leaveBlockAggregate = new LeaveBlockAggregate(leaveBlocks, payCalendarEntry);
+
+		//combine time and leave aggregates.... (sigh)
+		tkTimeBlockAggregate = TkTimeBlockAggregate.combineTimeAndLeaveAggregates(tkTimeBlockAggregate, leaveBlockAggregate);
+	 	 	
 		List<FlsaWeek> flsaWeeks = tkTimeBlockAggregate
 				.getFlsaWeeks(dateTimeZone);
 		for (FlsaWeek week : flsaWeeks) {
@@ -388,13 +402,17 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	@Override
 	public Map<String, BigDecimal> getHoursToFlsaWeekMap(String principalId, 
 			DateTime payEndDate, List<String> payCalendarLabels, 
-			List<TimeBlock> lstTimeBlocks, Long workArea, 
+			List<TimeBlock> lstTimeBlocks, List<LeaveBlock> leaveBlocks, Long workArea, 
 			CalendarEntry payCalendarEntry, Calendar payCalendar,
 			DateTimeZone dateTimeZone, List<Interval> dayIntervals) {
 		
 		Map<String, BigDecimal> hoursToFlsaWeekMap = new LinkedHashMap<String, BigDecimal>();
 
 		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(lstTimeBlocks, payCalendarEntry, payCalendar, true, dayIntervals);
+		LeaveBlockAggregate leaveBlockAggregate = new LeaveBlockAggregate(leaveBlocks, payCalendarEntry);
+
+		//combine time and leave aggregates.... (sigh)
+		tkTimeBlockAggregate = TkTimeBlockAggregate.combineTimeAndLeaveAggregates(tkTimeBlockAggregate, leaveBlockAggregate);
 		List<List<FlsaWeek>> flsaWeeks = tkTimeBlockAggregate.getFlsaWeeks(dateTimeZone, principalId);
 		
 		int weekCount = 1;
