@@ -63,7 +63,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
         if (lcdh != null) {
             lcd = new LeaveCalendarDocument(lcdh);
-            CalendarEntry pce = HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(lcdh.getPrincipalId(), lcdh.getEndDateTime(), HrConstants.LEAVE_CALENDAR_TYPE);
+            CalendarEntry pce = HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(lcdh.getPrincipalId(), lcdh.getEndDateTime(), HrConstants.LEAVE_CALENDAR_TYPE);
             lcd.setCalendarEntry(pce);
         } else {
         	LOG.error("Could not find LeaveCalendarDocumentHeader for DocumentID: " + documentId);

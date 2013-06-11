@@ -115,7 +115,7 @@ public class TimesheetAction extends CalendarFormAction {
         	if (StringUtils.isNotBlank(timesheetActionForm.getHrCalendarEntryId())) {
         		calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(timesheetActionForm.getHrCalendarEntryId());
         	} else {
-        		calendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, new LocalDate().toDateTimeAtStartOfDay());
+        		calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(principalId, new LocalDate().toDateTimeAtStartOfDay());
         	}
         	
         	if (calendarEntry != null) {
@@ -163,7 +163,7 @@ public class TimesheetAction extends CalendarFormAction {
         
         List<TimesheetDocumentHeader> timesheetDocumentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeadersForPrincipalId(HrContext.getTargetPrincipalId());
         for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
-        	calendarEntries.add(HrServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(timesheetDocumentHeader.getPrincipalId(), timesheetDocumentHeader.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE));
+        	calendarEntries.add(HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(timesheetDocumentHeader.getPrincipalId(), timesheetDocumentHeader.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE));
         }
         
         return calendarEntries;

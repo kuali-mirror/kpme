@@ -122,7 +122,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 		super.setUp();
 
-		payCal = HrServiceLocator.getCalendarService().getCurrentCalendarDates(
+		payCal = HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(
 				USER_PRINCIPAL_ID, TIME_SHEET_DATE);
 		Assert.assertNotNull("Pay calendar entries not found for admin", payCal);
 

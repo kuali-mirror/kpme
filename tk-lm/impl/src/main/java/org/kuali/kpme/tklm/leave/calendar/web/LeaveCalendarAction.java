@@ -163,7 +163,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
 			if (StringUtils.isNotBlank(leaveCalendarForm.getHrCalendarEntryId())) {
 				calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveCalendarForm.getHrCalendarEntryId());
 			} else {
-				calendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(principalId, new LocalDate().toDateTimeAtStartOfDay());
+				calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarDatesForLeaveCalendar(principalId, new LocalDate().toDateTimeAtStartOfDay());
 			}
 			
 			if (calendarEntry != null) {

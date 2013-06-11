@@ -595,7 +595,7 @@ public class TimeDetailAction extends TimesheetAction {
       // if the leave block is NOT eligible for accrual, rerun accrual service for the leave calendar the leave block is on
       EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(blockToDelete.getEarnCode(), blockToDelete.getLeaveLocalDate());
       if(ec != null && ec.getEligibleForAccrual().equals("N")) {
-    	  CalendarEntry ce = HrServiceLocator.getCalendarService()
+    	  CalendarEntry ce = HrServiceLocator.getCalendarEntryService()
 					.getCurrentCalendarDatesForLeaveCalendar(blockToDelete.getPrincipalId(), blockToDelete.getLeaveLocalDate().toDateTimeAtStartOfDay());
     	  if(ce != null) {
     		  LmServiceLocator.getLeaveAccrualService().runAccrual(blockToDelete.getPrincipalId(), ce.getBeginPeriodFullDateTime().toDateTime(), ce.getEndPeriodFullDateTime().toDateTime(), false);

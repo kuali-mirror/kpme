@@ -348,7 +348,7 @@ public class ActionFormUtils {
     // detect if the passed-in calendar entry is the current one
     public static boolean getOnCurrentPeriodFlag(CalendarEntry pce) {
     	String viewPrincipal = HrContext.getTargetPrincipalId();
-        CalendarEntry calendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
+        CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 
         if(pce != null && calendarEntry != null && calendarEntry.equals(pce)) {
     		return true;
