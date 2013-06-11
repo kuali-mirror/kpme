@@ -318,6 +318,7 @@
 
                                 META-INF/,
 
+                                WEB-INF/krad-servlet.xml,
                                 WEB-INF/struts-config.xml,
                                 WEB-INF/web.xml,
                                 WEB-INF/classes/,
@@ -381,7 +382,6 @@
                                         <include>WEB-INF/dwr-kew.xml</include>
                                         <include>WEB-INF/dwr-kns.xml</include>
                                         <include>WEB-INF/krad-base-servlet.xml</include>
-                                        <include>WEB-INF/krad-servlet.xml</include>
                                         <include>WEB-INF/kradguest-servlet.xml</include>
                                         <include>WEB-INF/validator-rules.xml</include>
                                         <include>WEB-INF/jsp/dummy_login.jsp</include>
