@@ -325,6 +325,7 @@
 
     <bean id="calendarEntryService" class="org.kuali.kpme.core.calendar.entry.service.CalendarEntryServiceImpl">
         <property name="calendarEntryDao" ref="calendarEntryDao"/>
+        <property name="calendarDao" ref="calendarDao"/>
     </bean>
 
     <bean id="assignmentService" class="org.kuali.kpme.core.assignment.service.AssignmentServiceImpl">

@@ -17,19 +17,29 @@ package org.kuali.kpme.core.calendar.entry.service;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.dao.CalendarDao;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.entry.CalendarEntryPeriodType;
 import org.kuali.kpme.core.calendar.entry.dao.CalendarEntryDao;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CalendarEntryServiceImpl implements CalendarEntryService {
 
     private CalendarEntryDao calendarEntryDao;
+    private CalendarDao calendarDao;
+
+	public void setCalendarDao(CalendarDao calendarDao) {
+		this.calendarDao = calendarDao;
+	}
 
     public void setCalendarEntryDao(CalendarEntryDao calendarEntryDao) {
         this.calendarEntryDao = calendarEntryDao;
@@ -195,4 +205,91 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
     public List<CalendarEntry> getAllCalendarEntriesForCalendarIdUpToCutOffTime(String hrCalendarId, DateTime cutOffTime) {
     	return calendarEntryDao.getAllCalendarEntriesForCalendarIdUpToCutOffTime(hrCalendarId, cutOffTime);
     }
+    
+    //******** kpme-2396 ********
+    @Override
+	public CalendarEntry getCurrentCalendarDates(String principalId, DateTime currentDate) {
+		CalendarEntry pcd = null;
+        Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, currentDate.toLocalDate(), false);
+        if(calendar != null) {
+		    pcd = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), currentDate);
+		    if(pcd != null) {
+		    	pcd.setCalendarObj(calendar);
+		    }
+        }
+		return pcd;
+	}
+    
+    @Override
+    public CalendarEntry getCurrentCalendarDates(String principalId, DateTime beginDate, DateTime endDate) {
+        CalendarEntry pcd = null;
+        Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, beginDate.toLocalDate(), endDate.toLocalDate(), false);
+        if(calendar != null) {
+            pcd = HrServiceLocator.getCalendarEntryService().getCalendarEntryByCalendarIdAndDateRange(calendar.getHrCalendarId(), beginDate, endDate);
+            if(pcd != null) {
+                pcd.setCalendarObj(calendar);
+            }
+        }
+        return pcd;
+    }
+    
+    @Override
+    public CalendarEntry getCalendarDatesByPayEndDate(String principalId, DateTime payEndDate, String calendarType) {
+        PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, payEndDate.toLocalDate());
+        
+        Calendar calendar = null;
+        if(ObjectUtils.isNull(principalCalendar)) {
+        	return null;
+        }
+        if (StringUtils.equalsIgnoreCase(calendarType, HrConstants.PAY_CALENDAR_TYPE)) {
+        	calendar = HrServiceLocator.getCalendarService().getCalendarByGroup(principalCalendar.getPayCalendar());
+        } else if (StringUtils.equalsIgnoreCase(calendarType, HrConstants.LEAVE_CALENDAR_TYPE)) {
+        	calendar = HrServiceLocator.getCalendarService().getCalendarByGroup(principalCalendar.getLeaveCalendar());
+        }
+        
+        if (calendar == null) {
+        	return null;
+        }
+        CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate(calendar.getHrCalendarId(), payEndDate);
+        
+        if(ObjectUtils.isNotNull(calendarEntry)) {
+        	calendarEntry.setCalendarObj(calendar);
+        }
+        
+        return calendarEntry;
+    }
+    
+    @Override
+  	public CalendarEntry getPreviousCalendarEntry(String tkCalendarId, DateTime beginDateCurrentCalendar){
+  		return calendarDao.getPreviousCalendarEntry(tkCalendarId, beginDateCurrentCalendar);
+  	}
+    
+    @Override
+    public CalendarEntry getCurrentCalendarDatesForLeaveCalendar(String principalId, DateTime beginDate, DateTime endDate) {
+        CalendarEntry pcd = null;
+        Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, beginDate.toLocalDate(), endDate.toLocalDate(), true);
+        if(calendar != null) {
+            pcd = HrServiceLocator.getCalendarEntryService().getCalendarEntryByCalendarIdAndDateRange(calendar.getHrCalendarId(), beginDate, endDate);
+            if(pcd != null) {
+                pcd.setCalendarObj(calendar);
+            }
+        }
+        return pcd;
+    }
+    
+    @Override
+	public CalendarEntry getCurrentCalendarDatesForLeaveCalendar(
+			String principalId, DateTime currentDate) {
+		CalendarEntry pcd = null;
+        Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, currentDate.toLocalDate(), true);
+        if(calendar != null) {
+		    pcd = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), currentDate);
+		    if(pcd != null) {
+		    	pcd.setCalendarObj(calendar);
+		    }
+        }
+		return pcd;
+	}
+
+
 }

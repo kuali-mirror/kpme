@@ -83,5 +83,68 @@ public interface CalendarEntryService {
     public List<CalendarEntry> getAllCalendarEntriesForCalendarIdUpToPlanningMonths(String hrCalendarId, String principalId);
 
     public List<CalendarEntry> getAllCalendarEntriesForCalendarIdUpToCutOffTime(String hrCalendarId, DateTime cutOffTime);
-
+    //kpme-2396
+    /**
+     * Use this method to get CalendarEntry if you are passing in a "current date"
+     * style of date, ie todays date. If you are in a logic situation where you would
+     * pass EITHER todays date or a pay calendar date, pass the Pay period BEGIN date,
+     * so that the retrieval logic will correctly place the date in the window.
+	 *
+	 * @param principalId
+	 * @param currentDate
+	 * @return
+	 */
+	public CalendarEntry getCurrentCalendarDates(String principalId, DateTime currentDate);
+	
+	 /**
+     * Use this method to get CalendarEntry if you are passing in a date range
+     *  ie being/end of a year.
+     *
+     * @param principalId
+     * @param beginDate
+     * @param endDate
+     * @return
+     */
+    public CalendarEntry getCurrentCalendarDates(String principalId, DateTime beginDate, DateTime endDate);
+    
+    /**
+     * A method to use specifically when you have a Timesheet Documents Pay Period
+     * end date. Do not use if you are passing in a date known not to be the END period date.
+     *
+     * @param principalId
+     * @param payEndDate
+     * @return
+     */
+   
+    @Cacheable(value= CalendarEntry.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'payEndDate=' + #p1 + '|' + 'calendarType=' + #p2")
+    public CalendarEntry getCalendarDatesByPayEndDate(String principalId, DateTime payEndDate, String calendarType);
+    
+    /**
+	 * Returns the Pay CalendarEntry for previous pay calendar
+	 * @param tkCalendarId
+	 * @param beginDateCurrentCalendar
+	 * @return
+	 */
+    @Cacheable(value= CalendarEntry.CACHE_NAME, key="'tkCalendarId=' + #p0 + '|' + 'beginDateCurrentCalendar=' + #p1")
+	public CalendarEntry getPreviousCalendarEntry(String tkCalendarId, DateTime beginDateCurrentCalendar);
+    
+    /**
+    *
+    * @param principalId
+    * @param beginDate
+    * @param endDate
+    * @return
+    */
+   @Cacheable(value= CalendarEntry.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'beginDate=' + #p1 + '|' + 'endDate=' + #p2")
+   public CalendarEntry getCurrentCalendarDatesForLeaveCalendar(String principalId, DateTime beginDate, DateTime endDate);
+   
+   /**
+	 * 
+	 * @param principalId
+	 * @param currentDate
+	 * @return
+	 */
+   @Cacheable(value= CalendarEntry.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'currentDate=' + #p1")
+	public CalendarEntry getCurrentCalendarDatesForLeaveCalendar(String principalId, DateTime currentDate);
+  
 }
