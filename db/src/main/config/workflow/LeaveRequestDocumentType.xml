@@ -24,6 +24,7 @@
 		<documentType>
             <name>LeaveRequestDocument</name>
 			<parent>RiceDocument</parent>
+			<applicationId>KPME</applicationId>
 			<superUserGroupName namespace="KPME-HR">System Administrator</superUserGroupName>
 			<blanketApproveGroupName namespace="KPME-HR">System Administrator</blanketApproveGroupName>
 			<defaultExceptionGroupName namespace="KPME-HR">System Administrator</defaultExceptionGroupName>
@@ -97,6 +98,7 @@
             <label>LeaveRequestWorkAreaSearchAttribute</label>
             <description>LeaveRequestWorkAreaSearchAttribute</description>
             <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
             <searchingConfig>
                 <fieldDef name="workarea" title="Work Area">
                     <display>
@@ -114,6 +116,7 @@
             <label>LeaveRequestDepartmentSearchAttribute</label>
             <description>LeaveRequestDepartmentSearchAttribute</description>
             <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
             <searchingConfig>
                 <fieldDef name="department" title="Department">
                     <display>
@@ -131,6 +134,7 @@
             <label>LeaveRequestSalGroupSearchAttribute</label>
             <description>LeaveRequestSalGroupSearchAttribute</description>
             <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
             <searchingConfig>
                 <fieldDef name="salGroup" title="Salary Group">
                     <display>
@@ -148,6 +152,7 @@
             <label>LeaveRequestCalEndSearchAttribute</label>
             <description>LeaveRequestCalEndSearchAttribute</description>
             <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
             <searchingConfig>
                 <fieldDef name="payCalendarEnd" title="Pay Calendar End Date">
                     <display>

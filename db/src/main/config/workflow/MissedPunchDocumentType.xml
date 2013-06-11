@@ -24,6 +24,7 @@
 		<documentType>
             <name>MissedPunchDocumentType</name>
             <parent>RiceDocument</parent>
+            <applicationId>KPME</applicationId>
             <superUserGroupName namespace="KPME-HR">System Administrator</superUserGroupName>
             <blanketApproveGroupName namespace="KPME-HR">System Administrator</blanketApproveGroupName>
             <defaultExceptionGroupName namespace="KPME-HR">System Administrator</defaultExceptionGroupName>

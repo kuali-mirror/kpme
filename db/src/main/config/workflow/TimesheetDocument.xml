@@ -24,6 +24,7 @@
 		<documentType>
             <name>TimesheetDocument</name>
 			<parent>RiceDocument</parent>
+			<applicationId>KPME</applicationId>
 			<superUserGroupName namespace="KPME-HR">System Administrator</superUserGroupName>
 			<blanketApproveGroupName namespace="KPME-HR">System Administrator</blanketApproveGroupName>
 			<defaultExceptionGroupName namespace="KPME-HR">System Administrator</defaultExceptionGroupName>
@@ -89,6 +90,7 @@
             <label>TimesheetWorkAreaSearchAttribute</label>
             <description>TimesheetWorkAreaSearchAttribute</description>
             <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
             <searchingConfig>
                 <fieldDef name="workarea" title="Work Area">
                     <display>
@@ -106,6 +108,7 @@
             <label>TimesheetDepartmentSearchAttribute</label>
             <description>TimesheetDepartmentSearchAttribute</description>
             <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
             <searchingConfig>
                 <fieldDef name="department" title="Department">
                     <display>
@@ -123,6 +126,7 @@
             <label>TimesheetSalGroupSearchAttribute</label>
             <description>TimesheetSalGroupSearchAttribute</description>
             <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
             <searchingConfig>
                 <fieldDef name="salGroup" title="Salary Group">
                     <display>
@@ -140,6 +144,7 @@
             <label>TimesheetPayCalEndSearchAttribute</label>
             <description>TimesheetPayCalEndSearchAttribute</description>
             <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
             <searchingConfig>
                 <fieldDef name="payCalendarEnd" title="Pay Calendar End Date">
                     <display>
@@ -149,7 +154,7 @@
                         <xpathexpression>//PAYENDDATE/@value</xpathexpression>
                     </fieldEvaluation>
                 </fieldDef>
-            </searchingConfig>
+	        </searchingConfig>
         </ruleAttribute>
         <ruleAttribute>
             <name>TimesheetRoleAttribute</name>
