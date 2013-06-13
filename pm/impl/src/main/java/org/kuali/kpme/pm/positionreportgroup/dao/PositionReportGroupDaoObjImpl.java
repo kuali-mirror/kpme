@@ -26,6 +26,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -47,15 +48,15 @@ public class PositionReportGroupDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 		Criteria root = new Criteria();
 
 		if(StringUtils.isNotEmpty(positionReportGroup) 
-				&& !StringUtils.equals(positionReportGroup, HrConstants.WILDCARD_CHARACTER)) {
+				&& !ValidationUtils.isWildCard(positionReportGroup)) {
 			root.addEqualTo("positionReportGroup", positionReportGroup);  
 		}
 		if(StringUtils.isNotEmpty(institution) 
-				&& !StringUtils.equals(institution, HrConstants.WILDCARD_CHARACTER)) {
+				&& !ValidationUtils.isWildCard(institution)) {
 			root.addEqualTo("institution", institution); 
 		}
 		if(StringUtils.isNotEmpty(location) 
-				&& !StringUtils.equals(location, HrConstants.WILDCARD_CHARACTER)) {
+				&& !ValidationUtils.isWildCard(location)) {
 			root.addEqualTo("location", location); 
 		}
         
@@ -73,6 +74,21 @@ public class PositionReportGroupDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 			prgList.addAll(c);
 		
 		return prgList;
+	}
+
+	@Override
+	public PositionReportGroup getPositionReportGroup(String positionReportGroup, LocalDate asOfDate) {
+		Criteria root = new Criteria();
+        root.addEqualTo("positionReportGroup", positionReportGroup);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportGroup.class, asOfDate, PositionReportGroup.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportGroup.class, PositionReportGroup.EQUAL_TO_FIELDS, false));
+        
+        Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+        
+        Query query = QueryFactory.newQuery(PositionReportGroup.class, root);
+        return (PositionReportGroup) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
 }

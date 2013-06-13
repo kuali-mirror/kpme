@@ -24,6 +24,7 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
@@ -50,11 +51,12 @@ public class PayType extends HrBusinessObject {
     private Boolean ovtEarnCode;
     
     // KPME-2252
-	private String campus;
+	private String location;
     private String institution;
 	private String flsaStatus;
 	private String payFrequency;
-	private CampusBo campusObj;
+	
+	private Location locationObj;
 	private Institution institutionObj;
 
     public EarnCode getRegEarnCodeObj() {
@@ -143,14 +145,6 @@ public class PayType extends HrBusinessObject {
 		this.institution = institution;
 	}
 
-	public String getCampus() {
-		return campus;
-	}
-
-	public void setCampus(String campus) {
-		this.campus = campus;
-	}
-
 	public String getFlsaStatus() {
 		return flsaStatus;
 	}
@@ -167,20 +161,28 @@ public class PayType extends HrBusinessObject {
 		this.payFrequency = payFrequency;
 	}
 
-	public CampusBo getCampusObj() {
-		return campusObj;
-	}
-
-	public void setCampusObj(CampusBo campusObj) {
-		this.campusObj = campusObj;
-	}
-
 	public Institution getInstitutionObj() {
 		return institutionObj;
 	}
 
 	public void setInstitutionObj(Institution institutionObj) {
 		this.institutionObj = institutionObj;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public Location getLocationObj() {
+		return locationObj;
+	}
+
+	public void setLocationObj(Location locationObj) {
+		this.locationObj = locationObj;
 	}
 	
 }

@@ -18,7 +18,6 @@ package org.kuali.kpme.pm.pstncontracttype.validation;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.pstncontracttype.PstnContractType;
-import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
@@ -40,7 +39,7 @@ public class PstnContractTypeValidation extends MaintenanceDocumentRuleBase  {
 	
 	private boolean validateInstitution(PstnContractType pstnContractType) {
 		if (StringUtils.isNotEmpty(pstnContractType.getInstitution())
-				&& !PmValidationUtils.validateInstitution(pstnContractType.getInstitution(), pstnContractType.getEffectiveLocalDate())) {
+				&& !ValidationUtils.validateInstitution(pstnContractType.getInstitution(), pstnContractType.getEffectiveLocalDate())) {
 			this.putFieldError("institution", "error.existence", "Institution '"
 					+ pstnContractType.getInstitution() + "'");
 			return false;

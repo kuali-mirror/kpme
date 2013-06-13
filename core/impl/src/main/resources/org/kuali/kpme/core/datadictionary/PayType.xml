@@ -45,7 +45,7 @@
 				<ref bean="PayType-hrEarnCodeId" />
 				<ref bean="PayType-ovtEarnCode" />
 				<ref bean="PayType-institution" />
-				<ref bean="PayType-campus" />
+				<ref bean="PayType-location" />
 				<ref bean="PayType-flsaStatus" />
 				<ref bean="PayType-payFrequency" />
 			</list>
@@ -63,10 +63,10 @@
               </property>
             </bean>
 			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="campusObj" />
+				<property name="objectAttributeName" value="locationObj" />
 				<property name="primitiveAttributes">
 					<list>
-						<bean parent="PrimitiveAttributeDefinition" p:sourceName="campus" p:targetName="code" />
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="location" p:targetName="location" />
                            
                        </list>
 				</property>
@@ -223,10 +223,10 @@
 		<property name="label" value="Overtime Earn Code" />
 	</bean>
 	
-	<!-- campus -->
-	<bean id="PayType-campus" parent="PayType-campus-parentBean" />
-	<bean id="PayType-campus-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Campus" />
+	<!-- location -->
+	<bean id="PayType-location" parent="PayType-location-parentBean" />
+	<bean id="PayType-location-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Location" />
 		<property name="maxLength" value="15" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
@@ -236,8 +236,8 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="15" />
 		</property>
-		<property name="name" value="campus" />
-		<property name="label" value="Campus" />
+		<property name="name" value="location" />
+		<property name="label" value="Location" />
 	</bean>
 	
 	<!-- instituition -->
@@ -299,7 +299,7 @@
 							<bean parent="FieldDefinition" p:attributeName="payType" />
 							<bean parent="FieldDefinition" p:attributeName="descr" />
 							<bean parent="FieldDefinition" p:attributeName="regEarnCode" />
-							<bean parent="FieldDefinition" p:attributeName="campus" />
+							<bean parent="FieldDefinition" p:attributeName="location" />
 							<bean parent="FieldDefinition" p:attributeName="institution" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 							<bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
@@ -324,7 +324,7 @@
 				<bean parent="FieldDefinition" p:attributeName="payType" />
                 <bean parent="FieldDefinition" p:attributeName="descr" />				
                 <bean parent="FieldDefinition" p:attributeName="regEarnCode" />
-                <bean parent="FieldDefinition" p:attributeName="campus" />
+                <bean parent="FieldDefinition" p:attributeName="location" />
                 <bean parent="FieldDefinition" p:attributeName="institution" />
                 <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
                 <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
@@ -337,7 +337,7 @@
 				<bean parent="FieldDefinition" p:attributeName="payType" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />				
 				<bean parent="FieldDefinition" p:attributeName="regEarnCode" />
-				<bean parent="FieldDefinition" p:attributeName="campus" />
+				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="institution" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />

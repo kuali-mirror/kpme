@@ -18,7 +18,6 @@ package org.kuali.kpme.pm.positionreportgroup.validation;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
-import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
@@ -40,7 +39,7 @@ public class PositionReportGroupValidation extends MaintenanceDocumentRuleBase  
 	
 	private boolean validateInstitution(PositionReportGroup prg) {
 		if (StringUtils.isNotEmpty(prg.getInstitution())
-				&& !PmValidationUtils.validateInstitution(prg.getInstitution(), prg.getEffectiveLocalDate())) {
+				&& !ValidationUtils.validateInstitution(prg.getInstitution(), prg.getEffectiveLocalDate())) {
 			this.putFieldError("institution", "error.existence", "Instituion '"
 					+ prg.getInstitution() + "'");
 			return false;

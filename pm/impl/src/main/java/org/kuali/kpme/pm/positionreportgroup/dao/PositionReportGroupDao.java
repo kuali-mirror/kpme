@@ -25,4 +25,6 @@ public interface PositionReportGroupDao {
 	public PositionReportGroup getPositionReportGroupById(String pmPositionReportGroupId);
 	
 	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String institution, String location, LocalDate asOfDate);
+	
+	public PositionReportGroup getPositionReportGroup(String positionReportGroup, LocalDate asOfDate);
 }

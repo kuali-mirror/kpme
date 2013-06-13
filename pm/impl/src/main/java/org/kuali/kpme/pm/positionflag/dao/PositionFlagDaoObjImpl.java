@@ -25,8 +25,8 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positionflag.PositionFlag;
-import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class PositionFlagDaoObjImpl extends PlatformAwareDaoBaseOjb implements PositionFlagDao {
@@ -46,11 +46,11 @@ public class PositionFlagDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 		Criteria root = new Criteria();
 
 		if(StringUtils.isNotEmpty(category) 
-				&& !PmValidationUtils.isWildCard(category)) {
+				&& !ValidationUtils.isWildCard(category)) {
 			root.addEqualTo("category", category);  
 		}
 		if(StringUtils.isNotEmpty(name) 
-				&& !PmValidationUtils.isWildCard(name)) {
+				&& !ValidationUtils.isWildCard(name)) {
 			root.addEqualTo("positionFlagName", name); 
 		}
         

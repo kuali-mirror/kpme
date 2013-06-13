@@ -26,6 +26,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.pstncontracttype.PstnContractType;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -46,11 +47,11 @@ public class PstnContractTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implemen
 		List<PstnContractType> pctList = new ArrayList<PstnContractType>();
 		Criteria root = new Criteria();
  		if(StringUtils.isNotEmpty(institution) 
-				&& !StringUtils.equals(institution, HrConstants.WILDCARD_CHARACTER)) {
+ 				&& !ValidationUtils.isWildCard(institution)) {
 			root.addEqualTo("institution", institution); 
 		}
 		if(StringUtils.isNotEmpty(location) 
-				&& !StringUtils.equals(location, HrConstants.WILDCARD_CHARACTER)) {
+				&& !ValidationUtils.isWildCard(location)) {
 			root.addEqualTo("location", location); 
 		}
         

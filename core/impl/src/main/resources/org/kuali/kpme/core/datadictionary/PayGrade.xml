@@ -31,7 +31,7 @@
 				<ref bean="PayGrade-salGroup" />
 				<ref bean="PayGrade-description" />
                 <ref bean="PayGrade-institution" />
-                <ref bean="PayGrade-campus" />
+                <ref bean="PayGrade-location" />
                 <ref bean="PayGrade-minRate" />
                 <ref bean="PayGrade-maxRate" />
                 <ref bean="PayGrade-midPointRate" />
@@ -43,29 +43,7 @@
 				<ref bean="PayGrade-userPrincipalId" />
 				<ref bean="PayGrade-timestamp" />
 			</list>
-		</property>	 
-		<property name="relationships">
-			<list>
-                <bean parent="RelationshipDefinition">
-                    <property name="objectAttributeName" value="campusObj" />
-                    <property name="primitiveAttributes">
-                        <list>
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="campus"
-                                  p:targetName="code"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="RelationshipDefinition">
-                    <property name="objectAttributeName" value="institutionObj" />
-                    <property name="primitiveAttributes">
-                        <list>
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="institution"
-                                  p:targetName="institutionCode"/>
-                        </list>
-                    </property>
-                </bean>
-			</list>
-		</property>
+		</property>	
         <property name="objectLabel" value="PayGrade"/>
     </bean>
 
@@ -216,9 +194,9 @@
         <property name="label" value="Maximum Hiring Rate" />
     </bean>
 
-    <bean id="PayGrade-campus" parent="PayGrade-campus-parentBean" />
-    <bean id="PayGrade-campus-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="shortLabel" value="Campus" />
+    <bean id="PayGrade-location" parent="PayGrade-location-parentBean" />
+    <bean id="PayGrade-location-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Location" />
         <property name="required" value="true"/>
         <property name="maxLength" value="10" />
         <property name="validationPattern">
@@ -229,8 +207,8 @@
         <property name="controlField">
             <bean parent="Uif-TextControl" p:size="10" />
         </property>
-        <property name="name" value="campus" />
-        <property name="label" value="Campus" />
+        <property name="name" value="location" />
+        <property name="label" value="Location" />
     </bean>
 
     <bean id="PayGrade-rateType" parent="PayGrade-rateType-parentBean" />
@@ -417,7 +395,12 @@
                                           p:fieldConversions="institutionCode:institution"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="campus" />
+                            <bean parent="Uif-InputField" p:propertyName="location">
+	                            <property name="quickfinder">
+					       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+					        			 p:fieldConversions="location:location" />
+					   		 	</property>
+				       		</bean>
                             <bean parent="Uif-InputField" p:propertyName="active"/>
                             <bean parent="Uif-InputField" p:propertyName="minRate"/>
                             <bean parent="Uif-InputField" p:propertyName="maxRate"/>

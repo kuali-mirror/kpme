@@ -60,14 +60,13 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 	
-	private boolean validateCampus(String campus, LocalDate asOfDate) {
+	private boolean validateLocation(String location, LocalDate asOfDate) {
 		boolean valid = true;
 		
-		if (!StringUtils.isBlank(campus)) {
-			valid = ValidationUtils.validateEarnCode(campus, asOfDate);
-
+		if (!StringUtils.isBlank(location)) {
+			valid = ValidationUtils.validateLocation(location, asOfDate);
 			if (!valid) {
-				this.putFieldError("campus", "paytype.campus.invalid", campus);
+				this.putFieldError("location", "error.existence", location);
 			} 			
 		}
 
@@ -96,7 +95,7 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 
 			valid = validateEarnCode(pt.getRegEarnCode(), pt.getEffectiveLocalDate());
 			valid &= validateInstitution(pt.getInstitution(), pt.getEffectiveLocalDate());
-			valid &= validateCampus(pt.getCampus(), pt.getEffectiveLocalDate());
+			valid &= validateLocation(pt.getLocation(), pt.getEffectiveLocalDate());
 			if (document.isOldBusinessObjectInDocument() && !pt.isActive()) {
 				valid &= validateActive(pt.getPayType(), pt.getEffectiveLocalDate());
 			}

@@ -41,18 +41,14 @@ public class PayGrade extends HrBusinessObject {
 	private String userPrincipalId;
 	private String salGroup;
     private String institution;
-    private String campus;
+    private String location;
     private String rateType;
     private BigDecimal minRate;
     private BigDecimal maxRate;
     private BigDecimal midPointRate;
     private BigDecimal maxHiringRate;
     private String history;
-    
-	private SalaryGroup salaryGroupObj;
-    private Institution institutionObj;
-    private CampusBo campusObj;
-
+ 
     public String getHrPayGradeId() {
 		return hrPayGradeId;
 	}
@@ -108,28 +104,12 @@ public class PayGrade extends HrBusinessObject {
 		this.salGroup = salGroup;
 	}
 
-	public SalaryGroup getSalaryGroupObj() {
-		return salaryGroupObj;
-	}
-
-	public void setSalaryGroupObj(SalaryGroup salaryGroupObj) {
-		this.salaryGroupObj = salaryGroupObj;
-	}
-
     public String getInstitution() {
         return institution;
     }
 
     public void setInstitution(String institution) {
         this.institution = institution;
-    }
-
-    public String getCampus() {
-        return campus;
-    }
-
-    public void setCampus(String campus) {
-        this.campus = campus;
     }
 
     public String getRateType() {
@@ -172,22 +152,6 @@ public class PayGrade extends HrBusinessObject {
         this.maxHiringRate = maxHiringRate;
     }
 
-    public Institution getInstitutionObj() {
-        return institutionObj;
-    }
-
-    public void setInstitutionObj(Institution institutionObj) {
-        this.institutionObj = institutionObj;
-    }
-
-    public CampusBo getCampusObj() {
-        return campusObj;
-    }
-
-    public void setCampusObj(CampusBo campusObj) {
-        this.campusObj = campusObj;
-    }
-    
     public String getHistory() {
         return history;
     }
@@ -195,5 +159,13 @@ public class PayGrade extends HrBusinessObject {
     public void setHistory(String history) {
         this.history = history;
     }
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
 }

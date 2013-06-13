@@ -64,6 +64,9 @@ public class LocationDaoObjImpl extends PlatformAwareDaoBaseOjb implements Locat
 		}
 		crit.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Location.class, asOfDate, Location.EQUAL_TO_FIELDS, false));
 		crit.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Location.class, Location.EQUAL_TO_FIELDS, false));
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		crit.addAndCriteria(activeFilter);
 		Query query = QueryFactory.newQuery(Location.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query);
 	}

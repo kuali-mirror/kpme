@@ -42,4 +42,9 @@ public class PositionReportCatServiceImpl implements PositionReportCatService {
 	public void setPositionReportCatDao(PositionReportCatDao positionReportCatDao) {
 		this.positionReportCatDao = positionReportCatDao;
 	}
+
+	@Override
+	public PositionReportCategory getPositionReportCat(String positionReportCat, LocalDate asOfDate) {
+		return positionReportCatDao.getPositionReportCat(positionReportCat, asOfDate);
+	}
 }

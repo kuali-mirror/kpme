@@ -25,6 +25,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.institution.Institution;
+import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -111,6 +112,22 @@ public class InstitutionDaoOjbImpl extends PlatformAwareDaoBaseOjb implements In
 		
 		return (Institution) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 
+	}
+
+	@Override
+	public int getInstitutionCount(String institutionCode, LocalDate asOfDate) {
+		Criteria crit = new Criteria();
+		// allow wild card
+		if(StringUtils.isNotEmpty(institutionCode) && !ValidationUtils.isWildCard(institutionCode)) {
+			crit.addEqualTo("institutionCode", institutionCode);
+		}
+		crit.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Institution.class, asOfDate, Institution.EQUAL_TO_FIELDS, false));
+		crit.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Institution.class, Institution.EQUAL_TO_FIELDS, false));
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		crit.addAndCriteria(activeFilter);
+		Query query = QueryFactory.newQuery(Institution.class, crit);
+		return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 
 }

@@ -51,7 +51,7 @@ public class SalaryGroupValidation  extends MaintenanceDocumentRuleBase{
 	
 	private boolean validateLocation(SalaryGroup sg) {
 		if (StringUtils.isNotEmpty(sg.getLocation())
-				&& !ValidationUtils.validateCampus(sg.getLocation())) {
+				&& !ValidationUtils.validateLocation(sg.getLocation(), sg.getEffectiveLocalDate())) {
 			this.putFieldError("dataObject.location", "error.existence", "Location '"
 					+ sg.getLocation() + "'");
 			return false;

@@ -18,7 +18,6 @@ package org.kuali.kpme.pm.positionappointment.validation;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positionappointment.PositionAppointment;
-import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
@@ -39,7 +38,7 @@ public class PositionAppointmentValidation extends MaintenanceDocumentRuleBase {
 	}
 	
 	private boolean validateInstitution(PositionAppointment pa) {
-		if (StringUtils.isNotEmpty(pa.getInstitution()) && !PmValidationUtils.validateInstitution(pa.getInstitution(), pa.getEffectiveLocalDate())) {
+		if (StringUtils.isNotEmpty(pa.getInstitution()) && !ValidationUtils.validateInstitution(pa.getInstitution(), pa.getEffectiveLocalDate())) {
 			this.putFieldError("dataObject.institution", "error.existence", "Instituion '" + pa.getInstitution() + "'");
 			return false;
 		} else {

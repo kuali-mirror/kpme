@@ -16,6 +16,8 @@
 package org.kuali.kpme.pm.positiondepartment.validation;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.kpme.pm.util.PmValidationUtils;
@@ -42,7 +44,7 @@ public class PositionDepartmentValidation extends MaintenanceDocumentRuleBase  {
 	
 	private boolean validateInstitution(PositionDepartment positionDepartment) {
 		if (StringUtils.isNotEmpty(positionDepartment.getInstitution())
-				&& !PmValidationUtils.validateInstitution(positionDepartment.getInstitution(), positionDepartment.getEffectiveLocalDate())) {
+				&& !ValidationUtils.validateInstitution(positionDepartment.getInstitution(), positionDepartment.getEffectiveLocalDate())) {
 			this.putFieldError("institution", "error.existence", "Institution '"
 					+ positionDepartment.getInstitution() + "'");
 			return false;
@@ -63,14 +65,29 @@ public class PositionDepartmentValidation extends MaintenanceDocumentRuleBase  {
 	}
 	
 	private boolean validateDepartment(PositionDepartment positionDepartment) {
-		if (StringUtils.isNotEmpty(positionDepartment.getLocation())
+		if (StringUtils.isNotEmpty(positionDepartment.getDepartment())
 				&& !ValidationUtils.validateDepartment(positionDepartment.getDepartment(), positionDepartment.getEffectiveLocalDate())) {
 			this.putFieldError("department", "error.existence", "Department '"
 					+ positionDepartment.getDepartment() + "'");
 			return false;
-		} else {
-			return true;
 		}
+		Department dep = HrServiceLocator.getDepartmentService().getDepartment(positionDepartment.getDepartment(), positionDepartment.getEffectiveLocalDate());
+		if(dep == null ) {
+			this.putFieldError("department", "error.existence", "Department '"
+					+ positionDepartment.getDepartment() + "'");
+			return false;
+		} else {
+			if(!ValidationUtils.wildCardMatch(dep.getLocation(), positionDepartment.getLocation())) {
+				String[] params = new String[3];
+				params[0] = positionDepartment.getLocation();
+				params[1] = dep.getLocation();
+				params[2] = "Department '" + positionDepartment.getDepartment() + "'";
+				this.putFieldError("department", "location.inconsistent", params);
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
 	private boolean validateAffiliation(PositionDepartment positionDepartment) {

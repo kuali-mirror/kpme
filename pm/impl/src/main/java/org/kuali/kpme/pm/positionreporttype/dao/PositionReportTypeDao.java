@@ -31,4 +31,6 @@ public interface PositionReportTypeDao {
 	public List<PositionReportType> getPrtListWithInstitutionCodeAndDate(String institutionCode, LocalDate asOfDate);
 
 	public List<PositionReportType> getPrtListWithLocationAndDate(String location, LocalDate asOfDate);
+	
+	public PositionReportType getPositionReportType(String positionReportType, LocalDate asOfDate);
 }

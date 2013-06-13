@@ -38,4 +38,12 @@ public interface PositionReportGroupService {
 	 * @return
 	 */
 	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String institution, String location, LocalDate asOfDate);
+	
+	/**
+	 * Retrieve the latest active PositionReportGroup with given positionReportGroup and effective date
+	 * @param positionReportGroup
+	 * @param asOfDate
+	 * @return
+	 */
+	public PositionReportGroup getPositionReportGroup(String positionReportGroup, LocalDate asOfDate);
 }

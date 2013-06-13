@@ -19,6 +19,7 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.PMUnitTestCase;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 
@@ -26,26 +27,6 @@ public class PmValidationUtilsTest extends PMUnitTestCase {
 	
 	private static DateTime INVALID_DATE = new DateTime(2011, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	private static DateTime VALID_DATE = new DateTime(2012, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-	
-	@Test
-	public void testValidateInstitution() {
-		DateTime aDate = INVALID_DATE;
-		String institution = "*";	
-		boolean results = PmValidationUtils.validateInstitution(institution, aDate.toLocalDate());	// wildcard should be true
-		Assert.assertTrue(results);
-		
-		institution = "nonExist";	
-		results = PmValidationUtils.validateInstitution(institution, aDate.toLocalDate());	// non-existing
-		Assert.assertFalse(results);
-		
-		institution = "testInst";	
-		results = PmValidationUtils.validateInstitution(institution, aDate.toLocalDate());	// existing institution, but wrong date
-		Assert.assertFalse(results);
-		
-		aDate = VALID_DATE;
-		results = PmValidationUtils.validateInstitution(institution, aDate.toLocalDate()); // existing institution, right date
-		Assert.assertTrue(results);
-	}
 	
 	@Test
 	public void testValidateCampus() {

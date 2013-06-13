@@ -26,6 +26,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positiontype.PositionType;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -46,16 +47,16 @@ public class PositionTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 		List<PositionType> prgList = new ArrayList<PositionType>();
 		Criteria root = new Criteria();
 
-		if(StringUtils.isNotEmpty(positionType) 
-				&& !StringUtils.equals(positionType, HrConstants.WILDCARD_CHARACTER)) {
+		if(StringUtils.isNotEmpty(positionType)
+				&& !ValidationUtils.isWildCard(positionType)) {
 			root.addEqualTo("positionType", positionType);  
 		}
 		if(StringUtils.isNotEmpty(institution) 
-				&& !StringUtils.equals(institution, HrConstants.WILDCARD_CHARACTER)) {
+				&& !ValidationUtils.isWildCard(institution)) {
 			root.addEqualTo("institution", institution); 
 		}
 		if(StringUtils.isNotEmpty(location) 
-				&& !StringUtils.equals(location, HrConstants.WILDCARD_CHARACTER)) {
+				&& !ValidationUtils.isWildCard(location)) {
 			root.addEqualTo("location", location); 
 		}
         

@@ -30,4 +30,6 @@ public interface InstitutionDao {
 	
 	public Institution getInstitutionById(String institutionId);
 	
+	public int getInstitutionCount(String institutionCode, LocalDate asOfDate);
+	
 }

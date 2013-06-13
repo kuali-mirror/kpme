@@ -59,4 +59,10 @@ public class PositionReportTypeServiceImpl implements PositionReportTypeService 
 		return positionReportTypeDao.getPrtListWithLocationAndDate(location, asOfDate);
 	}
 
+	@Override
+	public PositionReportType getPositionReportType(
+			String positionReportType, LocalDate asOfDate) {
+		return positionReportTypeDao.getPositionReportType(positionReportType, asOfDate);
+	}
+
 }

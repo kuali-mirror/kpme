@@ -17,8 +17,10 @@ package org.kuali.kpme.pm.pstnrptgrpsubcat.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
+import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory;
 import org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory;
-import org.kuali.kpme.pm.util.PmValidationUtils;
+import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
@@ -41,24 +43,36 @@ public class PstnRptGrpSubCatValidation extends MaintenanceDocumentRuleBase {
 	}
 	
 	private boolean validatePstnRptSubCat(PositionReportGroupSubCategory prgsc) {
-		if (StringUtils.isNotEmpty(prgsc.getPositionReportSubCat())
-				&& StringUtils.isNotEmpty(prgsc.getInstitution())
-				&& StringUtils.isNotEmpty(prgsc.getLocation())
-				&& !PmValidationUtils.validatePositionReportSubCat(prgsc.getPositionReportSubCat(), prgsc.getInstitution(), prgsc.getLocation(), prgsc.getEffectiveLocalDate())) {
-			String[] parameters = new String[3];
-			parameters[0] = prgsc.getPositionReportSubCat();
-			parameters[1] = prgsc.getInstitution();
-			parameters[2] = prgsc.getLocation();
-			this.putFieldError("dataObject.positionReportSubCat", "institution.location.inconsistent.positionReportSubCat", parameters);
+		// validatePositionReportSubCat handles wild card for Institution and Location
+		PositionReportSubCategory aPrsc = PmServiceLocator.getPositionReportSubCatService().getPositionReportSubCat(prgsc.getPositionReportSubCat(), prgsc.getEffectiveLocalDate());
+		String errorMes = "PositionReportSubCategory '" + prgsc.getPositionReportSubCat() + "'";
+		if(aPrsc == null) {
+			this.putFieldError("dataObject.positionReportSubCat", "error.existence", errorMes);
 			return false;
 		} else {
-			return true;
+			if(!ValidationUtils.wildCardMatch(aPrsc.getInstitution(), prgsc.getInstitution())) {
+				String[] params = new String[3];
+				params[0] = prgsc.getInstitution();
+				params[1] = aPrsc.getInstitution();
+				params[2] = errorMes;
+				this.putFieldError("dataObject.institution", "institution.inconsistent", params);
+				return false;
+			}
+			if(!ValidationUtils.wildCardMatch(aPrsc.getLocation(), prgsc.getLocation())) {
+				String[] params = new String[3];
+				params[0] = prgsc.getLocation();
+				params[1] = aPrsc.getLocation();
+				params[2] = errorMes;
+				this.putFieldError("dataObject.location", "location.inconsistent", params);
+				return false;
+			}
 		}
+		return true;
 	}
 	
 	private boolean validateInstitution(PositionReportGroupSubCategory prgsc) {
 		if (StringUtils.isNotEmpty(prgsc.getInstitution())
-				&& !PmValidationUtils.validateInstitution(prgsc.getInstitution(), prgsc.getEffectiveLocalDate())) {
+				&& !ValidationUtils.validateInstitution(prgsc.getInstitution(), prgsc.getEffectiveLocalDate())) {
 			this.putFieldError("dataObject.institution", "error.existence", "Instituion '"
 					+ prgsc.getInstitution() + "'");
 			return false;
@@ -79,19 +93,31 @@ public class PstnRptGrpSubCatValidation extends MaintenanceDocumentRuleBase {
 	}
 	
 	private boolean validatePstnRptGroup(PositionReportGroupSubCategory prgsc) {
-		if (StringUtils.isNotEmpty(prgsc.getPositionReportGroup())
-				&& StringUtils.isNotEmpty(prgsc.getInstitution())
-				&& StringUtils.isNotEmpty(prgsc.getLocation())
-				&& !PmValidationUtils.validatePstnRptGrp(prgsc.getPositionReportGroup(), prgsc.getInstitution(), prgsc.getLocation(), prgsc.getEffectiveLocalDate())) {
-			String[] parameters = new String[4];
-			parameters[0] = prgsc.getPositionReportGroup();
-			parameters[1] = prgsc.getInstitution();
-			parameters[2] = prgsc.getLocation();
-			parameters[3] = prgsc.getEffectiveLocalDate().toString();
-			this.putFieldError("dataObject.positionReportGroup", "institution.location.inconsistent.positionReportGroup", parameters);
+		PositionReportGroup aPrg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroup(prgsc.getPositionReportGroup(), prgsc.getEffectiveLocalDate());
+		String errorMes = "PositionReportGroup '" + prgsc.getPositionReportGroup() + "'";
+		if(aPrg == null) {
+			this.putFieldError("dataObject.positionReportGroup", "error.existence", errorMes);
 			return false;
 		} else {
-			return true;
-		}
+			if(!ValidationUtils.wildCardMatch(aPrg.getInstitution(), prgsc.getInstitution())) {
+				String[] params = new String[3];
+				params[0] = prgsc.getInstitution();
+				params[1] = aPrg.getInstitution();
+				params[2] = errorMes;
+				this.putFieldError("dataObject.institution", "institution.inconsistent", params);
+				return false;
+			}
+			if(!ValidationUtils.wildCardMatch(aPrg.getLocation(), prgsc.getLocation())) {
+				String[] params = new String[3];
+				params[0] = prgsc.getLocation();
+				params[1] = aPrg.getLocation();
+				params[2] = errorMes;
+				this.putFieldError("dataObject.location", "location.inconsistent", params);
+				return false;
+			}
+		} 
+		
+		return true;
+		
 	}
 }

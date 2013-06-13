@@ -25,8 +25,8 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positionreporttype.PositionReportType;
-import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class PositionReportTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements PositionReportTypeDao {
@@ -46,15 +46,15 @@ public class PositionReportTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implem
 		List<PositionReportType> prtList = new ArrayList<PositionReportType>();
 		Criteria root = new Criteria();
 		if(StringUtils.isNotEmpty(positionReportType) 
-				&& !PmValidationUtils.isWildCard(positionReportType)) {
+				&& !ValidationUtils.isWildCard(positionReportType)) {
 			root.addEqualTo("positionReportType", positionReportType); 
 		}
 		if(StringUtils.isNotEmpty(institution) 
-				&& !PmValidationUtils.isWildCard(institution)) {
+				&& !ValidationUtils.isWildCard(institution)) {
 			root.addEqualTo("institution", institution); 
 		}
 		if(StringUtils.isNotEmpty(location) 
-				&& !PmValidationUtils.isWildCard(location)) {
+				&& !ValidationUtils.isWildCard(location)) {
 			root.addEqualTo("location", location); 
 		}
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportType.class, asOfDate, PositionReportType.EQUAL_TO_FIELDS, false));
@@ -126,5 +126,21 @@ public class PositionReportTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implem
 			prtList.addAll(c);
 		
 		return prtList;	
+	}
+
+	@Override
+	public PositionReportType getPositionReportType(String positionReportType, LocalDate asOfDate) {
+		Criteria root = new Criteria();
+
+		root.addEqualTo("positionReportType", positionReportType);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportType.class, asOfDate, PositionReportType.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportType.class, PositionReportType.EQUAL_TO_FIELDS, false));
+
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
+
+		Query query = QueryFactory.newQuery(PositionReportType.class, root);
+		return (PositionReportType) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 }

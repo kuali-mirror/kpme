@@ -47,8 +47,6 @@ public class SalaryGroup extends HrBusinessObject {
 	private String leaveEligible;
 	private String leavePlan;
 
-	private Location locationObj;
-
 	public boolean isHistory() {
 		return history;
 	}
@@ -142,14 +140,6 @@ public class SalaryGroup extends HrBusinessObject {
 
 	public void setLocation(String location) {
 		this.location = location;
-	}
-
-	public Location getLocationObj() {
-		return locationObj;
-	}
-
-	public void setLocationObj(Location locationObj) {
-		this.locationObj = locationObj;
 	}
 
 }

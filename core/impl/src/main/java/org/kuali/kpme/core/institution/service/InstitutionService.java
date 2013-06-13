@@ -36,4 +36,12 @@ public interface InstitutionService {
 	 */
 	public Institution getInstitution(String institutionCode, LocalDate asOfDate);
 	
+	/**
+	 * Get the count of institutions that match the given institutionCode and eff date
+	 * @param institutionCode
+	 * @param asOfDate
+	 * @return
+	 */
+	public int getInstitutionCount(String institutionCode, LocalDate asOfDate);
+	
 }

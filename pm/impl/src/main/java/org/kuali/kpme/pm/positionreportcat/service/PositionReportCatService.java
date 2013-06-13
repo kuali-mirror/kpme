@@ -39,5 +39,13 @@ public interface PositionReportCatService {
 	 * @return
 	 */
 	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String institution, String location, LocalDate asOfDate);
+	
+	/**
+	 * Retrieve the latest active PositionReportCategory with given positionReportCat and effective date
+	 * @param positionReportCat
+	 * @param asOfDate
+	 * @return
+	 */
+	public PositionReportCategory getPositionReportCat(String positionReportCat, LocalDate asOfDate);
 
 }

@@ -252,11 +252,6 @@ public class ValidationUtils {
 		return valid;
 	}
 
-	public static boolean validatePayGrade(String payGrade) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
     /**
      *
      * @param earnCode
@@ -545,14 +540,16 @@ public class ValidationUtils {
 	// From PmValidationUtils
 	public static boolean validateInstitution(String institutionCode, LocalDate asOfDate) {
 		boolean valid = false;
-		if (isWildCard(institutionCode)) {
-			valid = true;
-		} else if (asOfDate != null) {
-			Institution inst = HrServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
-			valid = (inst != null);
-		} else {
-			List<Institution> instList = HrServiceLocator.getInstitutionService().getInstitutionsByCode(institutionCode);
-			valid = CollectionUtils.isNotEmpty(instList);
+		if(StringUtils.isNotEmpty(institutionCode)) {
+			if (asOfDate != null) {
+				if(ValidationUtils.isWildCard(institutionCode)) {
+					int count =  HrServiceLocator.getInstitutionService().getInstitutionCount(institutionCode, asOfDate);
+					valid = (count > 0);
+				} else {
+					Institution inst = HrServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
+					valid = (inst != null);
+				}
+			}
 		}
 		return valid;
 	}
@@ -572,6 +569,13 @@ public class ValidationUtils {
 	public static boolean isWildCard(String aString) {
 		return (StringUtils.equals(aString, HrConstants.WILDCARD_CHARACTER) ||
 					StringUtils.equals(aString, "*"));
+	}
+	
+	public static boolean wildCardMatch(String string1, String string2) {
+		if(ValidationUtils.isWildCard(string1) || ValidationUtils.isWildCard(string2))
+			return true;
+		
+		return string1.equals(string2);
 	}
 	
 	public static boolean validateAccount(String accountNumber) {

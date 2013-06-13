@@ -24,4 +24,6 @@ public interface PositionReportSubCatDao {
 	public PositionReportSubCategory getPositionReportSubCatById(String pmPositionReportSubCatId);
 	
 	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String location, LocalDate asOfDate);
+	
+	public PositionReportSubCategory getPositionReportSubCat(String pstnRptSubCat, LocalDate asOfDate);
 }

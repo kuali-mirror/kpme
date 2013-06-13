@@ -50,11 +50,6 @@ public class PayStep extends HrBusinessObject implements Comparable {
 	private int serviceAmount;
 	private String serviceUnit;
 	
-	private Institution institutionObj;
-	private Location locationObj;
-	private SalaryGroup salaryGroupObj;
-	private PayGrade PayGradeObj;
-
 	@Override
 	public boolean isActive() {
 		return super.isActive();
@@ -199,36 +194,5 @@ public class PayStep extends HrBusinessObject implements Comparable {
 		this.pmPayStepId = pmPayStepId;
 	}
 
-	public Institution getInstitutionObj() {
-		return institutionObj;
-	}
-
-	public void setInstitutionObj(Institution institutionObj) {
-		this.institutionObj = institutionObj;
-	}
-
-	public Location getLocationObj() {
-		return locationObj;
-	}
-
-	public void setLocationObj(Location locationObj) {
-		this.locationObj = locationObj;
-	}
-
-	public SalaryGroup getSalaryGroupObj() {
-		return salaryGroupObj;
-	}
-
-	public void setSalaryGroupObj(SalaryGroup salaryGroupObj) {
-		this.salaryGroupObj = salaryGroupObj;
-	}
-
-	public PayGrade getPayGradeObj() {
-		return PayGradeObj;
-	}
-
-	public void setPayGradeObj(PayGrade payGradeObj) {
-		PayGradeObj = payGradeObj;
-	}
 
 }

@@ -15,19 +15,15 @@
  */
 package org.kuali.kpme.pm.util;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.institution.Institution;
-import org.kuali.kpme.core.kfs.coa.businessobject.Account;
 import org.kuali.kpme.core.paygrade.PayGrade;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
 import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
@@ -40,32 +36,7 @@ import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.services.LocationApiServiceLocator;
 
-import org.kuali.rice.krad.service.KRADServiceLocator;
-
 public class PmValidationUtils {
-
-	/**
-	 * Validate if there exists Institution that matches given institutionCode and exists before given date 
-	 * Wild card is allowed 
-	 * @param institutionCode
-	 * @param asOfDate
-	 * @return
-	 */
-	public static boolean validateInstitution(String institutionCode, LocalDate asOfDate) {
-		boolean valid = false;
-		if(StringUtils.isNotEmpty(institutionCode)) {		
-			if (PmValidationUtils.isWildCard(institutionCode)) {
-				valid = true;
-			} else if (asOfDate != null) {
-				Institution inst = HrServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
-				valid = (inst != null);
-			} else {
-				List<Institution> instList = HrServiceLocator.getInstitutionService().getInstitutionsByCode(institutionCode);
-				valid = CollectionUtils.isNotEmpty(instList);
-			}
-		}
-		return valid;
-	}
 	
 	/**
 	 * Validate if there exists Campus that matches given campusCode 
@@ -75,7 +46,7 @@ public class PmValidationUtils {
 	 */
 	public static boolean validateCampus(String campusCode) {
 		boolean valid = false;
-		if (PmValidationUtils.isWildCard(campusCode)) {
+		if (ValidationUtils.isWildCard(campusCode)) {
 			valid = true;
 		} else {
 			Campus campusObj = LocationApiServiceLocator.getCampusService().getCampus(campusCode);
@@ -213,16 +184,5 @@ public class PmValidationUtils {
 		}
 		return false;
 	}
-	
-	
-	public static boolean validatePayGrade(String payGrade) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	public static boolean isWildCard(String aString) {
-		return (StringUtils.equals(aString, HrConstants.WILDCARD_CHARACTER) ||
-					StringUtils.equals(aString,PMConstants.WILDCARD_CHARACTER));
-	}
-	
+		
 }

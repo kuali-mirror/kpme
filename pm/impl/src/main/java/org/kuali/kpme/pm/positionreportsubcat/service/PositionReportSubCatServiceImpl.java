@@ -43,4 +43,10 @@ public class PositionReportSubCatServiceImpl implements PositionReportSubCatServ
 		return positionReportSubCatDao.getPositionReportSubCat(pstnRptSubCat, institution, location, asOfDate);
 	}
 
+	@Override
+	public PositionReportSubCategory getPositionReportSubCat(
+			String pstnRptSubCat, LocalDate asOfDate) {
+		return positionReportSubCatDao.getPositionReportSubCat(pstnRptSubCat, asOfDate);
+	}
+
 }

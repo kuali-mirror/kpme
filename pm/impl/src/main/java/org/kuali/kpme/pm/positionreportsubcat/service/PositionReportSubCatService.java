@@ -39,5 +39,12 @@ public interface PositionReportSubCatService {
 	 * @return
 	 */
 	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String location, LocalDate asOfDate);
-
+	
+	/**
+	 * Retrieve the last active PositionReportSubCategory with given pstnRptSubCat and effective date
+	 * @param pstnRptSubCat
+	 * @param asOfDate
+	 * @return
+	 */
+	public PositionReportSubCategory getPositionReportSubCat(String pstnRptSubCat, LocalDate asOfDate);
 }

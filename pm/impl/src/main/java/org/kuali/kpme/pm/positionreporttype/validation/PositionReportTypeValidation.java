@@ -18,7 +18,6 @@ package org.kuali.kpme.pm.positionreporttype.validation;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positionreporttype.PositionReportType;
-import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
@@ -40,7 +39,7 @@ public class PositionReportTypeValidation extends MaintenanceDocumentRuleBase  {
 	
 	private boolean validateInstitution(PositionReportType prt) {
 		if (StringUtils.isNotEmpty(prt.getInstitution())
-				&& !PmValidationUtils.validateInstitution(prt.getInstitution(), prt.getEffectiveLocalDate())) {
+				&& !ValidationUtils.validateInstitution(prt.getInstitution(), prt.getEffectiveLocalDate())) {
 			this.putFieldError("institution", "error.existence", "Instituion '"
 					+ prt.getInstitution() + "'");
 			return false;

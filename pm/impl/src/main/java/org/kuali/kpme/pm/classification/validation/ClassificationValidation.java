@@ -48,7 +48,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 	
 	private boolean validateInstitution(Classification clss) {
 		if (StringUtils.isNotEmpty(clss.getInstitution())
-				&& !PmValidationUtils.validateInstitution(clss.getInstitution(), clss.getEffectiveLocalDate())) {
+				&& !ValidationUtils.validateInstitution(clss.getInstitution(), clss.getEffectiveLocalDate())) {
 			this.putFieldError("dataObject.institution", "error.existence", "Instituion '"
 					+ clss.getInstitution() + "'");
 			return false;
@@ -81,8 +81,8 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 	
 	private boolean validateSalGroup(Classification clss) {
 		if (StringUtils.isNotEmpty(clss.getSalaryGroup())
-			&& (PmValidationUtils.isWildCard(clss.getSalaryGroup())
-					|| (!PmValidationUtils.isWildCard(clss.getSalaryGroup()) 
+			&& (ValidationUtils.isWildCard(clss.getSalaryGroup())
+					|| (!ValidationUtils.isWildCard(clss.getSalaryGroup()) 
 							&& !ValidationUtils.validateSalGroup(clss.getSalaryGroup(), clss.getEffectiveLocalDate())))) {
 					this.putFieldError("dataObject.salaryGroup", "error.existence", "Salary Group '"
 							+ clss.getSalaryGroup() + "'");
@@ -93,8 +93,8 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 	
 	private boolean validateReportingGroup(Classification clss) {
 		if (StringUtils.isNotEmpty(clss.getPositionReportGroup())
-				&& (PmValidationUtils.isWildCard(clss.getPositionReportGroup())
-					|| (!PmValidationUtils.isWildCard(clss.getPositionReportGroup()) 
+				&& (ValidationUtils.isWildCard(clss.getPositionReportGroup())
+					|| (!ValidationUtils.isWildCard(clss.getPositionReportGroup()) 
 							&& !PmValidationUtils.validatePstnRptGrp(clss.getPositionReportGroup(),clss.getInstitution(), clss.getLocation(), clss.getEffectiveLocalDate())))) {
 			String[] parameters = new String[4];
 			parameters[0] = clss.getPositionReportGroup();
@@ -109,8 +109,8 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 	}
 	private boolean validatePositionType(Classification clss) {
 		if (StringUtils.isNotEmpty(clss.getPositionType())
-				&& (PmValidationUtils.isWildCard(clss.getPositionType())
-					|| (!PmValidationUtils.isWildCard(clss.getPositionType()) 
+				&& (ValidationUtils.isWildCard(clss.getPositionType())
+					|| (!ValidationUtils.isWildCard(clss.getPositionType()) 
 							&& !PmValidationUtils.validatePositionType(clss.getPositionType(),clss.getInstitution(), clss.getLocation(), clss.getEffectiveLocalDate())))) {
 				String[] parameters = new String[4];
 				parameters[0] = clss.getPositionType();

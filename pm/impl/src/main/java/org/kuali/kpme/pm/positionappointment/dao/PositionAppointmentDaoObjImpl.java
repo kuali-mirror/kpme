@@ -26,6 +26,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positionappointment.PositionAppointment;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -51,15 +52,18 @@ public class PositionAppointmentDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 		List<PositionAppointment> prgList = new ArrayList<PositionAppointment>();
 		Criteria root = new Criteria();
 
-		if (StringUtils.isNotEmpty(positionAppointment) && !StringUtils.equals(positionAppointment, HrConstants.WILDCARD_CHARACTER)) {
+		if (StringUtils.isNotEmpty(positionAppointment) 
+				&& !ValidationUtils.isWildCard(positionAppointment)) {
 			root.addEqualTo("positionAppointment", positionAppointment);
 		}
 		
-		if (StringUtils.isNotEmpty(institution) && !StringUtils.equals(institution, HrConstants.WILDCARD_CHARACTER)) {
+		if (StringUtils.isNotEmpty(institution) 
+				&& !ValidationUtils.isWildCard(institution)) {
 			root.addEqualTo("institution", institution);
 		}
 		
-		if (StringUtils.isNotEmpty(location) && !StringUtils.equals(location, HrConstants.WILDCARD_CHARACTER)) {
+		if (StringUtils.isNotEmpty(location) 
+				&& !ValidationUtils.isWildCard(location)) {
 			root.addEqualTo("location", location);
 		}
 
