@@ -89,27 +89,27 @@ public class PositionReportCatMaintTest extends KPMEWebTestCase {
 	  	HtmlElement element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	HtmlUnitUtil.createTempFile(page);
-	  	Assert.assertTrue("page text contains:\n" + "There's no Position Report Type 'noType' found with Institution 'nonExistInst' and Location 'nonCam'.", 
-	  			page.asText().contains("There's no Position Report Type 'noType' found with Institution 'nonExistInst' and Location 'nonCam'."));
 		Assert.assertTrue("page text contains:\n" + "The specified Instituion 'nonExistInst' does not exist.", 
 	  			page.asText().contains("The specified Instituion 'nonExistInst' does not exist."));
 	  	Assert.assertTrue("page text contains:\n" + "The specified Location 'nonCam' does not exist.", 
 	  			page.asText().contains("The specified Location 'nonCam' does not exist."));
+	  	Assert.assertTrue("page text contains:\n" + "The specified PositionReportType 'noType' does not exist.", 
+	  			page.asText().contains("The specified PositionReportType 'noType' does not exist."));
 	  	
 	  	HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.positionReportType", prtString); // postionReportType and location do not match
 	  	HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.location", "NN"); // existing, non-matching location
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
-	  	Assert.assertTrue("page text contains:\n" + "There's no Position Report Type 'testPRT' found with Institution 'nonExistInst' and Location 'NN'.", 
-	  			page.asText().contains("There's no Position Report Type 'testPRT' found with Institution 'nonExistInst' and Location 'NN'."));
 	  	Assert.assertFalse("page text contains:\n" + "The specified Location 'NN' does not exist.", 
 	  			page.asText().contains("The specified Locaiton 'NN' does not exist."));
+		Assert.assertTrue("page text contains:\n" + "Institution 'nonExistInst' is inconsistent with institution 'testInst' of PositionReportType 'testPRT'", 
+	  			page.asText().contains("Institution 'nonExistInst' is inconsistent with institution 'testInst' of PositionReportType 'testPRT'"));
 	  	
 	  	HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.institution", "II"); // existing, non-matching institution
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
-	  	Assert.assertTrue("page text contains:\n" + "There's no Position Report Type 'testPRT' found with Institution 'II' and Location 'NN'.", 
-	  			page.asText().contains("There's no Position Report Type 'testPRT' found with Institution 'II' and Location 'NN'."));
+	  	Assert.assertTrue("page text contains:\n" + "Institution 'II' is inconsistent with institution 'testInst' of PositionReportType 'testPRT'", 
+	  			page.asText().contains("Institution 'II' is inconsistent with institution 'testInst' of PositionReportType 'testPRT'"));
 	  	Assert.assertFalse("page text contains:\n" + "The specified Instituion 'II' does not exist.", 
 	  			page.asText().contains("The specified Instituion 'II' does not exist."));
 	  	
