@@ -251,9 +251,11 @@
     <bean id="PayGrade-history-parentBean" abstract="true"
           parent="AttributeDefinition">
         <property name="shortLabel" value="Show History" />
-        <property name="control">
-            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-            </bean>
+        <property name="controlField">
+            <bean parent="Uif-HorizontalRadioControl" />
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
         </property>
         <property name="name" value="history" />
         <property name="label" value="Show History" />
@@ -303,9 +305,10 @@
                                 Views
     ***************************************************************************-->
     <!-- Lookup View  -->
-    <bean id="PayGrade-LookupView" parent="Uif-LookupView">
+    <bean id="PayGrade-LookupView" parent="KPMEUif-LookupView">
         <property name="headerText" value="Pay Grade Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.core.paygrade.PayGrade"/>
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.paygrade.web.PayGradeLookupableImpl" />
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="payGrade"/>

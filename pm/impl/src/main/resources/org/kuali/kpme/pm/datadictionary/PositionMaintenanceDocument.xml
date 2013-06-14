@@ -53,8 +53,6 @@
   <bean id="PositionMaintenanceDocument-PositionMaintenance-parentBean" abstract="true" parent="Uif-MaintenanceView">
     <property name="headerText" value="Position Maintenance"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.position.Position"/>
-    <property name="viewHelperServiceClass"
-              value="org.kuali.kpme.pm.position.web.PositionMaintainableServiceImpl"/>
     <property name="items">
       <list merge="true">
         <bean parent="Uif-MaintenanceGridSection">

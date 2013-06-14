@@ -81,22 +81,6 @@
     <bean id="kpme.pm.soap.service" parent="kpme.soap.service" abstract="true">
         <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/pm/v2_0" />
     </bean>
-<!-- 
-    <bean id="kpmePositionResourceLoader" parent="kpmeResourceLoaderConfigurer">
-        <property name="beanNames">
-            <set merge="true">
-                <value>positionReportTypeLookupable</value>
-                <value>positionReportGroupLookupable</value>
-                <value>positionReportCatLookupable</value>
-                <value>positionReportSubCatLookupable</value>                
-                <value>positionTypeLookupable</value>
-                <value>positionAppointmentLookupable</value>
-                <value>pstnContractTypeLookupable</value>
-                <value>positionDepartmentAffiliationLookupable</value>
-                <value>positionDepartmentLookupable</value>
-            </set>
-        </property>
-    </bean> -->
 
 	<bean id="kpmePositionModuleConfiguration" class="org.kuali.kpme.core.sys.KpmeModuleConfiguration">
         <property name="namespaceCode" value="KPME-PM"/>
@@ -256,57 +240,28 @@
     
     
     
- 	<bean id="positionReportTypeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+ 	<bean id="positionReportTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
     		<bean class="org.kuali.kpme.pm.positionreporttype.web.PositionReportTypeLookupableHelper"/>
     	</property>    
     </bean>
     
- 	<bean id="positionReportGroupLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+ 	<bean id="positionReportGroupLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
     		<bean class="org.kuali.kpme.pm.positionreportgroup.web.PositionReportGroupLookupableHelper"/>
     	</property>    
     </bean>
     
-    <bean id="positionReportCatLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="positionReportCatLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
 	   	<property name="lookupableHelperService">
 	   		<bean class="org.kuali.kpme.pm.positionreportcat.web.PositionReportCatLookupableHelper"/>
 	   	</property>    
     </bean>
     
-    <bean id="positionReportSubCatLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="positionReportSubCatLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
 	   	<property name="lookupableHelperService">
 	   		<bean class="org.kuali.kpme.pm.positionreportsubcat.web.PositionReportSubCatLookupableHelper"/>
 	   	</property>    
-    </bean>
-    <bean id="positionTypeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.pm.positiontype.web.PositionTypeLookupableHelper"/>
-        </property>
-    </bean>
-
-    <bean id="positionAppointmentLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.pm.positionappointment.web.PositionAppointmentLookupableHelper"/>
-        </property>
-    </bean>
-    
-    <bean id="pstnContractTypeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.pm.pstncontracttype.web.PstnContractTypeLookupableHelper"/>
-        </property>
-    </bean>
-    
-    <bean id="positionDepartmentAffiliationLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
-    	<property name="lookupableHelperService">
-    		<bean class="org.kuali.kpme.pm.positiondepartmentaffiliation.web.PositionDepartmentAffiliationLookupableHelper"/>
-    	</property>    
-    </bean>
-    
-    <bean id="positionDepartmentLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
-    	<property name="lookupableHelperService">
-    		<bean class="org.kuali.kpme.pm.positiondepartment.web.PositionDepartmentLookupableHelper"/>
-    	</property>    
     </bean>
 
 </beans>

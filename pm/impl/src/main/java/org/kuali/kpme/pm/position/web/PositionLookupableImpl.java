@@ -19,25 +19,23 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 
-public class PositionLookupableHelper extends LookupableImpl {
-	private static final long serialVersionUID = 1L;
+public class PositionLookupableImpl extends KPMELookupableImpl {
+
+	private static final long serialVersionUID = 8658536323175048980L;
 
 	@Override
-    protected List<? extends BusinessObject> getSearchResults(LookupForm form, Map<String, String> fieldValues, boolean unbounded) {
-				
-    	String positionNum = fieldValues.get("positionNumber");
-        String description = fieldValues.get("description");
-        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
-        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
-        String active = fieldValues.get("active");
-        String showHist = fieldValues.get("history");
+    protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
+    	String positionNum = searchCriteria.get("positionNumber");
+        String description = searchCriteria.get("description");
+        String fromEffdt = TKUtils.getFromDateString(searchCriteria.get("effectiveDate"));
+        String toEffdt = TKUtils.getToDateString(searchCriteria.get("effectiveDate"));
+        String active = searchCriteria.get("active");
+        String showHist = searchCriteria.get("history");
 
         if (StringUtils.equals(positionNum, "%")) {
             positionNum = "";
@@ -45,7 +43,6 @@ public class PositionLookupableHelper extends LookupableImpl {
         
         return PmServiceLocator.getPositionService().getPositions(positionNum, description, TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHist);	
-
     }    
 
 }

@@ -285,9 +285,10 @@
     <!-- Lookup View -->
     
     <bean id="MissedPunch-LookupView" parent="MissedPunch-LookupView-parentBean" />
-    <bean id="MissedPunch-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <bean id="MissedPunch-LookupView-parentBean" abstract="true" parent="KPMEUif-LookupView">
         <property name="headerText" value="Missed Punch Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunch" />
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.tklm.time.missedpunch.web.MissedPunchLookupableImpl" />
         <property name="criteriaFields">
             <list>
 		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId" />

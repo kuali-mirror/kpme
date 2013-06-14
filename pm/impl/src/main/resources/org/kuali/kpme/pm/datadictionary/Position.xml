@@ -325,10 +325,10 @@
 
 
 	<!-- Look up Definitions -->
-	<bean id="Position-LookupView" parent="Uif-LookupView">
+	<bean id="Position-LookupView" parent="KPMEUif-LookupView">
 		<property name="headerText" value="Position Lookup" />
 	    <property name="dataObjectClassName" value="org.kuali.kpme.pm.position.Position" />
-	    <property name="viewHelperServiceClass" value="org.kuali.kpme.pm.position.web.PositionLookupableHelper" />
+	    <property name="viewHelperServiceClass" value="org.kuali.kpme.pm.position.web.PositionLookupableImpl" />
 	    <property name="criteriaFields">
 			<list>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber" />

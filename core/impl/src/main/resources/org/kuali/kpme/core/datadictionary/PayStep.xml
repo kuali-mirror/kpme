@@ -272,9 +272,10 @@
   </bean>
 	
   <!-- KRAD Lookup View Definition -->
-  <bean id="PayStep-LookupView" parent="Uif-LookupView">
+  <bean id="PayStep-LookupView" parent="KPMEUif-LookupView">
     <property name="headerText" value="Pay Step Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.paystep.PayStep" />
+    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.paystep.web.PayStepLookupableImpl" />
     <property name="criteriaFields">
       <list>
       	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="payStep" />

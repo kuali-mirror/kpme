@@ -15,34 +15,42 @@
  */
 package org.kuali.kpme.core.lookup;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.lookup.KualiLookupableImpl;
+import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.rice.krad.web.form.LookupForm;
 
+public class KPMELookupableImpl extends LookupableImpl {
 
-public class KPMELookupableImpl extends KualiLookupableImpl {
+	private static final long serialVersionUID = 7098170370881970354L;
 
-    /**
-     * @see org.kuali.rice.kns.lookup.Lookupable#getCreateNewUrl()
-     */
-    @Override
-    public String getCreateNewUrl() {
-        String url = "";
+	@Override
+    protected String getActionUrlHref(LookupForm lookupForm, Object dataObject, String methodToCall, List<String> pkNames) {
+		if (!StringUtils.equals(methodToCall, "maintenanceView")) {
+			return super.getActionUrlHref(lookupForm, dataObject, methodToCall, pkNames);
+		} else {
+			Properties urlParameters = new Properties();
 
-        if (getLookupableHelperService().allowsMaintenanceNewOrCopyAction()) {
-            Properties parameters = new Properties();
-            parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-            parameters.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, this.businessObjectClass.getName());
-            if (StringUtils.isNotBlank(getReturnLocation())) {
-                parameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, getReturnLocation());
-            }
-            url = UrlFactory.parameterizeUrl(KRADConstants.MAINTENANCE_ACTION, parameters);
-            url = "<a title=\"Create a new record\" href=\"" + url + "\"><img src=\"images/tinybutton-createnew.gif\" alt=\"create new\" width=\"70\" height=\"15\"/></a>";
-        }
+	        urlParameters.setProperty(UifParameters.DATA_OBJECT_CLASS_NAME, dataObject.getClass().getName());
+	        urlParameters.setProperty(UifParameters.METHOD_TO_CALL, UifConstants.MethodToCallNames.START);
+	        
+	        Map<String, String> primaryKeyValues = KRADUtils.getPropertyKeyValuesFromDataObject(pkNames, dataObject);
+	        for (String primaryKey : primaryKeyValues.keySet()) {
+	            String primaryKeyValue = primaryKeyValues.get(primaryKey);
 
-        return url;
+	            urlParameters.put(primaryKey, primaryKeyValue);
+	        }
+	        
+	        return UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, urlParameters);
+		}
     }
+
 }

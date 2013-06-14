@@ -121,9 +121,7 @@
     <bean id="parameterService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="parameterService" />
     </bean>
-    
 
-    
     <bean id="docHandlerUrlPrefixPublishingService" class="org.kuali.kpme.core.service.dochandler.DocHandlerUrlPrefixPublishingServiceImpl">
         <property name="parameterApplicationId" value="KUALI" />
         <property name="parameterNamespaceCode" value="KR-WKFLW" />
@@ -131,50 +129,9 @@
         <property name="parameterComponentCode" value="All" />
         <property name="parameterName" value="kuali.docHandler.url.prefix" />
         <property name="parameterValue" value="${application.url}" />
-
         <property name="parameterService" ref="parameterService" />
     </bean>
-    
-<!--     <bean id="kpmeResourceLoaderConfigurer" class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
-        <property name="localServiceName" value="KPME-Context"/>
-        <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/core/v2_0" />
-        <property name="beanNames">
-            <set>
-                <value>calendarLookupable</value>
-				<value>jobLookupable</value>
-				<value>earnCodeSecurityLookupable</value>
-				<value>earnCodeLookupable</value> 
-				<value>earnCodeGroupLookupable</value> 
-				<value>payTypeLookupable</value> 
-				<value>positionLookupable</value> 
-				<value>salaryGroupLookupable</value>
-				<value>departmentLookupable</value> 
-				<value>workAreaLookupable</value> 
-				<value>assignmentLookupable</value> 
-				<value>locationLookupable</value> 
-				<value>calendarEntryLookupable</value>
-				<value>payGradeLookupable</value> 
-				<value>principalHRAttributesLookupable</value> 				
-				<value>accountLookupable</value> 
-				<value>chartLookupable</value> 
-				<value>objectCodeLookupable</value> 
-				<value>organizationLookupable</value> 
-				<value>projectCodeLookupable</value> 
-				<value>subAccountLookupable</value> 
-				<value>subObjectCodeLookupable</value> 
-				<value>taskLookupable</value> 
-				<value>leavePlanLookupable</value>
-                <value>institutionLookupable</value>
-            </set>
-        </property>
-    </bean> -->
 
-
-
-
-
-
-          
     <bean id="kpme.callback.service" class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" abstract="true">
         <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/core/v2_0" />
     </bean>
@@ -397,147 +354,119 @@
 
 
 
-    <bean id="calendarLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="calendarLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.calendar.web.CalendarLookupableHelper"/>
         </property>
     </bean>
-    <bean id="jobLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="jobLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.job.web.JobLookupableHelper"/>
         </property>
     </bean>
-    <bean id="earnCodeSecurityLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="earnCodeSecurityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.earncode.security.web.EarnCodeSecurityLookupableHelper"/>
         </property>
     </bean>
-    <bean id="earnCodeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="earnCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.earncode.web.EarnCodeLookupableHelper"/>
         </property>
     </bean>
-    <bean id="earnCodeGroupLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="earnCodeGroupLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.earncode.group.web.EarnCodeGroupLookupableHelper"/>
         </property>
     </bean>
-    <bean id="payTypeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="payTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.paytype.web.PayTypeLookupableHelper"/>
         </property>
     </bean>
-    <bean id="positionBaseLookupable" class="org.kuali.kpme.core.position.web.PositionBaseLookupableHelper" scope="singleton">
-        <property name="dataDictionaryService">
-			<bean
-				class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-				<property name="serviceName" value="dataDictionaryService" />
-			</bean>
-		</property>
-    </bean>
-    <bean id="salaryGroupLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.salarygroup.web.SalaryGroupLookupableHelper"/>
-        </property>
-    </bean>
-    <bean id="departmentLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="departmentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.department.web.DepartmentLookupableHelper"/>
         </property>
     </bean>
-    <bean id="workAreaLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="workAreaLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.workarea.web.WorkAreaLookupableHelper"/>
         </property>
     </bean>
-    <bean id="assignmentLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="assignmentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.assignment.web.AssignmentLookupableHelper"/>
         </property>
     </bean>
-    <bean id="locationLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="locationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.location.web.LocationLookupableHelper"/>
         </property>
     </bean>
-    <bean id="calendarEntryLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="calendarEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.calendar.entry.web.CalendarEntryLookupableHelper"/>
         </property>
     </bean>
-    <bean id="payGradeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.paygrade.web.PayGradeLookupableHelper"/>
-        </property>
-    </bean>
-    <bean id="principalHRAttributesLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="principalHRAttributesLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.principal.web.PrincipalHRAttributesLookupableHelper"/>
         </property>
     </bean>
-    <bean id="accountLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="accountLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.kfs.coa.businessobject.service.AccountLookupableHelper"/>
         </property>
     </bean>
-    <bean id="chartLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="chartLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.kfs.coa.businessobject.service.ChartLookupableHelper"/>
         </property>
     </bean>
-    <bean id="objectCodeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="objectCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.kfs.coa.businessobject.service.ObjectCodeLookupableHelper"/>
         </property>
     </bean>
-    <bean id="organizationLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="organizationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.kfs.coa.businessobject.service.OrganizationLookupableHelper"/>
         </property>
     </bean>
-    <bean id="projectCodeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="projectCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.kfs.coa.businessobject.service.ProjectCodeLookupableHelper"/>
         </property>
     </bean>
-    <bean id="subAccountLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="subAccountLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.kfs.coa.businessobject.service.SubAccountLookupableHelper"/>
         </property>
     </bean>
-    <bean id="subObjectCodeLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="subObjectCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.kfs.coa.businessobject.service.SubObjectCodeLookupableHelper"/>
         </property>
     </bean>
-    <bean id="taskLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="taskLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.task.web.TaskLookupableHelper"/>
         </property>
     </bean>
-   <bean id="leavePlanLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+   <bean id="leavePlanLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.leaveplan.web.LeavePlanLookupableHelper"/>
         </property>
     </bean>
-    <bean id="accrualCategoryLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="accrualCategoryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.accrualcategory.web.AccrualCategoryLookupableHelper"/>          
         </property>
     </bean> 
-    <bean id="institutionLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="institutionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
     		<bean class="org.kuali.kpme.core.institution.web.InstitutionLookupableHelper"/>
     	</property>    
     </bean>
-    <bean id="payStepLookupable" class="org.kuali.kpme.core.lookup.KPMELookupableImpl" scope="singleton">
-    	<property name="lookupableHelperService">
-    		<bean class="org.kuali.kpme.core.paystep.web.PayStepLookupableHelper"/>
-    	</property>    
-    </bean>
-
-
-
-
-
 </beans>

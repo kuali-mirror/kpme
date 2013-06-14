@@ -1,4 +1,3 @@
-package org.kuali.kpme.tklm.time.missedpunch.service;
 /**
  * Copyright 2004-2013 The Kuali Foundation
  *
@@ -14,63 +13,38 @@ package org.kuali.kpme.tklm.time.missedpunch.service;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.kuali.kpme.tklm.time.missedpunch.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.rice.krad.web.form.LookupForm;
 
-@SuppressWarnings("deprecation")
-public class MissedPunchLookupableHelper extends KPMELookupableHelper {
+public class MissedPunchLookupableImpl extends KPMELookupableImpl {
 
 	private static final long serialVersionUID = 6521192698205632171L;
-
-	@Override
-	@SuppressWarnings("rawtypes")
-	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-		
-		MissedPunch missedPunch = (MissedPunch) businessObject;
-		String tkMissedPunchId = missedPunch.getTkMissedPunchId();
-		
-		Properties params = new Properties();
-		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
-		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-		params.put("tkMissedPunchId", tkMissedPunchId);
-		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
-		viewUrl.setDisplayText("view");
-		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
-		customActionUrls.add(viewUrl);
-		
-		return customActionUrls;
-	}
 	
 	@Override
-	public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+	public List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
 		List<MissedPunch> results = new ArrayList<MissedPunch>();
 		
-		List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
+		List<?> searchResults = super.getSearchResults(form, searchCriteria, unbounded);
 
-		for (BusinessObject searchResult : searchResults) {
+		for (Object searchResult : searchResults) {
 			MissedPunch missedPunch = (MissedPunch) searchResult;
 			results.add(missedPunch);
 		}
