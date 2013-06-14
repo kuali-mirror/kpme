@@ -211,10 +211,10 @@ public abstract class KPMERoleServiceBase {
 	 * 
 	 * @return the list of role members in the role {@code roleName}.
 	 */
-	public List<RoleMember> getRoleMembers(String roleName, DateTime asOfDate, boolean getActiveOnly) {
+	public List<RoleMember> getRoleMembers(String roleName, DateTime asOfDate, boolean isActiveOnly) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		
-		return getRoleMembers(roleName, qualification, asOfDate, getActiveOnly);
+		return getRoleMembers(roleName, qualification, asOfDate, isActiveOnly);
 	}
 	
 	/**
@@ -227,10 +227,10 @@ public abstract class KPMERoleServiceBase {
 	 * 
 	 * @return the list of role members in the role {@code roleName}.
 	 */
-	public List<RoleMember> getRoleMembers(String roleName, Map<String, String> qualification, DateTime asOfDate, boolean getActiveOnly) {
+	public List<RoleMember> getRoleMembers(String roleName, Map<String, String> qualification, DateTime asOfDate, boolean isActiveOnly) {
 		Role role = getRoleByName(roleName);
 		
-		return getRoleMembers(role, qualification, asOfDate, getActiveOnly);
+		return getRoleMembers(role, qualification, asOfDate, isActiveOnly);
 	}
 	
 	/**
@@ -243,7 +243,7 @@ public abstract class KPMERoleServiceBase {
 	 * 
 	 * @return the list of role members in {@code role}.
 	 */
-	private List<RoleMember> getRoleMembers(Role role, Map<String, String> qualification, DateTime asOfDate, boolean getActiveOnly) {
+	private List<RoleMember> getRoleMembers(Role role, Map<String, String> qualification, DateTime asOfDate, boolean isActiveOnly) {
 		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 		
 		if (role != null) {
@@ -252,7 +252,7 @@ public abstract class KPMERoleServiceBase {
 			if (roleTypeService == null || !roleTypeService.isDerivedRoleType()) {
 				List<Predicate> predicates = new ArrayList<Predicate>();
 				predicates.add(equal(KimConstants.PrimaryKeyConstants.SUB_ROLE_ID, role.getId()));
-				if (getActiveOnly) {
+				if (isActiveOnly) {
 					predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
 					predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new DateTime())));
 				}
@@ -273,7 +273,7 @@ public abstract class KPMERoleServiceBase {
 					} else if (MemberType.ROLE.equals(primaryRoleMember.getType())) {
 						Role nestedRole = getRoleService().getRole(primaryRoleMember.getMemberId());
 						
-						roleMembers.addAll(getRoleMembers(nestedRole, primaryRoleMember.getAttributes(), asOfDate, getActiveOnly));
+						roleMembers.addAll(getRoleMembers(nestedRole, primaryRoleMember.getAttributes(), asOfDate, isActiveOnly));
 					}
 				}
 			} else {
@@ -301,11 +301,11 @@ public abstract class KPMERoleServiceBase {
 	 * 
 	 * @return the list of role members in the role {@code roleName} for the given work area.
 	 */
-	public List<RoleMember> getRoleMembersInWorkArea(String roleName, Long workArea, DateTime asOfDate, boolean getActiveOnly) {
+	public List<RoleMember> getRoleMembersInWorkArea(String roleName, Long workArea, DateTime asOfDate, boolean isActiveOnly) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea));
 		
-		return getRoleMembers(roleName, qualification, asOfDate, getActiveOnly);
+		return getRoleMembers(roleName, qualification, asOfDate, isActiveOnly);
 	}
 
 	/**
@@ -318,11 +318,11 @@ public abstract class KPMERoleServiceBase {
 	 * 
 	 * @return the list of role members in the role {@code roleName} for the given department.
 	 */
-	public List<RoleMember> getRoleMembersInDepartment(String roleName, String department, DateTime asOfDate, boolean getActiveOnly) {
+	public List<RoleMember> getRoleMembersInDepartment(String roleName, String department, DateTime asOfDate, boolean isActiveOnly) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
 		
-		return getRoleMembers(roleName, qualification, asOfDate, getActiveOnly);
+		return getRoleMembers(roleName, qualification, asOfDate, isActiveOnly);
 	}
 
 	/**
@@ -335,11 +335,11 @@ public abstract class KPMERoleServiceBase {
 	 * 
 	 * @return the list of role members in the role {@code roleName} for the given location.
 	 */
-	public List<RoleMember> getRoleMembersInLocation(String roleName, String location, DateTime asOfDate, boolean getActiveOnly) {
+	public List<RoleMember> getRoleMembersInLocation(String roleName, String location, DateTime asOfDate, boolean isActiveOnly) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
 		
-		return getRoleMembers(roleName, qualification, asOfDate, getActiveOnly);
+		return getRoleMembers(roleName, qualification, asOfDate, isActiveOnly);
 	}
 	
 	/**
@@ -352,12 +352,12 @@ public abstract class KPMERoleServiceBase {
 	 * 
 	 * @return the list of work areas for the given {@code principalId} in the role {@code roleName}.
 	 */
-	public List<Long> getWorkAreasForPrincipalInRole(String principalId, String roleName, DateTime asOfDate, boolean getActiveOnly) {
+	public List<Long> getWorkAreasForPrincipalInRole(String principalId, String roleName, DateTime asOfDate, boolean isActiveOnly) {
 		Set<Long> workAreas = new HashSet<Long>();
 		
 		Role role = getRoleByName(roleName);
 
-		List<Map<String, String>> roleQualifiers = getRoleQualifiers(principalId, role, asOfDate, getActiveOnly);
+		List<Map<String, String>> roleQualifiers = getRoleQualifiers(principalId, role, asOfDate, isActiveOnly);
 		
 		for (Map<String, String> roleQualifier : roleQualifiers) {
 			Long workArea = MapUtils.getLong(roleQualifier, KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName());
@@ -366,7 +366,7 @@ public abstract class KPMERoleServiceBase {
 			}
 		}
 		
-		List<String> departments = getDepartmentsForPrincipalInRole(principalId, roleName, asOfDate, getActiveOnly);
+		List<String> departments = getDepartmentsForPrincipalInRole(principalId, roleName, asOfDate, isActiveOnly);
 		
 		for (String department : departments) {
 			List<WorkArea> workAreaObjs = getWorkAreaService().getWorkAreas(department, asOfDate.toLocalDate());
@@ -389,12 +389,12 @@ public abstract class KPMERoleServiceBase {
 	 * 
 	 * @return the list of departments for the given {@code principalId} in the role {@code roleName}.
 	 */
-	public List<String> getDepartmentsForPrincipalInRole(String principalId, String roleName, DateTime asOfDate, boolean getActiveOnly) {
+	public List<String> getDepartmentsForPrincipalInRole(String principalId, String roleName, DateTime asOfDate, boolean isActiveOnly) {
 		Set<String> departments = new HashSet<String>();
 		
 		Role role = getRoleByName(roleName);
 		
-		List<Map<String, String>> roleQualifiers = getRoleQualifiers(principalId, role, asOfDate, getActiveOnly);
+		List<Map<String, String>> roleQualifiers = getRoleQualifiers(principalId, role, asOfDate, isActiveOnly);
 		
 		for (Map<String, String> roleQualifier : roleQualifiers) {
 			String department = MapUtils.getString(roleQualifier, KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName());
@@ -403,7 +403,7 @@ public abstract class KPMERoleServiceBase {
 			}
 		}
 		
-		List<String> locations = getLocationsForPrincipalInRole(principalId, roleName, asOfDate, getActiveOnly);
+		List<String> locations = getLocationsForPrincipalInRole(principalId, roleName, asOfDate, isActiveOnly);
 		
 		for (String location : locations) {
 			List<Department> departmentObjs = getDepartmentService().getDepartments(location,asOfDate.toLocalDate());
@@ -426,12 +426,12 @@ public abstract class KPMERoleServiceBase {
 	 * 
 	 * @return the list of locations for the given {@code principalId} in the role {@code roleName}.
 	 */
-	public List<String> getLocationsForPrincipalInRole(String principalId, String roleName, DateTime asOfDate, boolean getActiveOnly) {
+	public List<String> getLocationsForPrincipalInRole(String principalId, String roleName, DateTime asOfDate, boolean isActiveOnly) {
 		Set<String> locations = new HashSet<String>();
 		
 		Role role = getRoleByName(roleName);
 		
-		List<Map<String, String>> roleQualifiers = getRoleQualifiers(principalId, role, asOfDate, getActiveOnly);
+		List<Map<String, String>> roleQualifiers = getRoleQualifiers(principalId, role, asOfDate, isActiveOnly);
 		
 		for (Map<String, String> roleQualifier : roleQualifiers) {
 			String location = MapUtils.getString(roleQualifier, KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName());
@@ -454,11 +454,11 @@ public abstract class KPMERoleServiceBase {
 	 * 
 	 * @return the map of qualifiers for the given {@code principalId} in {@code role}.
 	 */
-	private List<Map<String, String>> getRoleQualifiers(String principalId, Role role, DateTime asOfDate, boolean getActiveOnly) {
+	private List<Map<String, String>> getRoleQualifiers(String principalId, Role role, DateTime asOfDate, boolean isActiveOnly) {
 		List<Map<String, String>> roleQualifiers = new ArrayList<Map<String, String>>();
 
 		if (role != null) {
-			List<RoleMember> principalIdRoleMembers = getPrincipalIdRoleMembers(principalId, role, asOfDate, getActiveOnly);
+			List<RoleMember> principalIdRoleMembers = getPrincipalIdRoleMembers(principalId, role, asOfDate, isActiveOnly);
 			
 	        for (RoleMember principalIdRoleMember : principalIdRoleMembers) {
 	        	roleQualifiers.add(principalIdRoleMember.getAttributes());
@@ -478,7 +478,7 @@ public abstract class KPMERoleServiceBase {
 	 * 
 	 * @return the list of role member objects
 	 */
-	private List<RoleMember> getPrincipalIdRoleMembers(String principalId, Role role, DateTime asOfDate, boolean getActiveOnly) {
+	private List<RoleMember> getPrincipalIdRoleMembers(String principalId, Role role, DateTime asOfDate, boolean isActiveOnly) {
 		List<String> groupIds = getGroupService().getGroupIdsByPrincipalId(principalId);
 		
 		List<Predicate> predicates = new ArrayList<Predicate>();
@@ -502,7 +502,7 @@ public abstract class KPMERoleServiceBase {
 		
 		predicates.add(or(principalPredicate, rolePredicate, groupPredicate));
 		
-		if (getActiveOnly) {
+		if (isActiveOnly) {
 			predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
 			predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new DateTime())));
 		}

@@ -335,7 +335,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         this.timeHourDetails = timeHourDetails;
     }
 
-    public Boolean isPushBackward() {
+    public Boolean getPushBackward() {
         return pushBackward;
     }
 
@@ -555,7 +555,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     }
 
     public Boolean getEditable() {
-        return TkServiceLocator.getTimeBlockService().isTimeBlockEditable(this);
+        return TkServiceLocator.getTimeBlockService().getTimeBlockEditable(this);
     }
 
     public String getPrincipalId() {
@@ -579,7 +579,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     */
     public String getActualBeginTimeString() {
         if (this.getClockLogBeginId() != null) {
-            if (isOvernightTimeClockLog(clockLogEndId)) {
+            if (getOvernightTimeClockLog(clockLogEndId)) {
                 return getBeginDateTime().toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
             } else {
                 ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(this.getClockLogBeginId());
@@ -594,7 +594,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 
     public String getActualEndTimeString() {
         if (this.getClockLogEndId() != null) {
-            if (isOvernightTimeClockLog(clockLogEndId)) {
+            if (getOvernightTimeClockLog(clockLogEndId)) {
                 return getEndDateTime().toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
             } else {
                 ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(this.getClockLogEndId());
@@ -607,7 +607,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         return "";
     }
 
-    private Boolean isOvernightTimeClockLog(String clockLogId) {
+    private Boolean getOvernightTimeClockLog(String clockLogId) {
         // https://jira.kuali.org/browse/KPME-1179
         Integer overnightTimeBlocks = TkServiceLocator.getTimeBlockService().getOvernightTimeBlocks(clockLogEndId).size();
         if (overnightTimeBlocks >= 2) {

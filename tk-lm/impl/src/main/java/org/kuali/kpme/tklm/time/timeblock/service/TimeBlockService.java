@@ -56,7 +56,7 @@ public interface TimeBlockService {
 	 */
 	public List<TimeBlock> buildTimeBlocks(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument,
 											DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount,
-                                            Boolean isClockLogCreated, Boolean isLunchDeleted, String userPrincipalId);
+                                            Boolean getClockLogCreated, Boolean getLunchDeleted, String userPrincipalId);
 	/**
 	 * Save a list of new TimeBlocks
 	 * does a comparison for the old versus the new and only saves changed/new/deleted TimeBlocks
@@ -107,7 +107,7 @@ public interface TimeBlockService {
 	 */
 	public List<TimeBlock> buildTimeBlocksSpanDates(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument,
 												DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount,
-                                                Boolean isClockLogCreated, Boolean isLunchDeleted, String spanningWeeks, String userPrincipalId);
+                                                Boolean getClockLogCreated, Boolean getLunchDeleted, String spanningWeeks, String userPrincipalId);
 	/**
 	 * Create a TimeBlock for the given criteria
 	 * @param timesheetDocument
@@ -124,12 +124,12 @@ public interface TimeBlockService {
 	
 	public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, DateTime beginDateTime, DateTime endDateTime,
 										Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount,
-                                        Boolean isClockLogCreated, Boolean isLunchDeleted, String userPrincipalId);
+                                        Boolean getClockLogCreated, Boolean getLunchDeleted, String userPrincipalId);
 
 	
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
 
-	public Boolean isTimeBlockEditable(TimeBlock tb);
+	public Boolean getTimeBlockEditable(TimeBlock tb);
 	
 	/*
 	 * Get all the time blocks with the given Clock Log id as the clockLogEndId

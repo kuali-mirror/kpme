@@ -25,6 +25,10 @@ import java.util.Map;
 import org.kuali.kpme.core.util.HrConstants;
 
 public class EarnCodeSection implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5595259268960130907L;
 	private String earnCode;
 	private String description;
 	private Map<String, AssignmentRow> assignKeyToAssignmentRowMap = new HashMap<String, AssignmentRow>();

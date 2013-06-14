@@ -42,7 +42,7 @@ public class KPMELoginFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
         HttpServletRequest hsRequest = (HttpServletRequest) request;
-        if (getTestMode()) {
+        if (isTestMode()) {
             hsRequest = new HttpServletRequestWrapper(hsRequest) {
                 public String getRemoteUser() {
                     return TEST_ID;
@@ -70,7 +70,7 @@ public class KPMELoginFilter implements Filter {
         testMode = Boolean.valueOf(ConfigContext.getCurrentContextConfig().getProperty("test.mode"));
     }
 
-    public static boolean getTestMode() {
+    public static boolean isTestMode() {
         return testMode;
     }
 

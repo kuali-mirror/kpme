@@ -226,7 +226,7 @@ public class ClockLog extends PersistableBusinessObjectBase {
 		this.clockedByMissedPunch = clockedByMissedPunch;
 	}
 
-	public boolean getUnapprovedIP() {
+	public boolean isUnapprovedIP() {
 		return unapprovedIP;
 	}
 

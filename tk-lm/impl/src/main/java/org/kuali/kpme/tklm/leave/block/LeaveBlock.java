@@ -246,7 +246,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		this.accrualGenerated = accrualGenerated;
 	}
 
-	public boolean getSubmit() {
+	public boolean isSubmit() {
 		return submit;
 	}
 

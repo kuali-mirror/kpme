@@ -177,7 +177,7 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 		    List<ApprovalTimeSummaryRow> approvalRows = getApprovalRows(timeApprovalActionForm, getSubListPrincipalIds(request, principalIds));
 		    final String sortField = getSortField(request);
 		    if (StringUtils.isEmpty(sortField) || StringUtils.equals(sortField, "name")) {
-		    	final boolean sortNameAscending = isAscending(request);
+		    	final boolean sortNameAscending = getAscending(request);
 		    	Collections.sort(approvalRows, new Comparator<ApprovalTimeSummaryRow>() {
 					@Override
 					public int compare(ApprovalTimeSummaryRow row1, ApprovalTimeSummaryRow row2) {
@@ -189,7 +189,7 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 					}
 		    	});
 		    } else if (StringUtils.equals(sortField, "documentID")) {
-		    	final boolean sortDocumentIdAscending = isAscending(request);
+		    	final boolean sortDocumentIdAscending = getAscending(request);
 		    	Collections.sort(approvalRows, new Comparator<ApprovalTimeSummaryRow>() {
 					@Override
 					public int compare(ApprovalTimeSummaryRow row1, ApprovalTimeSummaryRow row2) {
@@ -201,7 +201,7 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 					}
 		    	});
 		    } else if (StringUtils.equals(sortField, "status")) {
-		    	final boolean sortStatusIdAscending = isAscending(request);;
+		    	final boolean sortStatusIdAscending = getAscending(request);;
 		    	Collections.sort(approvalRows, new Comparator<ApprovalTimeSummaryRow>() {
 					@Override
 					public int compare(ApprovalTimeSummaryRow row1, ApprovalTimeSummaryRow row2) {

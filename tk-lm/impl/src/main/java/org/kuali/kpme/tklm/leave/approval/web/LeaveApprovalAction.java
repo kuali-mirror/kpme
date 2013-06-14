@@ -180,7 +180,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 			List<ApprovalLeaveSummaryRow> approvalRows = getApprovalLeaveRows(leaveApprovalActionForm, principalIds); 
 			String sortField = getSortField(request);
 			if (StringUtils.isEmpty(sortField) || StringUtils.equals(sortField, "name")) {
-				final boolean sortNameAscending = isAscending(request);
+				final boolean sortNameAscending = getAscending(request);
 		    	Collections.sort(approvalRows, new Comparator<ApprovalLeaveSummaryRow>() {
 					@Override
 					public int compare(ApprovalLeaveSummaryRow row1, ApprovalLeaveSummaryRow row2) {
@@ -192,7 +192,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 					}
 		    	});
 			} else if (StringUtils.equals(sortField, "documentID")) {
-				final boolean sortDocumentIdAscending = isAscending(request);
+				final boolean sortDocumentIdAscending = getAscending(request);
 		    	Collections.sort(approvalRows, new Comparator<ApprovalLeaveSummaryRow>() {
 					@Override
 					public int compare(ApprovalLeaveSummaryRow row1, ApprovalLeaveSummaryRow row2) {
@@ -204,7 +204,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 					}
 		    	});
 			} else if (StringUtils.equals(sortField, "status")) {
-				final boolean sortStatusIdAscending = isAscending(request);
+				final boolean sortStatusIdAscending = getAscending(request);
 		    	Collections.sort(approvalRows, new Comparator<ApprovalLeaveSummaryRow>() {
 					@Override
 					public int compare(ApprovalLeaveSummaryRow row1, ApprovalLeaveSummaryRow row2) {

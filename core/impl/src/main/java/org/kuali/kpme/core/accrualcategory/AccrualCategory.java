@@ -25,6 +25,7 @@ import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.util.HrConstants;
 
+
 import com.google.common.collect.ImmutableList;
 
 public class AccrualCategory extends HrBusinessObject {

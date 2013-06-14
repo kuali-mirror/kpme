@@ -143,7 +143,7 @@ public class AccrualServiceImpl implements AccrualService {
 			for(AccrualCategory anAC : accrCatList) {
 				fullFteGranted = false;
 				if(!currentDate.toLocalDate().isBefore(phra.getEffectiveLocalDate()) && !anAC.getAccrualEarnInterval().equals("N")) {   	// "N" means no accrual
-					boolean prorationFlag = this.getProrationFlag(anAC.getProration());
+					boolean prorationFlag = this.isProrationFlag(anAC.getProration());
 					// get the accrual rule 
 					AccrualCategoryRule currentAcRule = this.getRuleForAccrualCategory(currentRange.getAcRuleList(), anAC);
 				
@@ -1085,7 +1085,7 @@ public class AccrualServiceImpl implements AccrualService {
 		return ruleStartDate;
 	}
 	
-	public boolean getProrationFlag(String proration) {
+	public boolean isProrationFlag(String proration) {
 		if(proration == null) {
 			return true;
 		}

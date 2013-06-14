@@ -59,11 +59,11 @@ public class LeaveBlockRenderer {
 		return leaveBlock.getAssignmentTitle();
 	}
 
-    public boolean getEditable() {
+    public boolean isEditable() {
         return leaveBlock.isEditable();
     }
 
-    public boolean getDeletable() {
+    public boolean isDeletable() {
         return leaveBlock.isDeletable();
     }
 

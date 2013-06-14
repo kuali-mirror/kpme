@@ -132,7 +132,7 @@ public class LeaveRequestAction extends KPMEAction {
 		LeaveRequestForm lf = (LeaveRequestForm) form;
 		for(LeaveBlock leaveBlock : lf.getPlannedLeaves()) {
 			// check if check box is checked
-			if(leaveBlock.getSubmit()) {
+			if(leaveBlock.isSubmit()) {
                 LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().createLeaveRequestDocument(leaveBlock.getLmLeaveBlockId());
                 LmServiceLocator.getLeaveRequestDocumentService().requestLeave(lrd.getDocumentNumber());
 		    }

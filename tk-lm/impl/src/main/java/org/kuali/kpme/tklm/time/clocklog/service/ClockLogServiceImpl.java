@@ -176,13 +176,13 @@ public class ClockLogServiceImpl implements ClockLogService {
 		    	 if(tb.getClockLogCreated()) {
 		    		 if(StringUtils.isNotEmpty(tb.getClockLogBeginId())){
 		    			 ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(tb.getClockLogBeginId());
-		    			 if(cl.getUnapprovedIP()) {
+		    			 if(cl.isUnapprovedIP()) {
 		    				 aSet.add(buildUnapprovedIPWarning(cl));
 		    			 }
 		    		 }
 		    		 if(StringUtils.isNotEmpty(tb.getClockLogEndId())){
 		    			 ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(tb.getClockLogEndId());
-		    			 if(cl.getUnapprovedIP()) {
+		    			 if(cl.isUnapprovedIP()) {
 		    				 aSet.add(buildUnapprovedIPWarning(cl));
 		    			 }
 		    		 }		

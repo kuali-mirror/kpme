@@ -97,10 +97,10 @@ public class SQLDataLifeCycle  extends BaseLifecycle {
 
 	void verifyTestEnvironment(final DataSource dataSource) {
 		Assert.assertTrue("No table named '" + TEST_TABLE_NAME + "' was found in the configured database.  " + "You are attempting to run tests against a non-test database!!!",
-		isTestTableInSchema(dataSource));
+		getTestTableInSchema(dataSource));
 	}
 
-	Boolean isTestTableInSchema(final DataSource dataSource) {
+	Boolean getTestTableInSchema(final DataSource dataSource) {
 	    Assert.assertNotNull("DataSource could not be located.", dataSource);
 	    return (Boolean) new JdbcTemplate(dataSource).execute(new ConnectionCallback() {
 			public Object doInConnection(final Connection connection) throws SQLException {

@@ -64,8 +64,8 @@ public class LeaveActionFormUtils {
             WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(leaveBlock.getWorkArea(), leaveBlock.getLeaveLocalDate());
             String workAreaDesc = workArea == null ? "" : workArea.getDescription();
             // Roles
-            Boolean isAnyApprover = HrContext.isAnyApprover();
-            LeaveBlockMap.put("isApprover", isAnyApprover);
+            Boolean getAnyApprover = HrContext.isAnyApprover();
+            LeaveBlockMap.put("isApprover", getAnyApprover);
            
             LeaveBlockMap.put("documentId", leaveBlock.getDocumentId());
             LeaveBlockMap.put("title", workAreaDesc);

@@ -200,7 +200,7 @@ public class ActionFormUtils {
              * the purpose of this is to accommodate the virtual day mode where the start/end period time is not from 12a to 12a.
              * A timeblock will be pushed back if the timeblock is still within the previous interval
              */
-            if (timeBlock.isPushBackward()) {
+            if (timeBlock.getPushBackward()) {
                 start = start.minusDays(1);
                 end = end.minusDays(1);
             }
@@ -346,7 +346,7 @@ public class ActionFormUtils {
     }
     
     // detect if the passed-in calendar entry is the current one
-    public static boolean getOnCurrentPeriodFlag(CalendarEntry pce) {
+    public static boolean isOnCurrentPeriodFlag(CalendarEntry pce) {
     	String viewPrincipal = HrContext.getTargetPrincipalId();
         CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 

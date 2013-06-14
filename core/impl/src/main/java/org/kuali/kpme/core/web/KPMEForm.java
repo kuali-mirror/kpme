@@ -67,11 +67,11 @@ public class KPMEForm extends KualiForm {
     	return documentStatus;
     }
     
-    public boolean getTimeEnabled() {
+    public boolean isTimeEnabled() {
     	return HrServiceLocator.getHRPermissionService().canViewTimeTabs();
     }
     
-    public boolean getLeaveEnabled() {
+    public boolean isLeaveEnabled() {
     	return HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithNEStatus() 
     			|| HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithEStatus();
     }

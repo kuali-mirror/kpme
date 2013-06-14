@@ -41,13 +41,13 @@ public class SystemLunchRuleServiceImpl implements SystemLunchRuleService {
 	@Override
 	public boolean isShowLunchButton() {
 
-    	Boolean isShowLunchButton = false;
+    	Boolean getShowLunchButton = false;
     	SystemLunchRule systemLunchrule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(LocalDate.now());
     	if(systemLunchrule != null) {
-    		isShowLunchButton = systemLunchrule.getShowLunchButton();
+    		getShowLunchButton = systemLunchrule.getShowLunchButton();
     	}
 
-		return isShowLunchButton;
+		return getShowLunchButton;
 	}
 
 	@Override

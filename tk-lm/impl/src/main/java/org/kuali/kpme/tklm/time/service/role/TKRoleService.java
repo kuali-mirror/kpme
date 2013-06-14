@@ -100,7 +100,7 @@ public interface TKRoleService {
 	 * 
 	 * @return the list of role members in the role {@code roleName}.
 	 */
-	List<RoleMember> getRoleMembers(String roleName, DateTime asOfDate, boolean getActiveOnly);
+	List<RoleMember> getRoleMembers(String roleName, DateTime asOfDate, boolean isActiveOnly);
 
 	/**
 	 * Gets the members of the role {@code roleName} for the given role qualifiers.
@@ -112,7 +112,7 @@ public interface TKRoleService {
 	 * 
 	 * @return the list of role members in the role {@code roleName}.
 	 */
-	List<RoleMember> getRoleMembers(String roleName, Map<String, String> qualification, DateTime asOfDate, boolean getActiveOnly);
+	List<RoleMember> getRoleMembers(String roleName, Map<String, String> qualification, DateTime asOfDate, boolean isActiveOnly);
 
 	/**
 	 * Gets the members of the role {@code roleName} for the given work area.
@@ -124,7 +124,7 @@ public interface TKRoleService {
 	 * 
 	 * @return the list of role members in the role {@code roleName} for the given work area.
 	 */
-	List<RoleMember> getRoleMembersInWorkArea(String roleName, Long workArea, DateTime asOfDate, boolean getActiveOnly);
+	List<RoleMember> getRoleMembersInWorkArea(String roleName, Long workArea, DateTime asOfDate, boolean isActiveOnly);
 
 	/**
 	 * Gets the members of the role {@code roleName} for the given department.
@@ -136,7 +136,7 @@ public interface TKRoleService {
 	 * 
 	 * @return the list of role members in the role {@code roleName} for the given department.
 	 */
-	List<RoleMember> getRoleMembersInDepartment(String roleName, String department, DateTime asOfDate, boolean getActiveOnly);
+	List<RoleMember> getRoleMembersInDepartment(String roleName, String department, DateTime asOfDate, boolean isActiveOnly);
 
 	/**
 	 * Gets the members of the role {@code roleName} for the given location.
@@ -148,7 +148,7 @@ public interface TKRoleService {
 	 * 
 	 * @return the list of role members in the role {@code roleName} for the given location.
 	 */
-	List<RoleMember> getRoleMembersInLocation(String roleName, String location, DateTime asOfDate, boolean getActiveOnly);
+	List<RoleMember> getRoleMembersInLocation(String roleName, String location, DateTime asOfDate, boolean isActiveOnly);
 
 	/**
 	 * Gets the work areas for the given {@code principalId} in the role {@code roleName}.
@@ -160,7 +160,7 @@ public interface TKRoleService {
 	 * 
 	 * @return the list of work areas for the given {@code principalId} in the role {@code roleName}.
 	 */
-	List<Long> getWorkAreasForPrincipalInRole(String principalId, String roleName, DateTime asOfDate, boolean getActiveOnly);
+	List<Long> getWorkAreasForPrincipalInRole(String principalId, String roleName, DateTime asOfDate, boolean isActiveOnly);
 
 	/**
 	 * Gets the departments for the given {@code principalId} in the role {@code roleName}.
@@ -172,7 +172,7 @@ public interface TKRoleService {
 	 * 
 	 * @return the list of departments for the given {@code principalId} in the role {@code roleName}.
 	 */
-	List<String> getDepartmentsForPrincipalInRole(String principalId, String roleName, DateTime asOfDate, boolean getActiveOnly);
+	List<String> getDepartmentsForPrincipalInRole(String principalId, String roleName, DateTime asOfDate, boolean isActiveOnly);
 
 	/**
 	 * Gets the locations for the given {@code principalId} in the role {@code roleName}.
@@ -184,6 +184,6 @@ public interface TKRoleService {
 	 * 
 	 * @return the list of locations for the given {@code principalId} in the role {@code roleName}.
 	 */
-	List<String> getLocationsForPrincipalInRole(String principalId, String roleName, DateTime asOfDate, boolean getActiveOnly);
+	List<String> getLocationsForPrincipalInRole(String principalId, String roleName, DateTime asOfDate, boolean isActiveOnly);
 
 }

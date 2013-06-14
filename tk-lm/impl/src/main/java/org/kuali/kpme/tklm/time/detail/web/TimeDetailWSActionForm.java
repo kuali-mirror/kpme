@@ -17,14 +17,14 @@ package org.kuali.kpme.tklm.time.detail.web;
 
 public class TimeDetailWSActionForm extends TimeDetailActionFormBase {
 
-    private Boolean isTimeBlockReadOnly = Boolean.FALSE;
+    private Boolean getTimeBlockReadOnly = Boolean.FALSE;
 
-    public Boolean isTimeBlockReadOnly() {
-        return isTimeBlockReadOnly;
+    public Boolean getTimeBlockReadOnly() {
+        return getTimeBlockReadOnly;
     }
 
     public void setTimeBlockReadOnly(Boolean timeBlockReadOnly) {
-        isTimeBlockReadOnly = timeBlockReadOnly;
+        getTimeBlockReadOnly = timeBlockReadOnly;
     }
 }
 

@@ -138,13 +138,13 @@ public class TimeDetailWSAction extends TimesheetAction {
             			assignment.getWorkArea().equals(key.getWorkArea()) &&
             			assignment.getTask().equals(key.getTask())) {
             		List<EarnCode> earnCodes = new ArrayList<EarnCode>();
-            		if (tdaf.isTimeBlockReadOnly()) {
+            		if (tdaf.getTimeBlockReadOnly()) {
             			if (regEarnCodes.containsKey(assignment.getAssignmentKey())) {
             				earnCodes.add(regEarnCodes.get(assignment.getAssignmentKey()));
             			}
             		} else {
             			earnCodes.addAll(TkServiceLocator.getTimesheetService()
-            					.getEarnCodesForTime(assignment, tdaf.getTimesheetDocument().getAsOfDate(), tdaf.isTimeBlockReadOnly()));
+            					.getEarnCodesForTime(assignment, tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimeBlockReadOnly()));
             		}
                     for (EarnCode earnCode : earnCodes) {
                         Map<String, Object> earnCodeMap = new HashMap<String, Object>();

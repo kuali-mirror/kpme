@@ -97,7 +97,7 @@ public abstract class CalendarApprovalFormAction extends ApprovalFormAction {
 	    return assignmentPrincipalIds.subList(beginIndex, endIndex);
 	}
 
-	protected Boolean isAscending(HttpServletRequest request) {
+	protected Boolean getAscending(HttpServletRequest request) {
 	    // returned value 1 = ascending; 2 = descending
 	    String ascending = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_ORDER)));
 	    return StringUtils.isEmpty(ascending) || StringUtils.equals(ascending, "1");

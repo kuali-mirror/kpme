@@ -180,7 +180,7 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 		this.earnCodeLeaveHours = earnCodeLeaveHours;
 	}
 
-	public Boolean getMoreThanOneCalendar() {
+	public Boolean getSMoreThanOneCalendar() {
 		return moreThanOneCalendar;
 	}
 
