@@ -25,7 +25,7 @@
     <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.Classification"/>
     <property name="documentTypeName" value="ClassificationMaintenanceDocumentType" />
     <property name="businessRulesClass" value="org.kuali.kpme.pm.classification.validation.ClassificationValidation"/>
-<!--     <property name="maintainableClass" value="org.kuali.kpme.pm.classification.web.ClassificationMaintainableImpl"/> -->
+    <property name="maintainableClass" value="org.kuali.kpme.pm.classification.web.ClassificationMaintainableImpl"/>
   </bean>
   
   
@@ -143,34 +143,33 @@
 	         </property>
         </bean>
          
-<!--         <bean parent="Uif-TabGroup"> -->
-<!-- 		  <property name="items"> -->
-<!-- 		    <list> -->
-<!-- 		      <bean parent="Uif-VerticalBoxSection" p:headerText="Required Qualification"> -->
-<!-- 		      	<property name="items"> -->
-<!-- 		      		<list> -->
-<!-- 		      			<ref bean="Classification-qualifications"/> -->
-<!-- 					</list> -->
-<!-- 		      	 </property> -->
-<!-- 		      </bean> -->
-<!-- 			  <bean parent="Uif-VerticalBoxSection" p:headerText="Duties" > -->
-<!-- 			  	<property name="items"> -->
-<!-- 		      		<list> -->
-<!-- 		      			<ref bean="Classification-duties"/> -->
-<!-- 				  </list> -->
-<!-- 			    </property>			   -->
-<!-- 		      </bean> -->
-<!-- 		      <bean parent="Uif-VerticalBoxSection" p:headerText="Flags"> -->
-<!-- 		      	<property name="items"> -->
-<!-- 		      		<list> -->
-<!-- 		      			<ref bean="Classification-flags"/> -->
-<!-- 		      		</list> -->
-<!-- 	      		</property> -->
-<!-- 	      	  </bean> -->
-		      
-<!-- 		   </list> -->
-<!-- 		  </property> -->
-<!-- 		</bean> -->
+        <bean parent="Uif-TabGroup">
+		  <property name="items">
+		    <list>
+		      <bean parent="Uif-VerticalBoxSection" p:headerText="Required Qualification">
+		      	<property name="items">
+		      		<list>
+		      			<ref bean="Classification-qualifications"/>
+					</list>
+		      	 </property>
+		      </bean>
+			  <bean parent="Uif-VerticalBoxSection" p:headerText="Duties" >
+			  	<property name="items">
+		      		<list>
+		      			<ref bean="Classification-duties"/>
+				  </list>
+			    </property>			  
+		      </bean>
+		      <bean parent="Uif-VerticalBoxSection" p:headerText="Flags">
+		      	<property name="items">
+		      		<list>
+		      			<ref bean="Classification-flags"/>
+		      		</list>
+	      		</property>
+	      	  </bean>		      
+		   </list>
+		  </property>
+		</bean>
           
       </list>
     </property>

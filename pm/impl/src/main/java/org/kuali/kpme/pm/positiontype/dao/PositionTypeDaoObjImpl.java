@@ -24,7 +24,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positiontype.PositionType;
@@ -74,6 +73,21 @@ public class PositionTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 			prgList.addAll(c);
 		
 		return prgList;
+	}
+
+	@Override
+	public PositionType getPositionType(String positionType, LocalDate asOfDate) {
+		Criteria root = new Criteria();
+        root.addEqualTo("positionType", positionType);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionType.class, asOfDate, PositionType.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionType.class, PositionType.EQUAL_TO_FIELDS, false));
+        
+        Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+        
+        Query query = QueryFactory.newQuery(PositionType.class, root);
+        return (PositionType) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
 }

@@ -45,5 +45,10 @@ public class PositionTypeServiceImpl implements PositionTypeService {
 		this.positionTypeDao = positionTypeDao;
 	}
 
+	@Override
+	public PositionType getPositionType(String positionType, LocalDate asOfDate) {
+		return positionTypeDao.getPositionType(positionType, asOfDate);
+	}
+
 
 }

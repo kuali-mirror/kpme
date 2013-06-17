@@ -38,4 +38,12 @@ public interface PositionTypeService {
 	 * @return
 	 */
 	public List<PositionType> getPositionTypeList(String positionType, String institution, String location, LocalDate asOfDate);
+	
+	/**
+	 * Retrieve the latest active Position Type with given positionType and effectiveDate
+	 * @param pmPositionTypeId
+	 * @param asOfDate
+	 * @return
+	 */
+	public PositionType getPositionType(String positionType, LocalDate asOfDate);
 }
