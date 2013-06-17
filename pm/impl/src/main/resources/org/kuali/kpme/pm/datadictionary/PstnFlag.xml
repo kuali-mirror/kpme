@@ -21,23 +21,23 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
-	<bean id="PositionFlag" parent="PositionFlag-parentBean"/>
- 	<bean id="PositionFlag-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="PstnFlag" parent="PstnFlag-parentBean"/>
+ 	<bean id="PstnFlag-parentBean" abstract="true" parent="BusinessObjectEntry">
 	    <property name="dataObjectClass" value="org.kuali.kpme.pm.position.PstnFlag"/>
 	    <property name="attributes">
 	      <list>
-	        <ref bean="PositionFlag-pmFlagId"/>
-	        <ref bean="PositionFlag-category"/>
-	        <ref bean="PositionFlag-names"/>
-	        <ref bean="PositionFlag-hrPositionId"/>
+	        <ref bean="PstnFlag-pmFlagId"/>
+	        <ref bean="PstnFlag-category"/>
+	        <ref bean="PstnFlag-names"/>
+	        <ref bean="PstnFlag-hrPositionId"/>
 	      </list>
 	    </property>
 	    <property name="objectLabel" value="Position Duty"/>
   	</bean>
 
 <!-- Attribute Definitions -->  
-	 <bean id="PositionFlag-pmFlagId" parent="PositionFlag-pmFlagId-parentBean"/>
-	 <bean id="PositionFlag-pmFlagId-parentBean" abstract="true" parent="AttributeDefinition">
+	 <bean id="PstnFlag-pmFlagId" parent="PstnFlag-pmFlagId-parentBean"/>
+	 <bean id="PstnFlag-pmFlagId-parentBean" abstract="true" parent="AttributeDefinition">
 	    <property name="required" value="false" />
 	    <property name="forceUppercase" value="false"/>
 	    <property name="shortLabel" value="id"/>
@@ -48,8 +48,8 @@
 	    <property name="label" value="Position Flag Id"/>
 	 </bean> 
 	 
-	<bean id="PositionFlag-category" parent="PositionFlag-category-parentBean" />
-	<bean id="PositionFlag-category-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="PstnFlag-category" parent="PstnFlag-category-parentBean" />
+	<bean id="PstnFlag-category-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
 		<property name="maxLength" value="20"/>
 		<property name="controlField">
@@ -60,8 +60,8 @@
 		<property name="description" value="Category" />
 	</bean>	
 	 
-	<bean id="PositionFlag-names" parent="PositionFlag-names-parentBean" />
-	<bean id="PositionFlag-names-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="PstnFlag-names" parent="PstnFlag-names-parentBean" />
+	<bean id="PstnFlag-names-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
 		<property name="maxLength" value="100"/>
 		<property name="controlField">
@@ -72,8 +72,8 @@
 		<property name="description" value="Names" />
 	</bean>	
 	
- 	<bean id="PositionFlag-hrPositionId" parent="PositionFlag-hrPositionId-parentBean"/>
-	<bean id="PositionFlag-hrPositionId-parentBean" abstract="true" parent="AttributeDefinition">
+ 	<bean id="PstnFlag-hrPositionId" parent="PstnFlag-hrPositionId-parentBean"/>
+	<bean id="PstnFlag-hrPositionId-parentBean" abstract="true" parent="AttributeDefinition">
 	    <property name="required" value="false" />
 	    <property name="forceUppercase" value="false"/>
 	    <property name="shortLabel" value="id"/>
