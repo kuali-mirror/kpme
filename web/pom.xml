@@ -421,7 +421,100 @@
                     <attachClasses>true</attachClasses>
                 </configuration>
             </plugin>
-        </plugins>
+            <plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>yuicompressor-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compress</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-css-image resources</id>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<phase>process-resources</phase>
+						<configuration>
+							<outputDirectory>${project.build.directory}/minimized/css</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/src/main/webapp/css</directory>
+									<excludes>
+										<exclude>**/*.css</exclude>
+										<exclude>**/*.js</exclude>
+									</excludes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-min-js-resources</id>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<phase>process-resources</phase>
+						<configuration>
+							<outputDirectory>${project.build.directory}/minimized/js</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/src/main/webapp/js</directory>
+									<includes>
+										<include>**/*min.js</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-minimized-resources</id>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<phase>process-resources</phase>
+						<configuration>
+							<outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}/min</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.build.directory}/minimized</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!-- Javascript and CSS files compression -->
+				<plugin>
+					<groupId>net.alchim31.maven</groupId>
+					<artifactId>yuicompressor-maven-plugin</artifactId>
+					<version>1.3.0</version>
+					<configuration>
+						<!-- Don't output in the default webapp location, since the war plugin 
+							will overwrite the files in there with the original, uncompressed ones. -->
+						<webappDirectory>${project.build.directory}/minimized</webappDirectory>
+						<jswarn>false</jswarn>
+						<nosuffix>true</nosuffix>						
+						<includes>
+							<include>js/**/*.js</include>
+							<include>css/**/*.css</include>
+						</includes>
+						<excludes>
+							<exclude>**/*min.js</exclude>
+							<exclude>**/*min.css</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>  
     </build>
 
     <profiles>
@@ -466,8 +559,12 @@
                                 <id>jetty-run</id>
                                 <phase>compile</phase>
                                 <goals>
-                                    <goal>run</goal>
-                                </goals>
+									<goal>run</goal>
+									<!-- Use 'run-war' goal if want to verify build with minimized js/css 
+										files. Since 'run-war' will use assembled war(that contains 'min' folder) 
+										to deploy unlike 'run' -->
+									<!-- <goal>run-war</goal> -->
+								</goals>
                             </execution>
                         </executions>
                         <dependencies>

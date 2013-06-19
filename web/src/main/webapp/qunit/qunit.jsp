@@ -19,10 +19,10 @@
       "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
-    <link rel="stylesheet" href="../css/qunit.css" type="text/css"/>
+    <link rel="stylesheet" href="../${Configproperties.css.dir}/qunit.css" type="text/css"/>
     <script src="http://code.jquery.com/jquery-latest.js"> </script>
-    <script type="text/javascript" src="../js/qunit.js"></script>
-    <script type="text/javascript" src="../js/unit-test.js"></script>
+    <script type="text/javascript" src="../${Configproperties.js.dir}/qunit.js"></script>
+    <script type="text/javascript" src="../${Configproperties.js.dir}/unit-test.js"></script>
   </head>
   <body>
     <h1 id="qunit-header">TK JS Unit Test</h1>

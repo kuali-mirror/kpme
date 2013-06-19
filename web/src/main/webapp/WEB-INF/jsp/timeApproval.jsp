@@ -28,12 +28,12 @@
 <html:hidden styleId="outputString" property="outputString" value="${Form.outputString}"/>
 
 
-<script src="js/underscore-1.3.1.min.js"></script>
-<script src="js/underscore.string-2.0.0.js"></script>
-<script src="js/backbone-0.9.1.min.js"></script>
-<script src="js/common.calendar.backbone.js"></script>
-<script src="js/tk.approval.backbone.js"></script>
-<script src="js/common.fullcalendar.js"></script>
+<script src="${ConfigProperties.js.dir}/underscore-1.3.1.min.js"></script>
+<script src="${ConfigProperties.js.dir}/underscore.string-2.0.0.js"></script>
+<script src="${ConfigProperties.js.dir}/backbone-0.9.1.min.js"></script>
+<script src="${ConfigProperties.js.dir}/common.calendar.backbone.js"></script>
+<script src="${ConfigProperties.js.dir}/tk.approval.backbone.js"></script>
+<script src="${ConfigProperties.js.dir}/common.fullcalendar.js"></script>
 
 <div class="approvals">
 
@@ -50,7 +50,7 @@
 </div>
 </html:form>
 
-<link type="text/css" href='css/fullcalendar.css' rel='stylesheet' />
+<link type="text/css" href='${ConfigProperties.css.dir}/fullcalendar.css' rel='stylesheet' />
 
 </tk:tkHeader>
 

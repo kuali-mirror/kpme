@@ -28,11 +28,11 @@
         <html:hidden property="warningJson" value="${Form.warnings}" styleId="warningJson"/>
         <html:hidden property="docEditable" value="${Form.docEditable}" styleId="docEditable"/>
         
-        <script src="js/underscore-1.3.1.min.js"></script>
-        <script src="js/backbone-0.9.1.min.js"></script>
-        <script src="js/common.calendar.backbone.js"></script>
-        <script src="js/tk.calendar.backbone.js"></script>
-        <script src="js/tk.ui.js"></script>
+        <script src="${ConfigProperties.js.dir}/underscore-1.3.1.min.js"></script>
+        <script src="${ConfigProperties.js.dir}/backbone-0.9.1.min.js"></script>
+        <script src="${ConfigProperties.js.dir}/common.calendar.backbone.js"></script>
+        <script src="${ConfigProperties.js.dir}/tk.calendar.backbone.js"></script>
+        <script src="${ConfigProperties.js.dir}/tk.ui.js"></script>
         <script type="text/javascript">
             jQuery(document).ready(function()
             {

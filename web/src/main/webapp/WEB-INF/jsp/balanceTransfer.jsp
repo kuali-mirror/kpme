@@ -17,8 +17,8 @@
 --%>
 <%@include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 <c:set var="Form" value="${BalanceTransferForm}" scope="request"/>
-<link type="text/css" href="css/ui-iu/jquery-ui-1.8.5.custom.css" rel="stylesheet" />
-<link type="text/css" href="css/tk.css?v=1.1" rel="stylesheet" />
+<link type="text/css" href="${ConfigProperties.js.dir}/ui-iu/jquery-ui-1.8.5.custom.css" rel="stylesheet" />
+<link type="text/css" href="${ConfigProperties.js.dir}/tk.css?v=1.1" rel="stylesheet" />
 <kul:documentPage
 	showDocumentInfo="true"
     htmlFormAction="BalanceTransfer"

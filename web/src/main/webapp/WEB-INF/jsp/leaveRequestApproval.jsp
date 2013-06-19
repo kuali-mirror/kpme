@@ -21,11 +21,11 @@
 <c:set var="KualiForm" value="${LeaveRequestApprovalActionForm}" scope="request"/>
 
 <tk:tkHeader tabId="leaveRequestApproval">
-    <script src="js/underscore-1.3.1.min.js"></script>
-    <script src="js/backbone-0.9.1.min.js"></script>
-    <script src="js/tk.ui.js"></script>
-    <script src="js/tk.js"></script>
-    <script src="js/lm.requestApproval.backbone.js"></script>
+    <script src="${ConfigProperties.js.dir}/underscore-1.3.1.min.js"></script>
+    <script src="${ConfigProperties.js.dir}/backbone-0.9.1.min.js"></script>
+    <script src="${ConfigProperties.js.dir}/tk.ui.js"></script>
+    <script src="${ConfigProperties.js.dir}/tk.js"></script>
+    <script src="${ConfigProperties.js.dir}/lm.requestApproval.backbone.js"></script>
 
     <html:form action="/LeaveRequestApproval.do" styleId="leaveRequestApproval">
 

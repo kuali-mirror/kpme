@@ -16,4 +16,10 @@
 @import "common.css";
 @import "leaveBlock.css";
 
+/**
+*KPME-2412
+*Uncomment if want to use min folder minimized css/js
+*@import "../../krad/plugins/fancybox/jquery.fancybox.css";
+*/
 @import "../krad/plugins/fancybox/jquery.fancybox.css";
+
