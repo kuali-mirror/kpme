@@ -51,7 +51,7 @@
                                     <c:when test="${thdr.hours ne ''}">
                                         <c:set var="title" value="${thdr.title}"/>
                                         <c:choose>
-                                            <c:when test="${thdr.overtimeEarnCode and block.timeBlock.overtimeEditable and !(thdr.title eq 'DOT')}">
+                                            <c:when test="${thdr.overtimeEarnCode && Form.docEditable && block.timeBlock.overtimeEditable && !(thdr.title eq 'DOT')}">
                                                 <c:set var="title"
                                                        value="<span id='overtime_${block.timeBlock.tkTimeBlockId}' class='overtime'>${thdr.title}</span>"/>
                                             </c:when>

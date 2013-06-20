@@ -57,6 +57,12 @@ public class TimeSummary implements Serializable {
 	public String toJsonString() {
         List<Map<String, Object>> earnGroupSections = new ArrayList<Map<String, Object>>();
 
+        //Lets add a fake EarnGroupSection for worked hours!!!
+        Map<String, Object> wkHours = new HashMap<String, Object>();
+        wkHours.put("totals", getWorkedHours());
+        wkHours.put("earnGroup", "Worked Hours");
+        wkHours.put("earnCodeSections", new HashMap<String, Object>());
+
         for (EarnGroupSection earnGroupSection : this.sections) {
             List<Map<String, Object>> earnCodeSections = new ArrayList<Map<String, Object>>();
             Map<String, Object> egs = new TreeMap<String, Object>();
@@ -125,7 +131,7 @@ public class TimeSummary implements Serializable {
             egs.put("earnCodeSections", earnCodeSections);
             earnGroupSections.add(egs);
         }
-
+        earnGroupSections.add(wkHours);
         return JSONValue.toJSONString(earnGroupSections);
     }
 	

@@ -26,6 +26,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.permission.HrPermissionServiceBase;
 import org.kuali.kpme.core.util.HrConstants;
@@ -143,7 +144,9 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
             if (StringUtils.isBlank(blockType)
                     || StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, blockType)
                     || StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR, blockType)) {
-            	if (!TkContext.isDepartmentAdmin()) {
+
+            	if (!TkContext.isDepartmentAdmin()
+                        || HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), leaveBlock.getWorkArea(), new DateTime())) {
             		return true;
             	}
             } else if (LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT.equals(blockType)

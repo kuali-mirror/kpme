@@ -16,8 +16,10 @@
 package org.kuali.kpme.core.kfs.coa.businessobject.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.kfs.coa.businessobject.Account;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -30,7 +32,19 @@ public class AccountLookupableHelper extends KualiLookupableHelperServiceImpl {
 
 	private static final long serialVersionUID = 2900185403539471985L;
 
-	@Override
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        if (fieldValues.containsKey("closed")) {
+            String closedValue = fieldValues.get("closed");
+            if (StringUtils.isNotEmpty(closedValue)) {
+                fieldValues.put("active", StringUtils.equals(closedValue, "Y") ? "N" : "Y");
+            }
+            fieldValues.remove("closed");
+        }
+        return super.getSearchResults(fieldValues);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    @Override
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 		

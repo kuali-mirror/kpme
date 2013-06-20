@@ -60,7 +60,7 @@
 <script type="text/template" id="hourDetail-template">
     <@ _.each(section.earnCodeSections, function(earnCodeSection) { @>
         <tr class="hourDetailRow_<@= docId @>">
-            <td colspan="4"><@= earnCodeSection.earnCode @>: <@= earnCodeSection.desc @></td>
+            <td colspan="4" class="earnCodeCell"><@= earnCodeSection.earnCode @>: <@= earnCodeSection.desc @></td>
             <td colspan="2" rowspan="<@= section.assignmentSize @>">
                 <table border = "0">
                     <tr class="hourDetailRow"><th colspan="2">Week Total</th></tr>
@@ -95,9 +95,9 @@
     <@ }); @>
     <%--<@ if (isLast) { @>--%>
         <tr class="hourDetailRow_<@= docId @>">
-            <td colspan="3"><@= section.earnGroup @></td>
+            <td colspan="3" class="earnGroupTotalRow"><@= section.earnGroup @> Totals</td>
     		<@ var total =  section.totals[section.totals.length - 1] @>
-            <td><@= total == 0 ? "" : total.toFixed(2) @></td>
+            <td class="earnGroupTotalRow"><@= total == 0 ? "" : total.toFixed(2) @></td>
         </tr>
         <tr></tr>
     <%--<@ } @>--%>

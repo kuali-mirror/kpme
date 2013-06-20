@@ -55,13 +55,12 @@
         <property name="relationships">
             <list>
                 <bean parent="RelationshipDefinition">
-                    <property name="objectAttributeName" value="timesheetDocumentHeader"/>
+                    <property name="objectAttributeName" value="timesheetDocumentHeader" />
                     <property name="primitiveAttributes">
                         <list>
-                            <bean parent="PrimitiveAttributeDefinition" 
-                            	  p:sourceName="timesheetDocumentHeader.documentId" p:targetName="documentId"/>
-                            <bean parent="PrimitiveAttributeDefinition"
-                                  p:sourceName="timesheetDocumentHeader.documentStatus" p:targetName="documentStatus"/>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="documentId" p:targetName="documentId" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="timesheetDocumentHeader.documentStatus" p:targetName="documentStatus" />
                         </list>
                     </property>
                 </bean>
@@ -410,14 +409,15 @@
                 <bean parent="FieldDefinition" p:attributeName="documentId"/>
                 <bean parent="FieldDefinition" p:attributeName="principalId"/>
                 <bean parent="FieldDefinition" p:attributeName="userPrincipalId"/>
-                <bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.documentStatus" />
+                <bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.documentStatus"
+                      p:noDirectInquiry="true" p:noLookup="true" />
                 <bean parent="FieldDefinition" p:attributeName="beginDate"/>
                 <bean parent="FieldDefinition" p:attributeName="timestamp"/>
             </list>
         </property>
         <property name="resultFields">
             <list>
-                 <bean parent="FieldDefinition" p:attributeName="documentId" p:noInquiry="true"/>
+                 <bean parent="FieldDefinition" p:attributeName="documentId"/>
                  <bean parent="FieldDefinition" p:attributeName="principalId"/>
                  <bean parent="FieldDefinition" p:attributeName="tkTimeBlockId"/>
                  <bean parent="FieldDefinition" p:attributeName="workArea"/>

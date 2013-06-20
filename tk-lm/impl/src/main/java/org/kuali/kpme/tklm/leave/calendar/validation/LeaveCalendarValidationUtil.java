@@ -86,7 +86,8 @@ public class LeaveCalendarValidationUtil {
     		}
     		LocalDate aDate = TKUtils.formatDateString(leaveEndDateString);
 	    	EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, aDate);
-	    	if(earnCodeObj != null) {
+	    	if(earnCodeObj != null && StringUtils.equals(earnCodeObj.getAccrualBalanceAction(),HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)
+                    || StringUtils.equals(earnCodeObj.getUsageLimit(), "I")) {
 	    		AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), aDate);
 	    		if(accrualCategory != null) {
 	    			List<LeaveSummaryRow> rows = ls.getLeaveSummaryRows();

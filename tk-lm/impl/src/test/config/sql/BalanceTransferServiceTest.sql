@@ -22,7 +22,7 @@ delete from hr_job_t where hr_job_id >= 5000;
 delete from lm_leave_document_header_t where document_id >= 5000;
 delete from hr_earn_code_t where hr_earn_code_id >= 5000;
 delete from hr_calendar_entries_t where hr_calendar_entry_id >= 5000;
-delete from lm_leave_block_t where lm_leave_block_id >= 39430;
+delete from lm_leave_block_t where lm_leave_block_id >= 5000;
 delete from lm_employee_override_t where lm_employee_override_id >= 3000;
 delete from tk_document_header_t where document_id >= 5000;
 

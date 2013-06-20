@@ -21,6 +21,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -28,6 +34,7 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 
@@ -35,6 +42,9 @@ public class FlsaDay {
 
 	private Map<String,List<TimeBlock>> earnCodeToTimeBlocks = new HashMap<String,List<TimeBlock>>();
 	private List<TimeBlock> appliedTimeBlocks = new ArrayList<TimeBlock>();
+	
+	private Map<String,List<LeaveBlock>> earnCodeToLeaveBlocks = new HashMap<String,List<LeaveBlock>>();
+	private List<LeaveBlock> appliedLeaveBlocks = new ArrayList<LeaveBlock>();
 
 	Interval flsaDateInterval;
 	LocalDateTime flsaDate;
@@ -47,11 +57,12 @@ public class FlsaDay {
      * @param timeBlocks
      * @param timeZone The timezone we are constructing, relative.
      */
-	public FlsaDay(LocalDateTime flsaDate, List<TimeBlock> timeBlocks, DateTimeZone timeZone) {
+	public FlsaDay(LocalDateTime flsaDate, List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, DateTimeZone timeZone) {
 		this.flsaDate = flsaDate;
         this.timeZone = timeZone;
 		flsaDateInterval = new Interval(flsaDate.toDateTime(timeZone), flsaDate.toDateTime(timeZone).plusHours(24));
 		this.setTimeBlocks(timeBlocks);
+		this.setLeaveBlocks(leaveBlocks);
 	}
 
 	/**
@@ -64,9 +75,24 @@ public class FlsaDay {
 	 * @param timeBlocks a sorted list of time blocks.
 	 */
 	public void setTimeBlocks(List<TimeBlock> timeBlocks) {
-		for (TimeBlock block : timeBlocks)
-			if (!applyBlock(block, this.appliedTimeBlocks))
-				break;
+		for (TimeBlock block : timeBlocks) {
+            applyBlock(block, this.appliedTimeBlocks);
+        }
+	}
+	
+	/**
+	 * Handles the breaking apart of existing leave blocks around FLSA boundaries.
+	 *
+	 * This method will compare the FLSA interval against the leaveblock interval
+	 * to determine how many hours overlap.  It will then examine the leave hour
+	 * details
+	 *
+	 * @param leaveBlocks a sorted list of time blocks.
+	 */
+	public void setLeaveBlocks(List<LeaveBlock> leaveBlocks) {
+		for (LeaveBlock block : leaveBlocks) {
+            applyBlock(block, this.appliedLeaveBlocks);
+        }
 	}
 
 	/**
@@ -80,6 +106,21 @@ public class FlsaDay {
 		List<TimeBlock> reApplied = new ArrayList<TimeBlock>(appliedTimeBlocks.size());
 		earnCodeToTimeBlocks.clear();
 		for (TimeBlock block : appliedTimeBlocks) {
+			applyBlock(block, reApplied);
+		}
+	}
+	
+	/**
+	 * This method will compute the mappings present for this object:
+	 *
+	 * earnCodeToTimeBlocks
+	 * earnCodeToHours
+	 *
+	 */
+	public void remapLeaveHourDetails() {
+		List<LeaveBlock> reApplied = new ArrayList<LeaveBlock>(appliedLeaveBlocks.size());
+		earnCodeToLeaveBlocks.clear();
+		for (LeaveBlock block : appliedLeaveBlocks) {
 			applyBlock(block, reApplied);
 		}
 	}
@@ -168,6 +209,67 @@ public class FlsaDay {
 
 		return true;
 	}
+	
+	/**
+     * This method determines if the provided LeaveBlock is applicable to this
+     * FLSA day, and if so will add it to the applyList. It could be the case
+     * that a LeaveBlock is on the boundary of the FLSA day so that only a
+     * partial amount of the hours for that LeaveBlock will count towards this
+     * day.
+     *
+     * |---------+------------------+---------|
+     * | Day 1   | Day 1/2 Boundary | Day 2   |
+     * |---------+------------------+---------|
+     * | Block 1 |             | Block 2      |
+     * |---------+------------------+---------|
+     *
+     * The not so obvious ascii diagram above is intended to illustrate the case
+     * where on day one you have 1 fully overlapping leave block (block1) and one
+     * partially overlapping leave block (block2). Block 2 belongs to both FLSA
+     * Day 1 and Day 2.
+     *
+	 * @param block A leave block that we want to check and apply to this day.
+	 * @param applyList A list of leave blocks we want to add applicable leave blocks to.
+	 *
+	 * @return True if the block is applicable, false otherwise.  The return
+	 * value can be used as a quick exit for the setLeaveBlocks() method.
+	 *
+	 * TODO : Bucketing of partial FLSA days is still suspect, however real life examples of this are likely non-existent to rare.
+	 */
+	private boolean applyBlock(LeaveBlock block, List<LeaveBlock> applyList) {
+		DateTime beginDateTime = new DateTime(block.getLeaveDate(), this.timeZone);
+		DateTime endDateTime = new DateTime(block.getLeaveDate(), this.timeZone);
+
+		if (beginDateTime.isAfter(flsaDateInterval.getEnd())) {
+			return false;
+        }
+
+		Interval leaveBlockInterval = null;
+		if(endDateTime.getMillis() > beginDateTime.getMillis()){
+			leaveBlockInterval = new Interval(beginDateTime,endDateTime);
+		}
+
+		Interval overlapInterval = flsaDateInterval.overlap(leaveBlockInterval);
+		long overlap = (overlapInterval == null) ? 0L : overlapInterval.toDurationMillis();
+		BigDecimal overlapHours = TKUtils.convertMillisToHours(overlap);
+		if((overlapHours.compareTo(BigDecimal.ZERO) == 0) && flsaDateInterval.contains(beginDateTime) && flsaDateInterval.contains(endDateTime)){
+			if(block.getLeaveAmount().negate().compareTo(BigDecimal.ZERO) > 0){
+				overlapHours = block.getLeaveAmount().negate();
+			}
+		}
+		
+		if (overlapHours.compareTo(BigDecimal.ZERO) > 0)  {
+			List<LeaveBlock> blocks = earnCodeToLeaveBlocks.get(block.getEarnCode());
+			if (blocks == null) {
+				blocks = new ArrayList<LeaveBlock>();
+				earnCodeToLeaveBlocks.put(block.getEarnCode(), blocks);
+			}
+			blocks.add(block);
+			applyList.add(block);
+		}
+
+		return true;
+	}
 
 	public Map<String, List<TimeBlock>> getEarnCodeToTimeBlocks() {
 		return earnCodeToTimeBlocks;
@@ -185,5 +287,20 @@ public class FlsaDay {
 		this.appliedTimeBlocks = appliedTimeBlocks;
 	}
 
+	public Map<String, List<LeaveBlock>> getEarnCodeToLeaveBlocks() {
+		return earnCodeToLeaveBlocks;
+	}
+
+	public void setEarnCodeToLeaveBlocks(Map<String, List<LeaveBlock>> earnCodeToLeaveBlocks) {
+		this.earnCodeToLeaveBlocks = earnCodeToLeaveBlocks;
+	}
+
+	public List<LeaveBlock> getAppliedLeaveBlocks() {
+		return appliedLeaveBlocks;
+	}
+
+	public void setAppliedLeaveBlocks(List<LeaveBlock> appliedLeaveBlocks) {
+		this.appliedLeaveBlocks = appliedLeaveBlocks;
+	}
 
 }

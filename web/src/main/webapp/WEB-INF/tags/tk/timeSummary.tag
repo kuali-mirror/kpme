@@ -32,7 +32,7 @@
                 <c:forEach items="${timeSummary.sections}" var="section">
                     <c:forEach items="${section.earnCodeSections}" var="earnCodeSection">
                         <tr>
-                            <td>${earnCodeSection.earnCode}: ${earnCodeSection.description}</td>
+                            <td colspan="${fn:length(timeSummary.workedHours) + 1}" class="earnCodeCell">${earnCodeSection.earnCode}: ${earnCodeSection.description}</td>
 						</tr>
 						<c:forEach items="${earnCodeSection.assignmentsRows}" var="assignmentRow">
                             <c:set var="periodTotal" value="${assignmentRow.assignmentColumns[fn:length(assignmentRow.assignmentColumns) - 1].total}"/>
@@ -45,10 +45,10 @@
                                                 <c:when test="${assignmentColumn.amount ne '0.00' and assignmentColumn.amount != 0}">
                                                     <c:choose>
                                                         <c:when test="${assignmentColumn.weeklyTotal}">
-                                                            <td class="${assignmentColumn.cssClass}">${assignmentColumn.amount}</td>
+                                                            <td class="${assignmentColumn.cssClass}">$${assignmentColumn.amount}</td>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <td>${assignmentColumn.amount}</td>
+                                                            <td>$${assignmentColumn.amount}</td>
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </c:when>
@@ -87,14 +87,14 @@
                         </c:forEach>
                     </c:forEach>
                     <tr>
-                        <td>${section.earnGroup}</td>
+                        <td class="earnGroupTotalRow">${section.earnGroup} Totals</td>
                         <c:forEach items="${section.totals}" var="entry">
                             <c:choose>
                                 <c:when test="${entry ne '0.00' and entry != 0}">
-                                    <td>${entry}</td>
+                                    <td class="earnGroupTotalRow">${entry}</td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td/>
+                                    <td class="earnGroupTotalRow"></td>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>

@@ -1,4 +1,3 @@
-
 /**
  * Copyright 2004-2013 The Kuali Foundation
  *
@@ -17,15 +16,7 @@
 package org.kuali.kpme.tklm.time.timesummary.service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -94,8 +85,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         LeaveBlockAggregate leaveBlockAggregate = new LeaveBlockAggregate(leaveBlocks, timesheetDocument.getCalendarEntry());
         tkTimeBlockAggregate = TkTimeBlockAggregate.combineTimeAndLeaveAggregates(tkTimeBlockAggregate, leaveBlockAggregate);
 
-        
-		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate, timeSummary));
+		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate, regularEarnCodes, timeSummary));
+
 		
 		// Set Flsa week total map
 		Map<String, BigDecimal> flsaWeekTotal = getHoursToFlsaWeekMap(tkTimeBlockAggregate, timesheetDocument.getPrincipalId(), null);
@@ -213,7 +204,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 	public List<EarnGroupSection> getEarnGroupSections(TkTimeBlockAggregate tkTimeBlockAggregate, int numEntries, List<Boolean> dayArrangements, LocalDate asOfDate, LocalDate docEndDate){
 		List<EarnGroupSection> earnGroupSections = new ArrayList<EarnGroupSection>();
 		List<FlsaWeek> flsaWeeks = tkTimeBlockAggregate.getFlsaWeeks(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
-		Map<String, EarnCodeSection> earnCodeToEarnCodeSection = new HashMap<String, EarnCodeSection>();
+		Map<String, EarnCodeSection> earnCodeToEarnCodeSection = new TreeMap<String, EarnCodeSection>();
 		Map<String, EarnGroupSection> earnGroupToEarnGroupSection = new HashMap<String, EarnGroupSection>();
 		
 		int dayCount = 0;
@@ -374,7 +365,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * @return A list of BigDecimals containing the number of hours worked.
      * This list will line up with the header.
      */
-    private List<BigDecimal> getWorkedHours(TkTimeBlockAggregate aggregate, TimeSummary timeSummary) {
+    private List<BigDecimal> getWorkedHours(TkTimeBlockAggregate aggregate, Set<String> regularEarnCodes, TimeSummary timeSummary) {
         List<BigDecimal> hours = new ArrayList<BigDecimal>();
         
         Map<String, BigDecimal> weekTotalMap = new LinkedHashMap<String, BigDecimal>();
@@ -386,9 +377,14 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
             for (FlsaDay day : week.getFlsaDays()) {
                 BigDecimal totalForDay = HrConstants.BIG_DECIMAL_SCALED_ZERO;
                 for (TimeBlock block : day.getAppliedTimeBlocks()) {
-                    totalForDay = totalForDay.add(block.getHours(), HrConstants.MATH_CONTEXT);
-                    weeklyTotal = weeklyTotal.add(block.getHours(), HrConstants.MATH_CONTEXT);
-                    periodTotal = periodTotal.add(block.getHours(), HrConstants.MATH_CONTEXT);
+                    EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(block.getEarnCode(), block.getEndDateTime().toLocalDate());
+                    if (ec != null
+                            && (ec.getOvtEarnCode()
+                            || regularEarnCodes.contains(ec.getEarnCode()))) {
+                        totalForDay = totalForDay.add(block.getHours(), HrConstants.MATH_CONTEXT);
+                        weeklyTotal = weeklyTotal.add(block.getHours(), HrConstants.MATH_CONTEXT);
+                        periodTotal = periodTotal.add(block.getHours(), HrConstants.MATH_CONTEXT);
+                    }
                 }
                 hours.add(totalForDay);
             }

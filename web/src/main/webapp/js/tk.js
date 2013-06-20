@@ -707,7 +707,7 @@ function addTimeBlockRow(form, tempArr) {
     el.id = 'edRow' + iteration;
     el.className = 'edRow';
     el.size = 10;
-    el.value = form.endDateOnly.value;
+    el.value = form.beginDateOnly.value;
     el.disabled = true;
     cellEndDate.appendChild(el);
 

@@ -31,6 +31,8 @@ import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.clocklog.dao.ClockLogDao;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -76,7 +78,7 @@ public class ClockLogServiceImpl implements ClockLogService {
         return clockLog;
     }
 
-    private void processTimeBlock(ClockLog clockLog, Assignment assignment, CalendarEntry pe, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId) {
+    private void processTimeBlock(ClockLog clockLog, Assignment currentAssignment, CalendarEntry pe, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId) {
         ClockLog lastLog = null;
         DateTime lastClockDateTime = null;
         String beginClockLogId = null;
@@ -106,18 +108,25 @@ public class ClockLogServiceImpl implements ClockLogService {
         }
 
         // Add TimeBlocks after we store our reference object!
-        List<TimeBlock> aList = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, assignment.getJob().getPayTypeObj().getRegEarnCode(), td, beginDateTime, endDateTime, BigDecimal.ZERO, BigDecimal.ZERO, true, false, userPrincipalId);
+        List<TimeBlock> aList = TkServiceLocator.getTimeBlockService().buildTimeBlocks(currentAssignment, currentAssignment.getJob().getPayTypeObj().getRegEarnCode(), td, beginDateTime, endDateTime, BigDecimal.ZERO, BigDecimal.ZERO, true, false, userPrincipalId);
         for (TimeBlock tb : aList) {
             tb.setClockLogBeginId(beginClockLogId);
             tb.setClockLogEndId(endClockLogId);
         }
         newTimeBlocks.addAll(aList);
+        
+        List<Assignment> assignments = td.getAssignments();
+        List<String> assignmentKeys = new ArrayList<String>();
+        for (Assignment assignment : assignments) {
+        	assignmentKeys.add(assignment.getAssignmentKey());
+        }
+        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId, td.getAsOfDate(), td.getDocEndDate(), assignmentKeys);
 
         //reset time block
         TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks, td.getAsOfDate());
 
         //apply any rules for this action
-        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.CLOCK_OUT, newTimeBlocks, pe, td, principalId);
+        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.CLOCK_OUT, newTimeBlocks, leaveBlocks, pe, td, principalId);
 
         //call persist method that only saves added/deleted/changed timeblocks
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, userPrincipalId);

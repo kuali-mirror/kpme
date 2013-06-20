@@ -333,7 +333,10 @@
 		<property name="name" value="timesheetDocumentHeader.documentStatus" />
 		<property name="label" value="Document Status"/>
 		<property name="required" value="false"/>
-	</bean> 
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kew.lookup.valuefinder.DocumentRouteStatusValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+	</bean>
   
 <!-- Business Object Inquiry Definition -->
 
@@ -410,7 +413,8 @@
       	<bean parent="FieldDefinition" p:attributeName="documentId" />
       	<bean parent="FieldDefinition" p:attributeName="principalId" />
       	<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
-      	<bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.documentStatus" />
+      	<bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.documentStatus"
+              p:noDirectInquiry="true" p:noLookup="true"/>
       	<bean parent="FieldDefinition" p:attributeName="beginDate"/>
       </list>
     </property>

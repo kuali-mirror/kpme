@@ -31,6 +31,8 @@ import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.timezone.TimezoneService;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.clocklog.service.ClockLogService;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
@@ -203,7 +205,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
      * Helper method to build time blocks and fire the rules processing. This
      * should be called only if there was a CLOCK_OUT action.
      */
-    private void buildTimeBlockRunRules(ClockLog beginClockLog, ClockLog endClockLog, TimesheetDocument tdoc, Assignment assignment, String earnCode, DateTime beginDateTime, DateTime endDateTime) {
+    private void buildTimeBlockRunRules(ClockLog beginClockLog, ClockLog endClockLog, TimesheetDocument tdoc, Assignment currentAssignment, String earnCode, DateTime beginDateTime, DateTime endDateTime) {
         // New Time Blocks, pointer reference
         List<TimeBlock> newTimeBlocks = tdoc.getTimeBlocks();
         List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(newTimeBlocks);
@@ -213,7 +215,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 
         // Add TimeBlocks after we store our reference object!
         List<TimeBlock> blocks = getTimeBlockService().buildTimeBlocks(
-                assignment, earnCode, tdoc, beginDateTime,
+                currentAssignment, earnCode, tdoc, beginDateTime,
                 endDateTime, BigDecimal.ZERO, BigDecimal.ZERO, true, false, HrContext.getPrincipalId());
 
 
@@ -225,11 +227,18 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 
         newTimeBlocks.addAll(blocks);
 
+        List<Assignment> assignments = tdoc.getAssignments();
+        List<String> assignmentKeys = new ArrayList<String>();
+        for (Assignment assignment : assignments) {
+        	assignmentKeys.add(assignment.getAssignmentKey());
+        }
+        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(tdoc.getPrincipalId(), tdoc.getAsOfDate(), tdoc.getDocEndDate(), assignmentKeys);
+
         //reset time block
         getTimesheetService().resetTimeBlock(newTimeBlocks, tdoc.getAsOfDate());
         //apply any rules for this action
         getTkRuleControllerService().applyRules(
-                TkConstants.ACTIONS.CLOCK_OUT, newTimeBlocks,
+                TkConstants.ACTIONS.CLOCK_OUT, newTimeBlocks, leaveBlocks,
                 tdoc.getCalendarEntry(),
                 tdoc, tdoc.getPrincipalId()
         );

@@ -805,7 +805,7 @@ $(function () {
             		$('#unitOfTime').text('* Days');
             	} else if (checkFlag == CONSTANTS.EARNCODE_UNIT.HOUR) {
             		$('#unitOfTime').text('* Hours');
-            	} else if (earnCodeUnit == CONSTANTS.EARNCODE_UNIT.TIME) {
+            	} else if (checkFlag == CONSTANTS.EARNCODE_UNIT.TIME) {
 					$(
 							_.without(fieldSections, ".clockInSection",
 									".clockOutSection").join(",")).hide();

@@ -47,6 +47,7 @@ import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.note.Note;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
@@ -65,8 +66,10 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 			ApprovalLeaveSummaryRow aRow = new ApprovalLeaveSummaryRow();
             List<Note> notes = new ArrayList<Note>();
 //            List<String> warnings = new ArrayList<String>();
-            Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(principalId);
-			aRow.setName(principal.getPrincipalName());
+            EntityNamePrincipalName name = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
+            aRow.setName(name != null
+                           && name.getDefaultName() != null
+                           && name.getDefaultName().getCompositeName() != null ? name.getDefaultName().getCompositeName() : principalId);
 			aRow.setPrincipalId(principalId);
 			
 			String lastApprovedString = "No previous approved leave calendar information";

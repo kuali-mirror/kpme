@@ -532,30 +532,38 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                 }
                            }
                         } else {
-                            BigDecimal currentLeaveAmount = aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) > 0 ? aLeaveBlock.getLeaveAmount().negate() : aLeaveBlock.getLeaveAmount();
-                            //we only want this for the current calendar!!!
-                            if(!(StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
-                            		StringUtils.equals(HrConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
-                                if (aLeaveBlock.getLeaveLocalDate().toDate().getTime() > cutOffDate.toDate().getTime()) {
-                                    EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveLocalDate());
-                                    if (ec != null && StringUtils.equals(ec.getAccrualBalanceAction(), HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)){
-                                        approvedUsage = approvedUsage.add(currentLeaveAmount);
+                        	BigDecimal currentLeaveAmount = aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) > 0 ? aLeaveBlock.getLeaveAmount().negate() : aLeaveBlock.getLeaveAmount();
+                        	//we only want this for the current calendar!!!
+                        	if(!(StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
+                        			StringUtils.equals(HrConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
+
+                        		EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveLocalDate());
+
+                        		if ((ec != null && StringUtils.equals(ec.getAccrualBalanceAction(), HrConstants.ACCRUAL_BALANCE_ACTION.USAGE))
+                        				|| aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER)
+                        				|| aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT)
+                        				|| aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_ADJUSTMENT_MAINT)
+                        				|| aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.DONATION_MAINT)){
+                        			if (aLeaveBlock.getLeaveDate().getTime() > cutOffDate.toDate().getTime()) {
+
+                        				approvedUsage = approvedUsage.add(currentLeaveAmount);
+
+                        				if(ec != null && ec.getFmla().equals("Y")) {
+                        					fmlaUsage = fmlaUsage.add(aLeaveBlock.getLeaveAmount());
+                        				}
+                        			} else {
+                        				//these usages are for previous years, to help figure out correct carry over values
+                        				String yearKey = getYearKey(aLeaveBlock.getLeaveLocalDate(), lp);
+                        				BigDecimal use = yearlyUsage.get(yearKey);
+                        				if (use == null) {
+                        					use = BigDecimal.ZERO.setScale(2);
+                        				}
+                        				use = use.add(currentLeaveAmount);
+                        				yearlyUsage.put(yearKey, use);
+                        			}
+                        		}
+                        	}
                                     }
-                                    if(ec != null && ec.getFmla().equals("Y")) {
-                                        fmlaUsage = fmlaUsage.add(aLeaveBlock.getLeaveAmount());
-                                    }
-                                } else {
-                                    //these usages are for previous years, to help figure out correct carry over values
-                                    String yearKey = getYearKey(aLeaveBlock.getLeaveLocalDate(), lp);
-                                    BigDecimal use = yearlyUsage.get(yearKey);
-                                    if (use == null) {
-                                        use = BigDecimal.ZERO.setScale(2);
-                                    }
-                                    use = use.add(currentLeaveAmount);
-                                    yearlyUsage.put(yearKey, use);
-                                }
-                            }
-                        }
 
                         //}
                     }
