@@ -17,7 +17,9 @@ package org.kuali.kpme.tklm.time.timeblock.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -165,16 +167,26 @@ public class TimeBlockServiceImpl implements TimeBlockService {
             }
         }
         
+        Set<String> timeBlockIds = new HashSet<String>();
+        
         for (TimeBlock timeBlock : alteredTimeBlocks) {
-            TkServiceLocator.getTimeHourDetailService().removeTimeHourDetails(timeBlock.getTkTimeBlockId());
+        	if(timeBlock.getTkTimeBlockId() != null) {
+        		timeBlockIds.add(timeBlock.getTkTimeBlockId());
+        	}
+        	TkServiceLocator.getTimeHourDetailService().removeTimeHourDetails(timeBlock.getTkTimeBlockId());
             timeBlock.setUserPrincipalId(userPrincipalId);
         }
         
         List<TimeBlock> savedTimeBlocks = (List<TimeBlock>) KRADServiceLocator.getBusinessObjectService().save(alteredTimeBlocks);
         
         for (TimeBlock timeBlock : savedTimeBlocks) {
-            timeBlock.setTimeBlockHistories(createTimeBlockHistories(timeBlock, TkConstants.ACTIONS.ADD_TIME_BLOCK));
-            KRADServiceLocator.getBusinessObjectService().save(timeBlock.getTimeBlockHistories());
+        	if(!timeBlockIds.contains(timeBlock.getTkTimeBlockId())) {
+	            timeBlock.setTimeBlockHistories(createTimeBlockHistories(timeBlock, TkConstants.ACTIONS.ADD_TIME_BLOCK));
+	            KRADServiceLocator.getBusinessObjectService().save(timeBlock.getTimeBlockHistories());
+        	} else {
+	            timeBlock.setTimeBlockHistories(createTimeBlockHistories(timeBlock, TkConstants.ACTIONS.UPDATE_TIME_BLOCK));
+	            KRADServiceLocator.getBusinessObjectService().save(timeBlock.getTimeBlockHistories());
+        	}
         }
     }
 

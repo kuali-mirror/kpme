@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.apache.struts.action.ActionForm;
@@ -371,7 +372,7 @@ public class TimeDetailAction extends TimesheetAction {
         
         if(StringUtils.isNotEmpty(tdaf.getTkTimeBlockId())) {
         	// the user is changing an existing time block, so need to delete this time block
-        	this.removeOldTimeBlock(tdaf);
+//        	this.removeOldTimeBlock(tdaf);
         } else if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
         	// the user is changing an existing leave block, so need to delete this leave block
         	this.removeOldLeaveBlock(tdaf.getLmLeaveBlockId());
@@ -492,51 +493,78 @@ public class TimeDetailAction extends TimesheetAction {
         // This is just a reference, for code clarity, the above list is actually
         // separate at the object level.
         List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
+        List<TimeBlock> timeBlocksToAdd = null;
         // KPME-1446 add spanningweeks to the calls below 
         if (StringUtils.equals(tdaf.getAcrossDays(), "y")
                 && !(endTime.getDayOfYear() - startTime.getDayOfYear() <= 1
                 && endTime.getHourOfDay() == 0)) {
-            List<TimeBlock> timeBlocksToAdd = TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(currentAssignment,
+
+            timeBlocksToAdd = TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(currentAssignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
                     endTime, tdaf.getHours(), tdaf.getAmount(), isClockLogCreated, Boolean.parseBoolean(tdaf.getLunchDeleted()), tdaf.getSpanningWeeks(), HrContext.getPrincipalId());
-            for (TimeBlock tb : timeBlocksToAdd) {
-                if (!newTimeBlocks.contains(tb)) {
-                    newTimeBlocks.add(tb);
-                }
-            }
+           
         } else {
-            List<TimeBlock> timeBlocksToAdd = TkServiceLocator.getTimeBlockService().buildTimeBlocks(currentAssignment,
+            timeBlocksToAdd = TkServiceLocator.getTimeBlockService().buildTimeBlocks(currentAssignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
                     endTime, tdaf.getHours(), tdaf.getAmount(), isClockLogCreated, Boolean.parseBoolean(tdaf.getLunchDeleted()), HrContext.getPrincipalId());
-            for (TimeBlock tb : timeBlocksToAdd) {
-                if (!newTimeBlocks.contains(tb)) {
-                    newTimeBlocks.add(tb);
-                }
-            }
+        }
+        
+        TimeBlock existingTimeBlock = null;
+        TimeBlock timeBlockToUpdate = null;
+        
+        
+        if (tdaf.getTkTimeBlockId() != null) {
+        	timeBlockToUpdate = timeBlocksToAdd.get(0);
+        	TkServiceLocator.getTimeHourDetailService().removeTimeHourDetails(tdaf.getTkTimeBlockId());
+        	timeBlockToUpdate.setTkTimeBlockId(tdaf.getTkTimeBlockId());
+        }
+        
+        List<TimeBlock> finalNewTimeBlocks = new ArrayList<TimeBlock>();
+        
+        for (TimeBlock tb : newTimeBlocks) {
+        	if(!ObjectUtils.equals(tb.getTkTimeBlockId(), tdaf.getTkTimeBlockId())) {
+        		finalNewTimeBlocks.add(tb);
+        	} else {
+        		existingTimeBlock = tb;
+        		existingTimeBlock.copy(timeBlockToUpdate);
+        		finalNewTimeBlocks.add(existingTimeBlock);
+        	}
+        }
+        
+        for (TimeBlock tb : timeBlocksToAdd) {
+        	if(tdaf.getTkTimeBlockId() != null) {
+	        	if(!ObjectUtils.equals(tb.getTkTimeBlockId(), tdaf.getTkTimeBlockId())) {
+	        		finalNewTimeBlocks.add(tb);
+	        	}
+        	} else {
+        		finalNewTimeBlocks.add(tb);
+        	}
         }
 
         //reset time block
-        TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks, tdaf.getTimesheetDocument().getAsOfDate());
+        TkServiceLocator.getTimesheetService().resetTimeBlock(finalNewTimeBlocks, tdaf.getTimesheetDocument().getAsOfDate());
 
         // apply overtime pref
         // I changed start and end times comparison below. it used to be overtimeBeginTimestamp and overtimeEndTimestamp but
         // for some reason, they're always null because, we have removed the time block before getting here. KPME-2162
-        for (TimeBlock tb : newTimeBlocks) {
+        for (TimeBlock tb : finalNewTimeBlocks) {
             if (tb.getBeginTimestamp().equals(startTime) && tb.getEndTimestamp().equals(endTime) && StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
                 tb.setOvertimePref(tdaf.getOvertimePref());
             }
-
         }
 
-        List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+		List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
         for (Assignment assignment : assignments) {
             	assignmentKeys.add(assignment.getAssignmentKey());
         }
+        
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(HrContext.getTargetPrincipalId(), tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
 
-        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
-        TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
+        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, finalNewTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
+
+        TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, finalNewTimeBlocks, HrContext.getPrincipalId());
+
 	}
 
     public ActionForward updateTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

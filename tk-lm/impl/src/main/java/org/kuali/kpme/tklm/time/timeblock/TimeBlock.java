@@ -532,6 +532,38 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     public TimeBlock copy() {
         return new TimeBlock(this);
     }
+    
+    public void copy(TimeBlock b) {
+    	 this.tkTimeBlockId = b.tkTimeBlockId;
+         this.documentId = b.documentId;
+         this.jobNumber = b.jobNumber;
+         this.workArea = b.workArea;
+         this.task = b.task;
+         this.earnCode = b.earnCode;
+         this.beginTimestamp = new Timestamp(b.beginTimestamp.getTime());
+         this.endTimestamp = new Timestamp(b.endTimestamp.getTime());
+         this.clockLogCreated = b.clockLogCreated;
+         this.hours = b.hours;
+         this.amount = b.amount;
+         this.userPrincipalId = b.userPrincipalId;
+         this.timestamp = new Timestamp(b.timestamp.getTime());
+         this.beginTimeDisplay = b.beginTimeDisplay;
+         this.endTimeDisplay = b.endTimeDisplay;
+         this.pushBackward = b.pushBackward;
+         this.clockLogBeginId = b.clockLogBeginId;
+         this.clockLogEndId = b.clockLogEndId;
+         this.principalId = b.principalId;
+
+         // We just set the reference for this object, since splitting the
+         // TimeBlock would be abnormal behavior.
+         this.timesheetDocumentHeader = b.timesheetDocumentHeader;
+
+         //private List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
+         for (TimeHourDetail thd : b.timeHourDetails) {
+             this.timeHourDetails.add(thd.copy());
+         }
+         
+    }
 
     public String getEarnCodeType() {
         return earnCodeType;
