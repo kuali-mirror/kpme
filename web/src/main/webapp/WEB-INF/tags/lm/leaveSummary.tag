@@ -4,7 +4,7 @@
 <jsp:useBean id="workflowTagSupport" class="org.kuali.kpme.tklm.common.WorkflowTagSupport"/>
 
 <%@ attribute name="leaveSummary" required="true" type="org.kuali.kpme.tklm.leave.summary.LeaveSummary"%>
- 
+
 <div id="leave-summary">
 	<c:if test="${not empty leaveSummary.leaveSummaryRows}">
 		<div class="summaryTitle" style="clear:both; text-align:center; font-weight: bold; margin-bottom: 5px;">${leaveSummary.pendingDatesString} </div>

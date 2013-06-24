@@ -15,9 +15,12 @@
  */
 package org.kuali.kpme.core.earncode.security.validation;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.block.CalendarBlockContract;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.role.KPMERole;
@@ -105,7 +108,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 /*	private boolean isEarnCodeUsedByActiveTimeBlocks(EarnCodeSecurity departmentEarnCode){
 		// KPME-1106 can not deactivate a department earn code if it used in active time blocks
 		boolean valid = true;
-		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestampForEarnCode(departmentEarnCode.getEarnCode());
+		List<CalendarBlockContract> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestampForEarnCode(departmentEarnCode.getEarnCode());
 		
 		if ( !departmentEarnCode.isActive() && !latestEndTimestampTimeBlocks.isEmpty() && departmentEarnCode.getEffectiveDate().before(latestEndTimestampTimeBlocks.get(0).getEndDate()) ){
 			this.putFieldError("active", "deptEarncode.deptEarncode.inactivate", departmentEarnCode.getEarnCode());
@@ -113,7 +116,6 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		} 
 		
 		return valid;
-		
 	}*/
 
 	/**

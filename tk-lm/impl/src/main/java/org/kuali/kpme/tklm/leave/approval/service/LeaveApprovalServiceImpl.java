@@ -48,7 +48,6 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class LeaveApprovalServiceImpl implements LeaveApprovalService {

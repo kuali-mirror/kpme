@@ -17,12 +17,16 @@ package org.kuali.kpme.tklm.leave.summary;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONValue;
+import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.leave.accrual.bucket.LeaveBalance;
 
 public class LeaveSummary implements Serializable {
 	private List<LeaveSummaryRow> leaveSummaryRows = new ArrayList<LeaveSummaryRow>();
@@ -114,7 +118,5 @@ public class LeaveSummary implements Serializable {
     public void setNote(String note) {
         this.note = note;
     }
-	
-	
 	
 }

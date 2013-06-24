@@ -18,6 +18,7 @@ package org.kuali.kpme.core.calendar.entry.dao;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 
 public interface CalendarEntryDao {
@@ -43,4 +44,6 @@ public interface CalendarEntryDao {
     public List<CalendarEntry> getAllCalendarEntriesForCalendarIdUpToCutOffTime(String hrCalendarId, DateTime cutOffTime);
 
     public CalendarEntry getCalendarEntryByCalendarIdAndDateRange(String hrCalendarId, DateTime beginDate, DateTime endDate);
+    
+    public List<CalendarEntry> getAllCalendarEntriesForCalendarIdWithinLeavePlanYear(String hrCalendarId, String leavePlan, LocalDate dateWithinYear);
 }

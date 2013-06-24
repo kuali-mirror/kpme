@@ -310,4 +310,16 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
         return this.getBeginPeriodDate().compareTo(pce.getBeginPeriodDate());
     }
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof CalendarEntry) {
+			CalendarEntry other = (CalendarEntry) obj;
+			if(other != null) {
+				return this.hrCalendarId == other.hrCalendarId
+					&& this.hrCalendarEntryId == other.hrCalendarEntryId;
+			}
+		}
+		return super.equals(obj);
+	}
+
 }

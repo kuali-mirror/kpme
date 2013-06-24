@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kpme.tklm.common.CalendarForm;
+import org.kuali.kpme.tklm.leave.accrual.bucket.KPMEAccrualCategoryBucket;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendar;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
@@ -49,6 +50,7 @@ public class LeaveCalendarForm extends CalendarForm {
     private List<BalanceTransfer> forfeitures;
 	private String startTime;
 	private String endTime;
+	private KPMEAccrualCategoryBucket bucket;
 
 	public boolean isDocEditable() {
 		return isDocEditable;
@@ -192,6 +194,14 @@ public class LeaveCalendarForm extends CalendarForm {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
+	}
+
+	public void setBucket(KPMEAccrualCategoryBucket bucket) {
+		this.bucket = bucket;
+	}
+	
+	public KPMEAccrualCategoryBucket getKPMEAccrualCategoryBucket() {
+		return bucket;
 	}
 	
 }

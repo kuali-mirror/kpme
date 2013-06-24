@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.tklm.leave.calendar.web;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -23,12 +24,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -62,6 +63,8 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.CalendarFormAction;
 import org.kuali.kpme.tklm.common.LMConstants;
+import org.kuali.kpme.tklm.leave.accrual.bucket.KPMEAccrualCategoryBucket;
+import org.kuali.kpme.tklm.leave.accrual.bucket.LeaveBalance;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendar;
@@ -150,7 +153,6 @@ public class LeaveCalendarAction extends CalendarFormAction {
 		LeaveCalendarForm leaveCalendarForm = (LeaveCalendarForm) form;
 		String documentId = leaveCalendarForm.getDocumentId();
 		String principalId = HrContext.getTargetPrincipalId();
-
 		CalendarEntry calendarEntry = null;
 		LeaveCalendarDocument leaveCalendarDocument = null;
 		if (StringUtils.isNotBlank(documentId)) {
@@ -175,7 +177,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
 						leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(header.getDocumentId());
 					}
 				}
-			}
+	    	}
 		}
 
         if (calendarEntry != null) {
@@ -305,7 +307,6 @@ public class LeaveCalendarAction extends CalendarFormAction {
 			List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(targetPrincipalId, calendarEntry);
 			assignment = HrServiceLocator.getAssignmentService().getAssignment(assignments, selectedAssignment, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
 		}
-
 		LmServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, calendarEntry, selectedEarnCode, hours, desc, assignment, spanningWeeks, 
 				LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, targetPrincipalId);
 
@@ -438,7 +439,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
     	String principalId = HrContext.getTargetPrincipalId();
     	CalendarEntry calendarEntry = leaveCalendarForm.getCalendarEntry();
     	PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
-    	
+
     	//check to see if we are on a previous leave plan
         if (principalHRAttributes != null) {
             DateTime currentYearBeginDate = HrServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(principalHRAttributes.getLeavePlan(), LocalDate.now());

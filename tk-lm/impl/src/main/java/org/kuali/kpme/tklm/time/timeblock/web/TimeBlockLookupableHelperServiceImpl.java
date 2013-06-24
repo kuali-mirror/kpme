@@ -69,7 +69,7 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 				
 				Long workArea = tb.getWorkArea();
 				
-				Job job = HrServiceLocator.getJobService().getJob(tb.getUserPrincipalId(), tb.getJobNumber(), LocalDate.now(), false);
+				Job job = HrServiceLocator.getJobService().getJob(tb.getPrincipalIdModified(), tb.getJobNumber(), LocalDate.now(), false);
 				String department = job != null ? job.getDept() : null;
 				
 				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());

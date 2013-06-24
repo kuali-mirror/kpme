@@ -425,76 +425,6 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
         return map;
     }
 
-    /**
-     * Use with button display for balance transfers available On-Demand.
-     * @param lsr
-     * @param accrualCategoryRule
-     * @param principalId 
-     */
-    private void markTransferable(LeaveSummaryRow lsr, AccrualCategoryRule accrualCategoryRule, String principalId) {
-    	//return type must be changed to boolean, or an associated field element must be created for decision
-    	//purposes.
-    	//an accrual category's balance is transferable if the accrued balance is 
-    	//greater than the maximum balance allowed for the accrual category. action_at_max_balance must be TRANSFER
-    	boolean transferable = false;
-    	if(ObjectUtils.isNotNull(accrualCategoryRule)) {
-    		if(ObjectUtils.isNotNull(accrualCategoryRule.getMaxBalance())) {
-    			BigDecimal maxBalance = accrualCategoryRule.getMaxBalance();
-    			BigDecimal fte = HrServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, LocalDate.now());
-    			BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
-    			List<EmployeeOverride> overrides = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, LocalDate.now());
-    			for(EmployeeOverride override : overrides) {
-    				if(StringUtils.equals(override.getOverrideType(),TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MB"))
-    						&& override.isActive()) {
-    					adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
-    					break;
-    				}
-    			}
-    			if(adjustedMaxBalance.compareTo(lsr.getAccruedBalance()) < 0) {
-    				if(StringUtils.equals(accrualCategoryRule.getActionAtMaxBalance(), HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER) &&
-    						StringUtils.equals(accrualCategoryRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
-    					transferable = true;
-    			}
-    		}
-    	}
-    	lsr.setTransferable(transferable);
-    }
-    
-    /**
-     * Use with button display for balance transfer payouts available On-Demand.
-     * @param lsr
-     * @param accrualCategoryRule 
-     * @param principalId 
-     */
-    private void markPayoutable(LeaveSummaryRow lsr, AccrualCategoryRule accrualCategoryRule, String principalId) {
-    	//return type must be changed to boolean, or an associated field element must be created for decision
-    	//purposes.
-    	//an accrual category's balance is transferable if max_bal_action_frequency is ON-DEMAND
-    	//and action_at_max_balance is PAYOUT
-    	boolean payoutable = false;
-    	if(ObjectUtils.isNotNull(accrualCategoryRule)) {
-    		if(ObjectUtils.isNotNull(accrualCategoryRule.getMaxBalance())) {
-    			BigDecimal maxBalance = accrualCategoryRule.getMaxBalance();
-    			BigDecimal fte = HrServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, LocalDate.now());
-    			BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
-    			List<EmployeeOverride> overrides = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, LocalDate.now());
-    			for(EmployeeOverride override : overrides) {
-    				if(StringUtils.equals(override.getOverrideType(),TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MB"))
-    						&& override.isActive()) {
-    					adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
-    					break;
-    				}
-    			}
-    			if(adjustedMaxBalance.compareTo(lsr.getAccruedBalance()) < 0) {
-    				if(StringUtils.equals(accrualCategoryRule.getActionAtMaxBalance(), HrConstants.ACTION_AT_MAX_BALANCE.PAYOUT) &&
-    						StringUtils.equals(accrualCategoryRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
-    					payoutable = true;
-    			}
-    		}
-    	}
-    	lsr.setPayoutable(payoutable);
-    }
-    
 	private void assignApprovedValuesToRow(LeaveSummaryRow lsr, String accrualCategory, List<LeaveBlock> approvedLeaveBlocks, LeavePlan lp, LocalDate ytdEarnedEffectiveDate, LocalDate effectiveDate) {
 
         SortedMap<String, BigDecimal> yearlyAccrued = new TreeMap<String, BigDecimal>();
@@ -563,7 +493,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                         			}
                         		}
                         	}
-                                    }
+                        }
 
                         //}
                     }

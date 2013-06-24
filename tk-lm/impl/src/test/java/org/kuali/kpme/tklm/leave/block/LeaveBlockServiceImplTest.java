@@ -28,6 +28,7 @@ import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kpme.core.block.CalendarBlockContract;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.TKLMUnitTestCase;
 import org.kuali.kpme.tklm.common.LMConstants;
@@ -52,7 +53,7 @@ public class LeaveBlockServiceImplTest extends TKLMUnitTestCase {
 
 	@Test
 	public void testGetLeaveBlock() {
-		LeaveBlock leaveBlock = leaveBlockService.getLeaveBlock("1000");
+		CalendarBlockContract leaveBlock = leaveBlockService.getLeaveBlock("1000");
 		Assert.assertNotNull("Leave Block not found ", leaveBlock);
 	}
 

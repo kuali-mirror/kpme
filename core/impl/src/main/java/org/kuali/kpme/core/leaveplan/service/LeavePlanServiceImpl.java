@@ -132,7 +132,8 @@ public class LeavePlanServiceImpl implements LeavePlanService {
         int priorYearCutOffDay = Integer.parseInt(lp.getCalendarYearStartDayOfMonth());
 
         LocalDate cutOffDate = asOfDate.withMonthOfYear(priorYearCutOffMonth).withDayOfMonth(priorYearCutOffDay);
-        if (asOfDate.isAfter(cutOffDate)) {
+        if (asOfDate.isAfter(cutOffDate)
+        		|| asOfDate.equals(cutOffDate)) {
             cutOffDate = cutOffDate.plusYears(1);
         }
         return cutOffDate.toDateTimeAtStartOfDay();

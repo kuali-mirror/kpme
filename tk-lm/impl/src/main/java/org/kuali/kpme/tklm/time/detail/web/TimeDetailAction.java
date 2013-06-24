@@ -43,6 +43,7 @@ import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.block.CalendarBlockContract;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
@@ -413,7 +414,7 @@ public class TimeDetailAction extends TimesheetAction {
     
     private void removeOldLeaveBlock(String lbId) {
   	  if (lbId != null) {
-  	      LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lbId);
+  	      CalendarBlockContract lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lbId);
   	      if (lb != null) {
   	          LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(lbId, HrContext.getPrincipalId());
   	      }

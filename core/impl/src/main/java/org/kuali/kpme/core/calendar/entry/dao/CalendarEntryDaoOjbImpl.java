@@ -29,6 +29,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class CalendarEntryDaoOjbImpl extends PlatformAwareDaoBaseOjb implements CalendarEntryDao {
@@ -232,6 +233,23 @@ public class CalendarEntryDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
         	ceList.addAll(c);
         }
         return ceList;
+    }
+    
+    public List<CalendarEntry> getAllCalendarEntriesForCalendarIdWithinLeavePlanYear(String hrCalendarId, String leavePlan, LocalDate dateWithinYear) {
+    	Criteria crit = new Criteria();
+    	List<CalendarEntry> ceList = new ArrayList<CalendarEntry>();
+    	crit.addEqualTo("hrCalendarId", hrCalendarId);
+    	DateTime leavePlanStart = HrServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(leavePlan, dateWithinYear);
+    	DateTime leavePlanEnd = HrServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(leavePlan, dateWithinYear);
+    	crit.addGreaterOrEqualThan("endPeriodDateTime", leavePlanStart);
+    	crit.addLessThan("beginPeriodDateTime", leavePlanEnd);
+    	
+    	QueryByCriteria query = new QueryByCriteria(CalendarEntry.class, crit);
+    	Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    	if(c != null) {
+    		ceList.addAll(c);
+    	}
+    	return ceList;
     }
 
 }

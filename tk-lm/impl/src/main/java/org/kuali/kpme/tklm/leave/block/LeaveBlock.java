@@ -31,6 +31,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.block.CalendarBlockBase;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
@@ -46,45 +47,40 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class LeaveBlock extends PersistableBusinessObjectBase {
+public class LeaveBlock extends CalendarBlockBase {
 
 	private static final long serialVersionUID = -8240826812581295376L;
 	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "LeaveBlock";
 	
-	private String lmLeaveBlockId;
+	protected String earnCode;
+	protected Long workArea;
+	protected Long jobNumber;
+	protected Long task;
+	protected BigDecimal leaveAmount = new BigDecimal("0.0");
+	
 	private Date leaveDate;
 	private String description;
-	private String principalId;
-	private String earnCode;
 	private String scheduleTimeOffId;
 	private String accrualCategory;
-	private BigDecimal leaveAmount = new BigDecimal("0.0");
-	private String documentId;
-	private String principalIdModified;
-	private Timestamp timestamp;
 	private Boolean accrualGenerated;
 	private Long blockId;
 	private String requestStatus;
 	private String leaveBlockType;
 	private String documentStatus;
+	private String principalIdModified;
 	
 	private List<LeaveBlockHistory> leaveBlockHistories = new ArrayList<LeaveBlockHistory>();
     private String leaveRequestDocumentId;
+        
+	protected String lmLeaveBlockId;
     
-    private Date beginTimestamp;
-    private Date endTimestamp;
-    
-	@Transient
+    @Transient
 	private boolean submit;
 	@Transient
 	private String reason;
 
-	private Long workArea;
-	private Long jobNumber;
-	private Long task;
 	private String assignmentKey;
 	
 	@Transient
@@ -270,22 +266,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		this.description = description;
 	}
 
-	public String getDocumentId() {
-		return documentId;
-	}
-
-	public void setDocumentId(String documentId) {
-		this.documentId = documentId;
-	}
-
-	public BigDecimal getLeaveAmount() {
-		return leaveAmount;
-	}
-
-	public void setLeaveAmount(BigDecimal leaveAmount) {
-		this.leaveAmount = leaveAmount;
-	}
-
 	public Date getLeaveDate() {
 		return leaveDate;
 	}
@@ -302,44 +282,12 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		this.leaveDate = leaveLocalDate != null ? leaveLocalDate.toDate() : null;
 	}
 
-	public String getLmLeaveBlockId() {
-		return lmLeaveBlockId;
-	}
-
-	public void setLmLeaveBlockId(String lmLeaveBlockId) {
-		this.lmLeaveBlockId = lmLeaveBlockId;
-	}
-
-	public String getPrincipalIdModified() {
-		return principalIdModified;
-	}
-
-	public void setPrincipalIdModified(String principalIdModified) {
-		this.principalIdModified = principalIdModified;
-	}
-
-	public String getPrincipalId() {
-		return principalId;
-	}
-
-	public void setPrincipalId(String principalId) {
-		this.principalId = principalId;
-	}
-
 	public String getScheduleTimeOffId() {
 		return scheduleTimeOffId;
 	}
 
 	public void setScheduleTimeOffId(String scheduleTimeOffId) {
 		this.scheduleTimeOffId = scheduleTimeOffId;
-	}
-
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
 	}
 
 	public String getRequestStatus() {
@@ -370,30 +318,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 
 	public void setReason(String reason) {
 		this.reason = reason;
-	}
-
-	public Long getWorkArea() {
-		return workArea;
-	}
-
-	public void setWorkArea(Long workArea) {
-		this.workArea = workArea;
-	}
-
-	public Long getJobNumber() {
-		return jobNumber;
-	}
-
-	public void setJobNumber(Long jobNumber) {
-		this.jobNumber = jobNumber;
-	}
-
-	public Long getTask() {
-		return task;
-	}
-
-	public void setTask(Long task) {
-		this.task = task;
 	}
 
 	public String getAssignmentTitle() {
@@ -442,14 +366,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 
 	public void setCalendarId(String calendarId) {
 		this.calendarId = calendarId;
-	}
-
-	public String getEarnCode() {
-		return earnCode;
-	}
-
-	public void setEarnCode(String earnCode) {
-		this.earnCode = earnCode;
 	}
 	
 	public String getEarnCodeDescription() {
@@ -584,28 +500,12 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		return transactionalDocId;
 	}
 
-	public Date getBeginTimestamp() {
-		return beginTimestamp;
-	}
-
-	public void setBeginTimestamp(Date beginTimestamp) {
-		this.beginTimestamp = beginTimestamp;
-	}
-	
 	public DateTime getBeginDateTime() {
 		return beginTimestamp != null ? new DateTime(beginTimestamp) : null;
 	}
 	
 	public void setBeginDateTime(DateTime beginDateTime) {
 		beginTimestamp = beginDateTime != null ? beginDateTime.toDate() : null;
-	}
-
-	public Date getEndTimestamp() {
-		return endTimestamp;
-	}
-
-	public void setEndTimestamp(Date endTimestamp) {
-		this.endTimestamp = endTimestamp;
 	}
 	
 	public DateTime getEndDateTime() {
@@ -614,6 +514,64 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	
 	public void setEndDateTime(DateTime endDateTime) {
 		endTimestamp = endDateTime != null ? endDateTime.toDate() : null;
+	}
+
+	public String getLmLeaveBlockId() {
+		return lmLeaveBlockId;
+	}
+
+	public void setLmLeaveBlockId(String lmLeaveBlockId) {
+		this.lmLeaveBlockId = lmLeaveBlockId;
+	}
+
+	@Override
+	public String getPrincipalIdModified() {
+		return principalIdModified;
+	}
+
+	@Override
+	public void setPrincipalIdModified(String principalIdModified) {
+		this.principalIdModified = principalIdModified;
+	}
+
+	public BigDecimal getLeaveAmount() {
+		return leaveAmount;
+	}
+
+	public void setLeaveAmount(BigDecimal leaveAmount) {
+		this.leaveAmount = leaveAmount;
+	}
+
+	public Long getWorkArea() {
+		return workArea;
+	}
+
+	public void setWorkArea(Long workArea) {
+		this.workArea = workArea;
+	}
+
+	public Long getJobNumber() {
+		return jobNumber;
+	}
+
+	public void setJobNumber(Long jobNumber) {
+		this.jobNumber = jobNumber;
+	}
+
+	public Long getTask() {
+		return task;
+	}
+
+	public void setTask(Long task) {
+		this.task = task;
+	}
+
+	public String getEarnCode() {
+		return earnCode;
+	}
+
+	public void setEarnCode(String earnCode) {
+		this.earnCode = earnCode;
 	}
 	
 }

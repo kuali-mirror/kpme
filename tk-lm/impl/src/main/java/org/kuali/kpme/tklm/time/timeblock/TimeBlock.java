@@ -31,6 +31,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.block.CalendarBlockBase;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -40,25 +41,13 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class TimeBlock extends PersistableBusinessObjectBase implements Comparable {
+public class TimeBlock extends CalendarBlockBase implements Comparable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -4164042707879641855L;
     public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "TimeBlock";
 
     private String tkTimeBlockId;
-    private String documentId;
-    private Long jobNumber;
-    private Long workArea;
-    private Long task;
-    private String earnCode;
-    private String earnCodeType;
-    private Date beginTimestamp;
-    private Date endTimestamp;
 
     @Transient
     private Date beginDate;
@@ -69,18 +58,19 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     @Transient
     private Time endTime;
 
+    private String earnCodeType;
+
     private Boolean clockLogCreated;
     private BigDecimal hours = HrConstants.BIG_DECIMAL_SCALED_ZERO;
     private BigDecimal amount = HrConstants.BIG_DECIMAL_SCALED_ZERO;
-    private String principalId;
-    private String userPrincipalId;
-    private Timestamp timestamp;
     private DateTime beginTimeDisplay;
     private DateTime endTimeDisplay;
     private String clockLogBeginId;
     private String clockLogEndId;
     private String assignmentKey;
     private String overtimePref;
+    //userPrincipalId == super.principalIdModified
+    private String userPrincipalId;
     private boolean lunchDeleted;
     
     @Transient
@@ -102,6 +92,11 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     
     private transient List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
     private transient List<TimeBlockHistory> timeBlockHistories = new ArrayList<TimeBlockHistory>();
+	protected String earnCode;
+	protected Long workArea;
+	protected Long jobNumber;
+	protected Long task;
+	protected BigDecimal leaveAmount = new BigDecimal("0.0");
 
     public TimeBlock() {
     }
@@ -267,7 +262,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     }
 
     public void setUserPrincipalId(String userPrincipalId) {
-        this.userPrincipalId = userPrincipalId;
+    	this.userPrincipalId = userPrincipalId;
     }
 
     public Timestamp getTimestamp() {
@@ -281,7 +276,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     public String toCSVString() {
         StringBuffer sb = new StringBuffer();
         sb.append(this.earnCode + ",");
-        sb.append(this.userPrincipalId + ",");
+        sb.append(this.getUserPrincipalId() + ",");
         sb.append(this.amount + ",");
         sb.append(this.beginTimestamp + ",");
         sb.append(this.clockLogCreated + ",");
@@ -504,7 +499,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         this.clockLogCreated = b.clockLogCreated;
         this.hours = b.hours;
         this.amount = b.amount;
-        this.userPrincipalId = b.userPrincipalId;
+        this.setUserPrincipalId(b.getUserPrincipalId());
         this.timestamp = new Timestamp(b.timestamp.getTime());
         this.beginTimeDisplay = b.beginTimeDisplay;
         this.endTimeDisplay = b.endTimeDisplay;
@@ -718,5 +713,15 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     		.append(timeHourDetails)
     		.toHashCode();
     }
+
+	@Override
+	public String getPrincipalIdModified() {
+		return getUserPrincipalId();
+	}
+
+	@Override
+	public void setPrincipalIdModified(String principalIdModified) {
+		setUserPrincipalId(principalIdModified);
+	}
     
 }

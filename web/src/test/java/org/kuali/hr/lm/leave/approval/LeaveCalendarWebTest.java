@@ -85,7 +85,8 @@ public class LeaveCalendarWebTest extends KPMEWebTestCase {
         synchronized (page) {
             page.wait(5000);
         }
-
+        String pageText = page.asText();
+        LOG.info(pageText);
 		// Check for previous document
 		HtmlButton prevButton = (HtmlButton) page
 				.getElementById("nav_prev_lc");
