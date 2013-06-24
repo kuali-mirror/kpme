@@ -49,20 +49,15 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 	static final String DOC_ID = "documentId";
 	static final String DOC_STATUS_ID = "timesheetDocumentHeader.documentStatus";
 	static final String BEGIN_DATE_ID = "beginDate";
+	private static final String BEGIN_TIMESTAMP = "beginTimestamp";
 		
 	 @Override
     public List<? extends BusinessObject> getSearchResults(java.util.Map<String, String> fieldValues) {
-	 
-		 String docStatus = "", beginDateString="";
-
-		 if(fieldValues.containsKey(DOC_STATUS_ID)){
-				docStatus = fieldValues.get(DOC_STATUS_ID);
-				fieldValues.remove(DOC_STATUS_ID);
-			}
-		 if(fieldValues.containsKey(BEGIN_DATE_ID)){
-			 	beginDateString = fieldValues.get(BEGIN_DATE_ID);
-				fieldValues.remove(BEGIN_DATE_ID);
-			}
+		 if (fieldValues.containsKey(BEGIN_DATE_ID)) {
+			 //beginDate = fieldValues.get(BEGIN_DATE);
+			 fieldValues.put(BEGIN_TIMESTAMP, fieldValues.get(BEGIN_DATE_ID));
+			 fieldValues.remove(BEGIN_DATE_ID);
+		 }
         
         List<TimeBlock> objectList = (List<TimeBlock>) super.getSearchResults(fieldValues);
       
@@ -95,35 +90,7 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 					itr.remove();
 					continue;
 				}
-				if(StringUtils.isNotEmpty(docStatus)) {
-					if(tb.getTimesheetDocumentHeader() == null) {
-						itr.remove();
-						continue;
-					} else {
-						if(tb.getTimesheetDocumentHeader().getDocumentStatus() != null) {
-							if(!tb.getTimesheetDocumentHeader().getDocumentStatus().equals(docStatus)){
-								itr.remove();
-								continue;
-							}
-						} else {
-							itr.remove();
-							continue;
-						}
-					}
-				}
-								
-				if(StringUtils.isNotEmpty(beginDateString)) {
-					if(tb.getBeginDate() != null) {
-						if(!this.checkDate(tb, tb.getBeginDate(), beginDateString)) {
-							itr.remove();
-							continue;
-						} 
-					} else {
-						itr.remove();
-						continue;
-					}
-				}				
-			}
+        	}
 			
 			// Fetch list from time hour detail and convert it into TimeBlock
 			if(!objectList.isEmpty()) {
