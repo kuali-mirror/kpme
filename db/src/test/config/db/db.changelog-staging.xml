@@ -20,6 +20,117 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <includeAll path="src/test/config/db/staging/" />
+    <changeSet id="1" author="kbtaylor" context="kpme-server-staging" dbms="mysql">
+        <insert tableName="KRIM_ENTITY_ID_S">
+            <column name="ID" value="10306" />
+        </insert>
+        <insert tableName="KRIM_ENTITY_NM_ID_S">
+            <column name="ID" value="10306" />
+        </insert>
+        <insert tableName="KRIM_ENTITY_EMAIL_ID_S">
+            <column name="ID" value="10306" />
+        </insert>
+        <insert tableName="KRIM_PRNCPL_ID_S">
+            <column name="ID" value="10306" />
+        </insert>
+    </changeSet>
+    
+    <changeSet id="2" author="kbtaylor" context="kpme-server-staging">
+        <loadData tableName="KRIM_ENTITY_T" file="src/test/config/db/staging/krim_entity_t.csv">
+            <column name="OBJ_ID" type="COMPUTED" />
+        </loadData>
+        <loadData tableName="KRIM_ENTITY_ENT_TYP_T" file="src/test/config/db/staging/krim_entity_ent_typ_t.csv" />
+        <loadData tableName="KRIM_ENTITY_NM_T" file="src/test/config/db/staging/krim_entity_nm_t.csv" />
+        <loadData tableName="KRIM_ENTITY_EMAIL_T" file="src/test/config/db/staging/krim_entity_email_t.csv" />
+        <loadData tableName="KRIM_PRNCPL_T" file="src/test/config/db/staging/krim_prncpl_t.csv" />
+    </changeSet>
+    
+    <changeSet id="3" author="kbtaylor" context="kpme-client-staging">
+        <loadData tableName="CA_CHART_T" file="src/test/config/db/staging/ca_chart_t.csv" />
+        <loadData tableName="CA_ACCOUNT_T" file="src/test/config/db/staging/ca_account_t.csv">
+            <column name="ACCT_EFFECT_DT" header="ACCT_EFFECT_DT" type="DATETIME" />
+        </loadData>
+        <loadData tableName="CA_OBJECT_CODE_T" file="src/test/config/db/staging/ca_object_code_t.csv" />
+        <loadData tableName="CA_SUB_OBJECT_CD_T" file="src/test/config/db/staging/ca_sub_object_cd_t.csv" />
+    </changeSet>
+    
+    <changeSet id="4" author="kbtaylor" context="kpme-client-staging">
+        <loadData tableName="HR_CALENDAR_T" file="src/test/config/db/staging/hr_calendar_t.csv">
+            <column name="FLSA_BEGIN_TIME" header="FLSA_BEGIN_TIME" type="TIME" />
+        </loadData>
+        <loadData tableName="HR_CALENDAR_ENTRIES_T" file="src/test/config/db/staging/hr_calendar_entries_t.csv">
+            <column name="BEGIN_PERIOD_DATE" header="BEGIN_PERIOD_DATE" type="DATETIME" />
+            <column name="END_PERIOD_DATE" header="END_PERIOD_DATE" type="DATETIME" />
+            <column name="BATCH_INITIATE_DATE" header="BATCH_INITIATE_DATE" type="DATETIME" />
+            <column name="BATCH_END_PAY_PERIOD_DATE" header="BATCH_END_PAY_PERIOD_DATE" type="DATETIME" />
+            <column name="BATCH_EMPLOYEE_APPROVAL_DATE" header="BATCH_EMPLOYEE_APPROVAL_DATE" type="DATETIME" />
+            <column name="BATCH_SUPERVISOR_APPROVAL_DATE" header="BATCH_SUPERVISOR_APPROVAL_DATE" type="DATETIME" />
+        </loadData>
+        <loadData tableName="HR_DEPT_T" file="src/test/config/db/staging/hr_dept_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="HR_EARN_CODE_T" file="src/test/config/db/staging/hr_earn_code_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="HR_EARN_CODE_SECURITY_T" file="src/test/config/db/staging/hr_earn_code_security_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="HR_EARN_CODE_GROUP_T" file="src/test/config/db/staging/hr_earn_code_group_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="HR_EARN_CODE_GROUP_DEF_T" file="src/test/config/db/staging/hr_earn_code_group_def_t.csv" />
+        <loadData tableName="HR_JOB_T" file="src/test/config/db/staging/hr_job_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="HR_LOCATION_T" file="src/test/config/db/staging/hr_location_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="HR_PAY_GRADE_T" file="src/test/config/db/staging/hr_pay_grade_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="HR_PAYTYPE_T" file="src/test/config/db/staging/hr_paytype_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="HR_POSITION_T" file="src/test/config/db/staging/hr_position_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="HR_PRINCIPAL_ATTRIBUTES_T" file="src/test/config/db/staging/hr_principal_attributes_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+            <column name="SERVICE_DATE" header="SERVICE_DATE" type="DATE" />
+        </loadData>
+        <loadData tableName="HR_SAL_GROUP_T" file="src/test/config/db/staging/hr_sal_group_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+    </changeSet>
+    
+    <changeSet id="5" author="kbtaylor" context="kpme-client-staging">
+        <loadData tableName="LM_ACCRUAL_CATEGORY_T" file="src/test/config/db/staging/lm_accrual_category_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="LM_ACCRUAL_CATEGORY_RULES_T" file="src/test/config/db/staging/lm_accrual_category_rules_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="LM_LEAVE_PLAN_T" file="src/test/config/db/staging/lm_leave_plan_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="LM_SYS_SCHD_TIMEOFF_T" file="src/test/config/db/staging/lm_sys_schd_timeoff_t.csv">
+            <column name="ACCR_DT" header="ACCR_DT" type="DATE" />
+            <column name="SCH_TIME_OFF_DT" header="SCH_TIME_OFF_DT" type="DATE" />
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+    </changeSet>
+    
+    <changeSet id="6" author="kbtaylor" context="kpme-client-staging">
+        <loadData tableName="TK_ASSIGNMENT_T" file="src/test/config/db/staging/tk_assignment_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="TK_ASSIGN_ACCT_T" file="src/test/config/db/staging/tk_assign_acct_t.csv" />
+        <loadData tableName="TK_TIME_COLLECTION_RL_T" file="src/test/config/db/staging/tk_time_collection_rl_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="TK_WORK_AREA_T" file="src/test/config/db/staging/tk_work_area_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+    </changeSet>
 
 </databaseChangeLog>

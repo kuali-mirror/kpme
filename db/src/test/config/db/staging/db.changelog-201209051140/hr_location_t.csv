@@ -1,7 +1,0 @@
-HR_LOCATION_ID,LOCATION,TIMEZONE,DESCRIPTION,EFFDT,ACTIVE
-1,BL,America/Indiana/Indianapolis,Bloomington,2010-01-01,Y
-2,CST,America/Chicago,Central Standard Time,2010-01-01,Y
-3,EST,America/Indiana/Indianapolis,Eastern Standard Time,2010-01-01,Y
-4,FL,America/Indiana/Indianapolis,Orlando Florida,2010-01-01,Y
-5,IN,America/Indiana/Indianapolis,Indianapolis,2010-01-01,Y
-6,UA,America/Indiana/Indianapolis,University Admin,2010-01-01,Y

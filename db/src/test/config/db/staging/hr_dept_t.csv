@@ -1,0 +1,24 @@
+HR_DEPT_ID,DEPT,DESCRIPTION,LOCATION,EFFDT,ACTIVE
+1,CA-DEPT,California Dept,CA,2010-01-01,Y
+2,CA-LEAVE,California Leave Dept,CA,2010-01-01,Y
+3,CA-TIME,California Time Dept,CA,2010-01-01,Y
+4,CO-DEPT,Colorado Dept,CO,2010-01-01,Y
+5,CO-LEAVE,Colorado Leave Dept,CO,2010-01-01,Y
+6,CO-TIME,Colorado Time Dept,CO,2010-01-01,Y
+7,GA-DEPT,Georgia Dept,GA,2010-01-01,Y
+8,GA-LEAVE,Georgia Leave Dept,GA,2010-01-01,Y
+9,GA-TIME,Georgia Time Dept,GA,2010-01-01,Y
+10,IA-DEPT,Iowa Dept,IA,2010-01-01,Y
+11,IA-EC,Earn Code Dept,IA,2010-01-01,Y
+12,IA-LEAVE,Iowa Leave Dept,IA,2010-01-01,Y
+13,IA-TIME,Iowa Time Dept,IA,2010-01-01,Y
+14,IN-CAL,Calendar Dept,IN,2010-01-01,Y
+15,IN-DEPT,Indiana Dept,IN,2010-01-01,Y
+16,IN-DLUN,Lunch Ded Dept,IN,2010-01-01,Y
+17,IN-DOT,Daily OT Dept,IN,2010-01-01,Y
+18,IN-EC,Earn Code Dept,IN,2010-01-01,Y
+19,IN-LEAVE,Indiana Leave Dept,IN,2010-01-01,Y
+20,IN-OVT,Weekly OT Dept,IN,2010-01-01,Y
+21,IN-SFDF,Shift Diff Dept,IN,2010-01-01,Y
+22,IN-TCOLL,Time Collection Dept,IN,2010-01-01,Y
+23,IN-TIME,Indiana Time Dept,IN,2010-01-01,Y

@@ -1,0 +1,10 @@
+HR_PAY_GRADE_ID,PAY_GRADE,SAL_GROUP,DESCRIPTION,LOCATION,EFFDT,ACTIVE
+1,EX1,EX,Pay Grade 1 Exempt,*,2010-01-01,Y
+2,EX2,EX,Pay Grade 2 Exempt,*,2010-01-01,Y
+3,EX3,EX,Pay Grade 3 Exempt,*,2010-01-01,Y
+4,HR1,HR,Pay Grade 1 Hourly,*,2010-01-01,Y
+5,HR2,HR,Pay Grade 2 Hourly,*,2010-01-01,Y
+6,HR3,HR,Pay Grade 3 Hourly,*,2010-01-01,Y
+7,NE1,NE,Pay Grade 1 Non-Exempt,*,2010-01-01,Y
+8,NE2,NE,Pay Grade 2 Non-Exempt,*,2010-01-01,Y
+9,NE3,NE,Pay Grade 3 Non-Exempt,*,2010-01-01,Y

@@ -1,0 +1,6 @@
+HR_LOCATION_ID,LOCATION,DESCRIPTION,TIMEZONE,EFFDT,ACTIVE
+1,CA,Pacfic Time,America/Phoenix,2010-01-01,Y
+2,CO,Mountain Time,America/Denver,2010-01-01,Y
+3,GA,Eastern Time,America/Indiana/Indianapolis,2010-01-01,Y
+4,IA,Central Time,America/Chicago,2010-01-01,Y
+5,IN,Eastern Time,America/Indiana/Indianapolis,2010-01-01,Y
