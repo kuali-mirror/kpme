@@ -30,6 +30,7 @@ import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
+import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
 import org.kuali.rice.core.impl.services.CoreImplServiceLocator;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -50,7 +51,7 @@ public abstract class KPMEUnitTestCase extends RiceInternalSuiteDataTestCase {
 	
 	@Override
 	protected String getModuleName() {
-		return "kpme";
+		return "web";
 	}
 
 	@Override
@@ -209,5 +210,15 @@ public abstract class KPMEUnitTestCase extends RiceInternalSuiteDataTestCase {
     protected List<String> getTestHarnessSpringBeansLocation() {
     	return Collections.singletonList("classpath:"+getModuleName().toLowerCase()+"TestHarnessSpringBeans.xml");
     }
+
+    /*protected List<String> getConfigLocations() {
+        List<String> configLocations = new ArrayList<String>();
+        //configLocations.add(getRiceMasterDefaultConfigFile());
+        configLocations.add("classpath:META-INF/kpme-test-config.xml");
+
+        //module specific overrides:
+        configLocations.add(getModuleTestConfigLocation());
+        return configLocations;
+    }*/
 
 }

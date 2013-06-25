@@ -53,7 +53,8 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
     <script type="text/javascript" src="krad/plugins/blockUI/jquery.blockUI.js"></script>
     <script type="text/javascript" src="krad/plugins/validate/jquery.validate.js"></script>
     <script type="text/javascript" src="krad/plugins/tooltip/jquery.bubblepopup.v2.3.1.js"></script>
-    <script type="text/javascript" src="krad/plugins/dirtyform/jquery.dirtyform.js"></script>
+    <%--script type="text/javascript" src="krad/plugins/dirtyform/jquery.dirtyform.js"></script>--%>
+
     <script type="text/javascript" src="krad/plugins/scrollto/jquery.scrollTo-1.4.3-min.js"></script>
     <script type="text/javascript" src="krad/plugins/rice/datatables/jquery.dataTables.js"></script>
     <script type="text/javascript" src="krad/plugins/rice/datatables/ZeroClipboard.js"></script>
@@ -65,7 +66,9 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
     <script type="text/javascript" src="krad/scripts/krad.widget.js"></script>
     <script type="text/javascript" src="krad/scripts/krad.url.js"></script>
     <script type="text/javascript" src="krad/scripts/krad.utility.js"></script>
+    <script type="text/javascript" src="krad/scripts/krad.dirty.js"></script>
     <script type="text/javascript" src="krad/scripts/krad.initialize.js"></script>
+
 
 	<html:form action="/Clock.do">
     	<html:hidden property="methodToCall" value=""/>

@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.kew.web.DummyLoginFilter;
+import org.kuali.rice.krad.web.filter.DummyLoginFilter;
 
 public class KPMELoginFilter implements Filter {
 

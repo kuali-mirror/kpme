@@ -22,12 +22,12 @@
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 
     <!-- KPME project defaults: Contains either properties that differ from the Rice defaults or are KPME specific properties -->
-    <param name="config.location">classpath:META-INF/kpme-core-config-defaults.xml</param>
+    <param name="config.location">classpath:META-INF/kpme-config-defaults.xml</param>
     
     <!-- KPME project defaults for tests: Contains either properties that differ from the Rice defaults or are KPME specific properties -->
     <param name="config.location">classpath:META-INF/kpme-test-config-defaults.xml</param>
 
-    <!-- Rice's standard config file locations: Contains locations to find other config files. -->
-    <param name="config.location">${user.home}/kuali/test/${environment}/${module.name}-test-config.xml</param>
+    <!-- KPME's standard config file locations: Contains locations to find other config files. -->
+    <param name="config.location">classpath:META-INF/kpme-common-test-config-locations.xml</param>
 
 </config>

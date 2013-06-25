@@ -50,12 +50,12 @@
 
 	<filter>
 		<filter-name>BootstrapFilter</filter-name>
-		<filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
+		<filter-class>org.kuali.rice.krad.web.filter.BootstrapFilter</filter-class>
 	</filter>
 
 	<filter>
 		<filter-name>UserLoginFilter</filter-name>
-		<filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
+		<filter-class>org.kuali.rice.krad.web.filter.UserLoginFilter</filter-class>
 	</filter>
 
 	<filter>
@@ -350,13 +350,11 @@
         <load-on-startup>4</load-on-startup>
     </servlet>
     
-    <!-- will need for rice 2.3M3
     <servlet>
         <servlet-name>login</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>5</load-on-startup>
     </servlet>
-    -->
 
     <servlet>
         <servlet-name>kpme</servlet-name>
@@ -419,13 +417,11 @@
         <url-pattern>/kr-kradguest/*</url-pattern>
     </servlet-mapping>
     
-    <!-- will need for rice 2.3M3
     <servlet-mapping>
         <servlet-name>login</servlet-name>
         <url-pattern>/kr-login/*</url-pattern>
     </servlet-mapping>
-    -->
-    
+
     <servlet-mapping>
         <servlet-name>kpme</servlet-name>
         <url-pattern>/kpme/*</url-pattern>

@@ -266,7 +266,17 @@ public abstract class KPMEWebTestCase extends RiceInternalSuiteDataTestCase {
     }
 
     public static Integer getPort() {
-	return new Integer(ConfigContext.getCurrentContextConfig().getProperty("kns.test.port"));
+	    return new Integer(ConfigContext.getCurrentContextConfig().getProperty("kns.test.port"));
     }
+
+    /*protected List<String> getConfigLocations() {
+        List<String> configLocations = new ArrayList<String>();
+        //configLocations.add(getRiceMasterDefaultConfigFile());
+        configLocations.add("classpath:META-INF/kpme-test-config.xml");
+
+        //module specific overrides:
+        configLocations.add(getModuleTestConfigLocation());
+        return configLocations;
+    }*/
 
 }
