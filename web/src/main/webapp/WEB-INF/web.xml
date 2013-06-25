@@ -260,7 +260,7 @@
         <load-on-startup>0</load-on-startup>
 	</servlet>
 	
-    <servlet>
+   <!-- <servlet>
         <servlet-name>notification</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 	    <init-param>
@@ -275,7 +275,7 @@
             <param-value>/ken</param-value>
         </init-param>
         <load-on-startup>2</load-on-startup>
-    </servlet>
+    </servlet>-->
     
     <servlet>
         <servlet-name>dwr-invoker</servlet-name>
@@ -295,7 +295,7 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     
-    <servlet>
+<!--    <servlet>
         <servlet-name>kcb</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
@@ -310,7 +310,7 @@
             <param-value>/kcb</param-value>
         </init-param>
         <load-on-startup>2</load-on-startup>
-    </servlet>
+    </servlet>-->
     
     <servlet>
         <servlet-name>remoting</servlet-name>
@@ -372,15 +372,15 @@
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
     
-    <servlet-mapping>
+    <!--<servlet-mapping>
         <servlet-name>notification</servlet-name>
         <url-pattern>*.form</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
-    <servlet-mapping>
+    <!--<servlet-mapping>
         <servlet-name>kcb</servlet-name>
         <url-pattern>*.kcb</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
     <servlet-mapping>
         <servlet-name>dwr-invoker</servlet-name>
