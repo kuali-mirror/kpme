@@ -75,7 +75,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 
 	private boolean validateLocation(EarnCodeSecurity departmentEarnCode) {
 		if (departmentEarnCode.getLocation() != null
-				&& !ValidationUtils.validateLocation(departmentEarnCode.getLocation(), null) && 
+				&& !ValidationUtils.validateLocation(departmentEarnCode.getLocation(), departmentEarnCode.getEffectiveLocalDate()) && 
 				!StringUtils.equals(departmentEarnCode.getLocation(), HrConstants.WILDCARD_CHARACTER)) {
 			this.putFieldError("location", "error.existence", "location '"
 					+ departmentEarnCode.getLocation() + "'");

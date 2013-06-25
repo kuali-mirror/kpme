@@ -47,12 +47,12 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 		return valid;
 	}
 	
-	boolean validateLocation(String location) {
+	boolean validateLocation(String location, LocalDate asOfDate) {
 		boolean valid = true;
 		if(!StringUtils.isEmpty(location) && location.equals(HrConstants.WILDCARD_CHARACTER)) {
 			return true;
 		}
-		if (!ValidationUtils.validateLocation(location, null)) {
+		if (!ValidationUtils.validateLocation(location, asOfDate)) {
 			this.putFieldError("location", "error.existence", "location '"
 					+ location + "'");
 			valid = false;
@@ -137,7 +137,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 				valid &= this.validateScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffLocalDate());
                 valid &= this.validateFraction(sysSchTimeOff.getEarnCode(),sysSchTimeOff.getAmountofTime(),sysSchTimeOff.getEffectiveLocalDate(),"amountofTime");
 				valid &= this.validateUnusedTimeForScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffLocalDate(), sysSchTimeOff.getUnusedTime());
-				valid &= this.validateLocation(sysSchTimeOff.getLocation());
+				valid &= this.validateLocation(sysSchTimeOff.getLocation(), sysSchTimeOff.getEffectiveLocalDate());
 				valid &= this.validateEarnCode(sysSchTimeOff.getEarnCode(), sysSchTimeOff.getEffectiveLocalDate());
 			}
 		}

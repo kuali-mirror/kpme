@@ -81,7 +81,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 
 	boolean validateLocation(Job job) {
 		if (job.getLocation() != null
-				&& !ValidationUtils.validateLocation(job.getLocation(), null)) {
+				&& !ValidationUtils.validateLocation(job.getLocation(), job.getEffectiveLocalDate())) {
 			this.putFieldError("location", "error.existence", "location '"
 					+ job.getLocation() + "'");
 			return false;
