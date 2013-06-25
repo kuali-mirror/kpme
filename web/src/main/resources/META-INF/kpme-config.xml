@@ -26,7 +26,7 @@
 
     <param name="config.location">classpath:META-INF/kpme-tklm-config-defaults.xml</param>
 
-    <param name="config.location">classpath:META-INF/kpme-pm-config.defaults.xml</param>
+    <param name="config.location">classpath:META-INF/kpme-pm-config-defaults.xml</param>
 
     <!-- Rice's standard config file locations: Contains locations to find other config files. -->
     <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
