@@ -1,8 +1,8 @@
 HR_CALENDAR_ID,CALENDAR_NAME,CALENDAR_TYPES,CALENDAR_DESCRIPTIONS,FLSA_BEGIN_DAY,FLSA_BEGIN_TIME
 1,BW-T,Pay,Bi-Weekly Time,Sun,00:00:00
 2,BW-T-R,Pay,Bi-Weekly Time-FLSA Thurs,Thurs,00:00:00
-3,SM-T,Pay,Semi-Monthly Time,Sun,00:00:00
-4,M-T,Pay,Monthly Time,Sun,00:00:00
-5,BW-L,Leave,Bi-Weekly Leave,NULL,NULL
-6,SM-L,Leave,Semi-Monthly Leave,NULL,NULL
+3,BW-L,Leave,Bi-Weekly Leave,NULL,NULL
+4,SM-T,Pay,Semi-Monthly Time,Sun,00:00:00
+5,SM-L,Leave,Semi-Monthly Leave,NULL,NULL
+6,M-T,Pay,Monthly Time,Sun,00:00:00
 7,M-L,Leave,Monthly Leave,NULL,NULL
