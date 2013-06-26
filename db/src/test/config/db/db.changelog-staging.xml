@@ -136,6 +136,9 @@
         <loadData tableName="TK_TIME_COLLECTION_RL_T" file="src/test/config/db/staging/tk_time_collection_rl_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
         </loadData>
+        <loadData tableName="TK_WEEKLY_OVERTIME_RL_T" file="src/test/config/db/staging/tk_weekly_overtime_rl_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
         <loadData tableName="TK_WORK_AREA_T" file="src/test/config/db/staging/tk_work_area_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
         </loadData>
