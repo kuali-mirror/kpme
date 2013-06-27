@@ -652,8 +652,15 @@ $(function () {
         },
 
         tableCellMouseUp : function(e) {
-            tableCells.unbind('mouseenter');
+        	tableCells.unbind('mouseenter');
             tableCells.removeClass("ui-selecting");
+			
+            // when the overtime earn code is clicked, don't open the TimeEntryDialog
+            var id = (e.target || e.srcElement).id;
+		   	if(id.indexOf("overtime") >=0) {
+				return;
+		   	}
+          
             if ($('#docEditable').val() == 'false') {
                 return null;
             }
