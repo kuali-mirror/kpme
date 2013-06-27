@@ -39,12 +39,8 @@ import org.kuali.kpme.tklm.time.timesheet.web.TimesheetActionForm;
 
 public class ClockActionForm extends TimesheetActionForm {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -3843074202863670372L;
 
-    private String currentServerTime;
     private String currentClockAction;
     private String lastClockAction;
     // do we still need nextClockAction?
@@ -124,16 +120,12 @@ public class ClockActionForm extends TimesheetActionForm {
     }
 
     public String getCurrentServerTime() {
-		return currentServerTime;
-	}
-
-	public void setCurrentServerTime(String currentServerTime) {
-		this.currentServerTime = currentServerTime;
+		return String.valueOf(DateTime.now().withZoneRetainFields(TKUtils.getSystemDateTimeZone()).getMillis());
 	}
 	
 	public String getUserSystemOffsetServerTime() {
 		DateTimeZone userDateTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-		return String.valueOf(new DateTime(TKUtils.getSystemDateTimeZone()).withZoneRetainFields(userDateTimeZone).getMillis());
+		return String.valueOf(DateTime.now(userDateTimeZone).withZoneRetainFields(TKUtils.getSystemDateTimeZone()).getMillis());
 	}
 
     public String getCurrentClockAction() {

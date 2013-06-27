@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -57,7 +56,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ClockAction extends TimesheetAction {
 
-    private static final Logger LOG = Logger.getLogger(ClockAction.class);
     public static final SimpleDateFormat SDF = new SimpleDateFormat("EEE, MMMM d yyyy HH:mm:ss, zzzz");
     public static final String SEPERATOR = "[****]+";
 
@@ -99,7 +97,6 @@ public class ClockAction extends TimesheetAction {
 		        if (targetPrincipalId != null) {
 		            clockActionForm.setPrincipalId(targetPrincipalId);
 		        }
-		        clockActionForm.setCurrentServerTime(String.valueOf(System.currentTimeMillis()));
 		        clockActionForm.setAssignmentDescriptions(timesheetDocument.getAssignmentDescriptions(true));
 		        
 		        if (clockActionForm.getEditTimeBlockId() != null) {
