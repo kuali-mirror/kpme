@@ -120,12 +120,12 @@ public class ClockActionForm extends TimesheetActionForm {
     }
 
     public String getCurrentServerTime() {
-		return String.valueOf(DateTime.now().withZoneRetainFields(TKUtils.getSystemDateTimeZone()).getMillis());
+		return String.valueOf(DateTime.now(TKUtils.getSystemDateTimeZone()).getMillis());
 	}
 	
 	public String getUserSystemOffsetServerTime() {
 		DateTimeZone userDateTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-		return String.valueOf(DateTime.now(userDateTimeZone).withZoneRetainFields(TKUtils.getSystemDateTimeZone()).getMillis());
+		return String.valueOf(DateTime.now(userDateTimeZone).withZone(TKUtils.getSystemDateTimeZone()).getMillis());
 	}
 
     public String getCurrentClockAction() {
