@@ -22,16 +22,16 @@
 
     <changeSet id="1" author="kbtaylor" context="kpme-server-staging" dbms="mysql">
         <insert tableName="KRIM_ENTITY_ID_S">
-            <column name="ID" value="10306" />
+            <column name="ID" value="10058" />
         </insert>
         <insert tableName="KRIM_ENTITY_NM_ID_S">
-            <column name="ID" value="10306" />
+            <column name="ID" value="10058" />
         </insert>
         <insert tableName="KRIM_ENTITY_EMAIL_ID_S">
-            <column name="ID" value="10306" />
+            <column name="ID" value="10058" />
         </insert>
         <insert tableName="KRIM_PRNCPL_ID_S">
-            <column name="ID" value="10306" />
+            <column name="ID" value="10058" />
         </insert>
         <insert tableName="KRIM_ROLE_MBR_ID_S">
             <column name="ID" value="10131" />
@@ -42,9 +42,7 @@
     </changeSet>
     
     <changeSet id="2" author="kbtaylor" context="kpme-server-staging">
-        <loadData tableName="KRIM_ENTITY_T" file="src/test/config/db/staging/krim_entity_t.csv">
-            <column name="OBJ_ID" type="COMPUTED" />
-        </loadData>
+        <loadData tableName="KRIM_ENTITY_T" file="src/test/config/db/staging/krim_entity_t.csv" />
         <loadData tableName="KRIM_ENTITY_ENT_TYP_T" file="src/test/config/db/staging/krim_entity_ent_typ_t.csv" />
         <loadData tableName="KRIM_ENTITY_NM_T" file="src/test/config/db/staging/krim_entity_nm_t.csv" />
         <loadData tableName="KRIM_ENTITY_EMAIL_T" file="src/test/config/db/staging/krim_entity_email_t.csv" />
