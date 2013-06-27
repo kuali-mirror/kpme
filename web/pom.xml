@@ -378,11 +378,13 @@
                                         <include>krms/</include>
                                         <include>ksb/</include>
                                         <include>rice-portal/</include>
+                                        <include>themes/</include>
                                         <include>WEB-INF/dwr-kew.xml</include>
                                         <include>WEB-INF/dwr-kns.xml</include>
                                         <include>WEB-INF/krad-base-servlet.xml</include>
                                         <include>WEB-INF/krad-servlet.xml</include>
                                         <include>WEB-INF/kradguest-servlet.xml</include>
+                                        <include>WEB-INF/login-servlet.xml</include>
                                         <include>WEB-INF/validator-rules.xml</include>
                                         <include>WEB-INF/jsp/dummy_login.jsp</include>
                                         <include>WEB-INF/jsp/moduleLocked.jsp</include>
