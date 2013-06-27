@@ -19,22 +19,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetActionForm;
 
 public class ClockActionForm extends TimesheetActionForm {
@@ -132,12 +132,8 @@ public class ClockActionForm extends TimesheetActionForm {
 	}
 	
 	public String getUserSystemOffsetServerTime() {
-		return String.valueOf(System.currentTimeMillis() + getUserTimezoneOffset());
-	}
-	
-	public Long getUserTimezoneOffset(){
-		DateTimeZone dtz = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-		return HrServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(dtz);
+		DateTimeZone userDateTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+		return String.valueOf(new DateTime(TKUtils.getSystemDateTimeZone()).withZoneRetainFields(userDateTimeZone).getMillis());
 	}
 
     public String getCurrentClockAction() {

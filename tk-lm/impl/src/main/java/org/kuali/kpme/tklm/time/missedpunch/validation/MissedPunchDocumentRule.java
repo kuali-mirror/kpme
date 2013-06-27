@@ -17,8 +17,10 @@ package org.kuali.kpme.tklm.time.missedpunch.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
@@ -118,14 +120,13 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
         boolean valid = true;
 
     	ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
-        if (lastClockLog != null && missedPunch.getActionDateTime() != null) {
-	        DateTime clockLogDateTime = lastClockLog.getClockDateTime();
+        if (missedPunch.getActionFullDateTime() != null && lastClockLog != null) {
+	        DateTime userActionDateTime = missedPunch.getActionFullDateTime();
+	        DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        	DateTime clockLogDateTime = lastClockLog.getClockDateTime();
 	        DateTime boundaryMax = clockLogDateTime.plusDays(1);
-	        long offset = HrServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
-	        long dateTimeLocal = missedPunch.getActionFullDateTime().getMillis() - offset;
 	
-	        //this will be in system's timezone, but offset with user's timezone
-	        DateTime actionDateTime = new DateTime(dateTimeLocal);
+	        DateTime actionDateTime = new DateTime(userActionDateTime, userTimeZone).withZoneRetainFields(TKUtils.getSystemDateTimeZone());
 	
 	        if (actionDateTime.toLocalDate().isAfter(LocalDate.now())) {
 	        	GlobalVariables.getMessageMap().putError("document.actionDate", "clock.mp.future.date");

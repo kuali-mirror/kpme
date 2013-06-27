@@ -53,6 +53,5 @@ public interface TimezoneService {
 	 * @return
 	 */
 	public boolean isSameTimezone();
-	
-	public long getTimezoneOffsetFromServerTime(DateTimeZone dtz);
+
 }

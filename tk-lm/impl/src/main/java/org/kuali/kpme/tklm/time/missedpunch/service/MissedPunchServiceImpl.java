@@ -28,8 +28,10 @@ import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.assignment.service.AssignmentService;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.timezone.TimezoneService;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -95,13 +97,13 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
         Assignment assignment = timesheetDocument.getAssignment(assignmentDescriptionKey);
         CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
-        ClockLog lastClockLog = getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
-        Long zoneOffset = getTimezoneService().getTimezoneOffsetFromServerTime(DateTimeZone.forID(lastClockLog.getClockTimestampTimezone()));
-        DateTime clockLogDateTime = new DateTime(missedPunch.getActionFullDateTime().getMillis() - zoneOffset);
+        DateTime userActionDateTime = missedPunch.getActionFullDateTime();
+        DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTime actionDateTime = new DateTime(userActionDateTime, userTimeZone).withZoneRetainFields(TKUtils.getSystemDateTimeZone());
         String clockAction = missedPunch.getClockAction();
         String principalId = timesheetDocument.getPrincipalId();
         
-        ClockLog clockLog = getClockLogService().processClockLog(clockLogDateTime, assignment, calendarEntry, ipAddress, LocalDate.now(), timesheetDocument, clockAction, false, principalId);
+        ClockLog clockLog = getClockLogService().processClockLog(actionDateTime, assignment, calendarEntry, ipAddress, LocalDate.now(), timesheetDocument, clockAction, false, principalId);
 
         clockLog = TkServiceLocator.getClockLogService().saveClockLog(clockLog);
         missedPunch.setActionFullDateTime(clockLog.getClockDateTime());
@@ -109,7 +111,8 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 
         if (StringUtils.equals(clockLog.getClockAction(), TkConstants.CLOCK_OUT) ||
                 StringUtils.equals(clockLog.getClockAction(), TkConstants.LUNCH_OUT)) {
-            String earnCode = assignment.getJob().getPayTypeObj().getRegEarnCode();
+            ClockLog lastClockLog = getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
+        	String earnCode = assignment.getJob().getPayTypeObj().getRegEarnCode();
             buildTimeBlockRunRules(lastClockLog, clockLog, timesheetDocument, assignment, earnCode, lastClockLog.getClockDateTime(), clockLog.getClockDateTime());
         }
     }
@@ -152,13 +155,13 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
         Assignment assignment = timesheetDocument.getAssignment(assignmentDescriptionKey);
         CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
-        ClockLog lastLog = getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
-        Long zoneOffset = getTimezoneService().getTimezoneOffsetFromServerTime(DateTimeZone.forID(lastLog.getClockTimestampTimezone()));
-        DateTime clockLogDateTime = new DateTime(missedPunch.getActionFullDateTime().getMillis() - zoneOffset);
+        DateTime userActionDateTime = missedPunch.getActionFullDateTime();
+        DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTime actionDateTime = new DateTime(userActionDateTime, userTimeZone).withZoneRetainFields(TKUtils.getSystemDateTimeZone());
         String clockAction = missedPunch.getClockAction();
         String principalId = timesheetDocument.getPrincipalId();
         
-        ClockLog clockLog = getClockLogService().processClockLog(clockLogDateTime, assignment, calendarEntry, ipAddress, LocalDate.now(), timesheetDocument, clockAction, false, principalId);
+        ClockLog clockLog = getClockLogService().processClockLog(actionDateTime, assignment, calendarEntry, ipAddress, LocalDate.now(), timesheetDocument, clockAction, false, principalId);
         
         getClockLogService().saveClockLog(clockLog);
         missedPunch.setActionFullDateTime(clockLog.getClockDateTime());
@@ -221,8 +224,8 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 
         // Add the clock log IDs to the time blocks that were just created.
         for (TimeBlock block : blocks) {
-            block.setClockLogBeginId(beginClockLog.getTkClockLogId());
-            block.setClockLogEndId(endClockLog.getTkClockLogId());
+            block.setClockLogBeginId(beginClockLog != null ? beginClockLog.getTkClockLogId() : null);
+            block.setClockLogEndId(endClockLog != null ? endClockLog.getTkClockLogId() : null);
         }
 
         newTimeBlocks.addAll(blocks);

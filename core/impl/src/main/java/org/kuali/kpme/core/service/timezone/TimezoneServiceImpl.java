@@ -70,14 +70,6 @@ public class TimezoneServiceImpl implements TimezoneService {
         }
     }
 
-    private DateTimeZone getUserTimezoneWithFallback(String principalId) {
-        String tzid = getUserTimezone(principalId);
-        if (StringUtils.isEmpty(tzid)) {
-            return TKUtils.getSystemDateTimeZone();
-        } else {
-            return DateTimeZone.forID(tzid);
-        }
-    }
 	@Override
 	public boolean isSameTimezone() {
 		String userTimezone = getUserTimezone();
@@ -86,14 +78,5 @@ public class TimezoneServiceImpl implements TimezoneService {
 		}
 		return true;
 	}
-	
-	
-	public long getTimezoneOffsetFromServerTime(DateTimeZone dtz){
-		long systemOffsetUTC = TKUtils.getSystemDateTimeZone().getOffset(null);
-		long tzOffsetUTC = dtz.getOffset(null);
-		return tzOffsetUTC - systemOffsetUTC;
-	}
-
-
 
 }
