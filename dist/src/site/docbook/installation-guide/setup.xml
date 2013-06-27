@@ -718,6 +718,7 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
                                     <listitem><emphasis role="bold">1.5.0/oracle/rice-2.1.3-oracle-client-upgrade.sql</emphasis></listitem>
 	                                <listitem><emphasis role="bold">1.5.0/oracle/kpme-1.5.0-oracle-client-upgrade.sql</emphasis></listitem>
 	                                <listitem><emphasis role="bold">1.5.1/oracle/kpme-1.5.1-oracle-client-upgrade.sql</emphasis></listitem>
+	                                <listitem><emphasis role="bold">1.5.2/oracle/kpme-1.5.2-oracle-client-upgrade.sql</emphasis></listitem>
 	                            </orderedlist>
 	                        </listitem>
 	                        <listitem>
@@ -739,6 +740,7 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
                                     <listitem><emphasis role="bold">1.5.0/mysql/rice-2.1.3-mysql-client-upgrade.sql</emphasis></listitem>
                                     <listitem><emphasis role="bold">1.5.0/mysql/kpme-1.5.0-mysql-client-upgrade.sql</emphasis></listitem>
                                     <listitem><emphasis role="bold">1.5.1/mysql/kpme-1.5.1-mysql-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">1.5.2/mysql/kpme-1.5.2-mysql-client-upgrade.sql</emphasis></listitem>
 	                            </orderedlist>
 	                        </listitem>
 	                        <listitem>
@@ -756,7 +758,7 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
                             <listitem>
                                 <para>Oracle Client</para>
                                 <orderedlist>
-                                    <listitem><emphasis role="bold">1.5.1/oracle/kpme-1.5.1-oracle-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">1.5.2/oracle/kpme-1.5.2-oracle-client-upgrade.sql</emphasis></listitem>
                                 </orderedlist>
                             </listitem>
                             <listitem>
@@ -768,7 +770,7 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
                             <listitem>
                                 <para>MySQL Client</para>
                                 <orderedlist>
-                                    <listitem><emphasis role="bold">1.5.1/mysql/kpme-1.5.1-mysql-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">1.5.2/mysql/kpme-1.5.2-mysql-client-upgrade.sql</emphasis></listitem>
                                 </orderedlist>
                             </listitem>
                             <listitem>

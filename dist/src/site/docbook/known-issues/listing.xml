@@ -12,23 +12,39 @@
                 </row>
             </thead>
             <tbody>
-	            <row>
-	                <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2315">KPME-2315</link></entry>
-	                <entry>Added rounding mode to Job FTE</entry>
-	            </row>
-	            <row>
-	                <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2327">KPME-2327</link></entry>
-	                <entry>Modified summary coloring</entry>
-	            </row>
-	            <row>
-	                <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2357">KPME-2357</link></entry>
-	                <entry>Balance Transfer leave blocks disappear on leave calendar</entry>
-	            </row>
-	            <row>
-	                <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2358">KPME-2358</link></entry>
-	                <entry>Payout maint doc submitted from Maintenance tab not working</entry>
-	            </row>
-	        </tbody>
-	    </tgroup>
-	</table>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2003">KPME-2003</link></entry>
+                    <entry>Distribute Hours form - no way to delete extra (unneeded) assignment rows</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2165">KPME-2165</link></entry>
+                    <entry>Leave Blocks not in time block or time block history inquiries</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2173">KPME-2173</link></entry>
+                    <entry>Leave request document should not send out acknowledge requests when disapproved</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2260">KPME-2260</link></entry>
+                    <entry>max carry over requested leave amounts</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2389">KPME-2389</link></entry>
+                    <entry>Accrual Category Buckets not balanced at end of calendar year.</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2434">KPME-2434</link></entry>
+                    <entry>System Scheduled TO usage leave blocks need an assignment</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2440">KPME-2440</link></entry>
+                    <entry>Time detail - editing overnight timeblock</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2450">KPME-2450</link></entry>
+                    <entry>Distribute hours and Dept Lunch Deduction rule</entry>
+                </row>
+            </tbody>
+        </tgroup>
+    </table>
 </section>
