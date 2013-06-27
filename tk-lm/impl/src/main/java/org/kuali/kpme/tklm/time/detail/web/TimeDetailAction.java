@@ -16,6 +16,7 @@
 package org.kuali.kpme.tklm.time.detail.web;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -376,7 +377,12 @@ public class TimeDetailAction extends TimesheetAction {
 //        	this.removeOldTimeBlock(tdaf);
         } else if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
         	// the user is changing an existing leave block, so need to delete this leave block
-        	this.removeOldLeaveBlock(tdaf.getLmLeaveBlockId());
+//        	this.removeOldLeaveBlock(tdaf.getLmLeaveBlockId());
+        	
+        	 this.updateLeaveBlock(tdaf);
+        	 generateTimesheetChangedNotification(principalId, targetPrincipalId, documentId);
+             return mapping.findForward("basic");
+             
         }
         if(StringUtils.isNotEmpty(tdaf.getSelectedEarnCode())) {
         	EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument().getAsOfDate());
@@ -567,6 +573,61 @@ public class TimeDetailAction extends TimesheetAction {
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, finalNewTimeBlocks, HrContext.getPrincipalId());
 
 	}
+	
+	// KPME-2386
+	private void updateLeaveBlock(TimeDetailActionForm tdaf) throws Exception {
+
+		String principalId = HrContext.getPrincipalId();
+		String targetPrincipalId = HrContext.getTargetPrincipalId();
+		CalendarEntry calendarEntry = tdaf.getCalendarEntry();
+		String selectedEarnCode = tdaf.getSelectedEarnCode();
+		String leaveBlockId = tdaf.getLmLeaveBlockId();
+		
+		LeaveBlock updatedLeaveBlock = null;
+		updatedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
+        if (updatedLeaveBlock.isEditable()) {
+            if (!updatedLeaveBlock.getLeaveAmount().equals(tdaf.getLeaveAmount())) {
+                updatedLeaveBlock.setLeaveAmount(tdaf.getLeaveAmount());
+            }
+            
+            DateTime beginDate = null;
+    		DateTime endDate = null;
+            
+            EarnCode earnCode =  HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, updatedLeaveBlock.getLeaveLocalDate()); // selectedEarnCode = hrEarnCodeId
+            if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
+            	if(tdaf.getStartTime() != null && tdaf.getEndTime() != null) {
+        			beginDate = TKUtils.convertDateStringToDateTimeWithoutZone(tdaf.getStartDate(), tdaf.getStartTime());
+        			endDate   = TKUtils.convertDateStringToDateTimeWithoutZone(tdaf.getEndDate(), tdaf.getEndTime());
+        		}  else {
+        			beginDate = TKUtils.formatDateTimeStringNoTimezone(tdaf.getStartDate());
+        			endDate = TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate());
+        		}
+            	updatedLeaveBlock.setBeginTimestamp(new Timestamp(beginDate.getMillis()));
+            	updatedLeaveBlock.setEndTimestamp(new Timestamp(endDate.getMillis()));
+            	updatedLeaveBlock.setLeaveAmount(TKUtils.getHoursBetween(beginDate.getMillis(), endDate.getMillis()));
+            }
+            
+            if (!updatedLeaveBlock.getEarnCode().equals(earnCode.getEarnCode())) {
+                updatedLeaveBlock.setEarnCode(earnCode.getEarnCode());
+            }
+            
+            LmServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock, principalId);
+        }
+        
+        List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+        List<String> assignmentKeys = new ArrayList<String>();
+        for (Assignment assignment : assignments) {
+            	assignmentKeys.add(assignment.getAssignmentKey());
+        }
+        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(HrContext.getTargetPrincipalId(), tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
+
+        // A bad hack to apply rules to all timeblocks on timesheet
+		List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
+		TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
+		TkServiceLocator.getTimeBlockService().saveTimeBlocks(newTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
+
+    }
+
 
     public ActionForward updateTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
