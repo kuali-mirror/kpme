@@ -74,6 +74,8 @@ import org.kuali.kpme.tklm.time.timesummary.EarnGroupSection;
 import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -123,8 +125,10 @@ public class TimeDetailAction extends TimesheetAction {
 	        if (HrContext.isSystemAdmin()) {
 	            timeDetailActionForm.setDocEditable("true");
 	        } else {
-	            boolean docFinal = timesheetDocument.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL);
-	            if (!docFinal) {
+	        	DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(timeDetailActionForm.getDocumentId());
+	            if (!DocumentStatus.FINAL.equals(documentStatus) 
+	            		&& !DocumentStatus.CANCELED.getCode().equals(documentStatus)
+	     	 	 	 	&& !DocumentStatus.DISAPPROVED.getCode().equals(documentStatus)) {
 	            	if(StringUtils.equals(timesheetDocument.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
 		            		|| HrContext.isSystemAdmin()
 		            		|| TkContext.isLocationAdmin()

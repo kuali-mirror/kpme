@@ -11,6 +11,17 @@
 	<div class="summaryTitle" style="clear:both; text-align:center; font-weight: bold; margin-bottom: 5px;">Summary</div>
     <div id="timesheet-table-basic">
         <table>
+            <colgroup>
+                <col>
+                <c:forEach items="${timeSummary.summaryHeader}" var="entry">
+                    <c:choose>
+                        <c:when test="${fn:startsWith(entry, 'Week')}">
+                            <col class="weeklyTotal">
+                        </c:when>
+                        <c:otherwise><col></c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </colgroup>
             <thead>
                 <tr class="ui-state-default">
                     <th></th>

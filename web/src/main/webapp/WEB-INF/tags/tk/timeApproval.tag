@@ -12,7 +12,20 @@
 	<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do" excludedParams="*"
 	               pagesize="20" id="row"
 	               class="approvals-table" partialList="true" size="${Form.resultSize}" sort="external" defaultsort="0">
-	    <c:set var="nameStyle" value=""/>
+        <colgroup>
+            <col span="2">
+            <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
+                <c:choose>
+                    <c:when test="${fn:contains(payCalLabel,'Week') || fn:contains(payCalLabel, 'Period')}">
+                        <col class="weeklyTotal">
+                    </c:when>
+                    <c:otherwise>
+                        <col>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+        </colgroup>
+        <c:set var="nameStyle" value=""/>
 	    <c:if test="${row.clockedInOverThreshold}">
 	        <c:set var="nameStyle" value="background-color: #F08080;"/>
 	    </c:if>

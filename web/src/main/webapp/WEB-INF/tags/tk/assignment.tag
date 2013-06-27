@@ -18,7 +18,7 @@
 			</c:forEach>
 		</select>
 		<!-- bit of a hack to always have access to full assignment list so we can filter if necessary -->
-        <select id="selectedAssignmentHidden" name="selectedAssignmentHidden" style="visibility:hidden;">
+        <select id="selectedAssignmentHidden" name="selectedAssignmentHidden" style="display:none;">
             <option value="" selected="selected">-- select an assignment --</option>
             <c:forEach var="assignment" items="${assignments}">
                 <option value="${assignment.key}">${assignment.value}</option>

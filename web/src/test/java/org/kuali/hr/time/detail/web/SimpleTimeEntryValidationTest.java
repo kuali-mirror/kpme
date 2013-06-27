@@ -37,22 +37,18 @@ import org.kuali.kpme.tklm.utils.TkTestConstants;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-/**
- * Test data should contain:
- *
- * insert into tk_document_header_t values ('2', 'admin', '2011-02-01 00:00:00', 'I', '2011-01-15 00:00:00', NULL, '1');
- */
 public class SimpleTimeEntryValidationTest extends KPMEWebTestCase {
 
     public static final String USER_PRINCIPAL_ID = "admin";
 	private DateTime JAN_AS_OF_DATE = new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+	private DateTime CALENDAR_ENTRY_DATE = new DateTime(2011, 1, 15, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	private String documentId;
 	
     @Override
     public void setUp() throws Exception {
         super.setUp();
 
-        CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
+        CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(USER_PRINCIPAL_ID, CALENDAR_ENTRY_DATE);
         TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, calendarEntry);
         documentId = timesheetDocument.getDocumentId();
     }

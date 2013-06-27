@@ -157,6 +157,13 @@ $(function () {
 
                 // change the icon from - to +
                 $element.removeClass('ui-icon-plus').addClass('ui-icon-minus');
+                
+                //format weekly total columns
+                var column = $("#row th:contains('Week')");
+                column.addClass("weeklyTotal");
+                column.each(function() {
+                    $('#row tr[class^="hourDetailRow"] td:nth-child(' + ($(this).index()) + ')').addClass("weeklyTotal");
+                });
             } else {
                 // remove the hour details rows.
                 $(".hourDetailRow_" + docId).remove();

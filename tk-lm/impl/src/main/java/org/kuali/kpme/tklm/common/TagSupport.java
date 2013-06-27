@@ -36,7 +36,7 @@ public class TagSupport {
     }
 
     public Map<String, String> getDocumentStatus() {
-        return HrConstants.DOCUMENT_STATUS;
+        return HrConstants.DOC_ROUTE_STATUS;
     }
 
     private List<String> ipAddresses = new LinkedList<String>();

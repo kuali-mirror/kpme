@@ -54,6 +54,17 @@
 
 </tk:tkHeader>
 
+<script type="text/javascript" id="format-columns">
+    $(document).ready(function(){
+        //period total too?
+        //var column = $("#row th:contains('Week'), #row th:contains('Period')");
+        var column = $("#row th:contains('Week')");
+        column.addClass("weeklyTotal");
+        column.each(function() {
+            $('#row tr td:nth-child(' + ($(this).index() +1) + ')').addClass("weeklyTotal");
+        });
+    });
+</script>
 
 <%-- Hour detail template --%>
 

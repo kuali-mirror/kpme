@@ -38,10 +38,13 @@ import org.kuali.kpme.tklm.leave.request.service.LeaveRequestDocumentService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.util.TkContext;
+import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.action.ValidActions;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -130,6 +133,20 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
     @Override
     public boolean canEditLeaveBlock(String principalId, LeaveBlock leaveBlock) {
         if (principalId != null) {
+        	String documentId = leaveBlock.getDocumentId();
+        	if (StringUtils.isBlank(documentId)) {
+        		TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveBlock.getLeaveLocalDate().toDateTimeAtStartOfDay());
+        		if (timesheetDocumentHeader != null) {
+        			documentId = timesheetDocumentHeader.getDocumentId();
+        		}
+        	}
+        	if (StringUtils.isNotBlank(documentId)) {
+        		DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(documentId);
+        		if (DocumentStatus.CANCELED.equals(documentStatus) || DocumentStatus.DISAPPROVED.equals(documentStatus)) {
+        			return false;
+        		}
+        	}
+	 	 	 	
             String blockType = leaveBlock.getLeaveBlockType();
             String requestStatus = leaveBlock.getRequestStatus();
             if (StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, requestStatus)) {
@@ -176,6 +193,22 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 
     @Override
     public boolean canDeleteLeaveBlock(String principalId, LeaveBlock leaveBlock) {
+        if (principalId != null) {
+        	String documentId = leaveBlock.getDocumentId();
+        	if (StringUtils.isBlank(documentId)) {
+        		TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveBlock.getLeaveLocalDate().toDateTimeAtStartOfDay());
+        		if (timesheetDocumentHeader != null) {
+        			documentId = timesheetDocumentHeader.getDocumentId();
+        		}
+        	}
+        	if (StringUtils.isNotBlank(documentId)) {
+        		DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(documentId);
+        		if (DocumentStatus.CANCELED.equals(documentStatus) || DocumentStatus.DISAPPROVED.equals(documentStatus)) {
+        			return false;
+        		}
+        	}
+        }
+    	
     	if(StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, leaveBlock.getRequestStatus()))  {
             return false;
         }

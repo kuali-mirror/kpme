@@ -266,6 +266,11 @@
     padding: 3px;
 }
 
+#timesheet-summary .weeklyTotal {
+    border-left: #666666 double 2px;
+    border-right: #666666 double 2px;
+}
+
 #timesheet-routing {
     margin: 10px 40% 10px 40%;
     text-align: center;
@@ -584,6 +589,11 @@ label.error {
 .approvals-table #approvals-warning:hover, .approvals-table #approvals-note:hover, .approvals-table #approvals-status:hover {
     background-color: #dadada;
     cursor: pointer;
+}
+
+.approvals-table .weeklyTotal {
+    border-left: #666666 double 2px;
+    border-right: #666666 double 2px;
 }
 
 .approvals-note-details table, .approvals-warning-details table, .approvals-status-details table {

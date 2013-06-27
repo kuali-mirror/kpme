@@ -97,15 +97,6 @@ public class HrConstants {
 		public static final String SUPERVISOR_APPROVAL = "Supervisor Approval";
 	}
 
-	public static final Map<String, String> DOCUMENT_STATUS = new HashMap<String, String>();
-
-	static {
-		DOCUMENT_STATUS.put("I", "Initiated");
-		DOCUMENT_STATUS.put("S", "Saved");
-		DOCUMENT_STATUS.put("R", "Enroute");
-		DOCUMENT_STATUS.put("F", "Final");
-	}
-
 	public static final List<String> TIME_ZONES = new ArrayList<String>();
 
 	static {

@@ -41,6 +41,8 @@ import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -81,6 +83,14 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             if (HrContext.isSystemAdmin() && !timeBlock.getPrincipalId().equals(principalId)) {
             	return true;
             }
+            
+            if (StringUtils.isNotBlank(timeBlock.getDocumentId())) {
+            	DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(timeBlock.getDocumentId());
+            	if (DocumentStatus.CANCELED.equals(documentStatus) || DocumentStatus.DISAPPROVED.equals(documentStatus)) {
+            		return false;
+            	}
+            }
+            
             Job job = HrServiceLocator.getJobService().getJob(
                     HrContext.getTargetPrincipalId(), timeBlock.getJobNumber(),
                     timeBlock.getEndDateTime().toLocalDate());
@@ -164,6 +174,13 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             if (HrContext.isSystemAdmin()) {
                 return true;
             }
+            
+            if (StringUtils.isNotBlank(timeBlock.getDocumentId())) {
+            	DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(timeBlock.getDocumentId());
+            	if (DocumentStatus.CANCELED.equals(documentStatus) || DocumentStatus.DISAPPROVED.equals(documentStatus)) {
+            		return false;
+            	}
+            }
 
             Job job = HrServiceLocator.getJobService().getJob(
                     HrContext.getTargetPrincipalId(), timeBlock.getJobNumber(),
@@ -238,6 +255,14 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             if (HrContext.isSystemAdmin()&& !timeBlock.getPrincipalId().equals(principalId)) {
             	return true;
             }
+            
+            if (StringUtils.isNotBlank(timeBlock.getDocumentId())) {
+            	DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(timeBlock.getDocumentId());
+            	if (DocumentStatus.CANCELED.equals(documentStatus) || DocumentStatus.DISAPPROVED.equals(documentStatus)) {
+            		return false;
+            	}
+            }
+            
             Job job = HrServiceLocator.getJobService().getJob(
                     HrContext.getTargetPrincipalId(), timeBlock.getJobNumber(),
                     timeBlock.getEndDateTime().toLocalDate());

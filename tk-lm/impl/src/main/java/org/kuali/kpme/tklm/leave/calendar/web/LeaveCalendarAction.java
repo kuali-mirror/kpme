@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.calendar.web;
 
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -24,12 +23,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -63,8 +62,6 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.CalendarFormAction;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.accrual.bucket.KPMEAccrualCategoryBucket;
-import org.kuali.kpme.tklm.leave.accrual.bucket.LeaveBalance;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendar;
@@ -691,7 +688,9 @@ public class LeaveCalendarAction extends CalendarFormAction {
 	        if (HrContext.isSystemAdmin() && !StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())) {
 	            leaveForm.setDocEditable(true);
 	        } else {
-	            if (!DocumentStatus.FINAL.equals(documentStatus)) {
+	            if (!DocumentStatus.FINAL.equals(documentStatus) 
+	            		&& !DocumentStatus.CANCELED.getCode().equals(documentStatus)
+	     	 	 	 	&& !DocumentStatus.DISAPPROVED.getCode().equals(documentStatus)) {
 	                if(StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
 	                        || HrContext.isSystemAdmin()
 	                        || TkContext.isLocationAdmin()
