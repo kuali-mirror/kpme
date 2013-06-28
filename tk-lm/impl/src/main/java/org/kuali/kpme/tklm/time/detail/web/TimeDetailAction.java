@@ -558,10 +558,13 @@ public class TimeDetailAction extends TimesheetAction {
         // apply overtime pref
         // I changed start and end times comparison below. it used to be overtimeBeginTimestamp and overtimeEndTimestamp but
         // for some reason, they're always null because, we have removed the time block before getting here. KPME-2162
-        for (TimeBlock tb : finalNewTimeBlocks) {
-            if (tb.getBeginTimestamp().equals(startTime) && tb.getEndTimestamp().equals(endTime) && StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
-                tb.setOvertimePref(tdaf.getOvertimePref());
-            }
+        if(StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
+	        for (TimeBlock tb : finalNewTimeBlocks) {
+	        	if ((StringUtils.isNotEmpty(tdaf.getTkTimeBlockId()) && tdaf.getTkTimeBlockId().equals(tb.getTkTimeBlockId()))
+	        		|| (tb.getBeginTimestamp().equals(startTime) && tb.getEndTimestamp().equals(endTime))) {
+	                tb.setOvertimePref(tdaf.getOvertimePref());
+	            } 
+	        }
         }
 
 		List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
