@@ -146,7 +146,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 
     	       
                 List<Interval> intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry);
-                TkTimeBlockAggregate tbAggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry, payCalendar, true,intervals);
+                TkTimeBlockAggregate tbAggregate = buildAndMergeAggregates(timeBlocks, leaveBlocks, payCalendarEntry, payCalendar, dayIntervals);
+//                TkTimeBlockAggregate tbAggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry, payCalendar, true,intervals);
                 // use both time aggregate to populate the calendar
                 TkCalendar cal = TkCalendar.getCalendar(tbAggregate);
                 
@@ -170,7 +171,13 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 			}
                 			
                 			timeBlockMap.put("start", tkDay.getDateString());
-                			timeBlockMap.put("title", renderer.getTitle() + "\n" +renderer.getTimeRange() + "\n" + title.toString());
+                			StringBuffer titleString = new StringBuffer();
+                			titleString.append(renderer.getTitle());
+                			if(renderer.getTimeRange() != null && !renderer.getTimeRange().isEmpty()) {
+                				titleString.append("\n" +renderer.getTimeRange());
+                			}
+                			titleString.append("\n"+title.toString());
+                			timeBlockMap.put("title",  titleString.toString());
                 			timeBlockMap.put("id", tkDay.getDayNumberString());
                 			if(!userColorMap.containsKey(principalId)) {
 		    	        		color = TKUtils.getRandomColor(randomColors);

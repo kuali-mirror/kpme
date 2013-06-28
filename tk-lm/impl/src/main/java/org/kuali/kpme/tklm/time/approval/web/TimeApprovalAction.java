@@ -90,9 +90,9 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 			timeApprovalActionForm.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(timeApprovalActionForm.getCalendarEntry(), new ArrayList<Boolean>()));
 	        setApprovalTables(timeApprovalActionForm, request, getPrincipalIds(timeApprovalActionForm));
 	        
-	        if (timeApprovalActionForm.getApprovalRows() != null && !timeApprovalActionForm.getApprovalRows().isEmpty()) {
-	        	timeApprovalActionForm.setOutputString(timeApprovalActionForm.getApprovalRows().get(0).getOutputString());
-	        }
+//	        if (timeApprovalActionForm.getApprovalRows() != null && !timeApprovalActionForm.getApprovalRows().isEmpty()) {
+//	        	timeApprovalActionForm.setOutputString(timeApprovalActionForm.getApprovalRows().get(0).getOutputString());
+//	        }
         }
 
         return actionForward;
@@ -173,8 +173,10 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 		if (principalIds.isEmpty()) {
 			timeApprovalActionForm.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
 			timeApprovalActionForm.setResultSize(0);
+			timeApprovalActionForm.setOutputString(null);
 		} else {
 		    List<ApprovalTimeSummaryRow> approvalRows = getApprovalRows(timeApprovalActionForm, getSubListPrincipalIds(request, principalIds));
+		    timeApprovalActionForm.setOutputString(!CollectionUtils.isEmpty(approvalRows) ? approvalRows.get(0).getOutputString() : null);
 		    final String sortField = getSortField(request);
 		    if (StringUtils.isEmpty(sortField) || StringUtils.equals(sortField, "name")) {
 		    	final boolean sortNameAscending = getAscending(request);
@@ -220,8 +222,6 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 		    
 		    timeApprovalActionForm.setApprovalRows(approvalRows.subList(beginIndex, endIndex)); 	
 		    timeApprovalActionForm.setResultSize(principalIds.size());
-		    
-		    timeApprovalActionForm.setOutputString(!CollectionUtils.isEmpty(timeApprovalActionForm.getApprovalRows()) ? timeApprovalActionForm.getApprovalRows().get(0).getOutputString() : null);
 		}		
 	}
 

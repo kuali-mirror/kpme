@@ -33,6 +33,7 @@ import org.joda.time.LocalTime;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
@@ -471,6 +472,11 @@ public class TkTimeBlockAggregate {
 						timeBlock.setEndTimestamp(new Timestamp(new DateTime(lb.getLeaveDate()).plusMinutes(timeBlock.getHours().intValue()).getMillis()));
 						timeBlock.setAssignmentKey(lb.getAssignmentKey());
 						timeBlock.setEarnCode(lb.getEarnCode());
+						
+						EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
+						if(earnCodeObj != null) {
+							timeBlock.setEarnCodeType(earnCodeObj.getEarnCodeType());
+						}
 						timeBlock.setPrincipalId(lb.getPrincipalId());
 						timeBlock.setWorkArea(lb.getWorkArea());
 						TimeHourDetail timeHourDetail = new TimeHourDetail();
