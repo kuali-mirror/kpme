@@ -118,12 +118,12 @@ public class ClockActionForm extends TimesheetActionForm {
         this.assignmentLunchMap = assignmentLunchMap;
     }
 
-    public String getCurrentServerTime() {
-		return String.valueOf(DateTime.now(TKUtils.getSystemDateTimeZone()).getMillis());
+    public long getCurrentServerTime() {
+		return DateTime.now(TKUtils.getSystemDateTimeZone()).getMillis();
 	}
 	
-	public String getUserSystemOffsetServerTime() {
-		return String.valueOf(DateTime.now(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback()).getMillis());
+	public long getCurrentUserUTCOffset() {
+		return Long.valueOf(DateTime.now(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback()).toString("Z")) / 100;
 	}
 
     public String getCurrentClockAction() {

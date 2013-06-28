@@ -75,7 +75,7 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
     	<html:hidden property="currentClockAction" styleId="clockAction"/>
     	<html:hidden property="lastClockedInTime" value="${Form.lastClockTimestamp}" styleId="lastClockedInTime"/>
     	<html:hidden property="currentServerTime" value="${Form.currentServerTime}" styleId="currentServerTime"/>
-    	<html:hidden property="userSystemOffsetServerTime" value="${Form.userSystemOffsetServerTime}" styleId="userSystemOffsetServerTime"/>
+    	<html:hidden property="currentUserUTCOffset" value="${Form.currentUserUTCOffset}" styleId="currentUserUTCOffset"/>
     
     	<div id="errorMessage" style="color:red;font-size:14px">
     		<c:if test="${Form.errorMessage ne null}">

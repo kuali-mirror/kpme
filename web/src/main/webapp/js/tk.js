@@ -264,15 +264,17 @@ $(document).ready(function() {
 
     // clock
     var currentServerTime = parseFloat($("#currentServerTime").val());
+    var currentUserUTCOffset = parseFloat($("#currentUserUTCOffset").val());
+    var lastClockedInTime = $("#lastClockedInTime").val();
+    var clockAction = $("#clockAction").val();
+    
     var options = {
         format : '%I:%M:%S %p',
         utc: true,
-        utc_offset: -(new Date(currentServerTime).getTimezoneOffset() / 60)
+        utc_offset: currentUserUTCOffset
     };
     $(".jClock").jclock(options);
 
-    var lastClockedInTime = $("#lastClockedInTime").val();
-    var clockAction = $("#clockAction").val();
     var startTime = clockAction == 'CO' ? new Date(lastClockedInTime) : new Date(currentServerTime);
 
     $('.elapsedTime').countdown({

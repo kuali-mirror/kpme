@@ -1,16 +1,15 @@
 /*
-* jQuery jclock - Clock plugin - v 2.3.0
+* jQuery jclock - Clock plugin - v 2.4.1
 * http://plugins.jquery.com/project/jclock
 *
-* Copyright (c) 2007-2009 Doug Sparling <http://www.dougsparling.com>
+* Copyright (c) 2007-2013 Doug Sparling <http://www.dougsparling.com>
 * Licensed under the MIT License:
 * http://www.opensource.org/licenses/mit-license.php
 */
 (function($) {
-
-	var currentTime;
+ 
   $.fn.jclock = function(options) {
-    var version = '2.3.0';
+    var version = '2.4.1';
  
     // options
     var opts = $.extend({}, $.fn.jclock.defaults, options);
@@ -22,8 +21,8 @@
  
       // Record keeping for seeded clock
       $this.increment = 0;
-      $this.lastCalled = new Date(parseFloat($("#userSystemOffsetServerTime").val())).getTime();
-	  currentTime = parseFloat($("#userSystemOffsetServerTime").val());
+      $this.lastCalled = new Date().getTime();
+ 
       var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
  
       $this.format = o.format;
@@ -107,22 +106,34 @@
     el.running = false;
   }
  
-  $.fn.jclock.displayTime = function(el) {
-    var time = $.fn.jclock.getTime(el);
-    el.html(time);
-    el.timerID = setTimeout(function(){$.fn.jclock.displayTime(el)},el.timeout);
+  /* if the frequency is "once every minute" then we have to make sure this happens
+   * when the minute changes. */  
+  // got this idea from digiclock http://www.radoslavdimov.com/jquery-plugins/jquery-plugin-digiclock/
+  function getDelay(timeout) {
+      if (timeout == 60000) {
+          var now = new Date();
+          timeout = 60000 - now.getSeconds() * 1000; // number of seconds before the next minute
+      }
+      return timeout;
   }
- 
-  $.fn.jclock.getTime = function(el) {
-    currentTime += el.timeout;
+  
+  $.fn.jclock.displayTime = function(el) {
+    var time = $.fn.jclock.currentTime(el);
+    var formatted_time = $.fn.jclock.formatTime(time, el);
+    el.attr('currentTime', time.getTime())
+    el.html(formatted_time);
+    el.timerID = setTimeout(function(){$.fn.jclock.displayTime(el)}, getDelay(el.timeout));
+  }
+
+  $.fn.jclock.currentTime = function(el) {
     if(typeof(el.seedTime) == 'undefined') {
       // Seed time not being used, use current time
-	  var now = new Date(parseFloat(currentTime));
+      var now = new Date();
     } else {
       // Otherwise, use seed time with increment
-      el.increment += new Date(parseFloat(currentTime)).getTime() - el.lastCalled;
+      el.increment += new Date().getTime() - el.lastCalled;
       var now = new Date(el.seedTime + el.increment);
-      el.lastCalled = new Date(parseFloat(currentTime)).getTime();
+      el.lastCalled = new Date().getTime();
     }
  
     if(el.utc == true) {
@@ -130,8 +141,13 @@
       var localOffset = now.getTimezoneOffset() * 60000;
       var utc = localTime + localOffset;
       var utcTime = utc + (3600000 * el.utcOffset);
-      now = new Date(utcTime);
+      var now = new Date(utcTime);
     }
+
+    return now
+  }
+ 
+  $.fn.jclock.formatTime = function(time, el) {
  
     var timeNow = "";
     var i = 0;
@@ -144,7 +160,7 @@
       //switch (el.format.charAt(index++)) {
       //}
       
-      var property = $.fn.jclock.getProperty(now, el, el.format.charAt(index));
+      var property = $.fn.jclock.getProperty(time, el, el.format.charAt(index));
       index++;
       
       //switch (switchCase) {
@@ -176,6 +192,10 @@
       case "I": // hour as a decimal number using a 12-hour clock (range 01 to 12)
           var hours = (dateObject.getHours() % 12 || 12);
           return ((hours < 10) ? "0" : "") + hours;
+      case "l": // hour as a decimal number using a 12-hour clock (range 1 to 12)
+          var hours = (dateObject.getHours() % 12 || 12);
+          //return ((hours < 10) ? "0" : "") + hours;
+          return hours;
       case "m": // month number
           return (((dateObject.getMonth() + 1) < 10) ? "0" : "") + (dateObject.getMonth() + 1);
       case "M": // minute as a decimal number
