@@ -69,7 +69,7 @@
                             <bean parent="Uif-Disclosure-GridSection" p:headerText="Missed Punch">
                                 <property name="items">
                                     <list merge="true">
-			                            <bean parent="Uif-InputField" p:propertyName="missedPunch.principalId"
+			                            <bean parent="Uif-InputField" p:propertyName="missedPunch.personName"
 			                                 p:readOnly="@{!#empty(#dp.missedPunch.principalId)}" />
 			                            <bean parent="Uif-InputField" p:propertyName="missedPunch.timesheetDocumentId"
 			                                 p:readOnly="@{!#empty(#dp.missedPunch.timesheetDocumentId)}" />

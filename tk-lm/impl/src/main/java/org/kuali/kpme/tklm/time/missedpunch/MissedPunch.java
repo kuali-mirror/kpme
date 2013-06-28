@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.time.missedpunch;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
@@ -30,6 +31,8 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class MissedPunch extends PersistableBusinessObjectBase {
@@ -49,6 +52,8 @@ public class MissedPunch extends PersistableBusinessObjectBase {
 	private String tkClockLogId;
 	private Timestamp timestamp;
 	
+	private transient String principalName;
+    private transient String personName;
 	private transient Job jobObj;
 	private transient WorkArea workAreaObj;
 	private transient Task taskObj;
@@ -179,6 +184,32 @@ public class MissedPunch extends PersistableBusinessObjectBase {
 
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public String getPrincipalName() {
+		if (StringUtils.isBlank(principalName) && StringUtils.isNotBlank(principalId)) {
+			EntityNamePrincipalName entityNamePrincipalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
+			return entityNamePrincipalName.getPrincipalName();
+		}
+		
+		return principalName;
+	}
+
+	public void setPrincipalName(String principalName) {
+		this.principalName = principalName;
+	}
+
+	public String getPersonName() {
+		if (StringUtils.isBlank(personName) && StringUtils.isNotBlank(principalId)) {
+			EntityNamePrincipalName entityNamePrincipalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
+			return entityNamePrincipalName.getDefaultName().getCompositeName();
+		}
+		
+		return personName;
+	}
+
+	public void setPersonName(String personName) {
+		this.personName = personName;
 	}
 
 	public Job getJobObj() {
