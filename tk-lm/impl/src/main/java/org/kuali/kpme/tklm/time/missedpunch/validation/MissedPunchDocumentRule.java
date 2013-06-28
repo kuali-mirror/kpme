@@ -126,7 +126,7 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
         	DateTime clockLogDateTime = lastClockLog.getClockDateTime();
 	        DateTime boundaryMax = clockLogDateTime.plusDays(1);
 	
-	        DateTime actionDateTime = new DateTime(userActionDateTime, userTimeZone).withZoneRetainFields(TKUtils.getSystemDateTimeZone());
+	        DateTime actionDateTime = new DateTime(userActionDateTime, userTimeZone).withZone(TKUtils.getSystemDateTimeZone());
 	
 	        if (actionDateTime.toLocalDate().isAfter(LocalDate.now())) {
 	        	GlobalVariables.getMessageMap().putError("document.actionDate", "clock.mp.future.date");

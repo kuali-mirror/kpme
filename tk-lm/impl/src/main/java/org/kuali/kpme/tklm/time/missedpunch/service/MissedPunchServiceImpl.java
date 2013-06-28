@@ -99,7 +99,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
         DateTime userActionDateTime = missedPunch.getActionFullDateTime();
         DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-        DateTime actionDateTime = new DateTime(userActionDateTime, userTimeZone).withZoneRetainFields(TKUtils.getSystemDateTimeZone());
+        DateTime actionDateTime = new DateTime(userActionDateTime, userTimeZone).withZone(TKUtils.getSystemDateTimeZone());
         String clockAction = missedPunch.getClockAction();
         String principalId = timesheetDocument.getPrincipalId();
         
@@ -157,7 +157,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
         DateTime userActionDateTime = missedPunch.getActionFullDateTime();
         DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-        DateTime actionDateTime = new DateTime(userActionDateTime, userTimeZone).withZoneRetainFields(TKUtils.getSystemDateTimeZone());
+        DateTime actionDateTime = new DateTime(userActionDateTime, userTimeZone).withZone(TKUtils.getSystemDateTimeZone());
         String clockAction = missedPunch.getClockAction();
         String principalId = timesheetDocument.getPrincipalId();
         

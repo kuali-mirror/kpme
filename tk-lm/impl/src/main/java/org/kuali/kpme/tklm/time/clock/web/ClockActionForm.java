@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -124,8 +123,7 @@ public class ClockActionForm extends TimesheetActionForm {
 	}
 	
 	public String getUserSystemOffsetServerTime() {
-		DateTimeZone userDateTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-		return String.valueOf(DateTime.now(userDateTimeZone).withZone(TKUtils.getSystemDateTimeZone()).getMillis());
+		return String.valueOf(DateTime.now(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback()).getMillis());
 	}
 
     public String getCurrentClockAction() {
