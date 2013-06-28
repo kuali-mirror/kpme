@@ -108,12 +108,19 @@ public class TKUtils {
     }
 
     public static String formatAssignmentKey(Long jobNumber, Long workArea, Long task) {
+    	String assignmentKey = StringUtils.EMPTY;
+    	
     	String jobNumberString = ObjectUtils.toString(jobNumber, "0");
     	String workAreaString = ObjectUtils.toString(workArea, "0");
     	String taskString = ObjectUtils.toString(task, "0");
-        return jobNumberString + HrConstants.ASSIGNMENT_KEY_DELIMITER + workAreaString + HrConstants.ASSIGNMENT_KEY_DELIMITER + taskString;
+    	
+    	if (!jobNumberString.equals("0") || !workAreaString.equals("0") || !taskString.equals("0")) {
+    		assignmentKey = StringUtils.join(new String[] {jobNumberString, workAreaString, taskString}, HrConstants.ASSIGNMENT_KEY_DELIMITER);
+    	}
+    	
+    	return assignmentKey;
     }
-
+    
     public static Map<String, String> formatAssignmentDescription(Assignment assignment) {
         Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
         String assignmentDescKey = formatAssignmentKey(assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask());

@@ -95,7 +95,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
     public void addClockLog(MissedPunch missedPunch, String ipAddress) {
         TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
-        Assignment assignment = timesheetDocument.getAssignment(assignmentDescriptionKey);
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(assignmentDescriptionKey, timesheetDocument.getDocEndDate());
         CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
         DateTime userActionDateTime = missedPunch.getActionFullDateTime();
         DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
@@ -153,7 +153,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
     private void addClockLogAndTimeBlocks(MissedPunch missedPunch, String ipAddress, String logEndId, String logBeginId) {
         TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
-        Assignment assignment = timesheetDocument.getAssignment(assignmentDescriptionKey);
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(assignmentDescriptionKey, timesheetDocument.getDocEndDate());
         CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
         DateTime userActionDateTime = missedPunch.getActionFullDateTime();
         DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();

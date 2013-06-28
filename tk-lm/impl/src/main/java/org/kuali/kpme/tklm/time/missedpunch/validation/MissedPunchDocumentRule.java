@@ -43,13 +43,9 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
         DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(document.getDocumentNumber());
         
         if (DocumentStatus.INITIATED.equals(documentStatus) || DocumentStatus.SAVED.equals(documentStatus)) {
-            valid &= getDictionaryValidationService().isBusinessObjectValid(missedPunch);
-
-	        if (valid) {
-		        valid &= validateTimesheet(missedPunch);
-	        	valid &= validateClockAction(missedPunch);
-	        	valid &= validateClockTime(missedPunch);
-	        }
+        	valid &= validateTimesheet(missedPunch);
+        	valid &= validateClockAction(missedPunch);
+        	valid &= validateClockTime(missedPunch);
         }
 	    
         return valid;
