@@ -37,4 +37,8 @@ public interface EarnCodeSecurityDao {
                                         String active, LocalDate effdt, String hrDeptEarnCodeId);
 	
 	public int getNewerEarnCodeSecurityCount(String earnCode, LocalDate effdt);
+	
+	public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept,
+			String salGroup, String earnCode, String employee, String approver,
+			String location, String active, LocalDate effdt);
 }

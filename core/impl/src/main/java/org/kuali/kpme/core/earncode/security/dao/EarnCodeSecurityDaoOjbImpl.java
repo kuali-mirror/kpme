@@ -30,6 +30,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import com.google.common.collect.ImmutableList;
@@ -207,6 +208,7 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
       Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
       return this.getPersistenceBrokerTemplate().getCount(query);
 	}
+	
 	@Override
 	public int getNewerEarnCodeSecurityCount(String earnCode, LocalDate effdt) {
 		Criteria crit = new Criteria();
@@ -215,5 +217,40 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
 		crit.addGreaterThan("effectiveDate", effdt.toDate());
 		Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
        	return this.getPersistenceBrokerTemplate().getCount(query);
+	}
+	
+	
+	@Override
+	public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String location,
+			String active, LocalDate effdt) {
+	  Criteria crit = new Criteria();
+      crit.addEqualTo("earnCode", earnCode);
+      if(StringUtils.isNotEmpty(employee)) {
+    	  crit.addEqualTo("employee", employee);
+      }
+      if(StringUtils.isNotEmpty(approver)) {
+    	  crit.addEqualTo("approver", approver);
+      }
+      if(StringUtils.isNotEmpty(location)) {
+    	  crit.addEqualTo("location", location);
+      }
+      crit.addEqualTo("active", active);
+      crit.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeSecurity.class, effdt, EarnCodeSecurity.EQUAL_TO_FIELDS, false));
+      
+      Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
+      
+      List<EarnCodeSecurity> results = new ArrayList<EarnCodeSecurity>();
+      results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+      
+   // dept and salGroup allow wildcards,
+      List<EarnCodeSecurity> finalResults = new ArrayList<EarnCodeSecurity>();
+      for(EarnCodeSecurity aSecurity : results) {
+    	 if((StringUtils.isNotEmpty(dept) && ValidationUtils.wildCardMatch(aSecurity.getDept(), dept))
+    		 && (StringUtils.isNotEmpty(salGroup) && ValidationUtils.wildCardMatch(aSecurity.getHrSalGroup(), salGroup))) {
+    		 finalResults.add(aSecurity);
+    	 }
+      }
+      
+      return finalResults;
 	}
 }

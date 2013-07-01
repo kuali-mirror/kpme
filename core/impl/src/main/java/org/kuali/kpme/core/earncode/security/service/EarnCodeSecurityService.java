@@ -59,4 +59,20 @@ public interface EarnCodeSecurityService {
      * @return int
      */
 	public int getNewerEarnCodeSecurityCount(String earnCode, LocalDate effdt);
+	
+	/**
+	 * Retrive list of active earnCodeSecurity with given parameters
+	 * allows wild card on department and salGroup
+	 * @param dept
+	 * @param salGroup
+	 * @param earnCode
+	 * @param employee
+	 * @param approver
+	 * @param location
+	 * @param active
+	 * @param effdt
+	 * @return
+	 */
+	public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String location,
+			String active, LocalDate effdt);
 }

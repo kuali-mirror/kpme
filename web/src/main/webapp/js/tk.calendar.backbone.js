@@ -339,7 +339,7 @@ $(function () {
             // The content of the overtimePref is in a separate template,
             // but when we submit the form, we will want to keep all the original values.
             // That's why we call the fillInform() method below, so all the values will still be there when the form is submitted.
-            dfd.done(self.fetchOvertimeEarnCode())
+            dfd.done(self.fetchOvertimeEarnCode(key.id))
                     .done($("#overtimePref option[value='" + currentOvertimePref + "']").prop("selected", "selected"))
                     .done(_(timeBlock).fillInForm());
 
@@ -771,13 +771,17 @@ $(function () {
 
         },
 
-        fetchOvertimeEarnCode : function () {
+        fetchOvertimeEarnCode : function (id) {
             // Fetch earn codes based on the selected assignment
             // The fetch function is provided by backbone.js which also supports jQuery.ajax options.
             // See here for more information: http://documentcloud.github.com/backbone/#Collection-fetch
             this.$("#overtimePref").html("");
             OvertimeEarnCodes.fetch({
-                async : false
+                async : false,
+                data : {
+                	tkTimeBlockId : id
+                }
+                
             });
         },
 

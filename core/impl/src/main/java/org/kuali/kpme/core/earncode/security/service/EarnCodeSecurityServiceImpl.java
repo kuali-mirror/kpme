@@ -89,4 +89,11 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 	public int getNewerEarnCodeSecurityCount(String earnCode, LocalDate effdt) {
 		return earnCodeSecurityDao.getNewerEarnCodeSecurityCount(earnCode, effdt);
 	}
+
+	@Override
+	public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept,
+			String salGroup, String earnCode, String employee, String approver,
+			String location, String active, LocalDate effdt) {
+		return earnCodeSecurityDao.getEarnCodeSecurityList(dept, salGroup, earnCode, employee, approver, location, active, effdt);
+	}
 }
