@@ -103,11 +103,6 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-krad-development-tools</artifactId>
-            <version>${rice.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
             <artifactId>rice-krad-web-framework</artifactId>
         </dependency>
         <dependency>
