@@ -137,6 +137,9 @@
         <loadData tableName="TK_SHIFT_DIFFERENTIAL_RL_T" file="src/test/config/db/staging/tk_shift_differential_rl_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
         </loadData>
+        <loadData tableName="TK_TASK_T" file="src/test/config/db/staging/tk_task_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
         <loadData tableName="TK_TIME_COLLECTION_RL_T" file="src/test/config/db/staging/tk_time_collection_rl_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
         </loadData>
