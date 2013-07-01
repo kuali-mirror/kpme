@@ -56,7 +56,9 @@ public abstract class ApprovalFormAction extends KPMEAction {
 	        if (CollectionUtils.isNotEmpty(principalIds)) {
 	            calendarGroups = getCalendars(principalIds);
 	        }
-	        approvalForm.setSelectedPayCalendarGroup(CollectionUtils.isNotEmpty(calendarGroups) ? calendarGroups.get(0) : null);
+	        if (StringUtils.isEmpty(approvalForm.getSelectedPayCalendarGroup())) {
+	        	approvalForm.setSelectedPayCalendarGroup(CollectionUtils.isNotEmpty(calendarGroups) ? calendarGroups.get(0) : null);
+	        }
 	        approvalForm.setPayCalendarGroups(calendarGroups);
 		}
 		
