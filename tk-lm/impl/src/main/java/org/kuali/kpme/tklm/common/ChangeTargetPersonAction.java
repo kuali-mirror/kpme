@@ -28,6 +28,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
@@ -36,8 +37,6 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -55,8 +54,8 @@ public class ChangeTargetPersonAction extends KPMEAction {
         	Principal targetPerson = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(changeTargetPersonForm.getPrincipalName());
         	
 	        if (targetPerson != null) {
-	            if (HrServiceLocator.getHRGroupService().isMemberOfSystemAdministratorGroup(GlobalVariables.getUserSession().getPrincipalId(), new DateTime())
-	                	|| HrServiceLocator.getHRGroupService().isMemberOfSystemViewOnlyGroup(GlobalVariables.getUserSession().getPrincipalId(), new DateTime())
+	            if (HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(GlobalVariables.getUserSession().getPrincipalId(), new DateTime())
+	                	|| HrServiceLocator.getKPMEGroupService().isMemberOfSystemViewOnlyGroup(GlobalVariables.getUserSession().getPrincipalId(), new DateTime())
 	                	|| isReviewerForPerson(targetPerson.getPrincipalId())
 	                	|| isApproverForPerson(targetPerson.getPrincipalId())
 	                	|| isViewOnlyForPerson(targetPerson.getPrincipalId())
@@ -89,7 +88,7 @@ public class ChangeTargetPersonAction extends KPMEAction {
         List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
         for (Assignment assignment : assignments) {
-            if (HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), assignment.getWorkArea(), new DateTime())) {
+            if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), assignment.getWorkArea(), new DateTime())) {
                 return true;
             }
         }
@@ -100,8 +99,8 @@ public class ChangeTargetPersonAction extends KPMEAction {
         List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
         for (Assignment assignment : assignments) {
-        	if (HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime())
-        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime())) {
+        	if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime())
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime())) {
                 return true;
             }
         }
@@ -118,10 +117,10 @@ public class ChangeTargetPersonAction extends KPMEAction {
 			Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 
-            if (TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
-            		|| LmServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
-            		|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())
-            		|| LmServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())) {
+            if (HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
+            		|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
+            		|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())
+            		|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())) {
                 return true;
             }
         }
@@ -138,10 +137,10 @@ public class ChangeTargetPersonAction extends KPMEAction {
 			Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 			
-        	if (TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-        			|| LmServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-        			|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
-        			|| LmServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {
+        	if (HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {
                 return true;
             }
         }

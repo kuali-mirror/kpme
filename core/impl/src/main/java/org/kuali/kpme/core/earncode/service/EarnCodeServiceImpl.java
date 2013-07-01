@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.earncode.EarnCode;
@@ -162,8 +163,8 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         	String principalId = GlobalVariables.getUserSession().getPrincipalId();
         	
         	Set<Long> workAreas = new HashSet<Long>();
-        	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-            workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+        	workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(KPMENamespace.KPME_HR.getNamespaceCode(), principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+            workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(KPMENamespace.KPME_HR.getNamespaceCode(), principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
 
             for (Long wa : workAreas) {
                 WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);

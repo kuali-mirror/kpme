@@ -18,6 +18,7 @@ package org.kuali.kpme.core.util;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -54,19 +55,19 @@ public class HrContext {
 	}
 	
 	public static boolean isSystemAdmin() {
-		return HrServiceLocator.getHRGroupService().isMemberOfSystemAdministratorGroup(getPrincipalId(), new DateTime());
+		return HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(getPrincipalId(), new DateTime());
 	}
 	
 	public static boolean isTargetSystemAdmin() {
-		return HrServiceLocator.getHRGroupService().isMemberOfSystemAdministratorGroup(getTargetPrincipalId(), new DateTime());
+		return HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(getTargetPrincipalId(), new DateTime());
 	}
 	
 	public static boolean isGlobalViewOnly() {
-		return HrServiceLocator.getHRGroupService().isMemberOfSystemViewOnlyGroup(getPrincipalId(), new DateTime());
+		return HrServiceLocator.getKPMEGroupService().isMemberOfSystemViewOnlyGroup(getPrincipalId(), new DateTime());
 	}
 	
 	public static boolean isTargetGlobalViewOnly() {
-		return HrServiceLocator.getHRGroupService().isMemberOfSystemViewOnlyGroup(getTargetPrincipalId(), new DateTime());
+		return HrServiceLocator.getKPMEGroupService().isMemberOfSystemViewOnlyGroup(getTargetPrincipalId(), new DateTime());
 	}
 	
 	public static boolean isAnyApprover() {
@@ -78,27 +79,27 @@ public class HrContext {
 	}
 	
 	public static boolean isApprover() {
-		return HrServiceLocator.getHRRoleService().principalHasRole(getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), new DateTime());
 	}
 	
 	public static boolean isTargetApprover() {
-		return HrServiceLocator.getHRRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), new DateTime());
 	}
 	
 	public static boolean isApproverDelegate() {
-		return HrServiceLocator.getHRRoleService().principalHasRole(getPrincipalId(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime());
 	}
 	
 	public static boolean isTargetApproverDelegate() {
-		return HrServiceLocator.getHRRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime());
 	}
 	
 	public static boolean isReviewer() {
-		return HrServiceLocator.getHRRoleService().principalHasRole(getPrincipalId(), KPMERole.REVIEWER.getRoleName(), new DateTime());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), new DateTime());
 	}
 	
 	public static boolean isTargetReviewer() {
-		return HrServiceLocator.getHRRoleService().principalHasRole(getTargetPrincipalId(), KPMERole.REVIEWER.getRoleName(), new DateTime());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), new DateTime());
 	}
 	
 	public static boolean isActiveEmployee() {

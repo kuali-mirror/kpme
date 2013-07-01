@@ -35,6 +35,7 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
@@ -155,9 +156,9 @@ public class ClockAction extends TimesheetAction {
 	        		if (assignment != null) {
 	        			String principalId = GlobalVariables.getUserSession().getPrincipalId();
 	        			Long workArea = assignment.getWorkArea();
-	        			isApproverOrReviewerForCurrentAssignment = HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
-	        					|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
-	        					|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime());
+	        			isApproverOrReviewerForCurrentAssignment = HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
+	        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
+	        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), workArea, new DateTime());
 	        		}
 		        	clockActionForm.setClockButtonEnabled(isApproverOrReviewerForCurrentAssignment);
 		        }

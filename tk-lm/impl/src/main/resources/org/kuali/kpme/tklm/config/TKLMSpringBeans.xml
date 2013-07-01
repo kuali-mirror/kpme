@@ -261,22 +261,6 @@
         <property name="leaveRequestDocumentService" ref="leaveRequestDocumentService" />
         <property name="workAreaService" ref="kpme.core.workAreaService" />
     </bean>
-
-   <bean id="tkRoleService" class="org.kuali.kpme.tklm.time.service.role.TKRoleServiceImpl">
-        <property name="departmentService" ref="kpme.core.departmentService" />
-        <property name="groupService" ref="kimGroupService" />
-        <property name="kimTypeInfoService" ref="kimTypeInfoService" />
-        <property name="roleService" ref="kimRoleService" />
-        <property name="workAreaService" ref="kpme.core.workAreaService" />
-    </bean>
-    
-    <bean id="lmRoleService" class="org.kuali.kpme.tklm.leave.service.role.LMRoleServiceImpl">
-        <property name="departmentService" ref="kpme.core.departmentService" />
-        <property name="groupService" ref="kimGroupService" />
-        <property name="kimTypeInfoService" ref="kimTypeInfoService" />
-        <property name="roleService" ref="kimRoleService" />
-        <property name="workAreaService" ref="kpme.core.workAreaService" />
-    </bean>
     
     <bean id="missedPunchService" class="org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchServiceImpl">
         <property name="missedPunchDao" ref="missedPunchDao" />

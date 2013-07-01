@@ -292,7 +292,7 @@
         <property name="positionBaseDao" ref="positionBaseDao"/>
     </bean>
     
-    <bean id="hrGroupService" class="org.kuali.kpme.core.service.group.HRGroupServiceImpl">
+    <bean id="kpmeGroupService" class="org.kuali.kpme.core.service.group.KPMEGroupServiceImpl">
         <property name="groupService" ref="kimGroupService" />
     </bean>
     
@@ -302,7 +302,7 @@
         <property name="departmentService" ref="departmentService" />
     </bean>
     
-    <bean id="hrRoleService" class="org.kuali.kpme.core.service.role.HRRoleServiceImpl">
+    <bean id="kpmeRoleService" class="org.kuali.kpme.core.service.role.KPMERoleServiceImpl">
         <property name="departmentService" ref="departmentService" />
         <property name="groupService" ref="kimGroupService" />
         <property name="kimTypeInfoService" ref="kimTypeInfoService" />

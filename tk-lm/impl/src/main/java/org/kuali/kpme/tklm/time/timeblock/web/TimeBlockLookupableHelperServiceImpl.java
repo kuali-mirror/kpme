@@ -26,13 +26,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -76,13 +75,13 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 				String location = departmentObj != null ? departmentObj.getLocation() : null;
 				
 				boolean valid = false;
-				if (HrServiceLocator.getHRGroupService().isMemberOfSystemAdministratorGroup(HrContext.getPrincipalId(), new DateTime())
-						|| HrServiceLocator.getHRGroupService().isMemberOfSystemViewOnlyGroup(HrContext.getPrincipalId(), new DateTime())
-						|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(HrContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
-						|| TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(HrContext.getPrincipalId(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-						|| LmServiceLocator.getLMRoleService().principalHasRoleInDepartment(HrContext.getPrincipalId(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-						|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(HrContext.getPrincipalId(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
-						|| LmServiceLocator.getLMRoleService().principalHasRoleInLocation(HrContext.getPrincipalId(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {	
+				if (HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(HrContext.getPrincipalId(), new DateTime())
+						|| HrServiceLocator.getKPMEGroupService().isMemberOfSystemViewOnlyGroup(HrContext.getPrincipalId(), new DateTime())
+						|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(HrContext.getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
+						|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(HrContext.getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+						|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(HrContext.getPrincipalId(), KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+						|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(HrContext.getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+						|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(HrContext.getPrincipalId(), KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {	
 					valid = true;
 				}
 				

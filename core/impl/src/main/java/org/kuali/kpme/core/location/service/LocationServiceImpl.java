@@ -79,10 +79,10 @@ public class LocationServiceImpl implements LocationService {
     	if (location != null && asOfDate != null    			
     			&& CollectionUtils.isEmpty(location.getRoleMembers()) && CollectionUtils.isEmpty(location.getInactiveRoleMembers())) {
     		Set<RoleMember> roleMembers = new HashSet<RoleMember>();
-	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInLocation(KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
-	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInLocation(KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
-	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInLocation(KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
-	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInLocation(KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInLocation(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInLocation(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInLocation(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInLocation(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location.getLocation(), asOfDate.toDateTimeAtStartOfDay(), false));
 	
 	    	for (RoleMember roleMember : roleMembers) {
 	    		RoleMemberBo roleMemberBo = RoleMemberBo.from(roleMember);

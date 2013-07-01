@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.detail.web;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +33,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONValue;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
@@ -175,8 +175,8 @@ public class ActionFormUtils {
 
             String principalId = GlobalVariables.getUserSession().getPrincipalId();
             
-            boolean isAnyApprover = HrServiceLocator.getHRRoleService().principalHasRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime())
-					|| HrServiceLocator.getHRRoleService().principalHasRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime());
+            boolean isAnyApprover = HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), new DateTime())
+					|| HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime());
             timeBlockMap.put("isApprover", isAnyApprover);
             timeBlockMap.put("isSynchronousUser", timeBlock.getClockLogCreated());
 

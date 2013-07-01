@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
@@ -77,7 +77,13 @@ public abstract class KPMERoleMemberBo extends RoleMemberBo {
 	
 	public void setRoleName(String roleName) {
 		if (StringUtils.isNotBlank(roleName)) {
-			setRoleId(HrServiceLocator.getHRRoleService().getRoleIdByName(roleName));
+			setRoleId(KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(), roleName));
+			if (StringUtils.isBlank(getRoleId())) {
+				setRoleId(KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_TK.getNamespaceCode(), roleName));
+				if (StringUtils.isBlank(getRoleId())) {
+					setRoleId(KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_LM.getNamespaceCode(), roleName));
+				}
+			}
 		}
 	}
 

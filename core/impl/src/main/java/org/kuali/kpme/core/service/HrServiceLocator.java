@@ -34,10 +34,10 @@ import org.kuali.kpme.core.paytype.service.PayTypeService;
 import org.kuali.kpme.core.position.service.PositionBaseService;
 import org.kuali.kpme.core.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.salarygroup.service.SalaryGroupService;
-import org.kuali.kpme.core.service.group.HRGroupService;
+import org.kuali.kpme.core.service.group.KPMEGroupService;
 import org.kuali.kpme.core.service.notification.KPMENotificationService;
 import org.kuali.kpme.core.service.permission.HRPermissionService;
-import org.kuali.kpme.core.service.role.HRRoleService;
+import org.kuali.kpme.core.service.role.KPMERoleService;
 import org.kuali.kpme.core.service.timezone.TimezoneService;
 import org.kuali.kpme.core.task.service.TaskService;
 import org.kuali.kpme.core.workarea.service.WorkAreaService;
@@ -79,14 +79,14 @@ public class HrServiceLocator implements ApplicationContextAware {
 	public static final String HR_PAY_STEP_SERVICE = "payStepService";
 	public static final String TK_TIME_ZONE_SERVICE = "timezoneService";
 	
-    public static final String HR_GROUP_SERVICE = "hrGroupService";
     public static final String HR_PERMISSION_SERVICE = "hrPermissionService";
-    public static final String HR_ROLE_SERVICE = "hrRoleService";
-    
+
     //Move to [Sys|Hr]ServiceLocator
 	public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
-    public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";    
-
+    public static final String KPME_GROUP_SERVICE = "kpmeGroupService";
+	public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";    
+    public static final String KPME_ROLE_SERVICE = "kpmeRoleService";
+    
     public static Object getBean(String beanName) {
         return CONTEXT.getBean(beanName);
     }
@@ -185,29 +185,25 @@ public class HrServiceLocator implements ApplicationContextAware {
 	public static TimezoneService getTimezoneService(){
 		return (TimezoneService) CONTEXT.getBean(TK_TIME_ZONE_SERVICE);
 	}
-	
-	/* 
-	 * 
-	 * Group, Role and Permission Services
-	 * 
-	 */
-    public static HRGroupService getHRGroupService() {
-    	return (HRGroupService) CONTEXT.getBean(HR_GROUP_SERVICE);
-    }
-    public static HRPermissionService getHRPermissionService() {
-    	return (HRPermissionService) CONTEXT.getBean(HR_PERMISSION_SERVICE);
-    }
-    public static HRRoleService getHRRoleService() {
-    	return (HRRoleService) CONTEXT.getBean(HR_ROLE_SERVICE);
+    
+    public static DistributedCacheManagerDecorator getDistributedCacheManager() {
+        return (DistributedCacheManagerDecorator)CONTEXT.getBean(KPME_DISTRIBUTED_CACHE_MANAGER);
     }
     
+    public static KPMEGroupService getKPMEGroupService() {
+    	return (KPMEGroupService) CONTEXT.getBean(KPME_GROUP_SERVICE);
+    }
     
     public static KPMENotificationService getKPMENotificationService() {
     	return (KPMENotificationService) CONTEXT.getBean(KPME_NOTIFICATION_SERVICE);
     }
     
-    public static DistributedCacheManagerDecorator getDistributedCacheManager() {
-        return (DistributedCacheManagerDecorator)CONTEXT.getBean(KPME_DISTRIBUTED_CACHE_MANAGER);
+    public static HRPermissionService getHRPermissionService() {
+    	return (HRPermissionService) CONTEXT.getBean(HR_PERMISSION_SERVICE);
+    }
+    
+    public static KPMERoleService getKPMERoleService() {
+    	return (KPMERoleService) CONTEXT.getBean(KPME_ROLE_SERVICE);
     }
 	
 	@Override

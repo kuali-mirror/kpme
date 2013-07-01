@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.hsqldb.lib.StringUtil;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -40,9 +41,9 @@ public abstract class ApprovalFormAction extends KPMEAction {
 		
 		if (CollectionUtils.isEmpty(approvalForm.getPayCalendarGroups())) {
 			Set<Long> workAreas = new TreeSet<Long>();
-			workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay(), true));
-			workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay(), true));
-			workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay(), true));
+			workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay(), true));
+			workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay(), true));
+			workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay(), true));
 			
 			List<String> principalIds = new ArrayList<String>();
 	        for (Long workArea : workAreas) {
@@ -66,9 +67,9 @@ public abstract class ApprovalFormAction extends KPMEAction {
 			Set<String> departments = new TreeSet<String>();
 			
 			Set<Long> workAreas = new TreeSet<Long>();
-			workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay(), true));
-			workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay(), true));
-			workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay(), true));
+			workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay(), true));
+			workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay(), true));
+			workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay(), true));
 			
 			for (Long workArea : workAreas) {
 				WorkArea workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, LocalDate.now());
@@ -88,9 +89,9 @@ public abstract class ApprovalFormAction extends KPMEAction {
         	Long workArea = workAreaObj.getWorkArea();
         	String description = workAreaObj.getDescription();
         	
-        	if (HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, LocalDate.now().toDateTimeAtStartOfDay())
-        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, LocalDate.now().toDateTimeAtStartOfDay())
-        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, LocalDate.now().toDateTimeAtStartOfDay())) {
+        	if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), workArea, LocalDate.now().toDateTimeAtStartOfDay())
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, LocalDate.now().toDateTimeAtStartOfDay())
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, LocalDate.now().toDateTimeAtStartOfDay())) {
         		approvalForm.getWorkAreaDescr().put(workArea, description + "(" + workArea + ")");
         	}
         }

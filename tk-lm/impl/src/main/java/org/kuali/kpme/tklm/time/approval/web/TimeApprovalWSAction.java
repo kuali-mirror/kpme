@@ -35,6 +35,7 @@ import org.hsqldb.lib.StringUtil;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -73,8 +74,8 @@ public class TimeApprovalWSAction extends KPMEAction {
         	String principalId = HrContext.getTargetPrincipalId();
         	
         	Set<Long> workAreas = new HashSet<Long>();
-        	workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-            workAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+        	workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+            workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
 
         	for(Long workArea : workAreas) {
         		workAreaList.add(workArea.toString());

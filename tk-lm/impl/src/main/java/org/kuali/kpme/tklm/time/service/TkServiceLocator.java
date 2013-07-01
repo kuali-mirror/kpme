@@ -32,7 +32,6 @@ import org.kuali.kpme.tklm.time.rules.overtime.weekly.service.WeeklyOvertimeRule
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.service.ShiftDifferentialRuleService;
 import org.kuali.kpme.tklm.time.rules.timecollection.service.TimeCollectionRuleService;
 import org.kuali.kpme.tklm.time.service.permission.TKPermissionService;
-import org.kuali.kpme.tklm.time.service.role.TKRoleService;
 import org.kuali.kpme.tklm.time.timeblock.service.TimeBlockHistoryDetailService;
 import org.kuali.kpme.tklm.time.timeblock.service.TimeBlockHistoryService;
 import org.kuali.kpme.tklm.time.timeblock.service.TimeBlockService;
@@ -176,11 +175,6 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static TKPermissionService getTKPermissionService() {
     	return (TKPermissionService) CONTEXT.getBean(TK_PERMISSION_SERVICE);
     }
-
-    public static TKRoleService getTKRoleService() {
-    	return (TKRoleService) CONTEXT.getBean(TK_ROLE_SERVICE);
-    }
-
 	
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {

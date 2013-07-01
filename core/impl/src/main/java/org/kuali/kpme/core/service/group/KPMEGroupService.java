@@ -17,7 +17,7 @@ package org.kuali.kpme.core.service.group;
 
 import org.joda.time.DateTime;
 
-public interface HRGroupService {
+public interface KPMEGroupService {
 
 	/**
 	 * Checks whether the given {@code principalId} is a member of the group {@code groupName}.

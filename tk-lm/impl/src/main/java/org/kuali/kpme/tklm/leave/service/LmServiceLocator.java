@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.service;
 
-import org.kuali.kpme.tklm.leave.accrual.bucket.KPMEAccrualCategoryBucket;
 import org.kuali.kpme.tklm.leave.accrual.service.AccrualCategoryMaxBalanceService;
 import org.kuali.kpme.tklm.leave.accrual.service.AccrualCategoryMaxCarryOverService;
 import org.kuali.kpme.tklm.leave.accrual.service.AccrualService;
@@ -30,7 +29,6 @@ import org.kuali.kpme.tklm.leave.override.service.EmployeeOverrideService;
 import org.kuali.kpme.tklm.leave.payout.service.LeavePayoutService;
 import org.kuali.kpme.tklm.leave.request.service.LeaveRequestDocumentService;
 import org.kuali.kpme.tklm.leave.service.permission.LMPermissionService;
-import org.kuali.kpme.tklm.leave.service.role.LMRoleService;
 import org.kuali.kpme.tklm.leave.summary.service.LeaveSummaryService;
 import org.kuali.kpme.tklm.leave.timeoff.service.SystemScheduledTimeOffService;
 import org.kuali.kpme.tklm.leave.transfer.service.BalanceTransferService;
@@ -117,9 +115,6 @@ public class LmServiceLocator implements ApplicationContextAware {
     }
     public static LeavePayoutService getLeavePayoutService() {
         return (LeavePayoutService) CONTEXT.getBean(LM_LEAVE_PAYOUT_SERVICE);
-    }
-    public static LMRoleService getLMRoleService() {
-    	return (LMRoleService) CONTEXT.getBean(LM_ROLE_SERVICE);
     }
 	public static AccrualService getAccrualService() {
 	    return (AccrualService)CONTEXT.getBean(LM_ACCRUAL_SERVICE);

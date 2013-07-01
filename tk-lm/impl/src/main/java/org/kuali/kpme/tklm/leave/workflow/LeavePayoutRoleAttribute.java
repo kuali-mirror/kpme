@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -95,7 +96,7 @@ public class LeavePayoutRoleAttribute extends GenericRoleAttribute {
 		if (StringUtils.isNotBlank(roleName) && NumberUtils.isNumber(qualifier)) {
 			Long workArea = Long.valueOf(qualifier);
 	
-			List<RoleMember> roleMembers = HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(roleName, workArea, new DateTime(), true);
+			List<RoleMember> roleMembers = HrServiceLocator.getKPMERoleService().getRoleMembersInWorkArea(KPMENamespace.KPME_HR.getNamespaceCode(), roleName, workArea, new DateTime(), true);
 			
 	        for (RoleMember roleMember : roleMembers) {
 	        	recipients.add(new PrincipalId(roleMember.getMemberId()));

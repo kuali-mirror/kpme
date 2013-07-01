@@ -119,10 +119,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     			&& CollectionUtils.isEmpty(department.getRoleMembers()) && CollectionUtils.isEmpty(department.getInactiveRoleMembers())) {
     		Set<RoleMember> roleMembers = new HashSet<RoleMember>();
     		
-	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInDepartment(KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
-	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInDepartment(KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
-	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInDepartment(KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
-	    	roleMembers.addAll(HrServiceLocator.getHRRoleService().getRoleMembersInDepartment(KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
+	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
 	
 	    	for (RoleMember roleMember : roleMembers) {
 	    		RoleMemberBo roleMemberBo = RoleMemberBo.from(roleMember);

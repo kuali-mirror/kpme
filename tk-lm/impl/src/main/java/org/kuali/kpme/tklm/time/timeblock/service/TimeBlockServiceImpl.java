@@ -28,6 +28,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
@@ -359,9 +360,9 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 				return true;
 			}
 
-        	if (HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(userId, KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
-        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(userId, KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
-        			|| HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(userId, KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime())) {
+        	if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime())) {
 
 				Job job = HrServiceLocator.getJobService().getJob(HrContext.getTargetPrincipalId(),timeBlock.getJobNumber(), timeBlock.getEndDateTime().toLocalDate());
 				PayType payType = HrServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());

@@ -163,7 +163,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
                     || StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR, blockType)) {
 
             	if (!TkContext.isDepartmentAdmin()
-                        || HrServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), leaveBlock.getWorkArea(), new DateTime())) {
+                        || HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), leaveBlock.getWorkArea(), new DateTime())) {
             		return true;
             	}
             } else if (LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT.equals(blockType)

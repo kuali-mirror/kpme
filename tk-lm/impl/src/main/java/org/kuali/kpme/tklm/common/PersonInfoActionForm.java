@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.assignment.Assignment;
@@ -45,7 +46,7 @@ public class PersonInfoActionForm extends KPMEForm {
     
     //KPME-1441
     private List<Job> jobs = new ArrayList<Job>();
-    private Map<Long,List<Assignment>> jobNumberToListAssignments = new HashMap<Long,List<Assignment>>();
+
 	
     private List<Long> approverWorkAreas = new ArrayList<Long>();
     private List<Long> reviewerWorkAreas = new ArrayList<Long>();
@@ -55,8 +56,9 @@ public class PersonInfoActionForm extends KPMEForm {
     private Boolean globalViewOnlyRoles = Boolean.FALSE;
     private List<String> deptViewOnlyDepts = new ArrayList<String>();
     
-	private Map<Long,List<Person>> workAreaToApproverPerson = new HashMap<Long, List<Person>>();
-    private Map<String,List<Person>> deptToDeptAdminPerson = new HashMap<String, List<Person>>();
+    private Map<Long,Set<Assignment>> jobNumberToListAssignments = new HashMap<Long, Set<Assignment>>();
+	private Map<Long, Set<Person>> workAreaToApproverPerson = new HashMap<Long, Set<Person>>();
+    private Map<String, Set<Person>> deptToDeptAdminPerson = new HashMap<String, Set<Person>>();
 
 	public String getName() {
 		return name;
@@ -72,24 +74,6 @@ public class PersonInfoActionForm extends KPMEForm {
 
 	public void setServiceDate(String serviceDate) {
 		this.serviceDate = serviceDate;
-	}
-	
-
-	public Map<Long, List<Assignment>> getJobNumberToListAssignments() {
-		return jobNumberToListAssignments;
-	}
-
-	public void setJobNumberToListAssignments(
-			Map<Long, List<Assignment>> jobNumberToListAssignments) {
-		this.jobNumberToListAssignments = jobNumberToListAssignments;
-	}
-
-	public Map<Long,List<Person>> getWorkAreaToApproverPerson() {
-		return workAreaToApproverPerson;
-	}
-
-	public void setWorkAreaToApproverPerson(Map<Long,List<Person>> workAreaToApproverPerson) {
-		this.workAreaToApproverPerson = workAreaToApproverPerson;
 	}
 
 	public List<AccrualCategory> getAccrualCategories() {
@@ -204,14 +188,6 @@ public class PersonInfoActionForm extends KPMEForm {
 		this.deptViewOnlyDepts = deptViewOnlyDepts;
 	}
 
-    public Map<String, List<Person>> getDeptToDeptAdminPerson() {
-        return deptToDeptAdminPerson;
-    }
-
-    public void setDeptToDeptAdminPerson(Map<String, List<Person>> deptToDeptAdminPerson) {
-        this.deptToDeptAdminPerson = deptToDeptAdminPerson;
-    }
-
 	public String getTotalFTE() {
 		return totalFTE;
 	}
@@ -219,4 +195,29 @@ public class PersonInfoActionForm extends KPMEForm {
 	public void setTotalFTE(String totalFTE) {
 		this.totalFTE = totalFTE;
 	} 
+	
+	public Map<Long, Set<Assignment>> getJobNumberToListAssignments() {
+		return jobNumberToListAssignments;
+	}
+
+	public void setJobNumberToListAssignments(Map<Long, Set<Assignment>> jobNumberToListAssignments) {
+		this.jobNumberToListAssignments = jobNumberToListAssignments;
+	}
+
+	public Map<Long, Set<Person>> getWorkAreaToApproverPerson() {
+		return workAreaToApproverPerson;
+	}
+
+	public void setWorkAreaToApproverPerson(Map<Long, Set<Person>> workAreaToApproverPerson) {
+		this.workAreaToApproverPerson = workAreaToApproverPerson;
+	}
+
+    public Map<String, Set<Person>> getDeptToDeptAdminPerson() {
+        return deptToDeptAdminPerson;
+    }
+
+    public void setDeptToDeptAdminPerson(Map<String, Set<Person>> deptToDeptAdminPerson) {
+        this.deptToDeptAdminPerson = deptToDeptAdminPerson;
+    }
+    
 }

@@ -35,7 +35,7 @@ import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.group.GroupMember;
 import org.kuali.rice.kim.api.group.GroupService;
 
-public class HRGroupServiceImpl implements HRGroupService {
+public class KPMEGroupServiceImpl implements KPMEGroupService {
 	
 	private GroupService groupService;
 

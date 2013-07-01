@@ -17,21 +17,25 @@ package org.kuali.kpme.tklm.common;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.assignment.Assignment;
@@ -41,8 +45,6 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.role.RoleMember;
@@ -123,28 +125,38 @@ public class PersonInfoAction extends KPMEAction {
 
 		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(HrContext.getTargetPrincipalId(), LocalDate.now());
 		
-		Map<Long,List<Assignment>> jobNumberToListAssignments = new HashMap<Long,List<Assignment>>();
-		Map<Long,List<Person>> workAreaToApproverPerson = new HashMap<Long, List<Person>>();
-        Map<String,List<Person>> deptToDeptAdminPerson = new HashMap<String,List<Person>>();
+		Map<Long, Set<Assignment>> jobNumberToListAssignments = new HashMap<Long,Set<Assignment>>();
+		Map<Long, Set<Person>> workAreaToApproverPerson = new HashMap<Long, Set<Person>>();
+        Map<String, Set<Person>> deptToDeptAdminPerson = new HashMap<String, Set<Person>>();
 		
 		for (Assignment assignment : assignments) {
-			List<Assignment> jobAssignments = jobNumberToListAssignments.get(assignment.getJobNumber());
+			Set<Assignment> jobAssignments = jobNumberToListAssignments.get(assignment.getJobNumber());
 			if (jobAssignments == null) {
-				jobAssignments = new ArrayList<Assignment>();
+				jobAssignments = new HashSet<Assignment>();
 			}
 			jobAssignments.add(assignment);
 			jobNumberToListAssignments.put(assignment.getJobNumber(), jobAssignments);
 			
-			List<Person> approvers = workAreaToApproverPerson.get(assignment.getWorkArea());
+			Set<Person> approvers = workAreaToApproverPerson.get(assignment.getWorkArea());
 			if (approvers == null) {
-				approvers = new ArrayList<Person>();
+				approvers = new TreeSet<Person>(new Comparator<Person>() {
+					@Override
+					public int compare(Person person1, Person person2) {
+						return ObjectUtils.compare(person1.getPrincipalId(), person2.getPrincipalId());
+					}
+				});
 			}
 			approvers.addAll(getApprovers(assignment.getWorkArea()));
 			workAreaToApproverPerson.put(assignment.getWorkArea(), approvers);
 			
-			List<Person> departmentAdmins = deptToDeptAdminPerson.get(assignment.getDept());
+			Set<Person> departmentAdmins = deptToDeptAdminPerson.get(assignment.getDept());
 			if (departmentAdmins == null) {
-				departmentAdmins = new ArrayList<Person>();
+				departmentAdmins = new TreeSet<Person>(new Comparator<Person>() {
+					@Override
+					public int compare(Person person1, Person person2) {
+						return ObjectUtils.compare(person1.getPrincipalId(), person2.getPrincipalId());
+					}
+				});
 			}
 			departmentAdmins.addAll(getDeptartmentAdmins(assignment.getDept()));
             deptToDeptAdminPerson.put(assignment.getDept(), departmentAdmins);
@@ -161,42 +173,42 @@ public class PersonInfoAction extends KPMEAction {
 		String principalId = HrContext.getTargetPrincipalId();
 		
 		Set<Long> allApproverWorkAreas = new HashSet<Long>();
-		allApproverWorkAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
-		allApproverWorkAreas.addAll(HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+		allApproverWorkAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+		allApproverWorkAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), new DateTime(), true));
 		personInfoActionForm.setApproverWorkAreas(new ArrayList<Long>(allApproverWorkAreas));
 		
-		List<Long> reviewerWorkAreas = HrServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true);
+		List<Long> reviewerWorkAreas = HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), new DateTime(), true);
 		personInfoActionForm.setReviewerWorkAreas(reviewerWorkAreas);
 		
 		Set<String> allViewOnlyDepartments = new HashSet<String>();
-		allViewOnlyDepartments.addAll(TkServiceLocator.getTKRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime(), true));
-		allViewOnlyDepartments.addAll(LmServiceLocator.getLMRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime(), true));
-		allViewOnlyDepartments.addAll(TkServiceLocator.getTKRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), new DateTime(), true));
-		allViewOnlyDepartments.addAll(LmServiceLocator.getLMRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), new DateTime(), true));
+		allViewOnlyDepartments.addAll(HrServiceLocator.getKPMERoleService().getDepartmentsForPrincipalInRole(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime(), true));
+		allViewOnlyDepartments.addAll(HrServiceLocator.getKPMERoleService().getDepartmentsForPrincipalInRole(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime(), true));
+		allViewOnlyDepartments.addAll(HrServiceLocator.getKPMERoleService().getDepartmentsForPrincipalInRole(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), new DateTime(), true));
+		allViewOnlyDepartments.addAll(HrServiceLocator.getKPMERoleService().getDepartmentsForPrincipalInRole(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), new DateTime(), true));
 		personInfoActionForm.setDeptViewOnlyDepts(new ArrayList<String>(allViewOnlyDepartments));
 		
 		Set<String> allAdministratorDepartments = new HashSet<String>();
-		allAdministratorDepartments.addAll(TkServiceLocator.getTKRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime(), true));
-		allAdministratorDepartments.addAll(LmServiceLocator.getLMRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime(), true));
-		allAdministratorDepartments.addAll(TkServiceLocator.getTKRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime(), true));
-		allAdministratorDepartments.addAll(LmServiceLocator.getLMRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime(), true));
+		allAdministratorDepartments.addAll(HrServiceLocator.getKPMERoleService().getDepartmentsForPrincipalInRole(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime(), true));
+		allAdministratorDepartments.addAll(HrServiceLocator.getKPMERoleService().getDepartmentsForPrincipalInRole(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime(), true));
+		allAdministratorDepartments.addAll(HrServiceLocator.getKPMERoleService().getDepartmentsForPrincipalInRole(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime(), true));
+		allAdministratorDepartments.addAll(HrServiceLocator.getKPMERoleService().getDepartmentsForPrincipalInRole(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime(), true));
 		personInfoActionForm.setDeptAdminDepts(new ArrayList<String>(allAdministratorDepartments));
 		
 		Set<String> allAdministratorLocations = new HashSet<String>();
-		allAdministratorLocations.addAll(TkServiceLocator.getTKRoleService().getLocationsForPrincipalInRole(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime(), true));
-		allAdministratorLocations.addAll(LmServiceLocator.getLMRoleService().getLocationsForPrincipalInRole(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime(), true));
+		allAdministratorLocations.addAll(HrServiceLocator.getKPMERoleService().getLocationsForPrincipalInRole(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime(), true));
+		allAdministratorLocations.addAll(HrServiceLocator.getKPMERoleService().getLocationsForPrincipalInRole(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime(), true));
 		personInfoActionForm.setLocationAdminDepts(new ArrayList<String>(allAdministratorLocations));
 		
-		personInfoActionForm.setGlobalViewOnlyRoles(HrServiceLocator.getHRGroupService().isMemberOfSystemViewOnlyGroup(principalId, new DateTime()));
-		personInfoActionForm.setSystemAdmin(HrServiceLocator.getHRGroupService().isMemberOfSystemAdministratorGroup(principalId, new DateTime()));
+		personInfoActionForm.setGlobalViewOnlyRoles(HrServiceLocator.getKPMEGroupService().isMemberOfSystemViewOnlyGroup(principalId, new DateTime()));
+		personInfoActionForm.setSystemAdmin(HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(principalId, new DateTime()));
 	}
 
-    private List<Person> getDeptartmentAdmins(String dept) {
-    	List<Person> departmentAdmins = new ArrayList<Person>();
+    private Set<Person> getDeptartmentAdmins(String dept) {
+    	Set<Person> departmentAdmins = new HashSet<Person>();
     	
     	List<RoleMember> roleMembers = new ArrayList<RoleMember>();
-    	roleMembers.addAll(TkServiceLocator.getTKRoleService().getRoleMembersInDepartment(KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), dept, new DateTime(), true));
-    	roleMembers.addAll(LmServiceLocator.getLMRoleService().getRoleMembersInDepartment(KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), dept, new DateTime(), true));
+    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), dept, new DateTime(), true));
+    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), dept, new DateTime(), true));
 	        
     	for (RoleMember roleMember : roleMembers) {
     		Person person = KimApiServiceLocator.getPersonService().getPerson(roleMember.getMemberId());
@@ -208,10 +220,10 @@ public class PersonInfoAction extends KPMEAction {
         return departmentAdmins;
     }
 	
-	private List<Person> getApprovers(Long workArea) {
-		List<Person> approvers = new ArrayList<Person>();
+	private Set<Person> getApprovers(Long workArea) {
+		Set<Person> approvers = new HashSet<Person>();
 		
-		List<RoleMember> roleMembers = HrServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), workArea, new DateTime(), true);
+		List<RoleMember> roleMembers = HrServiceLocator.getKPMERoleService().getRoleMembersInWorkArea(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime(), true);
 		
 		for (RoleMember roleMember : roleMembers) {
 			Person person = KimApiServiceLocator.getPersonService().getPerson(roleMember.getMemberId());
