@@ -115,13 +115,9 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
     protected boolean validateClockTime(MissedPunch missedPunch) {
         boolean valid = true;
 
-    	ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
-        if (missedPunch.getActionFullDateTime() != null && lastClockLog != null) {
+        if (missedPunch.getActionFullDateTime() != null) {
 	        DateTime userActionDateTime = missedPunch.getActionFullDateTime();
 	        DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-        	DateTime clockLogDateTime = lastClockLog.getClockDateTime();
-	        DateTime boundaryMax = clockLogDateTime.plusDays(1);
-	
 	        DateTime actionDateTime = new DateTime(userActionDateTime, userTimeZone).withZone(TKUtils.getSystemDateTimeZone());
 	
 	        if (actionDateTime.toLocalDate().isAfter(LocalDate.now())) {
@@ -134,10 +130,15 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
 	        	valid = false;
 	        }
 	        
-	        if ((!StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_OUT) && actionDateTime.isAfter(boundaryMax)) 
-	        		|| actionDateTime.isBefore(clockLogDateTime)) {
-	        	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.invalid.datetime");
-	            valid = false;
+	    	ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
+	        if (lastClockLog != null) {
+	        	DateTime clockLogDateTime = lastClockLog.getClockDateTime();
+		        DateTime boundaryMax = clockLogDateTime.plusDays(1);
+		        if ((!StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_OUT) && actionDateTime.isAfter(boundaryMax)) 
+		        		|| actionDateTime.isBefore(clockLogDateTime)) {
+		        	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.invalid.datetime");
+		            valid = false;
+		        }
 	        }
         }
 
