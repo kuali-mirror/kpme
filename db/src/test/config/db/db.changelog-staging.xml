@@ -131,6 +131,9 @@
             <column name="EFFDT" header="EFFDT" type="DATE" />
         </loadData>
         <loadData tableName="TK_ASSIGN_ACCT_T" file="src/test/config/db/staging/tk_assign_acct_t.csv" />
+        <loadData tableName="TK_DEPT_LUNCH_RL_T" file="src/test/config/db/staging/tk_dept_lunch_rl_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
         <loadData tableName="TK_SHIFT_DIFFERENTIAL_RL_T" file="src/test/config/db/staging/tk_shift_differential_rl_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
         </loadData>
