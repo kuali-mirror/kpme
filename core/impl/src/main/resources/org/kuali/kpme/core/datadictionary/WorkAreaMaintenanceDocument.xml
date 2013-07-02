@@ -66,6 +66,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="ovtEarnCode" p:defaultValue="Y" />
 				<bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="adminDescr" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="hrsDistributionF" p:required="false" p:defaultValue="N" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"  />
 			</list>
 		</property>

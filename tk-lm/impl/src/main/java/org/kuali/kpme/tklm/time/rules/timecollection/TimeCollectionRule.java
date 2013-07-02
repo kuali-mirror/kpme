@@ -39,7 +39,6 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 	private String dept;
 	private Long workArea;
 	private boolean clockUserFl;
-	private boolean hrsDistributionF;
 	private String userPrincipalId;
 
 	private String tkWorkAreaId;
@@ -113,14 +112,6 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 		this.clockUserFl = clockUserFl;
 	}
 
-	public boolean isHrsDistributionF() {
-		return hrsDistributionF;
-	}
-
-	public void setHrsDistributionF(boolean hrsDistributionF) {
-		this.hrsDistributionF = hrsDistributionF;
-	}
-
 	public String getUserPrincipalId() {
 		return userPrincipalId;
 	}
@@ -163,7 +154,7 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 
 	@Override
 	public String getUniqueKey() {
-		String timeCollKey = getDept()+"_"+isClockUserFl()+"_"+isHrsDistributionF()+"_"+
+		String timeCollKey = getDept()+"_"+isClockUserFl()+"_"+
 		(getWorkArea() !=null ? getWorkArea().toString() : "");
 
 		return timeCollKey;

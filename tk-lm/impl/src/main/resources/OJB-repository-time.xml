@@ -202,7 +202,6 @@
         <field-descriptor name="payType"                column="PAY_TYPE"               jdbc-type="VARCHAR"     nullable="false" length="5" primarykey="false" />
         <field-descriptor name="effectiveDate"          column="EFFDT"                  jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="clockUserFl"            column="CLOCK_USERS_FL"         jdbc-type="VARCHAR"     length="1" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="hrsDistributionF"       column="HRS_DISTRIBUTION_FL"    jdbc-type="VARCHAR"     length="1" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"      jdbc-type="VARCHAR"     length="10" />
         <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="objectId"               column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />

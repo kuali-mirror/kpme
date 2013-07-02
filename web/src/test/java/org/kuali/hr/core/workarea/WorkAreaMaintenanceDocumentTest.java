@@ -78,6 +78,7 @@ public class WorkAreaMaintenanceDocumentTest extends KPMEWebTestCase {
         HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.dept", TEST_CODE_DEPARTMENT_VALID);
         HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.adminDescr", "TEST");
         HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.overtimeEditRole", "Approver");
+        HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.hrsDistributionF", "on");
         
         HtmlElement element = page.getElementByName("methodToCall.route");
         HtmlPage nextPage = element.click();

@@ -59,7 +59,6 @@
       	<bean parent="MaintainableFieldDefinition" p:readOnlyAfterAdd="true"  p:required="true" p:name="workArea"/>
       	<bean parent="MaintainableFieldDefinition" p:readOnlyAfterAdd="true"  p:required="true" p:name="payType"/>
       	<bean parent="MaintainableFieldDefinition" p:name="clockUserFl" />
-      	<bean parent="MaintainableFieldDefinition" p:name="hrsDistributionF"/>
       	<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"/>
       </list>

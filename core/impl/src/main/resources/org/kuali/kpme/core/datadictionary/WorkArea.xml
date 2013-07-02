@@ -37,6 +37,7 @@
 				<ref bean="WorkArea-dept" />
 				<ref bean="WorkArea-adminDescr" />
 				<ref bean="WorkArea-userPrincipalId" />
+				<ref bean="WorkArea-hrsDistributionF" />
 				<ref bean="WorkArea-history" />
 				<ref bean="WorkArea-effectiveDate" />
 				<ref bean="WorkArea-active" />
@@ -205,6 +206,17 @@
 		</property>
 	</bean>
 	
+	<bean id="WorkArea-hrsDistributionF" parent="WorkArea-hrsDistributionF-parentBean" />
+	<bean id="WorkArea-hrsDistributionF-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Hr Distribution" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="hrsDistributionF" />
+		<property name="label" value="Hr Distribution" />
+	</bean>
+	
     <bean id="WorkArea-history" parent="WorkArea-history-parentBean" />
     <bean id="WorkArea-history-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="history" />
@@ -267,6 +279,7 @@
 							<bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
 							<bean parent="FieldDefinition" p:attributeName="dept" />
 							<bean parent="FieldDefinition" p:attributeName="adminDescr" />
+							<bean parent="FieldDefinition" p:attributeName="hrsDistributionF" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>

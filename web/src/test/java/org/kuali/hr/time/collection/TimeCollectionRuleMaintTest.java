@@ -64,7 +64,6 @@ public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
 		HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.dept", TEST_CODE_INVALID_DEPT);
 		HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.workArea", "30");
 		HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.payType", "BW");
-		HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.hrsDistributionF", "on");
 		HtmlPage resultantPageAfterEdit = HtmlUnitUtil
 				.clickInputContainingText(page, "submit");
 		HtmlUnitUtil.createTempFile(resultantPageAfterEdit);
@@ -73,8 +72,7 @@ public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
 						"The specified department '"
 								+ TEST_CODE_INVALID_DEPT
 								+ "' does not exist."));
-		Assert.assertTrue("Maintenance Page contains test timeCollectionRule",
-				resultantPageAfterEdit.asText().contains("Clock User needs to be checked if Hr Distribution is checked."));
+		
 		HtmlUnitUtil.setFieldValue(resultantPageAfterEdit, "document.newMaintainableObject.payType", "%");
 		resultantPageAfterEdit = HtmlUnitUtil.clickInputContainingText(resultantPageAfterEdit, "submit");
 		Assert.assertFalse("Maintenance Page contains error" + PAY_TYPE_ERROR, 
@@ -143,7 +141,6 @@ public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
 		TimeCollectionRule timeCollectionRule = new TimeCollectionRule();
 		timeCollectionRule.setDept(TEST_CODE_DEPARTMENT_VALID);
 		timeCollectionRule.setEffectiveLocalDate(TEST_DATE);
-		timeCollectionRule.setHrsDistributionF(true);
 		timeCollectionRule.setTimestamp(TKUtils.getCurrentTimestamp());
 		timeCollectionRule.setUserPrincipalId(TEST_CODE);
         timeCollectionRule.setActive(true);
@@ -165,7 +162,6 @@ public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
 		timeCollectionRuleWIthInvalidWorkArea
 				.setDept(TEST_CODE_DEPARTMENT_VALID);
 		timeCollectionRuleWIthInvalidWorkArea.setEffectiveLocalDate(TEST_DATE);
-		timeCollectionRuleWIthInvalidWorkArea.setHrsDistributionF(true);
         timeCollectionRuleWIthInvalidWorkArea.setActive(true);
 		timeCollectionRuleWIthInvalidWorkArea.setTimestamp(TKUtils.getCurrentTimestamp());
 		timeCollectionRuleWIthInvalidWorkArea.setUserPrincipalId(TEST_CODE);

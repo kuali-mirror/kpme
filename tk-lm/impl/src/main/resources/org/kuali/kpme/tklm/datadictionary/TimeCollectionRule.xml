@@ -41,7 +41,6 @@
 				<ref bean="TimeCollectionRule-payType" />
 				<ref bean="TimeCollectionRule-effDate" />
 				<ref bean="TimeCollectionRule-clockUserFl" />
-				<ref bean="TimeCollectionRule-hrsDistributionF" />
 				<ref bean="TimeCollectionRule-userPrincipalId" />
 				<ref bean="TimeCollectionRule-timestamp" />
                 <ref bean="TimeCollectionRule-active" />
@@ -51,7 +50,7 @@
                 <ref bean="TimeCollectionRule-history"  />
 			</list>
 		</property>
- 
+
 		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition">
@@ -190,18 +189,6 @@
 		<property name="label" value="Clock User" />
 	</bean>
 
-	<bean id="TimeCollectionRule-hrsDistributionF" parent="TimeCollectionRule-hrsDistributionF-parentBean" />
-	<bean id="TimeCollectionRule-hrsDistributionF-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Hr Distribution" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-		<property name="name" value="hrsDistributionF" />
-		<property name="label" value="Hr Distribution" />
-	</bean>
-
-
 	<bean id="TimeCollectionRule-userPrincipalId" parent="TimeCollectionRule-userPrincipalId-parentBean" />
 	<bean id="TimeCollectionRule-userPrincipalId-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -289,13 +276,12 @@
 							<bean parent="FieldDefinition" p:attributeName="workArea" />
 							<bean parent="FieldDefinition" p:attributeName="payType" />
 							<bean parent="FieldDefinition" p:attributeName="clockUserFl" />
-							<bean parent="FieldDefinition" p:attributeName="hrsDistributionF" />
 							<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
 					<property name="title" value="Time Collection Rule" />
-				</bean>  
+				</bean>
 			</list>
 		</property>
 		<property name="title" value="Time Collection Rule Inquiry" />
@@ -319,7 +305,7 @@
 			</list>
 		</property>
 		<property name="resultFields">
-			<list> 
+			<list>
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="payType" />

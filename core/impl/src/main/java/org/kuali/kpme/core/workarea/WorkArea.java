@@ -51,6 +51,7 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
     private String adminDescr;
     private String userPrincipalId;
 	private boolean history;
+	private boolean hrsDistributionF;	
 	
     private EarnCode defaultOvertimeEarnCodeObj;
     private Department department;
@@ -251,6 +252,14 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 
 	public void setInactivePositionRoleMembers(List<WorkAreaPositionRoleMemberBo> inactivePositionRoleMembers) {
 		this.inactivePositionRoleMembers = inactivePositionRoleMembers;
+	}
+
+	public boolean isHrsDistributionF() {
+		return hrsDistributionF;
+	}
+
+	public void setHrsDistributionF(boolean hrsDistributionF) {
+		this.hrsDistributionF = hrsDistributionF;
 	}
 	
 }

@@ -30,6 +30,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -291,8 +292,9 @@ public class ClockActionForm extends TimesheetActionForm {
 			LinkedHashMap<String, String> desList = new LinkedHashMap<String, String>();
 			List<String> distributeAssignList = new ArrayList<String>();
 			for (Assignment assignment : getTimesheetDocument().getAssignments()) {
+				WorkArea aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), assignment.getEffectiveLocalDate());
 				TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveLocalDate());
-				if (rule != null && rule.isHrsDistributionF() && rule.isClockUserFl()) {
+				if (rule != null && aWorkArea != null && aWorkArea.isHrsDistributionF() && rule.isClockUserFl()) {
 					desList.put(assignment.getTkAssignmentId().toString(), assignment.getAssignmentDescription());
 					distributeAssignList.add(assignment.getAssignmentDescription()+ "=" + assignment.getTkAssignmentId().toString());
 				}
@@ -305,8 +307,9 @@ public class ClockActionForm extends TimesheetActionForm {
 				if (timeBlock.getClockLogCreated()) {
 					Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(AssignmentDescriptionKey.get(timeBlock.getAssignmentKey()), getTimesheetDocument().getAsOfDate());
 					if (assignment != null) {
+						WorkArea aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), assignment.getEffectiveLocalDate());
 						TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveLocalDate());
-						if (rule != null && rule.isHrsDistributionF() && rule.isClockUserFl()) {
+						if (rule != null && aWorkArea != null && aWorkArea.isHrsDistributionF() && rule.isClockUserFl()) {
 							List<TimeBlock> timeBlockList = timeBlocksMap.get(assignment.getAssignmentDescription());
 							if (timeBlockList == null) {
 								timeBlockList = new ArrayList<TimeBlock>();

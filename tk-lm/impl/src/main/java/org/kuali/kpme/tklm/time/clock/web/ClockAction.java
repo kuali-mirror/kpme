@@ -44,6 +44,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
@@ -194,13 +195,11 @@ public class ClockAction extends TimesheetAction {
     	if (timesheetDocument != null) {
     		int eligibleAssignmentCount = 0;
     		for (Assignment assignment : timesheetDocument.getAssignments()) {
-    			String department = assignment.getJob() != null ? assignment.getJob().getDept() : null;
     			Long workArea = assignment.getWorkArea();
-    			String payType = assignment.getJob() != null ? assignment.getJob().getHrPayType() : null;
-    			TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(department, workArea, payType, timesheetDocument.getDocEndDate());
-		    	if (rule != null && rule.isHrsDistributionF()) {
-		    		eligibleAssignmentCount++;
-		    	}
+    			WorkArea aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, timesheetDocument.getDocEndDate());
+    			if(aWorkArea != null && aWorkArea.isHrsDistributionF()) {
+    				eligibleAssignmentCount++;
+    			}
 		    	
 		    	// Only show the distribute button if there is more than one eligible assignment
 		    	if (eligibleAssignmentCount > 1) {
