@@ -53,11 +53,6 @@ public class EarnCodeSecurity extends HrBusinessObject {
 	private String location;
 	private String earnCodeType;
 	
-	private String hrDeptId;
-	private String hrSalGroupId;
-	private String hrEarnCodeId;
-	private String hrLocationId;
-	
 	private SalaryGroup  salaryGroupObj;
 	private Department departmentObj;
 	private EarnCode earnCodeObj;
@@ -168,39 +163,7 @@ public class EarnCodeSecurity extends HrBusinessObject {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	
-	public String getHrDeptId() {
-		return hrDeptId;
-	}
-	
-	public void setHrDeptId(String hrDeptId) {
-		this.hrDeptId = hrDeptId;
-	}
-	
-	public String getHrSalGroupId() {
-		return hrSalGroupId;
-	}
-	
-	public void setHrSalGroupId(String hrSalGroupId) {
-		this.hrSalGroupId = hrSalGroupId;
-	}
-	
-	public String getHrEarnCodeId() {
-		return hrEarnCodeId;
-	}
-	
-	public void setHrEarnCodeId(String hrEarnCodeId) {
-		this.hrEarnCodeId = hrEarnCodeId;
-	}
-	
-	public String getHrLocationId() {
-		return hrLocationId;
-	}
-	
-	public void setHrLocationId(String hrLocationId) {
-		this.hrLocationId = hrLocationId;
-	}
-	
+
 	@Override
 	public String getUniqueKey() {
 		return dept + "_" + hrSalGroup + "_" + earnCode;

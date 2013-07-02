@@ -47,10 +47,6 @@
 				<ref bean="EarnCodeSecurity-approver" />
 				<ref bean="EarnCodeSecurity-history" />
 				<ref bean="EarnCodeSecurity-active" />
-				<ref bean="EarnCodeSecurity-hrDeptId" />
-				<ref bean="EarnCodeSecurity-hrSalGroupId" />
-				<ref bean="EarnCodeSecurity-hrEarnCodeId" />
-				<ref bean="EarnCodeSecurity-hrLocationId" />
 				<ref bean="EarnCodeSecurity-earnCodeType" />
 			</list>
 		</property>
@@ -63,8 +59,8 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
 								p:targetName="dept" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrDeptId"
-								p:targetName="hrDeptId" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
+                                  p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
@@ -75,8 +71,8 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrSalGroup"
 								p:targetName="hrSalGroup" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrSalGroupId"
-								p:targetName="hrSalGroupId" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
+                                  p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
@@ -85,10 +81,10 @@
 					<property name="objectAttributeName" value="earnCodeObj" />
 					<property name="primitiveAttributes">
 						<list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
+                                  p:targetName="effectiveDate" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode"
-								p:targetName="earnCode" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrEarnCodeId"
-								p:targetName="hrEarnCodeId" />
+								  p:targetName="earnCode" />
 						</list>
 		            </property>
 				</bean>
@@ -99,8 +95,8 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
 								p:targetName="location" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrLocationId"
-								p:targetName="hrLocationId" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
+                                  p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
@@ -275,41 +271,6 @@
     <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   </bean>
 
-	<bean id="EarnCodeSecurity-hrDeptId" parent="EarnCodeSecurity-hrDeptId-parentBean" />
-	<bean id="EarnCodeSecurity-hrDeptId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="hrDeptId" />
-		<property name="control">
-			<bean parent="HiddenControlDefinition" />
-		</property>
-	</bean>
-	
-	<bean id="EarnCodeSecurity-hrSalGroupId" parent="EarnCodeSecurity-hrSalGroupId-parentBean" />
-	<bean id="EarnCodeSecurity-hrSalGroupId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="hrSalGroupId" />
-		<property name="control">
-			<bean parent="HiddenControlDefinition" />
-		</property>
-	</bean>
-	
-	<bean id="EarnCodeSecurity-hrEarnCodeId" parent="EarnCodeSecurity-hrEarnCodeId-parentBean" />
-	<bean id="EarnCodeSecurity-hrEarnCodeId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="hrEarnCodeId" />
-		<property name="control">
-			<bean parent="HiddenControlDefinition" />
-		</property>
-	</bean>
-	
-	<bean id="EarnCodeSecurity-hrLocationId" parent="EarnCodeSecurity-hrLocationId-parentBean" />
-	<bean id="EarnCodeSecurity-hrLocationId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="hrLocationId" />
-		<property name="control">
-			<bean parent="HiddenControlDefinition" />
-		</property>
-	</bean>
 	
 	<!--  KPME-1633 -->
 	<bean id="EarnCodeSecurity-earnCodeType" parent="EarnCodeSecurity-earnCodeType-parentBean" />
@@ -366,13 +327,9 @@
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
-				<bean parent="FieldDefinition" p:attributeName="hrDeptId" />
-				<bean parent="FieldDefinition" p:attributeName="hrSalGroupId" />
-				<bean parent="FieldDefinition" p:attributeName="hrEarnCodeId" />
-				<bean parent="FieldDefinition" p:attributeName="hrLocationId" />
 			</list>
 		</property>
 		<property name="resultFields">
@@ -383,7 +340,7 @@
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
 				<bean parent="FieldDefinition" p:attributeName="employee" />
 				<bean parent="FieldDefinition" p:attributeName="approver" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
