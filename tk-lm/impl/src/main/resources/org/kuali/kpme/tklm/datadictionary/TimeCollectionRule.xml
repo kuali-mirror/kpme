@@ -51,7 +51,7 @@
                 <ref bean="TimeCollectionRule-history"  />
 			</list>
 		</property>
-
+ 
 		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition">
@@ -60,7 +60,8 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"	p:targetName="workArea" />
                             <bean parent="PrimitiveAttributeDefinition" p:sourceName="tkWorkAreaId"	p:targetName="tkWorkAreaId" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept" />
+							<!-- KPME-2544 This was affecting the department's inquiry link!!
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept" />    -->
 						</list>
 					</property>
 				</bean>
@@ -294,7 +295,7 @@
 						</list>
 					</property>
 					<property name="title" value="Time Collection Rule" />
-				</bean>
+				</bean>  
 			</list>
 		</property>
 		<property name="title" value="Time Collection Rule Inquiry" />
@@ -318,7 +319,7 @@
 			</list>
 		</property>
 		<property name="resultFields">
-			<list>
+			<list> 
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="payType" />
