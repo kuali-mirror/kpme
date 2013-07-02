@@ -38,11 +38,12 @@ public class CalendarEntryLookupableHelper extends KPMELookupableHelper {
 
 		CalendarEntry calendarEntry = (CalendarEntry) businessObject;
 		String hrCalendarEntryId = calendarEntry.getHrCalendarEntryId();
-		
+		String calendarName = calendarEntry.getCalendarName();
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
 		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
 		params.put("hrCalendarEntryId", hrCalendarEntryId);
+		params.put("calendarName", calendarName);
 		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
 		viewUrl.setDisplayText("view");
 		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);

@@ -48,7 +48,7 @@ public class SubObjectCodeLookupableHelper extends KualiLookupableHelperServiceI
 		params.put("financialObjectCode", financialObjectCode);
 		params.put("accountNumber", accountNumber);
 		params.put("universityFiscalYear", universityFiscalYear);
-		params.put("hrEarnCodeSecurityId", chartOfAccountsCode);
+		params.put("chartOfAccountsCode", chartOfAccountsCode);
 		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
 		viewUrl.setDisplayText("view");
 		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
