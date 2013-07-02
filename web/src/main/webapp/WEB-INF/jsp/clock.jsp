@@ -141,10 +141,10 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
                             </c:choose>
                             <c:choose>
                                 <c:when test="${Form.clockButtonEnabled}">
-                                    <input type="button" class="button" value="Missed Punch" name="missedPunch" onClick="javascript: showLightboxUrl(extractUrlBase() + '/kpme/missedPunch?&methodToCall=start&viewId=MissedPunch-SubmitView&missedPunch.timesheetDocumentId=' + tdocid, {minHeight: 500, maxWidth: 600})" />
+                                    <input type="button" class="button" value="Missed Punch" name="missedPunch" onClick="javascript: showLightboxUrl(extractUrlBase() + '/kpme/missedPunch?&methodToCall=start&viewId=MissedPunch-SubmitView&missedPunch.timesheetDocumentId=' + tdocid, {minHeight: 500, maxWidth: 600, closeBtn: false})" />
                                 </c:when>
                                 <c:otherwise>
-                                    <input disabled type="button" class="button" value="Missed Punch" name="missedPunch" onClick="javascript: showLightboxUrl(extractUrlBase() + '/kpme/missedPunch?&methodToCall=start&viewId=MissedPunch-SubmitView&missedPunch.timesheetDocumentId=' + tdocid, {minHeight: 500, maxWidth: 600})" />
+                                    <input disabled type="button" class="button" value="Missed Punch" name="missedPunch" onClick="javascript: showLightboxUrl(extractUrlBase() + '/kpme/missedPunch?&methodToCall=start&viewId=MissedPunch-SubmitView&missedPunch.timesheetDocumentId=' + tdocid, {minHeight: 500, maxWidth: 600, closeBtn: false})" />
                                 </c:otherwise>
                             </c:choose>
         					<c:if test="${Form.showDistributeButton}">

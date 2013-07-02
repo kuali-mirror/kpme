@@ -368,6 +368,11 @@
                                 <list merge="true">
                                     <bean parent="Uif-PrimaryActionButton" p:methodToCall="submit" p:actionLabel="Submit" 
                                         p:render="@{!#dp.missedPunchSubmitted}" />
+                                    <bean parent="Uif-PrimaryActionButton" p:actionLabel="Close" 
+                                        p:actionScript="var hash = top.window.location.toString(); 
+                                                        hash = hash.replace('&amp;' + kradVariables.LIGHTBOX_PARAM + '=true', '');
+                                                        hash = hash.replace(kradVariables.LIGHTBOX_PARAM + '=true&amp;', '');
+                                                        top.window.location.replace(hash);" />
                                 </list>
                             </property>
                         </bean>
