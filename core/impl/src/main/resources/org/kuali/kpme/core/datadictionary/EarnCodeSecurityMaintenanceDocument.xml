@@ -52,7 +52,8 @@
 		<property name="title" value="Earn Code Security Maintenance" />
 		<property name="maintainableItems">
 			<list>
-			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
+			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"
+                      p:noLookup="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="location" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="hrSalGroup" p:required="true"/>
