@@ -466,7 +466,9 @@ public class TimesheetServiceImpl implements TimesheetService {
                                     //  determine if the holiday earn code should be displayed.
                                     if ( showEarnCodeIfHoliday(ec, dec) ) {
                                         //  non-Holiday earn code will go on, Holiday earn code must meet some requirements in the method.
-                                        if ( !StringUtils.equals(regularEarnCode.toString(), dec.getEarnCode()) ) {
+                                    	// KPME-2556
+                                        //if ( !StringUtils.equals(regularEarnCode.toString(), dec.getEarnCode()) ) {
+                                    	if (!StringUtils.equals(regularEarnCode.getEarnCode(), dec.getEarnCode()) ) {
                                             //  add earn code if it is not the reg earn code.
                                             earnCodes.add(ec);
                                         }
