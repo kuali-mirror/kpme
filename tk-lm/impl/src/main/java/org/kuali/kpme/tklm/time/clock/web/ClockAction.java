@@ -55,6 +55,7 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.cache.annotation.CacheEvict;
 
 public class ClockAction extends TimesheetAction {
 
@@ -210,7 +211,7 @@ public class ClockAction extends TimesheetAction {
     	}
     }
     
-
+    @CacheEvict(value={WorkArea.CACHE_NAME}, allEntries = true)
     public ActionForward clockAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ClockActionForm caf = (ClockActionForm) form;
 

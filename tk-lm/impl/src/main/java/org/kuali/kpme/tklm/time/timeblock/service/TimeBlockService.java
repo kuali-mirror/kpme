@@ -39,7 +39,7 @@ public interface TimeBlockService {
 	 * Delete a given TimeBlock
 	 * @param timeBlock
 	 */
-	
+	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
 	public void deleteTimeBlock(TimeBlock timeBlock);
 	/**
 	 * Build a TimeBlock with the given criteria
@@ -126,7 +126,7 @@ public interface TimeBlockService {
 										Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount,
                                         Boolean getClockLogCreated, Boolean getLunchDeleted, String userPrincipalId);
 
-	
+	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
 
 	public Boolean getTimeBlockEditable(TimeBlock tb);
@@ -163,6 +163,7 @@ public interface TimeBlockService {
 	
 	public List<TimeBlockHistory> createTimeBlockHistories(TimeBlock tb, String actionHistory);
 
+	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
     void deleteLunchDeduction(String tkTimeHourDetailId);
 	/*
 	 * Get all the active time blocks with the given earn code and effectiveDate
