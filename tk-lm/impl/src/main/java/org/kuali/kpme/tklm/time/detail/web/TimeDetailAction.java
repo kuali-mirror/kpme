@@ -153,6 +153,7 @@ public class TimeDetailAction extends TimesheetAction {
 	        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(timesheetDocument.getPrincipalId(), 
 					calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), assignmentKeys);
 	        
+	        timeDetailActionForm.getTimesheetDocument().setTimeBlocks(timeBlocks);
 	        assignStypeClassMapForTimeSummary(timeDetailActionForm,timeBlocks, leaveBlocks);
 	        
 	        Calendar payCalendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry != null ? calendarEntry.getHrCalendarId() : null);
