@@ -35,6 +35,7 @@
 		        <ref bean="Department-chart" />
 		        <ref bean="Department-org" />
 		        <ref bean="Department-effectiveDate" />
+		        <ref bean="Department-payrollApproval" />
 		        <ref bean="Department-active" />
 		        <ref bean="Department-history" />
 		        <ref bean="Department-timestamp" />
@@ -201,6 +202,16 @@
 	    </property>
 	    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
     </bean>
+    
+    <bean id="Department-payrollApproval" parent="Department-payrollApproval-parentBean" />
+	<bean id="Department-payrollApproval-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Payroll Approval" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="payrollApproval" />
+		<property name="label" value="Payroll Approval" />
+	</bean>
 
     <bean id="Department-active" parent="Department-active-parentBean" />
     <bean id="Department-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">

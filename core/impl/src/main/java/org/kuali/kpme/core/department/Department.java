@@ -47,6 +47,7 @@ public class Department extends HrBusinessObject {
     private String chart;
     private String org;
     private String history;
+    private boolean payrollApproval;	
 
     private Location locationObj;
     private Chart chartObj;
@@ -184,4 +185,12 @@ public class Department extends HrBusinessObject {
     public void setHistory(String history) {
         this.history = history;
     }
+
+	public boolean isPayrollApproval() {
+		return payrollApproval;
+	}
+
+	public void setPayrollApproval(boolean payrollApproval) {
+		this.payrollApproval = payrollApproval;
+	}
 }

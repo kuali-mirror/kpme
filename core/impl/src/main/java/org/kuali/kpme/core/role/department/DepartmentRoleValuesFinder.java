@@ -34,6 +34,8 @@ public class DepartmentRoleValuesFinder extends KeyValuesBase {
 		DEPARTMENT_ROLE_KEY_VALUES.add(new ConcreteKeyValue(KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName()));
 		DEPARTMENT_ROLE_KEY_VALUES.add(new ConcreteKeyValue(KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName()));
 		DEPARTMENT_ROLE_KEY_VALUES.add(new ConcreteKeyValue(KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName()));
+		DEPARTMENT_ROLE_KEY_VALUES.add(new ConcreteKeyValue(KPMERole.PAYROLL_PROCESSOR.getRoleName(), KPMERole.PAYROLL_PROCESSOR.getRoleName()));
+		DEPARTMENT_ROLE_KEY_VALUES.add(new ConcreteKeyValue(KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName()));
 	}
 
 	@Override

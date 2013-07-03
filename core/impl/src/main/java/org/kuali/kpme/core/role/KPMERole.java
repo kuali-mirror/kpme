@@ -31,7 +31,9 @@ public enum KPMERole {
 	TIME_SYSTEM_VIEW_ONLY ("Time System View Only"),
 	TIME_SYSTEM_ADMINISTRATOR ("Time System Administrator"),
 	LEAVE_SYSTEM_VIEW_ONLY ("Leave System View Only"),
-	LEAVE_SYSTEM_ADMINISTRATOR ("Leave System Administrator");
+	LEAVE_SYSTEM_ADMINISTRATOR ("Leave System Administrator"),
+	PAYROLL_PROCESSOR ("Payroll Processor"),
+	PAYROLL_PROCESSOR_DELEGATE ("Payroll Processor Delegate");	
 	
 	private String roleName;
 	
