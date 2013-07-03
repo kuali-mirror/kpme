@@ -82,7 +82,7 @@
             <foreignkey field-ref="tkTimeBlockId" />
         </reference-descriptor>
 
-        <reference-descriptor name="timesheetDocumentHeader" class-ref="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader" auto-retrieve="false" auto-update="false" proxy="true" >
+        <reference-descriptor name="timesheetDocumentHeader" class-ref="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader" auto-retrieve="true" auto-update="false" proxy="true" >
             <foreignkey field-ref="documentId" />
         </reference-descriptor>
 
