@@ -88,7 +88,7 @@ public class ChangeTargetPersonAction extends KPMEAction {
         List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
         for (Assignment assignment : assignments) {
-            if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), assignment.getWorkArea(), new DateTime())) {
+            if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), assignment.getWorkArea(), new DateTime())) {
                 return true;
             }
         }
@@ -99,8 +99,8 @@ public class ChangeTargetPersonAction extends KPMEAction {
         List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
         for (Assignment assignment : assignments) {
-        	if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime())
-        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime())) {
+        	if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime())
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime())) {
                 return true;
             }
         }
@@ -117,10 +117,10 @@ public class ChangeTargetPersonAction extends KPMEAction {
 			Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 
-            if (HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
-            		|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
-            		|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())
-            		|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())) {
+            if (HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
+            		|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
+            		|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())
+            		|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())) {
                 return true;
             }
         }
@@ -137,10 +137,10 @@ public class ChangeTargetPersonAction extends KPMEAction {
 			Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 			
-        	if (HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
-        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {
+        	if (HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {
                 return true;
             }
         }
