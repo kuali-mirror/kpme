@@ -197,8 +197,8 @@
     <!-- Business Keys - [workArea : dept : effectiveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule" table="TK_TIME_COLLECTION_RL_T">
         <field-descriptor name="tkTimeCollectionRuleId" column="TK_TIME_COLL_RULE_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_TIME_COLLECTION_RL_S" />
-        <field-descriptor name="dept"                   column="DEPT"                   jdbc-type="VARCHAR"     length="21" primarykey="true" />
-        <field-descriptor name="workArea"               column="WORK_AREA"              jdbc-type="BIGINT"      nullable="false" primarykey="true" />
+        <field-descriptor name="dept"                   column="DEPT"                   jdbc-type="VARCHAR"     length="21" />
+        <field-descriptor name="workArea"               column="WORK_AREA"              jdbc-type="BIGINT"      nullable="false" />
         <field-descriptor name="payType"                column="PAY_TYPE"               jdbc-type="VARCHAR"     nullable="false" length="5" primarykey="false" />
         <field-descriptor name="effectiveDate"          column="EFFDT"                  jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="clockUserFl"            column="CLOCK_USERS_FL"         jdbc-type="VARCHAR"     length="1" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
