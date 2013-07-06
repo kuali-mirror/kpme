@@ -54,6 +54,12 @@ public class EarnCodeGroupServiceImpl implements EarnCodeGroupService {
     public EarnCodeGroup getEarnCodeGroupForEarnCode(String earnCode, LocalDate asOfDate) {
         return earnCodeGroupDao.getEarnCodeGroupForEarnCode(earnCode, asOfDate);
     }
+    
+    // KPME-2529
+    @Override
+    public List<EarnCodeGroup> getEarnCodeGroupsForEarnCode(String earnCode, LocalDate asOfDate) {
+    	return earnCodeGroupDao.getEarnCodeGroupsForEarnCode(earnCode, asOfDate);
+    }
 
     public Set<String> getEarnCodeListForEarnCodeGroup(String earnCodeGroup, LocalDate asOfDate) {
         Set<String> earnCodes = new HashSet<String>();

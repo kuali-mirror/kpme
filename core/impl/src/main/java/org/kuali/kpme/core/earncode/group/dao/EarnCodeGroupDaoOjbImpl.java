@@ -27,6 +27,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition;
+import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -98,6 +99,34 @@ public class EarnCodeGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
 		Query query = QueryFactory.newQuery(EarnCodeGroup.class, root);
 		EarnCodeGroup earnGroupObj  = (EarnCodeGroup)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 		return earnGroupObj;
+	}
+	
+	// KPME-2529
+	@Override
+	public List<EarnCodeGroup> getEarnCodeGroupsForEarnCode(String earnCode, LocalDate asOfDate) {
+		
+		Criteria root = new Criteria();
+		Criteria earnCodeJoin = new Criteria();
+
+		earnCodeJoin.addEqualToField("hrEarnCodeGroupId", Criteria.PARENT_QUERY_PREFIX + "hrEarnCodeGroupId");
+		earnCodeJoin.addEqualTo("earnCode", earnCode);
+		ReportQueryByCriteria earnCodeSubQuery = QueryFactory.newReportQuery(EarnCodeGroupDefinition.class, earnCodeJoin);
+		earnCodeSubQuery.setAttributes(new String[]{"hr_earn_code_group_id"});
+		
+		root.addEqualTo("hrEarnCodeGroupId",earnCodeSubQuery);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeGroup.class, asOfDate, EarnCodeGroup.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeGroup.class, EarnCodeGroup.EQUAL_TO_FIELDS, false));
+
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
+		
+		Query query = QueryFactory.newQuery(EarnCodeGroup.class, root);
+	      
+	    List<EarnCodeGroup> results = new ArrayList<EarnCodeGroup>();
+	    results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+	    
+	    return results;
 	}
 
 	@Override

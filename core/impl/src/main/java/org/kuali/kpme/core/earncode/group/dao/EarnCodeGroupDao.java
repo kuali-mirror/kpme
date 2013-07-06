@@ -24,6 +24,7 @@ import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 public interface EarnCodeGroupDao {
 	public EarnCodeGroup getEarnCodeGroup(String earnCodeGroup, LocalDate asOfDate);
 	public EarnCodeGroup getEarnCodeGroupForEarnCode(String earnCode, LocalDate asOfDate);
+	public List<EarnCodeGroup> getEarnCodeGroupsForEarnCode(String earnCode, LocalDate asOfDate); // KPME-2529
 	public EarnCodeGroup getEarnCodeGroupSummaryForEarnCode(String earnCode, LocalDate asOfDate);
 	public EarnCodeGroup getEarnCodeGroup(String hrEarnGroupId);
 	public int getEarnCodeGroupCount(String earnGroup);

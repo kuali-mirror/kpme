@@ -38,6 +38,15 @@ public interface EarnCodeGroupService {
 	 * @return
 	 */
 	public EarnCodeGroup getEarnCodeGroupForEarnCode(String earnCode, LocalDate asOfDate);
+
+	/** KPME-2529
+	 * Fetch earn groups for an earn code as of a particular date
+	 * @param earnCode
+	 * @param asOfDate
+	 * @return List<EarnCodeGroup>
+	 */
+	public List<EarnCodeGroup> getEarnCodeGroupsForEarnCode(String earnCode, LocalDate asOfDate);
+	
 	/**
 	 * Fetch Set of earn codes for earn group
 	 * @param earnGroup

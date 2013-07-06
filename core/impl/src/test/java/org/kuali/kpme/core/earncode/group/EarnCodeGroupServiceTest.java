@@ -15,6 +15,8 @@
  */
 package org.kuali.kpme.core.earncode.group;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
@@ -28,5 +30,12 @@ public class EarnCodeGroupServiceTest extends CoreUnitTestCase{
 		EarnCodeGroup earnGroup = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup("REG", LocalDate.now());
 		Assert.assertTrue("Test Earn Group fetch failed", earnGroup!=null && StringUtils.equals("REG", earnGroup.getEarnCodeGroup()));
 		Assert.assertTrue("Test earn group def fetch failed", earnGroup.getEarnCodeGroups()!=null && earnGroup.getEarnCodeGroups().get(0).getHrEarnCodeGroupId().equals("100"));
+	}
+	
+	// KPME-2529
+	@Test
+	public void testEarnGroupsFetch() throws Exception{
+		List<EarnCodeGroup> earnGroups = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupsForEarnCode("REG", LocalDate.now());
+		Assert.assertTrue("Test Earn Groups fetch succeeded", earnGroups.size()==2);
 	}
 }
