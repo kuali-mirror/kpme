@@ -40,6 +40,8 @@ public class Position extends PositionBase {
     
     private String pmPositionClassId;
     
+    private String category;		// used to determine what fields should show when editing an existing maint doc
+    
     private List<ClassificationQualification> requiredQualList = new ArrayList<ClassificationQualification>(); 	// read only required qualifications that comes from assiciated Classification
 
     public List<PositionDuty> getDutyList() {
@@ -142,5 +144,13 @@ public class Position extends PositionBase {
 
 	public void setFundingList(List<PositionFunding> fundingList) {
 		this.fundingList = fundingList;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 }

@@ -42,6 +42,7 @@
 				<ref bean="Position-history" />
 				<ref bean="Position-active" />
 				<ref bean="Position-timestamp" />
+				<ref bean="Position-category" />
 			</list>
 		</property>
 
@@ -197,6 +198,16 @@
 	    <property name="label" value="Position Classification Id"/>
 	</bean> 	
 	
+	<bean id="Position-category" parent="Position-category-parentBean"/>
+	<bean id="Position-category-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="shortLabel" value="Category"/>
+	    <property name="controlField">
+	      <bean parent="Uif-TextControl" p:size="60"/>
+	    </property>
+	    <property name="name" value="category"/>
+	    <property name="label" value="Category"/>
+	</bean> 	
+	
 	<!-- Position Qualification List, used by inquiry view -->
 	<bean id="Position-qualificationList" abstract="true"
 		parent="Uif-Disclosure-TableCollectionSection"
@@ -326,6 +337,7 @@
 
 	<!-- Look up Definitions -->
 	<bean id="Position-LookupView" parent="KPMEUif-LookupView">
+<!-- 	 p:maintenanceUrlMapping="positionMaintenance"> -->
 		<property name="headerText" value="Position Lookup" />
 	    <property name="dataObjectClassName" value="org.kuali.kpme.pm.position.Position" />
 	    <property name="viewHelperServiceClass" value="org.kuali.kpme.pm.position.web.PositionLookupableImpl" />
