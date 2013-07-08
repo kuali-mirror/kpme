@@ -54,6 +54,7 @@
         <form-bean name="BalanceTransferForm" type="org.kuali.kpme.tklm.leave.transfer.web.BalanceTransferForm"/>
         <form-bean name="LeavePayoutForm" type="org.kuali.kpme.tklm.leave.payout.web.LeavePayoutForm"/>
         <form-bean name="TkForm" type="org.kuali.kpme.core.web.KPMEForm"/>
+        <form-bean name="ProcessMaintForm" type="org.kuali.kpme.pm.web.ProcessMaintForm"/>
     </form-beans>
 
     <global-exceptions>
@@ -271,6 +272,12 @@
                 type="org.kuali.kpme.tklm.leave.approval.web.LeaveApprovalWSAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/webService.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
+        </action>
+        
+        <action path="/ProcessMaint" name="ProcessMaintForm" scope="request" input="/WEB-INF/jsp/processMaint.jsp"
+                type="org.kuali.kpme.pm.web.ProcessMaintAction" parameter="methodToCall" validate="false">
+            <forward name="basic" path="/WEB-INF/jsp/processMaint.jsp"/>
+            <forward name="ws" path="/WEB-INF/jsp/clockWebService.jsp"/>
         </action>
     </action-mappings>
 
