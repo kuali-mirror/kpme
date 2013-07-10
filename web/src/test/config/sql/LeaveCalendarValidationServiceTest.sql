@@ -26,12 +26,12 @@ insert into lm_accrual_category_t (`lm_accrual_category_id`, `ACCRUAL_CATEGORY`,
 insert into lm_leave_plan_t (`lm_leave_plan_id`, `LEAVE_PLAN`, `DESCR`, `CAL_YEAR_START`, `EFFDT`, `OBJ_ID`, `VER_NBR`, `ACTIVE`, `TIMESTAMP`, `PLANNING_MONTHS`) values ('8000', 'testLP', 'Test Leave Plan', '02/01', '2012-02-01', '', '1', 'Y', '2012-02-06 11:59:55', '12');
 
 # does NOT allow negative accrual balance
-insert into hr_earn_code_t values('5000', 'EC', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'Hours', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'Y', 'test', null, 'N', 'I');
+insert into hr_earn_code_t values('5000', 'EC', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'Hours', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'Y', 'test', null, 'N', 'I', 'N');
 # allows negative accrual balance
-insert into hr_earn_code_t values('5001', 'EC1', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'Hours', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'Y', 'test', null, 'Y', 'I');
+insert into hr_earn_code_t values('5001', 'EC1', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'Hours', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'Y', 'test', null, 'Y', 'I', 'N');
 
 # test max usage rules for case of editing leave block with a change in earn code.
-insert into hr_earn_code_t values('5002', 'EC2', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC2', '1.5', '1.5', 'Hours', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'Y', 'test', null, 'Y', 'I');
+insert into hr_earn_code_t values('5002', 'EC2', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC2', '1.5', '1.5', 'Hours', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'Y', 'test', null, 'Y', 'I', 'N');
 
 #validateLeaveUnderMaxUsageLimitWithEmployeeOverride
 insert into lm_employee_override_t values('6000','override20','testAC','testLP','MU','20',null,'Y',now(),null,'1','2012-02-01');
@@ -39,9 +39,9 @@ insert into lm_employee_override_t values('6000','override20','testAC','testLP',
 insert into lm_employee_override_t values('6001','nolimit','testAC','testLP','MU',null,null,'Y',now(),null,'1','2012-02-01');
 
 # testGetWarningTextForLeaveBlocks
-insert into hr_earn_code_t values('5003', 'ECA', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'Hours', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'Y', 'test', null, 'N', 'I');
-insert into hr_earn_code_t values('5004', 'ECB', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'Hours', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'N', 'test', null, 'N', 'I');
-insert into hr_earn_code_t values('5005', 'ECC', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'Hours', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'N', 'test', null, 'N', 'I');
+insert into hr_earn_code_t values('5003', 'ECA', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'Hours', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'Y', 'test', null, 'N', 'I', 'N');
+insert into hr_earn_code_t values('5004', 'ECB', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'Hours', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'N', 'test', null, 'N', 'I', 'N');
+insert into hr_earn_code_t values('5005', 'ECC', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'Hours', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'N', 'test', null, 'N', 'I', 'N');
 
 insert into hr_earn_code_group_t (`hr_earn_code_group_id`, `earn_code_group`, `descr`, `show_summary`, `effdt`, `active`, `timestamp`,`warning_text` ) values('5000', 'group1', 'group1', 'Y','2012-02-01', 'Y', now(), 'Test Message');
 insert into hr_earn_code_group_t (`hr_earn_code_group_id`, `earn_code_group`, `descr`, `show_summary`, `effdt`, `active`, `timestamp`,`warning_text` ) values('5001', 'group2', 'group2', 'Y','2012-02-01', 'Y', now(), 'Test Message1');
