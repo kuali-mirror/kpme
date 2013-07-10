@@ -190,6 +190,7 @@ $(function () {
                     var startSpanDate = Date.parse($("#startDate").val()).clearTime();
                     var endSpanDate = Date.parse($("#endDate").val()).clearTime();
                     var spanningWeeks = false;
+                    var approval = false;
                     for (var currentSpanDate = startSpanDate; currentSpanDate.isBefore(endSpanDate) || currentSpanDate.equals(endSpanDate); currentSpanDate.addDays(1)) {
                         if (currentSpanDate.is().saturday() || currentSpanDate.is().sunday()) {
                            spanningWeeks = true;
@@ -230,6 +231,7 @@ $(function () {
                         var isValid = true;
                         $('#acrossDays').val($('#acrossDays').is(':checked') ? 'y' : 'n');
                         $('#spanningWeeks').val($('#spanningWeeks').is(':checked') ? 'y' : 'n');  // KPME-1446
+                        $('#approval').val($('#approval').is(':checked') ? 'y' : 'n');  // KPME-2540
                         isValid = self.validateLeaveBlock();
                         if (!_.isEmpty($("#leaveBlockId").val())) {
                         	$('#methodToCall').val(CONSTANTS.ACTIONS.UPDATE_LEAVE_BLOCK);	
@@ -710,6 +712,7 @@ $(function () {
                 params['leaveAmount'] = $('#leaveAmount').val();
                 params['selectedEarnCode'] = $('#selectedEarnCode option:selected').val();
                 params['spanningWeeks'] = $('#spanningWeeks').is(':checked') ? 'y' : 'n'; // KPME-1446
+                params['approval'] = $('#approval').is(':checked') ? 'y' : 'n'; // KPME-2540
                 params['leaveBlockId'] = $('#leaveBlockId').val();
                 params['hrCalendarEntryId'] = $('#hrCalendarEntryId').val();
 
@@ -936,6 +939,7 @@ $(function () {
                 $('#leaveBlockId').attr('disabled', 'disabled');
                 $('#description').attr('disabled', 'disabled');
                 $('#spanningWeeks').attr('disabled', 'disabled');
+                $('#approval').attr('disabled', 'disabled');
             }
         },
         /**

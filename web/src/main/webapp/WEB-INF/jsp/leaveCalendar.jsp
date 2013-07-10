@@ -29,6 +29,7 @@
         <html:hidden property="nextHrCalendarEntryId" value="${Form.nextHrCalendarEntryId}" styleId="nextHrCalendarEntryId"/>
         <html:hidden property="docEditable" value="${Form.docEditable}" styleId="docEditable"/>
         <html:hidden property="leaveCalendar.beginDateTime" value="${Form.leaveCalendar.beginDateTime}" styleId="beginPeriodDate"/>
+        <html:hidden property="blockSubmittable" value="${Form.blockSubmittable}" styleId="blockSubmittable"/>
             
         <script src="${ConfigProperties.js.dir}/underscore-1.3.1.min.js"></script>
         <script src="${ConfigProperties.js.dir}/backbone-0.9.1.min.js"></script>
@@ -161,6 +162,15 @@
                             <label for="spanningWeeks">Include weekends</label>
                         </td>
                     </tr>
+                    <c:if test="${empty Form.documentId && Form.blockSubmittable}">  <!-- KPME-2540  -->
+	                    <tr> 
+	                        <td></td>
+	                        <td>
+	                            <input type="checkbox" name="approval" id="approval" value="n" title="Check if you want to submit leave request for approval"/>
+	                            <label for="approval">Submit leave request for approval</label>
+	                        </td>
+	                    </tr>
+                    </c:if>
                 </table>
             </div>
         </html:form>

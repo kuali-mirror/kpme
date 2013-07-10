@@ -51,6 +51,25 @@ public class LeaveCalendarForm extends CalendarForm {
 	private String startTime;
 	private String endTime;
 	private KPMEAccrualCategoryBucket bucket;
+	private String approval; // KPME-2540
+	private boolean isBlockSubmittable; // KPME-2540
+	
+
+	public boolean isBlockSubmittable() {
+		return isBlockSubmittable;
+	}
+
+	public void setBlockSubmittable(boolean isBlockSubmittable) {
+		this.isBlockSubmittable = isBlockSubmittable;
+	}
+
+	public String getApproval() {
+		return approval;
+	}
+
+	public void setApproval(String approval) {
+		this.approval = approval;
+	}
 
 	public boolean isDocEditable() {
 		return isDocEditable;

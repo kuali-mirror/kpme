@@ -256,6 +256,8 @@ public class LeaveCalendarAction extends CalendarFormAction {
 			setLeaveBlocks(leaveCalendarForm, principalId, leaveBlocks, assignmentKeys);
 	        setLeaveSummary(leaveCalendarForm);
 	        setMessages(leaveCalendarForm, leaveBlocks);
+	        
+	        setBlockSubmittable(leaveCalendarForm, leaveCalendarDocument);
         }
 
 		return actionForward;
@@ -292,6 +294,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
 		BigDecimal hours = lcf.getLeaveAmount();
 		String desc = lcf.getDescription();
 		String spanningWeeks = lcf.getSpanningWeeks();  // KPME-1446
+		String approval = lcf.getApproval(); // KPME-2540
 		
 		String documentId = lcd != null ? lcd.getDocumentId() : "";
 		
@@ -321,6 +324,15 @@ public class LeaveCalendarAction extends CalendarFormAction {
 		if (calendarEntry != null) {
 			LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
 		    lcf.setLeaveSummary(ls);
+		}
+		
+		// KPME-2540 replicate submitForApproval method in LeaveRequestAction here
+		if (!StringUtils.isEmpty(approval)) {
+			List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(targetPrincipalId, beginDate.toLocalDate(), endDate.toLocalDate());
+			for(LeaveBlock leaveBlock : leaveBlocks) {
+	            LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().createLeaveRequestDocument(leaveBlock.getLmLeaveBlockId());
+	            LmServiceLocator.getLeaveRequestDocumentService().requestLeave(lrd.getDocumentNumber());
+			}
 		}
 		
 		return mapping.findForward("basic");
@@ -620,6 +632,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
 		CalendarEntry calendarEntry = lcf.getCalendarEntry();
 		String selectedEarnCode = lcf.getSelectedEarnCode();
 		String leaveBlockId = lcf.getLeaveBlockId();
+		String approval = lcf.getApproval(); // KPME-2540
 		
 		String documentId = lcd != null ? lcd.getDocumentId() : "";
 		
@@ -664,6 +677,12 @@ public class LeaveCalendarAction extends CalendarFormAction {
     		if(lcf.getCalendarEntry() != null) {
     			LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
     		    lcf.setLeaveSummary(ls);
+    		}
+    		
+    		// KPME-2540 replicate submitForApproval method in LeaveRequestAction here
+    		if (!StringUtils.isEmpty(approval)) {
+	            LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().createLeaveRequestDocument(updatedLeaveBlock.getLmLeaveBlockId());
+	            LmServiceLocator.getLeaveRequestDocumentService().requestLeave(lrd.getDocumentNumber());
     		}
         }
         return mapping.findForward("basic");
@@ -710,6 +729,26 @@ public class LeaveCalendarAction extends CalendarFormAction {
 	        }
     	}
     }
+    
+    // KPME-2540 
+    // To find out if this is a future leave calendar period, compare current date to the calendar entry begin date
+    // and check document id (if this is a future period, document id is empty).
+    // If it is a future calendar entry, set blockSubmittable to true and retrieve it in LeaveCalendar.jsp
+    // Note if current date is 8/5 and the calendar period is 8/1 - 8/15, it is considered a current period
+    private void setBlockSubmittable(LeaveCalendarForm leaveForm, LeaveCalendarDocument lcd) {
+        
+        leaveForm.setBlockSubmittable(false); 
+        
+        if(leaveForm != null) {
+        	// Do NOT use leaveForm.getStartDate - We don't know why it's there
+            if (leaveForm.getCalendarEntry().getBeginPeriodDate() != null && StringUtils.isBlank(leaveForm.getDocumentId())) {
+            	if (LocalDate.now().isBefore(leaveForm.getCalendarEntry().getBeginPeriodLocalDateTime().toLocalDate())) {
+            		leaveForm.setBlockSubmittable(true);
+            	}
+            }             
+        }
+    }
+    
 	
 	private void generateLeaveCalendarChangedNotification(String principalId, String targetPrincipalId, String documentId, String hrCalendarEntryId) {
 		if (!StringUtils.equals(principalId, targetPrincipalId)) {

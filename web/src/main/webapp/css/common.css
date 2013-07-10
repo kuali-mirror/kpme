@@ -522,6 +522,10 @@ label.error {
     display: none;
 }
 
+#blockSubmittable {
+    display: none;
+}
+
 /**
 * Approval
 */
