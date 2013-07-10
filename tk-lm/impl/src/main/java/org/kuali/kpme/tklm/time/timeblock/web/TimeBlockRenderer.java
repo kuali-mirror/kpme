@@ -70,7 +70,9 @@ public class TimeBlockRenderer {
         StringBuilder b = new StringBuilder();
 
         WorkArea wa = HrServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), LocalDate.now());
-        b.append(wa.getDescription());
+        if(wa != null) {
+        	b.append(wa.getDescription());
+        }
         Task task = HrServiceLocator.getTaskService().getTask(timeBlock.getTask(), timeBlock.getBeginDateTime().toLocalDate());
         if(task != null) {
         	// do not display task description if the task is the default one
