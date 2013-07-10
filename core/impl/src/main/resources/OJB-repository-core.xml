@@ -202,7 +202,8 @@
         <field-descriptor name="allowNegativeAccrualBalance"    column="ALLOW_NEGATIVE_ACC_BALANCE" jdbc-type="VARCHAR"     length="1" nullable="false" />
         <field-descriptor name="rollupToEarnCode"               column="ROLLUP_TO_EARNCODE"         jdbc-type="VARCHAR"     length="15" nullable="true" />
         <field-descriptor name="recordMethod"                   column="RECORD_METHOD"              jdbc-type="VARCHAR"     length="5" nullable="true" primarykey="false" />
-        <field-descriptor name="usageLimit"                     column="USAGE_LIMIT"              jdbc-type="VARCHAR"     length="5" nullable="true"/>
+        <field-descriptor name="usageLimit"                     column="USAGE_LIMIT"                jdbc-type="VARCHAR"     length="5" nullable="true"/>
+        <field-descriptor name="countsAsRegularPay"             column="COUNT_AS_REG_PAY"           jdbc-type="VARCHAR"     length="5" nullable="false" />
         <field-descriptor name="objectId"                       column="OBJ_ID"                     jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"                  column="VER_NBR"                    jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>

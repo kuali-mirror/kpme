@@ -380,7 +380,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
                     EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(block.getEarnCode(), block.getEndDateTime().toLocalDate());
                     if (ec != null
                             && (ec.getOvtEarnCode()
-                            || regularEarnCodes.contains(ec.getEarnCode()))) {
+                            || regularEarnCodes.contains(ec.getEarnCode()) || ec.getCountsAsRegularPay().equals("Y"))) {
                         totalForDay = totalForDay.add(block.getHours(), HrConstants.MATH_CONTEXT);
                         weeklyTotal = weeklyTotal.add(block.getHours(), HrConstants.MATH_CONTEXT);
                         periodTotal = periodTotal.add(block.getHours(), HrConstants.MATH_CONTEXT);

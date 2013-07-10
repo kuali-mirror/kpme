@@ -74,7 +74,16 @@ public class EarnCode extends HrBusinessObject {
 	private String rollupToEarnCode;
 	private String recordMethod;
 	private String usageLimit;
+	private String countsAsRegularPay;
 	
+	public String getCountsAsRegularPay() {
+		return countsAsRegularPay;
+	}
+
+	public void setCountsAsRegularPay(String countsAsRegularPay) {
+		this.countsAsRegularPay = countsAsRegularPay;
+	}
+
 	public String getUsageLimit() {
 		return usageLimit;
 	}

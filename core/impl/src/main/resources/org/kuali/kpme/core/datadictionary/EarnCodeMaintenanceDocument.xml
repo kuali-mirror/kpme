@@ -72,6 +72,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="inflateMinHours" p:required="true" p:defaultValue="0"/>
         <bean parent="MaintainableFieldDefinition" p:name="inflateFactor" p:required="true" p:defaultValue="1.0"/>
         
+        <bean parent="MaintainableFieldDefinition" p:name="countsAsRegularPay" p:defaultValue="N" p:required="true"/>
+        
         <!--  KPME 1624 -->
         <bean parent="MaintainableFieldDefinition" p:name="eligibleForAccrual" p:defaultValue="Y" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="affectPay" p:defaultValue="N" p:required="true"/>
