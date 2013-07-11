@@ -259,6 +259,7 @@
 							<bean parent="FieldDefinition" p:attributeName="location" />
 							<bean parent="FieldDefinition" p:attributeName="chart" />
 							<bean parent="FieldDefinition" p:attributeName="org" />
+							<bean parent="FieldDefinition" p:attributeName="payrollApproval" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
                         </list>
                     </property>
@@ -318,6 +319,7 @@
 		        <bean parent="FieldDefinition" p:attributeName="location" />
 		        <bean parent="FieldDefinition" p:attributeName="description" />
 		        <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+		        <bean parent="FieldDefinition" p:attributeName="payrollApproval" />
 		        <bean parent="FieldDefinition" p:attributeName="active" />
             </list>
         </property>
@@ -327,6 +329,7 @@
 		        <bean parent="FieldDefinition" p:attributeName="location" />
 		        <bean parent="FieldDefinition" p:attributeName="description" />
 		        <bean parent="FieldDefinition" p:attributeName="timestamp" />
+		        <bean parent="FieldDefinition" p:attributeName="payrollApproval" />
 		        <bean parent="FieldDefinition" p:attributeName="active" />
             </list>
         </property>
@@ -344,6 +347,7 @@
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="payrollApproval" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y" />
       </list>
     </property>
@@ -354,6 +358,7 @@
 		<bean parent="Uif-DataField" p:propertyName="location" />
 		<bean parent="Uif-DataField" p:propertyName="description" />
 		<bean parent="Uif-DataField" p:propertyName="timestamp" />
+		<bean parent="Uif-DataField" p:propertyName="payrollApproval" />
 		<bean parent="Uif-DataField" p:propertyName="active" />
       </list>
     </property>
