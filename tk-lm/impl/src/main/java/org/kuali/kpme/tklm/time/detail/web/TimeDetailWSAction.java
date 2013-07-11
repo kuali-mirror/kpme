@@ -233,8 +233,9 @@ public class TimeDetailWSAction extends TimesheetAction {
         			for (EarnCode earnCode : overtimeEarnCodes) {
         				String employee = HrContext.isActiveEmployee() ? "Y" : null;
         				String approver = HrContext.isApprover() ? "Y" : null;
+        				String payrollProcessor = HrContext.isPayrollProcessor() ? "Y" : null; // KPME-2532
         				
-        				List<EarnCodeSecurity> securityList = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList(job.getDept(), job.getHrSalGroup(), earnCode.getEarnCode(), employee, approver, job.getLocation(),
+        				List<EarnCodeSecurity> securityList = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList(job.getDept(), job.getHrSalGroup(), earnCode.getEarnCode(), employee, approver, payrollProcessor, job.getLocation(),
         									"Y", tb.getEndDateTime().toLocalDate());
         				if(CollectionUtils.isNotEmpty(securityList)) {
         					Map<String, Object> earnCodeMap = new HashMap<String, Object>();

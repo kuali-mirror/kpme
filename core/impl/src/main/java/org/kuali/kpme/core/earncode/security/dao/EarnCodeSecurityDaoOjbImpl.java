@@ -191,7 +191,7 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	}
 	
 	@Override
-	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,
+	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
 			String active, LocalDate effdt, String hrDeptEarnCodeId) {
 		Criteria crit = new Criteria();
       crit.addEqualTo("dept", dept);
@@ -199,6 +199,7 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
       crit.addEqualTo("earnCode", earnCode);
       crit.addEqualTo("employee", employee);
       crit.addEqualTo("approver", approver);
+      crit.addEqualTo("payrollProcessor", payrollProcessor);
       crit.addEqualTo("location", location);
       crit.addEqualTo("active", active);
       crit.addEqualTo("effectiveDate", effdt.toDate());
@@ -221,7 +222,7 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	
 	
 	@Override
-	public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String location,
+	public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
 			String active, LocalDate effdt) {
 	  Criteria crit = new Criteria();
       crit.addEqualTo("earnCode", earnCode);
@@ -230,6 +231,9 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
       }
       if(StringUtils.isNotEmpty(approver)) {
     	  crit.addEqualTo("approver", approver);
+      }
+      if(StringUtils.isNotEmpty(payrollProcessor)) {
+    	  crit.addEqualTo("payrollProcessor", payrollProcessor);
       }
       if(StringUtils.isNotEmpty(location)) {
     	  crit.addEqualTo("location", location);

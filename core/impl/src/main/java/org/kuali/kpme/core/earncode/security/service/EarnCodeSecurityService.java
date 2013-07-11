@@ -46,11 +46,20 @@ public interface EarnCodeSecurityService {
 	
     /**
      * get the count of Department Earn Code by given parameters
-     * @param earnGroup
+     * @param dept
+	 * @param salGroup
+	 * @param earnCode
+	 * @param employee
+	 * @param approver
+	 * @param payrollProcessor
+	 * @param location
+	 * @param active
+	 * @param effdt
+	 * @param hrDeptEarnCodeId
      * @return int
      */
-	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,
-			String active, LocalDate effdt,String hrDeptEarnCodeId);
+	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
+			String active, LocalDate effdt, String hrDeptEarnCodeId);
 	
     /**
      * get the count of newer versions of the given earnCode
@@ -68,11 +77,12 @@ public interface EarnCodeSecurityService {
 	 * @param earnCode
 	 * @param employee
 	 * @param approver
+	 * @param payrollProcessor
 	 * @param location
 	 * @param active
 	 * @param effdt
 	 * @return
 	 */
-	public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String location,
+	public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
 			String active, LocalDate effdt);
 }

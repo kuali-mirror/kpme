@@ -45,6 +45,7 @@
 				<ref bean="EarnCodeSecurity-timestamp" />
 				<ref bean="EarnCodeSecurity-employee" />
 				<ref bean="EarnCodeSecurity-approver" />
+				<ref bean="EarnCodeSecurity-payrollProcessor" />
 				<ref bean="EarnCodeSecurity-history" />
 				<ref bean="EarnCodeSecurity-active" />
 				<ref bean="EarnCodeSecurity-earnCodeType" />
@@ -231,6 +232,18 @@
 		</property>
 		<property name="name" value="approver" />
 		<property name="label" value="Approver" />
+	</bean>
+	
+	<!-- Payroll Processor KPME-2532 -->
+	<bean id="EarnCodeSecurity-payrollProcessor" parent="EarnCodeSecurity-payrollProcessor-parentBean" />
+	<bean id="EarnCodeSecurity-payrollProcessor-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Payroll Processor" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="payrollProcessor" />
+		<property name="label" value="Payroll Processor" />
 	</bean>
 
 	<!-- timeStamp -->

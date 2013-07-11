@@ -83,14 +83,14 @@ public class EarnCodeSecurityServiceImplTest extends KPMEWebTestCase {
 	@Test
 	public void testGetEarnCodeSecurityList() throws Exception {
 		// wild card for dept and sal_group
-		List<EarnCodeSecurity> allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("test", "test", "XZZ", "Y", null, null, "Y", TEST_DATE.toLocalDate());
+		List<EarnCodeSecurity> allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("test", "test", "XZZ", "Y", null, null, null, "Y", TEST_DATE.toLocalDate());
 		Assert.assertEquals("Search returned the wrong number of results.", 1, allResults.size());
 		
 		// wild card for dept
-		allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("test", "test", "XYZ", "Y", null, null, "Y", TEST_DATE.toLocalDate());
+		allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("test", "test", "XYZ", "Y", null, null, null, "Y", TEST_DATE.toLocalDate());
 		Assert.assertEquals("Search returned the wrong number of results.", 0, allResults.size());
 		
-		allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("test", "A10", "XYZ", "Y", null, null, "Y", TEST_DATE.toLocalDate());
+		allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("test", "A10", "XYZ", "Y", null, null, null, "Y", TEST_DATE.toLocalDate());
 		Assert.assertEquals("Search returned the wrong number of results.", 1, allResults.size());
 	}
 

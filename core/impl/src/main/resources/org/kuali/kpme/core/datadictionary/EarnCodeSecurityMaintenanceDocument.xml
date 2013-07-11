@@ -61,6 +61,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="earnCodeType" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="employee" />
 				<bean parent="MaintainableFieldDefinition" p:name="approver" />
+				<bean parent="MaintainableFieldDefinition" p:name="payrollProcessor" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
 			</list>
 		</property>

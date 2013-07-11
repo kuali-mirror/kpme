@@ -80,9 +80,9 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
  		return results;
 	}
 	@Override
-	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,
+	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
 			String active, LocalDate effdt, String hrDeptEarnCodeId) {
-		return earnCodeSecurityDao.getEarnCodeSecurityCount(dept, salGroup, earnCode, employee, approver, location,
+		return earnCodeSecurityDao.getEarnCodeSecurityCount(dept, salGroup, earnCode, employee, approver, payrollProcessor, location,
 				active, effdt, hrDeptEarnCodeId);
 	}
 	@Override
@@ -92,8 +92,8 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 
 	@Override
 	public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept,
-			String salGroup, String earnCode, String employee, String approver,
+			String salGroup, String earnCode, String employee, String approver, String payrollProcessor,
 			String location, String active, LocalDate effdt) {
-		return earnCodeSecurityDao.getEarnCodeSecurityList(dept, salGroup, earnCode, employee, approver, location, active, effdt);
+		return earnCodeSecurityDao.getEarnCodeSecurityList(dept, salGroup, earnCode, employee, approver, payrollProcessor, location, active, effdt);
 	}
 }

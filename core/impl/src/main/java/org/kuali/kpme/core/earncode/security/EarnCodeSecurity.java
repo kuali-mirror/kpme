@@ -50,6 +50,7 @@ public class EarnCodeSecurity extends HrBusinessObject {
 	private String earnCode;
 	private boolean employee;
 	private boolean approver;
+	private boolean payrollProcessor;  // KPME-2532
 	private String location;
 	private String earnCodeType;
 	
@@ -106,6 +107,14 @@ public class EarnCodeSecurity extends HrBusinessObject {
 
 	public void setApprover(boolean approver) {
 		this.approver = approver;
+	}
+
+	public boolean isPayrollProcessor() {
+		return payrollProcessor;
+	}
+
+	public void setPayrollProcessor(boolean payrollProcessor) {
+		this.payrollProcessor = payrollProcessor;
 	}
 
 	public EarnCode getEarnCodeObj() {

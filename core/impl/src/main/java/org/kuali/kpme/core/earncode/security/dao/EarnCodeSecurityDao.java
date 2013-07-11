@@ -33,12 +33,12 @@ public interface EarnCodeSecurityDao {
 	public List<EarnCodeSecurity> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location, LocalDate fromEffdt, LocalDate toEffdt, 
 														   String active, String showHistory);
 	
-	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,
+	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
                                         String active, LocalDate effdt, String hrDeptEarnCodeId);
 	
 	public int getNewerEarnCodeSecurityCount(String earnCode, LocalDate effdt);
 	
 	public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept,
-			String salGroup, String earnCode, String employee, String approver,
+			String salGroup, String earnCode, String employee, String approver, String payrollProcessor, 
 			String location, String active, LocalDate effdt);
 }
