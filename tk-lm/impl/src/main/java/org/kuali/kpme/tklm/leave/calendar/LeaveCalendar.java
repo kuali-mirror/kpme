@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.apache.log4j.Logger;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
@@ -36,10 +36,13 @@ import org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarWeek;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+
 
 public class LeaveCalendar extends CalendarParent {
 
     private Map<String, String> earnCodeList;
+    private static final Logger LOG = Logger.getLogger(LeaveCalendar.class);
     
     public LeaveCalendar(String principalId, CalendarEntry calendarEntry, List<String> assignmentKeys) {
         super(calendarEntry);
