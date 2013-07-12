@@ -57,6 +57,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 
 	@Override
 	public void processWeeklyOvertimeRule(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate) {
+
 		LocalDate asOfDate = timesheetDocument.getDocumentHeader().getEndDateTime().toLocalDate();
 		String principalId = timesheetDocument.getDocumentHeader().getPrincipalId();
 		DateTime beginDate = timesheetDocument.getDocumentHeader().getBeginDateTime();
@@ -188,8 +189,9 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 	 */
 	protected String getOvertimeEarnCode(WeeklyOvertimeRule weeklyOvertimeRule, TimeBlock timeBlock, LocalDate asOfDate) {
         String overtimeEarnCode = weeklyOvertimeRule.getConvertToEarnCode();
-        
-        WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), asOfDate);
+
+        // KPME-2554 use time block end date instead of passed in asOfDate
+        WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), timeBlock.getEndDateTime().toLocalDate());
 		if (StringUtils.isNotBlank(workArea.getDefaultOvertimeEarnCode())){
 			overtimeEarnCode = workArea.getDefaultOvertimeEarnCode();
 		}
