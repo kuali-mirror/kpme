@@ -80,7 +80,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
                 	// KPME-1446 if "Include weekends" check box is checked, don't add Sat and Sun to the timeblock list
                 	if (StringUtils.isEmpty(spanningWeeks) && 
                 		(dayIn.getStart().getDayOfWeek() == DateTimeConstants.SATURDAY ||dayIn.getStart().getDayOfWeek() == DateTimeConstants.SUNDAY)) {
-                		// Get difference in millis anyway
+                		// Get difference in millis for the next time block - KPME-2568
                 		endOfFirstDay = endDt.withZone(zone);
                 		diffInMillis = endOfFirstDay.minus(beginDt.getMillis()).getMillis();
                 	} else {
@@ -95,7 +95,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         }
 
         DateTime endTime = endDateTime.withZone(zone);
-        if (firstTimeBlock.getEndDateTime() != null) {
+        if (firstTimeBlock.getEndDateTime() != null) { // KPME-2568
         	endOfFirstDay = firstTimeBlock.getEndDateTime().withZone(zone);
         	diffInMillis = endOfFirstDay.minus(beginDt.getMillis()).getMillis();
         }
