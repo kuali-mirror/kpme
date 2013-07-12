@@ -70,13 +70,19 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         List<Interval> dayInt = TKUtils.getDaySpanForCalendarEntry(timesheetDocument.getCalendarEntry());
         TimeBlock firstTimeBlock = new TimeBlock();
         List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
+        
+        DateTime endOfFirstDay = null; // KPME-2568
+        long diffInMillis = 0; // KPME-2568
+        
         for (Interval dayIn : dayInt) {
             if (dayIn.contains(beginDt)) {
                 if (dayIn.contains(endDt) || dayIn.getEnd().equals(endDt)) {
                 	// KPME-1446 if "Include weekends" check box is checked, don't add Sat and Sun to the timeblock list
                 	if (StringUtils.isEmpty(spanningWeeks) && 
                 		(dayIn.getStart().getDayOfWeek() == DateTimeConstants.SATURDAY ||dayIn.getStart().getDayOfWeek() == DateTimeConstants.SUNDAY)) {
-                		// do nothing
+                		// Get difference in millis anyway
+                		endOfFirstDay = endDt.withZone(zone);
+                		diffInMillis = endOfFirstDay.minus(beginDt.getMillis()).getMillis();
                 	} else {
                         firstTimeBlock = createTimeBlock(timesheetDocument, beginDateTime, endDt, assignment, earnCode, hours, amount, false, getLunchDeleted, userPrincipalId);
                         lstTimeBlocks.add(firstTimeBlock);                		
@@ -89,8 +95,10 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         }
 
         DateTime endTime = endDateTime.withZone(zone);
-        DateTime endOfFirstDay = firstTimeBlock.getEndDateTime().withZone(zone);
-        long diffInMillis = endOfFirstDay.minus(beginDt.getMillis()).getMillis();
+        if (firstTimeBlock.getEndDateTime() != null) {
+        	endOfFirstDay = firstTimeBlock.getEndDateTime().withZone(zone);
+        	diffInMillis = endOfFirstDay.minus(beginDt.getMillis()).getMillis();
+        }
         DateTime currTime = beginDt.plusDays(1);
         while (currTime.isBefore(endTime) || currTime.isEqual(endTime)) {
         	// KPME-1446 if "Include weekends" check box is checked, don't add Sat and Sun to the timeblock list
