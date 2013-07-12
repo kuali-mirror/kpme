@@ -108,7 +108,16 @@ public class LeaveCalendar extends CalendarParent {
                } else {
                    leaveCalendarDay.setDayEditable(true);
                }
-               
+               //KPME-2560 If leave calendar document is final status, then User wont be able to add leave blocks to the calendar. 
+               try {
+	               LeaveCalendarDocument lcd = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(principalId, calendarEntry);
+	               if (lcd != null && lcd.getDocumentHeader() != null && lcd.getDocumentHeader().getDocumentStatus() != null && lcd.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL)) {
+	            	   leaveCalendarDay.setDayEditable(false);
+	               }
+               } catch (WorkflowException e) {
+       				LOG.error("Unable to open the Leave Calendar Document for calendarEntry : " + calendarEntry.getCalendarName());
+       				e.printStackTrace();
+       		   }
                dayNumber++;
             }
             leaveCalendarDay.setDayNumberString(currentDisplayDateTime.dayOfMonth().getAsShortText());
