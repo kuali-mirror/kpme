@@ -317,6 +317,7 @@
                             <bean parent="FieldDefinition" p:attributeName="earnCodeType" />
 							<bean parent="FieldDefinition" p:attributeName="employee" />
 							<bean parent="FieldDefinition" p:attributeName="approver" />
+							<bean parent="FieldDefinition" p:attributeName="payrollProcessor" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
@@ -353,6 +354,7 @@
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
 				<bean parent="FieldDefinition" p:attributeName="employee" />
 				<bean parent="FieldDefinition" p:attributeName="approver" />
+				<bean parent="FieldDefinition" p:attributeName="payrollProcessor" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
