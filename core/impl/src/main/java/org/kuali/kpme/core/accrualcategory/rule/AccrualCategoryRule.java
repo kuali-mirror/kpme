@@ -18,11 +18,12 @@ package org.kuali.kpme.core.accrualcategory.rule;
 import java.math.BigDecimal;
 
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCode;
 
 
-public class AccrualCategoryRule extends HrBusinessObject {
+public class AccrualCategoryRule extends HrBusinessObject implements AccrualCategoryRuleContract {
 
 	/**
 	 * 

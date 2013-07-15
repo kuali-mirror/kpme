@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
@@ -28,7 +29,7 @@ import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
 
-public class AccrualCategory extends HrBusinessObject {
+public class AccrualCategory extends HrBusinessObject implements AccrualCategoryContract {
     public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "AccrualCategory";
     
     //KPME-2273/1965 Primary Business Keys List. Will be using this from now on instead.

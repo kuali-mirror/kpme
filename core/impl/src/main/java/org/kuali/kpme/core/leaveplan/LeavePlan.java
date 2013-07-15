@@ -18,12 +18,13 @@ package org.kuali.kpme.core.leaveplan;
 import java.sql.Time;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
 
-public class LeavePlan extends HrBusinessObject {
+public class LeavePlan extends HrBusinessObject implements LeavePlanContract {
 	
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "LeavePlan";
 	//KPME-2273/1965 Primary Business Keys List.

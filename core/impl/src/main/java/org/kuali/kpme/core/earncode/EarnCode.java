@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
@@ -32,7 +33,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.google.common.collect.ImmutableList;
 
-public class EarnCode extends HrBusinessObject {
+public class EarnCode extends HrBusinessObject implements EarnCodeContract {
 
 	private static final long serialVersionUID = -1470603919624794932L;
 	

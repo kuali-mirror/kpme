@@ -19,9 +19,10 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public abstract class HrBusinessObject extends PersistableBusinessObjectBase{
+public abstract class HrBusinessObject extends PersistableBusinessObjectBase implements HrBusinessObjectContract {
 
 	private static final long serialVersionUID = -5743717258128864335L;
 	
