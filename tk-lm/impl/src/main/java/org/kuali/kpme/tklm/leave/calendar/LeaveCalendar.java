@@ -34,6 +34,7 @@ import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarDay;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarWeek;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -71,6 +72,12 @@ public class LeaveCalendar extends CalendarParent {
             }
         }
 
+        //KPME-2560 If leave calendar document is final status, then User wont be able to add leave blocks to the calendar. 
+        Boolean dayEditableFlag = true;
+        LeaveCalendarDocumentHeader header = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
+        if(header != null && header.getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL))
+        	dayEditableFlag = false;
+        
         while (currentDisplayDateTime.isBefore(endDisplayDateTime) || currentDisplayDateTime.isEqual(endDisplayDateTime)) {
             LeaveCalendarDay leaveCalendarDay = new LeaveCalendarDay();
             
@@ -112,15 +119,9 @@ public class LeaveCalendar extends CalendarParent {
                    leaveCalendarDay.setDayEditable(true);
                }
                //KPME-2560 If leave calendar document is final status, then User wont be able to add leave blocks to the calendar. 
-               try {
-	               LeaveCalendarDocument lcd = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(principalId, calendarEntry);
-	               if (lcd != null && lcd.getDocumentHeader() != null && lcd.getDocumentHeader().getDocumentStatus() != null && lcd.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL)) {
-	            	   leaveCalendarDay.setDayEditable(false);
-	               }
-               } catch (WorkflowException e) {
-       				LOG.error("Unable to open the Leave Calendar Document for calendarEntry : " + calendarEntry.getCalendarName());
-       				e.printStackTrace();
-       		   }
+               if(!dayEditableFlag)
+            	   leaveCalendarDay.setDayEditable(false);
+               
                dayNumber++;
             }
             leaveCalendarDay.setDayNumberString(currentDisplayDateTime.dayOfMonth().getAsShortText());
