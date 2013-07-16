@@ -146,8 +146,14 @@ public class TimeDetailWSAction extends TimesheetAction {
             				earnCodes.add(regEarnCodes.get(assignment.getAssignmentKey()));
             			}
             		} else {
-            			earnCodes.addAll(TkServiceLocator.getTimesheetService()
-            					.getEarnCodesForTime(assignment, tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimeBlockReadOnly()));
+            			List<EarnCode> aList = TkServiceLocator.getTimesheetService()
+            					.getEarnCodesForTime(assignment, tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimeBlockReadOnly());
+            			for(EarnCode anEarnCode : aList) {
+            				// kpme-2570, overtime earn codes should not show in adding/editing time block widget's earn code option list
+            				if(anEarnCode != null && !anEarnCode.getOvtEarnCode()) {
+            					earnCodes.add(anEarnCode);
+            				}
+            			}
             		}
                     for (EarnCode earnCode : earnCodes) {
                         Map<String, Object> earnCodeMap = new HashMap<String, Object>();
