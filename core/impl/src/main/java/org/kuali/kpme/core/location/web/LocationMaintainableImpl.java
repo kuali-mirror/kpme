@@ -37,6 +37,7 @@ import org.kuali.rice.kim.impl.role.RoleMemberBo;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -178,4 +179,13 @@ public class LocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         
         return inactiveRoleMembers;
     }
+        
+    @Override
+    public Map<String, String> populateNewCollectionLines(Map<String, String> fieldValues,
+			MaintenanceDocument maintenanceDocument, String methodToCall) {
+    	if(fieldValues.containsKey("roleMembers.roleName") && StringUtils.isEmpty(fieldValues.get("roleMembers.roleName"))) {
+    		fieldValues.put("roleMembers.roleName", null);
+    	}
+    	return super.populateNewCollectionLines(fieldValues, maintenanceDocument, methodToCall);
+    }   
 }

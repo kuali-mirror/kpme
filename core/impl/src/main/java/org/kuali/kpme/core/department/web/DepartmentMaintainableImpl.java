@@ -178,4 +178,13 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
         
         return inactiveRoleMembers;
     }
+    
+    @Override
+    public Map<String, String> populateNewCollectionLines(Map<String, String> fieldValues,
+			MaintenanceDocument maintenanceDocument, String methodToCall) {
+    	if(fieldValues.containsKey("roleMembers.roleName") && StringUtils.isEmpty(fieldValues.get("roleMembers.roleName"))) {
+    		fieldValues.put("roleMembers.roleName", null);
+    	}
+    	return super.populateNewCollectionLines(fieldValues, maintenanceDocument, methodToCall);
+    }   
 }
