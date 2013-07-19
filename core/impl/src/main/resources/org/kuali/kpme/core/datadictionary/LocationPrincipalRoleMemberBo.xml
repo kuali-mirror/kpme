@@ -32,7 +32,6 @@
                 <ref bean="LocationPrincipalRoleMemberBo-principalName" />
                 <ref bean="LocationPrincipalRoleMemberBo-roleName" />
                 <ref bean="LocationPrincipalRoleMemberBo-expirationDate" />
-                <ref bean="LocationPrincipalRoleMemberBo-active" />
 			</list>
 		</property>
         <property name="relationships">
@@ -81,8 +80,4 @@
         <property name="name" value="expirationDate" />
     </bean>
     
-    <bean id="LocationPrincipalRoleMemberBo-active" parent="LocationPrincipalRoleMemberBo-active-parentBean" />
-    <bean id="LocationPrincipalRoleMemberBo-active-parentBean" abstract="true" parent="PrincipalRoleMemberBo-active">
-        <property name="name" value="active" />
-    </bean>
 </beans>

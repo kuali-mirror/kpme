@@ -76,7 +76,6 @@
                             <bean parent="MaintainableFieldDefinition" p:name="principalName" p:unconditionallyReadOnly="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:defaultValueFinderClass="org.kuali.kpme.core.role.location.LocationDefaultRoleMemberValueFinder" />
                             <bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false" />
-                            <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
                         </list>
                     </property>
                 </bean>
@@ -103,7 +102,6 @@
                             <bean parent="MaintainableFieldDefinition" p:name="principalName" p:unconditionallyReadOnly="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:unconditionallyReadOnly="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false" />
-                            <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
                         </list>
                     </property>
                 </bean>

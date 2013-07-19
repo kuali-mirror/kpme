@@ -31,7 +31,6 @@
                 <ref bean="WorkAreaPositionRoleMemberBo-positionNumber" />
                 <ref bean="WorkAreaPositionRoleMemberBo-roleName" />
                 <ref bean="WorkAreaPositionRoleMemberBo-expirationDate" />
-                <ref bean="WorkAreaPositionRoleMemberBo-active" />
 			</list>
 		</property>
 	</bean>
@@ -61,10 +60,5 @@
     <bean id="WorkAreaPositionRoleMemberBo-expirationDate" parent="WorkAreaPositionRoleMemberBo-expirationDate-parentBean" />
     <bean id="WorkAreaPositionRoleMemberBo-expirationDate-parentBean" abstract="true" parent="PositionRoleMemberBo-expirationDate">
         <property name="name" value="expirationDate" />
-    </bean>
-    
-    <bean id="WorkAreaPositionRoleMemberBo-active" parent="WorkAreaPositionRoleMemberBo-active-parentBean" />
-    <bean id="WorkAreaPositionRoleMemberBo-active-parentBean" abstract="true" parent="PositionRoleMemberBo-active">
-        <property name="name" value="active" />
     </bean>
 </beans>

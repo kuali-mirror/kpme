@@ -128,13 +128,13 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 
 	boolean validateRolePresent(List<DepartmentPrincipalRoleMemberBo> roleMembers, LocalDate effectiveDate) {
 		boolean valid = true;
-
+		boolean activeFlag = false;
+		
 		for (ListIterator<DepartmentPrincipalRoleMemberBo> iterator = roleMembers.listIterator(); iterator.hasNext(); ) {
 			int index = iterator.nextIndex();
 			RoleMemberBo roleMember = iterator.next();
 			Role role = KimApiServiceLocator.getRoleService().getRole(roleMember.getRoleId());
-				
-			valid &= roleMember.isActive();
+			activeFlag |= roleMember.isActive();
 			
 			if (StringUtils.equals(role.getName(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName())
 					|| StringUtils.equals(role.getName(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName())) {
@@ -153,11 +153,11 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 			}
 		}
 
-		if (!valid) {
+		if (!activeFlag) {
 			this.putGlobalError("role.required");
 		}
 
-		return valid;
+		return valid & activeFlag;
 	}
 
 }

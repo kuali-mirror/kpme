@@ -312,7 +312,6 @@
 										<bean parent="FieldDefinition" p:attributeName="principalName" />
 										<bean parent="FieldDefinition" p:attributeName="roleName" />
                                         <bean parent="FieldDefinition" p:attributeName="expirationDate" p:noInquiry="true" />
-										<bean parent="FieldDefinition" p:attributeName="active" />
 									</list>
 								</property>
 							</bean>
@@ -330,7 +329,6 @@
                                         <bean parent="FieldDefinition" p:attributeName="principalName" />
                                         <bean parent="FieldDefinition" p:attributeName="roleName" />
                                         <bean parent="FieldDefinition" p:attributeName="expirationDate" p:noInquiry="true" />
-                                        <bean parent="FieldDefinition" p:attributeName="active" />
 									</list>
 								</property>
 							</bean>
@@ -347,7 +345,6 @@
                                         <bean parent="FieldDefinition" p:attributeName="positionNumber" />
                                         <bean parent="FieldDefinition" p:attributeName="roleName" />
                                         <bean parent="FieldDefinition" p:attributeName="expirationDate" p:noInquiry="true" />
-                                        <bean parent="FieldDefinition" p:attributeName="active" />
                                     </list>
                                 </property>
                             </bean>
@@ -364,7 +361,6 @@
                                         <bean parent="FieldDefinition" p:attributeName="positionNumber" />
                                         <bean parent="FieldDefinition" p:attributeName="roleName" />
                                         <bean parent="FieldDefinition" p:attributeName="expirationDate" p:noInquiry="true" />
-                                        <bean parent="FieldDefinition" p:attributeName="active" />
                                     </list>
                                 </property>
                             </bean>
