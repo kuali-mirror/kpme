@@ -22,6 +22,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 
@@ -42,10 +43,11 @@ public class LocationInquirableImpl extends KualiInquirableImpl {
             LocalDate effectiveDate = TKUtils.formatDateString((String) fieldValues.get("effectiveDate"));
             locationObj = HrServiceLocator.getLocationService().getLocation(location, effectiveDate);
         } else {
-        	locationObj = (Location) super.getBusinessObject(fieldValues);
-        }
+       	 	if(fieldValues.get("location") != null && !ValidationUtils.isWildCard(fieldValues.get("location").toString())){
+       	 		locationObj = (Location) super.getBusinessObject(fieldValues);
+       	 	}
+       	}
 
 		return locationObj;
 	}
-	
 }

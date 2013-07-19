@@ -35,6 +35,7 @@
 		</property>
 		<property name="attributes">
 			<list>
+				<ref bean="Institution-pmInstitutionId" />
 				<ref bean="Institution-effectiveDate" />
 				<ref bean="Institution-institutionCode" />			
 				<ref bean="Institution-description" />
@@ -43,6 +44,21 @@
 		</property>
 	</bean>
 
+<bean id="Institution-pmInstitutionId" parent="Institution-pmInstitutionId-parentBean" />
+	<bean id="Institution-pmInstitutionId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="pmInstitutionId" />
+        <property name="label" value="Institution Id" />
+		<property name="shortLabel" value="Institution Id" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="60" />
+		</property>
+	</bean>
 	<!-- effectiveDate -->
 	<bean id="Institution-effectiveDate" parent="Institution-effectiveDate-parentBean" />
 	<bean id="Institution-effectiveDate-parentBean" abstract="true"
@@ -116,7 +132,7 @@
   	<bean id="Institution-inquiryDefinition" parent="Institution-inquiryDefinition-parentBean" />
 
 	<bean id="Institution-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition">
+		parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.institution.web.InstitutionInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

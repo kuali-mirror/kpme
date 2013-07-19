@@ -106,7 +106,7 @@ public class InstitutionDaoOjbImpl extends PlatformAwareDaoBaseOjb implements In
 		
 		Criteria root = new Criteria();
 
-		root.addEqualTo("institutionId", institutionId);
+		root.addEqualTo("pmInstitutionId", institutionId);
 
 		Query query = QueryFactory.newQuery(Institution.class, root);
 		

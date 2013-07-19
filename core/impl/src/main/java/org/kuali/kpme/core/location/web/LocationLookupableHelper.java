@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -61,7 +62,20 @@ public class LocationLookupableHelper extends KPMELookupableHelper {
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
+        if (StringUtils.contains(location, "*")) {
+        	location = "";
+		}
+		
         return HrServiceLocator.getLocationService().searchLocations(GlobalVariables.getUserSession().getPrincipalId(), location, descr, active, showHist);
     }
+    
+    @Override
+	protected void validateSearchParameterWildcardAndOperators(
+			String attributeName, String attributeValue) {
+		if (!StringUtils.equals(attributeValue, "*")) {
+			super.validateSearchParameterWildcardAndOperators(attributeName,
+					attributeValue);
+		}
+	}
     
 }

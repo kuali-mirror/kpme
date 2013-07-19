@@ -18,10 +18,13 @@ package org.kuali.kpme.core.institution.web;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 
+@SuppressWarnings("deprecation")
 public class InstitutionLookupableHelper extends HrEffectiveDateActiveLookupableHelper{
 
 	/**
@@ -33,6 +36,10 @@ public class InstitutionLookupableHelper extends HrEffectiveDateActiveLookupable
 	public List<? extends BusinessObject> getSearchResults(
 			Map<String, String> fieldValues) {
 		// TODO Auto-generated method stub
+		
+		if (StringUtils.contains(fieldValues.get("institutionCode"), "*")) {
+			fieldValues.put("institutionCode","");			
+		}
 		return super.getSearchResults(fieldValues);
 	}
 
@@ -43,5 +50,14 @@ public class InstitutionLookupableHelper extends HrEffectiveDateActiveLookupable
 		return super.getCustomActionUrls(businessObject, pkNames);
 	}
 
+	@Override
+	protected void validateSearchParameterWildcardAndOperators(
+			String attributeName, String attributeValue) {
+		if (!StringUtils.equals(attributeValue, "*")) {
+			super.validateSearchParameterWildcardAndOperators(attributeName,
+					attributeValue);
+		}
+	}
+	
 
 }

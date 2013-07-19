@@ -22,7 +22,9 @@ import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
+import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.paygrade.PayGrade;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
@@ -111,6 +113,20 @@ public class KpmeModuleService extends ModuleServiceBase {
         	List<List<String>> retList = new ArrayList<List<String>>();
         	List<String> keyList = new ArrayList<String>();
         	keyList.add("principalId");
+        	keyList.add("effectiveDate");
+        	retList.add(keyList);
+        	return retList;
+        } else if (Location.class.isAssignableFrom(businessObjectInterfaceClass)) {
+        	List<List<String>> retList = new ArrayList<List<String>>();
+        	List<String> keyList = new ArrayList<String>();
+        	keyList.add("location");
+        	keyList.add("effectiveDate");
+        	retList.add(keyList);
+        	return retList;
+        } else if (Institution.class.isAssignableFrom(businessObjectInterfaceClass)) {
+        	List<List<String>> retList = new ArrayList<List<String>>();
+        	List<String> keyList = new ArrayList<String>();
+        	keyList.add("institutionCode");
         	keyList.add("effectiveDate");
         	retList.add(keyList);
         	return retList;
