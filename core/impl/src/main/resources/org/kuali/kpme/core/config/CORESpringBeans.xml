@@ -191,7 +191,7 @@
 
     <bean id="principalHRAttributesDao" class="org.kuali.kpme.core.principal.dao.PrincipalHRAttributesDaoOjbImpl" parent="platformAwareDao" />
 
-	<bean id="calendarBlockDao" class="org.kuali.kpme.core.block.dao.CalendarBlockDaoOjbImpl" parent="platformAwareDaoJdbc" />
+	<bean id="calendarBlockDao" class="org.kuali.kpme.core.block.dao.CalendarBlockDaoJdbcImpl" parent="platformAwareDaoJdbc" />
 
 
 

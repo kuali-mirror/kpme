@@ -27,8 +27,7 @@ public class CalendarBlockServiceImplTest extends CoreUnitTestCase {
 	public void testGetAllCalendarBlocks() {
 		assertNull(null);
 		List<CalendarBlock> calendarBlocks = HrServiceLocator.getCalendarBlockService().getAllCalendarBlocks();
-		//actual number of entries depends on proper creation/deletion of leave blocks during the running of test suite.
-		assertEquals("number of returned entries should be 85", 85, calendarBlocks.size());
+		assertEquals("number of returned entries should be 2", 2, calendarBlocks.size());
 		for(CalendarBlock calendarBlock : calendarBlocks) {
 			assertNotNull("Concrete block id should never be null", calendarBlock.getConcreteBlockId());
 			assertNotNull("Concrete block type should never be null", calendarBlock.getConcreteBlockType());
