@@ -22,109 +22,51 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public abstract class CalendarBlockBase extends PersistableBusinessObjectBase implements CalendarBlockContract {
 
+	private static final long serialVersionUID = -4067369587522388260L;
+	
+	protected String hrCalendarBlockId;
 	protected String principalId;
 	protected String documentId;
 	protected String principalIdModified;
 	protected Date beginTimestamp;
 	protected Date endTimestamp;
 	protected Timestamp timestamp;
+	protected boolean lunchDeleted;
+	protected String earnCode;
+	protected Long workArea;
+	protected Long jobNumber;
+	protected Long task;
+	protected String concreteBlockType;
+	protected String concreteBlockId;
 	
 	public CalendarBlockBase() {
-		super();
+		this.concreteBlockType = this.getClass().getName();
 	}
+	
+	public abstract String getConcreteBlockType();
+	
+	
+	public abstract void setConcreteBlockType(String concreteBlockType);
 
-	/* (non-Javadoc)
-	 * @see org.kuali.kpme.tklm.leave.block.CalendarBlockContract#getDocumentId()
-	 */
-	@Override
-	public String getDocumentId() {
-		return documentId;
+	
+	public abstract String getConcreteBlockId();
+
+	
+	public abstract void setConcreteBlockId(String concreteBlockId);
+	
+	public String getHrCalendarBlockId() {
+		return hrCalendarBlockId;
 	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.kpme.tklm.leave.block.CalendarBlockContract#setDocumentId(java.lang.String)
-	 */
-	@Override
-	public void setDocumentId(String documentId) {
-		this.documentId = documentId;
+	
+	public void setHrCalendarBlockId(String hrCalendarBlockId) {
+		this.hrCalendarBlockId = hrCalendarBlockId;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.kuali.kpme.tklm.leave.block.CalendarBlockContract#getPrincipalIdModified()
 	 */
-	@Override
-	public abstract String getPrincipalIdModified();
-
-	/* (non-Javadoc)
-	 * @see org.kuali.kpme.tklm.leave.block.CalendarBlockContract#setPrincipalIdModified(java.lang.String)
-	 */
-	@Override
-	public abstract void setPrincipalIdModified(String principalIdModified);
-
-	/* (non-Javadoc)
-	 * @see org.kuali.kpme.tklm.leave.block.CalendarBlockContract#getPrincipalId()
-	 */
-	@Override
-	public String getPrincipalId() {
-		return principalId;
+	public String getPrincipalIdModified() {
+		return principalIdModified;
 	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.kpme.tklm.leave.block.CalendarBlockContract#setPrincipalId(java.lang.String)
-	 */
-	@Override
-	public void setPrincipalId(String principalId) {
-		this.principalId = principalId;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.kpme.tklm.leave.block.CalendarBlockContract#getTimestamp()
-	 */
-	@Override
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.kpme.tklm.leave.block.CalendarBlockContract#setTimestamp(java.sql.Timestamp)
-	 */
-	@Override
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.kuali.kpme.tklm.leave.block.CalendarBlockContract#getBeginTimestamp()
-	 */
-	@Override
-	public Date getBeginTimestamp() {
-		return beginTimestamp;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.kpme.tklm.leave.block.CalendarBlockContract#setBeginTimestamp(java.util.Date)
-	 */
-	@Override
-	public void setBeginTimestamp(Date beginTimestamp) {
-		this.beginTimestamp = beginTimestamp;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.kpme.tklm.leave.block.CalendarBlockContract#getEndTimestamp()
-	 */
-	@Override
-	public Date getEndTimestamp() {
-		return endTimestamp;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.kpme.tklm.leave.block.CalendarBlockContract#setEndTimestamp(java.util.Date)
-	 */
-	@Override
-	public void setEndTimestamp(Date endTimestamp) {
-		this.endTimestamp = endTimestamp;
-	}
-	
-
 
 }

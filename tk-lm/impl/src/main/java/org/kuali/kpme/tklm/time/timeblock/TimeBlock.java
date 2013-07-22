@@ -31,6 +31,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.kpme.core.block.CalendarBlockBase;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -42,7 +43,7 @@ import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kim.api.identity.Person;
 
-public class TimeBlock extends CalendarBlockBase implements Comparable {
+public class TimeBlock extends CalendarBlock implements Comparable {
 
     private static final long serialVersionUID = -4164042707879641855L;
     public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "TimeBlock";
@@ -71,8 +72,6 @@ public class TimeBlock extends CalendarBlockBase implements Comparable {
     private String overtimePref;
     //userPrincipalId == super.principalIdModified
     private String userPrincipalId;
-    private boolean lunchDeleted;
-    
     @Transient
     private Boolean deleteable;
     
@@ -92,47 +91,11 @@ public class TimeBlock extends CalendarBlockBase implements Comparable {
     
     private transient List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
     private transient List<TimeBlockHistory> timeBlockHistories = new ArrayList<TimeBlockHistory>();
-	protected String earnCode;
-	protected Long workArea;
-	protected Long jobNumber;
-	protected Long task;
 	protected BigDecimal leaveAmount = new BigDecimal("0.0");
 
     public TimeBlock() {
+    	super();
     }
-
-    public String getDocumentId() {
-        return documentId;
-    }
-
-    public void setDocumentId(String documentId) {
-        this.documentId = documentId;
-    }
-
-    public Long getJobNumber() {
-        return jobNumber;
-    }
-
-    public void setJobNumber(Long jobNumber) {
-        this.jobNumber = jobNumber;
-    }
-
-    public String getEarnCode() {
-        return earnCode;
-    }
-
-    public void setEarnCode(String earnCode) {
-        this.earnCode = earnCode;
-    }
-
-    public Date getBeginTimestamp() {
-        return beginTimestamp;
-    }
-
-    public void setBeginTimestamp(Date beginTimestamp) {
-        this.beginTimestamp = beginTimestamp;
-    }
-
     
     public Date getBeginDate() {
     	Date beginDate = null;
@@ -296,22 +259,7 @@ public class TimeBlock extends CalendarBlockBase implements Comparable {
 
     public void setTkTimeBlockId(String tkTimeBlockId) {
         this.tkTimeBlockId = tkTimeBlockId;
-    }
-
-    public Long getWorkArea() {
-        return workArea;
-    }
-
-    public void setWorkArea(Long workArea) {
-        this.workArea = workArea;
-    }
-
-    public Long getTask() {
-        return task;
-    }
-
-    public void setTask(Long task) {
-        this.task = task;
+        super.concreteBlockId = tkTimeBlockId;
     }
 
     public List<TimeHourDetail> getTimeHourDetails() {
@@ -574,10 +522,10 @@ public class TimeBlock extends CalendarBlockBase implements Comparable {
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(Object o) {
-        return compareTo((TimeBlock) o);
+        return compareTo((CalendarBlockBase) o);
     }
 
-    public int compareTo(TimeBlock tb) {
+    public int compareTo(CalendarBlockBase tb) {
         return this.getBeginTimestamp().compareTo(tb.getBeginTimestamp());
     }
 
@@ -723,5 +671,35 @@ public class TimeBlock extends CalendarBlockBase implements Comparable {
 	public void setPrincipalIdModified(String principalIdModified) {
 		setUserPrincipalId(principalIdModified);
 	}
-    
+
+	public String getHrCalendarBlockId() {
+		return super.hrCalendarBlockId;
+	}
+	
+	@Override
+	public void setHrCalendarBlockId(String hrCalendarBlockId) {
+		this.hrCalendarBlockId = hrCalendarBlockId;
+	}
+
+	@Override
+	public String getConcreteBlockId() {
+		return tkTimeBlockId;
+	}
+	
+	@Override
+	public void setConcreteBlockId(String concreteBlockId) {
+		this.concreteBlockId = concreteBlockId;
+		tkTimeBlockId = concreteBlockId;
+	}
+
+	@Override
+	public String getConcreteBlockType() {
+		return this.getClass().getName();
+	}
+
+	@Override
+	public void setConcreteBlockType(String ojbConcreteClass) {
+		super.concreteBlockType = ojbConcreteClass;
+	}
+	
 }

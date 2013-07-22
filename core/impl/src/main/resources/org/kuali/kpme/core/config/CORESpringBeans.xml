@@ -191,6 +191,8 @@
 
     <bean id="principalHRAttributesDao" class="org.kuali.kpme.core.principal.dao.PrincipalHRAttributesDaoOjbImpl" parent="platformAwareDao" />
 
+	<bean id="calendarBlockDao" class="org.kuali.kpme.core.block.dao.CalendarBlockDaoOjbImpl" parent="platformAwareDaoJdbc" />
+
 
 
     <!-- CORE Service Definitions -->
@@ -288,6 +290,11 @@
         <property name="assignmentDao" ref="assignmentDao"/>
     </bean>
 
+	<bean id="calendarBlockService" class="org.kuali.kpme.core.block.service.CalendarBlockServiceImpl" >
+		<property name="calendarBlockDao" ref="calendarBlockDao"/>
+	</bean>
+	
+
     <bean id="positionBaseService" class="org.kuali.kpme.core.position.service.PositionBaseServiceImpl">
         <property name="positionBaseDao" ref="positionBaseDao"/>
     </bean>
@@ -346,7 +353,6 @@
           p:callbackService-ref="documentTypeAndMaintenanceActionService"
           p:localServiceName="documentTypeAndMaintenanceActionService"
           p:serviceInterface="org.kuali.rice.kim.framework.permission.PermissionTypeService" />
-
 
 
 	<!-- CORE Lookupable Definitions -->

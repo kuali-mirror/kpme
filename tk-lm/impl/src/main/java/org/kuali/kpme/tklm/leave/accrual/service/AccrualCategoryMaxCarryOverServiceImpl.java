@@ -274,14 +274,6 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 		this.jobService = jobService;
 	}
 
-	public LeaveBlockService getLeaveBlockService() {
-		return leaveBlockService;
-	}
-
-	public void setLeaveBlockService(LeaveBlockService leaveBlockService) {
-		this.leaveBlockService = leaveBlockService;
-	}
-
 	public LeavePlanService getLeavePlanService() {
 		return leavePlanService;
 	}
@@ -296,6 +288,14 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 
 	public void setPrincipalHRAttributesService(PrincipalHRAttributesService principalHRAttributesService) {
 		this.principalHRAttributesService = principalHRAttributesService;
+	}
+
+	public LeaveBlockService getLeaveBlockService() {
+		return leaveBlockService;
+	}
+
+	public void setLeaveBlockService(LeaveBlockService leaveBlockService) {
+		this.leaveBlockService = leaveBlockService;
 	}
 
 }

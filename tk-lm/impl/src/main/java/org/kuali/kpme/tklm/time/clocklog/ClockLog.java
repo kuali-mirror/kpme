@@ -37,7 +37,6 @@ public class ClockLog extends PersistableBusinessObjectBase {
 		            .add("principalId")
 		            .add("workArea")
 		            .add("jobNumber")
-		            
 		            .build();
 	
 	private String tkClockLogId;

@@ -20,6 +20,34 @@ import java.util.Date;
 
 public interface CalendarBlockContract {
 
+	public String getHrCalendarBlockId();
+	
+	public void setHrCalendarBlockId(String hrCalendarBlockId);
+	
+	public Long getWorkArea();
+	
+	public void setWorkArea(Long workArea);
+	
+	public Long getJobNumber();
+	
+	public void setJobNumber(Long jobNumber);
+	
+	public Long getTask();
+	
+	public String getEarnCode();
+	
+	public void setEarnCode(String earnCode);
+	
+	public String getConcreteBlockType();
+	
+	public void setConcreteBlockType(String concreteBlockType);
+	
+	public String getConcreteBlockId();
+	
+	public void setConcreteBlockId(String concreteBlockId);
+	
+	public void setTask(Long task);
+	
 	public String getDocumentId();
 
 	public void setDocumentId(String documentId);

@@ -31,6 +31,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.kpme.core.block.CalendarBlockBase;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -49,7 +50,7 @@ import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class LeaveBlock extends CalendarBlockBase {
+public class LeaveBlock extends CalendarBlock {
 
 	private static final long serialVersionUID = -8240826812581295376L;
 	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "LeaveBlock";

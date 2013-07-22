@@ -18,6 +18,7 @@ package org.kuali.kpme.core.service;
 import org.kuali.kpme.core.accrualcategory.rule.service.AccrualCategoryRuleService;
 import org.kuali.kpme.core.accrualcategory.service.AccrualCategoryService;
 import org.kuali.kpme.core.assignment.service.AssignmentService;
+import org.kuali.kpme.core.block.service.CalendarBlockService;
 import org.kuali.kpme.core.calendar.entry.service.CalendarEntryService;
 import org.kuali.kpme.core.calendar.service.CalendarService;
 import org.kuali.kpme.core.department.service.DepartmentService;
@@ -42,6 +43,7 @@ import org.kuali.kpme.core.service.timezone.TimezoneService;
 import org.kuali.kpme.core.task.service.TaskService;
 import org.kuali.kpme.core.workarea.service.WorkAreaService;
 import org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -52,6 +54,7 @@ public class HrServiceLocator implements ApplicationContextAware {
 
 	public static String SPRING_BEANS = "classpath:org/kuai/kpme/core/config/CORESpringBeans.xml";
 	public static ApplicationContext CONTEXT;
+	private static final String HR_CALENDAR_BLOCK_SERVICE = "calendarBlockService";
 	
 	public static final String HR_PAY_CALENDAR_SERVICE = "calendarService";
 	public static final String HR_PAY_CALENDAR_ENTRY_SERVICE = "calendarEntryService";
@@ -210,6 +213,11 @@ public class HrServiceLocator implements ApplicationContextAware {
 	public void setApplicationContext(ApplicationContext arg0)
 			throws BeansException {
 		CONTEXT = arg0;
+	}
+
+	public static CalendarBlockService getCalendarBlockService() {
+		// TODO Auto-generated method stub
+		return (CalendarBlockService) CONTEXT.getBean(HR_CALENDAR_BLOCK_SERVICE );
 	}
 
 }
