@@ -82,6 +82,9 @@ public class DepartmentPrincipalRoleMemberBo extends PrincipalRoleMemberBo {
 			roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_LM.getNamespaceCode(), roleName);
 		}
 		
+		if (roleId == null) {
+			roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(), roleName);
+		}
 		setRoleId(roleId);
 	}
 	
