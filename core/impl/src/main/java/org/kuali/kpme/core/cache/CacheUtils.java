@@ -61,8 +61,8 @@ public class CacheUtils {
 
     private static String extractCacheDecoratorName(String cacheName) {
         String[] splitName = cacheName.split("/");
-        if (splitName.length >= 2) {
-            return "kpme" + StringUtils.capitalize(splitName[1]) + "DistributedCacheManager";
+        if (splitName.length >= 4) {
+            return "kpme" + StringUtils.capitalize(splitName[3]) + "DistributedCacheManager";
         }
         LOG.warn("Unable to extract cache decorator bean name from " + cacheName + ". Cache will not be flushed");
         return StringUtils.EMPTY;
