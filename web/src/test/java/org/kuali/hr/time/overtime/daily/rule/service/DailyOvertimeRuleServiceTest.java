@@ -24,6 +24,7 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
@@ -35,6 +36,7 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.kpme.tklm.utils.TkTestUtils;
 
+@FunctionalTest
 public class DailyOvertimeRuleServiceTest extends KPMEWebTestCase {
 
 	public static final String USER_PRINCIPAL_ID = "admin";

@@ -23,6 +23,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.accrualcategory.validation.AccrualCategoryValidation;
 import org.kuali.kpme.core.util.HrTestConstants;
@@ -33,6 +34,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 
+@FunctionalTest
 public class AccrualCategoryValidationTest extends KPMEWebTestCase {
 	private static final String ACCRUAL_CATEGORY = "testAC";
 	private static final String ERROR_LEAVE_PLAN = "The specified leavePlan 'IU-SM-W' does not exist";

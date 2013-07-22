@@ -7,8 +7,10 @@ import java.util.List;
 import org.codehaus.groovy.tools.shell.util.Logger;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
+@IntegrationTest
 public class CalendarBlockServiceImplTest extends CoreUnitTestCase {
 
 	private static Logger LOG = Logger.create(CalendarBlockServiceImplTest.class);

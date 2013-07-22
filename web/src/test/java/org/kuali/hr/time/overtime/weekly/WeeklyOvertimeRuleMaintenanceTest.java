@@ -22,6 +22,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule;
 import org.kuali.kpme.tklm.utils.TkTestConstants;
@@ -30,6 +31,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+@FunctionalTest
 public class WeeklyOvertimeRuleMaintenanceTest extends KPMEWebTestCase {
 	
 	protected static final String TEST_CODE="TST";

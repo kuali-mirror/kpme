@@ -15,9 +15,9 @@
  */
 package org.kuali.kpme.pm;
 
-import org.kuali.kpme.core.KPMEUnitTestCase;
+import org.kuali.kpme.core.KPMEIntegrationTestCase;
 
-public abstract class PMUnitTestCase extends KPMEUnitTestCase {
+public abstract class PMIntegrationTestCase extends KPMEIntegrationTestCase {
 
 	@Override
 	public String getModuleName() {

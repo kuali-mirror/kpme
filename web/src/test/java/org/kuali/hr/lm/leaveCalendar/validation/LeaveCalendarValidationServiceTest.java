@@ -27,11 +27,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 
+@FunctionalTest
 public class LeaveCalendarValidationServiceTest extends KPMEWebTestCase {
 	
 	@Before

@@ -23,12 +23,14 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.tklm.utils.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+@FunctionalTest
 public class LeaveRequestWebTest extends KPMEWebTestCase {
 
 	@Before

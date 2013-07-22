@@ -30,7 +30,6 @@ import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
-import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
 import org.kuali.rice.core.impl.services.CoreImplServiceLocator;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -43,7 +42,7 @@ import org.springframework.cache.CacheManager;
 /**
  *  Default test base for a full KPME unit test.
  */
-public abstract class KPMEUnitTestCase extends RiceInternalSuiteDataTestCase {
+public abstract class KPMEIntegrationTestCase extends RiceInternalSuiteDataTestCase {
 
 	private static final String FILE_PREFIX = System.getProperty("user.dir") + "/../../db/src/main/config/workflow/";
 

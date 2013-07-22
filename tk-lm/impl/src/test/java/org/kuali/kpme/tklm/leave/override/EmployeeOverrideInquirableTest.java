@@ -19,12 +19,14 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.inquirable.KPMEInquirableImpl;
-import org.kuali.kpme.tklm.TKLMUnitTestCase;
+import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 
-public class EmployeeOverrideInquirableTest extends TKLMUnitTestCase {
+@IntegrationTest
+public class EmployeeOverrideInquirableTest extends TKLMIntegrationTestCase {
 
 	private String INQUIRY_URL = "inquiry.do?businessObjectClassName=org.kuali.kpme.core.accrualcategory.AccrualCategory&methodToCall=start&effectiveDate=03%2F04%2F2012&accrualCategory=testAC&leavePlan=testLeavePlan&lmAccrualCategoryId=";
 	@Test

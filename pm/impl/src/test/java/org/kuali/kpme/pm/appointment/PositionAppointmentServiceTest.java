@@ -25,11 +25,13 @@ import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kpme.pm.PMUnitTestCase;
+import org.kuali.kpme.core.IntegrationTest;
+import org.kuali.kpme.pm.PMIntegrationTestCase;
 import org.kuali.kpme.pm.positionappointment.PositionAppointment;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
-public class PositionAppointmentServiceTest extends PMUnitTestCase {
+@IntegrationTest
+public class PositionAppointmentServiceTest extends PMIntegrationTestCase {
 
 	private final String pmPositionAppointmentId = "123456789";
 	private final String positionAppointment = "testAppointment";

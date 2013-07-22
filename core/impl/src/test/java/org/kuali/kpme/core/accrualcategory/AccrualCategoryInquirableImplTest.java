@@ -20,10 +20,12 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.accrualcategory.web.AccrualCategoryInquirableImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 
+@IntegrationTest
 public class AccrualCategoryInquirableImplTest extends CoreUnitTestCase {
 
 	private String INQUIRY_URL = "inquiry.do?businessObjectClassName=org.kuali.kpme.core.leaveplan.LeavePlan&lmLeavePlanId=&methodToCall=start&leavePlan=testLeavePlan&effectiveDate=03%2F04%2F2012";

@@ -24,11 +24,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.entry.service.CalendarEntryService;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 
+@IntegrationTest
 public class CalendarEntryServiceImplTest extends CoreUnitTestCase {
 	private CalendarEntryService ceService;
 	@Before

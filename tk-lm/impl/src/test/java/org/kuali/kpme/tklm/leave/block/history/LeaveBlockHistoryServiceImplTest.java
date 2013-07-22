@@ -24,14 +24,16 @@ import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.TKLMUnitTestCase;
+import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.block.service.LeaveBlockHistoryService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
-public class LeaveBlockHistoryServiceImplTest extends TKLMUnitTestCase {
+@IntegrationTest
+public class LeaveBlockHistoryServiceImplTest extends TKLMIntegrationTestCase {
 
 	private LeaveBlockHistoryService leaveBlockHistoryService;
 

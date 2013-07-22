@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -33,6 +34,7 @@ import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 @Ignore
+@FunctionalTest
 public class WorkflowTimesheetTest extends KPMEWebTestCase {
 
 	private static final Logger LOG = Logger.getLogger(WorkflowTimesheetTest.class);

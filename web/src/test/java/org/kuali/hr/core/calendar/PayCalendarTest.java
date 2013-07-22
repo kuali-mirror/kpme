@@ -19,9 +19,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+@FunctionalTest
 public class PayCalendarTest extends KPMEWebTestCase {
 	
 	@Test

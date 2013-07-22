@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.tklm.utils.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -28,6 +29,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+@FunctionalTest
 public class LeaveAdjustmentMaintTest extends KPMEWebTestCase{
     private static final Logger LOG = Logger.getLogger(LeaveAdjustmentMaintTest.class);
 	private static final String PRINCIPAL_ID = "admin";

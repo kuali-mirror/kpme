@@ -19,10 +19,12 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.tklm.utils.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+@FunctionalTest
 public class PersonInfoTest extends KPMEWebTestCase {
 	
 	@Test

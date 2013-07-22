@@ -18,11 +18,13 @@ package org.kuali.hr.time.clock.web;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.kuali.kpme.core.FunctionalTest;
 
 import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.SeleneseTestCase;
 
 @Ignore
+@FunctionalTest
 public class ClockSeleniumTest extends SeleneseTestCase {
 	@Before
 	public void setUp() throws Exception {

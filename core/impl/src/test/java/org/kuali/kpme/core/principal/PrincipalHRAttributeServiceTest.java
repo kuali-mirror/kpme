@@ -22,9 +22,11 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 
+@IntegrationTest
 public class PrincipalHRAttributeServiceTest extends CoreUnitTestCase {
 	@Test
 	public void testGetPrincipalHrAtributes() {

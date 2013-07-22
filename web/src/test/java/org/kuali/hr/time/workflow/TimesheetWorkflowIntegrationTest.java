@@ -29,6 +29,7 @@ import org.junit.Test;
 import org.kuali.hr.TestAutoLoginFilter;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -45,6 +46,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlButtonInput;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+@FunctionalTest
 public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
 
     public static final String USER_PRINCIPAL_ID = "admin";

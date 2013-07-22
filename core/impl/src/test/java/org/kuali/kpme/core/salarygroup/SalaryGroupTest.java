@@ -17,7 +17,9 @@ package org.kuali.kpme.core.salarygroup;
 
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
+import org.kuali.kpme.core.IntegrationTest;
 
+@IntegrationTest
 public class SalaryGroupTest extends CoreUnitTestCase {
 	
 	@Test

@@ -21,12 +21,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
+@FunctionalTest
 public class LMPermissionServiceTest extends KPMEWebTestCase {
 	
 	@Before

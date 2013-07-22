@@ -26,6 +26,7 @@ import org.joda.time.LocalDate;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.paytype.PayType;
@@ -38,6 +39,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
  *
  *
  */
+@IntegrationTest
 public class JobTest extends CoreUnitTestCase {
 
 	private static final String CALENDAR_GROUP = "BWN-CAL";

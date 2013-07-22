@@ -21,12 +21,14 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.assignment.account.AssignmentAccount;
 import org.kuali.kpme.core.util.HrTestConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+@FunctionalTest
 public class AssignmentAccountMaintTest extends KPMEWebTestCase{
 	private static final String TEST_CODE="CD";
 	private static final String TEST_ID="1";

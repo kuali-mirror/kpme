@@ -17,8 +17,10 @@ package org.kuali.kpme.tklm.time.clock.location;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.tklm.time.rules.clocklocation.validation.ClockLocationRuleRule;
 
+@IntegrationTest
 public class ClockLocationRuleRuleTest extends Assert {
 
     static String[] validIpAddresses;

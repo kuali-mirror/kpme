@@ -28,15 +28,17 @@ import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.TKLMUnitTestCase;
+import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.leave.approval.web.ApprovalLeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 
-public class LeaveApprovalServiceTest extends TKLMUnitTestCase {
+@IntegrationTest
+public class LeaveApprovalServiceTest extends TKLMIntegrationTestCase {
 	
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yy");
 	

@@ -23,11 +23,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.assignment.service.AssignmentService;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 
+@IntegrationTest
 public class AssignmentServiceImplTest extends CoreUnitTestCase {
 
 	private static final Logger LOG = Logger.getLogger(AssignmentServiceImplTest.class);

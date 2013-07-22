@@ -22,10 +22,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.job.service.JobService;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 
+@IntegrationTest
 public class JobServiceImplTest extends CoreUnitTestCase {
 
 	public static final String TEST_USER = "admin";

@@ -23,10 +23,12 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.earncode.security.service.EarnCodeSecurityService;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
+@FunctionalTest
 public class EarnCodeSecurityServiceImplTest extends KPMEWebTestCase {
 
 	public static final String TEST_TEST_DEPT = "TEST-DEPT";

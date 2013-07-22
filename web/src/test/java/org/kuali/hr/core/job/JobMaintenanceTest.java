@@ -20,6 +20,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.util.HrTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -29,6 +30,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  *
  *
  */
+@FunctionalTest
 public class JobMaintenanceTest extends KPMEWebTestCase {
 
 	private static final String CALENDAR_GROUP = "BWN-CAL";

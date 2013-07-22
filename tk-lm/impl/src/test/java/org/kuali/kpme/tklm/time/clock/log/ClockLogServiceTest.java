@@ -20,11 +20,13 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.tklm.TKLMUnitTestCase;
+import org.kuali.kpme.core.IntegrationTest;
+import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 
-public class ClockLogServiceTest extends TKLMUnitTestCase {
+@IntegrationTest
+public class ClockLogServiceTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testGetUnapprovedIPWarning() throws Exception {

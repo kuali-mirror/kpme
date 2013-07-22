@@ -28,6 +28,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.workflow.TimesheetWebTestBase;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -42,6 +43,7 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+@FunctionalTest
 public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
 
     public static final String USER_PRINCIPAL_ID = "admin";

@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -37,6 +38,7 @@ import org.kuali.kpme.tklm.utils.TkTestConstants;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+@FunctionalTest
 public class SimpleTimeEntryValidationTest extends KPMEWebTestCase {
 
     public static final String USER_PRINCIPAL_ID = "admin";

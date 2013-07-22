@@ -23,8 +23,10 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.leaveplan.web.LeavePlanInquirableImpl;
 
+@IntegrationTest
 public class LeavePlanInquirableImplTest extends CoreUnitTestCase {
 	
 	@SuppressWarnings("unchecked")

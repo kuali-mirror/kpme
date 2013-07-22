@@ -15,31 +15,16 @@
  */
 package org.kuali.kpme.tklm.leave.accrual;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.SortedMap;
-
-import org.joda.time.DateTime;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
-import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.TKLMUnitTestCase;
-import org.kuali.kpme.tklm.leave.accrual.bucket.AccruedLeaveBalance;
-import org.kuali.kpme.tklm.leave.accrual.bucket.AvailableLeaveBalance;
-import org.kuali.kpme.tklm.leave.accrual.bucket.CarryOverLeaveBalance;
-import org.kuali.kpme.tklm.leave.accrual.bucket.FmlaLeaveBalance;
+import org.kuali.kpme.core.IntegrationTest;
+import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.leave.accrual.bucket.KPMEAccrualCategoryBucket;
-import org.kuali.kpme.tklm.leave.accrual.bucket.LeaveBalance;
-import org.kuali.kpme.tklm.leave.accrual.bucket.PendingLeaveBalance;
-import org.kuali.kpme.tklm.leave.accrual.bucket.YearToDateEarnedLeaveBalance;
-import org.kuali.kpme.tklm.leave.accrual.bucket.YearToDateUsageLeaveBalance;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
-public class KPMEAccrualCategoryBucketTest extends TKLMUnitTestCase {
+@IntegrationTest
+public class KPMEAccrualCategoryBucketTest extends TKLMIntegrationTestCase {
 
 	KPMEAccrualCategoryBucket bucket;
 	

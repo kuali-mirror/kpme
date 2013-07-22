@@ -21,12 +21,14 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.util.HrTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+@FunctionalTest
 public class LeavePlanMaintTest extends KPMEWebTestCase {
     private static final Logger LOG = Logger.getLogger(LeavePlanMaintTest.class);
 	public static final String TEST_USER = "admin";

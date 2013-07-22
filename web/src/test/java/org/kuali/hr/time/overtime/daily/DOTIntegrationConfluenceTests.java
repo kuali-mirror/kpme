@@ -29,6 +29,7 @@ import org.junit.Test;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.workflow.TimesheetWebTestBase;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
@@ -50,6 +51,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  *
  * Implementations of tests from this page.
  */
+@FunctionalTest
 public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
 
     @Test

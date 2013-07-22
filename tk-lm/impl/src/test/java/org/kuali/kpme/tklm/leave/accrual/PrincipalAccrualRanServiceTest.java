@@ -22,12 +22,14 @@ import org.joda.time.format.DateTimeFormatter;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.TKLMUnitTestCase;
+import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
 @Ignore
-public class PrincipalAccrualRanServiceTest extends TKLMUnitTestCase {
+@IntegrationTest
+public class PrincipalAccrualRanServiceTest extends TKLMIntegrationTestCase {
 	
 	/**
 	 * 

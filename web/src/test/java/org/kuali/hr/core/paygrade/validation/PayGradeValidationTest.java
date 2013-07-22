@@ -24,6 +24,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.util.HrTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.FrameWindow;
@@ -33,6 +34,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+@FunctionalTest
 public class PayGradeValidationTest extends KPMEWebTestCase {
 	@Ignore
 	@Test

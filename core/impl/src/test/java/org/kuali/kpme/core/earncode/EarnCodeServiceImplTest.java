@@ -19,9 +19,11 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.earncode.service.EarnCodeService;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
+@IntegrationTest
 public class EarnCodeServiceImplTest extends CoreUnitTestCase {
 
 

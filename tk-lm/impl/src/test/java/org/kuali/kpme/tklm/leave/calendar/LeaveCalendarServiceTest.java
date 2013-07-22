@@ -20,14 +20,16 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.TKLMUnitTestCase;
+import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
-public class LeaveCalendarServiceTest extends TKLMUnitTestCase {
+@IntegrationTest
+public class LeaveCalendarServiceTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testOpenLeaveCalendarDocument() throws WorkflowException {

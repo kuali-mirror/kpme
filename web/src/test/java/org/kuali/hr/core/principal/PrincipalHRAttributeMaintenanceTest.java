@@ -19,10 +19,12 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.util.HrTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+@FunctionalTest
 public class PrincipalHRAttributeMaintenanceTest extends KPMEWebTestCase {
 	@Test
 	public void testPrincipalHRAttributeTest() throws Exception{

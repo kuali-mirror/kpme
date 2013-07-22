@@ -23,6 +23,7 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.pm.positionreporttype.PositionReportType;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
@@ -33,6 +34,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+@FunctionalTest
 public class PositionReportTypeMaintTest extends KPMEWebTestCase {
 	
 	@Test

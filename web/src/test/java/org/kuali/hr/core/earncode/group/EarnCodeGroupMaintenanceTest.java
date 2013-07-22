@@ -27,6 +27,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition;
@@ -40,6 +41,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
+@FunctionalTest
 public class EarnCodeGroupMaintenanceTest extends KPMEWebTestCase {
     private static final Logger LOG = Logger.getLogger(EarnCodeGroupMaintenanceTest.class);
     private static final LocalDate TEST_DATE = LocalDate.now();

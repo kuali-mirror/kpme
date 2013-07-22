@@ -19,11 +19,13 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.tklm.utils.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+@FunctionalTest
 public class ClockLogMaintenanceTest extends KPMEWebTestCase{
 	private static Long TEST_CODE_INVALID_TASK_ID =9999L;
 	private static Long TEST_CODE_INVALID_WORK_AREA_ID =9999L;

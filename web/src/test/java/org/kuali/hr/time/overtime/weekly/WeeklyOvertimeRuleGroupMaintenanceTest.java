@@ -18,6 +18,7 @@ package org.kuali.hr.time.overtime.weekly;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.FunctionalTest;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
@@ -25,6 +26,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 
+@FunctionalTest
 public class WeeklyOvertimeRuleGroupMaintenanceTest extends WeeklyOvertimeRuleMaintenanceTest {
 
 	protected static final String OVERTIME_EARN_GROUP="OVT";

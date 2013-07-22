@@ -18,12 +18,14 @@ package org.kuali.kpme.pm.validation;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.pm.PMUnitTestCase;
+import org.kuali.kpme.pm.PMIntegrationTestCase;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 
-public class PmValidationUtilsTest extends PMUnitTestCase {
+@IntegrationTest
+public class PmValidationUtilsTest extends PMIntegrationTestCase {
 	
 	private static DateTime INVALID_DATE = new DateTime(2011, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	private static DateTime VALID_DATE = new DateTime(2012, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());

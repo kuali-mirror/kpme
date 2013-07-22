@@ -28,14 +28,16 @@ import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.block.CalendarBlockContract;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.tklm.TKLMUnitTestCase;
+import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.service.LeaveBlockService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
-public class LeaveBlockServiceImplTest extends TKLMUnitTestCase {
+@IntegrationTest
+public class LeaveBlockServiceImplTest extends TKLMIntegrationTestCase {
 	
 	private String TEST_USER = "admin";
 	private LeaveBlockService leaveBlockService;

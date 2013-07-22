@@ -19,11 +19,13 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.tklm.TKLMUnitTestCase;
+import org.kuali.kpme.core.IntegrationTest;
+import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 
-public class ShiftDifferentialRuleServiceTest extends TKLMUnitTestCase {
+@IntegrationTest
+public class ShiftDifferentialRuleServiceTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testSearchShiftDifferentialRules() throws Exception {

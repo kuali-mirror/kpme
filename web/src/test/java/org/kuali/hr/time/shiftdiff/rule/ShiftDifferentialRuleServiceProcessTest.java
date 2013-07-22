@@ -28,6 +28,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -46,6 +47,7 @@ import org.kuali.kpme.tklm.utils.TkTestUtils;
  * @author djunk
  *
  */
+@FunctionalTest
 public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 
 

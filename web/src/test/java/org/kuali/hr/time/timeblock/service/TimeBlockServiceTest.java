@@ -19,10 +19,12 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
+import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+@FunctionalTest
 public class TimeBlockServiceTest extends KPMEWebTestCase {
 	
 	@Test

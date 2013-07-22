@@ -18,12 +18,14 @@ package org.kuali.kpme.tklm.leave.transfer;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.TKLMUnitTestCase;
+import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.leave.transfer.validation.BalanceTransferValidationUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class BalanceTransferValidationUtilsTest extends TKLMUnitTestCase {
+@IntegrationTest
+public class BalanceTransferValidationUtilsTest extends TKLMIntegrationTestCase {
 
 	@Test
 	public void TestValidateSstoTranser() {
