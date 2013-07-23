@@ -62,6 +62,10 @@ public class BatchJobAction extends KPMEAction {
         	TkServiceLocator.getBatchJobService().scheduleSupervisorApprovalJobs(calendarEntry, scheduleDate);
         }
         
+        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.PAYROLL_APPROVAL)) {
+        	TkServiceLocator.getBatchJobService().schedulePayrollApprovalJobs(calendarEntry, scheduleDate);
+        }
+        
         return mapping.findForward("basic");
     }
 

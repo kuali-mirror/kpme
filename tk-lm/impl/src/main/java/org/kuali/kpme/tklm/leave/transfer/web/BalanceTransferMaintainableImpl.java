@@ -66,6 +66,13 @@ public class BalanceTransferMaintainableImpl extends
 
         DocumentStatus newDocumentStatus = documentHeader.getWorkflowDocument().getStatus();
         String routedByPrincipalId = documentHeader.getWorkflowDocument().getRoutedByPrincipalId();
+        /**
+         * TODO:
+         * if (!document.getDocumentStatus().equals(statusChangeEvent.getNewRouteStatus())) {
+         * 	LmServiceLocator.getBalanceTransferService().saveOrUpdate(balanceTransfer)... locking issue resolved??
+         * }
+         * 
+         */
         if (DocumentStatus.ENROUTE.equals(newDocumentStatus)
                 && CollectionUtils.isEmpty(balanceTransfer.getLeaveBlocks())) {
         	// this is a balance transfer on a system scheduled time off leave block

@@ -345,6 +345,40 @@ public class BatchJobServiceImpl implements BatchJobService {
         scheduleJob(CarryOverJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
 	}
 	
+	@Override
+	public void schedulePayrollApprovalJobs(CalendarEntry calendarEntry) throws SchedulerException {
+		schedulePayrollApprovalJobs(calendarEntry, calendarEntry.getBatchPayrollApprovalFullDateTime());
+	}
+	
+	@Override
+	public void schedulePayrollApprovalJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException {
+		DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
+		DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
+    	Calendar calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+
+    	if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
+	        List<TimesheetDocumentHeader> timesheetDocumentHeaders = getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+	        for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
+	        	schedulePayrollApprovalJob(calendarEntry, scheduleDate, timesheetDocumentHeader);
+	        }
+    	} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
+	        List<LeaveCalendarDocumentHeader> leaveCalendarDocumentHeaders = getLeaveCalendarDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+	        for (LeaveCalendarDocumentHeader leaveCalendarDocumentHeader : leaveCalendarDocumentHeaders) {
+	        	schedulePayrollApprovalJob(calendarEntry, scheduleDate, leaveCalendarDocumentHeader);
+	        }
+    	}
+	}
+	
+	private void schedulePayrollApprovalJob(CalendarEntry calendarEntry, DateTime scheduleDate, CalendarDocumentHeaderContract calendarDocumentHeaderContract) throws SchedulerException {
+        Map<String, String> jobGroupDataMap = new HashMap<String, String>();
+        jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
+		
+		Map<String, String> jobDataMap = new HashMap<String, String>();
+        jobDataMap.put("documentId", calendarDocumentHeaderContract.getDocumentId());
+		
+        scheduleJob(PayrollApprovalJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
+	}
+	
 	@SuppressWarnings("unchecked")
 	private void scheduleJob(Class<?> jobClass, DateTime jobDate, Map<String, String> jobGroupDataMap, Map<String, String> jobDataMap) throws SchedulerException {
 		String jobGroupName = BatchJobUtil.getJobGroupName(jobClass, jobGroupDataMap);

@@ -95,6 +95,7 @@ public class HrConstants {
 		public static final String EMPLOYEE_APPROVAL = "Employee Approval";
 		public static final String MISSED_PUNCH_APPROVAL = "Missed Punch Approval";
 		public static final String SUPERVISOR_APPROVAL = "Supervisor Approval";
+		public static final String PAYROLL_APPROVAL = "Payroll Approval";
 	}
 
 	public static final List<String> TIME_ZONES = new ArrayList<String>();

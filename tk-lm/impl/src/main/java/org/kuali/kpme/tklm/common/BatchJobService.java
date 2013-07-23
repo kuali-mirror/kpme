@@ -49,5 +49,9 @@ public interface BatchJobService {
     void scheduleLeaveCarryOverJobs(LeavePlan leavePlan) throws SchedulerException;
     
     void scheduleLeaveCarryOverJobs(LeavePlan leavePlan, DateTime scheduleDate) throws SchedulerException;
+
+	void schedulePayrollApprovalJobs(CalendarEntry calendarEntry) throws SchedulerException;
+	
+	void schedulePayrollApprovalJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException;
     
 }

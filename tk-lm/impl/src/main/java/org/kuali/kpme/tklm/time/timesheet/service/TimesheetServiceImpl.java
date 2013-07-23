@@ -347,33 +347,6 @@ public class TimesheetServiceImpl implements TimesheetService {
         		return false;
         }
         return true;
-/*        List<BalanceTransfer> balanceTransfers = LmServiceLocator.getBalanceTransferService().getBalanceTransfers(document.getPrincipalId(),
-                document.getCalendarEntry().getBeginPeriodDate(),
-                document.getCalendarEntry().getEndPeriodDate());
-        if (!CollectionUtils.isEmpty(balanceTransfers))   {
-	        for(BalanceTransfer balanceTransfer : balanceTransfers) {
-	        	if(StringUtils.equals(HrConstants.DOCUMENT_STATUS.get(balanceTransfer.getStatus()), HrConstants.ROUTE_STATUS.ENROUTE))
-	        		return false;
-	            if (!StringUtils.equals(HrConstants.REQUEST_STATUS.APPROVED, balanceTransfer.getStatus())
-	                    && !StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, balanceTransfer.getStatus())) {
-	                return false;
-	            }
-	        }
-        }
-        List<LeavePayout> leavePayouts = LmServiceLocator.getLeavePayoutService().getLeavePayouts(document.getPrincipalId(),
-        		document.getCalendarEntry().getBeginPeriodDate(),
-        		document.getCalendarEntry().getEndPeriodDate());
-        if (!CollectionUtils.isEmpty(leavePayouts)) {
-        	for(LeavePayout payout : leavePayouts) {
-	        	if(StringUtils.equals(HrConstants.DOCUMENT_STATUS.get(payout.getStatus()), HrConstants.ROUTE_STATUS.ENROUTE))
-	        		return false;
-	            if (!StringUtils.equals(HrConstants.REQUEST_STATUS.APPROVED, payout.getStatus())
-	                    && !StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, payout.getStatus())) {
-	                return false;
-	            }
-        	}
-        }
-        return true;*/
 	}
 	
     public List<EarnCode> getEarnCodesForTime(Assignment a, LocalDate asOfDate, boolean includeRegularEarnCode) {

@@ -1,0 +1,11 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+                   
+	<changeSet id="1'" author="dgodfrey" context="kpme-client-bootstrap">
+	<comment>Adding batch_payroll_approval_date column to hr_calendar_entries_t</comment>
+        <addColumn tableName="HR_CALENDAR_ENTRIES_T">
+            <column name="BATCH_PAYROLL_APPROVAL_DATE" type="DATETIME" />
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

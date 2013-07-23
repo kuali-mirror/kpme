@@ -354,6 +354,7 @@
         <field-descriptor name="batchEndPayPeriodDateTime"          column="BATCH_END_PAY_PERIOD_DATE"      jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="batchEmployeeApprovalDateTime"      column="BATCH_EMPLOYEE_APPROVAL_DATE"   jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="batchSupervisorApprovalDateTime"    column="BATCH_SUPERVISOR_APPROVAL_DATE" jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="batchPayrollApprovalDateTime"    	column="BATCH_PAYROLL_APPROVAL_DATE" 	jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
     </class-descriptor>
 
     <!--  Calendar -->

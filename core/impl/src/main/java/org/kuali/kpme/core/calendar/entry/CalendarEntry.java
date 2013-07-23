@@ -43,6 +43,7 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     private Date batchEndPayPeriodDateTime;
     private Date batchEmployeeApprovalDateTime;
     private Date batchSupervisorApprovalDateTime;
+    private Date batchPayrollApprovalDateTime;
 
     private Calendar calendarObj;
 
@@ -321,5 +322,42 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
 		}
 		return super.equals(obj);
 	}
+
+	public Date getBatchPayrollApprovalDateTime() {
+		return batchPayrollApprovalDateTime;
+	}
+
+	public void setBatchPayrollApprovalDateTime(
+			Date batchPayrollApprovalDateTime) {
+		this.batchPayrollApprovalDateTime = batchPayrollApprovalDateTime;
+	}
+	
+    public Date getBatchPayrollApprovalDate() {
+    	return batchPayrollApprovalDateTime != null ? LocalDate.fromDateFields(batchPayrollApprovalDateTime).toDate() : null;
+    }
+    
+    public void setBatchPayrollApprovalDate(Date batchPayrollApprovalDate) {
+    	LocalDate localDate = batchPayrollApprovalDate != null ? LocalDate.fromDateFields(batchPayrollApprovalDate) : null;
+    	LocalTime localTime = batchPayrollApprovalDateTime != null ? LocalTime.fromDateFields(batchPayrollApprovalDateTime) : LocalTime.MIDNIGHT;
+    	batchPayrollApprovalDateTime = localDate != null ? localDate.toDateTime(localTime).toDate() : null;
+    }
+
+    public Time getBatchPayrollApprovalTime() {
+    	return batchPayrollApprovalDateTime != null ? new Time(batchPayrollApprovalDateTime.getTime()) : null;
+    }
+    
+    public void setBatchPayrollApprovalTime(Time batchPayrollApprovalTime) {
+    	LocalDate localDate = batchPayrollApprovalDateTime != null ? LocalDate.fromDateFields(batchPayrollApprovalDateTime) : LocalDate.now();
+    	LocalTime localTime = batchPayrollApprovalTime != null ? LocalTime.fromDateFields(batchPayrollApprovalTime) : null;
+    	batchPayrollApprovalDateTime = localTime != null ? localTime.toDateTime(localDate.toDateTimeAtStartOfDay()).toDate() : null;
+    }
+    
+    public DateTime getBatchPayrollApprovalFullDateTime() {
+    	return batchPayrollApprovalDateTime != null ? new DateTime(batchPayrollApprovalDateTime) : null;
+    }
+    
+    public void setBatchPayrollApprovalFullDateTime(DateTime batchPayrollApprovalFullDateTime) {
+    	batchPayrollApprovalDateTime = batchPayrollApprovalFullDateTime != null ? batchPayrollApprovalFullDateTime.toDate() : null;
+    }
 
 }

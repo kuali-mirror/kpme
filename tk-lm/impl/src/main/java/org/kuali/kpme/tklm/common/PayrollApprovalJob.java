@@ -1,0 +1,135 @@
+package org.kuali.kpme.tklm.common;
+
+import java.util.Collection;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+import org.kuali.kpme.core.batch.BatchJobUtil;
+import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
+import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.kew.actionitem.ActionItemActionListExtension;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.quartz.Job;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SimpleTrigger;
+import org.quartz.Trigger;
+
+public class PayrollApprovalJob implements Job {
+
+	private static final Logger LOG = Logger.getLogger(PayrollApprovalJob.class);
+
+	@Override
+	public void execute(JobExecutionContext context)
+			throws JobExecutionException {
+		String batchUserPrincipalId = getBatchUserPrincipalId();
+        
+		if (batchUserPrincipalId != null) {
+			JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
+	
+			String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
+			String documentId = jobDataMap.getString("documentId");
+	
+			CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
+			Calendar calendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+					
+			if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
+				TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
+				if (timesheetDocumentHeader != null) {
+					TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
+					if (!TkServiceLocator.getTimesheetService().isReadyToApprove(timesheetDocument) || documentNotEnroute(documentId)) {
+						rescheduleJob(context);
+					} else {
+						TkServiceLocator.getTimesheetService().approveTimesheet(batchUserPrincipalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
+					}
+				}
+			} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
+				LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
+				if (leaveCalendarDocumentHeader != null) {
+					LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
+					if (!LmServiceLocator.getLeaveCalendarService().isReadyToApprove(leaveCalendarDocument) || documentNotEnroute(documentId)) {
+						rescheduleJob(context);
+					} else {
+						LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(batchUserPrincipalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
+					}
+				}
+			}
+        } else {
+        	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
+        	LOG.error("Could not run batch jobs due to missing batch user " + principalName);
+        }
+	}
+	
+    private String getBatchUserPrincipalId() {
+    	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
+        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
+        return principal == null ? null : principal.getPrincipalId();
+    }
+	
+/*	private boolean pendingMaxBalanceDocuments(String documentId, String calendarType) {
+		//TODO: Approval cannot be completed if there are any pending balance transfer / payout documents for calendar.
+		//TODO: When a timesheet/leave calendar document is deleted, remove an existing transfer/payout documents
+		boolean missedPunchDocumentsEnroute = false;
+		
+		List<MissedPunchDocument> missedPunchDocuments = TkServiceLocator.getMissedPunchService().getMissedPunchDocumentsByTimesheetDocumentId(documentId);
+		for (MissedPunchDocument missedPunchDocument : missedPunchDocuments) {
+			DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(missedPunchDocument.getDocumentNumber());
+			if (DocumentStatus.ENROUTE.equals(documentStatus)) {
+				missedPunchDocumentsEnroute = true;
+				break;
+			}
+		}
+		
+		return missedPunchDocumentsEnroute;
+	}*/
+	
+	private boolean documentNotEnroute(String documentId) {
+		//TODO: Determine if the document has been approved by the "work area"
+		boolean documentNotInAStateToBeApproved = false;
+		
+		Collection<ActionItemActionListExtension> actionItems = KEWServiceLocator.getActionListService().getActionListForSingleDocument(documentId);
+		for (ActionItemActionListExtension actionItem : actionItems) {
+			if (!actionItem.getRouteHeader().isEnroute()) {
+				documentNotInAStateToBeApproved = true;
+				break;
+			}
+		}
+		
+		return documentNotInAStateToBeApproved;
+	}
+	
+	private void rescheduleJob(JobExecutionContext context) throws JobExecutionException {
+		try {
+			Scheduler scheduler = context.getScheduler();
+			Trigger oldTrigger = context.getTrigger();
+			
+			DateTime newStartTime = new DateTime().plusMinutes(5);
+			String newTriggerName = BatchJobUtil.getTriggerName(PayrollApprovalJob.class, newStartTime);
+			Trigger newTrigger = new SimpleTrigger(newTriggerName, oldTrigger.getGroup(), newStartTime.toDate());
+			newTrigger.setJobName(oldTrigger.getJobName());
+			newTrigger.setJobGroup(oldTrigger.getJobGroup());
+			
+			LOG.info("Rescheduing " + newTrigger.getFullJobName() + " to be run on " + newTrigger.getStartTime());
+			
+			scheduler.rescheduleJob(oldTrigger.getName(), oldTrigger.getGroup(), newTrigger);
+		} catch (SchedulerException se) {
+			LOG.error("Failure to execute job due to SchedulerException", se);
+//			throw new JobExecutionException(se);
+		}
+	}
+
+}
