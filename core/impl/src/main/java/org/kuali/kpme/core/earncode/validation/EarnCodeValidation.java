@@ -15,9 +15,13 @@
  */
 package org.kuali.kpme.core.earncode.validation;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -135,12 +139,22 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 			return false;
 		}
 		
-/*		// kpme-937 can not deactivate an earn code if it used in active timeblocks
-		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestampForEarnCode(earnCode.getEarnCode());
-		if ( !earnCode.isActive() && !latestEndTimestampTimeBlocks.isEmpty() && earnCode.getEffectiveDate().before(latestEndTimestampTimeBlocks.get(0).getEndDate()) ){
-			this.putFieldError("earnCode", "earncode.earncode.inactivate", earnCode.getEarnCode());
-			return false;
-		}*/
+		// kpme-937 can not deactivate an earn code if it used in active timeblocks
+		// kpme-2344: modularity induced changes
+		DateTime latestEndTimestamp =  HrServiceLocator.getCalendarBlockService().getLatestEndTimestampForEarnCode(earnCode.getEarnCode(), "Time");
+
+		if(latestEndTimestamp == null) {
+			return true;
+		}
+		else {
+			LocalDate earnCodeEffectiveDate = LocalDate.fromDateFields(earnCode.getEffectiveDate());
+			LocalDate latestEndTimestampLocalDate = latestEndTimestamp.toLocalDate();
+
+			if ( !earnCode.isActive() && earnCodeEffectiveDate.isBefore(latestEndTimestampLocalDate) ){
+				this.putFieldError("active", "earncode.earncode.inactivate", earnCode.getEarnCode());
+				return false;
+			} 
+		}
 		
 		if(!(this.validateDefaultAmountOfTime(earnCode.getDefaultAmountofTime()))) {
 			return false;

@@ -17,14 +17,14 @@ package org.kuali.kpme.core.block.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
-import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.springframework.jdbc.core.RowMapper;
 
 public class CalendarBlockDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implements CalendarBlockDao {
@@ -43,11 +43,8 @@ public class CalendarBlockDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implement
 	@Override
 	public List<CalendarBlock> getActiveCalendarBlocksForDate(LocalDate asOfDate) {
 		List<CalendarBlock> calendarBlocks = this.getJdbcTemplate().query("" +
-				"SELECT begin_ts, end_ts, lm_leave_block_id as c_block_id, 'Leave' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, principal_id_modified, timestamp, task, work_area, earn_code " +
-				 "FROM lm_leave_block_t " +
-				 "UNION " +
 				 "SELECT begin_ts, end_ts, tk_time_block_id as c_block_id, 'Time' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, user_principal_id, timestamp, task, work_area, earn_code " +
-				 "FROM tk_time_block_t;", new CalendarBlockRowMapper());
+				 "FROM tk_time_block_t", new CalendarBlockRowMapper());
 		return calendarBlocks;
 	}
 
@@ -73,6 +70,22 @@ public class CalendarBlockDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implement
 			return cBlock;
 		}
 		
+	}
+	
+	@Override
+	public DateTime getLatestEndTimestampForEarnCode(String earnCode, String calendarBlockType) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT max(end_ts) ");
+        if (StringUtils.equals(calendarBlockType, "Time")) {
+            sql.append("FROM tk_time_block_t ");
+        } else if (StringUtils.equals(calendarBlockType, "Leave")) {
+            sql.append("FROM lm_leave_block_t ");
+        }
+        sql.append("WHERE earn_code = '").append(earnCode).append("' ");
+
+
+	  Timestamp maxDate = this.getJdbcTemplate().queryForObject(sql.toString(), Timestamp.class);
+	  return new DateTime(maxDate.getTime());
 	}
 	
 }

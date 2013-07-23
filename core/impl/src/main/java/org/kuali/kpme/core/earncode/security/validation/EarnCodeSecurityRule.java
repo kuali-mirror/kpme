@@ -15,10 +15,16 @@
  */
 package org.kuali.kpme.core.earncode.security.validation;
 
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.block.CalendarBlock;
+import org.kuali.kpme.core.block.CalendarBlockContract;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.role.KPMERole;
@@ -105,18 +111,25 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		return isValid;
 	}
 	
-/*	private boolean isEarnCodeUsedByActiveTimeBlocks(EarnCodeSecurity departmentEarnCode){
+	private boolean isEarnCodeUsedByActiveTimeBlocks(EarnCodeSecurity departmentEarnCode){
 		// KPME-1106 can not deactivate a department earn code if it used in active time blocks
 		boolean valid = true;
-		List<CalendarBlockContract> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestampForEarnCode(departmentEarnCode.getEarnCode());
-		
-		if ( !departmentEarnCode.isActive() && !latestEndTimestampTimeBlocks.isEmpty() && departmentEarnCode.getEffectiveDate().before(latestEndTimestampTimeBlocks.get(0).getEndDate()) ){
-			this.putFieldError("active", "deptEarncode.deptEarncode.inactivate", departmentEarnCode.getEarnCode());
-			return false;
-		} 
-		
+		DateTime latestEndTimestamp =  HrServiceLocator.getCalendarBlockService().getLatestEndTimestampForEarnCode(departmentEarnCode.getEarnCode(), "Time");
+
+		if(latestEndTimestamp == null) {
+			return valid;
+		}
+		else {
+			LocalDate deptEarnCodeEffectiveDate = LocalDate.fromDateFields(departmentEarnCode.getEffectiveDate());
+			LocalDate latestEndTimestampLocalDate = latestEndTimestamp.toLocalDate();
+
+			if ( !departmentEarnCode.isActive() && deptEarnCodeEffectiveDate.isBefore(latestEndTimestampLocalDate) ){
+				this.putFieldError("active", "deptEarncode.deptEarncode.inactivate", departmentEarnCode.getEarnCode());
+				return false;
+			} 
+		}
 		return valid;
-	}*/
+	}
 
 	/**
 	 * It looks like the method that calls this class doesn't actually care
@@ -140,7 +153,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateDuplication(departmentEarnCode);
 				valid &= this.validateLocation(departmentEarnCode);
 				valid &= this.validateDepartmentCurrentUser(departmentEarnCode);
-				//valid &= this.isEarnCodeUsedByActiveTimeBlocks(departmentEarnCode);
+				valid &= this.isEarnCodeUsedByActiveTimeBlocks(departmentEarnCode);
 			}
 
 		}

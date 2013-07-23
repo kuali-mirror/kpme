@@ -17,10 +17,13 @@ package org.kuali.kpme.core.block.service;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.kuali.kpme.core.block.CalendarBlock;
 
 public interface CalendarBlockService {
 
 	public List<CalendarBlock> getAllCalendarBlocks();
+
+	public DateTime getLatestEndTimestampForEarnCode(String earnCode, String calendarBlockType);
 	
 }

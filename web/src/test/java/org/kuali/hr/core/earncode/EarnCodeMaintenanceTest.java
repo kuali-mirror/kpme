@@ -41,7 +41,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
-//import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 
 @FunctionalTest
 public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
@@ -177,7 +176,6 @@ public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
 	}
 	
 	@Test
-	@Ignore
 	public void testDeactivateEarnCodeWithActiveTimeBlock() throws Exception {
 		
 		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.EARN_CODE_MAINT_URL);

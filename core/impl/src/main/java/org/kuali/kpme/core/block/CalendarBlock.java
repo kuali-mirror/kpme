@@ -18,11 +18,6 @@ package org.kuali.kpme.core.block;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import javax.persistence.PostPersist;
-import javax.persistence.PostRemove;
-import javax.persistence.PostUpdate;
-import javax.persistence.PrePersist;
-
 import org.apache.log4j.Logger;
 
 public class CalendarBlock extends CalendarBlockBase {
