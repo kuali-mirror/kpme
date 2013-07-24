@@ -33,8 +33,8 @@ public class CalendarMaintTest extends KPMEWebTestCase {
 
 	public static final String TEST_USER = "admin";
 	private static final String CAL_NAME_REQUIRED = "Calendar Name (Calendar Name) is a required field.";
-	private static final String CAL_DESP_REQUIRED = "Calendar Descriptions (Calendar Descriptions) is a required field.";
-	private static final String CAL_TYPES_REQUIRED = "Calendar Types (Calendar Types) is a required field.";
+	private static final String CAL_DESP_REQUIRED = "Calendar Description (Calendar Description) is a required field.";
+	private static final String CAL_TYPES_REQUIRED = "Calendar Type (Calendar Type) is a required field.";
 	private static final String FLSA_DAY_REQUIRED = "FLSA Begin Day is a required field.";
 	private static final String FLSA_TIME_REQUIRED = "FLSA Begin Time is a required field.";
 	
