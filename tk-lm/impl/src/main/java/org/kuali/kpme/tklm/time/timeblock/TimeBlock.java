@@ -88,7 +88,8 @@ public class TimeBlock extends CalendarBlock implements Comparable {
 
     private TimesheetDocumentHeader timesheetDocumentHeader;
     private transient Person user;
-    
+    private transient Person employeeObj;
+
     private transient List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
     private transient List<TimeBlockHistory> timeBlockHistories = new ArrayList<TimeBlockHistory>();
 	protected BigDecimal leaveAmount = new BigDecimal("0.0");
@@ -623,8 +624,16 @@ public class TimeBlock extends CalendarBlock implements Comparable {
 	public void setUser(Person user) {
 		this.user = user;
 	}
-	
-	@Override
+
+    public Person getEmployeeObj() {
+        return employeeObj;
+    }
+
+    public void setEmployeeObj(Person employeeObj) {
+        this.employeeObj = employeeObj;
+    }
+
+    @Override
 	public boolean equals(Object obj) {
 		if (obj == null) { 
 			return false;
