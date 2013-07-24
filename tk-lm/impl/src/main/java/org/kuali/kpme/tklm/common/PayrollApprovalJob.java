@@ -17,7 +17,9 @@ package org.kuali.kpme.tklm.common;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -25,6 +27,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -72,6 +75,7 @@ public class PayrollApprovalJob implements Job {
 			
 			List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 			String subject = new String();
+			List<Long> workAreas = new ArrayList<Long>();
 
 			if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
 				TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
@@ -81,9 +85,7 @@ public class PayrollApprovalJob implements Job {
 						rescheduleJob(context);
 					} else {
 						TkServiceLocator.getTimesheetService().approveTimesheet(batchUserPrincipalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
-						roleMembers = HrServiceLocator.getKPMERoleService().getRoleMembers(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), LocalDate.now().toDateTime(LocalTime.now()), true);
-						//TODO: Get department for employee's work area...
-						//roleMembers = HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), "department", LocalDate.now().toDateTime(LocalTime.now()), true);
+						roleMembers = getRoleMembersInDepartment(timesheetDocument.getAssignments());
 						subject = "Timesheet Document " + documentId;
 					}
 				}
@@ -95,23 +97,32 @@ public class PayrollApprovalJob implements Job {
 						rescheduleJob(context);
 					} else {
 						LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(batchUserPrincipalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
-						//following will retrieve all members of KPME_HR.PAYROLL_PROCESSOR. i.e. there is only one payroll department.
-						roleMembers = HrServiceLocator.getKPMERoleService().getRoleMembers(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), LocalDate.now().toDateTime(LocalTime.now()), true);
-						//following will retrieve only members of KPME_HR.PAYROLL_PROCESSOR for the given department. I.e. there are more than one payroll departments...
-						//TODO: Get department for employee's work area...
-						//roleMembers = HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), "department",LocalDate.now().toDateTime(LocalTime.now()), true);
+						roleMembers = getRoleMembersInDepartment(leaveCalendarDocument.getAssignments());
 						subject = "Leave Calendar Document " + documentId;
 					}
 				}
 			}
-			sendNotifications(subject, roleMembers);
+			sendNotifications(subject, roleMembers, workAreas);
         } else {
         	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
         	LOG.error("Could not run batch jobs due to missing batch user " + principalName);
         }
 	}
 	
-    private void sendNotifications(String subject, List<RoleMember> roleMembers) {
+    private List<RoleMember> getRoleMembersInDepartment(
+			List<Assignment> assignments) {
+		Set<String> departments = new HashSet<String>();
+		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
+		for(Assignment assignment : assignments) {
+			departments.add(assignment.getDept());
+		}
+		for(String dept : departments) {
+			roleMembers = HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, LocalDate.now().toDateTime(LocalTime.now()), true);
+		}
+		return roleMembers;
+	}
+
+	private void sendNotifications(String subject, List<RoleMember> roleMembers, List<Long> workAreas) {
 		String message = new String("FYI, the document listed in the subject of this email has been batch approved by an automated Payroll approval job");
 		//roleMembers should be non empty only if approval of leave calendar or timesheet has occured.
 		List<String> roleMemberIdList = new ArrayList<String>();
