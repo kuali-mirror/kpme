@@ -57,16 +57,16 @@
         <bean parent="MaintainableFieldDefinition" p:name="beginPeriodTime" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="endPeriodDate"    p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="endPeriodTime"    p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="batchInitiateDate"   p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="batchInitiateTime"   p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="batchEndPayPeriodDate"   p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="batchEndPayPeriodTime"   p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="batchEmployeeApprovalDate"   p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="batchEmployeeApprovalTime"   p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="batchSupervisorApprovalDate"   p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="batchSupervisorApprovalTime"   p:required="true"/>    
-        <bean parent="MaintainableFieldDefinition" p:name="batchPayrollApprovalDate"   p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="batchPayrollApprovalTime"   p:required="true"/>   
+        <bean parent="MaintainableFieldDefinition" p:name="batchInitiateDate" />
+        <bean parent="MaintainableFieldDefinition" p:name="batchInitiateTime" />
+        <bean parent="MaintainableFieldDefinition" p:name="batchEndPayPeriodDate" />
+        <bean parent="MaintainableFieldDefinition" p:name="batchEndPayPeriodTime" />
+        <bean parent="MaintainableFieldDefinition" p:name="batchEmployeeApprovalDate" />
+        <bean parent="MaintainableFieldDefinition" p:name="batchEmployeeApprovalTime" />
+        <bean parent="MaintainableFieldDefinition" p:name="batchSupervisorApprovalDate" />
+        <bean parent="MaintainableFieldDefinition" p:name="batchSupervisorApprovalTime" />    
+        <bean parent="MaintainableFieldDefinition" p:name="batchPayrollApprovalDate" />
+        <bean parent="MaintainableFieldDefinition" p:name="batchPayrollApprovalTime" />   
       </list>
     </property>
   </bean>
