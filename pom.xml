@@ -68,8 +68,8 @@
         <ojdbc14.jar.location>${jdbc.drivers.location}/com/oracle/${oracle.jdbc.artifactId}/${oracle.jdbc.version}/${oracle.jdbc.artifactId}-${oracle.jdbc.version}.jar</ojdbc14.jar.location>
         <oracle.jdbc.version>10.2.0.3.0</oracle.jdbc.version>
         <oracle.jdbc.artifactId>ojdbc14</oracle.jdbc.artifactId>
-        <rice.version>2.3.0-RC1-r40051</rice.version>
-        <selenium-java.version>2.31.0</selenium-java.version>
+        <rice.version>2.3.0-r40267</rice.version>
+        <selenium-java.version>2.32.0</selenium-java.version>
         <slf4j.version>1.7.2</slf4j.version>
         <xercesImpl.version>2.11.0</xercesImpl.version>
     </properties>

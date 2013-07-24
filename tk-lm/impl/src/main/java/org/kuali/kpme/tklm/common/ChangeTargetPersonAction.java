@@ -59,6 +59,7 @@ public class ChangeTargetPersonAction extends KPMEAction {
 	                	|| isReviewerForPerson(targetPerson.getPrincipalId())
 	                	|| isApproverForPerson(targetPerson.getPrincipalId())
 	                	|| isViewOnlyForPerson(targetPerson.getPrincipalId())
+                        || isPayrollProcessorForPerson(targetPerson.getPrincipalId())
 	                	|| isAdministratorForPerson(targetPerson.getPrincipalId())) {
 		                	
 	            	HrContext.setTargetPrincipalId(targetPerson.getPrincipalId());
@@ -101,6 +102,19 @@ public class ChangeTargetPersonAction extends KPMEAction {
         for (Assignment assignment : assignments) {
         	if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime())
         			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isPayrollProcessorForPerson(String principalId) {
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
+
+        for (Assignment assignment : assignments) {
+            if (HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), assignment.getDept(), new DateTime())
+                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), assignment.getDept(), new DateTime())) {
                 return true;
             }
         }

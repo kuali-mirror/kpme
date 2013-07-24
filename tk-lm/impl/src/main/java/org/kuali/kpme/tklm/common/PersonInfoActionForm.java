@@ -59,6 +59,7 @@ public class PersonInfoActionForm extends KPMEForm {
     private Map<Long,Set<Assignment>> jobNumberToListAssignments = new HashMap<Long, Set<Assignment>>();
 	private Map<Long, Set<Person>> workAreaToApproverPerson = new HashMap<Long, Set<Person>>();
     private Map<String, Set<Person>> deptToDeptAdminPerson = new HashMap<String, Set<Person>>();
+    private Map<String, Set<Person>> deptToPayrollPerson = new HashMap<String, Set<Person>>();
 
 	public String getName() {
 		return name;
@@ -218,6 +219,14 @@ public class PersonInfoActionForm extends KPMEForm {
 
     public void setDeptToDeptAdminPerson(Map<String, Set<Person>> deptToDeptAdminPerson) {
         this.deptToDeptAdminPerson = deptToDeptAdminPerson;
+    }
+
+    public Map<String, Set<Person>> getDeptToPayrollPerson() {
+        return deptToPayrollPerson;
+    }
+
+    public void setDeptToPayrollPerson(Map<String, Set<Person>> deptToPayrollPerson) {
+        this.deptToPayrollPerson = deptToPayrollPerson;
     }
     
 }

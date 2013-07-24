@@ -66,6 +66,7 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -222,6 +223,16 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			approvalSummaryRow.setColor(userColorMap.get(principalId));
 			approvalSummaryRow.setPayCalendarGroup(calGroup);
 			approvalSummaryRow.setDocumentId(documentId);
+
+            //get role name for action request if available
+            if (StringUtils.isNotBlank(documentId)) {
+                List<ActionRequest> actionRequests = KewApiServiceLocator.getWorkflowDocumentService().getPendingActionRequests(documentId);
+                Map<String, String> roleNames = new HashMap<String, String>();
+                for (ActionRequest ar : actionRequests) {
+                    roleNames.put(ar.getPrincipalId(), ar.getQualifiedRoleNameLabel());
+                }
+                approvalSummaryRow.setRoleNames(roleNames);
+            }
 			approvalSummaryRow.setHoursToPayLabelMap(hoursToPayLabelMap);
 			approvalSummaryRow.setHoursToFlsaPayLabelMap(hoursToFlsaPayLabelMap);
 			approvalSummaryRow.setPeriodTotal(hoursToPayLabelMap

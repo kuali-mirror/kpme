@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.position.PositionBase;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
@@ -37,6 +38,7 @@ public class Position extends PositionBase {
     private List<PstnFlag> flagList = new LinkedList<PstnFlag>();
     private List<PositionResponsibility> positionResponsibilityList = new LinkedList<PositionResponsibility>();
     private List<PositionFunding> fundingList = new ArrayList<PositionFunding>();
+    public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Position";
     
     private String pmPositionClassId;
     

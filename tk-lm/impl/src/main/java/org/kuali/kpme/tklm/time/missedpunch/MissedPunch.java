@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.missedpunch;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;

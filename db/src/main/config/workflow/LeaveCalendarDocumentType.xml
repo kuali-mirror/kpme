@@ -48,26 +48,35 @@
 					<name>LeaveCalendarCalEndSearchAttribute</name>
 				</attribute>
 			</attributes>
-			<routePaths>
-				<routePath>
-					<start name="adhoc" nextNode="Leave Calendar Attribute" />
-					<requests name="Leave Calendar Attribute" />
-				</routePath>
-			</routePaths>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" nextNode="PeopleFlows" />
+                    <requests name="PeopleFlows" />
+                </routePath>
+            </routePaths>
 			<routeNodes>
-				<start name="adhoc">
+				<!--<start name="adhoc">
 					<exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
 					<activationType>S</activationType>
 					<mandatoryRoute>false</mandatoryRoute>
 					<finalApproval>false</finalApproval>
-				</start>
-				<requests name="Leave Calendar Attribute">
+				</start>-->
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+                <requests name="PeopleFlows">
+                    <activationType>R</activationType>
+                    <rulesEngine executorClass="org.kuali.kpme.tklm.leave.calendar.rules.LeaveCalendarRulesEngineExecutor"/>
+                </requests>
+				<!--<requests name="Leave Calendar Attribute">
 					<exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
 					<activationType>S</activationType>
 					<ruleTemplate>LeaveCalendarRuleTemplate</ruleTemplate>
 					<mandatoryRoute>true</mandatoryRoute>
 					<finalApproval>true</finalApproval>
-				</requests>
+				</requests>-->
 			</routeNodes>
 			<policies>
 				<policy>

@@ -43,6 +43,7 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 	private String name;
 	private String principalId;
 	private String documentId;
+    private Map<String, String> roleNames;
 	private List<String> warnings = new ArrayList<String>();
 	private String selected = "off";
 	private String approvalStatus;
@@ -217,6 +218,16 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 	public void setColor(String color) {
 		this.color = color;
 	}
-	
-	
+
+    public Map<String, String> getRoleNames() {
+        return roleNames;
+    }
+
+    public void setRoleNames(Map<String, String> roleNames) {
+        this.roleNames = roleNames;
+    }
+
+    public String getRoleName() {
+        return getRoleNames().get(HrContext.getPrincipalId());
+    }
 }

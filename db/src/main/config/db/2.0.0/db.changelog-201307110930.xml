@@ -1,0 +1,761 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="jjhanso" context="kpme-server-bootstrap">
+        <insert tableName="KRCR_NMSPC_T">
+            <column name="APPL_ID" value="KPME" />
+            <column name="NMSPC_CD" value="KPME-KRMS" />
+            <column name="NM" value="KPME Rules Infrastructure" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        <modifySql dbms="mysql">
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="2" author="jjhanso" context="kpme-server-bootstrap">
+        <comment>Set up Kim Permissions and assign them to roles</comment>
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0083" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Assign Role')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="NM" value="Assign Role" />
+            <column name="DESC_TXT" value="Authorizes users to modify the information on the Assignees Tab of the Role Document and the Roles section of the Membership Tab on the Person Document for Roles with a Module Code beginning with KPME." />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0084" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Grant Permission')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="NM" value="Grant Permission" />
+            <column name="DESC_TXT" value="Authorizes users to modify the information on the Permissions tab of the Role Document for roles with a module code beginning with KPME." />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0085" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Grant Responsibility')" />
+            <column name="NMSPC_CD" value="KPME-HR" />
+            <column name="NM" value="Grant Responsibility" />
+            <column name="DESC_TXT" value="Authorizes users to modify the information on the Responsibility tab of the Role Document for roles with a module code beginning with KPME." />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0086" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-RULE' AND NM = 'KRMS Agenda Permission')" />
+            <column name="NMSPC_CD" value="KPME-TK" />
+            <column name="NM" value="Maintain KRMS Agenda" />
+            <column name="DESC_TXT" value="Maintain Timesheet KRMS Agenda" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0087" />
+            <column name="PERM_TMPL_ID" valueComputed="(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-RULE' AND NM = 'KRMS Agenda Permission')" />
+            <column name="NMSPC_CD" value="KPME-LM" />
+            <column name="NM" value="Maintain KRMS Agenda" />
+            <column name="DESC_TXT" value="Maintain Leave KRMS Agenda" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0091" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'namespaceCode')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Role')" />
+            <column name="PERM_ID" value="KPME0083" />
+            <column name="ATTR_VAL" value="KPME*" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0092" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'namespaceCode')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Permission')" />
+            <column name="PERM_ID" value="KPME0084" />
+            <column name="ATTR_VAL" value="KPME*" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0093" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'namespaceCode')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Responsibility')" />
+            <column name="PERM_ID" value="KPME0085" />
+            <column name="ATTR_VAL" value="KPME*" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0283" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Assign Role')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0284" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Grant Permission')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0285" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Grant Responsibility')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0286" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Assign Role')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0287" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Grant Permission')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0288" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Grant Responsibility')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0289" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Maintain KRMS Agenda')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0290" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Maintain KRMS Agenda')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <modifySql dbms="mysql">
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="3" author="jjhanso" context="kpme-server-bootstrap">
+        <comment>Adding krms context type</comment>
+        <insert tableName="KRMS_TYP_T">
+            <column name="TYP_ID" value="KPME0001" />
+            <column name="NM" value="CONTEXT" />
+            <column name="NMSPC_CD" value="KPME-KRMS" />
+            <column name="ACTV" value="Y" />
+        </insert>
+
+        <!--TODO - these two may not be needed ->
+        <insert tableName="KRMS_TYP_T">
+            <column name="TYP_ID" value="KPME0002" />
+            <column name="NM" value="Timesheet Agenda" />
+            <column name="NMSPC_CD" value="KPME-KRMS" />
+            <column name="ACTV" value="Y" />
+        </insert>
+
+        <insert tableName="KRMS_TYP_T">
+            <column name="TYP_ID" value="KPME0003" />
+            <column name="NM" value="Leave Calendar Agenda" />
+            <column name="NMSPC_CD" value="KPME-KRMS" />
+            <column name="ACTV" value="Y" />
+        </insert>
+        <!-  END  -->
+
+
+        <modifySql dbms="mysql">
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="4" author="jjhanso" context="kpme-server-bootstrap">
+        <comment>setup Timesheet Agenda and peopleflow</comment>
+        <insert tableName="KREW_TYP_T">
+            <column name="TYP_ID" value="KPME0001"/>
+            <column name="NM" value="Work Area Type"/>
+            <column name="NMSPC_CD" value="KPME-HR"/>
+            <column name="SRVC_NM" value="{http://kpme.kuali.org/core/v2_0}workAreaPeopleFlowTypeService"/>
+            <column name="ACTV" value="Y"/>
+        </insert>
+
+        <insert tableName="KREW_TYP_T">
+            <column name="TYP_ID" value="KPME0002"/>
+            <column name="NM" value="Payroll Type"/>
+            <column name="NMSPC_CD" value="KPME-HR"/>
+            <column name="SRVC_NM" value="{http://kpme.kuali.org/core/v2_0}payrollPeopleFlowTypeService"/>
+            <column name="ACTV" value="Y"/>
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_T">
+            <column name="CNTXT_ID" value="KPME-TIMESHEET-CONTEXT" />
+            <column name="NMSPC_CD" value="KPME-TK" />
+            <column name="NM" value="KPME Timesheet Context" />
+            <column name="TYP_ID" value="KPME0001" />
+            <column name="ACTV" value="Y" />
+            <column name="DESC_TXT" value="KPME context for Timesheet"/>
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_T">
+            <column name="CNTXT_ID" value="KPME-LEAVE-CAL-CONTEXT" />
+            <column name="NMSPC_CD" value="KPME-LM" />
+            <column name="NM" value="KPME Leave Calendar Context" />
+            <column name="TYP_ID" value="KPME0001" />
+            <column name="ACTV" value="Y" />
+            <column name="DESC_TXT" value="KPME context for Leave Calendar"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_T">
+            <column name="AGENDA_ID" value="KPME0001" />
+            <column name="NM" value="Timesheet Agenda" />
+            <column name="CNTXT_ID" value="KPME-TIMESHEET-CONTEXT" />
+            <column name="INIT_AGENDA_ITM_ID" value="KPME0001"/>
+            <column name="ACTV" value="Y" />
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_VLD_AGENDA_TYP_T">
+            <column name="CNTXT_VLD_AGENDA_ID" value="KPME0001"/>
+            <column name="CNTXT_ID" value="KPME-TIMESHEET-CONTEXT"/>
+            <column name="AGENDA_TYP_ID" value="KPME0002"/>
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_VLD_RULE_TYP_T">
+            <column name="CNTXT_VLD_RULE_ID" value="KPME0001"/>
+            <column name="CNTXT_ID" value="KPME-TIMESHEET-CONTEXT"/>
+            <column name="RULE_TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='Validation Rule' and NMSPC_CD='KR-RULE')" />
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_VLD_ACTN_TYP_T">
+            <column name="CNTXT_VLD_ACTN_ID" value="KPME0001"/>
+            <column name="CNTXT_ID" value="KPME-TIMESHEET-CONTEXT"/>
+            <column name="ACTN_TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='Validation Action' and NMSPC_CD='KR-RULE')" />
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_VLD_ACTN_TYP_T">
+            <column name="CNTXT_VLD_ACTN_ID" value="KPME0002"/>
+            <column name="CNTXT_ID" value="KPME-TIMESHEET-CONTEXT"/>
+            <column name="ACTN_TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='Notify PeopleFlow' and NMSPC_CD='KR-RULE')" />
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_VLD_ACTN_TYP_T">
+            <column name="CNTXT_VLD_ACTN_ID" value="KPME0003"/>
+            <column name="CNTXT_ID" value="KPME-TIMESHEET-CONTEXT"/>
+            <column name="ACTN_TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='Route to PeopleFlow' and NMSPC_CD='KR-RULE')" />
+        </insert>
+
+
+        <insert tableName="KREW_ATTR_DEFN_T">
+            <column name="ATTR_DEFN_ID" value="KPME0001"/>
+            <column name="NM" value="workArea"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="LBL" value="Work Area"/>
+            <column name="ACTV" value="Y"/>
+            <column name="CMPNT_NM" value="org.kuali.kpme.core.KPMEAttributes" />
+        </insert>
+
+        <insert tableName="KREW_ATTR_DEFN_T">
+            <column name="ATTR_DEFN_ID" value="KPME0002"/>
+            <column name="NM" value="department"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="LBL" value="Department"/>
+            <column name="ACTV" value="Y"/>
+            <column name="CMPNT_NM" value="org.kuali.kpme.core.KPMEAttributes" />
+        </insert>
+
+
+        <!-- Work Area People Flow Setup -->
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0001"/>
+            <column name="NM" value="WorkArea PeopleFlow" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="TYP_ID" value="KPME0001"/>
+            <column name="ACTV" value="Y"/>
+            <column name="DESC_TXT" value="Work Area people flow"/>
+        </insert>
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0001"/>
+            <column name="PPL_FLW_ID" value="KPME0001" />
+            <column name="MBR_TYP_CD" value="R" />
+            <column name="MBR_ID" value="KPME0013"/>
+            <column name="PRIO" value="1"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0001"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_DLGT_T" >
+            <column name="PPL_FLW_DLGT_ID" value="KPME0001"/>
+            <column name="PPL_FLW_MBR_ID" value="KPME0001" />
+            <column name="MBR_ID" value="KPME0014"/>
+            <column name="MBR_TYP_CD" value="R" />
+            <column name="DLGN_TYP_CD" value="P"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0002"/>
+        </insert>
+        <!--END Work Area People Flow Setup -->
+
+
+        <!-- People Flow Rules for TK -->
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0001"/>
+            <column name="NMSPC_CD" value="KPME-TK" />
+            <column name="NM" value="WorkArea PeopleFlow"/>
+            <column name="DESC_TXT" value="route to workarea"/>
+            <column name="ACTV" value="Y"/>
+        </insert>
+
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0002"/>
+            <column name="NMSPC_CD" value="KPME-TK" />
+            <column name="NM" value="Payroll Processor PeopleFlow"/>
+            <column name="DESC_TXT" value="route to payroll processor"/>
+            <column name="ACTV" value="Y"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0001"/>
+            <column name="NM" value="WorkArea PeopleFlow"/>
+            <column name="NMSPC_CD" value="KPME-TK"/>
+            <column name="DESC_TXT" value="Route to WorkArea Approvers" />
+            <column name="TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='Route to PeopleFlow' and NMSPC_CD='KR-RULE')" />
+            <column name="RULE_ID" value="KPME0001"/>
+            <column name="SEQ_NO" value="1"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0002"/>
+            <column name="NM" value="Payroll PeopleFlow"/>
+            <column name="NMSPC_CD" value="KPME-TK"/>
+            <column name="DESC_TXT" value="Route to Payroll Processors" />
+            <column name="TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='Route to PeopleFlow' and NMSPC_CD='KR-RULE')" />
+            <column name="RULE_ID" value="KPME0002"/>
+            <column name="SEQ_NO" value="2"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0001"/>
+            <column name="ACTN_ID" value="KPME0001"/>
+            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowId' and NMSPC_CD='KR-RULE')"/>
+            <column name="ATTR_VAL" value="KPME0001"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0002"/>
+            <column name="ACTN_ID" value="KPME0001"/>
+            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR_RULE')"/>
+            <column name="ATTR_VAL" value="WorkArea PeopleFlow"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0003"/>
+            <column name="ACTN_ID" value="KPME0002"/>
+            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowId' and NMSPC_CD='KR-RULE')"/>
+            <column name="ATTR_VAL" value="KPME0002"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0004"/>
+            <column name="ACTN_ID" value="KPME0002"/>
+            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR_RULE')"/>
+            <column name="ATTR_VAL" value="Payroll PeopleFlow"/>
+        </insert>
+        <!-- END people flow rules for TK -->
+
+
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0002"/>
+            <column name="RULE_ID" value="KPME0002"/>
+            <column name="AGENDA_ID" value="KPME0001"/>
+            <column name="VER_NBR" value="1"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0001"/>
+            <column name="RULE_ID" value="KPME0001"/>
+            <column name="AGENDA_ID" value="KPME0001"/>
+            <column name="VER_NBR" value="1"/>
+        </insert>
+
+        <modifySql dbms="mysql">
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="5" author="jjhanso" context="kpme-server-bootstrap">
+        <comment>Set up Leave Calendar Routing</comment>
+
+        <!-- People Flow Rules for LM -->
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0003"/>
+            <column name="NMSPC_CD" value="KPME-LM" />
+            <column name="NM" value="WorkArea PeopleFlow"/>
+            <column name="DESC_TXT" value="route to workarea"/>
+            <column name="ACTV" value="Y"/>
+        </insert>
+
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0004"/>
+            <column name="NMSPC_CD" value="KPME-LM" />
+            <column name="NM" value="Payroll Processor PeopleFlow"/>
+            <column name="DESC_TXT" value="route to payroll processor"/>
+            <column name="ACTV" value="Y"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0003"/>
+            <column name="NM" value="WorkArea PeopleFlow"/>
+            <column name="NMSPC_CD" value="KPME-LM"/>
+            <column name="DESC_TXT" value="Route to WorkArea Approvers" />
+            <column name="TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='Route to PeopleFlow' and NMSPC_CD='KR-RULE')" />
+            <column name="RULE_ID" value="KPME0003"/>
+            <column name="SEQ_NO" value="1"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0004"/>
+            <column name="NM" value="Payroll PeopleFlow"/>
+            <column name="NMSPC_CD" value="KPME-LM"/>
+            <column name="DESC_TXT" value="Route to Payroll Processors" />
+            <column name="TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='Route to PeopleFlow' and NMSPC_CD='KR-RULE')" />
+            <column name="RULE_ID" value="KPME0004"/>
+            <column name="SEQ_NO" value="2"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0005"/>
+            <column name="ACTN_ID" value="KPME0003"/>
+            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowId' and NMSPC_CD='KR-RULE')"/>
+            <column name="ATTR_VAL" value="KPME0001"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0006"/>
+            <column name="ACTN_ID" value="KPME0003"/>
+            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR_RULE')"/>
+            <column name="ATTR_VAL" value="WorkArea PeopleFlow"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0007"/>
+            <column name="ACTN_ID" value="KPME0004"/>
+            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowId' and NMSPC_CD='KR-RULE')"/>
+            <column name="ATTR_VAL" value="KPME0002"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0008"/>
+            <column name="ACTN_ID" value="KPME0004"/>
+            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR_RULE')"/>
+            <column name="ATTR_VAL" value="Payroll PeopleFlow"/>
+        </insert>
+        <!-- END people flow rules for LM -->
+
+        <insert tableName="KRMS_AGENDA_T">
+            <column name="AGENDA_ID" value="KPME0002" />
+            <column name="NM" value="Leave Calendar Agenda" />
+            <column name="CNTXT_ID" value="KPME-LEAVE-CAL-CONTEXT" />
+            <column name="INIT_AGENDA_ITM_ID" value="KPME0003"/>
+            <column name="ACTV" value="Y" />
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_VLD_AGENDA_TYP_T">
+            <column name="CNTXT_VLD_AGENDA_ID" value="KPME0002"/>
+            <column name="CNTXT_ID" value="KPME-LEAVE-CAL-CONTEXT"/>
+            <column name="AGENDA_TYP_ID" value="KPME0003"/>
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_VLD_RULE_TYP_T">
+            <column name="CNTXT_VLD_RULE_ID" value="KPME0002"/>
+            <column name="CNTXT_ID" value="KPME-LEAVE-CAL-CONTEXT"/>
+            <column name="RULE_TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='Validation Rule' and NMSPC_CD='KR-RULE')" />
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_VLD_ACTN_TYP_T">
+            <column name="CNTXT_VLD_ACTN_ID" value="KPME0004"/>
+            <column name="CNTXT_ID" value="KPME-LEAVE-CAL-CONTEXT"/>
+            <column name="ACTN_TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='Validation Action' and NMSPC_CD='KR-RULE')" />
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_VLD_ACTN_TYP_T">
+            <column name="CNTXT_VLD_ACTN_ID" value="KPME0005"/>
+            <column name="CNTXT_ID" value="KPME-LEAVE-CAL-CONTEXT"/>
+            <column name="ACTN_TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='Notify PeopleFlow' and NMSPC_CD='KR-RULE')" />
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_VLD_ACTN_TYP_T">
+            <column name="CNTXT_VLD_ACTN_ID" value="KPME0006"/>
+            <column name="CNTXT_ID" value="KPME-LEAVE-CAL-CONTEXT"/>
+            <column name="ACTN_TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='Route to PeopleFlow' and NMSPC_CD='KR-RULE')" />
+        </insert>
+
+
+        <!-- Payroll Processor People Flow Setup -->
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0002"/>
+            <column name="NM" value="Payroll PeopleFlow" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="TYP_ID" value="KPME0002"/>
+            <column name="ACTV" value="Y"/>
+            <column name="DESC_TXT" value="Work Area people flow"/>
+        </insert>
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0002"/>
+            <column name="PPL_FLW_ID" value="KPME0002" />
+            <column name="MBR_TYP_CD" value="R" />
+            <column name="MBR_ID" value="KPME0017"/>
+            <column name="PRIO" value="1"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0003"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_DLGT_T" >
+            <column name="PPL_FLW_DLGT_ID" value="KPME0002"/>
+            <column name="PPL_FLW_MBR_ID" value="KPME0002" />
+            <column name="MBR_ID" value="KPME0018"/>
+            <column name="MBR_TYP_CD" value="R" />
+            <column name="DLGN_TYP_CD" value="P"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0004"/>
+        </insert>
+        <!--END Payroll Processor People Flow Setup -->
+
+
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0004"/>
+            <column name="RULE_ID" value="KPME0004"/>
+            <column name="AGENDA_ID" value="KPME0002"/>
+            <column name="VER_NBR" value="1"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0003"/>
+            <column name="RULE_ID" value="KPME0003"/>
+            <column name="AGENDA_ID" value="KPME0002"/>
+            <column name="VER_NBR" value="1"/>
+        </insert>
+
+        <modifySql dbms="mysql">
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="6" author="jjhanso" context="kpme-server-bootstrap">
+        <comment>Set order of Agenda Items</comment>
+
+        <update tableName="KRMS_AGENDA_ITM_T">
+            <column name="ALWAYS" value="KPME0002" />
+            <where>AGENDA_ITM_ID = 'KPME0001'</where>
+        </update>
+
+        <update tableName="KRMS_AGENDA_ITM_T">
+            <column name="ALWAYS" value="KPME0004" />
+            <where>AGENDA_ITM_ID = 'KPME0003'</where>
+        </update>
+    </changeSet>
+
+    <changeSet id="7" author="jjhanso" context="kpme-server-bootstrap">
+        <comment>Set up rule structures</comment>
+        <insert tableName="KRMS_TYP_T">
+            <column name="TYP_ID" value="KPME0002"/>
+            <column name="NM" value="KPMETermResolver"/>
+            <column name="NMSPC_CD" value="KPME-KRMS"/>
+            <column name="ACTV" value="Y"/>
+        </insert>
+
+        <insert tableName="KRMS_TERM_SPEC_T">
+            <column name="TERM_SPEC_ID" value="KPME0001"/>
+            <column name="NM" value="payrollProcessorApproval"/>
+            <column name="TYP" value="java.lang.Boolean"/>
+            <column name="ACTV" value="Y"/>
+            <column name="DESC_TXT" value="does the department require Payroll Processor approval"/>
+            <column name="NMSPC_CD" value="KPME-TK"/>
+            <column name="VER_NBR" value="1"/>
+        </insert>
+
+        <insert tableName="KRMS_TERM_SPEC_T">
+            <column name="TERM_SPEC_ID" value="KPME0002"/>
+            <column name="NM" value="payrollProcessorApproval"/>
+            <column name="TYP" value="java.lang.Boolean"/>
+            <column name="ACTV" value="Y"/>
+            <column name="DESC_TXT" value="does the department require Payroll Processor approval"/>
+            <column name="NMSPC_CD" value="KPME-LM"/>
+            <column name="VER_NBR" value="1"/>
+        </insert>
+
+        <insert tableName="KRMS_TERM_T">
+            <column name="TERM_ID" value="KPME0001"/>
+            <column name="TERM_SPEC_ID" value="KPME0001"/>
+            <column name="DESC_TXT" value="Department requires Payroll Processor approval"/>
+            <column name="VER_NBR" value="1"/>
+        </insert>
+
+        <insert tableName="KRMS_TERM_T">
+            <column name="TERM_ID" value="KPME0002"/>
+            <column name="TERM_SPEC_ID" value="KPME0002"/>
+            <column name="DESC_TXT" value="Department requires Payroll Processor approval"/>
+            <column name="VER_NBR" value="1"/>
+        </insert>
+
+        <insert tableName="KRMS_TERM_RSLVR_T" >
+            <column name="TERM_RSLVR_ID" value="KPME0001"/>
+            <column name="NMSPC_CD" value="KPME-KRMS"/>
+            <column name="NM" value="payrollProcessorApprovalResolver"/>
+            <column name="TYP_ID" value="KPME0002"/>
+            <column name="OUTPUT_TERM_SPEC_ID" value="KPME0001"/>
+            <column name="ACTV" value="Y"/>
+        </insert>
+
+
+        <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+            <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0001"/>
+            <column name="CNTXT_ID" value="KPME-TIMESHEET-CONTEXT"/>
+            <column name="TERM_SPEC_ID" value="KPME0001"/>
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+            <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0002"/>
+            <column name="CNTXT_ID" value="KPME-LEAVE-CAL-CONTEXT"/>
+            <column name="TERM_SPEC_ID" value="KPME0002"/>
+        </insert>
+
+        <insert tableName="KRMS_PROP_T">
+            <column name="PROP_ID" value="KPME0001"/>
+            <column name="DESC_TXT" value="Department requires Payroll Processor approval"/>
+            <column name="DSCRM_TYP_CD" value="S"/>
+            <column name="RULE_ID" value="KPME0002"/>
+        </insert>
+
+        <insert tableName="KRMS_PROP_T">
+            <column name="PROP_ID" value="KPME0002"/>
+            <column name="DESC_TXT" value="Department requires Payroll Processor approval"/>
+            <column name="DSCRM_TYP_CD" value="S"/>
+            <column name="RULE_ID" value="KPME0004"/>
+        </insert>
+
+        <insert tableName="KRMS_PROP_PARM_T">
+            <column name="PROP_PARM_ID" value="KPME0001"/>
+            <column name="PROP_ID" value="KPME0001"/>
+            <column name="PARM_VAL" value="KPME0001"/>
+            <column name="PARM_TYP_CD" value="T"/>
+            <column name="SEQ_NO" value="0"/>
+        </insert>
+        <insert tableName="KRMS_PROP_PARM_T">
+            <column name="PROP_PARM_ID" value="KPME0002"/>
+            <column name="PROP_ID" value="KPME0001"/>
+            <column name="PARM_VAL" value="="/>
+            <column name="PARM_TYP_CD" value="O"/>
+            <column name="SEQ_NO" value="2"/>
+        </insert>
+        <insert tableName="KRMS_PROP_PARM_T">
+            <column name="PROP_PARM_ID" value="KPME0003"/>
+            <column name="PROP_ID" value="KPME0001"/>
+            <column name="PARM_VAL" value="true"/>
+            <column name="PARM_TYP_CD" value="C"/>
+            <column name="SEQ_NO" value="1"/>
+        </insert>
+
+        <insert tableName="KRMS_PROP_PARM_T">
+            <column name="PROP_PARM_ID" value="KPME0004"/>
+            <column name="PROP_ID" value="KPME0002"/>
+            <column name="PARM_VAL" value="KPME0002"/>
+            <column name="PARM_TYP_CD" value="T"/>
+            <column name="SEQ_NO" value="0"/>
+        </insert>
+        <insert tableName="KRMS_PROP_PARM_T">
+            <column name="PROP_PARM_ID" value="KPME0005"/>
+            <column name="PROP_ID" value="KPME0002"/>
+            <column name="PARM_VAL" value="="/>
+            <column name="PARM_TYP_CD" value="O"/>
+            <column name="SEQ_NO" value="2"/>
+        </insert>
+        <insert tableName="KRMS_PROP_PARM_T">
+            <column name="PROP_PARM_ID" value="KPME0006"/>
+            <column name="PROP_ID" value="KPME0002"/>
+            <column name="PARM_VAL" value="true"/>
+            <column name="PARM_TYP_CD" value="C"/>
+            <column name="SEQ_NO" value="1"/>
+        </insert>
+
+        <update tableName="KRMS_RULE_T">
+            <column name="PROP_ID" value="KPME0001"/>
+            <where>RULE_ID = 'KPME0002'</where>
+        </update>
+
+        <update tableName="KRMS_RULE_T">
+            <column name="PROP_ID" value="KPME0002"/>
+            <where>RULE_ID = 'KPME0004'</where>
+        </update>
+
+    </changeSet>
+
+    <!--<changeSet id="8" author="jjhanso">
+        <comment>Set up custom proposition type for "contains" proposition</comment>
+        <insert tableName="KRMS_TYP_T">
+            <column name="TYP_ID" value="KPME0003"/>
+            <column name="NM" value="KPMEContainsPropertyType"/>
+            <column name="SVC_NM" value="{http://kpme.kuali.org/core/v2_0}containsPropositionType"/>
+            <column name="NMSPC_CD" value="KPME-KRMS"/>
+            <column name="ACTV" value="Y"/>
+        </insert>
+    </changeSet>-->
+</databaseChangeLog>

@@ -47,20 +47,19 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
 </c:if>
 
 <tk:tkHeader tabId="clock">
-    <script type="text/javascript" src="krad/plugins/jquery/jquery-1.8.3.js"></script>
-    <script type="text/javascript" src="krad/plugins/jqueryUI/jquery-ui-1.9.2.js"></script>
-    <script type="text/javascript" src="krad/plugins/jgrowl/jquery.jgrowl.js"></script>
-    <script type="text/javascript" src="krad/plugins/blockUI/jquery.blockUI.js"></script>
-    <script type="text/javascript" src="krad/plugins/validate/jquery.validate.js"></script>
-    <script type="text/javascript" src="krad/plugins/tooltip/jquery.bubblepopup.v2.3.1.js"></script>
-    <%--script type="text/javascript" src="krad/plugins/dirtyform/jquery.dirtyform.js"></script>--%>
+    <script type="text/javascript" src="plugins/jquery/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="plugins/jqueryUI/jquery-ui-1.9.2.js"></script>
+    <script type="text/javascript" src="plugins/jgrowl/jquery.jgrowl.js"></script>
+    <script type="text/javascript" src="plugins/blockUI/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="plugins/validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="plugins/tooltip/jquery.bubblepopup.v2.3.1.js"></script>
 
-    <script type="text/javascript" src="krad/plugins/scrollto/jquery.scrollTo-1.4.3-min.js"></script>
-    <script type="text/javascript" src="krad/plugins/rice/datatables/jquery.dataTables.js"></script>
-    <script type="text/javascript" src="krad/plugins/rice/datatables/ZeroClipboard.js"></script>
-    <script type="text/javascript" src="krad/plugins/rice/datatables/TableTools.js"></script>
-    <script type="text/javascript" src="krad/plugins/rice/datatables/jquery.dataTables.rowGrouping.js"></script>
-    <script type="text/javascript" src="krad/plugins/fancybox/jquery.fancybox.pack.js"></script>
+    <script type="text/javascript" src="plugins/scrollto/jquery.scrollTo-1.4.3-min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="plugins/datatables/ZeroClipboard.js"></script>
+    <script type="text/javascript" src="plugins/datatables/TableTools.js"></script>
+    <script type="text/javascript" src="plugins/datatables/jquery.dataTables.rowGrouping.js"></script>
+    <script type="text/javascript" src="plugins/fancybox/jquery.fancybox.pack.js"></script>
     <script type="text/javascript" src="krad/scripts/krad.variables.js"></script>
     <script type="text/javascript" src="krad/scripts/krad.message.js"></script>
     <script type="text/javascript" src="krad/scripts/krad.widget.js"></script>

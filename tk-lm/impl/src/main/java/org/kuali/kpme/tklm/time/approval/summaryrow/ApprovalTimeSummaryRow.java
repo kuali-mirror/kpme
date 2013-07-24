@@ -52,6 +52,7 @@ public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow
 	private String approvalStatus;
 	private String approvalStatusMessage;
 	private String documentId;
+    private Map<String, String> roleNames;
 	private Map<String,BigDecimal> hoursToPayLabelMap = new HashMap<String,BigDecimal>();
     private Map<String,BigDecimal> hoursToFlsaPayLabelMap = new HashMap<String,BigDecimal>();
 	private String clockStatusMessage;
@@ -312,5 +313,17 @@ public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow
 	public void setWeekTotalMap(Map<String, BigDecimal> weekTotalMap) {
 		this.weekTotalMap = weekTotalMap;
 	}
+
+    public Map<String, String> getRoleNames() {
+        return roleNames;
+    }
+
+    public void setRoleNames(Map<String, String> roleNames) {
+        this.roleNames = roleNames;
+    }
+
+    public String getRoleName() {
+        return getRoleNames().get(HrContext.getPrincipalId());
+    }
 	
 }

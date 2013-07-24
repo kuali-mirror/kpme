@@ -17,6 +17,7 @@
 package org.kuali.kpme.tklm.time.service;
 //import org.kuali.hr.time.paytype.service.PayTypeService;
 //import org.kuali.hr.time.permission.service.TKPermissionService;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.tklm.common.BatchJobService;
 import org.kuali.kpme.tklm.time.approval.service.TimeApproveService;
 import org.kuali.kpme.tklm.time.clocklog.service.ClockLogService;
@@ -40,7 +41,9 @@ import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
 import org.kuali.kpme.tklm.time.timesummary.service.TimeSummaryService;
 import org.kuali.kpme.tklm.time.user.pref.service.UserPreferenceService;
 import org.kuali.kpme.tklm.time.workflow.service.TimesheetDocumentHeaderService;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -192,5 +195,31 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static JdbcTemplate getRiceJdbcTemplate() {
 		return (JdbcTemplate) CONTEXT.getBean("riceJdbcTemplate");
 	}
+
+    /**
+     * Lookups a service by name.
+     *
+     * @param serviceName name of the Interface class of the service you want
+     * @param <T> the type of service you want.
+     * @return the service
+     * @throws IllegalArgumentException if the service name is blank.
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T getService(final String serviceName) {
+
+        if (StringUtils.isBlank(serviceName)) {
+            throw new IllegalArgumentException("the service name is blank.");
+        }
+
+        try {
+            return (T) CONTEXT.getBean(serviceName);
+        } catch (NoSuchBeanDefinitionException e) {
+            // If we don't find this service locally, look for it in the Rice context
+            return (T) GlobalResourceLoader.<T>getService(serviceName);
+        } catch (Exception ex) {
+            //ex.printStackTrace();
+            return (T)GlobalResourceLoader.<T>getService(serviceName);
+        }
+    }
 
 }

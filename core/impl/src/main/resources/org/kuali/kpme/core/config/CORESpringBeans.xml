@@ -133,6 +133,7 @@
 
     <bean id="kpme.callback.service" class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" abstract="true">
         <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/core/v2_0" />
+        <property name="serviceBus" ref="rice.ksb.import.serviceBus" />
     </bean>
 
     <bean id="kpme.core.soap.service" parent="kpme.soap.service" abstract="true">
@@ -298,7 +299,9 @@
     <bean id="positionBaseService" class="org.kuali.kpme.core.position.service.PositionBaseServiceImpl">
         <property name="positionBaseDao" ref="positionBaseDao"/>
     </bean>
-    
+
+    <bean id="calendarDocumentFactBuilderService" class="org.kuali.kpme.core.document.calendar.rules.CalendarDocumentFactBuilderServiceImpl"/>
+
     <bean id="kpmeGroupService" class="org.kuali.kpme.core.service.group.KPMEGroupServiceImpl">
         <property name="groupService" ref="kimGroupService" />
     </bean>
@@ -353,6 +356,18 @@
           p:callbackService-ref="documentTypeAndMaintenanceActionService"
           p:localServiceName="documentTypeAndMaintenanceActionService"
           p:serviceInterface="org.kuali.rice.kim.framework.permission.PermissionTypeService" />
+
+    <bean id="workAreaPeopleFlowTypeService" class="org.kuali.kpme.core.workarea.service.WorkAreaPeopleFlowTypeServiceImpl" />
+    <bean id="workAreaPeopleFlowTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="workAreaPeopleFlowTypeService"
+          p:localServiceName="workAreaPeopleFlowTypeService"
+          p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService" />
+
+    <bean id="payrollPeopleFlowTypeService" class="org.kuali.kpme.core.payroll.service.PayrollPeopleFlowTypeServiceImpl" />
+    <bean id="payrollPeopleFlowTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="payrollPeopleFlowTypeService"
+          p:localServiceName="payrollPeopleFlowTypeService"
+          p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService" />
 
 
 	<!-- CORE Lookupable Definitions -->

@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -152,5 +153,7 @@ public class WorkflowTagSupport {
         
         return isApprovalButtonsEnabled;
     }
-
+    public String getRouteAction() { return HrConstants.DOCUMENT_ACTIONS.ROUTE; }
+    public String getApproveAction() { return HrConstants.DOCUMENT_ACTIONS.APPROVE; }
+    public String getDisapproveAction() { return HrConstants.DOCUMENT_ACTIONS.DISAPPROVE; }
 }

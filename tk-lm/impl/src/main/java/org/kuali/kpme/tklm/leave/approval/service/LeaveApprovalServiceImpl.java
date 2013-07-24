@@ -28,6 +28,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
@@ -46,6 +47,7 @@ import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -83,6 +85,14 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 				aRow.setDocumentId(aDoc.getDocumentId());
 				aRow.setApprovalStatus(HrConstants.DOC_ROUTE_STATUS.get(aDoc.getDocumentStatus()));
                 notes = getNotesForDocument(aDoc.getDocumentId());
+                if (StringUtils.isNotBlank(aRow.getDocumentId())) {
+                    List<ActionRequest> actionRequests = KewApiServiceLocator.getWorkflowDocumentService().getPendingActionRequests(aRow.getDocumentId());
+                    Map<String, String> roleNames = new HashMap<String, String>();
+                    for (ActionRequest ar : actionRequests) {
+                        roleNames.put(ar.getPrincipalId(), ar.getQualifiedRoleNameLabel());
+                    }
+                    aRow.setRoleNames(roleNames);
+                }
 			}
 			List<LeaveCalendarDocumentHeader> docList = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getApprovalDelinquentDocumentHeaders(principalId);
 			if(docList.size() > LMConstants.DELINQUENT_LEAVE_CALENDARS_LIMIT ) {

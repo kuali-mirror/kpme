@@ -96,11 +96,11 @@
                         </tr>
                         <c:if test="${fn:length(Form.jobNumberToListAssignments) > 0}">
                             <tr>
-                                <td colspan="9" align="center">Assignment(s)</td>
+                                <td colspan="11" align="center">Assignment(s)</td>
                             </tr>
                             <c:forEach var="assignment" items="${Form.jobNumberToListAssignments[job.jobNumber]}">
                                 <tr>
-                                    <td colspan="9">
+                                    <td colspan="11">
                                         <p>
                                             <strong>Work Area / Task</strong> :
                                                 ${assignment.workArea} - ${assignment.workAreaObj.description}
@@ -123,6 +123,16 @@
                                                        items="${Form.deptToDeptAdminPerson[assignment.dept]}">
                                                 <a href="mailto:${deptAdmin.emailAddress }">${deptAdmin.name}</a>
                                                 <c:if test="${deptAdmin.phoneNumber ne ''}"> / ${deptAdmin.phoneNumber }</c:if>
+                                                <br/>
+                                            </c:forEach>
+                                        </p>
+
+                                        <p>
+                                            <strong>Payroll Processor(s)</strong> : <br/>
+                                            <c:forEach var="payrollProcessor"
+                                                       items="${Form.deptToPayrollPerson[assignment.dept]}">
+                                                <a href="mailto:${payrollProcessor.emailAddress }">${payrollProcessor.name}</a>
+                                                <c:if test="${payrollProcessor.phoneNumber ne ''}"> / ${payrollProcessor.phoneNumber }</c:if>
                                                 <br/>
                                             </c:forEach>
                                         </p>

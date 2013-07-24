@@ -50,24 +50,33 @@
 			</attributes>
 			<routePaths>
 				<routePath>
-					<start name="adhoc" nextNode="Timesheet Attribute" />
-					<requests name="Timesheet Attribute" />
+					<start name="Initiated" nextNode="PeopleFlows" />
+					<requests name="PeopleFlows" />
 				</routePath>
 			</routePaths>
 			<routeNodes>
-				<start name="adhoc">
+				<!--<start name="adhoc">
 					<exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
 					<activationType>S</activationType>
 					<mandatoryRoute>false</mandatoryRoute>
 					<finalApproval>false</finalApproval>
-				</start>
-				<requests name="Timesheet Attribute">
+				</start>-->
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+                <requests name="PeopleFlows">
+                    <activationType>R</activationType>
+                    <rulesEngine executorClass="org.kuali.kpme.tklm.time.timesheet.rules.TimesheetRulesEngineExecutor"/>
+                </requests>
+				<!--<requests name="Timesheet Attribute">
 					<exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
 					<activationType>S</activationType>
 					<ruleTemplate>TimesheetRuleTemplate</ruleTemplate>
 					<mandatoryRoute>true</mandatoryRoute>
 					<finalApproval>true</finalApproval>
-				</requests>
+				</requests>-->
 			</routeNodes>
 			<policies>
 				<policy>
