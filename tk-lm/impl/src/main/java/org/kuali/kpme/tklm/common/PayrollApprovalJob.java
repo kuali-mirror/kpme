@@ -86,7 +86,7 @@ public class PayrollApprovalJob implements Job {
 					} else {
 						TkServiceLocator.getTimesheetService().approveTimesheet(batchUserPrincipalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
 						roleMembers = getRoleMembersInDepartment(timesheetDocument.getAssignments());
-						subject = "Timesheet Document " + documentId;
+						subject = "Payroll Batch Approved Timesheet Document " + documentId;
 					}
 				}
 			} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
@@ -98,7 +98,7 @@ public class PayrollApprovalJob implements Job {
 					} else {
 						LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(batchUserPrincipalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
 						roleMembers = getRoleMembersInDepartment(leaveCalendarDocument.getAssignments());
-						subject = "Leave Calendar Document " + documentId;
+						subject = "Payroll Batch Approved Leave Calendar Document " + documentId;
 					}
 				}
 			}
