@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCode;
@@ -26,11 +27,10 @@ import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.rice.location.impl.campus.CampusBo;
 
 import com.google.common.collect.ImmutableList;
 
-public class PayType extends HrBusinessObject {
+public class PayType extends HrBusinessObject implements PayTypeContract {
     public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PayType";
     private static final String[] PRIVATE_CACHES_FOR_FLUSH = {PayType.CACHE_NAME, Job.CACHE_NAME, Assignment.CACHE_NAME};
 	public static final List<String> CACHE_FLUSH = Collections.unmodifiableList(Arrays.asList(PRIVATE_CACHES_FOR_FLUSH));

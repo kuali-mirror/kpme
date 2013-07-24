@@ -17,15 +17,13 @@ package org.kuali.kpme.core.api.leaveplan;
 
 import java.sql.Time;
 
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Versioned;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 
 /**
  * <p>LeavePlanContract interface.</p>
  *
  */
-public interface LeavePlanContract extends Versioned, GloballyUnique, Inactivatable  {
+public interface LeavePlanContract extends HrBusinessObjectContract {
 	
 	/**
 	 * The date batch job should run to create a carry over leave block 

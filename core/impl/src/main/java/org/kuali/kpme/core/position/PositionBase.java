@@ -15,12 +15,13 @@
  */
 package org.kuali.kpme.core.position;
 
+import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
 
-public class PositionBase extends HrBusinessObject {
+public class PositionBase extends HrBusinessObject implements PositionBaseContract {
 
 	private static final long serialVersionUID = -3258249005786874634L;
 	//KPME-2273/1965 Primary Business Keys List.	

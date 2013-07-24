@@ -17,6 +17,7 @@ package org.kuali.kpme.core.assignment.account;
 
 import java.math.BigDecimal;
 
+import org.kuali.kpme.core.api.assignment.account.AssignmentAccountContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCode;
@@ -26,7 +27,7 @@ import org.kuali.kpme.core.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kpme.core.kfs.coa.businessobject.SubAccount;
 import org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode;
 
-public class AssignmentAccount extends HrBusinessObject {
+public class AssignmentAccount extends HrBusinessObject implements AssignmentAccountContract {
 
 	private static final long serialVersionUID = 2414818440020234952L;
 	

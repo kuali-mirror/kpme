@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.assignment.account.AssignmentAccount;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.job.Job;
@@ -34,7 +35,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import com.google.common.collect.ImmutableList;
 
-public class Assignment extends HrBusinessObject {
+public class Assignment extends HrBusinessObject implements AssignmentContract {
 
 	private static final long serialVersionUID = 6347435053054442195L;
 	//KPME-2273/1965 Primary Business Keys List. 

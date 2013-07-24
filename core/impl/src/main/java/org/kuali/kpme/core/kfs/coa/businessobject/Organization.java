@@ -19,13 +19,13 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.kpme.core.api.kfs.coa.businessobject.OrganizationContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class Organization extends PersistableBusinessObjectBase implements Inactivatable {
+public class Organization extends PersistableBusinessObjectBase implements OrganizationContract {
     private static final Logger LOG = Logger.getLogger(Organization.class);
 
     private static final long serialVersionUID = 121873645110037203L;

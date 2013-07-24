@@ -25,6 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.role.location.LocationPrincipalRoleMemberBoContract;
 import org.kuali.kpme.core.role.PrincipalRoleMemberBo;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -35,7 +36,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
 
 @SuppressWarnings("unchecked")
-public class LocationPrincipalRoleMemberBo extends PrincipalRoleMemberBo {
+public class LocationPrincipalRoleMemberBo extends PrincipalRoleMemberBo implements LocationPrincipalRoleMemberBoContract {
 
 	private static final long serialVersionUID = -7015816117671681162L;
 	private static final Logger LOG = Logger.getLogger(LocationPrincipalRoleMemberBo.class);

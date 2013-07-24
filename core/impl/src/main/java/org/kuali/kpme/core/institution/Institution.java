@@ -15,11 +15,12 @@
  */
 package org.kuali.kpme.core.institution;
 
+import org.kuali.kpme.core.api.institution.InstitutionContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 
 import com.google.common.collect.ImmutableList;
 
-public class Institution extends HrBusinessObject {
+public class Institution extends HrBusinessObject implements InstitutionContract {
 
 	 //KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()

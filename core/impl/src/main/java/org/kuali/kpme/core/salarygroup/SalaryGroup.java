@@ -17,13 +17,12 @@ package org.kuali.kpme.core.salarygroup;
 
 import java.math.BigDecimal;
 
+import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.rice.location.impl.campus.CampusBo;
 
 import com.google.common.collect.ImmutableList;
-public class SalaryGroup extends HrBusinessObject {
+public class SalaryGroup extends HrBusinessObject implements SalaryGroupContract {
 
 	private static final long serialVersionUID = 8169672203236887348L;
 

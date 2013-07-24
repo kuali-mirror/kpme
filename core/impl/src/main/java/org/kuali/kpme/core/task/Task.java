@@ -15,13 +15,14 @@
  */
 package org.kuali.kpme.core.task;
 
+import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.workarea.WorkArea;
 
 import com.google.common.collect.ImmutableList;
 
-public class Task extends HrBusinessObject {
+public class Task extends HrBusinessObject implements TaskContract {
 
 	private static final long serialVersionUID = -7536342291963303862L;
 

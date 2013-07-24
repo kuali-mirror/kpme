@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
+import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
@@ -31,7 +32,7 @@ import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
 
-public class WorkArea extends HrBusinessObject implements DepartmentalRule {
+public class WorkArea extends HrBusinessObject implements DepartmentalRule, WorkAreaContract {
 
 	private static final long serialVersionUID = 2637145083387914260L;
 

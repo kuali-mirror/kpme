@@ -16,13 +16,14 @@
 package org.kuali.kpme.core.role;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.role.PrincipalRoleMemberBoContract;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 @SuppressWarnings("unchecked")
-public abstract class PrincipalRoleMemberBo extends KPMERoleMemberBo {
+public abstract class PrincipalRoleMemberBo extends KPMERoleMemberBo implements PrincipalRoleMemberBoContract {
 
 	private static final long serialVersionUID = -524283364141837235L;
 	

@@ -1,0 +1,86 @@
+package org.kuali.kpme.core.api.task;
+
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.workarea.WorkAreaContract;
+
+/**
+ * <p>TaskContract interface.</p>
+ *
+ */
+public interface TaskContract extends HrBusinessObjectContract {
+	
+	/**
+	 * The Primary Key of a Task entry saved in a database
+	 *
+	 * <p>
+	 * tkTaskId of Task
+	 * </p>
+	 * 
+	 * @return tkTaskId for Task
+	 */
+	public String getTkTaskId() ;
+	
+	/**
+	 * Numeric value for the task 
+	 *
+	 * <p>
+	 * task of Task
+	 * </p>
+	 * 
+	 * @return task for Task
+	 */
+	public Long getTask();
+	
+	/**
+	 * WorkArea string of the WorkArea object associated with a Task
+	 *
+	 * <p>
+	 * workArea of Task
+	 * </p>
+	 * 
+	 * @return workArea for Task
+	 */
+	public Long getWorkArea();
+
+	/**
+	 * Text field used to identify the task. This description is presented to the employee 
+	 * when selecting the assignment to clock in or manually record their time
+	 *
+	 * <p>
+	 * description of Task
+	 * </p>
+	 * 
+	 * @return description for Task
+	 */
+    public String getDescription();
+    
+    /**
+	 * Additional description field. This could be longer since it is not going to be displayed
+	 * on the timesheet assignment drop down.
+	 *
+	 * <p>
+	 * administrativeDescription of Task
+	 * </p>
+	 * 
+	 * @return administrativeDescription for Task
+	 */
+    public String getAdministrativeDescription() ;
+    
+    /**
+   	 * TODO: is this field needed???
+   	 * 
+   	 * @return userPricipalId for Task
+   	 */
+    public String getUserPrincipalId();
+
+    /**
+	 * WorkArea object associated with a Task
+	 *
+	 * <p>
+	 * workAreaObj of Task
+	 * </p>
+	 * 
+	 * @return workAreaObj for Task
+	 */
+	public WorkAreaContract getWorkAreaObj();	
+}

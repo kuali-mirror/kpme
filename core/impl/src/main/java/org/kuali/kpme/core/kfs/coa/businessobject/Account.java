@@ -22,13 +22,13 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.kpme.core.api.kfs.coa.businessobject.AccountContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class Account extends PersistableBusinessObjectBase implements Inactivatable {
+public class Account extends PersistableBusinessObjectBase implements AccountContract {
     protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);
 
     private String chartOfAccountsCode;
@@ -40,6 +40,11 @@ public class Account extends PersistableBusinessObjectBase implements Inactivata
     private boolean active;
     private String organizationCode;
 
+    private Chart chartOfAccounts;
+    private Organization organization;
+
+    private List subAccounts;
+
     public String getOrganizationCode() {
 		return organizationCode;
 	}
@@ -47,20 +52,13 @@ public class Account extends PersistableBusinessObjectBase implements Inactivata
 	public void setOrganizationCode(String organizationCode) {
 		this.organizationCode = organizationCode;
 	}
-
-
-	private Chart chartOfAccounts;
-    private Organization organization;
-
-    private List subAccounts;
-
+	
     /**
      * Default no-arg constructor.
      */
     public Account() {
         active = true; // assume active is true until set otherwise
-    }
-    
+    }    
 
     /**
      * Gets the accountNumber attribute.

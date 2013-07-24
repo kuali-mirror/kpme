@@ -17,15 +17,13 @@ package org.kuali.kpme.core.paygrade;
 
 import java.math.BigDecimal;
 
+import org.kuali.kpme.core.api.paygrade.PayGradeContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.institution.Institution;
-import org.kuali.kpme.core.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.rice.location.impl.campus.CampusBo;
 
 import com.google.common.collect.ImmutableList;
 
-public class PayGrade extends HrBusinessObject {
+public class PayGrade extends HrBusinessObject implements PayGradeContract {
 
 	private static final long serialVersionUID = -5736949952127760566L;
 	//KPME-2273/1965 Primary Business Keys List.

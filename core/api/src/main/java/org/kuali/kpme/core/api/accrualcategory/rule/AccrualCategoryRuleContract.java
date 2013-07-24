@@ -18,16 +18,15 @@ package org.kuali.kpme.core.api.accrualcategory.rule;
 import java.math.BigDecimal;
 
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Versioned;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
 /**
  * <p>AccrualCategoryRuleContract interface.</p>
  *
  */
-public interface AccrualCategoryRuleContract extends Versioned, GloballyUnique, Inactivatable{
+public interface AccrualCategoryRuleContract extends HrBusinessObjectContract {
+	
 	/**
 	 * The earnCodeObject associated with an AccrualCategoryRule
 	 * 

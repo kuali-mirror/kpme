@@ -17,13 +17,13 @@ package org.kuali.kpme.core.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.kpme.core.api.kfs.coa.businessobject.SubObjectCodeContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class SubObjectCode extends PersistableBusinessObjectBase implements Inactivatable {
+public class SubObjectCode extends PersistableBusinessObjectBase implements SubObjectCodeContract {
 
     private static final long serialVersionUID = -5292158248714650271L;
 

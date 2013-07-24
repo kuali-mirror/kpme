@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
+import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
 import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
@@ -29,7 +30,7 @@ import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
 
-public class Department extends HrBusinessObject {
+public class Department extends HrBusinessObject implements DepartmentContract {
 
 	private static final long serialVersionUID = 5476378484272246487L;
 

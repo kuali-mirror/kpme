@@ -24,6 +24,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.role.workarea.WorkAreaPrincipalRoleMemberBoContract;
 import org.kuali.kpme.core.role.PrincipalRoleMemberBo;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -33,7 +34,7 @@ import org.kuali.rice.kim.api.role.RoleMemberContract;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
 
 @SuppressWarnings("unchecked")
-public class WorkAreaPrincipalRoleMemberBo extends PrincipalRoleMemberBo {
+public class WorkAreaPrincipalRoleMemberBo extends PrincipalRoleMemberBo implements WorkAreaPrincipalRoleMemberBoContract {
 
 	private static final long serialVersionUID = -3728256698747084703L;
 	private static final Logger LOG = Logger.getLogger(WorkAreaPrincipalRoleMemberBo.class);

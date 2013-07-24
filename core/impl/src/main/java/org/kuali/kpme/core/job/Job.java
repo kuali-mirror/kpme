@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
@@ -36,7 +37,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import com.google.common.collect.ImmutableList;
 
-public class Job extends HrBusinessObject {
+public class Job extends HrBusinessObject implements JobContract {
 
 	private static final long serialVersionUID = 1369595897637935064L;	
 	//KPME-2273/1965 Primary Business Keys List. Will be using this from now on instead.	

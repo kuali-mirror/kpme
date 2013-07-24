@@ -19,17 +19,15 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Versioned;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
 /**
  * <p>AccrualCategoryContract interface.</p>
  *
  */
-public interface AccrualCategoryContract extends Versioned, GloballyUnique, Inactivatable {
+public interface AccrualCategoryContract extends HrBusinessObjectContract {
 	
 	/**
 	 * Flag that shows if the AccrualCetegory has any AccrualCategoryRules

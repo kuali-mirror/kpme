@@ -18,20 +18,18 @@ package org.kuali.kpme.core.api.earncode;
 import java.math.BigDecimal;
 
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Versioned;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
 /**
  * <p>EarnCodeContract interface.</p>
  *
  */
-public interface EarnCodeContract extends Versioned, GloballyUnique, Inactivatable  {
+public interface EarnCodeContract extends HrBusinessObjectContract {
 	
 	/**
 	 * The flag that indicates if the worked hours under an EarnCode should be counted as regular pay
-	 * Use this field to calcluate the "Worked Hours in the Time Summary.
+	 * Use this field to calculate the "Worked Hours in the Time Summary.
 	 * 
 	 * <p>
 	 * countsAsRegularPay flag of EarnCode
@@ -221,7 +219,7 @@ public interface EarnCodeContract extends Versioned, GloballyUnique, Inactivatab
 	public String getEarnCode();
 
 	/**
-	 * The descripton of an EarnCode
+	 * The description of an EarnCode
 	 * 
 	 * <p>
 	 * description of EarnCode
@@ -249,7 +247,7 @@ public interface EarnCodeContract extends Versioned, GloballyUnique, Inactivatab
 	 * hrEarnCodeId of an EarnCode
 	 * <p>
 	 * 
-	 * @return lmLeavePlanId for EarnCode
+	 * @return hrEarnCodeId for EarnCode
 	 */
 	public String getHrEarnCodeId();
 
@@ -301,7 +299,7 @@ public interface EarnCodeContract extends Versioned, GloballyUnique, Inactivatab
 	 * 	Indicates this EarnCode may be used for overtime
 	 * 
 	 * <p>
-	 * ovtEarnCode falg of an EarnCode
+	 * ovtEarnCode flag of an EarnCode
 	 * <p>
 	 * 
 	 * @return Y for Yes, N for No

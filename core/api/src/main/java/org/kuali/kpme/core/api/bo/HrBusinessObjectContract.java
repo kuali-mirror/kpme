@@ -41,7 +41,7 @@ public interface HrBusinessObjectContract extends Versioned, GloballyUnique, Ina
 	public abstract String getId();
 	
 	/**
-	 * The effective date of the HrBusinessObjectContract
+	 * The effective date of the HrBusinessObject
 	 * 
 	 * <p>
 	 * effectiveDate of HrBusinessObject
@@ -52,7 +52,7 @@ public interface HrBusinessObjectContract extends Versioned, GloballyUnique, Ina
 	public Date getEffectiveDate();
 	
 	/**
-	 * The localDate format of the effective date of the HrBusinessObjectContract
+	 * The localDate format of the effective date of the HrBusinessObject
 	 * 
 	 * <p>
 	 * effectiveLocalDate of HrBusinessObject
@@ -63,7 +63,7 @@ public interface HrBusinessObjectContract extends Versioned, GloballyUnique, Ina
 	public LocalDate getEffectiveLocalDate();
 	
 	/**
-	 * The timestamp of when this HrBusinessObjectContract was last created/updated
+	 * The timestamp of when this HrBusinessObject was last created/updated
 	 * 
 	 * <p>
 	 * timestamp of HrBusinessObject

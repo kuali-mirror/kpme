@@ -1,0 +1,159 @@
+package org.kuali.kpme.core.api.department;
+
+import java.util.List;
+
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.kfs.coa.businessobject.ChartContract;
+import org.kuali.kpme.core.api.kfs.coa.businessobject.OrganizationContract;
+import org.kuali.kpme.core.api.location.LocationContract;
+import org.kuali.kpme.core.api.role.department.DepartmentPrincipalRoleMemberBoContract;
+
+/**
+ * <p>DepartmentContract interface.</p>
+ *
+ */
+public interface DepartmentContract extends HrBusinessObjectContract {
+
+	/**
+	 * The Primary Key of a Department entry saved in a database
+	 * 
+	 * <p>
+	 * hrDeptId of Department
+	 * <p>
+	 * 
+	 * @return hrDeptId for Department
+	 */
+	public String getHrDeptId();
+	
+	/**
+	 * Text field used to identify the Department 
+	 * 
+	 * <p>
+	 * dept of Department
+	 * <p>
+	 * 
+	 * @return dept for Department
+	 */
+	public String getDept();
+	
+	/**
+	 * Text which describes the department value 
+	 * 
+	 * <p>
+	 * description of Department
+	 * <p>
+	 * 
+	 * @return description for Department
+	 */
+    public String getDescription();
+    
+    /**
+	 * The name of the Location object associated with this Department
+	 * 
+	 * <p>
+	 * location of Department
+	 * <p>
+	 * 
+	 * @return location for Department
+	 */
+	public String getLocation();
+	 
+    /**
+	 * Chart value under which the Department is defined
+	 * 
+	 * <p>
+	 * chart of Department
+	 * <p>
+	 * 
+	 * @return chart for Department
+	 */
+    public String getChart();
+    
+    /**
+	 * Organization value under which the Department is defined
+	 * 
+	 * <p>
+	 * org of Department
+	 * <p>
+	 * 
+	 * @return org for Department
+	 */
+    public String getOrg();
+    
+    /**
+	 * Location object associated with this Department
+	 * 
+	 * <p>
+	 * locationObj of Department
+	 * <p>
+	 * 
+	 * @return locationObj for Department
+	 */
+	public LocationContract getLocationObj();
+	 
+    /**
+	 * Chart object under which the Department is defined
+	 * 
+	 * <p>
+	 * chartObj of Department
+	 * <p>
+	 * 
+	 * @return chartObj for Department
+	 */
+	public ChartContract getChartObj();
+	
+	/**
+	 * Organization under which the Department is defined
+	 * 
+	 * <p>
+	 * org of Department
+	 * <p>
+	 * 
+	 * @return org for Department
+	 */
+	public OrganizationContract getOrgObj();
+
+	/**
+   	 * List of Active principal role approvers for this Department
+   	 *
+   	 * <p>
+   	 * roleMembers of WorkArea
+   	 * </p>
+   	 * 
+   	 * @return roleMembers for WorkArea
+   	 */
+	public List<? extends DepartmentPrincipalRoleMemberBoContract> getRoleMembers();
+	
+	/**
+   	 * List of Inactive principal role approvers for this Department
+   	 *
+   	 * <p>
+   	 * inactiveRoleMembers of WorkArea
+   	 * </p>
+   	 * 
+   	 * @return inactiveRoleMembers for WorkArea
+   	 */
+	public List<? extends DepartmentPrincipalRoleMemberBoContract> getInactiveRoleMembers();
+	
+	/**
+	 * History flag for Department lookups 
+	 * 
+	 * <p>
+	 * history of Department
+	 * </p>
+	 * 
+	 * @return Y if want to show history, N if not
+	 */
+    public String getHistory();
+
+    /**
+	 * Indicates if this Department needs payroll approval
+	 * 
+	 * <p>
+	 * payrollApproval of Department
+	 * </p>
+	 * 
+	 * @return true if needs payroll approval, false if not
+	 */
+	public boolean isPayrollApproval();
+}

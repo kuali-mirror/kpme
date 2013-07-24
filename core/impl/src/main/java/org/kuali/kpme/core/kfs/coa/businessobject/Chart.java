@@ -18,13 +18,13 @@ package org.kuali.kpme.core.kfs.coa.businessobject;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.kpme.core.api.kfs.coa.businessobject.ChartContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  *
  */
-public class Chart extends PersistableBusinessObjectBase implements Inactivatable {
+public class Chart extends PersistableBusinessObjectBase implements ChartContract {
 
     private static final long serialVersionUID = 4129020803214027609L;
 

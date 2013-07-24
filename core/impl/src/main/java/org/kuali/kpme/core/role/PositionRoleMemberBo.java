@@ -17,9 +17,10 @@ package org.kuali.kpme.core.role;
 
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.role.PositionRoleMemberBoContract;
 
 @SuppressWarnings("unchecked")
-public abstract class PositionRoleMemberBo extends KPMERoleMemberBo {
+public abstract class PositionRoleMemberBo extends KPMERoleMemberBo implements PositionRoleMemberBoContract {
 
 	private static final long serialVersionUID = 2946101125828699043L;
 
