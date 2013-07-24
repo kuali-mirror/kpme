@@ -85,7 +85,7 @@ public class PayrollApprovalJob implements Job {
 						rescheduleJob(context);
 					} else {
 						TkServiceLocator.getTimesheetService().approveTimesheet(batchUserPrincipalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
-						roleMembers = getRoleMembersInDepartment(timesheetDocument.getAssignments());
+						roleMembers = getRoleMembersInDepartment(timesheetDocument.getAssignments(), KPMENamespace.KPME_TK);
 						subject = "Payroll Batch Approved Timesheet Document " + documentId;
 					}
 				}
@@ -97,7 +97,7 @@ public class PayrollApprovalJob implements Job {
 						rescheduleJob(context);
 					} else {
 						LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(batchUserPrincipalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
-						roleMembers = getRoleMembersInDepartment(leaveCalendarDocument.getAssignments());
+						roleMembers = getRoleMembersInDepartment(leaveCalendarDocument.getAssignments(), KPMENamespace.KPME_LM);
 						subject = "Payroll Batch Approved Leave Calendar Document " + documentId;
 					}
 				}
@@ -110,7 +110,7 @@ public class PayrollApprovalJob implements Job {
 	}
 	
     private List<RoleMember> getRoleMembersInDepartment(
-			List<Assignment> assignments) {
+			List<Assignment> assignments, final KPMENamespace namespace) {
 		Set<String> departments = new HashSet<String>();
 		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 		for(Assignment assignment : assignments) {
@@ -118,7 +118,7 @@ public class PayrollApprovalJob implements Job {
 		}
 		for(String dept : departments) {
 			List<RoleMember> roleMembersInDepartment = new ArrayList<RoleMember>();
-			roleMembersInDepartment = HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, LocalDate.now().toDateTime(LocalTime.now()), true);
+			roleMembersInDepartment = HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(namespace.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, LocalDate.now().toDateTime(LocalTime.now()), true);
 			for(RoleMember roleMember : roleMembersInDepartment) {
 				if(!roleMembers.contains(roleMember)) {
 					roleMembers.add(roleMember);
