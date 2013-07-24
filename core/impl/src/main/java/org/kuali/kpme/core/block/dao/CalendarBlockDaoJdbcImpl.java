@@ -81,11 +81,19 @@ public class CalendarBlockDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implement
         } else if (StringUtils.equals(calendarBlockType, "Leave")) {
             sql.append("FROM lm_leave_block_t ");
         }
+        else {
+        	throw new IllegalArgumentException("calendarBlockType must be one of 'Time' or 'Leave'");
+        }
         sql.append("WHERE earn_code = '").append(earnCode).append("' ");
 
 
 	  Timestamp maxDate = this.getJdbcTemplate().queryForObject(sql.toString(), Timestamp.class);
-	  return new DateTime(maxDate.getTime());
+	  if(maxDate == null) {
+		  return null;
+	  }
+	  else {
+		  return new DateTime(maxDate.getTime());
+	  }
 	}
 	
 }
