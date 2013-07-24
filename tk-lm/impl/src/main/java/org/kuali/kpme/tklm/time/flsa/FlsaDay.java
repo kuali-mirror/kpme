@@ -303,4 +303,12 @@ public class FlsaDay {
 		this.appliedLeaveBlocks = appliedLeaveBlocks;
 	}
 
+	public LocalDateTime getFlsaDate() {
+		return flsaDate;
+	}
+
+	public void setFlsaDate(LocalDateTime flsaDate) {
+		this.flsaDate = flsaDate;
+	}
+
 }

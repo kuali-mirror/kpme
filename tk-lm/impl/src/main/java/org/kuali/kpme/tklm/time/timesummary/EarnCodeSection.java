@@ -53,7 +53,7 @@ public class EarnCodeSection implements Serializable {
 	
 	public void addAssignmentRow(AssignmentRow assignRow) {
 		int i = 0;
-			for (AssignmentColumn assignmentColumn : assignRow.getAssignmentColumns()) {
+			for (AssignmentColumn assignmentColumn : assignRow.getAssignmentColumns().values()) {
 			BigDecimal value = totals.get(i).add(assignmentColumn.getTotal(), HrConstants.MATH_CONTEXT);			
 			totals.set(i, value.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING));
 			i++;
@@ -65,13 +65,13 @@ public class EarnCodeSection implements Serializable {
 	public void addWeeklyTotal(int index, int weekSize){
 		
 		BigDecimal weeklyTotal = BigDecimal.ZERO;
-		for(int i = index; i >= (index-weekSize) && i >=0;i--){
-			weeklyTotal = weeklyTotal.add(getTotals().get(i), HrConstants.MATH_CONTEXT);
-		}
-		getTotals().set(index,weeklyTotal);
-		BigDecimal periodTotal = getTotals().get(getTotals().size()-1);
-		periodTotal = periodTotal.add(weeklyTotal, HrConstants.MATH_CONTEXT);
-		getTotals().set(getTotals().size()-1,periodTotal);
+//		for(int i = index; i >= (index-weekSize) && i >=0;i--){
+//			weeklyTotal = weeklyTotal.add(getTotals().get(i), HrConstants.MATH_CONTEXT);
+//		}
+//		getTotals().set(index,weeklyTotal);
+//		BigDecimal periodTotal = getTotals().get(getTotals().size()-1);
+//		periodTotal = periodTotal.add(weeklyTotal, HrConstants.MATH_CONTEXT);
+//		getTotals().set(getTotals().size()-1,periodTotal);
 		
 		for(AssignmentRow ar : assignmentsRows){
 			ar.addWeeklyTotal(index, weekSize);

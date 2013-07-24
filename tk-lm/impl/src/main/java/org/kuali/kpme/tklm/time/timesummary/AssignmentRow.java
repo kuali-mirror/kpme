@@ -18,9 +18,12 @@ package org.kuali.kpme.tklm.time.timesummary;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.kuali.kpme.core.util.HrConstants;
 
 public class AssignmentRow implements Serializable {
@@ -34,7 +37,7 @@ public class AssignmentRow implements Serializable {
 	private EarnCodeSection earnCodeSection;
 	private BigDecimal periodTotal = BigDecimal.ZERO;
 	
-	private List<AssignmentColumn> assignmentColumns = new ArrayList<AssignmentColumn>();
+	private Map<Integer,AssignmentColumn> assignmentColumns = new HashMap<Integer, AssignmentColumn>();
 	
 	public String getDescr() {
 		return descr;
@@ -76,23 +79,23 @@ public class AssignmentRow implements Serializable {
 		this.periodTotal = periodTotal;
 	}
 
-	public List<AssignmentColumn> getAssignmentColumns() {
+	public Map<Integer, AssignmentColumn> getAssignmentColumns() {
 		return assignmentColumns;
 	}
 
-	public void setAssignmentColumns(List<AssignmentColumn> assignmentColumns) {
+	public void setAssignmentColumns(
+			Map<Integer, AssignmentColumn> assignmentColumns) {
 		this.assignmentColumns = assignmentColumns;
 	}
-	
-	public void addAssignmentColumn(AssignmentColumn assignmentColumn) {
-		this.assignmentColumns.add(assignmentColumn);
+
+	public void addAssignmentColumn(Integer index, AssignmentColumn assignmentColumn) {
+		this.assignmentColumns.put(index,assignmentColumn);
 	}
 
 	public void addToAmount(int index, BigDecimal amount) {
 		if (amount != null) {
 			if (0 <= index && index < getAssignmentColumns().size()) {
 				AssignmentColumn assignmentColumn = getAssignmentColumns().get(index);
-				
 				BigDecimal newAmount = assignmentColumn.getAmount().add(amount, HrConstants.MATH_CONTEXT);
 				assignmentColumn.setAmount(newAmount);
 			}
@@ -103,42 +106,42 @@ public class AssignmentRow implements Serializable {
 		if (total != null) {
 			if (0 <= index && index < getAssignmentColumns().size()) {
 				AssignmentColumn assignmentColumn = getAssignmentColumns().get(index);
-
 				BigDecimal newTotal = assignmentColumn.getTotal().add(total, HrConstants.MATH_CONTEXT);
 				assignmentColumn.setTotal(newTotal);
-				getEarnCodeSection().addToTotal(index, total);
+				getEarnCodeSection().addToTotal(index-1, total);
+				periodTotal = periodTotal.add(total);
 			}
 		}
 	}
 
 	public void addWeeklyTotal(int index, int weekSize) {
-		BigDecimal weeklyAmount = BigDecimal.ZERO;
-		BigDecimal weeklyTotal = BigDecimal.ZERO;
-
-		for (ListIterator<AssignmentColumn> iterator = getAssignmentColumns().listIterator(index); iterator.hasPrevious() && iterator.previousIndex() >= (index - weekSize); ) {
-			AssignmentColumn assignmentColumn = iterator.previous();
-			weeklyAmount = weeklyAmount.add(assignmentColumn.getAmount(), HrConstants.MATH_CONTEXT);
-			weeklyTotal = weeklyTotal.add(assignmentColumn.getTotal(), HrConstants.MATH_CONTEXT);
-		}
-
-		if (0 <= index && index < getAssignmentColumns().size()) {
-			AssignmentColumn assignmentColumn = getAssignmentColumns().get(index);
-			assignmentColumn.setAmount(weeklyAmount);
-			assignmentColumn.setTotal(weeklyTotal);
-			assignmentColumn.setWeeklyTotal(true);
-		}
-
-		if (!getAssignmentColumns().isEmpty()) {
-			AssignmentColumn assignmentColumn = getAssignmentColumns().get(getAssignmentColumns().size() - 1);
-
-			BigDecimal periodTotal = assignmentColumn.getTotal().add(weeklyTotal, HrConstants.MATH_CONTEXT);
-			assignmentColumn.setTotal(periodTotal);
-
-			BigDecimal periodAmount = assignmentColumn.getAmount().add(weeklyAmount, HrConstants.MATH_CONTEXT);
-			assignmentColumn.setAmount(periodAmount);
-
-			assignmentColumn.setWeeklyTotal(true);
-		}
+//		BigDecimal weeklyAmount = BigDecimal.ZERO;
+//		BigDecimal weeklyTotal = BigDecimal.ZERO;
+//
+//		for (ListIterator<AssignmentColumn> iterator = getAssignmentColumns().listIterator(index); iterator.hasPrevious() && iterator.previousIndex() >= (index - weekSize); ) {
+//			AssignmentColumn assignmentColumn = iterator.previous();
+//			weeklyAmount = weeklyAmount.add(assignmentColumn.getAmount(), HrConstants.MATH_CONTEXT);
+//			weeklyTotal = weeklyTotal.add(assignmentColumn.getTotal(), HrConstants.MATH_CONTEXT);
+//		}
+//
+//		if (0 <= index && index < getAssignmentColumns().size()) {
+//			AssignmentColumn assignmentColumn = getAssignmentColumns().get(index);
+//			assignmentColumn.setAmount(weeklyAmount);
+//			assignmentColumn.setTotal(weeklyTotal);
+//			assignmentColumn.setWeeklyTotal(true);
+//		}
+//
+//		if (!getAssignmentColumns().isEmpty()) {
+//			AssignmentColumn assignmentColumn = getAssignmentColumns().get(getAssignmentColumns().size() - 1);
+//
+//			BigDecimal periodTotal = assignmentColumn.getTotal().add(weeklyTotal, HrConstants.MATH_CONTEXT);
+//			assignmentColumn.setTotal(periodTotal);
+//
+//			BigDecimal periodAmount = assignmentColumn.getAmount().add(weeklyAmount, HrConstants.MATH_CONTEXT);
+//			assignmentColumn.setAmount(periodAmount);
+//
+//			assignmentColumn.setWeeklyTotal(true);
+//		}
 	}
 	
 }

@@ -191,7 +191,7 @@ public class TimeDetailAction extends TimesheetAction {
                 for (AssignmentRow assignRow : section.getAssignmentsRows()) {
                 	String assignmentCssStyle = MapUtils.getString(aMap, assignRow.getAssignmentKey());
                 	assignRow.setCssClass(assignmentCssStyle);
-                	for (AssignmentColumn assignmentColumn : assignRow.getAssignmentColumns()) {
+                	for (AssignmentColumn assignmentColumn : assignRow.getAssignmentColumns().values()) {
                 		assignmentColumn.setCssClass(assignmentCssStyle);
                 	}
                 }

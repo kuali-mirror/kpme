@@ -3,65 +3,59 @@
 <jsp:useBean id="tagSupport" class="org.kuali.kpme.tklm.common.TagSupport"/>
 <jsp:useBean id="workflowTagSupport" class="org.kuali.kpme.tklm.common.WorkflowTagSupport"/>
 <%@ attribute name="timeSummary" required="true" type="org.kuali.kpme.tklm.time.timesummary.TimeSummary"%>
-<c:set var="headerLength" value="${fn:length(timeSummary.summaryHeader)}"/>  
-<c:set var="workedHoursLength" value="${fn:length(timeSummary.workedHours)}"/>  
-<c:set var="beginPosition" value="${workedHoursLength - headerLength}"/>  
 
 <div id="timesheet-summary">
 	<div class="summaryTitle" style="clear:both; text-align:center; font-weight: bold; margin-bottom: 5px;">Summary</div>
     <div id="timesheet-table-basic">
-        <table>
-            <colgroup>
-                <col>
-                <c:forEach items="${timeSummary.summaryHeader}" var="entry">
-                    <c:choose>
-                        <c:when test="${fn:startsWith(entry, 'Week')}">
-                            <col class="weeklyTotal">
-                        </c:when>
-                        <c:otherwise><col></c:otherwise>
-                    </c:choose>
-                </c:forEach>
-            </colgroup>
+        <table border="1">
             <thead>
                 <tr class="ui-state-default">
-                    <th></th>
-                    <c:forEach items="${timeSummary.summaryHeader}" var="entry">
-                        <th scope="col">${entry}</th>
+                	<th width="1%" style="border-right: none"></th>
+                    <th>Week</th>
+                    <c:forEach items="${timeSummary.timeSummaryHeader}" var="entry">
+                        <th scope="col">${entry.value}</th>
                     </c:forEach>
+                    <th>Totals</th>
                 </tr>
             </thead>
             <tbody>
-                <tr style="border-bottom-style: double; font-weight: bold;">
-    				<td>Worked Hours:</td>
-                    <c:if test="${beginPosition<0}">
-                        <c:set var="beginPosition" value="0" />
-                    </c:if>
-                    <c:forEach items="${timeSummary.workedHours}" begin="${beginPosition}" var="entry">
-                        <td>${entry}</td>
-                    </c:forEach>
-                </tr>
-                <c:forEach items="${timeSummary.sections}" var="section">
+                    <c:forEach items="${timeSummary.weeklyWorkedHours}" var="entry">
+                    <c:set var="weekString" value="${fn:replace(entry.key, ' ', '')}" />
+	                    <tr style="font-weight: bold;">
+	                        <td style="border-right-style: none">
+	                        	<c:if test="${fn:length(timeSummary.weeklySections[entry.key]) > 0}">
+		                        <div class="ui-state-default " style="width:15px;vertical-align: middle;" >
+		                			<span id="weekSummary_${weekString}" class="ui-icon ui-icon-plus rowInfo"></span>
+		            			</div>
+		            			
+		            			</c:if>
+		            		
+	            			</td>
+	            			<td style="border-left: none">${entry.key}</td>
+	                        <c:set var="weekHours" value="${entry.value}"/>
+	                        <c:forEach items="${timeSummary.timeSummaryHeader}" var="hour">
+	                        	<td>${weekHours[hour.key]}</td>
+	                        </c:forEach>
+	                        <td valign="middle">${timeSummary.weekTotalMap[entry.key]}  <i>(${timeSummary.flsaWeekTotalMap[entry.key]})</i></td>
+	                     </tr>
+	              <tbody id="weekSummary${weekString}" style="display: none;">
+                  <c:forEach items="${timeSummary.weeklySections[entry.key]}" var="section">
                     <c:forEach items="${section.earnCodeSections}" var="earnCodeSection">
-                        <tr>
-                            <td colspan="${fn:length(timeSummary.workedHours) + 1}" class="earnCodeCell">${earnCodeSection.earnCode}: ${earnCodeSection.description}</td>
+                        <tr class="ui-state-default" style="font-weight: bold;">
+                            <td class="earnCodeCell" colspan="2" style="border-right: none">${earnCodeSection.earnCode}: ${earnCodeSection.description}</td>
+                            <td colspan="8" style="border-left: none"></td>
 						</tr>
 						<c:forEach items="${earnCodeSection.assignmentsRows}" var="assignmentRow">
-                            <c:set var="periodTotal" value="${assignmentRow.assignmentColumns[fn:length(assignmentRow.assignmentColumns) - 1].total}"/>
+							<c:set var="periodTotal" value="${assignmentRow.periodTotal}"/>
                             <c:choose>
                                 <c:when test="${earnCodeSection.isAmountEarnCode}">
-                                    <tr style="border-bottom-style: double; font-weight: bold;">
-                                        <td class="${assignmentRow.cssClass}">${assignmentRow.descr}</td>
-                                        <c:forEach items="${assignmentRow.assignmentColumns}" var="assignmentColumn">
+                                    <tr>
+                                        <td colspan="2"  class="${assignmentRow.cssClass}">${assignmentRow.descr}</td>
+                                           <c:forEach items="${timeSummary.timeSummaryHeader}" var="entry">
+                                            <c:set var="assignmentColumn" value="${assignmentRow.assignmentColumns[entry.key]}"/>  
                                             <c:choose>
                                                 <c:when test="${assignmentColumn.amount ne '0.00' and assignmentColumn.amount != 0}">
-                                                    <c:choose>
-                                                        <c:when test="${assignmentColumn.weeklyTotal}">
-                                                            <td class="${assignmentColumn.cssClass}">$${assignmentColumn.amount}</td>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <td>$${assignmentColumn.amount}</td>
-                                                        </c:otherwise>
-                                                    </c:choose>
+                                                     <td >$${assignmentColumn.amount}</td>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <td></td>
@@ -72,45 +66,29 @@
                                 </c:when>
                                 <c:otherwise>
                                     <c:if test="${periodTotal ne '0.00' and periodTotal != 0}">
-                                        <tr style="border-bottom-style: double; font-weight: bold;">
-                                            <td class="${assignmentRow.cssClass}">${assignmentRow.descr}</td>
-                                            <c:forEach items="${assignmentRow.assignmentColumns}" var="assignmentColumn">
-                                                <c:choose>
-                                                    <c:when test="${assignmentColumn.total ne '0.00' and assignmentColumn.total != 0}">
-                                                        <c:choose>
-                                                            <c:when test="${assignmentColumn.weeklyTotal}">
-                                                                <td class="${assignmentColumn.cssClass}">${assignmentColumn.total}</td>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <td>${assignmentColumn.total}</td>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <td></td>
-                                                    </c:otherwise>
-                                                </c:choose>
+                                        <tr>
+                                           <td colspan="2" class="${assignmentRow.cssClass}">${assignmentRow.descr}</td>
+                                           <c:forEach items="${timeSummary.timeSummaryHeader}" var="entry">
+                                            	<c:set var="assignmentColumn" value="${assignmentRow.assignmentColumns[entry.key]}"/>   
+                                                <td class="${assignmentColumn.cssClass}">${assignmentColumn.total}</td>
                                             </c:forEach>
+                                            <td>${assignmentRow.periodTotal}</td>
                                         </tr>
                                     </c:if>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
                     </c:forEach>
-                    <tr>
-                        <td class="earnGroupTotalRow">${section.earnGroup} Totals</td>
-                        <c:forEach items="${section.totals}" var="entry">
-                            <c:choose>
-                                <c:when test="${entry ne '0.00' and entry != 0}">
-                                    <td class="earnGroupTotalRow">${entry}</td>
-                                </c:when>
-                                <c:otherwise>
-                                    <td class="earnGroupTotalRow"></td>
-                                </c:otherwise>
-                            </c:choose>
+                    <tr style="font-weight: bold;border-bottom-style: double;border-top-style: double;">
+                        <td class="earnGroupTotalRow" colspan="2">${section.earnGroup} Totals</td>
+                        <c:forEach items="${timeSummary.timeSummaryHeader}" var="entry">
+                               <td class="earnGroupTotalRow">${section.totals[entry.key]}</td>
                         </c:forEach>
+                         <td>${section.earnGroupTotal}</td>
                     </tr>
                 </c:forEach>
+                </tbody>
+              </c:forEach>
             </tbody>
         </table>
 	</div>
@@ -148,7 +126,7 @@
 					</c:if>
 					<c:if test="${maxedLeaveRow.payoutable}">
 						<c:choose>
-							<c:when test="${Form.currentTimesheet}">
+							<c:when test="${Form.currentTimesheet}">ClockLocationRuleLookupTest
 								<input type="button" id="lm-payout-button_${maxedLeaveRow.accrualCategoryRuleId}" class="button" value="Payout" name="payout"/>
 							</c:when>
 							<c:otherwise>

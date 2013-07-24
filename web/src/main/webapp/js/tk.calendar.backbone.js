@@ -166,7 +166,8 @@ $(function () {
             "keypress #selectedEarnCode" : "showFieldByEarnCodeType",
             "click input[id^=lm-transfer-button]" : "showOnDemandBalanceTransferDialog",
             "click input[id^=lm-payout-button]" : "showOnDemandBalancePayoutDialog",
-            "click #ts-route-button" : "forfeitBalanceOnSubmit"
+            "click #ts-route-button" : "forfeitBalanceOnSubmit",
+            "click span[id^=weekSummary]" : "showWeekSummary"
         },
 
         initialize : function () {
@@ -862,6 +863,27 @@ $(function () {
             var dfd = $.Deferred();
             dfd.done(this.fetchEarnCode(_.getSelectedAssignmentValue()))
                     .done(this.showFieldByEarnCodeType());
+        },
+        
+        showWeekSummary : function (e) {
+            var self = this;
+            var docId = e.target.id.split("_")[1];
+            // This is to grab a person's <tr> in the table
+            var $parent = ($("#" + e.target.id).closest("tr"));
+            // Grab the + / - icon
+            var $element = $("#" + e.target.id);
+            var $summary = $("#weekSummary"+docId);
+            // Toggle the + / - icon
+            if ($element.hasClass('ui-icon-plus')) {
+                // change the icon from - to +
+                $element.removeClass('ui-icon-plus').addClass('ui-icon-minus');
+                $summary.css("display", "table-row-group");
+            } else {
+                // remove the leave details rows.
+            	$summary.css("display", "none");
+                // change the icon from + to -
+                $element.removeClass('ui-icon-minus').addClass('ui-icon-plus');
+            }
         },
 
         /**

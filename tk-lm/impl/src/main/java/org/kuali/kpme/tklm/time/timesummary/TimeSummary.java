@@ -28,12 +28,16 @@ import org.json.simple.JSONValue;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 
 public class TimeSummary implements Serializable {
+	private Map<Integer,String> timeSummaryHeader;
 	private List<String> summaryHeader = new ArrayList<String>();
 	private List<EarnGroupSection> sections = new ArrayList<EarnGroupSection>();
+	private Map<String, List<EarnGroupSection>> weeklySections = new LinkedHashMap<String, List<EarnGroupSection>>();
 	private List<LeaveSummaryRow> maxedLeaveRows = new ArrayList<LeaveSummaryRow>();
 	private List<BigDecimal> workedHours = new ArrayList<BigDecimal>();
 	private Map<String, BigDecimal> weekTotalMap = new LinkedHashMap<String, BigDecimal>();
 	private Map<String, BigDecimal> flsaWeekTotalMap = new LinkedHashMap<String, BigDecimal>();
+	private Map<String, Map<Integer, BigDecimal>> weeklyWorkedHours = new LinkedHashMap<String, Map<Integer, BigDecimal>>();
+	private Map<String, Map<String, Object>> weekData = new LinkedHashMap<String, Map<String, Object>>();
 
 	public List<String> getSummaryHeader() {
 		return summaryHeader;
@@ -89,7 +93,7 @@ public class TimeSummary implements Serializable {
      	 	 	 	ar.put("earnCode", earnCodeSection.getEarnCode());
                     
                     List<Map<String, Object>> assignmentColumns = new ArrayList<Map<String, Object>>();
-                    for (AssignmentColumn assignmentColumn : assignmentRow.getAssignmentColumns()) {
+                    for (AssignmentColumn assignmentColumn : assignmentRow.getAssignmentColumns().values()) {
                     	Map<String, Object> ac = new TreeMap<String, Object>();
 
                     	ac.put("cssClass", assignmentColumn.getCssClass());
@@ -162,7 +166,40 @@ public class TimeSummary implements Serializable {
 	public void setFlsaWeekTotalMap(Map<String, BigDecimal> flsaWeekTotalMap) {
 		this.flsaWeekTotalMap = flsaWeekTotalMap;
 	}
-
+	
+	public Map<String, Map<String, Object>> getWeekData() {
+		return weekData;
+	}
+	
+	public void setWeekData(Map<String, Map<String, Object>> weekData) {
+		this.weekData = weekData;
+	}
+	
+	public Map<String, List<EarnGroupSection>> getWeeklySections() {
+		return weeklySections;
+	}
+	
+	public void setWeeklySections(Map<String, List<EarnGroupSection>> weeklySections) {
+		this.weeklySections = weeklySections;
+	}
+	
+	public Map<String, Map<Integer, BigDecimal>> getWeeklyWorkedHours() {
+		return weeklyWorkedHours;
+	}
+	
+	public void setWeeklyWorkedHours(
+			Map<String, Map<Integer, BigDecimal>> weeklyWorkedHours) {
+		this.weeklyWorkedHours = weeklyWorkedHours;
+	}
+	
+	public Map<Integer, String> getTimeSummaryHeader() {
+		return timeSummaryHeader;
+	}
+	
+	public void setTimeSummaryHeader(Map<Integer, String> timeSummaryHeader) {
+		this.timeSummaryHeader = timeSummaryHeader;
+	}
+	
 	
 	
 }

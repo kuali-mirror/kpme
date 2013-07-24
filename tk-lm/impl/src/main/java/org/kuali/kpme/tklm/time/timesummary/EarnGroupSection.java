@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,9 @@ public class EarnGroupSection implements Serializable {
 	private String earnGroup;
 	private Map<String, EarnCodeSection> earnCodeToEarnCodeSectionMap = new HashMap<String, EarnCodeSection>();
 	private List<EarnCodeSection> earnCodeSections = new ArrayList<EarnCodeSection>();
-	private List<BigDecimal> totals = new ArrayList<BigDecimal>();
+	private Map<Integer, BigDecimal> totals = new LinkedHashMap<Integer, BigDecimal>();
+	private BigDecimal earnGroupTotal = BigDecimal.ZERO;
+	
 	public String getEarnGroup() {
 		return earnGroup;
 	}
@@ -36,29 +39,33 @@ public class EarnGroupSection implements Serializable {
 		this.earnGroup = earnGroup;
 	}
 
-	public List<BigDecimal> getTotals() {
+	public Map<Integer, BigDecimal> getTotals() {
 		return totals;
 	}
 	
 	public void addEarnCodeSection(EarnCodeSection earnCodeSection, List<Boolean> dayArrangements){
 		for(AssignmentRow assignRow : earnCodeSection.getAssignmentsRows()) {
-			int i = 0;
-			for (AssignmentColumn assignmentColumn : assignRow.getAssignmentColumns()) {
+			for(Integer i : assignRow.getAssignmentColumns().keySet()) {
+				AssignmentColumn assignmentColumn = assignRow.getAssignmentColumns().get(i);
+				BigDecimal value = totals.get(i).add(assignmentColumn.getTotal(), HrConstants.MATH_CONTEXT);
+				totals.put(i, value.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING));
+				earnGroupTotal = earnGroupTotal.add(assignmentColumn.getTotal());
+				earnGroupTotal.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING);
+			}
+			/**
+			for (AssignmentColumn assignmentColumn : assignRow.getAssignmentColumns().values()) {
 				BigDecimal value = totals.get(i).add(assignmentColumn.getTotal(), HrConstants.MATH_CONTEXT);
 				totals.set(i, value.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING));
+				System.out.println("Column total is "+assignmentColumn.getTotal());
+				earnGroupTotal = earnGroupTotal.add(assignmentColumn.getTotal());
+				earnGroupTotal.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING);
 				i++;
-			}
+			}**/
 		}
 		earnCodeToEarnCodeSectionMap.put(earnCodeSection.getEarnCode(), earnCodeSection);
 		earnCodeSections.add(earnCodeSection);
 		
-		BigDecimal periodTotal = BigDecimal.ZERO;
-		for(int i =0;i<totals.size()-2;i++){
-			if(dayArrangements.get(i)){
-				periodTotal = periodTotal.add(totals.get(i), HrConstants.MATH_CONTEXT);
-			}
-		}
-		totals.set(totals.size()-1, periodTotal);
+		
 	}
 	public Map<String, EarnCodeSection> getEarnCodeToEarnCodeSectionMap() {
 		return earnCodeToEarnCodeSectionMap;
@@ -68,16 +75,27 @@ public class EarnGroupSection implements Serializable {
 		this.earnCodeToEarnCodeSectionMap = earnCodeToEarnCodeSectionMap;
 	}
 	
-	
 	public void addToTotal(int index, BigDecimal hrs){
 		BigDecimal total = getTotals().get(index);
 		total = total.add(hrs, HrConstants.MATH_CONTEXT);
-		getTotals().set(index, total);
+		getTotals().put(index, total);
 	}
+	
 	public List<EarnCodeSection> getEarnCodeSections() {
 		return earnCodeSections;
 	}
+	
 	public void setEarnCodeSections(List<EarnCodeSection> earnCodeSections) {
 		this.earnCodeSections = earnCodeSections;
 	}
+	
+	public BigDecimal getEarnGroupTotal() {
+		return earnGroupTotal;
+	}
+	
+	public void setEarnGroupTotal(BigDecimal earnGroupTotal) {
+		this.earnGroupTotal = earnGroupTotal;
+	}
+	
+	
 }
