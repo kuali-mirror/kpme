@@ -117,7 +117,13 @@ public class PayrollApprovalJob implements Job {
 			departments.add(assignment.getDept());
 		}
 		for(String dept : departments) {
-			roleMembers = HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, LocalDate.now().toDateTime(LocalTime.now()), true);
+			List<RoleMember> roleMembersInDepartment = new ArrayList<RoleMember>();
+			roleMembersInDepartment = HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, LocalDate.now().toDateTime(LocalTime.now()), true);
+			for(RoleMember roleMember : roleMembersInDepartment) {
+				if(!roleMembers.contains(roleMember)) {
+					roleMembers.add(roleMember);
+				}
+			}
 		}
 		return roleMembers;
 	}
