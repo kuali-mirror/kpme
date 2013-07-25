@@ -36,7 +36,12 @@ public class CacheUtils {
             DistributedCacheManagerDecorator distributedCacheManagerDecorator =
                     GlobalResourceLoader.getService(cacheDecoratorName);
             if (distributedCacheManagerDecorator != null) {
-                distributedCacheManagerDecorator.getCache(cacheName).clear();
+            	if(distributedCacheManagerDecorator.getCache(cacheName) == null) {
+            		LOG.error("Cache: " + cacheName + " not found.");
+            	} else {
+            		distributedCacheManagerDecorator.getCache(cacheName).clear();
+            	}
+                
             } else {
                 LOG.error("DistributedCacheManagerDecorator: " + cacheDecoratorName + " not found.  Cache: " + cacheName + " was not flushed.");
             }

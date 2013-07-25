@@ -16,6 +16,8 @@
 package org.kuali.kpme.pm.position;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,13 +35,16 @@ import org.kuali.kpme.pm.service.base.PmServiceLocator;
 public class Position extends PositionBase {
 	private static final long serialVersionUID = 1L;
 	
+    public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Position";
+    private static final String[] PRIVATE_CACHES_FOR_FLUSH = {PositionBase.CACHE_NAME, Position.CACHE_NAME};
+    public static final List<String> CACHE_FLUSH = Collections.unmodifiableList(Arrays.asList(PRIVATE_CACHES_FOR_FLUSH));
+	
 	private List<PositionQualification> qualificationList = new LinkedList<PositionQualification>();
     private List<PositionDuty> dutyList = new LinkedList<PositionDuty>();
     private List<PstnFlag> flagList = new LinkedList<PstnFlag>();
     private List<PositionResponsibility> positionResponsibilityList = new LinkedList<PositionResponsibility>();
     private List<PositionFunding> fundingList = new ArrayList<PositionFunding>();
-    public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Position";
-    
+
     private String pmPositionClassId;
     
     private String category;		// used to determine what fields should show when editing an existing maint doc
