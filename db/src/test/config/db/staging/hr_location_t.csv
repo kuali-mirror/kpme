@@ -3,18 +3,4 @@ HR_LOCATION_ID,LOCATION,DESCRIPTION,TIMEZONE,EFFDT,ACTIVE
 2,CO,Mountain Time,America/Denver,2010-01-01,Y
 3,GA,Eastern Time,America/Indiana/Indianapolis,2010-01-01,Y
 4,IA,Central Time,America/Chicago,2010-01-01,Y
-5,IN,INDIANAPOLIS,America/Indiana/Indianapolis,2010-01-01,Y
-6,BL,Bloomington Campus,America/Indiana/Indianapolis,2010-01-01,Y
-7,CST,Central Standard Time,America/Chicago,2010-01-01,Y
-8,EST,Eastern Standard Time,America/Indiana/Indianapolis,2010-01-01,Y
-9,FL,Orlando Florida,America/Indiana/Indianapolis,2010-01-01,Y
-10,UA,University Admin,America/Indiana/Indianapolis,2010-01-01,Y
-11,BX,BLGTN OFF CAMPUS,America/Indiana/Indianapolis,2010-01-01,Y
-12,CL,COLUMBUS CAMPUS,America/Indiana/Indianapolis,2010-01-01,Y
-13,EA,EAST-RICHMOND CAMPUS,America/Indiana/Indianapolis,2010-01-01,Y
-14,FW,FORT WAYNE CAMPUS,America/Indiana/Indianapolis,2010-01-01,Y
-15,KO,KOKOMO CAMPUS,America/Indiana/Indianapolis,2010-01-01,Y
-16,NW,NORTHWEST-GARY CAMPUS,America/Chicago,2010-01-01,Y
-17,OC,OFF CAMPUS,America/Indiana/Indianapolis,2010-01-01,Y
-18,SB,SOUTH BEND CAMPUS,America/Indiana/Indianapolis,2010-01-01,Y
-19,SE,SOUTHEAST-NEW ALBANY CAMPUS,America/Indiana/Indianapolis,2010-01-01,Y
+5,IN,Eastern Time,America/Indiana/Indianapolis,2010-01-01,Y
