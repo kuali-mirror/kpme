@@ -109,13 +109,12 @@
                 </c:forEach>
                 </tbody>
               </c:forEach>
-              <c:if test="${timeSummary.grandTotal != null}" >
-              	<tr style="font-weight: bold;border-bottom-style: double;border-top-style: double;">
-              		  <td colspan="2" style="border-right: none">GrandTotal</td>
-                      <td colspan="7" style="border-left: none"></td>
-                      <td>${timeSummary.grandTotal}</td>
-              	</tr>	
-              </c:if>              
+              <tr><td colspan="8"></td>
+              <td style="color: #993333;font-weight: bold;border-left-style: none">Grand Total</td>
+              <td style="font-weight: bold;">${timeSummary.grandTotal}</td>
+               
+              </tr>
+
             </tbody>
         </table>
 	</div>
