@@ -27,7 +27,7 @@ public class TimesheetDocumentHeader extends CalendarDocumentHeaderBase implemen
 	private static final long serialVersionUID = 1L;
 
 	public TimesheetDocumentHeader() {
-		
+		this.calendarType = HrConstants.PAY_CALENDAR_TYPE;
 	}
 	
 	public TimesheetDocumentHeader(String documentId, String principalId, Date payBeginDate, Date payEndDate, String documentStatus) {

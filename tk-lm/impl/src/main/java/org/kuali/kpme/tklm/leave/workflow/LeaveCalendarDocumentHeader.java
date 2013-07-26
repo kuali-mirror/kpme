@@ -25,7 +25,7 @@ import org.kuali.kpme.core.util.HrConstants;
 public class LeaveCalendarDocumentHeader extends CalendarDocumentHeaderBase implements CalendarDocumentHeaderContract {
 
     public LeaveCalendarDocumentHeader() {
-
+    	this.calendarType = HrConstants.LEAVE_CALENDAR_TYPE;
     }
 
     public LeaveCalendarDocumentHeader(String documentId, String principalId, Date beginDate, Date endDate, String documentStatus) {
