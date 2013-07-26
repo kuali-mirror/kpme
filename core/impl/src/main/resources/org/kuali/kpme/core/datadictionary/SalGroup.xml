@@ -25,6 +25,9 @@
 	<bean id="SalaryGroup" parent="SalaryGroup-parentBean"/>
  	<bean id="SalaryGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
 	    <property name="dataObjectClass" value="org.kuali.kpme.core.salarygroup.SalaryGroup"/>
+	    <property name="lookupDefinition">
+			<ref bean="SalaryGroup-lookupDefinition" />
+		</property>
 	    <property name="attributes">
 	      <list>
 	        <ref bean="SalaryGroup-hrSalGroupId"/>
@@ -251,6 +254,39 @@
     </property>
   </bean> 
  
+ 
+ <!-- SalGroup look up for KNS -->
+ <bean id="SalaryGroup-lookupDefinition" parent="SalaryGroup-lookupDefinition-parentBean" />
+	<bean id="SalaryGroup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate"  />
+		        <bean parent="FieldDefinition" p:attributeName="hrSalGroup" />       
+		        <bean parent="FieldDefinition" p:attributeName="institution"/>
+		        <bean parent="FieldDefinition" p:attributeName="location"/>
+		        <bean parent="FieldDefinition" p:attributeName="percentTime" />
+		        <bean parent="FieldDefinition" p:attributeName="benefitsEligible" />
+		        <bean parent="FieldDefinition" p:attributeName="leaveEligible" />
+		        <bean parent="FieldDefinition" p:attributeName="leavePlan"/>
+		        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+		        <bean parent="FieldDefinition" p:attributeName="hrSalGroup"/>
+		        <bean parent="FieldDefinition" p:attributeName="institution" />
+		        <bean parent="FieldDefinition" p:attributeName="location" />
+		        <bean parent="FieldDefinition" p:attributeName="percentTime" />
+		        <bean parent="FieldDefinition" p:attributeName="benefitsEligible" />
+		        <bean parent="FieldDefinition" p:attributeName="leaveEligible" />
+		        <bean parent="FieldDefinition" p:attributeName="leavePlan" />
+		        <bean parent="FieldDefinition" p:attributeName="active"/>
+			</list>
+		</property>
+		<property name="title" value="Salary Group Lookup" />
+	</bean>
+	
  <!-- Salary Group Inquiry View -->
   <bean id="SalaryGroup-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Salary Group Inquiry"/>
