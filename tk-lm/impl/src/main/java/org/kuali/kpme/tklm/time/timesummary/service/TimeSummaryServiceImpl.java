@@ -73,8 +73,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 
         List<Boolean> dayArrangements = new ArrayList<Boolean>();
 
-		timeSummary.setSummaryHeader(getHeaderForSummary(timesheetDocument.getCalendarEntry(), dayArrangements));
-		timeSummary.setTimeSummaryHeader(getHeaderForSummary());
+		timeSummary.setTimeSummaryHeader(getHeaderForSummary(timesheetDocument.getCalendarEntry(), timeSummary));
 		
 		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), timesheetDocument.getCalendarEntry(), HrServiceLocator.getCalendarService().getCalendar(timesheetDocument.getCalendarEntry().getHrCalendarId()), true);
 
@@ -283,8 +282,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 								assignRow.setEarnCodeSection(earnCodeSection);
 								for (int i = 1; i < numEntries; i++) {
 									AssignmentColumn assignmentColumn = new AssignmentColumn();
-									assignmentColumn.setTotal(HrConstants.BIG_DECIMAL_SCALED_ZERO);
-									assignmentColumn.setAmount(HrConstants.BIG_DECIMAL_SCALED_ZERO);
+//									assignmentColumn.setTotal(HrConstants.BIG_DECIMAL_SCALED_ZERO);
+//									assignmentColumn.setAmount(HrConstants.BIG_DECIMAL_SCALED_ZERO);
 									assignRow.addAssignmentColumn(i,assignmentColumn);
 								}
 								earnCodeSection.addAssignmentRow(assignRow);
@@ -397,10 +396,6 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         for (FlsaWeek week : aggregate.getFlsaWeeks(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback())) {
         	weekHours = new TreeMap<Integer, BigDecimal>();
         	
-        	for(Integer key : timeSummary.getTimeSummaryHeader().keySet()) {
-        		weekHours.put(key, HrConstants.BIG_DECIMAL_SCALED_ZERO);
-        	}
-        	
             BigDecimal weeklyTotal = HrConstants.BIG_DECIMAL_SCALED_ZERO;
             for (FlsaDay day : week.getFlsaDays()) {
                 BigDecimal totalForDay = HrConstants.BIG_DECIMAL_SCALED_ZERO;
@@ -492,8 +487,9 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         return header;
     }
 
-    public Map<Integer, String> getHeaderForSummary() {
+    public Map<Integer, String> getHeaderForSummary(CalendarEntry cal, TimeSummary timeSummary) {
         Map<Integer, String> header = new LinkedHashMap<Integer,String>();
+        Map<String, String> weekDates = new LinkedHashMap<String,String>();
         
         header.put(DateTimeConstants.SUNDAY, "Sun");
         header.put(DateTimeConstants.MONDAY, "Mon");
@@ -503,6 +499,77 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         header.put(DateTimeConstants.FRIDAY, "Fri");
         header.put(DateTimeConstants.SATURDAY, "Sat");
         
+        int flsaBeginDay = this.getPayCalendarForEntry(cal).getFlsaBeginDayConstant();
+        LocalDateTime startDate = cal.getBeginPeriodLocalDateTime();
+        LocalDateTime endDate = cal.getEndPeriodLocalDateTime();
+
+        System.out.println("Flsa begin date is "+flsaBeginDay);
+        System.out.println("startDate is >> "+startDate);
+        System.out.println("start of month>>> "+startDate.getDayOfWeek());
+        
+        LocalDateTime actualStartDate = cal.getBeginPeriodLocalDateTime();
+        LocalDateTime actualEndDate = cal.getEndPeriodLocalDateTime();
+        
+        int daysToMinus = 0;
+        if(DateTimeConstants.SUNDAY != startDate.getDayOfWeek()) {
+        	daysToMinus = startDate.getDayOfWeek();
+        }
+        
+        actualStartDate = startDate.minusDays(daysToMinus);
+        int daysToAdd = 0;
+        if(endDate.getDayOfWeek() != DateTimeConstants.SUNDAY) {
+        	daysToAdd = DateTimeConstants.SATURDAY - endDate.getDayOfWeek();
+        } else {
+        	daysToAdd = DateTimeConstants.SATURDAY;
+        }
+        
+        System.out.println("Days to add us >>> "+daysToAdd);
+        actualEndDate = endDate.plusDays(daysToAdd);
+        
+        // Increment end date if we are on a virtual day calendar, so that the
+        // for loop can account for having the proper amount of days on the
+        // summary calendar.
+        if (endDate.get(DateTimeFieldType.hourOfDay()) != 0 || endDate.get(DateTimeFieldType.minuteOfHour()) != 0 ||
+                endDate.get(DateTimeFieldType.secondOfMinute()) != 0)
+        {
+            endDate = endDate.plusDays(1);
+        }
+
+        boolean afterFirstDay = false;
+        int week = 1;
+        
+        LocalDateTime weekStart = actualStartDate;
+        LocalDateTime weekEnd = actualStartDate;
+        for (LocalDateTime currentDate = actualStartDate; currentDate.compareTo(actualEndDate) < 0; currentDate = currentDate.plusDays(1)) {
+        	
+            if (currentDate.getDayOfWeek() == flsaBeginDay && afterFirstDay) {
+                System.out.println("Week is ::: "+weekStart +" To "+weekEnd.minusDays(1));
+                StringBuilder display = new StringBuilder();
+                display.append(weekStart.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
+                display.append(" - ");
+                display.append(weekEnd.minusDays(1).toString(TkConstants.DT_ABBREV_DATE_FORMAT));
+                weekDates.put("Week "+week, display.toString());
+                weekStart = currentDate;
+                week++;
+            }
+
+            weekEnd = weekEnd.plusDays(1);
+            afterFirstDay = true;
+        }
+
+        // We may have a very small final "week" on this pay period. For now
+        // we will mark it as a week, and if someone doesn't like it, it can
+        // be removed.
+        if (!header.isEmpty() && !header.get(header.size() - 1).startsWith("Week")) {
+        	System.out.println("Here week is "+weekStart+" to "+actualEndDate);
+        	StringBuilder display = new StringBuilder();
+            display.append(weekStart.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
+            display.append(" - ");
+            display.append(actualEndDate.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
+            weekDates.put("Week "+week, display.toString());
+        }
+        
+        timeSummary.setWeekDates(weekDates);
         return header;
     }
     /**

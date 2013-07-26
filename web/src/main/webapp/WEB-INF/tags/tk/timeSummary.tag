@@ -31,10 +31,15 @@
 		            			</c:if>
 		            		
 	            			</td>
-	            			<td style="border-left: none">${entry.key}</td>
+	            			<td style="border-left: none">${entry.key}<br/>${timeSummary.weekDates[entry.key]}</td>
 	                        <c:set var="weekHours" value="${entry.value}"/>
 	                        <c:forEach items="${timeSummary.timeSummaryHeader}" var="hour">
-	                        	<td>${weekHours[hour.key]}</td>
+	                        	<c:if test="${weekHours[hour.key] != null and not empty weekHours[hour.key]}">
+	                        		<td>${weekHours[hour.key]}</td>
+	                        	</c:if>
+	                        	<c:if test="${weekHours[hour.key] == null or empty weekHours[hour.key]}">
+	                        		<td style="background: rgb(224, 235, 225)">${weekHours[hour.key]}</td>
+	                        	</c:if>
 	                        </c:forEach>
 	                        <td valign="middle">${timeSummary.weekTotalMap[entry.key]}  <i>(${timeSummary.flsaWeekTotalMap[entry.key]})</i></td>
 	                     </tr>
@@ -52,7 +57,7 @@
                                     <tr>
                                         <td colspan="2"  class="${assignmentRow.cssClass}">${assignmentRow.descr}</td>
                                            <c:forEach items="${timeSummary.timeSummaryHeader}" var="entry">
-                                            <c:set var="assignmentColumn" value="${assignmentRow.assignmentColumns[entry.key]}"/>  
+                                            <c:set var="assignmentColumn" value="${assignmentRow.assignmentColumns[entry.key]}"/>
                                             <c:choose>
                                                 <c:when test="${assignmentColumn.amount ne '0.00' and assignmentColumn.amount != 0}">
                                                      <td >$${assignmentColumn.amount}</td>
@@ -70,7 +75,15 @@
                                            <td colspan="2" class="${assignmentRow.cssClass}">${assignmentRow.descr}</td>
                                            <c:forEach items="${timeSummary.timeSummaryHeader}" var="entry">
                                             	<c:set var="assignmentColumn" value="${assignmentRow.assignmentColumns[entry.key]}"/>   
-                                                <td class="${assignmentColumn.cssClass}">${assignmentColumn.total}</td>
+                                               
+                                             <c:choose>
+                                                <c:when test="${assignmentColumn.total ne '0.00' and assignmentColumn.total != 0}">
+                                                      <td class="${assignmentColumn.cssClass}">${assignmentColumn.total}</td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td></td>
+                                                </c:otherwise>
+                                            </c:choose>
                                             </c:forEach>
                                             <td>${assignmentRow.periodTotal}</td>
                                         </tr>
@@ -82,7 +95,14 @@
                     <tr style="font-weight: bold;border-bottom-style: double;border-top-style: double;">
                         <td class="earnGroupTotalRow" colspan="2">${section.earnGroup} Totals</td>
                         <c:forEach items="${timeSummary.timeSummaryHeader}" var="entry">
-                               <td class="earnGroupTotalRow">${section.totals[entry.key]}</td>
+                        	 <c:choose>
+                                <c:when test="${section.totals[entry.key] ne '0.00' and section.totals[entry.key] != 0}">
+                                    <td class="earnGroupTotalRow">${section.totals[entry.key]}</td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td class="earnGroupTotalRow"></td>
+                                </c:otherwise>
+                             </c:choose>
                         </c:forEach>
                          <td>${section.earnGroupTotal}</td>
                     </tr>

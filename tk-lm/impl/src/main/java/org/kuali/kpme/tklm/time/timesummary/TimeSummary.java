@@ -37,7 +37,7 @@ public class TimeSummary implements Serializable {
 	private Map<String, BigDecimal> weekTotalMap = new LinkedHashMap<String, BigDecimal>();
 	private Map<String, BigDecimal> flsaWeekTotalMap = new LinkedHashMap<String, BigDecimal>();
 	private Map<String, Map<Integer, BigDecimal>> weeklyWorkedHours = new LinkedHashMap<String, Map<Integer, BigDecimal>>();
-	private Map<String, Map<String, Object>> weekData = new LinkedHashMap<String, Map<String, Object>>();
+	private Map<String, String> weekDates = new LinkedHashMap<String, String>();
 
 	public List<String> getSummaryHeader() {
 		return summaryHeader;
@@ -167,14 +167,12 @@ public class TimeSummary implements Serializable {
 		this.flsaWeekTotalMap = flsaWeekTotalMap;
 	}
 	
-	public Map<String, Map<String, Object>> getWeekData() {
-		return weekData;
+	public Map<String, String> getWeekDates() {
+		return weekDates;
 	}
-	
-	public void setWeekData(Map<String, Map<String, Object>> weekData) {
-		this.weekData = weekData;
+	public void setWeekDates(Map<String, String> weekDates) {
+		this.weekDates = weekDates;
 	}
-	
 	public Map<String, List<EarnGroupSection>> getWeeklySections() {
 		return weeklySections;
 	}
