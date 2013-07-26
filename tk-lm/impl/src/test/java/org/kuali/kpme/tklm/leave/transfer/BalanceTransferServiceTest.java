@@ -26,7 +26,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
-import org.kuali.kpme.core.block.CalendarBlockContract;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
@@ -407,8 +406,8 @@ public class BalanceTransferServiceTest extends TKLMIntegrationTestCase {
 		bt = LmServiceLocator.getBalanceTransferService().initializeTransfer(USER_ID, YE_LOSE, aRow.getAccruedBalance(), effectiveDate);
 		bt = LmServiceLocator.getBalanceTransferService().transfer(bt);
 		LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getForfeitedLeaveBlockId());
-		CalendarBlockContract accruedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getAccruedLeaveBlockId());
-		CalendarBlockContract debitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getDebitedLeaveBlockId());
+		LeaveBlock accruedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getAccruedLeaveBlockId());
+		LeaveBlock debitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getDebitedLeaveBlockId());
 		assertEquals("forfeited leave block leave amount incorrect", (new BigDecimal(-17)).longValue(), forfeitedLeaveBlock.getLeaveAmount().longValue());
 		assertTrue("accrued leave block should not exist",ObjectUtils.isNull(accruedLeaveBlock));
 		assertTrue("debited leave block should not exist",ObjectUtils.isNull(debitedLeaveBlock));
@@ -424,8 +423,8 @@ public class BalanceTransferServiceTest extends TKLMIntegrationTestCase {
 		bt.setAmountTransferred(null);
 		bt = LmServiceLocator.getBalanceTransferService().transfer(bt);
 		LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getForfeitedLeaveBlockId());
-		CalendarBlockContract accruedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getAccruedLeaveBlockId());
-		CalendarBlockContract debitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getDebitedLeaveBlockId());
+		LeaveBlock accruedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getAccruedLeaveBlockId());
+		LeaveBlock debitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getDebitedLeaveBlockId());
 		assertEquals("forfeited leave block leave amount incorrect",(new BigDecimal(-17)).longValue(), forfeitedLeaveBlock.getLeaveAmount().longValue());
 		assertTrue("accrued leave block should not exist",ObjectUtils.isNull(accruedLeaveBlock));
 		assertTrue("debited leave block should not exist",ObjectUtils.isNull(debitedLeaveBlock));	
@@ -439,7 +438,7 @@ public class BalanceTransferServiceTest extends TKLMIntegrationTestCase {
 		LocalDate effectiveDate = decStart.plusDays(3);
 		bt = LmServiceLocator.getBalanceTransferService().initializeTransfer(USER_ID, OD_XFER, aRow.getAccruedBalance(), effectiveDate);
 		bt = LmServiceLocator.getBalanceTransferService().transfer(bt);
-		CalendarBlockContract forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getForfeitedLeaveBlockId());
+		LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getForfeitedLeaveBlockId());
 		LeaveBlock accruedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getAccruedLeaveBlockId());
 		LeaveBlock debitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getDebitedLeaveBlockId());
 		assertEquals("accrued leave block leave amount incorrect", (new BigDecimal(0.5)).longValue(), accruedLeaveBlock.getLeaveAmount().longValue());

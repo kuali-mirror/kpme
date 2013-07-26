@@ -29,7 +29,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
-import org.kuali.kpme.core.block.CalendarBlockContract;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.common.LMConstants;
@@ -55,7 +54,7 @@ public class LeaveBlockServiceImplTest extends TKLMIntegrationTestCase {
 
 	@Test
 	public void testGetLeaveBlock() {
-		CalendarBlockContract leaveBlock = leaveBlockService.getLeaveBlock("1000");
+		LeaveBlock leaveBlock = leaveBlockService.getLeaveBlock("1000");
 		Assert.assertNotNull("Leave Block not found ", leaveBlock);
 	}
 

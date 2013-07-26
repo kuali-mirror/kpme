@@ -36,7 +36,6 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
-import org.kuali.kpme.core.block.CalendarBlockContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
@@ -272,7 +271,7 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
 						errors.add(DOC_NOT_FOUND + docId);
 						break;
 					} else {
-						CalendarBlockContract lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
+						LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
 						if(lb == null) {
 							errors.add(LEAVE_BLOCK_NOT_FOUND + docId);
 							break;
@@ -295,7 +294,7 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
 							errors.add(DOC_NOT_FOUND + docId);
 							break;
 						}else {
-							CalendarBlockContract lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
+							LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
 							if(lb == null) {
 								errors.add(LEAVE_BLOCK_NOT_FOUND + docId);
 								break;
@@ -319,7 +318,7 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
 							errors.add(DOC_NOT_FOUND + docId);
 							break;
 						}else {
-							CalendarBlockContract lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
+							LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
 							if(lb == null) {
 								errors.add(LEAVE_BLOCK_NOT_FOUND + docId);
 								break;

@@ -114,6 +114,27 @@
      
 <!-- Business Object Lookup Definition -->
 
+<!--   <bean id="TimesheetDocumentHeader-lookupView" parent="Uif-LookupView">
+    <property name="headerText" value="Timesheet Document Header Lookup"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.time.workflow.TimesheetDocumentHeader"/>
+    <property name="viewHelperServiceClass" value=" org.kuali.kpme.core.lookup.KPMELookupableHelper"/>
+    <property name="criteriaFields" >
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="documentId" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="documentStatus" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="Uif-DataField" p:propertyName="documentId"/>
+        <bean parent="Uif-DataField" p:propertyName="principalId" />
+        <bean parent="Uif-DataField" p:propertyName="documentStatus" />
+        <bean parent="Uif-DataField" p:propertyName="beginDate" />
+        <bean parent="Uif-DataField" p:propertyName="endDate" />
+      </list>
+    </property>
+  </bean> -->
 
   <bean id="TimesheetDocumentHeader-lookupDefinition" parent="TimesheetDocumentHeader-lookupDefinition-parentBean" />
 

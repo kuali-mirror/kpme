@@ -26,9 +26,6 @@
     <property name="inquiryDefinition" >
       <ref bean="TimeBlock-inquiryDefinition" />
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="TimeBlock-lookupDefinition" />
-    </property>
     <property name="titleAttribute" value="documentId" />
     <property name="attributes" >
       <list>
@@ -57,10 +54,10 @@
   			<bean parent="RelationshipDefinition">
 				<property name="objectAttributeName" value="timesheetDocumentHeader" />
 				<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentId" p:targetName="documentId" />
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="timesheetDocumentHeader.documentStatus" p:targetName="documentStatus" />
-				</list>
+					<list>
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentId" p:targetName="documentId" />
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="timesheetDocumentHeader.documentStatus" p:targetName="documentStatus" />
+					</list>
 				</property>
 			</bean>
             <bean parent="RelationshipDefinition">
@@ -406,8 +403,54 @@
 
 <!-- Business Object Lookup Definition -->
 
+  <bean id="TimeBlock-lookupView" parent="Uif-LookupView">
+  	<property name="headerText" value="Time Block Lookup" />
+  	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.timeblock.TimeBlock"/>
+  	<property name="viewHelperServiceClass" value="org.kuali.kpme.tklm.time.timeblock.web.TimeBlockLookupableHelperServiceImpl"/>
+  	<property name="criteriaFields">
+  		<list>
+  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="documentId">
+  				<property name="quickfinder">
+  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader"
+  						p:fieldConversions="documentId:documentId"/>
+  				</property>
+  			</bean>
+  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId">
+  				<property name="quickfinder">
+  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+  						p:fieldConversions="principalId:principalId"/>
+  				</property>
+  			</bean>
+  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="userPrincipalId">
+  				<property name="quickfinder">
+  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+  						p:fieldConversions="principalId:principalId"/>
+  				</property>
+  			</bean>
+  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="timesheetDocumentHeader.documentStatus"/>
+  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="beginDate"/>
+  		</list>
+  	</property>
+  	<property name="resultFields">
+  		<list>
+  			<bean parent="Uif-DataField" p:propertyName="documentId"/>
+  			<bean parent="Uif-DataField" p:propertyName="principalId"/>
+  			<bean parent="Uif-DataField" p:propertyName="jobNumber"/>
+  			<bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
+  			<bean parent="Uif-DataField" p:propertyName="earnCode"/>
+  			<bean parent="Uif-DataField" p:propertyName="workArea"/>
+  			<bean parent="Uif-DataField" p:propertyName="task"/>
+  			<bean parent="Uif-DataField" p:propertyName="hours"/>
+  			<bean parent="Uif-DataField" p:propertyName="amount"/>
+  			<bean parent="Uif-DataField" p:propertyName="overtimePref"/>
+  			<bean parent="Uif-DataField" p:propertyName="lunchDeleted"/>
+  			<bean parent="Uif-DataField" p:propertyName="beginTimestamp"/>
+  			<bean parent="Uif-DataField" p:propertyName="endTimestamp"/>
+  		</list>
+  	</property>
+  </bean>
 
-  <bean id="TimeBlock-lookupDefinition" parent="TimeBlock-lookupDefinition-parentBean" />
+<!--   <bean id="TimeBlock-lookupDefinition" parent="TimeBlock-lookupDefinition-parentBean" />
   <bean id="TimeBlock-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 
     <property name="defaultSort" >
@@ -443,5 +486,5 @@
       </list>
     </property>
     <property name="title" value="Time Block Lookup" />
-  </bean>
+  </bean> -->
 </beans>

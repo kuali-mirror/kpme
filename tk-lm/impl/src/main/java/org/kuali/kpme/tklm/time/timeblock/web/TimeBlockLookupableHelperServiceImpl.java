@@ -22,23 +22,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.web.form.LookupForm;
 
-public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 
 	/**
 	 * 
@@ -49,16 +49,20 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 	static final String DOC_STATUS_ID = "timesheetDocumentHeader.documentStatus";
 	static final String BEGIN_DATE_ID = "beginDate";
 	private static final String BEGIN_TIMESTAMP = "beginTimestamp";
-		
-	 @Override
-    public List<? extends BusinessObject> getSearchResults(java.util.Map<String, String> fieldValues) {
-		 if (fieldValues.containsKey(BEGIN_DATE_ID)) {
-			 //beginDate = fieldValues.get(BEGIN_DATE);
-			 fieldValues.put(BEGIN_TIMESTAMP, fieldValues.get(BEGIN_DATE_ID));
-			 fieldValues.remove(BEGIN_DATE_ID);
+	
+
+	@Override
+	protected List<?> getSearchResults(LookupForm form,
+			Map<String, String> searchCriteria, boolean unbounded) {
+		// TODO Auto-generated method stub
+		 if (searchCriteria.containsKey(BEGIN_DATE_ID)) {
+			 //beginDate = searchCriteria.get(BEGIN_DATE);
+			 searchCriteria.put(BEGIN_TIMESTAMP, searchCriteria.get(BEGIN_DATE_ID));
+			 searchCriteria.remove(BEGIN_DATE_ID);
 		 }
-        
-        List<TimeBlock> objectList = (List<TimeBlock>) super.getSearchResults(fieldValues);
+
+		 @SuppressWarnings({ "unchecked", "deprecation" })
+		List<TimeBlock> objectList = (List<TimeBlock>) super.getSearchResults(form, searchCriteria, unbounded);;
       
         if(!objectList.isEmpty()) {
         	Iterator<? extends BusinessObject> itr = objectList.iterator();
@@ -68,7 +72,7 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 				
 				Long workArea = tb.getWorkArea();
 				
-				Job job = HrServiceLocator.getJobService().getJob(tb.getPrincipalIdModified(), tb.getJobNumber(), LocalDate.now(), false);
+				Job job = HrServiceLocator.getJobService().getJob(tb.getPrincipalId(), tb.getJobNumber(), LocalDate.now(), false);
 				String department = job != null ? job.getDept() : null;
 				
 				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
@@ -112,7 +116,72 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
         
      
         return objectList;
-	 }
+	}
+	
+/*	@Override
+    public List<? extends BusinessObject> getSearchResults(java.util.Map<String, String> fieldValues) {
+		 if (fieldValues.containsKey(BEGIN_DATE_ID)) {
+			 //beginDate = fieldValues.get(BEGIN_DATE);
+			 fieldValues.put(BEGIN_TIMESTAMP, fieldValues.get(BEGIN_DATE_ID));
+			 fieldValues.remove(BEGIN_DATE_ID);
+		 }
+
+		 @SuppressWarnings({ "unchecked", "deprecation" })
+		List<TimeBlock> objectList = (List<TimeBlock>) super.getSearchResults(fieldValues);
+      
+        if(!objectList.isEmpty()) {
+        	Iterator<? extends BusinessObject> itr = objectList.iterator();
+			
+        	while (itr.hasNext()) {
+				TimeBlock tb = (TimeBlock) itr.next();
+				
+				Long workArea = tb.getWorkArea();
+				
+				Job job = HrServiceLocator.getJobService().getJob(tb.getPrincipalId(), tb.getJobNumber(), LocalDate.now(), false);
+				String department = job != null ? job.getDept() : null;
+				
+				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
+				String location = departmentObj != null ? departmentObj.getLocation() : null;
+				
+				boolean valid = false;
+				if (HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(HrContext.getPrincipalId(), new DateTime())
+						|| HrServiceLocator.getKPMEGroupService().isMemberOfSystemViewOnlyGroup(HrContext.getPrincipalId(), new DateTime())
+						|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(HrContext.getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
+						|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(HrContext.getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+						|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(HrContext.getPrincipalId(), KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+						|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(HrContext.getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+						|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(HrContext.getPrincipalId(), KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {	
+					valid = true;
+				}
+				
+				if (!valid) {
+					itr.remove();
+					continue;
+				}
+        	}
+			
+			// Fetch list from time hour detail and convert it into TimeBlock
+			if(!objectList.isEmpty()) {
+				List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>(objectList);
+				for(TimeBlock tb: timeBlocks) {
+					List<TimeHourDetail> timeHourDetails = tb.getTimeHourDetails();
+					for(TimeHourDetail thd : timeHourDetails) {
+					  if(!thd.getEarnCode().equalsIgnoreCase(tb.getEarnCode())) {
+						  TimeBlock timeBlock = tb.copy();
+						  timeBlock.setEarnCode(thd.getEarnCode());
+						  timeBlock.setHours(thd.getHours());
+						  timeBlock.setAmount(thd.getAmount());
+						  objectList.add(timeBlock);
+					  }
+					} // inner for ends
+				} // outer for ends
+			} // if ends
+			
+        }
+        
+     
+        return objectList;
+	 }*/
 	 
 	 public boolean checkDate(TimeBlock tb, Date asOfDate, String dateString) {
 		 if(tb.getTimesheetDocumentHeader() == null) {
@@ -153,7 +222,7 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 	  return true;
 	 }
 	 
-	@SuppressWarnings("unchecked")
+/*	@SuppressWarnings("unchecked")
 	@Override
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
@@ -164,5 +233,13 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 			}
 		}
 		return overrideUrls;
+	}*/
+
+	@Override
+	protected String getActionUrlHref(LookupForm lookupForm, Object dataObject,
+			String methodToCall, List<String> pkNames) {
+		// TODO Auto-generated method stub
+		return super.getActionUrlHref(lookupForm, dataObject, methodToCall, pkNames);
 	}
+
 }

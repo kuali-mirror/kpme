@@ -31,7 +31,6 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
-import org.kuali.kpme.core.block.CalendarBlockContract;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
@@ -226,7 +225,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 									}
 									else {
 										Set<LeaveBlock> eligibleLeaveBlocks = maxBalanceViolations.get(asOfLeaveDateRule.getLmAccrualCategoryId());
-										CalendarBlockContract previousInfraction = retreivePreviousInfraction(eligibleLeaveBlocks,lb,leavePeriodInterval,yearEndPeriodInterval,thisEntryInterval,asOfLeaveDateRule);
+										LeaveBlock previousInfraction = retreivePreviousInfraction(eligibleLeaveBlocks,lb,leavePeriodInterval,yearEndPeriodInterval,thisEntryInterval,asOfLeaveDateRule);
 
 										if(previousInfraction != null)
 											eligibleLeaveBlocks.remove(previousInfraction);
@@ -248,7 +247,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 										//if there was a previous infraction, it must be removed so long as the leave date of lb lies within
 										//the same period as the previous infraction.
 										Set<LeaveBlock> eligibleLeaveBlocks = maxBalanceViolations.get(asOfLeaveDateRule.getLmAccrualCategoryId());
-										CalendarBlockContract previousInfraction = retreivePreviousInfraction(eligibleLeaveBlocks,lb,leavePeriodInterval,yearEndPeriodInterval,thisEntryInterval,asOfLeaveDateRule);
+										LeaveBlock previousInfraction = retreivePreviousInfraction(eligibleLeaveBlocks,lb,leavePeriodInterval,yearEndPeriodInterval,thisEntryInterval,asOfLeaveDateRule);
 										if(previousInfraction != null) {
 											eligibleLeaveBlocks.remove(previousInfraction);
 											maxBalanceViolations.put(asOfLeaveDateRule.getLmAccrualCategoryId(), eligibleLeaveBlocks);
@@ -272,8 +271,8 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 		return eligibilities;
 	}
 	
-	protected CalendarBlockContract retreivePreviousInfraction(Set<LeaveBlock> eligibleLeaveBlocks, LeaveBlock lb, Interval leavePeriodInterval, Interval yearEndPeriodInterval, Interval thisEntryInterval, AccrualCategoryRule asOfLeaveDateRule) {
-		CalendarBlockContract tempLB = null;
+	protected LeaveBlock retreivePreviousInfraction(Set<LeaveBlock> eligibleLeaveBlocks, LeaveBlock lb, Interval leavePeriodInterval, Interval yearEndPeriodInterval, Interval thisEntryInterval, AccrualCategoryRule asOfLeaveDateRule) {
+		LeaveBlock tempLB = null;
 		for(LeaveBlock block : eligibleLeaveBlocks) {
 			AccrualCategoryRule blockRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
 			if(StringUtils.equals(asOfLeaveDateRule.getLmAccrualCategoryRuleId(),blockRule.getLmAccrualCategoryRuleId())) {

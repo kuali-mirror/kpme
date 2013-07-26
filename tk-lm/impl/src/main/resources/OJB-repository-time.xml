@@ -48,7 +48,11 @@
         <collection-descriptor name="timeHourDetails" element-class-ref="org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="tkTimeBlockId" />
         </collection-descriptor>
-
+        
+<!--         <reference-descriptor name="timesheetDocumentHeader" class-ref="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+            <foreignkey field-ref="documentId" />
+        </reference-descriptor> -->
+        
         <collection-descriptor name="timeBlockHistories" element-class-ref="org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory" auto-retrieve="false" proxy="true" auto-update="false">
             <inverse-foreignkey field-ref="tkTimeBlockId" />
         </collection-descriptor>

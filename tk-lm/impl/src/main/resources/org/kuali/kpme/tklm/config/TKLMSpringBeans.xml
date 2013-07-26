@@ -326,12 +326,12 @@
     <bean id="timeBlockHistoryDetailService" class="org.kuali.kpme.tklm.time.timeblock.service.TimeBlockHistoryDetailServiceImpl">
         <property name="timeBlockHistoryDetailDao" ref="timeBlockHistoryDetailDao"/>
     </bean>
-
+<!-- 
     <bean id="timeBlockLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.tklm.time.timeblock.web.TimeBlockLookupableHelperServiceImpl"/>
         </property>
-    </bean>
+    </bean> -->
 
     <bean id="timeBlockHistoryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">

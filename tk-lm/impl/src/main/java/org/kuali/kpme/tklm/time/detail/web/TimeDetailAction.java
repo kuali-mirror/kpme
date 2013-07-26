@@ -44,7 +44,6 @@ import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.block.CalendarBlockContract;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
@@ -425,7 +424,7 @@ public class TimeDetailAction extends TimesheetAction {
     
     private void removeOldLeaveBlock(String lbId) {
   	  if (lbId != null) {
-  	      CalendarBlockContract lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lbId);
+  	      LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lbId);
   	      if (lb != null) {
   	          LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(lbId, HrContext.getPrincipalId());
   	      }
@@ -472,6 +471,7 @@ public class TimeDetailAction extends TimesheetAction {
 		DateTime overtimeBeginDateTime = null;
         DateTime overtimeEndDateTime = null;
         boolean isClockLogCreated = false;
+        String documentId = tdaf.getDocumentId();
         
         // This is for updating a timeblock or changing
         // If tkTimeBlockId is not null and the new timeblock is valid, delete the existing timeblock and a new one will be created after submitting the form.
@@ -486,6 +486,7 @@ public class TimeDetailAction extends TimesheetAction {
 	            }
             }
             // old time block is deleted from addTimeBlock method
+            // no, its not
             // this.removeOldTimeBlock(tdaf);
         }
 
