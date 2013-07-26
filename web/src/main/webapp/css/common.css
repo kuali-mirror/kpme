@@ -243,6 +243,39 @@
     font-size: 1.1em;
 }
 
+#timeapproval-summary {
+    
+}
+
+#timeapproval-summary table tr td {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    padding: 3px;
+}
+
+#timeapproval-summary table {
+    /*font-size: .7em;*/
+    border: none;
+    text-align: center;
+    border-collapse: collapse;
+    width: 100%;
+    
+}
+
+#timeapproval-summary .header {
+    border: none;
+    font-weight: bold;
+    font-size: 1.5em;
+    padding-bottom: 20px;
+}
+
+
+
+#timeapproval-summary .weeklyTotal {
+    border-left: #666666 double 2px;
+    border-right: #666666 double 2px;
+}
+
 #timesheet-summary {
     margin: 10px auto 20px auto;
 }
@@ -542,29 +575,29 @@ label.error {
 .approvals {
     font-size: .7em;
 }
-
+ 
 .approvals-table {
     background-color: #CDCDCD;
-    margin: 10px 0 15px;
+    
     width: 100%;
     text-align: center;
 }
 
 .approvals-table thead tr th, .approvals-table tfoot tr th {
     background-color: #e6EEEE;
-    border: 1px solid #FFF;
+   
     padding: 4px;
 }
 
 .approvals-table .sort {
     background: #e6EEEE url(../images/sort.gif) no-repeat center right;
-    padding-right: 4px;
+   
     cursor: pointer;
 }
 
 .approvals-table tbody td {
     color: #3D3D3D;
-    padding: 4px;
+     
     background-color: #FFF;
     vertical-align: top;
     border-color: #666666;

@@ -29,6 +29,7 @@ import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 
 public class TimeSummary implements Serializable {
 	private Map<Integer,String> timeSummaryHeader;
+	private BigDecimal grandTotal;
 	private List<String> summaryHeader = new ArrayList<String>();
 	private List<EarnGroupSection> sections = new ArrayList<EarnGroupSection>();
 	private Map<String, List<EarnGroupSection>> weeklySections = new LinkedHashMap<String, List<EarnGroupSection>>();
@@ -39,6 +40,12 @@ public class TimeSummary implements Serializable {
 	private Map<String, Map<Integer, BigDecimal>> weeklyWorkedHours = new LinkedHashMap<String, Map<Integer, BigDecimal>>();
 	private Map<String, String> weekDates = new LinkedHashMap<String, String>();
 
+	public BigDecimal getGrandTotal() {
+		return grandTotal;
+	}
+	public void setGrandTotal(BigDecimal grandTotal) {
+		this.grandTotal = grandTotal;
+	}
 	public List<String> getSummaryHeader() {
 		return summaryHeader;
 	}

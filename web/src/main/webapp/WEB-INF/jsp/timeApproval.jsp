@@ -50,7 +50,7 @@
 </div>
 </html:form>
 
-<link type="text/css" href='${ConfigProperties.css.dir}/fullcalendar.css' rel='stylesheet' />
+<%-- <link type="text/css" href='${ConfigProperties.css.dir}/fullcalendar.css' rel='stylesheet' /> --%>
 
 </tk:tkHeader>
 

@@ -16,7 +16,6 @@
 package org.kuali.kpme.tklm.time.timesummary.service;
 
 import java.math.BigDecimal;
-import java.text.DateFormatSymbols;
 import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -57,7 +56,6 @@ import org.kuali.kpme.tklm.time.timesummary.EarnCodeSection;
 import org.kuali.kpme.tklm.time.timesummary.EarnGroupSection;
 import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TimeSummaryServiceImpl implements TimeSummaryService {
 	private static final String OTHER_EARN_GROUP = "Other";
@@ -420,6 +418,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
             hours.add(weeklyTotal);
         }
         hours.add(periodTotal);
+        timeSummary.setGrandTotal(periodTotal);
         timeSummary.setWeekTotalMap(weekTotalMap);
         return hours;
     }

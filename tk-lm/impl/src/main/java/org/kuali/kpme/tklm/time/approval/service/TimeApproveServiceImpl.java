@@ -63,6 +63,7 @@ import org.kuali.kpme.tklm.time.timeblock.web.TimeBlockRenderer;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailRenderer;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -71,7 +72,6 @@ import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
@@ -118,9 +118,9 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 						.setApprovalStatus(HrConstants.DOC_ROUTE_STATUS.get(tdh
 								.getDocumentStatus()));
 			}
-
+			TimesheetDocument td = null;
 			if (StringUtils.isNotBlank(documentId)) {
-                TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
+                 td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
                 timeBlocks = td.getTimeBlocks();
                 //timeBlocks = TkServiceLocator.getTimeBlockService()
                 //              .getTimeBlocks(documentId);
@@ -265,6 +265,15 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				}
 
 			}
+			//KPME-2563
+			try{
+				if(td != null) {
+					TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(td);
+					approvalSummaryRow.setTimeSummary(ts);					
+				}				
+			} catch (Exception ex){
+				ex.printStackTrace();
+			}						
 			rows.add(approvalSummaryRow);
 		}
 		
