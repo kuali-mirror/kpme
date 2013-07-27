@@ -19,10 +19,10 @@ import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
-import org.kuali.kpme.core.document.calendar.CalendarDocumentHeaderBase;
+import org.kuali.kpme.core.document.calendar.CalendarDocumentHeader;
 import org.kuali.kpme.core.util.HrConstants;
 
-public class TimesheetDocumentHeader extends CalendarDocumentHeaderBase implements CalendarDocumentHeaderContract {
+public class TimesheetDocumentHeader extends CalendarDocumentHeader implements CalendarDocumentHeaderContract {
 
 	private static final long serialVersionUID = 1L;
 
@@ -104,7 +104,6 @@ public class TimesheetDocumentHeader extends CalendarDocumentHeaderBase implemen
 
 	@Override
 	public String getCalendarType() {
-		// TODO Auto-generated method stub
 		return calendarType;
 	}
 

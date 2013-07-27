@@ -29,14 +29,21 @@ import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 
-public abstract class CalendarDocument implements CalendarDocumentContract,
-		Serializable {
+public abstract class CalendarDocument implements Serializable {
 
-	protected CalendarDocumentHeaderContract documentHeader;
+	protected CalendarDocumentHeader documentHeader;
 	protected List<Assignment> assignments = new LinkedList<Assignment>();
 	protected CalendarEntry calendarEntry = null;
 	protected LocalDate asOfDate;
 	protected String calendarType;
+	
+	public abstract CalendarDocumentHeader getDocumentHeader();
+
+	public abstract List<Assignment> getAssignments();
+
+	public abstract CalendarEntry getCalendarEntry();
+
+	public abstract LocalDate getAsOfDate();	
 	
 	public String getDocumentId() {
 		if(documentHeader != null)
@@ -51,33 +58,7 @@ public abstract class CalendarDocument implements CalendarDocumentContract,
 		else
 			return null;
 	}
-	
-	
-	@Override
-	public CalendarDocumentHeaderContract getDocumentHeader() {
-		return documentHeader;
-	}
 
-	@Override
-	public List<Assignment> getAssignments() {
-		return assignments;
-	}
-
-	@Override
-	public CalendarEntry getCalendarEntry() {
-		return calendarEntry;
-	}
-
-	@Override
-	public LocalDate getAsOfDate() {
-		return asOfDate;
-	}
-	
-    /**
-     * The type of calendar this contract is associated with
-     * 
-     * @return
-     */
     public String getCalendarType() {
     	return calendarType;
     }

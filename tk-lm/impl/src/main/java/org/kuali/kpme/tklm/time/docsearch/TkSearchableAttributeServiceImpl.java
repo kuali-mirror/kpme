@@ -46,7 +46,7 @@ public class TkSearchableAttributeServiceImpl implements
         //
         if (!document.getDocumentHeader().getDocumentStatus().equals("F")) {
             try {
-                CalendarDocumentHeaderContract docHeader = document.getDocumentHeader();
+                CalendarDocumentHeaderContract docHeader = (CalendarDocumentHeaderContract) document.getDocumentHeader();
                 workflowDocument = WorkflowDocumentFactory.loadDocument(docHeader.getPrincipalId(), docHeader.getDocumentId());
                 workflowDocument.setApplicationContent(createSearchableAttributeXml(document, asOfDate));
                 workflowDocument.saveDocument("");

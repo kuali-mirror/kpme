@@ -20,7 +20,7 @@ import java.util.Date;
 import org.joda.time.DateTime;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public abstract class CalendarDocumentHeaderBase extends PersistableBusinessObjectBase {
+public abstract class CalendarDocumentHeader extends PersistableBusinessObjectBase {
 
 	protected String documentId;
 	protected String principalId;
@@ -28,6 +28,10 @@ public abstract class CalendarDocumentHeaderBase extends PersistableBusinessObje
 	protected Date endDate;
 	protected String documentStatus;
 	protected String calendarType;
+	
+	public CalendarDocumentHeader() {
+		
+	}
 	
 	public abstract String getDocumentId();
 

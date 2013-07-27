@@ -22,11 +22,18 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
+import org.kuali.kpme.core.document.calendar.CalendarDocumentContract;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 
-public class LeaveCalendarDocument extends CalendarDocument {
+public class LeaveCalendarDocument extends CalendarDocument implements CalendarDocumentContract {
 
+	/**
+	 * This static member is needed by document search, to trigger the correct calendar document
+	 * opening when clicking on a doc id link in the search results.
+	 * It is distinguished from "HrConstants.LEAVE_CALENDAR_TYPE".
+	 */
 	public static final String LEAVE_CALENDAR_DOCUMENT_TYPE = "LeaveCalendarDocument";
 
 	List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
@@ -38,12 +45,12 @@ public class LeaveCalendarDocument extends CalendarDocument {
 	public LeaveCalendarDocument(
 			LeaveCalendarDocumentHeader documentHeader) {
 		this.documentHeader = documentHeader;
-		setCalendarType(LEAVE_CALENDAR_DOCUMENT_TYPE);
+		this.calendarType = LEAVE_CALENDAR_DOCUMENT_TYPE;
 	}
 
     @Override
 	public LeaveCalendarDocumentHeader getDocumentHeader() {
-		return (LeaveCalendarDocumentHeader) super.getDocumentHeader();
+		return (LeaveCalendarDocumentHeader) documentHeader;
 	}
 
 	public void setDocumentHeader(

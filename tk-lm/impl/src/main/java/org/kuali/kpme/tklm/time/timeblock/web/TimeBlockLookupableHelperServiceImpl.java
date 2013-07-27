@@ -239,7 +239,9 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 	protected String getActionUrlHref(LookupForm lookupForm, Object dataObject,
 			String methodToCall, List<String> pkNames) {
 		// TODO Auto-generated method stub
-		return super.getActionUrlHref(lookupForm, dataObject, methodToCall, pkNames);
+		String actionUrlHref = super.getActionUrlHref(lookupForm, dataObject, methodToCall, pkNames);
+		
+		return actionUrlHref;
 	}
 
 }

@@ -19,10 +19,10 @@ import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
-import org.kuali.kpme.core.document.calendar.CalendarDocumentHeaderBase;
+import org.kuali.kpme.core.document.calendar.CalendarDocumentHeader;
 import org.kuali.kpme.core.util.HrConstants;
 
-public class LeaveCalendarDocumentHeader extends CalendarDocumentHeaderBase implements CalendarDocumentHeaderContract {
+public class LeaveCalendarDocumentHeader extends CalendarDocumentHeader implements CalendarDocumentHeaderContract {
 
     public LeaveCalendarDocumentHeader() {
     	this.calendarType = HrConstants.LEAVE_CALENDAR_TYPE;

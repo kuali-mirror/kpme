@@ -117,7 +117,6 @@
 <!--   <bean id="TimesheetDocumentHeader-lookupView" parent="Uif-LookupView">
     <property name="headerText" value="Timesheet Document Header Lookup"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.time.workflow.TimesheetDocumentHeader"/>
-    <property name="viewHelperServiceClass" value=" org.kuali.kpme.core.lookup.KPMELookupableHelper"/>
     <property name="criteriaFields" >
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="documentId" />

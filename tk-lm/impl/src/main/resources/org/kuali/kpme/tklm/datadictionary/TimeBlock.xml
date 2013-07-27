@@ -412,11 +412,11 @@
   			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="documentId">
   				<property name="quickfinder">
   					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader"
-  						p:fieldConversions="documentId:documentId"/>
+  						p:fieldConversions="timesheetDocumentHeader.documentId:documentId"/>
   				</property>
   				<property name="inquiry">
   					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader"
-  						p:inquiryParameters="documentId:documentId"/>
+  						p:inquiryParameters="timesheetDocumentHeader.documentId:documentId"/>
   				</property>
   			</bean>
   			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId">
@@ -432,11 +432,11 @@
   			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="userPrincipalId">
   				<property name="quickfinder">
   					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
-  						p:fieldConversions="principalId:principalId"/>
+  						p:fieldConversions="userPrincipalId:principalId"/>
   				</property>
   				<property name="inquiry">
   					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
-  						p:inquiryParameters="principalId:principalId"/>
+  						p:inquiryParameters="userPrincipalId:principalId"/>
   				</property>
   			</bean>
   			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="timesheetDocumentHeader.documentStatus"

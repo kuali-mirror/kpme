@@ -28,7 +28,7 @@ public interface CalendarDocumentContract {
      *
      * @return documentHeader
      */
-    CalendarDocumentHeaderContract getDocumentHeader();
+    CalendarDocumentHeader getDocumentHeader();
 
     /**
      * The list of assignments for the Document.
