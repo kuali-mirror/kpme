@@ -412,11 +412,11 @@
   			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="documentId">
   				<property name="quickfinder">
   					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader"
-  						p:fieldConversions="timesheetDocumentHeader.documentId:documentId"/>
+  						p:fieldConversions="documentId:documentId"/>
   				</property>
   				<property name="inquiry">
   					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader"
-  						p:inquiryParameters="timesheetDocumentHeader.documentId:documentId"/>
+  						p:inquiryParameters="documentId:documentId"/>
   				</property>
   			</bean>
   			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId">

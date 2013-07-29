@@ -52,10 +52,6 @@ public interface CalendarBlockContract {
 
 	public void setDocumentId(String documentId);
 
-	public abstract String getPrincipalIdModified();
-
-	public abstract void setPrincipalIdModified(String principalIdModified);
-
 	public String getPrincipalId();
 
 	public void setPrincipalId(String principalId);

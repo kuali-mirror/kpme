@@ -671,12 +671,10 @@ public class TimeBlock extends CalendarBlock implements Comparable {
     		.toHashCode();
     }
 
-	@Override
 	public String getPrincipalIdModified() {
 		return getUserPrincipalId();
 	}
 
-	@Override
 	public void setPrincipalIdModified(String principalIdModified) {
 		setUserPrincipalId(principalIdModified);
 	}

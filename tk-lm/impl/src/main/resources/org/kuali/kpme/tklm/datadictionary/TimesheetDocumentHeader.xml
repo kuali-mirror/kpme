@@ -26,9 +26,9 @@
   <bean id="TimesheetDocumentHeader-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader" />
     <property name="objectLabel" value="TimesheetDocumentHeader" />
-    <property name="lookupDefinition" >
+<!--     <property name="lookupDefinition" >
       <ref bean="TimesheetDocumentHeader-lookupDefinition" />
-    </property>
+    </property> -->
     <property name="titleAttribute" value="documentId" />
     <property name="attributes" >
       <list>
@@ -114,9 +114,9 @@
      
 <!-- Business Object Lookup Definition -->
 
-<!--   <bean id="TimesheetDocumentHeader-lookupView" parent="Uif-LookupView">
+  <bean id="TimesheetDocumentHeader-lookupView" parent="Uif-LookupView">
     <property name="headerText" value="Timesheet Document Header Lookup"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.time.workflow.TimesheetDocumentHeader"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader"/>
     <property name="criteriaFields" >
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="documentId" />
@@ -133,9 +133,9 @@
         <bean parent="Uif-DataField" p:propertyName="endDate" />
       </list>
     </property>
-  </bean> -->
+  </bean>
 
-  <bean id="TimesheetDocumentHeader-lookupDefinition" parent="TimesheetDocumentHeader-lookupDefinition-parentBean" />
+<!--   <bean id="TimesheetDocumentHeader-lookupDefinition" parent="TimesheetDocumentHeader-lookupDefinition-parentBean" />
 
   <bean id="TimesheetDocumentHeader-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     
@@ -156,5 +156,5 @@
       </list>
     </property>
     <property name="title" value="Timesheet Document Header Lookup" />
-  </bean>
+  </bean> -->
 </beans>

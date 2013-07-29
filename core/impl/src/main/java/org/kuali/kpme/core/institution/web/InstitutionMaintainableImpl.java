@@ -24,7 +24,7 @@ public class InstitutionMaintainableImpl extends HrBusinessObjectMaintainableImp
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2089540080740082948L;
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {

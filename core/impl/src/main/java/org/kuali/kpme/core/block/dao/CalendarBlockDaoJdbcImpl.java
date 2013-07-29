@@ -32,10 +32,10 @@ public class CalendarBlockDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implement
 	@Override
 	public List<CalendarBlock> getAllCalendarBlocks() {
 		List<CalendarBlock> calendarBlocks = this.getJdbcTemplate().query("" +
-				"SELECT begin_ts, end_ts, lm_leave_block_id as c_block_id, 'Leave' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, principal_id_modified, timestamp, task, work_area, earn_code " +
+				"SELECT begin_ts, end_ts, lm_leave_block_id as c_block_id, 'Leave' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, timestamp, task, work_area, earn_code " +
 				 "FROM lm_leave_block_t " +
 				 "UNION " +
-				 "SELECT begin_ts, end_ts, tk_time_block_id as c_block_id, 'Time' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, user_principal_id, timestamp, task, work_area, earn_code " +
+				 "SELECT begin_ts, end_ts, tk_time_block_id as c_block_id, 'Time' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, timestamp, task, work_area, earn_code " +
 				 "FROM tk_time_block_t;", new CalendarBlockRowMapper());
 		return calendarBlocks;
 	}
@@ -43,7 +43,7 @@ public class CalendarBlockDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implement
 	@Override
 	public List<CalendarBlock> getActiveCalendarBlocksForDate(LocalDate asOfDate) {
 		List<CalendarBlock> calendarBlocks = this.getJdbcTemplate().query("" +
-				 "SELECT begin_ts, end_ts, tk_time_block_id as c_block_id, 'Time' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, user_principal_id, timestamp, task, work_area, earn_code " +
+				 "SELECT begin_ts, end_ts, tk_time_block_id as c_block_id, 'Time' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, timestamp, task, work_area, earn_code " +
 				 "FROM tk_time_block_t", new CalendarBlockRowMapper());
 		return calendarBlocks;
 	}
@@ -63,7 +63,6 @@ public class CalendarBlockDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implement
 			cBlock.setObjectId(rs.getString("OBJ_ID"));
 			cBlock.setVersionNumber(rs.getLong("VER_NBR"));
 			cBlock.setPrincipalId(rs.getString("PRINCIPAL_ID"));
-			cBlock.setPrincipalIdModified(rs.getString("PRINCIPAL_ID_MODIFIED"));
 			cBlock.setTask(rs.getLong("TASK"));
 			cBlock.setWorkArea(rs.getLong("WORK_AREA"));
 			cBlock.setTimestamp(rs.getTimestamp("TIMESTAMP"));

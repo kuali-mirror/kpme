@@ -35,8 +35,6 @@ public class InstitutionLookupableHelper extends HrEffectiveDateActiveLookupable
 	@Override
 	public List<? extends BusinessObject> getSearchResults(
 			Map<String, String> fieldValues) {
-		// TODO Auto-generated method stub
-		
 		if (StringUtils.contains(fieldValues.get("institutionCode"), "*")) {
 			fieldValues.put("institutionCode","");			
 		}
@@ -46,7 +44,6 @@ public class InstitutionLookupableHelper extends HrEffectiveDateActiveLookupable
 	@Override
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
 			List pkNames) {
-		// TODO Auto-generated method stub
 		return super.getCustomActionUrls(businessObject, pkNames);
 	}
 

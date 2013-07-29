@@ -99,11 +99,6 @@ public class CalendarBlock extends CalendarBlockBase {
 	}
 
 	@Override
-	public void setPrincipalIdModified(String principalIdModified) {
-		this.principalIdModified = principalIdModified;
-	}
-
-	@Override
 	public String getPrincipalId() {
 		return principalId;
 	}

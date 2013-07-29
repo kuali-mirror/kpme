@@ -1,0 +1,42 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet author="dgodfrey" id="1" context="kpme-client-bootstrap">
+		<comment>Adding versioning and obj_id to institution</comment>
+		<addColumn tableName="PM_INSTITUTION_T">
+			<column name="OBJ_ID" type="VARCHAR(36)" />
+		</addColumn>
+		<addColumn tableName="PM_INSTITUTION_T">
+			<column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+	</changeSet>
+
+	<changeSet author="dgodfrey" id="2" context="kpme-client-bootstrap">
+		<comment>Creating index for pm_institution_t</comment>
+		<createIndex indexName="PM_INSTITUTION_IDX1" tableName="PM_INSTITUTION_T" unique="true">
+			<column name="INSTITUTION_CODE" />
+			<column name="EFFDT"/>
+			<column name="TIMESTAMP"/>
+		</createIndex>
+	</changeSet>
+</databaseChangeLog>

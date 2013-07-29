@@ -524,12 +524,10 @@ public class LeaveBlock extends CalendarBlock {
 		this.lmLeaveBlockId = lmLeaveBlockId;
 	}
 
-	@Override
 	public String getPrincipalIdModified() {
 		return principalIdModified;
 	}
 
-	@Override
 	public void setPrincipalIdModified(String principalIdModified) {
 		this.principalIdModified = principalIdModified;
 	}

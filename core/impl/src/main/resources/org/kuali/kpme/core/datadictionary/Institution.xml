@@ -68,13 +68,13 @@
 		<property name="validationPattern">
 			<bean parent="DateValidationPattern" />
 		</property>
-		<property name="controlField">
+<!-- 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="12">
 			 <property name="datePicker">
 	          <bean parent="Uif-DatePicker"/>
 	        </property>
 			</bean>
-		</property>
+		</property> -->
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
 		</property>
@@ -179,7 +179,7 @@
 
   <!-- KRAD Lookup View Definition -->
  
-  <bean id="Institution-LookupView" parent="Uif-LookupView">
+<!--   <bean id="Institution-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="Institution Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.institution.Institution" />
     <property name="criteriaFields">
@@ -197,6 +197,6 @@
 		<bean parent="Uif-DataField" p:propertyName="active" />
       </list>
     </property>
-  </bean>
+  </bean> -->
 
 </beans>

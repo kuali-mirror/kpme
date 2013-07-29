@@ -61,9 +61,24 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 			 searchCriteria.remove(BEGIN_DATE_ID);
 		 }
 
-		 @SuppressWarnings({ "unchecked", "deprecation" })
-		List<TimeBlock> objectList = (List<TimeBlock>) super.getSearchResults(form, searchCriteria, unbounded);;
-      
+		@SuppressWarnings("unchecked")
+		List<TimeBlock> objectList = (List<TimeBlock>) super.getSearchResults(form, searchCriteria, unbounded);
+		// TODO: KPME-2165. Use calendar block service defined in core to retrieve base set of search results.
+		/**
+		 * From the calendar block fetch, these fields will need to be populated by performing an additional fetch from tk_time_block_t
+		 * via CalendarBlock.concreteBlockId if CalendarBlock.concreteBlockType == "Time".
+		 * 
+		 *  <bean parent="Uif-DataField" p:propertyName="hours"/>
+  			<bean parent="Uif-DataField" p:propertyName="amount"/>
+  			<bean parent="Uif-DataField" p:propertyName="overtimePref"/>
+  			<bean parent="Uif-DataField" p:propertyName="lunchDeleted"/>
+		 * 
+		 * How can this lookup show data objects from two different classes? Do we need to move this lookup into the scope of the super?
+		 * Do the above mentioned properties need to be defined as fields on calendar block, even though they are not common elements of Time | Leave Blocks?
+		 * Having an ojb mapping for calendar block would simplify this task greatly, however, the ojb inheritance hierarchy mapping desired apparently does not play nice with
+		 * rice. For this reason may need to re-visit previous work done on jpa + hibernate/eclipselink solution for this family of objects.
+		 * 
+		 */
         if(!objectList.isEmpty()) {
         	Iterator<? extends BusinessObject> itr = objectList.iterator();
 			

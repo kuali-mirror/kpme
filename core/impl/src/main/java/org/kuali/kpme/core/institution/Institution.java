@@ -17,16 +17,23 @@ package org.kuali.kpme.core.institution;
 
 import org.kuali.kpme.core.api.institution.InstitutionContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
 import com.google.common.collect.ImmutableList;
 
-public class Institution extends HrBusinessObject implements InstitutionContract {
+public class Institution extends HrBusinessObject implements InstitutionContract, Inactivatable {
 
-	 //KPME-2273/1965 Primary Business Keys List.	
+	 /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4414386560856612370L;
+
+	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("institutionCode")
+            .add("effectiveDate")
+            .add("timestamp")
             .build();    
-	private static final long serialVersionUID = 1L;
 	
 	private String pmInstitutionId;
 	private String institutionCode;
@@ -69,7 +76,7 @@ public class Institution extends HrBusinessObject implements InstitutionContract
 
 	@Override
 	protected String getUniqueKey() {
-		return pmInstitutionId;
+		return institutionCode + "_" + getEffectiveDate() + "_" + getTimestamp();
 	}
 
 	public String getPmInstitutionId() {
@@ -78,5 +85,6 @@ public class Institution extends HrBusinessObject implements InstitutionContract
 
 	public void setPmInstitutionId(String pmInstitutionId) {
 		this.pmInstitutionId = pmInstitutionId;
-	}	
+	}
+
 }

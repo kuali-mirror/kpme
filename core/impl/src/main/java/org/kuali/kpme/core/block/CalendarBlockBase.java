@@ -18,16 +18,18 @@ package org.kuali.kpme.core.block;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import javax.persistence.Transient;
+
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public abstract class CalendarBlockBase extends PersistableBusinessObjectBase implements CalendarBlockContract {
 
 	private static final long serialVersionUID = -4067369587522388260L;
 	
+	@Transient
 	protected String hrCalendarBlockId;
 	protected String principalId;
 	protected String documentId;
-	protected String principalIdModified;
 	protected Date beginTimestamp;
 	protected Date endTimestamp;
 	protected Timestamp timestamp;
@@ -36,7 +38,9 @@ public abstract class CalendarBlockBase extends PersistableBusinessObjectBase im
 	protected Long workArea;
 	protected Long jobNumber;
 	protected Long task;
+	@Transient
 	protected String concreteBlockType;
+	@Transient
 	protected String concreteBlockId;
 	
 	public CalendarBlockBase() {
@@ -60,13 +64,6 @@ public abstract class CalendarBlockBase extends PersistableBusinessObjectBase im
 	
 	public void setHrCalendarBlockId(String hrCalendarBlockId) {
 		this.hrCalendarBlockId = hrCalendarBlockId;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.kuali.kpme.tklm.leave.block.CalendarBlockContract#getPrincipalIdModified()
-	 */
-	public String getPrincipalIdModified() {
-		return principalIdModified;
 	}
 
 }
