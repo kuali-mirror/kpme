@@ -20,17 +20,28 @@ import java.math.BigDecimal;
 import org.kuali.kpme.tklm.time.rules.graceperiod.GracePeriodRule;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
+@SuppressWarnings("deprecation")
 public class GracePeriodRuleValidation extends MaintenanceDocumentRuleBase{
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document){
+		boolean valid = false;
+		LOG.debug("entering custom validation for Grace Period Rule");
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
+		if (pbo instanceof GracePeriodRule) {
 			GracePeriodRule gracePeriodRule = (GracePeriodRule)this.getNewBo();
-			//Confirm that hour factor is greater than 0 and less than 1
-			if(gracePeriodRule.getHourFactor().compareTo(BigDecimal.ZERO) <= 0 ||
-			   gracePeriodRule.getHourFactor().compareTo(new BigDecimal(60)) > 0){
-				this.putFieldError("hourFactor", "graceperiod.hour.factor.invalid", gracePeriodRule.getHourFactor()+"");
-				return false;
+			if (gracePeriodRule != null) {
+				valid = true;
+				//Confirm that hour factor is greater than 0 and less than 1
+				if(gracePeriodRule.getHourFactor() != null 
+					&& (gracePeriodRule.getHourFactor().compareTo(BigDecimal.ZERO) <= 0 
+						|| gracePeriodRule.getHourFactor().compareTo(new BigDecimal(60)) > 0)){
+					this.putFieldError("hourFactor", "graceperiod.hour.factor.invalid", gracePeriodRule.getHourFactor()+"");
+					valid = false;
+				}
 			}
-			return true;
+		}
+		return valid;
 	}
 }

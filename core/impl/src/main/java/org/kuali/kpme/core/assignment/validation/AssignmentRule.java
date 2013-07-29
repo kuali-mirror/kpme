@@ -266,7 +266,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
 		boolean valid = false;
-		LOG.debug("entering custom validation for DeptLunchRule");
+		LOG.debug("entering custom validation for Assignment");
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof Assignment) {
 			Assignment assignment = (Assignment) pbo;
