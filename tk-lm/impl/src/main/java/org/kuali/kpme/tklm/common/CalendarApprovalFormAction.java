@@ -43,7 +43,7 @@ public abstract class CalendarApprovalFormAction extends ApprovalFormAction {
 	@Override
 	protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
 		if (!HrContext.isReviewer() && !HrContext.isAnyApprover() && !HrContext.isSystemAdmin() && !TkContext.isLocationAdmin() && !HrContext.isGlobalViewOnly() 
-				&& !TkContext.isDepartmentViewOnly() && !TkContext.isDepartmentAdmin()) {
+				&& !TkContext.isDepartmentViewOnly() && !TkContext.isDepartmentAdmin() && !HrContext.isAnyPayrollProcessor()) {
 			throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "CalendarApprovalFormAction", "");
 		}
 	}

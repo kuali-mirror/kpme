@@ -32,6 +32,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.dao.EarnCodeDao;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
@@ -173,6 +174,24 @@ public class EarnCodeServiceImpl implements EarnCodeService {
                     break;
                 }
             }
+        }
+        
+        if (!addEarnCode && security.isPayrollProcessor()) {
+        	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        	
+        	Set<String> depts = new HashSet<String>();
+            
+            depts.addAll(HrServiceLocator.getKPMERoleService().getDepartmentsForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), new DateTime(), true));
+            depts.addAll(HrServiceLocator.getKPMERoleService().getDepartmentsForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), new DateTime(), true));
+
+            for (String dept : depts) {
+                Department department = HrServiceLocator.getDepartmentService().getDepartment(dept, asOfDate);
+                if (department!= null && a.getDept().equalsIgnoreCase(department.getDept())) {
+                    addEarnCode = true;
+                    break;
+                }
+            }
+
         }
         return addEarnCode;
     }

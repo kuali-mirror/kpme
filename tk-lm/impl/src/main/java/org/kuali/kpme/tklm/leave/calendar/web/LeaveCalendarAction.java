@@ -698,7 +698,8 @@ public class LeaveCalendarAction extends CalendarFormAction {
     			 if(HrContext.isSystemAdmin()
                      || TkContext.isLocationAdmin()
                      || HrContext.isReviewer()
-                     || HrContext.isAnyApprover()) {
+                     || HrContext.isAnyApprover()
+                     || HrContext.isAnyPayrollProcessor()) {
     				 	leaveForm.setDocEditable(true);
     			 }
              }
@@ -714,7 +715,8 @@ public class LeaveCalendarAction extends CalendarFormAction {
 	                        || HrContext.isSystemAdmin()
 	                        || TkContext.isLocationAdmin()
 	                        || HrContext.isReviewer()
-	                        || HrContext.isAnyApprover()) {
+	                        || HrContext.isAnyApprover()
+	                        || HrContext.isAnyPayrollProcessor()) {
 	                    leaveForm.setDocEditable(true);
 	                }
 	
