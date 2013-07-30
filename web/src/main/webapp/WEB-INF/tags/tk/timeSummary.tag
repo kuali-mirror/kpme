@@ -109,10 +109,10 @@
                 </c:forEach>
                 </tbody>
               </c:forEach>
-              <tr><td colspan="8"></td>
-              <td style="color: #993333;font-weight: bold;border-left-style: none">Grand Total</td>
+              <tr>
+              <td colspan="2" style="color: #993333;font-weight: bold;">Pay Period Total</td>
+              <td colspan="7"></td>
               <td style="font-weight: bold;">${timeSummary.grandTotal}</td>
-               
               </tr>
 
             </tbody>
