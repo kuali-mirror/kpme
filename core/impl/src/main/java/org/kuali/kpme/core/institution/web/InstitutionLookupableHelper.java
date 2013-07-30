@@ -17,14 +17,19 @@ package org.kuali.kpme.core.institution.web;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.kpme.core.institution.Institution;
+import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 @SuppressWarnings("deprecation")
 public class InstitutionLookupableHelper extends HrEffectiveDateActiveLookupableHelper{
@@ -46,7 +51,23 @@ public class InstitutionLookupableHelper extends HrEffectiveDateActiveLookupable
 	@Override
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
 			List pkNames) {
-		return super.getCustomActionUrls(businessObject, pkNames);
+    	List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+
+		Institution institution = (Institution) businessObject;
+        String pmInstitutionId = institution.getPmInstitutionId();
+		
+		Properties params = new Properties();
+		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
+		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
+		
+		params.put("pmInstitutionId", pmInstitutionId);
+		
+		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
+		viewUrl.setDisplayText("view");
+		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
+		customActionUrls.add(viewUrl);
+		
+		return customActionUrls;
 	}
 
 	@Override

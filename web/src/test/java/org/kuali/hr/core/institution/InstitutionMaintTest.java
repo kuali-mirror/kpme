@@ -23,6 +23,7 @@ import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.util.HrTestConstants;
 
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
@@ -30,6 +31,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 @FunctionalTest
 public class InstitutionMaintTest extends KPMEWebTestCase {
+
+	private static final String INST_CODE = "SOME-CODE";
 
 	@Override
 	public void setUp() throws Exception {
@@ -60,6 +63,36 @@ public class InstitutionMaintTest extends KPMEWebTestCase {
 	  	Assert.assertTrue("page text does not contain:\n" + "Institution Code (Institution Code) is a required field.", 
 	  			page.asText().contains("Institution Code (Institution Code) is a required field."));
 
+	}
+	
+	@Test
+	public void testLookup() throws Exception {
+	  	String baseUrl = HrTestConstants.Urls.INSTITUTION_MAINT_URL;
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
+	  	Assert.assertNotNull(page);
+	 
+	  	HtmlForm form = page.getFormByName("KualiForm");
+	  	Assert.assertNotNull("Search form was missing from page.", form);
+	  	
+	  	Assert.assertNotNull("form should have show history", form.getInputByName("history"));
+
+	  	Assert.assertNotNull("form should have active field", form.getInputByName("active"));
+
+	  	Assert.assertNotNull("form should have institution code", form.getInputByName("institutionCode"));
+	  	Assert.assertNotNull("form should have effectiveDateTo", form.getInputByName("effectiveDate"));
+	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "search");
+	  	Assert.assertNotNull("search input not found", input);
+	  	
+	  	HtmlPage resultPage = input.click();
+	  	
+	  	Assert.assertTrue("page text does not contain institution", 
+	  			resultPage.asText().contains(INST_CODE));
+	  	
+	  	HtmlAnchor viewAnchor = resultPage.getAnchorByText("view");
+	  	Assert.assertNotNull("no 'view' anchor found", viewAnchor);
+	  	
+	  	HtmlAnchor editAnchor = resultPage.getAnchorByText("edit");
+	  	Assert.assertNotNull("no 'edit' anchor found", editAnchor);
 	}
 	
 }
