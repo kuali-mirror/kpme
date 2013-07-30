@@ -18,6 +18,7 @@ package org.kuali.kpme.core.kfs.coa.businessobject;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.kpme.core.api.kfs.coa.businessobject.ChartContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -121,5 +122,19 @@ public class Chart extends PersistableBusinessObjectBase implements ChartContrac
 
         return m;
     }
+
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj.getClass() != getClass())
+            return false;
+
+        Chart rhs = (Chart) obj;
+        return new EqualsBuilder().append(getObjectId(),rhs.getObjectId()).isEquals();
+	}
 }
 

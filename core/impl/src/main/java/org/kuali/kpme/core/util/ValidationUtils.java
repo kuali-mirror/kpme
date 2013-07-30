@@ -36,6 +36,7 @@ import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.core.kfs.coa.businessobject.Account;
 import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
 import org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
 import org.kuali.kpme.core.kfs.coa.businessobject.SubAccount;
 import org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
@@ -610,6 +611,15 @@ public class ValidationUtils {
 		Collection subObjectCodeList = KRADServiceLocator.getBusinessObjectService()
 				.findMatching(SubObjectCode.class, fields);
 		boolean valid = subObjectCodeList.size() > 0;
+		return valid;
+	}
+
+	public static boolean validateOrganization(String organizationCode) {
+		Map<String, String> fields = new HashMap<String, String>();
+		fields.put("organizationCode", organizationCode);
+		Collection organizationList = KRADServiceLocator.getBusinessObjectService()
+				.findMatching(Organization.class, fields);
+		boolean valid = organizationList.size() > 0;
 		return valid;
 	}
 }

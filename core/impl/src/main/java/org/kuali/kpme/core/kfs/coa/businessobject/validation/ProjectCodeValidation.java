@@ -1,5 +1,9 @@
 package org.kuali.kpme.core.kfs.coa.businessobject.validation;
 
+import org.kuali.kpme.core.kfs.coa.businessobject.Account;
+import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
+import org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
 import org.kuali.kpme.core.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kpme.core.util.ValidationUtils;
@@ -16,6 +20,7 @@ public class ProjectCodeValidation extends MaintenanceDocumentRuleBase {
 		boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 		isValid &= validateChart(pc);
 		isValid &= validateOrganization(pc);
+		isValid &= validateConsistency(pc);
 		return isValid;
 	}
 
@@ -34,7 +39,17 @@ public class ProjectCodeValidation extends MaintenanceDocumentRuleBase {
 
 	private boolean validateOrganization(ProjectCode pc) {
 		// TODO Auto-generated method stub
-		return false;
+		return ValidationUtils.validateOrganization(pc.getOrganizationCode());
+	}
+	
+	private boolean validateConsistency(ProjectCode projectCode) {
+		// TODO Auto-generated method stub
+		Chart chart = projectCode.getChartOfAccounts();
+		
+		Organization organization = projectCode.getOrganization();
+		Chart organizationChart = organization.getChartOfAccounts();
+		
+		return organizationChart.equals(chart) ? true : false;
 	}
 	
 }
