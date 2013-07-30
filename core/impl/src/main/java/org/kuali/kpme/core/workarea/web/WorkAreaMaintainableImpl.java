@@ -285,7 +285,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 			  	
         		if (StringUtils.equals(newRole.getName(), oldRole.getName()) && StringUtils.equals(newRoleMember.getMemberId(), oldRoleMember.getMemberId())) {
         			RoleMember.Builder builder = RoleMember.Builder.create(oldRoleMember);
-    				builder.setActiveToDate(new DateTime());
+    				builder.setActiveToDate(DateTime.now());
   
 			  		inactiveRoleMembers.add(RoleMemberBo.from(builder.build()));
 			  	}
