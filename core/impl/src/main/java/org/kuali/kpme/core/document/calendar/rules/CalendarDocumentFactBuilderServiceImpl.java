@@ -16,7 +16,9 @@
 package org.kuali.kpme.core.document.calendar.rules;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.joda.time.LocalDate;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.krms.KpmeKrmsFactBuilderServiceHelper;
@@ -41,51 +43,29 @@ public class CalendarDocumentFactBuilderServiceImpl extends KpmeKrmsFactBuilderS
 
     @Override
     public void addFacts(Facts.Builder factsBuilder, String docContent) {
-
+      //not supported yet
     }
 
     @Override
     public void addFacts(Facts.Builder factsBuilder, Object factsObject) {
-        CalendarDocument document = (CalendarDocument)factsObject;
-        addObjectMembersAsFacts(factsBuilder,document,"KPME-TK-CONTEXT","KPME_TIMESHEET");
-        factsBuilder.addFact(new Term("payrollProcessorApproval"), Boolean.FALSE);
-        if (document != null) {
-
-            List<String> workAreas = new ArrayList<String>();
-            List<String> depts = new ArrayList<String>();
-
-            for (Assignment a : document.getAssignments()) {
-                workAreas.add(String.valueOf(a.getWorkArea()));
-                depts.add(a.getDept());
-                Department department = HrServiceLocator.getDepartmentService().getDepartment(a.getDept(), a.getEffectiveLocalDate());
-                if (department != null
-                        && department.isPayrollApproval()) {
-                    factsBuilder.addFact(new Term("payrollProcessorApproval"), Boolean.TRUE);
-                }
-            }
-            if (CollectionUtils.isNotEmpty(depts)) {
-                factsBuilder.addFact("department", depts);
-            }
-            if (CollectionUtils.isNotEmpty(workAreas)) {
-                factsBuilder.addFact("workarea", workAreas);
-            }
-        }
+        addFacts(factsBuilder, factsObject, "KPME-TK-CONTEXT", "KPME_TIMESHEET");
     }
 
-    @Override
+
     public void addFacts(Facts.Builder factsBuilder, Object factsObject, String contextId, String namespace) {
         CalendarDocument document = (CalendarDocument)factsObject;
         addObjectMembersAsFacts(factsBuilder, document, contextId, namespace);
         factsBuilder.addFact(new Term("payrollProcessorApproval"), Boolean.FALSE);
         if (document != null) {
-
+            CalendarEntry ce = document.getCalendarEntry();
+            LocalDate asOfDate = ce != null ? ce.getEndPeriodLocalDateTime().toLocalDate() : LocalDate.now();
             Set<String> workAreas = new HashSet<String>();
             Set<String> depts = new HashSet<String>();
 
             for (Assignment a : document.getAssignments()) {
                 workAreas.add(String.valueOf(a.getWorkArea()));
                 depts.add(a.getDept());
-                Department department = HrServiceLocator.getDepartmentService().getDepartment(a.getDept(), a.getEffectiveLocalDate());
+                Department department = HrServiceLocator.getDepartmentService().getDepartment(a.getDept(), asOfDate);
                 if (department != null
                         && department.isPayrollApproval()) {
                     factsBuilder.addFact(new Term("payrollProcessorApproval"), Boolean.TRUE);
