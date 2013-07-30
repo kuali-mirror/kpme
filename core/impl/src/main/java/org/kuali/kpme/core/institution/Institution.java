@@ -38,6 +38,7 @@ public class Institution extends HrBusinessObject implements InstitutionContract
 	private String pmInstitutionId;
 	private String institutionCode;
 	private String description;
+	private boolean history;
 	private boolean active;
 	
 	public String getInstitutionCode() {
@@ -85,6 +86,14 @@ public class Institution extends HrBusinessObject implements InstitutionContract
 
 	public void setPmInstitutionId(String pmInstitutionId) {
 		this.pmInstitutionId = pmInstitutionId;
+	}
+
+	public boolean getHistory() {
+		return history;
+	}
+
+	public void setHistory(boolean history) {
+		this.history = history;
 	}
 
 }

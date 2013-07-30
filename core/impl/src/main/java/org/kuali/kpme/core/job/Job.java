@@ -43,8 +43,8 @@ public class Job extends HrBusinessObject implements JobContract {
 	//KPME-2273/1965 Primary Business Keys List. Will be using this from now on instead.	
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
 	            .add("principalId")
-	            .add("jobNumber")	            
-	            .build();	
+	            .add("jobNumber")
+	            .build();
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Job";
 	private static final String[] PRIVATE_CACHES_FOR_FLUSH = {Job.CACHE_NAME, Assignment.CACHE_NAME};
 	public static final List<String> CACHE_FLUSH = Collections.unmodifiableList(Arrays.asList(PRIVATE_CACHES_FOR_FLUSH));
