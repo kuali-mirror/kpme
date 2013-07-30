@@ -189,7 +189,7 @@
         <bean parent="FieldDefinition" p:attributeName="accountName"/>
         <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
         <bean parent="FieldDefinition" p:attributeName="closed"/>
-        <bean parent="FieldDefinition" p:attributeName="accountCreateDate"/>
+        <bean parent="FieldDefinition" p:attributeName="accountEffectiveDate"/>
         <bean parent="FieldDefinition" p:attributeName="accountExpirationDate"/>
       </list>
     </property>
