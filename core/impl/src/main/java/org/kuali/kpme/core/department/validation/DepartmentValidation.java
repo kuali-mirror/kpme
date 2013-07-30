@@ -136,21 +136,25 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 			Role role = KimApiServiceLocator.getRoleService().getRole(roleMember.getRoleId());
 			activeFlag |= roleMember.isActive();
 			
-			if (StringUtils.equals(role.getName(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName())
-					|| StringUtils.equals(role.getName(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName())) {
-				String prefix = "roleMembers[" + index + "].";
-				
-				if (roleMember.getActiveToDateValue() != null) {
-					if (effectiveDate.compareTo(roleMember.getActiveToDate().toLocalDate()) >= 0
-							|| roleMember.getActiveFromDateValue().compareTo(roleMember.getActiveToDateValue()) >= 0) {
-						this.putFieldError(prefix + "expirationDate", "error.role.expiration");
-						valid = false;
-					} else if (TKUtils.getDaysBetween(roleMember.getActiveFromDate().toLocalDate(), roleMember.getActiveToDate().toLocalDate()) > 180) {
-						this.putFieldError(prefix + "expirationDate", "error.role.expiration.duration");
-						valid = false;
-		        	}
+			String prefix = "roleMembers[" + index + "].";
+			
+			if (roleMember.getActiveToDateValue() != null) {
+				if (effectiveDate.compareTo(roleMember.getActiveToDate().toLocalDate()) >= 0
+						|| roleMember.getActiveFromDateValue().compareTo(roleMember.getActiveToDateValue()) >= 0) {
+					this.putFieldError(prefix + "expirationDate", "error.role.expiration");
+					valid = false;
+				} 
+			}
+			if (StringUtils.equals(role.getName(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName())) {
+				if(roleMember.getActiveToDateValue() == null) {
+					this.putFieldError(prefix + "expirationDate", "error.role.expiration.required");
+					valid = false;
+				} else if(TKUtils.getDaysBetween(roleMember.getActiveFromDate().toLocalDate(), roleMember.getActiveToDate().toLocalDate()) > 180) {
+					this.putFieldError(prefix + "expirationDate", "error.role.expiration.duration");
+					valid = false;
 				}
 			}
+				
 		}
 
 		if (!activeFlag) {
