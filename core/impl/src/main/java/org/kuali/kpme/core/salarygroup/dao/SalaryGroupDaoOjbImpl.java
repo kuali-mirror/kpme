@@ -26,6 +26,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
+import org.kuali.rice.core.api.util.Truth;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class SalaryGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements SalaryGroupDao {
@@ -93,6 +94,16 @@ public class SalaryGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Sa
             effectiveDateFilter.addLessOrEqualThan("effectiveDate", DateTime.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
+
+        if (StringUtils.isNotBlank(active)) {
+            Criteria activeFilter = new Criteria();
+            if (Truth.strToBooleanIgnoreCase(active)) {
+                activeFilter.addEqualTo("active", true);
+            } else {
+                activeFilter.addEqualTo("active", false);
+            }
+            root.addAndCriteria(activeFilter);
+        }
 
         if (StringUtils.equals(showHistory, "N")) {
             root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(SalaryGroup.class, effectiveDateFilter, SalaryGroup.EQUAL_TO_FIELDS, false));
