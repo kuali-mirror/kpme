@@ -1,6 +1,7 @@
 package org.kuali.kpme.core.kfs.coa.businessobject.validation;
 
 import org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
@@ -27,17 +28,17 @@ public class SubObjectCodeValidation extends MaintenanceDocumentRuleBase {
 	
 	private boolean validateChart(SubObjectCode subObjectCode) {
 		// TODO Auto-generated method stub
-		return false;
+		return ValidationUtils.validateChart(subObjectCode.getChartOfAccountsCode());
 	}
 	
 	private boolean validateObjectCode(SubObjectCode subObjectCode) {
 		// TODO Auto-generated method stub
-		return false;
+		return ValidationUtils.validateObjectCode(subObjectCode.getFinancialObject().getCode());
 	}
 
 	private boolean validateAccount(SubObjectCode subObjectCode) {
 		// TODO Auto-generated method stub
-		return false;
+		return ValidationUtils.validateAccount(subObjectCode.getAccountNumber());
 	}
 	
 }

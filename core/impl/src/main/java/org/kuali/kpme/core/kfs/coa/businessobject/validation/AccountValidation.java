@@ -1,6 +1,8 @@
 package org.kuali.kpme.core.kfs.coa.businessobject.validation;
 
 import org.kuali.kpme.core.kfs.coa.businessobject.Account;
+import org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
@@ -10,9 +12,9 @@ public class AccountValidation extends MaintenanceDocumentRuleBase {
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
 		// TODO Auto-generated method stub
-		Account pc = (Account) document.getNewMaintainableObject().getBusinessObject();
+		Account account = (Account) document.getNewMaintainableObject().getBusinessObject();
 		boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-		isValid &= validateChart(pc);
+		isValid &= validateChart(account);
 		return isValid;
 	}
 
@@ -25,7 +27,8 @@ public class AccountValidation extends MaintenanceDocumentRuleBase {
 	
 	private boolean validateChart(Account account) {
 		// TODO Auto-generated method stub
-		return false;
+		return ValidationUtils.validateChart(account.getChartOfAccountsCode());
 	}
+	
 
 }
