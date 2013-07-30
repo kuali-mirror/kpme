@@ -164,8 +164,8 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         	String principalId = GlobalVariables.getUserSession().getPrincipalId();
         	
         	Set<Long> workAreas = new HashSet<Long>();
-        	workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(KPMENamespace.KPME_HR.getNamespaceCode(), principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-            workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(KPMENamespace.KPME_HR.getNamespaceCode(), principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+        	workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+            workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
 
             for (Long wa : workAreas) {
                 WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
