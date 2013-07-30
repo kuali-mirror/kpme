@@ -9,13 +9,13 @@
     <div id="timesheet-table-basic">
         <table border="1" >
         <thead>
-                <tr class="ui-state-default">
-                	<th width="1%" style="border-right: none"></th>
-                    <th>Week</th>
+                <tr class="ui-state-default"  >
+                	<th width="5%" style="border-right: none"></th>
+                    <th width="15%" style="border-left: none">Week</th>
                     <c:forEach items="${timeApprovalSummary.timeSummaryHeader}" var="entry">
-                        <th scope="col">${entry.value}</th>
+                        <th width="10%" scope="col">${entry.value}</th>
                     </c:forEach>
-                    <th>Totals</th>
+                    <th width="10%" style="border-left: 2px double #666666;">Totals</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,14 +41,15 @@
 	                        		<td style="background: rgb(224, 235, 225)">${weekHours[hour.key]}</td>
 	                        	</c:if>
 	                        </c:forEach>
-	                        <td valign="middle">${timeApprovalSummary.weekTotalMap[entry.key]}  <i>(${timeApprovalSummary.flsaWeekTotalMap[entry.key]})</i></td>
+	                        <td style="border-left: 2px double #666666;" valign="middle">${timeApprovalSummary.weekTotalMap[entry.key]}  <i>(${timeApprovalSummary.flsaWeekTotalMap[entry.key]})</i></td>
 	                     </tr>
 	              <tbody id="weekSummary${weekString}_${principalId}" style="display: none;">
                    <c:forEach items="${timeApprovalSummary.weeklySections[entry.key]}" var="section">
                     <c:forEach items="${section.earnCodeSections}" var="earnCodeSection">
                         <tr class="ui-state-default" style="font-weight: bold;">
-                            <td class="earnCodeCell" colspan="2" style="border-right: none">${earnCodeSection.earnCode}: ${earnCodeSection.description}</td>
-                            <td colspan="8" style="border-left: none"></td>
+                            <td class="earnCodeCell" colspan="2" >${earnCodeSection.earnCode}: ${earnCodeSection.description}</td>
+                            <td colspan="7" style="border-right-style: none"></td>
+                            <td style="border-left: 2px double #666666;"></td>
 						</tr>
 						<c:forEach items="${earnCodeSection.assignmentsRows}" var="assignmentRow">
 							<c:set var="periodTotal" value="${assignmentRow.periodTotal}"/>
@@ -60,10 +61,10 @@
                                             <c:set var="assignmentColumn" value="${assignmentRow.assignmentColumns[entry.key]}"/>
                                             <c:choose>
                                                 <c:when test="${assignmentColumn.amount ne '0.00' and assignmentColumn.amount != 0}">
-                                                     <td >$${assignmentColumn.amount}</td>
+                                                     <td style="border-right-style: none">$${assignmentColumn.amount}</td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <td></td>
+                                                    <td style="border-right-style: none"></td>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:forEach>
@@ -77,14 +78,14 @@
                                             	<c:set var="assignmentColumn" value="${assignmentRow.assignmentColumns[entry.key]}"/>   
                                              <c:choose>
                                                 <c:when test="${assignmentColumn.total ne '0.00' and assignmentColumn.total != 0}">
-                                                      <td class="${assignmentColumn.cssClass}">${assignmentColumn.total}</td>
+                                                      <td style="border-right-style: none" class="${assignmentColumn.cssClass}">${assignmentColumn.total}</td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <td></td>
+                                                    <td style="border-right-style: none"></td>
                                                 </c:otherwise>
                                             </c:choose>
                                             </c:forEach>
-                                            <td>${assignmentRow.periodTotal}</td>
+                                            <td style="border-left: 2px double #666666;">${assignmentRow.periodTotal}</td>
                                         </tr>
                                     </c:if>
                                 </c:otherwise>
@@ -96,10 +97,10 @@
                         <c:forEach items="${timeApprovalSummary.timeSummaryHeader}" var="entry">
                         	 <c:choose>
                                 <c:when test="${section.totals[entry.key] ne '0.00' and section.totals[entry.key] != 0}">
-                                    <td class="earnGroupTotalRow">${section.totals[entry.key]}</td>
+                                    <td style="border-right-style: none" class="earnGroupTotalRow">${section.totals[entry.key]}</td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td class="earnGroupTotalRow"></td>
+                                    <td style="border-right-style: none" class="earnGroupTotalRow"></td>
                                 </c:otherwise>
                              </c:choose>
                         </c:forEach>
@@ -110,9 +111,10 @@
               </c:forEach>
               <c:if test="${timeApprovalSummary.grandTotal != null}" >
               	<tr style="font-weight: bold;border-bottom-style: double;border-top-style: double;">
-              		  <td colspan="2" style="border-right: none">GrandTotal</td>
+              		  <td style="border-style: none"></td>
+              		  <td style="border-left: none">Pay Period Total</td>
                       <td colspan="7" style="border-left: none"></td>
-                      <td>${timeApprovalSummary.grandTotal}</td>
+                      <td style="border-left: 2px double #666666;">${timeApprovalSummary.grandTotal}</td>
               	</tr>	
               </c:if>
             </tbody>
