@@ -432,11 +432,11 @@
   			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="userPrincipalId">
   				<property name="quickfinder">
   					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
-  						p:fieldConversions="userPrincipalId:principalId"/>
+  						p:fieldConversions="principalId:userPrincipalId"/>
   				</property>
   				<property name="inquiry">
   					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
-  						p:inquiryParameters="userPrincipalId:principalId"/>
+  						p:inquiryParameters="principalId:userPrincipalId"/>
   				</property>
   			</bean>
   			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="timesheetDocumentHeader.documentStatus"
