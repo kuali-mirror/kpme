@@ -24,6 +24,9 @@
 	<bean id="PositionBase-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="dataObjectClass" value="org.kuali.kpme.core.position.PositionBase" />
 		<property name="objectLabel" value="Position" />
+		<property name="lookupDefinition">
+			<ref bean="PositionBase-lookupDefinition" />
+		</property>
 		<property name="attributes">
 			<list>
 				<ref bean="PositionBase-hrPositionId" />
@@ -269,6 +272,30 @@
 				<bean parent="Uif-DataField" p:propertyName="active" />
 			</list>
 		</property>
+	</bean>
+	
+	<!-- KNS Look up Definitions  -->
+	<bean id="PositionBase-lookupDefinition" parent="PositionBase-lookupDefinition-parentBean" />
+	<bean id="PositionBase-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="lookupFields">
+            <list>
+				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
+				<bean parent="FieldDefinition" p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="effectiveDate"  />
+				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
+				<bean parent="FieldDefinition" p:attributeName="description" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="timestamp" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="title" value="Position Lookup" />
 	</bean>
 	
 <!--*************************************************************************** 

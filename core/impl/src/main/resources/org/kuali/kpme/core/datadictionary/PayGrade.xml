@@ -24,6 +24,9 @@
 	<bean id="PayGrade" parent="PayGrade-parentBean" />
 	<bean id="PayGrade-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="dataObjectClass" value="org.kuali.kpme.core.paygrade.PayGrade" />
+		<property name="lookupDefinition">
+			<ref bean="PayGrade-lookupDefinition" />
+		</property>
 		<property name="attributes">
 			<list>
 				<ref bean="PayGrade-hrPayGradeId" />
@@ -343,6 +346,35 @@
             </list>
         </property>
     </bean>
+    
+    <!-- KNS Lookup -->
+    <bean id="PayGrade-lookupDefinition" parent="PayGrade-lookupDefinition-parentBean" />
+	<bean id="PayGrade-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="lookupFields">
+		     <list>
+                <bean parent="FieldDefinition" p:attributeName="payGrade"/>
+                <bean parent="FieldDefinition" p:attributeName="salGroup"/>
+                <bean parent="FieldDefinition" p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
+            </list>
+		</property>
+		<property name="resultFields">
+			<list>
+		        <bean parent="FieldDefinition" p:attributeName="payGrade"/>
+                <bean parent="FieldDefinition" p:attributeName="salGroup"/>
+                <bean parent="FieldDefinition" p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="minRate" />
+                <bean parent="FieldDefinition" p:attributeName="midPointRate" />
+                <bean parent="FieldDefinition" p:attributeName="maxRate" />
+                <bean parent="FieldDefinition" p:attributeName="rateType" />
+                <bean parent="FieldDefinition" p:attributeName="timestamp" />
+                <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
+			</list>
+		</property>
+		<property name="title" value="Pay Grade Lookup" />
+	</bean>
 
     <!--  Pay Grade Inquiry View  -->
   	<bean id="PayGrade-InquiryView" parent="Uif-InquiryView" >
