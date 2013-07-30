@@ -122,12 +122,22 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
 		Department department = (Department) hrObj;
 		
 		List<DepartmentPrincipalRoleMemberBo> newInactiveRoleMembers = createInactiveRoleMembers(department.getRoleMembers());
+		List<DepartmentPrincipalRoleMemberBo> roleList = new ArrayList<DepartmentPrincipalRoleMemberBo> ();
+		roleList.addAll(department.getRoleMembers());
 		
     	for (DepartmentPrincipalRoleMemberBo newInactiveRoleMember : newInactiveRoleMembers) {
     		department.addInactiveRoleMember(newInactiveRoleMember);
+    		List<DepartmentPrincipalRoleMemberBo> tempRoleList = department.getRoleMembers();
+    		for(DepartmentPrincipalRoleMemberBo role : tempRoleList) {
+    			if(StringUtils.isNotEmpty(role.getId())
+    					&& StringUtils.isNotEmpty(newInactiveRoleMember.getId())
+    					&& StringUtils.equals(role.getId(), newInactiveRoleMember.getId())) {
+    				roleList.remove(role);
+    			}
+    		}
     	}
     	
-    	for (DepartmentPrincipalRoleMemberBo roleMember : department.getRoleMembers()) {
+    	for (DepartmentPrincipalRoleMemberBo roleMember : roleList) {
     		RoleMember.Builder builder = RoleMember.Builder.create(roleMember);
     		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department.getDept()));
     		
@@ -164,12 +174,10 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
         
         for (RoleMemberBo newRoleMember : newRoleMembers) {
         	for (RoleMemberBo oldRoleMember : oldRoleMembers) {
-        		Role newRole = KimApiServiceLocator.getRoleService().getRole(newRoleMember.getRoleId());
-        		Role oldRole = KimApiServiceLocator.getRoleService().getRole(newRoleMember.getRoleId());
-			  	
-        		if (StringUtils.equals(newRole.getName(), oldRole.getName()) && StringUtils.equals(newRoleMember.getMemberId(), oldRoleMember.getMemberId())) {
+        		if (StringUtils.equals(newRoleMember.getRoleId(), oldRoleMember.getRoleId()) 
+                           && StringUtils.equals(newRoleMember.getMemberId(), oldRoleMember.getMemberId()) ) {
     				DepartmentPrincipalRoleMemberBo.Builder builder = DepartmentPrincipalRoleMemberBo.Builder.create(oldRoleMember);
-    				builder.setActiveToDate(new DateTime());
+    				builder.setActiveToDate(DateTime.now());
     				
 			  		inactiveRoleMembers.add(builder.build());
 			  	}
@@ -178,7 +186,7 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
         
         return inactiveRoleMembers;
     }
-    
+        
     @Override
     public Map<String, String> populateNewCollectionLines(Map<String, String> fieldValues,
 			MaintenanceDocument maintenanceDocument, String methodToCall) {
