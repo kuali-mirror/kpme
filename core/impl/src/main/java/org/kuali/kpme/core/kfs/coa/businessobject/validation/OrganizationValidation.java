@@ -1,5 +1,6 @@
 package org.kuali.kpme.core.kfs.coa.businessobject.validation;
 
+import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
@@ -9,7 +10,10 @@ public class OrganizationValidation extends MaintenanceDocumentRuleBase {
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
 		// TODO Auto-generated method stub
-		return super.processCustomRouteDocumentBusinessRules(document);
+		Organization organization = (Organization) document.getNewMaintainableObject().getBusinessObject();
+		boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+		isValid &= validateChart(organization);
+		return isValid;
 	}
 
 	@Override
@@ -17,5 +21,10 @@ public class OrganizationValidation extends MaintenanceDocumentRuleBase {
 			MaintenanceDocument maintenanceDocument) {
 		// TODO Auto-generated method stub
 		return super.validateMaintenanceDocument(maintenanceDocument);
+	}
+	
+	private boolean validateChart(Organization organization) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
