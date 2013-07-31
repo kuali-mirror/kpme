@@ -13,5 +13,6 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 --
+
 delete from pm_institution_t where pm_institution_id = '10000';
 insert into pm_institution_t values('10000', '2012-01-01', 'SOME-CODE', 'DESCRIPTION', 'Y', now(), uuid(), '1');

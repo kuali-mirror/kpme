@@ -13,4 +13,5 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 --
+
 delete from pm_institution_t where pm_institution_id = '10000';
