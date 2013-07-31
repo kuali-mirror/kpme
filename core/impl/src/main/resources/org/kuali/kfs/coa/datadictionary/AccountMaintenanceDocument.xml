@@ -18,7 +18,10 @@
 -->
   <bean id="AccountMaintenanceDocument" parent="AccountMaintenanceDocument-parentBean"/>
 
-  <bean id="AccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kpme.core.kfs.coa.businessobject.Account" p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+  <bean id="AccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
+  	p:businessObjectClass="org.kuali.kpme.core.kfs.coa.businessobject.Account"
+  	p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"
+  	p:businessRulesClass="org.kuali.kpme.core.kfs.coa.businessobject.validation.AccountValidation">
     <property name="maintainableSections">
       <list>
         <ref bean="AccountMaintenanceDocument-AccountMaintenance"/>

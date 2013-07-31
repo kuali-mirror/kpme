@@ -34,7 +34,7 @@ public class SubObjectCodeValidation extends MaintenanceDocumentRuleBase {
 		isValid &= validateChart(subObjectCode);
 		isValid &= validateAccount(subObjectCode);
 		isValid &= validateObjectCode(subObjectCode);
-		isValid &= validateConsistency(subObjectCode);
+		isValid &= validateChartConsistency(subObjectCode);
 		return isValid;
 	}
 
@@ -52,7 +52,11 @@ public class SubObjectCodeValidation extends MaintenanceDocumentRuleBase {
 	
 	private boolean validateObjectCode(SubObjectCode subObjectCode) {
 		// TODO Auto-generated method stub
-		return ValidationUtils.validateObjectCode(subObjectCode.getFinancialObject().getCode());
+		if(subObjectCode.getFinancialObject() != null) {
+			return ValidationUtils.validateObjectCode(subObjectCode.getFinancialObject().getCode());
+		}
+		else
+			return false;
 	}
 
 	private boolean validateAccount(SubObjectCode subObjectCode) {
@@ -60,15 +64,25 @@ public class SubObjectCodeValidation extends MaintenanceDocumentRuleBase {
 		return ValidationUtils.validateAccount(subObjectCode.getAccountNumber());
 	}
 	
-	private boolean validateConsistency(SubObjectCode subObjectCode) {
+	private boolean validateChartConsistency(SubObjectCode subObjectCode) {
 		// TODO Auto-generated method stub
 		Chart chart = subObjectCode.getChartOfAccounts();
 		
 		Account account = subObjectCode.getAccount();
-		Chart accountChart = account.getChartOfAccounts();
+		Chart accountChart = null;
+		if(account != null) {
+			accountChart = account.getChartOfAccounts();
+		}
+		else
+			return false;
 
 		ObjectCode objectCode = subObjectCode.getFinancialObject();
-		Chart objectCodeChart = objectCode.getChartOfAccounts();
+		Chart objectCodeChart = null;
+		if(objectCode != null) {
+			objectCodeChart = objectCode.getChartOfAccounts();
+		}
+		else
+			return false;
 		
 		return accountChart.equals(chart) && objectCodeChart.equals(chart) ? true : false;
 	}

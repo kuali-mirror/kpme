@@ -1,19 +1,4 @@
-/**
- * Copyright 2004-2013 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl2.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package org.kuali.hr.core.institution;
+package org.kuali.hr.core.kfs;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -23,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
@@ -32,36 +18,26 @@ import org.kuali.kpme.core.util.HrTestConstants;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class InstitutionMaintenanceTest extends KPMEWebTestCase {
-
-	private static String newUrl;
-	private static String lookupUrl;
-	private static Map<String,String> requiredFields;
+public class ProjectCodeMaintTest extends KPMEWebTestCase {
+	
+	private String newUrl;
+	private String lookupUrl;
+	private Map<String,String> requiredFields;
 
 	private void before() {
 		
-		newUrl = HrTestConstants.Urls.INSTITUTION_MAINT_NEW_URL;
-		lookupUrl = HrTestConstants.Urls.INSTITUTION_MAINT_URL;
+		newUrl = HrTestConstants.Urls.PROJECT_CODE_MAINT_NEW_URL;
+		lookupUrl = HrTestConstants.Urls.PROJECT_CODE_MAINT_URL;
 		
 		requiredFields = new HashMap<String,String>();
-		requiredFields.put("effectiveDate", "Effective Date (Effective Date) is a required field.");
-		requiredFields.put("institutionCode", "Institution Code (Institution Code) is a required field.");
+		requiredFields.put("code", "Project Code (Project) is a required field.");
+		requiredFields.put("name", "Project Name (Name) is a required field.");
+		requiredFields.put("chartOfAccountsCode", "Chart Code (Chart) is a required field.");
+		requiredFields.put("organizationCode", "Organization Code (Org) is a required field.");
 	}
 	
 	private void after() {
 		requiredFields.clear();
-	}
-	
-	@Override
-	public void setUp() throws Exception {
-		before();
-		super.setUp();
-	}
-	
-	@Override
-	public void tearDown() throws Exception {
-		after();
-		super.tearDown();
 	}
 	
 	@Test
@@ -94,4 +70,22 @@ public class InstitutionMaintenanceTest extends KPMEWebTestCase {
 		
 	}
 	
+	@Override
+	public void setUp() throws Exception {
+		// TODO Auto-generated method stub
+		before();
+		super.setUp();
+	}
+
+	@Override
+	public void tearDown() throws Exception {
+		after();
+		// TODO Auto-generated method stub
+		super.tearDown();
+	}
+	
+	@Test
+	public void dummyTest() throws Exception {
+		Assert.assertNull(null);
+	}
 }

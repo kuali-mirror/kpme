@@ -18,7 +18,8 @@
 -->
   <bean id="ChartMaintenanceDocument" parent="ChartMaintenanceDocument-parentBean"/>
 
-  <bean id="ChartMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="ChartMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
+  p:businessRulesClass="org.kuali.kpme.core.kfs.coa.businessobject.validation.ChartValidation">
     <property name="businessObjectClass" value="org.kuali.kpme.core.kfs.coa.businessobject.Chart"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">

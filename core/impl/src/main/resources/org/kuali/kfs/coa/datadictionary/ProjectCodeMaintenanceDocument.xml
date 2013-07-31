@@ -18,7 +18,8 @@
 -->
   <bean id="ProjectCodeMaintenanceDocument" parent="ProjectCodeMaintenanceDocument-parentBean"/>
 
-  <bean id="ProjectCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="ProjectCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
+  p:businessRulesClass="org.kuali.kpme.core.kfs.coa.businessobject.validation.ProjectCodeValidation">
     <property name="businessObjectClass" value="org.kuali.kpme.core.kfs.coa.businessobject.ProjectCode"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">

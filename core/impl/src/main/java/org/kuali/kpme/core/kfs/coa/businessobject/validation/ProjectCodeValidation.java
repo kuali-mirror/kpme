@@ -35,7 +35,7 @@ public class ProjectCodeValidation extends MaintenanceDocumentRuleBase {
 		boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 		isValid &= validateChart(pc);
 		isValid &= validateOrganization(pc);
-		isValid &= validateConsistency(pc);
+		isValid &= validateChartConsistency(pc);
 		return isValid;
 	}
 
@@ -57,12 +57,17 @@ public class ProjectCodeValidation extends MaintenanceDocumentRuleBase {
 		return ValidationUtils.validateOrganization(pc.getOrganizationCode());
 	}
 	
-	private boolean validateConsistency(ProjectCode projectCode) {
+	private boolean validateChartConsistency(ProjectCode projectCode) {
 		// TODO Auto-generated method stub
 		Chart chart = projectCode.getChartOfAccounts();
 		
 		Organization organization = projectCode.getOrganization();
-		Chart organizationChart = organization.getChartOfAccounts();
+		Chart organizationChart = null;
+		if(organization != null) {
+			organizationChart = organization.getChartOfAccounts();
+		}
+		else
+			return false;
 		
 		return organizationChart.equals(chart) ? true : false;
 	}

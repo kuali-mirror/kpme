@@ -18,7 +18,8 @@
 -->
   <bean id="SubObjectCodeMaintenanceDocument" parent="SubObjectCodeMaintenanceDocument-parentBean"/>
 
-  <bean id="SubObjectCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="SubObjectCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
+  	p:businessRulesClass="org.kuali.kpme.core.kfs.coa.businessobject.validation.SubObjectCodeValidation">
     <property name="businessObjectClass" value="org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
 
@@ -69,7 +70,7 @@
     <property name="title" value="Edit Sub Object Code"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true" p:defaultValueFinderClass="org.kuali.kpme.core.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true"/>
