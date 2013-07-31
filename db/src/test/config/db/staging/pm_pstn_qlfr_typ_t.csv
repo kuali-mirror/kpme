@@ -1,6 +1,6 @@
 PM_PSTN_QLFR_TYP_ID,CODE,TYPE,SELECT_VALUES,EFFDT,ACTIVE,OBJ_ID,VER_NBR,TYPE_VL,DESCR
 1,ED,Education,"Bachelor's Degree, Master's Degree, Doctorate",2010-01-01,Y,1,1,Select,Education
 2,EXP,Years of Experience,,2010-01-01,Y,2,1,Number,Years of Experience
-3,LIC/CERTS,Licenses & Certifications,,2010-01-01,Y,3,1,Text,Licenses & Certifications
-4,ADDEXP,Additional Experience,,2010-01-01,Y,4,1,Text,Additional Experience
+3,LIC/CERTS,Licens & Certifs,,2010-01-01,Y,3,1,Text,Licenses & Certifications
+4,ADDEXP,Additional Exp,,2010-01-01,Y,4,1,Text,Additional Experience
 5,MAJOR,Degree in,,2010-01-01,Y,5,1,Text,Major Degree

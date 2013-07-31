@@ -151,4 +151,42 @@
         </loadData>
     </changeSet>
 
+ 	<changeSet id="7" author="yingzhou" context="kpme-client-staging">
+        <loadData tableName="PM_INSTITUTION_T" file="src/test/config/db/staging/pm_institution_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="PM_PSTN_APPOINTMENT_T" file="src/test/config/db/staging/pm_pstn_appointment_t.csv">
+         	<column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="PM_PSTN_CL_T" file="src/test/config/db/staging/pm_pstn_cl_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="PM_PSTN_DEPT_AFFL_T" file="src/test/config/db/staging/pm_pstn_dept_affl_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="PM_PSTN_FLAG_T" file="src/test/config/db/staging/pm_pstn_flag_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="PM_PSTN_QLFR_TYP_T" file="src/test/config/db/staging/pm_pstn_qlfr_typ_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="PM_PSTN_RPT_CAT_T" file="src/test/config/db/staging/pm_pstn_rpt_cat_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="PM_PSTN_RPT_GRP_SUB_CAT_T" file="src/test/config/db/staging/pm_pstn_rpt_grp_sub_cat_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="PM_PSTN_RPT_GRP_T" file="src/test/config/db/staging/pm_pstn_rpt_grp_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="PM_PSTN_RPT_SUB_CAT_T" file="src/test/config/db/staging/pm_pstn_rpt_sub_cat_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="PM_PSTN_RPT_TYP_T" file="src/test/config/db/staging/pm_pstn_rpt_typ_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="PM_PSTN_TYP_T" file="src/test/config/db/staging/pm_pstn_typ_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+    </changeSet>
 </databaseChangeLog>
