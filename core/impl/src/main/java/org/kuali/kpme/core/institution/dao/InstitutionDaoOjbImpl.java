@@ -25,7 +25,6 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.institution.Institution;
-import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -128,6 +127,49 @@ public class InstitutionDaoOjbImpl extends PlatformAwareDaoBaseOjb implements In
 		crit.addAndCriteria(activeFilter);
 		Query query = QueryFactory.newQuery(Institution.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query);
+	}
+
+	@Override
+	public List<Institution> getInstitutions(LocalDate fromEffdt, LocalDate toEffdt, String institutionCode, String active, String showHistory) {
+        Criteria root = new Criteria();
+
+        List<Institution> results = new ArrayList<Institution>();
+
+        if (StringUtils.isNotBlank(institutionCode)) {
+        	root.addLike("institutionCode", institutionCode);
+        }
+        
+        Criteria effectiveDateFilter = new Criteria();
+        if (fromEffdt != null) {
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
+        }
+        if (toEffdt != null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
+        }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
+
+        if (StringUtils.isNotBlank(active)) {
+            Criteria activeFilter = new Criteria();
+            if (StringUtils.equals(active, "Y")) {
+                activeFilter.addEqualTo("active", true);
+            } else if (StringUtils.equals(active, "N")) {
+                activeFilter.addEqualTo("active", false);
+            }
+            root.addAndCriteria(activeFilter);
+        }
+
+        if (StringUtils.equals(showHistory, "N")) {
+        	root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(Institution.class, effectiveDateFilter, Institution.EQUAL_TO_FIELDS, false));
+        	root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Institution.class, Institution.EQUAL_TO_FIELDS, false));
+        }
+
+        Query query = QueryFactory.newQuery(Institution.class, root);
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+
+        return results;
 	}
 
 }

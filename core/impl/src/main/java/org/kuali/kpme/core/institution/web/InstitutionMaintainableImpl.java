@@ -28,7 +28,6 @@ public class InstitutionMaintainableImpl extends HrBusinessObjectMaintainableImp
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		// TODO Auto-generated method stub
 		return HrServiceLocator.getInstitutionService().getInstitutionById(id);
 	}
 	

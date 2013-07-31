@@ -44,4 +44,6 @@ public interface InstitutionService {
 	 */
 	public int getInstitutionCount(String institutionCode, LocalDate asOfDate);
 	
+	public List<Institution> getInstitutions(LocalDate fromEffdt, LocalDate toEffdt, String institutionCode, String active, String showHistory);
+	
 }

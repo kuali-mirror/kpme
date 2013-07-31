@@ -20,11 +20,13 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -45,7 +47,14 @@ public class InstitutionLookupableHelper extends HrEffectiveDateActiveLookupable
 		if (StringUtils.contains(fieldValues.get("institutionCode"), "*")) {
 			fieldValues.put("institutionCode","");			
 		}
-		return super.getSearchResults(fieldValues);
+		
+		String institutionCode = fieldValues.get("institutionCode");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+        String active = fieldValues.get("active");
+        String showHistory = fieldValues.get("history");
+        
+		return HrServiceLocator.getInstitutionService().getInstitutions(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), institutionCode, active, showHistory);
 	}
 
 	@Override

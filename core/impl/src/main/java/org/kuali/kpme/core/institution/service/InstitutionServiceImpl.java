@@ -58,4 +58,10 @@ public class InstitutionServiceImpl implements InstitutionService {
 		return institutionDao.getInstitutionCount(institutionCode, asOfDate);
 	}
 
+	@Override
+	public List<Institution> getInstitutions(LocalDate fromEffdt,
+			LocalDate toEffdt, String institutionCode, String active, String showHistory) {
+		return institutionDao.getInstitutions(fromEffdt, toEffdt, institutionCode, active, showHistory);
+	}
+
 }
