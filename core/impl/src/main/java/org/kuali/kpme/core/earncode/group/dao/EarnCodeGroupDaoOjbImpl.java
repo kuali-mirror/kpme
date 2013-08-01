@@ -165,7 +165,7 @@ public class EarnCodeGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
         }
         
         if (StringUtils.isNotBlank(descr)) {
-            root.addLike("description", descr);
+            root.addLike("descr", descr);
         }
         
         Criteria effectiveDateFilter = new Criteria();
