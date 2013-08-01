@@ -16,8 +16,10 @@
 package org.kuali.kpme.tklm.time.service.permission;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -96,14 +98,18 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             PayType payType = HrServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
             
+            // Check Payroll Processor condition
+            Boolean isAnyPayrollProcessor = isPrincipalAnyProcessorInWorkArea(principalId, timeBlock.getWorkArea(), timeBlock.getBeginDateTime().toLocalDate()); 
+            
         	if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
         			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
-        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime())) {
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime()) || isAnyPayrollProcessor) {
+        		
         		
                 if (StringUtils.equals(payType.getRegEarnCode(),
                 		timeBlock.getEarnCode())) {
                     TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),timeBlock.getBeginDateTime().toLocalDate());
-
+                    
                     if (tcr == null || tcr.isClockUserFl()) {
                         //if there is only 1 assignment here, it isn't editable.
                         TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(timeBlock.getDocumentId());
@@ -124,6 +130,9 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                             && StringUtils.equals(dec.getEarnCode(),
                             		timeBlock.getEarnCode())) {
                         return true;
+                    } else if(dec.isPayrollProcessor() && StringUtils.equals(dec.getEarnCode(),
+                    		timeBlock.getEarnCode())) {
+                    	return true;
                     }
                 }
             }
@@ -185,10 +194,13 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                     HrContext.getTargetPrincipalId(), timeBlock.getJobNumber(),
                     timeBlock.getEndDateTime().toLocalDate());
             PayType payType = job.getPayTypeObj();
+            
+            // Check Payroll Processor condition
+            Boolean isAnyPayrollProcessor = isPrincipalAnyProcessorInWorkArea(principalId, timeBlock.getWorkArea(), timeBlock.getBeginDateTime().toLocalDate()); 
 
         	if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
         			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
-        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime())) {
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime()) || isAnyPayrollProcessor) {
         		
                 if (StringUtils.equals(payType.getRegEarnCode(), timeBlock.getEarnCode())) {
                     TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),timeBlock.getBeginDateTime().toLocalDate());
@@ -209,6 +221,9 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                             && StringUtils.equals(dec.getEarnCode(),
                             		timeBlock.getEarnCode())) {
                         return true;
+                    } else if(dec.isPayrollProcessor() && StringUtils.equals(dec.getEarnCode(),
+                    		timeBlock.getEarnCode())) {
+                    	return true;
                     }
                 }
             }
@@ -267,10 +282,13 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                     timeBlock.getEndDateTime().toLocalDate());
             PayType payType = HrServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
+            
+            // Check Payroll Processor condition
+            Boolean isAnyPayrollProcessor = isPrincipalAnyProcessorInWorkArea(principalId, timeBlock.getWorkArea(), timeBlock.getBeginDateTime().toLocalDate()); 
 
         	if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
         			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
-        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime())) {
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime()) || isAnyPayrollProcessor) {
 
                 if (StringUtils.equals(payType.getRegEarnCode(),
                 		timeBlock.getEarnCode())) {
@@ -286,6 +304,9 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                             && StringUtils.equals(dec.getEarnCode(),
                             		timeBlock.getEarnCode())) {
                         return true;
+                    } else if(dec.isPayrollProcessor() && StringUtils.equals(dec.getEarnCode(),
+                    		timeBlock.getEarnCode())) {
+                    	return true;
                     }
                 }
             }
@@ -333,7 +354,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             for (EarnCodeSecurity dec : deptEarnCodes) {
             	if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
             			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
-            			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime())) {
+            			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime()) || isAnyPayrollProcessor) {
 	                
             		if (dec.isEmployee()
 	                        && StringUtils.equals(dec.getEarnCode(),
@@ -399,6 +420,21 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
         	}
         }
     	return true;
+    }
+    
+    private Boolean isPrincipalAnyProcessorInWorkArea(String principalId, Long tbWorkArea, LocalDate asOfDate) {
+    	Boolean flag = false;
+        Set<Long> workAreas = new HashSet<Long>();
+    	workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), new DateTime(), true));
+        workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(),  KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), new DateTime(), true));
+        for (Long wa : workAreas) {
+            WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
+            if (workArea!= null && tbWorkArea.compareTo(wa)==0) {
+                flag = true;
+                break;
+            }
+        }
+        return flag;
     }
 
 	public PermissionService getPermissionService() {

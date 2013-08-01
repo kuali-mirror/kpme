@@ -19,8 +19,10 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -156,11 +158,12 @@ public class ClockAction extends TimesheetAction {
 
 	        		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(AssignmentDescriptionKey.get(selectedAssignment), LocalDate.now());
 	        		if (assignment != null) {
-	        			String principalId = GlobalVariables.getUserSession().getPrincipalId();
 	        			Long workArea = assignment.getWorkArea();
+	        			String principalId = GlobalVariables.getUserSession().getPrincipalId();
+	        			Boolean isAnyPayrollProcessor = this.isPrincipalAnyProcessorInWorkArea(principalId, workArea, new DateTime().toLocalDate());
 	        			isApproverOrReviewerForCurrentAssignment = HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
 	        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
-	        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), workArea, new DateTime());
+	        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), workArea, new DateTime()) || isAnyPayrollProcessor;
 	        		}
 		        	clockActionForm.setClockButtonEnabled(isApproverOrReviewerForCurrentAssignment);
 		        }
@@ -405,5 +408,20 @@ public class ClockAction extends TimesheetAction {
 	    caf.setOutputString(JSONValue.toJSONString(errorMsgList));
 		return mapping.findForward("ws");
  	}
+	
+	 private Boolean isPrincipalAnyProcessorInWorkArea(String principalId, Long tbWorkArea, LocalDate asOfDate) {
+	    	Boolean flag = false;
+	        Set<Long> workAreas = new HashSet<Long>();
+	    	workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), new DateTime(), true));
+	        workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(),  KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), new DateTime(), true));
+	        for (Long wa : workAreas) {
+	            WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
+	            if (workArea!= null && tbWorkArea.compareTo(wa)==0) {
+	                flag = true;
+	                break;
+	            }
+	        }
+	        return flag;
+	    }
     
 }

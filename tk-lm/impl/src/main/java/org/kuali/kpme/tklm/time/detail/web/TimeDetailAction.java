@@ -133,7 +133,8 @@ public class TimeDetailAction extends TimesheetAction {
 		            		|| TkContext.isLocationAdmin()
 		            		|| TkContext.isDepartmentAdmin()
 		            		|| HrContext.isReviewer()
-		            		|| HrContext.isAnyApprover()) {
+		            		|| HrContext.isAnyApprover()
+		            		|| HrContext.isAnyPayrollProcessor()) {
 	                    timeDetailActionForm.setDocEditable("true");
 	                }
 	            	
