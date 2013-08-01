@@ -76,7 +76,7 @@
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Code" />
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="20" />
+			<bean parent="Uif-TextControl" p:size="40" />
 		</property>
 		<property name="name" value="code" />
 		<property name="label" value="Code" />
@@ -87,7 +87,7 @@
 	<bean id="PositionQualifierType-type-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="yes" />
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="20" />
+			<bean parent="Uif-TextControl" p:size="40" />
 		</property>
 		<property name="name" value="type" />
 		<property name="label" value="Type" />
