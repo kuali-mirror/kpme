@@ -16,7 +16,6 @@
 package org.kuali.kpme.core.kfs.coa.businessobject.validation;
 
 import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
-import org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
