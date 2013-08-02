@@ -52,6 +52,7 @@ public class PersonInfoActionForm extends KPMEForm {
     private List<Long> reviewerWorkAreas = new ArrayList<Long>();
     private List<String> deptAdminDepts = new ArrayList<String>();
     private List<String> locationAdminDepts = new ArrayList<String>();
+    private List<String> payrollProcessorDepts = new ArrayList<String>();
     private Boolean systemAdmin = Boolean.FALSE;
     private Boolean globalViewOnlyRoles = Boolean.FALSE;
     private List<String> deptViewOnlyDepts = new ArrayList<String>();
@@ -227,6 +228,14 @@ public class PersonInfoActionForm extends KPMEForm {
 
     public void setDeptToPayrollPerson(Map<String, Set<Person>> deptToPayrollPerson) {
         this.deptToPayrollPerson = deptToPayrollPerson;
+    }
+
+    public List<String> getPayrollProcessorDepts() {
+        return payrollProcessorDepts;
+    }
+
+    public void setPayrollProcessorDepts(List<String> payrollProcessorDepts) {
+        this.payrollProcessorDepts = payrollProcessorDepts;
     }
     
 }

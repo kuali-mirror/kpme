@@ -192,6 +192,16 @@
                             </c:forEach>
                         </td>
                     </tr>
+
+                    <tr>
+                        <th>Payroll Processor for Department(s) : </th>
+                        <td>
+                            <c:forEach var="dept" items="${Form.payrollProcessorDepts}" varStatus="row">
+                                ${dept}
+                                <c:if test="${!row.last}">,</c:if>
+                            </c:forEach>
+                        </td>
+                    </tr>
                 </table>
 
             </div>
