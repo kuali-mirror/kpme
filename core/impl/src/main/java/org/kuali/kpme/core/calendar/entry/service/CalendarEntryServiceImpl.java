@@ -291,5 +291,10 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
 		return pcd;
 	}
 
+    @Override
+    public List<CalendarEntry> getSearchResults(String calendarName, String calendarTypes, LocalDate fromBeginDate, LocalDate toBeginDate, LocalDate fromendDate, LocalDate toEndDate) {
+        return calendarEntryDao.getSearchResults(calendarName, calendarTypes, fromBeginDate, toBeginDate, fromendDate, toEndDate);
+    }
+
 
 }

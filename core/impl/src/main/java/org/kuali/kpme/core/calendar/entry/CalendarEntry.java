@@ -37,6 +37,7 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     private String hrCalendarEntryId;
     private String hrCalendarId;
     private String calendarName;
+    private String calendarTypes;
 
     private Date beginPeriodDateTime;
     private Date endPeriodDateTime;
@@ -46,7 +47,7 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     private Date batchSupervisorApprovalDateTime;
     private Date batchPayrollApprovalDateTime;
 
-    private Calendar calendarObj;
+    private transient Calendar calendarObj;
 
     public String getHrCalendarId() {
         calendarObj = HrServiceLocator.getCalendarService().getCalendarByGroup(this.getCalendarName());
@@ -75,8 +76,16 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
 	public void setCalendarName(String calendarName) {
 		this.calendarName = calendarName;
 	}
-	
-	public Date getBeginPeriodDateTime() {
+
+    public String getCalendarTypes() {
+        return calendarTypes;
+    }
+
+    public void setCalendarTypes(String calendarTypes) {
+        this.calendarTypes = calendarTypes;
+    }
+
+    public Date getBeginPeriodDateTime() {
         return beginPeriodDateTime;
     }
 

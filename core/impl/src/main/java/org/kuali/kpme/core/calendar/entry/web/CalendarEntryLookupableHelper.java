@@ -16,10 +16,13 @@
 package org.kuali.kpme.core.calendar.entry.web;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -49,5 +52,17 @@ public class CalendarEntryLookupableHelper extends KPMELookupableHelper {
 		
 		return customActionUrls;
 	}
-	
+
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        String calendarName = fieldValues.get("calendarName");
+        String calendarTypes = fieldValues.get("calendarTypes");
+        String fromBeginPeriodDateTime = TKUtils.getFromDateString(fieldValues.get("beginPeriodDateTime"));
+        String toBeginPeriodDateTime = TKUtils.getToDateString(fieldValues.get("beginPeriodDateTime"));
+        String fromEndPeriodDateTime = TKUtils.getFromDateString(fieldValues.get("endPeriodDateTime"));
+        String toEndPeriodDateTime = TKUtils.getToDateString(fieldValues.get("endPeriodDateTime"));
+
+        return  HrServiceLocator.getCalendarEntryService().getSearchResults(calendarName, calendarTypes, TKUtils.formatDateString(fromBeginPeriodDateTime),
+                TKUtils.formatDateString(toBeginPeriodDateTime), TKUtils.formatDateString(fromEndPeriodDateTime), TKUtils.formatDateString(toEndPeriodDateTime));
+    }
 }

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -28,6 +29,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -194,7 +196,7 @@ public class CalendarEntryDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
         root.addGreaterOrEqualThan("endPeriodDateTime", beginDate.toDate());
         root.addLessOrEqualThan("endPeriodDateTime", endDate.toDate());
         Query query = QueryFactory.newQuery(CalendarEntry.class, root);
-        
+
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
         return results;
@@ -250,6 +252,43 @@ public class CalendarEntryDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
     		ceList.addAll(c);
     	}
     	return ceList;
+    }
+
+    public List<CalendarEntry> getSearchResults(String calendarName, String calendarTypes, LocalDate fromBeginDate, LocalDate toBeginDate, LocalDate fromEndDate, LocalDate toEndDate) {
+        Criteria crit = new Criteria();
+        List<CalendarEntry> results = new ArrayList<CalendarEntry>();
+
+        // for either pay or leave (not both!) get all the calendars that match
+        List<Calendar> calendars = HrServiceLocator.getCalendarService().getCalendars(calendarName, calendarTypes, null, null);
+        List<String> hrCalendarIdList = new ArrayList<String>();
+        for (Calendar cal : calendars) {
+            hrCalendarIdList.add(cal.getHrCalendarId());
+        }
+
+        crit.addIn("hrCalendarId", hrCalendarIdList);
+
+        if (!StringUtils.equals(calendarName,"")){
+            crit.addLike("calendarName", calendarName);
+        }
+        if (fromBeginDate != null) {
+            crit.addGreaterOrEqualThan("beginPeriodDateTime", fromBeginDate.toDate());
+        }
+        if (toBeginDate != null) {
+            crit.addLessOrEqualThan("beginPeriodDateTime", toBeginDate.toDate());
+        }
+        if (fromEndDate != null) {
+            crit.addGreaterOrEqualThan("endPeriodDateTime", fromEndDate.toDate());
+        }
+        if (toEndDate != null){
+            crit.addLessOrEqualThan("endPeriodDateTime", toEndDate.toDate());
+        }
+
+        Query query = QueryFactory.newQuery(CalendarEntry.class, crit);
+
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+
+        return results;
+
     }
 
 }

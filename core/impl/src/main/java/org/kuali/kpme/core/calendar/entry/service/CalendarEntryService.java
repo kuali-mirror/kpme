@@ -18,6 +18,7 @@ package org.kuali.kpme.core.calendar.entry.service;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.entry.CalendarEntryPeriodType;
 import org.springframework.cache.annotation.Cacheable;
@@ -146,5 +147,7 @@ public interface CalendarEntryService {
 	 */
    @Cacheable(value= CalendarEntry.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'currentDate=' + #p1")
 	public CalendarEntry getCurrentCalendarDatesForLeaveCalendar(String principalId, DateTime currentDate);
-  
+
+    public List<CalendarEntry> getSearchResults(String calendarName, String calendarTypes, LocalDate fromBeginDate, LocalDate toBeginDate, LocalDate fromendDate, LocalDate toEndDate);
+
 }
