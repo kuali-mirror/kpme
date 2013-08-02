@@ -23,6 +23,7 @@ import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.institution.Institution;
+import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.paygrade.PayGrade;
@@ -127,6 +128,14 @@ public class KpmeModuleService extends ModuleServiceBase {
         	List<List<String>> retList = new ArrayList<List<String>>();
         	List<String> keyList = new ArrayList<String>();
         	keyList.add("institutionCode");
+        	keyList.add("effectiveDate");
+        	retList.add(keyList);
+        	return retList;
+        } else if (Job.class.isAssignableFrom(businessObjectInterfaceClass)) {
+        	List<List<String>> retList = new ArrayList<List<String>>();
+        	List<String> keyList = new ArrayList<String>();
+        	keyList.add("jobNumber");
+        	keyList.add("principalId");
         	keyList.add("effectiveDate");
         	retList.add(keyList);
         	return retList;

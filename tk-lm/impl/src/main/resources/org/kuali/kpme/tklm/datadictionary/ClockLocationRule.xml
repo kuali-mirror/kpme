@@ -70,7 +70,7 @@
 				<list>
 					<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
 								p:targetName="workArea" />
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkWorkAreaId" p:targetName="tkWorkAreaId"/>
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate"/>
 				</list>
 				</property>
 				
@@ -82,7 +82,7 @@
               <property name="primitiveAttributes">
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrDeptId" p:targetName="hrDeptId"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate"/>
                 </list>
               </property>
             </bean>
@@ -93,7 +93,7 @@
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="jobNumber" p:targetName="jobNumber"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrJobId" p:targetName="hrJobId"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate"/>
                 </list>
               </property>
             </bean> 
@@ -105,7 +105,7 @@
   
   <bean id="ClockLocationRule-dept" parent="ClockLocationRule-dept-parentBean"/>
   <bean id="ClockLocationRule-dept-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Department Id"/>
+    <property name="shortLabel" value="Department"/>
     <property name="maxLength" value="21"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern">
@@ -116,7 +116,7 @@
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     <property name="name" value="dept"/>
-    <property name="label" value="Department Id"/>
+    <property name="label" value="Department"/>
   </bean>
 
     
