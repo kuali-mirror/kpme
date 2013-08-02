@@ -101,9 +101,4 @@ public class AccountMaintTest extends KPMEWebTestCase {
 		after();
 		super.tearDown();
 	}
-	
-	@Test
-	public void dummyTest() throws Exception {
-		Assert.assertNull(null);
-	}
 }

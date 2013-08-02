@@ -57,7 +57,8 @@
     <property name="workflowAttributes">
     	<ref bean="SubObjectCodeMaintenanceDocument-workflowAttributes"/>
     </property>
- -->    
+ -->
+
   </bean>
 
 <!-- Maintenance Section Definitions -->

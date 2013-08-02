@@ -130,8 +130,8 @@ public class Chart extends PersistableBusinessObjectBase implements ChartContrac
             return false;
         if (obj == this)
             return true;
-        if (obj.getClass() != getClass())
-            return false;
+/*        if (obj.getClass() != getClass())
+            return false;*/
 
         Chart rhs = (Chart) obj;
         return new EqualsBuilder().append(getObjectId(),rhs.getObjectId()).isEquals();

@@ -99,9 +99,5 @@ public class ObjectCodeMaintTest extends KPMEWebTestCase {
 		assertNotNull("lookup result page is null", lookupPage);
 		
 	}
-	
-	@Test
-	public void dummyTest() throws Exception {
-		Assert.assertNull(null);
-	}
+
 }

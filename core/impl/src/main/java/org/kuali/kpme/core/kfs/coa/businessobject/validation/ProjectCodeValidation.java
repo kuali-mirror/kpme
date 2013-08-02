@@ -24,6 +24,7 @@ import org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 @SuppressWarnings("deprecation")
 public class ProjectCodeValidation extends MaintenanceDocumentRuleBase {
@@ -60,16 +61,20 @@ public class ProjectCodeValidation extends MaintenanceDocumentRuleBase {
 	private boolean validateChartConsistency(ProjectCode projectCode) {
 		// TODO Auto-generated method stub
 		Chart chart = projectCode.getChartOfAccounts();
-		
 		Organization organization = projectCode.getOrganization();
-		Chart organizationChart = null;
-		if(organization != null) {
-			organizationChart = organization.getChartOfAccounts();
-		}
-		else
-			return false;
 		
-		return organizationChart.equals(chart) ? true : false;
+		Chart organizationChart = null;
+		if(organization != null && chart != null) {
+			organizationChart = organization.getChartOfAccounts();
+			if(!organizationChart.equals(chart)) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.organizationCode", "projectcode.organization.chart.inconsistent", organizationChart.getChartOfAccountsCode(), chart.getChartOfAccountsCode());
+			}
+			else {
+				return true;
+			}
+		}
+
+		return false;
 	}
 	
 }

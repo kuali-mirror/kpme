@@ -143,5 +143,12 @@
         <loadData tableName="tk_user_pref_t" file="src/test/config/db/test/tk_user_pref_t.csv" />
         <loadData tableName="tk_work_area_t" file="src/test/config/db/test/tk_work_area_t.csv" />
     </changeSet>
+    
+    <changeSet id="6" author="dgodfrey" context="kpme-client-test">
+       	<loadData tableName="ca_chart_t" file="src/test/config/db/test/ca_chart_t.csv"/>
+       	<loadData tableName="ca_account_t" file="src/test/config/db/test/ca_account_t.csv"/>
+    	<loadData tableName="ca_object_code_t" file="src/test/config/db/test/ca_object_code_t.csv"/>
+    	<loadData tableName="ca_sub_object_cd_t" file="src/test/config/db/test/ca_sub_object_cd_t.csv"/>
+    </changeSet>
 
 </databaseChangeLog>

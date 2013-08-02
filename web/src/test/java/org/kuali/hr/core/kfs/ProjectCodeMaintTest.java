@@ -22,9 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
@@ -82,12 +80,10 @@ public class ProjectCodeMaintTest extends KPMEWebTestCase {
 		
 		lookupPage = HtmlUnitUtil.clickInputContainingText(lookupPage, "search");
 		assertNotNull("lookup result page is null", lookupPage);
-		
 	}
 	
 	@Override
 	public void setUp() throws Exception {
-		// TODO Auto-generated method stub
 		before();
 		super.setUp();
 	}
@@ -95,12 +91,31 @@ public class ProjectCodeMaintTest extends KPMEWebTestCase {
 	@Override
 	public void tearDown() throws Exception {
 		after();
-		// TODO Auto-generated method stub
 		super.tearDown();
 	}
 	
 	@Test
-	public void dummyTest() throws Exception {
-		Assert.assertNull(null);
+	@Ignore
+	public void testChartValidation() throws Exception {
+		/**
+		 * TODO: these inputs are not being retrieved, use HtmlUnitUtil.setFieldValue(...)
+		 */
+		HtmlPage maintPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), newUrl);
+		HtmlInput docDescription = HtmlUnitUtil.getInputContainingText(maintPage, "* Document Description");
+		HtmlInput projectCode = HtmlUnitUtil.getInputContainingText(maintPage, "* Project Code");
+		HtmlInput projectName = HtmlUnitUtil.getInputContainingText(maintPage, "* Project Name");
+		HtmlInput chartCode = HtmlUnitUtil.getInputContainingText(maintPage, "* Chart Code");
+		HtmlInput organizationCode = HtmlUnitUtil.getInputContainingText(maintPage, "* Organization Code");
+		//HtmlInput active = HtmlUnitUtil.getInputContainingText(maintPage, "Active Indicator");
+		
+		docDescription.setValueAttribute("testing submission");
+		projectCode.setValueAttribute("TST-PRJ");
+		projectName.setValueAttribute("Test Project");
+		chartCode.setValueAttribute("CC");
+		organizationCode.setValueAttribute("OC");
+		// active.setValueAttribute("Y")
+		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(maintPage, "submit");
+		String resultPageAsText = resultPage.asText();
+//		assertTrue("")
 	}
 }
