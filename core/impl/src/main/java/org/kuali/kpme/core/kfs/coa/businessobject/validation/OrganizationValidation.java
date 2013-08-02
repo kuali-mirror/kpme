@@ -19,13 +19,13 @@ import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 @SuppressWarnings("deprecation")
 public class OrganizationValidation extends MaintenanceDocumentRuleBase {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
-		// TODO Auto-generated method stub
 		Organization organization = (Organization) document.getNewMaintainableObject().getBusinessObject();
 		boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 		isValid &= validateChart(organization);
@@ -35,13 +35,15 @@ public class OrganizationValidation extends MaintenanceDocumentRuleBase {
 	@Override
 	protected boolean validateMaintenanceDocument(
 			MaintenanceDocument maintenanceDocument) {
-		// TODO Auto-generated method stub
 		return super.validateMaintenanceDocument(maintenanceDocument);
 	}
 	
 	private boolean validateChart(Organization organization) {
-		// TODO Auto-generated method stub
-		return ValidationUtils.validateChart(organization.getChartOfAccountsCode());
+		boolean isValid = ValidationUtils.validateChart(organization.getChartOfAccountsCode());
+		if(!isValid) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.chartOfAccountsCode", "exists.chartofaccounts");
+		}
+		return isValid;
 	}
 	
 }

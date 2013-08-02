@@ -24,14 +24,12 @@ public class ChartValidation extends MaintenanceDocumentRuleBase {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
-		// TODO Auto-generated method stub
 		return super.processCustomRouteDocumentBusinessRules(document);
 	}
 
 	@Override
 	protected boolean validateMaintenanceDocument(
 			MaintenanceDocument maintenanceDocument) {
-		// TODO Auto-generated method stub
 		return super.validateMaintenanceDocument(maintenanceDocument);
 	}
 

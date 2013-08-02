@@ -296,7 +296,10 @@ public class ValidationUtils {
 
         if (!StringUtils.isEmpty(chart)) {
             Object o = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
-            valid = (o instanceof Chart);
+            if(o instanceof Chart) {
+            	Chart chartObj = (Chart) o;
+            	valid = chartObj.isActive();
+            }
         }
 
         return valid;
@@ -579,47 +582,75 @@ public class ValidationUtils {
 		return string1.equals(string2);
 	}
 	
-	public static boolean validateAccount(String accountNumber) {
+	public static boolean validateAccount(String chartOfAccountsCode, String accountNumber) {
 		Map<String, String> fields = new HashMap<String, String>();
 		fields.put("accountNumber", accountNumber);
-		Collection accountList = KRADServiceLocator.getBusinessObjectService()
-				.findMatching(Account.class, fields);
-		boolean valid = accountList.size() > 0;
-		return valid;
+		fields.put("chartOfAccountsCode", chartOfAccountsCode);
+		Account account = (Account) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Account.class, fields);
+		if(account != null) {
+			return !account.isClosed();
+		}
+		return false;
 	}
 	
-	public static boolean validateSubAccount(String subAccountNumber) {
+	public static boolean validateSubAccount(String subAccountNumber, String accountNumber, String chartOfAccountsCode) {
 		Map<String, String> fields = new HashMap<String, String>();
 		fields.put("subAccountNumber", subAccountNumber);
-		Collection subAccountList = KRADServiceLocator.getBusinessObjectService()
-				.findMatching(SubAccount.class, fields);
-		boolean valid = subAccountList.size() > 0;
-		return valid;
+		fields.put("accountNumber", accountNumber);
+		fields.put("chartOfAccountsCode", chartOfAccountsCode);
+		SubAccount subAccount = (SubAccount) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(SubAccount.class, fields);
+		if(subAccount != null) {
+			return subAccount.isActive();
+		}
+		return false;
 	}
 	
-	public static boolean validateObjectCode(String objectCode) {
+	public static boolean validateObjectCode(String financialObjectCode, String chartOfAccountsCode, Integer universityFiscalYear) {
 		Map<String, String> fields = new HashMap<String, String>();
-		fields.put("financialObjectCode", objectCode);
-		Collection objectCodeList = KRADServiceLocator.getBusinessObjectService().findMatching(ObjectCode.class, fields);
-		boolean valid = objectCodeList.size() > 0;
-		return valid;
+
+		fields.put("financialObjectCode", financialObjectCode);
+		fields.put("chartOfAccountsCode", chartOfAccountsCode);
+		if(universityFiscalYear != null) {
+			fields.put("universityFiscalYear", universityFiscalYear.toString());
+		}
+		else {
+			fields.put("universityFiscalYear", null);
+		}
+		ObjectCode objectCode = (ObjectCode) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(ObjectCode.class, fields);
+		if(objectCode != null) {
+			return objectCode.isActive();
+		}
+		return false;
 	}
 	
-	public static boolean validateSubObjectCode(String subObjectCode) {
+	public static boolean validateSubObjectCode(String universityFiscalYear,
+												String chartOfAccountsCode,
+												String accountNumber,
+												String financialObjectCode,
+												String financialSubObjectCode) {
 		Map<String, String> fields = new HashMap<String, String>();
-		fields.put("financialSubObjectCode", subObjectCode);
-		Collection subObjectCodeList = KRADServiceLocator.getBusinessObjectService()
-				.findMatching(SubObjectCode.class, fields);
-		boolean valid = subObjectCodeList.size() > 0;
-		return valid;
+		fields.put("financialSubObjectCode", financialSubObjectCode);
+		fields.put("chartOfAccountsCode", chartOfAccountsCode);
+		fields.put("accountNumber", accountNumber);
+		fields.put("financialObjectCode", financialObjectCode);
+		fields.put("universityFiscalYear", universityFiscalYear);
+		SubObjectCode subObjectCode = (SubObjectCode) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(SubObjectCode.class, fields);
+		if(subObjectCode != null) {
+			return subObjectCode.isActive();
+		}
+		return false;
 	}
 
-	public static boolean validateOrganization(String organizationCode) {
+	public static boolean validateOrganization(String organizationCode, String chartOfAccountsCode) {
 		Map<String, String> fields = new HashMap<String, String>();
+		
 		fields.put("organizationCode", organizationCode);
-		Collection organizationList = KRADServiceLocator.getBusinessObjectService()
-				.findMatching(Organization.class, fields);
-		boolean valid = organizationList.size() > 0;
-		return valid;
+		fields.put("chartOfAccountsCode", chartOfAccountsCode);
+		
+		Organization org = (Organization) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Organization.class, fields);
+		if(org != null) {
+			return org.isActive();
+		}
+		return false;
 	}
 }

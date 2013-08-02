@@ -19,30 +19,39 @@ import org.kuali.kpme.core.kfs.coa.businessobject.Account;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 @SuppressWarnings("deprecation")
 public class AccountValidation extends MaintenanceDocumentRuleBase {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
-		// TODO Auto-generated method stub
 		Account account = (Account) document.getNewMaintainableObject().getBusinessObject();
 		boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 		isValid &= validateChart(account);
+		isValid &= validateOrganization(account);
 		return isValid;
 	}
 
 	@Override
 	protected boolean validateMaintenanceDocument(
 			MaintenanceDocument maintenanceDocument) {
-		// TODO Auto-generated method stub
 		return super.validateMaintenanceDocument(maintenanceDocument);
 	}
 	
 	private boolean validateChart(Account account) {
-		// TODO Auto-generated method stub
-		return ValidationUtils.validateChart(account.getChartOfAccountsCode());
+		boolean isValid = ValidationUtils.validateChart(account.getChartOfAccountsCode());
+		if(!isValid) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.chartOfAccountsCode", "exists.chartofaccounts");
+		}
+		return isValid;
 	}
 	
-
+	private boolean validateOrganization(Account account) {
+		boolean isValid = ValidationUtils.validateOrganization(account.getOrganizationCode(), account.getChartOfAccountsCode());
+		if(!isValid) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.organizationCode", "exists.organization", account.getChartOfAccountsCode());
+		}
+		return isValid;
+	}
 }

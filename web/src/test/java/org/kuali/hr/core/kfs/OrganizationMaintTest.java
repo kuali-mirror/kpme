@@ -83,14 +83,12 @@ public class OrganizationMaintTest extends KPMEWebTestCase {
 	
 	@Override
 	public void setUp() throws Exception {
-		// TODO Auto-generated method stub
 		before();
 		super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		// TODO Auto-generated method stub
 		after();
 		super.tearDown();
 	}

@@ -31,50 +31,34 @@ public class ProjectCodeValidation extends MaintenanceDocumentRuleBase {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
-		// TODO Auto-generated method stub
 		ProjectCode pc = (ProjectCode) document.getNewMaintainableObject().getBusinessObject();
 		boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 		isValid &= validateChart(pc);
 		isValid &= validateOrganization(pc);
-		isValid &= validateChartConsistency(pc);
 		return isValid;
 	}
 
 	@Override
 	protected boolean validateMaintenanceDocument(
 			MaintenanceDocument maintenanceDocument) {
-		// TODO Auto-generated method stub
 		return super.validateMaintenanceDocument(maintenanceDocument);
 	}
 	
 	private boolean validateChart(ProjectCode projectCode) {
-		// TODO Auto-generated method stub
-		return ValidationUtils.validateChart(projectCode.getChartOfAccountsCode());
+		boolean isValid = ValidationUtils.validateChart(projectCode.getChartOfAccountsCode());
+		if(!isValid) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.chartOfAccountsCode", "exists.chartofaccounts");
+		}
+		return isValid;
 	}
-	
 
 	private boolean validateOrganization(ProjectCode pc) {
-		// TODO Auto-generated method stub
-		return ValidationUtils.validateOrganization(pc.getOrganizationCode());
-	}
-	
-	private boolean validateChartConsistency(ProjectCode projectCode) {
-		// TODO Auto-generated method stub
-		Chart chart = projectCode.getChartOfAccounts();
-		Organization organization = projectCode.getOrganization();
-		
-		Chart organizationChart = null;
-		if(organization != null && chart != null) {
-			organizationChart = organization.getChartOfAccounts();
-			if(!organizationChart.equals(chart)) {
-				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.organizationCode", "projectcode.organization.chart.inconsistent", organizationChart.getChartOfAccountsCode(), chart.getChartOfAccountsCode());
-			}
-			else {
-				return true;
-			}
+		boolean isValid = ValidationUtils.validateOrganization(pc.getChartOfAccountsCode(), pc.getOrganizationCode());
+		if(!isValid) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.organizationCode", "exists.organization", pc.getChartOfAccountsCode());
 		}
-
-		return false;
+		return isValid;
 	}
+
 	
 }

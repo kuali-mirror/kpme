@@ -84,7 +84,6 @@ public class AccountMaintTest extends KPMEWebTestCase {
 	
 	@Override
 	public void setUp() throws Exception {
-		// TODO move population to inline declaration
 		before();
 		super.setUp();
 	}

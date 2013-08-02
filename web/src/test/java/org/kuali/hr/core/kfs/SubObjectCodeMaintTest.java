@@ -140,7 +140,7 @@ public class SubObjectCodeMaintTest extends KPMEWebTestCase {
 		for(Entry<String,String> requiredField : requiredFields.entrySet()) {
 			if(requiredField.getKey().equals("accountNumber")) {
 				assertTrue("page does not contain error message for the invalid field: '" + requiredField.getKey() + "'",
-						resultPageAsText.contains("Invalid account. Check that an active account exists with this account number, and its chart code is 'UA'"));
+						resultPageAsText.contains("No such active account exists whose chart matches 'UA'"));
 			}
 		}
 	}
@@ -175,7 +175,7 @@ public class SubObjectCodeMaintTest extends KPMEWebTestCase {
 		for(Entry<String,String> requiredField : requiredFields.entrySet()) {
 			if(requiredField.getKey().equals("financialObjectCode")) {
 				assertTrue("page does not contain error message for the invalid field: '" + requiredField.getKey() + "'",
-						resultPageAsText.contains("Invalid object code. Check that an active object with this code exists for fiscal year '2013', and its chart code is 'UA'"));
+						resultPageAsText.contains("No such active object code exists whose chart matches 'UA'"));
 			}
 		}
 	}
@@ -211,20 +211,25 @@ public class SubObjectCodeMaintTest extends KPMEWebTestCase {
 		for(Entry<String,String> requiredField : requiredFields.entrySet()) {
 			if(requiredField.getKey().equals("financialObjectCode")) {
 				assertTrue("page does not contain error message for the invalid field: '" + requiredField.getKey() + "'",
-						resultPageAsText.contains("Invalid object code. Check that an active object with this code exists for fiscal year '2013', and its chart code is 'UA'"));
+						resultPageAsText.contains("No such active object code exists whose chart matches 'UA'"));
 			}
 			if(requiredField.getKey().equals("accountNumber")) {
 				assertTrue("page does not contain error message for the invalid field: '" + requiredField.getKey() + "'",
-						resultPageAsText.contains("Invalid account. Check that an active account exists with this account number, and its chart code is 'UA'"));
+						resultPageAsText.contains("No such active account exists whose chart matches 'UA'"));
 			}
 		}
 	}
 	
 	@Test
-	public void testValidChartConsistency() throws Exception {
+	public void testValidChartConsistencyWithClosedAccount() throws Exception {
 		/**
 		 * TODO: submit sub-object code whose object COA and account COA codes
-		 * match the COA specified on this sub-object
+		 * match the COA specified on this sub-object, but the account is open.
+		 * 
+		 * This test was changed from asserting a successful submission to asserting a non-successful
+		 * insertion. Test data was added that marked the account used in this test as closed. Validation
+		 * fails for closed accounts.
+		 * 
 		 */
 		HtmlPage maintPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), newUrl);
 		assertNotNull("maintenance page is null", maintPage);
@@ -245,7 +250,7 @@ public class SubObjectCodeMaintTest extends KPMEWebTestCase {
 		HtmlUnitUtil.setFieldValue(maintPage, NEW_MAINT_DOC_PREFIX + "financialSubObjectCdshortNm", "TST SOC");
 
 		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(maintPage, "submit");
-		assertNotNull("no result page returned after submit", resultPage);
+		assertTrue("page should not contain errors", resultPage.asText().contains("No such active account exists whose chart matches 'UA'"));
 		
 		Map<String,String> keys = new HashMap<String,String>();
 		keys.put("universityFiscalYear", "2013");
@@ -254,10 +259,10 @@ public class SubObjectCodeMaintTest extends KPMEWebTestCase {
 		keys.put("financialObjectCode", "1000");
 		keys.put("financialSubObjectCode", "20");
 		
-		SubObjectCode subObjectCode = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(SubObjectCode.class, keys);
+/*		SubObjectCode subObjectCode = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(SubObjectCode.class, keys);
 		assertNotNull("newly created sub-object code should exist", subObjectCode);
 		//clean up after assertion.
-		KRADServiceLocator.getBusinessObjectService().delete(subObjectCode);
+		KRADServiceLocator.getBusinessObjectService().delete(subObjectCode);*/
 	}
 
 }

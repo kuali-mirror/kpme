@@ -33,13 +33,11 @@ public class SubObjectCodeValidation extends MaintenanceDocumentRuleBase {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
-		// TODO Auto-generated method stub
 		SubObjectCode subObjectCode = (SubObjectCode) document.getNewMaintainableObject().getDataObject();
 		boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 		isValid &= validateChart(subObjectCode);
 		isValid &= validateAccount(subObjectCode);
 		isValid &= validateObjectCode(subObjectCode);
-		isValid &= validateChartConsistency(subObjectCode);
 		return isValid;
 	}
 
@@ -50,82 +48,29 @@ public class SubObjectCodeValidation extends MaintenanceDocumentRuleBase {
 	}
 	
 	private boolean validateChart(SubObjectCode subObjectCode) {
-		return ValidationUtils.validateChart(subObjectCode.getChartOfAccountsCode());
+		boolean isValid = ValidationUtils.validateChart(subObjectCode.getChartOfAccountsCode());
+		if(!isValid) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.chartOfAccountsCode", "exists.chartofaccounts");
+		}	
+		return isValid;
 	}
 	
 	private boolean validateObjectCode(SubObjectCode subObjectCode) {
-		if(subObjectCode.getFinancialObjectCode() != null) {
-			return ValidationUtils.validateObjectCode(subObjectCode.getFinancialObjectCode());
+		boolean isValid = ValidationUtils.validateObjectCode(subObjectCode.getFinancialObjectCode(),
+															subObjectCode.getChartOfAccountsCode(),
+															subObjectCode.getUniversityFiscalYear());
+		if(!isValid) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.financialObjectCode", "exists.financialobjectcode", subObjectCode.getChartOfAccountsCode());
 		}
-		else
-			return false;
+		return isValid;
 	}
 
 	private boolean validateAccount(SubObjectCode subObjectCode) {
-		return ValidationUtils.validateAccount(subObjectCode.getAccountNumber());
-	}
-	
-	private boolean validateChartConsistency(SubObjectCode subObjectCode) {
-		Chart chartOfAccounts = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, subObjectCode.getChartOfAccountsCode());
-
-		if(chartOfAccounts != null) {
-			
-			String accountNumber = subObjectCode.getAccountNumber();
-			Map<String, String> keys = new HashMap<String,String>();
-			keys.put("chartOfAccountsCode", chartOfAccounts.getCode());
-			keys.put("accountNumber", accountNumber);
-			Account account = (Account) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Account.class, keys);
-			Chart accountChart = null;
-			
-			Integer fiscalYear = subObjectCode.getUniversityFiscalYear();
-			String financialObjectCode = subObjectCode.getFinancialObjectCode();
-			keys.clear();
-			keys.put("universityFiscalYear", fiscalYear.toString());
-			keys.put("chartOfAccountsCode", chartOfAccounts.getCode());
-			keys.put("financialObjectCode", financialObjectCode);
-			
-			ObjectCode objectCode = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(ObjectCode.class, keys);
-			Chart objectCodeChart = null;
-			
-			if(account != null) {
-				accountChart = account.getChartOfAccounts();
-			}
-			if(objectCode != null) {
-				objectCodeChart = objectCode.getChartOfAccounts();
-			}
-			
-			if(accountChart != null && objectCodeChart != null) {
-				
-				boolean valid = true;
-				
-				if(!accountChart.equals(chartOfAccounts)) {
-					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.accountNumber",
-																"subobjectcode.account.chart.inconsistent",
-																accountChart.getChartOfAccountsCode(),
-																chartOfAccounts.getCode());
-					valid = false;
-				}
-				if(!objectCodeChart.equals(chartOfAccounts)) {
-					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.financialObjectCode",
-																"subobjectcode.objectcode.chart.inconsistent",
-																objectCodeChart.getChartOfAccountsCode(),
-																chartOfAccounts.getCode());
-					valid = false;
-				}
-				
-				return valid;
-			} else {
-				if(accountChart == null) {
-					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.chartOfAccounts", "subobjectcode.account.chart.exists", chartOfAccounts.getChartOfAccountsCode());
-				}
-				if(objectCodeChart == null) {
-					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.financialObjectCode", "subobjectcode.objectcode.chart.exists", fiscalYear.toString(), chartOfAccounts.getChartOfAccountsCode());
-				}
-			}
-
+		boolean isValid = ValidationUtils.validateAccount(subObjectCode.getChartOfAccountsCode(), subObjectCode.getAccountNumber());
+		if(!isValid) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.accountNumber", "exists.account", subObjectCode.getChartOfAccountsCode());
 		}
-		
-		return false;
+		return isValid;
 	}
 	
 }

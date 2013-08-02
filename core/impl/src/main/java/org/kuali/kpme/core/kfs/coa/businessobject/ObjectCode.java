@@ -20,6 +20,8 @@ import java.util.LinkedHashMap;
 import org.kuali.kpme.core.api.kfs.coa.businessobject.ObjectCodeContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
+import com.google.common.collect.ImmutableList;
+
 /**
  *
  */
@@ -29,7 +31,13 @@ public class ObjectCode extends PersistableBusinessObjectBase implements ObjectC
 /*    static {
         PersistenceStructureServiceImpl.referenceConversionMap.put(ObjectCode.class, ObjectCodeCurrent.class);
     }*/
-
+	// business keys. ( also primary key in db ).
+	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("universityFiscalYear")
+            .add("chartOfAccountsCode")
+            .add("financialObjectCode")
+            .build();
+	
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCode.class);
 
     private static final long serialVersionUID = -965833141452795485L;

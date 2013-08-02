@@ -130,28 +130,32 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
     		}
     	}
     	if(StringUtils.isNotEmpty(pf.getAccount())) {
-    		boolean results = ValidationUtils.validateAccount(pf.getAccount());
+    		boolean results = ValidationUtils.validateAccount(pf.getChart(), pf.getAccount());
     		if(!results) {
     			GlobalVariables.getMessageMap().putError("Position-fundings", "error.existence", "Account '" + pf.getAccount() + "'");
     			return results;
     		}
     	}
     	if(StringUtils.isNotEmpty(pf.getSubAccount())) {
-    		boolean results = ValidationUtils.validateSubAccount(pf.getSubAccount());
+    		boolean results = ValidationUtils.validateSubAccount(pf.getSubAccount(), pf.getAccount(), pf.getChart());
     		if(!results) {
 	   			 GlobalVariables.getMessageMap().putError("Position-fundings","error.existence", "SubAccount '" + pf.getSubAccount() + "'");
 	   			 return results;
     		}
     	}
     	if(StringUtils.isNotEmpty(pf.getObjectCode())) {
-    		boolean results = ValidationUtils.validateObjectCode(pf.getObjectCode());
+    		boolean results = ValidationUtils.validateObjectCode(pf.getObjectCode(), pf.getChart(), Integer.valueOf(pf.getEffectiveLocalDate().getYear()));
     		if(!results) {
       			 GlobalVariables.getMessageMap().putError("Position-fundings","error.existence", "ObjectCode '" + pf.getObjectCode() + "'");
       			 return results;
     		}
     	}
     	if(StringUtils.isNotEmpty(pf.getSubObjectCode())) {
-    		boolean results = ValidationUtils.validateSubObjectCode(pf.getSubObjectCode());
+    		boolean results = ValidationUtils.validateSubObjectCode(String.valueOf(pf.getEffectiveLocalDate().getYear()),
+    				pf.getChart(),
+    				pf.getAccount(),
+    				pf.getObjectCode(),
+    				pf.getSubObjectCode());
     		if(!results) {
       			 GlobalVariables.getMessageMap().putError("Position-fundings","error.existence", "SubObjectCode '" + pf.getSubObjectCode() + "'");
       			 return results;

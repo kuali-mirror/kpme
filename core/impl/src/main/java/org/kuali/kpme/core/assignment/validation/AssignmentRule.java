@@ -195,7 +195,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	protected boolean validateAccount(AssignmentAccount assignmentAccount) {
 		boolean valid = false;
 		LOG.debug("Validating Account: " + assignmentAccount.getAccountNbr());
-		valid = ValidationUtils.validateAccount(assignmentAccount.getAccountNbr());
+		valid = ValidationUtils.validateAccount(assignmentAccount.getFinCoaCd(),assignmentAccount.getAccountNbr());
 		if (!valid) {
 			this.putGlobalError("error.existence", "Account Number '"
 					+ assignmentAccount.getAccountNbr() + "'");
@@ -207,7 +207,9 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		boolean valid = false;
 		LOG.debug("Validating ObjectCode: "
 				+ assignmentAccount.getFinObjectCd());
-		valid = ValidationUtils.validateObjectCode(assignmentAccount.getFinObjectCd());
+		valid = ValidationUtils.validateObjectCode(assignmentAccount.getFinObjectCd(),
+												assignmentAccount.getFinCoaCd(),
+												Integer.valueOf(assignmentAccount.getEffectiveLocalDate().getYear()));
 		if (!valid) {
 			this.putGlobalError("error.existence", "Object Code '"
 					+ assignmentAccount.getFinObjectCd() + "'");
@@ -220,7 +222,11 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		LOG.debug("Validating SubObjectCode: "
 				+ assignmentAccount.getFinSubObjCd());
 		if (assignmentAccount.getFinSubObjCd() != null) {
-			valid = ValidationUtils.validateSubObjectCode(assignmentAccount.getFinSubObjCd());
+			valid = ValidationUtils.validateSubObjectCode(String.valueOf(assignmentAccount.getEffectiveLocalDate().getYear()),
+																		assignmentAccount.getFinCoaCd(),
+																		assignmentAccount.getAccountNbr(),
+																		assignmentAccount.getFinObjectCd(),
+																		assignmentAccount.getFinSubObjCd());
 			if (!valid) {
 				this.putGlobalError("error.existence", "SubObject Code '"
 						+ assignmentAccount.getFinSubObjCd() + "'");

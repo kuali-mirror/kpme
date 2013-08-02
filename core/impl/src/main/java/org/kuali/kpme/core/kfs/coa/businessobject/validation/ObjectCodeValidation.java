@@ -19,6 +19,7 @@ import org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 @SuppressWarnings("deprecation")
 public class ObjectCodeValidation extends MaintenanceDocumentRuleBase {
@@ -26,7 +27,6 @@ public class ObjectCodeValidation extends MaintenanceDocumentRuleBase {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
-		// TODO Auto-generated method stub
 		ObjectCode objectCode = (ObjectCode) document.getNewMaintainableObject().getBusinessObject();
 		boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 		isValid &= validateChart(objectCode);
@@ -36,13 +36,15 @@ public class ObjectCodeValidation extends MaintenanceDocumentRuleBase {
 	@Override
 	protected boolean validateMaintenanceDocument(
 			MaintenanceDocument maintenanceDocument) {
-		// TODO Auto-generated method stub
 		return super.validateMaintenanceDocument(maintenanceDocument);
 	}
 	
 	private boolean validateChart(ObjectCode objectCode) {
-		// TODO Auto-generated method stub
-		return ValidationUtils.validateChart(objectCode.getChartOfAccountsCode());
+		boolean isValid = ValidationUtils.validateChart(objectCode.getChartOfAccountsCode());
+		if(!isValid) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.chartOfAccountsCode", "exists.chartofaccounts");
+		}
+		return isValid;
 	}
 	
 
