@@ -22,12 +22,13 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class CalendarEntry extends PersistableBusinessObjectBase implements Comparable<CalendarEntry>{
+public class CalendarEntry extends PersistableBusinessObjectBase implements Comparable<CalendarEntry>, CalendarEntryContract {
 
 	private static final long serialVersionUID = -1977756526579659122L;
 
