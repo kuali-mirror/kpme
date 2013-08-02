@@ -502,10 +502,6 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         LocalDateTime startDate = cal.getBeginPeriodLocalDateTime();
         LocalDateTime endDate = cal.getEndPeriodLocalDateTime();
 
-        System.out.println("Flsa begin date is "+flsaBeginDay);
-        System.out.println("startDate is >> "+startDate);
-        System.out.println("start of month>>> "+startDate.getDayOfWeek());
-        
         LocalDateTime actualStartDate = cal.getBeginPeriodLocalDateTime();
         LocalDateTime actualEndDate = cal.getEndPeriodLocalDateTime();
         
@@ -522,7 +518,6 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         	daysToAdd = DateTimeConstants.SATURDAY;
         }
         
-        System.out.println("Days to add us >>> "+daysToAdd);
         actualEndDate = endDate.plusDays(daysToAdd);
         
         // Increment end date if we are on a virtual day calendar, so that the
@@ -542,7 +537,6 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         for (LocalDateTime currentDate = actualStartDate; currentDate.compareTo(actualEndDate) < 0; currentDate = currentDate.plusDays(1)) {
         	
             if (currentDate.getDayOfWeek() == flsaBeginDay && afterFirstDay) {
-                System.out.println("Week is ::: "+weekStart +" To "+weekEnd.minusDays(1));
                 StringBuilder display = new StringBuilder();
                 display.append(weekStart.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
                 display.append(" - ");
@@ -560,7 +554,6 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         // we will mark it as a week, and if someone doesn't like it, it can
         // be removed.
         if (!header.isEmpty() && !header.get(header.size() - 1).startsWith("Week")) {
-        	System.out.println("Here week is "+weekStart+" to "+actualEndDate);
         	StringBuilder display = new StringBuilder();
             display.append(weekStart.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
             display.append(" - ");

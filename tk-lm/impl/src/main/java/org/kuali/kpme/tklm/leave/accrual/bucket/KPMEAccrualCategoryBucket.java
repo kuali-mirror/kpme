@@ -433,7 +433,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 		
 		DateTime leavePlanPrevStart = HrServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(principalCalendar.getLeavePlan(), asOfDate);
 		DateTime leavePlanStart = HrServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalCalendar.getLeavePlan(), asOfDate);
-		System.out.println();
+
 		if(otherCalendarEntry.getEndPeriodFullDateTime().isBefore(viewingCalendarEntry.getEndPeriodFullDateTime().getMillis())) {
 			//moving backward from viewingCalendarEntry
 			CalendarEntry itor = viewingCalendarEntry;

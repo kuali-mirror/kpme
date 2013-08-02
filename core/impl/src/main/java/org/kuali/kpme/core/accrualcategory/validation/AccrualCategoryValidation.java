@@ -175,14 +175,12 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         // cannot validate the rule without this flag now
         if (StringUtils.isBlank(leaveAccrualCategoryRule.getMaxBalFlag())) {
-            //System.out.println("Caught NPE at max balance FLAG");
             this.putFieldError("add.accrualCategoryRules."+ "maxBalFlag", "error.required");
             valid = false;
         } else {
             if (leaveAccrualCategoryRule.getMaxBalFlag().equals("Y")) {
 
                 if (leaveAccrualCategoryRule.getMaxBalance() == null) {
-                    //System.out.println("Caught NPE at max balance");
                     this.putFieldError("add.accrualCategoryRules."+ "maxBalance", "error.required", "Max Balance");
                     valid = false;
                 }
@@ -230,14 +228,12 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 
             // cannot validate the rule without this flag now
             if (StringUtils.isBlank(leaveAccrualCategoryRule.getMaxBalFlag())) {
-                //System.out.println("Caught NPE at max balance FLAG");
                 this.putFieldError("add.accrualCategoryRules[" + i + "].maxBalFlag", "error.required");
                 valid = false;
             } else {
                 if (leaveAccrualCategoryRule.getMaxBalFlag().equals("Y")) {
 
                     if (leaveAccrualCategoryRule.getMaxBalance() == null) {
-                        //System.out.println("Caught NPE at max balance");
                         this.putFieldError("add.accrualCategoryRules[" + i + "].maxBalance", "error.required", "Max Balance");
                         valid = false;
                     }
@@ -309,29 +305,24 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 		boolean valid = true;
 
 		if (accrualCategoryRules != null && accrualCategoryRules.size() > 0) {
-			//System.out.println("Calling validateMaxBalFlag with " + accrualCategoryRules.size() + " rules");
 			for (AccrualCategoryRule accrualCategoryRule : accrualCategoryRules) {
 
 				String maxBalFlag = accrualCategoryRule.getMaxBalFlag();
-				//System.out.println("The max bal flag is " + maxBalFlag);
 				BigDecimal bigDzero = new BigDecimal(0);
 
 				if ((maxBalFlag != null) && (maxBalFlag.equalsIgnoreCase("Y"))) {
 
 					if ((accrualCategoryRule.getMaxBalance() == null) || (accrualCategoryRule.getMaxBalance().equals(bigDzero))) {
-						//System.out.println("Triggered Max Balance "+ accrualCategoryRule.getMaxBalance());
 						this.putFieldError("Max Balance","error.accrualCategoryRule.maxBalFlag");
 						valid = false;
 					}
 
 					if (accrualCategoryRule.getMaxBalanceActionFrequency() == null) { 
-						//System.out.println("Triggered Max Balance Action Frequency " + accrualCategoryRule.getMaxBalanceActionFrequency());
 						this.putFieldError("Max Balance Action Frequency","error.accrualCategoryRule.maxBalFlag");
 						valid = false;
 					}
 
 					if (accrualCategoryRule.getActionAtMaxBalance() == null) {
-						//System.out.println("Triggered Action at Max Balance "+ accrualCategoryRule.getActionAtMaxBalance());
 						this.putFieldError("Action at Max Balance","error.accrualCategoryRule.maxBalFlag");
 						valid = false;
 					}
