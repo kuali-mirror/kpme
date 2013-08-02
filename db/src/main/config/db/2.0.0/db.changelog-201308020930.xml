@@ -1,0 +1,566 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="jjhanso" context="kpme-server-bootstrap">
+        <comment>set up custom function type for KRMS and TKLM</comment>
+        <insert tableName="KRMS_TYP_T">
+            <column name="TYP_ID" value="KPME0003"/>
+            <column name="NM" value="KPME Java Function Term Service"/>
+            <column name="NMSPC_CD" value="KPME-KRMS"/>
+            <column name="SRVC_NM" value="kpmeJavaFunctionTermService"/>
+            <column name="ACTV" value="Y"/>
+        </insert>
+
+        <insert tableName="KRMS_TYP_T">
+            <column name="TYP_ID" value="KPME0004"/>
+            <column name="NM" value="KPME Java Function Term Resolver Service"/>
+            <column name="NMSPC_CD" value="KPME-KRMS"/>
+            <column name="SRVC_NM" value="{http://kpme.kuali.org/core/v2_0}kpmeJavaFunctionTermResolverService"/>
+            <column name="ACTV" value="Y"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="2" author="jjhanso" context="kpme-server-bootstrap">
+        <comment>set up some KRMS Categories</comment>
+        <insert tableName="KRMS_CTGRY_T">
+            <column name="CTGRY_ID" value="KPME0001"/>
+            <column name="NM" value="Property"/>
+            <column name="NMSPC_CD" value="KPME-LM"/>
+            <column name="VER_NBR" value="1"/>
+        </insert>
+        <insert tableName="KRMS_CTGRY_T">
+            <column name="CTGRY_ID" value="KPME0002"/>
+            <column name="NM" value="Function"/>
+            <column name="NMSPC_CD" value="KPME-LM"/>
+            <column name="VER_NBR" value="1"/>
+        </insert>
+        <insert tableName="KRMS_CTGRY_T">
+            <column name="CTGRY_ID" value="KPME0003"/>
+            <column name="NM" value="Property"/>
+            <column name="NMSPC_CD" value="KPME-TK"/>
+            <column name="VER_NBR" value="1"/>
+        </insert>
+        <insert tableName="KRMS_CTGRY_T">
+            <column name="CTGRY_ID" value="KPME0004"/>
+            <column name="NM" value="Function"/>
+            <column name="NMSPC_CD" value="KPME-TK"/>
+            <column name="VER_NBR" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="3" author="jjhanso" context="kpme-server-bootstrap">
+        <comment>set up custom functions</comment>
+            <insert tableName="KRMS_FUNC_T">
+                <column name="FUNC_ID" value="KPME0001"/>
+                <column name="NM" value="containsDept"/>
+                <column name="DESC_TXT" value="Check to see if document or object contains the passed in department"/>
+                <column name="RTRN_TYP" value="java.lang.Boolean"/>
+                <column name="VER_NBR" value="1"/>
+                <column name="ACTV" value="Y"/>
+                <column name="TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='KPME Java Function Term Service' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="NMSPC_CD" value="KPME-KRMS"/>
+            </insert>
+
+            <insert tableName="KRMS_FUNC_T">
+                <column name="FUNC_ID" value="KPME0002"/>
+                <column name="NM" value="containsWorkArea"/>
+                <column name="DESC_TXT" value="Check to see if document or object contains the passed in work area"/>
+                <column name="RTRN_TYP" value="java.lang.Boolean"/>
+                <column name="VER_NBR" value="1"/>
+                <column name="ACTV" value="Y"/>
+                <column name="TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='KPME Java Function Term Service' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="NMSPC_CD" value="KPME-KRMS"/>
+            </insert>
+
+            <insert tableName="KRMS_FUNC_T">
+                <column name="FUNC_ID" value="KPME0003"/>
+                <column name="NM" value="containsJobNumber"/>
+                <column name="DESC_TXT" value="Check to see if document or object contains the passed in job number"/>
+                <column name="RTRN_TYP" value="java.lang.Boolean"/>
+                <column name="VER_NBR" value="1"/>
+                <column name="ACTV" value="Y"/>
+                <column name="TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='KPME Java Function Term Service' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="NMSPC_CD" value="KPME-KRMS"/>
+            </insert>
+
+            <insert tableName="KRMS_FUNC_T">
+                <column name="FUNC_ID" value="KPME0004"/>
+                <column name="NM" value="containsTask"/>
+                <column name="DESC_TXT" value="Check to see if document or object contains the passed in task number"/>
+                <column name="RTRN_TYP" value="java.lang.Boolean"/>
+                <column name="VER_NBR" value="1"/>
+                <column name="ACTV" value="Y"/>
+                <column name="TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='KPME Java Function Term Service' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="NMSPC_CD" value="KPME-KRMS"/>
+            </insert>
+
+            <insert tableName="KRMS_FUNC_PARM_T">
+                <column name="FUNC_PARM_ID" value="KPME0001"/>
+                <column name="FUNC_ID" valueComputed="(select FUNC_ID from KRMS_FUNC_T where  NM='containsDept' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="NM" value="Assignments"/>
+                <column name="DESC_TXT" value="Assignments on Object"/>
+                <column name="TYP" value="org.kuali.kpme.core.api.assignment.Assignable"/>
+                <column name="SEQ_NO" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_FUNC_PARM_T">
+                <column name="FUNC_PARM_ID" value="KPME0002"/>
+                <column name="FUNC_ID" valueComputed="(select FUNC_ID from KRMS_FUNC_T where  NM='containsDept' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="NM" value="Department"/>
+                <column name="DESC_TXT" value="Department"/>
+                <column name="TYP" value="java.lang.String"/>
+                <column name="SEQ_NO" value="2"/>
+            </insert>
+
+            <insert tableName="KRMS_FUNC_PARM_T">
+                <column name="FUNC_PARM_ID" value="KPME0003"/>
+                <column name="FUNC_ID" valueComputed="(select FUNC_ID from KRMS_FUNC_T where  NM='containsWorkArea' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="NM" value="Assignments"/>
+                <column name="DESC_TXT" value="Assignments on Object"/>
+                <column name="TYP" value="org.kuali.kpme.core.api.assignment.Assignable"/>
+                <column name="SEQ_NO" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_FUNC_PARM_T">
+                <column name="FUNC_PARM_ID" value="KPME0004"/>
+                <column name="FUNC_ID" valueComputed="(select FUNC_ID from KRMS_FUNC_T where  NM='containsWorkArea' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="NM" value="WorkArea"/>
+                <column name="DESC_TXT" value="WorkArea"/>
+                <column name="TYP" value="java.lang.Long"/>
+                <column name="SEQ_NO" value="2"/>
+            </insert>
+
+            <insert tableName="KRMS_FUNC_PARM_T">
+                <column name="FUNC_PARM_ID" value="KPME0005"/>
+                <column name="FUNC_ID" valueComputed="(select FUNC_ID from KRMS_FUNC_T where  NM='containsJobNumber' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="NM" value="Assignments"/>
+                <column name="DESC_TXT" value="Assignments on Object"/>
+                <column name="TYP" value="org.kuali.kpme.core.api.assignment.Assignable"/>
+                <column name="SEQ_NO" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_FUNC_PARM_T">
+                <column name="FUNC_PARM_ID" value="KPME0006"/>
+                <column name="FUNC_ID" valueComputed="(select FUNC_ID from KRMS_FUNC_T where  NM='containsJobNumber' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="NM" value="JobNumber"/>
+                <column name="DESC_TXT" value="Job Number"/>
+                <column name="TYP" value="java.lang.Long"/>
+                <column name="SEQ_NO" value="2"/>
+            </insert>
+
+            <insert tableName="KRMS_FUNC_PARM_T">
+                <column name="FUNC_PARM_ID" value="KPME0007"/>
+                <column name="FUNC_ID" valueComputed="(select FUNC_ID from KRMS_FUNC_T where  NM='containsTask' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="NM" value="Assignments"/>
+                <column name="DESC_TXT" value="Assignments on Object"/>
+                <column name="TYP" value="org.kuali.kpme.core.api.assignment.Assignable"/>
+                <column name="SEQ_NO" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_FUNC_PARM_T">
+                <column name="FUNC_PARM_ID" value="KPME0008"/>
+                <column name="FUNC_ID" valueComputed="(select FUNC_ID from KRMS_FUNC_T where  NM='containsTask' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="NM" value="Task"/>
+                <column name="DESC_TXT" value="Task"/>
+                <column name="TYP" value="java.lang.Long"/>
+                <column name="SEQ_NO" value="2"/>
+            </insert>
+
+
+            <insert tableName="KRMS_TERM_SPEC_T">
+                <column name="TERM_SPEC_ID" value="KPME0003"/>
+                <column name="NMSPC_CD" value="KPME-LM"/>
+                <column name="NM" valueComputed="(select FUNC_ID from KRMS_FUNC_T where  NM='containsDept' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="DESC_TXT" value="Check if passed in Department is valid for Object"/>
+                <column name="TYP" value="java.lang.Boolean"/>
+                <column name="ACTV" value="Y"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_TERM_SPEC_T">
+                <column name="TERM_SPEC_ID" value="KPME0004"/>
+                <column name="NMSPC_CD" value="KPME-TK"/>
+                <column name="NM" valueComputed="(select FUNC_ID from KRMS_FUNC_T where  NM='containsDept' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="DESC_TXT" value="Check if passed in Department is valid for Object"/>
+                <column name="TYP" value="java.lang.Boolean"/>
+                <column name="ACTV" value="Y"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_TERM_SPEC_T">
+                <column name="TERM_SPEC_ID" value="KPME0005"/>
+                <column name="NMSPC_CD" value="KPME-LM"/>
+                <column name="NM" valueComputed="(select FUNC_ID from KRMS_FUNC_T where  NM='containsWorkArea' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="DESC_TXT" value="Check if passed in WorkArea is valid for Object"/>
+                <column name="TYP" value="java.lang.Boolean"/>
+                <column name="ACTV" value="Y"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_TERM_SPEC_T">
+                <column name="TERM_SPEC_ID" value="KPME0006"/>
+                <column name="NMSPC_CD" value="KPME-TK"/>
+                <column name="NM" valueComputed="(select FUNC_ID from KRMS_FUNC_T where  NM='containsWorkArea' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="DESC_TXT" value="Check if passed in WorkArea is valid for Object"/>
+                <column name="TYP" value="java.lang.Boolean"/>
+                <column name="ACTV" value="Y"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_TERM_SPEC_T">
+                <column name="TERM_SPEC_ID" value="KPME0007"/>
+                <column name="NMSPC_CD" value="KPME-LM"/>
+                <column name="NM" valueComputed="(select FUNC_ID from KRMS_FUNC_T where  NM='containsJobNumber' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="DESC_TXT" value="Check if passed in Job Number is valid for Object"/>
+                <column name="TYP" value="java.lang.Boolean"/>
+                <column name="ACTV" value="Y"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+            <insert tableName="KRMS_TERM_SPEC_T">
+                <column name="TERM_SPEC_ID" value="KPME0008"/>
+                <column name="NMSPC_CD" value="KPME-TK"/>
+                <column name="NM" valueComputed="(select FUNC_ID from KRMS_FUNC_T where  NM='containsJobNumber' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="DESC_TXT" value="Check if passed in Job Number is valid for Object"/>
+                <column name="TYP" value="java.lang.Boolean"/>
+                <column name="ACTV" value="Y"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_TERM_SPEC_T">
+                <column name="TERM_SPEC_ID" value="KPME0009"/>
+                <column name="NMSPC_CD" value="KPME-LM"/>
+                <column name="NM" valueComputed="(select FUNC_ID from KRMS_FUNC_T where  NM='containsTask' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="DESC_TXT" value="Check if passed in Task Number is valid for Object"/>
+                <column name="TYP" value="java.lang.Boolean"/>
+                <column name="ACTV" value="Y"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_TERM_SPEC_T">
+                <column name="TERM_SPEC_ID" value="KPME0010"/>
+                <column name="NMSPC_CD" value="KPME-TK"/>
+                <column name="NM" valueComputed="(select FUNC_ID from KRMS_FUNC_T where  NM='containsTask' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="DESC_TXT" value="Check if passed in Task Number is valid for Object"/>
+                <column name="TYP" value="java.lang.Boolean"/>
+                <column name="ACTV" value="Y"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+                <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0005"/>
+                <column name="CNTXT_ID" value="KPME-LEAVE-CAL-CONTEXT"/>
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsDept' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="PREREQ" value="Y"/>
+            </insert>
+
+            <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+                <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0006"/>
+                <column name="CNTXT_ID" value="KPME-LM-CONTEXT"/>
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsDept' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="PREREQ" value="Y"/>
+            </insert>
+
+            <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+                <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0007"/>
+                <column name="CNTXT_ID" value="KPME-LEAVE-REQ-CONTEXT"/>
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsDept' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="PREREQ" value="Y"/>
+            </insert>
+
+            <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+                <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0008"/>
+                <column name="CNTXT_ID" value="KPME-TIMESHEET-CONTEXT"/>
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-TK' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsDept' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="PREREQ" value="Y"/>
+            </insert>
+
+
+
+            <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+                <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0009"/>
+                <column name="CNTXT_ID" value="KPME-LEAVE-CAL-CONTEXT"/>
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsWorkArea' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="PREREQ" value="Y"/>
+            </insert>
+
+            <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+                <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0010"/>
+                <column name="CNTXT_ID" value="KPME-LM-CONTEXT"/>
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsWorkArea' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="PREREQ" value="Y"/>
+            </insert>
+
+            <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+                <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0011"/>
+                <column name="CNTXT_ID" value="KPME-LEAVE-REQ-CONTEXT"/>
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsWorkArea' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="PREREQ" value="Y"/>
+            </insert>
+
+            <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+                <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0012"/>
+                <column name="CNTXT_ID" value="KPME-TIMESHEET-CONTEXT"/>
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-TK' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsWorkArea' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="PREREQ" value="Y"/>
+            </insert>
+
+
+            <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+                <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0013"/>
+                <column name="CNTXT_ID" value="KPME-LEAVE-CAL-CONTEXT"/>
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsJobNumber' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="PREREQ" value="Y"/>
+            </insert>
+
+            <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+                <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0014"/>
+                <column name="CNTXT_ID" value="KPME-LM-CONTEXT"/>
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsJobNumber' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="PREREQ" value="Y"/>
+            </insert>
+
+            <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+                <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0015"/>
+                <column name="CNTXT_ID" value="KPME-LEAVE-REQ-CONTEXT"/>
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsJobNumber' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="PREREQ" value="Y"/>
+            </insert>
+
+            <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+                <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0016"/>
+                <column name="CNTXT_ID" value="KPME-TIMESHEET-CONTEXT"/>
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-TK' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsJobNumber' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="PREREQ" value="Y"/>
+            </insert>
+
+            <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+                <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0017"/>
+                <column name="CNTXT_ID" value="KPME-LEAVE-CAL-CONTEXT"/>
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsTask' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="PREREQ" value="Y"/>
+            </insert>
+
+            <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+                <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0018"/>
+                <column name="CNTXT_ID" value="KPME-LM-CONTEXT"/>
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsTask' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="PREREQ" value="Y"/>
+            </insert>
+
+            <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+                <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0019"/>
+                <column name="CNTXT_ID" value="KPME-LEAVE-REQ-CONTEXT"/>
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsTask' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="PREREQ" value="Y"/>
+            </insert>
+
+            <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+                <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0020"/>
+                <column name="CNTXT_ID" value="KPME-TIMESHEET-CONTEXT"/>
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-TK' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsTask' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="PREREQ" value="Y"/>
+            </insert>
+
+
+
+            <insert tableName="KRMS_TERM_SPEC_CTGRY_T">
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsDept' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="CTGRY_ID" valueComputed="(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KPME-LM' and NM='Function')" />
+            </insert>
+
+            <insert tableName="KRMS_TERM_SPEC_CTGRY_T">
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsDept' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="CTGRY_ID" valueComputed="(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KPME-TK' and NM='Function')" />
+            </insert>
+
+            <insert tableName="KRMS_TERM_SPEC_CTGRY_T">
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsWorkArea' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="CTGRY_ID" valueComputed="(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KPME-LM' and NM='Function')" />
+            </insert>
+
+            <insert tableName="KRMS_TERM_SPEC_CTGRY_T">
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-TK' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsWorkArea' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="CTGRY_ID" valueComputed="(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KPME-TK' and NM='Function')" />
+            </insert>
+
+            <insert tableName="KRMS_TERM_SPEC_CTGRY_T">
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsJobNumber' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="CTGRY_ID" valueComputed="(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KPME-LM' and NM='Function')" />
+            </insert>
+
+            <insert tableName="KRMS_TERM_SPEC_CTGRY_T">
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-TK' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsJobNumber' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="CTGRY_ID" valueComputed="(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KPME-TK' and NM='Function')" />
+            </insert>
+
+            <insert tableName="KRMS_TERM_SPEC_CTGRY_T">
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsTask' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="CTGRY_ID" valueComputed="(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KPME-LM' and NM='Function')" />
+            </insert>
+
+            <insert tableName="KRMS_TERM_SPEC_CTGRY_T">
+                <column name="TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-TK' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsTask' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="CTGRY_ID" valueComputed="(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KPME-TK' and NM='Function')" />
+            </insert>
+
+
+
+            <insert tableName="KRMS_TERM_RSLVR_T">
+                <column name="TERM_RSLVR_ID" value="KPME0002"/>
+                <column name="NMSPC_CD" value="KPME-LM"/>
+                <column name="NM" value="Assignments with department Resolver"/>
+                <column name="TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='KPME Java Function Term Resolver Service' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="OUTPUT_TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsDept' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="ACTV" value="Y"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_TERM_RSLVR_T">
+                <column name="TERM_RSLVR_ID" value="KPME0003"/>
+                <column name="NMSPC_CD" value="KPME-LM"/>
+                <column name="NM" value="Assignments with workArea Resolver"/>
+                <column name="TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='KPME Java Function Term Resolver Service' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="OUTPUT_TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsWorkArea' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="ACTV" value="Y"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_TERM_RSLVR_T">
+                <column name="TERM_RSLVR_ID" value="KPME0004"/>
+                <column name="NMSPC_CD" value="KPME-LM"/>
+                <column name="NM" value="Assignments with jobNumber Resolver"/>
+                <column name="TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='KPME Java Function Term Resolver Service' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="OUTPUT_TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsJobNumber' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="ACTV" value="Y"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_TERM_RSLVR_T">
+                <column name="TERM_RSLVR_ID" value="KPME0005"/>
+                <column name="NMSPC_CD" value="KPME-LM"/>
+                <column name="NM" value="Assignments with task Resolver"/>
+                <column name="TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='KPME Java Function Term Resolver Service' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="OUTPUT_TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-LM' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsTask' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="ACTV" value="Y"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_TERM_RSLVR_T">
+                <column name="TERM_RSLVR_ID" value="KPME0006"/>
+                <column name="NMSPC_CD" value="KPME-TK"/>
+                <column name="NM" value="Assignments with department Resolver"/>
+                <column name="TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='KPME Java Function Term Resolver Service' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="OUTPUT_TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-TK' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsDept' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="ACTV" value="Y"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_TERM_RSLVR_T">
+                <column name="TERM_RSLVR_ID" value="KPME0007"/>
+                <column name="NMSPC_CD" value="KPME-TK"/>
+                <column name="NM" value="Assignments with workArea Resolver"/>
+                <column name="TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='KPME Java Function Term Resolver Service' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="OUTPUT_TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-TK' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsWorkArea' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="ACTV" value="Y"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_TERM_RSLVR_T">
+                <column name="TERM_RSLVR_ID" value="KPME0008"/>
+                <column name="NMSPC_CD" value="KPME-TK"/>
+                <column name="NM" value="Assignments with jobNumber Resolver"/>
+                <column name="TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='KPME Java Function Term Resolver Service' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="OUTPUT_TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-TK' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsJobNumber' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="ACTV" value="Y"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_TERM_RSLVR_T">
+                <column name="TERM_RSLVR_ID" value="KPME0009"/>
+                <column name="NMSPC_CD" value="KPME-TK"/>
+                <column name="NM" value="Assignments with task Resolver"/>
+                <column name="TYP_ID" valueComputed="(select TYP_ID from KRMS_TYP_T where NM='KPME Java Function Term Resolver Service' and NMSPC_CD='KPME-KRMS')"/>
+                <column name="OUTPUT_TERM_SPEC_ID" valueComputed="(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KPME-TK' and NM=(select FUNC_ID from KRMS_FUNC_T where  NM='containsTask' and NMSPC_CD='KPME-KRMS'))"/>
+                <column name="ACTV" value="Y"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+
+            <insert tableName="KRMS_TERM_RSLVR_PARM_SPEC_T">
+                <column name="TERM_RSLVR_PARM_SPEC_ID" value="KPME0001"/>
+                <column name="TERM_RSLVR_ID" valueComputed="(select TERM_RSLVR_ID from KRMS_TERM_RSLVR_T where NM='Assignments with department Resolver' and NMSPC_CD='KPME-LM')"/>
+                <column name="NM" value="Department"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_TERM_RSLVR_PARM_SPEC_T">
+                <column name="TERM_RSLVR_PARM_SPEC_ID" value="KPME0002"/>
+                <column name="TERM_RSLVR_ID" valueComputed="(select TERM_RSLVR_ID from KRMS_TERM_RSLVR_T where NM='Assignments with workArea Resolver' and NMSPC_CD='KPME-LM')"/>
+                <column name="NM" value="WorkArea"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_TERM_RSLVR_PARM_SPEC_T">
+                <column name="TERM_RSLVR_PARM_SPEC_ID" value="KPME0003"/>
+                <column name="TERM_RSLVR_ID" valueComputed="(select TERM_RSLVR_ID from KRMS_TERM_RSLVR_T where NM='Assignments with jobNumber Resolver' and NMSPC_CD='KPME-LM')"/>
+                <column name="NM" value="JobNumber"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+            <insert tableName="KRMS_TERM_RSLVR_PARM_SPEC_T">
+                <column name="TERM_RSLVR_PARM_SPEC_ID" value="KPME0004"/>
+                <column name="TERM_RSLVR_ID" valueComputed="(select TERM_RSLVR_ID from KRMS_TERM_RSLVR_T where NM='Assignments with task Resolver' and NMSPC_CD='KPME-LM')"/>
+                <column name="NM" value="Task"/>
+                <column name="VER_NBR" value="1"/>
+            </insert>
+
+        <insert tableName="KRMS_TERM_RSLVR_PARM_SPEC_T">
+            <column name="TERM_RSLVR_PARM_SPEC_ID" value="KPME0005"/>
+            <column name="TERM_RSLVR_ID" valueComputed="(select TERM_RSLVR_ID from KRMS_TERM_RSLVR_T where NM='Assignments with department Resolver' and NMSPC_CD='KPME-TK')"/>
+            <column name="NM" value="Department"/>
+            <column name="VER_NBR" value="1"/>
+        </insert>
+
+        <insert tableName="KRMS_TERM_RSLVR_PARM_SPEC_T">
+            <column name="TERM_RSLVR_PARM_SPEC_ID" value="KPME0006"/>
+            <column name="TERM_RSLVR_ID" valueComputed="(select TERM_RSLVR_ID from KRMS_TERM_RSLVR_T where NM='Assignments with workArea Resolver' and NMSPC_CD='KPME-TK')"/>
+            <column name="NM" value="WorkArea"/>
+            <column name="VER_NBR" value="1"/>
+        </insert>
+
+        <insert tableName="KRMS_TERM_RSLVR_PARM_SPEC_T">
+            <column name="TERM_RSLVR_PARM_SPEC_ID" value="KPME0007"/>
+            <column name="TERM_RSLVR_ID" valueComputed="(select TERM_RSLVR_ID from KRMS_TERM_RSLVR_T where NM='Assignments with jobNumber Resolver' and NMSPC_CD='KPME-TK')"/>
+            <column name="NM" value="JobNumber"/>
+            <column name="VER_NBR" value="1"/>
+        </insert>
+
+        <insert tableName="KRMS_TERM_RSLVR_PARM_SPEC_T">
+            <column name="TERM_RSLVR_PARM_SPEC_ID" value="KPME0008"/>
+            <column name="TERM_RSLVR_ID" valueComputed="(select TERM_RSLVR_ID from KRMS_TERM_RSLVR_T where NM='Assignments with task Resolver' and NMSPC_CD='KPME-TK')"/>
+            <column name="NM" value="Task"/>
+            <column name="VER_NBR" value="1"/>
+        </insert>
+
+    </changeSet>
+
+
+</databaseChangeLog>

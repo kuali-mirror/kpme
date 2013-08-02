@@ -51,14 +51,23 @@
                     <name>LeaveRequestCalEndSearchAttribute</name>
                 </attribute>
 			</attributes>
-			<routePaths>
-				<routePath>
-					<start name="adhoc" nextNode="Leave Request Attribute" />
-					<requests name="Leave Request Attribute" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="adhoc">
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" nextNode="PeopleFlows" />
+                    <requests name="PeopleFlows" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+                <requests name="PeopleFlows">
+                    <activationType>R</activationType>
+                    <rulesEngine executorClass="org.kuali.kpme.tklm.leave.request.krms.LeaveRequestRulesEngineExecutor"/>
+                </requests>
+				<!--<start name="adhoc">
 					<exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
 					<activationType>S</activationType>
 					<mandatoryRoute>false</mandatoryRoute>
@@ -70,7 +79,7 @@
 					<ruleTemplate>LeaveRequestRuleTemplate</ruleTemplate>
 					<mandatoryRoute>true</mandatoryRoute>
 					<finalApproval>true</finalApproval>
-				</requests>
+				</requests>-->
 			</routeNodes>
 			<policies>
 				<policy>

@@ -16,15 +16,22 @@
 package org.kuali.kpme.tklm.common.krms;
 
 
+import org.kuali.kpme.core.KPMENamespace;
+
 public class TklmKrmsConstants {
     public static final class Calendar {
-        public static final String CALENDAR_CONTEXT = "KPME Calendar Context";
-
-        public static final String CALENDAR_CONTEXT_ID = "KPME-CALENDAR-CONTEXT";
-        public static final String KPME_TIMESHEET_CONTEXT_ID = "KPME-TIMESHEET-CONTEXT";
         public static final String KPME_TIMESHEET_CONTEXT_NAME = "KPME Timesheet Context";
         public static final String KPME_LEAVE_CALENDAR_CONTEXT_NAME = "KPME Leave Calendar Context";
+    }
 
+    public static final class Context {
+        public static final String LM_CONTEXT_NAME = "KPME Leave Context";
+        public static final String LEAVE_REQUEST_CONTEXT_NAME = "KPME Leave Request Context";
+    }
 
+    public static final class LMDocument {
+        public static final String CONTEXT_NAME = Context.LM_CONTEXT_NAME;
+        public static final String NAMESPACE = KPMENamespace.KPME_LM.getNamespaceCode();
+        public static final String ASSIGNMENTS = "Assignments";
     }
 }

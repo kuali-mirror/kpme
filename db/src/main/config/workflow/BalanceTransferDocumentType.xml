@@ -32,14 +32,23 @@
             <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
             <applicationId>KPME</applicationId>
             <routingVersion>1</routingVersion>
-			<routePaths>
-				<routePath>
-					<start name="adhoc" nextNode="Balance Transfer Attribute" />
-					<requests name="Balance Transfer Attribute" />
-				</routePath>
-			</routePaths>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" nextNode="PeopleFlows" />
+                    <requests name="PeopleFlows" />
+                </routePath>
+            </routePaths>
 			<routeNodes>
-				<start name="adhoc">
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+                <requests name="PeopleFlows">
+                    <activationType>R</activationType>
+                    <rulesEngine executorClass="org.kuali.kpme.tklm.leave.workflow.krms.LeaveMaintDocRulesEngineExecutor"/>
+                </requests>
+				<!--<start name="adhoc">
 					<exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
 					<activationType>S</activationType>
 					<mandatoryRoute>false</mandatoryRoute>
@@ -51,7 +60,7 @@
 					<ruleTemplate>BalanceTransferRuleTemplate</ruleTemplate>
 					<mandatoryRoute>true</mandatoryRoute>
 					<finalApproval>true</finalApproval>
-				</requests>
+				</requests>-->
 			</routeNodes>
 			<policies>
 				<policy>

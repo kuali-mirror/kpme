@@ -45,11 +45,6 @@ public class BalanceTransferMaintainableImpl extends
 
 	private static final long serialVersionUID = -789218061798169466L;
 
-	@Override
-	public void saveBusinessObject() {
-		// TODO Auto-generated method stub
-		super.saveBusinessObject();
-	}
 	
 	@Override
 	public HrBusinessObject getObjectById(String id) {

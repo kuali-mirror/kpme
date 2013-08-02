@@ -17,6 +17,7 @@ package org.kuali.kpme.core.document.calendar.rules;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.department.Department;
@@ -76,6 +77,10 @@ public class CalendarDocumentFactBuilderServiceImpl extends KpmeKrmsFactBuilderS
             }
             if (CollectionUtils.isNotEmpty(workAreas)) {
                 factsBuilder.addFact("workarea", workAreas);
+            }
+
+            if (document instanceof Assignable) {
+                factsBuilder.addFact(Assignable.ASSIGNABLE_TERM_NAME, document);
             }
         }
     }

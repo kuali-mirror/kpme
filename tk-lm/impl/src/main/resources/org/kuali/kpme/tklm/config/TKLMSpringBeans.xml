@@ -404,6 +404,8 @@
     
     <bean id="timeSummaryService" class="org.kuali.kpme.tklm.time.timesummary.service.TimeSummaryServiceImpl"/>
 
+    <bean id="lmFactBuilderService" class="org.kuali.kpme.tklm.leave.workflow.krms.LMFactBuilderServiceImpl"/>
+
     <bean id="tkServiceLocator" class="org.kuali.kpme.tklm.time.service.TkServiceLocator" />
 
     <bean id="lmServiceLocator" class="org.kuali.kpme.tklm.leave.service.LmServiceLocator"/>

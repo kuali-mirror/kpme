@@ -50,6 +50,7 @@ public class LeaveCalendarRulesEngineExecutor extends KPMERulesEngineExecuter {
         KpmeKrmsFactBuilderService fbService = HrServiceLocator.getService("calendarDocumentFactBuilderService");
         Facts.Builder factsBuilder = Facts.Builder.create();
         fbService.addFacts(factsBuilder, doc, TklmKrmsConstants.Calendar.KPME_LEAVE_CALENDAR_CONTEXT_NAME, KPMENamespace.KPME_LM.getNamespaceCode());
+        factsBuilder.addFact("Assignments", doc);
         return engine.execute(selectionCriteria, factsBuilder.build(), null);
     }
 }

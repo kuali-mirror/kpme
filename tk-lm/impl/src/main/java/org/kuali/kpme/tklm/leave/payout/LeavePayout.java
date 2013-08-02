@@ -21,6 +21,9 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.assignment.Assignable;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
@@ -30,7 +33,7 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-public class LeavePayout extends HrBusinessObject {
+public class LeavePayout extends HrBusinessObject implements Assignable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -254,4 +257,9 @@ public class LeavePayout extends HrBusinessObject {
 	public void setDocumentHeaderId(String documentHeaderId) {
 		this.documentHeaderId = documentHeaderId;
 	}
+
+    @Override
+    public List<Assignment> getAssignments() {
+        return HrServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), getEffectiveLocalDate());
+    }
 }

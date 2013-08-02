@@ -121,6 +121,10 @@
         <property name="serviceName" value="parameterService" />
     </bean>
 
+    <bean id="functionRepositoryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="functionRepositoryService" />
+    </bean>
+
     <bean id="docHandlerUrlPrefixPublishingService" class="org.kuali.kpme.core.service.dochandler.DocHandlerUrlPrefixPublishingServiceImpl">
         <property name="parameterApplicationId" value="KUALI" />
         <property name="parameterNamespaceCode" value="KR-WKFLW" />
@@ -369,8 +373,17 @@
           p:localServiceName="payrollPeopleFlowTypeService"
           p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService" />
 
+    <!--<bean id="functionTermResolverTypeService" class="org.kuali.kpme.core.krms.FunctionTermResolverTypeServiceBase" abstract="true" />
+    </bean>-->
+    <bean id="kpmeJavaFunctionTermResolverService" class="org.kuali.kpme.core.krms.JavaFunctionTermResolverService"/>
+    <bean id="kpmeJavaFunctionTermResolverService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="kpmeJavaFunctionTermResolverService"
+          p:localServiceName="kpmeJavaFunctionTermResolverService"
+          p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService" />
 
-	<!-- CORE Lookupable Definitions -->
+    <bean id="kpmeJavaFunctionTermService" class="org.kuali.kpme.core.krms.KpmeJavaFunctionTermService" />
+
+    <!-- CORE Lookupable Definitions -->
 
 
 

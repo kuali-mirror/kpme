@@ -34,13 +34,22 @@
             <applicationId>KPME</applicationId>
             <routingVersion>1</routingVersion>
 			<routePaths>
-				<routePath>
-					<start name="adhoc" nextNode="Leave Payout Attribute" />
-					<requests name="Leave Payout Attribute" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="adhoc">
+                <routePath>
+                    <start name="Initiated" nextNode="PeopleFlows" />
+                    <requests name="PeopleFlows" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+                <requests name="PeopleFlows">
+                    <activationType>R</activationType>
+                    <rulesEngine executorClass="org.kuali.kpme.tklm.leave.workflow.krms.LeaveMaintDocRulesEngineExecutor"/>
+                </requests>
+				<!--<start name="adhoc">
 					<exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
 					<activationType>S</activationType>
 					<mandatoryRoute>false</mandatoryRoute>
@@ -52,7 +61,7 @@
 					<ruleTemplate>LeavePayoutRuleTemplate</ruleTemplate>
 					<mandatoryRoute>true</mandatoryRoute>
 					<finalApproval>true</finalApproval>
-				</requests>
+				</requests>-->
 			</routeNodes>
 			<policies>
 				<policy>

@@ -73,7 +73,7 @@
 		</property>
         <property name="collections">
             <list>
-		        <bean parent="CollectionDefinition" p:name="roleMembers" p:label="Role Members" p:shortLabel="Role Members" p:summary="Role Members" p:description="Role Members" />
+		        <bean parent="CollectionDefinition" p:name="roleMembers" p:label="Role Members" p:shortLabel="Role Members" p:summary="Role Members" p:description="Role Members"  />
 		        <bean parent="CollectionDefinition" p:name="inactiveRoleMembers" p:label="Inactive Role Members" p:shortLabel="Inactive Role Members" p:summary="Inactive Role Members" p:description="Inactive Role Members" />
             </list>
         </property>

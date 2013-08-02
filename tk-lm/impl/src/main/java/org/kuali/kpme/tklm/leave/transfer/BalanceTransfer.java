@@ -21,6 +21,9 @@ import java.util.List;
 
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.assignment.Assignable;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -29,7 +32,7 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class BalanceTransfer extends HrBusinessObject {
+public class BalanceTransfer extends HrBusinessObject implements Assignable {
 
 	private static final long serialVersionUID = 6948695780968441016L;
 	
@@ -281,8 +284,13 @@ public class BalanceTransfer extends HrBusinessObject {
 	public void setDocumentHeaderId(String documentHeaderId) {
 		this.documentHeaderId = documentHeaderId;
 	}
-	
-	//Comparable for order handling of more than one transfer occurring during the same
+
+    @Override
+    public List<Assignment> getAssignments() {
+        return HrServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), getEffectiveLocalDate());
+    }
+
+    //Comparable for order handling of more than one transfer occurring during the same
 	//action frequency interval?
-	
+
 }

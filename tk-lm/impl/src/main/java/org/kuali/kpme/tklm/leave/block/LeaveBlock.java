@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.leave.block;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +32,9 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.assignment.Assignable;
+import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -48,8 +52,9 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.expression.spel.ast.Assign;
 
-public class LeaveBlock extends CalendarBlock {
+public class LeaveBlock extends CalendarBlock implements Assignable {
 
 	private static final long serialVersionUID = -8240826812581295376L;
 	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "LeaveBlock";
@@ -320,6 +325,11 @@ public class LeaveBlock extends CalendarBlock {
 		this.reason = reason;
 	}
 
+    public List<Assignment> getAssignments() {
+        AssignmentDescriptionKey key = new AssignmentDescriptionKey(getJobNumber(), getWorkArea(), getTask());
+        return Collections.singletonList(
+                HrServiceLocator.getAssignmentService().getAssignment(getPrincipalId(), key, getLeaveLocalDate()));
+    }
 	public String getAssignmentTitle() {
 		StringBuilder b = new StringBuilder();
 

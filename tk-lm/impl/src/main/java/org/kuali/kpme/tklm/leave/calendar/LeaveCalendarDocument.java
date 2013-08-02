@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
@@ -27,7 +28,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 
-public class LeaveCalendarDocument extends CalendarDocument implements CalendarDocumentContract {
+public class LeaveCalendarDocument extends CalendarDocument implements CalendarDocumentContract, Assignable {
 
 	/**
 	 * This static member is needed by document search, to trigger the correct calendar document
