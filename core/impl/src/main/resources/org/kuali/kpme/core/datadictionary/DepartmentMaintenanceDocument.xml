@@ -72,7 +72,7 @@
 		        <bean parent="MaintainableCollectionDefinition">
 		            <property name="name" value="roleMembers" />
 		            <property name="businessObjectClass" value="org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo" />
-		            <property name="alwaysAllowCollectionDeletion" value="true" />
+		            <property name="alwaysAllowCollectionDeletion" value="false" />
 		            <property name="maintainableFields">
 		                <list>
 		                    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
