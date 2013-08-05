@@ -91,9 +91,10 @@ public class DepartmentLunchRuleMaintTest extends KPMEWebTestCase {
 				deptLunchRuleIdWithInvalidWorkArea.toString());
 		HtmlUnitUtil.createTempFile(maintPage);
 		
-		HtmlInput inputForWorkArea = HtmlUnitUtil.getInputContainingText(maintPage,
-				"newMaintainableObject.workArea");
-		inputForWorkArea.setValueAttribute(Long.toString(TEST_CODE_WORKAREA_INVALID));
+		HtmlUnitUtil.setFieldValue(maintPage, "document.newMaintainableObject.workArea", Long.toString(TEST_CODE_WORKAREA_INVALID));
+//		HtmlInput inputForWorkArea = HtmlUnitUtil.getInputContainingText(maintPage,
+//				"newMaintainableObject.workArea");
+//		inputForWorkArea.setValueAttribute(Long.toString(TEST_CODE_WORKAREA_INVALID));
 		HtmlInput inputForDescription = HtmlUnitUtil.getInputContainingText(
 				maintPage, "* Document Description");
 		inputForDescription.setValueAttribute("Description");
