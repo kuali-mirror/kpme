@@ -155,16 +155,18 @@ public class ClockAction extends TimesheetAction {
 		        			selectedAssignment = clockActionForm.getSelectedAssignment();
 		        		}
 		        	}
-
-	        		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(AssignmentDescriptionKey.get(selectedAssignment), LocalDate.now());
-	        		if (assignment != null) {
-	        			Long workArea = assignment.getWorkArea();
-	        			String principalId = GlobalVariables.getUserSession().getPrincipalId();
-	        			Boolean isAnyPayrollProcessor = this.isPrincipalAnyProcessorInWorkArea(principalId, workArea, new DateTime().toLocalDate());
-	        			isApproverOrReviewerForCurrentAssignment = HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
-	        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
-	        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), workArea, new DateTime()) || isAnyPayrollProcessor;
-	        		}
+		        	
+		        	if(StringUtils.isNotBlank(selectedAssignment)) {
+		        		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(AssignmentDescriptionKey.get(selectedAssignment), LocalDate.now());
+		        		if (assignment != null) {
+		        			Long workArea = assignment.getWorkArea();
+		        			String principalId = GlobalVariables.getUserSession().getPrincipalId();
+		        			Boolean isAnyPayrollProcessor = this.isPrincipalAnyProcessorInWorkArea(principalId, workArea, new DateTime().toLocalDate());
+		        			isApproverOrReviewerForCurrentAssignment = HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
+		        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
+		        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), workArea, new DateTime()) || isAnyPayrollProcessor;
+		        		}
+		        	}
 		        	clockActionForm.setClockButtonEnabled(isApproverOrReviewerForCurrentAssignment);
 		        }
 		        
