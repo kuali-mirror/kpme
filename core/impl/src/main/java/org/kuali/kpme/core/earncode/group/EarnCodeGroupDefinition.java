@@ -17,11 +17,12 @@ package org.kuali.kpme.core.earncode.group;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupDefinitionContract;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class EarnCodeGroupDefinition extends PersistableBusinessObjectBase {
+public class EarnCodeGroupDefinition extends PersistableBusinessObjectBase implements EarnCodeGroupDefinitionContract {
 
 	/**
 	 * 

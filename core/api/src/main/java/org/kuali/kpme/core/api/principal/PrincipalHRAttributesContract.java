@@ -169,18 +169,18 @@ public interface PrincipalHRAttributesContract extends HrBusinessObjectContract 
 	 * leaveCalendar of a PrincipalHRAttributes
 	 * </p>
 	 * 
-	 * @return leaveCalendar of PrincipalHRAttributes
+	 * @return leaveCalendar for PrincipalHRAttributes
 	 */
 	public String getLeaveCalendar();
 	
 	/**
-	 * The primary Key of a PrincipalHRAttributes entry saved in a database
+	 * The primary key of a PrincipalHRAttributes entry saved in a database
 	 * 
 	 * <p>
 	 * hrPrincipalAttributeId of a PrincipalHRAttributes
 	 * <p>
 	 * 
-	 * @return hrPrincipalAttributeId for a PrincipalHRAttributes
+	 * @return hrPrincipalAttributeId for PrincipalHRAttributes
 	 */
 	public String getHrPrincipalAttributeId();
 

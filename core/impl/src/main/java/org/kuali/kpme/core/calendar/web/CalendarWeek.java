@@ -18,7 +18,9 @@ package org.kuali.kpme.core.calendar.web;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CalendarWeek {
+import org.kuali.kpme.core.api.calendar.web.CalendarWeekContract;
+
+public abstract class CalendarWeek implements CalendarWeekContract {
 
     private List<CalendarDay> days = new ArrayList<CalendarDay>();
 

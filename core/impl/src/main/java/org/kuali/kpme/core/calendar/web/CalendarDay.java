@@ -15,8 +15,10 @@
  */
 package org.kuali.kpme.core.calendar.web;
 
+import org.kuali.kpme.core.api.calendar.web.CalendarDayContract;
 
-public abstract class CalendarDay {
+
+public abstract class CalendarDay implements CalendarDayContract {
 
     private String dayNumberString;
     private int dayNumberDelta;

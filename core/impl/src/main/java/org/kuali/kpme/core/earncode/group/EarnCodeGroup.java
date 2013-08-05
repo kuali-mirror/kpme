@@ -18,11 +18,12 @@ package org.kuali.kpme.core.earncode.group;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 
 import com.google.common.collect.ImmutableList;
 
-public class EarnCodeGroup extends HrBusinessObject {
+public class EarnCodeGroup extends HrBusinessObject implements EarnCodeGroupContract {
 
 	//KPME-2273/1965 Primary Business Keys List.
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
