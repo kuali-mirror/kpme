@@ -64,6 +64,7 @@ import org.kuali.kpme.tklm.time.calendar.TkCalendar;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetAction;
 import org.kuali.kpme.tklm.time.timesummary.AssignmentColumn;
@@ -686,10 +687,18 @@ public class TimeDetailAction extends TimesheetAction {
 
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
         String timeHourDetailId = tdaf.getTkTimeHourDetailId();
-        TkServiceLocator.getTimeBlockService().deleteLunchDeduction(timeHourDetailId);
-
+        
         List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
-
+        TimeHourDetail thd = TkServiceLocator.getTimeHourDetailService().getTimeHourDetail(timeHourDetailId);
+        for(TimeBlock tb : newTimeBlocks) {
+        	if(tb.getTkTimeBlockId().equals(thd.getTkTimeBlockId())) {
+	        	// mark the lunch deleted as Y
+	            tb.setLunchDeleted(true);
+        	}
+        }
+       // remove the related time hour detail row with the lunch deduction
+       TkServiceLocator.getTimeHourDetailService().removeTimeHourDetail(thd.getTkTimeHourDetailId());
+        
        List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
        List<String> assignmentKeys = new ArrayList<String>();
        for (Assignment assignment : assignments) {
@@ -697,7 +706,7 @@ public class TimeDetailAction extends TimesheetAction {
        }
        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(HrContext.getTargetPrincipalId(), tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
 
-        TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks, tdaf.getTimesheetDocument().getAsOfDate());
+       TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks, tdaf.getTimesheetDocument().getAsOfDate());
         
         // KPME-1340
         TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
