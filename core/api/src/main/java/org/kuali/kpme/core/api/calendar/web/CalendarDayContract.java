@@ -20,7 +20,7 @@ package org.kuali.kpme.core.api.calendar.web;
  * <p>CalendarDayContract interface</p>
  *
  */
-public interface CalendarDayContract implements CalendarDayContract {
+public interface CalendarDayContract {
 
 	/**
 	 * The dayNumberDelta the CalendarDay is associated with
