@@ -19,10 +19,10 @@
             <c:if test="${!empty row.clockStatusMessage}">
                 <br/>${row.clockStatusMessage}
             </c:if>
-	        <br/>
-	    </display:column>
-	    <display:column title="Document ID <br/>&amp; Status" sortable="true" sortName="documentId" style="width:10%;">
-	        <a href="changeTargetPerson.do?${row.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${row.documentId}&returnUrl=TimeApproval.do">${row.documentId}</a>
+	        <br/><br/><br/>
+	       <c:if test="${!empty row.documentId}">
+	       
+	       Doc Id: <a href="changeTargetPerson.do?${row.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${row.documentId}&returnUrl=TimeApproval.do"> ${row.documentId}</a>
 	        <c:if test="${fn:length(row.warnings) > 0 }">
 	            <div class="ui-state-default ui-corner-all" style="float:right;">
 	                <span id="approvals-warning" class="ui-icon ui-icon-alert approvals-warning"></span>
@@ -87,10 +87,11 @@
 	        </c:if>
 
 	    <%--<display:column title="Status" sortable="true" sortName="status">--%>
-	    <br/>
-        <div>
+	    	<br/>
+       		<div>
 	            <span id="approvals-status" class="approvals-status">${row.approvalStatus}</span>
 	        </div>
+	       </c:if>
 	    <%--</display:column>--%>
         </display:column>	
 <%-- 	    <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}"> --%>
@@ -104,18 +105,18 @@
 <%-- 	            </c:choose> --%>
 	        
 <%-- 	    </c:forEach> --%>
-	     <display:column title="Time Summary" style="width:60%;">
+	     <display:column title="Time Summary" style="width:80%;">
 	        <%-- render time summary --%>
             <c:if test="${row.timeSummary != null}">
             	<tk:timeApprovalSummary timeApprovalSummary="${row.timeSummary}" principalId="${row.principalId}"/>
             </c:if>
             
 	    </display:column>
-	    <display:column title="Action" style="width:10%;">
+	    <display:column title="Action" style="width:5%;">
 	        <tk:tkApprovalRowButtons appRow="${row}"/>
 	    </display:column>
 	    <display:column title="Select All <input type='checkbox' name='Select' id='checkAllAuto'></input>"
-	                    class="last_column_${row_rowNum}" style="width:10%;">
+	                    class="last_column_${row_rowNum}" style="width:5%;">
 	        <html:checkbox property="approvalRows[${row_rowNum-1}].selected" disabled="${!row.approvable}"
 	                       styleClass="selectedEmpl"/>
 	        <%-- This is where we will insert the hour details --%>
