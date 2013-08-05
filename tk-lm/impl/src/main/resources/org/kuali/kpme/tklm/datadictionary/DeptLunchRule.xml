@@ -69,7 +69,7 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
 								p:targetName="workArea" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkWorkAreaId" p:targetName="tkWorkAreaId"/>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate"/>
 						</list>
 					</property>
 				</bean>
@@ -80,8 +80,8 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
 								p:targetName="dept" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrDeptId"
-								p:targetName="hrDeptId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
+								p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
@@ -91,7 +91,7 @@
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="jobNumber" p:targetName="jobNumber"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrJobId" p:targetName="hrJobId"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate"/>
                 </list>
               </property>
             </bean>   

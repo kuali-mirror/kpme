@@ -508,7 +508,7 @@
 	<bean id="Job-inquiryDefinition" parent="Job-inquiryDefinition-parentBean" />
 
 	<bean id="Job-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition">
+		parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.job.web.JobInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
