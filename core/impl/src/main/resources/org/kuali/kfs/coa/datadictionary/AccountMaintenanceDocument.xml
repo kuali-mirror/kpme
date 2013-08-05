@@ -22,6 +22,7 @@
   	p:businessObjectClass="org.kuali.kpme.core.kfs.coa.businessobject.Account"
   	p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"
   	p:businessRulesClass="org.kuali.kpme.core.kfs.coa.businessobject.validation.AccountValidation">
+  	<property name="preserveLockingKeysOnCopy" value="true" />
     <property name="maintainableSections">
       <list>
         <ref bean="AccountMaintenanceDocument-AccountMaintenance"/>
