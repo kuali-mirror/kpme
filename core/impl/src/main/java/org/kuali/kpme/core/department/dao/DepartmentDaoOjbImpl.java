@@ -134,4 +134,15 @@ public class DepartmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Dep
 		Query query = QueryFactory.newQuery(Department.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query);
 	}
+	
+	@Override
+	public List<Department> getDepartments(String department) {
+		List<Department> results = new ArrayList<Department>();
+		Criteria crit = new Criteria();
+		crit.addEqualTo("dept", department);
+		crit.addEqualTo("active", true);
+		Query query = QueryFactory.newQuery(Department.class, crit);
+		results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+		return results;
+	}
 }

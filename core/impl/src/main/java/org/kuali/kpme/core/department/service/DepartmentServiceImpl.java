@@ -113,6 +113,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         return departmentObjs;
     }
+    
+    @Override
+	public List<Department> getDepartments(String department) {
+		return departmentDao.getDepartments(department);
+	}
 
     private void populateDepartmentRoleMembers(Department department, LocalDate asOfDate) {
     	if (department != null && asOfDate != null 

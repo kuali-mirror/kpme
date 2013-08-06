@@ -59,20 +59,19 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 	
 	protected boolean validateDepartment(Department department) {
 		boolean valid = true;
-
-		if (department.getHrDeptId() == null) {
+		
 			if (department.getDept() != null && department.getEffectiveDate() != null) {
-				Department existingDept = HrServiceLocator.getDepartmentService().getDepartment(department.getDept(), department.getEffectiveLocalDate());
-				
-				if (existingDept != null) {
-					if (StringUtils.equalsIgnoreCase(department.getDept(), existingDept.getDept())
-							&& StringUtils.equalsIgnoreCase(department.getLocation(), existingDept.getLocation())) {
-						this.putFieldError("dept", "error.department.duplicate.exists", department.getDept());
-						valid = false;
-					}
+				List<Department> depts = HrServiceLocator.getDepartmentService().getDepartments(department.getDept());
+				if (depts != null && depts.size() > 0) {
+					 for(Department dept : depts) {
+					   if(!dept.getHrDeptId().equalsIgnoreCase(department.getHrDeptId())) {
+						 this.putFieldError("dept", "error.department.duplicate.exists", department.getDept());
+						 valid = false;
+						 break;
+					   }
+					 }
 				}
 			}
-		} 
 		
 		return valid;
 	}

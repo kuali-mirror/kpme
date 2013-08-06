@@ -59,5 +59,12 @@ public interface DepartmentService {
      */
     @Cacheable(value=Department.CACHE_NAME, key="'chart=' + #p0 + '|' + 'asOfDate=' + #p1")
     List<Department> getDepartments(String location, LocalDate asOfDate);
+    
+	/**
+	 * get count of department with given department
+	 * @param department
+	 * @return int
+	 */
+	List<Department> getDepartments(String department);
 
 }
