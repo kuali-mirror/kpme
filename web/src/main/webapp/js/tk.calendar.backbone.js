@@ -1012,10 +1012,11 @@ $(function () {
 	        			}
 	        		}		           
 	            }
-           } else {
-               this.displayErrorMessages("A leave plan is not available for this earn code.");
-               isValid = false;
            }
+//           else {
+//               this.displayErrorMessages("A leave plan is not available for this earn code.");
+//               isValid = false;
+//           }
             
             return isValid;
         },
