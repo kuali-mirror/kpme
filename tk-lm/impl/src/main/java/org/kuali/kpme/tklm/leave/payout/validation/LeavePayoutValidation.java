@@ -78,10 +78,11 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 	private boolean validatePayoutAmount(BigDecimal transferAmount,
 			AccrualCategory debitedAccrualCategory,
 			EarnCode payoutEarnCode, String principalId, LocalDate effectiveDate) {
-		
-		if(transferAmount.compareTo(BigDecimal.ZERO) < 0 ) {
-			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.transferAmount", "leavePayout.amount.negative");
-			return false;
+		if(transferAmount != null) {
+			if(transferAmount.compareTo(BigDecimal.ZERO) < 0 ) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.transferAmount", "leavePayout.amount.negative");
+				return false;
+			}
 		}
 		//HrServiceLocator.getAccrualCategoryService().getCurrentBalanceForPrincipal(principalId, debitedAccrualCategory, effectiveDate);
 

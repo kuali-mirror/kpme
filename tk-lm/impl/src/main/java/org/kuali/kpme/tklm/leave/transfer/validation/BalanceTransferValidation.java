@@ -76,10 +76,11 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	private boolean validateTransferAmount(BigDecimal transferAmount,
 			AccrualCategory debitedAccrualCategory,
 			AccrualCategory creditedAccrualCategory, String principalId, LocalDate effectiveDate) {
-		
-		if(transferAmount.compareTo(BigDecimal.ZERO) < 0 ) {
-			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.transferAmount", "balanceTransfer.amount.negative");
-			return false;
+		if(transferAmount != null) {
+			if(transferAmount.compareTo(BigDecimal.ZERO) < 0 ) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.transferAmount", "balanceTransfer.amount.negative");
+				return false;
+			}
 		}
 
 		return true;
@@ -87,10 +88,12 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 
 	//Effective date not more than one year in advance
 	private boolean validateEffectiveDate(LocalDate date) {
-		if(DateUtils.addYears(LocalDate.now().toDate(), 1).compareTo(date.toDate()) > 0)
-			return true;
-		else
-			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.effectiveDate", "balanceTransfer.effectiveDate.error");
+		if(date != null) {
+			if(DateUtils.addYears(LocalDate.now().toDate(), 1).compareTo(date.toDate()) > 0)
+				return true;
+			else
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.effectiveDate", "balanceTransfer.effectiveDate.error");
+			}
 		return false;
 	}
 	
@@ -104,10 +107,12 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	
 	//Transfer to accrual category should match the value defined in the accrual category rule
 	private boolean validateTransferToAccrualCategory(AccrualCategory accrualCategory, String principalId, LocalDate effectiveDate, AccrualCategoryRule acr) {
-		AccrualCategory maxBalTranToAccCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(acr.getMaxBalanceTransferToAccrualCategory(),effectiveDate);
-		if(!StringUtils.equals(maxBalTranToAccCat.getLmAccrualCategoryId(),accrualCategory.getLmAccrualCategoryId())) {
-			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.toAccrualCategory", "balanceTransfer.toAccrualCategory.noMatch",accrualCategory.getAccrualCategory());
-			return false;
+		if(accrualCategory != null && acr != null) {
+			AccrualCategory maxBalTranToAccCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(acr.getMaxBalanceTransferToAccrualCategory(),effectiveDate);
+			if(!StringUtils.equals(maxBalTranToAccCat.getLmAccrualCategoryId(),accrualCategory.getLmAccrualCategoryId())) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.toAccrualCategory", "balanceTransfer.toAccrualCategory.noMatch",accrualCategory.getAccrualCategory());
+				return false;
+			}
 		}
 		return true;
 	}
