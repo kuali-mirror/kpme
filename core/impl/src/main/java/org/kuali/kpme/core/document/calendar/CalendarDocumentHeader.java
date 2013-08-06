@@ -18,11 +18,10 @@ package org.kuali.kpme.core.document.calendar;
 import java.util.Date;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.api.document.calendar.CalendarDocumentHeaderContract;
+import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public abstract class CalendarDocumentHeader extends PersistableBusinessObjectBase implements CalendarDocumentHeaderContract {
-
 	private static final long serialVersionUID = 8522745692401236408L;
 	protected String documentId;
 	protected String principalId;
