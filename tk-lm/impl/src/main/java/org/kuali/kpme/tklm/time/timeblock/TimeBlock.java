@@ -298,10 +298,10 @@ public class TimeBlock extends CalendarBlock implements Comparable {
      *         taken into account and applied to this DateTime object.
      */
     public DateTime getBeginTimeDisplay() {
-    	if(beginTimeDisplay == null && this.getBeginDateTime() != null) {
-    		DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-    		this.setBeginTimeDisplay(this.getBeginDateTime().withZone(timezone));
-    	}
+//    	if(beginTimeDisplay == null && this.getBeginDateTime() != null) {
+//    		DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+//    		this.setBeginTimeDisplay(this.getBeginDateTime().withZone(timezone));
+//    	}
         return beginTimeDisplay;
     }
 
@@ -353,10 +353,10 @@ public class TimeBlock extends CalendarBlock implements Comparable {
      *         taken into account and applied to this DateTime object.
      */
     public DateTime getEndTimeDisplay() {
-    	if(endTimeDisplay == null && this.getEndDateTime() != null) {
-    		DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-    		this.setEndTimeDisplay(this.getEndDateTime().withZone(timezone));
-    	}
+//    	if(endTimeDisplay == null && this.getEndDateTime() != null) {
+//    		DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+//    		this.setEndTimeDisplay(this.getEndDateTime().withZone(timezone));
+//    	}
         return endTimeDisplay;
     }
 
