@@ -979,17 +979,21 @@ $(function () {
                 var amount = $('#amount');
                 isValid = isValid && (this.checkEmptyField(amount, "Amount") && this.checkMinLength(amount, "Amount", 1) && this.checkZeroValue(amount, 'Amount cannot be zero'));
             }
-           // get earn code leave plan, if it's not null, then the change is for a leave block  
+
+            var leaveAmount = $('#leaveAmount');
+            if(_.contains(ids, "leaveAmount")) {
+                isValid = isValid && (this.checkEmptyField(leaveAmount, "Leave Amount") && this.checkMinLength(leaveAmount, "Leave Amount", 1) && this.checkZeroValue(leaveAmount, 'Leave Amount cannot be zero') && this.checkNumeric(leaveAmount, /^-?\d+(\.\d{1,})?$/, 'Leave Amount should be numeric'));
+            }
+           // get earn code leave plan, if it's not null, then the change is for a leave block
            var leavePlan = this.getEarnCodeLeavePlan(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
            if (typeof leavePlan != 'undefined' && leavePlan != '' && leavePlan != null && leavePlan != 'undefined') {
-                var leaveAmount = $('#leaveAmount');
-                if(_.contains(ids, "leaveAmount")) {
-                	isValid = isValid && (this.checkEmptyField(leaveAmount, "Leave Amount") && this.checkMinLength(leaveAmount, "Leave Amount", 1) && this.checkZeroValue(leaveAmount, 'Leave Amount cannot be zero') && this.checkRegexp(leaveAmount, /[^0-9.]/, 'Leave Amount should be numeric'));
-                } else if (_.contains(ids, "startTimeHourMinute") && _.contains(ids, "endTimeHourMinute")) {
-                    // the format has to be like "12:00 AM"
-                    isValid = isValid && this.checkLength($('#startTimeHourMinute'), "Leave entry", 8, 8);
-                    isValid = isValid && this.checkLength($('#endTimeHourMinute'), "Leave entry", 8, 8);
-                }
+               //This check below used to be the else condtion for leaveAmount.
+               // The leaveAmount check is moved out because of causing errors for earn codes without leaveplan.
+               if (_.contains(ids, "startTimeHourMinute") && _.contains(ids, "endTimeHourMinute")) {
+                   // the format has to be like "12:00 AM"
+                   isValid = isValid && this.checkLength($('#startTimeHourMinute'), "Leave entry", 8, 8);
+                   isValid = isValid && this.checkLength($('#endTimeHourMinute'), "Leave entry", 8, 8);
+               }
                 // check fraction allowed by the Earn Code
 	            if(isValid) {
 	            	var fraction = this.getEarnCodeFractionalAllowedTime(EarnCodes.toJSON(), $('#selectedEarnCode option:selected').val());
@@ -1079,6 +1083,14 @@ $(function () {
             return true;
         },
 
+        checkNumeric : function (o, regexp, n) {
+            if (!( o.val().match(regexp) )) {
+                this.displayErrorMessages(n, o);
+                return false;
+            }
+            return true;
+        },
+
         checkSpecificValue : function (o, value, n) {
             if (o.val() != value) {
                 this.displayErrorMessages(n);
@@ -1088,11 +1100,11 @@ $(function () {
         },
 
         checkZeroValue : function (o, n) {
-            if (parseInt(o.val()) == 0) {
-                this.displayErrorMessages(n);
+            if (o.val() ==  0) {
+                this.displayErrorMessages(n, o);
                 return false;
             }
-            return true;  // returns true if not zero
+            return true;
         },
 
         displayErrorMessages : function (t, object) {
