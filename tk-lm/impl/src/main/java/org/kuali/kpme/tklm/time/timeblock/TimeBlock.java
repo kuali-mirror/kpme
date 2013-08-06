@@ -38,12 +38,14 @@ import org.kuali.kpme.core.block.CalendarBlockBase;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kim.api.identity.Person;
+import org.apache.commons.lang.ObjectUtils;
 
 public class TimeBlock extends CalendarBlock implements Comparable {
 
@@ -298,10 +300,13 @@ public class TimeBlock extends CalendarBlock implements Comparable {
      *         taken into account and applied to this DateTime object.
      */
     public DateTime getBeginTimeDisplay() {
-//    	if(beginTimeDisplay == null && this.getBeginDateTime() != null) {
-//    		DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-//    		this.setBeginTimeDisplay(this.getBeginDateTime().withZone(timezone));
-//    	}
+    	if(beginTimeDisplay == null && this.getBeginDateTime() != null) {
+    		DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+    		if(ObjectUtils.equals(timezone, TKUtils.getSystemDateTimeZone()))
+				this.setBeginTimeDisplay(this.getBeginDateTime());
+    		else
+    			this.setBeginTimeDisplay(this.getBeginDateTime().withZone(timezone));
+    	}
         return beginTimeDisplay;
     }
 
@@ -353,10 +358,13 @@ public class TimeBlock extends CalendarBlock implements Comparable {
      *         taken into account and applied to this DateTime object.
      */
     public DateTime getEndTimeDisplay() {
-//    	if(endTimeDisplay == null && this.getEndDateTime() != null) {
-//    		DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-//    		this.setEndTimeDisplay(this.getEndDateTime().withZone(timezone));
-//    	}
+    	if(endTimeDisplay == null && this.getEndDateTime() != null) {
+    		DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+     		if(ObjectUtils.equals(timezone, TKUtils.getSystemDateTimeZone()))
+ 				this.setEndTimeDisplay(this.getBeginDateTime());
+     		else
+     			this.setEndTimeDisplay(this.getEndDateTime().withZone(timezone));
+    	}
         return endTimeDisplay;
     }
 
