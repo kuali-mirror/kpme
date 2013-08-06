@@ -442,8 +442,9 @@ public class TimeDetailAction extends TimesheetAction {
 			beginDate = TKUtils.convertDateStringToDateTime(tdaf.getStartDate(), tdaf.getStartTime());
 			endDate = TKUtils.convertDateStringToDateTime(tdaf.getEndDate(), tdaf.getEndTime());
 		} else {
-			beginDate = TKUtils.formatDateTimeString(tdaf.getStartDate());
-			endDate = TKUtils.formatDateTimeString(tdaf.getEndDate());
+			// should not apply time zone to dates when user's changing an hour entry
+			beginDate = TKUtils.formatDateTimeStringNoTimezone(tdaf.getStartDate());
+			endDate = TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate());
 		}
 		
 		String selectedEarnCode = tdaf.getSelectedEarnCode();
