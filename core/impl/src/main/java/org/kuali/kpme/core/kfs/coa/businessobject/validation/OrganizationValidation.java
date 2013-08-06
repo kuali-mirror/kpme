@@ -41,7 +41,7 @@ public class OrganizationValidation extends MaintenanceDocumentRuleBase {
 	private boolean validateChart(Organization organization) {
 		boolean isValid = ValidationUtils.validateChart(organization.getChartOfAccountsCode());
 		if(!isValid) {
-			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.chartOfAccountsCode", "exists.chartofaccounts");
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.chartOfAccountsCode", "exists.chart");
 		}
 		return isValid;
 	}

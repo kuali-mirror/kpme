@@ -42,7 +42,7 @@ public class AccountValidation extends MaintenanceDocumentRuleBase {
 	private boolean validateChart(Account account) {
 		boolean isValid = ValidationUtils.validateChart(account.getChartOfAccountsCode());
 		if(!isValid) {
-			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.chartOfAccountsCode", "exists.chartofaccounts");
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.chartOfAccountsCode", "exists.chart");
 		}
 		return isValid;
 	}

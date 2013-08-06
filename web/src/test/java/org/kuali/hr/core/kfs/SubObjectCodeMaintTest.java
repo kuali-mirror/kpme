@@ -299,5 +299,35 @@ public class SubObjectCodeMaintTest extends KPMEWebTestCase {
 		//clean up after assertion.
 		KRADServiceLocator.getBusinessObjectService().delete(subObjectCode);
 	}
+	
+	@Test
+	public void testInValidChart() throws Exception {
+		/**
+		 * TODO: submit sub-object code whose object COA and account COA codes
+		 * match the COA specified on this sub-object, but the account is open.
+		 * 
+		 * This test was changed from asserting a successful submission to asserting a non-successful
+		 * insertion. Test data was added that marked the account used in this test as closed. Validation
+		 * fails for closed accounts.
+		 * 
+		 */
+		HtmlPage maintPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), newUrl);
+		assertNotNull("maintenance page is null", maintPage);
+		
+		HtmlInput docDescription = HtmlUnitUtil.getInputContainingText(maintPage, "* Document Description");
+		assertNotNull("maintenance page does not contain document description", docDescription);
+		
+		setDefaultTestInputValues();
+		for(Entry<String,String> entry : requiredFields.entrySet()) {
+			HtmlUnitUtil.setFieldValue(maintPage, NEW_MAINT_DOC_PREFIX + entry.getKey(), entry.getValue());
+		}
+		docDescription.setValueAttribute("testing submission");
+		// use a non-existent chart
+		HtmlUnitUtil.setFieldValue(maintPage, NEW_MAINT_DOC_PREFIX + "chartOfAccountsCode","BP");
+
+		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(maintPage, "submit");
+
+		assertTrue("page should contain active chart existence error", resultPage.asText().contains("No active chart exists for this code"));
+	}
 
 }

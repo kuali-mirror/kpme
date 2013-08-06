@@ -25,17 +25,41 @@ import java.util.Map.Entry;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.kfs.coa.businessobject.Account;
+import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
 import org.kuali.kpme.core.util.HrTestConstants;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class OrganizationMaintTest extends KPMEWebTestCase {
-	
+	//TODO: find constant in outside scope, or define one outside of this scope.
+	private static final String NEW_MAINT_DOC_PREFIX = "document.newMaintainableObject.";
 	private String newUrl;
 	private String lookupUrl;
 	private Map<String,String> requiredFields;
 
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		before();
+	}
+
+	@Override
+	public void tearDown() throws Exception {
+		after();
+		super.tearDown();
+	}
+	
+	private void setDefaultTestInputValues() {
+		requiredFields = new HashMap<String,String>();
+		requiredFields.put("active", "on");
+		requiredFields.put("chartOfAccountsCode", "UA");
+		requiredFields.put("organizationCode", "A-ORG-CD");
+		requiredFields.put("organizationName", "ANOTHER ORGANIZATION");
+	}
+	
 	private void before() {
 		
 		newUrl = HrTestConstants.Urls.ORGANIZATION_MAINT_NEW_URL;
@@ -79,17 +103,64 @@ public class OrganizationMaintTest extends KPMEWebTestCase {
 		lookupPage = HtmlUnitUtil.clickInputContainingText(lookupPage, "search");
 		assertNotNull("lookup result page is null", lookupPage);
 		
+		assertTrue("lookup result page should contain one record", lookupPage.asText().contains("ORG-CODE"));
 	}
 	
-	@Override
-	public void setUp() throws Exception {
-		before();
-		super.setUp();
+	@Test
+	public void testInValidChart() throws Exception {
+		/**
+		 * TODO: submit sub-object code whose object COA and account COA codes
+		 * match the COA specified on this sub-object, but the account is open.
+		 * 
+		 * This test was changed from asserting a successful submission to asserting a non-successful
+		 * insertion. Test data was added that marked the account used in this test as closed. Validation
+		 * fails for closed accounts.
+		 * 
+		 */
+		HtmlPage maintPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), newUrl);
+		assertNotNull("maintenance page is null", maintPage);
+		
+		HtmlInput docDescription = HtmlUnitUtil.getInputContainingText(maintPage, "* Document Description");
+		assertNotNull("maintenance page does not contain document description", docDescription);
+		
+		setDefaultTestInputValues();
+		for(Entry<String,String> entry : requiredFields.entrySet()) {
+			HtmlUnitUtil.setFieldValue(maintPage, NEW_MAINT_DOC_PREFIX + entry.getKey(), entry.getValue());
+		}
+		docDescription.setValueAttribute("testing submission");
+		// use a non-existent chart
+		HtmlUnitUtil.setFieldValue(maintPage, NEW_MAINT_DOC_PREFIX + "chartOfAccountsCode","BP");
+
+		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(maintPage, "submit");
+		assertTrue("page should contain active account existence error", resultPage.asText().contains("No active chart exists for this code"));
+	}
+	
+	@Test
+	public void testValidChart() throws Exception {
+
+		HtmlPage maintPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), newUrl);
+		assertNotNull("maintenance page is null", maintPage);
+		
+		HtmlInput docDescription = HtmlUnitUtil.getInputContainingText(maintPage, "* Document Description");
+		assertNotNull("maintenance page does not contain document description", docDescription);
+		
+		setDefaultTestInputValues();
+		for(Entry<String,String> entry : requiredFields.entrySet()) {
+			HtmlUnitUtil.setFieldValue(maintPage, NEW_MAINT_DOC_PREFIX + entry.getKey(), entry.getValue());
+		}
+		docDescription.setValueAttribute("testing submission");
+
+		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(maintPage, "submit");
+		assertTrue("page should contain active account existence error", !resultPage.asText().contains("error(s)"));
+		
+		Map<String,String> keys = new HashMap<String,String>();
+		keys.put("chartOfAccountsCode", "UA");
+		keys.put("organizationCode", "A-ORG-CD");
+		
+		Organization organization = (Organization) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Organization.class, keys);
+		assertNotNull("newly created sub-object code should exist", organization);
+		//clean up after assertion.
+		KRADServiceLocator.getBusinessObjectService().delete(organization);
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		after();
-		super.tearDown();
-	}
 }

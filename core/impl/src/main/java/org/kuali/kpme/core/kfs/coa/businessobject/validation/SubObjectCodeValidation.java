@@ -50,7 +50,7 @@ public class SubObjectCodeValidation extends MaintenanceDocumentRuleBase {
 	private boolean validateChart(SubObjectCode subObjectCode) {
 		boolean isValid = ValidationUtils.validateChart(subObjectCode.getChartOfAccountsCode());
 		if(!isValid) {
-			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.chartOfAccountsCode", "exists.chartofaccounts");
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.chartOfAccountsCode", "exists.chart");
 		}	
 		return isValid;
 	}

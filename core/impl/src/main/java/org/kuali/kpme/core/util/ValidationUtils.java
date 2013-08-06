@@ -16,12 +16,9 @@
 package org.kuali.kpme.core.util;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
@@ -588,6 +585,12 @@ public class ValidationUtils {
 		return string1.equals(string2);
 	}
 	
+	/**
+	 * validates an open account exists matching the chart of accounts and account number.
+	 * @param chartOfAccountsCode
+	 * @param accountNumber
+	 * @return
+	 */
 	public static boolean validateAccount(String chartOfAccountsCode, String accountNumber) {
 		Map<String, String> fields = new HashMap<String, String>();
 		fields.put("accountNumber", accountNumber);
@@ -599,6 +602,13 @@ public class ValidationUtils {
 		return false;
 	}
 	
+	/**
+	 * validates existence of an active sub account matching the supplied params.
+	 * @param subAccountNumber
+	 * @param accountNumber
+	 * @param chartOfAccountsCode
+	 * @return
+	 */
 	public static boolean validateSubAccount(String subAccountNumber, String accountNumber, String chartOfAccountsCode) {
 		Map<String, String> fields = new HashMap<String, String>();
 		fields.put("subAccountNumber", subAccountNumber);
@@ -611,6 +621,9 @@ public class ValidationUtils {
 		return false;
 	}
 	
+	/**
+	 * validates an active object code exists matching the supplied params.
+	 */
 	public static boolean validateObjectCode(String financialObjectCode, String chartOfAccountsCode, Integer universityFiscalYear) {
 		Map<String, String> fields = new HashMap<String, String>();
 
@@ -629,6 +642,16 @@ public class ValidationUtils {
 		return false;
 	}
 	
+	/**
+	 * validates active sub object code existence matching the supplied params.
+	 * 
+	 * @param universityFiscalYear
+	 * @param chartOfAccountsCode
+	 * @param accountNumber
+	 * @param financialObjectCode
+	 * @param financialSubObjectCode
+	 * @return
+	 */
 	public static boolean validateSubObjectCode(String universityFiscalYear,
 												String chartOfAccountsCode,
 												String accountNumber,
@@ -646,7 +669,13 @@ public class ValidationUtils {
 		}
 		return false;
 	}
-
+	/**
+	 * validates an active organization matching organizationCode exists, whose chart of accounts code is chartOfAccountsCode
+	 * 
+	 * @param organizationCode
+	 * @param chartOfAccountsCode
+	 * @return
+	 */
 	public static boolean validateOrganization(String organizationCode, String chartOfAccountsCode) {
 		Map<String, String> fields = new HashMap<String, String>();
 		

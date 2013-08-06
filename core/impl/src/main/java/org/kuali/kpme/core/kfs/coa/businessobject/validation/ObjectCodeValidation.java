@@ -42,7 +42,7 @@ public class ObjectCodeValidation extends MaintenanceDocumentRuleBase {
 	private boolean validateChart(ObjectCode objectCode) {
 		boolean isValid = ValidationUtils.validateChart(objectCode.getChartOfAccountsCode());
 		if(!isValid) {
-			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.chartOfAccountsCode", "exists.chartofaccounts");
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.chartOfAccountsCode", "exists.chart");
 		}
 		return isValid;
 	}
