@@ -250,7 +250,7 @@ public class SubObjectCodeMaintTest extends KPMEWebTestCase {
 		HtmlUnitUtil.setFieldValue(maintPage, NEW_MAINT_DOC_PREFIX + "financialSubObjectCdshortNm", "TST SOC");
 
 		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(maintPage, "submit");
-		assertTrue("page should not contain errors", resultPage.asText().contains("No such active account exists whose chart matches 'UA'"));
+		assertTrue("page should contain active account existence error", resultPage.asText().contains("No such active account exists whose chart matches 'UA'"));
 		
 		Map<String,String> keys = new HashMap<String,String>();
 		keys.put("universityFiscalYear", "2013");
