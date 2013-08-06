@@ -973,18 +973,18 @@ $(function () {
             }
             else if (_.contains(ids, "hours")) {
                 var hours = $('#hours');
-                isValid = isValid && (this.checkEmptyField(hours, "Hour") && this.checkMinLength(hours, "Hour", 1) && this.checkRegexp(hours, '/0/', 'Hours cannot be zero'));
+                isValid = isValid && (this.checkEmptyField(hours, "Hour") && this.checkMinLength(hours, "Hour", 1) && this.checkZeroValue(hours, 'Hours cannot be zero'));
             }
             else if (_.contains(ids, "amount")) {
                 var amount = $('#amount');
-                isValid = isValid && (this.checkEmptyField(amount, "Amount") && this.checkMinLength(amount, "Amount", 1) && this.checkRegexp(amount, '/0/', 'Amount cannot be zero'));
+                isValid = isValid && (this.checkEmptyField(amount, "Amount") && this.checkMinLength(amount, "Amount", 1) && this.checkZeroValue(amount, 'Amount cannot be zero'));
             }
            // get earn code leave plan, if it's not null, then the change is for a leave block  
            var leavePlan = this.getEarnCodeLeavePlan(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
            if (typeof leavePlan != 'undefined' && leavePlan != '' && leavePlan != null && leavePlan != 'undefined') {
                 var leaveAmount = $('#leaveAmount');
                 if(_.contains(ids, "leaveAmount")) {
-                	isValid = isValid && (this.checkEmptyField(leaveAmount, "Leave Amount") && this.checkMinLength(leaveAmount, "Leave Amount", 1) && this.checkRegexp(leaveAmount, '/0/', 'Leave Amount cannot be zero'));
+                	isValid = isValid && (this.checkEmptyField(leaveAmount, "Leave Amount") && this.checkMinLength(leaveAmount, "Leave Amount", 1) && this.checkZeroValue(leaveAmount, 'Leave Amount cannot be zero') && this.checkRegexp(leaveAmount, /[^0-9.]/, 'Leave Amount should be numeric'));
                 } else if (_.contains(ids, "startTimeHourMinute") && _.contains(ids, "endTimeHourMinute")) {
                     // the format has to be like "12:00 AM"
                     isValid = isValid && this.checkLength($('#startTimeHourMinute'), "Leave entry", 8, 8);
@@ -1012,6 +1012,9 @@ $(function () {
 	        			}
 	        		}		           
 	            }
+           } else {
+               this.displayErrorMessages("A leave plan is not available for this earn code.");
+               isValid = false;
            }
             
             return isValid;
@@ -1081,6 +1084,14 @@ $(function () {
                 return false;
             }
             return true;
+        },
+
+        checkZeroValue : function (o, n) {
+            if (parseInt(o.val()) == 0) {
+                this.displayErrorMessages(n);
+                return false;
+            }
+            return true;  // returns true if not zero
         },
 
         displayErrorMessages : function (t, object) {
