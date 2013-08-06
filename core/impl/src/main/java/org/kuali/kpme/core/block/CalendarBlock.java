@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 
 public class CalendarBlock extends CalendarBlockBase {
 
+	private static final long serialVersionUID = -4680437059186586309L;
 	private static final Logger LOG = Logger.getLogger(CalendarBlock.class);
 	
 	public CalendarBlock() {

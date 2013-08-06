@@ -15,9 +15,10 @@
  */
 package org.kuali.kpme.core.workarea;
 
+import org.kuali.kpme.core.api.workarea.WorkAreaMaintenanceDocumentContract;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 
-public class WorkAreaMaintenanceDocument extends TransactionalDocumentBase {
+public class WorkAreaMaintenanceDocument extends TransactionalDocumentBase implements WorkAreaMaintenanceDocumentContract {
 
     /**
      * 

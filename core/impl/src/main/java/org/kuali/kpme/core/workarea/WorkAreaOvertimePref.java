@@ -15,9 +15,10 @@
  */
 package org.kuali.kpme.core.workarea;
 
+import org.kuali.kpme.core.api.workarea.WorkAreaOvertimePrefContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class WorkAreaOvertimePref extends PersistableBusinessObjectBase {
+public class WorkAreaOvertimePref extends PersistableBusinessObjectBase implements WorkAreaOvertimePrefContract {
 
 	/**
 	 * 

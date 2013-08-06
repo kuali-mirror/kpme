@@ -20,12 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.calendar.CalendarParentContract;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.web.CalendarWeek;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
-public abstract class CalendarParent implements Serializable {
-    private List<CalendarWeek> weeks = new ArrayList<CalendarWeek>();
+public abstract class CalendarParent implements Serializable, CalendarParentContract {
+
+	private static final long serialVersionUID = 8840878349037013345L;
+	private List<CalendarWeek> weeks = new ArrayList<CalendarWeek>();
     private CalendarEntry calendarEntry;
     private DateTime beginDateTime;
     private DateTime endDateTime;

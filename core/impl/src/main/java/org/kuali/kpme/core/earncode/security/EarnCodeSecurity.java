@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.earncode.EarnCode;
@@ -29,7 +30,7 @@ import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
 
-public class EarnCodeSecurity extends HrBusinessObject {
+public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecurityContract {
 
 	private static final long serialVersionUID = -4884673156883588639L;
 	

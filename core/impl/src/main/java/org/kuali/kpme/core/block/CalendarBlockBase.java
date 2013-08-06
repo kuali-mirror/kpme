@@ -20,6 +20,7 @@ import java.util.Date;
 
 import javax.persistence.Transient;
 
+import org.kuali.kpme.core.api.block.CalendarBlockContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public abstract class CalendarBlockBase extends PersistableBusinessObjectBase implements CalendarBlockContract {

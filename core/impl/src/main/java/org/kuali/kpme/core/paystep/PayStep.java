@@ -19,17 +19,13 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kpme.core.api.paystep.PayStepContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.institution.Institution;
-import org.kuali.kpme.core.job.service.JobServiceImpl;
-import org.kuali.kpme.core.location.Location;
-import org.kuali.kpme.core.paygrade.PayGrade;
-import org.kuali.kpme.core.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
 
-public class PayStep extends HrBusinessObject implements Comparable {
+public class PayStep extends HrBusinessObject implements Comparable, PayStepContract {
 
 	private static final Logger LOG = Logger.getLogger(PayStep.class);
 	//KPME-2273/1965 Primary Business Keys List.	

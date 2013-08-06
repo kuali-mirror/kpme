@@ -13,11 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.block;
+package org.kuali.kpme.core.api.block;
 
 import java.sql.Timestamp;
 import java.util.Date;
 
+/**
+ * <p>CalendarBlockContract interface</p>
+ *
+ */
 public interface CalendarBlockContract {
 
 	public String getHrCalendarBlockId();
