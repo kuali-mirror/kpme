@@ -18,9 +18,10 @@ package org.kuali.kpme.tklm.time.rules.graceperiod;
 import java.math.BigDecimal;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.tklm.api.time.rules.graceperiod.GracePeriodRuleContract;
 import org.kuali.kpme.tklm.common.TkConstants;
 
-public class GracePeriodRule extends HrBusinessObject {
+public class GracePeriodRule extends HrBusinessObject implements GracePeriodRuleContract {
 
 	private static final long serialVersionUID = 2756221187837436165L;
 

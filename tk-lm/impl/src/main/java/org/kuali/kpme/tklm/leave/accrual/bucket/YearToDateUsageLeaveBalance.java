@@ -27,6 +27,7 @@ import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.leave.accrual.bucket.YearToDateUsageLeaveBalanceContract;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.MaximumBalanceException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.NegativeBalanceException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.UsageLimitException;
@@ -34,7 +35,7 @@ import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class YearToDateUsageLeaveBalance extends LeaveBalance {
+public class YearToDateUsageLeaveBalance extends LeaveBalance implements YearToDateUsageLeaveBalanceContract {
 
 	private List<LeaveBlock> leaveBlocks;
 

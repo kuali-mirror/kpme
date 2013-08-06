@@ -17,14 +17,13 @@ package org.kuali.kpme.tklm.time.user.pref;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.time.user.pref.UserPreferencesContract;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class UserPreferences extends PersistableBusinessObjectBase {
+public class UserPreferences extends PersistableBusinessObjectBase implements UserPreferencesContract {
     public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "UserPreferences";
-    /**
-	 *
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private String principalId;
 	private String timezone;

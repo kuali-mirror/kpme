@@ -19,7 +19,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.SortedMap;
 
-public class LeaveSummaryRow implements Serializable, Comparable<LeaveSummaryRow> {
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
+
+public class LeaveSummaryRow implements Serializable, Comparable<LeaveSummaryRow>, LeaveSummaryRowContract {
+
+	private static final long serialVersionUID = 7236801989688508388L;
 	private String accrualCategory;
     //adding this to have a very simple means of getting the Accrual Category object
     private String accrualCategoryId;

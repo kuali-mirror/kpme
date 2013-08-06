@@ -15,10 +15,11 @@
  */
 package org.kuali.kpme.tklm.time.rules.lunch.sys;
 
+import org.kuali.kpme.tklm.api.time.rules.lunch.sys.SystemLunchRuleContract;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.TkRule;
 
-public class SystemLunchRule extends TkRule {
+public class SystemLunchRule extends TkRule implements SystemLunchRuleContract {
     public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "SystemLunchRule";
 	/**
 	 * 

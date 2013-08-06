@@ -17,16 +17,13 @@ package org.kuali.kpme.tklm.time.timesummary;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.time.timesummary.AssignmentRowContract;
 
-public class AssignmentRow implements Serializable {
+public class AssignmentRow implements Serializable, AssignmentRowContract {
 	
 	private static final long serialVersionUID = 5550424832906084957L;
 	

@@ -17,18 +17,17 @@ package org.kuali.kpme.tklm.leave.summary;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONValue;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.leave.accrual.bucket.LeaveBalance;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
 
-public class LeaveSummary implements Serializable {
+public class LeaveSummary implements Serializable, LeaveSummaryContract {
+
+	private static final long serialVersionUID = -2080172473960132754L;
 	private List<LeaveSummaryRow> leaveSummaryRows = new ArrayList<LeaveSummaryRow>();
 	private String ytdDatesString;
 	private String pendingDatesString;

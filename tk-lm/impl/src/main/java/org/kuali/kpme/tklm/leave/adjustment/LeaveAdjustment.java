@@ -23,12 +23,13 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.api.leave.adjustment.LeaveAdjustmentContract;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import com.google.common.collect.ImmutableList;
 
-public class LeaveAdjustment extends HrBusinessObject {
+public class LeaveAdjustment extends HrBusinessObject implements LeaveAdjustmentContract {
 	private static final long serialVersionUID = 1L;
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("principalId")

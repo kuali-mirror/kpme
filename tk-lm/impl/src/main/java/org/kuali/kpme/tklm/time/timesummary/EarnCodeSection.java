@@ -23,11 +23,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.time.timesummary.EarnCodeSectionContract;
 
-public class EarnCodeSection implements Serializable {
-	/**
-	 * 
-	 */
+public class EarnCodeSection implements Serializable, EarnCodeSectionContract {
+
 	private static final long serialVersionUID = 5595259268960130907L;
 	private String earnCode;
 	private String description;

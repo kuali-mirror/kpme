@@ -25,9 +25,12 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.json.simple.JSONValue;
+import org.kuali.kpme.tklm.api.time.timesummary.TimeSummaryContract;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 
-public class TimeSummary implements Serializable {
+public class TimeSummary implements Serializable, TimeSummaryContract {
+
+	private static final long serialVersionUID = -1292273625423289154L;
 	private Map<Integer,String> timeSummaryHeader;
 	private BigDecimal grandTotal= BigDecimal.ZERO;
 	private List<String> summaryHeader = new ArrayList<String>();

@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.common;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.api.tklm.common.WorkflowTagSupportContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -32,7 +33,7 @@ import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class WorkflowTagSupport {
+public class WorkflowTagSupport implements WorkflowTagSupportContract {
 
     public static boolean isTimesheetRouteButtonDisplaying(String documentId) {
     	boolean isTimesheetRouteButtonDisplaying = false;

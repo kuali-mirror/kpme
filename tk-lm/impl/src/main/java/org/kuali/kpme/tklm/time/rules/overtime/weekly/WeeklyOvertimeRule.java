@@ -19,10 +19,11 @@ import java.math.BigDecimal;
 
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
+import org.kuali.kpme.tklm.api.time.rules.overtime.weekly.WeeklyOvertimeRuleContract;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.TkRule;
 
-public class WeeklyOvertimeRule extends TkRule {
+public class WeeklyOvertimeRule extends TkRule implements WeeklyOvertimeRuleContract {
 
 	private static final long serialVersionUID = 5229797885418317405L;
 

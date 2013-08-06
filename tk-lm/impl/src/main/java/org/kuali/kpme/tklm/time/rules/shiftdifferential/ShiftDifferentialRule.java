@@ -24,12 +24,13 @@ import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.paygrade.PayGrade;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
+import org.kuali.kpme.tklm.api.time.rules.shiftdifferential.ShiftDifferentialRuleContract;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.TkRule;
 
 import com.google.common.collect.ImmutableList;
 
-public class ShiftDifferentialRule extends TkRule {
+public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRuleContract {
 
 	private static final long serialVersionUID = -3990672795815968915L;
 

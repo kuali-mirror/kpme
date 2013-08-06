@@ -21,8 +21,9 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.tklm.api.leave.accrual.RateRangeAggregateContract;
 
-public class RateRangeAggregate {
+public class RateRangeAggregate implements RateRangeAggregateContract {
 	private List<RateRange> rateRanges = new ArrayList<RateRange>();
 	private RateRange currentRate;
 	private boolean rateRangeChanged;

@@ -22,11 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ClockEntryInfo implements Serializable{
+import org.kuali.kpme.tklm.api.time.service.mobile.ClockEntryInfoContract;
 
-	/**
-	 * 
-	 */
+public class ClockEntryInfo implements Serializable, ClockEntryInfoContract {
+
 	private static final long serialVersionUID = 7132787403000141501L;
 
 	private Timestamp currentTime;

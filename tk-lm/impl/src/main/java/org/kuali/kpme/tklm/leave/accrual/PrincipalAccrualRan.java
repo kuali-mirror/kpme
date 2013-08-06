@@ -18,10 +18,11 @@ package org.kuali.kpme.tklm.leave.accrual;
 import java.util.Date;
 
 import org.joda.time.DateTime;
+import org.kuali.kpme.tklm.api.leave.accrual.PrincipalAccrualRanContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 
-public class PrincipalAccrualRan extends PersistableBusinessObjectBase {
+public class PrincipalAccrualRan extends PersistableBusinessObjectBase implements PrincipalAccrualRanContract {
 
 	private static final long serialVersionUID = -8102955197478338957L;
 	

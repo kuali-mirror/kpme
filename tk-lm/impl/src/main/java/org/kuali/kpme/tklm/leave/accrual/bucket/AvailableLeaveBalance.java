@@ -15,28 +15,23 @@
  */
 package org.kuali.kpme.tklm.leave.accrual.bucket;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.leave.accrual.bucket.AvailableLeaveBalanceContract;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.MaximumBalanceException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.NegativeBalanceException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.UsageLimitException;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.rice.krad.util.ObjectUtils;
 
-public class AvailableLeaveBalance extends LeaveBalance {
+public class AvailableLeaveBalance extends LeaveBalance implements AvailableLeaveBalanceContract {
 
 	private List<LeaveBlock> leaveBlocks;
 	//Future/Planned Usage

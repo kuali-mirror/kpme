@@ -25,9 +25,10 @@ import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.tklm.api.leave.accrual.RateRangeContract;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 
-public class RateRange {
+public class RateRange implements RateRangeContract {
 	private Interval range;
 	private List<Job> jobs = new ArrayList<Job>();
 	private BigDecimal accrualRatePercentageModifier = new BigDecimal("1.0");

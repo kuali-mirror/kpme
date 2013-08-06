@@ -22,13 +22,13 @@ import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.api.leave.accrual.bucket.LeaveBalanceContract;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.KPMEBalanceException;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 
-public abstract class LeaveBalance {
+public abstract class LeaveBalance implements LeaveBalanceContract {
 
 	protected AccrualCategory accrualCategory;
 	protected PrincipalHRAttributes principalCalendar;

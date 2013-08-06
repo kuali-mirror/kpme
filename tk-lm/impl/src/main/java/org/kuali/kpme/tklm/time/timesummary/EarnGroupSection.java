@@ -24,8 +24,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.time.timesummary.EarnGroupSectionContract;
 
-public class EarnGroupSection implements Serializable {
+public class EarnGroupSection implements Serializable, EarnGroupSectionContract {
+
+	private static final long serialVersionUID = 2655916770367036144L;
 	private String earnGroup;
 	private Map<String, EarnCodeSection> earnCodeToEarnCodeSectionMap = new HashMap<String, EarnCodeSection>();
 	private List<EarnCodeSection> earnCodeSections = new ArrayList<EarnCodeSection>();

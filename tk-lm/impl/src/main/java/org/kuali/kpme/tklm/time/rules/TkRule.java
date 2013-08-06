@@ -16,10 +16,9 @@
 package org.kuali.kpme.tklm.time.rules;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.tklm.api.time.rules.TkRuleContract;
 
-public abstract class TkRule extends HrBusinessObject {
-	/**
-	 * 
-	 */
+public abstract class TkRule extends HrBusinessObject implements TkRuleContract {
+
 	private static final long serialVersionUID = 1L;
 }

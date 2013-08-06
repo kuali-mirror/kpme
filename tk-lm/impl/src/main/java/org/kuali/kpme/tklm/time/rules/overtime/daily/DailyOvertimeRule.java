@@ -24,12 +24,13 @@ import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.tklm.api.time.rules.overtime.daily.DailyOvertimeRuleContract;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.TkRule;
 
 import com.google.common.collect.ImmutableList;
 
-public class DailyOvertimeRule extends TkRule {
+public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContract {
 
 	private static final long serialVersionUID = 2064326101630818390L;
 	//KPME-2273/1965 Primary Business Keys List.

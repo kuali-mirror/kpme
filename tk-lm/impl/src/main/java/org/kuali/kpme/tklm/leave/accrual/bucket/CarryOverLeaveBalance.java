@@ -25,13 +25,14 @@ import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.leave.accrual.bucket.CarryOverLeaveBalanceContract;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.MaxCarryoverException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.MaximumBalanceException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.NegativeBalanceException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.UsageLimitException;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 
-public class CarryOverLeaveBalance extends LeaveBalance {
+public class CarryOverLeaveBalance extends LeaveBalance implements CarryOverLeaveBalanceContract {
 
 	private List<LeaveBlock> leaveBlocks;
 

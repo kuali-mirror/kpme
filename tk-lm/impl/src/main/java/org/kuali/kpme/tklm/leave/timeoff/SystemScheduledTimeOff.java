@@ -26,11 +26,12 @@ import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.api.leave.timeoff.SystemScheduledTimeOffContract;
 import org.kuali.kpme.tklm.common.TkConstants;
 
 import com.google.common.collect.ImmutableList;
 
-public class SystemScheduledTimeOff extends HrBusinessObject {
+public class SystemScheduledTimeOff extends HrBusinessObject implements SystemScheduledTimeOffContract {
 
 	private static final long serialVersionUID = 6660625335629574993L;
 

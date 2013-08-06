@@ -18,7 +18,9 @@ package org.kuali.kpme.tklm.time.timesummary;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class AssignmentColumn implements Serializable {
+import org.kuali.kpme.tklm.api.time.timesummary.AssignmentColumnContract;
+
+public class AssignmentColumn implements Serializable, AssignmentColumnContract {
 
 	private static final long serialVersionUID = 879042466570649820L;
 	

@@ -19,11 +19,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kpme.api.tklm.common.TagSupportContract;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-public class TagSupport {
+public class TagSupport implements TagSupportContract {
 
     private String principalId;
 

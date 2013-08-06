@@ -20,9 +20,10 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
+import org.kuali.kpme.tklm.api.time.rules.overtime.weekly.WeeklyOvertimeRuleGroupContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class WeeklyOvertimeRuleGroup extends PersistableBusinessObjectBase{
+public class WeeklyOvertimeRuleGroup extends PersistableBusinessObjectBase implements WeeklyOvertimeRuleGroupContract {
 	/**
 	 * 
 	 */
@@ -48,7 +49,5 @@ public class WeeklyOvertimeRuleGroup extends PersistableBusinessObjectBase{
 	public void setTkWeeklyOvertimeRuleGroupId(Long tkWeeklyOvertimeRuleGroupId) {
 		this.tkWeeklyOvertimeRuleGroupId = tkWeeklyOvertimeRuleGroupId;
 	}
-	
-	
-	
+
 }
