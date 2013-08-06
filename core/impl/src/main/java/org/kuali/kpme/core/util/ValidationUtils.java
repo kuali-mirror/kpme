@@ -291,6 +291,12 @@ public class ValidationUtils {
 		return valid;
 	}
 
+	/**
+	 * Check for row existence of the specified chart and also, if found, that the chart is active.
+	 * 
+	 * @param chart
+	 * @return
+	 */
     public static boolean validateChart(String chart) {
         boolean valid = false;
 

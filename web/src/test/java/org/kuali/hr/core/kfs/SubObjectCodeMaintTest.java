@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
@@ -263,6 +261,43 @@ public class SubObjectCodeMaintTest extends KPMEWebTestCase {
 		assertNotNull("newly created sub-object code should exist", subObjectCode);
 		//clean up after assertion.
 		KRADServiceLocator.getBusinessObjectService().delete(subObjectCode);*/
+	}
+	
+	@Test
+	public void testValidChartConsistencyWithOpenAccount() throws Exception {
+
+		HtmlPage maintPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), newUrl);
+		assertNotNull("maintenance page is null", maintPage);
+		
+		HtmlInput docDescription = HtmlUnitUtil.getInputContainingText(maintPage, "* Document Description");
+		assertNotNull("maintenance page does not contain document description", docDescription);
+		
+		setDefaultTestInputValues();
+		for(Entry<String,String> entry : requiredFields.entrySet()) {
+			HtmlUnitUtil.setFieldValue(maintPage, NEW_MAINT_DOC_PREFIX + entry.getKey(), entry.getValue());
+		}
+		docDescription.setValueAttribute("testing submission");
+		// account 2222 has same chart as default object code, and the chart input value on this form.
+		HtmlUnitUtil.setFieldValue(maintPage, NEW_MAINT_DOC_PREFIX + "accountNumber","3333");
+		// primary key includes fin_sub_obj_cd
+		HtmlUnitUtil.setFieldValue(maintPage, NEW_MAINT_DOC_PREFIX + "financialSubObjectCode", "30");
+		HtmlUnitUtil.setFieldValue(maintPage, NEW_MAINT_DOC_PREFIX + "financialSubObjectCodeName", "TST Sub object code 3");
+		HtmlUnitUtil.setFieldValue(maintPage, NEW_MAINT_DOC_PREFIX + "financialSubObjectCdshortNm", "TST SOC 3");
+
+		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(maintPage, "submit");
+		assertTrue("page should contain active account existence error", !resultPage.asText().contains("error(s)"));
+		
+		Map<String,String> keys = new HashMap<String,String>();
+		keys.put("universityFiscalYear", "2013");
+		keys.put("chartOfAccountsCode", "UA");
+		keys.put("accountNumber", "3333");
+		keys.put("financialObjectCode", "1000");
+		keys.put("financialSubObjectCode", "30");
+		
+		SubObjectCode subObjectCode = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(SubObjectCode.class, keys);
+		assertNotNull("newly created sub-object code should exist", subObjectCode);
+		//clean up after assertion.
+		KRADServiceLocator.getBusinessObjectService().delete(subObjectCode);
 	}
 
 }
