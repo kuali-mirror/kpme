@@ -19,13 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kpme.core.calendar.web.CalendarDay;
-import org.kuali.kpme.tklm.api.time.calendar.TkCalendarDayContract;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockRenderer;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.web.TimeBlockRenderer;
 
-public class TkCalendarDay extends CalendarDay implements TkCalendarDayContract {
+public class TkCalendarDay extends CalendarDay {
 	private List<TimeBlock> timeblocks = new ArrayList<TimeBlock>();
     private List<TimeBlockRenderer> blockRenderers = new ArrayList<TimeBlockRenderer>();
     private String dayNumberString;
