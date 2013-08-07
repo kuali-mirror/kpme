@@ -154,11 +154,11 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	protected boolean validateEarnCode(AssignmentAccount assignmentAccount) {
+	protected boolean validateEarnCode(AssignmentAccount assignmentAccount, LocalDate assignmentEffectiveDate) {
 		boolean valid = false;
 		LOG.debug("Validating EarnCode: " + assignmentAccount.getEarnCode());
 		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(
-				assignmentAccount.getEarnCode(), LocalDate.now());
+				assignmentAccount.getEarnCode(), assignmentEffectiveDate);
 		if (earnCode != null) {
 
 			valid = true;
@@ -203,13 +203,13 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	protected boolean validateObjectCode(AssignmentAccount assignmentAccount) {
+	protected boolean validateObjectCode(AssignmentAccount assignmentAccount, LocalDate assignmentEffectiveDate) {
 		boolean valid = false;
 		LOG.debug("Validating ObjectCode: "
 				+ assignmentAccount.getFinObjectCd());
 		valid = ValidationUtils.validateObjectCode(assignmentAccount.getFinObjectCd(),
 												assignmentAccount.getFinCoaCd(),
-												Integer.valueOf(assignmentAccount.getEffectiveLocalDate().getYear()));
+												Integer.valueOf(assignmentEffectiveDate.getYear()));
 		if (!valid) {
 			this.putGlobalError("error.existence", "Object Code '"
 					+ assignmentAccount.getFinObjectCd() + "'");
@@ -217,12 +217,12 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	protected boolean validateSubObjectCode(AssignmentAccount assignmentAccount) {
+	protected boolean validateSubObjectCode(AssignmentAccount assignmentAccount, LocalDate assignmentEffectiveDate) {
 		boolean valid = false;
 		LOG.debug("Validating SubObjectCode: "
 				+ assignmentAccount.getFinSubObjCd());
 		if (assignmentAccount.getFinSubObjCd() != null) {
-			valid = ValidationUtils.validateSubObjectCode(String.valueOf(assignmentAccount.getEffectiveLocalDate().getYear()),
+			valid = ValidationUtils.validateSubObjectCode(String.valueOf(assignmentEffectiveDate.getYear()),
 																		assignmentAccount.getFinCoaCd(),
 																		assignmentAccount.getAccountNbr(),
 																		assignmentAccount.getFinObjectCd(),
@@ -299,17 +299,20 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 			MaintenanceDocument document, String collectionName,
 			PersistableBusinessObject line) {
 		boolean valid = false;
-		LOG.debug("entering custom validation for DeptLunchRule");
+		LOG.debug("entering custom add assignment account business rules");
+		PersistableBusinessObject assignmentPbo = (PersistableBusinessObject) this.getNewBo();
 		PersistableBusinessObject pbo = line;
 		if (pbo instanceof AssignmentAccount) {
-
 			AssignmentAccount assignmentAccount = (AssignmentAccount) pbo;
 			if (assignmentAccount != null) {
-				valid = true;
-				valid &= this.validateEarnCode(assignmentAccount);
-				valid &= this.validateAccount(assignmentAccount);
-				valid &= this.validateObjectCode(assignmentAccount);
-				valid &= this.validateSubObjectCode(assignmentAccount);
+				if(assignmentPbo instanceof Assignment) {
+					Assignment assignment = (Assignment) assignmentPbo;
+					valid = true;
+					valid &= this.validateEarnCode(assignmentAccount, assignment.getEffectiveLocalDate());
+					valid &= this.validateAccount(assignmentAccount);
+					valid &= this.validateObjectCode(assignmentAccount, assignment.getEffectiveLocalDate());
+					valid &= this.validateSubObjectCode(assignmentAccount, assignment.getEffectiveLocalDate());
+				}
 			}
 		}
 		return valid;
