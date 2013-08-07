@@ -42,7 +42,7 @@ public class QualifierValueKeyValueFinder extends UifKeyValuesFinderBase {
 			String aTypeId = aQualification.getQualificationType();
 			PstnQlfrType aTypeObj = PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeById(aTypeId);
 			if(aTypeObj != null) {
-				if(aTypeObj.getTypeValue().equals(PMConstants.PSTN_QLFR_TYPE_VALUE.SELECT)){
+				if(aTypeObj.getTypeValue().equals(PMConstants.PSTN_QLFR_SELECT)){
 					String[] aCol = aTypeObj.getSelectValues().split(",");
 					for(String aString : aCol){
 						options.add(new ConcreteKeyValue(aString, aString));

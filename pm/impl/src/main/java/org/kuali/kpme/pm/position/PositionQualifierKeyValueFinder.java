@@ -25,6 +25,7 @@ import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
@@ -50,10 +51,10 @@ public class PositionQualifierKeyValueFinder extends UifKeyValuesFinderBase{
 			String aTypeId = aQualification.getQualificationType();
 			PstnQlfrType aTypeObj = PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeById(aTypeId);
 			if(aTypeObj != null) {
-				if(aTypeObj.getTypeValue().equals(PMConstants.PSTN_QLFR_TYPE_VALUE.TEXT)
-						|| aTypeObj.getTypeValue().equals(PMConstants.PSTN_QLFR_TYPE_VALUE.SELECT)) {
+				if(aTypeObj.getTypeValue().equals(PMConstants.PSTN_QLFR_TEXT)
+						|| aTypeObj.getTypeValue().equals(PMConstants.PSTN_QLFR_SELECT)) {
 					 options.add(new ConcreteKeyValue(PMConstants.PSTN_CLSS_QLFR_VALUE.EQUAL, PMConstants.PSTN_CLSS_QLFR_VALUE_MAP.get(PMConstants.PSTN_CLSS_QLFR_VALUE.EQUAL)));
-				} else if(aTypeObj.getTypeValue().equals(PMConstants.PSTN_QLFR_TYPE_VALUE.NUMBER)){
+				} else if(aTypeObj.getTypeValue().equals(PMConstants.PSTN_QLFR_NUMBER)){
 					options = this.getKeyValues();
 				}
 			}

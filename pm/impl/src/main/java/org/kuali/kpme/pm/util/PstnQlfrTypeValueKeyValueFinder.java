@@ -31,9 +31,9 @@ public class PstnQlfrTypeValueKeyValueFinder extends KeyValuesBase {
 	@Override
 	public List<KeyValue> getKeyValues() {
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
-		for (Map.Entry entry : PMConstants.PSTN_QLFR_TYPE_VALUE_MAP.entrySet()) {
-            keyValues.add(new ConcreteKeyValue((String) entry.getKey(), (String) entry.getValue()));
-        }           
+		for(String aString : PMConstants.PSTN_QLFR_TYPE_VALUE_LIST) { 
+			keyValues.add(new ConcreteKeyValue(aString, aString));
+		}
 		return keyValues;
 	}
 

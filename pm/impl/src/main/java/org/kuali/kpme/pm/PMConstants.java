@@ -15,27 +15,30 @@
  */
 package org.kuali.kpme.pm;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kpme.core.KPMEConstants;
 
 public class PMConstants {
 	
-	 public static final String WILDCARD_CHARACTER = "*";
+	public static final String WILDCARD_CHARACTER = "*";
 
-	 public static final class PSTN_QLFR_TYPE_VALUE {
-	        public static final String TEXT = "T";
-	        public static final String NUMBER = "N";
-	        public static final String SELECT = "S";
-	 }
+    public static final String PSTN_QLFR_TEXT = "Text";
+    public static final String PSTN_QLFR_NUMBER = "Number";
+    public static final String PSTN_QLFR_SELECT = "Select";
 	
-	 public static final Map<String, String> PSTN_QLFR_TYPE_VALUE_MAP = new LinkedHashMap<String, String>(2);
+	 
+	 public static final List<String> PSTN_QLFR_TYPE_VALUE_LIST = new ArrayList<String>();
+
 	 static {
-		 PSTN_QLFR_TYPE_VALUE_MAP.put(PSTN_QLFR_TYPE_VALUE.TEXT, "Text");
-		 PSTN_QLFR_TYPE_VALUE_MAP.put(PSTN_QLFR_TYPE_VALUE.NUMBER, "Number");
-		 PSTN_QLFR_TYPE_VALUE_MAP.put(PSTN_QLFR_TYPE_VALUE.SELECT, "Select");
+		 PSTN_QLFR_TYPE_VALUE_LIST.add(PSTN_QLFR_TEXT);
+		 PSTN_QLFR_TYPE_VALUE_LIST.add(PSTN_QLFR_NUMBER);
+		 PSTN_QLFR_TYPE_VALUE_LIST.add(PSTN_QLFR_SELECT);
 	 }
+
 	 
 	 public static final class PSTN_CLSS_QLFR_VALUE {
 	        public static final String EQUAL = "=";
