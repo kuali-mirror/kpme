@@ -19,7 +19,9 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -149,6 +151,21 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 
+	private boolean validateConsistentLocation(Job job) {
+		String department = job.getDept();
+		Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, job.getEffectiveLocalDate());
+		Location location = HrServiceLocator.getLocationService().getLocation(job.getLocation(), job.getEffectiveLocalDate());
+		if(departmentObj != null && location != null) {
+			if(departmentObj.getLocation().equals(location.getLocation())) {
+				return true;
+			}
+			else {
+				this.putFieldError("location", "job.location.inconsistent", departmentObj.getLocation());
+			}
+		}
+		return false;
+	}
+	
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
@@ -172,6 +189,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 				valid &= this.validatePrimaryIndicator(job, oldJob);
 				// KPME-1129 Kagata
 				valid &= this.validateInactivation(job);
+				valid &= this.validateConsistentLocation(job);
 			}
 		}
 		return valid;
