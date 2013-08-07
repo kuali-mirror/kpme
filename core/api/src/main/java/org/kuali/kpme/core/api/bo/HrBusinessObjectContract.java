@@ -22,11 +22,12 @@ import org.joda.time.LocalDate;
 import org.kuali.rice.core.api.mo.common.GloballyUnique;
 import org.kuali.rice.core.api.mo.common.Versioned;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 /**
  * <p>HrBusinessObjectContract interface.</p>
  *
  */
-public interface HrBusinessObjectContract extends Versioned, GloballyUnique, Inactivatable{
+public interface HrBusinessObjectContract extends PersistableBusinessObject, Inactivatable{
 	
 	/**
 	 * The unique id defined by the object, could be a combination
