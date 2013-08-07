@@ -16,8 +16,9 @@
 package org.kuali.kpme.tklm.time.rules.clocklocation;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.tklm.api.time.rules.clocklocation.ClockLocationRuleIpAddressContract;
 
-public class ClockLocationRuleIpAddress extends HrBusinessObject {
+public class ClockLocationRuleIpAddress extends HrBusinessObject implements ClockLocationRuleIpAddressContract {
 
 	private static final long serialVersionUID = 1L;
 	private String tkClockLocationRuleIpId;

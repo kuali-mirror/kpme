@@ -15,9 +15,10 @@
  */
 package org.kuali.kpme.tklm.time.missedpunch;
 
+import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunchDocumentContract;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 
-public class MissedPunchDocument extends TransactionalDocumentBase {
+public class MissedPunchDocument extends TransactionalDocumentBase implements MissedPunchDocumentContract {
 
 	private static final long serialVersionUID = -8759488155644037099L;
 	

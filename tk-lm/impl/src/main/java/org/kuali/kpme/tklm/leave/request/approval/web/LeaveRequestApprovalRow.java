@@ -17,8 +17,11 @@ package org.kuali.kpme.tklm.leave.request.approval.web;
 
 import java.io.Serializable;
 
-public class LeaveRequestApprovalRow implements Comparable<LeaveRequestApprovalRow>, Serializable {
+import org.kuali.kpme.tklm.api.leave.request.approval.web.LeaveRequestApprovalRowContract;
 
+public class LeaveRequestApprovalRow implements Comparable<LeaveRequestApprovalRow>, Serializable, LeaveRequestApprovalRowContract {
+
+	private static final long serialVersionUID = -5107503528620209360L;
 	private String leaveRequestDocId;	
 	private String requestedDate;
 	private String requestedHours;

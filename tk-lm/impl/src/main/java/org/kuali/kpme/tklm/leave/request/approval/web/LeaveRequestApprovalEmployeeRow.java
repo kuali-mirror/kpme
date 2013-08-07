@@ -19,11 +19,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kpme.tklm.api.leave.request.approval.web.LeaveRequestApprovalEmployeeRowContract;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-public class LeaveRequestApprovalEmployeeRow implements Comparable<LeaveRequestApprovalEmployeeRow>, Serializable {
-	
+public class LeaveRequestApprovalEmployeeRow implements Comparable<LeaveRequestApprovalEmployeeRow>, Serializable, LeaveRequestApprovalEmployeeRowContract {
+
+	private static final long serialVersionUID = -2511572060850316312L;
 	private String employeeName;
 	private String principalId;	
 	private List<LeaveRequestApprovalRow> leaveRequestList = new ArrayList<LeaveRequestApprovalRow>();

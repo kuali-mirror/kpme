@@ -28,6 +28,7 @@ import org.kuali.kpme.core.calendar.web.CalendarWeek;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.time.calendar.TkCalendarContract;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockRenderer;
@@ -36,8 +37,9 @@ import org.kuali.kpme.tklm.time.timeblock.web.TimeBlockRenderer;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailRenderer;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 
-public class TkCalendar extends CalendarParent {
-	
+public class TkCalendar extends CalendarParent implements TkCalendarContract {
+
+	private static final long serialVersionUID = -5393478597803080619L;
 	private static final Logger LOG = Logger.getLogger(TkCalendar.class);
     private CalendarEntry payCalEntry;
     private DateTime beginDateTime;

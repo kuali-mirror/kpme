@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.calendar;
+package org.kuali.kpme.tklm.api.time.calendar;
 
-import org.kuali.kpme.core.calendar.web.CalendarWeek;
-import org.kuali.kpme.tklm.api.time.calendar.TkCalendarWeekContract;
+import org.kuali.kpme.core.api.calendar.web.CalendarWeekContract;
 
-public class TkCalendarWeek extends CalendarWeek implements TkCalendarWeekContract {
-//	private List<TkCalendarDay> days = new ArrayList<TkCalendarDay>();
-//
-//	public List<TkCalendarDay> getDays() {
-//		return days;
-//	}
-//
-//	public void setDays(List<TkCalendarDay> days) {
-//		this.days = days;
-//	}
+
+
+/**
+ * <p>TkCalendarWeekContract interface</p>
+ *
+ */
+public interface TkCalendarWeekContract extends CalendarWeekContract {
+	
 }

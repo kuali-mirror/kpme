@@ -29,13 +29,14 @@ import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunchContract;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class MissedPunch extends PersistableBusinessObjectBase {
+public class MissedPunch extends PersistableBusinessObjectBase implements MissedPunchContract {
 
 	private static final long serialVersionUID = 4494739150619504989L;
 	
