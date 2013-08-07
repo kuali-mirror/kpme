@@ -59,8 +59,8 @@
 				<bean parent="MaintainableFieldDefinition" p:name="name" p:noLookup="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="payCalendar" />
 				<bean parent="MaintainableFieldDefinition" p:name="leaveCalendar" />
-				<bean parent="MaintainableFieldDefinition" p:name="leavePlan" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="serviceDate" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="leavePlan" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="serviceDate" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="fmlaEligible" />
 				<bean parent="MaintainableFieldDefinition" p:name="workersCompEligible" />
 				<bean parent="MaintainableFieldDefinition" p:name="timezone" p:required="true" />

@@ -53,14 +53,13 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 			this.putFieldError("leaveCalendar", "error.existence",
 					"Leave Calendar '" + principalHRAttr.getLeaveCalendar() + "'");
 			return false;
-		} else {
-			return true;
-		}
+        } else {
+		    return true;
+        }
 	}
-	
-	
+
 	private boolean validateLeavePlan(PrincipalHRAttributes principalHRAttr) {
-		if (principalHRAttr.getLeavePlan() != null
+        if (principalHRAttr.getLeavePlan() != null
 				&& !ValidationUtils.validateLeavePlan(principalHRAttr.getLeavePlan(), null)) {
 			this.putFieldError("leavePlan", "error.existence",
 					"leavePlan '" + principalHRAttr.getLeavePlan() + "'");
@@ -78,7 +77,32 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
         }
         return true;
     }
-	
+
+    private boolean validateLeavefields(PrincipalHRAttributes principalHRAttr){
+        if (StringUtils.isNotEmpty(principalHRAttr.getLeavePlan()) ||
+                StringUtils.isNotEmpty(principalHRAttr.getLeaveCalendar()) ||
+                principalHRAttr.getServiceDate() != null) {
+            if (StringUtils.isNotEmpty(principalHRAttr.getLeavePlan()) &&
+                    StringUtils.isNotEmpty(principalHRAttr.getLeaveCalendar()) &&
+                    principalHRAttr.getServiceDate() != null) {
+                return true;
+            } else {
+                if (!StringUtils.isNotEmpty(principalHRAttr.getLeavePlan())){
+                    this.putFieldError("leavePlan","error.principalHrAttibutes.leavePlan.notPresent");
+                }
+                if (!StringUtils.isNotEmpty(principalHRAttr.getLeaveCalendar())){
+                    this.putFieldError("leaveCalendar","error.principalHrAttibutes.leaveCalendar.notPresent");
+                }
+                if (principalHRAttr.getServiceDate() == null){
+                    this.putFieldError("serviceDate","error.principalHrAttibutes.serviceDate.notPresent");
+                }
+                    return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
 	boolean validateEffectiveDate(PrincipalHRAttributes principalHRAttr) {
 		boolean valid = true;
 		if (principalHRAttr.getEffectiveDate() != null && !ValidationUtils.validateOneYearFutureDate(principalHRAttr.getEffectiveLocalDate())) {
@@ -106,7 +130,8 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validatePayCalendar(principalHRAttr);
 				valid &= this.validateLeaveCalendar(principalHRAttr);
 				valid &= this.validateLeavePlan(principalHRAttr);
-                valid &= this.validateServiceDate(principalHRAttr);
+//                valid &= this.validateServiceDate(principalHRAttr);
+                valid &= this.validateLeavefields(principalHRAttr);
 			}
 		}
 		return valid;
