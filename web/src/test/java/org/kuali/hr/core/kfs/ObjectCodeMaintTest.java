@@ -140,7 +140,6 @@ public class ObjectCodeMaintTest extends KPMEWebTestCase {
 		HtmlUnitUtil.setFieldValue(maintPage, NEW_MAINT_DOC_PREFIX + "chartOfAccountsCode","BP");
 
 		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(maintPage, "submit");
-		String resultPageAsTExt = resultPage.asText();
 
 		assertTrue("page should contain active chart existence error", resultPage.asText().contains("No active chart exists for this code"));
 	}

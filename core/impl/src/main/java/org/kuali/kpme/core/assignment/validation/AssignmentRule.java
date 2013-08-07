@@ -203,6 +203,17 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
+	private boolean validateSubAccount(AssignmentAccount assignmentAccount) {
+		boolean valid = false;
+		LOG.debug("Validating Sub-Account: " + assignmentAccount.getSubAcctNbr());
+		valid = ValidationUtils.validateSubAccount(assignmentAccount.getSubAcctNbr(),assignmentAccount.getAccountNbr(), assignmentAccount.getFinCoaCd());
+		if (!valid) {
+			this.putGlobalError("error.existence", "Sub-Account Number '"
+					+ assignmentAccount.getSubAcctNbr() + "'");
+		}
+		return valid;
+	}
+
 	protected boolean validateObjectCode(AssignmentAccount assignmentAccount, LocalDate assignmentEffectiveDate) {
 		boolean valid = false;
 		LOG.debug("Validating ObjectCode: "
@@ -312,6 +323,9 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 					valid &= this.validateAccount(assignmentAccount);
 					valid &= this.validateObjectCode(assignmentAccount, assignment.getEffectiveLocalDate());
 					valid &= this.validateSubObjectCode(assignmentAccount, assignment.getEffectiveLocalDate());
+					if(assignmentAccount.getSubAcctNbr() != null) {
+						valid &= this.validateSubAccount(assignmentAccount);
+					}
 				}
 			}
 		}
