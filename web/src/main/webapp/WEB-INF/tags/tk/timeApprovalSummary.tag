@@ -67,7 +67,14 @@
                                                      <td style="border-right-style: none">$${assignmentColumn.amount}</td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <td style="border-right-style: none"></td>
+                                                 <c:choose>
+                                                	<c:when test="${weekHours[entry.key] == null or empty weekHours[entry.key]}">
+	                        							<td style="background: rgb(224, 235, 225);border-right-style: none"></td>
+	                        						</c:when>
+	                        						<c:otherwise>
+                                                   		<td style="border-right-style: none"></td>
+                                                    </c:otherwise>
+                                                  </c:choose>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:forEach>
@@ -87,7 +94,14 @@
                                                       <td style="border-right-style: none" >${assignmentColumn.total}</td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <td style="border-right-style: none"></td>
+                                                  <c:choose>
+                                                	<c:when test="${weekHours[entry.key] == null or empty weekHours[entry.key]}">
+	                        							<td style="background: rgb(224, 235, 225);border-right-style: none">${weekHours[entry.key]}</td>
+	                        						</c:when>
+	                        						<c:otherwise>
+                                                   		<td style="border-right-style: none"></td>
+                                                    </c:otherwise>
+                                                  </c:choose>                                                    
                                                 </c:otherwise>
                                             </c:choose>
                                             </c:forEach>
@@ -107,9 +121,17 @@
                                     <td style="border-right-style: none" class="earnGroupTotalRow">${section.totals[entry.key]}</td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td style="border-right-style: none" class="earnGroupTotalRow"></td>
+                                	<c:choose>
+                                     	<c:when test="${weekHours[entry.key] == null or empty weekHours[entry.key]}">
+	                        				<td style="background: rgb(224, 235, 225);border-right-style: none" class="earnGroupTotalRow"></td>
+	                        			</c:when>
+	                        			<c:otherwise>
+                                            <td style="border-right-style: none" class="earnGroupTotalRow"></td>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </c:otherwise>
                              </c:choose>
+                              
                         </c:forEach>
                          <td style="border-left: 2px double #666666;">${section.earnGroupTotal}</td>
                          <td style="border: 1px solid #ccc;border-left: 2px double #666666;"></td>
@@ -120,8 +142,8 @@
               <c:if test="${timeApprovalSummary.grandTotal != null}" >
               	<tr style="font-weight: bold;border-bottom-style: double;border-top-style: double;">
               		  <td style="border-style: none"></td>
-              		  <td style="border-left: none">Pay Period Total</td>
-                      <td colspan="7" style="border-left: none"></td>
+              		  <td style="border-left: none"></td>
+                      <td colspan="7" style="border-left: none; text-align:right">Pay Period Total</td>
                       <td style="border-left: 2px double #666666;">${timeApprovalSummary.grandTotal}</td>
                       <td style="border-left: 2px double #666666;"></td>
               	</tr>	 
