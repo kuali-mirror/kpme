@@ -21,12 +21,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailRendererContract;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 
-public class TimeHourDetailRenderer {
+public class TimeHourDetailRenderer implements TimeHourDetailRendererContract {
     private TimeHourDetail timeHourDetail;
     private boolean overtimeEarnCode;
 

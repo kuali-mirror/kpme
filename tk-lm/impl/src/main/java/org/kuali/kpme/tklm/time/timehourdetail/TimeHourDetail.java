@@ -20,13 +20,11 @@ import java.math.BigDecimal;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class TimeHourDetail extends PersistableBusinessObjectBase{
+public class TimeHourDetail extends PersistableBusinessObjectBase implements TimeHourDetailContract {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	private String tkTimeHourDetailId;
 	private String tkTimeBlockId;
