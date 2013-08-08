@@ -15,16 +15,21 @@
  */
 package org.kuali.kpme.core.earncode.security.web;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -70,5 +75,31 @@ public class EarnCodeSecurityLookupableHelper extends KPMELookupableHelper {
         return HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecuritiesByType(GlobalVariables.getUserSession().getPrincipalId(), dept, salGroup, earnCode, location, TKUtils.formatDateString(fromEffdt), 
         		TKUtils.formatDateString(toEffdt), active, showHist, earnCodeType);
 	}
+	
+	@Override
+	public void performClear(LookupForm lookupForm) {
+       for (Iterator iter = this.getRows().iterator(); iter.hasNext();) {
+           Row row = (Row) iter.next();
+           for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
+               Field field = (Field) iterator.next();
+               if (field.isSecure()) {
+                   field.setSecure(false);
+                   field.setDisplayMaskValue(null);
+                   field.setEncryptedValue(null);
+               }
+	           if (!field.getFieldType().equals(Field.RADIO)) {
+	                field.setPropertyValue(field.getDefaultValue());
+	                if (field.getFieldType().equals(Field.MULTISELECT)) {
+	                    field.setPropertyValues(null);
+	                }
+	           }
+	          
+	          if(field.getFieldType().equals(Field.RADIO) && StringUtils.equals(field.getFieldLabel(), "Earn Code Type")) {
+	        		field.setPropertyValue(null);
+	        	}
+           }
+       }
+    }
+
 
 }
