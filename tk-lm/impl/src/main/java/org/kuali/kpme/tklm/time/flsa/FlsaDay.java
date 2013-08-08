@@ -34,11 +34,12 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.time.flsa.FlsaDayContract;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 
-public class FlsaDay {
+public class FlsaDay implements FlsaDayContract {
 
 	private Map<String,List<TimeBlock>> earnCodeToTimeBlocks = new HashMap<String,List<TimeBlock>>();
 	private List<TimeBlock> appliedTimeBlocks = new ArrayList<TimeBlock>();

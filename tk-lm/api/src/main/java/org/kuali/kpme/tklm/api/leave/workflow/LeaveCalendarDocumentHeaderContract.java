@@ -13,12 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.docsearch;
+package org.kuali.kpme.tklm.api.leave.workflow;
 
-import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.document.calendar.CalendarDocumentContract;
+import org.kuali.kpme.core.api.document.calendar.CalendarDocumentHeaderContract;
 
-public interface TkSearchableAttributeService {
-	public String createSearchableAttributeXml(CalendarDocumentContract document, LocalDate asOfDate);
-	public void updateSearchableAttribute(CalendarDocumentContract document, LocalDate asOfDate);
+
+/**
+ * <p>LeaveCalendarDocumentHeaderContract interface</p>
+ *
+ */
+public interface LeaveCalendarDocumentHeaderContract extends CalendarDocumentHeaderContract {
+	
 }

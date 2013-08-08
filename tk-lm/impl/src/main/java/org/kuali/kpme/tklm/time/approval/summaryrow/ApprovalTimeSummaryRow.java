@@ -26,6 +26,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.api.time.approval.summaryrow.ApprovalTimeSummaryRowContract;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -39,7 +40,9 @@ import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow>, Serializable {
+public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow>, Serializable, ApprovalTimeSummaryRowContract {
+
+	private static final long serialVersionUID = -2005933528843934641L;
 	private String name;
 	private List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
     /** A Map (Assignment key) of Mapped totals (pay label mapping) */

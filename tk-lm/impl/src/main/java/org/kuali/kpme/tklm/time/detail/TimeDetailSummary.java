@@ -18,9 +18,10 @@ package org.kuali.kpme.tklm.time.detail;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.kuali.kpme.tklm.api.time.detail.TimeDetailSummaryContract;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 
-public class TimeDetailSummary {
+public class TimeDetailSummary implements TimeDetailSummaryContract {
 	private List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 	private Integer numberOfDays;
 

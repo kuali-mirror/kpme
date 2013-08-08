@@ -26,11 +26,10 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
-import org.kuali.kpme.core.document.calendar.CalendarDocumentContract;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.time.timesheet.TimesheetDocumentContract;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
@@ -39,7 +38,9 @@ import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 
-public class TimesheetDocument extends CalendarDocument implements CalendarDocumentContract {
+public class TimesheetDocument extends CalendarDocument implements TimesheetDocumentContract {
+
+	private static final long serialVersionUID = 405213065253263185L;
 
 	/**
 	 * This static member is needed by document search, to trigger the correct calendar document
@@ -58,6 +59,7 @@ public class TimesheetDocument extends CalendarDocument implements CalendarDocum
 		this.calendarType = TIMESHEET_DOCUMENT_TYPE;
 	}
 
+	@Override
 	public TimesheetDocumentHeader getDocumentHeader() {
 		return (TimesheetDocumentHeader) documentHeader;
 	}

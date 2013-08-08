@@ -22,11 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.document.calendar.CalendarDocumentContract;
+import org.kuali.kpme.core.api.document.calendar.CalendarDocumentContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 

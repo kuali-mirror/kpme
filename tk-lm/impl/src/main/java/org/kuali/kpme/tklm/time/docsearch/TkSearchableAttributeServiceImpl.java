@@ -22,9 +22,10 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.document.calendar.CalendarDocumentContract;
+import org.kuali.kpme.core.api.document.calendar.CalendarDocumentHeaderContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
-import org.kuali.kpme.core.document.calendar.CalendarDocumentContract;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.workarea.WorkArea;
@@ -75,7 +76,7 @@ public class TkSearchableAttributeServiceImpl implements
 		Map<String,List<Long>> deptToListOfWorkAreas = new HashMap<String,List<Long>>();
 		List<String> salGroups = new ArrayList<String>();
 
-		for(Assignment assign: document.getAssignments()){
+		for(AssignmentContract assign: document.getAssignments()){
 			if(!workAreas.contains(assign.getWorkArea())){
 				workAreas.add(assign.getWorkArea());
 			}

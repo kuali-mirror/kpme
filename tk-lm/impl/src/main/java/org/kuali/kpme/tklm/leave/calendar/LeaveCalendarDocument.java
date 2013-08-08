@@ -23,12 +23,13 @@ import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
-import org.kuali.kpme.core.document.calendar.CalendarDocumentContract;
-import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.leave.calendar.LeaveCalendarDocumentContract;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 
-public class LeaveCalendarDocument extends CalendarDocument implements CalendarDocumentContract, Assignable {
+public class LeaveCalendarDocument extends CalendarDocument implements Assignable, LeaveCalendarDocumentContract {
+	private static final long serialVersionUID = -5029062030186479210L;
+
 
 	/**
 	 * This static member is needed by document search, to trigger the correct calendar document

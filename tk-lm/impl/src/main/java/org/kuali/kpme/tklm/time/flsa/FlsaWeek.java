@@ -19,8 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalTime;
+import org.kuali.kpme.tklm.api.time.flsa.FlsaWeekContract;
 
-public class FlsaWeek {
+public class FlsaWeek implements FlsaWeekContract {
 	private List<FlsaDay> flsaDays = new ArrayList<FlsaDay>();
 	private int flsaDayConstant;
 	private LocalTime flsaTime;

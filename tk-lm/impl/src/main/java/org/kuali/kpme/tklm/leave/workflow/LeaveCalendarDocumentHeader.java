@@ -18,13 +18,15 @@ package org.kuali.kpme.tklm.leave.workflow;
 import java.util.Date;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
 import org.kuali.kpme.core.document.calendar.CalendarDocumentHeader;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.leave.workflow.LeaveCalendarDocumentHeaderContract;
 
-public class LeaveCalendarDocumentHeader extends CalendarDocumentHeader implements CalendarDocumentHeaderContract {
+public class LeaveCalendarDocumentHeader extends CalendarDocumentHeader implements LeaveCalendarDocumentHeaderContract {
 
-    public LeaveCalendarDocumentHeader() {
+	private static final long serialVersionUID = 3606595355759211446L;
+
+	public LeaveCalendarDocumentHeader() {
     	this.calendarType = HrConstants.LEAVE_CALENDAR_TYPE;
     }
 

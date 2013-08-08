@@ -18,11 +18,11 @@ package org.kuali.kpme.tklm.time.workflow;
 import java.util.Date;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.document.CalendarDocumentHeaderContract;
 import org.kuali.kpme.core.document.calendar.CalendarDocumentHeader;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.time.workflow.TimesheetDocumentHeaderContract;
 
-public class TimesheetDocumentHeader extends CalendarDocumentHeader implements CalendarDocumentHeaderContract {
+public class TimesheetDocumentHeader extends CalendarDocumentHeader implements TimesheetDocumentHeaderContract {
 
 	private static final long serialVersionUID = 1L;
 

@@ -19,14 +19,12 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockHistoryContract;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 
-public class TimeBlockHistory extends TimeBlock {
+public class TimeBlockHistory extends TimeBlock implements TimeBlockHistoryContract {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 3943771766084238699L;
 
 	private String tkTimeBlockHistoryId = null;
