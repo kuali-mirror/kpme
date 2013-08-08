@@ -32,6 +32,7 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
@@ -45,14 +46,37 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 
-	private boolean validateDept(EarnCodeSecurity clr) {
-		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveLocalDate()) && !StringUtils.equals(clr.getDept(), HrConstants.WILDCARD_CHARACTER)) {
-			this.putFieldError("dept", "error.existence", "department '" + clr.getDept() + "'");
+	private boolean validateDept(EarnCodeSecurity departmentEarnCode) {
+		if (StringUtils.equals(departmentEarnCode.getDept(), HrConstants.WILDCARD_CHARACTER)) {
+            return true;
+        }
+        if (!ValidationUtils.validateDepartment(departmentEarnCode.getDept(), departmentEarnCode.getEffectiveLocalDate())) { //!StringUtils.equals(departmentEarnCode.getDept(), HrConstants.WILDCARD_CHARACTER)
+			this.putFieldError("dept", "error.existence", "department '" + departmentEarnCode.getDept() + "'");
 			return false;
-		} else {
-			return true;
-		}
+        }
+        return this.validateDeptForLocation(departmentEarnCode);
 	}
+
+    //KPME-2630
+    private boolean validateDeptForLocation(EarnCodeSecurity departmentEarnCode){
+        if (StringUtils.equals(departmentEarnCode.getLocation(), HrConstants.WILDCARD_CHARACTER)) {
+            return true;
+        }
+        List<Department> depts = HrServiceLocator.getDepartmentService().getDepartments(departmentEarnCode.getLocation(), departmentEarnCode.getEffectiveLocalDate());
+        if (depts.isEmpty()) {
+
+            this.putFieldError("dept", "error.department.location.nomatch", departmentEarnCode.getDept());
+            return false;
+        } else {
+            for (Department dept : depts) {
+                if (StringUtils.equals(dept.getDept(),departmentEarnCode.getDept())) {
+                    return true;
+                }
+            }
+            this.putFieldError("dept", "error.department.location.nomatch", departmentEarnCode.getDept());
+            return false;
+        }
+    }
 
 	private boolean validateEarnCode(EarnCodeSecurity departmentEarnCode ) {
 		if (!ValidationUtils.validateEarnCode(departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveLocalDate())) {
