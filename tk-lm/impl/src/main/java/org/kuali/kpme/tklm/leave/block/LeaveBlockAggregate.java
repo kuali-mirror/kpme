@@ -25,9 +25,10 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockAggregateContract;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendar;
 
-public class LeaveBlockAggregate {
+public class LeaveBlockAggregate implements LeaveBlockAggregateContract {
 	public List<List<LeaveBlock>> dayLeaveBlockList = new ArrayList<List<LeaveBlock>>();
 	private CalendarEntry leaveCalendarEntry;
 	private LeaveCalendar leaveCalendar;
@@ -176,6 +177,15 @@ public class LeaveBlockAggregate {
 		return weeks;
 	}
 
+	/**
+	 * The assignment class associated with the LeaveBlockRenderer
+	 * 
+	 * <p>
+	 * dayLeaveBlockList of an LeaveBlockRenderer
+	 * <p>
+	 * 
+	 * @return dayLeaveBlockList for LeaveBlockRenderer
+	 */	
 	public List<List<LeaveBlock>> getDayLeaveBlockList() {
 		return dayLeaveBlockList;
 	}

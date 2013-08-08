@@ -15,16 +15,16 @@
  */
 package org.kuali.kpme.tklm.time.rules.timecollection;
 
-import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.tklm.api.time.rules.timecollection.TimeCollectionRuleContract;
 import org.kuali.kpme.tklm.common.TkConstants;
 
 import com.google.common.collect.ImmutableList;
 
-public class TimeCollectionRule extends HrBusinessObject implements DepartmentalRule {
+public class TimeCollectionRule extends HrBusinessObject implements TimeCollectionRuleContract {
 
 	private static final long serialVersionUID = 7892616560736184294L;
 

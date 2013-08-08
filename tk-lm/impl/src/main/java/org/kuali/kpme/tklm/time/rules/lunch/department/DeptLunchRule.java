@@ -17,17 +17,17 @@ package org.kuali.kpme.tklm.time.rules.lunch.department;
 
 import java.math.BigDecimal;
 
-import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.tklm.api.time.rules.lunch.department.DeptLunchRuleContract;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 
 import com.google.common.collect.ImmutableList;
 
-public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule {
+public class DeptLunchRule extends HrBusinessObject implements DeptLunchRuleContract {
     public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "DeptLunchRule";
     //KPME-2273/1965 Primary Business Keys List.
     public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()

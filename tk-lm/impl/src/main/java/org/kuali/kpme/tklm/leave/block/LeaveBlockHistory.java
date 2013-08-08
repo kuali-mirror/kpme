@@ -22,13 +22,11 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockHistoryContract;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
-public class LeaveBlockHistory extends LeaveBlock {
+public class LeaveBlockHistory extends LeaveBlock implements LeaveBlockHistoryContract {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String lmLeaveBlockHistoryId;
 	private String action;

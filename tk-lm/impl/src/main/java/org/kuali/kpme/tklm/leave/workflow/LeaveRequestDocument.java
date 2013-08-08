@@ -15,13 +15,15 @@
  */
 package org.kuali.kpme.tklm.leave.workflow;
 
+import org.kuali.kpme.tklm.api.leave.workflow.LeaveRequestDocumentContract;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 
-public class LeaveRequestDocument extends TransactionalDocumentBase {
+public class LeaveRequestDocument extends TransactionalDocumentBase implements LeaveRequestDocumentContract {
 
-    public static final String LEAVE_REQUEST_DOCUMENT_TYPE = "LeaveRequestDocument";
+	private static final long serialVersionUID = 6036885548516978879L;
+	public static final String LEAVE_REQUEST_DOCUMENT_TYPE = "LeaveRequestDocument";
     private String lmLeaveBlockId;
     private String actionCode;
     private String description;

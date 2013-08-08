@@ -20,9 +20,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
@@ -30,6 +31,7 @@ import org.kuali.kpme.core.calendar.CalendarParent;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.leave.calendar.LeaveCalendarContract;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarDay;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarWeek;
@@ -37,12 +39,12 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 
 
-public class LeaveCalendar extends CalendarParent {
+public class LeaveCalendar extends CalendarParent implements LeaveCalendarContract {
 
-    private Map<String, String> earnCodeList;
+	private static final long serialVersionUID = -1038397053444003582L;
+	private Map<String, String> earnCodeList;
     private static final Logger LOG = Logger.getLogger(LeaveCalendar.class);
     
     public LeaveCalendar(String principalId, CalendarEntry calendarEntry, List<String> assignmentKeys) {

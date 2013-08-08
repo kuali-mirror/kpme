@@ -46,6 +46,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
@@ -54,8 +55,8 @@ import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.expression.spel.ast.Assign;
 
-public class LeaveBlock extends CalendarBlock implements Assignable {
-
+public class LeaveBlock extends CalendarBlock implements Assignable, LeaveBlockContract {
+	
 	private static final long serialVersionUID = -8240826812581295376L;
 	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "LeaveBlock";
 	

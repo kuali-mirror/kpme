@@ -25,14 +25,16 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.leave.block.web.LeaveBlockDisplayContract;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.kew.api.KewApiConstants;
 
-public class LeaveBlockDisplay implements Serializable {
-	
+public class LeaveBlockDisplay implements Serializable, LeaveBlockDisplayContract {
+
+	private static final long serialVersionUID = -783887582238022366L;
 	private LeaveBlock leaveBlock;
 	private SortedMap<String, BigDecimal> accrualBalances = new TreeMap<String, BigDecimal>();
 
