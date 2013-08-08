@@ -23,14 +23,18 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.payout.LeavePayout;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.util.TkContext;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -41,25 +45,31 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 
 	private boolean validateAgainstLeavePlan(PrincipalHRAttributes pha, AccrualCategory fromAccrualCategory, LocalDate effectiveDate) {
 		boolean isValid = true;
-
-		List<AccrualCategory> accrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), effectiveDate);
-		if(accrualCategories.size() > 0) {
-			boolean isFromInLeavePlan = false;
-			for(AccrualCategory activeAccrualCategory : accrualCategories) {
-				if(StringUtils.equals(activeAccrualCategory.getLmAccrualCategoryId(),fromAccrualCategory.getLmAccrualCategoryId())) {
-					isFromInLeavePlan = true;
-				}
-			}
-			if(!isFromInLeavePlan) {
-				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "leavePayout.accrualCategory.notInLeavePlan", fromAccrualCategory.getAccrualCategory());
-				isValid &= false;
-			}
+		if(pha==null) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "leavePayout.principal.noLeavePlan");
+			isValid &= false;
 		}
 		else {
-			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "leavePayout.principal.noACinLeavePlan");
-			isValid &=false;
+			List<AccrualCategory> accrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), effectiveDate);
+			if(accrualCategories.size() > 0) {
+				if(fromAccrualCategory != null) {
+					boolean isFromInLeavePlan = false;
+					for(AccrualCategory activeAccrualCategory : accrualCategories) {
+						if(StringUtils.equals(activeAccrualCategory.getLmAccrualCategoryId(),fromAccrualCategory.getLmAccrualCategoryId())) {
+							isFromInLeavePlan = true;
+						}
+					}
+					if(!isFromInLeavePlan) {
+						GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "leavePayout.accrualCategory.notInLeavePlan", fromAccrualCategory.getAccrualCategory());
+						isValid &= false;
+					}
+				}
+			}
+			else {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "leavePayout.principal.noACinLeavePlan");
+				isValid &=false;
+			}
 		}
-		
 		return isValid;
 	}
 	
@@ -79,12 +89,20 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 			AccrualCategory debitedAccrualCategory,
 			EarnCode payoutEarnCode, String principalId, LocalDate effectiveDate) {
 		if(transferAmount != null) {
-			if(transferAmount.compareTo(BigDecimal.ZERO) < 0 ) {
-				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.transferAmount", "leavePayout.amount.negative");
+			if(transferAmount.compareTo(BigDecimal.ZERO) <= 0 ) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.payoutAmount", "leavePayout.payoutAmount.negative");
 				return false;
 			}
+			if(debitedAccrualCategory != null) {
+				BigDecimal balance = LmServiceLocator.getLeaveSummaryService().getLeaveBalanceForAccrCatUpToDate(principalId, effectiveDate, effectiveDate, debitedAccrualCategory.getAccrualCategory(), effectiveDate);
+				if(balance != null) {
+					if(transferAmount.compareTo(balance) > 0) {
+						GlobalVariables.getMessageMap().putError("document.newMaintainableObject.payoutAmount", "leavePayout.payoutAmount.exceeds.balance");
+						return false;
+					}
+				}
+			}
 		}
-		//HrServiceLocator.getAccrualCategoryService().getCurrentBalanceForPrincipal(principalId, debitedAccrualCategory, effectiveDate);
 
 		return true;
 	}
@@ -109,23 +127,67 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 	 * @param accrualCategory
 	 * @param effectiveDate 
 	 * @param principalId 
-	 * @param acr 
+	 * @param fromAccrualCategory 
 	 * @return
 	 */
 	private boolean validateTransferFromAccrualCategory(AccrualCategory accrualCategory, String principalId,
-			LocalDate effectiveDate, AccrualCategoryRule acr) {
-		//accrualCategory has rules
-		//PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, effectiveDate);
-		
-		return true;
+			LocalDate effectiveDate, String fromAccrualCategory) {
+		boolean isValid = ValidationUtils.validateAccCategory(fromAccrualCategory, principalId, effectiveDate);
+		if(!isValid) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory","balanceTransfer.accrualcategory.exists",fromAccrualCategory);
+		}
+		return isValid;
 	}
 	
+	//no validation
 	private boolean validatePrincipal(PrincipalHRAttributes pha, String principalId) {
-		// TODO Auto-generated method stub
-		// Principal has to have an associated leave plan.
-		// leave plan should contain the transfer "from" accrual category.
-		
-		return true;
+		boolean isValid = true;
+		if(principalId != null) {
+			if(pha == null) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "balanceTransfer.principal.noAttributes");
+				isValid &= false;
+			}
+			else {
+				Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
+				if(person != null) {
+					if(!person.isActive()) {
+						GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "balanceTransfer.principal.active");
+						isValid &= false;
+					}
+				}
+				else {
+					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "balanceTransfer.principal.exists");
+					isValid &= false;
+				}
+			}
+		}
+		return isValid;
+	}
+	
+	private boolean validateTransferToEarnCode(EarnCode transferToEarnCode, AccrualCategoryRule acr, String principalId, PrincipalHRAttributes pha, LocalDate effectiveDate) {
+		boolean isValid = true;
+		if(transferToEarnCode != null) {
+			LeavePlan earnCodeLeavePlan = HrServiceLocator.getLeavePlanService().getLeavePlan(transferToEarnCode.getLeavePlan(),effectiveDate);
+			if(earnCodeLeavePlan != null) {
+				LeavePlan phaLeavePlan = HrServiceLocator.getLeavePlanService().getLeavePlan(pha.getLeavePlan(), effectiveDate);
+				if(phaLeavePlan != null) {
+					//transfer to earn code should be in the employee's leave plan.
+					if(!StringUtils.equals(earnCodeLeavePlan.getLmLeavePlanId(),phaLeavePlan.getLmLeavePlanId())) {
+						GlobalVariables.getMessageMap().putError("document.newMaintainableObject.earnCode", "leavePayout.earncode.leaveplan.inconsistent");
+						isValid &= false;
+					}
+				}
+			}
+			else {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.earnCode", "leavePayout.earncode.leaveplan.exists");
+				isValid &= false;
+			}
+		}
+		else {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.earnCode", "leavePayout.earncode.exists");
+			isValid &= false;
+		}
+		return isValid;
 	}
 	
 	//transfer amount must be under max limit when submitted via max balance triggered action or by a work area approver.
@@ -153,6 +215,30 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.payoutAmount","leavePayout.exceeds.payoutLimit");
 					return false;
 				}
+			}
+		}
+		return true;
+	}
+	
+	private boolean validateAccrualCategoryRule(AccrualCategoryRule acr,
+			EarnCode payoutEarnCode, AccrualCategory fromCat, LocalDate effectiveDate) {
+		if(acr != null) {
+			EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(acr.getMaxPayoutEarnCode(),effectiveDate);
+			if(earnCode == null) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "leavePayout.earncode.exists");
+				return false;
+			}
+			else {
+				if(!StringUtils.equals(earnCode.getHrEarnCodeId(), payoutEarnCode.getHrEarnCodeId())) {
+					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.earnCode", "leavePayout.payoutEarnCode.noMatch",payoutEarnCode.getEarnCode());
+					return false;
+				}
+			}
+		}
+		else {
+			if(!(TkContext.isDepartmentAdmin() || HrContext.isSystemAdmin())) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "leavePayout.fromAccrualCategory.rules.exist",fromCat.getAccrualCategory());
+				return false;
 			}
 		}
 		return true;
@@ -188,12 +274,15 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 			
 			boolean isDeptAdmin = TkContext.isDepartmentAdmin();
 			boolean isSysAdmin = HrContext.isSystemAdmin();
-			if(isDeptAdmin || isSysAdmin) {
-				isValid &= validatePayoutAmount(leavePayout.getPayoutAmount(),fromCat,payoutEarnCode, principalId, effectiveDate);
-			}
-			else {
-				if(ObjectUtils.isNotNull(pha)) {
-					if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
+			if(ObjectUtils.isNotNull(pha)) {
+				if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
+					if(isDeptAdmin || isSysAdmin) {
+						isValid &= validatePayoutAmount(leavePayout.getPayoutAmount(),fromCat,payoutEarnCode, principalId, effectiveDate);
+						isValid &= validateAgainstLeavePlan(pha,fromCat,effectiveDate);
+						isValid &= validatePrincipal(pha,principalId);
+						isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,fromAccrualCategory);
+						isValid &= validateTransferToEarnCode(payoutEarnCode,null,principalId,pha,effectiveDate);
+					} else {
 						AccrualCategoryRule acr = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat, effectiveDate, pha.getServiceLocalDate());
 						if(ObjectUtils.isNotNull(acr)) {
 							if(ObjectUtils.isNotNull(acr.getMaxBalFlag())
@@ -203,8 +292,10 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 								if(ObjectUtils.isNotNull(payoutEarnCode)) {
 									isValid &= validatePrincipal(pha,principalId);
 									isValid &= validateEffectiveDate(effectiveDate);
+									isValid &= validateAccrualCategoryRule(acr,payoutEarnCode,fromCat,effectiveDate);
+									isValid &= validateTransferToEarnCode(payoutEarnCode,acr,principalId,pha,effectiveDate);
 									isValid &= validateAgainstLeavePlan(pha,fromCat,effectiveDate);
-									isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,acr);
+									isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,fromAccrualCategory);
 									isValid &= validatePayoutAmount(leavePayout.getPayoutAmount(),fromCat,payoutEarnCode, null, null);
 									isValid &= isPayoutAmountUnderMaxLimit(principalId, effectiveDate, fromAccrualCategory, leavePayout.getPayoutAmount(), acr, pha.getLeavePlan());
 								}
@@ -218,7 +309,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 							}
 							else {
 								//max bal flag null, blank, empty, or "N"
-								GlobalVariables.getMessageMap().putError("document.newMaintinableObject.fromAccrualCategory",
+								GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory",
 										"leavePayout.fromAccrualCategory.rules.maxBalFlag", fromAccrualCategory);
 								isValid &= false;
 							}
@@ -230,20 +321,19 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 							isValid &= false;
 						}
 					}
-					else {
-						//if the principal doesn't have a leave plan, there aren't any accrual categories that can be debited/credited.
-						GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId","leavePayout.principal.noLeavePlan");
-						isValid &=false;
-					}
 				}
-				else  {
-					//if the principal has no principal hr attributes, they're not a principal.
-					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId","leavePayout.principal.noAttributes");
-					isValid &= false;
+				else {
+					//if the principal doesn't have a leave plan, there aren't any accrual categories that can be debited/credited.
+					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId","leavePayout.principal.noLeavePlan");
+					isValid &=false;
 				}
+			}
+			else  {
+				//if the principal has no principal hr attributes, they're not a principal.
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId","leavePayout.principal.noAttributes");
+				isValid &= false;
 			}
 		}
 		return isValid;
 	}
-
 }

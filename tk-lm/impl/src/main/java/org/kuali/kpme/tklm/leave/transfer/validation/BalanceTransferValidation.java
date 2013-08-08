@@ -31,6 +31,8 @@ import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.kpme.tklm.time.util.TkContext;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -43,7 +45,9 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	private boolean validateLeavePlan(PrincipalHRAttributes pha,
 			AccrualCategory fromAccrualCategory, AccrualCategory toAccrualCategory, LocalDate effectiveDate) {
 		boolean isValid = true;
-		
+		if(fromAccrualCategory == null || toAccrualCategory == null) {
+			return false;
+		}
 		List<AccrualCategory> accrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), effectiveDate);
 		if(accrualCategories.size() > 0) {
 			boolean isFromInLeavePlan = false;
@@ -98,28 +102,57 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	}
 	
 	private boolean validateTransferFromAccrualCategory(AccrualCategory accrualCategory, String principalId,
-			LocalDate effectiveDate, AccrualCategoryRule acr) {
-		//accrualCategory has rules
-		//PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, effectiveDate);
-		
-		return true;
+			LocalDate effectiveDate, AccrualCategoryRule acr, String fromAccrualCategory) {
+		boolean isValid = true;
+		if(accrualCategory == null) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "balanceTransfer.accrualcategory.exists",fromAccrualCategory);
+			isValid &= false;
+		}
+		return isValid;
 	}
 	
 	//Transfer to accrual category should match the value defined in the accrual category rule
-	private boolean validateTransferToAccrualCategory(AccrualCategory accrualCategory, String principalId, LocalDate effectiveDate, AccrualCategoryRule acr) {
-		if(accrualCategory != null && acr != null) {
-			AccrualCategory maxBalTranToAccCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(acr.getMaxBalanceTransferToAccrualCategory(),effectiveDate);
-			if(!StringUtils.equals(maxBalTranToAccCat.getLmAccrualCategoryId(),accrualCategory.getLmAccrualCategoryId())) {
-				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.toAccrualCategory", "balanceTransfer.toAccrualCategory.noMatch",accrualCategory.getAccrualCategory());
-				return false;
+	private boolean validateTransferToAccrualCategory(AccrualCategory accrualCategory, String principalId, LocalDate effectiveDate, AccrualCategoryRule acr, String toAccrualCategory) {
+		boolean isValid = true;
+		if(accrualCategory != null) {
+			if(acr != null) {
+				//processCustomRouteDocumentBusinessRule will provide the invalidation on system triggered transfers
+				//if the accrual category rule is null, i.o.w. this code block should never be reached when acr is null on sys triggered transfers.
+				AccrualCategory maxBalTranToAccCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(acr.getMaxBalanceTransferToAccrualCategory(),effectiveDate);
+				if(!StringUtils.equals(maxBalTranToAccCat.getLmAccrualCategoryId(),accrualCategory.getLmAccrualCategoryId())) {
+					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.toAccrualCategory", "balanceTransfer.toAccrualCategory.noMatch",accrualCategory.getAccrualCategory());
+					isValid &= false;
+				}
 			}
 		}
-		return true;
+		else {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.toAccrualCategory", "balanceTransfer.accrualcategory.exists",toAccrualCategory);
+			isValid &= false;
+		}
+		return isValid;
 	}
 
 	//no validation
 	private boolean validatePrincipal(PrincipalHRAttributes pha, String principalId) {
-		return true;
+		boolean isValid = true;
+		if(pha == null) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "balanceTransfer.principal.noAttributes");
+			isValid &= false;
+		}
+		else {
+			Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
+			if(person != null) {
+				if(!person.isActive()) {
+					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "balanceTransfer.principal.active");
+					isValid &= false;
+				}
+			}
+			else {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "balanceTransfer.principal.exists");
+				isValid &= false;
+			}
+		}
+		return isValid;
 	}
 	
 	//transfer amount must be under max limit when submitted via max balance triggered action or by a work area approver.
@@ -190,11 +223,15 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 				
 				boolean isDeptAdmin = TkContext.isDepartmentAdmin();
 				boolean isSysAdmin = HrContext.isSystemAdmin();
-				if(isDeptAdmin || isSysAdmin) {
-					isValid &= validateTransferAmount(balanceTransfer.getTransferAmount(),fromCat,toCat, principalId, effectiveDate);
-				}
-				else {
-					if(ObjectUtils.isNotNull(pha)) {
+				if(ObjectUtils.isNotNull(pha)) {
+					if(isDeptAdmin || isSysAdmin) {
+						isValid &= validateLeavePlan(pha,fromCat,toCat,effectiveDate);
+						isValid &= validatePrincipal(pha,principalId);
+						isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,null,fromAccrualCategory);
+						isValid &= validateTransferToAccrualCategory(toCat,principalId,effectiveDate,null,toAccrualCategory);
+						isValid &= validateTransferAmount(balanceTransfer.getTransferAmount(),fromCat,toCat, principalId, effectiveDate);
+					}
+					else {
 						if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
 							AccrualCategoryRule acr = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat,
 									effectiveDate, pha.getServiceLocalDate());
@@ -206,8 +243,8 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 										isValid &= validatePrincipal(pha,principalId);
 										isValid &= validateEffectiveDate(effectiveDate);
 										isValid &= validateLeavePlan(pha,fromCat,toCat,effectiveDate);
-										isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,acr);
-										isValid &= validateTransferToAccrualCategory(toCat,principalId,effectiveDate,acr);
+										isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,acr,fromAccrualCategory);
+										isValid &= validateTransferToAccrualCategory(toCat,principalId,effectiveDate,acr,toAccrualCategory);
 										isValid &= validateTransferAmount(balanceTransfer.getTransferAmount(),fromCat,toCat, null, null);
 										isValid &= isTransferAmountUnderMaxLimit(principalId,effectiveDate,fromAccrualCategory,balanceTransfer.getTransferAmount(),acr,pha.getLeavePlan());
 									}
@@ -239,12 +276,13 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 							isValid &=false;
 						}
 					}
-					else  {
-						//if the principal has no principal hr attributes, they're not a principal.
-						GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId","balanceTransfer.principal.noAttributes");
-						isValid &= false;
-					}
 				}
+				else  {
+					//if the principal has no principal hr attributes, they're not a principal.
+					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId","balanceTransfer.principal.noAttributes");
+					isValid &= false;
+				}
+
 			}
 		}
 		return isValid; 
