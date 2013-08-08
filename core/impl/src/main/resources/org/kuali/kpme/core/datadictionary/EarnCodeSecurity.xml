@@ -289,7 +289,7 @@
 	<bean id="EarnCodeSecurity-earnCodeType" parent="EarnCodeSecurity-earnCodeType-parentBean" />
 	<bean id="EarnCodeSecurity-earnCodeType-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Earn Code Type" />
-				<property name="control">
+		<property name="control">
 			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.earncode.security.valuesfinder.EarnCodeTypeKeyValueFinder">
 			</bean>
 		</property>

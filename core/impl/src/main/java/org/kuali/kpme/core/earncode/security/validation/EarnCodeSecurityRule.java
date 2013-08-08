@@ -21,6 +21,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.earncode.security.EarnCodeType;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -147,12 +148,21 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateDuplication(departmentEarnCode);
 				valid &= this.validateLocation(departmentEarnCode);
 				valid &= this.validateDepartmentCurrentUser(departmentEarnCode);
+				valid &= this.validateEarnCodeType(departmentEarnCode);
 				valid &= this.isEarnCodeUsedByActiveTimeBlocks(departmentEarnCode);
 			}
 
 		}
 
 		return valid;
+	}
+
+	private boolean validateEarnCodeType(EarnCodeSecurity departmentEarnCode) {
+		if(StringUtils.equals(departmentEarnCode.getEarnCodeType(),"A")) {
+			this.putFieldError("earnCodeType", "deptEarnCode.type.invalid");
+			return false;
+		}
+		return true;
 	}
 
 }
