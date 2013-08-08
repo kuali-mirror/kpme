@@ -11,7 +11,7 @@
             <thead>
                 <tr class="ui-state-default">
                 	<th width="1%" style="border-right: none"></th>
-                    <th>Week</th>
+                    <th style="border-left: none">Week</th>
                     <c:forEach items="${timeSummary.timeSummaryHeader}" var="entry">
                         <th scope="col">${entry.value}</th>
                     </c:forEach>
