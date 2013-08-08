@@ -973,11 +973,11 @@ $(function () {
             }
             else if (_.contains(ids, "hours")) {
                 var hours = $('#hours');
-                isValid = isValid && (this.checkEmptyField(hours, "Hour") && this.checkMinLength(hours, "Hour", 1) && this.checkZeroValue(hours, 'Hours cannot be zero'));
+                isValid = isValid && (this.checkEmptyField(hours, "Hour") && this.checkMinLength(hours, "Hour", 1) && this.checkZeroValue(hours, 'Hours cannot be zero') && this.checkNumeric(hours, /^-?\d+(\.\d{1,})?$/, 'Leave Amount should be numeric'));
             }
             else if (_.contains(ids, "amount")) {
                 var amount = $('#amount');
-                isValid = isValid && (this.checkEmptyField(amount, "Amount") && this.checkMinLength(amount, "Amount", 1) && this.checkZeroValue(amount, 'Amount cannot be zero'));
+                isValid = isValid && (this.checkEmptyField(amount, "Amount") && this.checkMinLength(amount, "Amount", 1) && this.checkZeroValue(amount, 'Amount cannot be zero') && this.checkNumeric(amount, /^-?\d+(\.\d{1,})?$/, 'Leave Amount should be numeric'));
             }
 
             var leaveAmount = $('#leaveAmount');
