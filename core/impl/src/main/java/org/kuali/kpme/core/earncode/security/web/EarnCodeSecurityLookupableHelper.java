@@ -65,9 +65,10 @@ public class EarnCodeSecurityLookupableHelper extends KPMELookupableHelper {
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
-
-        return HrServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities(GlobalVariables.getUserSession().getPrincipalId(), dept, salGroup, earnCode, location, TKUtils.formatDateString(fromEffdt), 
-        		TKUtils.formatDateString(toEffdt), active, showHist);
+        String earnCodeType = fieldValues.get("earnCodeType");
+        
+        return HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecuritiesByType(GlobalVariables.getUserSession().getPrincipalId(), dept, salGroup, earnCode, location, TKUtils.formatDateString(fromEffdt), 
+        		TKUtils.formatDateString(toEffdt), active, showHist, earnCodeType);
 	}
 
 }
