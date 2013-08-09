@@ -245,9 +245,6 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
       if(StringUtils.isNotEmpty(payrollProcessor)) {
     	  crit.addEqualTo("payrollProcessor", payrollProcessor);
       }
-      if(StringUtils.isNotEmpty(location)) {
-    	  crit.addEqualTo("location", location);
-      }
       crit.addEqualTo("active", active);
       crit.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeSecurity.class, effdt, EarnCodeSecurity.EQUAL_TO_FIELDS, false));
       
@@ -256,11 +253,12 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
       List<EarnCodeSecurity> results = new ArrayList<EarnCodeSecurity>();
       results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
       
-   // dept and salGroup allow wildcards,
+   // dept, location and salGroup allow wildcards,
       List<EarnCodeSecurity> finalResults = new ArrayList<EarnCodeSecurity>();
       for(EarnCodeSecurity aSecurity : results) {
     	 if((StringUtils.isNotEmpty(dept) && ValidationUtils.wildCardMatch(aSecurity.getDept(), dept))
-    		 && (StringUtils.isNotEmpty(salGroup) && ValidationUtils.wildCardMatch(aSecurity.getHrSalGroup(), salGroup))) {
+    		 && (StringUtils.isNotEmpty(salGroup) && ValidationUtils.wildCardMatch(aSecurity.getHrSalGroup(), salGroup))
+    		 && (StringUtils.isNotEmpty(location) && ValidationUtils.wildCardMatch(aSecurity.getLocation(), location))) {
     		 finalResults.add(aSecurity);
     	 }
       }
