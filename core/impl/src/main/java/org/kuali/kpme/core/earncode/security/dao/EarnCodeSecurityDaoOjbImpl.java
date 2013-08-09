@@ -202,7 +202,12 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
       crit.addEqualTo("payrollProcessor", payrollProcessor);
       crit.addEqualTo("location", location);
       crit.addEqualTo("active", active);
-      crit.addEqualTo("effectiveDate", effdt.toDate());
+      if(effdt != null) {
+    	  crit.addEqualTo("effectiveDate", effdt.toDate());
+      }
+      else {
+    	  return 0;
+      }
       if(hrDeptEarnCodeId != null) {
     	  crit.addEqualTo("hrEarnCodeSecurityId", hrDeptEarnCodeId);
       }
@@ -215,7 +220,12 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
 		Criteria crit = new Criteria();
 		crit.addEqualTo("earnCode", earnCode);
 		crit.addEqualTo("active", "Y");
-		crit.addGreaterThan("effectiveDate", effdt.toDate());
+		if(effdt != null) {
+			crit.addGreaterThan("effectiveDate", effdt.toDate());
+		}
+		else {
+			return 0;
+		}
 		Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
        	return this.getPersistenceBrokerTemplate().getCount(query);
 	}
