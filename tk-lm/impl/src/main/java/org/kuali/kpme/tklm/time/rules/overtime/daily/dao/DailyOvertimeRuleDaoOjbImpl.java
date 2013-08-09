@@ -83,7 +83,7 @@ public class DailyOvertimeRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb impleme
         }
 
         if (StringUtils.isNotBlank(workArea)) {
-            root.addLike("workArea", workArea);
+            OjbSubQueryUtil.addNumericCriteria(root, "workArea", workArea);
         }
         
 

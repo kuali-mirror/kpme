@@ -75,6 +75,10 @@ public class DailyOvertimeRuleLookupableHelper extends KPMELookupableHelper {
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
+        if (StringUtils.contains(workArea, "%")) {
+			workArea = "";
+		}
+
         return TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRules(GlobalVariables.getUserSession().getPrincipalId(), dept, workArea, location, TKUtils.formatDateString(fromEffdt), 
         		TKUtils.formatDateString(toEffdt), active, showHist);
     }
