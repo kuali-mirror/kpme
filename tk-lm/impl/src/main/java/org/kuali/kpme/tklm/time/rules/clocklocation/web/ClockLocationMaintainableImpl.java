@@ -21,6 +21,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.core.bo.HrWorkAreaMaintainableImpl;
 import org.kuali.kpme.core.cache.CacheUtils;
 import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRuleIpAddress;
@@ -36,7 +37,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  * Used to modify behavior of Clock Location Maintenance page
  * 
  */
-public class ClockLocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
+public class ClockLocationMaintainableImpl extends HrWorkAreaMaintainableImpl {
 
 	/**
      * 

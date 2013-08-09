@@ -74,6 +74,15 @@ public class ClockLocationRuleLookupableHelper extends KPMELookupableHelper {
         String workArea = fieldValues.get("workArea");
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
+        
+        if (StringUtils.contains(workArea, "%")) {
+			workArea = "";
+		}
+        
+        if (StringUtils.contains(jobNumber, "%")) {
+        	jobNumber = "";
+		}
+        
 
         return TkServiceLocator.getClockLocationRuleService().getClockLocationRules(GlobalVariables.getUserSession().getPrincipalId(), TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt),
         		principalId, jobNumber, dept, workArea, active, showHist);

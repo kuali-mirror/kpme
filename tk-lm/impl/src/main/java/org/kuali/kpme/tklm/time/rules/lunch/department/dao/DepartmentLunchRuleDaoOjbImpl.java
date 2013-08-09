@@ -81,8 +81,12 @@ public class DepartmentLunchRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb imple
             root.addLike("principalId", principalId);
         }
         
+//        if (StringUtils.isNotBlank(jobNumber)) {
+//            root.addLike("jobNumber", jobNumber);
+//        }
+        
         if (StringUtils.isNotBlank(jobNumber)) {
-            root.addLike("jobNumber", jobNumber);
+        	OjbSubQueryUtil.addNumericCriteria(root, "jobNumber", jobNumber);
         }
         
         if (StringUtils.isNotBlank(dept)) {
