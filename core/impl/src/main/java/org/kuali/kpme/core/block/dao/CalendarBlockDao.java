@@ -28,5 +28,9 @@ public interface CalendarBlockDao {
 	public List<CalendarBlock> getActiveCalendarBlocksForDate(LocalDate asOfDate);
 
 	public DateTime getLatestEndTimestampForEarnCode(String earnCode, String calendarBlockType);
+
+	public List<CalendarBlock> getCalendarBlocksForTimeBlockLookup(String documentId,
+			String principalId, String userPrincipalId, LocalDate fromDate,
+			LocalDate toDate);
 	
 }

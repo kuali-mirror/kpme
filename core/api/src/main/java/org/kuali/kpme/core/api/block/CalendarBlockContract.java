@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.api.block;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -71,5 +72,21 @@ public interface CalendarBlockContract {
 	public Date getEndTimestamp();
 
 	public void setEndTimestamp(Date endTimestamp);
+	
+	public BigDecimal getAmount();
+
+	public void setAmount(BigDecimal amount);
+	
+	public BigDecimal getHours();
+	
+	public void setHours(BigDecimal hours);
+	
+	public String getOvertimePref();
+	
+	public void setOvertimePref(String overtimePref);
+
+	public boolean getLunchDeleted();
+	
+	public void setLunchDeleted(boolean lunchDeleted);
 
 }

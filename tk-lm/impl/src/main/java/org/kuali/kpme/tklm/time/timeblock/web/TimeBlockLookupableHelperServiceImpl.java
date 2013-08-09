@@ -24,17 +24,26 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.common.LMConstants;
+import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.web.form.LookupForm;
 
@@ -60,25 +69,75 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 			 searchCriteria.put(BEGIN_TIMESTAMP, searchCriteria.get(BEGIN_DATE_ID));
 			 searchCriteria.remove(BEGIN_DATE_ID);
 		 }
-
+		 
+/*		 if(searchCriteria.containsKey(DOC_STATUS_ID)) {
+			 String docStatuses = searchCriteria.get(DOC_STATUS_ID);
+			 String [] docStatusArray = docStatuses.split(",");
+			 if(searchCriteria.get("DOC_ID") != null) {
+				 //attach error to return lookup form: "doc status must match that of the document whose id is documentId"
+				 //or clear doc statuses and keep only the status that matches the doc id.
+			 }
+			 else {
+				 TkServiceLocator.getTimesheetDocumentHeaderService().get
+			 }
+			 searchCriteria.remove(DOC_STATUS_ID);
+		 }*/
+		 
 		@SuppressWarnings("unchecked")
-		List<TimeBlock> objectList = (List<TimeBlock>) super.getSearchResults(form, searchCriteria, unbounded);
-		// TODO: KPME-2165. Use calendar block service defined in core to retrieve base set of search results.
-		/**
-		 * From the calendar block fetch, these fields will need to be populated by performing an additional fetch from tk_time_block_t
-		 * via CalendarBlock.concreteBlockId if CalendarBlock.concreteBlockType == "Time".
-		 * 
-		 *  <bean parent="Uif-DataField" p:propertyName="hours"/>
-  			<bean parent="Uif-DataField" p:propertyName="amount"/>
-  			<bean parent="Uif-DataField" p:propertyName="overtimePref"/>
-  			<bean parent="Uif-DataField" p:propertyName="lunchDeleted"/>
-		 * 
-		 * How can this lookup show data objects from two different classes? Do we need to move this lookup into the scope of the super?
-		 * Do the above mentioned properties need to be defined as fields on calendar block, even though they are not common elements of Time | Leave Blocks?
-		 * Having an ojb mapping for calendar block would simplify this task greatly, however, the ojb inheritance hierarchy mapping desired apparently does not play nice with
-		 * rice. For this reason may need to re-visit previous work done on jpa + hibernate/eclipselink solution for this family of objects.
-		 * 
-		 */
+		String documentId = null;
+		if(StringUtils.isNotBlank(searchCriteria.get(DOC_ID))) {
+			documentId = searchCriteria.get(DOC_ID);
+		}
+		String principalId = null;
+		if(StringUtils.isNotBlank(searchCriteria.get("principalId"))) {
+			principalId = searchCriteria.get("principalId");
+		}
+		String userPrincipalId = null;
+		if(StringUtils.isNotBlank(searchCriteria.get("userPrincipalId"))) {
+			userPrincipalId = searchCriteria.get("userPrincipalId");
+		}
+		LocalDate fromDate = null;
+		LocalDate toDate = null;
+		if(StringUtils.isNotBlank(searchCriteria.get(BEGIN_TIMESTAMP))) {
+			String fromDateString = searchCriteria.get(BEGIN_TIMESTAMP).substring(0, 10);
+			if(searchCriteria.get(BEGIN_TIMESTAMP).length() > 10) {
+				String toDateString = searchCriteria.get(BEGIN_TIMESTAMP).substring(12,22);
+				toDate = TKUtils.formatDateString(toDateString);
+			}
+			fromDate = TKUtils.formatDateString(fromDateString);
+		}
+
+		//Could also simply use super.getSearchResults for an initial object list, then invoke LeaveBlockService with the relevant query params.
+		List<CalendarBlock> calendarBlockList = HrServiceLocator.getCalendarBlockService().getCalendarBlocksForTimeBlockLookup(documentId, principalId, userPrincipalId, fromDate, toDate);
+		List<TimeBlock> objectList = new ArrayList<TimeBlock>();//(List<TimeBlock>) super.getSearchResults(form, searchCriteria, unbounded);
+		for(CalendarBlock cBlock : calendarBlockList) {
+			if(StringUtils.equals(cBlock.getConcreteBlockType(),"Time")) {
+				TimeBlock tBlock = TkServiceLocator.getTimeBlockService().getTimeBlock(cBlock.getConcreteBlockId());
+				objectList.add(tBlock);
+			}
+			else if(StringUtils.equals(cBlock.getConcreteBlockType(), "Leave")) {
+				LeaveBlock lBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(cBlock.getConcreteBlockId());
+				TimeBlock tBlock = new TimeBlock();
+				tBlock.setAmount(cBlock.getAmount());
+				tBlock.setHours(cBlock.getHours());
+				tBlock.setJobNumber(cBlock.getJobNumber());
+				tBlock.setEarnCode(cBlock.getEarnCode());
+				tBlock.setPrincipalId(cBlock.getPrincipalId());
+				tBlock.setUserPrincipalId(lBlock.getPrincipalIdModified());
+				tBlock.setWorkArea(cBlock.getWorkArea());
+				tBlock.setTask(cBlock.getTask());
+				tBlock.setOvertimePref(cBlock.getOvertimePref());
+				tBlock.setLunchDeleted(cBlock.getLunchDeleted());
+				tBlock.setDocumentId(cBlock.getDocumentId());
+				tBlock.setBeginDate(lBlock.getLeaveDate());
+				tBlock.setEndDate(lBlock.getLeaveDate());
+				tBlock.setTimeHourDetails(new ArrayList<TimeHourDetail>());
+				TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(cBlock.getDocumentId());
+				tBlock.setTimesheetDocumentHeader(tdh);
+				objectList.add(tBlock);
+			}
+		}
+		
         if(!objectList.isEmpty()) {
         	Iterator<? extends BusinessObject> itr = objectList.iterator();
 			
@@ -253,7 +312,6 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 	@Override
 	protected String getActionUrlHref(LookupForm lookupForm, Object dataObject,
 			String methodToCall, List<String> pkNames) {
-		// TODO Auto-generated method stub
 		String actionUrlHref = super.getActionUrlHref(lookupForm, dataObject, methodToCall, pkNames);
 		
 		return actionUrlHref;

@@ -15,10 +15,14 @@
  */
 package org.kuali.kpme.core.block;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 
 public class CalendarBlock extends CalendarBlockBase {
 
@@ -137,6 +141,50 @@ public class CalendarBlock extends CalendarBlockBase {
 	@Override
 	public void setEndTimestamp(Date endTimestamp) {
 		this.endTimestamp = endTimestamp;
+	}
+
+	public void setUserPrincipalId(String userPrincipalId) {
+		this.userPrincipalId = userPrincipalId;
+	}
+
+	@Override
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	@Override
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+
+	@Override
+	public BigDecimal getHours() {
+		return hours;
+	}
+
+	@Override
+	public void setHours(BigDecimal hours) {
+		this.hours = hours;
+	}
+
+	@Override
+	public String getOvertimePref() {
+		return overtimePref;
+	}
+
+	@Override
+	public void setOvertimePref(String overtimePref) {
+		this.overtimePref = overtimePref;
+	}
+
+	@Override
+	public void setLunchDeleted(boolean lunchDeleted) {
+		this.lunchDeleted = lunchDeleted;
+	}
+
+	@Override
+	public boolean getLunchDeleted() {
+		return lunchDeleted;
 	}
 
 }

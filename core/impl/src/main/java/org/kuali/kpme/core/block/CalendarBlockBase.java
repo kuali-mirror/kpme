@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.block;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -30,11 +31,15 @@ public abstract class CalendarBlockBase extends PersistableBusinessObjectBase im
 	@Transient
 	protected String hrCalendarBlockId;
 	protected String principalId;
+	protected String userPrincipalId;
 	protected String documentId;
 	protected Date beginTimestamp;
 	protected Date endTimestamp;
 	protected Timestamp timestamp;
 	protected boolean lunchDeleted;
+	protected BigDecimal hours;
+	protected BigDecimal amount;
+	protected String overtimePref;
 	protected String earnCode;
 	protected Long workArea;
 	protected Long jobNumber;
