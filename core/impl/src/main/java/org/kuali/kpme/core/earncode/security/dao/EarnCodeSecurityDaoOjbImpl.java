@@ -253,13 +253,17 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
       List<EarnCodeSecurity> results = new ArrayList<EarnCodeSecurity>();
       results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
       
-   // dept, location and salGroup allow wildcards,
+   // dept and salGroup allow wildcards,
       List<EarnCodeSecurity> finalResults = new ArrayList<EarnCodeSecurity>();
       for(EarnCodeSecurity aSecurity : results) {
     	 if((StringUtils.isNotEmpty(dept) && ValidationUtils.wildCardMatch(aSecurity.getDept(), dept))
-    		 && (StringUtils.isNotEmpty(salGroup) && ValidationUtils.wildCardMatch(aSecurity.getHrSalGroup(), salGroup))
-    		 && (StringUtils.isNotEmpty(location) && ValidationUtils.wildCardMatch(aSecurity.getLocation(), location))) {
-    		 finalResults.add(aSecurity);
+    		 && (StringUtils.isNotEmpty(salGroup) && ValidationUtils.wildCardMatch(aSecurity.getHrSalGroup(), salGroup))) {
+    		 // location is not a required field, it allows wild card
+    		 if(StringUtils.isEmpty(location)) {
+    			 finalResults.add(aSecurity);
+    		 } else if(ValidationUtils.wildCardMatch(aSecurity.getLocation(), location)) {
+    			 finalResults.add(aSecurity);
+    		 }
     	 }
       }
       

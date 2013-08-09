@@ -94,6 +94,10 @@ public class EarnCodeSecurityServiceImplTest extends KPMEWebTestCase {
 		
 		allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("test", "A10", "XYZ", "Y", null, null, null, "Y", TEST_DATE.toLocalDate());
 		Assert.assertEquals("Search returned the wrong number of results.", 1, allResults.size());
+		
+		// wild card for loction
+		allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("TEST-DEPT", "SD1", "VAC", "Y", null, null, "%", "Y", TEST_DATE.toLocalDate());
+		Assert.assertEquals("Search returned the wrong number of results.", 1, allResults.size());
 	}
 
 }
