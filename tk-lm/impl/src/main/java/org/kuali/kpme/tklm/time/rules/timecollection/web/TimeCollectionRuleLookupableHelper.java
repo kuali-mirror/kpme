@@ -15,12 +15,15 @@
  */
 package org.kuali.kpme.tklm.time.rules.timecollection.web;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -65,7 +68,21 @@ public class TimeCollectionRuleLookupableHelper extends KPMELookupableHelper {
         String active = fieldValues.get("active");
         String history = fieldValues.get("history");
 
-        return TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRules(GlobalVariables.getUserSession().getPrincipalId(), dept, workArea, payType, active, history);
+        String workAreaValue = null;
+        if (StringUtils.equals(workArea,"%") || StringUtils.equals(workArea,"*")){
+            workArea = "";
+        } else {
+        	if(workArea != null && StringUtils.isNotBlank(workArea)) {
+	        	BigDecimal value = TKUtils.cleanNumeric(workArea);
+	        	if(value != null) {
+	        		workAreaValue = value.toString(); 
+	        	} else {
+	        		return new ArrayList<TimeCollectionRule>();
+	        	}
+        	}
+        }
+        
+        return TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRules(GlobalVariables.getUserSession().getPrincipalId(), dept, workAreaValue, payType, active, history);
 	}
 
 	@Override

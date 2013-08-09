@@ -184,7 +184,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
         }
 
         if (workArea != null) {
-            root.addLike("workArea", workArea);
+            OjbSubQueryUtil.addNumericCriteria(root, "workArea", workArea.toString());
         }
         
         if (StringUtils.isNotBlank(payType)) {
