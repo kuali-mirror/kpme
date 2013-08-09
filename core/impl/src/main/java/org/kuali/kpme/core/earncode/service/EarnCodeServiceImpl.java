@@ -217,7 +217,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
     @Override
     public String getEarnCodeType(String earnCode, LocalDate asOfDate) {
         EarnCode earnCodeObj = getEarnCode(earnCode, asOfDate);
-        return earnCodeObj.getEarnCodeType();
+        return earnCodeObj != null ? earnCodeObj.getEarnCodeType() : "";       
     }
 
 	@Override
