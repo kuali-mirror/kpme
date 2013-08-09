@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.clock.web;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -35,6 +36,7 @@ import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetActionForm;
 
 public class ClockActionForm extends TimesheetActionForm {
@@ -78,6 +80,9 @@ public class ClockActionForm extends TimesheetActionForm {
 
  // this is for the ajax call
 	private String outputString;
+	
+	// for lunch deduction rule
+	private BigDecimal lunchDeductionAmt = BigDecimal.ZERO;
 	
     public String getTargetUserTimezone() {
         return HrServiceLocator.getTimezoneService().getUserTimezone(HrContext.getTargetPrincipalId());
@@ -186,6 +191,15 @@ public class ClockActionForm extends TimesheetActionForm {
 	public TimeBlock getCurrentTimeBlock() {
 		if(currentTimeBlock == null && this.getEditTimeBlockId() != null) {
 			this.setCurrentTimeBlock(TkServiceLocator.getTimeBlockService().getTimeBlock(this.getEditTimeBlockId()));
+			if(currentTimeBlock != null) {
+				for(TimeHourDetail thd : currentTimeBlock.getTimeHourDetails()) {
+					System.out.println("time hour details is >>> "+thd);
+					if(thd.getEarnCode().equalsIgnoreCase(HrConstants.LUNCH_EARN_CODE)) {
+						System.out.println("Lunch earncode "+thd.getHours());
+						this.setLunchDeductionAmt(thd.getHours());
+					}
+				}
+			}
 		}
 		return currentTimeBlock;
 	}
@@ -423,6 +437,14 @@ public class ClockActionForm extends TimesheetActionForm {
 
 	public void setTsDocId(String tsDocId) {
 		this.tsDocId = tsDocId;
+	}
+
+	public BigDecimal getLunchDeductionAmt() {
+		return lunchDeductionAmt;
+	}
+
+	public void setLunchDeductionAmt(BigDecimal lunchDeductionAmt) {
+		this.lunchDeductionAmt = lunchDeductionAmt;
 	}
 	
 }

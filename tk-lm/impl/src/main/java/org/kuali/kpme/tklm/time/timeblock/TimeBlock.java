@@ -317,26 +317,26 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
      * @return a date representing the getBeginTimeDisplay() DateTime.
      */
     public Date getBeginTimeDisplayDate() {
-        return getBeginTimeDisplay().toDate();
+        return getBeginTimeDisplay() != null ? getBeginTimeDisplay().toDate() : null;
     }
 
     /*
     *   fix timezone issues caused by JScript, for GUI use only,
     */
     public String getBeginTimeDisplayDateOnlyString() {
-        return this.getBeginTimeDisplay().toString(HrConstants.DT_BASIC_DATE_FORMAT);
+        return getBeginDateTime() != null ? getBeginDateTime().toString(HrConstants.DT_BASIC_DATE_FORMAT) : null;
     }
 
     public String getBeginTimeDisplayTimeOnlyString() {
-        return this.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_TIME_FORMAT);
+        return getBeginDateTime() != null ? getBeginDateTime().toString(TkConstants.DT_BASIC_TIME_FORMAT) : null;
     }
 
     public String getEndTimeDisplayDateOnlyString() {
-        return this.getEndTimeDisplay().toString(HrConstants.DT_BASIC_DATE_FORMAT);
+        return getEndDateTime() != null ? getEndDateTime().toString(HrConstants.DT_BASIC_DATE_FORMAT) : null;
     }
 
     public String getEndTimeDisplayTimeOnlyString() {
-        return this.getEndTimeDisplay().toString(TkConstants.DT_BASIC_TIME_FORMAT);
+        return getEndDateTime() != null ? getEndDateTime().toString(TkConstants.DT_BASIC_TIME_FORMAT) : null;
     }
 
     /**
@@ -375,7 +375,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
      * @return a date representing the getEndTimeDisplay() DateTime.
      */
     public Date getEndTimeDisplayDate() {
-        return getEndTimeDisplay().toDate();
+        return getEndTimeDisplay() != null ? getEndTimeDisplay().toDate() : null;
     }
 
     /**

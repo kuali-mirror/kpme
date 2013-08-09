@@ -352,6 +352,7 @@ $(document).ready(function() {
         var valueSeperator = '****';
         var timeBlockId = $("#tbId").val();
         var originalHrs = $("#originHrs").val();
+        var lunchDeductionHours = $("#lunchDeductionHours").val();
         var tsDocId = $("#tsDocId").val();
 
 
@@ -393,7 +394,7 @@ $(document).ready(function() {
                 var beginTimeTemp = new Date(dateString);
                 var bTimeFormated = beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes();
                 // new tbs should not go beyond the original begin and end Date/Time
-			    beginTimeTemp.setSeconds(beginTimeTemp.getSeconds() + originalBeginDateTime.getSeconds());
+			    // beginTimeTemp.setSeconds(beginTimeTemp.getSeconds() + originalBeginDateTime.getSeconds());
 			      
 			    aString = form1.beginDateOnly.value + ' ' + form1.beginTimeOnly.value;
 			    var formBeginDate = new Date(aString);
@@ -441,13 +442,15 @@ $(document).ready(function() {
                 }
                 var hrs = Math.round(hrsDifferent * 100 / 3600000) / 100;
                 $("#tblNewTimeBlocks tbody tr:nth-child(" + i + ") td .hrRow").val(hrs);
-                totalHrs += hrs;
+                totalHrs += parseFloat(hrs);
             }// end of if
             else {
                 return false;
             }
 
         }// end of for loop
+        
+        totalHrs += parseFloat(lunchDeductionHours);
         totalHrs = totalHrs.toFixed(2);
         if (totalHrs != originalHrs) {
             updateTips("Total Hours entered not equal to the hours of the original time block");

@@ -18,7 +18,7 @@
 <%@include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 <c:set var="Form" value="${ClockActionForm}" scope="request"/>
 <c:set var="timeBlockHours"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${Form.currentTimeBlock.hours}" /></c:set>
-
+<c:set var="lunchDeductionHours"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${Form.lunchDeductionAmt}" /></c:set>
 <tk:tkHeader tabId="editTimeBlock" >
 	<html:form action="/Clock.do" styleId="editTimeBlockForm">
 		<div style="clear:both; text-align:center; font-weight: bold; margin-bottom: 5px;">Distribute Hours</div>
@@ -35,13 +35,15 @@
 			<html:hidden property="assignmentList" value="${Form.assignDescriptionsList}"/>
 			<html:hidden property="distributeAssignList" value="${Form.distributeAssignList}" />
 			<html:hidden property="originalAssignment" value="${Form.currentAssignmentDescription}"/>
-			<html:hidden property="beginTimestamp" value="${Form.currentTimeBlock.beginTimeDisplayDate}"/>
-			<html:hidden property="endTimestamp" value="${Form.currentTimeBlock.endTimeDisplayDate}"/>			
+			<html:hidden property="beginTimestamp" value="${Form.currentTimeBlock.beginDate}"/>
+			<html:hidden property="endTimestamp" value="${Form.currentTimeBlock.endDate}"/>			
 			<html:hidden property="beginDateOnly" value="${Form.currentTimeBlock.beginTimeDisplayDateOnlyString}"/>
 			<html:hidden property="beginTimeOnly" value="${Form.currentTimeBlock.beginTimeDisplayTimeOnlyString}"/>
 			<html:hidden property="endDateOnly" value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString}"/>
 			<html:hidden property="endTimeOnly" value="${Form.currentTimeBlock.endTimeDisplayTimeOnlyString}"/>			
 			<html:hidden property="hours" value="${timeBlockHours}"/>
+			<html:hidden property="lunchDeductionAmt" value="${lunchDeductionHours}" styleId="lunchDeductionHours"/>
+			
 			
 			<div id="clock" style="border-bottom: 1px solid gray;">
 				<table style="border-collapse:collapse;border: 1px solid #000;">
