@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
@@ -52,7 +54,11 @@ public class PayType extends HrBusinessObject implements PayTypeContract {
     
     // KPME-2252
 	private String location;
+	@Transient
+	private String hrLocationId;
     private String institution;
+    @Transient
+    private String pmInstitutionId;
 	private String flsaStatus;
 	private String payFrequency;
 	
@@ -183,6 +189,22 @@ public class PayType extends HrBusinessObject implements PayTypeContract {
 
 	public void setLocationObj(Location locationObj) {
 		this.locationObj = locationObj;
+	}
+
+	public String getHrLocationId() {
+		return hrLocationId;
+	}
+
+	public void setHrLocationId(String hrLocationId) {
+		this.hrLocationId = hrLocationId;
+	}
+
+	public String getPmInstitutionId() {
+		return pmInstitutionId;
+	}
+
+	public void setPmInstitutionId(String pmInstitutionId) {
+		this.pmInstitutionId = pmInstitutionId;
 	}
 	
 }

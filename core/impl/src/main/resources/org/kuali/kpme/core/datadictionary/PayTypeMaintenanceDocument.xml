@@ -63,7 +63,6 @@
 				<bean parent="MaintainableFieldDefinition" p:name="flsaStatus" p:defaultValue="NE" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="payFrequency" p:defaultValue="M" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="ovtEarnCode" p:defaultValue="N" />
 			</list>
 		</property>
 	</bean>

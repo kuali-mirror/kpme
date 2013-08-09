@@ -43,8 +43,9 @@
                 <ref bean="PayType-active"/>
 				<ref bean="PayType-timestamp" />
 				<ref bean="PayType-hrEarnCodeId" />
-				<ref bean="PayType-ovtEarnCode" />
+				<ref bean="PayType-hrLocationId" />
 				<ref bean="PayType-institution" />
+				<ref bean="PayType-pmInstitutionId" />
 				<ref bean="PayType-location" />
 				<ref bean="PayType-flsaStatus" />
 				<ref bean="PayType-payFrequency" />
@@ -58,7 +59,6 @@
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="regEarnCode" p:targetName="earnCode"/>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrEarnCodeId" p:targetName="hrEarnCodeId"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="ovtEarnCode" p:targetName="ovtEarnCode"/>
                 </list>
               </property>
             </bean>
@@ -67,8 +67,8 @@
 				<property name="primitiveAttributes">
 					<list>
 						<bean parent="PrimitiveAttributeDefinition" p:sourceName="location" p:targetName="location" />
-                           
-                       </list>
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrLocationId" p:targetName="hrLocationId"/>
+                    </list>
 				</property>
 			</bean>
 			<bean parent="RelationshipDefinition">
@@ -76,8 +76,8 @@
 				<property name="primitiveAttributes">
 					<list>
 						<bean parent="PrimitiveAttributeDefinition" p:sourceName="institution" p:targetName="institutionCode" />
-                           
-                       </list>
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="pmInstitutionId" p:targetName="pmInstitutionId"/>
+                    </list>
 				</property>
 			</bean>				
           </list>
@@ -184,7 +184,7 @@
 		<property name="label" value="Timestamp" />
 	</bean>
 	
-<!-- history -->
+	<!-- history -->
 	<bean id="PayType-history" parent="PayType-history-parentBean" />
 	<bean id="PayType-history-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -212,17 +212,6 @@
 		</property>
 	</bean>
 	
-	<bean id="PayType-ovtEarnCode" parent="PayType-ovtEarnCode-parentBean" />
-	<bean id="PayType-ovtEarnCode-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="ovtEarnCode" />
-		<property name="control">
-			<bean parent="HiddenControlDefinition" />
-		</property>
-		<property name="name" value="ovtEarnCode" />
-		<property name="label" value="Overtime Earn Code" />
-	</bean>
-	
 	<!-- location -->
 	<bean id="PayType-location" parent="PayType-location-parentBean" />
 	<bean id="PayType-location-parentBean" abstract="true" parent="AttributeDefinition">
@@ -238,6 +227,15 @@
 		</property>
 		<property name="name" value="location" />
 		<property name="label" value="Location" />
+	</bean>
+	
+	<bean id="PayType-hrLocationId" parent="PayType-hrLocationId-parentBean" />
+	<bean id="PayType-hrLocationId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="hrLocationId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
 	</bean>
 	
 	<!-- instituition -->
@@ -256,6 +254,15 @@
 		<property name="name" value="institution" />
 		<property name="label" value="Institution" />
 	</bean>	
+
+	<bean id="PayType-pmInstitutionId" parent="PayType-pmInstitutionId-parentBean" />
+	<bean id="PayType-pmInstitutionId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="pmInstitutionId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
 
 	<!-- flsaStatus -->
 	<bean id="PayType-flsaStatus" parent="PayType-flsaStatus-parentBean" />
@@ -288,7 +295,7 @@
   	<bean id="PayType-inquiryDefinition" parent="PayType-inquiryDefinition-parentBean" />
 
 	<bean id="PayType-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition">
+		parent="InquiryDefinition" 	p:inquirableClass="org.kuali.kpme.core.paytype.web.PayTypeInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
@@ -302,7 +309,6 @@
 							<bean parent="FieldDefinition" p:attributeName="location" />
 							<bean parent="FieldDefinition" p:attributeName="institution" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
-							<bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
 						</list>
 					</property>
 					<property name="title" value="Pay Type" />
@@ -330,12 +336,14 @@
                 <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
                 <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" />
                 <bean parent="FieldDefinition" p:attributeName="hrEarnCodeId" />
+                <bean parent="FieldDefinition" p:attributeName="hrLocationId" />
+                <bean parent="FieldDefinition" p:attributeName="pmInstitutionId"/>
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="payType" />
-				<bean parent="FieldDefinition" p:attributeName="descr" />				
+				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="regEarnCode" />
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="institution" />
