@@ -41,11 +41,11 @@ public class TimeBlockHistoryDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	}
 
     @Override
-    public TimeBlockHistory getTimeBlockHistoryByTkTimeBlockId(String tkTimeBlockId) {
+    public List<TimeBlockHistory> getTimeBlockHistoryByTkTimeBlockId(String tkTimeBlockId) {
         Criteria currentRecordCriteria = new Criteria();
 		currentRecordCriteria.addEqualTo("tkTimeBlockId", tkTimeBlockId);
 		Query query = QueryFactory.newQuery(TimeBlockHistory.class, currentRecordCriteria);
 
-		return (TimeBlockHistory)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		return (List<TimeBlockHistory>)this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 }

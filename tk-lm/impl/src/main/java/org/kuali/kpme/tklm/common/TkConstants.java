@@ -55,6 +55,14 @@ public class TkConstants {
     public static final String DELETE = "DELETE";
     public static final String ADD = "ADD";
     public static final String MODIFIED = "MODIFIED";
+    
+    public static final Map<String,String> ACTION_HISTORY_CODES = new HashMap<String,String>();
+    
+    static {
+    	ACTION_HISTORY_CODES.put("A", "Add");
+    	ACTION_HISTORY_CODES.put("M", "Modify");
+    	ACTION_HISTORY_CODES.put("D", "Delete");
+    }
 
     public static final String SUPER_USER = TkConstants.ROLE_TK_SYS_ADMIN;
 

@@ -47,7 +47,7 @@ public class TimeBlockHistoryTest extends TKLMIntegrationTestCase {
 
         List<TimeBlockHistory> tbhs = new ArrayList<TimeBlockHistory>();
         for(TimeBlock tb : td.getTimeBlocks()) {
-            tbhs.add(TkServiceLocator.getTimeBlockHistoryService().getTimeBlockHistoryByTkTimeBlockId(tb.getTkTimeBlockId()));
+            tbhs.addAll(TkServiceLocator.getTimeBlockHistoryService().getTimeBlockHistoryByTkTimeBlockId(tb.getTkTimeBlockId()));
         }
 
         for(TimeBlockHistory tbh : tbhs) {

@@ -40,7 +40,7 @@ public class TimeBlockHistoryServiceImpl implements TimeBlockHistoryService {
 		this.timeBlockHistoryDao = timeBlockHistoryDao;
 	}
 
-    public TimeBlockHistory getTimeBlockHistoryByTkTimeBlockId(String tkTimeBlockId) {
+    public List<TimeBlockHistory> getTimeBlockHistoryByTkTimeBlockId(String tkTimeBlockId) {
         return timeBlockHistoryDao.getTimeBlockHistoryByTkTimeBlockId(tkTimeBlockId);
     }
     

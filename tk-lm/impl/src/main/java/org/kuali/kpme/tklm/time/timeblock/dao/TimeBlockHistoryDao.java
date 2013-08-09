@@ -24,5 +24,5 @@ public interface TimeBlockHistoryDao {
 	public void saveOrUpdate(TimeBlockHistory timeBlockHistory);
 	public void saveOrUpdate(List<TimeBlockHistory> timeBlockHistoryList);
 
-    TimeBlockHistory getTimeBlockHistoryByTkTimeBlockId(String tkTimeBlockId);
+    public List<TimeBlockHistory> getTimeBlockHistoryByTkTimeBlockId(String tkTimeBlockId);
 }
