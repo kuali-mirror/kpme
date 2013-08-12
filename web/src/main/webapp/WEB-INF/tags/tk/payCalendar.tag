@@ -97,7 +97,7 @@
                 </c:if>
                     ${block.lunchLabel}
             </div>
-                ${block.amount}
+            ${block.amount}
         </div>
     </c:if>
 </c:forEach>

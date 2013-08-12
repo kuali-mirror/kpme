@@ -149,6 +149,20 @@ public class HrConstants {
 	// Special System earn code to represent lunch deductions.
 	public static final String LUNCH_EARN_CODE = "LUN";
 
+    /* these are quick hacks to allow these values to be checked in jsp/tag files */
+    public String getLUNCH_EARN_CODE() {
+        return LUNCH_EARN_CODE;
+    }
+
+    public String getEARN_CODE_AMOUNT() {
+        return EARN_CODE_AMOUNT;
+    }
+
+    public String getHOLIDAY_EARN_CODE() {
+        return HOLIDAY_EARN_CODE;
+    }
+    /* end hack */
+
 	public static final String TK_TARGET_USER_RETURN = "tkTargetReturn";
 
 	public static final String WILDCARD_CHARACTER = "%";

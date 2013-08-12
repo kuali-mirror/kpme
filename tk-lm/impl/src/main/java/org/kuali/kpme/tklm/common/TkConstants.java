@@ -206,21 +206,6 @@ public class TkConstants {
     //Threshold in hours for clockin highlighting on approvers tab
     public static final Integer NUMBER_OF_HOURS_CLOCKED_IN_APPROVE_TAB_HIGHLIGHT = 12;
 
-/*
-    public String getLUNCH_EARN_CODE() {
-        return LUNCH_EARN_CODE;
-    }
-
-    public String getEARN_CODE_AMOUNT() {
-        return EARN_CODE_AMOUNT;
-    }
-
-    public String getHOLIDAY_EARN_CODE() {
-        return HOLIDAY_EARN_CODE;
-    }
-
-*/
-
     public static final String GMT_TIME_ZONE_ID = "Etc/GMT";
     public static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone(GMT_TIME_ZONE_ID);
     //public static final String SYSTEM_TIME_ZONE = TimeZone.getDefault().getDisplayName();
