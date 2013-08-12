@@ -31,6 +31,7 @@ import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -63,7 +64,7 @@ public class Job extends HrBusinessObject implements JobContract {
 	private String hrSalGroup;
 	private Boolean primaryIndicator;
 	private Boolean history;
-	private BigDecimal compRate = new BigDecimal(0);
+	private KualiDecimal compRate = new KualiDecimal(0);
 	private String positionNumber;
 	
 	private String hrDeptId;
@@ -223,17 +224,13 @@ public class Job extends HrBusinessObject implements JobContract {
 	}
 
 
-	public BigDecimal getCompRate() {
+	public KualiDecimal getCompRate() {
 		return compRate;
 	}
 
 
-	public void setCompRate(BigDecimal compRate) {
-		if(compRate != null){
-			this.compRate = compRate.setScale(HrConstants.BIG_DECIMAL_SCALE);
-		} else {
-			this.compRate = compRate;
-		}
+	public void setCompRate(KualiDecimal compRate) {
+        this.compRate = compRate;
 	}
 
 	public Department getDeptObj() {

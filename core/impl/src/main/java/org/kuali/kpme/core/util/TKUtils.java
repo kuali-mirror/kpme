@@ -46,6 +46,7 @@ import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -139,7 +140,7 @@ public class TKUtils {
         	Task taskObj = HrServiceLocator.getTaskService().getTask(task, asOfDate);
         	
         	String workAreaDescription = workAreaObj != null ? workAreaObj.getDescription() : StringUtils.EMPTY;
-        	BigDecimal compensationRate = jobObj != null ? jobObj.getCompRate().setScale(HrConstants.BIG_DECIMAL_SCALE) : BigDecimal.ZERO;
+        	KualiDecimal compensationRate = jobObj != null ? jobObj.getCompRate() : KualiDecimal.ZERO;
         	String department = jobObj != null ? jobObj.getDept() : StringUtils.EMPTY;
         	String taskDescription = taskObj != null && !HrConstants.TASK_DEFAULT_DESP.equals(taskObj.getDescription()) ? taskObj.getDescription() : StringUtils.EMPTY;
         	
