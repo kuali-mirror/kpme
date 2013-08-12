@@ -20,9 +20,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.math.BigDecimal;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.location.impl.campus.CampusBo;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
@@ -45,7 +47,24 @@ public class Position extends PositionBase {
     private List<PositionResponsibility> positionResponsibilityList = new LinkedList<PositionResponsibility>();
     private List<PositionFunding> fundingList = new ArrayList<PositionFunding>();
 
+    private String institution;
+    private String campus;
+    private String salaryGroup;
     private String pmPositionClassId;
+    private String classificationTitle;
+    private String workingPositionTitle;
+    private BigDecimal percentTime;
+    private int workMonths;
+    private String benefitsEligible;
+    private String leaveEligible;
+    private String leavePlan;
+    private String positionReportGroup;
+    private String positionType;
+    private String poolEligible;
+    private int maxPoolHeadCount;
+    private String tenureEligible;
+
+    private CampusBo campusObj;
     
     private String category;		// used to determine what fields should show when editing an existing maint doc
     
@@ -160,4 +179,131 @@ public class Position extends PositionBase {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+    public String getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(String institution) {
+        this.institution = institution;
+    }
+
+    public String getCampus() {
+        return campus;
+    }
+
+    public void setCampus(String campus) {
+        this.campus = campus;
+    }
+
+    public CampusBo getCampusObj() {
+        return campusObj;
+    }
+
+    public void setCampusObj(CampusBo campusObj) {
+        this.campusObj = campusObj;
+    }
+
+    public String getSalaryGroup() {
+        return salaryGroup;
+    }
+
+    public void setSalaryGroup(String salaryGroup) {
+        this.salaryGroup = salaryGroup;
+    }
+
+    public String getClassificationTitle() {
+        return classificationTitle;
+    }
+
+    public void setClassificationTitle(String classificationTitle) {
+        this.classificationTitle = classificationTitle;
+    }
+
+    public String getWorkingPositionTitle() {
+        return workingPositionTitle;
+    }
+
+    public void setWorkingPositionTitle(String workingPositionTitle) {
+        this.workingPositionTitle = workingPositionTitle;
+    }
+
+    public BigDecimal getPercentTime() {
+        return percentTime;
+    }
+
+    public void setPercentTime(BigDecimal percentTime) {
+        this.percentTime = percentTime;
+    }
+
+    public String getBenefitsEligible() {
+        return benefitsEligible;
+    }
+
+    public void setBenefitsEligible(String benefitsEligible) {
+        this.benefitsEligible = benefitsEligible;
+    }
+
+    public String getLeaveEligible() {
+        return leaveEligible;
+    }
+
+    public void setLeaveEligible(String leaveEligible) {
+        this.leaveEligible = leaveEligible;
+    }
+
+    public String getLeavePlan() {
+        return leavePlan;
+    }
+
+    public void setLeavePlan(String leavePlan) {
+        this.leavePlan = leavePlan;
+    }
+
+    public String getPositionReportGroup() {
+        return positionReportGroup;
+    }
+
+    public void setPositionReportGroup(String positionReportGroup) {
+        this.positionReportGroup = positionReportGroup;
+    }
+
+    public String getPositionType() {
+        return positionType;
+    }
+
+    public void setPositionType(String positionType) {
+        this.positionType = positionType;
+    }
+
+    public String getPoolEligible() {
+        return poolEligible;
+    }
+
+    public void setPoolEligible(String poolEligible) {
+        this.poolEligible = poolEligible;
+    }
+
+    public int getMaxPoolHeadCount() {
+        return maxPoolHeadCount;
+    }
+
+    public void setMaxPoolHeadCount(int maxPoolHeadCount) {
+        this.maxPoolHeadCount = maxPoolHeadCount;
+    }
+
+    public String getTenureEligible() {
+        return tenureEligible;
+    }
+
+    public void setTenureEligible(String tenureEligible) {
+        this.tenureEligible = tenureEligible;
+    }
+
+    public int getWorkMonths() {
+        return workMonths;
+    }
+
+    public void setWorkMonths(int workMonths) {
+        this.workMonths = workMonths;
+    }
 }

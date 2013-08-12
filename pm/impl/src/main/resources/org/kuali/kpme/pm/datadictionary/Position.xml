@@ -40,6 +40,21 @@
 				<ref bean="Position-hrPositionId" />
 				<ref bean="Position-positionNumber" />
 				<ref bean="Position-description" />
+                <ref bean="Position-institution"/>
+                <ref bean="Position-campus"/>
+                <ref bean="Position-salaryGroup"/>
+                <ref bean="Position-classificationTitle"/>
+                <ref bean="Position-workingPositionTitle"/>
+                <ref bean="Position-percentTime"/>
+                <ref bean="Position-workMonths"/>
+                <ref bean="Position-benefitsEligible"/>
+                <ref bean="Position-leaveEligible"/>
+                <ref bean="Position-leavePlan"/>
+                <ref bean="Position-positionReportGroup"/>
+                <ref bean="Position-positionType"/>
+                <ref bean="Position-poolEligible"/>
+                <ref bean="Position-maxPoolHeadCount"/>
+                <ref bean="Position-tenureEligible"/>
 				<ref bean="Position-pmPositionClassId"/>
 				<ref bean="Position-effectiveDate" />
 				<ref bean="Position-history" />
@@ -48,7 +63,19 @@
 				<ref bean="Position-category" />
 			</list>
 		</property>
-
+        <property name="relationships">
+            <list>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="campusObj" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="campus"
+                                  p:targetName="code" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
 		<property name="collections">
 	      <list>
 	        <bean parent="CollectionDefinition">
@@ -140,7 +167,208 @@
 		<property name="label" value="Description" />
 	</bean>
 
-	<bean id="Position-effectiveDate" parent="Position-effectiveDate-parentBean" />
+    <bean id="Position-institution" parent="Position-institution-parentBean" />
+    <bean id="Position-institution-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Institution" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="15" />
+        </property>
+        <property name="name" value="institution" />
+        <property name="label" value="Institution" />
+    </bean>
+
+    <bean id="Position-campus" parent="Position-campus-parentBean" />
+    <bean id="Position-campus-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Campus" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="15" />
+        </property>
+        <property name="name" value="campus" />
+        <property name="label" value="Campus" />
+    </bean>
+
+    <bean id="Position-salaryGroup" parent="Position-salaryGroup-parentBean" />
+    <bean id="Position-salaryGroup-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Sal Group" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10" />
+        </property>
+        <property name="name" value="salaryGroup" />
+        <property name="label" value="Salary Group" />
+    </bean>
+
+
+
+    <bean id="Position-classificationTitle" parent="Position-classificationTitle-parentBean" />
+    <bean id="Position-classificationTitle-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Title" />
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="100" />
+        </property>
+        <property name="name" value="classificationTitle" />
+        <property name="label" value="Classification Title" />
+    </bean>
+
+    <bean id="Position-workingPositionTitle" parent="Position-workingPositionTitle-parentBean" />
+    <bean id="Position-workingPositionTitle-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Working Position Title" />
+        <property name="maxLength" value="100" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="true" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="100" />
+        </property>
+        <property name="name" value="workingPositionTitle" />
+        <property name="label" value="Working Position Title" />
+    </bean>
+
+    <bean id="Position-percentTime" parent="Position-percentTime-parentBean" />
+    <bean id="Position-percentTime-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="controlField">
+            <bean parent="Uif-SpinnerControl">
+                <property name="spinner">
+                    <bean parent="Uif-Spinner">
+                        <property name="templateOptions">
+                            <map merge="true">
+                                <entry key="start" value="0.01"/>
+                                <entry key="step" value="0.01"/>
+                                <entry key="max" value="100"/>
+                                <entry key="numberFormat" value="n"/>
+                            </map>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="name" value="percentTime" />
+        <property name="label" value="Percent Time" />
+    </bean>
+
+    <bean id="Position-workMonths" parent="Position-workMonths-parentBean"/>
+    <bean id="Position-workMonths-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10" />
+        </property>
+        <property name="name" value="workMonths" />
+        <property name="label" value="Work Months" />
+    </bean>
+
+    <bean id="Position-benefitsEligible" parent="Position-benefitsEligible-parentBean"/>
+    <bean id="Position-benefitsEligible-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="controlField">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="name" value="benefitsEligible" />
+        <property name="label" value="Benefit Eligible" />
+    </bean>
+
+    <bean id="Position-leaveEligible" parent="Position-leaveEligible-parentBean"/>
+    <bean id="Position-leaveEligible-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="controlField">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="name" value="leaveEligible" />
+        <property name="label" value="Leave Eligible" />
+    </bean>
+
+    <bean id="Position-leavePlan" parent="Position-leavePlan-parentBean" />
+    <bean id="Position-leavePlan-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Leave Plan" />
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="15" />
+        </property>
+        <property name="name" value="leavePlan" />
+        <property name="label" value="Leave Plan" />
+    </bean>
+
+    <bean id="Position-positionReportGroup" parent="Position-positionReportGroup-parentBean" />
+    <bean id="Position-positionReportGroup-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Report Group" />
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10" />
+        </property>
+        <property name="name" value="positionReportGroup" />
+        <property name="label" value="Position Report Group" />
+    </bean>
+
+    <bean id="Position-positionType" parent="Position-positionType-parentBean" />
+    <bean id="Position-positionType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10" />
+        </property>
+        <property name="name" value="positionType" />
+        <property name="label" value="Position Type" />
+    </bean>
+
+    <bean id="Position-poolEligible" parent="Position-poolEligible-parentBean"/>
+    <bean id="Position-poolEligible-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="controlField">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="name" value="poolEligible" />
+        <property name="label" value="Pool Eligible" />
+    </bean>
+
+    <bean id="Position-maxPoolHeadCount" parent="Position-maxPoolHeadCount-parentBean"/>
+    <bean id="Position-maxPoolHeadCount-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5" />
+        </property>
+        <property name="name" value="maxPoolHeadCount" />
+        <property name="label" value="Max Pool Head Count" />
+    </bean>
+
+    <bean id="Position-tenureEligible" parent="Position-tenureEligible-parentBean"/>
+    <bean id="Position-tenureEligible-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="controlField">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="name" value="tenureEligible" />
+        <property name="label" value="Tenure Eligible" />
+    </bean>
+
+
+    <bean id="Position-effectiveDate" parent="Position-effectiveDate-parentBean" />
 	<bean id="Position-effectiveDate-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Effective Date" />
@@ -323,6 +551,12 @@
 							<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
 							<bean parent="Uif-DataField" p:propertyName="positionNumber" />
 							<bean parent="Uif-DataField" p:propertyName="description" />
+                            <bean parent="Uif-DataField" p:propertyName="institution" />
+                            <bean parent="Uif-DataField" p:propertyName="campus" />
+                            <bean parent="Uif-DataField" p:propertyName="workingPositionTitle" />
+                            <bean parent="Uif-DataField" p:propertyName="classificationTitle" />
+                            <bean parent="Uif-DataField" p:propertyName="positionType" />
+                            <bean parent="Uif-DataField" p:propertyName="poolEligible" />
 							<bean parent="Uif-DataField" p:propertyName="active" />
 						</list>
 					</property>
@@ -348,6 +582,17 @@
 			<list>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution" >
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.hr.pm.institution.Institution"
+                              p:fieldConversions="institutionCode:institution"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="workingPositionTitle" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="classificationTitle" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionType" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="poolEligible" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history"
 					p:defaultValue="N" />
@@ -364,6 +609,12 @@
 					</property>
 				</bean>
 				<bean parent="Uif-DataField" p:propertyName="description" />
+                <bean parent="Uif-InputField" p:propertyName="institution" />
+                <bean parent="Uif-InputField" p:propertyName="campus" />
+                <bean parent="Uif-InputField" p:propertyName="workingPositionTitle" />
+                <bean parent="Uif-InputField" p:propertyName="classificationTitle" />
+                <bean parent="Uif-InputField" p:propertyName="positionType" />
+                <bean parent="Uif-InputField" p:propertyName="poolEligible" />
 				<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
 				<bean parent="Uif-DataField" p:propertyName="timestamp" />
 				<bean parent="Uif-DataField" p:propertyName="active" />

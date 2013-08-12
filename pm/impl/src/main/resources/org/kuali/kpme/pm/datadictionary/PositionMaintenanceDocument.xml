@@ -58,6 +58,8 @@
             	<list>
 <!--             		<bean parent="Uif-InputField" p:propertyName="category" p:readOnly="true" p:required="false"/> -->
 			        <bean parent="Uif-InputField" p:propertyName="positionNumber" p:readOnly="true" p:required="false"/>
+                    <!-- bean parent="Uif-InputField" p:propertyName="workingPositionTitle"
+                          p:required="true" / -->
 			        <!--<bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.NextUniquePositionNumberFinder"/>-->
 			        <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
 			        <bean parent="Uif-InputField" p:propertyName="description" p:required="true" />
@@ -74,6 +76,140 @@
 			     </list>
 			</property>
 	    </bean>
+          <!-- Location -->
+          <bean parent="Uif-MaintenanceGridSection">
+              <property name="headerText" value="Location" />
+              <property name="items">
+                  <list>
+                      <bean parent="Uif-InputField" p:propertyName="institution">
+                          <property name="quickfinder">
+                              <bean parent="Uif-QuickFinderByScript"
+                                    p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+                                    p:fieldConversions="institutionCode:institution" />
+                          </property>
+                      </bean>
+                      <bean parent="Uif-InputField" p:propertyName="campus" />
+                  </list>
+              </property>
+          </bean>
+
+          <!-- Classification -->
+          <bean parent="Uif-MaintenanceGridSection">
+              <property name="headerText" value="Classification" />
+              <property name="items">
+                  <list>
+                      <bean parent="Uif-InputField" p:propertyName="pmPositionClassId">
+
+                          <!-- property name="quickfinder.dataObjectClassName"
+                                    value="org.kuali.kpme.pm.classification.Classification" / -->
+                          <property name="quickfinder">
+                              <bean parent="Uif-QuickFinder"
+                                    p:dataObjectClassName="org.kuali.kpme.pm.classification.Classification"/>
+                          </property>
+                          <property name="quickfinder.fieldConversions">
+                              <map>
+                                  <entry key="pmPositionClassId" value="pmPositionClassId" />
+                                  <entry key="classificationTitle" value="classificationTitle" />
+                                  <entry key="salaryGroup" value="salaryGroup" />
+                                  <entry key="percentTime" value="percentTime" />
+                                  <entry key="benefitsEligible" value="benefitsEligible" />
+                                  <entry key="leaveEligible" value="leaveEligible" />
+                                  <entry key="leavePlan" value="leavePlan" />
+                                  <entry key="positionReportGroup" value="positionReportGroup" />
+                                  <entry key="positionType" value="positionType" />
+                                  <entry key="poolEligible" value="poolEligible" />
+                                  <entry key="tenureEligible" value="tenureEligible" />
+                                  <entry key="active" value="active" />
+                              </map>
+                          </property>
+                      </bean>
+                      <bean parent="Uif-InputField" p:propertyName="classificationTitle">
+                          <property name="control">
+                              <bean parent="Uif-TextControl" p:disabled="true"
+                                    p:enabledWhenChangedPropertyNames="pmPositionClassId"
+                                    p:evaluateDisabledOnKeyUp="true" />
+                          </property>
+                      </bean>
+
+                      <bean parent="Uif-InputField" p:propertyName="positionReportGroup"
+                            p:readOnly="true" />
+                      <bean parent="Uif-InputField" p:propertyName="positionType"
+                            p:readOnly="true" />
+                      <bean parent="Uif-InputField" p:propertyName="poolEligible"
+                            p:required="true" />
+                      <bean parent="Uif-InputField" p:propertyName="maxPoolHeadCount"
+                            p:constraintText="Must be a number.">
+                          <property name="validCharactersConstraint">
+                              <bean parent="IntegerPatternConstraint" p:allowNegative="false" />
+                          </property>
+
+                          <!-- this is still not working, this should disable maxPoolHeadCount
+                              if pool eligiable is no -->
+                          <!-- property name="control">
+                              <bean parent="Uif-TextControl" p:disabled="@{#poolEligible eq 'No'}" />
+                          </property>
+                          < this works <property name="control"> <bean parent="Uif-TextControl"
+                              p:disabled="true"/> </property> -->
+                      </bean>
+                      <bean parent="Uif-InputField" p:propertyName="tenureEligible"
+                            p:required="true" />
+                      <bean parent="Uif-InputField" p:propertyName="salaryGroup">
+                          <!-- property name="quickfinder">
+                              <bean parent="Uif-QuickFinderByScript"
+                                    p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
+                                    p:fieldConversions="hrSalGroup:salaryGroup" />
+                          </property -->
+                      </bean>
+                      <bean parent="Uif-InputField" p:propertyName="percentTime"
+                            p:exclusiveMin="0" p:inclusiveMax="100"
+                            p:constraintText="Must be a number between 0 and 100.">
+                          <property name="validCharactersConstraint">
+                              <bean parent="FixedPointPatternConstraint"
+                                    p:allowNegative="false" p:precision="5" p:scale="2" />
+                          </property>
+                      </bean>
+                      <bean parent="Uif-InputField" p:propertyName="workMonths"
+                            p:constraintText="Must be a number between 1 and 12.">
+                          <property name="validCharactersConstraint">
+                              <bean parent="IntegerPatternConstraint" p:allowNegative="false" />
+                          </property>
+                      </bean>
+                      <bean parent="Uif-InputField" p:propertyName="benefitsEligible"
+                            p:required="true" />
+                      <bean parent="Uif-InputField" p:propertyName="leaveEligible"
+                            p:required="true" />
+                      <bean parent="Uif-InputField" p:propertyName="leavePlan"
+                            p:constraintText="Required if Leave Eligible is Yes.">
+                          <property name="caseConstraint">
+                              <bean parent="CaseConstraint">
+                                  <property name="propertyName" value="leaveEligible" />
+                                  <property name="whenConstraint">
+                                      <list>
+                                          <bean parent="WhenConstraint">
+                                              <property name="values">
+                                                  <list>
+                                                      <value>Y</value>
+                                                  </list>
+                                              </property>
+                                              <property name="constraint">
+                                                  <bean parent="RequiredConstraint" />
+                                              </property>
+                                          </bean>
+                                      </list>
+                                  </property>
+                              </bean>
+                          </property>
+                          <!-- property name="quickfinder">
+                              <bean parent="Uif-QuickFinderByScript"
+                                    p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlan"
+                                    p:fieldConversions="leavePlan:leavePlan" />
+                          </property -->
+                      </bean>
+
+
+                  </list>
+              </property>
+          </bean>
 	    <bean parent="Uif-TabGroup">
 			  <property name="items">
 			    <list>
@@ -97,13 +233,13 @@
 						</list>
 			      	 </property>
 			      </bean>
- 				  <bean parent="Uif-VerticalBoxSection" p:headerText="Duties">
+ 				  <!--bean parent="Uif-VerticalBoxSection" p:headerText="Duties">
 	      			<property name="items">
 	      				<list>
 	      					<ref bean="Position-duties"/>
 						</list>
 				    </property>
-				  </bean>
+				  </bean -->
 			      <bean parent="Uif-VerticalBoxSection" p:headerText="Flags">
 			      	<property name="items">
 			      		<list>

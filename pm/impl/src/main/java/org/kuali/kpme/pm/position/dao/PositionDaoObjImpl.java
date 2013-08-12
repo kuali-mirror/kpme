@@ -39,7 +39,8 @@ public class PositionDaoObjImpl extends PlatformAwareDaoBaseOjb implements Posit
 	}
 
 	@Override
-	public List<Position> getPositions(String positionNum, String description,
+	public List<Position> getPositions(String positionNum, String description, String workingPositionTitle, String campus,
+            String institution, String salaryGroup, String classificationTitle, String positionType, String poolEligible,
 			LocalDate fromEffdt, LocalDate toEffdt, String active,
 			String showHistory) {
 		List<Position> results = new ArrayList<Position>();
@@ -53,7 +54,35 @@ public class PositionDaoObjImpl extends PlatformAwareDaoBaseOjb implements Posit
         if (StringUtils.isNotBlank(description)) {
             root.addLike("description", description);
         }
-        
+
+        if (StringUtils.isNotBlank(workingPositionTitle)) {
+            root.addLike("workingPositionTitle", workingPositionTitle);
+        }
+
+        if (StringUtils.isNotBlank(campus)) {
+            root.addLike("campus", campus);
+        }
+
+        if (StringUtils.isNotBlank(institution)) {
+            root.addLike("institution", institution);
+        }
+
+        if (StringUtils.isNotBlank(salaryGroup)) {
+            root.addLike("salaryGroup", salaryGroup);
+        }
+
+        if (StringUtils.isNotBlank(classificationTitle)) {
+            root.addLike("classificationTitle", classificationTitle);
+        }
+
+        if (StringUtils.isNotBlank(positionType)) {
+            root.addLike("positionType", positionType);
+        }
+
+        if (StringUtils.isNotBlank(poolEligible)) {
+            root.addEqualTo("poolEligible", poolEligible);
+
+        }
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
             effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());

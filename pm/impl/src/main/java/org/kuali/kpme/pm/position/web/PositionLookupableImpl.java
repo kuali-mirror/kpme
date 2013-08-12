@@ -43,6 +43,13 @@ public class PositionLookupableImpl extends KPMELookupableImpl {
     protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
     	String positionNum = searchCriteria.get("positionNumber");
         String description = searchCriteria.get("description");
+        String workingPositionTitle = searchCriteria.get("workingPositionTitle");
+        String campus = searchCriteria.get("campus");
+        String institution = searchCriteria.get("institution");
+        String salaryGroup = searchCriteria.get("salaryGroup");
+        String classificationTitle = searchCriteria.get("classificationTitle");
+        String positionType = searchCriteria.get("positionType");
+        String poolEligible = searchCriteria.get("poolEligible");
         String fromEffdt = TKUtils.getFromDateString(searchCriteria.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(searchCriteria.get("effectiveDate"));
         String active = searchCriteria.get("active");
@@ -52,7 +59,8 @@ public class PositionLookupableImpl extends KPMELookupableImpl {
             positionNum = "";
         }
         
-        return PmServiceLocator.getPositionService().getPositions(positionNum, description, TKUtils.formatDateString(fromEffdt),
+        return PmServiceLocator.getPositionService().getPositions(positionNum, description, workingPositionTitle, campus,
+                institution, salaryGroup, classificationTitle, positionType, poolEligible, TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHist);	
     }  
 	
