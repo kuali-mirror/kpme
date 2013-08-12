@@ -156,7 +156,7 @@ public class TimeBlockHistoryLookupableHelperServiceImpl extends KPMELookupableH
 					}
 					if(addToHistory) {
 						TimeBlockHistory tBlock = new TimeBlockHistory();
-						tBlock.setAmount(history.getAmount());
+						tBlock.setAmount(history.getLeaveAmount());
 						tBlock.setHours(history.getHours());
 						tBlock.setJobNumber(history.getJobNumber());
 						tBlock.setEarnCode(history.getEarnCode());
