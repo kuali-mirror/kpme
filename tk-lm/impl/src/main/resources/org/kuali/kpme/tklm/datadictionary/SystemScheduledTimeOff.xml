@@ -58,8 +58,8 @@
 					<property name="objectAttributeName" value="leavePlanObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan"
-								p:targetName="leavePlan" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan" p:targetName="leavePlan" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
@@ -68,7 +68,8 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory" p:targetName="accrualCategory" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan" p:targetName="leavePlan" />
+							<!--<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan" p:targetName="leavePlan" />-->
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
@@ -77,8 +78,7 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode" p:targetName="earnCode" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan" p:targetName="leavePlan" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory" p:targetName="accrualCategory" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
@@ -86,8 +86,8 @@
 					<property name="objectAttributeName" value="earnCodeObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="transfertoEarnCode"
-								p:targetName="earnCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="transfertoEarnCode" p:targetName="earnCode" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
@@ -95,8 +95,8 @@
 					<property name="objectAttributeName" value="locationObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
-								p:targetName="location" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"	p:targetName="location" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
@@ -398,7 +398,7 @@
                             <bean parent="FieldDefinition" p:attributeName="transferConversionFactor" />
                             <bean parent="FieldDefinition" p:attributeName="premiumHoliday" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
-							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true" />
 						 </list>
 					</property>
 					<property name="title" value="SystemScheduledTimeOff" />
@@ -416,7 +416,7 @@
 		<property name="lookupableID" value="systemScheduledTimeOffLookupable"></property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true"/>
 				<bean parent="FieldDefinition" p:attributeName="leavePlan" p:noInquiry="true" p:noLookup="true" p:hidden="true" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" p:noInquiry="true" p:noLookup="true" p:hidden="true" />
 				<!-- bean parent="FieldDefinition" p:attributeName="leavePlan" /-->
@@ -433,12 +433,12 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
-				<bean parent="FieldDefinition" p:attributeName="leavePlan" p:noInquiry="true" />
+				<bean parent="FieldDefinition" p:attributeName="leavePlan"  />
 				<bean parent="FieldDefinition" p:attributeName="accruedDate" />
 				<bean parent="FieldDefinition" p:attributeName="scheduledTimeOffDate" />
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true"/>
 			</list>
 		</property>
 		<property name="title" value="System Scheduled Time Off Lookup" />
