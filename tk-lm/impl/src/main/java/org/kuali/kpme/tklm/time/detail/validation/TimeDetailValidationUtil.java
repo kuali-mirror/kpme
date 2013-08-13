@@ -97,12 +97,19 @@ public class TimeDetailValidationUtil {
 
         DateTime startTemp = new DateTime(startTime);
         DateTime endTemp = new DateTime(endTime);
-
+/*
+ * KPME-2687: 
+ * 
+ * Removed 24 hour limitation. System creates continuous sequence of time blocks when !accrossDays,
+ * hours between startTemp and endTemp may be over 24 hours.
+ * 
         if (errors.size() == 0 && !acrossDays && !StringUtils.equals(TkConstants.EARN_CODE_CPE, overtimePref)) {
             Hours hrs = Hours.hoursBetween(startTemp, endTemp);
-            if (hrs.getHours() >= 24) errors.add("One timeblock cannot exceed 24 hours");
+            if (hrs.getHours() > 24) errors.add("One timeblock cannot exceed 24 hours");
         }
         if (errors.size() > 0) return errors;
+        
+ */
 
         //Check that assignment is valid for both days
         AssignmentDescriptionKey assignKey = HrServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssignment);
@@ -170,19 +177,29 @@ public class TimeDetailValidationUtil {
             if (hours.scale() > 2) {
                 errors.add("Hours cannot have more than two digits after decimal point.");
             }
-            int dayDiff = endTemp.getDayOfYear() - startTemp.getDayOfYear() + 1;
+/*
+ * KPME-2671:
+ * 
+ * Replacing this conditional with the one below. Shouldn't matter if the date range spans more than one day,
+ * hours shouldn't exceed 24.
+ * 
+ *          int dayDiff = endTemp.getDayOfYear() - startTemp.getDayOfYear() + 1;
             if (hours.compareTo(new BigDecimal(dayDiff * 24)) == 1) {
-            	//this is specific to earn codes that use start / end times, not necessarily hours.
                 errors.add("Cannot enter more than 24 hours per day.");
             }
+ */
         }
         if (errors.size() > 0) return errors;
 
-        if(!acrossDays) {
-	    	if(hours != null && hours.compareTo(new BigDecimal(24.0)) > 0) {
-	    		errors.add("Cannot enter more than 24 hours per day.");
-	    	}
-        }
+        /**
+         * KPME-2671:
+         * 
+         * Generalize 24 limit to hour field on time entry form.
+         * 
+         */
+    	if(hours != null && hours.compareTo(new BigDecimal(24.0)) > 0) {
+    		errors.add("Hours cannot exceed 24.");
+    	}
     	//------------------------
         // check if time blocks overlap with each other. Note that the tkTimeBlockId is used to
         // determine is it's updating an existing time block or adding a new one

@@ -78,7 +78,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
         // 3/02/2011 - 8:00a to 6:00pm
         // OVT - 2 Hrs Expected
         DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-        DateTime end = new DateTime(2011, 3, 3, 18, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTime end = new DateTime(2011, 3, 2, 18, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
         // Build an action form - we're using it as a POJO, it ties into the
         // existing TK validation setup
@@ -121,7 +121,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
                     put("assignment", "30_30_30");
                 }}
         ));
-        final JSONObject jsonDataObject2 = (JSONObject) jsonData.get(1);
+/*        final JSONObject jsonDataObject2 = (JSONObject) jsonData.get(1);
         Assert.assertTrue("TimeBlock #2 Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject2); }},
                 new ArrayList<Map<String, Object>>() {{
                     add(new HashMap<String, Object>() {{
@@ -140,7 +140,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
                     put("title", "SDR1 Work Area");
                     put("assignment", "30_30_30");
                 }}
-        ));
+        ));*/
 
 
         // Check the Display Rendered Text for Time Block, Quick Check

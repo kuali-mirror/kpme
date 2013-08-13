@@ -525,14 +525,14 @@ public class LeaveCalendarValidationUtil {
     		EarnCode  earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, aDate);
 	    	
     		if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_HOUR)) {
-    			if(leaveAmount.compareTo(new BigDecimal(24.0)) >= 0) {
+    			if(leaveAmount.compareTo(new BigDecimal(24.0)) > 0) {
     				errors.add("Cannot exceed 24 hours in one day");
     			}
     		}
     		else if (earnCode != null) {
     			AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), aDate);
     			if(accrualCategory != null && StringUtils.equals(accrualCategory.getUnitOfTime(),"H")) {
-    				if(leaveAmount.compareTo(new BigDecimal(24.0)) >= 0) {
+    				if(leaveAmount.compareTo(new BigDecimal(24.0)) > 0) {
     					errors.add("Cannot exceed 24 hours in one day");
     				}
     			}

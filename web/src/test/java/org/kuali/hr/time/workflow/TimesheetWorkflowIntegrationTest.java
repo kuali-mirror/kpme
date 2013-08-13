@@ -96,7 +96,7 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         // 2. Set Timeblock Start and End time
         // 3/02/2011 - 8:00a to 4:00pm
         DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-        DateTime end = new DateTime(2011, 3, 3, 16, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTime end = new DateTime(2011, 3, 2, 16, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         Assert.assertNotNull(form);

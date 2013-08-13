@@ -103,7 +103,7 @@
                 <kr.dataSource.password>krtt</kr.dataSource.password>
                 <kr.dataSource.validationQuery>select 1</kr.dataSource.validationQuery>
                 <kr.dataSource.dropFirst>false</kr.dataSource.dropFirst>
-                <kr.dataSource.clearCheckSums>false</kr.dataSource.clearCheckSums>
+                <kr.dataSource.clearCheckSums>true</kr.dataSource.clearCheckSums>
                 <kr.dataSource.contexts>rice-server-bootstrap,kpme-server-bootstrap,kpme-server-staging</kr.dataSource.contexts>
 
                 <kpme.dataSource.driver>com.mysql.jdbc.Driver</kpme.dataSource.driver>
@@ -113,7 +113,7 @@
                 <kpme.dataSource.password>tk_tk_tk</kpme.dataSource.password>
                 <kpme.dataSource.validationQuery>select 1</kpme.dataSource.validationQuery>
                 <kpme.dataSource.dropFirst>false</kpme.dataSource.dropFirst>
-                <kpme.dataSource.clearCheckSums>false</kpme.dataSource.clearCheckSums>
+                <kpme.dataSource.clearCheckSums>true</kpme.dataSource.clearCheckSums>
                 <kpme.dataSource.contexts>rice-client-bootstrap,kpme-client-bootstrap,kpme-client-staging</kpme.dataSource.contexts>
             </properties>
             <build>
@@ -169,7 +169,7 @@
                 <kr.dataSource.password>tk_tk_tk</kr.dataSource.password>
                 <kr.dataSource.validationQuery>select 1</kr.dataSource.validationQuery>
                 <kr.dataSource.dropFirst>true</kr.dataSource.dropFirst>
-                <kr.dataSource.clearCheckSums>false</kr.dataSource.clearCheckSums>
+                <kr.dataSource.clearCheckSums>true</kr.dataSource.clearCheckSums>
                 <kr.dataSource.contexts>rice-server-bootstrap,kpme-server-bootstrap,kpme-server-test</kr.dataSource.contexts>
 
                 <kpme.dataSource.driver>com.mysql.jdbc.Driver</kpme.dataSource.driver>

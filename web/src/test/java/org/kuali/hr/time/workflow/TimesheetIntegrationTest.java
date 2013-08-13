@@ -358,8 +358,10 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 				addTB);
 		// Check for errors - spanning weeks includes weekends, and include weekends box is checked - should give no error
 		Assert.assertEquals(
-				"There should no error in this time detail submission", 0,
+				"There should be one error in this time detail submission", 1,
 				errors.size());
+		
+		Assert.assertTrue("Error is not related to number of hours in a day.", errors.contains("Hours cannot exceed 24."));
 
 		startTime = new DateTime(2011, 2, 19, 9, 0, 0, 0,
 				TKUtils.getSystemDateTimeZone());  // Saturday
@@ -373,7 +375,24 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, addTB);
 		// Check for errors - spanning weeks includes weekends, and include weekends box is not not checked - should give an error
 		Assert.assertEquals(
-				"There should an error in this time detail submission", 1,
+				"There should two errors in this time detail submission", 1,
+				errors.size());
+		
+		Assert.assertTrue("Errors does not contain spanning weeks error", errors.contains("Weekend day is selected, but include weekends checkbox is not checked"));
+		startTime = new DateTime(2011, 2, 17, 9, 0, 0, 0,
+				TKUtils.getSystemDateTimeZone());	// Thursday
+		endTime = new DateTime(2011, 2, 18, 11, 0, 0, 0,
+				TKUtils.getSystemDateTimeZone());  // Friday
+
+		// Setup TimeDetailActionForm2
+		addTB = TimeDetailTestUtils
+				.buildDetailActionForm(timeDoc, assToBeSelected, earnCode,
+						startTime, endTime, null, true, null, false); // last argument false = do not include weekends
+		errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, addTB);
+		// Check for errors - spanning weeks includes weekends, an include weekends box is not not checked - should give an error
+		// hours > 24.
+		Assert.assertEquals(
+				"There should be no error in this time detail submission", 1,
 				errors.size());
 	}
 

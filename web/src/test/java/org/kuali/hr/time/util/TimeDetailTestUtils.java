@@ -59,7 +59,11 @@ public class TimeDetailTestUtils {
      */
     public static TimeDetailActionFormBase buildDetailActionForm(TimesheetDocument timeshetDocument, Assignment assignment, EarnCode earnCode, DateTime start, DateTime end, BigDecimal amount, boolean acrossDays, String timeblockId, boolean spanningWeeks) {
         TimeDetailActionFormBase tdaf = new TimeDetailActionFormBase();
-
+        /**
+         * 
+         * 
+         * 
+         */
         BigDecimal hours = null;
         String startTimeS = null;
         String endTimeS = null;
@@ -68,7 +72,7 @@ public class TimeDetailTestUtils {
         String selectedEarnCode;
         String selectedAssignment;
 
-        if (amount == null) {
+        if (hours == null) {
             if (start != null && end != null) {
                 Interval se_i = new Interval(start, end);
                 hours = TKUtils.convertMillisToHours(se_i.toDurationMillis());
