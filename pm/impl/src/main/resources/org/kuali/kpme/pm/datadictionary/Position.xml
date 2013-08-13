@@ -732,7 +732,7 @@
 		  <property name="layoutManager.columnCalculations">
 		      <list>
 		        <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="percentage"
-		        	p:showPageTotal="false" p:recalculateTotalClientside="true">
+		        	p:showPageTotal="false" p:recalculateTotalClientSide="true">
 		        </bean>
 		      </list>
 	      </property>
