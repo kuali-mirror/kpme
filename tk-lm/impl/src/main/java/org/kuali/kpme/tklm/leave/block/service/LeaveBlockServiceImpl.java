@@ -230,6 +230,9 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                    	} else if((leaveBlockInt.getStartMillis() - endDate.getMillis()) != 0){
 	                    		
 	                            hours = TKUtils.getHoursBetween(leaveBlockInt.getStartMillis(), endDate.getMillis());
+	                            if(leaveBlockType.equalsIgnoreCase(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR)) {
+	                              hours = applyInflateMinHoursAndFactor(earnCodeObj, hours);
+	                            }
                                 hours = negateHoursIfNecessary(leaveBlockType, hours);
 	                    		
 	                    		LeaveBlock leaveBlock = buildLeaveBlock(leaveBlockInt.getStart().toLocalDate(), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, leaveBlockInt.getStart(), endDate);
@@ -247,6 +250,9 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                        if (leaveBlockInt.contains(endDate) || (endDate.getMillis() == leaveBlockInt.getEnd().getMillis())) {
 
 	                        	hours = TKUtils.getHoursBetween(currentDate.getMillis(), endDate.getMillis());
+	                        	 if(leaveBlockType.equalsIgnoreCase(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR)) {
+		                              hours = applyInflateMinHoursAndFactor(earnCodeObj, hours);
+		                         }
                                 hours = negateHoursIfNecessary(leaveBlockType, hours);
 	                    		
 	                    		LeaveBlock leaveBlock = buildLeaveBlock(leaveBlockInt.getStart().toLocalDate(), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, currentDate, endDate);
@@ -260,6 +266,9 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                        } else {
 	                            // create a leave block that wraps the 24 hr day
 	                        	hours = TKUtils.getHoursBetween(currentDate.getMillis(), firstDay.getEndMillis());
+	                        	if(leaveBlockType.equalsIgnoreCase(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR)) {
+		                              hours = applyInflateMinHoursAndFactor(earnCodeObj, hours);
+		                        }
                                 hours = negateHoursIfNecessary(leaveBlockType, hours);
 	                    		
 	                    		LeaveBlock leaveBlock = buildLeaveBlock(leaveBlockInt.getStart().toLocalDate(), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, currentDate, firstDay.getEnd());
@@ -271,6 +280,10 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                        }
 	                    }
                     } else {
+                       
+                        if(leaveBlockType.equalsIgnoreCase(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR)) {
+                            hours = applyInflateMinHoursAndFactor(earnCodeObj, hours);
+                        }
                         hours = negateHoursIfNecessary(leaveBlockType, hours);
 		                LeaveBlock leaveBlock = buildLeaveBlock(leaveBlockInt.getStart().toLocalDate(), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), 
 		                		selectedAssignment, requestStatus, leaveBlockType, null, null);
@@ -452,5 +465,27 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     @Override
     public List<LeaveBlock> getABELeaveBlocksSinceTime(String principalId, DateTime lastRanDateTime) {
     	return leaveBlockDao.getABELeaveBlocksSinceTime(principalId, lastRanDateTime);
+    }
+    
+    private BigDecimal applyInflateMinHoursAndFactor(EarnCode earnCodeObj, BigDecimal blockHours) {
+    	if(earnCodeObj != null) {
+	    	//If earn code has an inflate min hours check if it is greater than zero
+	        //and compare if the hours specified is less than min hours awarded for this
+	        //earn code
+	        if (earnCodeObj.getInflateMinHours() != null) {
+	            if ((earnCodeObj.getInflateMinHours().compareTo(BigDecimal.ZERO) != 0) &&
+	                    earnCodeObj.getInflateMinHours().compareTo(blockHours) > 0) {
+	            	blockHours = earnCodeObj.getInflateMinHours();
+	            }
+	        }
+	        //If earn code has an inflate factor multiple hours specified by the factor
+	        if (earnCodeObj.getInflateFactor() != null) {
+	            if ((earnCodeObj.getInflateFactor().compareTo(new BigDecimal(1.0)) != 0)
+	            		&& (earnCodeObj.getInflateFactor().compareTo(BigDecimal.ZERO)!= 0) ) {
+	            	blockHours = earnCodeObj.getInflateFactor().multiply(blockHours, HrConstants.MATH_CONTEXT).setScale(HrConstants.BIG_DECIMAL_SCALE);
+	            }
+	        }
+    	}
+    	return blockHours;
     }
 }
