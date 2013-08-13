@@ -471,10 +471,8 @@ public class TimeDetailAction extends TimesheetAction {
 	
     // add/update time blocks
 	private void changeTimeBlocks(TimeDetailActionForm tdaf) {
-		DateTime overtimeBeginDateTime = null;
-        DateTime overtimeEndDateTime = null;
-        boolean isClockLogCreated = false;
-        String documentId = tdaf.getDocumentId();
+		boolean isClockLogCreated = false;
+        tdaf.getDocumentId();
         
         // This is for updating a timeblock or changing
         // If tkTimeBlockId is not null and the new timeblock is valid, delete the existing timeblock and a new one will be created after submitting the form.
@@ -482,11 +480,6 @@ public class TimeDetailAction extends TimesheetAction {
             TimeBlock tb = TkServiceLocator.getTimeBlockService().getTimeBlock(tdaf.getTkTimeBlockId());
             if (tb != null) {
 	            isClockLogCreated = tb.getClockLogCreated();
-	            if (StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
-                    //TODO:  This doesn't do anything!!! these variables are never used.  Should they be?
-	            	overtimeBeginDateTime = tb.getBeginDateTime();
-	            	overtimeEndDateTime = tb.getEndDateTime();
-	            }
             }
             // old time block is deleted from addTimeBlock method
             // no, its not
@@ -590,8 +583,8 @@ public class TimeDetailAction extends TimesheetAction {
 	private void updateLeaveBlock(TimeDetailActionForm tdaf) throws Exception {
 
 		String principalId = HrContext.getPrincipalId();
-		String targetPrincipalId = HrContext.getTargetPrincipalId();
-		CalendarEntry calendarEntry = tdaf.getCalendarEntry();
+		HrContext.getTargetPrincipalId();
+		tdaf.getCalendarEntry();
 		String selectedEarnCode = tdaf.getSelectedEarnCode();
 		String leaveBlockId = tdaf.getLmLeaveBlockId();
 		

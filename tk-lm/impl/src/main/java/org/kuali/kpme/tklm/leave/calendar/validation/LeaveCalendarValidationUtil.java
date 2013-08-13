@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.leave.calendar.validation;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -44,6 +45,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.LMConstants;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarWSForm;
@@ -74,6 +76,7 @@ public class LeaveCalendarValidationUtil {
     	if(leaveAmount == null) {
     		leaveAmount  = TKUtils.getHoursBetween(TKUtils.formatDateString(leaveStartDateString).toDate().getTime(), TKUtils.formatDateString(leaveEndDateString).toDate().getTime());
     	}
+
     	if(ls != null && CollectionUtils.isNotEmpty(ls.getLeaveSummaryRows())) {
 	    	BigDecimal oldLeaveAmount = null;
 	    	boolean earnCodeChanged = false;
@@ -511,4 +514,31 @@ public class LeaveCalendarValidationUtil {
 
         return errors;
     }
+
+	public static Collection<? extends String> validateHoursUnderTwentyFour(
+			String selectedEarnCode, String startDate, String endDate, BigDecimal leaveAmount, LeaveBlock lb) {
+    	List<String> errors = new ArrayList<String>();
+
+    	LocalDate aDate = TKUtils.formatDateString(endDate);
+    	
+    	if (StringUtils.isNotBlank(selectedEarnCode)) {
+    		EarnCode  earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, aDate);
+	    	
+    		if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_HOUR)) {
+    			if(leaveAmount.compareTo(new BigDecimal(24.0)) > 0) {
+    				errors.add("Cannot exceed 24 hours in one day");
+    			}
+    		}
+    		else if (earnCode != null) {
+    			AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), aDate);
+    			if(accrualCategory != null && StringUtils.equals(accrualCategory.getUnitOfTime(),"H")) {
+    				if(leaveAmount.compareTo(new BigDecimal(24.0)) > 0) {
+    					errors.add("Cannot exceed 24 hours in one day");
+    				}
+    			}
+    		}
+   		}
+    	return errors;
+
+	}
 }

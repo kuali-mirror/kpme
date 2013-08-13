@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.detail.web;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -109,6 +110,8 @@ public class TimeDetailWSAction extends TimesheetAction {
 			//Validate leave block does not exceed max usage. Leave Calendar Validators at this point rely on a leave summary.
 	        errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, tdaf.getSelectedEarnCode(),
                     tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
+	        errorMsgList.addAll(LeaveCalendarValidationUtil.validateHoursUnderTwentyFour(tdaf.getSelectedEarnCode(),
+	        		tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
 		}
 		return errorMsgList;
     }

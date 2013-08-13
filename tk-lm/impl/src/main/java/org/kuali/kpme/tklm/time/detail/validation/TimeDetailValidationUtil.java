@@ -172,14 +172,18 @@ public class TimeDetailValidationUtil {
             }
             int dayDiff = endTemp.getDayOfYear() - startTemp.getDayOfYear() + 1;
             if (hours.compareTo(new BigDecimal(dayDiff * 24)) == 1) {
+            	//this is specific to earn codes that use start / end times, not necessarily hours.
                 errors.add("Cannot enter more than 24 hours per day.");
             }
         }
         if (errors.size() > 0) return errors;
 
-
-
-        //------------------------
+        if(!acrossDays) {
+	    	if(hours != null && hours.compareTo(new BigDecimal(24.0)) > 0) {
+	    		errors.add("Cannot enter more than 24 hours per day.");
+	    	}
+        }
+    	//------------------------
         // check if time blocks overlap with each other. Note that the tkTimeBlockId is used to
         // determine is it's updating an existing time block or adding a new one
         //------------------------
