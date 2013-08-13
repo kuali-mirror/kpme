@@ -1,0 +1,72 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1" author="henrydfs" context="kpme-client-bootstrap">
+        <comment>KPME-2583 fields added on position maint doc</comment>
+        <addColumn tableName="hr_position_t">
+            <column name="INSTITUTION" type="VARCHAR(15)" defaultValue="*">
+                <constraints nullable="false" />
+            </column>
+            <column name="CAMPUS" type="VARCHAR(15)" defaultValue="*">
+                <constraints nullable="false" />
+            </column>
+            <column name="SAL_GROUP" type="VARCHAR(10)" defaultValue="*">
+                <constraints nullable="false" />
+            </column>
+            <column name="CL_TTL" type="VARCHAR(100)" defaultValue="test">
+                <constraints nullable="false" />
+            </column>
+            <column name="WK_PSTN_TTL" type="VARCHAR(100)" defaultValue="test">
+                <constraints nullable="false" />
+            </column>
+            <column name="PRCT_TM" type="DECIMAL(5,2)" defaultValue="99.99">
+                <constraints nullable="true" />
+            </column>
+            <column name="WK_MONTHS" type="TINYINT" defaultValue="12">
+                <constraints nullable="false" />
+            </column>
+            <column name="BNFT_ELIG" type="VARCHAR(1)" defaultValue="N">
+                <constraints nullable="false" />
+            </column>
+            <column name="LV_ELIG" type="VARCHAR(1)" defaultValue="N">
+                <constraints nullable="false" />
+            </column>
+            <column name="LV_PLN" type="VARCHAR(15)">
+                <constraints nullable="true" />
+            </column>
+            <column name="PSTN_RPT_GRP" type="VARCHAR(10)" defaultValue="test">
+                <constraints nullable="false" />
+            </column>
+            <column name="PSTN_TYP" type="VARCHAR(10)" defaultValue="test">
+                <constraints nullable="false" />
+            </column>
+            <column name="POOL_ELIG" type="VARCHAR(1)" defaultValue="N">
+                <constraints nullable="false" />
+            </column>
+            <column name="MAX_POOL" type="TINYINT" >
+                <constraints nullable="true" />
+            </column>
+            <column name="TNR_ELIG" type="VARCHAR(1)" defaultValue="N">
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
