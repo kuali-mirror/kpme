@@ -4,3 +4,4 @@ HR_LOCATION_ID,LOCATION,DESCRIPTION,TIMEZONE,EFFDT,ACTIVE
 3,GA,Eastern Time,America/Indiana/Indianapolis,2010-01-01,Y
 4,IA,Central Time,America/Chicago,2010-01-01,Y
 5,IN,Eastern Time,America/Indiana/Indianapolis,2010-01-01,Y
+6,UT,Mountain Time,America/Denver,2010-01-01,Y

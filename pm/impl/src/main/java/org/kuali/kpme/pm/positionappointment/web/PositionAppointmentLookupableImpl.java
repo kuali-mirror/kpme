@@ -30,6 +30,10 @@ public class PositionAppointmentLookupableImpl extends KPMELookupableImpl {
 	
     @Override
     public List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
+    	
+    	return super.getSearchResults(form, searchCriteria, bounded);
+ 
+    	/*
         String pmPositionAppointmentId = searchCriteria.get("pmPositionAppointmentId");
         String description = searchCriteria.get("description");
         String fromEffdt = TKUtils.getFromDateString(searchCriteria.get("effectiveDate"));
@@ -45,6 +49,7 @@ public class PositionAppointmentLookupableImpl extends KPMELookupableImpl {
         }
         
         return PmServiceLocator.getPositionAppointmentService().getPositionAppointmentList(positionAppointment, institution, campus, TKUtils.formatDateString(toEffdt));
+        */
         			//TKUtils.formatDateString(toEffdt), active, showHist);
     }
 

@@ -2,3 +2,6 @@ PM_PSTN_CL_ID,PSTN_CL,CL_TTL,INSTITUTION,LOCATION,SAL_GROUP,PRCT_TM,BNFT_ELIG,LV
 1,88001,Dean Academic,UGA,GA,FACULTY,100,Y,Y,FAC,88001,N,N,,2010-01-01,Y,1,1,INSTR
 2,88010,Assoc Dean Academic,UGA,GA,FACULTY,100,Y,Y,FAC,88010,N,N,,2010-01-01,Y,2,1,INSTR
 3,88071,Assoc Dean Administrative,UGA,GA,FACULTY,100,Y,Y,FAC,88071,N,N,,2010-01-01,Y,3,1,INSTR
+4,108,Human Resources Analyst,Utah,UT,STAFF,100,Y,Y,UTAHSTAFF,,N,N,https://www.hr.utah.edu/comp/jobcodetable.php?action=view&jobcode=0108&pagenumber=&lastpage=lastpage&itemsperpage=5000&sortorder=grade%20ASC&search=human&searchfield=Title,2010-01-01,Y,4,1,STAFF
+5,110,Human Resources Consultant,Utah,UT,STAFF,100,Y,Y,UTAHSTAFF,,N,N,https://www.hr.utah.edu/comp/jobcodetable.php?action=view&jobcode=0110&pagenumber=&lastpage=lastpage&itemsperpage=5000&sortorder=grade%20ASC&search=human&searchfield=Title,2010-01-01,Y,5,1,STAFF
+6,458,Human Resources Specialist,Utah,UT,STAFF,100,Y,Y,UTAHSTAFF,,N,N,https://www.hr.utah.edu/comp/jobcodetable.php?action=view&jobcode=0458&pagenumber=&lastpage=lastpage&itemsperpage=5000&sortorder=grade%20ASC&search=human&searchfield=Title,2010-01-01,Y,6,1,STAFF
