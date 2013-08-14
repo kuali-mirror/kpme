@@ -83,6 +83,41 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 			return true;
 		}
 	}
+	
+	boolean validateLocationWithSalaryGroup(ShiftDifferentialRule shiftDifferentialRule) {
+		
+		if (shiftDifferentialRule.getLocation() != null
+				&& !StringUtils.equals(shiftDifferentialRule.getLocation(),
+						HrConstants.WILDCARD_CHARACTER)
+				&& !StringUtils.equals(shiftDifferentialRule.getHrSalGroup(),
+						HrConstants.WILDCARD_CHARACTER)
+				&& !ValidationUtils.validateLocationWithSalaryGroup(shiftDifferentialRule.getHrSalGroup(),
+						shiftDifferentialRule.getLocation(),
+						shiftDifferentialRule.getEffectiveLocalDate())) {
+			// error.location.salaryGroupLocation.nomatch=The specified location '{0}' does not match the salary group location.
+			this.putFieldError("location", "error.location.salaryGroupLocation.nomatch", shiftDifferentialRule.getLocation());
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	boolean validateDays(ShiftDifferentialRule shiftDifferentialRule) {
+
+		if (shiftDifferentialRule.isSunday() || 
+				shiftDifferentialRule.isMonday() || 
+				shiftDifferentialRule.isTuesday() || 
+				shiftDifferentialRule.isWednesday() || 
+				shiftDifferentialRule.isThursday() || 
+				shiftDifferentialRule.isFriday() || 
+				shiftDifferentialRule.isSaturday()) {
+			return true;
+		} else {
+			// day.required=At least one day must be checked.
+			this.putFieldError("sunday", "day.required");
+			return false;
+		}
+	}
 
 	/**
 	 * It looks like the method that calls this class doesn't actually care
@@ -104,6 +139,8 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateSalGroup(shiftDifferentialRule);
 				valid &= this.validatePayGrade(shiftDifferentialRule);
 				valid &= this.validateEarnCode(shiftDifferentialRule);
+				valid &= this.validateLocationWithSalaryGroup(shiftDifferentialRule);  // KPME-2635
+				valid &= this.validateDays(shiftDifferentialRule);  // KPME-2635
 			}
 		}
 

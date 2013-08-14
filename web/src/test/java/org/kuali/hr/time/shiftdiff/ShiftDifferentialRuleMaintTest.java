@@ -103,6 +103,8 @@ public class ShiftDifferentialRuleMaintTest extends KPMEWebTestCase{
 	    Assert.assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
 	    errorMessage = "Min. Hours (Min. Hours) is a required field.";
 	    Assert.assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
+	    errorMessage = "At least one day must be checked."; // KPME-2635
+	    Assert.assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
 	}
 
 

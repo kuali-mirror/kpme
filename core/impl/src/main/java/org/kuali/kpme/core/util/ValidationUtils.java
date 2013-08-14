@@ -690,4 +690,27 @@ public class ValidationUtils {
 		}
 		return false;
 	}
+	
+	// KPME-2635
+	/**
+	 * validates location against location of salary group
+	 * 
+	 * @param salaryGroup
+	 * @param location
+	 * @param asOfDate
+	 * @return
+	 */
+	public static boolean validateLocationWithSalaryGroup(String salaryGroup, String location, LocalDate asOfDate) {
+		if (asOfDate != null) {
+			SalaryGroup salGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salaryGroup, asOfDate);
+			if (salGroup != null && StringUtils.isNotBlank(salGroup.getLocation())) {
+				if (ValidationUtils.isWildCard(salGroup.getLocation())) {
+					return true;
+				} else {
+					return StringUtils.equals(salGroup.getLocation(), location);	
+				}
+			}	
+		}
+		return false;
+	}
 }

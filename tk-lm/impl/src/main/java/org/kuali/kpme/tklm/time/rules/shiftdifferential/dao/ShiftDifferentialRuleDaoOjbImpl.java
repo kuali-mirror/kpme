@@ -95,8 +95,8 @@ public class ShiftDifferentialRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb imp
     	Criteria root = new Criteria();
 
         if (StringUtils.isNotBlank(location)) {
-            root.addLike("location", location);
-        }
+        	root.addLike("UPPER(`location`)", location.toUpperCase());  //KPME-2635
+        }        
         
         if (StringUtils.isNotBlank(hrSalGroup)) {
             root.addLike("hrSalGroup", hrSalGroup);
