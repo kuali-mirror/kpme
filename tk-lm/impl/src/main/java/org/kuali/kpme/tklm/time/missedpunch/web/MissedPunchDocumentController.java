@@ -56,7 +56,6 @@ public class MissedPunchDocumentController extends DocumentControllerBase {
 	@Override
     @RequestMapping(params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-    	ModelAndView modelAndView = super.start(form, result, request, response);
     	
     	MissedPunchForm missedPunchForm = (MissedPunchForm) form;
     	MissedPunch missedPunch = missedPunchForm.getMissedPunch();
@@ -82,8 +81,8 @@ public class MissedPunchDocumentController extends DocumentControllerBase {
         }
         
         missedPunchForm.setAssignmentReadOnly(isAssignmentReadOnly(missedPunch));
-	    
-	    return modelAndView;
+
+        return super.start(missedPunchForm, result, request, response);
 	}
 	
 	@Override
