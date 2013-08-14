@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+ <changeSet id="1" author="yingzhou" context="kpme-server-bootstrap">
+ 	<comment>Adding positon as a type attribute to Work Area</comment>
+    <insert tableName="KRIM_TYP_ATTR_T">
+        <column name="KIM_TYP_ATTR_ID" value="KPME0005" />
+        <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Work Area')" />
+        <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'position')" />
+        <column name="SORT_CD" value="a" />
+        <column name="ACTV_IND" value="Y" />
+        <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+        <column name="VER_NBR" value="1" />
+    </insert>
+    <modifySql dbms="mysql">
+	    <replace replace="SYSDATE" with="NOW()" />
+	    <replace replace="SYS_GUID()" with="UUID()" />
+ 	</modifySql>
+ </changeSet>
+</databaseChangeLog>	

@@ -33,7 +33,10 @@ public enum KPMERole {
 	LEAVE_SYSTEM_VIEW_ONLY ("Leave System View Only"),
 	LEAVE_SYSTEM_ADMINISTRATOR ("Leave System Administrator"),
 	PAYROLL_PROCESSOR ("Payroll Processor"),
-	PAYROLL_PROCESSOR_DELEGATE ("Payroll Processor Delegate");	
+	PAYROLL_PROCESSOR_DELEGATE ("Payroll Processor Delegate"),
+	
+	// derived roles
+	DERIVED_ROLE_POSITION ("Derived Role : Position");
 	
 	private String roleName;
 	

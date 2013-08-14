@@ -27,6 +27,7 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo;
 import org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
@@ -123,12 +124,22 @@ public class LocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 		Location location = (Location) hrObj;
 		
 		List<LocationPrincipalRoleMemberBo> newInactiveRoleMembers = createInactiveRoleMembers(location.getRoleMembers());
+		List<LocationPrincipalRoleMemberBo> roleList = new ArrayList<LocationPrincipalRoleMemberBo> ();
+		roleList.addAll(location.getRoleMembers());
 		
     	for (LocationPrincipalRoleMemberBo newInactiveRoleMember : newInactiveRoleMembers) {
     		location.addInactiveRoleMember(newInactiveRoleMember);
+    		List<LocationPrincipalRoleMemberBo> tempRoleList = location.getRoleMembers();
+    		for(LocationPrincipalRoleMemberBo role : tempRoleList) {
+    			if(StringUtils.isNotEmpty(role.getId())
+    					&& StringUtils.isNotEmpty(newInactiveRoleMember.getId())
+    					&& StringUtils.equals(role.getId(), newInactiveRoleMember.getId())) {
+    				roleList.remove(role);
+    			}
+    		}
     	}
-    	
-    	for (LocationPrincipalRoleMemberBo roleMember : location.getRoleMembers()) {
+		    	
+    	for (LocationPrincipalRoleMemberBo roleMember : roleList) {
     		RoleMember.Builder builder = RoleMember.Builder.create(roleMember);
     		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location.getLocation()));
     		

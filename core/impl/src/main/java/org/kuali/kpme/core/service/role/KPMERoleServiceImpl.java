@@ -37,8 +37,10 @@ import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.department.service.DepartmentService;
+import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.core.workarea.service.WorkAreaService;
@@ -181,13 +183,18 @@ public class KPMERoleServiceImpl implements KPMERoleService {
 				
 				List<RoleMember> primaryRoleMembers = getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates(predicates.toArray(new Predicate[] {}))).getResults();
 			
+				Role positionRole = getRoleService().getRoleByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.DERIVED_ROLE_POSITION.getRoleName());
 				for (RoleMember primaryRoleMember : primaryRoleMembers) {
 					if (MemberType.PRINCIPAL.equals(primaryRoleMember.getType())) {
 						roleMembers.add(primaryRoleMember);
 					} else if (MemberType.ROLE.equals(primaryRoleMember.getType())) {
-						Role nestedRole = getRoleService().getRole(primaryRoleMember.getMemberId());
-						
-						roleMembers.addAll(getRoleMembers(nestedRole, primaryRoleMember.getAttributes(), asOfDate, isActiveOnly));
+						// position role memeber has "Derived Role : Position"'s id as the member id 
+						if(positionRole != null && primaryRoleMember.getMemberId().equals(positionRole.getId())) {
+							roleMembers.add(primaryRoleMember);
+						} else {
+							Role nestedRole = getRoleService().getRole(primaryRoleMember.getMemberId());							
+							roleMembers.addAll(getRoleMembers(nestedRole, primaryRoleMember.getAttributes(), asOfDate, isActiveOnly));
+						}
 					}
 				}
 			} else {

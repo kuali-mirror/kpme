@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.role.workarea.WorkAreaPositionRoleMemberBoContract;
 import org.kuali.kpme.core.position.PositionBase;
+import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.role.PositionRoleMemberBo;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -54,6 +55,10 @@ public class WorkAreaPositionRoleMemberBo extends PositionRoleMemberBo implement
         b.setObjectId(roleMemberBo.getObjectId());
         b.setVersionNumber(roleMemberBo.getVersionNumber());
         
+        if(attributes.containsKey(KPMERoleMemberAttribute.POSITION.getRoleMemberAttributeName())
+        		&& StringUtils.isNotBlank(attributes.get(KPMERoleMemberAttribute.POSITION.getRoleMemberAttributeName()))) {
+        	b.setPositionNumber(attributes.get(KPMERoleMemberAttribute.POSITION.getRoleMemberAttributeName()));
+        }
         b.setAttributes(attributes);
         
         return b.build();
@@ -73,6 +78,7 @@ public class WorkAreaPositionRoleMemberBo extends PositionRoleMemberBo implement
         setActiveToDateValue(b.getActiveToDate() == null ? null : new Timestamp(b.getActiveToDate().getMillis()));
         setVersionNumber(b.getVersionNumber());
         setObjectId(b.getObjectId());
+        setPositionNumber(b.getPositionNumber());
     }
 	
 	public static final class Builder implements ModelBuilder, ModelObjectComplete {
@@ -88,6 +94,7 @@ public class WorkAreaPositionRoleMemberBo extends PositionRoleMemberBo implement
         private DateTime activeToDate;
         private Long versionNumber;
         private String objectId;
+        private String positionNumber;
 
         private Builder(String roleId, String memberId, MemberType type) {
             setRoleId(roleId);
@@ -227,6 +234,14 @@ public class WorkAreaPositionRoleMemberBo extends PositionRoleMemberBo implement
         public String toString() {
             return ToStringBuilder.reflectionToString(this);
         }
+
+		public String getPositionNumber() {
+			return positionNumber;
+		}
+
+		public void setPositionNumber(String positionNumber) {
+			this.positionNumber = positionNumber;
+		}
     }
 
 	public PositionBase getPositionBaseObj() {

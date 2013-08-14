@@ -18,22 +18,27 @@ package org.kuali.kpme.core.workarea.web;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.position.PositionBase;
+import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.role.PositionRoleMemberBo;
 import org.kuali.kpme.core.role.PrincipalRoleMemberBo;
+import org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
@@ -179,15 +184,37 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
     private void saveRoleMembers(WorkArea workArea) {
     	List<WorkAreaPrincipalRoleMemberBo> newInactivePrincipalRoleMembers = createInactivePrincipalRoleMembers(workArea.getWorkArea(), workArea.getPrincipalRoleMembers());
     	List<WorkAreaPositionRoleMemberBo> newInactivePositionRoleMembers = createInactivePositionRoleMembers(workArea.getWorkArea(), workArea.getPositionRoleMembers());
-        
+          	
+    	List<WorkAreaPrincipalRoleMemberBo> principalRoleList = new ArrayList<WorkAreaPrincipalRoleMemberBo> ();
+    	principalRoleList.addAll(workArea.getPrincipalRoleMembers());
+    	
     	for (WorkAreaPrincipalRoleMemberBo newInactivePrincipalRoleMember : newInactivePrincipalRoleMembers) {
     		workArea.addInactivePrincipalRoleMember(newInactivePrincipalRoleMember);
-    	}
-    	for (WorkAreaPositionRoleMemberBo newInactivePositionRoleMember : newInactivePositionRoleMembers) {
-    		workArea.addInactivePositionRoleMember(newInactivePositionRoleMember);
+    		List<WorkAreaPrincipalRoleMemberBo> tempRoleList = workArea.getPrincipalRoleMembers();
+    		for(WorkAreaPrincipalRoleMemberBo role : tempRoleList) {
+    			if(StringUtils.isNotEmpty(role.getId())
+    					&& StringUtils.isNotEmpty(newInactivePrincipalRoleMember.getId())
+    					&& StringUtils.equals(role.getId(), newInactivePrincipalRoleMember.getId())) {
+    				principalRoleList.remove(role);
+    			}
+    		}
     	}
     	
-    	for (WorkAreaPrincipalRoleMemberBo principalRoleMember : workArea.getPrincipalRoleMembers()) {
+    	List<WorkAreaPositionRoleMemberBo> positionRoleList = new ArrayList<WorkAreaPositionRoleMemberBo> ();
+    	positionRoleList.addAll(workArea.getPositionRoleMembers());
+    	for (WorkAreaPositionRoleMemberBo newInactivePositionRoleMember : newInactivePositionRoleMembers) {
+    		workArea.addInactivePositionRoleMember(newInactivePositionRoleMember);
+    		List<WorkAreaPositionRoleMemberBo> tempRoleList = workArea.getPositionRoleMembers();
+    		for(WorkAreaPositionRoleMemberBo role : tempRoleList) {
+    			if(StringUtils.isNotEmpty(role.getId())
+    					&& StringUtils.isNotEmpty(newInactivePositionRoleMember.getId())
+    					&& StringUtils.equals(role.getId(), newInactivePositionRoleMember.getId())) {
+    				positionRoleList.remove(role);
+    			}
+    		}
+    	}
+    	
+    	for (WorkAreaPrincipalRoleMemberBo principalRoleMember : principalRoleList) {
     		RoleMember.Builder builder = RoleMember.Builder.create(principalRoleMember);
     		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea.getWorkArea())));
     		
@@ -207,20 +234,40 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
     			KimApiServiceLocator.getRoleService().updateRoleMember(builder.build());
     		}
     	}
-    	for (WorkAreaPositionRoleMemberBo positionRoleMember : workArea.getPositionRoleMembers()) {
-    		RoleMember.Builder builder = RoleMember.Builder.create(positionRoleMember);
-    		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea.getWorkArea())));
+    	
+    	Role positionRole = KimApiServiceLocator.getRoleService().getRoleByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.DERIVED_ROLE_POSITION.getRoleName());
+    	
+    	for (WorkAreaPositionRoleMemberBo positionRoleMember : positionRoleList) {
+    		if(StringUtils.isBlank(positionRoleMember.getMemberId()) && positionRole != null) {
+    			positionRoleMember.setMemberId(positionRole.getId());
+    		}
+    		positionRoleMember.setType(MemberType.ROLE);
     		
+    		RoleMember.Builder builder = RoleMember.Builder.create(positionRoleMember);
+        	Map<String, String> aMap = new HashMap<String, String>();
+        	aMap.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea.getWorkArea()));
+        	aMap.put(KPMERoleMemberAttribute.POSITION.getRoleMemberAttributeName(), positionRoleMember.getPositionNumber());
+        	builder.setAttributes(aMap);
+        	
     		if (StringUtils.isBlank(positionRoleMember.getId())) {
     			KimApiServiceLocator.getRoleService().createRoleMember(builder.build());
     		} else {
     			KimApiServiceLocator.getRoleService().updateRoleMember(builder.build());
     		}
     	}
+    	
     	for (WorkAreaPositionRoleMemberBo inactivePositionRoleMember : workArea.getInactivePositionRoleMembers()) {
-    		RoleMember.Builder builder = RoleMember.Builder.create(inactivePositionRoleMember);
-    		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea.getWorkArea())));
+    		if(StringUtils.isBlank(inactivePositionRoleMember.getMemberId()) && positionRole != null) {
+    			inactivePositionRoleMember.setMemberId(positionRole.getId());
+    		}
+    		inactivePositionRoleMember.setType(MemberType.ROLE);
     		
+    		RoleMember.Builder builder = RoleMember.Builder.create(inactivePositionRoleMember);
+    		Map<String, String> aMap = new HashMap<String, String>();
+        	aMap.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea.getWorkArea()));
+        	aMap.put(KPMERoleMemberAttribute.POSITION.getRoleMemberAttributeName(), inactivePositionRoleMember.getPositionNumber());
+        	builder.setAttributes(aMap);
+        	
     		if (StringUtils.isBlank(inactivePositionRoleMember.getId())) {
     			KimApiServiceLocator.getRoleService().createRoleMember(builder.build());
     		} else {
@@ -235,10 +282,12 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
     	List<RoleMemberBo> inactiveRoleMembers = createInactiveRoleMembers(principalRoleMembers);
     	
     	for (RoleMemberBo inactiveRoleMember : inactiveRoleMembers) {
-    		WorkAreaPrincipalRoleMemberBo.Builder builder = WorkAreaPrincipalRoleMemberBo.Builder.create(
-    				inactiveRoleMember.getRoleId(), null, inactiveRoleMember.getMemberId(), inactiveRoleMember.getType(), 
-    				inactiveRoleMember.getActiveFromDate(), inactiveRoleMember.getActiveToDate(), inactiveRoleMember.getAttributes(), 
-    				inactiveRoleMember.getMemberName(), inactiveRoleMember.getMemberNamespaceCode());
+//    		WorkAreaPrincipalRoleMemberBo.Builder builder = WorkAreaPrincipalRoleMemberBo.Builder.create(
+//    				inactiveRoleMember.getRoleId(), null, inactiveRoleMember.getMemberId(), inactiveRoleMember.getType(), 
+//    				inactiveRoleMember.getActiveFromDate(), inactiveRoleMember.getActiveToDate(), inactiveRoleMember.getAttributes(), 
+//    				inactiveRoleMember.getMemberName(), inactiveRoleMember.getMemberNamespaceCode());
+    		
+    		WorkAreaPrincipalRoleMemberBo.Builder builder = WorkAreaPrincipalRoleMemberBo.Builder.create(inactiveRoleMember);
     		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea)));
     		
     		inactivePrincipalRoleMembers.add(builder.build());
@@ -253,10 +302,11 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
     	List<RoleMemberBo> inactiveRoleMembers = createInactiveRoleMembers(positionRoleMembers);
     	
     	for (RoleMemberBo inactiveRoleMember : inactiveRoleMembers) {
-    		WorkAreaPositionRoleMemberBo.Builder builder = WorkAreaPositionRoleMemberBo.Builder.create(
-    				inactiveRoleMember.getRoleId(), null, inactiveRoleMember.getMemberId(), inactiveRoleMember.getType(), 
-    				inactiveRoleMember.getActiveFromDate(), inactiveRoleMember.getActiveToDate(), inactiveRoleMember.getAttributes(), 
-    				inactiveRoleMember.getMemberName(), inactiveRoleMember.getMemberNamespaceCode());
+//    		WorkAreaPositionRoleMemberBo.Builder builder = WorkAreaPositionRoleMemberBo.Builder.create(
+//    				inactiveRoleMember.getRoleId(), null, inactiveRoleMember.getMemberId(), inactiveRoleMember.getType(), 
+//    				inactiveRoleMember.getActiveFromDate(), inactiveRoleMember.getActiveToDate(), inactiveRoleMember.getAttributes(), 
+//    				inactiveRoleMember.getMemberName(), inactiveRoleMember.getMemberNamespaceCode());
+    		WorkAreaPositionRoleMemberBo.Builder builder = WorkAreaPositionRoleMemberBo.Builder.create(inactiveRoleMember);
     		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea)));
 
     		inactivePositionRoleMembers.add(builder.build());
