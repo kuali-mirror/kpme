@@ -159,6 +159,24 @@ public class EarnCodeServiceImpl implements EarnCodeService {
                 (StringUtils.equals(HrContext.getTargetPrincipalId(), GlobalVariables.getUserSession().getPrincipalId()))) {
             addEarnCode = true;
         }
+
+        if (!addEarnCode && (security.isEmployee() || security.isApprover() || security.isPayrollProcessor())) {
+            String principalId = GlobalVariables.getUserSession().getPrincipalId();
+
+            Set<Long> workAreas = new HashSet<Long>();
+            workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime(), true));
+            workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_SYSTEM_ADMINISTRATOR.getRoleName(), new DateTime(), true));
+            workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_SYSTEM_ADMINISTRATOR.getRoleName(), new DateTime(), true));
+            workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime(), true));
+
+            for (Long wa : workAreas) {
+                WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
+                if (workArea!= null && a.getWorkArea().compareTo(workArea.getWorkArea())==0) {
+                    addEarnCode = true;
+                    break;
+                }
+            }
+        }
         // Check approver flag
         if (!addEarnCode && security.isApprover()) {
         	String principalId = GlobalVariables.getUserSession().getPrincipalId();
@@ -175,7 +193,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
                 }
             }
         }
-        
+
         if (!addEarnCode && security.isPayrollProcessor()) {
         	String principalId = GlobalVariables.getUserSession().getPrincipalId();
         	
