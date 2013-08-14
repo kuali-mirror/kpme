@@ -88,7 +88,7 @@ var CONSTANTS = {
     },
     TIME_FORMAT : {
         DATE_FOR_OUTPUT : 'M/d/yyyy',
-        TIME_FOR_VALIDATION: ['hh:mm tt', 'h:mm tt', 'hh:mmt', 'h:mmt', 'HH:mm', 'HHmm', 'H:mm', 'h tt', 'Hmm', 'ht'],
+        TIME_FOR_VALIDATION: ['hh:mm tt', 'h:mm tt', 'hh:mmt', 'h:mmt', 'HH:mm', 'HHmm', 'H:mm', 'h tt', 'htt', 'Hmm', 'ht'],
         TIME_FOR_OUTPUT : 'hh:mm tt',
         TIME_FOR_SYSTEM : 'H:mm'
     }
