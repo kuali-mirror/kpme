@@ -120,14 +120,16 @@ public class MissedPunchDocumentController extends DocumentControllerBase {
 	@Override
     @RequestMapping(params = "methodToCall=route")
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView modelAndView = super.route(form, result, request, response);
-    	
+
 		MissedPunchForm missedPunchForm = (MissedPunchForm) form;
 		MissedPunchDocument missedPunchDocument = (MissedPunchDocument) missedPunchForm.getDocument();
 		MissedPunch missedPunch = (MissedPunch) missedPunchDocument.getMissedPunch();
 		TkServiceLocator.getMissedPunchService().addClockLog(missedPunch, TKUtils.getIPAddressFromRequest(request.getRemoteAddr()));
-        
-    	return modelAndView;
+		
+		missedPunchDocument.setMissedPunch(missedPunch);
+		missedPunchForm.setDocument(missedPunchDocument);
+   	
+    	return super.route(missedPunchForm, result, request, response);
     }
 
 	@Override
