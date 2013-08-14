@@ -157,6 +157,7 @@ public class TkConstants {
 
         Set<String> li = new HashSet<String>();
         li.add(CLOCK_OUT);
+        li.add(LUNCH_OUT);
 
         Set<String> lo = new HashSet<String>();
         lo.add(LUNCH_IN);

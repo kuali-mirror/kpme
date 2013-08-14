@@ -31,7 +31,10 @@ import org.kuali.kpme.tklm.time.rules.lunch.sys.SystemLunchRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.utils.TkTestConstants;
 
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 
 @FunctionalTest
 public class SystemLunchRuleTest extends KPMEWebTestCase {
@@ -80,6 +83,18 @@ public class SystemLunchRuleTest extends KPMEWebTestCase {
     	Assert.assertTrue("The return from lunch button didn't appear", page.asXml().contains("lunchIn"));
     	Thread.sleep(3000);
     	Assert.assertEquals(TkConstants.LUNCH_OUT, TkServiceLocator.getClockLogService().getLastClockLog("admin").getClockAction());
+    	
+    	if(systemLunchRule.getShowLunchButton()) {
+    		//should be in its own test case, but do not want to expect the exception for purposes of another operation encountering it.
+        	HtmlForm defaultForm = HtmlUnitUtil.getDefaultForm(page);
+        	try {
+        		@SuppressWarnings("unused")
+				HtmlSubmitInput input = defaultForm.getInputByName("clockAction");
+        	} catch (Exception e) {
+            	Assert.assertTrue("Clock Out button should not be present", e instanceof ElementNotFoundException);
+        	}
+        	
+    	}
         //Thread.sleep(3000);
     	// the lunch out button should display after lunching in
     	page = HtmlUnitUtil.clickLunchInOrOutButton(page, "LI");

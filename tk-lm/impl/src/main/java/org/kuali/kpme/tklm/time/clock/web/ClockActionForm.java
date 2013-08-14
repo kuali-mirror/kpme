@@ -54,6 +54,7 @@ public class ClockActionForm extends TimesheetActionForm {
     private ClockLog clockLog;
     private TimeBlock timeBlock;
     private boolean clockButtonEnabled;
+	private boolean showClockButton;
     private boolean showLunchButton;
     private boolean showDistributeButton;
     private Map<String, List<TimeBlock>> timeBlocksMap;
@@ -445,6 +446,14 @@ public class ClockActionForm extends TimesheetActionForm {
 
 	public void setLunchDeductionAmt(BigDecimal lunchDeductionAmt) {
 		this.lunchDeductionAmt = lunchDeductionAmt;
+	}
+
+	public void setShowClockButton(boolean showClockButton) {
+		this.showClockButton = showClockButton;
+	}
+	
+	public boolean getShowClockButton() {
+		return showClockButton;
 	}
 	
 }

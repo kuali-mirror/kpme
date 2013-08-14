@@ -104,14 +104,18 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
         			</tr>
         			<tr class="footer">
         				<td colspan="2" align="center">
-                            <c:choose>
-                                <c:when test="${Form.clockButtonEnabled}">
-                                    <input id="clock-button" type="submit" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction';"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <input disabled id="clock-button" type="submit" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction';"/>
-                                </c:otherwise>
-                            </c:choose>
+	        				<c:choose>
+	        					<c:when test="${Form.showClockButton}">
+		                            <c:choose>
+		                                <c:when test="${Form.clockButtonEnabled}">
+		                                    <input id="clock-button" type="submit" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction';"/>
+		                                </c:when>
+		                                <c:otherwise>
+		                                    <input disabled id="clock-button" type="submit" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction';"/>
+		                                </c:otherwise>
+		                            </c:choose>
+	        					</c:when>
+	        				</c:choose>
                             <c:choose>
         						<c:when test="${Form.currentClockAction eq 'CO'}">
                                     <c:choose>

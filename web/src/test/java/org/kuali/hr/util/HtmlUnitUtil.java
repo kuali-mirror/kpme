@@ -216,7 +216,13 @@ public class HtmlUnitUtil {
 	public static HtmlPage clickLunchInOrOutButton(HtmlPage page, String lunchAction) throws Exception {
 		HtmlForm form = HtmlUnitUtil.getDefaultForm(page);
 		
-		HtmlSubmitInput input = form.getInputByName("clockAction");
+		HtmlSubmitInput input = null;
+		if(lunchAction.equals("LO")) {
+			input = form.getInputByName("lunchOut");
+		}
+		else if(lunchAction.equals("LI")) {
+			input = form.getInputByName("lunchIn");
+		}
 		form.getInputByName("methodToCall").setValueAttribute("clockAction");
 		form.getInputByName("currentClockAction").setValueAttribute(lunchAction);
 		return (HtmlPage) input.click();

@@ -93,7 +93,7 @@ public class ClockAction extends TimesheetAction {
         ClockActionForm clockActionForm = (ClockActionForm) form;
         
         TimesheetDocument timesheetDocument = clockActionForm.getTimesheetDocument();
-        
+        clockActionForm.setShowClockButton(true);
         if (timesheetDocument != null) {
 	        if (!timesheetDocument.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.ENROUTE)
 	                && !timesheetDocument.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL)) {
@@ -130,6 +130,7 @@ public class ClockAction extends TimesheetAction {
 		        } else {
 		            if (StringUtils.equals(lastClockLog.getClockAction(), TkConstants.LUNCH_OUT) && TkServiceLocator.getSystemLunchRuleService().isShowLunchButton()) {
 		                clockActionForm.setCurrentClockAction(TkConstants.LUNCH_IN);
+		                clockActionForm.setShowClockButton(false);
 		            } else {
 		                clockActionForm.setCurrentClockAction(TkConstants.CLOCK_OUT);
 		            }
