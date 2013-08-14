@@ -15,6 +15,10 @@
  */
 package org.kuali.kpme.tklm.leave.accrual.bucket.exception;
 
+import org.kuali.kpme.tklm.api.leave.accrual.bucket.KPMEBalanceException;
+
 public class UsageLimitException extends KPMEBalanceException {
+
+	private static final long serialVersionUID = -6004002017398007388L;
 
 }

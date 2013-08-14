@@ -18,8 +18,8 @@ package org.kuali.kpme.tklm.leave.accrual.bucket;
 import java.math.BigDecimal;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.tklm.api.leave.accrual.bucket.KPMEBalanceException;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.UsageLimitBalanceContract;
-import org.kuali.kpme.tklm.leave.accrual.bucket.exception.KPMEBalanceException;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 
 public class UsageLimitBalance extends LeaveBalance implements UsageLimitBalanceContract {

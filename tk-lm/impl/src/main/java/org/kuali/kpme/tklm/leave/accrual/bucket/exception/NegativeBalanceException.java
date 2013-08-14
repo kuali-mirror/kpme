@@ -15,6 +15,10 @@
  */
 package org.kuali.kpme.tklm.leave.accrual.bucket.exception;
 
+import org.kuali.kpme.tklm.api.leave.accrual.bucket.KPMEBalanceException;
+
 public class NegativeBalanceException extends KPMEBalanceException {
+
+	private static final long serialVersionUID = -4424274490794527490L;
 
 }

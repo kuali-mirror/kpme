@@ -15,6 +15,10 @@
  */
 package org.kuali.kpme.tklm.leave.accrual.bucket.exception;
 
+import org.kuali.kpme.tklm.api.leave.accrual.bucket.KPMEBalanceException;
+
 public class MaxCarryoverException extends KPMEBalanceException {
+
+	private static final long serialVersionUID = -7256042720261079046L;
 
 }
