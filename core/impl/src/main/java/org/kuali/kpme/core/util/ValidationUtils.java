@@ -16,6 +16,7 @@
 package org.kuali.kpme.core.util;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -632,12 +633,10 @@ public class ValidationUtils {
 		if(universityFiscalYear != null) {
 			fields.put("universityFiscalYear", universityFiscalYear.toString());
 		}
-		else {
-			fields.put("universityFiscalYear", null);
-		}
-		ObjectCode objectCode = (ObjectCode) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(ObjectCode.class, fields);
-		if(objectCode != null) {
-			return objectCode.isActive();
+		fields.put("active", "true");
+		Collection<ObjectCode> objectCodes = KRADServiceLocator.getBusinessObjectService().findMatching(ObjectCode.class, fields);
+		if(objectCodes != null && objectCodes.size() >0) {
+			return true;
 		}
 		return false;
 	}
@@ -662,10 +661,13 @@ public class ValidationUtils {
 		fields.put("chartOfAccountsCode", chartOfAccountsCode);
 		fields.put("accountNumber", accountNumber);
 		fields.put("financialObjectCode", financialObjectCode);
-		fields.put("universityFiscalYear", universityFiscalYear);
-		SubObjectCode subObjectCode = (SubObjectCode) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(SubObjectCode.class, fields);
-		if(subObjectCode != null) {
-			return subObjectCode.isActive();
+		if(universityFiscalYear != null) {
+			fields.put("universityFiscalYear", universityFiscalYear.toString());
+		}
+		fields.put("active", "true");
+		Collection<SubObjectCode> subObjectCodes = KRADServiceLocator.getBusinessObjectService().findMatching(SubObjectCode.class, fields);
+		if(subObjectCodes != null && subObjectCodes.size() > 0) {
+			return true;
 		}
 		return false;
 	}

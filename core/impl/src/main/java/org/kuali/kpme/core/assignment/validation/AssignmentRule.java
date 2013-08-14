@@ -220,7 +220,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				+ assignmentAccount.getFinObjectCd());
 		valid = ValidationUtils.validateObjectCode(assignmentAccount.getFinObjectCd(),
 												assignmentAccount.getFinCoaCd(),
-												Integer.valueOf(assignmentEffectiveDate.getYear()));
+												null);
 		if (!valid) {
 			this.putGlobalError("error.existence", "Object Code '"
 					+ assignmentAccount.getFinObjectCd() + "'");
