@@ -32,16 +32,17 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.leave.accrual.bucket.KPMEAccrualCategoryBucketContract;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.KPMEBalanceException;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 
 public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContract {
 
@@ -55,7 +56,6 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 	private boolean isInitialized;
 	private LocalDate asOfDate;
 	
-	@Override
 	public void initialize(PrincipalHRAttributes currentPrincipalCalendar) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		leaveBalances = new LinkedHashMap<String, List<LeaveBalance>>();
 		principalCalendar = currentPrincipalCalendar;
@@ -121,8 +121,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 		this.leaveBalances.put(accrualCategory.getLmAccrualCategoryId(),leaveBalances);
 	}
 	
-	@Override
-	public LeaveBalance getLeaveBalance(AccrualCategory accrualCategory, String balanceType) {
+	public LeaveBalance getLeaveBalance(AccrualCategoryContract accrualCategory, String balanceType) {
 		List<LeaveBalance> leaveBalances = this.leaveBalances.get(accrualCategory.getLmAccrualCategoryId());
 		for(LeaveBalance leaveBalance : leaveBalances) {
 			if(leaveBalance.getBalanceType().equals(balanceType))
@@ -131,7 +130,6 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 		return null;
 	}
 
-	@Override
 	public void addLeaveBlock(LeaveBlock leaveBlock) throws KPMEBalanceException {
 		AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(leaveBlock.getAccrualCategory(), leaveBlock.getLeaveLocalDate());
 		List<LeaveBalance> balancesForAccrualCategory = leaveBalances.get(accrualCategory.getLmAccrualCategoryId());
@@ -165,7 +163,6 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 		
 	}
 
-	@Override
 	public void removeLeaveBlock(LeaveBlock leaveBlock) throws KPMEBalanceException {
 		AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(leaveBlock.getAccrualCategory(), leaveBlock.getLeaveLocalDate());
 		List<LeaveBalance> balancesForAccrualCategory = leaveBalances.get(accrualCategory.getLmAccrualCategoryId());
@@ -201,7 +198,6 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 		}
 	}
 	
-	@Override
 	public void editLeaveBlock(LeaveBlock leaveBlock) throws KPMEBalanceException {
 		AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(leaveBlock.getAccrualCategory(), leaveBlock.getLeaveLocalDate());
 		List<LeaveBalance> balancesForAccrualCategory = leaveBalances.get(accrualCategory.getLmAccrualCategoryId());
@@ -231,9 +227,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 			leaveBalance.adjust(leaveBlock);
 		}
 	}
-	
 
-	@Override
 	public void calculateLeaveBalanceForCalendar(CalendarEntry calendarEntry) throws KPMEBalanceException {
 		
 		if(viewingCalendarEntry == null) {
@@ -483,29 +477,24 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 			}
 		}
 	}
-
-	@Override
+	
 	public void calculateLeaveBalanceForPreviousCalendar() {
 		
 		
 	}
 
-	@Override
 	public void calculateLeaveBalanceForNextCalendar() {
 		
 	}
 	
-	@Override
-	public List<LeaveBalance> getLeaveBalancesForAccrualCategory(AccrualCategory accrualCategory) {
+	public List<LeaveBalance> getLeaveBalancesForAccrualCategory(AccrualCategoryContract accrualCategory) {
 		return leaveBalances.get(accrualCategory.getAccrualCategory());
 	}
 
-	@Override
 	public LinkedHashMap<String, List<LeaveBalance>> getLeaveBalances() {
 		return leaveBalances;
 	}
 
-	@Override
 	public void setLeaveBalances(LinkedHashMap<String, List<LeaveBalance>> balances) {
 		this.leaveBalances = balances;
 	}
@@ -524,12 +513,10 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
         return map;
     }
 
-	@Override
 	public CalendarEntry getLeaveCalendarDocument() {
 		return viewingCalendarEntry;
 	}
 
-	@Override
 	public void setCalendarDocument(CalendarEntry calendarDocument) {
 		if(calendarDocument != null)
 			viewingCalendarEntry = calendarDocument;
@@ -545,13 +532,12 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 		this.baseBalanceList = (ArrayList<Class<LeaveBalance>>) baseBalanceList;
 	}
 
-	@Override
+
 	public LeaveBlock withdrawal(AccrualCategory accrualCategory,
 			BigDecimal amount) {
 		return null;
 	}
 
-	@Override
 	public boolean isInitialized() {
 		return isInitialized;
 	}
