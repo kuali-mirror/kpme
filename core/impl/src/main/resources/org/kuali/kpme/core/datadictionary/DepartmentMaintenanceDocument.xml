@@ -57,7 +57,7 @@
 		        <bean parent="MaintainableFieldDefinition" p:name="chart" />
 		        <bean parent="MaintainableFieldDefinition" p:name="org" />
 		        <bean parent="MaintainableFieldDefinition" p:name="payrollApproval" />
-		        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" />
+		        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
             </list>
         </property>
     </bean>
