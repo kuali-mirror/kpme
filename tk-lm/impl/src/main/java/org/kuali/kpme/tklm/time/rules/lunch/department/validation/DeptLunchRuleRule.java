@@ -37,6 +37,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 					+ ruleObj.getWorkArea() + "'");
 			valid = false;
 		} else if (ruleObj.getWorkArea() != null
+				&& (ruleObj.getDept() != null && !ruleObj.getDept().equals(HrConstants.WILDCARD_CHARACTER)) // KPME-2688
 				&& !ruleObj.getWorkArea().equals(HrConstants.WILDCARD_LONG)) {
 			int count = HrServiceLocator.getWorkAreaService().getWorkAreaCount(ruleObj.getDept(), ruleObj.getWorkArea());
 			valid = (count > 0);
@@ -49,7 +50,9 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 	}
 
 	boolean validateDepartment(DeptLunchRule ruleObj) {
-		if (!ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getEffectiveLocalDate())) {
+		if (ruleObj.getDept() != null
+			&& !ruleObj.getDept().equals(HrConstants.WILDCARD_CHARACTER) // KPME-2688
+			&& !ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getEffectiveLocalDate())) {
 			this.putFieldError("dept", "error.existence", "department '" + ruleObj.getDept() + "'");
 			return false;
 		} else {
@@ -73,8 +76,9 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 	}
 
 	boolean validatePrincipalId(DeptLunchRule ruleObj) {
-		if (!ruleObj.getPrincipalId().equals(HrConstants.WILDCARD_CHARACTER)
-				&&!ValidationUtils.validatePrincipalId(ruleObj.getPrincipalId())) {
+		if (ruleObj.getPrincipalId() != null
+			&& !ruleObj.getPrincipalId().equals(HrConstants.WILDCARD_CHARACTER)
+			&&!ValidationUtils.validatePrincipalId(ruleObj.getPrincipalId())) {
 			this.putFieldError("principalId", "error.existence", "Principal Id '" + ruleObj.getPrincipalId() + "'");
 			return false;
 		} else {
@@ -85,7 +89,8 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 	boolean validateShiftHour(DeptLunchRule ruleObj) {
 		BigDecimal shiftHour = ruleObj.getShiftHours();
 		BigDecimal maxHour = new BigDecimal(24);
-		if(shiftHour.compareTo(maxHour) == 1) {
+		if(shiftHour != null
+		   && shiftHour.compareTo(maxHour) == 1) {
 			this.putFieldError("shiftHours", "dept.shifthour.exceedsMax");
 			return false;
 		}

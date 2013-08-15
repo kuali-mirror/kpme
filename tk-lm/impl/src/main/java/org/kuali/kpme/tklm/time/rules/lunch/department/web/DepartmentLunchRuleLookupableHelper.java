@@ -84,6 +84,11 @@ public class DepartmentLunchRuleLookupableHelper extends KPMELookupableHelper {
         	jobNumber = "";
         }
         
+        //KPME-2688
+        if (StringUtils.equals(dept,"%") || StringUtils.equals(dept,"*")){
+        	dept = "";
+        }
+        
         return TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRules(GlobalVariables.getUserSession().getPrincipalId(), dept,
                 workArea, principalId, jobNumber, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, history);
     }
