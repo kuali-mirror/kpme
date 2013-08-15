@@ -27,7 +27,6 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
-import org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo;
 import org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
@@ -38,7 +37,6 @@ import org.kuali.rice.kim.impl.role.RoleMemberBo;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -73,13 +71,23 @@ public class LocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         Location oldMaintainableObject = (Location) document.getOldMaintainableObject().getBusinessObject();
         Location newMaintainableObject = (Location) document.getNewMaintainableObject().getBusinessObject();
         
-        Location oldLocation = HrServiceLocator.getLocationService().getLocation(oldMaintainableObject.getLocation(), oldMaintainableObject.getEffectiveLocalDate());
-
-        oldMaintainableObject.setRoleMembers(oldLocation.getRoleMembers());
-        oldMaintainableObject.setInactiveRoleMembers(oldLocation.getInactiveRoleMembers());
+        Location oldLocation = oldMaintainableObject;
+        if(StringUtils.isNotBlank(oldMaintainableObject.getHrLocationId())) {
+        	oldLocation = HrServiceLocator.getLocationService().getLocation(oldMaintainableObject.getHrLocationId());
+        } else {
+        	oldLocation = HrServiceLocator.getLocationService().getLocation(oldMaintainableObject.getLocation(), oldMaintainableObject.getEffectiveLocalDate());
+        }
         
-        Location newLocation = HrServiceLocator.getLocationService().getLocation(newMaintainableObject.getLocation(), newMaintainableObject.getEffectiveLocalDate());
-
+        oldMaintainableObject.setRoleMembers(oldLocation.getRoleMembers());
+        oldMaintainableObject.setInactiveRoleMembers(oldLocation.getInactiveRoleMembers());        
+        
+        Location newLocation = newMaintainableObject;
+        if(StringUtils.isNotBlank(newMaintainableObject.getHrLocationId())) {
+        	newLocation = HrServiceLocator.getLocationService().getLocation(newMaintainableObject.getHrLocationId());
+        } else {
+        	newLocation = HrServiceLocator.getLocationService().getLocation(newMaintainableObject.getLocation(), newMaintainableObject.getEffectiveLocalDate());
+        }
+        
         newMaintainableObject.setRoleMembers(newLocation.getRoleMembers());
         newMaintainableObject.setInactiveRoleMembers(newLocation.getInactiveRoleMembers());
         

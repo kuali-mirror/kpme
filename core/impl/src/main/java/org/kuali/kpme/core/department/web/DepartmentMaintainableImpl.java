@@ -30,7 +30,6 @@ import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
@@ -71,13 +70,23 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
         Department oldMaintainableObject = (Department) document.getOldMaintainableObject().getBusinessObject();
         Department newMaintainableObject = (Department) document.getNewMaintainableObject().getBusinessObject();
         
-        Department oldDepartment = HrServiceLocator.getDepartmentService().getDepartment(oldMaintainableObject.getDept(), oldMaintainableObject.getEffectiveLocalDate());
-
+        Department oldDepartment = oldMaintainableObject;
+        if(StringUtils.isNotBlank(oldMaintainableObject.getHrDeptId())) {
+        	oldDepartment = HrServiceLocator.getDepartmentService().getDepartment(oldMaintainableObject.getHrDeptId());
+        } else {
+        	oldDepartment = HrServiceLocator.getDepartmentService().getDepartment(oldMaintainableObject.getDept(), oldMaintainableObject.getEffectiveLocalDate());
+        }
+        
         oldMaintainableObject.setRoleMembers(oldDepartment.getRoleMembers());
         oldMaintainableObject.setInactiveRoleMembers(oldDepartment.getInactiveRoleMembers());
         
-        Department newDepartment = HrServiceLocator.getDepartmentService().getDepartment(newMaintainableObject.getDept(), newMaintainableObject.getEffectiveLocalDate());
-
+        Department newDepartment = newMaintainableObject;
+        if(StringUtils.isNotBlank(newMaintainableObject.getHrDeptId())) {
+        	newDepartment = HrServiceLocator.getDepartmentService().getDepartment(newMaintainableObject.getHrDeptId());
+        } else {
+        	newDepartment = HrServiceLocator.getDepartmentService().getDepartment(newMaintainableObject.getDept(), newMaintainableObject.getEffectiveLocalDate());
+        }
+        
         newMaintainableObject.setRoleMembers(newDepartment.getRoleMembers());
         newMaintainableObject.setInactiveRoleMembers(newDepartment.getInactiveRoleMembers());
         

@@ -32,7 +32,6 @@ import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.role.PositionRoleMemberBo;
 import org.kuali.kpme.core.role.PrincipalRoleMemberBo;
-import org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -92,16 +91,25 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         WorkArea oldMaintainableObject = (WorkArea) document.getOldMaintainableObject().getBusinessObject();
         WorkArea newMaintainableObject = (WorkArea) document.getNewMaintainableObject().getBusinessObject();
         
-        WorkArea oldWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(oldMaintainableObject.getWorkArea(), oldMaintainableObject.getEffectiveLocalDate());
-
+        WorkArea oldWorkArea = oldMaintainableObject;
+        if(StringUtils.isNotBlank(oldMaintainableObject.getTkWorkAreaId())) {
+        	oldWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(oldMaintainableObject.getTkWorkAreaId());
+        } else {
+        	oldWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(oldMaintainableObject.getWorkArea(), oldMaintainableObject.getEffectiveLocalDate());
+        }
+        
         oldMaintainableObject.setTasks(oldWorkArea.getTasks());
         oldMaintainableObject.setPrincipalRoleMembers(oldWorkArea.getPrincipalRoleMembers());
         oldMaintainableObject.setInactivePrincipalRoleMembers(oldWorkArea.getInactivePrincipalRoleMembers());
         oldMaintainableObject.setPositionRoleMembers(oldWorkArea.getPositionRoleMembers());
         oldMaintainableObject.setInactivePositionRoleMembers(oldWorkArea.getInactivePositionRoleMembers());
         
-        WorkArea newWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(newMaintainableObject.getWorkArea(), newMaintainableObject.getEffectiveLocalDate());
-
+        WorkArea newWorkArea = newMaintainableObject;
+        if(StringUtils.isNotBlank(newMaintainableObject.getTkWorkAreaId())) {
+        	newWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(newMaintainableObject.getTkWorkAreaId());
+        } else {
+        	newWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(newMaintainableObject.getWorkArea(), newMaintainableObject.getEffectiveLocalDate());
+        }
         newMaintainableObject.setTasks(newWorkArea.getTasks());
         newMaintainableObject.setPrincipalRoleMembers(newWorkArea.getPrincipalRoleMembers());
         newMaintainableObject.setInactivePrincipalRoleMembers(newWorkArea.getInactivePrincipalRoleMembers());
