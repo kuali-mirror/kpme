@@ -65,13 +65,6 @@
 			        <bean parent="Uif-InputField" p:propertyName="description" p:required="true" />
 <!-- 			         p:readOnly="@{#dp.positionNumber eq '2086'}" /> -->
 			        <bean parent="Uif-InputField" p:propertyName="active" p:required="true"/>
-			        
-			        <bean parent="Uif-InputField" p:propertyName="pmPositionClassId" >
-				        <property name="quickfinder">
-				   			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.classification.Classification" 
-				        			 p:fieldConversions="pmPositionClassId:pmPositionClassId"/>
-						</property>
-			        </bean>
 			        			       
 			     </list>
 			</property>
