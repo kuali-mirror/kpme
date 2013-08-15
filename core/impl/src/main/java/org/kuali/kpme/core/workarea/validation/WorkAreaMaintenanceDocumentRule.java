@@ -177,9 +177,12 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 					|| roleMember.getActiveFromDateValue().compareTo(roleMember.getActiveToDateValue()) >= 0) {
 				this.putFieldError(propertyNamePrefix + "expirationDate", "error.role.expiration");
 				valid = false;
-			} else if (TKUtils.getDaysBetween(roleMember.getActiveFromDate().toLocalDate(), roleMember.getActiveToDate().toLocalDate()) > 180) {
-				this.putFieldError(propertyNamePrefix + "expirationDate", "error.role.expiration.duration");
-				valid = false;
+			} else {
+				LocalDate dateLimit = roleMember.getActiveFromDate().toLocalDate().plusMonths(6).minusDays(1);
+				if(roleMember.getActiveToDate().toLocalDate().isAfter(dateLimit)) {			
+					this.putFieldError(propertyNamePrefix + "expirationDate", "error.role.expiration.duration");
+					valid = false;
+				}
         	}
 		}
 		

@@ -148,9 +148,12 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 				if(roleMember.getActiveToDateValue() == null) {
 					this.putFieldError(prefix + "expirationDate", "error.role.expiration.required");
 					valid = false;
-				} else if(TKUtils.getDaysBetween(roleMember.getActiveFromDate().toLocalDate(), roleMember.getActiveToDate().toLocalDate()) > 180) {
-					this.putFieldError(prefix + "expirationDate", "error.role.expiration.duration");
-					valid = false;
+				} else {
+					LocalDate dateLimit = roleMember.getActiveFromDate().toLocalDate().plusMonths(6).minusDays(1);
+					if(roleMember.getActiveToDate().toLocalDate().isAfter(dateLimit)) {
+						this.putFieldError(prefix + "expirationDate", "error.role.expiration.duration");
+						valid = false;
+					}
 				}
 			}
 				
