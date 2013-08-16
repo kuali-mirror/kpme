@@ -276,6 +276,12 @@
 		<property name="label" value="Description" />
 	</bean>
 
+    <bean id="EarnCode-relativeEffectiveDate" parent="EarnCode-effectiveDate-parentBean" p:name="relativeEffectiveDate">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+    </bean>
+
 	<bean id="EarnCode-effectiveDate" parent="EarnCode-effectiveDate-parentBean" />
 	<bean id="EarnCode-effectiveDate-parentBean" abstract="true"
 		parent="AttributeDefinition">
