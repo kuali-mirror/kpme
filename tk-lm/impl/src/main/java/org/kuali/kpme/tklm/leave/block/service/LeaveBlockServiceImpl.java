@@ -190,6 +190,8 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         // TODO: need to integrate with the scheduled timeoff.
     	Interval firstDay = null;
     	DateTime currentDate = beginDate;
+        
+    	EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, endDate.toLocalDate()); 
         for (Interval leaveBlockInt : leaveBlockIntervals) {
             if (calendarInterval.contains(leaveBlockInt)) {
             	// KPME-1446 if "Include weekends" check box is checked, don't add Sat and Sun to the leaveblock list
@@ -220,9 +222,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                     		requestStatus = HrConstants.REQUEST_STATUS.PLANNED;
                     	}
                     }
-                    
-                    EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, ce.getEndPeriodLocalDateTime().toDateTime().toLocalDate());
-                    
+                                                      
                     if(earnCodeObj != null && earnCodeObj.getRecordMethod().equals(HrConstants.RECORD_METHOD.TIME)) {
 	                    if (firstDay != null) {
 	                    	if(!leaveBlockInt.contains(endDate)){

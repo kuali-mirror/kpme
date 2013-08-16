@@ -40,6 +40,7 @@ import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
+import org.kuali.kpme.tklm.time.detail.validation.TimeDetailValidationUtil;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 
 public class LeaveCalendarWSAction extends LeaveCalendarAction {
@@ -71,7 +72,7 @@ public class LeaveCalendarWSAction extends LeaveCalendarAction {
             	if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
                         assignment.getWorkArea().compareTo(key.getWorkArea()) == 0 &&
                         assignment.getTask().compareTo(key.getTask()) == 0) {
-                	List<EarnCode> earnCodes = HrServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, TKUtils.formatDateTimeString(lcf.getStartDate()).toLocalDate(), lcf.isLeavePlanningCalendar());
+            		List<EarnCode> earnCodes = HrServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, TKUtils.formatDateTimeString(lcf.getEndDate()).toLocalDate(), lcf.isLeavePlanningCalendar());
                     for (EarnCode earnCode : earnCodes) {
                         Map<String, Object> earnCodeMap = new HashMap<String, Object>();
                         earnCodeMap.put("assignment", assignment.getAssignmentKey());
@@ -114,16 +115,19 @@ public class LeaveCalendarWSAction extends LeaveCalendarAction {
     		LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(HrContext.getTargetPrincipalId(), lcf.getCalendarEntry());
 		    lcf.setLeaveSummary(ls);
     	}
+    	// validates the selected earn code exists on every day within the date range
+    	errorMsgList.addAll(TimeDetailValidationUtil.validateEearnCode(lcf.getSelectedEarnCode(), lcf.getStartDate(), lcf.getEndDate()));
+    	if(errorMsgList.isEmpty()) {
+	    	errorMsgList.addAll(LeaveCalendarValidationUtil.validateParametersAccordingToSelectedEarnCodeRecordMethod(lcf));
+	    	
+	    	errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalance(lcf));
+	    	//KPME-1263
+	        errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(lcf));
+	
+	        //KPME-2010                
+	        errorMsgList.addAll(LeaveCalendarValidationUtil.validateSpanningWeeks(lcf));
+    	}
     	
-    	errorMsgList.addAll(LeaveCalendarValidationUtil.validateParametersAccordingToSelectedEarnCodeRecordMethod(lcf));
-    	
-    	errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalance(lcf));
-    	//KPME-1263
-        errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(lcf));
-
-        //KPME-2010                
-        errorMsgList.addAll(LeaveCalendarValidationUtil.validateSpanningWeeks(lcf));
-        
         lcf.setOutputString(JSONValue.toJSONString(errorMsgList));
         
         return mapping.findForward("ws");

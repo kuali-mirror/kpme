@@ -32,6 +32,7 @@ import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -45,6 +46,31 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 
 public class TimeDetailValidationUtil {
 
+	 /**
+     * Validate the earn code exists on every day within the date rage
+     * @param earnCode
+     * @param startDateString
+     * @param endDateString
+     *
+     * @return A list of error strings.
+     */
+    public static List<String> validateEearnCode(String earnCode, String startDateString, String endDateString) {
+    	List<String> errors = new ArrayList<String>();
+
+    	LocalDate tempDate = TKUtils.formatDateTimeStringNoTimezone(startDateString).toLocalDate();
+    	LocalDate localEnd = TKUtils.formatDateTimeStringNoTimezone(endDateString).toLocalDate();
+    	while(localEnd.isAfter(tempDate)) {
+    		EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, tempDate);
+    		if(ec == null) {
+    			 errors.add("Earn Code " + earnCode + " is not available for " + tempDate);
+    			 return errors;
+    		}
+    		tempDate = tempDate.plusDays(1);
+    	}
+    	
+    	return errors;
+    }
+	
     /**
      * Convenience method for handling validation directly from the form object.
      * @param tdaf The populated form.
@@ -85,8 +111,8 @@ public class TimeDetailValidationUtil {
 
         EarnCode earnCode = new EarnCode();
         if (StringUtils.isNotBlank(selectedEarnCode)) {
-            earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, payCalEntry.getEndPeriodFullDateTime().toLocalDate());
-
+            earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, TKUtils.formatDateTimeStringNoTimezone(endDateS).toLocalDate());
+          
             if (earnCode != null && earnCode.getRecordMethod()!= null && earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
                 if (startTimeS == null) errors.add("The start time is blank.");
                 if (endTimeS == null) errors.add("The end time is blank.");
