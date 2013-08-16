@@ -90,7 +90,13 @@ public class LocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         
         newMaintainableObject.setRoleMembers(newLocation.getRoleMembers());
         newMaintainableObject.setInactiveRoleMembers(newLocation.getInactiveRoleMembers());
-        
+
+        List<Location> locationList = HrServiceLocator.getLocationService().getNewerVersionLocation(newLocation.getLocation(), newLocation.getEffectiveLocalDate());
+        if (locationList.size() > 0) {
+            GlobalVariables.getMessageMap().putWarningForSectionId(
+                    "Location Maintenance",
+                    "location.newer.exists", null);
+        }
         super.processAfterEdit(document, parameters);
     }
 

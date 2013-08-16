@@ -74,7 +74,12 @@ public class LocationServiceImpl implements LocationService {
 		
 		return locationObj;
 	}
-	
+
+    @Override
+    public List<Location> getLocations(String location) {
+        return locationDao.getLocations(location);
+    }
+
     private void populateLocationRoleMembers(Location location, LocalDate asOfDate) {
     	if (location != null && asOfDate != null    			
     			&& CollectionUtils.isEmpty(location.getRoleMembers()) && CollectionUtils.isEmpty(location.getInactiveRoleMembers())) {
@@ -116,5 +121,10 @@ public class LocationServiceImpl implements LocationService {
     	}
     	
     	return results;
+    }
+
+    @Override
+    public List<Location> getNewerVersionLocation(String location, LocalDate asOfDate) {
+        return locationDao.getNewerVersionLocation(location, asOfDate);
     }
 }

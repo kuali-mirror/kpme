@@ -40,7 +40,6 @@ public class LocationDaoObjImpl extends PlatformAwareDaoBaseOjb implements Locat
 		activeFilter.addEqualTo("active", true);
 		root.addAndCriteria(activeFilter);
 
-		
 		Query query = QueryFactory.newQuery(Location.class, root);
 		
 		return (Location)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
@@ -107,4 +106,34 @@ public class LocationDaoObjImpl extends PlatformAwareDaoBaseOjb implements Locat
         return results;
     }
 
+    @Override
+    public List<Location> getNewerVersionLocation(String location, LocalDate asOfDate) {
+        Criteria root = new Criteria();
+        root.addEqualTo("location", location);
+        root.addGreaterThan("effectiveDate", asOfDate.toDate());
+
+        Criteria activeFilter = new Criteria(); //Inner join for Activity
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+
+        Query query = QueryFactory.newQuery(Location.class, root);
+        List<Location> locations = (List<Location>)this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if(locations == null) {
+            locations = new ArrayList<Location>();
+        }
+
+        return locations;
+
+    }
+
+    @Override
+    public List<Location> getLocations(String location) {
+        List<Location> results = new ArrayList<Location>();
+        Criteria crit = new Criteria();
+        crit.addEqualTo("location", location);
+        crit.addEqualTo("active", true);
+        Query query = QueryFactory.newQuery(Location.class, crit);
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+        return results;
+    }
 }
