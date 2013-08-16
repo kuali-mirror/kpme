@@ -37,7 +37,8 @@ public class LeavePlanInquirableImpl extends KualiInquirableImpl {
 		} else if(StringUtils.isNotBlank((String)fieldValues.get("leavePlan"))
 					&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
 			String leavePlan = (String)fieldValues.get("leavePlan");
-			LocalDate effectiveDate = TKUtils.formatDateString((String)fieldValues.get("effectiveDate"));
+            String effDate = (String) fieldValues.get("effectiveDate");
+            LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
 			lp = HrServiceLocator.getLeavePlanService().getLeavePlan(leavePlan, effectiveDate);
 		} else {
 			lp = (LeavePlan) super.getBusinessObject(fieldValues);
