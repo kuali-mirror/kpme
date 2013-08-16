@@ -39,8 +39,9 @@ public class InstitutionInquirableImpl extends KualiInquirableImpl {
 		if (StringUtils.isNotBlank((String) fieldValues.get("pmInstitutionId"))) {
 			institutionObj = HrServiceLocator.getInstitutionService().getInstitutionById((String) fieldValues.get("pmInstitutionId"));
         } else if (fieldValues.containsKey("institutionCode") && fieldValues.containsKey("effectiveDate")) {
-        	
-            LocalDate effectiveDate = TKUtils.formatDateString((String) fieldValues.get("effectiveDate"));
+            String effDate = (String) fieldValues.get("effectiveDate");
+            LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
+            
             institutionObj = HrServiceLocator.getInstitutionService().getInstitution((String)fieldValues.get("institutionCode"), effectiveDate);
         } else {
        	 	if(fieldValues.get("institutionCode") != null && !ValidationUtils.isWildCard(fieldValues.get("institutionCode").toString())){

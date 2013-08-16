@@ -40,7 +40,9 @@ public class LocationInquirableImpl extends KualiInquirableImpl {
 			locationObj = HrServiceLocator.getLocationService().getLocation((String) fieldValues.get("hrLocationId"));
         } else if (fieldValues.containsKey("location") && fieldValues.containsKey("effectiveDate")) {
             String location = (String) fieldValues.get("location");
-            LocalDate effectiveDate = TKUtils.formatDateString((String) fieldValues.get("effectiveDate"));
+            String effDate = (String) fieldValues.get("effectiveDate");
+            LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
+            
             locationObj = HrServiceLocator.getLocationService().getLocation(location, effectiveDate);
         } else {
        	 	if(fieldValues.get("location") != null && !ValidationUtils.isWildCard(fieldValues.get("location").toString())){

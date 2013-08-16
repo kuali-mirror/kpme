@@ -39,6 +39,7 @@
 				<ref bean="PayType-descr" />
 				<ref bean="PayType-regEarnCode" />
 				<ref bean="PayType-effectiveDate" />
+				<ref bean="PayType-relativeEffectiveDate" />
                 <ref bean="PayType-history"/>
                 <ref bean="PayType-active"/>
 				<ref bean="PayType-timestamp" />
@@ -58,27 +59,42 @@
               <property name="primitiveAttributes">
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="regEarnCode" p:targetName="earnCode"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrEarnCodeId" p:targetName="hrEarnCodeId"/>
                 </list>
               </property>
+               <property name="supportAttributes">
+                   <list>
+                       <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                             p:targetName="effectiveDate" />
+                   </list>
+               </property>
             </bean>
 			<bean parent="RelationshipDefinition">
 				<property name="objectAttributeName" value="locationObj" />
 				<property name="primitiveAttributes">
 					<list>
 						<bean parent="PrimitiveAttributeDefinition" p:sourceName="location" p:targetName="location" />
-						<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrLocationId" p:targetName="hrLocationId"/>
                     </list>
 				</property>
+               <property name="supportAttributes">
+                   <list>
+                       <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                             p:targetName="effectiveDate" />
+                   </list>
+               </property>
 			</bean>
 			<bean parent="RelationshipDefinition">
 				<property name="objectAttributeName" value="institutionObj" />
 				<property name="primitiveAttributes">
 					<list>
 						<bean parent="PrimitiveAttributeDefinition" p:sourceName="institution" p:targetName="institutionCode" />
-						<bean parent="PrimitiveAttributeDefinition" p:sourceName="pmInstitutionId" p:targetName="pmInstitutionId"/>
                     </list>
 				</property>
+               <property name="supportAttributes">
+                   <list>
+                       <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                             p:targetName="effectiveDate" />
+                   </list>
+               </property>
 			</bean>				
           </list>
         </property>
@@ -149,6 +165,12 @@
 		<property name="name" value="regEarnCode" />
 		<property name="label" value="Regular Earn Code" />
 	</bean>
+
+    <bean id="PayType-relativeEffectiveDate" parent="PayType-effectiveDate-parentBean" p:name="relativeEffectiveDate">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+    </bean>
 
 	<bean id="PayType-effectiveDate" parent="PayType-effectiveDate-parentBean" />
 	<bean id="PayType-effectiveDate-parentBean" abstract="true"
@@ -333,6 +355,8 @@
                 <bean parent="FieldDefinition" p:attributeName="location" />
                 <bean parent="FieldDefinition" p:attributeName="institution" />
                 <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
+                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
                 <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
                 <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" />
                 <bean parent="FieldDefinition" p:attributeName="hrEarnCodeId" />

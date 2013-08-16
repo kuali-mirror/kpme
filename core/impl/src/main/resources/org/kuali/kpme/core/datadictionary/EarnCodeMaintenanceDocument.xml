@@ -34,6 +34,7 @@
     <property name="maintainableSections">
       <list>
         <ref bean="EarnCodeMaintenanceDocument-EarnCodeMaintenance"/>
+        <ref bean="EarnCodeMaintenanceDocument-HiddenSection" />
       </list>
     </property>
     <property name="lockingKeys">
@@ -46,6 +47,20 @@
   </bean>
 
   <!-- Maintenance Section Definitions -->
+
+    <bean id="EarnCodeMaintenanceDocument-HiddenSection"
+          parent="EarnCodeMaintenanceDocument-HiddenSection-parentBean" />
+
+    <bean id="EarnCodeMaintenanceDocument-HiddenSection-parentBean"
+          abstract="true" parent="MaintainableSectionDefinition"  >
+        <property name="hidden" value="true" />
+        <property name="title" value="Earn Code Hidden Fields" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="relativeEffectiveDate" />
+            </list>
+        </property>
+    </bean>
 
   <bean id="EarnCodeMaintenanceDocument-EarnCodeMaintenance" parent="EarnCodeMaintenanceDocument-EarnCodeMaintenance-parentBean"/>
   <bean id="EarnCodeMaintenanceDocument-EarnCodeMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
