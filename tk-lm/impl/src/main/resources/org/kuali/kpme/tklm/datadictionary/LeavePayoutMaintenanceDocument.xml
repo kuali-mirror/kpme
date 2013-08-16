@@ -35,6 +35,7 @@
     <property name="maintainableSections">
       <list>
         <ref bean="LeavePayoutMaintenanceDocument-LeavePayoutMaintenance"/>
+        <ref bean="LeavePayoutMaintenanceDocument-HiddenFields"/>
       </list>
     </property>
       <property name="lockingKeys">
@@ -64,4 +65,18 @@
       </list>
     </property>
   </bean>
+
+    <bean id="LeavePayoutMaintenanceDocument-HiddenFields"
+          parent="AssignmentMaintenanceDocument-HiddenFields-parentBean" />
+
+    <bean id="LeavePayoutMaintenanceDocument-HiddenFields-parentBean"
+          abstract="true" parent="MaintainableSectionDefinition"  >
+        <property name="hidden" value="true" />
+        <property name="title" value="Hidden Fields" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="relativeEffectiveDate" />
+            </list>
+        </property>
+    </bean>
 </beans>

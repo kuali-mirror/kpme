@@ -36,8 +36,9 @@ public class AccrualCategoryInquirableImpl extends KPMEInquirableImpl {
 		} else if(StringUtils.isNotBlank((String)fieldValues.get("accrualCategory"))
 					&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
 			String accrualCategory = (String)fieldValues.get("accrualCategory");
-			LocalDate effectiveDate = TKUtils.formatDateString((String)fieldValues.get("effectiveDate"));
-		    ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory((String)fieldValues.get("accrualCategory"), effectiveDate);
+            String effDate = (String) fieldValues.get("effectiveDate");
+            LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
+		    ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, effectiveDate);
 		} else {
 			ac = (AccrualCategory) super.getBusinessObject(fieldValues);
 		}

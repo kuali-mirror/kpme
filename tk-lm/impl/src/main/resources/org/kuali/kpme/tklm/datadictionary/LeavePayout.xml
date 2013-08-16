@@ -38,6 +38,7 @@
 				<ref bean="LeavePayout-principalId" />
                 <ref bean="LeavePayout-earnCode" />
                 <ref bean="LeavePayout-effectiveDate" />
+                <ref bean="LeavePayout-relativeEffectiveDate" />
                 <ref bean="LeavePayout-fromAccrualCategory" />
 				<ref bean="LeavePayout-payoutAmount"/>
 				<ref bean="LeavePayout-forfeitedAmount"/>
@@ -64,6 +65,12 @@
 								p:targetName="earnCode" />
 						</list>
 					</property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+                    </property>
 				</bean>
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="fromAccrualCategoryObj" />
@@ -73,6 +80,12 @@
 								p:targetName="accrualCategory" />
 						</list>
 					</property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+                    </property>
 				</bean>
 			</list>
 		</property>
@@ -131,6 +144,11 @@
     </bean>
 
     <!-- effectiveDate -->
+    <bean id="LeavePayout-relativeEffectiveDate" parent="LeavePayout-effectiveDate-parentBean" p:name="relativeEffectiveDate">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+    </bean>
     <bean id="LeavePayout-effectiveDate" parent="LeavePayout-effectiveDate-parentBean" />
     <bean id="LeavePayout-effectiveDate-parentBean" abstract="true"
           parent="AttributeDefinition">
@@ -242,6 +260,8 @@
                             <bean parent="FieldDefinition" p:attributeName="principalId"/>
                             <bean parent="FieldDefinition" p:attributeName="earnCode"/>
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
+                                  p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
 							<bean parent="FieldDefinition" p:attributeName="fromAccrualCategory"/>
 						</list>
 					</property>
@@ -267,6 +287,8 @@
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
 				<bean parent="FieldDefinition" p:attributeName="forfeitedAmount" />
                 <bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true"/>
+                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
+                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
 			</list>
 
 		</property>
