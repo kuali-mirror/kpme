@@ -68,6 +68,12 @@
 								p:targetName="earnCode" />
 						</list>
 					</property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+                    </property>
 				</bean>
 				
 				<bean parent="RelationshipDefinition">
@@ -301,9 +307,9 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="tkAssignmentId" />
-				<bean parent="FieldDefinition" p:attributeName="accountNbr" />
-				<bean parent="FieldDefinition" p:attributeName="subAcctNbr" />
-				<bean parent="FieldDefinition" p:attributeName="projectCd" />
+				<bean parent="FieldDefinition" p:attributeName="accountNbr" p:noDirectInquiry="true"/>
+				<bean parent="FieldDefinition" p:attributeName="subAcctNbr" p:noDirectInquiry="true"/>
+				<bean parent="FieldDefinition" p:attributeName="projectCd" p:noDirectInquiry="true"/>
 
 			</list>
 		</property>
