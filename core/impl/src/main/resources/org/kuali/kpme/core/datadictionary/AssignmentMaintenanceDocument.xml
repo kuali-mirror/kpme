@@ -36,6 +36,7 @@
 			<list>
 				<ref bean="AssignmentMaintenanceDocument-AssignmentMaintenance" />
 				<ref bean="AssignmentMaintenanceDocument-AssignmentAccountMaintenance" />
+                <ref bean="AssignmentMaintenanceDocument-HiddenFields" />
 			</list>
 		</property>
 		<property name="webScriptFiles">
@@ -59,6 +60,7 @@
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
 					p:required="true" p:noLookup="true"/>
+
 				<bean parent="MaintainableFieldDefinition" p:name="principalId"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="name" 
@@ -73,9 +75,24 @@
 					p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="active"
 					p:required="true" p:defaultValue="true"/>
+
 			</list>
 		</property>
 	</bean>
+
+    <bean id="AssignmentMaintenanceDocument-HiddenFields"
+          parent="AssignmentMaintenanceDocument-HiddenFields-parentBean" />
+
+    <bean id="AssignmentMaintenanceDocument-HiddenFields-parentBean"
+          abstract="true" parent="MaintainableSectionDefinition"  >
+        <property name="hidden" value="true" />
+        <property name="title" value="Assignment Hidden Fields" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="relativeEffectiveDate" />
+            </list>
+        </property>
+    </bean>
 
 	<!-- AssignmentAccounts maintenance section -->
 

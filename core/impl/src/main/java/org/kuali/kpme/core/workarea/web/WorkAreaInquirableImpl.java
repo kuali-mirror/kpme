@@ -40,7 +40,8 @@ public class WorkAreaInquirableImpl extends KualiInquirableImpl {
         } else if (fieldValues.containsKey("workArea") && fieldValues.containsKey("effectiveDate")) {
             String workAreaVal = (String) fieldValues.get("workArea");
             Long workArea = workAreaVal != null ? Long.valueOf(workAreaVal) : null;
-            LocalDate effectiveDate = TKUtils.formatDateString((String) fieldValues.get("effectiveDate"));
+            String effDate = (String) fieldValues.get("effectiveDate");
+            LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
             workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, effectiveDate);
         } else {
 	    	 workAreaObj = (WorkArea) super.getBusinessObject(fieldValues);

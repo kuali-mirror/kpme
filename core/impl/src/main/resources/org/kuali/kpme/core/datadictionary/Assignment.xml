@@ -40,6 +40,7 @@
 				<ref bean="Assignment-jobNumber" />
 				<ref bean="Assignment-hrJobId" />
 				<ref bean="Assignment-effectiveDate" />
+                <ref bean="Assignment-relativeEffectiveDate" />
 				<ref bean="Assignment-timestamp" />
 				<ref bean="Assignment-dept" />
 				<ref bean="Assignment-workArea" />
@@ -65,14 +66,16 @@
 					<property name="objectAttributeName" value="workAreaObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
-								p:targetName="effectiveDate" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
 								p:targetName="workArea" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
-								p:targetName="dept" />
 						</list>
 					</property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+                    </property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -81,29 +84,33 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
 								p:targetName="principalId" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
-								p:targetName="effectiveDate" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="jobNumber"
 								p:targetName="jobNumber" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
-								p:targetName="dept" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrJobId"
-								p:targetName="hrJobId" />
 						</list>
 					</property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+                    </property>
 				</bean>
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="taskObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
-								p:targetName="effectiveDate" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
 									p:targetName="workArea" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="task"
 								p:targetName="task" />
 						</list>
 					</property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+                    </property>
 				</bean>
 			</list>
 		</property>
@@ -211,6 +218,11 @@
 		<property name="label" value="Time Stamp" />
 	</bean>
 
+    <bean id="Assignment-relativeEffectiveDate" parent="Assignment-effectiveDate-parentBean" p:name="relativeEffectiveDate">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+    </bean>
 	<bean id="Assignment-effectiveDate" parent="Assignment-effectiveDate-parentBean" />
 	<bean id="Assignment-effectiveDate-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -367,10 +379,13 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate"
 					p:noInquiry="true" p:noLookup="true" />
+                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
+                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
-				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
+				<bean parent="FieldDefinition" p:attributeName="jobNumber"
+                      p:noDirectInquiry="true"/>
 				<bean parent="FieldDefinition" p:attributeName="dept"
-					p:noInquiry="true" p:noLookup="true" />
+					p:noDirectInquiry="true" p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="history"

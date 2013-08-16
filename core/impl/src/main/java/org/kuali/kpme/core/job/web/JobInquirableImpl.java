@@ -40,7 +40,8 @@ public class JobInquirableImpl extends KualiInquirableImpl {
         	String jobNumberVal = (String) fieldValues.get("jobNumber");
         	Long jobNumber = jobNumberVal != null ? Long.valueOf(jobNumberVal) : null;
             String principalId = (String) fieldValues.get("principalId");
-            LocalDate effectiveDate = TKUtils.formatDateString((String) fieldValues.get("effectiveDate"));
+            String effDate = (String) fieldValues.get("effectiveDate");
+            LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
             jobObj = HrServiceLocator.getJobService().getJob(principalId, jobNumber, effectiveDate);
         } else {
             jobObj = (Job) super.getBusinessObject(fieldValues);

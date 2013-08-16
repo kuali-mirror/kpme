@@ -43,6 +43,14 @@ public abstract class HrBusinessObject extends PersistableBusinessObjectBase imp
 	public void setEffectiveDate(Date effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
+
+    public Date getRelativeEffectiveDate() {
+        return effectiveDate == null ? LocalDate.now().toDate() : effectiveDate;
+    }
+
+    public void setReletiveEffectiveDate(Date reletiveEffectiveDate) {
+        //do nothing
+    }
 	
 	public LocalDate getEffectiveLocalDate() {
 		return effectiveDate != null ? LocalDate.fromDateFields(effectiveDate) : null;
