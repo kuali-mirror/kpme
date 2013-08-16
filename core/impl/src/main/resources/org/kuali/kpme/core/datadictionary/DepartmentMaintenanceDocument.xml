@@ -33,6 +33,7 @@
 	    <property name="maintainableSections">
 	        <list>
 	            <ref bean="DepartmentMaintenanceDocument-DepartmentMaintenance" />
+	            <ref bean="DepartmentMaintenanceDocument-HiddenSection" />
 	            <ref bean="DepartmentMaintenanceDocument-DepartmentRoleMemberMaintenance" />
 	            <ref bean="DepartmentMaintenanceDocument-DepartmentInactiveRoleMemberMaintenance" />
 	        </list>
@@ -43,6 +44,18 @@
             </list>
         </property>
         <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.department.validation.DepartmentEffectiveDatePrompt" />
+    </bean>
+    
+    <bean id="DepartmentMaintenanceDocument-HiddenSection" parent="DepartmentMaintenanceDocument-HiddenSection-parentBean" />
+    <bean id="DepartmentMaintenanceDocument-HiddenSection-parentBean"
+          abstract="true" parent="MaintainableSectionDefinition"  >
+        <property name="hidden" value="true" />
+        <property name="title" value="Department Hidden Fields" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="relativeEffectiveDate" />
+            </list>
+        </property>
     </bean>
 
     <bean id="DepartmentMaintenanceDocument-DepartmentMaintenance" parent="DepartmentMaintenanceDocument-DepartmentMaintenance-parentBean" />

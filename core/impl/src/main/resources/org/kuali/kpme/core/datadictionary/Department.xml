@@ -39,6 +39,7 @@
 		        <ref bean="Department-active" />
 		        <ref bean="Department-history" />
 		        <ref bean="Department-timestamp" />
+		        <ref bean="Department-relativeEffectiveDate" />
             </list>
         </property>
         <property name="relationships">
@@ -48,6 +49,12 @@
                     <property name="primitiveAttributes">
                         <list>
                             <bean parent="PrimitiveAttributeDefinition" p:sourceName="location" p:targetName="location" />
+                        </list>
+                    </property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
                         </list>
                     </property>
                 </bean>
@@ -188,6 +195,13 @@
         </property>
     </bean>
     
+    	<!-- effectiveDate -->
+    <bean id="Department-relativeEffectiveDate" parent="Department-effectiveDate-parentBean" p:name="relativeEffectiveDate">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+    </bean>
+    
     <bean id="Department-effectiveDate" parent="Department-effectiveDate-parentBean" />
     <bean id="Department-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
 	    <property name="name" value="effectiveDate" />
@@ -261,6 +275,8 @@
 							<bean parent="FieldDefinition" p:attributeName="org" />
 							<bean parent="FieldDefinition" p:attributeName="payrollApproval" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
+	                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
+	                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
                         </list>
                     </property>
                 </bean>
@@ -319,6 +335,8 @@
 		        <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 		        <bean parent="FieldDefinition" p:attributeName="payrollApproval" />
 		        <bean parent="FieldDefinition" p:attributeName="active" />
+                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
+                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
             </list>
         </property>
         <property name="resultFields">
@@ -347,6 +365,8 @@
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="payrollApproval" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y" />
+        <bean parent="Uif-LookupCriteriaInputField" p:attributeName="relativeEffectiveDate"
+                     p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
       </list>
     </property>
 
