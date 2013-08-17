@@ -170,6 +170,15 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 			return false;
 		}
 		
+		// KPME-2628 leave plan is required if accrual category is provided
+		if(!StringUtils.isBlank(earnCode.getAccrualCategory())){
+			if (StringUtils.isBlank(earnCode.getLeavePlan())) {
+				// earncode.leavePlan.required=Leave Plan is required if Accrual Category is provided.
+				this.putFieldError("leavePlan", "earncode.leavePlan.required");
+				return false;
+			}
+		}
+		
 		return true;
 	}
 
