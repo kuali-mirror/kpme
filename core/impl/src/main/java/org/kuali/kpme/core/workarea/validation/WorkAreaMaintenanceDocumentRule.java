@@ -228,7 +228,9 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 	
 	boolean validateTask(Task task, WorkArea workArea) {
 		boolean valid = true;
-
+        if (task.getEffectiveDate() == null) {
+            return false;
+        }
 		if (task.getEffectiveDate().compareTo(workArea.getEffectiveDate()) < 0) {
             this.putGlobalError("task.workarea.invalid.effdt", "effective date '" + task.getEffectiveDate().toString() + "'");
             valid = false;
