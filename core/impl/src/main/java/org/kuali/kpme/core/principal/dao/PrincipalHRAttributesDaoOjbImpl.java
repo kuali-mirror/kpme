@@ -431,7 +431,7 @@ public class PrincipalHRAttributesDaoOjbImpl extends PlatformAwareDaoBaseOjb imp
         }
 
         if (StringUtils.isNotBlank(leavePlan)) {
-            root.addLike("leavePlan", leavePlan);
+            root.addLike("UPPER(`leave_plan`)", leavePlan.toUpperCase()); // KPME-2695
         }
 
         Criteria effectiveDateFilter = new Criteria();

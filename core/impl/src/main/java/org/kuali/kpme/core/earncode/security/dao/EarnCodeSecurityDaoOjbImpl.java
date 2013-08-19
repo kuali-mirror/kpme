@@ -141,19 +141,19 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
         Criteria root = new Criteria();
 
         if (StringUtils.isNotBlank(dept)) {
-            root.addLike("dept", dept);
+            root.addLike("UPPER(`dept`)", dept.toUpperCase()); // KPME-2695
         }
 
         if (StringUtils.isNotBlank(salGroup)) {
-            root.addLike("hrSalGroup", salGroup);
+            root.addLike("UPPER(`hr_sal_group`)", salGroup.toUpperCase()); // KPME-2695
         }
 
         if (StringUtils.isNotBlank(earnCode)) {
-            root.addLike("earnCode", earnCode);
+            root.addLike("UPPER(`earn_code`)", earnCode.toUpperCase()); // KPME-2695
         }
 
         if (StringUtils.isNotBlank(location)) {
-            root.addLike("location", location);
+            root.addLike("UPPER(`location`)", location.toUpperCase()); // KPME-2695
         }
 
         Criteria effectiveDateFilter = new Criteria();

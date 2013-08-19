@@ -79,7 +79,7 @@ public class CalendarDaoOjbImpl extends PlatformAwareDaoBaseOjb  implements Cale
         List<Calendar> results = new ArrayList<Calendar>();
 
         if(StringUtils.isNotBlank(calendarName) && StringUtils.isNotEmpty(calendarName)){
-            crit.addLike("calendarName", calendarName);
+            crit.addLike("UPPER(`calendar_name`)", calendarName.toUpperCase()); // KPME-2695
         }
         if(StringUtils.isNotBlank(calendarTypes) && StringUtils.isNotEmpty(calendarTypes)){
             crit.addLike("calendarTypes", calendarTypes);

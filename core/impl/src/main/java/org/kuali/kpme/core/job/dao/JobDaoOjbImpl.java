@@ -178,7 +178,7 @@ public class JobDaoOjbImpl extends PlatformAwareDaoBaseOjb implements JobDao {
         }
 
         if (StringUtils.isNotBlank(hrPayType)) {
-            root.addLike("hrPayType", hrPayType);
+            root.addLike("UPPER(`hr_paytype`)", hrPayType.toUpperCase()); // KPME-2695  
         }
 
         Criteria effectiveDateFilter = new Criteria();

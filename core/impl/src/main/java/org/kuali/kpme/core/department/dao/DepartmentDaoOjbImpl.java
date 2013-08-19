@@ -90,7 +90,7 @@ public class DepartmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Dep
         }
 
         if (StringUtils.isNotBlank(location)) {
-            root.addLike("location", location);
+            root.addLike("UPPER(`location`)", location.toUpperCase()); // KPME-2695
         }
 
         if (StringUtils.isNotBlank(departmentDescr)) {
