@@ -82,8 +82,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         // validates the selected earn code exists on every day within the date range
         errors = TimeDetailValidationUtil.validateEearnCode(tdaf.getSelectedEarnCode(), tdaf.getStartDate(), tdaf.getEndDate());
         if(errors.isEmpty()) {
-	        if(ec != null 
-	    			&& (ec.getLeavePlan() != null || ec.getEligibleForAccrual().equals("N"))) {	// leave blocks changes
+	        if(ec != null && ec.getLeavePlan() != null) {	// leave blocks changes
 	    		errors = this.validateLeaveEntry(tdaf);
 	    	} else {	// time blocks changes
 	    		errors = TimeDetailValidationUtil.validateTimeEntryDetails(tdaf);

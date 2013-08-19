@@ -175,6 +175,7 @@ public interface LeaveBlockService {
     
     /**
      * gets list of leave blocks created for earn codes with eligible-for-accrual=no since the given timestamp
+     * The leave blocks are normally for absent earn codes (ABE)
      * @param principalId
      * @param lastRanTime
      * @return
