@@ -143,17 +143,14 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 		// kpme-2344: modularity induced changes
 		DateTime latestEndTimestamp =  HrServiceLocator.getCalendarBlockService().getLatestEndTimestampForEarnCode(earnCode.getEarnCode(), "Time");
 
-		if(latestEndTimestamp == null) {
-			return true;
-		}
-		else {
+		if(latestEndTimestamp != null) {
 			LocalDate earnCodeEffectiveDate = LocalDate.fromDateFields(earnCode.getEffectiveDate());
 			LocalDate latestEndTimestampLocalDate = latestEndTimestamp.toLocalDate();
-
+			 
 			if ( !earnCode.isActive() && earnCodeEffectiveDate.isBefore(latestEndTimestampLocalDate) ){
 				this.putFieldError("active", "earncode.earncode.inactivate", earnCode.getEarnCode());
 				return false;
-			} 
+			}
 		}
 		
 		if(!(this.validateDefaultAmountOfTime(earnCode.getDefaultAmountofTime()))) {
