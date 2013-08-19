@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
@@ -139,6 +140,12 @@ public class KpmeModuleService extends ModuleServiceBase {
         	keyList.add("effectiveDate");
         	retList.add(keyList);
         	return retList;
+        } else if (Calendar.class.isAssignableFrom(businessObjectInterfaceClass)) {
+            List<List<String>> retList = new ArrayList<List<String>>();
+            List<String> keyList = new ArrayList<String>();
+            keyList.add("calendarName");
+            retList.add(keyList);
+            return retList;
         }
         return super.listAlternatePrimaryKeyFieldNames(businessObjectInterfaceClass);
     }

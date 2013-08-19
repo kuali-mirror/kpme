@@ -148,7 +148,8 @@
   <!-- Inquiry Definition: -->
   <!-- -->
   <bean id="Calendar-inquiryDefinition" parent="Calendar-inquiryDefinition-parentBean" />
-  <bean id="Calendar-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="Calendar-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"
+        p:inquirableClass="org.kuali.kpme.core.calendar.web.CalendarInquirableImpl">
     <property name="title" value="Calendar Inquiry"/>
 	<property name="inquirySections">
 		<list>
