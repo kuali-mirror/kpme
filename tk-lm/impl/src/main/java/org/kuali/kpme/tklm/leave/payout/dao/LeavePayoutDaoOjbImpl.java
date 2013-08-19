@@ -147,11 +147,11 @@ public class LeavePayoutDaoOjbImpl extends PlatformAwareDaoBaseOjb implements
     	Criteria root = new Criteria();
 
         if (StringUtils.isNotBlank(principalId)) {
-            root.addLike("principalId", principalId);
+            root.addLike("UPPER(`principal_id`)", principalId.toUpperCase()); // KPME-2695 in case principal id is not a number
         }
         
         if (StringUtils.isNotBlank(fromAccrualCategory)) {
-            root.addLike("fromAccrualCategory", fromAccrualCategory);
+            root.addLike("UPPER(`from_accrual_category`)", fromAccrualCategory.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(payoutAmount)) {
@@ -159,7 +159,7 @@ public class LeavePayoutDaoOjbImpl extends PlatformAwareDaoBaseOjb implements
         }
         
         if (StringUtils.isNotBlank(earnCode)) {
-        	root.addLike("earnCode", earnCode);
+        	root.addLike("UPPER(`earn_code`)", earnCode.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(forfeitedAmount)) {

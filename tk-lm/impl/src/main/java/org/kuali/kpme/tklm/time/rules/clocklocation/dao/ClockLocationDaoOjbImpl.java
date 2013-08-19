@@ -132,11 +132,11 @@ public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
         root.addAndCriteria(effectiveDateFilter);
 
         if (StringUtils.isNotBlank(principalId)) {
-            root.addLike("principalId", principalId);
+            root.addLike("UPPER(`principal_id`)", principalId.toUpperCase()); // KPME-2695 in case principal id is not a number
         }
 
         if (StringUtils.isNotBlank(dept)) {
-            root.addLike("dept", dept);
+            root.addLike("UPPER(`dept`)", dept.toUpperCase()); // KPME-2695
         }
 
 //        if (StringUtils.isNotBlank(jobNumber)) {

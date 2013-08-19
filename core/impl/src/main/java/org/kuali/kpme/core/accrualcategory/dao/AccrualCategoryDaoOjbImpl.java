@@ -102,15 +102,15 @@ public class AccrualCategoryDaoOjbImpl extends PlatformAwareDaoBaseOjb implement
     	Criteria root = new Criteria();
 
         if (StringUtils.isNotBlank(accrualCategory)) {
-            root.addLike("accrualCategory", accrualCategory);
+            root.addLike("UPPER(`accrual_category`)", accrualCategory.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(descr)) {
-            root.addLike("descr", descr);
+            root.addLike("UPPER(`descr`)", descr.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(leavePlan)) {
-        	root.addLike("leavePlan", leavePlan);
+        	root.addLike("UPPER(`leave_plan`)", leavePlan.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(accrualEarnInterval)) {

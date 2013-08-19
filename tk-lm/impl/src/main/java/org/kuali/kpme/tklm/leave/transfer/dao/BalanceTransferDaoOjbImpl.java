@@ -164,11 +164,11 @@ public class BalanceTransferDaoOjbImpl extends PlatformAwareDaoBaseOjb implement
     	Criteria root = new Criteria();
 
         if (StringUtils.isNotBlank(principalId)) {
-            root.addLike("principalId", principalId);
+            root.addLike("UPPER(`principal_id`)", principalId.toUpperCase()); // KPME-2695 in case principal id is not a number
         }
         
         if (StringUtils.isNotBlank(fromAccrualCategory)) {
-            root.addLike("fromAccrualCategory", fromAccrualCategory);
+            root.addLike("UPPER(`from_accrual_category`)", fromAccrualCategory.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(transferAmount)) {
@@ -176,7 +176,7 @@ public class BalanceTransferDaoOjbImpl extends PlatformAwareDaoBaseOjb implement
         }
         
         if (StringUtils.isNotBlank(toAccrualCategory)) {
-        	root.addLike("toAccrualCategory", toAccrualCategory);
+        	root.addLike("UPPER(`to_accrual_category`)", toAccrualCategory.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(amountTransferred)) {
