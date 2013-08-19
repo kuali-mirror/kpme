@@ -35,12 +35,14 @@
     <property name="maintainableSections">
       <list>
         <ref bean="DeptLunchRuleMaintenanceDocument-DeptLunchRuleMaintenance"/>
+        <ref bean="DeptLunchRuleMaintenanceDocument-HiddenSection"/>
       </list>
     </property>
     <property name="documentTypeName" value="DeptLunchRuleDocumentType"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kpme.tklm.time.rules.lunch.department.validation.DeptLunchRuleEffectiveDatePrompt"/>
   </bean>
 
+  <bean id="DeptLunchRuleMaintenanceDocument-HiddenSection" parent="MaintDoc-HiddenFields-parentBean" />
   <!-- Maintenance Section Definitions -->
 
   <bean id="DeptLunchRuleMaintenanceDocument-DeptLunchRuleMaintenance" parent="DeptLunchRuleMaintenanceDocument-DeptLunchRuleMaintenance-parentBean"/>
