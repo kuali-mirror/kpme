@@ -34,6 +34,7 @@
 		<property name="maintainableSections">
 			<list>
 				<ref bean="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance" />
+				<ref bean="PrincipalHRAttributesMaintenanceDocument-HiddenSection" />
 			</list>
 		</property>
 		<property name="lockingKeys">
@@ -68,5 +69,8 @@
 			</list>
 		</property>
 	</bean>
+
+    <bean id="PrincipalHRAttributesMaintenanceDocument-HiddenSection"
+          parent="MaintDoc-HiddenFields-parentBean" />
 
 </beans>
