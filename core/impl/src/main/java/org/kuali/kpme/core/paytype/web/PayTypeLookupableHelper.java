@@ -60,7 +60,7 @@ public class PayTypeLookupableHelper extends KPMELookupableHelper {
         String payType = fieldValues.get("payType");
         String regEarnCode = fieldValues.get("regEarnCode");
         String descr = fieldValues.get("descr");
-        String campus = fieldValues.get("campus");
+        String location = fieldValues.get("location"); // KPME-2701
         String institution = fieldValues.get("institution");
         String flsaStatus = fieldValues.get("flsaStatus");
         String payFrequency = fieldValues.get("payFrequency");
@@ -73,7 +73,7 @@ public class PayTypeLookupableHelper extends KPMELookupableHelper {
             payType = "";
         }
         
-        return HrServiceLocator.getPayTypeService().getPayTypes(payType, regEarnCode, descr, campus, institution, flsaStatus, payFrequency,
+        return HrServiceLocator.getPayTypeService().getPayTypes(payType, regEarnCode, descr, location, institution, flsaStatus, payFrequency,
         		TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
     }
 

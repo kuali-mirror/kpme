@@ -255,7 +255,7 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
         root.addAndCriteria(effectiveDateFilter);
         
         if (StringUtils.isNotBlank(principalId)) {
-            root.addLike("principalId", principalId);
+            root.addLike("UPPER(`principal_id`)", principalId.toUpperCase()); // KPME-2695 in case principal id is not a number
         }
 
 //        if (StringUtils.isNotBlank(jobNumber)) {

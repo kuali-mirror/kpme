@@ -67,7 +67,7 @@ public class PositionBaseDaoOjbImpl extends PlatformAwareDaoBaseOjb implements P
         }
 
         if (StringUtils.isNotBlank(description)) {
-            root.addLike("description", description);
+            root.addLike("UPPER(`description`)", description.toUpperCase()); // KPME-2695
         }
         
         Criteria effectiveDateFilter = new Criteria();

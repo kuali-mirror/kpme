@@ -82,7 +82,7 @@ public class LocationDaoObjImpl extends PlatformAwareDaoBaseOjb implements Locat
         }
         
         if (StringUtils.isNotBlank(locationDescr)) {
-            root.addLike("description", locationDescr);
+            root.addLike("UPPER(`description`)", locationDescr.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(active)) {

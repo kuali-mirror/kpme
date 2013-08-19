@@ -45,6 +45,6 @@ public interface PayGradeService {
 	 */
 	public int getPayGradeCount(String payGrade);
 	
-    List<PayGrade> getPayGrades(String payGrade, String payGradeDescr, String active, String showHistory);
+    List<PayGrade> getPayGrades(String payGrade, String payGradeDescr, String salGroup, String active, String showHistory);
 
 }

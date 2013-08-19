@@ -59,8 +59,8 @@ public class PayGradeServiceImpl implements PayGradeService {
 	}
 
     @Override
-    public List<PayGrade> getPayGrades(String payGrade, String payGradeDescr, String active, String showHistory) {
-        return payGradeDao.getPayGrades(payGrade, payGradeDescr, active, showHistory);
+    public List<PayGrade> getPayGrades(String payGrade, String payGradeDescr, String salGroup, String active, String showHistory) {
+        return payGradeDao.getPayGrades(payGrade, payGradeDescr, salGroup, active, showHistory);
     }
 
 }

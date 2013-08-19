@@ -86,7 +86,7 @@ public class DepartmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Dep
         Criteria root = new Criteria();
 
         if (StringUtils.isNotBlank(dept)) {
-            root.addLike("dept", dept);
+        	root.addLike("dept", dept);
         }
 
         if (StringUtils.isNotBlank(location)) {
@@ -94,7 +94,7 @@ public class DepartmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Dep
         }
 
         if (StringUtils.isNotBlank(departmentDescr)) {
-            root.addLike("description", departmentDescr);
+            root.addLike("UPPER(`description`)", departmentDescr.toUpperCase()); // KPME-2695
         }
 
         if (StringUtils.isNotBlank(active)) {

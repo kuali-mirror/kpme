@@ -427,7 +427,7 @@ public class PrincipalHRAttributesDaoOjbImpl extends PlatformAwareDaoBaseOjb imp
     	Criteria root = new Criteria();
     	
         if (StringUtils.isNotBlank(principalId)) {
-            root.addLike("principalId", principalId);
+            root.addLike("UPPER(`principal_id`)", principalId.toUpperCase()); // KPME-2695 in case principal id is not a number
         }
 
         if (StringUtils.isNotBlank(leavePlan)) {

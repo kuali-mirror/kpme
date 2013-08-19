@@ -165,7 +165,7 @@ public class EarnCodeGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
         }
         
         if (StringUtils.isNotBlank(descr)) {
-            root.addLike("descr", descr);
+            root.addLike("UPPER(`descr`)", descr.toUpperCase()); // KPME-2695
         }
         
         Criteria effectiveDateFilter = new Criteria();

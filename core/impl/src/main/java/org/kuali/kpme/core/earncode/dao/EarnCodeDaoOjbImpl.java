@@ -154,7 +154,7 @@ public class EarnCodeDaoOjbImpl extends PlatformAwareDaoBaseOjb implements EarnC
         }
         
         if (StringUtils.isNotBlank(descr)) {
-            root.addLike("description", descr);
+            root.addLike("UPPER(`descr`)", descr.toUpperCase()); // KPME-2695
         }
 
         if (StringUtils.isNotBlank(leavePlan)) {

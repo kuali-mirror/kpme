@@ -76,7 +76,7 @@ public class PayTypeDaoOjbImpl extends PlatformAwareDaoBaseOjb implements PayTyp
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<PayType> getPayTypes(String payType, String regEarnCode, String descr, String campus, String institution, String flsaStatus,
+    public List<PayType> getPayTypes(String payType, String regEarnCode, String descr, String location, String institution, String flsaStatus,
     		String payFrequency, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
         List<PayType> results = new ArrayList<PayType>();
         
@@ -91,11 +91,11 @@ public class PayTypeDaoOjbImpl extends PlatformAwareDaoBaseOjb implements PayTyp
         }
 
         if (StringUtils.isNotBlank(descr)) {
-            root.addLike("descr", descr);
+            root.addLike("UPPER(`descr`)", descr.toUpperCase()); // KPME-2695
         }
         
-        if (StringUtils.isNotBlank(campus)) {
-            root.addLike("campus", campus);
+        if (StringUtils.isNotBlank(location)) {
+            root.addLike("UPPER(`location`)", location.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(institution)) {
