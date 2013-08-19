@@ -34,6 +34,8 @@
     <property name="maintainableSections">
       <list>
         <ref bean="EarnCodeMaintenanceDocument-EarnCodeMaintenance"/>
+        <ref bean="EarnCodeMaintenanceDocument-TimeKeepingMaintenance"/>
+        <ref bean="EarnCodeMaintenanceDocument-LeaveManagementMaintenance"/>
         <ref bean="EarnCodeMaintenanceDocument-HiddenSection" />
       </list>
     </property>
@@ -56,28 +58,40 @@
     <property name="title" value="Earn Code Maintenance"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"     p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="earnCode" 		p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="description"     p:required="true"/>
-        
+        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"     		p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="earnCode" 				p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="description"     		p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rollupToEarnCode" 		p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="recordMethod" 			p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="active"   				p:required="true" p:defaultValue="true"/>		
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="EarnCodeMaintenanceDocument-TimeKeepingMaintenance" parent="EarnCodeMaintenanceDocument-TimeKeepingMaintenance-parentBean"/>
+  <bean id="EarnCodeMaintenanceDocument-TimeKeepingMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  	<property name="title" value="Time Keeping Attributes"/>
+  	<property name="maintainableItems">
+  		<list>
+	        <bean parent="MaintainableFieldDefinition" p:name="ovtEarnCode"   	p:required="false" p:defaultValue="false"/>
+	        <bean parent="MaintainableFieldDefinition" p:name="countsAsRegularPay" p:defaultValue="N" p:required="true"/>
+	        <bean parent="MaintainableFieldDefinition" p:name="inflateMinHours" p:required="true" p:defaultValue="0"/>
+	        <bean parent="MaintainableFieldDefinition" p:name="inflateFactor" p:required="true" p:defaultValue="1.0"/>
+  		</list>
+  	</property>
+  </bean>
+  
+  <bean id="EarnCodeMaintenanceDocument-LeaveManagementMaintenance" parent="EarnCodeMaintenanceDocument-LeaveManagementMaintenance-parentBean"/>
+  <bean id="EarnCodeMaintenanceDocument-LeaveManagementMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  	<property name="title" value="Leave Management Attributes"/>
+  	<property name="maintainableItems">
+  		<list>
         <bean parent="MaintainableFieldDefinition" p:name="leavePlan"/>
-        
         <bean parent="MaintainableFieldDefinition" p:name="accrualCategory" p:required="false"/>
-        
         <bean parent="MaintainableFieldDefinition" p:name="accrualBalanceAction"  p:defaultValue="N"/>
-        <bean parent="MaintainableFieldDefinition" p:name="fractionalTimeAllowed" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="roundingOption" p:defaultValue="T" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="rollupToEarnCode" p:required="false"/>
-         
-        <bean parent="MaintainableFieldDefinition" p:name="ovtEarnCode"   	p:required="false" p:defaultValue="false"/>
-        <bean parent="MaintainableFieldDefinition" p:name="recordMethod" 	p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="fractionalTimeAllowed" 	p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="usageLimit" 	p:required="true" p:defaultValue="I"/>
-                
-        <bean parent="MaintainableFieldDefinition" p:name="inflateMinHours" p:required="true" p:defaultValue="0"/>
-        <bean parent="MaintainableFieldDefinition" p:name="inflateFactor" p:required="true" p:defaultValue="1.0"/>
-        
-        <bean parent="MaintainableFieldDefinition" p:name="countsAsRegularPay" p:defaultValue="N" p:required="true"/>
-        
         <!--  KPME 1624 -->
         <bean parent="MaintainableFieldDefinition" p:name="eligibleForAccrual" p:defaultValue="Y" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="affectPay" p:defaultValue="N" p:required="true"/>
@@ -87,10 +101,7 @@
 		<!--  KPME 2056 -->
 		<bean parent="MaintainableFieldDefinition" p:name="defaultAmountofTime"/>
 		<bean parent="MaintainableFieldDefinition" p:name="allowNegativeAccrualBalance" p:defaultValue="N" p:required="true"/>
-		<bean parent="MaintainableFieldDefinition" p:name="active"   		p:required="true" p:defaultValue="true"/>
-		
-      </list>
-    </property>
+		</list>
+	</property>
   </bean>
-
 </beans>
