@@ -64,6 +64,17 @@ public interface HrBusinessObjectContract extends PersistableBusinessObject, Ina
 	public LocalDate getEffectiveLocalDate();
 	
 	/**
+	 * Relative effective date of HrBusinessObject. Returns effectiveDate if not null, current date otherwise.
+	 * 
+	 * <p>
+	 * effectiveDate of HrBusinessObject, or current date if null
+	 * </p>
+	 * 
+	 * @return effectiveDate of HrBusinessObject, or current date if null
+	 */
+	public Date getRelativeEffectiveDate();
+	
+	/**
 	 * The timestamp of when this HrBusinessObject was last created/updated
 	 * 
 	 * <p>

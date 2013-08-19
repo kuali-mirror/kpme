@@ -81,18 +81,7 @@
 	</bean>
 
     <bean id="AssignmentMaintenanceDocument-HiddenFields"
-          parent="AssignmentMaintenanceDocument-HiddenFields-parentBean" />
-
-    <bean id="AssignmentMaintenanceDocument-HiddenFields-parentBean"
-          abstract="true" parent="MaintainableSectionDefinition"  >
-        <property name="hidden" value="true" />
-        <property name="title" value="Assignment Hidden Fields" />
-        <property name="maintainableItems">
-            <list>
-                <bean parent="MaintainableFieldDefinition" p:name="relativeEffectiveDate" />
-            </list>
-        </property>
-    </bean>
+          parent="MaintDoc-HiddenFields-parentBean" />
 
 	<!-- AssignmentAccounts maintenance section -->
 
