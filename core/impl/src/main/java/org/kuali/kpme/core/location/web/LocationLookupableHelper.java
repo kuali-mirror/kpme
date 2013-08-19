@@ -46,6 +46,7 @@ public class LocationLookupableHelper extends KPMELookupableHelper {
 		Location locationObj = (Location) businessObject;
 		String hrLocationId = locationObj.getHrLocationId();
 		String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        boolean isSysAdmin = HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(principalId, new DateTime());
         boolean isTimeLocationAdmin = HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime());
         boolean isTimeSysAdmin = HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_SYSTEM_ADMINISTRATOR.getRoleName(), new DateTime());
         boolean isLeaveLocationAdmin = HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime());
@@ -53,7 +54,7 @@ public class LocationLookupableHelper extends KPMELookupableHelper {
         List<Location> newerVersion = HrServiceLocator.getLocationService().getNewerVersionLocation(locationObj.getLocation(),locationObj.getEffectiveLocalDate());
 
         if (newerVersion.size() > 0 || !locationObj.isActive()) {
-            if (!(isTimeLocationAdmin || isTimeSysAdmin || isLeaveLocationAdmin || isLeaveSysAdmin)) {
+            if (!(isTimeLocationAdmin || isTimeSysAdmin || isLeaveLocationAdmin || isLeaveSysAdmin || isSysAdmin)) {
                 for (HtmlData action : customActionUrls) {
                     if (StringUtils.equals(action.getMethodToCall(),"edit")) {
                         customActionUrls.remove(action);
