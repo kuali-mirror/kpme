@@ -49,18 +49,7 @@
 	<!-- Maintenance Section Definitions -->
 
     <bean id="PayTypeMaintenanceDocument-HiddenSection"
-          parent="PayTypeMaintenanceDocument-HiddenSection-parentBean" />
-
-    <bean id="PayTypeMaintenanceDocument-HiddenSection-parentBean"
-          abstract="true" parent="MaintainableSectionDefinition"  >
-        <property name="hidden" value="true" />
-        <property name="title" value="PayType Hidden Fields" />
-        <property name="maintainableItems">
-            <list>
-                <bean parent="MaintainableFieldDefinition" p:name="relativeEffectiveDate" />
-            </list>
-        </property>
-    </bean>
+          parent="MaintDoc-HiddenFields-parentBean" />
 
 	<bean id="PayTypeMaintenanceDocument-PayTypeMaintenance" parent="PayTypeMaintenanceDocument-PayTypeMaintenance-parentBean" />
 

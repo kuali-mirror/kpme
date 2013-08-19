@@ -321,28 +321,6 @@ public interface JobContract extends HrBusinessObjectContract {
 	public PositionBaseContract getPositionObj() ;
 
 	/**
-	 * Unique id of the Department object associated with the job. 
-	 * 
-	 * <p>
-	 * hrDeptId of a Job
-	 * <p>
-	 * 
-	 * @return hrDeptId for Job
-	 */
-	public String getHrDeptId();
-
-	/**
-	 * Unique id of the PayType object associated with the job. 
-	 * 
-	 * <p>
-	 * hrPayTypeId of a Job
-	 * <p>
-	 * 
-	 * @return hrPayTypeId for Job
-	 */
-	public String getHrPayTypeId();
-
-	/**
 	 * Combination of multiple string fields to identify the job. 
 	 * 
 	 * <p>

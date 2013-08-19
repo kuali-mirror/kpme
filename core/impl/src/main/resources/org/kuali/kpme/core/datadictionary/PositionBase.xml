@@ -27,6 +27,9 @@
 		<property name="lookupDefinition">
 			<ref bean="PositionBase-lookupDefinition" />
 		</property>
+		<property name="inquiryDefinition">
+			<ref bean="PositionBase-inquiryDefinition" />
+		</property>
 		<property name="attributes">
 			<list>
 				<ref bean="PositionBase-hrPositionId" />
@@ -219,6 +222,30 @@
 	      </list>
 	    </property>
     </bean>-->
+    
+    <bean id="PositionBase-inquiryDefinition" parent="PositionBase-inquiryDefinition-parentBean" />
+
+	<bean id="PositionBase-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition" 	p:inquirableClass="org.kuali.kpme.core.position.web.PositionBaseInquirableImpl">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="positionNumber" />
+							<bean parent="FieldDefinition" p:attributeName="description" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="Position Base Inquiry" />
+				</bean>
+			</list>
+		</property>
+		<property name="translateCodes" value="false"/>
+		<property name="title" value="Position Base Inquiry" />
+	</bean>
     
 	<!--  Inquiry Definitions  -->
   	<bean id="PositionBase-InquiryView" parent="Uif-InquiryView" >

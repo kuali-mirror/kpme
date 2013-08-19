@@ -67,8 +67,6 @@ public class Job extends HrBusinessObject implements JobContract {
 	private KualiDecimal compRate = new KualiDecimal(0);
 	private String positionNumber;
 	
-	private String hrDeptId;
-	private String hrPayTypeId;
 	private boolean eligibleForLeave;
 	
 	private transient Person principal;
@@ -310,22 +308,6 @@ public class Job extends HrBusinessObject implements JobContract {
 
 	public PositionBase getPositionObj() {
 		return positionObj;
-	}
-
-	public String getHrDeptId() {
-		return hrDeptId;
-	}
-
-	public void setHrDeptId(String hrDeptId) {
-		this.hrDeptId = hrDeptId;
-	}
-
-	public String getHrPayTypeId() {
-		return hrPayTypeId;
-	}
-
-	public void setHrPayTypeId(String hrPayTypeId) {
-		this.hrPayTypeId = hrPayTypeId;
 	}
 
 	@Override

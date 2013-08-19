@@ -37,7 +37,8 @@ public class DepartmentInquirableImpl extends KualiInquirableImpl {
             departmentObj = HrServiceLocator.getDepartmentService().getDepartment((String) fieldValues.get("hrDeptId"));
         } else if (fieldValues.containsKey("dept") && fieldValues.containsKey("effectiveDate")) {
             String department = (String) fieldValues.get("dept");
-            LocalDate effectiveDate = TKUtils.formatDateString((String) fieldValues.get("effectiveDate"));
+            String effDate = (String) fieldValues.get("effectiveDate");
+            LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
             departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, effectiveDate);
         } else {
             departmentObj = (Department) super.getBusinessObject(fieldValues);

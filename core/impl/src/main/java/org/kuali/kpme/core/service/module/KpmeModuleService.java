@@ -28,6 +28,7 @@ import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.paygrade.PayGrade;
+import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
@@ -146,6 +147,13 @@ public class KpmeModuleService extends ModuleServiceBase {
             keyList.add("calendarName");
             retList.add(keyList);
             return retList;
+        } else if(PayType.class.isAssignableFrom(businessObjectInterfaceClass)) {
+        	List<List<String>> retList = new ArrayList<List<String>>();
+        	List<String> keyList = new ArrayList<String>();
+        	keyList.add("payType");
+        	keyList.add("effectiveDate");
+        	retList.add(keyList);
+        	return retList;
         }
         return super.listAlternatePrimaryKeyFieldNames(businessObjectInterfaceClass);
     }

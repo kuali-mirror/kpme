@@ -37,11 +37,10 @@ public class PositionBaseInquirableImpl extends KualiInquirableImpl {
 		if (StringUtils.isNotBlank((String)fieldValues.get("hrPositionId"))) {
             position = HrServiceLocator.getPositionService().getPosition((String) fieldValues.get("hrPositionId"));
 
-		} else if(StringUtils.isNotBlank((String)fieldValues.get("positionNumber"))
-					&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
+		} else if(StringUtils.isNotBlank((String)fieldValues.get("positionNumber")) && StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
 			String positionNumber = (String) fieldValues.get("positionNumber");
-			LocalDate effectiveDate = TKUtils.formatDateString((String) fieldValues.get("effectiveDate"));
-			
+			String effDate = (String) fieldValues.get("effectiveDate");
+            LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
 		    position = HrServiceLocator.getPositionService().getPosition(positionNumber, effectiveDate);
 		} else {
 			position = (PositionBase) super.getBusinessObject(fieldValues);

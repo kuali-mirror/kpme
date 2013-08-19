@@ -17,11 +17,17 @@ package org.kuali.kpme.core.paytype.web;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.kpme.core.inquirable.KPMEInquirableImpl;
+import org.kuali.kpme.core.paytype.PayType;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 
-public class PayTypeInquirableImpl extends KPMEInquirableImpl {
+public class PayTypeInquirableImpl extends KualiInquirableImpl {
 
 	@Override
 	public HtmlData getInquiryUrl(BusinessObject businessObject,
@@ -32,7 +38,20 @@ public class PayTypeInquirableImpl extends KPMEInquirableImpl {
 	@Override
 	@Deprecated
 	public BusinessObject getBusinessObject(Map fieldValues) {
-		return super.getBusinessObject(fieldValues);
+        PayType payTypeObj = null;
+
+        if (StringUtils.isNotBlank((String) fieldValues.get("hrPayTypeId"))) {
+            payTypeObj = HrServiceLocator.getPayTypeService().getPayType((String) fieldValues.get("hrPayTypeId"));
+        } else if (fieldValues.containsKey("payType")) {
+            String payType = (String) fieldValues.get("payType");
+            String effDate = (String) fieldValues.get("effectiveDate");
+            LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
+            payTypeObj = HrServiceLocator.getPayTypeService().getPayType(payType, effectiveDate);
+        } else {
+            payTypeObj = (PayType) super.getBusinessObject(fieldValues);
+        }
+
+        return payTypeObj;
 	}
 
 }
