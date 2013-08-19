@@ -13,6 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+// KPME-2684: disable caching for ajax calls due to IE 10 caching issue
+$.ajaxSetup({ cache: false });
+
 $(function () {
     /**
      *
