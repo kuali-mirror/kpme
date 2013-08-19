@@ -44,31 +44,31 @@ public class LocationValidation extends MaintenanceDocumentRuleBase {
 
         if (pbo instanceof Location) {
             Location location = (Location) pbo;
-            valid &= validateLocation(location);
+//            valid &= validateLocation(location);
             valid &= validateRolePresent(location.getRoleMembers(), location.getEffectiveLocalDate());
         }
 
         return valid;
     }
 
-    protected boolean validateLocation(Location newLocation) {
-        boolean valid = true;
-
-        if (newLocation.getLocation() != null && newLocation.getEffectiveDate() != null) {
-            List<Location> locations = HrServiceLocator.getLocationService().getLocations(newLocation.getLocation());
-            if (locations != null && locations.size() > 0) {
-                for(Location location : locations) {
-                    if(!location.getHrLocationId().equalsIgnoreCase(newLocation.getHrLocationId())) {
-                        this.putFieldError("location", "error.location.duplicate.exists", location.getLocation());
-                        valid = false;
-                        break;
-                    }
-                }
-            }
-        }
-
-        return valid;
-    }
+//    protected boolean validateLocation(Location newLocation) {
+//        boolean valid = true;
+//
+//        if (newLocation.getLocation() != null && newLocation.getEffectiveDate() != null) {
+//            List<Location> locations = HrServiceLocator.getLocationService().getLocations(newLocation.getLocation());
+//            if (locations != null && locations.size() > 0) {
+//                for(Location location : locations) {
+//                    if(!location.getHrLocationId().equalsIgnoreCase(newLocation.getHrLocationId())) {
+//                        this.putFieldError("location", "error.location.duplicate.exists", location.getLocation());
+//                        valid = false;
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//
+//        return valid;
+//    }
 
     boolean validateRolePresent(List<LocationPrincipalRoleMemberBo> roleMembers, LocalDate effectiveDate) {
         boolean valid = true;
@@ -77,7 +77,6 @@ public class LocationValidation extends MaintenanceDocumentRuleBase {
         for (ListIterator<LocationPrincipalRoleMemberBo> iterator = roleMembers.listIterator(); iterator.hasNext(); ) {
             int index = iterator.nextIndex();
             RoleMemberBo roleMember = iterator.next();
-            Role role = KimApiServiceLocator.getRoleService().getRole(roleMember.getRoleId());
             activeFlag |= roleMember.isActive();
 
             String prefix = "roleMembers[" + index + "].";
