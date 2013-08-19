@@ -35,6 +35,7 @@
 		<property name="maintainableSections">
 			<list>
 				<ref bean="LeaveAdjustmentMaintenanceDocument-LeaveAdjustmentMaintenance" />
+                <ref bean="LeaveAdjustmentMaintenanceDocument-HiddenFields"/>
 			</list>
 		</property>
 		<property name="documentTypeName" value="LeaveAdjustmentDocumentType" />
@@ -59,5 +60,8 @@
 			</list>
 		</property>
 	</bean>
+
+    <bean id="LeaveAdjustmentMaintenanceDocument-HiddenFields"
+          parent="MaintDoc-HiddenFields-parentBean" />
 	
 </beans>
