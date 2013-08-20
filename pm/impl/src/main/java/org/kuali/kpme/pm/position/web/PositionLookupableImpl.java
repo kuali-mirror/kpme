@@ -46,7 +46,6 @@ public class PositionLookupableImpl extends KPMELookupableImpl {
         String workingPositionTitle = searchCriteria.get("workingPositionTitle");
         String campus = searchCriteria.get("campus");
         String institution = searchCriteria.get("institution");
-        String salaryGroup = searchCriteria.get("salaryGroup");
         String classificationTitle = searchCriteria.get("classificationTitle");
         String positionType = searchCriteria.get("positionType");
         String poolEligible = searchCriteria.get("poolEligible");
@@ -60,7 +59,7 @@ public class PositionLookupableImpl extends KPMELookupableImpl {
         }
         
         return PmServiceLocator.getPositionService().getPositions(positionNum, description, workingPositionTitle, campus,
-                institution, salaryGroup, classificationTitle, positionType, poolEligible, TKUtils.formatDateString(fromEffdt),
+                institution, classificationTitle, positionType, poolEligible, TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHist);	
     }  
 	

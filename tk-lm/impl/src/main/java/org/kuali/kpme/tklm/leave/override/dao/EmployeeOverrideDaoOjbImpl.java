@@ -95,7 +95,7 @@ public class EmployeeOverrideDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
         }
         
         if (StringUtils.isNotBlank(leavePlan)) {
-        	root.addEqualTo("leavePlan",leavePlan);
+        	root.addEqualTo("UPPER(`leave_plan`)",leavePlan.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(accrualCategory)) {

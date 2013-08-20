@@ -31,17 +31,19 @@ public class SalaryGroupLookupableImpl extends KPMELookupableImpl {
     @Override
     public List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
         String hrSalGroup = searchCriteria.get("hrSalGroup");
-        String descr = searchCriteria.get("descr");
         String fromEffdt = TKUtils.getFromDateString(searchCriteria.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(searchCriteria.get("effectiveDate"));
         String active = searchCriteria.get("active");
         String showHist = searchCriteria.get("history");
+        String institution = searchCriteria.get("institution");
+        String location = searchCriteria.get("location");
+        String leavePlan = searchCriteria.get("leavePlan");
 
         if (StringUtils.equals(hrSalGroup, "%")) {
             hrSalGroup = "";
         }
         
-        return HrServiceLocator.getSalaryGroupService().getSalaryGroups(hrSalGroup, descr, TKUtils.formatDateString(fromEffdt),
+        return HrServiceLocator.getSalaryGroupService().getSalaryGroups(hrSalGroup, institution, location, leavePlan, TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHist);
     }
 

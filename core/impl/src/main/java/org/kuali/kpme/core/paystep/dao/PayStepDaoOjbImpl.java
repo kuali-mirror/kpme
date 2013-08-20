@@ -45,20 +45,23 @@ public class PayStepDaoOjbImpl extends PlatformAwareDaoBaseOjb implements
 	public List<PayStep> getPaySteps(String payStep, String institution,
 			String location, String salaryGroup, String payGrade, String active) {
 		List<PayStep> results = new ArrayList<PayStep>();
-		
+
 		Criteria crit = new Criteria();
+		
+		// KPME-2695
+		// Also, changed addEqualTo to addLike
 		if(StringUtils.isNotBlank(payStep))
-			crit.addEqualTo("payStep", payStep);
+			crit.addLike("UPPER(`pay_step`)", payStep.toUpperCase());
 		if(StringUtils.isNotBlank(institution)
 				&& !StringUtils.equals(institution, HrConstants.WILDCARD_CHARACTER))
-			crit.addEqualTo("institution", institution);
+			crit.addLike("UPPER(`institution`)", institution.toUpperCase());
 		if(StringUtils.isNotBlank(location)
 				&& !StringUtils.equals(location, HrConstants.WILDCARD_CHARACTER))
-			crit.addEqualTo("location", location);
+			crit.addLike("UPPER(`location`)", location.toUpperCase());
 		if(StringUtils.isNotBlank(salaryGroup))
-			crit.addEqualTo("salaryGroup", salaryGroup);
+			crit.addLike("UPPER(`salary_group`)", salaryGroup.toUpperCase());
 		if(StringUtils.isNotBlank(payGrade))
-			crit.addEqualTo("payGrade", payGrade);
+			crit.addLike("UPPER(`pay_grade`)", payGrade.toUpperCase());
 		
 		Criteria activeFilter = new Criteria();
 		if(StringUtils.isNotBlank(active)) {

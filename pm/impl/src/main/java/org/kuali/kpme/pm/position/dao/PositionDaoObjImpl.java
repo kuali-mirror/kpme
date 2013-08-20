@@ -40,43 +40,40 @@ public class PositionDaoObjImpl extends PlatformAwareDaoBaseOjb implements Posit
 
 	@Override
 	public List<Position> getPositions(String positionNum, String description, String workingPositionTitle, String campus,
-            String institution, String salaryGroup, String classificationTitle, String positionType, String poolEligible,
+            String institution, String classificationTitle, String positionType, String poolEligible,
 			LocalDate fromEffdt, LocalDate toEffdt, String active,
 			String showHistory) {
 		List<Position> results = new ArrayList<Position>();
 	        
     	Criteria root = new Criteria();
 
+    	// KPME-2695
         if (StringUtils.isNotBlank(positionNum)) {
-            root.addLike("positionNumber", positionNum);
+            root.addLike("UPPER(`position_nbr`)", positionNum.toUpperCase()); // just in case position number is not a number
         }
 
         if (StringUtils.isNotBlank(description)) {
-            root.addLike("description", description);
+            root.addLike("UPPER(`description`)", description.toUpperCase());
         }
 
         if (StringUtils.isNotBlank(workingPositionTitle)) {
-            root.addLike("workingPositionTitle", workingPositionTitle);
+            root.addLike("UPPER(`wk_pstn_ttl`)", workingPositionTitle.toUpperCase());
         }
 
         if (StringUtils.isNotBlank(campus)) {
-            root.addLike("campus", campus);
+            root.addLike("UPPER(`campus`)", campus.toUpperCase());
         }
 
         if (StringUtils.isNotBlank(institution)) {
-            root.addLike("institution", institution);
-        }
-
-        if (StringUtils.isNotBlank(salaryGroup)) {
-            root.addLike("salaryGroup", salaryGroup);
+            root.addLike("UPPER(`institution`)", institution.toUpperCase());
         }
 
         if (StringUtils.isNotBlank(classificationTitle)) {
-            root.addLike("classificationTitle", classificationTitle);
+            root.addLike("UPPER(`cl_ttl`)", classificationTitle.toUpperCase());
         }
 
         if (StringUtils.isNotBlank(positionType)) {
-            root.addLike("positionType", positionType);
+            root.addLike("UPPER(`pstn_typ`)", positionType.toUpperCase());
         }
 
         if (StringUtils.isNotBlank(poolEligible)) {

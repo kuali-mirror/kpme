@@ -36,5 +36,5 @@ public interface SalaryGroupService {
 	
 	public int getSalGroupCount(String salGroup);
 
-    List<SalaryGroup> getSalaryGroups(String salGroup, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
+    List<SalaryGroup> getSalaryGroups(String salGroup, String institution, String location, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }
