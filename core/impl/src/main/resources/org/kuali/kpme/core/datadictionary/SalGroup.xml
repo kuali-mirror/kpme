@@ -43,6 +43,7 @@
 	        <ref bean="SalaryGroup-benefitsEligible"/>
 	        <ref bean="SalaryGroup-leaveEligible"/>
 	        <ref bean="SalaryGroup-leavePlan"/>
+	        <ref bean="SalaryGroup-history"/>
 	        <ref bean="SalaryGroup-active"/>
 		 </list>
 	    </property>
@@ -135,8 +136,8 @@
 					<bean parent="Uif-Spinner">
 						<property name="templateOptions">
 							<map merge="true">
-								<entry key="start" value="0.01"/>
-								<entry key="step" value="0.01"/>
+								<entry key="start" value="1"/>
+								<entry key="step" value="1"/>
 								<entry key="max" value="100"/>
 								<entry key="numberFormat" value="n"/>
 							</map>
@@ -182,6 +183,20 @@
     	<property name="name" value="leaveEligible" />
  		<property name="label" value="Leave Eligible" />
   	</bean>
+	
+	<!-- history -->
+	<bean id="SalaryGroup-history" parent="SalaryGroup-history-parentBean" />
+	<bean id="SalaryGroup-history-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl"/>
+		</property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
+        </property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
 	
 	<bean id="SalaryGroup-leavePlan" parent="SalaryGroup-leavePlan-parentBean" />
 	<bean id="SalaryGroup-leavePlan-parentBean" abstract="true" parent="AttributeDefinition">
@@ -234,6 +249,7 @@
         			 p:fieldConversions="leavePlan:leavePlan"/>
    		 	</property>
         </bean>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
     </property>
@@ -271,6 +287,7 @@
 		        <bean parent="FieldDefinition" p:attributeName="benefitsEligible" />
 		        <bean parent="FieldDefinition" p:attributeName="leaveEligible" />
 		        <bean parent="FieldDefinition" p:attributeName="leavePlan"/>
+		        <bean parent="FieldDefinition" p:attributeName="history" />
 		        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 			</list>
 		</property>
