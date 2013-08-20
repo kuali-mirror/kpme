@@ -237,15 +237,15 @@
 		<property name="label" value="Overtime Earn Code" />
 	</bean>
 	
-	<!--  Inquiry Definitions  -->
-
+	<!-- KNS Lookup Definition -->
+	
 	<bean id="WeeklyOvertimeRule-lookupDefinition" parent="WeeklyOvertimeRule-lookupDefinition-parentBean" />
 	<bean id="WeeklyOvertimeRule-lookupDefinition-parentBean"
 		abstract="true" parent="LookupDefinition">
 		<property name="lookupableID" value="weeklyOvertimeRuleLookupable" />
 		<property name="lookupFields">
 			<list>				
-				<bean parent="FieldDefinition" p:attributeName="maxHoursEarnGroup" />
+				<bean parent="FieldDefinition" p:attributeName="maxHoursEarnGroup" p:noDirectInquiry="true" p:noInquiry="true" />
 			</list>
 		</property>
 		<property name="resultFields">
@@ -255,12 +255,14 @@
 				<bean parent="FieldDefinition" p:attributeName="convertToEarnCode" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="step" />
-				<bean parent="FieldDefinition" p:attributeName="maxHours" />				
+				<bean parent="FieldDefinition" p:attributeName="maxHours" />		
 			</list>
 		</property>
 		<property name="title" value="Weekly Overtime Rule Lookup" />
 	</bean>
 
+	<!-- KNS Inquiry Definition -->
+	
 	<bean id="WeeklyOvertimeRule-inquiryDefinition" parent="WeeklyOvertimeRule-inquiryDefinition-parentBean" />
 	<bean id="WeeklyOvertimeRule-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="inquirySections">

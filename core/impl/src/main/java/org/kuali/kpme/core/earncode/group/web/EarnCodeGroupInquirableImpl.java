@@ -36,7 +36,8 @@ public class EarnCodeGroupInquirableImpl extends KualiInquirableImpl {
 		} else if(StringUtils.isNotBlank((String)fieldValues.get("earnCodeGroup"))
 					&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
 			String earnCodeGroup = (String)fieldValues.get("earnCodeGroup");
-			LocalDate effectiveDate = TKUtils.formatDateString((String) fieldValues.get("effectiveDate"));
+            String effDate = (String) fieldValues.get("effectiveDate");
+            LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
 			ec = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(earnCodeGroup, effectiveDate);
 		} else {
 			ec = (EarnCodeGroup) super.getBusinessObject(fieldValues);
