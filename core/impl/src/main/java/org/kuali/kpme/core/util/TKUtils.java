@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -303,7 +304,7 @@ public class TKUtils {
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         return sdf.format(dateTime.toDate());
     }
-    
+
     public static LocalDate formatDateString(String date){
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
     	try {
@@ -311,6 +312,17 @@ public class TKUtils {
 		} catch (ParseException e) {
 			return null;
 		}
+    }
+    
+    public static String formatTimeShort(String dateString) {
+    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    	Date tempDate = null;
+ 		try {
+ 			tempDate = sdf.parse(dateString);
+ 		} catch (ParseException e) {
+ 			e.printStackTrace();
+ 		}
+        return new SimpleDateFormat("HH:mm").format(tempDate);      
     }
     
     public static DateTime formatDateTimeString(String dateTime) {

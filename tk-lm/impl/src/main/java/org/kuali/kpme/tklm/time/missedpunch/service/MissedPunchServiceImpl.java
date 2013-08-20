@@ -97,9 +97,15 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
         Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(assignmentDescriptionKey, timesheetDocument.getDocEndDate());
         CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
-        DateTime userActionDateTime = missedPunch.getActionFullDateTime();
-        DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-        DateTime actionDateTime = new DateTime(userActionDateTime, userTimeZone).withZone(TKUtils.getSystemDateTimeZone());
+        
+        // use the actual date and time from the document to build the date time with user zone, then apply system time zone to it
+        String dateString = TKUtils.formatDateTimeShort(missedPunch.getActionFullDateTime());
+        String longDateString = TKUtils.formatDateTimeLong(missedPunch.getActionFullDateTime());
+        String timeString = TKUtils.formatTimeShort(longDateString);
+        		
+        DateTime dateTimeWithUserZone = TKUtils.convertDateStringToDateTime(dateString, timeString);
+        DateTime actionDateTime = dateTimeWithUserZone.withZone(TKUtils.getSystemDateTimeZone());
+        
         String clockAction = missedPunch.getClockAction();
         String principalId = timesheetDocument.getPrincipalId();
         
