@@ -203,7 +203,7 @@
 
   <!-- KRAD Lookup View Definition -->
  
-<!--   <bean id="Institution-LookupView" parent="Uif-LookupView">
+  <bean id="Institution-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="Institution Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.institution.Institution" />
     <property name="criteriaFields">
@@ -222,6 +222,6 @@
 		<bean parent="Uif-DataField" p:propertyName="active" />
       </list>
     </property>
-  </bean> -->
+  </bean>
 
 </beans>
