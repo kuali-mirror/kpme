@@ -130,14 +130,13 @@ public class TimeDetailAction extends TimesheetAction {
 	            		&& !DocumentStatus.CANCELED.getCode().equals(documentStatus)
 	     	 	 	 	&& !DocumentStatus.DISAPPROVED.getCode().equals(documentStatus)) {
 	            	if(StringUtils.equals(timesheetDocument.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
-		            		|| HrContext.isSystemAdmin()
-		            		|| TkContext.isLocationAdmin()
-		            		|| TkContext.isDepartmentAdmin()
-		            		|| HrContext.isReviewer()
-		            		|| HrContext.isAnyApprover()
-		            		|| HrContext.isAnyPayrollProcessor()) {
-	                    timeDetailActionForm.setDocEditable("true");
-	                }
+                            || HrContext.isSystemAdmin()
+                            || TkContext.isLocationAdmin()
+                            || HrContext.isReviewer()
+                            || HrContext.isAnyApprover()
+                            || HrContext.isAnyPayrollProcessor()) {
+                        timeDetailActionForm.setDocEditable("true");
+                    }
 	            	
 		            //if the timesheet has been approved by at least one of the approvers, the employee should not be able to edit it
 		            if (StringUtils.equals(timesheetDocument.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
