@@ -38,6 +38,11 @@
                 <ref bean="LeaveAdjustmentMaintenanceDocument-HiddenFields"/>
 			</list>
 		</property>
+        <property name="webScriptFiles">
+            <list>
+                <value>../js/core.js</value>
+            </list>
+        </property>
 		<property name="documentTypeName" value="LeaveAdjustmentDocumentType" />
 	</bean>
 

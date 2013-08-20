@@ -39,7 +39,8 @@ public class SalaryGroupInquirableImpl extends KualiInquirableImpl {
 		} else if (StringUtils.isNotBlank((String)fieldValues.get("hrSalGroup"))
 					&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
 			String hrSalGroup = (String) fieldValues.get("hrSalGroup");
-			LocalDate effectiveDate = TKUtils.formatDateString((String) fieldValues.get("effectiveDate"));
+            String effDate = (String) fieldValues.get("effectiveDate");
+            LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
 
 			salaryGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(hrSalGroup, effectiveDate);
 		} else {

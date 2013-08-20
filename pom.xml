@@ -569,9 +569,9 @@
     </repositories>
 
     <scm>
-		<connection>scm:svn:https://svn.kuali.org/repos/kpme/branches/kpme-2.0</connection>
-		<developerConnection>scm:svn:https://svn.kuali.org/repos/kpme/branches/kpme-2.0</developerConnection>
-        <url>https://svn.kuali.org/repos/kpme/branches/kpme-2.0</url>
+		<connection>scm:svn:https://svn.kuali.org/repos/kpme/trunk</connection>
+		<developerConnection>scm:svn:https://svn.kuali.org/repos/kpme/trunk</developerConnection>
+        <url>https://svn.kuali.org/repos/kpme/trunk</url>
 	</scm>
 
 </project>

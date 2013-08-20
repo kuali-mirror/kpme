@@ -184,6 +184,8 @@ public class HrConstants {
 
 	public static final String EARN_CODE_DAY = "D";
 
+    public static final String EFFECTIVE_DATE_FIELD = "effectiveDate";
+
 	public static final Map<String, Set<String>> CLASS_INQUIRY_KEY_MAP = new HashMap<String, Set<String>>(4);
 
 	static {

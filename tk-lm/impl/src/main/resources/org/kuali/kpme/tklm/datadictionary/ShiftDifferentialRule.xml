@@ -40,6 +40,7 @@
 				<ref bean="ShiftDifferentialRule-hrSalGroup" />
 				<ref bean="ShiftDifferentialRule-payGrade" />
 				<ref bean="ShiftDifferentialRule-effectiveDate" />
+                <ref bean="ShiftDifferentialRule-relativeEffectiveDate" />
 				<ref bean="ShiftDifferentialRule-earnCode" />
 				<ref bean="ShiftDifferentialRule-beginTime" />
 				<ref bean="ShiftDifferentialRule-endTime" />
@@ -71,10 +72,14 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrSalGroup"
 								p:targetName="hrSalGroup" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrSalGroupId"
-								p:targetName="hrSalGroupId" />
 						</list>
 					</property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+                    </property>
 				</bean>
 
 
@@ -86,6 +91,12 @@
 								p:targetName="earnCode" />
 						</list>
 					</property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+                    </property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -96,6 +107,12 @@
 								p:targetName="earnCodeGroup" />
 						</list>
 					</property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+                    </property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -114,10 +131,14 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
 								p:targetName="location" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrLocationId"
-								p:targetName="hrLocationId" />
 						</list>
 					</property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+                    </property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -126,10 +147,16 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="payGrade"
 								p:targetName="payGrade" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrPayGradeId"
-								p:targetName="hrPayGradeId" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrSalGroup"
+                                  p:targetName="salGroup" />
 						</list>
 					</property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+                    </property>
 				</bean>
 
 
@@ -206,6 +233,11 @@
 	</bean>
 
 	<!-- effectiveDate-->
+    <bean id="ShiftDifferentialRule-relativeEffectiveDate" parent="ShiftDifferentialRule-effectiveDate-parentBean" p:name="relativeEffectiveDate">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+    </bean>
 	<bean id="ShiftDifferentialRule-effectiveDate" parent="ShiftDifferentialRule-effectiveDate-parentBean" />
 	<bean id="ShiftDifferentialRule-effectiveDate-parentBean"
 		abstract="true" parent="AttributeDefinition">
@@ -522,6 +554,8 @@
 							<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 							<bean parent="FieldDefinition" p:attributeName="pyCalendarGroup" />
+                            <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
+                                  p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
 						</list>
 					</property>
 					<property name="title" value="Shift Differential Rule" />
@@ -549,6 +583,8 @@
 				<bean parent="FieldDefinition" p:attributeName="hrPayGradeId" />
 				<bean parent="FieldDefinition" p:attributeName="active"/>
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
+                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
 			</list>
 		</property>
 		<property name="resultFields">

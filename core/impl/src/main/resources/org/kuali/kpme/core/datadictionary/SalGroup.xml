@@ -28,6 +28,9 @@
 	    <property name="lookupDefinition">
 			<ref bean="SalaryGroup-lookupDefinition" />
 		</property>
+        <property name="inquiryDefinition">
+            <ref bean="SalaryGroup-inquiryDefinition" />
+        </property>
 	    <property name="attributes">
 	      <list>
 	        <ref bean="SalaryGroup-hrSalGroupId"/>
@@ -286,7 +289,39 @@
 		</property>
 		<property name="title" value="Salary Group Lookup" />
 	</bean>
-	
+
+
+    <!-- Business Object Inquiry Definition (KNS!! Remove after everything converted) -->
+    <bean id="SalaryGroup-inquiryDefinition" parent="SalaryGroup-inquiryDefinition-parentBean" />
+
+    <bean id="SalaryGroup-inquiryDefinition-parentBean" abstract="true"
+          parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.salarygroup.web.SalaryGroupInquirableImpl">
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+                            <bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
+                            <bean parent="FieldDefinition" p:attributeName="descr" />
+                            <bean parent="FieldDefinition" p:attributeName="institution" />
+                            <bean parent="FieldDefinition" p:attributeName="location" />
+                            <bean parent="FieldDefinition" p:attributeName="percentTime" />
+                            <bean parent="FieldDefinition" p:attributeName="benefitsEligible" />
+                            <bean parent="FieldDefinition" p:attributeName="leaveEligible" />
+                            <bean parent="FieldDefinition" p:attributeName="leavePlan" />
+                            <bean parent="FieldDefinition" p:attributeName="active"/>
+                        </list>
+                    </property>
+                    <property name="title" value="Salary Group" />
+                </bean>
+            </list>
+        </property>
+        <property name="translateCodes" value="false" />
+        <property name="title" value="Salary Group Inquiry" />
+    </bean>
+
  <!-- Salary Group Inquiry View -->
   <bean id="SalaryGroup-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Salary Group Inquiry"/>

@@ -249,7 +249,7 @@
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
                 <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
-                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" " />
 			</list>
 
 		</property>

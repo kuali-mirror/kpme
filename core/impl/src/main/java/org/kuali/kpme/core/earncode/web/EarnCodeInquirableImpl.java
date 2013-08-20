@@ -33,8 +33,7 @@ public class EarnCodeInquirableImpl extends KualiInquirableImpl {
 		if(StringUtils.isNotBlank((String)fieldValues.get("hrEarnCodeId"))) {
 			ec = HrServiceLocator.getEarnCodeService().getEarnCodeById((String)fieldValues.get("hrEarnCodeId"));
 			
-		} else if(StringUtils.isNotBlank((String)fieldValues.get("earnCode"))
-					&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
+		} else if(StringUtils.isNotBlank((String)fieldValues.get("earnCode"))) {
 			String earnCode = (String)fieldValues.get("earnCode");
             String effDate = (String) fieldValues.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);

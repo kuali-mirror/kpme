@@ -28,7 +28,8 @@ public class PayGrade extends HrBusinessObject implements PayGradeContract {
 	private static final long serialVersionUID = -5736949952127760566L;
 	//KPME-2273/1965 Primary Business Keys List.
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
-            .add("payGrade")            
+            .add("payGrade")
+            .add("salGroup")
             .build();
 
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PayGrade";

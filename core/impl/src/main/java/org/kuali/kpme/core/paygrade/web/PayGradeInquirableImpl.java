@@ -36,11 +36,11 @@ public class PayGradeInquirableImpl extends KualiInquirableImpl {
         if (StringUtils.isNotBlank((String) fieldValues.get("hrPayGradeId"))) {
             payGrade = HrServiceLocator.getPayGradeService().getPayGrade((String) fieldValues.get("hrPayGradeId"));
         } else if (fieldValues.containsKey("payGrade")
-                && fieldValues.containsKey("salGroup")
-                && fieldValues.containsKey("effectiveDate")) {
+                && fieldValues.containsKey("salGroup")) {
             String pg = (String)fieldValues.get("payGrade");
             String sg = (String)fieldValues.get("salGroup");
-            LocalDate effectiveDate = TKUtils.formatDateString((String) fieldValues.get("effectiveDate"));
+            String effDate = (String) fieldValues.get("effectiveDate");
+            LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
             
             payGrade = HrServiceLocator.getPayGradeService().getPayGrade(pg, sg, effectiveDate);
         } else {

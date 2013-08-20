@@ -34,7 +34,8 @@ public class PrincipalHRAttributesInquirableImpl extends KualiInquirableImpl {
     		principalAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes((String) fieldValues.get("hrPrincipalAttributeId"));
     	} else if(StringUtils.isNotBlank((String)fieldValues.get("principalId"))
     			&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
-    		LocalDate effectiveDate = TKUtils.formatDateString((String) fieldValues.get("effectiveDate"));
+            String effDate = (String) fieldValues.get("effectiveDate");
+            LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
     		principalAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar((String) fieldValues.get("principalId"), effectiveDate);
     	} else {
     		principalAttributes = (PrincipalHRAttributes) super.getBusinessObject(fieldValues);

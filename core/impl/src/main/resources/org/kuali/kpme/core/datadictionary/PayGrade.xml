@@ -27,6 +27,9 @@
 		<property name="lookupDefinition">
 			<ref bean="PayGrade-lookupDefinition" />
 		</property>
+        <property name="inquiryDefinition">
+            <ref bean="PayGrade-inquiryDefinition" />
+        </property>
 		<property name="attributes">
 			<list>
 				<ref bean="PayGrade-hrPayGradeId" />
@@ -375,6 +378,37 @@
 		</property>
 		<property name="title" value="Pay Grade Lookup" />
 	</bean>
+
+    <!-- Business Object Inquiry Definition (KNS!! Remove after everything converted) -->
+    <bean id="PayGrade-inquiryDefinition" parent="PayGrade-inquiryDefinition-parentBean" />
+
+    <bean id="PayGrade-inquiryDefinition-parentBean" abstract="true"
+          parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.paygrade.web.PayGradeInquirableImpl">
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+                            <bean parent="FieldDefinition" p:attributeName="payGrade"/>
+                            <bean parent="FieldDefinition" p:attributeName="description"/>
+                            <bean parent="FieldDefinition" p:attributeName="salGroup"/>
+                            <bean parent="FieldDefinition" p:attributeName="minRate" />
+                            <bean parent="FieldDefinition" p:attributeName="midPointRate" />
+                            <bean parent="FieldDefinition" p:attributeName="maxRate" />
+                            <bean parent="FieldDefinition" p:attributeName="maxHiringRate" />
+                            <bean parent="FieldDefinition" p:attributeName="rateType" />
+                            <bean parent="FieldDefinition" p:attributeName="active"/>
+                        </list>
+                    </property>
+                    <property name="title" value="Pay Grade" />
+                </bean>
+            </list>
+        </property>
+        <property name="translateCodes" value="false" />
+        <property name="title" value="Pay Grade Inquiry" />
+    </bean>
 
     <!--  Pay Grade Inquiry View  -->
   	<bean id="PayGrade-InquiryView" parent="Uif-InquiryView" >

@@ -18,7 +18,10 @@ package org.kuali.kpme.core.service.module;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.cache.CacheUtils;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.earncode.EarnCode;
@@ -33,6 +36,7 @@ import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.task.Task;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.krad.service.impl.ModuleServiceBase;
 
@@ -41,7 +45,25 @@ public class KpmeModuleService extends ModuleServiceBase {
 
     @Override
     public List<List<String>> listAlternatePrimaryKeyFieldNames(Class businessObjectInterfaceClass) {
-        if (LeavePlan.class.isAssignableFrom(businessObjectInterfaceClass)) {
+        List<List<String>> retList = new ArrayList<List<String>>();
+        List<String> keyList = new ArrayList<String>();
+        try {
+            keyList.addAll((java.util.List<String>) businessObjectInterfaceClass.getDeclaredField("EQUAL_TO_FIELDS").get(businessObjectInterfaceClass));
+        } catch (NoSuchFieldException e) {
+            LOG.warn(businessObjectInterfaceClass.getClass().getName() + " does not contain a EQUAL_TO_FIELDS list");
+        } catch (IllegalAccessException e) {
+            LOG.warn(businessObjectInterfaceClass.getClass().getName() + " does not contain a EQUAL_TO_FIELDS list");
+        }
+
+        if (HrBusinessObject.class.isAssignableFrom(businessObjectInterfaceClass)) {
+            keyList.add(HrConstants.EFFECTIVE_DATE_FIELD);
+        }
+        if (CollectionUtils.isNotEmpty(keyList)) {
+            retList.add(keyList);
+            return retList;
+        }
+
+       /* if (LeavePlan.class.isAssignableFrom(businessObjectInterfaceClass)) {
             List<List<String>> retList = new ArrayList<List<String>>();
             List<String> keyList = new ArrayList<String>();
             keyList.add("leavePlan");
@@ -154,7 +176,7 @@ public class KpmeModuleService extends ModuleServiceBase {
         	keyList.add("effectiveDate");
         	retList.add(keyList);
         	return retList;
-        }
+        }*/
         return super.listAlternatePrimaryKeyFieldNames(businessObjectInterfaceClass);
     }
 }

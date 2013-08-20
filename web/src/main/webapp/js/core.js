@@ -49,3 +49,14 @@ function refreshPage(object) {
 	frm.submit();
 }
 
+//jQuery(document).ready(function(){
+jq(document).ready(function () {
+    jq('input[name="document.newMaintainableObject.effectiveDate"]').blur(function() {
+        var relEffDate = jq('input[name="document.newMaintainableObject.relativeEffectiveDate"]');
+        if (relEffDate.is('*')) {
+            relEffDate.val(jq(this).val())
+        }
+    });
+
+});
+

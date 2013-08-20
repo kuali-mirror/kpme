@@ -35,8 +35,14 @@
 		<property name="maintainableSections">
 			<list>
 				<ref bean="EmployeeOverrideMaintenanceDocument-EmployeeOverrideMaintenance" />
+                <ref bean="EmployeeOverrideMaintenanceDocument-HiddenFields" />
 			</list>
 		</property>
+        <property name="webScriptFiles">
+            <list>
+                <value>../js/core.js</value>
+            </list>
+        </property>
 		<property name="documentTypeName" value="EmployeeOverrideDocumentType" />
 	</bean>
 
@@ -52,7 +58,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:noLookup="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="name" p:noLookup="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="leavePlan" p:required="true" p:noLookup="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="leavePlan" p:required="true" p:noLookup="true" p:defaultValue=" "/>
 				<bean parent="MaintainableFieldDefinition" p:name="accrualCategory"  p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="overrideType" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="overrideValue" />
@@ -61,5 +67,8 @@
 			</list>
 		</property>
 	</bean>
+
+    <bean id="EmployeeOverrideMaintenanceDocument-HiddenFields"
+          parent="MaintDoc-HiddenFields-parentBean" />
 	
 </beans>
