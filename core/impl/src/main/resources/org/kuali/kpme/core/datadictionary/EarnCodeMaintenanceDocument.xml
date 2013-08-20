@@ -90,7 +90,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="accrualCategory" p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="accrualBalanceAction"  p:defaultValue="N"/>
         <bean parent="MaintainableFieldDefinition" p:name="roundingOption" p:defaultValue="T" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="fractionalTimeAllowed" 	p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="fractionalTimeAllowed" 	p:required="true" p:defaultValue="99.99"/>
         <bean parent="MaintainableFieldDefinition" p:name="usageLimit" 	p:required="true" p:defaultValue="I"/>
         <!--  KPME 1624 -->
         <bean parent="MaintainableFieldDefinition" p:name="eligibleForAccrual" p:defaultValue="Y" p:required="true"/>
