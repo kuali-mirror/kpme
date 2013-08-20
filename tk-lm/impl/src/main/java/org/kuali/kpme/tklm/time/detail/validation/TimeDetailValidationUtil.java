@@ -252,14 +252,18 @@ public class TimeDetailValidationUtil {
         		(lastClockLog.getClockAction().equals(TkConstants.CLOCK_IN) 
         				|| lastClockLog.getClockAction().equals(TkConstants.LUNCH_IN))) {
         	 DateTime lastClockDateTime = lastClockLog.getClockDateTime();
-             String lastClockZone = lastClockLog.getClockTimestampTimezone();
-             if (StringUtils.isEmpty(lastClockZone)) {
-                 lastClockZone = TKUtils.getSystemTimeZone();
-             }
-             DateTimeZone zone = DateTimeZone.forID(lastClockZone);
-             DateTime clockWithZone = lastClockDateTime.withZone(zone);
-             DateTime currentTime = new DateTime(System.currentTimeMillis(), zone);
-             Interval currentClockInInterval = new Interval(clockWithZone.getMillis(), currentTime.getMillis());
+             //String lastClockZone = lastClockLog.getClockTimestampTimezone();
+             //if (StringUtils.isEmpty(lastClockZone)) {
+             //    lastClockZone = TKUtils.getSystemTimeZone();
+             //}
+             //DateTimeZone zone = DateTimeZone.forID(lastClockZone);
+             //DateTime clockWithZone = lastClockDateTime.withZone(zone);
+             //DateTime currentTime = new DateTime(System.currentTimeMillis(), zone);
+            DateTime currentTime = DateTime.now();
+            if (lastClockDateTime.getMillis() > currentTime.getMillis()) {
+                currentTime = new DateTime(lastClockDateTime.getMillis());
+            }
+            Interval currentClockInInterval = new Interval(lastClockDateTime, currentTime);
        
             if (isRegularEarnCode && addedTimeblockInterval.overlaps(currentClockInInterval)) {
                  errors.add("The time block you are trying to add overlaps with the current clock action.");
