@@ -54,7 +54,7 @@ public class TimeDetailValidationUtil {
      *
      * @return A list of error strings.
      */
-    public static List<String> validateEearnCode(String earnCode, String startDateString, String endDateString) {
+    public static List<String> validateEarnCode(String earnCode, String startDateString, String endDateString) {
     	List<String> errors = new ArrayList<String>();
 
     	LocalDate tempDate = TKUtils.formatDateTimeStringNoTimezone(startDateString).toLocalDate();
@@ -95,46 +95,54 @@ public class TimeDetailValidationUtil {
         if (errors.size() > 0) return errors;
 
         CalendarEntry payCalEntry = timesheetDocument.getCalendarEntry();
+        EarnCode earnCode = null;
+        if (StringUtils.isNotBlank(selectedEarnCode)) {
+            earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, TKUtils.formatDateTimeStringNoTimezone(endDateS).toLocalDate());
+        }
+        boolean isTimeRecordMethod = earnCode != null && StringUtils.equalsIgnoreCase(earnCode.getRecordMethod(), HrConstants.EARN_CODE_TIME);
 
         errors.addAll(TimeDetailValidationUtil.validateDates(startDateS, endDateS));
-        errors.addAll(TimeDetailValidationUtil.validateTimes(startTimeS, endTimeS));
+
+
+        if (isTimeRecordMethod) {
+            errors.addAll(TimeDetailValidationUtil.validateTimes(startTimeS, endTimeS));
+        }
         if (errors.size() > 0) return errors;
 
         Long startTime;
         Long endTime;
-        
+
+        if (!isTimeRecordMethod) {
+            startTimeS = "0:0";
+            endTimeS = "0:0";
+        }
         startTime = TKUtils.convertDateStringToDateTimeWithoutZone(startDateS, startTimeS).getMillis();
         endTime = TKUtils.convertDateStringToDateTimeWithoutZone(endDateS, endTimeS).getMillis();
 
         errors.addAll(validateInterval(payCalEntry, startTime, endTime));
         if (errors.size() > 0) return errors;
 
-        EarnCode earnCode = new EarnCode();
-        if (StringUtils.isNotBlank(selectedEarnCode)) {
-            earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, TKUtils.formatDateTimeStringNoTimezone(endDateS).toLocalDate());
-          
-            if (earnCode != null && earnCode.getRecordMethod()!= null && earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
-                if (startTimeS == null) errors.add("The start time is blank.");
-                if (endTimeS == null) errors.add("The end time is blank.");
-                if (startTime - endTime == 0) errors.add("Start time and end time cannot be equivalent");
-            }
+        if (isTimeRecordMethod) {
+            if (startTimeS == null) errors.add("The start time is blank.");
+            if (endTimeS == null) errors.add("The end time is blank.");
+            if (startTime - endTime == 0) errors.add("Start time and end time cannot be equivalent");
         }
         if (errors.size() > 0) return errors;
 
         DateTime startTemp = new DateTime(startTime);
         DateTime endTemp = new DateTime(endTime);
 /*
- * KPME-2687: 
- * 
+ * KPME-2687:
+ *
  * Removed 24 hour limitation. System creates continuous sequence of time blocks when !accrossDays,
  * hours between startTemp and endTemp may be over 24 hours.
- * 
+ *
         if (errors.size() == 0 && !acrossDays && !StringUtils.equals(TkConstants.EARN_CODE_CPE, overtimePref)) {
             Hours hrs = Hours.hoursBetween(startTemp, endTemp);
             if (hrs.getHours() > 24) errors.add("One timeblock cannot exceed 24 hours");
         }
         if (errors.size() > 0) return errors;
-        
+
  */
 
         //Check that assignment is valid for both days

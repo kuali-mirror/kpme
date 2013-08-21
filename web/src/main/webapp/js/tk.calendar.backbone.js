@@ -812,8 +812,7 @@ $(function () {
             var eligibleForAccr = this.getEarnCodeEligibleForAccr(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
 
 			// display leave block fields if the earn code has leave plan OR the earn code is NOT eligible for accrual
-            if((typeof leavePlan != 'undefined' && leavePlan != '' && leavePlan != null && leavePlan != 'undefined')
-            	|| eligibleForAccr == 'N') {  // for leave block earn codes
+            if((typeof leavePlan != 'undefined' && leavePlan != '' && leavePlan != null && leavePlan != 'undefined')) {  // for leave block earn codes
             	var earnCodeUnit = this.getEarnCodeUnit(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
  				if(typeof earnCodeUnit == 'undefined' || earnCodeUnit == '' || earnCodeUnit == null || earnCodeUnit == 'undefined') {
  					var checkFlag = earnCodeType;

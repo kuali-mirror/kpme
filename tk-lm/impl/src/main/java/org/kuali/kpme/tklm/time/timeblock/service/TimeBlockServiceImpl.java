@@ -237,19 +237,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         //If earn code has an inflate min hours check if it is greater than zero
         //and compare if the hours specified is less than min hours awarded for this
         //earn code
-        if (earnCodeObj.getInflateMinHours() != null) {
-            if ((earnCodeObj.getInflateMinHours().compareTo(BigDecimal.ZERO) != 0) &&
-                    earnCodeObj.getInflateMinHours().compareTo(hours) > 0) {
-                hours = earnCodeObj.getInflateMinHours();
-            }
-        }
-        //If earn code has an inflate factor multiple hours specified by the factor
-        if (earnCodeObj.getInflateFactor() != null) {
-            if ((earnCodeObj.getInflateFactor().compareTo(new BigDecimal(1.0)) != 0)
-            		&& (earnCodeObj.getInflateFactor().compareTo(BigDecimal.ZERO)!= 0) ) {
-                hours = earnCodeObj.getInflateFactor().multiply(hours, HrConstants.MATH_CONTEXT).setScale(HrConstants.BIG_DECIMAL_SCALE);
-            }
-        }
+
+        hours = applyInflateMinHoursAndFactor(earnCodeObj, hours);
 
         tb.setEarnCodeType(earnCodeObj.getEarnCodeType());
         tb.setHours(hours);
@@ -441,5 +430,27 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     @Override
     public List<TimeBlock> getTimeBlocksWithEarnCode(String earnCode, DateTime effDate) {
     	return timeBlockDao.getTimeBlocksWithEarnCode(earnCode, effDate);
+    }
+
+    private BigDecimal applyInflateMinHoursAndFactor(EarnCode earnCodeObj, BigDecimal blockHours) {
+        if(earnCodeObj != null) {
+            //If earn code has an inflate min hours check if it is greater than zero
+            //and compare if the hours specified is less than min hours awarded for this
+            //earn code
+            if (earnCodeObj.getInflateMinHours() != null) {
+                if ((earnCodeObj.getInflateMinHours().compareTo(BigDecimal.ZERO) != 0) &&
+                        earnCodeObj.getInflateMinHours().compareTo(blockHours) > 0) {
+                    blockHours = earnCodeObj.getInflateMinHours();
+                }
+            }
+            //If earn code has an inflate factor multiple hours specified by the factor
+            if (earnCodeObj.getInflateFactor() != null) {
+                if ((earnCodeObj.getInflateFactor().compareTo(new BigDecimal(1.0)) != 0)
+                        && (earnCodeObj.getInflateFactor().compareTo(BigDecimal.ZERO)!= 0) ) {
+                    blockHours = earnCodeObj.getInflateFactor().multiply(blockHours, HrConstants.MATH_CONTEXT).setScale(HrConstants.BIG_DECIMAL_SCALE);
+                }
+            }
+        }
+        return blockHours;
     }
 }

@@ -116,7 +116,7 @@ public class LeaveCalendarWSAction extends LeaveCalendarAction {
 		    lcf.setLeaveSummary(ls);
     	}
     	// validates the selected earn code exists on every day within the date range
-    	errorMsgList.addAll(TimeDetailValidationUtil.validateEearnCode(lcf.getSelectedEarnCode(), lcf.getStartDate(), lcf.getEndDate()));
+    	errorMsgList.addAll(TimeDetailValidationUtil.validateEarnCode(lcf.getSelectedEarnCode(), lcf.getStartDate(), lcf.getEndDate()));
     	if(errorMsgList.isEmpty()) {
 	    	errorMsgList.addAll(LeaveCalendarValidationUtil.validateParametersAccordingToSelectedEarnCodeRecordMethod(lcf));
 	    	

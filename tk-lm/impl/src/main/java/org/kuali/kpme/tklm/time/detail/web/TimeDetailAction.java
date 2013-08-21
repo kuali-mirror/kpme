@@ -488,8 +488,16 @@ public class TimeDetailAction extends TimesheetAction {
         Assignment currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
 
         // Surgery point - Need to construct a Date/Time with Appropriate Timezone.
-        DateTime startTime = TKUtils.convertDateStringToDateTime(tdaf.getStartDate(), tdaf.getStartTime());
-        DateTime endTime = TKUtils.convertDateStringToDateTime(tdaf.getEndDate(), tdaf.getEndTime());
+        DateTime startTime = null;
+        DateTime endTime = null;
+        if(tdaf.getStartTime() != null && tdaf.getEndTime() != null) {
+            startTime = TKUtils.convertDateStringToDateTime(tdaf.getStartDate(), tdaf.getStartTime());
+            endTime = TKUtils.convertDateStringToDateTime(tdaf.getEndDate(), tdaf.getEndTime());
+        } else {
+            // should not apply time zone to dates when user's changing an hour entry
+            startTime = TKUtils.formatDateTimeStringNoTimezone(tdaf.getStartDate());
+            endTime = TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate());
+        }
 
         // We need a  cloned reference set so we know whether or not to
         // persist any potential changes without making hundreds of DB calls.

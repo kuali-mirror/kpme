@@ -31,7 +31,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.assignment.Assignment;
@@ -80,7 +79,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate()).toLocalDate());
     	
         // validates the selected earn code exists on every day within the date range
-        errors = TimeDetailValidationUtil.validateEearnCode(tdaf.getSelectedEarnCode(), tdaf.getStartDate(), tdaf.getEndDate());
+        errors = TimeDetailValidationUtil.validateEarnCode(tdaf.getSelectedEarnCode(), tdaf.getStartDate(), tdaf.getEndDate());
         if(errors.isEmpty()) {
 	        if(ec != null && ec.getLeavePlan() != null) {	// leave blocks changes
 	    		errors = this.validateLeaveEntry(tdaf);
