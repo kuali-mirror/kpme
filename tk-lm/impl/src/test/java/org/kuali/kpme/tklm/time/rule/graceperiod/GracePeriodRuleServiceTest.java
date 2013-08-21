@@ -80,4 +80,229 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
         //cleanup
         KRADServiceLocator.getBusinessObjectService().delete(gpr);
 	}
+	
+	@Test
+	public void testKPMEQA_332() throws Exception{
+		/**
+		 * In order to be consistent with the jira listed in the test method name,
+		 * these tests would need to mimick a clock action, which calls ClockLogService::processClockLog(...).
+		 * It should then be verified that GracePeriodService::processGracePeriodRule is called once, and the resulting
+		 * clock log's clockTimestamp is consistent with the expected value under the grace period rule.
+		 */
+		GracePeriodRule gpr = new GracePeriodRule();
+		gpr.setActive(true);
+		gpr.setEffectiveLocalDate(LocalDate.now());
+		gpr.setHourFactor(new BigDecimal(0));
+		
+		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
+		Assert.assertTrue("fetched one rule", gpr != null);
+
+		DateTime beginDateTime = new DateTime(2012, 10, 16, 12, 3, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime derivedDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
+
+		Assert.assertTrue("no rounding should have been done.", derivedDateTime.compareTo(beginDateTime) == 0);
+
+        //cleanup
+        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+	}
+	
+	@Test
+	public void testKPMEQA_335() throws Exception{
+		GracePeriodRule gpr = new GracePeriodRule();
+		gpr.setActive(true);
+		gpr.setEffectiveLocalDate(LocalDate.now());
+		gpr.setHourFactor(new BigDecimal(15));
+		
+		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
+		Assert.assertTrue("fetched one rule", gpr != null);
+
+		DateTime beginDateTime = new DateTime(2012, 10, 16, 12, 7, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime derivedDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
+
+		Assert.assertTrue("should round down to 12:00", derivedDateTime.getMinuteOfHour() == 0);
+		
+		KRADServiceLocator.getBusinessObjectService().delete(gpr);
+	}
+	
+	@Test
+	public void testKPMEQA_336() throws Exception{
+		GracePeriodRule gpr = new GracePeriodRule();
+		gpr.setActive(true);
+		gpr.setEffectiveLocalDate(LocalDate.now());
+		gpr.setHourFactor(new BigDecimal(15));
+		
+		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
+		Assert.assertTrue("fetched one rule", gpr != null);
+
+		DateTime beginDateTime = new DateTime(2012, 10, 16, 12, 53, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime derivedDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
+
+		Assert.assertTrue("should round up to 12:00", derivedDateTime.getMinuteOfHour() == 0);
+
+        //cleanup
+        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+	}
+	
+	@Test
+	public void testKPMEQA_337() throws Exception{
+		GracePeriodRule gpr = new GracePeriodRule();
+		gpr.setActive(true);
+		gpr.setEffectiveLocalDate(LocalDate.now());
+		gpr.setHourFactor(new BigDecimal(15));
+		
+		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
+		Assert.assertTrue("fetched one rule", gpr != null);
+
+		DateTime beginDateTime = new DateTime(2012, 10, 16, 12, 52, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime derivedDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
+
+		Assert.assertTrue("should round down to 12:45", derivedDateTime.getMinuteOfHour() == 45);
+
+        //cleanup
+        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+	}
+	
+	@Test
+	public void testKPMEQA_338() throws Exception{
+		GracePeriodRule gpr = new GracePeriodRule();
+		gpr.setActive(true);
+		gpr.setEffectiveLocalDate(LocalDate.now());
+		gpr.setHourFactor(new BigDecimal(15));
+		
+		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
+		Assert.assertTrue("fetched one rule", gpr != null);
+
+		DateTime beginDateTime = new DateTime(2012, 10, 16, 12, 8, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime derivedDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
+
+		Assert.assertTrue("should round up to 12:15", derivedDateTime.getMinuteOfHour() == 15);
+
+        //cleanup
+        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+	}
+	
+	@Test
+	public void testKPMEQA_344() throws Exception{
+		GracePeriodRule gpr = new GracePeriodRule();
+		gpr.setActive(true);
+		gpr.setEffectiveLocalDate(LocalDate.now());
+		gpr.setHourFactor(new BigDecimal(6));
+		
+		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
+		Assert.assertTrue("fetched one rule", gpr != null);
+
+		DateTime beginDateTime = new DateTime(2012, 10, 16, 12, 2, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime derivedDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
+
+		Assert.assertTrue("should round to 12:00", derivedDateTime.getMinuteOfHour() == 0);
+
+        //cleanup
+        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+	}
+	
+	@Test
+	public void testKPMEQA_345() throws Exception{
+		GracePeriodRule gpr = new GracePeriodRule();
+		gpr.setActive(true);
+		gpr.setEffectiveLocalDate(LocalDate.now());
+		gpr.setHourFactor(new BigDecimal(6));
+		
+		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
+		Assert.assertTrue("fetched one rule", gpr != null);
+
+		DateTime beginDateTime = new DateTime(2012, 10, 16, 12, 58, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime derivedDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
+
+		Assert.assertTrue("should round to 12:00", derivedDateTime.getMinuteOfHour() == 0);
+
+        //cleanup
+        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+	}
+	
+	@Test
+	public void testKPMEQA_346() throws Exception{
+		GracePeriodRule gpr = new GracePeriodRule();
+		gpr.setActive(true);
+		gpr.setEffectiveLocalDate(LocalDate.now());
+		gpr.setHourFactor(new BigDecimal(6));
+		
+		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
+		Assert.assertTrue("fetched one rule", gpr != null);
+
+		DateTime beginDateTime = new DateTime(2012, 10, 16, 12, 4, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime derivedDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
+
+		Assert.assertTrue("should round to 12:06", derivedDateTime.getMinuteOfHour() == 6);
+
+        //cleanup
+        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+	}
+	
+	@Test
+	public void testKPMEQA_346b() throws Exception{
+		GracePeriodRule gpr = new GracePeriodRule();
+		gpr.setActive(true);
+		gpr.setEffectiveLocalDate(LocalDate.now());
+		gpr.setHourFactor(new BigDecimal(6));
+		
+		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
+		Assert.assertTrue("fetched one rule", gpr != null);
+
+		DateTime beginDateTime = new DateTime(2012, 10, 16, 12, 8, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime derivedDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
+
+		Assert.assertTrue("should round to 12:06", derivedDateTime.getMinuteOfHour() == 6);
+
+        //cleanup
+        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+	}
+
+	@Test
+	public void testKPMEQA_347() throws Exception{
+		GracePeriodRule gpr = new GracePeriodRule();
+		gpr.setActive(true);
+		gpr.setEffectiveLocalDate(LocalDate.now());
+		gpr.setHourFactor(new BigDecimal(6));
+		
+		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
+		Assert.assertTrue("fetched one rule", gpr != null);
+
+		DateTime beginDateTime = new DateTime(2012, 10, 16, 12, 10, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime derivedDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
+
+		Assert.assertTrue("should round to 12:12", derivedDateTime.getMinuteOfHour() == 12);
+
+        //cleanup
+        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+	}
+	
+	@Test
+	public void testRoundingWhenEquidistentToHourFactor() throws Exception{
+		GracePeriodRule gpr = new GracePeriodRule();
+		gpr.setActive(true);
+		gpr.setEffectiveLocalDate(LocalDate.now());
+		gpr.setHourFactor(new BigDecimal(6));
+		
+		KRADServiceLocator.getBusinessObjectService().save(gpr);
+		gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
+		Assert.assertTrue("fetched one rule", gpr != null);
+
+		DateTime beginDateTime = new DateTime(2012, 10, 16, 12, 3, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime derivedDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
+
+		Assert.assertTrue("should round to 12::06", derivedDateTime.getMinuteOfHour() == 6);
+
+        //cleanup
+        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+	}
 }
