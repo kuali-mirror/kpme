@@ -243,6 +243,7 @@
 				<bean parent="FieldDefinition" p:attributeName="positionReportSubCat" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="positionReportCat" />
+                <bean parent="FieldDefinition" p:attributeName="positionReportType" />
 				<bean parent="FieldDefinition" p:attributeName="institution" />
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
