@@ -145,7 +145,7 @@ public class ClockLogServiceImpl implements ClockLogService {
         clockLog.setJobNumber(assignment.getJobNumber());
         clockLog.setWorkArea(assignment.getWorkArea());
         clockLog.setTask(assignment.getTask());
-        clockLog.setClockTimestampTimezone(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback().getID());
+        clockLog.setClockTimestampTimezone(HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback().getID());
         clockLog.setClockDateTime(clockDateTime);
         clockLog.setClockAction(clockAction);
         clockLog.setIpAddress(ip);

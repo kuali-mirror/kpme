@@ -53,5 +53,26 @@ public interface TimezoneService {
 	 * @return
 	 */
 	public boolean isSameTimezone();
+	
+	/**
+	 * Fetch the time zone of the approver. This method is used in the approval page
+	 * @param principalId The principal id for the approver
+	 * @return String timezone, see: http://joda-time.sourceforge.net/timezones.html
+	 */
+	public String getApproverTimezone(String principalId);
+	
+	/**
+	 * Fetch the time zone of the current target user.
+	 * If there's no target user, time zone of the current user or system time zone will be returned
+	 * @return 
+	 */
+	public DateTimeZone getTargetUserTimezoneWithFallback();
+	
+	/**
+	 * Fetch the id of the time zone of the current target user.
+	 * If there's no target user, time zone of the current user or system time zone will be returned
+	 * @return String timezone, see: http://joda-time.sourceforge.net/timezones.html
+	 */
+	public String getTargetUserTimezone();
 
 }

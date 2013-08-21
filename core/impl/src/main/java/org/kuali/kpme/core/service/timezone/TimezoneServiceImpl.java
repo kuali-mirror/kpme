@@ -24,6 +24,7 @@ import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -69,7 +70,27 @@ public class TimezoneServiceImpl implements TimezoneService {
             return DateTimeZone.forID(tzid);
         }
     }
-
+    
+    @Override
+    public DateTimeZone getTargetUserTimezoneWithFallback() {
+        String tzid = getTargetUserTimezone();
+        if (StringUtils.isEmpty(tzid)) {
+            return TKUtils.getSystemDateTimeZone();
+        } else {
+            return DateTimeZone.forID(tzid);
+        }
+    }
+    
+    @Override
+	public String getTargetUserTimezone() {
+		String timezone = "";
+		if (GlobalVariables.getUserSession() != null) {
+			// Logic in getTargetPrincipalId returns target principal id if the user is targeting an employee, otherwise returns the current user's id
+			timezone = getUserTimezone(HrContext.getTargetPrincipalId());
+		}
+        return timezone;
+	}
+    
 	@Override
 	public boolean isSameTimezone() {
 		String userTimezone = getUserTimezone();
@@ -77,6 +98,15 @@ public class TimezoneServiceImpl implements TimezoneService {
 			return StringUtils.equals(TKUtils.getSystemTimeZone(), userTimezone);
 		}
 		return true;
+	}
+
+	@Override
+	public String getApproverTimezone(String principalId) {
+		PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, LocalDate.now());
+	    if(principalCalendar != null && principalCalendar.getTimezone() != null){
+	        return principalCalendar.getTimezone();
+	    }
+		return TKUtils.getSystemTimeZone();
 	}
 
 }

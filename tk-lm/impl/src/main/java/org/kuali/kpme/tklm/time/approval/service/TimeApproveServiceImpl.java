@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.time.approval.service;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -31,9 +32,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
 import org.joda.time.Hours;
 import org.joda.time.Interval;
-import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
@@ -44,6 +46,7 @@ import org.kuali.kpme.core.calendar.web.CalendarDay;
 import org.kuali.kpme.core.calendar.web.CalendarWeek;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
@@ -98,6 +101,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		
 		Map<String, String> userColorMap = new HashMap<String, String>();
 		Set<String> randomColors = new HashSet<String>();
+		
+		String  approverId = HrContext.getPrincipalId();
+		String timeZoneString = HrServiceLocator.getTimezoneService().getApproverTimezone(approverId);
+		DateTimeZone approverTimeZone = StringUtils.isNotBlank(timeZoneString) ? DateTimeZone.forID(timeZoneString) : null;
 		
 		for (String principalId : principalIds) {
 			TimesheetDocumentHeader tdh = new TimesheetDocumentHeader();
@@ -246,7 +253,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			ClockLog lastClockLog = TkServiceLocator.getClockLogService()
 					.getLastClockLog(principalId);
 			if (isSynchronousUser(principalId)) {
-                approvalSummaryRow.setClockStatusMessage(createLabelForLastClockLog(lastClockLog));
+                approvalSummaryRow.setClockStatusMessage(createLabelForLastClockLog(lastClockLog, approverTimeZone));
             }
 			if (lastClockLog != null
 					&& (StringUtils.equals(lastClockLog.getClockAction(),
@@ -334,13 +341,32 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	 * @param cl
 	 * @return
 	 */
-	private String createLabelForLastClockLog(ClockLog cl) {
+	private String createLabelForLastClockLog(ClockLog cl, DateTimeZone approverTimeZone) {
 		// return sdf.format(dt);
 		if (cl == null) {
 			return "No previous clock information";
 		}
+		
+		String zoneString = "";
+		DateTime clockTimeWithZone = new DateTime(cl.getClockTimestamp());
+		if(StringUtils.isNotBlank(cl.getClockTimestampTimezone())) {
+			DateTimeZone clTimeZone = DateTimeZone.forID(cl.getClockTimestampTimezone());
+			if(clTimeZone != null) {
+				clockTimeWithZone = new DateTime(cl.getClockTimestamp(), clTimeZone) ;
+				zoneString = DateTime.now(clTimeZone).toString("z");
+			}
+		}
+		
+		if(approverTimeZone != null) {
+			clockTimeWithZone = clockTimeWithZone.withZone(approverTimeZone);
+			zoneString = DateTime.now(approverTimeZone).toString("z");;
+		}
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-		String dateTime = sdf.format(cl.getClockTimestamp());
+		String dateTime = sdf.format(clockTimeWithZone.toDate());
+		
+		dateTime += " " + zoneString;
+				
 		if (StringUtils.equals(cl.getClockAction(), TkConstants.CLOCK_IN)) {
 			return "Clocked in since: " + dateTime;
 		} else if (StringUtils.equals(cl.getClockAction(),

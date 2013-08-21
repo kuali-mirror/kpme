@@ -130,7 +130,7 @@ public class ClockActionForm extends TimesheetActionForm {
 	}
 	
 	public long getCurrentUserUTCOffset() {
-		return Long.valueOf(DateTime.now(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback()).toString("Z")) / 100;
+		return Long.valueOf(DateTime.now(HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback()).toString("Z")) / 100;
 	}
 
     public String getCurrentClockAction() {
