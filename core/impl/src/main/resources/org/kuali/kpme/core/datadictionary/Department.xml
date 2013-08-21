@@ -351,22 +351,27 @@
         </property>
     </bean>
 
+    <!--***************************************************************************
+							Views
+ ***************************************************************************-->
+
     <!-- KRAD Lookup View Definition -->
  
   <bean id="Department-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="Department Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.time.department.Department" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.department.Department" />
 
     <property name="criteriaFields">
       <list>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="dept" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
-		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
+
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="payrollApproval" />
+        <!--<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" />-->
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y" />
-        <bean parent="Uif-LookupCriteriaInputField" p:attributeName="relativeEffectiveDate"
-                     p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="relativeEffectiveDate"
+                     p:hidden="true" p:defaultValue=" "/>
       </list>
     </property>
 
