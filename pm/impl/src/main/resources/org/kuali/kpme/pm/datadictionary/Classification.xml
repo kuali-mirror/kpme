@@ -354,7 +354,7 @@
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionType">
        		<property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positiontyp.PositionType" 
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positiontype.PositionType"
 	        		 p:fieldConversions="positionType:positionType"/>
 	   		</property>
 	   		<property name="quickfinder.autoSearch" value="true"/>
