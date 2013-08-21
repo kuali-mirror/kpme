@@ -112,30 +112,31 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 	}
 	
 	private boolean validateReportingGroup(Classification clss) {
-		PositionReportGroup aPrg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroup(clss.getPositionReportGroup(), clss.getEffectiveLocalDate());
-		String errorMes = "PositionReportGroup '" + clss.getPositionReportGroup() + "'";
-		if(aPrg == null) {
-			this.putFieldError("dataObject.positionReportGroup", "error.existence", errorMes);
-			return false;
-		} else {
-			if(!ValidationUtils.wildCardMatch(aPrg.getInstitution(), clss.getInstitution())) {
-				String[] params = new String[3];
-				params[0] = clss.getInstitution();
-				params[1] = aPrg.getInstitution();
-				params[2] = errorMes;
-				this.putFieldError("dataObject.institution", "institution.inconsistent", params);
+		if(StringUtils.isNotBlank(clss.getPositionReportGroup())) {
+			PositionReportGroup aPrg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroup(clss.getPositionReportGroup(), clss.getEffectiveLocalDate());
+			String errorMes = "PositionReportGroup '" + clss.getPositionReportGroup() + "'";
+			if(aPrg == null) {
+				this.putFieldError("dataObject.positionReportGroup", "error.existence", errorMes);
 				return false;
+			} else {
+				if(!ValidationUtils.wildCardMatch(aPrg.getInstitution(), clss.getInstitution())) {
+					String[] params = new String[3];
+					params[0] = clss.getInstitution();
+					params[1] = aPrg.getInstitution();
+					params[2] = errorMes;
+					this.putFieldError("dataObject.institution", "institution.inconsistent", params);
+					return false;
+				}
+				if(!ValidationUtils.wildCardMatch(aPrg.getLocation(), clss.getLocation())) {
+					String[] params = new String[3];
+					params[0] = clss.getLocation();
+					params[1] = aPrg.getLocation();
+					params[2] = errorMes;
+					this.putFieldError("dataObject.location", "location.inconsistent", params);
+					return false;
+				}
 			}
-			if(!ValidationUtils.wildCardMatch(aPrg.getLocation(), clss.getLocation())) {
-				String[] params = new String[3];
-				params[0] = clss.getLocation();
-				params[1] = aPrg.getLocation();
-				params[2] = errorMes;
-				this.putFieldError("dataObject.location", "location.inconsistent", params);
-				return false;
-			}
-		} 
-		
+		}
 		return true;
 	}
 	
