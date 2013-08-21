@@ -19,14 +19,13 @@ import java.sql.Time;
 import java.util.List;
 
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Versioned;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * <p>CalendarContract interface</p>
  *
  */
-public interface CalendarContract extends Versioned, GloballyUnique {
+public interface CalendarContract extends PersistableBusinessObject {
 
 	/**
 	 * The primary Key of a Calendar entry saved in a database

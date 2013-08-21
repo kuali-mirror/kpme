@@ -15,14 +15,13 @@
  */
 package org.kuali.kpme.core.api.workarea;
 
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Versioned;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * <p>WorkAreaOvertimePrefContract interface</p>
  *
  */
-public interface WorkAreaOvertimePrefContract extends Versioned, GloballyUnique {
+public interface WorkAreaOvertimePrefContract extends PersistableBusinessObject {
 
 	/**
 	 * The tkWorkAreaId the WorkAreaOvertimePref is associated with

@@ -25,9 +25,6 @@ import org.kuali.kpme.core.api.kfs.coa.businessobject.ObjectCodeContract;
 import org.kuali.kpme.core.api.kfs.coa.businessobject.ProjectCodeContract;
 import org.kuali.kpme.core.api.kfs.coa.businessobject.SubAccountContract;
 import org.kuali.kpme.core.api.kfs.coa.businessobject.SubObjectCodeContract;
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Versioned;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
 /**
  * <p>AssignmentAccountContract interface.</p>

@@ -19,8 +19,6 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import org.joda.time.LocalDate;
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Versioned;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 /**

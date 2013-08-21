@@ -21,14 +21,13 @@ import java.util.Date;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Versioned;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * <p>CalendarEntryContract interface</p>
  *
  */
-public interface CalendarEntryContract extends Versioned, GloballyUnique {
+public interface CalendarEntryContract extends PersistableBusinessObject {
 	
 	/**
 	 * The hrCalendarId the CalendarEntry is associated with

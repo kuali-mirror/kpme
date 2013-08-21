@@ -18,14 +18,13 @@ package org.kuali.kpme.core.api.document.calendar;
 import java.util.Date;
 
 import org.joda.time.DateTime;
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Versioned;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * <p>CalendarDocumentHeaderContract interface</p>
  *
  */
-public interface CalendarDocumentHeaderContract extends Versioned, GloballyUnique {
+public interface CalendarDocumentHeaderContract extends PersistableBusinessObject {
 
 	/**
 	 * The document id the CalendarDocumentHeader is associated with
