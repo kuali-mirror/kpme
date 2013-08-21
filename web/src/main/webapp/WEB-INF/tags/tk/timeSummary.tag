@@ -25,7 +25,7 @@
 	                        <td style="border-right-style: none">
 	                        	<c:if test="${fn:length(timeSummary.weeklySections[entry.key]) > 0}">
 		                        <div class="ui-state-default " style="width:15px;vertical-align: middle;" >
-		                			<span id="weekSummary_${weekString}" class="ui-icon ui-icon-plus rowInfo"></span>
+		                			<span id="weekSummary_${weekString}" class="ui-icon ui-icon-minus rowInfo"></span>
 		            			</div>
 		            			
 		            			</c:if>
@@ -43,7 +43,7 @@
 	                        </c:forEach>
 	                        <td valign="middle">${timeSummary.weekTotalMap[entry.key]}  <i>(${timeSummary.flsaWeekTotalMap[entry.key]})</i></td>
 	                     </tr>
-	              <tbody id="weekSummary${weekString}" style="display: none;">
+	              <tbody id="weekSummary${weekString}" style="display: table-row-group;">
                   <c:forEach items="${timeSummary.weeklySections[entry.key]}" var="section">
                     <c:forEach items="${section.earnCodeSections}" var="earnCodeSection">
                         <tr class="ui-state-default" style="font-weight: bold;">
