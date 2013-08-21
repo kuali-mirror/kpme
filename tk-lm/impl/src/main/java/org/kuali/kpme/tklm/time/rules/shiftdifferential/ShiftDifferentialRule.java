@@ -38,6 +38,10 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("location")
+            .add("hrSalGroup")
+            .add("payGrade")
+            .add("earnCode")
+            .add("pyCalendarGroup")
             .build();
 	
 	private String tkShiftDiffRuleId;

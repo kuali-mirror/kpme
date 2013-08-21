@@ -25,6 +25,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -129,7 +130,8 @@ public class ShiftDifferentialRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb imp
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            root.addAndCriteria(effectiveDateFilter);
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(ShiftDifferentialRule.class, effectiveDateFilter, ShiftDifferentialRule.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(ShiftDifferentialRule.class, ShiftDifferentialRule.EQUAL_TO_FIELDS, false));
         }
         
         Query query = QueryFactory.newQuery(ShiftDifferentialRule.class, root);
