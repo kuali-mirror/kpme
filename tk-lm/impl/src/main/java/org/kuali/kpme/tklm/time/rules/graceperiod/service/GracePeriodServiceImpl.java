@@ -16,9 +16,11 @@
 package org.kuali.kpme.tklm.time.rules.graceperiod.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.tklm.time.rules.graceperiod.GracePeriodRule;
 import org.kuali.kpme.tklm.time.rules.graceperiod.dao.GracePeriodDao;
@@ -48,19 +50,30 @@ public class GracePeriodServiceImpl implements GracePeriodService {
 			gracePeriodDateTime = gracePeriodDateTime.withSecondOfMinute(0);
 			
 			BigDecimal minuteIncrement = gracePeriodRule.getHourFactor();
-			BigDecimal minutes = new BigDecimal(gracePeriodDateTime.getMinuteOfHour());
-			int bottomIntervalFactor = minutes.divide(minuteIncrement, 0, BigDecimal.ROUND_FLOOR).intValue();
-			BigDecimal bottomInterval = new BigDecimal(bottomIntervalFactor).multiply(minuteIncrement);
-	        BigDecimal topInterval = new BigDecimal(bottomIntervalFactor + 1).multiply(minuteIncrement);
-	        if (bottomInterval.subtract(minutes).abs().intValue() < topInterval.subtract(minutes).abs().intValue()) {
-	        	gracePeriodDateTime = gracePeriodDateTime.withMinuteOfHour(bottomInterval.setScale(0, BigDecimal.ROUND_HALF_UP).intValue());
-	        } else {
-	        	if (topInterval.equals(new BigDecimal(60))) {
-	        		gracePeriodDateTime = gracePeriodDateTime.withHourOfDay(gracePeriodDateTime.getHourOfDay() + 1).withMinuteOfHour(0);
-	        	} else {
-	        		gracePeriodDateTime = gracePeriodDateTime.withMinuteOfHour(topInterval.setScale(0, BigDecimal.ROUND_HALF_UP).intValue());
-	        	}
-	        }
+			if(minuteIncrement.compareTo(BigDecimal.ZERO) == 0) {
+				return gracePeriodDateTime;
+			}
+			else  {
+/*				DateTime hour = gracePeriodDateTime.withMinuteOfHour(0);
+				List<Interval> gracePeriodIntervals = new ArrayList<Interval>();
+				while(hour.getHourOfDay() < gracePeriodDateTime.getHourOfDay() + 1) {
+					
+					Interval interval = new Interval(hour)
+				}*/
+				BigDecimal minutes = new BigDecimal(gracePeriodDateTime.getMinuteOfHour());
+				int bottomIntervalFactor = minutes.divide(minuteIncrement, 0, BigDecimal.ROUND_FLOOR).intValue();
+				BigDecimal bottomInterval = new BigDecimal(bottomIntervalFactor).multiply(minuteIncrement);
+		        BigDecimal topInterval = new BigDecimal(bottomIntervalFactor + 1).multiply(minuteIncrement);
+		        if (bottomInterval.subtract(minutes).abs().intValue() < topInterval.subtract(minutes).abs().intValue()) {
+		        	gracePeriodDateTime = gracePeriodDateTime.withMinuteOfHour(bottomInterval.setScale(0, BigDecimal.ROUND_HALF_UP).intValue());
+		        } else {
+		        	if (topInterval.equals(new BigDecimal(60))) {
+		        		gracePeriodDateTime = gracePeriodDateTime.withHourOfDay(gracePeriodDateTime.getHourOfDay() + 1).withMinuteOfHour(0);
+		        	} else {
+		        		gracePeriodDateTime = gracePeriodDateTime.withMinuteOfHour(topInterval.setScale(0, BigDecimal.ROUND_HALF_UP).intValue());
+		        	}
+		        }
+			}
 		}
 		return gracePeriodDateTime;
 	}
