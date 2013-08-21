@@ -58,3 +58,10 @@ PRNCPL_ID,ENTITY_ID,PRNCPL_NM,ACTV_IND,OBJ_ID
 10056,10056,inlmdetail1,Y,57
 10057,10057,inlocadmin1,Y,58
 10058,10058,inreviewer1,Y,59
+10059,10059,leavepayroll1,Y,60
+10060,10060,leavepayroll2,Y,61
+10061,10061,timepayroll1,Y,62
+10062,10062,timepayroll2,Y,63
+10063,10063,gapayroll1,Y,64
+10064,10064,iapayroll1,Y,65
+10065,10065,inpayroll1,Y,66

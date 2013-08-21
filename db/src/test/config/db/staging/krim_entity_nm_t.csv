@@ -58,3 +58,10 @@ ENTITY_NM_ID,ENTITY_ID,NM_TYP_CD,FIRST_NM,LAST_NM,DFLT_IND,ACTV_IND,OBJ_ID
 10056,10056,PRFR,indiana,lmdetail1,Y,Y,57
 10057,10057,PRFR,indiana,locadmin1,Y,Y,58
 10058,10058,PRFR,indiana,reviewer1,Y,Y,59
+10059,10059,PRFR,leave,leavepayroll1,Y,Y,60
+10060,10060,PRFR,leave,leavepayroll2,Y,Y,61
+10061,10061,PRFR,time,timepayroll1,Y,Y,62
+10062,10062,PRFR,time,timepayroll2,Y,Y,63
+10063,10063,PRFR,georgia,gapayroll1,Y,Y,64
+10064,10064,PRFR,iowa,iapayroll1,Y,Y,65
+10065,10065,PRFR,indiana,inpayroll1,Y,Y,66
