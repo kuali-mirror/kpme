@@ -18,14 +18,13 @@ package org.kuali.kpme.tklm.api.leave.accrual;
 import java.util.Date;
 
 import org.joda.time.DateTime;
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Versioned;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * <p>PrincipalAccrualRanContract interface</p>
  *
  */
-public interface PrincipalAccrualRanContract extends Versioned, GloballyUnique {
+public interface PrincipalAccrualRanContract extends PersistableBusinessObject {
 
 	/**
 	 * The principalId that a last accrual service ran for

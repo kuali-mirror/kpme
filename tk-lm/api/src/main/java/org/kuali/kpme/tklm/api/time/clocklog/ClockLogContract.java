@@ -22,16 +22,15 @@ import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Versioned;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 
 /**
  * <p>ClockLogContract interface</p>
  *
  */
-public interface ClockLogContract extends Versioned, GloballyUnique {
+public interface ClockLogContract extends PersistableBusinessObject {
 	
 	/**
 	 * The primary key of a ClockLog entry saved in a database

@@ -15,14 +15,13 @@
  */
 package org.kuali.kpme.tklm.api.time.user.pref;
 
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Versioned;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * <p>UserPreferencesContract interface</p>
  *
  */
-public interface UserPreferencesContract extends Versioned, GloballyUnique {
+public interface UserPreferencesContract extends PersistableBusinessObject {
 	
 	/**
 	 * The system(server) timezone

@@ -22,15 +22,14 @@ import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Versioned;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 
 /**
  * <p>MissedPunchContract interface</p>
  *
  */
-public interface MissedPunchContract extends Versioned, GloballyUnique {
+public interface MissedPunchContract extends PersistableBusinessObject {
 	
 	/**
 	 * The primary key of a MissedPunch entry saved in a database

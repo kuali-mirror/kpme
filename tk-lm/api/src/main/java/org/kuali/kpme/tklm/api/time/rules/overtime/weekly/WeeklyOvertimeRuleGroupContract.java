@@ -17,14 +17,13 @@ package org.kuali.kpme.tklm.api.time.rules.overtime.weekly;
 
 import java.util.List;
 
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Versioned;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * <p>WeeklyOvertimeRuleGroupContract interface</p>
  *
  */
-public interface WeeklyOvertimeRuleGroupContract extends Versioned, GloballyUnique {
+public interface WeeklyOvertimeRuleGroupContract extends PersistableBusinessObject {
 	
 	/**
 	 * The list of WeeklyOvertimeRule objects associated with the WeeklyOvertimeRuleGroup
