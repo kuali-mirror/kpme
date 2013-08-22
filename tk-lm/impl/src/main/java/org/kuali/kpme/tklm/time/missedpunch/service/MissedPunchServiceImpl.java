@@ -112,7 +112,6 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         ClockLog clockLog = getClockLogService().processClockLog(actionDateTime, assignment, calendarEntry, ipAddress, LocalDate.now(), timesheetDocument, clockAction, false, principalId);
 
         clockLog = TkServiceLocator.getClockLogService().saveClockLog(clockLog);
-        missedPunch.setActionFullDateTime(clockLog.getClockDateTime());
         missedPunch.setTkClockLogId(clockLog.getTkClockLogId());
 
         if (StringUtils.equals(clockLog.getClockAction(), TkConstants.CLOCK_OUT) ||

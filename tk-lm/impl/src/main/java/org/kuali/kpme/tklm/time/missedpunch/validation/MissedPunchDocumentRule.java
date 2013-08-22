@@ -116,9 +116,13 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
         boolean valid = true;
 
         if (missedPunch.getActionFullDateTime() != null) {
-	        DateTime userActionDateTime = missedPunch.getActionFullDateTime();
-	        DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-	        DateTime actionDateTime = new DateTime(userActionDateTime, userTimeZone).withZone(TKUtils.getSystemDateTimeZone());
+        	// convert the action time to system time zone since we will be comparing it with system time
+	        String dateString = TKUtils.formatDateTimeShort(missedPunch.getActionFullDateTime());
+	        String longDateString = TKUtils.formatDateTimeLong(missedPunch.getActionFullDateTime());
+	        String timeString = TKUtils.formatTimeShort(longDateString);
+	        		
+	        DateTime dateTimeWithUserZone = TKUtils.convertDateStringToDateTime(dateString, timeString);
+	        DateTime actionDateTime = dateTimeWithUserZone.withZone(TKUtils.getSystemDateTimeZone());
 	
 	        if (actionDateTime.toLocalDate().isAfter(LocalDate.now())) {
 	        	GlobalVariables.getMessageMap().putError("document.actionDate", "clock.mp.future.date");
@@ -132,13 +136,17 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
 	        
 	    	ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
 	        if (lastClockLog != null) {
-	        	DateTime clockLogDateTime = lastClockLog.getClockDateTime();
-		        DateTime boundaryMax = clockLogDateTime.plusDays(1);
-		        if ((!StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_OUT) && actionDateTime.isAfter(boundaryMax)) 
-		        		|| actionDateTime.isBefore(clockLogDateTime)) {
-		        	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.invalid.datetime");
-		            valid = false;
-		        }
+	        	if( (StringUtils.isNotEmpty(missedPunch.getTkClockLogId()) && !missedPunch.getTkClockLogId().equals(lastClockLog.getTkClockLogId()))
+	        			|| StringUtils.isEmpty(missedPunch.getTkClockLogId()) ) {
+	        			
+		        	DateTime clockLogDateTime = lastClockLog.getClockDateTime();
+			        DateTime boundaryMax = clockLogDateTime.plusDays(1);
+			        if ((!StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_OUT) && actionDateTime.isAfter(boundaryMax)) 
+			        		|| actionDateTime.isBefore(clockLogDateTime)) {
+			        	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.invalid.datetime");
+			            valid = false;
+			        }
+	        	}
 	        }
         }
 
