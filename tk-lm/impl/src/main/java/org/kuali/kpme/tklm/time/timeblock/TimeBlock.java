@@ -673,6 +673,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
 			.append(endTimestamp, timeBlock.endTimestamp)
 			.append(hours, timeBlock.hours)
 			.append(timeHourDetails, timeBlock.timeHourDetails)
+			.append(timestamp, timeBlock.timestamp)
 			.isEquals();
 	}
 
