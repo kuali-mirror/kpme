@@ -21,9 +21,7 @@ import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationContract;
 import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
 import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibilityContract;
-
-//import org.kuali.rice.location.impl.campus.CampusBo;
-
+import org.kuali.rice.location.api.campus.CampusContract;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -152,8 +150,7 @@ public interface PositionContract extends PositionBaseContract {
      *
      * @return campusObj for Position
      */
-    //TODO find the right import for this
-    //public CampusEbo getCampusObj();
+    public CampusContract getCampusObj();
 
     /**
      * The salary group associated with the Position

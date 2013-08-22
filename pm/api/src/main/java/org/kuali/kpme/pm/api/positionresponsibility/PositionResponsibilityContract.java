@@ -18,6 +18,7 @@ package org.kuali.kpme.pm.api.positionresponsibility;
 import java.math.BigDecimal;
 
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.rice.location.api.campus.CampusContract;
 
 /**
  * <p>PositionResponsibilityContract interface</p>
@@ -79,8 +80,7 @@ public interface PositionResponsibilityContract extends HrBusinessObjectContract
      *
      * @return campusObj for PositionResponsibility
      */
-	//TODO find the right import for this
-	//public CampusBo/CampusEbo getCampusObj();
+	public CampusContract getCampusObj();
 
     /**
      * The HR position id associated with the PositionResponsibility
