@@ -17,8 +17,9 @@ package org.kuali.kpme.pm.pstnrptgrpsubcat;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.pm.api.pstnrptgrpsubcat.PositionReportGroupSubCategoryContract;
 
-public class PositionReportGroupSubCategory extends HrBusinessObject {
+public class PositionReportGroupSubCategory extends HrBusinessObject implements PositionReportGroupSubCategoryContract {
 	private static final long serialVersionUID = 1L;
 	
 	private String pmPstnRptGrpSubCatId;

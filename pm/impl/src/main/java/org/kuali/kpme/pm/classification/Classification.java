@@ -21,13 +21,14 @@ import java.util.List;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.pm.api.classification.ClassificationContract;
 import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
 
 import com.google.common.collect.ImmutableList;
 
-public class Classification extends HrBusinessObject {
+public class Classification extends HrBusinessObject implements ClassificationContract {
 
 	private static final long serialVersionUID = 1L;
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()

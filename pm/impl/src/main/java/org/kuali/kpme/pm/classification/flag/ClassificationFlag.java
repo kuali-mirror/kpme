@@ -15,9 +15,10 @@
  */
 package org.kuali.kpme.pm.classification.flag;
 
+import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
 import org.kuali.kpme.pm.flag.Flag;
 
-public class ClassificationFlag extends Flag {
+public class ClassificationFlag extends Flag implements ClassificationFlagContract {
 	private static final long serialVersionUID = 1L;
 	
 	private String pmPositionClassId;

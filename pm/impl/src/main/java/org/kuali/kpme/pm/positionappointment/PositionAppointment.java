@@ -18,8 +18,9 @@ package org.kuali.kpme.pm.positionappointment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.pm.api.positionappointment.PositionAppointmentContract;
 
-public class PositionAppointment extends HrBusinessObject {
+public class PositionAppointment extends HrBusinessObject implements PositionAppointmentContract {
 	
 	private static final long serialVersionUID = 1L;
 	

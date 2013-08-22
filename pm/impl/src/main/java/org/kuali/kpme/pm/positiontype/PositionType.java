@@ -18,10 +18,11 @@ package org.kuali.kpme.pm.positiontype;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.pm.api.positiontype.PositionTypeContract;
 
 import com.google.common.collect.ImmutableList;
 
-public class PositionType extends HrBusinessObject {
+public class PositionType extends HrBusinessObject implements PositionTypeContract {
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
 		    .add("positionType")

@@ -16,8 +16,9 @@
 package org.kuali.kpme.pm.pstnqlfrtype;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
 
-public class PstnQlfrType extends HrBusinessObject {
+public class PstnQlfrType extends HrBusinessObject implements PstnQlfrTypeContract {
 	private static final long serialVersionUID = 1L;
 
 	private String pmPstnQlfrTypeId;

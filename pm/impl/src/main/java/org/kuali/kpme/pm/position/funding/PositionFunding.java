@@ -18,8 +18,9 @@ package org.kuali.kpme.pm.position.funding;
 import java.math.BigDecimal;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
 
-public class PositionFunding extends HrBusinessObject {
+public class PositionFunding extends HrBusinessObject implements PositionFundingContract {
 	private static final long serialVersionUID = 1L;
 	
 	private String pmPositionFunctionId;

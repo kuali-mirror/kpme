@@ -18,10 +18,11 @@ package org.kuali.kpme.pm.positionresponsibility;
 import java.math.BigDecimal;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibilityContract;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
 
-public class PositionResponsibility extends HrBusinessObject {
+public class PositionResponsibility extends HrBusinessObject implements PositionResponsibilityContract {
 
 	/**
 	 * 

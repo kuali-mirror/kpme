@@ -16,8 +16,9 @@
 package org.kuali.kpme.pm.positionResponsibilityOption;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.pm.api.positionResponsibilityOption.PositionResponsibilityOptionContract;
 
-public class PositionResponsibilityOption extends HrBusinessObject {
+public class PositionResponsibilityOption extends HrBusinessObject implements PositionResponsibilityOptionContract {
 	
 	/**
 	 * 

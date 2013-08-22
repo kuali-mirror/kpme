@@ -18,11 +18,12 @@ package org.kuali.kpme.pm.positionreportcat;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
 import org.kuali.kpme.pm.positionreporttype.PositionReportType;
 
 import com.google.common.collect.ImmutableList;
 
-public class PositionReportCategory extends HrBusinessObject {
+public class PositionReportCategory extends HrBusinessObject implements PositionReportCategoryContract {
 	//KPME-2273/1965 Primary Business Keys List.
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
 		    .add("positionReportCat")

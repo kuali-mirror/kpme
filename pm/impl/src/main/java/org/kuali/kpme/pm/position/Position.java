@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.location.impl.campus.CampusBo;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.pm.api.position.PositionContract;
 import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
@@ -34,7 +35,7 @@ import org.kuali.kpme.pm.position.funding.PositionFunding;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
-public class Position extends PositionBase {
+public class Position extends PositionBase implements PositionContract {
 	private static final long serialVersionUID = 1L;
 	
     public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Position";

@@ -17,9 +17,10 @@ package org.kuali.kpme.pm.position;
 
 import java.math.BigDecimal;
 
+import org.kuali.kpme.pm.api.position.PositionDutyContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class PositionDuty extends PersistableBusinessObjectBase {
+public class PositionDuty extends PersistableBusinessObjectBase implements PositionDutyContract {
 private static final long serialVersionUID = 1L;
 	
 	private String pmDutyId;

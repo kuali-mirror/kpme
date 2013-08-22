@@ -15,10 +15,11 @@
  */
 package org.kuali.kpme.pm.position;
 
+import org.kuali.kpme.pm.api.position.PstnFlagContract;
 import org.kuali.kpme.pm.flag.Flag;
 
 
-public class PstnFlag extends Flag {
+public class PstnFlag extends Flag implements PstnFlagContract {
 	private static final long serialVersionUID = 1L;
 
 	private String hrPositionId;

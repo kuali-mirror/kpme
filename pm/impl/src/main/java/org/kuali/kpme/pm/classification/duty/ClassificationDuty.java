@@ -17,9 +17,10 @@ package org.kuali.kpme.pm.classification.duty;
 
 import java.math.BigDecimal;
 
+import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class ClassificationDuty extends PersistableBusinessObjectBase {
+public class ClassificationDuty extends PersistableBusinessObjectBase implements ClassificationDutyContract {
 	private static final long serialVersionUID = 1L;
 	
 	private String pmDutyId;

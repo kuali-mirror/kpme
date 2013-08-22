@@ -19,10 +19,11 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
 import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
 
 import com.google.common.collect.ImmutableList;
-public class PositionDepartment extends HrBusinessObject {
+public class PositionDepartment extends HrBusinessObject implements PositionDepartmentContract {
 	
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
 		    .add("department")

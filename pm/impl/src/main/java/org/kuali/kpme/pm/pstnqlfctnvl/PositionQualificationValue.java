@@ -15,9 +15,10 @@
  */
 package org.kuali.kpme.pm.pstnqlfctnvl;
 
+import org.kuali.kpme.pm.api.pstnqlfctnvl.PositionQualificationValueContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class PositionQualificationValue extends PersistableBusinessObjectBase {
+public class PositionQualificationValue extends PersistableBusinessObjectBase implements PositionQualificationValueContract {
 
 	private static final long serialVersionUID = 1L;
 

@@ -17,11 +17,12 @@ package org.kuali.kpme.pm.classification.qual;
 
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationContract;
 import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class ClassificationQualification extends PersistableBusinessObjectBase {
+public class ClassificationQualification extends PersistableBusinessObjectBase implements ClassificationQualificationContract {
 	private static final long serialVersionUID = 1L;
 	
 	private String pmClassificationQualificationId;

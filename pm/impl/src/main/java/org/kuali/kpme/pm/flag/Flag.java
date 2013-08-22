@@ -15,9 +15,10 @@
  */
 package org.kuali.kpme.pm.flag;
 
+import org.kuali.kpme.pm.api.flag.FlagContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class Flag extends PersistableBusinessObjectBase {
+public class Flag extends PersistableBusinessObjectBase implements FlagContract {
 	private static final long serialVersionUID = 1L;
 	
 	private String pmFlagId;
