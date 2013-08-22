@@ -91,7 +91,7 @@ public class AssignmentRow implements Serializable, AssignmentRowContract {
 
 	public void addToAmount(int index, BigDecimal amount) {
 		if (amount != null) {
-			if (0 <= index && index < getAssignmentColumns().size()) {
+			if (0 <= index && index <= getAssignmentColumns().size()) {
 				AssignmentColumn assignmentColumn = getAssignmentColumns().get(index);
 				BigDecimal newAmount = assignmentColumn.getAmount().add(amount, HrConstants.MATH_CONTEXT);
 				assignmentColumn.setAmount(newAmount);
@@ -101,7 +101,7 @@ public class AssignmentRow implements Serializable, AssignmentRowContract {
 	
 	public void addToTotal(int index, BigDecimal total) {
 		if (total != null) {
-			if (0 <= index && index < getAssignmentColumns().size()) {
+			if (0 <= index && index <= getAssignmentColumns().size()) {
 				AssignmentColumn assignmentColumn = getAssignmentColumns().get(index);
 				BigDecimal newTotal = assignmentColumn.getTotal().add(total, HrConstants.MATH_CONTEXT);
 				assignmentColumn.setTotal(newTotal);
