@@ -56,6 +56,7 @@ import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.cache.annotation.CacheEvict;
 
@@ -251,9 +252,32 @@ public class ClockAction extends TimesheetAction {
         	return mapping.findForward("basic");
         }
         
-               
+        String pId = HrContext.getTargetPrincipalId();
+        // validate if there's any overlapping with existing time blocks
+        if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {        	
+        	 List<TimeBlock> tbList = caf.getTimesheetDocument().getTimeBlocks();
+        	 ClockLog lastLog = null;
+        	 if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
+                 lastLog = TkServiceLocator.getClockLogService().getLastClockLog(pId, TkConstants.CLOCK_IN);
+             } else if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT)) {
+                 lastLog = TkServiceLocator.getClockLogService().getLastClockLog(pId);
+             }        	 
+             if (lastLog != null) {
+            	 DateTime beginDateTime = lastLog.getClockDateTime();
+	             // the datetime for the new clock log that's about to be created with grace period rule applied
+	         	 DateTime endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(new DateTime(), caf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate());
+	             Interval clockInterval = new Interval(beginDateTime, endDateTime);
+	             for(TimeBlock tb : tbList) {
+	            	 if(clockInterval.contains(tb.getBeginDateTime().getMillis()) || clockInterval.contains(tb.getEndDateTime().getMillis())) {
+	            		 caf.setErrorMessage("User has already logged time for this clock period.");
+	            		 return mapping.findForward("basic");
+	            	 }
+	             }
+             }             
+        }
+        
         ClockLog clockLog = TkServiceLocator.getClockLogService().processClockLog(new DateTime(), assignment, caf.getCalendarEntry(), ip,
-                LocalDate.now(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), true, HrContext.getTargetPrincipalId());
+                LocalDate.now(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), true, pId);
 
         caf.setClockLog(clockLog);
 
