@@ -17,8 +17,14 @@ package org.kuali.kpme.core.lookup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
+import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.dao.HrBusinessObjectDao;
+import org.kuali.kpme.core.location.dao.LocationDao;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -29,13 +35,24 @@ public class KPMELookupableHelper extends KualiLookupableHelperServiceImpl {
 
 	private static final long serialVersionUID = 6428435554717901643L;
 
-	@Override
+    private HrBusinessObjectDao hrBusinessObjectDao;
+
+    @Override
 	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
-
-		List<HtmlData> existingCustomActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-		
+        List<HtmlData> existingCustomActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+        HrBusinessObject bo = (HrBusinessObject) businessObject;
+        if (!bo.isActive()) {
+            if (!HrContext.canEditInactiveRecords()) {    //KPME-2699
+                for (HtmlData action : customActionUrls) {
+                    if (StringUtils.equals(action.getMethodToCall(),"edit")) {
+                        customActionUrls.remove(action);
+                        break;
+                    }
+                }
+            }
+        }
 		for (HtmlData existingCustomActionUrl : existingCustomActionUrls) {
 			if (!StringUtils.equals(existingCustomActionUrl.getMethodToCall(), KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL)) {
 				customActionUrls.add(existingCustomActionUrl);

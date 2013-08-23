@@ -45,25 +45,6 @@ public class LocationLookupableHelper extends KPMELookupableHelper {
 
 		Location locationObj = (Location) businessObject;
 		String hrLocationId = locationObj.getHrLocationId();
-		String principalId = GlobalVariables.getUserSession().getPrincipalId();
-        boolean isSysAdmin = HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(principalId, new DateTime());
-        boolean isTimeLocationAdmin = HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime());
-        boolean isTimeSysAdmin = HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_SYSTEM_ADMINISTRATOR.getRoleName(), new DateTime());
-        boolean isLeaveLocationAdmin = HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime());
-        boolean isLeaveSysAdmin = HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_SYSTEM_ADMINISTRATOR.getRoleName(), new DateTime());
-        List<Location> newerVersion = HrServiceLocator.getLocationService().getNewerVersionLocation(locationObj.getLocation(),locationObj.getEffectiveLocalDate());
-
-        if (newerVersion.size() > 0 || !locationObj.isActive()) {
-            if (!(isTimeLocationAdmin || isTimeSysAdmin || isLeaveLocationAdmin || isLeaveSysAdmin || isSysAdmin)) {
-                for (HtmlData action : customActionUrls) {
-                    if (StringUtils.equals(action.getMethodToCall(),"edit")) {
-                        customActionUrls.remove(action);
-                        break;
-                    }
-                }
-            }
-
-        }
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
 		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);

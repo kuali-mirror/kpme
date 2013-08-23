@@ -267,6 +267,7 @@
   <bean id="PositionReportSubCat-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="PositionReportSubCat Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" />
+    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->
     <property name="criteriaFields">
       <list>				
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportSubCat" />

@@ -147,6 +147,7 @@
   <bean id="PositionQualifierType-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="Position Qualifier Type Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType" />
+    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->
     <property name="criteriaFields">
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />

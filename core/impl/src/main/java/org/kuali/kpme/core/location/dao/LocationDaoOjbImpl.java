@@ -28,7 +28,7 @@ import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class LocationDaoObjImpl extends PlatformAwareDaoBaseOjb implements LocationDao {
+public class LocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements LocationDao {
    
 	@Override
 	public Location getLocation(String location, LocalDate asOfDate) {

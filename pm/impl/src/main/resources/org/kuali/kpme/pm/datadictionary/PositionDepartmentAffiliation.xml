@@ -101,6 +101,7 @@
   <bean id="PositionDepartmentAffiliation-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="Position Department Affiliation Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation" />
+    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->
     <property name="criteriaFields">
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />

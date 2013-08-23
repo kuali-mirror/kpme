@@ -152,8 +152,8 @@
 
     <!-- CORE DAOs -->
     
-    
-    
+
+
     <bean id="taskDao" class="org.kuali.kpme.core.task.dao.TaskDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="positionBaseDao" class="org.kuali.kpme.core.position.dao.PositionBaseDaoOjbImpl" parent="platformAwareDao" />
@@ -180,7 +180,7 @@
 
     <bean id="salaryGroupDao" class="org.kuali.kpme.core.salarygroup.dao.SalaryGroupDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="locationDao" class="org.kuali.kpme.core.location.dao.LocationDaoObjImpl" parent="platformAwareDao" />
+    <bean id="locationDao" class="org.kuali.kpme.core.location.dao.LocationDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="payGradeDao" class="org.kuali.kpme.core.paygrade.dao.PayGradeDaoObjImpl" parent="platformAwareDao" />
     

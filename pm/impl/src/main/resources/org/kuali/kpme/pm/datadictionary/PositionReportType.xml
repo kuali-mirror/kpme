@@ -219,6 +219,7 @@
  	<bean id="PositionReportType-LookupView" parent="Uif-LookupView">
 	    <property name="headerText" value="Position Report Type Lookup" />
 	    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportType" />
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->
 	    <property name="criteriaFields">
 	      <list>
 			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportType" />
