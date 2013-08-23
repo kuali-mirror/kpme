@@ -107,7 +107,9 @@ public class EarnCodeDaoOjbImpl extends PlatformAwareDaoBaseOjb implements EarnC
 		Criteria crit = new Criteria();
 		crit.addEqualTo("earnCode", earnCode);
 		crit.addEqualTo("active", "Y");
-		crit.addGreaterThan("effectiveDate", effdt.toDate());
+		if(effdt != null) {
+			crit.addGreaterThan("effectiveDate", effdt.toDate());
+		}
 		Query query = QueryFactory.newQuery(EarnCode.class, crit);
        	return this.getPersistenceBrokerTemplate().getCount(query);
 	}
