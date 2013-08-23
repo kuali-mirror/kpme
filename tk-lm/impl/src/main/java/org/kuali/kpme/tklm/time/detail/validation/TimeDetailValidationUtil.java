@@ -340,9 +340,8 @@ public class TimeDetailValidationUtil {
         List<String> errors = new ArrayList<String>();
         LocalDateTime pcb_ldt = payCalEntry.getBeginPeriodLocalDateTime();
         LocalDateTime pce_ldt = payCalEntry.getEndPeriodLocalDateTime();
-        DateTimeZone utz = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-        DateTime p_cal_b_dt = pcb_ldt.toDateTime(utz);
-        DateTime p_cal_e_dt = pce_ldt.toDateTime(utz);
+        DateTime p_cal_b_dt = pcb_ldt.toDateTime();
+        DateTime p_cal_e_dt = pce_ldt.toDateTime();
 
         Interval payInterval = new Interval(p_cal_b_dt, p_cal_e_dt);
         if (errors.size() == 0 && !payInterval.contains(startTime)) {
