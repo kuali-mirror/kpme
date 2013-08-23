@@ -22,7 +22,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.bo.dao.HrBusinessObjectDao;
 import org.kuali.kpme.core.location.dao.LocationDao;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -34,8 +33,6 @@ import org.kuali.rice.krad.util.KRADConstants;
 public class KPMELookupableHelper extends KualiLookupableHelperServiceImpl {
 
 	private static final long serialVersionUID = 6428435554717901643L;
-
-    private HrBusinessObjectDao hrBusinessObjectDao;
 
     @Override
 	@SuppressWarnings("rawtypes")
