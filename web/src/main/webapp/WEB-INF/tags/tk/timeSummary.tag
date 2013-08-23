@@ -13,9 +13,10 @@
                 	<th width="1%" style="border-right: none"></th>
                     <th style="border-left: none">Week</th>
                     <c:forEach items="${timeSummary.timeSummaryHeader}" var="entry">
-                        <th scope="col">${entry.value}</th>
+                        <th width="7%" scope="col">${entry.value}</th>
                     </c:forEach>
-                    <th>Totals</th>
+                    <th width="8%">Total</th>
+                    <th width="8%">FLSA Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,14 +42,15 @@
 	                        		<td style="background: rgb(224, 235, 225)">${weekHours[hour.key]}</td>
 	                        	</c:if>
 	                        </c:forEach>
-	                        <td valign="middle">${timeSummary.weekTotalMap[entry.key]}  <i>(${timeSummary.flsaWeekTotalMap[entry.key]})</i></td>
+	                        <td valign="middle">${timeSummary.weekTotalMap[entry.key]}  </td>
+	                        <td valign="middle">${timeSummary.flsaWeekTotalMap[entry.key]}</td>
 	                     </tr>
 	              <tbody id="weekSummary${weekString}" style="display: table-row-group;">
                   <c:forEach items="${timeSummary.weeklySections[entry.key]}" var="section">
                     <c:forEach items="${section.earnCodeSections}" var="earnCodeSection">
                         <tr class="ui-state-default" style="font-weight: bold;">
                             <td class="earnCodeCell" colspan="2" style="border-right: none">${earnCodeSection.earnCode}: ${earnCodeSection.description}</td>
-                            <td colspan="8" style="border-left: none"></td>
+                            <td colspan="9" style="border-left: none"></td>
 						</tr>
 						<c:forEach items="${earnCodeSection.assignmentsRows}" var="assignmentRow">
 							<c:set var="periodTotal" value="${assignmentRow.periodTotal}"/>
@@ -86,6 +88,7 @@
                                             </c:choose>
                                             </c:forEach>
                                             <td>${assignmentRow.periodTotal}</td>
+                                            <td/>
                                         </tr>
                                     </c:if>
                                 </c:otherwise>
@@ -105,6 +108,7 @@
                              </c:choose>
                         </c:forEach>
                          <td>${section.earnGroupTotal}</td>
+                         <td/>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -112,7 +116,7 @@
               <tr>
               <td colspan="2" style="color: #993333;font-weight: bold;">Pay Period Total</td>
               <td colspan="7"></td>
-              <td style="font-weight: bold;">${timeSummary.grandTotal}</td>
+              <td  colspan="2" style="font-weight: bold;">${timeSummary.grandTotal}</td>
               </tr>
 
             </tbody>
