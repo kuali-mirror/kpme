@@ -257,16 +257,19 @@ public class CalendarEntryDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
     public List<CalendarEntry> getSearchResults(String calendarName, String calendarTypes, LocalDate fromBeginDate, LocalDate toBeginDate, LocalDate fromEndDate, LocalDate toEndDate) {
         Criteria crit = new Criteria();
         List<CalendarEntry> results = new ArrayList<CalendarEntry>();
-
         // for either pay or leave (not both!) get all the calendars that match
-        List<Calendar> calendars = HrServiceLocator.getCalendarService().getCalendars(calendarName, calendarTypes, null, null);
-        List<String> hrCalendarIdList = new ArrayList<String>();
-        for (Calendar cal : calendars) {
-            hrCalendarIdList.add(cal.getHrCalendarId());
+        if (!StringUtils.equals(calendarTypes,"")) {
+            List<Calendar> calendars = HrServiceLocator.getCalendarService().getCalendars(calendarName, calendarTypes, null, null);
+            List<String> hrCalendarIdList = new ArrayList<String>();
+            for (Calendar cal : calendars) {
+                hrCalendarIdList.add(cal.getHrCalendarId());
+            }
+            if (hrCalendarIdList.isEmpty()) {      //no calendar with that combination of name and type
+                return results;
+            } else {
+                crit.addIn("hrCalendarId", hrCalendarIdList);
+            }
         }
-
-        crit.addIn("hrCalendarId", hrCalendarIdList);
-
         if (!StringUtils.equals(calendarName,"")){
             crit.addLike("calendarName", calendarName);
         }
