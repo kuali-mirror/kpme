@@ -33,6 +33,7 @@
 	        <ref bean="PositionAppointment-description"/>
 	        <ref bean="PositionAppointment-institution"/>
 	        <ref bean="PositionAppointment-location"/>
+	        <ref bean="PositionAppointment-history"/>
 	        <ref bean="PositionAppointment-active"/>
 		 </list>
 	    </property>
@@ -119,7 +120,21 @@
     <bean id="PositionAppointment-active" parent="PositionAppointment-active-parentBean"/>
  	<bean id="PositionAppointment-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
    		<property name="name" value="active"/>
-  	</bean>  
+  	</bean>
+  	
+  	<!-- history -->
+	<bean id="PositionAppointment-history" parent="PositionAppointment-history-parentBean" />
+	<bean id="PositionAppointment-history-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl"/>
+		</property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
+        </property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>  
 
 <!--*************************************************************************** 
 							Views
@@ -134,7 +149,8 @@
     <property name="criteriaFields">
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionAppointment" />       
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionAppointment" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />       
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution" >
         	<property name="quickfinder">
 	            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
@@ -147,6 +163,7 @@
 						p:fieldConversions="location:location" />
 			</property>
 		</bean>
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
     </property>
@@ -159,6 +176,7 @@
 	        	 p:inquiryParameters="pmPositionAppointmentId:positionAppointment"/>
     		</property>
         </bean>
+        <bean parent="Uif-DataField" p:propertyName="description" />
         <bean parent="Uif-DataField" p:propertyName="institution" />
         <bean parent="Uif-DataField" p:propertyName="location" >
         	

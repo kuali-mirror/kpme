@@ -31,10 +31,8 @@ public class PositionAppointmentLookupableImpl extends KPMELookupableImpl {
     @Override
     public List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
     	
-    	return super.getSearchResults(form, searchCriteria, bounded);
+    	//return super.getSearchResults(form, searchCriteria, bounded);
  
-    	/*
-        String pmPositionAppointmentId = searchCriteria.get("pmPositionAppointmentId");
         String description = searchCriteria.get("description");
         String fromEffdt = TKUtils.getFromDateString(searchCriteria.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(searchCriteria.get("effectiveDate"));
@@ -42,15 +40,10 @@ public class PositionAppointmentLookupableImpl extends KPMELookupableImpl {
         String showHist = searchCriteria.get("history");
         String positionAppointment = searchCriteria.get("positionAppointment");
         String institution = searchCriteria.get("institution");
-        String campus = searchCriteria.get("campus");
+        String location = searchCriteria.get("location");
 
-        if (StringUtils.equals(pmPositionAppointmentId, "%")) {
-        	pmPositionAppointmentId = "";
-        }
-        
-        return PmServiceLocator.getPositionAppointmentService().getPositionAppointmentList(positionAppointment, institution, campus, TKUtils.formatDateString(toEffdt));
-        */
-        			//TKUtils.formatDateString(toEffdt), active, showHist);
+        return PmServiceLocator.getPositionAppointmentService().getPositionAppointmentList(positionAppointment, description,
+        		institution, location, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
     }
 
 }

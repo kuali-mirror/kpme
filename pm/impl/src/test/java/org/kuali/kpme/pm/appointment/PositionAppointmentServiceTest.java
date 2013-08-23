@@ -26,6 +26,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.pm.PMIntegrationTestCase;
 import org.kuali.kpme.pm.positionappointment.PositionAppointment;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
@@ -60,7 +61,8 @@ public class PositionAppointmentServiceTest extends PMIntegrationTestCase {
 	public void testGetPositionAppointmentList() throws Exception {
 
 		LocalDate todayDate = new LocalDate();
-		List<PositionAppointment> positionAppointments = PmServiceLocator.getPositionAppointmentService().getPositionAppointmentList(positionAppointment, institution, location, todayDate);
+		List<PositionAppointment> positionAppointments = PmServiceLocator.getPositionAppointmentService().getPositionAppointmentList(positionAppointment, "%", institution, location, 
+				TKUtils.formatDateString(""), TKUtils.formatDateString(""), "Y", "Y");
 		assertTrue(positionAppointments.size() == 1);
 	}
 	

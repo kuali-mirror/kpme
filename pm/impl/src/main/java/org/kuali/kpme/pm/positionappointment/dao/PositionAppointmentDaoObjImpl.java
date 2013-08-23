@@ -24,7 +24,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positionappointment.PositionAppointment;
@@ -47,32 +46,61 @@ public class PositionAppointmentDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 		return (PositionAppointment) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
-	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String institution, String location, LocalDate asOfDate) {
+	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String description, String institution, String location, 
+			LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
 		
 		List<PositionAppointment> prgList = new ArrayList<PositionAppointment>();
 		Criteria root = new Criteria();
 
 		if (StringUtils.isNotEmpty(positionAppointment) 
 				&& !ValidationUtils.isWildCard(positionAppointment)) {
-			root.addEqualTo("positionAppointment", positionAppointment);
+			root.addLike("UPPER(`pstn_appointment`)", positionAppointment.toUpperCase());
+		}
+		
+		if (StringUtils.isNotEmpty(description) 
+				&& !ValidationUtils.isWildCard(description)) {
+			root.addLike("UPPER(`description`)", description.toUpperCase());
 		}
 		
 		if (StringUtils.isNotEmpty(institution) 
 				&& !ValidationUtils.isWildCard(institution)) {
-			root.addEqualTo("institution", institution);
+			root.addLike("UPPER(`institution`)", institution.toUpperCase());
 		}
 		
 		if (StringUtils.isNotEmpty(location) 
 				&& !ValidationUtils.isWildCard(location)) {
-			root.addEqualTo("location", location);
+			root.addLike("UPPER(`location`)", location.toUpperCase());
 		}
 
-		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionAppointment.class, asOfDate, PRG_EQUAL_TO_FIELDS, false));
-		root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionAppointment.class, PRG_EQUAL_TO_FIELDS, false));
-
-		Criteria activeFilter = new Criteria();
-		activeFilter.addEqualTo("active", true);
-		root.addAndCriteria(activeFilter);
+		Criteria effectiveDateFilter = new Criteria();
+        if (fromEffdt != null) {
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
+        }
+        if (toEffdt != null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
+        }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
+        
+		if (StringUtils.isNotBlank(active)) {
+        	Criteria activeFilter = new Criteria();
+            if (StringUtils.equals(active, "Y")) {
+                activeFilter.addEqualTo("active", true);
+            } else if (StringUtils.equals(active, "N")) {
+                activeFilter.addEqualTo("active", false);
+            }
+            root.addAndCriteria(activeFilter);
+        }
+		
+		//root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionAppointment.class, asOfDate, PRG_EQUAL_TO_FIELDS, false));
+		//root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionAppointment.class, PRG_EQUAL_TO_FIELDS, false));
+		if (StringUtils.equals(showHistory, "N")) {
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PositionAppointment.class, effectiveDateFilter, PRG_EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionAppointment.class, PRG_EQUAL_TO_FIELDS, false));
+        }
+		
 
 		Query query = QueryFactory.newQuery(PositionAppointment.class, root);
 

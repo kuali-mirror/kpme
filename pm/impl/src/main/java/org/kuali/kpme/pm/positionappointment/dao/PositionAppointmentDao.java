@@ -24,6 +24,7 @@ public interface PositionAppointmentDao {
 
 	public PositionAppointment getPositionAppointmentById(String pmPositionAppointmentId);
 
-	public List<PositionAppointment> getPositionAppointmentList(String pmPositionAppointment, String institution, String location, LocalDate asOfDate);
+	public List<PositionAppointment> getPositionAppointmentList(String pmPositionAppointment, String description, String institution, String location, 
+			LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 
 }

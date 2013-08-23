@@ -32,7 +32,15 @@ public class PositionAppointment extends HrBusinessObject implements PositionApp
 	
 	private Location locationObj;
 	private Institution institutionObj;
+	private boolean history;
+	
+	public boolean isHistory() {
+		return history;
+	}
 
+	public void setHistory(boolean history) {
+		this.history = history;
+	}
 
 	public String getPmPositionAppointmentId() {
 		return pmPositionAppointmentId;
