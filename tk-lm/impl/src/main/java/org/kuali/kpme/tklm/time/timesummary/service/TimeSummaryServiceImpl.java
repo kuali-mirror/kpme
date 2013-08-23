@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -45,6 +46,7 @@ import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
+import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
@@ -88,7 +90,6 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         tkTimeBlockAggregate = TkTimeBlockAggregate.combineTimeAndLeaveAggregates(tkTimeBlockAggregate, leaveBlockAggregate);
 
 		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate, regularEarnCodes, timeSummary));
-
 		
 		// Set Flsa week total map
 		Map<String, BigDecimal> flsaWeekTotal = getHoursToFlsaWeekMap(tkTimeBlockAggregate, timesheetDocument.getPrincipalId(), null);
@@ -99,6 +100,22 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         timeSummary.setWeeklySections(earnGroupSections);
 //        timeSummary.setSections(sortEarnGroupSections(earnGroupSections, regularEarnCodes));
         
+        
+        Map<String, String> aMap = ActionFormUtils.buildAssignmentStyleClassMap(timesheetDocument.getTimeBlocks(), leaveBlocks);
+		// set css classes for each assignment row
+        for(String week : timeSummary.getWeeklySections().keySet()) {
+			for (EarnGroupSection earnGroupSection : timeSummary.getWeeklySections().get(week)) {
+				for (EarnCodeSection section : earnGroupSection.getEarnCodeSections()) {
+					for (AssignmentRow assignRow : section.getAssignmentsRows()) {
+						String assignmentCssStyle = MapUtils.getString(aMap, assignRow.getAssignmentKey());
+						assignRow.setCssClass(assignmentCssStyle);
+						for (AssignmentColumn assignmentColumn : assignRow.getAssignmentColumns().values()) {
+							assignmentColumn.setCssClass(assignmentCssStyle);
+						}
+					}
+				}
+			}
+        }
         try {
 			List<LeaveSummaryRow> maxedLeaveRows = getMaxedLeaveRows(timesheetDocument.getCalendarEntry(),timesheetDocument.getPrincipalId());
 			timeSummary.setMaxedLeaveRows(maxedLeaveRows);
