@@ -108,16 +108,17 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
         		
                 if (StringUtils.equals(payType.getRegEarnCode(),
                 		timeBlock.getEarnCode())) {
-                    TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),timeBlock.getBeginDateTime().toLocalDate());
-                    
-                    if (tcr == null || tcr.isClockUserFl()) {
-                        //if there is only 1 assignment here, it isn't editable.
-                        TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(timeBlock.getDocumentId());
-                        Map<String, String> assignments = td.getAssignmentDescriptions(false);
-                        if (assignments.size() <= 1) {
-                            return false;
-                        }
-                    }
+                    //KPME-2727
+//                    TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),timeBlock.getBeginDateTime().toLocalDate());
+//
+//                    if (tcr == null || tcr.isClockUserFl()) {
+//                        //if there is only 1 assignment here, it isn't editable.
+//                        TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(timeBlock.getDocumentId());
+//                        Map<String, String> assignments = td.getAssignmentDescriptions(false);
+//                        if (assignments.size() <= 1) {
+//                            return false;
+//                        }
+//                    }
                     return true;
                 }
 
