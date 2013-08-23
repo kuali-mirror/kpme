@@ -60,10 +60,12 @@ public class KPMELookupableImpl extends LookupableImpl {
     @Override
     public boolean allowsMaintenanceEditAction(Object dataObject) {
         boolean allowsEdit = super.allowsMaintenanceEditAction(dataObject);
-        HrBusinessObject bo = (HrBusinessObject) dataObject;
-        if (!bo.isActive()) {
-            if (!HrContext.canEditInactiveRecords()) {
-                allowsEdit = false;
+        if (dataObject instanceof HrBusinessObject) {
+            HrBusinessObject bo = (HrBusinessObject) dataObject;
+            if (!bo.isActive()) {
+                if (!HrContext.canEditInactiveRecords()) {
+                    allowsEdit = false;
+                }
             }
         }
         return allowsEdit;
