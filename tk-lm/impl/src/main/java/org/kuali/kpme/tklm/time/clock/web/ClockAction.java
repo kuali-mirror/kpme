@@ -295,7 +295,7 @@ public class ClockAction extends TimesheetAction {
         ClockActionForm caf = (ClockActionForm) form;
         TimeBlock tb = caf.getCurrentTimeBlock();
         caf.setCurrentAssignmentKey(tb.getAssignmentKey());
-
+        caf.populateAssignmentsForSelectedTimeBlock(tb);
         ActionForward forward = mapping.findForward("et");
 
         return new ActionForward(forward.getPath() + "?editTimeBlockId=" + tb.getTkTimeBlockId().toString());
