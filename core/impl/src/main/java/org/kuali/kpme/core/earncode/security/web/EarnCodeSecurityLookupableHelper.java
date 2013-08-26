@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.earncode.security.web;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +23,10 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.earncode.security.EarnCodeType;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -72,8 +75,19 @@ public class EarnCodeSecurityLookupableHelper extends KPMELookupableHelper {
         String showHist = fieldValues.get("history");
         String earnCodeType = fieldValues.get("earnCodeType");
         
-        return HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecuritiesByType(GlobalVariables.getUserSession().getPrincipalId(), dept, salGroup, earnCode, location, TKUtils.formatDateString(fromEffdt), 
+        List<EarnCodeSecurity> searchResults = new ArrayList<EarnCodeSecurity>();
+
+        List<EarnCodeSecurity> rawSearchResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecuritiesByType(GlobalVariables.getUserSession().getPrincipalId(), dept, salGroup, earnCode, location, TKUtils.formatDateString(fromEffdt), 
         		TKUtils.formatDateString(toEffdt), active, showHist, earnCodeType);
+        
+        if(rawSearchResults != null && !rawSearchResults.isEmpty()) {
+        	for(EarnCodeSecurity ecs : rawSearchResults) {
+        		ecs.setEarnCodeType(HrConstants.EARN_CODE_SECURITY_TYPE.get(ecs.getEarnCodeType()));
+        		searchResults.add(ecs);
+        	}
+        }
+        
+        return searchResults;
 	}
 	
 	@Override

@@ -15,6 +15,9 @@
  */
 package org.kuali.hr.core.earncode.security;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Collection;
 import java.util.Collections;
 
@@ -50,6 +53,19 @@ public class EarnCodeSecurityMaintenanceTest extends KPMEWebTestCase{
 		Assert.assertTrue("Page contains test EarnCodeSecurity", deptEarnCodeLookup.asText().contains(DEPT));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", "hrEarnCodeSecurityId=" + hrDeptEarnCodeId);
 		Assert.assertTrue("Maintenance Page contains test EarnCodeSecurity",maintPage.asText().contains(DEPT));
+	}
+	
+	@Test
+	public void testLookup() throws Exception {
+		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.EARN_CODE_SECURITY_MAINT_URL);
+		assertNotNull("lookup page is null", lookupPage);
+		assertTrue("lookup page should contain 'Earn Code Type' field group", lookupPage.asText().contains("Earn Code Type"));
+		assertTrue("'Earn Code Type' field group should have 'Time and Leave' option",
+				lookupPage.asText().contains("Time and Leave"));
+		
+		lookupPage = HtmlUnitUtil.clickInputContainingText(lookupPage, "search");
+		assertNotNull("lookup result page is null", lookupPage);
+		assertTrue("lookup page should contain 'TEST-DEPT'", lookupPage.asText().contains("TEST-DEPT"));
 	}
 	
 	@Test

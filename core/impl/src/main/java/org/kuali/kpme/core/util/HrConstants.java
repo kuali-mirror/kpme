@@ -31,6 +31,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.security.EarnCodeType;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -205,7 +206,13 @@ public class HrConstants {
 		CLASS_INQUIRY_KEY_MAP.put(EarnCode.class.getName(), keys);
 	}
 
-
+	public static final Map<String, String> EARN_CODE_SECURITY_TYPE = new HashMap<String, String>();
+	
+	static {
+		EARN_CODE_SECURITY_TYPE.put(EarnCodeType.LEAVE.getCode(), "Leave");
+		EARN_CODE_SECURITY_TYPE.put(EarnCodeType.TIME.getCode(), "Time");
+		EARN_CODE_SECURITY_TYPE.put(EarnCodeType.BOTH.getCode(), "Time and Leave");
+	}
 	/**
 	 * 
 	 * The following were moved up from LMConstants
