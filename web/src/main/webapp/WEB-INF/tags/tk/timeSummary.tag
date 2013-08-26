@@ -62,13 +62,15 @@
                                             <c:set var="assignmentColumn" value="${assignmentRow.assignmentColumns[entry.key]}"/>
                                             <c:choose>
                                                 <c:when test="${assignmentColumn.amount ne '0.00' and assignmentColumn.amount != 0}">
-                                                     <td >$${assignmentColumn.amount}</td>
+                                                     <td class="${assignmentRow.cssClass}">$${assignmentColumn.amount}</td>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <td></td>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:forEach>
+                                         <td></td>
+                                            <td/>
                                     </tr>
                                 </c:when>
                                 <c:otherwise>

@@ -64,7 +64,7 @@
                                             <c:set var="assignmentColumn" value="${assignmentRow.assignmentColumns[entry.key]}"/>
                                             <c:choose>
                                                 <c:when test="${assignmentColumn.amount ne '0.00' and assignmentColumn.amount != 0}">
-                                                     <td style="border-right-style: none">$${assignmentColumn.amount}</td>
+                                                     <td style="border-right-style: none" class="${assignmentColumn.cssClass}">$${assignmentColumn.amount}</td>
                                                 </c:when>
                                                 <c:otherwise>
                                                  <c:choose>
@@ -91,7 +91,7 @@
                                             	<c:set var="assignmentColumn" value="${assignmentRow.assignmentColumns[entry.key]}"/>   
                                              <c:choose>
                                                 <c:when test="${assignmentColumn.total ne '0.00' and assignmentColumn.total != 0}">
-                                                      <td style="border-right-style: none" >${assignmentColumn.total}</td>
+                                                      <td style="border-right-style: none" class="${assignmentColumn.cssClass}">${assignmentColumn.total}</td>
                                                 </c:when>
                                                 <c:otherwise>
                                                   <c:choose>
