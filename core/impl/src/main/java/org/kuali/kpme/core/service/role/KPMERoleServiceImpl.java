@@ -316,12 +316,11 @@ public class KPMERoleServiceImpl implements KPMERoleService {
 
 
 		if (role != null) {
-            roleQualifiers = KimApiServiceLocator.getRoleService().getNestedRoleQualifiersForPrincipalByRoleIds(principalId, Collections.singletonList(role.getId()), Collections.<String, String>emptyMap());
-			/*List<RoleMember> principalIdRoleMembers = getPrincipalIdRoleMembers(principalId, role, asOfDate, isActiveOnly);
+			List<RoleMember> principalIdRoleMembers = getPrincipalIdRoleMembers(principalId, role, asOfDate, isActiveOnly);
 			
 	        for (RoleMember principalIdRoleMember : principalIdRoleMembers) {
 	        	roleQualifiers.add(principalIdRoleMember.getAttributes());
-	        }*/
+	        }
 		}
         
         return roleQualifiers;
