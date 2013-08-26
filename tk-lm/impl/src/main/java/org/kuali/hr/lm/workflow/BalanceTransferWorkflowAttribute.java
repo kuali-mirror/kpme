@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.role.KPMERole;
@@ -116,8 +117,8 @@ public class BalanceTransferWorkflowAttribute extends AbstractRoleAttribute {
 	        List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 	        
 			if (TkConstants.ROLE_TK_APPROVER.equals(roleName)) {
-		        roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInWorkArea(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workAreaNumber, new DateTime(), true));
-		        roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInWorkArea(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workAreaNumber, new DateTime(), true));
+		        roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInWorkArea(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workAreaNumber, LocalDate.now().toDateTimeAtStartOfDay(), true));
+		        roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInWorkArea(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workAreaNumber, LocalDate.now().toDateTimeAtStartOfDay(), true));
 			}
 	
 	        for (RoleMember roleMember : roleMembers) {

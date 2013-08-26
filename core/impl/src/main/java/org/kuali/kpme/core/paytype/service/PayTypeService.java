@@ -15,9 +15,12 @@
  */
 package org.kuali.kpme.core.paytype.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.paytype.PayType;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -27,13 +30,13 @@ public interface PayTypeService {
 	 * Save or Update a Paytype
 	 * @param payType
 	 */
-    @CacheEvict(value={PayType.CACHE_NAME}, allEntries = true)
+    @CacheEvict(value={PayType.CACHE_NAME, Assignment.CACHE_NAME, CalendarBlockPermissions.CACHE_NAME}, allEntries = true)
 	public void saveOrUpdate(PayType payType);
 	/**
 	 * Save or Update a List of PayType objects
 	 * @param payTypeList
 	 */
-    @CacheEvict(value={PayType.CACHE_NAME}, allEntries = true)
+    @CacheEvict(value={PayType.CACHE_NAME, Assignment.CACHE_NAME, CalendarBlockPermissions.CACHE_NAME}, allEntries = true)
 	public void saveOrUpdate(List<PayType> payTypeList);
 	
 	/**

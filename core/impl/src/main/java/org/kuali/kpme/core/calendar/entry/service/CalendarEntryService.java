@@ -21,6 +21,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.entry.CalendarEntryPeriodType;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 public interface CalendarEntryService {
@@ -57,7 +58,9 @@ public interface CalendarEntryService {
     @Cacheable(value= CalendarEntry.CACHE_NAME, key="'hrCalendarId=' + #p0 + '|' + 'endPeriodDate=' + #p1")
     public CalendarEntry getCalendarEntryByIdAndPeriodEndDate(String hrCalendarId, DateTime endPeriodDate);
 
+    @Cacheable(value= CalendarEntry.CACHE_NAME, key="'{previousEntry}' + 'hrCalendarId=' + #p0 + '|' + 'pce=' + #p1.getHrCalendarEntryId()")
     public CalendarEntry getPreviousCalendarEntryByCalendarId(String hrCalendarId, CalendarEntry pce);
+    @Cacheable(value= CalendarEntry.CACHE_NAME, key="'{nextEntry}' + 'hrCalendarId=' + #p0 + '|' + 'pce=' + #p1.getHrCalendarEntryId()")
     public CalendarEntry getNextCalendarEntryByCalendarId(String hrCalendarId, CalendarEntry pce);
 
     /**
@@ -70,6 +73,7 @@ public interface CalendarEntryService {
     @Cacheable(value= CalendarEntry.CACHE_NAME, key="'thresholdDays=' + #p0 + '|' + 'endPeriodDate=' + #p1")
     public List<CalendarEntry> getCurrentCalendarEntriesNeedsScheduled(int thresholdDays, DateTime asOfDate);
 
+    @CacheEvict(value={CalendarEntry.CACHE_NAME}, allEntries = true)
     public CalendarEntry createNextCalendarEntry(CalendarEntry calendarEntry, CalendarEntryPeriodType type);
 
     public List<CalendarEntry> getFutureCalendarEntries(String hrCalendarId, DateTime currentDate, int numberOfEntries);
@@ -78,6 +82,7 @@ public interface CalendarEntryService {
 
     @Cacheable(value= CalendarEntry.CACHE_NAME, key="'hrCalendarId=' + #p0")
     public List<CalendarEntry> getAllCalendarEntriesForCalendarId(String hrCalendarId);
+
     @Cacheable(value= CalendarEntry.CACHE_NAME, key="'hrCalendarId=' + #p0 + '|' + 'year=' + #p1")
     public List<CalendarEntry> getAllCalendarEntriesForCalendarIdAndYear(String hrCalendarId, String year);
 

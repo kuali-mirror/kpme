@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.kuali.rice.kim.api.role.RoleMember;
+import org.springframework.cache.annotation.Cacheable;
 
 public interface KPMERoleService {
 
@@ -59,6 +60,7 @@ public interface KPMERoleService {
 	 * 
 	 * @return true if {@code principalId} has the role {@code roleName} for the given work area, false otherwise.
 	 */
+    @Cacheable(value=RoleMember.Cache.NAME, key="'{principalHasRoleInWorkArea}' + 'principal=' + #p0 + '|' + 'namespace=' + #p1 + '|' + 'roleName=' + #p2  + '|' + 'workArea=' + #p3 + '|' + 'asOfDate=' + #p4")
 	boolean principalHasRoleInWorkArea(String principalId, String namespaceCode, String roleName, Long workArea, DateTime asOfDate);
 	
 	/**
@@ -72,6 +74,7 @@ public interface KPMERoleService {
 	 * 
 	 * @return true if {@code principalId} has the role {@code roleName} for the given department, false otherwise.
 	 */
+    @Cacheable(value= RoleMember.Cache.NAME, key="'{principalHasRoleInDepartment}' + 'principal=' + #p0 + '|' + 'namespace=' + #p1 + '|' + 'roleName=' + #p2  + '|' + 'department=' + #p3 + '|' + 'asOfDate=' + #p4")
 	boolean principalHasRoleInDepartment(String principalId, String namespaceCode, String roleName, String department, DateTime asOfDate);
 	
 	/**
@@ -85,6 +88,7 @@ public interface KPMERoleService {
 	 * 
 	 * @return true if {@code principalId} has the role {@code roleName} for the given location, false otherwise.
 	 */
+    @Cacheable(value= RoleMember.Cache.NAME, key="'{principalHasRoleInLocation}' + 'principal=' + #p0 + '|' + 'namespace=' + #p1 + '|' + 'roleName=' + #p2  + '|' + 'location=' + #p3 + '|' + 'asOfDate=' + #p4")
 	boolean principalHasRoleInLocation(String principalId, String namespaceCode, String roleName, String location, DateTime asOfDate);
 	
 	/**
@@ -162,6 +166,7 @@ public interface KPMERoleService {
 	 * 
 	 * @return the list of work areas for the given {@code principalId} in the role {@code roleName}.
 	 */
+    @Cacheable(value= RoleMember.Cache.NAME, key="'{getWorkAreasForPrincipalInRole}' + 'principal=' + #p0 + '|' + 'namespace=' + #p1 + '|' + 'roleName=' + #p2  + '|' + 'asOfDate=' + #p3 + '|' + 'isActiveOnly=' + #p4")
 	List<Long> getWorkAreasForPrincipalInRole(String principalId, String namespaceCode, String roleName, DateTime asOfDate, boolean isActiveOnly);
 
 	/**
@@ -171,11 +176,12 @@ public interface KPMERoleService {
 	 * @param namespaceCode The namespace of the role
 	 * @param roleName The name of the role
 	 * @param asOfDate The effective date of the role
-	 * @param getActiveOnly Whether or not to get only active role members
+	 * @param isActiveOnly Whether or not to get only active role members
 	 * 
 	 * @return the list of departments for the given {@code principalId} in the role {@code roleName}.
 	 */
-	List<String> getDepartmentsForPrincipalInRole(String principalId, String namespaceCode, String roleName, DateTime asOfDate, boolean isActiveOnly);
+    @Cacheable(value= RoleMember.Cache.NAME, key="'{getDepartmentsForPrincipalInRole}' + 'principal=' + #p0 + '|' + 'namespace=' + #p1 + '|' + 'roleName=' + #p2  + '|' + 'asOfDate=' + #p3 + '|' + 'isActiveOnly=' + #p4")
+    List<String> getDepartmentsForPrincipalInRole(String principalId, String namespaceCode, String roleName, DateTime asOfDate, boolean isActiveOnly);
 
 	/**
 	 * Gets the locations for the given {@code principalId} in the role {@code roleName}.
@@ -184,10 +190,11 @@ public interface KPMERoleService {
 	 * @param namespaceCode The namespace of the role
 	 * @param roleName The name of the role
 	 * @param asOfDate The effective date of the role
-	 * @param getActiveOnly Whether or not to get only active role members
+	 * @param isActiveOnly Whether or not to get only active role members
 	 * 
 	 * @return the list of locations for the given {@code principalId} in the role {@code roleName}.
 	 */
-	List<String> getLocationsForPrincipalInRole(String principalId, String namespaceCode, String roleName, DateTime asOfDate, boolean isActiveOnly);
+    @Cacheable(value= RoleMember.Cache.NAME, key="'{getLocationsForPrincipalInRole}' + 'principal=' + #p0 + '|' + 'namespace=' + #p1 + '|' + 'roleName=' + #p2  + '|' + 'asOfDate=' + #p3 + '|' + 'isActiveOnly=' + #p4")
+    List<String> getLocationsForPrincipalInRole(String principalId, String namespaceCode, String roleName, DateTime asOfDate, boolean isActiveOnly);
 
 }

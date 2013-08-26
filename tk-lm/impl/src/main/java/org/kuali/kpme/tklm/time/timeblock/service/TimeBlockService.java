@@ -20,11 +20,13 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 
 public interface TimeBlockService {
 	/**
@@ -39,6 +41,10 @@ public interface TimeBlockService {
 	 * Delete a given TimeBlock
 	 * @param timeBlock
 	 */
+    @Caching(evict = {
+            @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true),
+            @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, key="#p0.tkTimeBlockId")
+    })
 	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
 	public void deleteTimeBlock(TimeBlock timeBlock);
 	/**
@@ -63,14 +69,18 @@ public interface TimeBlockService {
 	 * @param oldTimeBlocks
 	 * @param newTimeBlocks
 	 */
-	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
+    })
 	public void saveTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks, String userPrincipalId);
 
 	/**
 	 * Save a list of new TimeBlocks
 	 * @param tbList
 	 */
-	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
+    })
 	public void saveTimeBlocks(List<TimeBlock> tbList);
 	/**
 	 * Reset the TimeHourDetail object associated with the TimeBlock object on a List of TimeBlocks
@@ -126,7 +136,10 @@ public interface TimeBlockService {
 										Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount,
                                         Boolean getClockLogCreated, Boolean getLunchDeleted, String userPrincipalId);
 
-	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true),
+            @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, allEntries = true)
+    })
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
 
 	public Boolean getTimeBlockEditable(TimeBlock tb);
@@ -158,12 +171,17 @@ public interface TimeBlockService {
 	@Cacheable(value= TimeBlock.CACHE_NAME, key="'{getOvernightTimeBlocks}' + 'clockLogEndId=' + #p0")
 	public List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId);
 
-	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true),
+            @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, key="#p0.tkTimeBlockId")
+    })
 	public void updateTimeBlock(TimeBlock tb);
 	
 	public List<TimeBlockHistory> createTimeBlockHistories(TimeBlock tb, String actionHistory);
 
-	@CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
+    })
     void deleteLunchDeduction(String tkTimeHourDetailId);
 	/*
 	 * Get all the active time blocks with the given earn code and effectiveDate

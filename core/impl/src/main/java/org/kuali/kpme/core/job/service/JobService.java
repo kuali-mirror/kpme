@@ -19,6 +19,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.job.Job;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -29,14 +31,14 @@ public interface JobService {
 	 * Updates or saves a job
 	 * @param job
 	 */
-    @CacheEvict(value={Job.CACHE_NAME}, allEntries = true)
+    @CacheEvict(value={Job.CACHE_NAME, Assignment.CACHE_NAME, CalendarBlockPermissions.CACHE_NAME}, allEntries = true)
 	public void saveOrUpdate(Job job);
 	
 	/**
 	 * Updates or saves a list of jobs
 	 * @param jobList
 	 */
-    @CacheEvict(value={Job.CACHE_NAME}, allEntries = true)
+    @CacheEvict(value={Job.CACHE_NAME, Assignment.CACHE_NAME, CalendarBlockPermissions.CACHE_NAME}, allEntries = true)
 	public void saveOrUpdate(List<Job> jobList);
 	
 	/**

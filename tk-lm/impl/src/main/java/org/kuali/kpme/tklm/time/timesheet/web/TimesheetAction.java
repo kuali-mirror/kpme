@@ -105,6 +105,7 @@ public class TimesheetAction extends CalendarFormAction {
         
 		CalendarEntry calendarEntry = null;
 		TimesheetDocument timesheetDocument = null;
+
         if (StringUtils.isNotBlank(documentId)) {
             timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
             
@@ -122,7 +123,7 @@ public class TimesheetAction extends CalendarFormAction {
         		timesheetDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, calendarEntry);
         	}
         }
-        
+
         if (calendarEntry != null || timesheetDocument != null) {
 	        if (calendarEntry != null) {
 	        	timesheetActionForm.setHrCalendarEntryId(calendarEntry.getHrCalendarEntryId());
@@ -153,7 +154,7 @@ public class TimesheetAction extends CalendarFormAction {
         	EntityNamePrincipalName entityNamePrincipalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.missing.payCalendar", entityNamePrincipalName.getPrincipalName());
         }
-        
+
 		return super.execute(mapping, form, request, response);
 	}
     

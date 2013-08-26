@@ -83,27 +83,27 @@ public class HrContext {
 	}
 	
 	public static boolean isApprover() {
-		return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), DateTime.now());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
 	}
 	
 	public static boolean isTargetApprover() {
-		return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), DateTime.now());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
 	}
 	
 	public static boolean isApproverDelegate() {
-		return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), DateTime.now());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
 	}
 	
 	public static boolean isTargetApproverDelegate() {
-		return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), DateTime.now());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
 	}
 	
 	public static boolean isReviewer() {
-		return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), DateTime.now());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
 	}
 	
 	public static boolean isTargetReviewer() {
-		return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), DateTime.now());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
 	}
 	
 	public static boolean isActiveEmployee() {
@@ -116,19 +116,19 @@ public class HrContext {
 	
 	// KPME-2532
 	public static boolean isPayrollProcessor() {
-		return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), DateTime.now());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
 	}
 	
 	public static boolean isTargetPayrollProcessor() {
-		return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), DateTime.now());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
 	}
 	
 	public static boolean isPayrollProcessorDelegate() {
-		return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), DateTime.now());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
 	}
 	
 	public static boolean isTargetPayrollProcessorDelegate() {
-		return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), DateTime.now());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
 	}
     //KPME-2699
     public static boolean canEditInactiveRecords() {

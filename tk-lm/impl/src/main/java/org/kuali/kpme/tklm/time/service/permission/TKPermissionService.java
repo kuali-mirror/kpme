@@ -18,7 +18,10 @@ package org.kuali.kpme.tklm.time.service.permission;
 import java.util.Map;
 
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 
 public interface TKPermissionService {
 
@@ -143,15 +146,29 @@ public interface TKPermissionService {
 	 * @return true if {@code principalId} is authorized to perform {@code permissionName} for the given location, false otherwise.
 	 */
 	boolean isAuthorizedByTemplateInLocation(String principalId, String namespaceCode, String permissionTemplateName, String location, DateTime asOfDate);
-	
+
+    //@Cacheable(value= TimeBlock.PERMISSIONS_CACHE_NAME,
+    //        key="'{canEditTimeBlock}' + 'principalId=' + #p0 + 'timeBlock=' + #p1?.getTkTimeBlockId()")
 	boolean canEditTimeBlock(String principalId, TimeBlock timeBlock);
-	
-	boolean canEditTimeBlockAllFields(String principalId, TimeBlock timeBlock);
 
-	boolean canDeleteTimeBlock(String principalId, TimeBlock timeBlock);
+    //@Cacheable(value= TimeBlock.PERMISSIONS_CACHE_NAME,
+    //        key="'{canEditTimeBlockAllFields}' + 'principalId=' + #p0 + 'timeBlock=' + #p1?.getTkTimeBlockId()")
+    boolean canEditTimeBlockAllFields(String principalId, TimeBlock timeBlock);
 
-	boolean canEditOvertimeEarnCode(TimeBlock timeBlock);
+    //@Cacheable(value= TimeBlock.PERMISSIONS_CACHE_NAME,
+    //        key="'{canDeleteTimeBlock}' + 'principalId=' + #p0 + 'timeBlock=' + #p1?.getTkTimeBlockId()")
+    boolean canDeleteTimeBlock(String principalId, TimeBlock timeBlock);
 
-	boolean canEditRegEarnCode(TimeBlock timeBlock);
+    //@Cacheable(value= TimeBlock.PERMISSIONS_CACHE_NAME,
+    //        key="'{canEditOvertimeEarnCode}' + 'principalId=' + #p0 + 'timeBlock=' + #p1?.getTkTimeBlockId()")
+    boolean canEditOvertimeEarnCode(String principalId, TimeBlock timeBlock);
+
+    //@Cacheable(value= TimeBlock.PERMISSIONS_CACHE_NAME,
+    //        key="'{canEditRegEarnCode}' + 'principalId=' + #p0 + 'timeBlock=' + #p1?.getTkTimeBlockId()")
+    boolean canEditRegEarnCode(TimeBlock timeBlock);
+
+
+
+
 
 }

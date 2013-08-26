@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.assignment.account.AssignmentAccount;
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -46,7 +47,10 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
             .add("principalId")
             .build();
 
-   
+    public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
+            .add(Assignment.CACHE_NAME)
+            .add(CalendarBlockPermissions.CACHE_NAME)
+            .build();
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Assignment";
 
 	private String tkAssignmentId;

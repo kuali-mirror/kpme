@@ -23,12 +23,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.isNull;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.lessThanOrEqual;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.xml.namespace.QName;
 
@@ -55,6 +50,7 @@ import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kim.api.type.KimTypeInfoService;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
@@ -318,12 +314,14 @@ public class KPMERoleServiceImpl implements KPMERoleService {
 	private List<Map<String, String>> getRoleQualifiers(String principalId, Role role, DateTime asOfDate, boolean isActiveOnly) {
 		List<Map<String, String>> roleQualifiers = new ArrayList<Map<String, String>>();
 
+
 		if (role != null) {
-			List<RoleMember> principalIdRoleMembers = getPrincipalIdRoleMembers(principalId, role, asOfDate, isActiveOnly);
+            roleQualifiers = KimApiServiceLocator.getRoleService().getNestedRoleQualifiersForPrincipalByRoleIds(principalId, Collections.singletonList(role.getId()), Collections.<String, String>emptyMap());
+			/*List<RoleMember> principalIdRoleMembers = getPrincipalIdRoleMembers(principalId, role, asOfDate, isActiveOnly);
 			
 	        for (RoleMember principalIdRoleMember : principalIdRoleMembers) {
 	        	roleQualifiers.add(principalIdRoleMember.getAttributes());
-	        }
+	        }*/
 		}
         
         return roleQualifiers;

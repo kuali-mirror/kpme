@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.location.Location;
@@ -47,8 +48,11 @@ public class Job extends HrBusinessObject implements JobContract {
 	            .add("jobNumber")
 	            .build();
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Job";
-	private static final String[] PRIVATE_CACHES_FOR_FLUSH = {Job.CACHE_NAME, Assignment.CACHE_NAME};
-	public static final List<String> CACHE_FLUSH = Collections.unmodifiableList(Arrays.asList(PRIVATE_CACHES_FOR_FLUSH));
+    public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
+            .add(Job.CACHE_NAME)
+            .add(Assignment.CACHE_NAME)
+            .add(CalendarBlockPermissions.CACHE_NAME)
+            .build();
 	
 	private String location;
 	private String hrPayType;

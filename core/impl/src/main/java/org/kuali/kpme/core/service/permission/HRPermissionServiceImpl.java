@@ -23,6 +23,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -225,6 +226,26 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
     	boolean timeCalDefined = isCalendarDefined("payCalendar", principalId, asOfDate, false);
     	canViewLeaveTabs = activeAss && leaveCalNPlanDefined && timeCalDefined;
     	return canViewLeaveTabs;
+    }
+
+    @Override
+    public CalendarBlockPermissions getTimeBlockPermissions(String blockId) {
+        return new CalendarBlockPermissions(blockId);
+    }
+
+    @Override
+    public CalendarBlockPermissions updateTimeBlockPermissions(CalendarBlockPermissions calendarBlockPermissions) {
+        return calendarBlockPermissions;
+    }
+
+    @Override
+    public CalendarBlockPermissions getLeaveBlockPermissions(String blockId) {
+        return new CalendarBlockPermissions(blockId);
+    }
+
+    @Override
+    public CalendarBlockPermissions updateLeaveBlockPermissions(CalendarBlockPermissions calendarBlockPermissions) {
+        return calendarBlockPermissions;
     }
 	
 }

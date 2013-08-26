@@ -38,14 +38,13 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TKPermissionServiceImpl extends HrPermissionServiceBase implements TKPermissionService {
 	
@@ -76,34 +75,70 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
 		return getPermissionService().isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
 	}
 
+    private boolean updateCanEditTimeblockPerm(String principalId, CalendarBlockPermissions perms, boolean canEdit) {
+        perms.putCanEdit(principalId, canEdit);
+        HrServiceLocator.getHRPermissionService().updateTimeBlockPermissions(perms);
+        return canEdit;
+    }
+
+    private boolean updateCanEditAllFieldsTimeblockPerm(String principalId, CalendarBlockPermissions perms, boolean canEditAll) {
+        perms.putCanEditAllFields(principalId, canEditAll);
+        HrServiceLocator.getHRPermissionService().updateTimeBlockPermissions(perms);
+        return canEditAll;
+    }
+
+    private boolean updateCanDeleteTimeblockPerm(String principalId, CalendarBlockPermissions perms, boolean canDelete) {
+        perms.putCanDelete(principalId, canDelete);
+        HrServiceLocator.getHRPermissionService().updateTimeBlockPermissions(perms);
+        return canDelete;
+    }
+
+    private boolean updateCanEditOvtPerm(String principalId, CalendarBlockPermissions perms, boolean canEditOvt) {
+        perms.putCanEditOvertimeEarnCode(principalId, canEditOvt);
+        HrServiceLocator.getHRPermissionService().updateTimeBlockPermissions(perms);
+        return canEditOvt;
+    }
+
+    private boolean updateCanRegEarnCd(CalendarBlockPermissions perms, boolean canEditRegEarn) {
+        perms.setCanEditRegEarnCode(canEditRegEarn);
+        HrServiceLocator.getHRPermissionService().updateTimeBlockPermissions(perms);
+        return canEditRegEarn;
+    }
+
     @Override
     public boolean canEditTimeBlock(String principalId, TimeBlock timeBlock) {
         if (principalId != null) {
+            //check cache!
+            CalendarBlockPermissions perms = HrServiceLocator.getHRPermissionService().getTimeBlockPermissions(timeBlock.getTkTimeBlockId());
+            Boolean canEdit = perms.isPrincipalCanEdit(principalId);
 
+            if (canEdit != null) {
+                return canEdit;
+            }
         	// if the sys admin user is working on his own time block, do not grant edit permission without further checking
             if (HrContext.isSystemAdmin() && !timeBlock.getPrincipalId().equals(principalId)) {
-            	return true;
+            	return updateCanEditTimeblockPerm(principalId, perms, true);
             }
-            
+
             if (StringUtils.isNotBlank(timeBlock.getDocumentId())) {
             	DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(timeBlock.getDocumentId());
             	if (DocumentStatus.CANCELED.equals(documentStatus) || DocumentStatus.DISAPPROVED.equals(documentStatus)) {
-            		return false;
+                    return updateCanEditTimeblockPerm(principalId, perms, false);
             	}
             }
-            
+
             Job job = HrServiceLocator.getJobService().getJob(
                     HrContext.getTargetPrincipalId(), timeBlock.getJobNumber(),
                     timeBlock.getEndDateTime().toLocalDate());
             PayType payType = HrServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
-            
+
             // Check Payroll Processor condition
-            Boolean isAnyPayrollProcessor = isPrincipalAnyProcessorInWorkArea(principalId, timeBlock.getWorkArea(), timeBlock.getBeginDateTime().toLocalDate()); 
-            
-        	if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
-        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
-        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime()) || isAnyPayrollProcessor) {
+            Boolean isAnyPayrollProcessor = isPrincipalAnyProcessorInWorkArea(principalId, timeBlock.getWorkArea(), timeBlock.getBeginDateTime().toLocalDate());
+
+        	if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), LocalDate.now().toDateTimeAtStartOfDay())
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), LocalDate.now().toDateTimeAtStartOfDay())
+        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), LocalDate.now().toDateTimeAtStartOfDay()) || isAnyPayrollProcessor) {
         		
         		
                 if (StringUtils.equals(payType.getRegEarnCode(),
@@ -119,7 +154,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
 //                            return false;
 //                        }
 //                    }
-                    return true;
+                    return updateCanEditTimeblockPerm(principalId, perms, true);
                 }
 
                 List<EarnCodeSecurity> deptEarnCodes = HrServiceLocator
@@ -130,10 +165,10 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                     if (dec.isApprover()
                             && StringUtils.equals(dec.getEarnCode(),
                             		timeBlock.getEarnCode())) {
-                        return true;
+                        return updateCanEditTimeblockPerm(principalId, perms, true);
                     } else if(dec.isPayrollProcessor() && StringUtils.equals(dec.getEarnCode(),
                     		timeBlock.getEarnCode())) {
-                    	return true;
+                        return updateCanEditTimeblockPerm(principalId, perms, true);
                     }
                 }
             }
@@ -152,9 +187,9 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                     List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(HrContext.getPrincipalId(),timeBlock.getBeginDateTime().toLocalDate());
                     if (assignments.size() == 1) {
                     	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),job.getHrPayType(),timeBlock.getBeginDateTime().toLocalDate());
-                        return tcr != null && !tcr.isClockUserFl();
+                        return updateCanEditTimeblockPerm(principalId, perms, tcr != null && !tcr.isClockUserFl());
                     } else {
-                        return true;
+                        return updateCanEditTimeblockPerm(principalId, perms, true);
                     }
                 }
 
@@ -166,11 +201,10 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                     if (dec.isEmployee()
                             && StringUtils.equals(dec.getEarnCode(),
                             		timeBlock.getEarnCode())) {
-                        return true;
+                        return updateCanEditTimeblockPerm(principalId, perms, true);
                     }
                 }
             }
-
         }
 
         return false;
@@ -179,15 +213,21 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     @Override
     public boolean canEditTimeBlockAllFields(String principalId, TimeBlock timeBlock) {
         if (principalId != null) {
+            CalendarBlockPermissions perms = HrServiceLocator.getHRPermissionService().getTimeBlockPermissions(timeBlock.getTkTimeBlockId());
+            Boolean canEditAll = perms.isPrincipalCanEditAllFields(principalId);
+
+            if (canEditAll != null) {
+                return canEditAll;
+            }
 
             if (HrContext.isSystemAdmin()) {
-                return true;
+                return updateCanEditAllFieldsTimeblockPerm(principalId, perms, true);
             }
             
             if (StringUtils.isNotBlank(timeBlock.getDocumentId())) {
             	DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(timeBlock.getDocumentId());
             	if (DocumentStatus.CANCELED.equals(documentStatus) || DocumentStatus.DISAPPROVED.equals(documentStatus)) {
-            		return false;
+                    return updateCanEditAllFieldsTimeblockPerm(principalId, perms, false);
             	}
             }
 
@@ -207,9 +247,9 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                     TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),timeBlock.getBeginDateTime().toLocalDate());
                     
                     if (tcr != null && !tcr.isClockUserFl()) {
-                    	return true;
+                        return updateCanEditAllFieldsTimeblockPerm(principalId, perms, true);
                     } else {
-                        return false;
+                        return updateCanEditAllFieldsTimeblockPerm(principalId, perms, false);
                     }
                 }
 
@@ -221,10 +261,10 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                     if (dec.isApprover()
                             && StringUtils.equals(dec.getEarnCode(),
                             		timeBlock.getEarnCode())) {
-                        return true;
+                        return updateCanEditAllFieldsTimeblockPerm(principalId, perms, true);
                     } else if(dec.isPayrollProcessor() && StringUtils.equals(dec.getEarnCode(),
                     		timeBlock.getEarnCode())) {
-                    	return true;
+                        return updateCanEditAllFieldsTimeblockPerm(principalId, perms, true);
                     }
                 }
             }
@@ -233,7 +273,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                     && timeBlock.getClockLogCreated()) {
                 if (StringUtils.equals(payType.getRegEarnCode(),
                         timeBlock.getEarnCode())) {
-                    return false;
+                    return updateCanEditAllFieldsTimeblockPerm(principalId, perms, false);
                 }
             }
 
@@ -241,7 +281,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             		&& !timeBlock.getClockLogCreated()) {
             	if (StringUtils.equals(payType.getRegEarnCode(),
             			timeBlock.getEarnCode())) {
-            		return true;
+                    return updateCanEditAllFieldsTimeblockPerm(principalId, perms, true);
             	}
             	
                 List<EarnCodeSecurity> deptEarnCodes = HrServiceLocator
@@ -252,7 +292,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                     if (dec.isEmployee()
                             && StringUtils.equals(dec.getEarnCode(),
                             		timeBlock.getEarnCode())) {
-                        return true;
+                        return updateCanEditAllFieldsTimeblockPerm(principalId, perms, true);
                     }
                 }
             }
@@ -265,16 +305,21 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     @Override
     public boolean canDeleteTimeBlock(String principalId, TimeBlock timeBlock) {
         if (principalId != null) {
+            CalendarBlockPermissions perms = HrServiceLocator.getHRPermissionService().getTimeBlockPermissions(timeBlock.getTkTimeBlockId());
+            Boolean canDelete = perms.isPrincipalCanEditAllFields(principalId);
 
+            if (canDelete != null) {
+                return canDelete;
+            }
         	// if the sys admin user is working on his own time block, do not grant delete permission without further checking
             if (HrContext.isSystemAdmin()&& !timeBlock.getPrincipalId().equals(principalId)) {
-            	return true;
+                return updateCanDeleteTimeblockPerm(principalId, perms, true);
             }
             
             if (StringUtils.isNotBlank(timeBlock.getDocumentId())) {
             	DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(timeBlock.getDocumentId());
             	if (DocumentStatus.CANCELED.equals(documentStatus) || DocumentStatus.DISAPPROVED.equals(documentStatus)) {
-            		return false;
+                    return updateCanDeleteTimeblockPerm(principalId, perms, false);
             	}
             }
             
@@ -293,7 +338,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
 
                 if (StringUtils.equals(payType.getRegEarnCode(),
                 		timeBlock.getEarnCode())) {
-                    return true;
+                    return updateCanDeleteTimeblockPerm(principalId, perms, true);
                 }
 
                 List<EarnCodeSecurity> deptEarnCodes = HrServiceLocator
@@ -304,10 +349,10 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                     if (dec.isApprover()
                             && StringUtils.equals(dec.getEarnCode(),
                             		timeBlock.getEarnCode())) {
-                        return true;
+                        return updateCanDeleteTimeblockPerm(principalId, perms, true);
                     } else if(dec.isPayrollProcessor() && StringUtils.equals(dec.getEarnCode(),
                     		timeBlock.getEarnCode())) {
-                    	return true;
+                        return updateCanDeleteTimeblockPerm(principalId, perms, true);
                     }
                 }
             }
@@ -325,7 +370,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             
             // if the time block is generated by clock actions, do not allow it to be edited/deleted
 			if(timeBlock.getClockLogCreated()) {
-					return false;
+                return updateCanDeleteTimeblockPerm(principalId, perms, false);
 			}
 
             //if on a regular earncode and the user is a clock user and this is the users timesheet, do not allow to be deleted
@@ -334,9 +379,9 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             	
             	if (tcr == null || tcr.isClockUserFl()) {
             		if (StringUtils.equals(principalId,HrContext.getTargetPrincipalId())) {
-	                    return false;
+                        return updateCanDeleteTimeblockPerm(principalId, perms, false);
 	                }  else {
-	                    return true;
+                        return updateCanDeleteTimeblockPerm(principalId, perms, true);
 	                }
                 }
             }
@@ -345,7 +390,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             //KPME-2264 -
             // EE's should be able to remove timeblocks added via the time detail calendar only after checking prior conditions,
             if (principalId.equals(HrContext.getTargetPrincipalId())) {
-            	return true;
+                return updateCanDeleteTimeblockPerm(principalId, perms, true);
             }      
 
             List<EarnCodeSecurity> deptEarnCodes = HrServiceLocator
@@ -360,7 +405,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             		if (dec.isEmployee()
 	                        && StringUtils.equals(dec.getEarnCode(),
 	                        		timeBlock.getEarnCode())) {
-	                    return true;
+                        return updateCanDeleteTimeblockPerm(principalId, perms, true);
 	                }
             	}
             }
@@ -371,26 +416,37 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     }
     
     @Override
-    public boolean canEditOvertimeEarnCode(TimeBlock timeBlock) {
-        String principalId = GlobalVariables.getUserSession().getPrincipalId();
-        Long workArea = timeBlock.getWorkArea();
-    	WorkArea workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, timeBlock.getEndDateTime().toLocalDate());
-    	String department = workAreaObj.getDept();
-    	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
-		String location = departmentObj != null ? departmentObj.getLocation() : null;
-		
-    	if (StringUtils.equals(workAreaObj.getOvertimeEditRole(), "Employee")) {
-            return true;
-        } else if (StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.APPROVER.getRoleName()) ||
-                StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.APPROVER_DELEGATE.getRoleName())) {
-            return HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
-            		|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime());
-        } else {
-            return HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
-        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime());
+    public boolean canEditOvertimeEarnCode(String principalId, TimeBlock timeBlock) {
+        //String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        if (principalId != null) {
+            CalendarBlockPermissions perms = HrServiceLocator.getHRPermissionService().getTimeBlockPermissions(timeBlock.getTkTimeBlockId());
+            Boolean canEdit = perms.isPrincipalCanEdit(principalId);
+            if (canEdit != null) {
+                return canEdit;
+            }
+
+            Long workArea = timeBlock.getWorkArea();
+            WorkArea workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, timeBlock.getEndDateTime().toLocalDate());
+            String department = workAreaObj.getDept();
+            Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
+            String location = departmentObj != null ? departmentObj.getLocation() : null;
+
+            if (StringUtils.equals(workAreaObj.getOvertimeEditRole(), "Employee")) {
+                return updateCanEditOvtPerm(principalId, perms, true);
+            } else if (StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.APPROVER.getRoleName()) ||
+                    StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.APPROVER_DELEGATE.getRoleName())) {
+                boolean toReturn = HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
+                        || HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime());
+                return updateCanEditOvtPerm(principalId, perms, toReturn);
+            } else {
+                boolean toReturn = HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+                        || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+                        || HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+                        || HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime());
+                return updateCanEditOvtPerm(principalId, perms, toReturn);
+            }
         }
+        return false;
     }
     
     /*
@@ -400,6 +456,11 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
      */
     @Override
     public boolean canEditRegEarnCode(TimeBlock tb) {
+        CalendarBlockPermissions perms = HrServiceLocator.getHRPermissionService().getTimeBlockPermissions(tb.getTkTimeBlockId());
+        Boolean canEdit = perms.getCanEditRegEarnCode();
+        if (canEdit != null) {
+            return canEdit;
+        }
     	AssignmentDescriptionKey adk = new AssignmentDescriptionKey(tb.getJobNumber(), tb.getWorkArea(), tb.getTask());
         Assignment anAssignment = HrServiceLocator.getAssignmentService().getAssignment(adk, tb.getBeginDateTime().toLocalDate());
         if(anAssignment != null) {
@@ -416,18 +477,20 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
         		// if they do match, then return false
         		PayType pt = HrServiceLocator.getPayTypeService().getPayType(anAssignment.getJob().getHrPayType(), anAssignment.getJob().getEffectiveLocalDate());
         		if(pt != null && pt.getRegEarnCode().equals(tb.getEarnCode())) {
-        			return false;
+                    updateCanRegEarnCd(perms, false);
         		}
         	}
         }
-    	return true;
+    	return updateCanRegEarnCd(perms, true);
     }
-    
+
     private Boolean isPrincipalAnyProcessorInWorkArea(String principalId, Long tbWorkArea, LocalDate asOfDate) {
+
     	Boolean flag = false;
         Set<Long> workAreas = new HashSet<Long>();
-    	workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), new DateTime(), true));
-        workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(),  KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), new DateTime(), true));
+    	workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), asOfDate.toDateTimeAtStartOfDay(), true));
+        workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), asOfDate.toDateTimeAtStartOfDay(), true));
+
         for (Long wa : workAreas) {
             WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
             if (workArea!= null && tbWorkArea.compareTo(wa)==0) {
@@ -435,6 +498,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                 break;
             }
         }
+
         return flag;
     }
 
@@ -453,5 +517,4 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
 	public void setTimesheetService(TimesheetService timesheetService) {
 		this.timesheetService = timesheetService;
 	}
-	
 }

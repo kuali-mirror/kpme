@@ -41,6 +41,7 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.kpme.tklm.time.timeblock.dao.TimeBlockDao;
@@ -166,6 +167,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         for (TimeBlock tb : newTimeBlocks) {
             boolean persist = true;
             for (TimeBlock tbOld : oldTimeBlocks) {
+                HrServiceLocator.getHRPermissionService().updateTimeBlockPermissions(CalendarBlockPermissions.newInstance(tbOld.getTkTimeBlockId()));
                 if (tb.equals(tbOld)) {
                     persist = false;
                     break;
@@ -187,7 +189,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         }
         
         List<TimeBlock> savedTimeBlocks = (List<TimeBlock>) KRADServiceLocator.getBusinessObjectService().save(alteredTimeBlocks);
-        
+
         for (TimeBlock timeBlock : savedTimeBlocks) {
         	if(!timeBlockIds.contains(timeBlock.getTkTimeBlockId())) {
 	            timeBlock.setTimeBlockHistories(createTimeBlockHistories(timeBlock, TkConstants.ACTIONS.ADD_TIME_BLOCK));
@@ -201,6 +203,9 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
     public void saveTimeBlocks(List<TimeBlock> tbList) {
 		 for (TimeBlock tb : tbList) {
+             if (StringUtils.isNotEmpty(tb.getTkTimeBlockId())) {
+                 HrServiceLocator.getHRPermissionService().updateTimeBlockPermissions(CalendarBlockPermissions.newInstance(tb.getTkTimeBlockId()));
+             }
 	         TkServiceLocator.getTimeHourDetailService().removeTimeHourDetails(tb.getTkTimeBlockId());
 	         timeBlockDao.saveOrUpdate(tb);
 	         for(TimeBlockHistory tbh : tb.getTimeBlockHistories()){
@@ -419,7 +424,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     public void deleteLunchDeduction(String tkTimeHourDetailId) {
         TimeHourDetail thd = TkServiceLocator.getTimeHourDetailService().getTimeHourDetail(tkTimeHourDetailId);
         TimeBlock tb = getTimeBlock(thd.getTkTimeBlockId());
-        
+        //clear any timeblock permissions
+        HrServiceLocator.getHRPermissionService().updateTimeBlockPermissions(CalendarBlockPermissions.newInstance(tb.getTkTimeBlockId()));
         // mark the lunch deleted as Y
         tb.setLunchDeleted(true);
         // save the change

@@ -34,6 +34,7 @@ import org.kuali.kpme.core.earncode.security.EarnCodeType;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.service.permission.HRPermissionService;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
@@ -44,6 +45,8 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.time.service.permission.TKPermissionService;
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
@@ -61,6 +64,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class TimesheetServiceImpl implements TimesheetService {
 
     private static final Logger LOG = Logger.getLogger(TimesheetServiceImpl.class);
+
+    private HRPermissionService hrPermissionService;
 
     @Override
     public void routeTimesheet(String principalId, TimesheetDocument timesheetDocument) {
@@ -124,6 +129,7 @@ public class TimesheetServiceImpl implements TimesheetService {
                     wd.disapprove("Disapproving timesheet.");
                 }
             }
+            clearTimesheetTimeblockPermissions(timesheetDocument);
         }
     }
 
@@ -472,5 +478,17 @@ public class TimesheetServiceImpl implements TimesheetService {
             return true;
         }
     }
-    
+
+    public HRPermissionService getHRPermissionService() {
+        if (hrPermissionService == null) {
+            hrPermissionService = HrServiceLocator.getHRPermissionService();
+        }
+        return hrPermissionService;
+    }
+
+    private void clearTimesheetTimeblockPermissions(TimesheetDocument doc) {
+        for (TimeBlock tb : doc.getTimeBlocks()) {
+            getHRPermissionService().updateTimeBlockPermissions(CalendarBlockPermissions.newInstance(tb.getTkTimeBlockId()));
+        }
+    }
 }

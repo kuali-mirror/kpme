@@ -19,7 +19,10 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 
 public interface HRPermissionService {
 
@@ -224,5 +227,15 @@ public interface HRPermissionService {
 
 	boolean canViewLeaveTabsWithNEStatus();
 
+    @Cacheable(value= CalendarBlockPermissions.CACHE_NAME, key="'{time}' + #p0")
+    CalendarBlockPermissions getTimeBlockPermissions(String blockId);
 
+    @CachePut(value= CalendarBlockPermissions.CACHE_NAME, key="'{time}' + #p0?.blockId")
+    CalendarBlockPermissions updateTimeBlockPermissions(CalendarBlockPermissions calendarBlockPermissions);
+
+    @Cacheable(value= CalendarBlockPermissions.CACHE_NAME, key="'{leave}' + #p0")
+    CalendarBlockPermissions getLeaveBlockPermissions(String blockId);
+
+    @CachePut(value= CalendarBlockPermissions.CACHE_NAME, key="'{leave}' + #p0?.blockId")
+    CalendarBlockPermissions updateLeaveBlockPermissions(CalendarBlockPermissions calendarBlockPermissions);
 }

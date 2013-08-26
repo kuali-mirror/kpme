@@ -21,13 +21,14 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.api.role.KPMERoleMemberBoContract;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
 
 @SuppressWarnings("unchecked")
 public abstract class KPMERoleMemberBo extends RoleMemberBo implements KPMERoleMemberBoContract {
-
+    public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "KPMERoleMember";
 	private static final long serialVersionUID = 3137509859347223332L;
 
 	public Date getEffectiveDate() {

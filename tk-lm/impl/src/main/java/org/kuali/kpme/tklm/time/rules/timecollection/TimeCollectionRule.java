@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.rules.timecollection;
 
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.paytype.PayType;
@@ -33,6 +34,10 @@ public class TimeCollectionRule extends HrBusinessObject implements TimeCollecti
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("workArea")
             .add("dept")
+            .build();
+    public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
+            .add(TimeCollectionRule.CACHE_NAME)
+            .add(CalendarBlockPermissions.CACHE_NAME)
             .build();
 
 	private String tkTimeCollectionRuleId;

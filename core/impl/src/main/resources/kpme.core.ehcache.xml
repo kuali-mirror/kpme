@@ -28,6 +28,7 @@
     <cache name="http://kpme.kuali.org/core/AccrualCategory" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="http://kpme.kuali.org/core/Assignment" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="http://kpme.kuali.org/core/Calendar" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="http://kpme.kuali.org/core/CalendarBlockPermission" maxEntriesLocalHeap="50000" timeToLiveSeconds="300" copyOnRead="true" copyOnWrite="true"/>
     <cache name="http://kpme.kuali.org/core/CalendarEntry" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
 
     <cache name="http://kpme.kuali.org/core/Department" maxEntriesLocalHeap="10000" timeToLiveSeconds="900" copyOnRead="true" copyOnWrite="true"/>
@@ -35,6 +36,7 @@
     <cache name="http://kpme.kuali.org/core/EarnCode" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="http://kpme.kuali.org/core/Job" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
 
+    <cache name="http://kpme.kuali.org/core/KPMERoleMember" maxEntriesLocalHeap="10000" timeToLiveSeconds="300"/>
     <cache name="http://kpme.kuali.org/core/LeavePlan" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="http://kpme.kuali.org/core/Location" maxEntriesLocalHeap="10000" timeToLiveSeconds="900" copyOnRead="true" copyOnWrite="true"/>
     <cache name="http://kpme.kuali.org/core/PayGrade" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>

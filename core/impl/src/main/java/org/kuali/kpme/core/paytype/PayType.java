@@ -23,6 +23,7 @@ import javax.persistence.Transient;
 
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.institution.Institution;
@@ -34,8 +35,12 @@ import com.google.common.collect.ImmutableList;
 
 public class PayType extends HrBusinessObject implements PayTypeContract {
     public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PayType";
-    private static final String[] PRIVATE_CACHES_FOR_FLUSH = {PayType.CACHE_NAME, Job.CACHE_NAME, Assignment.CACHE_NAME};
-	public static final List<String> CACHE_FLUSH = Collections.unmodifiableList(Arrays.asList(PRIVATE_CACHES_FOR_FLUSH));
+    public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
+            .add(PayType.CACHE_NAME)
+            .add(Job.CACHE_NAME)
+            .add(Assignment.CACHE_NAME)
+            .add(CalendarBlockPermissions.CACHE_NAME)
+            .build();
     //KPME-2273/1965 Primary Business Keys List.	
     public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("payType")

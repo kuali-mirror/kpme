@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.math.BigDecimal;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.location.impl.campus.CampusBo;
@@ -39,8 +40,10 @@ public class Position extends PositionBase implements PositionContract {
 	private static final long serialVersionUID = 1L;
 	
     public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Position";
-    private static final String[] PRIVATE_CACHES_FOR_FLUSH = {PositionBase.CACHE_NAME, Position.CACHE_NAME};
-    public static final List<String> CACHE_FLUSH = Collections.unmodifiableList(Arrays.asList(PRIVATE_CACHES_FOR_FLUSH));
+    public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
+            .add(PositionBase.CACHE_NAME)
+            .add(Position.CACHE_NAME)
+            .build();
 	
 	private List<PositionQualification> qualificationList = new LinkedList<PositionQualification>();
     private List<PositionDuty> dutyList = new LinkedList<PositionDuty>();

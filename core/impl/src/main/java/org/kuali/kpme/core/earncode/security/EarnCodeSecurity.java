@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.earncode.EarnCode;
@@ -35,8 +36,11 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
 	private static final long serialVersionUID = -4884673156883588639L;
 	
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "EarnCodeSecurity";
-    private static final String[] PRIVATE_CACHES_FOR_FLUSH = {EarnCodeSecurity.CACHE_NAME, EarnCode.CACHE_NAME};
-    public static final List<String> CACHE_FLUSH = Collections.unmodifiableList(Arrays.asList(PRIVATE_CACHES_FOR_FLUSH));
+    public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
+            .add(EarnCodeSecurity.CACHE_NAME)
+            .add(EarnCode.CACHE_NAME)
+            .add(CalendarBlockPermissions.CACHE_NAME)
+            .build();
 	//KPME-2273/1965 Primary Business Keys List. Will be using this from now on instead.	
     public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("dept")

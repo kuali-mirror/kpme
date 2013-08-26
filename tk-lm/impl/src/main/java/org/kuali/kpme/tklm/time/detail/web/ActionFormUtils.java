@@ -159,7 +159,6 @@ public class ActionFormUtils {
      * @return
      */
     public static String getTimeBlocksJson(List<TimeBlock> timeBlocks) {
-
         if (timeBlocks == null || timeBlocks.size() == 0) {
             return "";
         }
@@ -167,21 +166,22 @@ public class ActionFormUtils {
         List<Map<String, Object>> timeBlockList = new LinkedList<Map<String, Object>>();
         String timezone = HrServiceLocator.getTimezoneService().getUserTimezone();
 
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+
+        boolean isAnyApprover = HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay())
+                || HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+
         for (TimeBlock timeBlock : timeBlocks) {
             Map<String, Object> timeBlockMap = new LinkedHashMap<String, Object>();
 
             WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), timeBlock.getEndDateTime().toLocalDate());
             String workAreaDesc = workArea.getDescription();
 
-            String principalId = GlobalVariables.getUserSession().getPrincipalId();
-            
-            boolean isAnyApprover = HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), new DateTime())
-					|| HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime());
             timeBlockMap.put("isApprover", isAnyApprover);
             timeBlockMap.put("isSynchronousUser", timeBlock.getClockLogCreated());
 
             timeBlockMap.put("canEditTb", TkServiceLocator.getTKPermissionService().canEditTimeBlock(principalId, timeBlock));
-            timeBlockMap.put("canEditTBOvt", TkServiceLocator.getTKPermissionService().canEditOvertimeEarnCode(timeBlock));
+            timeBlockMap.put("canEditTBOvt", TkServiceLocator.getTKPermissionService().canEditOvertimeEarnCode(principalId, timeBlock));
 
             if (TkServiceLocator.getTKPermissionService().canEditTimeBlockAllFields(principalId, timeBlock)) {
                 timeBlockMap.put("canEditTBAll", true);
@@ -253,14 +253,18 @@ public class ActionFormUtils {
             timeBlockMap.put("timeHourDetails", JSONValue.toJSONString(timeHourDetailList));
 
             timeBlockList.add(timeBlockMap);
+            //System.out.println("\n\n\n\n");
+            //System.out.println(sw.prettyPrint());
+            //System.out.println("\n\n\n\n");
         }
-
 //        Map<String, Map<String, Object>> jsonMappedList = new HashMap<String, Map<String, Object>>();
 //        for (Map<String, Object> tbm : timeBlockList) {
 //            String id = (String) tbm.get("id");
 //            jsonMappedList.put(id, tbm);
 //        }
-        return JSONValue.toJSONString(timeBlockList);
+        String value = JSONValue.toJSONString(timeBlockList);
+
+        return value;
     }
     
     

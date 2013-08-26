@@ -107,20 +107,19 @@ public class TimeDetailAction extends TimesheetAction {
         ActionForward forward = super.execute(mapping, form, request, response);
 
         TimeDetailActionForm timeDetailActionForm = (TimeDetailActionForm) form;
-        
+
         CalendarEntry calendarEntry = timeDetailActionForm.getCalendarEntry();
         TimesheetDocument timesheetDocument = timeDetailActionForm.getTimesheetDocument();
+
 
         if (calendarEntry != null && timesheetDocument != null) {
 			List<String> assignmentKeys = new ArrayList<String>();
 	        for (Assignment assignment : timesheetDocument.getAssignments()) {
 	        	assignmentKeys.add(assignment.getAssignmentKey());
 	        }
-	        
-	        if (timesheetDocument != null) {
-	        	timeDetailActionForm.setAssignmentDescriptions(timeDetailActionForm.getTimesheetDocument().getAssignmentDescriptions(false));
-	        }
-	        
+
+	        timeDetailActionForm.setAssignmentDescriptions(timeDetailActionForm.getTimesheetDocument().getAssignmentDescriptions(false));
+
 	        timeDetailActionForm.setDocEditable("false");
 	        if (HrContext.isSystemAdmin()) {
 	            timeDetailActionForm.setDocEditable("true");
@@ -148,33 +147,37 @@ public class TimeDetailAction extends TimesheetAction {
 			        }
 	            }
 	        }
-	        
+
 	        List<TimeBlock> timeBlocks = TkServiceLocator.getTimesheetService().getTimesheetDocument(timeDetailActionForm.getDocumentId()).getTimeBlocks();
-	        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(timesheetDocument.getPrincipalId(), 
+            List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(timesheetDocument.getPrincipalId(),
 					calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), assignmentKeys);
-	        
+
+
 	        timeDetailActionForm.getTimesheetDocument().setTimeBlocks(timeBlocks);
 	        assignStypeClassMapForTimeSummary(timeDetailActionForm,timeBlocks, leaveBlocks);
-	        
+
 	        Calendar payCalendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry != null ? calendarEntry.getHrCalendarId() : null);
-	        List<Interval> intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(calendarEntry);
+
+            List<Interval> intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(calendarEntry);
 	        LeaveBlockAggregate lbAggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry, intervals);
 	        TkTimeBlockAggregate tbAggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntry, payCalendar, true,intervals);
+
 	        // use both time aggregate and leave aggregate to populate the calendar
 	        TkCalendar cal = TkCalendar.getCalendar(tbAggregate, lbAggregate);
 	        cal.assignAssignmentStyle(timeDetailActionForm.getAssignStyleClassMap());
 	        timeDetailActionForm.setTkCalendar(cal);
-	
+
 	        timeDetailActionForm.setTimeBlockString(ActionFormUtils.getTimeBlocksJson(tbAggregate.getFlattenedTimeBlockList()));
 	        timeDetailActionForm.setLeaveBlockString(ActionFormUtils.getLeaveBlocksJson(lbAggregate.getFlattenedLeaveBlockList()));
-	
+
 	        timeDetailActionForm.setOvertimeEarnCodes(HrServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(timesheetDocument.getAsOfDate()));
 	
 	        if (StringUtils.equals(timesheetDocument.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())) {
 	        	timeDetailActionForm.setWorkingOnItsOwn("true");
 	        }
-	        
+
 	        setMessages(timeDetailActionForm);
+
         }
         
         return forward;

@@ -617,7 +617,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
 	}
 
 	public Boolean getOvertimeEditable() {
-		return TkServiceLocator.getTKPermissionService().canEditOvertimeEarnCode(this);
+		return TkServiceLocator.getTKPermissionService().canEditOvertimeEarnCode(HrContext.getPrincipalId(), this);
 	}
 	
 	public Boolean getRegEarnCodeEditable() {

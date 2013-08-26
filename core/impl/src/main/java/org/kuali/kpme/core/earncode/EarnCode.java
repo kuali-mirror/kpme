@@ -38,8 +38,10 @@ public class EarnCode extends HrBusinessObject implements EarnCodeContract {
 	private static final long serialVersionUID = -1470603919624794932L;
 	
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "EarnCode";
-    private static final String[] PRIVATE_CACHES_FOR_FLUSH = {EarnCodeSecurity.CACHE_NAME, EarnCode.CACHE_NAME};
-    public static final List<String> CACHE_FLUSH = Collections.unmodifiableList(Arrays.asList(PRIVATE_CACHES_FOR_FLUSH));
+    public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
+            .add(EarnCodeSecurity.CACHE_NAME)
+            .add(EarnCode.CACHE_NAME)
+            .build();
     //KPME-2273/1965 Primary Business Keys List.
     public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("earnCode")
