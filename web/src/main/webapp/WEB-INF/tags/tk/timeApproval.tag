@@ -15,14 +15,14 @@
 	        <c:set var="nameStyle" value="background-color: #F08080;"/>
 	    </c:if>
 	    <display:column title="Name" sortable="true" sortName="name" style="${nameStyle};width:10%;">
-	        <a href="changeTargetPerson.do?${row.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${row.name}</a> (${row.principalId})
+	        <a href="changeTargetPerson.do?${row.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do%3FselectedPayCalendarGroup=${Form.selectedPayCalendarGroup}%26selectedDept=${Form.selectedDept}%26selectedWorkArea=${Form.selectedWorkArea}">${row.name}</a> (${row.principalId})
             <c:if test="${!empty row.clockStatusMessage}">
                 <br/>${row.clockStatusMessage}
             </c:if>
 	        <br/><br/><br/>
 	       <c:if test="${!empty row.documentId}">
 	       
-	       Doc Id: <a href="changeTargetPerson.do?${row.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${row.documentId}&returnUrl=TimeApproval.do"> ${row.documentId}</a>
+	      Doc Id: <a href="changeTargetPerson.do?${row.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${row.documentId}&returnUrl=TimeApproval.do%3FselectedPayCalendarGroup=${Form.selectedPayCalendarGroup}%26selectedDept=${Form.selectedDept}%26selectedWorkArea=${Form.selectedWorkArea}"> ${row.documentId}</a>
 	        <c:if test="${fn:length(row.warnings) > 0 }">
 	            <div class="ui-state-default ui-corner-all" style="float:right;">
 	                <span id="approvals-warning" class="ui-icon ui-icon-alert approvals-warning"></span>
