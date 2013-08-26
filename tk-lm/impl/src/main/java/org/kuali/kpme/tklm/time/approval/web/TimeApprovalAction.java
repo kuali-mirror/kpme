@@ -105,6 +105,19 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 	
 	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		TimeApprovalActionForm timeApprovalActionForm = (TimeApprovalActionForm) form;
+		CalendarEntry calendarEntry = null;
+		Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByGroup(timeApprovalActionForm.getSelectedPayCalendarGroup());
+        
+		if (calendar != null) {
+            calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), LocalDate.now().toDateTimeAtStartOfDay());
+        }
+        
+        if (calendarEntry != null) {
+        	timeApprovalActionForm.setHrCalendarEntryId(calendarEntry.getHrCalendarEntryId());
+        	timeApprovalActionForm.setCalendarEntry(calendarEntry);
+        	// change pay period map 
+        	this.setCalendarFields(timeApprovalActionForm);
+        }
 		
 		timeApprovalActionForm.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
 		
