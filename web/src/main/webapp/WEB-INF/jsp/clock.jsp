@@ -166,8 +166,8 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
         			</tr>
         		</table>
         	</div>
-        	<div id="missed-punch-dialog" title="Missed Punch" style="display:none;" />
             <tk:note/>
+        	<div id="missed-punch-dialog" title="Missed Punch" style="display:none;" />
         </c:if>
 	</html:form>
 </tk:tkHeader>
