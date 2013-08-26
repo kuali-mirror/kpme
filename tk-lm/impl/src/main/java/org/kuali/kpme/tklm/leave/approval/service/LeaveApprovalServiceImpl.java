@@ -254,13 +254,6 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
         	if (cnt == weekDateList.size()) {
         		ed = endDate;
         	}
-        	
-        	System.out.println("--------------1-----------------" + lcdh);
-        	System.out.println("--------------2-----------------" + sd);
-        	System.out.println("--------------3-----------------" + ed);        	
-        	System.out.println("--------------4-----------------" + key);
-        	System.out.println("--------------5-----------------" + enableWeekDetails);
-        	
 	        List<Map<String, Object>> detailMap = this.getLeaveApprovalDetailSections(lcdh,sd.toDateTime(), ed.toDateTime(), new ArrayList<Date>(dateList), key, enableWeekDetails);
 	        weekDetailMap.put(key, detailMap);
 	        cnt++;
