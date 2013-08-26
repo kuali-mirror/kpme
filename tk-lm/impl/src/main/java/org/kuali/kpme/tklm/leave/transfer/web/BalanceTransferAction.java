@@ -293,7 +293,7 @@ public class BalanceTransferAction extends KPMEAction {
 		BalanceTransferForm btf = (BalanceTransferForm) form;
 
 		List<LeaveBlock> eligibleTransfers = (List<LeaveBlock>) request.getSession().getAttribute("eligibilities");
-		if(!eligibleTransfers.isEmpty()) {
+		if(eligibleTransfers != null && !eligibleTransfers.isEmpty()) {
 			
 			Collections.sort(eligibleTransfers, new Comparator() {
 
@@ -380,7 +380,7 @@ public class BalanceTransferAction extends KPMEAction {
 		BalanceTransferForm btf = (BalanceTransferForm) form;
 
 		List<LeaveBlock> eligibleTransfers = (List<LeaveBlock>) request.getSession().getAttribute("eligibilities");
-		if(!eligibleTransfers.isEmpty()) {
+		if(eligibleTransfers != null && !eligibleTransfers.isEmpty()) {
 			
 			Collections.sort(eligibleTransfers, new Comparator() {
 				

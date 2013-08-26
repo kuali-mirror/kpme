@@ -147,9 +147,9 @@ public class TimeDetailValidationUtil {
 
         //Check that assignment is valid for both days
         AssignmentDescriptionKey assignKey = HrServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssignment);
-        Assignment assign = HrServiceLocator.getAssignmentService().getAssignment(assignKey, startTemp.toLocalDate());
+        Assignment assign = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignKey, startTemp.toLocalDate());
         if (assign == null) errors.add("Assignment is not valid for start date " + TKUtils.formatDate(new LocalDate(startTime)));
-        assign = HrServiceLocator.getAssignmentService().getAssignment(assignKey, endTemp.toLocalDate());
+        assign = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignKey, endTemp.toLocalDate());
         if (assign == null) errors.add("Assignment is not valid for end date " + TKUtils.formatDate(new LocalDate(endTime)));
         if (errors.size() > 0) return errors;
 

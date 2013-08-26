@@ -439,7 +439,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
 
     public String getAssignmentDescription() {
         AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber(), this.getWorkArea(), this.getTask());
-        Assignment anAssignment = HrServiceLocator.getAssignmentService().getAssignment(adk, this.getBeginDateTime().toLocalDate());
+        Assignment anAssignment = HrServiceLocator.getAssignmentService().getAssignment(principalId, adk, this.getBeginDateTime().toLocalDate());
         return anAssignment == null ? this.getAssignmentKey() : anAssignment.getAssignmentDescription();
     }
 

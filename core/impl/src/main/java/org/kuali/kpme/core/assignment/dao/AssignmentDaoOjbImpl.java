@@ -86,7 +86,7 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
 
 
     @Override
-    public Assignment getAssignment(Long job, Long workArea, Long task, LocalDate asOfDate) {
+    public Assignment getAssignmentForTargetPrincipal(Long job, Long workArea, Long task, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
         root.addEqualTo("jobNumber", job);

@@ -310,7 +310,7 @@ public class ClockActionForm extends TimesheetActionForm {
 			Map<String, List<TimeBlock>> timeBlocksMap = new HashMap<String, List<TimeBlock>>();
 			for (TimeBlock timeBlock : getTimesheetDocument().getTimeBlocks()) {
 				if (timeBlock.getClockLogCreated()) {
-					Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(AssignmentDescriptionKey.get(timeBlock.getAssignmentKey()), LocalDate.fromDateFields(timeBlock.getBeginDate()));
+					Assignment assignment = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(timeBlock.getAssignmentKey()), LocalDate.fromDateFields(timeBlock.getBeginDate()));
 					if (assignment != null) {
 						WorkArea aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), LocalDate.fromDateFields(timeBlock.getBeginDate()));
 						TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), LocalDate.fromDateFields(timeBlock.getBeginDate()));

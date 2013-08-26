@@ -453,7 +453,7 @@ public class LeaveCalendarValidationUtil {
 		        
 		        //Check that assignment is valid for both days
 		        AssignmentDescriptionKey assignKey = HrServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssignment);
-		        Assignment assign = HrServiceLocator.getAssignmentService().getAssignment(assignKey, startTemp.toLocalDate());
+		        Assignment assign = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignKey, startTemp.toLocalDate());
 		        
 		        if ((startTime.compareTo(endTime) > 0 || endTime.compareTo(startTime) < 0)) {
 		            errors.add("The time or date is not valid.");

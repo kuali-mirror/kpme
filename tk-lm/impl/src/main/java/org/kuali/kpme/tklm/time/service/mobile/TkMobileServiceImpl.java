@@ -66,7 +66,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 	public Map<String,List<String>> addClockAction(String principalId, String assignmentKey, String clockAction, String ipAddress) {
 		HashMap<String,List<String>> errorWarningMap = new HashMap<String,List<String>>();
 
-		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(AssignmentDescriptionKey.get(assignmentKey), LocalDate.now());
+		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(assignmentKey), LocalDate.now());
         // Set person on the context
         // This is primary for getting the assignment, since we get the assignment by using the target principal id on the context
         HrContext.setTargetPrincipalId(principalId);

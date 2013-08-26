@@ -462,7 +462,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             return canEdit;
         }
     	AssignmentDescriptionKey adk = new AssignmentDescriptionKey(tb.getJobNumber(), tb.getWorkArea(), tb.getTask());
-        Assignment anAssignment = HrServiceLocator.getAssignmentService().getAssignment(adk, tb.getBeginDateTime().toLocalDate());
+        Assignment anAssignment = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(adk, tb.getBeginDateTime().toLocalDate());
         if(anAssignment != null) {
         	// use timesheet's end date to get Time Collection Rule
         	TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(tb.getDocumentId());

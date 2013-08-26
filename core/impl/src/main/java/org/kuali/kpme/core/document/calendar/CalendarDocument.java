@@ -86,7 +86,7 @@ public abstract class CalendarDocument implements Serializable, CalendarDocument
         }
 
         //No assignment found so fetch the inactive ones for this payBeginDate
-        Assignment foundAssign = HrServiceLocator.getAssignmentService().getAssignment(assignmentDescriptionKey, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
+        Assignment foundAssign = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignmentDescriptionKey, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
         if (foundAssign != null) {
             return foundAssign;
         }

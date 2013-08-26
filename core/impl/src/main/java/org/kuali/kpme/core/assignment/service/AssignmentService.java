@@ -78,7 +78,7 @@ public interface AssignmentService {
      * @param key
      * @return
      */
-    public Assignment getAssignment(AssignmentDescriptionKey key, LocalDate asOfDate);
+    public Assignment getAssignmentForTargetPrincipal(AssignmentDescriptionKey key, LocalDate asOfDate);
 
     
     /**

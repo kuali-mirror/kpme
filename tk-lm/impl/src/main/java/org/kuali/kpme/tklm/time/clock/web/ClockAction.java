@@ -159,7 +159,7 @@ public class ClockAction extends TimesheetAction {
 		        	}
 		        	
 		        	if(StringUtils.isNotBlank(selectedAssignment)) {
-		        		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(AssignmentDescriptionKey.get(selectedAssignment), LocalDate.now());
+		        		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(selectedAssignment), LocalDate.now());
 		        		if (assignment != null) {
 		        			Long workArea = assignment.getWorkArea();
 		        			String principalId = GlobalVariables.getUserSession().getPrincipalId();

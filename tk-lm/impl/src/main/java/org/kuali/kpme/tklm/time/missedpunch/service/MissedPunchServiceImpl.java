@@ -95,7 +95,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
     public void addClockLog(MissedPunch missedPunch, String ipAddress) {
         TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(assignmentDescriptionKey, timesheetDocument.getDocEndDate());
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(missedPunch.getPrincipalId(), assignmentDescriptionKey, LocalDate.fromDateFields(missedPunch.getActionDate()));
         CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
         
         // use the actual date and time from the document to build the date time with user zone, then apply system time zone to it
@@ -158,7 +158,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
     private void addClockLogAndTimeBlocks(MissedPunch missedPunch, String ipAddress, String logEndId, String logBeginId) {
         TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(assignmentDescriptionKey, timesheetDocument.getDocEndDate());
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(missedPunch.getPrincipalId(), assignmentDescriptionKey, LocalDate.fromDateFields(missedPunch.getActionDate()));
         CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
         DateTime userActionDateTime = missedPunch.getActionFullDateTime();
         DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();

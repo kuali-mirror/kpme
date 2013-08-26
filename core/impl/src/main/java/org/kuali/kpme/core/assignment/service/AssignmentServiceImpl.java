@@ -259,11 +259,11 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public Assignment getAssignment(AssignmentDescriptionKey key, LocalDate asOfDate) {
+    public Assignment getAssignmentForTargetPrincipal(AssignmentDescriptionKey key, LocalDate asOfDate) {
         Assignment a = null;
 
         if (key != null) {
-            a = assignmentDao.getAssignment(key.getJobNumber(), key.getWorkArea(), key.getTask(), asOfDate);
+            a = assignmentDao.getAssignmentForTargetPrincipal(key.getJobNumber(), key.getWorkArea(), key.getTask(), asOfDate);
         }
 
         return a;
@@ -302,7 +302,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         }
 
         //No assignment found so fetch the inactive ones for this payBeginDate
-        Assignment assign = getAssignment(desc, beginDate);
+        Assignment assign = getAssignmentForTargetPrincipal(desc, beginDate);
         if (assign != null) {
             return assign;
         }
