@@ -22,10 +22,12 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 
 public interface LeaveBlockService {
 	@Cacheable(value= LeaveBlock.CACHE_NAME, key="'{getLeaveBlock}' + 'leaveBlockId=' + #p0")
@@ -53,6 +55,10 @@ public interface LeaveBlockService {
     public void saveLeaveBlocks(List<LeaveBlock> leaveBlocks);
 
     @CacheEvict(value={LeaveBlock.CACHE_NAME}, allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value={LeaveBlock.CACHE_NAME}, allEntries = true),
+            @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, key="#p0.blockId")
+    })
     public void saveLeaveBlock(LeaveBlock leaveBlock, String principalId);
 
     /**
@@ -60,7 +66,10 @@ public interface LeaveBlockService {
      * @param leaveBlockId
      * @param principalId
      */
-    @CacheEvict(value={LeaveBlock.CACHE_NAME}, allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value={LeaveBlock.CACHE_NAME}, allEntries = true),
+            @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, key="'{leave}' + #p0")
+    })
     public void deleteLeaveBlock(String leaveBlockId, String principalId);
 
 
@@ -68,7 +77,10 @@ public interface LeaveBlockService {
     public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntry ce, String selectedEarnCode,
     		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType, String principalId);
     
-    @CacheEvict(value={LeaveBlock.CACHE_NAME}, allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value={LeaveBlock.CACHE_NAME}, allEntries = true),
+            @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, key="#p0.blockId")
+    })
     public void updateLeaveBlock(LeaveBlock leaveBlock, String principalId);
     /**
      * 

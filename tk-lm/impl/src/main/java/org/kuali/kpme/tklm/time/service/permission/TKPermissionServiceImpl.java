@@ -306,7 +306,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     public boolean canDeleteTimeBlock(String principalId, TimeBlock timeBlock) {
         if (principalId != null) {
             CalendarBlockPermissions perms = HrServiceLocator.getHRPermissionService().getTimeBlockPermissions(timeBlock.getTkTimeBlockId());
-            Boolean canDelete = perms.isPrincipalCanEditAllFields(principalId);
+            Boolean canDelete = perms.isPrincipalCanDelete(principalId);
 
             if (canDelete != null) {
                 return canDelete;
@@ -420,7 +420,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
         //String principalId = GlobalVariables.getUserSession().getPrincipalId();
         if (principalId != null) {
             CalendarBlockPermissions perms = HrServiceLocator.getHRPermissionService().getTimeBlockPermissions(timeBlock.getTkTimeBlockId());
-            Boolean canEdit = perms.isPrincipalCanEdit(principalId);
+            Boolean canEdit = perms.isPrincipalCanEditOvertimeEarnCode(principalId);
             if (canEdit != null) {
                 return canEdit;
             }

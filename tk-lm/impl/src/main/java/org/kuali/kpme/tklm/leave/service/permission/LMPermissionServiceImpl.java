@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -130,9 +131,21 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 		return getPermissionService().isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
 	}
 
+    private boolean updateCanEditLeavePerm(String principalId, CalendarBlockPermissions perms, boolean canEditAll) {
+        perms.putCanEdit(principalId, canEditAll);
+        HrServiceLocator.getHRPermissionService().updateLeaveBlockPermissions(perms);
+        return canEditAll;
+    }
+
     @Override
     public boolean canEditLeaveBlock(String principalId, LeaveBlock leaveBlock) {
         if (principalId != null) {
+            CalendarBlockPermissions perms = HrServiceLocator.getHRPermissionService().getLeaveBlockPermissions(leaveBlock.getLmLeaveBlockId());
+            Boolean canEdit = perms.isPrincipalCanEdit(principalId);
+
+            if (canEdit != null) {
+                return canEdit;
+            }
         	String documentId = leaveBlock.getDocumentId();
         	if (StringUtils.isBlank(documentId)) {
         		TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveBlock.getLeaveLocalDate().toDateTimeAtStartOfDay());
@@ -143,19 +156,20 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
         	if (StringUtils.isNotBlank(documentId)) {
         		DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(documentId);
         		if (DocumentStatus.CANCELED.equals(documentStatus) || DocumentStatus.DISAPPROVED.equals(documentStatus)) {
-        			return false;
+                    return updateCanEditLeavePerm(principalId, perms, false);
         		}
         	}
 	 	 	 	
             String blockType = leaveBlock.getLeaveBlockType();
             String requestStatus = leaveBlock.getRequestStatus();
             if (StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, requestStatus)) {
-                return false;
+                return updateCanEditLeavePerm(principalId, perms, false);
             }
             if (StringUtils.equals(HrConstants.REQUEST_STATUS.APPROVED, requestStatus)) {
             	List<LeaveRequestDocument> docList= LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(leaveBlock.getLmLeaveBlockId());
             	if(CollectionUtils.isEmpty(docList)) {
-            		return false;	// not a leave request. if this is a leave request, do further checking on it
+            		// not a leave request. if this is a leave request, do further checking on it
+                    return updateCanEditLeavePerm(principalId, perms, false);
             	}            	
             }
             if (StringUtils.isBlank(blockType)
@@ -164,14 +178,14 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 
             	if (!TkContext.isDepartmentAdmin()
                         || HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), leaveBlock.getWorkArea(), new DateTime())) {
-            		return true;
+                    return updateCanEditLeavePerm(principalId, perms, true);
             	}
             } else if (LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT.equals(blockType)
                     || LMConstants.LEAVE_BLOCK_TYPE.DONATION_MAINT.equals(blockType)
                     || LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER.equals(blockType)
                     || LMConstants.LEAVE_BLOCK_TYPE.LEAVE_ADJUSTMENT_MAINT.equals(blockType)) {
                 if (HrContext.isSystemAdmin()) {
-                    return true;
+                    return updateCanEditLeavePerm(principalId, perms, true);
                 }
             }
             // kpme-1689
@@ -179,11 +193,11 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
             		&& StringUtils.isNotEmpty(leaveBlock.getScheduleTimeOffId())
             		&& leaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) == -1) {
             	if(HrContext.isSystemAdmin()) {
-            		return true;
+                    return updateCanEditLeavePerm(principalId, perms, true);
             	}
             	SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(leaveBlock.getScheduleTimeOffId());
             	if(ssto != null && !StringUtils.equals(LMConstants.UNUSED_TIME.NO_UNUSED, ssto.getUnusedTime())) {
-            		return true;
+                    return updateCanEditLeavePerm(principalId, perms, true);
             	}
             }
         }
@@ -191,9 +205,21 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
         return false;
     }
 
+    private boolean updateCanDeleteLeaveblockPerm(String principalId, CalendarBlockPermissions perms, boolean canDelete) {
+        perms.putCanDelete(principalId, canDelete);
+        HrServiceLocator.getHRPermissionService().updateLeaveBlockPermissions(perms);
+        return canDelete;
+    }
+
     @Override
     public boolean canDeleteLeaveBlock(String principalId, LeaveBlock leaveBlock) {
         if (principalId != null) {
+            CalendarBlockPermissions perms = HrServiceLocator.getHRPermissionService().getLeaveBlockPermissions(leaveBlock.getLmLeaveBlockId());
+            Boolean canDelete = perms.isPrincipalCanDelete(principalId);
+
+            if (canDelete != null) {
+                return canDelete;
+            }
         	String documentId = leaveBlock.getDocumentId();
         	if (StringUtils.isBlank(documentId)) {
         		TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveBlock.getLeaveLocalDate().toDateTimeAtStartOfDay());
@@ -204,7 +230,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
         	if (StringUtils.isNotBlank(documentId)) {
         		DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(documentId);
         		if (DocumentStatus.CANCELED.equals(documentStatus) || DocumentStatus.DISAPPROVED.equals(documentStatus)) {
-        			return false;
+                    return updateCanDeleteLeaveblockPerm(principalId, perms, false);
         		}
         	}
         }
@@ -213,7 +239,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
             return false;
         }
     	if(canBankOrTransferSSTOUsage(leaveBlock)) {
-    		return true;
+            return true;
     	}
         if (StringUtils.equals(HrConstants.REQUEST_STATUS.APPROVED, leaveBlock.getRequestStatus())) {
         	List<LeaveRequestDocument> docList= LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(leaveBlock.getLmLeaveBlockId());

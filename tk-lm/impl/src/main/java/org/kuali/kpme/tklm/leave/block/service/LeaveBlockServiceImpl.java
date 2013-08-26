@@ -31,6 +31,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -110,6 +111,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         	LeaveBlockHistory lbh = new LeaveBlockHistory(leaveBlock);
         	lbh.setAction(HrConstants.ACTION.ADD);
         	leaveBlockHistories.add(lbh);
+            HrServiceLocator.getHRPermissionService().updateLeaveBlockPermissions(CalendarBlockPermissions.newInstance(leaveBlock.getLmLeaveBlockId()));
         }
         
         KRADServiceLocator.getBusinessObjectService().save(leaveBlockHistories);
