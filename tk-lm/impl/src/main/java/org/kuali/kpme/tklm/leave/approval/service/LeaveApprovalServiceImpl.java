@@ -26,19 +26,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeFieldType;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.common.LMConstants;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.approval.web.ApprovalLeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
@@ -46,6 +52,7 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
+import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.note.Note;
@@ -61,7 +68,6 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 		DateTime payBeginDate = payCalendarEntry.getBeginPeriodFullDateTime();
 		DateTime payEndDate = payCalendarEntry.getEndPeriodFullDateTime();
 		List<ApprovalLeaveSummaryRow> rowList = new ArrayList<ApprovalLeaveSummaryRow>();		
-
 		for(String principalId : principalIds) {
 			
 			ApprovalLeaveSummaryRow aRow = new ApprovalLeaveSummaryRow();
@@ -100,8 +106,14 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 			}
 			
 			List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, payBeginDate.toLocalDate(), payEndDate.toLocalDate());
-
+			
+			if(aDoc != null ){
+				Map<Integer, String> weeklyDistribution = getWeekHeadersForSummary(aDoc,payCalendarEntry,aRow.getWeekDates(), aRow.getWeekDateList(), aRow.getDetailMap(), aRow.getEnableWeekDetails());
+				aRow.setWeeklyDistribution(weeklyDistribution);
+			}
+			
             aRow.setLeaveBlockList(leaveBlocks);
+            
 			Map<Date, Map<String, BigDecimal>> earnCodeLeaveHours = getEarnCodeLeaveHours(leaveBlocks, leaveSummaryDates);
 			aRow.setEarnCodeLeaveHours(earnCodeLeaveHours);
             aRow.setNotes(notes);
@@ -127,7 +139,135 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 		
 		return rowList;
 	}
+	private Calendar getPayCalendarForEntry(CalendarEntry calEntry) {
+        Calendar cal = null;
 
+        if (calEntry != null) {
+            cal = HrServiceLocator.getCalendarService().getCalendar(calEntry.getHrCalendarId());
+        }
+
+        return cal;
+    }
+
+	private Map<Integer, String> getWeekHeadersForSummary(LeaveCalendarDocumentHeader lcdh,CalendarEntry cal, Map<String, String> weekDates, Map<String, Set<Date>> weekDateList, Map<String,List<Map<String, Object>>> weekDetailMap, Map<String,Boolean> enableWeekDetails) {
+        
+		Map<Integer, String> header = new LinkedHashMap<Integer,String>();                
+        header.put(DateTimeConstants.SUNDAY, "Sun");
+        header.put(DateTimeConstants.MONDAY, "Mon");
+        header.put(DateTimeConstants.TUESDAY, "Tue");
+        header.put(DateTimeConstants.WEDNESDAY, "Wed");
+        header.put(DateTimeConstants.THURSDAY, "Thu");
+        header.put(DateTimeConstants.FRIDAY, "Fri");
+        header.put(DateTimeConstants.SATURDAY, "Sat");
+        
+        int flsaBeginDay = this.getPayCalendarForEntry(cal).getFlsaBeginDayConstant();
+        if(flsaBeginDay <= 0) {
+        	flsaBeginDay = DateTimeConstants.SUNDAY;
+        }
+        LocalDateTime startDate = cal.getBeginPeriodLocalDateTime();
+        LocalDateTime endDate = cal.getEndPeriodLocalDateTime();
+
+        LocalDateTime actualStartDate = cal.getBeginPeriodLocalDateTime();
+        LocalDateTime actualEndDate = cal.getEndPeriodLocalDateTime();
+        
+        int daysToMinus = 0;
+        if(DateTimeConstants.SUNDAY != startDate.getDayOfWeek()) {
+        	daysToMinus = startDate.getDayOfWeek();
+        }
+        
+        actualStartDate = startDate.minusDays(daysToMinus);
+        int daysToAdd = 0;
+        if(endDate.getDayOfWeek() != DateTimeConstants.SUNDAY) {
+        	daysToAdd = DateTimeConstants.SATURDAY - endDate.getDayOfWeek();
+        } else {
+        	daysToAdd = DateTimeConstants.SATURDAY;
+        }
+        
+        actualEndDate = endDate.plusDays(daysToAdd);
+        
+        // Increment end date if we are on a virtual day calendar, so that the
+        // for loop can account for having the proper amount of days on the
+        // summary calendar.
+        if (endDate.get(DateTimeFieldType.hourOfDay()) != 0 || endDate.get(DateTimeFieldType.minuteOfHour()) != 0 ||
+                endDate.get(DateTimeFieldType.secondOfMinute()) != 0)
+        {
+        	actualEndDate = endDate.plusDays(1);
+        }
+
+        boolean afterFirstDay = false;
+        int week = 1;
+        
+        LocalDateTime weekStart = actualStartDate;
+        LocalDateTime weekEnd = actualStartDate;
+        Set<Date> dates = new TreeSet<Date>();
+        for (LocalDateTime currentDate = actualStartDate; currentDate.compareTo(actualEndDate) < 0; currentDate = currentDate.plusDays(1)) {
+        	
+            if (currentDate.getDayOfWeek() == flsaBeginDay && afterFirstDay) {
+            	String weekString = "Week " + week;
+                StringBuilder display = new StringBuilder();
+                display.append(weekStart.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
+                display.append(" - ");
+                display.append(weekEnd.minusDays(1).toString(TkConstants.DT_ABBREV_DATE_FORMAT));
+                weekDates.put(weekString, display.toString());
+                weekDateList.put(weekString, dates);
+                dates = new TreeSet<Date>();
+                dates.add(currentDate.toDate());
+                weekStart = currentDate;
+                week++;
+
+            } else {
+            	dates.add(currentDate.toDate());
+            }
+
+            weekEnd = weekEnd.plusDays(1);
+            afterFirstDay = true;
+        }
+
+        // We may have a very small final "week" on this pay period. For now
+        // we will mark it as a week, and if someone doesn't like it, it can
+        // be removed.
+        if (!header.isEmpty() && !header.get(header.size() - 1).startsWith("Week")) {
+        	if(weekStart.compareTo(endDate) < 0) {
+	        	StringBuilder display = new StringBuilder();
+	            display.append(weekStart.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
+	            display.append(" - ");
+	            display.append(actualEndDate.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
+	            weekDates.put("Week "+week, display.toString());
+	            dates.add(actualEndDate.toDate());
+	            weekDateList.put("Week "+week, dates);
+        	}
+            
+        }       
+        
+        // get Accrual category map for week
+        int cnt = 1;
+        for(String key : weekDateList.keySet()) {
+        	
+        	Set<Date> dateList = weekDateList.get(key);
+        	Date[] datesArray = new Date[dateList.size()];
+        	datesArray = dateList.toArray(datesArray);
+        	LocalDateTime sd = new LocalDateTime(datesArray[0].getTime());
+        	LocalDateTime ed = new LocalDateTime(datesArray[datesArray.length -1].getTime());
+        	if(cnt == 1) {
+        		sd = startDate;
+        	}
+        	if (cnt == weekDateList.size()) {
+        		ed = endDate;
+        	}
+        	
+        	System.out.println("--------------1-----------------" + lcdh);
+        	System.out.println("--------------2-----------------" + sd);
+        	System.out.println("--------------3-----------------" + ed);        	
+        	System.out.println("--------------4-----------------" + key);
+        	System.out.println("--------------5-----------------" + enableWeekDetails);
+        	
+	        List<Map<String, Object>> detailMap = this.getLeaveApprovalDetailSections(lcdh,sd.toDateTime(), ed.toDateTime(), new ArrayList<Date>(dateList), key, enableWeekDetails);
+	        weekDetailMap.put(key, detailMap);
+	        cnt++;
+        }
+        return header;
+    }
+	
     private Map<String,Set<String>> findTransactionsWithinPeriod(LeaveCalendarDocumentHeader aDoc,
 			CalendarEntry payCalendarEntry) {
 		Map<String,Set<String>> allMessages = new HashMap<String,Set<String>>();
@@ -173,7 +313,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
     				}
     			}
     		}
-    	}    
+    	}   
         return allMessages;
     }
 	
@@ -189,6 +329,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 			DateTime leaveDate = lb.getLeaveLocalDate().toDateTimeAtStartOfDay();
 			
 			if (earnCodeLeaveHours.get(leaveDate.toDate()) != null) {
+				
 				Map<String, BigDecimal> leaveHours = earnCodeLeaveHours.get(leaveDate.toDate());
 
 				BigDecimal amount = lb.getLeaveAmount();
@@ -262,6 +403,64 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 			}
 			
 		}
+		return acRows;
+	}
+
+	public List<Map<String, Object>> getLeaveApprovalDetailSections(LeaveCalendarDocumentHeader lcdh,DateTime beginDate, DateTime endDate, List<Date> leaveSummaryDates, String week, Map<String,Boolean> enableWeekDetails)  {
+		List<Map<String, Object>> acRows = new ArrayList<Map<String, Object>>();
+		String principalId = lcdh.getPrincipalId();
+		 
+        CalendarEntry calendarEntry = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcdh.getDocumentId()).getCalendarEntry();
+		//CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(lcdh.getBeginDate(), lcdh.getEndDate());
+			LeaveSummary leaveSummary;
+			PrincipalHRAttributes pha; 
+//			List<Date> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(calendarEntry);
+            try {
+                leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, endDate.toLocalDate());
+                pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate.toLocalDate());
+            } catch (Exception e) {
+                leaveSummary = null;
+                pha=null;
+            }
+            List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate.toLocalDate(), endDate.toLocalDate());
+			Map<Date, Map<String, BigDecimal>> accrualCategoryLeaveHours = getAccrualCategoryLeaveHours(leaveBlocks, leaveSummaryDates);
+			//get all accrual categories of this employee
+			
+			if(pha != null) {
+				List<AccrualCategory> acList = HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), endDate.toLocalDate());
+				for(AccrualCategory ac : acList) {
+					List<BigDecimal> acDayDetails = new ArrayList<BigDecimal>();
+					Map<String, Object> displayMap = new HashMap<String, Object>();
+					BigDecimal totalAmount = BigDecimal.ZERO;
+					displayMap.put("accrualCategory", ac.getAccrualCategory());
+					int index = 0;
+					for (Date leaveSummaryDate : leaveSummaryDates) {
+						if(leaveSummaryDate.compareTo(beginDate.toDate()) >= 0 && leaveSummaryDate.compareTo(endDate.toDate())<=0) {
+							acDayDetails.add(index, null);
+							if (accrualCategoryLeaveHours.get(leaveSummaryDate) != null) {
+								Map<String, BigDecimal> leaveHours = accrualCategoryLeaveHours.get(leaveSummaryDate);
+								if (leaveHours.containsKey(ac.getAccrualCategory())) {
+									BigDecimal amount =  leaveHours.get(ac.getAccrualCategory());
+									totalAmount = totalAmount.add(amount);
+									acDayDetails.set(index, amount);
+								}
+							}
+							index++;
+						}
+					}
+                    LeaveSummaryRow lsr = leaveSummary == null ? null : leaveSummary.getLeaveSummaryRowForAccrualCtgy(ac.getAccrualCategory());
+                    if(!totalAmount.equals(BigDecimal.ZERO)) {                    	
+                    	enableWeekDetails.put(week, Boolean.TRUE);
+                    	
+                    }
+					displayMap.put("periodUsage", totalAmount);
+					displayMap.put("availableBalance", BigDecimal.ZERO);
+                    displayMap.put("availableBalance", lsr == null ? BigDecimal.ZERO : lsr.getLeaveBalance());
+					displayMap.put("daysDetail", acDayDetails);
+					displayMap.put("daysSize", acDayDetails.size());
+					acRows.add(displayMap);
+				}
+			}
 		return acRows;
 	}
 

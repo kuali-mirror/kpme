@@ -20,8 +20,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.HrConstants;
@@ -53,11 +55,16 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 
     private List<Note> notes = new ArrayList<Note>();
 	private Boolean moreThanOneCalendar = Boolean.FALSE;
+	private Map<String, Boolean> enableWeekDetails = new LinkedHashMap<String, Boolean>();	
 	private String lastApproveMessage;
 	private List<LeaveBlock> leaveBlockList = new ArrayList<LeaveBlock>();
+	private Map<Integer, String> weeklyDistribution = new LinkedHashMap<Integer, String>();
+	private Map<String, String> weekDates = new LinkedHashMap<String, String>();
 	private Map<Date, Map<String, BigDecimal>> earnCodeLeaveHours = new LinkedHashMap<Date, Map<String, BigDecimal>>();
+	private Map<String, Set<Date>> weekDateList = new LinkedHashMap<String, Set<Date>>();
 	private Boolean exemptEmployee;
 	private String color;
+	private Map<String,List<Map<String, Object>>> detailMap = new LinkedHashMap<String, List<Map<String,Object>>>();
 	
     /**
      * Is this record ready to be approved?
@@ -184,6 +191,26 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 		this.earnCodeLeaveHours = earnCodeLeaveHours;
 	}
 
+	
+	public Map<Integer, String> getWeeklyDistribution() {
+		return weeklyDistribution;
+	}
+
+
+	public void setWeeklyDistribution(Map<Integer, String> weeklyDistribution) {
+		this.weeklyDistribution = weeklyDistribution;
+	}
+	
+	public Map<String, String> getWeekDates() {
+		return weekDates;
+	}
+
+
+	public void setWeekDates(Map<String, String> weekDates) {
+		this.weekDates = weekDates;
+	}
+
+
 	public Boolean getSMoreThanOneCalendar() {
 		return moreThanOneCalendar;
 	}
@@ -233,4 +260,35 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
     public String getRoleName() {
         return getRoleNames().get(HrContext.getPrincipalId());
     }
+
+
+	public Map<String, Set<Date>> getWeekDateList() {
+		return weekDateList;
+	}
+
+
+	public void setWeekDateList(Map<String, Set<Date>> weekDateList) {
+		this.weekDateList = weekDateList;
+	}
+
+
+	public Map<String, List<Map<String, Object>>> getDetailMap() {
+		return detailMap;
+	}
+
+
+	public void setDetailMap(Map<String, List<Map<String, Object>>> detailMap) {
+		this.detailMap = detailMap;
+	}
+
+
+	public Map<String, Boolean> getEnableWeekDetails() {
+		return enableWeekDetails;
+	}
+
+
+	public void setEnableWeekDetails(Map<String, Boolean> enableWeekDetails) {
+		this.enableWeekDetails = enableWeekDetails;
+	}	
+    
 }

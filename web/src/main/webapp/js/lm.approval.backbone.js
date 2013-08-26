@@ -112,7 +112,8 @@ $(function () {
         template : _.template($('#leaveDetail-template').html()),
         
         events : {
-            "click span[id^=showLeaveDetailButton]" : "showLeaveSummary"
+            "click span[id^=showLeaveDetailButton]" : "showLeaveSummary",
+            "click span[id^=showLeaveDetail_" : "showLeaveDetailSummary"
         },
         
         initialize : function () {
@@ -122,7 +123,29 @@ $(function () {
         render : function () {
             return this;
         },
-
+        
+        showLeaveDetailSummary : function (e) {
+            var self = this;
+            var docId = e.target.id.split("_")[1];
+            var pId = e.target.id.split("_")[2];
+            // This is to grab a person's <tr> in the table
+            var $parent = ($("#" + e.target.id).closest("tr"));
+            // Grab the + / - icon
+            var $element = $("#" + e.target.id);
+            var $summary = $("#leaveApprovalWeekSummary"+docId+"_"+pId);
+            // Toggle the + / - icon
+            if ($element.hasClass('ui-icon-plus')) {
+                // change the icon from - to +
+                $element.removeClass('ui-icon-plus').addClass('ui-icon-minus');
+                $summary.css("display", "table-row-group");
+            } else {
+                // remove the leave details rows.
+            	$summary.css("display", "none");
+                // change the icon from + to -
+                $element.removeClass('ui-icon-minus').addClass('ui-icon-plus');
+            }
+        },
+        
         showLeaveSummary : function (e) {
             var self = this;
             var docId = e.target.id.split("_")[1];
