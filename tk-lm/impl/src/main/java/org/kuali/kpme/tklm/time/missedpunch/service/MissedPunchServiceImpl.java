@@ -117,8 +117,12 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         if (StringUtils.equals(clockLog.getClockAction(), TkConstants.CLOCK_OUT) ||
                 StringUtils.equals(clockLog.getClockAction(), TkConstants.LUNCH_OUT)) {
             ClockLog lastClockLog = getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
-        	String earnCode = assignment.getJob().getPayTypeObj().getRegEarnCode();
-            buildTimeBlockRunRules(lastClockLog, clockLog, timesheetDocument, assignment, earnCode, lastClockLog.getClockDateTime(), clockLog.getClockDateTime());
+            // KPME-2735 This is where it creates a zero timeblock...  So we will check the clock id of clockLog and lastClockLog and 
+            // if they are the same, we will assume it's trying to create a zero timeblock for the same clock action, therefore skip the code 
+            if (!clockLog.getTkClockLogId().equals(lastClockLog.getTkClockLogId())) {
+	        	String earnCode = assignment.getJob().getPayTypeObj().getRegEarnCode();
+	            buildTimeBlockRunRules(lastClockLog, clockLog, timesheetDocument, assignment, earnCode, lastClockLog.getClockDateTime(), clockLog.getClockDateTime());
+            }
         }
     }
 
