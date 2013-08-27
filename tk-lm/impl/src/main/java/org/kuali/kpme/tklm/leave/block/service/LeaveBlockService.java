@@ -79,7 +79,7 @@ public interface LeaveBlockService {
     
     @Caching(evict = {
             @CacheEvict(value={LeaveBlock.CACHE_NAME}, allEntries = true),
-            @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, key="#p0.blockId")
+            @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, key="#p0.getLmLeaveBlockId()")
     })
     public void updateLeaveBlock(LeaveBlock leaveBlock, String principalId);
     /**
