@@ -43,6 +43,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
              .add("location")
              .add("leavePlan")
              .add("accrualCategory")
+             .add("accruedDate")
              .build();
 	private String lmSystemScheduledTimeOffId;
 	private String leavePlan;
