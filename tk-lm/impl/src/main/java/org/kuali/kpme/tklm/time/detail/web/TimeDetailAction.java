@@ -379,7 +379,6 @@ public class TimeDetailAction extends TimesheetAction {
         String principalId = HrContext.getPrincipalId();
         String targetPrincipalId = HrContext.getTargetPrincipalId();
         String documentId = tdaf.getDocumentId();
-        
         if(StringUtils.isNotEmpty(tdaf.getTkTimeBlockId())) {
         	// the user is changing an existing time block, so need to delete this time block
 //        	this.removeOldTimeBlock(tdaf);
@@ -496,6 +495,11 @@ public class TimeDetailAction extends TimesheetAction {
         if(tdaf.getStartTime() != null && tdaf.getEndTime() != null) {
             startTime = TKUtils.convertDateStringToDateTime(tdaf.getStartDate(), tdaf.getStartTime());
             endTime = TKUtils.convertDateStringToDateTime(tdaf.getEndDate(), tdaf.getEndTime());
+            //KPME-2737
+            if (HrContext.isAnyAdmin() || HrContext.isAnyApprover() || HrContext.isAnyPayrollProcessor()) {
+                startTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(startTime, LocalDate.fromDateFields(tdaf.getBeginCalendarEntryDate()));
+                endTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(endTime, LocalDate.fromDateFields(tdaf.getBeginCalendarEntryDate()));
+            }
         } else {
             // should not apply time zone to dates when user's changing an hour entry
             startTime = TKUtils.formatDateTimeStringNoTimezone(tdaf.getStartDate());
