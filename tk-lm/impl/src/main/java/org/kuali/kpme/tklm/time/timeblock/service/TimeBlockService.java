@@ -43,7 +43,7 @@ public interface TimeBlockService {
 	 */
     @Caching(evict = {
             @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true),
-            @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, key="'{time}' + #p0.blockId")
+            @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, key="'{time}' + #p0.tkTimeBlockId")
     })
 	public void deleteTimeBlock(TimeBlock timeBlock);
 	/**
@@ -172,7 +172,7 @@ public interface TimeBlockService {
 
     @Caching(evict = {
             @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true),
-            @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, key="'{time}' + #p0.blockId")
+            @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, key="'{time}' + #p0.tkTimeBlockId")
     })
 	public void updateTimeBlock(TimeBlock tb);
 	
