@@ -349,8 +349,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
             principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(balanceTransfer.getPrincipalId());
         }
 
-		MaintenanceDocument document = KRADServiceLocatorWeb.getMaintenanceDocumentService().setupNewMaintenanceDocument(BalanceTransfer.class.getName(),
-				"BalanceTransferDocumentType",KRADConstants.MAINTENANCE_NEW_ACTION);
+		/*MaintenanceDocument document = KRADServiceLocatorWeb.getMaintenanceDocumentService().setupNewMaintenanceDocument(BalanceTransfer.class.getName(),
+				"BalanceTransferDocumentType",KRADConstants.MAINTENANCE_NEW_ACTION);*/
+		
+		MaintenanceDocument document =  (MaintenanceDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument("BalanceTransferDocumentType");
 
         String personName = (principalName != null  && principalName.getDefaultName() != null) ? principalName.getDefaultName().getCompositeName() : StringUtils.EMPTY;
         String date = TKUtils.formatDate(balanceTransfer.getEffectiveLocalDate());

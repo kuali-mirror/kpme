@@ -39,6 +39,7 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -329,15 +330,16 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
             principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(leavePayout.getPrincipalId());
         }
 
-		MaintenanceDocument document = KRADServiceLocatorWeb.getMaintenanceDocumentService().setupNewMaintenanceDocument(LeavePayout.class.getName(),
-				"LeavePayoutDocumentType",KRADConstants.MAINTENANCE_NEW_ACTION);
-
-        String personName = (principalName != null  && principalName.getDefaultName() != null) ? principalName.getDefaultName().getCompositeName() : StringUtils.EMPTY;
+	/*MaintenanceDocument document = KRADServiceLocatorWeb.getMaintenanceDocumentService().setupNewMaintenanceDocument(LeavePayout.class.getName(),
+				"LeavePayoutDocumentType",KRADConstants.MAINTENANCE_NEW_ACTION);*/
+       MaintenanceDocument document =  (MaintenanceDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument("LeavePayoutDocumentType");
+		String personName = (principalName != null  && principalName.getDefaultName() != null) ? principalName.getDefaultName().getCompositeName() : StringUtils.EMPTY;
         String date = TKUtils.formatDate(leavePayout.getEffectiveLocalDate());
         document.getDocumentHeader().setDocumentDescription(personName + " (" + leavePayout.getPrincipalId() + ")  - " + date);
 		Map<String,String[]> params = new HashMap<String,String[]>();
 		
 		KRADServiceLocatorWeb.getMaintenanceDocumentService().setupMaintenanceObject(document, KRADConstants.MAINTENANCE_NEW_ACTION, params);
+		
 		LeavePayout lpObj = (LeavePayout) document.getNewMaintainableObject().getDataObject();
 		
 		lpObj.setAccrualCategoryRule(leavePayout.getAccrualCategoryRule());
