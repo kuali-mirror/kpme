@@ -88,7 +88,7 @@ var CONSTANTS = {
     },
     TIME_FORMAT : {
         DATE_FOR_OUTPUT : 'M/d/yyyy',
-        TIME_FOR_VALIDATION: ['hh:mm tt', 'h:mm tt', 'hh:mmt', 'h:mmt', 'HH:mm', 'HHmm', 'H:mm', 'h tt', 'htt', 'Hmm', 'ht'],
+        TIME_FOR_VALIDATION: ['hh:mm tt', 'hh:mmtt', 'h:mm tt', 'hh:mmt', 'h:mmt', 'HH:mm', 'HHmm', 'H:mm', 'h tt', 'htt', 'Hmm', 'ht'],
         TIME_FOR_OUTPUT : 'hh:mm tt',
         TIME_FOR_SYSTEM : 'H:mm'
     }
@@ -620,7 +620,7 @@ function checkLength(o, n, min, max) {
 }
 
 function checkAdjacentAssignments(o, assignment, previousAssignment) {
-    if (assignment === previousAssignment) {
+    if (assignment == previousAssignment) {
         o.addClass('ui-state-error');
         updateValidationMessage("Adjacent distributed assignments should all be different.");
         return false;
@@ -654,12 +654,13 @@ function addTimeBlockRow(form, tempArr) {
     var iteration = lastRow - 2;
 
     var row = tbl.insertRow(iteration);
-
+    var prevRow = tbl.rows[iteration-1];
     //Assignment Dropdown list
     var cellAssignment = row.insertCell(0);
     var sel = document.createElement('select');
     sel.id = 'assignmentRow' + iteration;
     sel.id = 'assignmentRow';
+    sel.className = 'assignmentRow';
     var originalAssign = form.originalAssignment.value;
     var initString = form.distributeAssignList.value;
     var string1 = initString.substring(1, initString.length - 1);
