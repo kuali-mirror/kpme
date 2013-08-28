@@ -387,6 +387,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
                         // must be applied with the correct shift interval.
 						Interval overlap = previousDayShiftInterval.overlap(blockInterval);
                         evalInterval = previousDayShiftInterval;
+                        boolean overlapFromPreviousDay = true;
 						if (overlap == null) {
                             if (hoursToApplyPrevious.compareTo(BigDecimal.ZERO) > 0) {
                                 // we have hours from previous day, and the shift
@@ -410,6 +411,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 							overlap = shiftInterval.overlap(blockInterval);
                             evalInterval = shiftInterval;
+                            overlapFromPreviousDay = false;
                         }
 
                         // Time bucketing and application as normal:
@@ -417,23 +419,43 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 						if (overlap != null) {
 							// There IS overlap.
 							if (previous != null) {
-								// only check max gap if max gap of rule is not 0
-								if (rule.getMaxGap().compareTo(BigDecimal.ZERO) != 0 && exceedsMaxGap(previous, current, rule.getMaxGap())) {
-									BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
-                                    this.applyAccumulatedWrapper(accumHours, evalInterval, accumulatedBlockIntervals, accumulatedBlocks, previousBlocksFiltered, hoursToApplyPrevious, hoursToApply, rule);
-                                    accumulatedMillis = 0L; // reset accumulated hours..
-									hoursToApply = BigDecimal.ZERO;
-									hoursToApplyPrevious = BigDecimal.ZERO;
+								// check if the evalInterval we are on covers the previous time block
+								// if not, it means we need to apply the accumulated shift hours and start fresh on a new  interval								
+								Interval previousBlockInterval = new Interval(previous.getBeginDateTime().withZone(zone), previous.getEndDateTime().withZone(zone));
+								if(evalInterval.overlaps(previousBlockInterval)) {
+									// only check max gap if max gap of rule is not 0
+									if (rule.getMaxGap().compareTo(BigDecimal.ZERO) != 0 && exceedsMaxGap(previous, current, rule.getMaxGap())) {
+										BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
+	                                    this.applyAccumulatedWrapper(accumHours, evalInterval, accumulatedBlockIntervals, accumulatedBlocks, previousBlocksFiltered, hoursToApplyPrevious, hoursToApply, rule);
+	                                    accumulatedMillis = 0L; // reset accumulated hours..
+										hoursToApply = BigDecimal.ZERO;
+										hoursToApplyPrevious = BigDecimal.ZERO;
+									} else {
+										long millis = overlap.toDurationMillis();
+										accumulatedMillis  += millis;
+										hoursToApply = hoursToApply.add(TKUtils.convertMillisToHours(millis));
+									}
 								} else {
+									// rules from different days apply to time block on this day 
+									// finish applying accumulated hours to the previous block
+									BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
+									this.applyAccumulatedWrapper(accumHours, previousDayShiftInterval, accumulatedBlockIntervals, accumulatedBlocks, previousBlocksFiltered, hoursToApplyPrevious, hoursToApply, rule);
+									// start fresh with this block which has a new 
+									long millis = overlap.toDurationMillis();
+									accumulatedMillis  = millis;
+									hoursToApply = TKUtils.convertMillisToHours(millis);
+								}
+							} else {								
+								// get the date of previousDayShiftInterval, check is that day is active for the rule, if not, then don't accumulate the hours
+								boolean previousDayActive = dayIsRuleActive(previousDayShiftInterval.getStart(), rule);
+								if(!previousDayActive && overlapFromPreviousDay) {
+									continue;
+								} else {
+									// Overlap shift at first time block.
 									long millis = overlap.toDurationMillis();
 									accumulatedMillis  += millis;
 									hoursToApply = hoursToApply.add(TKUtils.convertMillisToHours(millis));
 								}
-							} else {
-								// Overlap shift at first time block.
-								long millis = overlap.toDurationMillis();
-								accumulatedMillis  += millis;
-								hoursToApply = hoursToApply.add(TKUtils.convertMillisToHours(millis));
 							}
 							accumulatedBlocks.add(current);
                             accumulatedBlockIntervals.add(blockInterval);
