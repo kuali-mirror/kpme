@@ -324,19 +324,23 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     *   fix timezone issues caused by JScript, for GUI use only,
     */
     public String getBeginTimeDisplayDateOnlyString() {
-        return getBeginDateTime() != null ? getBeginDateTime().toString(HrConstants.DT_BASIC_DATE_FORMAT) : null;
+    	DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        return getBeginDateTime() != null ? getBeginDateTime().withZone(zone).toString(HrConstants.DT_BASIC_DATE_FORMAT) : null;
     }
 
     public String getBeginTimeDisplayTimeOnlyString() {
-        return getBeginDateTime() != null ? getBeginDateTime().toString(TkConstants.DT_BASIC_TIME_FORMAT) : null;
+    	DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+    	return getBeginDateTime() != null ? getBeginDateTime().withZone(zone).toString(TkConstants.DT_BASIC_TIME_FORMAT) : null;
     }
 
     public String getEndTimeDisplayDateOnlyString() {
-        return getEndDateTime() != null ? getEndDateTime().toString(HrConstants.DT_BASIC_DATE_FORMAT) : null;
+    	DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        return getEndDateTime() != null ? getEndDateTime().withZone(zone).toString(HrConstants.DT_BASIC_DATE_FORMAT) : null;
     }
 
     public String getEndTimeDisplayTimeOnlyString() {
-        return getEndDateTime() != null ? getEndDateTime().toString(TkConstants.DT_BASIC_TIME_FORMAT) : null;
+    	DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        return getEndDateTime() != null ? getEndDateTime().withZone(zone).toString(TkConstants.DT_BASIC_TIME_FORMAT) : null;
     }
 
     /**
