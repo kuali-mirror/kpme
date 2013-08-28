@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
@@ -79,6 +80,7 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 	 */
 	@Override
 	public void applyDepartmentLunchRule(List<TimeBlock> timeblocks) {
+		Map<String,TimeBlock> clockLogEndIdToTimeBlockMap = new HashMap<String,TimeBlock>();
 		for(TimeBlock timeBlock : timeblocks) {
             if (timeBlock.isLunchDeleted()) {
                 continue;
@@ -88,12 +90,15 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 			
 			DeptLunchRule deptLunchRule = getDepartmentLunchRule(dept, timeBlock.getWorkArea(), doc.getPrincipalId(), timeBlock.getJobNumber(), timeBlock.getBeginDateTime().toLocalDate());
 			if(timeBlock.getClockLogCreated() && deptLunchRule!= null && deptLunchRule.getDeductionMins() != null && timeBlock.getHours().compareTo(deptLunchRule.getShiftHours()) >= 0) {
-                applyLunchRuleToDetails(timeBlock, deptLunchRule);
+				//KPME-2740 apply lunch deduction to only one of the two time blocks created by an overnight shift.
+				if(timeBlock.getClockLogEndId() != null && !clockLogEndIdToTimeBlockMap.containsKey(timeBlock.getClockLogEndId())) {
+					applyLunchRuleToDetails(timeBlock, deptLunchRule, clockLogEndIdToTimeBlockMap);
+				}
 			}
 		}
 	}
-
-    private void applyLunchRuleToDetails(TimeBlock block, DeptLunchRule rule) {
+	
+    private void applyLunchRuleToDetails(TimeBlock block, DeptLunchRule rule, Map<String, TimeBlock> clockIdToTimeBlockMap) {
         List<TimeHourDetail> details = block.getTimeHourDetails();
         // TODO : Assumption here is that there will be one time hour detail -- May not be accurate.
         if (details.size() == 1) {
@@ -112,6 +117,7 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
             block.setHours(block.getHours().subtract(lunchHours,HrConstants.MATH_CONTEXT));
             
             details.add(lunchDetail);
+            clockIdToTimeBlockMap.put(block.getClockLogEndId(), block);
         } else {
             // TODO : Determine what to do in this case.
             LOG.warn("Hour details size > 1 in Lunch rule application.");
