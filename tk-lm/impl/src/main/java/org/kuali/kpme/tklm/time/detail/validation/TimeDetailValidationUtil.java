@@ -23,8 +23,6 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Hours;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -32,7 +30,6 @@ import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
-import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -312,7 +309,24 @@ public class TimeDetailValidationUtil {
             if (errors.size() == 0 && StringUtils.equals(timeBlock.getEarnCodeType(), HrConstants.EARN_CODE_TIME)) {
                 Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
                 for (Interval intv : dayInt) {
-                    if (isRegularEarnCode && timeBlockInterval.overlaps(intv) && (timeblockId == null || timeblockId.compareTo(timeBlock.getTkTimeBlockId()) != 0)) {
+                	// KPME-2720
+                	// timeblockInterval above seems to have the server timezone (America/New York), for example, if you log in as iadetail1 (America/chicago) 
+                	// and see a timeblock from 8a to 10a on the screen, that time block is actually stored as 9a to 11a in the table because 
+                	// there is an hour difference.  So, timeblockInterval intervale above is 9a to 11a in America/New York timezone.  
+                	// However, intv interval seems to have local time with the server timezone.  For example, if you create a timeblock from 10a to 12p
+                	// as iadetail1, intv interval is 10a to 12p in America/New York timezone.  This is why it was giving the error below because it was
+                	// comparing a time block with 9a-11a to a time block with 10a-12p (overlapping).  To fix this, we will create
+                	// an interval with the right time in the server timezone.
+                	String start_datetime = TKUtils.formatDateTimeLong(intv.getStart());
+                	String start_date = TKUtils.formatDateTimeShort(intv.getStart());
+                	String start_time = TKUtils.formatTimeShort(start_datetime);
+                	String end_datetime = TKUtils.formatDateTimeLong(intv.getEnd());                	
+                	String end_date = TKUtils.formatDateTimeShort(intv.getEnd());
+                	String end_time =  TKUtils.formatTimeShort(end_datetime);
+                	DateTime start_dt_timezone = TKUtils.convertDateStringToDateTime(start_date, start_time); // start datetime in user timezone
+                	DateTime end_dt_timezone = TKUtils.convertDateStringToDateTime(end_date, end_time);       // end datetime in user timezone
+                	Interval converted_intv = new Interval(start_dt_timezone.getMillis(), end_dt_timezone.getMillis()); // interval with start/end datetime in server timezone
+                	if (isRegularEarnCode && timeBlockInterval.overlaps(converted_intv) && (timeblockId == null || timeblockId.compareTo(timeBlock.getTkTimeBlockId()) != 0)) {
                         errors.add("The time block you are trying to add overlaps with an existing time block.");
                     }
                 }
