@@ -72,7 +72,8 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="amountofTime" 
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="unusedTime"/>
+				<bean parent="MaintainableFieldDefinition" p:name="unusedTime"
+					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="transfertoEarnCode" />
 				<bean parent="MaintainableFieldDefinition" p:name="transferConversionFactor" />
 				<bean parent="MaintainableFieldDefinition" p:name="premiumHoliday"
