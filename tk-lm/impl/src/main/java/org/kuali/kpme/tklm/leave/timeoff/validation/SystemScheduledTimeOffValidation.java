@@ -77,6 +77,18 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 		}		
 		return valid;
 	}
+	
+	//if no unsued time allowed is selected make sure Accrued date and Schedule Time off date are equal
+	//if not throw an error
+	boolean validateNoUnusedTimeAllowed(LocalDate scheduledTimeOffDate, LocalDate accruedDate, String unusedTime) {
+		boolean valid = true;
+		if (StringUtils.equals("NUTA", unusedTime) && (scheduledTimeOffDate.equals(accruedDate) == false)) {
+			this.putFieldError("unusedTime", "error.nounusedtimeallowed.selected", "Unused Time");			
+			valid = false;
+		}		
+		return valid;
+		
+	}
 		
 	boolean validateTransfertoEarnCode(String transfertoEarnCode) {
 		boolean valid = true;
@@ -137,6 +149,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 				valid &= this.validateScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffLocalDate());
                 valid &= this.validateFraction(sysSchTimeOff.getEarnCode(),sysSchTimeOff.getAmountofTime(),sysSchTimeOff.getEffectiveLocalDate(),"amountofTime");
 				valid &= this.validateUnusedTimeForScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffLocalDate(), sysSchTimeOff.getUnusedTime());
+				valid &= this.validateNoUnusedTimeAllowed(sysSchTimeOff.getScheduledTimeOffLocalDate(),sysSchTimeOff.getAccruedLocalDate(),sysSchTimeOff.getUnusedTime());
 				valid &= this.validateLocation(sysSchTimeOff.getLocation(), sysSchTimeOff.getEffectiveLocalDate());
 				valid &= this.validateEarnCode(sysSchTimeOff.getEarnCode(), sysSchTimeOff.getEffectiveLocalDate());
 			}
