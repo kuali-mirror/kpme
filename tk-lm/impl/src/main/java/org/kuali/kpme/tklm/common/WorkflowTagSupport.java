@@ -15,6 +15,8 @@
  */
 package org.kuali.kpme.tklm.common;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -26,6 +28,7 @@ import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.doctype.SecuritySession;
@@ -148,8 +151,15 @@ public class WorkflowTagSupport implements WorkflowTagSupportContract {
         if (DocumentStatus.ENROUTE.equals(documentStatus)) {
             DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(documentId);
             boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(HrContext.getPrincipalId(), routeHeader, new SecuritySession(HrContext.getPrincipalId()));
+            boolean approveRequstExists = false;
+            if (authorized) {
+				List<String> approverPrincipalIds = KEWServiceLocator.getActionRequestService().getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId(KewApiConstants.ACTION_REQUEST_APPROVE_REQ, documentId);
+				if (approverPrincipalIds.contains(HrContext.getPrincipalId())) {
+					approveRequstExists = true;
+				}
+			}
             boolean tookActionAlready = KEWServiceLocator.getActionTakenService().hasUserTakenAction(HrContext.getPrincipalId(), documentId);
-            isApprovalButtonsEnabled = !tookActionAlready && authorized;
+            isApprovalButtonsEnabled = !tookActionAlready && authorized && approveRequstExists;
         }
         
         return isApprovalButtonsEnabled;
