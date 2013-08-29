@@ -277,8 +277,16 @@ public class TimeDetailValidationUtil {
         }
        
         if (acrossDays) {
-            DateTime start = new DateTime(startTime);
-            DateTime end = TKUtils.convertDateStringToDateTime(startDateS, endTimeS);
+        	DateTime start = new DateTime(startTime);
+        	// KPME-2720
+        	// The line below is necessary because "end" needs to have start date to construct the right end datetime to 
+        	// create an interval.  For example, if user selects from 8a 8/19 to 10a 8/21 and checks across days check box, 
+        	// startTime would have 8a 8/19 and endTime would have 10a 8/21.  With the line below, "end" would have 10a 8/19, and
+        	// an interval from 8a 8/19 to 10a 8/19 would be created.  However, since it was using convertDateStringToDateTime,
+        	// which takes into account user time zone, "end" was off.  Use convertDateStringToDateTimeWithoutZone isntead
+        	// so that "end" would have the right time in default time zone. 
+            //DateTime end = TKUtils.convertDateStringToDateTime(startDateS, endTimeS);
+        	DateTime end = TKUtils.convertDateStringToDateTimeWithoutZone(startDateS, endTimeS);
             if (endTemp.getDayOfYear() - startTemp.getDayOfYear() < 1) {
                 end = new DateTime(endTime);
             }
@@ -317,7 +325,7 @@ public class TimeDetailValidationUtil {
                 	// as iadetail1, intv interval is 10a to 12p in America/New York timezone.  This is why it was giving the error below because it was
                 	// comparing a time block with 9a-11a to a time block with 10a-12p (overlapping).  To fix this, we will create
                 	// an interval with the right time in the server timezone.
-                	String start_datetime = TKUtils.formatDateTimeLong(intv.getStart());
+                    String start_datetime = TKUtils.formatDateTimeLong(intv.getStart());
                 	String start_date = TKUtils.formatDateTimeShort(intv.getStart());
                 	String start_time = TKUtils.formatTimeShort(start_datetime);
                 	String end_datetime = TKUtils.formatDateTimeLong(intv.getEnd());                	
