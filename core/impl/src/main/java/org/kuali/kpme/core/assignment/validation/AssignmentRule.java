@@ -191,6 +191,20 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
+	
+	// KPME-2776 This is to validate accounts in the collection 
+	protected boolean validateAccounts(Assignment assignment) {
+		boolean valid = false;
+		LOG.debug("Validating Accounts: " + assignment.getAssignmentAccounts().size());
+		for(AssignmentAccount assignmentAccount : assignment.getAssignmentAccounts()){
+			valid = ValidationUtils.validateAccount(assignmentAccount.getFinCoaCd(), assignmentAccount.getAccountNbr());
+			if(!valid) {
+				this.putFieldError("assignmentAccounts", "error.existence", "Account Number '" + assignmentAccount.getAccountNbr() + "'");
+				break;
+			}
+		}
+		return valid;
+	}
 
 	protected boolean validateAccount(AssignmentAccount assignmentAccount) {
 		boolean valid = false;
@@ -297,7 +311,8 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateHasAccounts(assignment);
 				//valid &= this.validateActiveFlag(assignment);
 				if(!assignment.getAssignmentAccounts().isEmpty()) {
-					valid &= this.validateRegPayEarnCode(assignment);	
+					valid &= this.validateRegPayEarnCode(assignment);
+					valid &= this.validateAccounts(assignment); // KPME-2776
 				}
 			}
 		}
