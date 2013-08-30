@@ -38,7 +38,7 @@
     
     
     
-    <property name="documentTypeName" value="COAT"/><!--
+    <property name="documentTypeName" value="ChartMaintenanceDocumentType"/><!--
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ChartRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     

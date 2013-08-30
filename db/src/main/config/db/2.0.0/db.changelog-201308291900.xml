@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Copyright 2004-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet id="1" author="vchauhan" context="kpme-server-bootstrap">
+		<comment>Change Value for Documents Type </comment>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="DOC_TYP_NM" value="OrganizationMaintenanceDocumentType"/>
+			<column name="APPL_ID" value="KPME"/>
+			<where>DOC_TYP_NM='ORGN' and (APPL_ID IS NULL or APPL_ID NOT IN ('KFS')) </where>				
+		</update>	
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="DOC_TYP_NM" value="AccountMaintenanceDocumentType"/>
+			<column name="APPL_ID" value="KPME"/>
+			<where>DOC_TYP_NM='ACCT' and (APPL_ID IS NULL or APPL_ID NOT IN ('KFS'))</where>			
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="DOC_TYP_NM" value="SubObjectCodeMaintenanceDocumentType"/>
+			<column name="APPL_ID" value="KPME"/>
+			<where>DOC_TYP_NM='SOBJ'  and (APPL_ID IS NULL or APPL_ID NOT IN ('KFS'))</where>			
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="DOC_TYP_NM" value="SubAccountMaintenanceDocumentType"/>
+			<column name="APPL_ID" value="KPME"/>
+			<where>DOC_TYP_NM='SACC' and (APPL_ID IS NULL or APPL_ID NOT IN ('KFS'))</where>			
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="DOC_TYP_NM" value="ProjectCodeMaintenanceDocumentType"/>
+			<column name="APPL_ID" value="KPME"/>
+			<column name="LBL" value="Project Code"/>
+			<where>DOC_TYP_NM='PROJ' and (APPL_ID IS NULL or APPL_ID NOT IN ('KFS'))</where>			
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="DOC_TYP_NM" value="ObjectCodeMaintenanceDocumentType"/>
+			<column name="APPL_ID" value="KPME"/>
+			<where>DOC_TYP_NM='OBJT' and (APPL_ID IS NULL or APPL_ID NOT IN ('KFS'))</where>			
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="DOC_TYP_NM" value="ChartMaintenanceDocumentType"/>
+			<column name="APPL_ID" value="KPME"/>
+			<where>DOC_TYP_NM='COAT' and (APPL_ID IS NULL or APPL_ID NOT IN ('KFS'))</where>			
+		</update>	
+	</changeSet>
+</databaseChangeLog>

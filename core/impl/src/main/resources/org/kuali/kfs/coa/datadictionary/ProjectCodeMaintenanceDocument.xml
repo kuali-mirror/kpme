@@ -43,7 +43,7 @@
       </list>
     </property>
         
-    <property name="documentTypeName" value="PROJ"/>
+    <property name="documentTypeName" value="ProjectCodeMaintenanceDocumentType"/>
 <!--     
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ProjectCodeRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

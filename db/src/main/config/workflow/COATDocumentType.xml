@@ -22,7 +22,7 @@
 	<documentTypes xmlns="ns:workflow/DocumentType"
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     	<documentType>
-      		<name>COAT</name>
+      		<name>ChartMaintenanceDocumentType</name>
       		<parent>RiceDocument</parent>
       		<label>Chart Code</label>
      	 	<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>

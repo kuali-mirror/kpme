@@ -53,7 +53,7 @@
         <value>subAccountNumber</value>
       </list>
     </property>
-    <property name="documentTypeName" value="SACC"/>
+    <property name="documentTypeName" value="SubAccountMaintenanceDocumentType"/>
 <!-- 
 	<property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

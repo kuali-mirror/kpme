@@ -47,7 +47,7 @@
       </list>
     </property>
     
-    <property name="documentTypeName" value="ACCT"/>
+    <property name="documentTypeName" value="AccountMaintenanceDocumentType"/>
 
 <!-- <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
