@@ -296,7 +296,7 @@
   	<bean id="ClockLog-inquiryDefinition" parent="ClockLog-inquiryDefinition-parentBean" />
 
 	<bean id="ClockLog-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition">
+		parent="InquiryDefinition"  p:inquirableClass="org.kuali.kpme.tklm.time.clocklog.web.ClockLogInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
