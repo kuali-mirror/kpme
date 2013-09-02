@@ -98,6 +98,11 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         Map<String,List<EarnGroupSection>> earnGroupSections = getEarnGroupSections(tkTimeBlockAggregate, timeSummary.getTimeSummaryHeader().size()+1, 
         			dayArrangements, timesheetDocument.getAsOfDate(), timesheetDocument.getDocEndDate());
         timeSummary.setWeeklySections(earnGroupSections);
+        
+        for (String key : timeSummary.getWeeklySections().keySet()) {
+        	timeSummary.getWeeklySections().put(key,sortEarnGroupSections(timeSummary.getWeeklySections().get(key), regularEarnCodes));
+        }
+        
 //        timeSummary.setSections(sortEarnGroupSections(earnGroupSections, regularEarnCodes));
         
         
