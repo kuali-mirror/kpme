@@ -117,6 +117,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 			List<Note> notes = new ArrayList<Note>();
 			List<String> warnings = new ArrayList<String>();
+			List<String> clockLogWarnings = new ArrayList<String>();
 
 			ApprovalTimeSummaryRow approvalSummaryRow = new ApprovalTimeSummaryRow();
 
@@ -129,6 +130,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			if (StringUtils.isNotBlank(documentId)) {
                  td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
                 timeBlocks = td.getTimeBlocks();
+                clockLogWarnings =  TkServiceLocator.getClockLogService().getUnapprovedIPWarning(timeBlocks);
                 //timeBlocks = TkServiceLocator.getTimeBlockService()
                 //              .getTimeBlocks(documentId);
                 List<String> assignKeys = new ArrayList<String>();
@@ -212,6 +214,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			Map<String, Set<String>> eligibleTransfers = findWarnings(principalId, payCalendarEntry);
 			warnings.addAll(eligibleTransfers.get("warningMessages"));
 			
+			warnings.addAll(clockLogWarnings);			
 			Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(
 					principalId, payEndDate, payCalendarLabels,
 					timeBlocks, leaveBlocks, null, payCalendarEntry, payCalendar,
