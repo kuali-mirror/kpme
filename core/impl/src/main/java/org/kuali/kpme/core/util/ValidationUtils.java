@@ -529,9 +529,13 @@ public class ValidationUtils {
 		 EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
 		 if(ec != null && ec.getFractionalTimeAllowed() != null) {
 			 BigDecimal fracAllowed = new BigDecimal(ec.getFractionalTimeAllowed());
+			if(amount == null) {
+				amount=BigDecimal.ZERO;
+			}
 			 if(amount.scale() > fracAllowed.scale()) {
 				 valid = false;
 			 }
+			
 		 }
 		return valid;
 	}
