@@ -68,7 +68,7 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
  			results.addAll(earnCodeSecurityObjs);
  		} else {
 	    	for (EarnCodeSecurity earnCodeSecurityObj : earnCodeSecurityObjs) {
-	    		if(StringUtils.equals(earnCodeSecurityObj.getEarnCodeType(),earnCodeType)) {
+	    		if(StringUtils.equals(earnCodeSecurityObj.getEarnCodeType(),earnCodeType) || StringUtils.equals(earnCodeType, "A")) {
 		        	String department = earnCodeSecurityObj.getDept();
 		        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, earnCodeSecurityObj.getEffectiveLocalDate());
 		        	String loc = departmentObj != null ? departmentObj.getLocation() : null;

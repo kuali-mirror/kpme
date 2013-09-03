@@ -16,22 +16,57 @@
 package org.kuali.kpme.core.earncode.security.valuesfinder;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map.Entry;
 
-import org.kuali.kpme.core.earncode.security.EarnCodeType;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class EarnCodeTypeKeyValueFinder extends KeyValuesBase {
 
 	@Override
 	public List<KeyValue> getKeyValues() {
-		List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue(EarnCodeType.TIME.getCode(), "Time"));
-        keyValues.add(new ConcreteKeyValue(EarnCodeType.LEAVE.getCode(), "Leave"));
-        keyValues.add(new ConcreteKeyValue(EarnCodeType.BOTH.getCode(), "Time and Leave"));
-        return keyValues;
+				
+		List<KeyValue> delegationTypes = new ArrayList<KeyValue>();
+		List<KeyValue> delegationTypesForMaintDocs = new ArrayList<KeyValue>();
+
+		// for non maintenance documents, add an "all" option
+		for(Entry<String,String> type : HrConstants.EARN_CODE_SECURITY_TYPE.entrySet()) {
+	        delegationTypes.add(new ConcreteKeyValue(type.getKey(), type.getValue()));
+	        delegationTypesForMaintDocs.add(new ConcreteKeyValue(type.getKey(), type.getValue()));
+		}
+		
+		delegationTypes.add(new ConcreteKeyValue("A","All"));
+
+		Collections.sort(delegationTypes, new Comparator<KeyValue>() {
+
+			@Override
+			public int compare(KeyValue o1, KeyValue o2) {
+			
+				return o2.getKey().compareTo(o1.getKey());
+				//T,L,B,A
+			}
+			
+		});
+		
+		Collections.sort(delegationTypesForMaintDocs, new Comparator<KeyValue>() {
+
+			@Override
+			public int compare(KeyValue o1, KeyValue o2) {
+			
+				return o2.getKey().compareTo(o1.getKey());
+				//T,L,B
+			}
+			
+		});
+		
+		return (KNSGlobalVariables.getKualiForm() instanceof KualiMaintenanceForm) ? delegationTypesForMaintDocs : delegationTypes;
 	}
 
 }
