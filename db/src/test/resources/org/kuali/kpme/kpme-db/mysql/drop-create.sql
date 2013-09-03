@@ -1,3 +1,4 @@
+-- Drop/create the databases and databases KPME needs
 DROP DATABASE IF EXISTS tk;
 GRANT USAGE ON *.* TO 'tk'@'%' IDENTIFIED BY 'tk_tk_tk';
 GRANT USAGE ON *.* TO 'tk'@'localhost' IDENTIFIED BY 'tk_tk_tk';
@@ -8,7 +9,6 @@ CREATE USER 'tk'@'%' IDENTIFIED BY 'tk_tk_tk';
 CREATE USER 'tk'@'localhost' IDENTIFIED BY 'tk_tk_tk';
 GRANT ALL ON tk.* TO 'tk'@'%' WITH GRANT OPTION;
 GRANT ALL ON tk.* TO 'tk'@'localhost' WITH GRANT OPTION;
-
 DROP DATABASE IF EXISTS krtt;
 GRANT USAGE ON *.* TO 'krtt'@'%' IDENTIFIED BY 'krtt';
 GRANT USAGE ON *.* TO 'krtt'@'localhost' IDENTIFIED BY 'krtt';
@@ -19,7 +19,6 @@ CREATE USER 'krtt'@'%' IDENTIFIED BY 'krtt';
 CREATE USER 'krtt'@'localhost' IDENTIFIED BY 'krtt';
 GRANT ALL ON krtt.* TO 'krtt'@'%' WITH GRANT OPTION;
 GRANT ALL ON krtt.* TO 'krtt'@'localhost' WITH GRANT OPTION;
-
 DROP DATABASE IF EXISTS tk_test;
 CREATE DATABASE IF NOT EXISTS tk_test DEFAULT CHARACTER SET 'utf8' DEFAULT COLLATE 'utf8_bin';
 GRANT ALL ON tk_test.* TO 'tk'@'%' WITH GRANT OPTION;
