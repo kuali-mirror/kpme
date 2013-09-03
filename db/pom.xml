@@ -129,6 +129,7 @@
                                     <goal>update</goal>
                                 </goals>
                                 <configuration>
+                                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                                     <driver>${kr.dataSource.driver}</driver>
                                     <url>${kr.dataSource.jdbcUrl}</url>
                                     <username>${kr.dataSource.username}</username>
