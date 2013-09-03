@@ -46,6 +46,7 @@
                     <artifactId>liquibase-maven-plugin</artifactId>
                     <version>2.0.5</version>
                     <configuration>
+                        <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                         <changeLogFile>src/main/resources/db.changelog.xml</changeLogFile>
                         <verbose>true</verbose>
                     </configuration>
@@ -129,7 +130,6 @@
                                     <goal>update</goal>
                                 </goals>
                                 <configuration>
-                                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                                     <driver>${kr.dataSource.driver}</driver>
                                     <url>${kr.dataSource.jdbcUrl}</url>
                                     <username>${kr.dataSource.username}</username>
