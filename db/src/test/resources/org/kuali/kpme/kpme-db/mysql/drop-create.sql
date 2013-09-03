@@ -1,4 +1,4 @@
--- Drop/create the databases and databases KPME needs
+-- Drop/create the users and databases KPME needs for unit testing
 DROP DATABASE IF EXISTS tk;
 GRANT USAGE ON *.* TO 'tk'@'%' IDENTIFIED BY 'tk_tk_tk';
 GRANT USAGE ON *.* TO 'tk'@'localhost' IDENTIFIED BY 'tk_tk_tk';
