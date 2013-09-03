@@ -430,10 +430,8 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     }
 
     public String getAssignmentKey() {
-        if (assignmentKey == null) {
-            AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber(), this.getWorkArea(), this.getTask());
-            this.setAssignmentKey(adk.toAssignmentKeyString());
-        }
+        AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber(), this.getWorkArea(), this.getTask());
+        this.setAssignmentKey(adk.toAssignmentKeyString());
         return assignmentKey;
     }
 
