@@ -109,7 +109,7 @@ public class EarnCodeSecurityLookupableHelper extends KPMELookupableHelper {
 	           }
 	          
 	          if(field.getFieldType().equals(Field.RADIO) && StringUtils.equals(field.getFieldLabel(), "Earn Code Type")) {
-	        		field.setPropertyValue(null);
+	        		field.setPropertyValue("A");
 	        	}
            }
        }

@@ -34,6 +34,7 @@
 		<property name="maintainableSections">
 			<list>
 				<ref bean="EarnCodeSecurityMaintenanceDocument-EarnCodeSecurityMaintenance" />
+				<ref bean="EarnCodeSecurityMaintenanceDocument-HiddenFieldsSection" />
 			</list>
 		</property>
 		<property name="lockingKeys">
@@ -44,6 +45,8 @@
 		<property name="documentTypeName" value="EarnCodeSecurityDocumentType" />
         <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.earncode.security.validation.EarnCodeSecurityEffectiveDatePrompt"/>
 	</bean>
+
+	<bean id="EarnCodeSecurityMaintenanceDocument-HiddenFieldsSection" parent="MaintDoc-HiddenFields-parentBean" />
 
 	<!-- Maintenance Section Definitions -->
 	<bean id="EarnCodeSecurityMaintenanceDocument-EarnCodeSecurityMaintenance" parent="EarnCodeSecurityMaintenanceDocument-EarnCodeSecurityMaintenance-parentBean" />

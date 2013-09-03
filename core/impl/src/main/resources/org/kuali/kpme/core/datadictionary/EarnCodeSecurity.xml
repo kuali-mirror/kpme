@@ -49,6 +49,7 @@
 				<ref bean="EarnCodeSecurity-history" />
 				<ref bean="EarnCodeSecurity-active" />
 				<ref bean="EarnCodeSecurity-earnCodeType" />
+				<ref bean="EarnCodeSecurity-relativeEffectiveDate" />
 			</list>
 		</property>
 		  
@@ -60,8 +61,10 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
 								p:targetName="dept" />
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
-                                  p:targetName="effectiveDate" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
+								p:targetName="effectiveDate" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
+								p:targetName="location" />								
 						</list>
 					</property>
 				</bean>
@@ -72,8 +75,8 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrSalGroup"
 								p:targetName="hrSalGroup" />
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
-                                  p:targetName="effectiveDate" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
+								p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
@@ -82,8 +85,8 @@
 					<property name="objectAttributeName" value="earnCodeObj" />
 					<property name="primitiveAttributes">
 						<list>
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
-                                  p:targetName="effectiveDate" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
+								p:targetName="effectiveDate" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode"
 								  p:targetName="earnCode" />
 						</list>
@@ -96,8 +99,8 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
 								p:targetName="location" />
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
-                                  p:targetName="effectiveDate" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
+								p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
@@ -195,6 +198,12 @@
 		<property name="label" value="Location" />
 	</bean>
 
+    <bean id="EarnCodeSecurity-relativeEffectiveDate" parent="EarnCodeSecurity-effectiveDate-parentBean" p:name="relativeEffectiveDate">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+    </bean>
+
   <bean id="EarnCodeSecurity-effectiveDate" parent="EarnCodeSecurity-effectiveDate-parentBean"/>
   <bean id="EarnCodeSecurity-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Effective Date"/>
@@ -290,7 +299,8 @@
 	<bean id="EarnCodeSecurity-earnCodeType-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Earn Code Type" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.earncode.security.valuesfinder.EarnCodeTypeKeyValueFinder">
+			<bean parent="RadioControlDefinition"
+				p:valuesFinderClass="org.kuali.kpme.core.earncode.security.valuesfinder.EarnCodeTypeKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="earnCodeType" />
@@ -319,6 +329,8 @@
 							<bean parent="FieldDefinition" p:attributeName="approver" />
 							<bean parent="FieldDefinition" p:attributeName="payrollProcessor" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
+			                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
+			                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
 						</list>
 					</property>
 					<property name="title" value="Earn Code Security" />
@@ -341,10 +353,12 @@
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
-				<bean parent="FieldDefinition" p:attributeName="earnCodeType" />
+				<bean parent="FieldDefinition" p:attributeName="earnCodeType" p:defaultValue="A"/>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
+                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
 			</list>
 		</property>
 		<property name="resultFields">
