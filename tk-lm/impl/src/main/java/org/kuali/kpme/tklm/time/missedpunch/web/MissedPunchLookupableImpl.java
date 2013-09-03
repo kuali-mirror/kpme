@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.department.Department;
@@ -31,6 +30,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.uif.view.LookupView;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.LookupForm;
 
@@ -78,6 +78,18 @@ public class MissedPunchLookupableImpl extends KPMELookupableImpl {
 		}
 		
 		return results;
+	}
+
+	@Override
+	public void initSuppressAction(LookupForm lookupForm) {
+/*
+ * lookupAuthorizer.canInitiateDocument(lookupForm, user) returns false in this instance, because no
+ * documentTypeName can be obtained within LookupViewAuthorizeBase.canInitiateDocument(LookupForm, Person).
+ * 
+ *      LookupViewAuthorizerBase lookupAuthorizer = (LookupViewAuthorizerBase) lookupForm.getView().getAuthorizer();
+        Person user = GlobalVariables.getUserSession().getPerson();
+        ((LookupView) lookupForm.getView()).setSuppressActions(!lookupAuthorizer.canInitiateDocument(lookupForm, user));*/
+        ((LookupView) lookupForm.getView()).setSuppressActions(false);
 	}
 	
 }
