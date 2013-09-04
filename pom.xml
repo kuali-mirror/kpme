@@ -68,7 +68,7 @@
         <rice.version>2.3.0</rice.version>
         <selenium-java.version>2.32.0</selenium-java.version>
         <slf4j.version>1.7.2</slf4j.version>
-        <xercesImpl.version>2.11.0</xercesImpl.version>
+        <xercesImpl.version>2.9.1</xercesImpl.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -440,7 +440,7 @@
                                     <pluginExecutionFilter>
                                     <groupId>org.apache.maven.plugins</groupId>
                                     <artifactId>maven-dependency-plugin</artifactId>
-                                    <versionRange>[2.5,)</versionRange>
+                                    <versionRange>[2.8,)</versionRange>
                                     <goals>
                                     <goal>unpack</goal>
                                     </goals>
