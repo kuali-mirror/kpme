@@ -50,6 +50,7 @@
 				<ref bean="SystemScheduledTimeOff-timestamp" />
 				<ref bean="SystemScheduledTimeOff-active" />
 				<ref bean="SystemScheduledTimeOff-history" />
+				<ref bean="SystemScheduledTimeOff-relativeEffectiveDate" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -59,7 +60,8 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan" p:targetName="leavePlan" />
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
+								p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
@@ -68,8 +70,8 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory" p:targetName="accrualCategory" />
-							<!--<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan" p:targetName="leavePlan" />-->
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
+								p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
@@ -78,16 +80,18 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode" p:targetName="earnCode" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
+								p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="earnCodeObj" />
+					<property name="objectAttributeName" value="transferToEarnCodeObj" />
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="transfertoEarnCode" p:targetName="earnCode" />
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
+								p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
@@ -96,7 +100,8 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"	p:targetName="location" />
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
+								p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
@@ -313,6 +318,12 @@
 		<property name="label" value="Premium Holiday" />
 	</bean>
 
+    <bean id="SystemScheduledTimeOff-relativeEffectiveDate" parent="SystemScheduledTimeOff-effectiveDate-parentBean" p:name="relativeEffectiveDate">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+    </bean>
+
 	<!-- effectiveDate -->
 	<bean id="SystemScheduledTimeOff-effectiveDate" parent="SystemScheduledTimeOff-effectiveDate-parentBean" />
 	<bean id="SystemScheduledTimeOff-effectiveDate-parentBean" abstract="true"
@@ -426,6 +437,8 @@
 				<bean parent="FieldDefinition" p:attributeName="scheduledTimeOffDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
+                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
 			</list>
 
 		</property>

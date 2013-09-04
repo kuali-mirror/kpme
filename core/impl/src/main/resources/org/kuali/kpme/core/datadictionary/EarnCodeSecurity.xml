@@ -64,7 +64,7 @@
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
 								p:targetName="effectiveDate" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
-								p:targetName="location" />								
+								p:targetName="location" />
 						</list>
 					</property>
 				</bean>

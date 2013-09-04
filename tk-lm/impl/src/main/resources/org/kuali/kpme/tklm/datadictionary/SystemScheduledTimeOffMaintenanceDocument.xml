@@ -35,6 +35,7 @@
 		<property name="maintainableSections">
 			<list>
 				<ref bean="SystemScheduledTimeOffMaintenanceDocument-SystemScheduledTimeOffMaintenance" />
+				<ref bean="SystemScheduledTimeOffMaintenanceDocument-HiddenFieldsSection" />
 			</list>
 		</property>
 		<property name="webScriptFiles">
@@ -46,6 +47,8 @@
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
+
+	<bean id="SystemScheduledTimeOffMaintenanceDocument-HiddenFieldsSection" parent="MaintDoc-HiddenFields-parentBean" />
 
 	<bean id="SystemScheduledTimeOffMaintenanceDocument-SystemScheduledTimeOffMaintenance"
 		parent="SystemScheduledTimeOffMaintenanceDocument-SystemScheduledTimeOffMaintenance-parentBean" />

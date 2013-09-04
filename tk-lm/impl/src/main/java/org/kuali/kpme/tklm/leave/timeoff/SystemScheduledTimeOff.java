@@ -63,6 +63,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 	private LeavePlan leavePlanObj;
 	private AccrualCategory accrualCategoryObj;
 	private EarnCode earnCodeObj;
+	private EarnCode transferToEarnCodeObj;
 	private Location locationObj;
 	
 	public String getLmSystemScheduledTimeOffId() {
@@ -255,6 +256,14 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 	@Override
 	public void setId(String id) {
 		setLmSystemScheduledTimeOffId(id);
+	}
+
+	public EarnCode getTransferToEarnCodeObj() {
+		return transferToEarnCodeObj;
+	}
+
+	public void setTransferToEarnCodeObj(EarnCode transferToEarnCodeObj) {
+		this.transferToEarnCodeObj = transferToEarnCodeObj;
 	}
 
 }

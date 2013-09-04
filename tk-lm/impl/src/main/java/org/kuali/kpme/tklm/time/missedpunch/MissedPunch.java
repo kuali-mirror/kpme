@@ -102,6 +102,14 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 		LocalDate asOfDate = timesheetDocument != null ? timesheetDocument.getAsOfDate() : null;
 		return TKUtils.getAssignmentString(getPrincipalId(), getJobNumber(), getWorkArea(), getTask(), asOfDate);
 	}
+	
+    public Date getRelativeEffectiveDate() {
+        return getActionDate();
+    }
+
+    public void setRelativeEffectiveDate(Date relativeEffectiveDate) {
+        //do nothing
+    }
 
 	public Long getJobNumber() {
 		return jobNumber;
