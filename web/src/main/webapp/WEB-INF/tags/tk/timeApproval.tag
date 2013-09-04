@@ -113,7 +113,7 @@
             
 	    </display:column>
 	    <display:column title="Action" style="width:5%;">
-	        <tk:tkApprovalRowButtons appRow="${row}"/>
+	        <tk:tkApprovalRowButtons appRow="${row}" dept="${Form.selectedDept}" workArea="${Form.selectedWorkArea}" payPeriod="${Form.selectedPayPeriod}" payCalendarGroup="${Form.selectedPayCalendarGroup}"/>
 	    </display:column>
 	    <display:column title="Select All <input type='checkbox' name='Select' id='checkAllAuto'></input>"
 	                    class="last_column_${row_rowNum}" style="width:5%;">

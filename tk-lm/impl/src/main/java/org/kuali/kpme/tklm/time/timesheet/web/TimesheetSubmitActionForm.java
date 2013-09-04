@@ -19,9 +19,12 @@ import org.kuali.kpme.core.web.KPMEForm;
 
 public class TimesheetSubmitActionForm extends KPMEForm {
 
-
     private String action;
     private String documentId;
+    private String selectedDept;
+    private String selectedPayCalendarGroup;
+    private String selectedWorkArea;
+    private String selectedPayPeriod;
 
     public String getDocumentId() {
         return documentId;
@@ -38,4 +41,37 @@ public class TimesheetSubmitActionForm extends KPMEForm {
     public void setAction(String action) {
         this.action = action;
     }
+
+	public String getSelectedDept() {
+		return selectedDept;
+	}
+
+	public void setSelectedDept(String selectedDept) {
+		this.selectedDept = selectedDept;
+	}
+
+	public String getSelectedPayCalendarGroup() {
+		return selectedPayCalendarGroup;
+	}
+
+	public void setSelectedPayCalendarGroup(String selectedPayCalendarGroup) {
+		this.selectedPayCalendarGroup = selectedPayCalendarGroup;
+	}
+
+	public String getSelectedWorkArea() {
+		return selectedWorkArea;
+	}
+
+	public void setSelectedWorkArea(String selectedWorkArea) {
+		this.selectedWorkArea = selectedWorkArea;
+	}
+
+	public String getSelectedPayPeriod() {
+		return selectedPayPeriod;
+	}
+
+	public void setSelectedPayPeriod(String selectedPayPeriod) {
+		this.selectedPayPeriod = selectedPayPeriod;
+	}
+    
 }

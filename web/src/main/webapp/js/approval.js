@@ -235,7 +235,12 @@ $(document).ready(function () {
     /* for TimeApproval page */
     $("#refresh").click(function(){
        // location.reload();
-        location.replace('TimeApproval.do');
+    	var urlString = 'TimeApproval.do?'
+            + '&searchField=' + $('#searchField').val() 
+        	+ '&selectedPayCalendarGroup=' + $("#selectedPayCalendarGroup").val()
+        	+ '&selectedDept=' + $('#selectedDept').val() 
+        	+ '&selectedWorkArea=' + $('#selectedWorkArea').val();
+        location.replace(urlString);
     });
     
     /* for LeaveApproval page */

@@ -175,6 +175,7 @@
                 type="org.kuali.kpme.tklm.time.approval.web.TimeApprovalAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/timeApproval.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
+            <forward name="basicRedirect" path="/TimeApproval.do"/>
         </action>
 
         <action path="/TimeApprovalWS" name="TimeApprovalWSActionForm" scope="request" input="/WEB-INF/jsp/webService.jsp"

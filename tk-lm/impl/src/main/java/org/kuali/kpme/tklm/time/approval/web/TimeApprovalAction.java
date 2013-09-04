@@ -22,6 +22,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionRedirect;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.hsqldb.lib.StringUtil;
@@ -252,7 +253,14 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
                 TkServiceLocator.getTimesheetService().approveTimesheet(HrContext.getTargetPrincipalId(), tDoc);
             }
         }
-        return mapping.findForward("basic");
+        ActionRedirect redirect = new ActionRedirect(mapping.findForward("basicRedirect"));
+        redirect.addParameter("selectedDept", taaf.getSelectedDept());
+        redirect.addParameter("selectedPayCalendarGroup", taaf.getSelectedPayCalendarGroup());
+        redirect.addParameter("selectedWorkArea", taaf.getSelectedWorkArea());
+        redirect.addParameter("selectedPayPeriod", taaf.getSelectedPayPeriod());
+        
+        ActionForward forward = new ActionForward(mapping.findForward("basic"));
+        return redirect;
     }
 	
 }

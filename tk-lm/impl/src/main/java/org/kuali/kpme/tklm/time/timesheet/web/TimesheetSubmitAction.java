@@ -202,8 +202,19 @@ public class TimesheetSubmitAction extends KPMEAction {
             }
         }
         HrContext.clearTargetUser();
-        return new ActionRedirect(mapping.findForward("approverRedirect"));
-
-
+        ActionRedirect redirect =new ActionRedirect(mapping.findForward("approverRedirect"));
+        if(tsaf.getSelectedPayCalendarGroup() != null && StringUtils.isNotEmpty(tsaf.getSelectedPayCalendarGroup())) {
+        	redirect.addParameter("selectedPayCalendarGroup", tsaf.getSelectedPayCalendarGroup());
+        }
+        if(tsaf.getSelectedDept() != null && StringUtils.isNotEmpty(tsaf.getSelectedDept())) {
+        	redirect.addParameter("selectedDept", tsaf.getSelectedDept());
+        }
+        if(tsaf.getSelectedWorkArea() != null && StringUtils.isNotEmpty(tsaf.getSelectedWorkArea())) {
+        	redirect.addParameter("selectedWorkArea", tsaf.getSelectedWorkArea());
+        }
+        if(tsaf.getSelectedPayPeriod() != null && StringUtils.isNotEmpty(tsaf.getSelectedPayPeriod())) {
+        	redirect.addParameter("selectedPayPeriod", tsaf.getSelectedPayPeriod());
+        }
+        return redirect;
     }
 }
