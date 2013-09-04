@@ -68,7 +68,7 @@
         <rice.version>2.3.0</rice.version>
         <selenium-java.version>2.32.0</selenium-java.version>
         <slf4j.version>1.7.2</slf4j.version>
-        <xercesImpl.version>2.9.1</xercesImpl.version>
+        <xercesImpl.version>2.11.0</xercesImpl.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -253,6 +253,10 @@
                         <artifactId>slf4j-log4j12</artifactId>
                         <groupId>org.slf4j</groupId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -279,6 +283,12 @@
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-core-web</artifactId>
                 <version>${rice.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.kuali.rice</groupId>
