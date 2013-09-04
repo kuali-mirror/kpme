@@ -23,6 +23,7 @@ import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -72,7 +73,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 	boolean validateUnusedTimeForScheduledTimeOffDate(LocalDate scheduledTimeOffDate, String unusedTime) {
 		boolean valid = true;
 		if (scheduledTimeOffDate == null && (StringUtils.isEmpty(unusedTime) || StringUtils.equals("T", unusedTime) || StringUtils.equals("NUTA", unusedTime))) {
-			this.putFieldError("unusedTime", "error.unusedtime.bank.required", "Unused Time");			
+			this.putFieldError("scheduledTimeOffDate", "error.unusedtime.bank.required", LMConstants.UNUSED_TIME_MAP.get(unusedTime));
 			valid = false;
 		}		
 		return valid;
@@ -82,19 +83,24 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 	//if not throw an error
 	boolean validateNoUnusedTimeAllowed(LocalDate scheduledTimeOffDate, LocalDate accruedDate, String unusedTime) {
 		boolean valid = true;
-		if (StringUtils.equals("NUTA", unusedTime) && (scheduledTimeOffDate.equals(accruedDate) == false)) {
-			this.putFieldError("unusedTime", "error.nounusedtimeallowed.selected", "Unused Time");			
-			valid = false;
-		}		
+		if(scheduledTimeOffDate != null) {
+			if (scheduledTimeOffDate.equals(accruedDate) == false) {
+				this.putFieldError("unusedTime", "error.nounusedtimeallowed.selected", "Unused Time");			
+				valid = false;
+			}
+		}
 		return valid;
 		
 	}
 		
-	boolean validateTransfertoEarnCode(String transfertoEarnCode) {
+	boolean validateTransfertoEarnCode(String transfertoEarnCode, LocalDate localDate) {
 		boolean valid = true;
 		if (StringUtils.isEmpty(transfertoEarnCode)) {
 			this.putFieldError("transfertoEarnCode", "error.required", "Transfer to Earn Code");
 			valid = false;
+		}
+		else {
+			valid &= this.validateEarnCode(transfertoEarnCode, localDate);
 		}
 		return valid;
 	}
@@ -133,6 +139,33 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
         }
         return valid;
     }
+    
+	private boolean validateUnusedTime(SystemScheduledTimeOff sysSchTimeOff) {
+		boolean valid = true;
+		if(StringUtils.isNotBlank(sysSchTimeOff.getUnusedTime())) {
+			valid &= this.validateUnusedTimeForScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffLocalDate(), sysSchTimeOff.getUnusedTime());
+			if(StringUtils.equals(sysSchTimeOff.getUnusedTime(),LMConstants.UNUSED_TIME.TRANSFER)) {
+				valid &= this.validateTransfertoEarnCode(sysSchTimeOff.getTransfertoEarnCode(), sysSchTimeOff.getEffectiveLocalDate());
+				valid &= this.validateTransferConversionFactor(sysSchTimeOff.getTransferConversionFactor());
+				if(valid) {
+					// transfer to earn code is not blank, and exists.
+					// TODO: xref earn code white[black] list? Should this earn code belong to the same leave plan?
+				}
+			}
+			else if(StringUtils.equals(sysSchTimeOff.getUnusedTime(), LMConstants.UNUSED_TIME.BANK)) {
+				//TODO: do "bank" validation
+				// can there be a value specified for scheduled time off date, or must this field be left blank?
+			}
+			else if(StringUtils.equals(sysSchTimeOff.getUnusedTime(), LMConstants.UNUSED_TIME.NO_UNUSED)) {
+				valid &= this.validateNoUnusedTimeAllowed(sysSchTimeOff.getScheduledTimeOffLocalDate(), sysSchTimeOff.getAccruedLocalDate(), sysSchTimeOff.getUnusedTime());
+			}
+		}
+		else {
+			this.putFieldError("unusedTime", "error.required", "Unused Time");
+			valid = false;
+		}
+		return valid;
+	}
 
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
@@ -148,8 +181,9 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 				valid &= this.validateAccruedDate(sysSchTimeOff.getAccruedLocalDate());
 				valid &= this.validateScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffLocalDate());
                 valid &= this.validateFraction(sysSchTimeOff.getEarnCode(),sysSchTimeOff.getAmountofTime(),sysSchTimeOff.getEffectiveLocalDate(),"amountofTime");
-				valid &= this.validateUnusedTimeForScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffLocalDate(), sysSchTimeOff.getUnusedTime());
-				valid &= this.validateNoUnusedTimeAllowed(sysSchTimeOff.getScheduledTimeOffLocalDate(),sysSchTimeOff.getAccruedLocalDate(),sysSchTimeOff.getUnusedTime());
+				//valid &= this.validateUnusedTimeForScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffLocalDate(), sysSchTimeOff.getUnusedTime());
+				valid &= this.validateUnusedTime(sysSchTimeOff);
+				//valid &= this.validateNoUnusedTimeAllowed(sysSchTimeOff.getScheduledTimeOffLocalDate(),sysSchTimeOff.getAccruedLocalDate(),sysSchTimeOff.getUnusedTime());
 				valid &= this.validateLocation(sysSchTimeOff.getLocation(), sysSchTimeOff.getEffectiveLocalDate());
 				valid &= this.validateEarnCode(sysSchTimeOff.getEarnCode(), sysSchTimeOff.getEffectiveLocalDate());
 			}
@@ -157,4 +191,5 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 		
 		return valid;
 	}
+
 }
