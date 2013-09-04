@@ -145,6 +145,12 @@ public class TimeDetailAction extends TimesheetAction {
 		        			timeDetailActionForm.setDocEditable("false");  
 		        		}
 			        }
+	            } else if (DocumentStatus.FINAL.equals(documentStatus)) {
+	            	if(HrContext.isSystemAdmin()) {
+	            	  timeDetailActionForm.setNotesEditable(Boolean.TRUE);
+	            	} else { 
+	            	  timeDetailActionForm.setNotesEditable(Boolean.FALSE);
+	            	}
 	            }
 	        }
 

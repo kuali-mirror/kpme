@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 
 <%@ attribute name="width" required="false" %>
+<%@ attribute name="notesEditable" required="false" %>
 
 <div id="note" class="ui-accordion ui-widget ui-helper-reset ui-accordion-icons" role="tablist">
     <h2 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all" role="tab" aria-expanded="false" aria-selected="false" tabindex="0">
@@ -14,7 +15,7 @@
         <table width="100%" cellpadding="0" cellspacing="0" class="null">
             <tr>
                 <td width="100%">
-                    <iframe src="${Form.workflowUrl}/Note.do?docId=${Form.timesheetDocument.documentId}&attachmentTarget=_blank"
+                    <iframe src="${Form.workflowUrl}/Note.do?docId=${Form.timesheetDocument.documentId}&attachmentTarget=_blank&showEdit=${notesEditable? 'no':'yes'}"
                             height="400" width="100%" scrolling="auto"></iframe>
                 </td>
             </tr>

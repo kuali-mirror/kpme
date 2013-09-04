@@ -85,7 +85,7 @@
             <tk:routeLog/>
     
             <%-- notes --%>
-            <tk:note/>
+            <tk:note notesEditable="${Form.notesEditable}"/>
         </c:if>
     </html:form>
 </tk:tkHeader>

@@ -45,6 +45,8 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     private List<String> overtimeEarnCodes = new ArrayList<String>();
     private String tkTimeHourDetailId;
     private String isLunchDeleted;
+    private Boolean notesEditable = Boolean.TRUE;
+   
 
     public TkCalendar getTkCalendar() {
         return calendar;
@@ -190,6 +192,14 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
 	public void setLeaveBlockString(String leaveBlockString) {
 		this.leaveBlockString = leaveBlockString;
+	}
+
+	public Boolean getNotesEditable() {
+		return notesEditable;
+	}
+
+	public void setNotesEditable(Boolean notesEditable) {
+		this.notesEditable = notesEditable;
 	}
 
 }
