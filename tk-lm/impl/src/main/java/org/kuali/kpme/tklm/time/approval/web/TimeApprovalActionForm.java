@@ -26,7 +26,7 @@ public class TimeApprovalActionForm extends CalendarApprovalForm {
 	private static final long serialVersionUID = 339670908525224389L;
 	
 	private List<String> payCalendarLabels = new ArrayList<String>();
-	private List<ApprovalTimeSummaryRow> approvalRows;
+	private List<ApprovalTimeSummaryRow> approvalRows = new ArrayList<ApprovalTimeSummaryRow>();
 	
 	public List<String> getPayCalendarLabels() {
 		return payCalendarLabels;

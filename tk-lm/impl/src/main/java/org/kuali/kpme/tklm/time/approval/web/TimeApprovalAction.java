@@ -95,12 +95,6 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 //	        	timeApprovalActionForm.setOutputString(timeApprovalActionForm.getApprovalRows().get(0).getOutputString());
 //	        }
         }
-        else {
-        	/**
-        	 * KPME-2774: NPE being thrown due to a null List<ApprovalTimeSummaryRow> in public ActionForward approve(...), below.
-        	 */
-        	timeApprovalActionForm.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
-        }
 
         return actionForward;
 	}
