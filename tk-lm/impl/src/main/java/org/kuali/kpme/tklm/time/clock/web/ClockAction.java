@@ -143,7 +143,16 @@ public class ClockAction extends TimesheetAction {
 		            clockActionForm.setAssignmentDescriptions(assignmentDesc);
 		        }
 		        
+		        // KPME-2772 This issue happens when target employee is clocked out and there are multiple assignments 
+		        // because when there are more than one assignment, it uses "default" assginment on the clock action form, 
+		        // which never gets set above.  When target employee is clocked in, there is always one assignment, so it works.
+		        // The solution is to add else if statement and set clockButtonEnabled flag to true when target employee is clocked out.  
+		        // Since all the assignments for target employee are already filtered by the time it gets here (i.e, only showing the ones
+		        // that approver has permission to view for), we will just enable buttons.  When target employee is clocked in, it gets
+		        // handled in else statement
 		        if (StringUtils.equals(GlobalVariables.getUserSession().getPrincipalId(), HrContext.getTargetPrincipalId())) {
+		        	clockActionForm.setClockButtonEnabled(true);
+		        } else if (lastClockLog == null || StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_OUT)){ 
 		        	clockActionForm.setClockButtonEnabled(true);
 		        } else {
 		        	boolean isApproverOrReviewerForCurrentAssignment = false;
