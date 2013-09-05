@@ -1,12 +1,12 @@
 <config>
 
   <!-- KPME Client DB -->
-  <param name="datasource.url">jdbc:mysql://mysql.rice.kuali.org/tk</param>
+  <param name="datasource.url">jdbc:mysql://mysql.rice.kuali.org/tk_test</param>
   <param name="datasource.username">tk</param>
   <param name="datasource.password">tk_tk_tk</param>
 
   <!-- Rice Server DB -->
-  <param name="server.datasource.url">jdbc:mysql://mysql.rice.kuali.org/tk</param>
+  <param name="server.datasource.url">jdbc:mysql://mysql.rice.kuali.org/tk_test</param>
   <param name="server.datasource.username">tk</param>
   <param name="server.datasource.password">tk_tk_tk</param>
 
