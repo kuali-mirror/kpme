@@ -1,0 +1,15 @@
+<config>
+
+  <!-- KPME Client DB -->
+  <param name="datasource.url">jdbc:mysql://localhost/tk</param>
+  <param name="datasource.username">tk</param>
+  <param name="datasource.password">tk_tk_tk</param>
+
+  <!-- Rice Server DB -->
+  <param name="server.datasource.url">jdbc:mysql://localhost/tk</param>
+  <param name="server.datasource.username">tk</param>
+  <param name="server.datasource.password">tk_tk_tk</param>
+
+  <param name="kns.test.port">8091</param>
+
+</config>
