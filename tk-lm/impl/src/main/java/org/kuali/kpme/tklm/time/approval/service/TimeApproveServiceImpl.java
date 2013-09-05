@@ -269,7 +269,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				Hours hour = Hours.hoursBetween(startTime, endTime);
 				if (hour != null) {
 					int elapsedHours = hour.getHours();
-					if (elapsedHours >= TkConstants.NUMBER_OF_HOURS_CLOCKED_IN_APPROVE_TAB_HIGHLIGHT) {
+					if (elapsedHours >= TkConstants.NUMBER_OF_HOURS_CLOCKED_IN_APPROVE_TAB_HIGHLIGHT && isSynchronousUser(principalId)) {
 						approvalSummaryRow.setClockedInOverThreshold(true);
 					}
 				}
