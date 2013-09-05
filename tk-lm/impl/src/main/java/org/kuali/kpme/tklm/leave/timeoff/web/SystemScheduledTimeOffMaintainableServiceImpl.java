@@ -15,9 +15,17 @@
  */
 package org.kuali.kpme.tklm.leave.timeoff.web;
 
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class SystemScheduledTimeOffMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -29,5 +37,28 @@ public class SystemScheduledTimeOffMaintainableServiceImpl extends HrBusinessObj
 	@Override
 	public HrBusinessObject getObjectById(String id) {
 		return LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(id);
+	}
+	
+	// KPME-2763/2787
+	@Override
+	public Map populateBusinessObject(Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall) {
+		if (fieldValues.containsKey("earnCode")
+			&& StringUtils.isNotEmpty(fieldValues.get("earnCode"))
+			&& fieldValues.containsKey("effectiveDate")
+			&& StringUtils.isNotEmpty(fieldValues.get("effectiveDate"))) {
+			
+			LocalDate effDate = TKUtils.formatDateString(fieldValues.get("effectiveDate"));
+			EarnCode ec =  HrServiceLocator.getEarnCodeService().getEarnCode(fieldValues.get("earnCode"), effDate);
+			if (ec != null) {
+				fieldValues.put("accrualCategory", ec.getAccrualCategory());
+				fieldValues.put("leavePlan", ec.getLeavePlan());
+			} else {
+				fieldValues.put("accrualCategory", "");
+				fieldValues.put("leavePlan", "");
+			}
+		}
+
+		return super.populateBusinessObject(fieldValues, maintenanceDocument,
+				methodToCall);
 	}
 }
