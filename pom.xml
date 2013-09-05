@@ -494,6 +494,15 @@
     </build>
     <profiles>
         <profile>
+            <id>kpme-test</id>
+            <properties>
+                <project.metainf.includes>project.*</project.metainf.includes>
+                <project.metainf.excludes>project.build.timestamp*</project.metainf.excludes>
+                <project.metainf.skipIfExists>false</project.metainf.skipIfExists>
+                <project.metainf.skipIfEqual>true</project.metainf.skipIfEqual>
+            </properties>
+        </profile>
+        <profile>
             <id>license</id>
             <properties>
                 <maven.test.skip>true</maven.test.skip>
