@@ -111,10 +111,23 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 	
 	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
-
+		CalendarEntry calendarEntry = null;
         leaveApprovalActionForm.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
-		
-		return mapping.findForward("basic");
+		Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByGroup(leaveApprovalActionForm.getSelectedPayCalendarGroup());
+        
+		if (calendar != null) {
+            calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), LocalDate.now().toDateTimeAtStartOfDay());
+        }
+        
+        if (calendarEntry != null) {
+        	leaveApprovalActionForm.setBeginCalendarEntryDate(calendarEntry.getBeginPeriodDateTime());
+        	leaveApprovalActionForm.setEndCalendarEntryDate(DateUtils.addMilliseconds(calendarEntry.getEndPeriodDateTime(), -1));
+        	leaveApprovalActionForm.setHrCalendarEntryId(calendarEntry.getHrCalendarEntryId());
+        	leaveApprovalActionForm.setCalendarEntry(calendarEntry);
+        	// change pay period map 
+        	this.setCalendarFields(leaveApprovalActionForm);
+        }
+        return mapping.findForward("basic");
 	}
 	
 	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
