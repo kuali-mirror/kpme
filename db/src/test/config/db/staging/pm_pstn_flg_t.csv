@@ -1,0 +1,9 @@
+PM_PSTN_FLG_ID,CTGRY,PSTN_FLG_NM,EFFDT,TIMESTAMP,ACTIVE,OBJ_ID,VER_NBR
+1,Primary Responsibility,Research,2010-01-01,2010-01-01 00:00:00,Y,1,1
+2,Primary Responsibility,Teaching,2010-01-01,2010-01-01 00:00:00,Y,2,1
+3,Primary Responsibility,Clinical,2010-01-01,2010-01-01 00:00:00,Y,3,1
+4,Primary Responsibility,Outreach,2010-01-01,2010-01-01 00:00:00,Y,4,1
+5,Employment Checks,Background,2010-01-01,2010-01-01 00:00:00,Y,5,1
+6,Employment Checks,Credit,2010-01-01,2010-01-01 00:00:00,Y,6,1
+7,Employment Checks,Fingerprint,2010-01-01,2010-01-01 00:00:00,Y,7,1
+8,Employment Checks,Motor Vehicle,2010-01-01,2010-01-01 00:00:00,Y,8,1

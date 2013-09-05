@@ -164,7 +164,7 @@
         <loadData tableName="PM_PSTN_DEPT_AFFL_T" file="src/test/config/db/staging/pm_pstn_dept_affl_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
         </loadData>
-        <loadData tableName="PM_PSTN_FLAG_T" file="src/test/config/db/staging/pm_pstn_flag_t.csv">
+        <loadData tableName="PM_PSTN_FLG_T" file="src/test/config/db/staging/pm_pstn_flg_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
         </loadData>
         <loadData tableName="PM_PSTN_QLFR_TYP_T" file="src/test/config/db/staging/pm_pstn_qlfr_typ_t.csv">
