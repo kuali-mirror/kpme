@@ -90,7 +90,7 @@
 		parent="LookupDefinition">
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="earnCode" />
+				<bean parent="FieldDefinition" p:attributeName="earnCode" p:noDirectInquiry="true" />
                 <bean parent="FieldDefinition" p:attributeName="earnCodeDesc"/>
 			</list>
 		</property>
