@@ -33,6 +33,23 @@
             <docHandler>${kuali.docHandler.url.prefix}/kpme/missedPunch?methodToCall=docHandler</docHandler>
             <active>true</active>
             <routingVersion>1</routingVersion>
+			<attributes>
+				<attribute>
+					<name>MissedPunchTimesheetIdSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>MissedPunchWorkAreaSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>MissedPunchJobNumberSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>MissedPunchTaskSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>MissedPunchClockActionSearchAttribute</name>
+				</attribute>
+			</attributes>
             <routePaths>
                 <routePath>
                     <start name="adhoc" nextNode="Missed Punch Attribute" />
@@ -59,6 +76,130 @@
 	
     <ruleAttributes xmlns="ns:workflow/RuleAttribute"
                     xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+        <ruleAttribute>
+            <name>MissedPunchPrincipalNameSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>MissedPunchPrincipalNameSearchAttribute</label>
+			<description>MissedPunchPrincipalNameSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="principalName" title="Principal Name">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//missedPunch/principalId</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>MissedPunchTimesheetIdSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>MissedPunchTimesheetIdSearchAttribute</label>
+			<description>MissedPunchTimesheetIdSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="timesheetDocumentId" title="Timesheet Id">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//missedPunch/timesheetDocumentId</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>MissedPunchJobNumberSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>MissedPunchJobNumberSearchAttribute</label>
+			<description>MissedPunchJobNumberSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="jobNumber" title="Job Number">
+                    <display>
+                        <type>text</type>
+                    </display>
+					<lookup businessObjectClass="org.kuali.kpme.core.job.Job">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="jobNumber" localFieldName="jobNumber"/>
+				      </fieldConversions>
+				    </lookup>
+                    <fieldEvaluation>
+                        <xpathexpression>//missedPunch/jobNumber</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>MissedPunchWorkAreaSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>MissedPunchWorkAreaSearchAttribute</label>
+			<description>MissedPunchWorkAreaSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="workArea" title="Work Area">
+                    <display>
+                        <type>text</type>
+                    </display>
+					<lookup businessObjectClass="org.kuali.kpme.core.workarea.WorkArea">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="workArea" localFieldName="workArea"/>
+				      </fieldConversions>
+				    </lookup>
+                    <fieldEvaluation>
+                        <xpathexpression>//missedPunch/workArea</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>MissedPunchTaskSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>MissedPunchTaskSearchAttribute</label>
+			<description>MissedPunchTaskSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="task" title="Task">
+                    <display>
+                        <type>text</type>
+                    </display>
+					<lookup businessObjectClass="org.kuali.kpme.core.task.Task">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="task" localFieldName="task"/>
+				      </fieldConversions>
+				    </lookup>
+                    <fieldEvaluation>
+                        <xpathexpression>//missedPunch/task</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>MissedPunchClockActionSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>MissedPunchClockActionSearchAttribute</label>
+			<description>MissedPunchClockActionSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="clockAction" title="Clock Action">
+                <!-- TOOD: Add key value finders for drop down option -->
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//missedPunch/clockAction</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
         <ruleAttribute>
             <name>MissedPunchRoleAttribute</name>
             <className>org.kuali.kpme.tklm.time.workflow.MissedPunchRoleAttribute</className>

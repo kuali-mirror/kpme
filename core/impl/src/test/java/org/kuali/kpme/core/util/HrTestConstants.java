@@ -16,6 +16,7 @@
 package org.kuali.kpme.core.util;
 
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.krad.uif.UifConstants.ConfigProperties;
 
 public class HrTestConstants {
 
@@ -155,6 +156,8 @@ public class HrTestConstants {
 
 		public static final String SUB_ACCOUNT_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.kfs.coa.businessobject.SubAccount&returnLocation="+
 				BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
+
+		public static final String MISSED_PUNCH_LOOKUP_URL = ConfigContext.getCurrentContextConfig().getProperty("kew.url") + "/DocumentSearch.do?documentTypeName=MissedPunchDocumentType";
 
 	}
 	

@@ -15,6 +15,9 @@
  */
 package org.kuali.hr.time.missedpunch;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -26,6 +29,7 @@ import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
+import org.kuali.kpme.core.util.HrTestConstants;
 import org.kuali.kpme.tklm.utils.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
@@ -41,10 +45,12 @@ import com.google.common.collect.Lists;
 @FunctionalTest
 public class MissedPunchDocumentTest extends KPMEWebTestCase {
     private static final Logger LOG = Logger.getLogger(MissedPunchDocumentTest.class);
+	private static String lookupUrl = null;
 
 	@Before
 	public void setUp() throws Exception {
-		super.setUp();	
+		super.setUp();
+		lookupUrl = HrTestConstants.Urls.MISSED_PUNCH_LOOKUP_URL;
 	}
 
 	@After
@@ -60,6 +66,23 @@ public class MissedPunchDocumentTest extends KPMEWebTestCase {
 		webClient.waitForBackgroundJavaScript(10000);
 	}
 
+	@Test
+	public void testLookup() throws Exception {
+		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), lookupUrl);
+		assertNotNull("lookup page is null", lookupPage);
+
+		assertTrue("lookup page should contain Timesheet Id field",lookupPage.asText().contains("Timesheet Id"));
+		assertTrue("lookup page should contain Work Area",lookupPage.asText().contains("Work Area"));
+		assertTrue("lookup page should contain Job Number",lookupPage.asText().contains("Job Number"));
+		assertTrue("lookup page should contain Task",lookupPage.asText().contains("Task"));
+		assertTrue("lookup page should contain Clock Action",lookupPage.asText().contains("Clock Action"));
+		
+		lookupPage = HtmlUnitUtil.clickInputContainingText(lookupPage, "search");
+		assertNotNull("lookup result page is null", lookupPage);
+
+		//assertTrue("lookup page should contain 'UA Sub Obj'", lookupPage.asText().contains("UA Sub Obj"));
+	}
+	
 	@Ignore
 	@Test
 	public void testMissedPunch() throws Exception {
@@ -196,4 +219,5 @@ public class MissedPunchDocumentTest extends KPMEWebTestCase {
 				mPunchPage.asText().contains("Assignment: 	 work area description : $0.00 Rcd 2 TEST-DEPT description 2"));
 		
 	}
+
 }
