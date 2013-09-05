@@ -144,8 +144,8 @@
             <id>kpme-main</id>
             <properties>
                 <kr.dataSource.driver>com.mysql.jdbc.Driver</kr.dataSource.driver>
-                <kr.dataSource.jdbcUrl>jdbc:mysql://${mysql.host}/krtt</kr.dataSource.jdbcUrl>
                 <kr.dataSource.database>krtt</kr.dataSource.database>
+                <kr.dataSource.jdbcUrl>jdbc:mysql://${mysql.host}/${kr.dataSource.database}</kr.dataSource.jdbcUrl>
                 <kr.dataSource.username>krtt</kr.dataSource.username>
                 <kr.dataSource.password>krtt</kr.dataSource.password>
                 <kr.dataSource.validationQuery>select 1</kr.dataSource.validationQuery>
@@ -153,8 +153,8 @@
                 <kr.dataSource.clearCheckSums>true</kr.dataSource.clearCheckSums>
                 <kr.dataSource.contexts>rice-server-bootstrap,kpme-server-bootstrap,kpme-server-staging</kr.dataSource.contexts>
                 <kpme.dataSource.driver>com.mysql.jdbc.Driver</kpme.dataSource.driver>
-                <kpme.dataSource.jdbcUrl>jdbc:mysql://${mysql.host}/tk</kpme.dataSource.jdbcUrl>
                 <kpme.dataSource.database>tk</kpme.dataSource.database>
+                <kpme.dataSource.jdbcUrl>jdbc:mysql://${mysql.host}/${kpme.dataSource.database}</kpme.dataSource.jdbcUrl>
                 <kpme.dataSource.username>tk</kpme.dataSource.username>
                 <kpme.dataSource.password>tk_tk_tk</kpme.dataSource.password>
                 <kpme.dataSource.validationQuery>select 1</kpme.dataSource.validationQuery>

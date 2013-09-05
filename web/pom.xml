@@ -270,6 +270,7 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>**/kpme-test-config.xml</include>
+                    <include>**/kpme-test-config-defaults.xml</include>
                 </includes>
             </testResource>
             <testResource>
@@ -277,6 +278,7 @@
                 <filtering>false</filtering>
                 <excludes>
                     <exclude>**/kpme-test-config.xml</exclude>
+                    <exclude>**/kpme-test-config-defaults.xml</exclude>
                 </excludes>
             </testResource>
         </testResources>

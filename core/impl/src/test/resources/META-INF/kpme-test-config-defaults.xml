@@ -20,7 +20,21 @@
 	<param name="kns.test.port">8090</param>
 	<param name="http.port">${kns.test.port}</param>
 	<param name="temp.dir">/temp</param>
-	
+
+    <!-- database setup - populated from maven values -->
+    <param name="datasource.driver.name">${kpme.dataSource.driver}</param>
+    <param name="datasource.url">${kpme.dataSource.jdbcUrl}</param>
+    <param name="datasource.username">${kpme.dataSource.username}</param>
+    <param name="datasource.password">${kpme.dataSource.password}</param>
+
+    <!-- Rice Server DB -->
+    <param name="server.datasource.driver.name">${kr.dataSource.driver}</param>
+    <param name="server.datasource.url">${kr.dataSource.jdbcUrl}</param>
+    <param name="server.datasource.username">${kr.dataSource.username}</param>
+    <param name="server.datasource.password">${kr.dataSource.password}</param>
+    <!-- end database -->
+
+
 	<param name="ActionList.norefresh">true</param>
 	<param name="notification.quartz.autostartup">false</param>
 	

@@ -69,6 +69,19 @@
         <selenium-java.version>2.32.0</selenium-java.version>
         <slf4j.version>1.7.2</slf4j.version>
         <xercesImpl.version>2.11.0</xercesImpl.version>
+
+        <!--db defaults for devs.  These are overridden in many places by different profiles -->
+        <kr.dataSource.driver>com.mysql.jdbc.Driver</kr.dataSource.driver>
+        <kr.dataSource.jdbcUrl>jdbc:mysql://${mysql.host}/${kr.dataSource.database}</kr.dataSource.jdbcUrl>
+        <kr.dataSource.database>tk_test</kr.dataSource.database>
+        <kr.dataSource.username>tk</kr.dataSource.username>
+        <kr.dataSource.password>tk_tk_tk</kr.dataSource.password>
+        <kpme.dataSource.driver>com.mysql.jdbc.Driver</kpme.dataSource.driver>
+        <kpme.dataSource.jdbcUrl>jdbc:mysql://${mysql.host}/${kpme.dataSource.database}</kpme.dataSource.jdbcUrl>
+        <kpme.dataSource.database>tk_test</kpme.dataSource.database>
+        <kpme.dataSource.username>tk</kpme.dataSource.username>
+        <kpme.dataSource.password>tk_tk_tk</kpme.dataSource.password>
+        <mysql.host>localhost:3306</mysql.host>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -386,6 +399,24 @@
         </dependencies>
     </dependencyManagement>
     <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/kpme-test-config.xml</include>
+                    <include>**/kpme-test-config-defaults.xml</include>
+                </includes>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/kpme-test-config.xml</exclude>
+                    <exclude>**/kpme-test-config-defaults.xml</exclude>
+                </excludes>
+            </testResource>
+        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
