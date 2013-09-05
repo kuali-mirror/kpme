@@ -63,7 +63,9 @@
         <kpme.dataSource.database>tk_test</kpme.dataSource.database>
         <kpme.dataSource.username>tk</kpme.dataSource.username>
         <kpme.dataSource.password>tk_tk_tk</kpme.dataSource.password>
-        <mysql.host>localhost:3306</mysql.host>
+        <mysql.host>localhost</mysql.host>
+        <mysql.dba.username>root</mysql.dba.username>
+        <mysql.dba.password>NONE</mysql.dba.password>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -493,6 +495,13 @@
         </pluginManagement>
     </build>
     <profiles>
+        <profile>
+            <id>ci</id>
+            <properties>
+                <mysql.host>mysql.rice.kuali.org</mysql.host>
+                <mysql.dba.username>master</mysql.dba.username>
+            </properties>
+        </profile>
         <profile>
             <id>kpme-test</id>
             <properties>

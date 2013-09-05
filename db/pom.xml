@@ -70,19 +70,7 @@
             </plugins>
         </pluginManagement>
     </build>
-    <properties>
-        <mysql.host>localhost</mysql.host>
-        <mysql.dba.username>root</mysql.dba.username>
-        <mysql.dba.password>NONE</mysql.dba.password>
-    </properties>
     <profiles>
-        <profile>
-            <id>ci</id>
-            <properties>
-                <mysql.dba.username>master</mysql.dba.username>
-                <mysql.host>mysql.rice.kuali.org</mysql.host>
-            </properties>
-        </profile>
         <profile>
             <id>db</id>
             <build>
