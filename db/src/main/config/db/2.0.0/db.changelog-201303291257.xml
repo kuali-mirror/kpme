@@ -330,7 +330,7 @@
         
         <insert tableName="KRIM_ROLE_T">
             <column name="ROLE_ID" value="KPME0008" />
-            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Department')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Location')" />
             <column name="NMSPC_CD" value="KPME-LM" />
             <column name="ROLE_NM" value="Leave Location View Only" />
             <column name="DESC_TXT" value="The location view only role for the Leave Management system" />
