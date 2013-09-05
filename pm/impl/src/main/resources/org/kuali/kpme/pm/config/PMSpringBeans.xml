@@ -78,13 +78,20 @@
     <cache:annotation-driven cache-manager="kpme.pm.import.globalCacheManager" />
     <!-- end cache setup -->
 
+    <bean id="dataDictionaryService"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dataDictionaryService" />
+    </bean>
+
     <bean id="kpme.pm.soap.service" parent="kpme.soap.service" abstract="true">
         <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/pm/v2_0" />
     </bean>
 
-	<bean id="kpmePositionModuleConfiguration" class="org.kuali.kpme.core.sys.KpmeModuleConfiguration">
-        <property name="namespaceCode" value="KPME-PM"/>
-        <property name="initializeDataDictionary" value="true"/>
+    <bean id="kpmePositionModuleConfiguration" parent="kpmePositionModuleConfiguration-parentBean"/>
+	<bean id="kpmePositionModuleConfiguration-parentBean" class="org.kuali.kpme.core.sys.KpmeModuleConfiguration" abstract="true"
+        p:namespaceCode="KPME-PM"
+        p:initializeDataDictionary="true"
+        p:dataDictionaryService-ref="dataDictionaryService">
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kpme.pm</value>

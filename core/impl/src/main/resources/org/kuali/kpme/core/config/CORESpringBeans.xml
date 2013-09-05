@@ -83,17 +83,15 @@
         <property name="moduleConfiguration" ref="kpmeCoreModuleConfiguration"/>
         <property name="kualiModuleService" ref="kualiModuleService"/>
     </bean>
-    
-    <bean id="kpmeCoreModuleConfiguration" class="org.kuali.kpme.core.sys.KpmeModuleConfiguration">
-        <property name="namespaceCode" value="KPME-CORE"/>
-        <property name="initializeDataDictionary" value="true"/>
+
+    <bean id="kpmeCoreModuleConfiguration" parent="kpmeCoreModuleConfiguration-parentBean" />
+    <bean id="kpmeCoreModuleConfiguration-parentBean" class="org.kuali.kpme.core.sys.KpmeModuleConfiguration"
+            abstract="true"
+            p:namespaceCode="KPME-CORE"
+            p:initializeDataDictionary="true">
         <property name="packagePrefixes">
             <list>
-                <!--<value>org.kuali.kpme.tklm.time.domain</value>-->
                 <value>org.kuali.kpme.core</value>
-                <!--<value>org.kuali.kpme.tklm.time</value>
-                <value>org.kuali.kpme.kfs</value>
-                <value>org.kuali.kpme</value>-->
             </list>
         </property>
         <property name="databaseRepositoryFilePaths">

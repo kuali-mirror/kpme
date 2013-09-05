@@ -91,10 +91,11 @@
         <property name="kualiModuleService" ref="kualiModuleService"/>
     </bean>
 
-	<bean id="kpmeTKLMModuleConfiguration" class="org.kuali.kpme.core.sys.KpmeModuleConfiguration">
-        <property name="namespaceCode" value="KPME-TKLM"/>
-        <property name="initializeDataDictionary" value="true"/>
-        <property name="dataDictionaryService" ref="dataDictionaryService"/>
+    <bean id="kpmeTKLMModuleConfiguration" parent="kpmeTKLMModuleConfiguration-parentBean"/>
+	<bean id="kpmeTKLMModuleConfiguration-parentBean" class="org.kuali.kpme.core.sys.KpmeModuleConfiguration" abstract="true"
+            p:namespaceCode="KPME-TKLM"
+            p:initializeDataDictionary="true"
+            p:dataDictionaryService-ref="dataDictionaryService">
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kpme.tklm.leave.</value>
@@ -109,7 +110,6 @@
 		</property>
 		<property name="dataDictionaryPackages">
 			<list>
-                <!--<value>org/kuali/hr/core/datadictionary</value>-->
                 <value>classpath:org/kuali/kpme/tklm/datadictionary/*.xml</value>
 			</list>
 		</property>
