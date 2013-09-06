@@ -38,7 +38,6 @@ public class Department extends HrBusinessObject implements DepartmentContract {
 	//KPME-2273/1965 Primary Business Keys List.		
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("dept")
-            .add("location")
             .build();
 
     private String hrDeptId;

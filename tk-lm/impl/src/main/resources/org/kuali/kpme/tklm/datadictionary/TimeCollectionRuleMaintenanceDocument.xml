@@ -35,6 +35,7 @@
     <property name="maintainableSections">
       <list>
         <ref bean="TimeCollectionRuleMaintenanceDocument-TimeCollectionRuleMaintenance"/>
+        <ref bean="TimeCollectionRuleMaintenanceDocument-HiddenFields"/>
       </list>
     </property>
     <property name="lockingKeys">
@@ -64,5 +65,8 @@
       </list>
     </property>
   </bean>
+
+  <bean id="TimeCollectionRuleMaintenanceDocument-HiddenFields"
+          parent="MaintDoc-HiddenFields-parentBean" />
 
 </beans>
