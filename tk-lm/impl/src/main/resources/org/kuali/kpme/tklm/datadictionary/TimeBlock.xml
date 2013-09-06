@@ -26,7 +26,7 @@
     <property name="inquiryDefinition" >
       <ref bean="TimeBlock-inquiryDefinition" />
     </property>
-    <property name="titleAttribute" value="documentId" />
+    <property name="titleAttribute" value="tkTimeBlockId" />
     <property name="attributes" >
       <list>
       	<ref bean="TimeBlock-tkTimeBlockId" />
@@ -55,7 +55,6 @@
 				<property name="objectAttributeName" value="timesheetDocumentHeader" />
 				<property name="primitiveAttributes">
 					<list>
-						<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentId" p:targetName="documentId" />
 						<bean parent="PrimitiveAttributeDefinition" p:sourceName="timesheetDocumentHeader.documentStatus" p:targetName="documentStatus" />
 					</list>
 				</property>
