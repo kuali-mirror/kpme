@@ -46,8 +46,10 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 		
 		if (pbo instanceof Department) {
 			Department department = (Department) pbo;
-			
-			valid &= validateDepartment(department);
+			if(StringUtils.isBlank(department.getHrDeptId())) {
+				// do not need to validate existing department when editing an existing department 
+				valid &= validateDepartment(department);
+			}
 			valid &= validateChart(department.getChart());
 			valid &= validateOrg(department.getOrg());
 			valid &= validateChartAndOrg(department.getChart(), department.getOrg());
@@ -60,18 +62,13 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 	protected boolean validateDepartment(Department department) {
 		boolean valid = true;
 		
-			if (department.getDept() != null && department.getEffectiveDate() != null) {
-				List<Department> depts = HrServiceLocator.getDepartmentService().getDepartments(department.getDept());
-				if (depts != null && depts.size() > 0) {
-					 for(Department dept : depts) {
-					   if(!dept.getHrDeptId().equalsIgnoreCase(department.getHrDeptId())) {
-						 this.putFieldError("dept", "error.department.duplicate.exists", department.getDept());
-						 valid = false;
-						 break;
-					   }
-					 }
-				}
+		if (StringUtils.isNotBlank(department.getDept()) && department.getEffectiveDate() != null) {
+			List<Department> depts = HrServiceLocator.getDepartmentService().getDepartments(department.getDept());
+			if (depts != null && depts.size() > 0) {
+				 this.putFieldError("dept", "error.department.duplicate.exists", department.getDept());
+				 valid = false;
 			}
+		}
 		
 		return valid;
 	}
