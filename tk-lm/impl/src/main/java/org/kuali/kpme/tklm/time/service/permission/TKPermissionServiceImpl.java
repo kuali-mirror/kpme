@@ -40,6 +40,7 @@ import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -144,16 +145,18 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                 if (StringUtils.equals(payType.getRegEarnCode(),
                 		timeBlock.getEarnCode())) {
                     //KPME-2727
-//                    TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),timeBlock.getBeginDateTime().toLocalDate());
-//
-//                    if (tcr == null || tcr.isClockUserFl()) {
-//                        //if there is only 1 assignment here, it isn't editable.
-//                        TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(timeBlock.getDocumentId());
-//                        Map<String, String> assignments = td.getAssignmentDescriptions(false);
-//                        if (assignments.size() <= 1) {
-//                            return false;
-//                        }
-//                    }
+                    if (timeBlock.getPrincipalId().equals(principalId)) {
+                        TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),timeBlock.getBeginDateTime().toLocalDate());
+
+                        if (tcr == null || tcr.isClockUserFl()) {
+                            //if there is only 1 assignment here, it isn't editable.
+                            TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(timeBlock.getDocumentId());
+                            Map<String, String> assignments = td.getAssignmentDescriptions(false);
+                            if (assignments.size() <= 1) {
+                                return updateCanEditTimeblockPerm(principalId, perms, false);
+                            }
+                        }
+                    }
                     return updateCanEditTimeblockPerm(principalId, perms, true);
                 }
 
@@ -281,7 +284,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             		&& !timeBlock.getClockLogCreated()) {
             	if (StringUtils.equals(payType.getRegEarnCode(),
             			timeBlock.getEarnCode())) {
-                    return updateCanEditAllFieldsTimeblockPerm(principalId, perms, true);
+                    return updateCanEditAllFieldsTimeblockPerm(principalId, perms, false);
             	}
             	
                 List<EarnCodeSecurity> deptEarnCodes = HrServiceLocator
