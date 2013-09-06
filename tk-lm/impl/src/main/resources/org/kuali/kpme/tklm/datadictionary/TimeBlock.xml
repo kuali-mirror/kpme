@@ -342,9 +342,7 @@
         </property>
 	</bean>
   
-<!-- Business Object Inquiry Definition -->
-
-
+  <!-- KNS Inquiry Definition -->
   <bean id="TimeBlock-inquiryDefinition" parent="TimeBlock-inquiryDefinition-parentBean" />
   <bean id="TimeBlock-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="inquirySections" >
@@ -401,9 +399,58 @@
     <property name="translateCodes" value="false"/>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <!-- KNS Inquiry Definition -->
+  <bean id="TimeBlock-inquiryView" parent="TimeBlock-inquiryView-parentBean" />
+  <bean id="TimeBlock-inquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+  	<property name="headerText" value="Time Block Inquiry"/>
+  	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.timeblock.TimeBlock"/>
+  	<property name="singlePageView" value="true"/>
+    <property name="items" >
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="layoutManager.numberOfColumns" value="2" />
+          <property name="items" >
+            <list>
+              <bean parent="Uif-DataField" p:propertyName="tkTimeBlockId" />
+              <bean parent="Uif-DataField" p:propertyName="documentId" />
+              <bean parent="Uif-DataField" p:propertyName="jobNumber" />
+              <bean parent="Uif-DataField" p:propertyName="workArea"/>
+              <bean parent="Uif-DataField" p:propertyName="earnCode"/>
+              <bean parent="Uif-DataField" p:propertyName="beginTimestamp"/>
+        	  <bean parent="Uif-DataField" p:propertyName="endTimestamp" />
+        	  <bean parent="Uif-DataField" p:propertyName="hours" />
+        	  <bean parent="Uif-DataField" p:propertyName="amount" />
+        	  <bean parent="Uif-DataField" p:propertyName="clockLogCreated" />
+        	  <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+        	  <bean parent="Uif-DataField" p:propertyName="principalId" />
+              <bean parent="Uif-DataField" p:propertyName="overtimePref" />
+              <bean parent="Uif-DataField" p:propertyName="lunchDeleted" />
+        	  <bean parent="Uif-DataField" p:propertyName="timestamp" />
+            </list>
+          </property>
+          <property name="title" value="Time Block" />
+        </bean>
+	        <bean parent="Uif-Disclosure-StackedCollectionSection">
+	          <property name="headerText" value="Time Hour Details"/>
+	          <property name="collectionObjectClass" value="org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail"/>
+	          <property name="propertyName" value="timeHourDetails"/>
+	          <property name="items">
+	            <list>
+	               <bean parent="Uif-DataField" p:propertyName="earnCode" />
+	               <bean parent="Uif-DataField" p:propertyName="hours" />
+	               <bean parent="Uif-DataField" p:propertyName="amount" />
+	            </list>
+	          </property>
+	          <property name="title" value="Time Hour Detail" />
+	        </bean>             
+      </list>
+    </property>
+    <property name="title" value="Time Block Inquiry" />
+  </bean>
 
-  <bean id="TimeBlock-lookupView" parent="Uif-LookupView">
+<!-- KRAD Lookup View -->
+
+  <bean id="TimeBlock-lookupView" parent="KPMEUif-LookupView">
   	<property name="headerText" value="Time Block Lookup" />
   	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.timeblock.TimeBlock"/>
   	<property name="viewHelperServiceClass" value="org.kuali.kpme.tklm.time.timeblock.web.TimeBlockLookupableHelperServiceImpl"/>
@@ -454,12 +501,7 @@
   	</property>
   	<property name="resultFields">
   		<list>
-  			<bean parent="Uif-DataField" p:propertyName="documentId">
-	        	<property name="inquiry">
-		       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader" 
-		        	 p:inquiryParameters="documentId:documentId"/>
-	    		</property>
-  			</bean>
+  			<bean parent="Uif-DataField" p:propertyName="documentId"/>
   			<bean parent="Uif-DataField" p:propertyName="principalId"/>
   			<bean parent="Uif-DataField" p:propertyName="jobNumber"/>
   			<bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
@@ -475,7 +517,7 @@
   		</list>
   	</property>
   </bean>
-
+<!-- KNS Lookup definition -->
 <!--   <bean id="TimeBlock-lookupDefinition" parent="TimeBlock-lookupDefinition-parentBean" />
   <bean id="TimeBlock-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 

@@ -43,6 +43,7 @@ import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.uif.view.LookupView;
 import org.kuali.rice.krad.web.form.LookupForm;
 
 public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
@@ -115,6 +116,9 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 			}
 			else if(StringUtils.equals(cBlock.getConcreteBlockType(), "Leave")) {
 				LeaveBlock lBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(cBlock.getConcreteBlockId());
+				// NOTE: Do NOT set tkTimeBlockId.
+				// We'll leave this field blank. When getActionUrlHref is called with this object
+				// we can infer that the object is a "mocked" time block, and remove the "view" link from results.
 				TimeBlock tBlock = new TimeBlock();
 				tBlock.setAmount(cBlock.getAmount());
 				tBlock.setHours(cBlock.getHours());
@@ -311,8 +315,22 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 	protected String getActionUrlHref(LookupForm lookupForm, Object dataObject,
 			String methodToCall, List<String> pkNames) {
 		String actionUrlHref = super.getActionUrlHref(lookupForm, dataObject, methodToCall, pkNames);
-		
+		TimeBlock tb = null;
+		String concreteBlockId = null;
+		if(dataObject instanceof TimeBlock) {
+			tb = (TimeBlock) dataObject;
+			concreteBlockId = tb.getTkTimeBlockId();
+		}
+		if(concreteBlockId == null) {
+			return null;
+		}
+
 		return actionUrlHref;
+	}
+
+	@Override
+	public void initSuppressAction(LookupForm lookupForm) {
+		((LookupView) lookupForm.getView()).setSuppressActions(false);
 	}
 
 }
