@@ -80,14 +80,14 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 public class TimeApproveServiceImpl implements TimeApproveService {
 
 	@Override
-	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(String calGroup, List<String> principalIds, List<String> payCalendarLabels, CalendarEntry payCalendarEntry) {
+	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(String calGroup, List<String> principalIds, List<String> payCalendarLabels, CalendarEntry payCalendarEntry, String docIdSearchTerm) {
 		DateTime payBeginDate = payCalendarEntry.getBeginPeriodFullDateTime();
 		DateTime payEndDate = payCalendarEntry.getEndPeriodFullDateTime();
 		
 		List<Map<String, Object>> timeBlockJsonMap = new ArrayList<Map<String,Object>>();
 		List<ApprovalTimeSummaryRow> rows = new LinkedList<ApprovalTimeSummaryRow>();
 		Map<String, TimesheetDocumentHeader> principalDocumentHeader = getPrincipalDocumentHeader(
-                principalIds, payBeginDate, payEndDate);
+                principalIds, payBeginDate, payEndDate, docIdSearchTerm);
 
 		Calendar payCalendar = HrServiceLocator.getCalendarService()
 				.getCalendar(payCalendarEntry.getHrCalendarId());
@@ -112,6 +112,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			if (principalDocumentHeader.containsKey(principalId)) {
 				tdh = principalDocumentHeader.get(principalId);
 				documentId = principalDocumentHeader.get(principalId).getDocumentId();
+			} else if(StringUtils.isNotBlank(docIdSearchTerm)){
+				continue;	// if there's a search term for document id, only build the rows for principalIds from principalDocumentHeader
 			}
 			List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 			List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
@@ -549,13 +551,19 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     
 	@Override
 	public Map<String, TimesheetDocumentHeader> getPrincipalDocumentHeader(
-			List<String> principalIds, DateTime payBeginDate, DateTime payEndDate) {
+			List<String> principalIds, DateTime payBeginDate, DateTime payEndDate, String docIdSearchTerm) {
 		Map<String, TimesheetDocumentHeader> principalDocumentHeader = new LinkedHashMap<String, TimesheetDocumentHeader>();
 		for (String principalId : principalIds) {
 			
 			TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate.plusMillis(1));
 			if(tdh != null) {
-				principalDocumentHeader.put(principalId, tdh);	
+				if(StringUtils.isNotBlank(docIdSearchTerm)) {
+					if(tdh.getDocumentId().contains(docIdSearchTerm)) {
+						principalDocumentHeader.put(principalId, tdh);	
+					}
+				} else {
+					principalDocumentHeader.put(principalId, tdh);
+				}
 			}
 		}
 		return principalDocumentHeader;

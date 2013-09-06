@@ -57,6 +57,8 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 	
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ActionForward actionForward = super.execute(mapping, form, request, response);
+		
 		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
         String documentId = leaveApprovalActionForm.getDocumentId();
         
@@ -92,15 +94,34 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 			leaveApprovalActionForm.setNextHrCalendarEntryId(nextCalendarEntry != null ? nextCalendarEntry.getHrCalendarEntryId() : null);
 			
 	        setCalendarFields(leaveApprovalActionForm);
-        }
         
-        ActionForward actionForward = super.execute(mapping, form, request, response);
-
-        if (calendarEntry != null) {
 			leaveApprovalActionForm.setLeaveCalendarDates(LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(calendarEntry));
-			setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm));
-		}
-		
+			
+			List<String> allPIdsList = getPrincipalIds(leaveApprovalActionForm);
+			List<String> pidList = new ArrayList<String>();
+			pidList.addAll(allPIdsList);
+			
+			String docIdSearchTerm = "";
+			if(StringUtils.equals(leaveApprovalActionForm.getMethodToCall(), "searchResult") ) {
+				if(StringUtils.equals(leaveApprovalActionForm.getSearchField(), "principalName") ) {	            
+		            if (StringUtils.isNotBlank(leaveApprovalActionForm.getSearchTerm())) {
+		            	String searchTerm = leaveApprovalActionForm.getSearchTerm();
+		            	pidList = new ArrayList<String>();
+		            	for(String anId : allPIdsList) {
+		            		if(anId.contains(searchTerm)) {
+		            			pidList.add(anId);
+		            		}
+		            	}
+		            }
+			      }
+				
+				if(StringUtils.equals(leaveApprovalActionForm.getSearchField(), "documentId") )	            
+		            docIdSearchTerm = leaveApprovalActionForm.getSearchTerm();
+			}				
+			
+	        setApprovalTables(leaveApprovalActionForm, request, pidList, docIdSearchTerm);
+        }
+				
 		return actionForward;
 	}
 	
@@ -133,7 +154,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
 	
-        setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm));
+        setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm), "");
     	
         return mapping.findForward("basic");
 	}
@@ -141,7 +162,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 	public ActionForward selectNewWorkArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
 
-		setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm));
+		setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm), "");
         
 		return mapping.findForward("basic");
 	}	
@@ -149,23 +170,14 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 	public ActionForward searchResult(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
 		
-        if (StringUtils.equals("documentId", leaveApprovalActionForm.getSearchField())) {
-        	LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(leaveApprovalActionForm.getSearchTerm());
-        	leaveApprovalActionForm.setSearchTerm(leaveCalendarDocumentHeader != null ? leaveCalendarDocumentHeader.getPrincipalId() : StringUtils.EMPTY);
-        }
-        
-    	leaveApprovalActionForm.setSearchField("principalId");
-        List<String> principalIds = new ArrayList<String>();
-        principalIds.add(leaveApprovalActionForm.getSearchTerm());
-        
-        if (principalIds.isEmpty()) {
-        	leaveApprovalActionForm.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
-        	leaveApprovalActionForm.setResultSize(0);
-        } else {
-        	setApprovalTables(leaveApprovalActionForm, request, principalIds);
-        	leaveApprovalActionForm.setResultSize(principalIds.size());
-        }
- 
+		if(StringUtils.isBlank(leaveApprovalActionForm.getSearchField()) 
+				&& StringUtils.isNotBlank(request.getParameter("searchField"))) {
+			leaveApprovalActionForm.setSearchField(request.getParameter("searchField"));
+		}
+		if(StringUtils.isBlank(leaveApprovalActionForm.getSearchTerm()) 
+				&& StringUtils.isNotBlank(request.getParameter("leaveSearchValue"))) {
+			leaveApprovalActionForm.setSearchTerm(request.getParameter("leaveSearchValue"));
+		} 
 		return mapping.findForward("basic");
 	}
 	
@@ -185,12 +197,12 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
         return LmServiceLocator.getLeaveApprovalService().getLeavePrincipalIdsWithSearchCriteria(workAreas, calendar, endDate, beginDate, endDate);
 	}	
 	
-	private void setApprovalTables(LeaveApprovalActionForm leaveApprovalActionForm, HttpServletRequest request, List<String> principalIds) {
+	private void setApprovalTables(LeaveApprovalActionForm leaveApprovalActionForm, HttpServletRequest request, List<String> principalIds, String docIdSearchTerm) {
 		if (principalIds.isEmpty()) {
 			leaveApprovalActionForm.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
 			leaveApprovalActionForm.setResultSize(0);
 		} else {
-			List<ApprovalLeaveSummaryRow> approvalRows = getApprovalLeaveRows(leaveApprovalActionForm, principalIds); 
+			List<ApprovalLeaveSummaryRow> approvalRows = getApprovalLeaveRows(leaveApprovalActionForm, principalIds, docIdSearchTerm); 
 			String sortField = getSortField(request);
 			if (StringUtils.isEmpty(sortField) || StringUtils.equals(sortField, "name")) {
 				final boolean sortNameAscending = getAscending(request);
@@ -235,7 +247,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 			Integer endIndex = beginIndex + HrConstants.PAGE_SIZE > approvalRows.size() ? approvalRows.size() : beginIndex + HrConstants.PAGE_SIZE;
 
 			leaveApprovalActionForm.setLeaveApprovalRows(approvalRows.subList(beginIndex, endIndex));
-		    leaveApprovalActionForm.setResultSize(principalIds.size());
+			leaveApprovalActionForm.setResultSize(approvalRows.size());
 		    
 		    Map<String, String> userColorMap = new HashMap<String, String>();
 	        Set<String> randomColors = new HashSet<String>();
@@ -273,8 +285,8 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 		}
 	}
 	   
-    protected List<ApprovalLeaveSummaryRow> getApprovalLeaveRows(LeaveApprovalActionForm leaveApprovalActionForm, List<String> assignmentPrincipalIds) {
-        return LmServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows(assignmentPrincipalIds, leaveApprovalActionForm.getCalendarEntry(), leaveApprovalActionForm.getLeaveCalendarDates());
+    protected List<ApprovalLeaveSummaryRow> getApprovalLeaveRows(LeaveApprovalActionForm leaveApprovalActionForm, List<String> assignmentPrincipalIds, String docIdSearchTerm) {
+        return LmServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows(assignmentPrincipalIds, leaveApprovalActionForm.getCalendarEntry(), leaveApprovalActionForm.getLeaveCalendarDates(), docIdSearchTerm);
     }
 	
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

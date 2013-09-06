@@ -16,6 +16,7 @@
 package org.kuali.kpme.tklm.time.approval.web;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -37,6 +38,7 @@ import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
@@ -74,47 +76,58 @@ public class TimeApprovalWSAction extends KPMEAction {
         	String principalId = HrContext.getTargetPrincipalId();
         	
         	Set<Long> workAreas = new HashSet<Long>();
+        	workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
         	workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), new DateTime(), true));
             workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
-
+            workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), new DateTime(), true));
+            workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), new DateTime(), true));
         	for(Long workArea : workAreas) {
         		workAreaList.add(workArea.toString());
         	}
         } else {
         	workAreaList.add(taaf.getSelectedWorkArea());
         }
-        LocalDate endDate = taaf.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate();
-        LocalDate beginDate = taaf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
-
-        List<String> principalIds = TkServiceLocator.getTimeApproveService()
-			.getTimePrincipalIdsWithSearchCriteria(workAreaList, taaf.getSelectedPayCalendarGroup(),
-					endDate, beginDate, endDate); 
         
-        
-        if (StringUtils.equals(taaf.getSearchField(), CalendarApprovalForm.ORDER_BY_PRINCIPAL)) {
-            for (String id : principalIds) {
-                if(StringUtils.contains(id, taaf.getSearchTerm())) {
-                    Map<String, String> labelValue = new HashMap<String, String>();
-                    labelValue.put("id", id);
-                    labelValue.put("result", id);
-                    results.add(labelValue);
-                }
-            }
-        } else if (StringUtils.equals(taaf.getSearchField(), CalendarApprovalForm.ORDER_BY_DOCID)) {
-            Map<String, TimesheetDocumentHeader> principalDocumentHeaders =
-            		TkServiceLocator.getTimeApproveService().getPrincipalDocumentHeader(principalIds, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
-            
-            for (Map.Entry<String,TimesheetDocumentHeader> entry : principalDocumentHeaders.entrySet()) {
-                if (StringUtils.contains(entry.getValue().getDocumentId(), taaf.getSearchTerm())) {
-                    Map<String, String> labelValue = new HashMap<String, String>();
-//                        labelValue.put("id", entry.getValue().getDocumentId() + " (" + entry.getValue().getPrincipalId() + ")");
-                    labelValue.put("id", entry.getValue().getDocumentId());
-                    labelValue.put("result", entry.getValue().getPrincipalId());
-                    results.add(labelValue);
-                }
-            }
+        if(StringUtils.isNotBlank(taaf.getSelectedPayPeriod())) {
+        	CalendarEntry currentCE = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getSelectedPayPeriod());
+        	if(currentCE != null) {
+        		 LocalDate endDate = currentCE.getEndPeriodFullDateTime().toLocalDate();
+        	     LocalDate beginDate = currentCE.getBeginPeriodFullDateTime().toLocalDate();
+        	     List<String> principalIds = TkServiceLocator.getTimeApproveService()
+        	 			.getTimePrincipalIdsWithSearchCriteria(workAreaList, taaf.getSelectedPayCalendarGroup(),
+        	 					endDate, beginDate, endDate);        	         
+        	     Collections.sort(principalIds);
+        	     
+    	         if (StringUtils.equals(taaf.getSearchField(), CalendarApprovalForm.ORDER_BY_PRINCIPAL)) {
+    	             for (String id : principalIds) {
+    	                 if(StringUtils.contains(id, taaf.getSearchTerm())) {
+    	                     Map<String, String> labelValue = new HashMap<String, String>();
+    	                     labelValue.put("id", id);
+    	                     labelValue.put("result", id);
+    	                     results.add(labelValue);
+    	                 }
+    	             }
+    	         } else if (StringUtils.equals(taaf.getSearchField(), CalendarApprovalForm.ORDER_BY_DOCID)) {
+    	             Map<String, TimesheetDocumentHeader> principalDocumentHeaders =
+    	             		TkServiceLocator.getTimeApproveService().getPrincipalDocumentHeader(principalIds, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay(), "");
+    	             List<String> docIdList = new ArrayList<String>();
+    	             
+    	             for (Map.Entry<String,TimesheetDocumentHeader> entry : principalDocumentHeaders.entrySet()) {
+    	                 if (StringUtils.contains(entry.getValue().getDocumentId(), taaf.getSearchTerm())) {
+    	                	 docIdList.add(entry.getValue().getDocumentId());    	                    
+    	                 }
+    	             }
+    	             Collections.sort(docIdList);					  
+					 for(String aString : docIdList) {
+	    	             Map<String, String> labelValue = new HashMap<String, String>();
+	                     labelValue.put("id", aString);
+	                     labelValue.put("result", aString);
+	                     results.add(labelValue);
+					 }
+    	         }        	     
+        	}
         }
-     
+      
         taaf.setOutputString(JSONValue.toJSONString(results));
         return mapping.findForward("ws");
     }

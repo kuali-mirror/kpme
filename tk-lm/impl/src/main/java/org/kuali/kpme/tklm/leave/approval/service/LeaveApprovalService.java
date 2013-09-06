@@ -29,7 +29,7 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.kew.api.note.Note;
 
 public interface LeaveApprovalService {
-	public List<ApprovalLeaveSummaryRow> getLeaveApprovalSummaryRows(List<String> principalIds, CalendarEntry payCalendarEntry, List<Date> leaveSummaryDates);
+	public List<ApprovalLeaveSummaryRow> getLeaveApprovalSummaryRows(List<String> principalIds, CalendarEntry payCalendarEntry, List<Date> leaveSummaryDates, String docIdSearchTerm);
 	
 	public Map<Date, Map<String, BigDecimal>> getEarnCodeLeaveHours(List<LeaveBlock> leaveBlocks, List<Date> leaveSummaryDates);
 	

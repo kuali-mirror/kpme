@@ -42,7 +42,7 @@ public interface TimeApproveService {
      * @param calGroup Specify a calendar group to filter by.
      * @return A Map<String, List<ApprovalTimeSummaryRow>> container.
      */
-	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(String calGroup, List<String> principalIds, List<String> payCalendarLabels, CalendarEntry payCalendarEntry);
+	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(String calGroup, List<String> principalIds, List<String> payCalendarLabels, CalendarEntry payCalendarEntry, String docIdSearchTerm);
 
     /**
      * Used to determine if there are notes on a document
@@ -62,7 +62,7 @@ public interface TimeApproveService {
      * @param payEndDate
      * @return A PrincipalId to TimesheetDocumentHeader mapping.
      */
-    Map<String, TimesheetDocumentHeader> getPrincipalDocumentHeader(List<String> principalIds, DateTime payBeginDate, DateTime payEndDate);
+    Map<String, TimesheetDocumentHeader> getPrincipalDocumentHeader(List<String> principalIds, DateTime payBeginDate, DateTime payEndDate, String docIdSearchTerm);
 
     public DocumentRouteHeaderValue getRouteHeader(String documentId);
     

@@ -89,11 +89,31 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 	        setCalendarFields(timeApprovalActionForm);
 	        
 			timeApprovalActionForm.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(timeApprovalActionForm.getCalendarEntry(), new ArrayList<Boolean>()));
-	        setApprovalTables(timeApprovalActionForm, request, getPrincipalIds(timeApprovalActionForm));
-	        
-//	        if (timeApprovalActionForm.getApprovalRows() != null && !timeApprovalActionForm.getApprovalRows().isEmpty()) {
-//	        	timeApprovalActionForm.setOutputString(timeApprovalActionForm.getApprovalRows().get(0).getOutputString());
-//	        }
+			
+			List<String> allPIdsList = getPrincipalIds(timeApprovalActionForm);
+			List<String> pidList = new ArrayList<String>();
+			pidList.addAll(allPIdsList);
+			
+			String docIdSearchTerm = "";
+			if(StringUtils.equals(timeApprovalActionForm.getMethodToCall(), "searchResult") ) {
+				if(StringUtils.equals(timeApprovalActionForm.getSearchField(), "principalName") ) {	            
+		            if (StringUtils.isNotBlank(timeApprovalActionForm.getSearchTerm())) {
+		            	String searchTerm = timeApprovalActionForm.getSearchTerm();
+		            	pidList = new ArrayList<String>();
+		            	for(String anId : allPIdsList) {
+		            		if(anId.contains(searchTerm)) {
+		            			pidList.add(anId);
+		            		}
+		            	}
+		            }
+			      }
+				
+				if(StringUtils.equals(timeApprovalActionForm.getSearchField(), "documentId") )	            
+		            docIdSearchTerm = timeApprovalActionForm.getSearchTerm();
+			}
+				
+			
+	        setApprovalTables(timeApprovalActionForm, request, pidList, docIdSearchTerm);
         }
 
         return actionForward;
@@ -128,7 +148,7 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		TimeApprovalActionForm timeApprovalActionForm = (TimeApprovalActionForm) form;
 		
-		setApprovalTables(timeApprovalActionForm, request, getPrincipalIds(timeApprovalActionForm));
+		setApprovalTables(timeApprovalActionForm, request, getPrincipalIds(timeApprovalActionForm), "");
     	
 		return mapping.findForward("basic");
 	}
@@ -136,30 +156,23 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 	public ActionForward selectNewWorkArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		TimeApprovalActionForm timeApprovalActionForm = (TimeApprovalActionForm) form;
 
-		setApprovalTables(timeApprovalActionForm, request, getPrincipalIds(timeApprovalActionForm));
+		setApprovalTables(timeApprovalActionForm, request, getPrincipalIds(timeApprovalActionForm), "");
     	
 		return mapping.findForward("basic");
 	}
 	
+
 	public ActionForward searchResult(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		TimeApprovalActionForm timeApprovalActionForm = (TimeApprovalActionForm) form;
 		
-        if (StringUtils.equals("documentId", timeApprovalActionForm.getSearchField())) {
-        	TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(timeApprovalActionForm.getSearchTerm());
-        	timeApprovalActionForm.setSearchTerm(timesheetDocumentHeader != null ? timesheetDocumentHeader.getPrincipalId() : StringUtils.EMPTY);
-        }
-        
-        timeApprovalActionForm.setSearchField("principalId");
-        List<String> principalIds = new ArrayList<String>();
-        principalIds.add(timeApprovalActionForm.getSearchTerm());
-        
-        if (principalIds.isEmpty()) {
-        	timeApprovalActionForm.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
-        	timeApprovalActionForm.setResultSize(0);
-        } else {
-   	        setApprovalTables(timeApprovalActionForm, request, getPrincipalIds(timeApprovalActionForm));
-   	        timeApprovalActionForm.setResultSize(principalIds.size());
-        }
+		if(StringUtils.isBlank(timeApprovalActionForm.getSearchField()) 
+				&& StringUtils.isNotBlank(request.getParameter("searchField"))) {
+			timeApprovalActionForm.setSearchField(request.getParameter("searchField"));
+		}
+		if(StringUtils.isBlank(timeApprovalActionForm.getSearchTerm()) 
+				&& StringUtils.isNotBlank(request.getParameter("searchValue"))) {
+			timeApprovalActionForm.setSearchTerm(request.getParameter("searchValue"));
+		}		
  
 		return mapping.findForward("basic");
 	}
@@ -183,13 +196,13 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
         return TkServiceLocator.getTimeApproveService().getTimePrincipalIdsWithSearchCriteria(workAreas, calendar, endDate, beginDate, endDate);      
 	}
     
-	protected void setApprovalTables(TimeApprovalActionForm timeApprovalActionForm, HttpServletRequest request, List<String> principalIds) {
+	protected void setApprovalTables(TimeApprovalActionForm timeApprovalActionForm, HttpServletRequest request, List<String> principalIds, String docIdSearchTerm) {
 		if (principalIds.isEmpty()) {
 			timeApprovalActionForm.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
 			timeApprovalActionForm.setResultSize(0);
 			timeApprovalActionForm.setOutputString(null);
 		} else {
-		    List<ApprovalTimeSummaryRow> approvalRows = getApprovalRows(timeApprovalActionForm, getSubListPrincipalIds(request, principalIds));
+		    List<ApprovalTimeSummaryRow> approvalRows = getApprovalRows(timeApprovalActionForm, getSubListPrincipalIds(request, principalIds), docIdSearchTerm);
 		    timeApprovalActionForm.setOutputString(!CollectionUtils.isEmpty(approvalRows) ? approvalRows.get(0).getOutputString() : null);
 		    final String sortField = getSortField(request);
 		    if (StringUtils.isEmpty(sortField) || StringUtils.equals(sortField, "name")) {
@@ -235,12 +248,12 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 		    Integer endIndex = beginIndex + HrConstants.PAGE_SIZE > approvalRows.size() ? approvalRows.size() : beginIndex + HrConstants.PAGE_SIZE;
 		    
 		    timeApprovalActionForm.setApprovalRows(approvalRows.subList(beginIndex, endIndex)); 	
-		    timeApprovalActionForm.setResultSize(principalIds.size());
+		    timeApprovalActionForm.setResultSize(approvalRows.size());
 		}		
 	}
 
-    protected List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm timeApprovalActionForm, List<String> assignmentPrincipalIds) {
-    	return TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(timeApprovalActionForm.getSelectedPayCalendarGroup(), assignmentPrincipalIds, timeApprovalActionForm.getPayCalendarLabels(), timeApprovalActionForm.getCalendarEntry());
+    protected List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm timeApprovalActionForm, List<String> assignmentPrincipalIds, String docIdSearchTerm) {
+    	return TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(timeApprovalActionForm.getSelectedPayCalendarGroup(), assignmentPrincipalIds, timeApprovalActionForm.getPayCalendarLabels(), timeApprovalActionForm.getCalendarEntry(), docIdSearchTerm);
     }
 	
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

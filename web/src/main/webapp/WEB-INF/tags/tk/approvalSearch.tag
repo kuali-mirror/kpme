@@ -23,8 +23,22 @@ the id is used in approval.js--%>
                 Search By :
                 <label for="search field">
                     <select id="searchField" name="searchField">
-                        <option value="principalName">Principal Id</option>
-                        <option value="documentId">Document Id</option>
+                   		<c:choose>
+                            <c:when test="${Form.searchField eq 'principalName'}">
+                            	<option value="principalName" selected="selected">Principal Id</option>
+                            </c:when>
+                            <c:otherwise>
+                                 <option value="principalName">Principal Id</option>
+                            </c:otherwise>
+                        </c:choose>
+                   		<c:choose>
+                            <c:when test="${Form.searchField eq 'documentId'}">
+                            	<option value="documentId" selected="selected">Document Id</option>
+                            </c:when>
+                            <c:otherwise>
+                                 <option value="documentId">Document Id</option>
+                            </c:otherwise>
+                        </c:choose>
                     </select>
                 </label>
                 Value :

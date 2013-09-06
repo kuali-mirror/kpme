@@ -64,7 +64,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 	public static final int DAYS_WINDOW_DELTA = 31;
 
 	@Override
-	public List<ApprovalLeaveSummaryRow> getLeaveApprovalSummaryRows(List<String> principalIds, CalendarEntry payCalendarEntry, List<Date> leaveSummaryDates) {
+	public List<ApprovalLeaveSummaryRow> getLeaveApprovalSummaryRows(List<String> principalIds, CalendarEntry payCalendarEntry, List<Date> leaveSummaryDates, String docIdSearchTerm) {
 		DateTime payBeginDate = payCalendarEntry.getBeginPeriodFullDateTime();
 		DateTime payEndDate = payCalendarEntry.getEndPeriodFullDateTime();
 		List<ApprovalLeaveSummaryRow> rowList = new ArrayList<ApprovalLeaveSummaryRow>();		
@@ -88,6 +88,9 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 			
 			LeaveCalendarDocumentHeader aDoc = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
 			if(aDoc != null) {
+				if(StringUtils.isNotBlank(docIdSearchTerm) && !aDoc.getDocumentId().contains(docIdSearchTerm)) {
+					continue;	// if the leave document of this pricipalId does not match the docIdSearchTerm, move on to the next principalId
+				}
 				aRow.setDocumentId(aDoc.getDocumentId());
 				aRow.setApprovalStatus(HrConstants.DOC_ROUTE_STATUS.get(aDoc.getDocumentStatus()));
                 notes = getNotesForDocument(aDoc.getDocumentId());

@@ -16,6 +16,7 @@
 package org.kuali.kpme.tklm.leave.approval.web;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -35,6 +36,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.web.KPMEAction;
@@ -68,9 +70,12 @@ public class LeaveApprovalWSAction extends KPMEAction {
 			  String principalId = GlobalVariables.getUserSession().getPrincipalId();
 			
 			  Set<Long> workAreas = new HashSet<Long>();
-			  workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(KPMENamespace.KPME_HR.getNamespaceCode(), principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
-			  workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(KPMENamespace.KPME_HR.getNamespaceCode(), principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
-			
+			  workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+			  workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+			  workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
+			  workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), new DateTime(), true));
+	          workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), new DateTime(), true));
+			  
 			  for(Long workArea : workAreas) {
 				  workAreaList.add(workArea.toString());
 			  }
@@ -78,37 +83,51 @@ public class LeaveApprovalWSAction extends KPMEAction {
 			  workAreaList.add(laaf.getSelectedWorkArea());
 		  }
 		  
-		  LocalDate endDate = laaf.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate();
-		  LocalDate beginDate = laaf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
-	        
-		  List<String> principalIds = LmServiceLocator.getLeaveApprovalService()
-				  .getLeavePrincipalIdsWithSearchCriteria(workAreaList, laaf.getSelectedPayCalendarGroup(),
-						  endDate, beginDate, endDate); 
-
-		  if (StringUtils.equals(laaf.getSearchField(), CalendarApprovalForm.ORDER_BY_PRINCIPAL)) {
-			  for (String id : principalIds) {
-				  if(StringUtils.contains(id, laaf.getSearchTerm())) {
-					  Map<String, String> labelValue = new HashMap<String, String>();
-					  labelValue.put("id", id);
-					  labelValue.put("result", id);
-					  results.add(labelValue);
+	        if(StringUtils.isNotBlank(laaf.getSelectedPayPeriod())) {
+	        	CalendarEntry currentCE = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getSelectedPayPeriod());
+	        	if(currentCE != null) {
+				  LocalDate endDate = currentCE.getEndPeriodFullDateTime().toLocalDate();
+				  LocalDate beginDate = currentCE.getBeginPeriodFullDateTime().toLocalDate();
+			        
+				  List<String> principalIds = LmServiceLocator.getLeaveApprovalService()
+						  .getLeavePrincipalIdsWithSearchCriteria(workAreaList, laaf.getSelectedPayCalendarGroup(),
+								  endDate, beginDate, endDate); 
+				  
+				  Collections.sort(principalIds);
+				  
+				  if (StringUtils.equals(laaf.getSearchField(), CalendarApprovalForm.ORDER_BY_PRINCIPAL)) {
+					  for (String id : principalIds) {
+						  if(StringUtils.contains(id, laaf.getSearchTerm())) {
+							  Map<String, String> labelValue = new HashMap<String, String>();
+							  labelValue.put("id", id);
+							  labelValue.put("result", id);
+							  results.add(labelValue);
+						  }
+					  }
+				  } else if (StringUtils.equals(laaf.getSearchField(), CalendarApprovalForm.ORDER_BY_DOCID)) {
+					  Map<String, LeaveCalendarDocumentHeader> principalDocumentHeaders =
+							  LmServiceLocator.getLeaveApprovalService().getPrincipalDocumentHeader(principalIds, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
+					  List<String> docIdList = new ArrayList<String>();
+					  
+					  for (Map.Entry<String,LeaveCalendarDocumentHeader> entry : principalDocumentHeaders.entrySet()) {						 
+						  if (StringUtils.contains(entry.getValue().getDocumentId(), laaf.getSearchTerm())) {
+							  docIdList.add(entry.getValue().getDocumentId());							  
+						  }
+					  }
+					  
+					  Collections.sort(docIdList);
+					  
+					  for(String aString : docIdList) {
+						  Map<String, String> labelValue = new HashMap<String, String>();
+						  labelValue.put("id", aString);
+						  labelValue.put("result", aString);
+						  results.add(labelValue);
+					  }
+					  
+					  
 				  }
-			  }
-		  } else if (StringUtils.equals(laaf.getSearchField(), CalendarApprovalForm.ORDER_BY_DOCID)) {
-			  Map<String, LeaveCalendarDocumentHeader> principalDocumentHeaders =
-					  LmServiceLocator.getLeaveApprovalService().getPrincipalDocumentHeader(principalIds, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
-	
-			  for (Map.Entry<String,LeaveCalendarDocumentHeader> entry : principalDocumentHeaders.entrySet()) {
-				  if (StringUtils.contains(entry.getValue().getDocumentId(), laaf.getSearchTerm())) {
-					  Map<String, String> labelValue = new HashMap<String, String>();
-//					  labelValue.put("id", entry.getValue().getDocumentId() + " (" + entry.getValue().getPrincipalId() + ")");
-					  //removing principalId to make select/submit the result from dropdown work
-					  labelValue.put("id", entry.getValue().getDocumentId());
-					  labelValue.put("result", entry.getValue().getPrincipalId());
-					  results.add(labelValue);
-				  }
-			  }
-		  }
+	        	}
+	        }
 		
 	      laaf.setOutputString(JSONValue.toJSONString(results));
 	        

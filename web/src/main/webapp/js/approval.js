@@ -59,13 +59,13 @@ $(document).ready(function () {
             $('#loading-value').ajaxStop(function () {
                 $(this).hide();
             });
-
             var urlString = 'TimeApprovalWS.do?methodToCall=searchApprovalRows'
                 + '&searchField=' + $('#searchField').val() 
             	+ '&searchTerm=' + request.term 
             	+ '&selectedPayCalendarGroup=' + $("#selectedPayCalendarGroup").val()
             	+ '&selectedDept=' + $('#selectedDept').val() 
-            	+ '&selectedWorkArea=' + $('#selectedWorkArea').val();
+            	+ '&selectedWorkArea=' + $('#selectedWorkArea').val()
+            	+ '&selectedPayPeriod=' + $('#selectedPayPeriod').val();
             $.ajax({
                 url: urlString,
                 dataType:"json",
@@ -83,7 +83,7 @@ $(document).ready(function () {
         select:function (event, data) {
             var rows = $('#approvals-table tbody tr').length;
             var isAscending = getParameterByName("ascending");
-            window.location = 'TimeApproval.do?methodToCall=searchResult&searchField=principalName&searchTerm=' + data.item.id;
+            window.location = 'TimeApproval.do?methodToCall=searchResult&searchField=' + $('#searchField').val() + '&searchTerm=' + data.item.id;
         },
         open:function () {
             $(this).removeClass("ui-corner-all");
@@ -104,13 +104,13 @@ $(document).ready(function () {
             $('#loading-value').ajaxStop(function () {
                 $(this).hide();
             });
-            
             var urlString = 'LeaveApprovalWS.do?methodToCall=searchApprovalRows'
                 + '&searchField=' + $('#searchField').val() 
             	+ '&searchTerm=' + request.term 
             	+ '&selectedPayCalendarGroup=' + $("#selectedPayCalendarGroup").val()
             	+ '&selectedDept=' + $('#selectedDept').val() 
-            	+ '&selectedWorkArea=' + $('#selectedWorkArea').val();
+            	+ '&selectedWorkArea=' + $('#selectedWorkArea').val()
+            	+ '&selectedPayPeriod=' + $('#selectedPayPeriod').val();
             $.ajax({
                 url: urlString,
                 dataType:"json",
@@ -128,7 +128,7 @@ $(document).ready(function () {
         select:function (event, data) {
             var rows = $('#approvals-table tbody tr').length;
             var isAscending = getParameterByName("ascending");
-            window.location = 'LeaveApproval.do?methodToCall=searchResult&searchField=principalName&searchTerm=' + data.item.id;
+            window.location = 'LeaveApproval.do?methodToCall=searchResult&searchField=' + $('#searchField').val() + '&searchTerm=' + data.item.id;
         },
         open:function () {
             $(this).removeClass("ui-corner-all");

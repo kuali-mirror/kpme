@@ -48,7 +48,7 @@ public class LeaveApprovalServiceTest extends TKLMIntegrationTestCase {
 		List<Date> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		List<String> testPrincipalIds = new ArrayList<String>();
 		testPrincipalIds.add("admin");
-		List<ApprovalLeaveSummaryRow> rows = LmServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows(testPrincipalIds, ce, leaveSummaryDates);
+		List<ApprovalLeaveSummaryRow> rows = LmServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows(testPrincipalIds, ce, leaveSummaryDates, "");
 		Assert.assertTrue("Rows should not be empty. ", CollectionUtils.isNotEmpty(rows));
 		
 		ApprovalLeaveSummaryRow aRow = rows.get(0);
