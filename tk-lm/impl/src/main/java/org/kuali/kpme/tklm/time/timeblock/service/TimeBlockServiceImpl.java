@@ -28,6 +28,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.earncode.EarnCode;
@@ -459,4 +460,12 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         }
         return blockHours;
     }
+
+	@Override
+	public List<TimeBlock> getTimeBlocksForLookup(String documentId,
+			String principalId, String userPrincipalId, LocalDate fromDate,
+			LocalDate toDate) {
+		// TODO Auto-generated method stub
+		return timeBlockDao.getTimeBlocksForLookup(documentId,principalId,userPrincipalId,fromDate,toDate);
+	}
 }

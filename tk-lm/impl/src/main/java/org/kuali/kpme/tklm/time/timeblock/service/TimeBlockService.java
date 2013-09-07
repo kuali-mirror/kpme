@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
@@ -190,4 +191,6 @@ public interface TimeBlockService {
 	 */
     @Cacheable(value= TimeBlock.CACHE_NAME, key="'{getTimeBlocksWithEarnCode}' + 'earnCode=' + #p0 + '|' + 'effDate=' + #p1")
     public List<TimeBlock> getTimeBlocksWithEarnCode(String earnCode, DateTime effDate);
+
+	public List<TimeBlock> getTimeBlocksForLookup(String documentId, String principalId, String userPrincipalId, LocalDate fromDate, LocalDate toDate);
 }

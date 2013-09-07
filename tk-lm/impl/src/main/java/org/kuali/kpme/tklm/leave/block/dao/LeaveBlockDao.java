@@ -52,5 +52,8 @@ public interface LeaveBlockDao {
     public List<LeaveBlock> getABELeaveBlocksSinceTime(String principalId, DateTime lastRanDateTime);
 
     public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, LocalDate beginDate, LocalDate endDate);
+	public List<LeaveBlock> getTimeCalendarLeaveBlocksForTimeBlockLookup(
+			String documentId, String principalId, String userPrincipalId,
+			LocalDate fromDate, LocalDate toDate);
 }
 

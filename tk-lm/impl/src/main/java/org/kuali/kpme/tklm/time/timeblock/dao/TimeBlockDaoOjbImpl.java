@@ -20,12 +20,14 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -149,5 +151,30 @@ public class TimeBlockDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Time
          root.addGreaterOrEqualThan("beginTimestamp", effDate.toDate());
          return (List<TimeBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlock.class, root));
     }
+
+	@Override
+	public List<TimeBlock> getTimeBlocksForLookup(String documentId,
+			String principalId, String userPrincipalId, LocalDate fromDate,
+			LocalDate toDate) {
+        Criteria criteria = new Criteria();
+        if(StringUtils.isNotBlank(documentId)) {
+        	criteria.addEqualTo("documentId", documentId);
+        }
+        if(fromDate != null) {
+        	criteria.addGreaterOrEqualThan("beginTimestamp", fromDate.toDate());
+        }
+        if(toDate != null) {
+        	criteria.addLessOrEqualThan("endTimestamp",toDate.toDate());
+        }
+        if(StringUtils.isNotBlank(principalId)) {
+        	criteria.addEqualTo("principalId", principalId);
+        }
+        if(StringUtils.isNotBlank(userPrincipalId)) {
+        	criteria.addEqualTo("userPrincipalId", userPrincipalId);
+        }
+        Query query = QueryFactory.newQuery(TimeBlock.class, criteria);
+        List<TimeBlock> timeBlocks = (List<TimeBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return timeBlocks == null || timeBlocks.size() == 0 ? new LinkedList<TimeBlock>() : timeBlocks;
+	}
 
 }

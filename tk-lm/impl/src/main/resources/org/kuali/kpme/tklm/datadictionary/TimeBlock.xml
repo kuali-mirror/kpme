@@ -46,7 +46,7 @@
         <ref bean="TimeBlock-principalId"/>
         <ref bean="TimeBlock-overtimePref"/>
         <ref bean="TimeBlock-lunchDeleted"/>
-        <ref bean="TimeBlock-timesheetDocumentHeader.documentStatus" />
+        <ref bean="TimeBlock-timesheetDocumentHeader" />
        </list>
     </property>
  	<property name="relationships">
@@ -55,6 +55,7 @@
 				<property name="objectAttributeName" value="timesheetDocumentHeader" />
 				<property name="primitiveAttributes">
 					<list>
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentId" p:targetName="documentId"/>
 						<bean parent="PrimitiveAttributeDefinition" p:sourceName="timesheetDocumentHeader.documentStatus" p:targetName="documentStatus" />
 					</list>
 				</property>
@@ -331,9 +332,9 @@
         <property name="description" value="Overtime Preference"/>
     </bean>
 
-   <bean id="TimeBlock-timesheetDocumentHeader.documentStatus" parent="TimeBlock-timesheetDocumentHeader.documentStatus-parentBean" />
-	<bean id="TimeBlock-timesheetDocumentHeader.documentStatus-parentBean" abstract="true" parent="TimesheetDocumentHeader-documentStatus">
-		<property name="name" value="timesheetDocumentHeader.documentStatus" />
+    <bean id="TimeBlock-timesheetDocumentHeader" parent="TimeBlock-timesheetDocumentHeader-parentBean" />
+	<bean id="TimeBlock-timesheetDocumentHeader-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="timesheetDocumentHeader"/>
 		<property name="label" value="Document Status"/>
 		<property name="required" value="false"/>
         <property name="control">
@@ -486,9 +487,10 @@
   				</property>
   			</bean>
   			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="timesheetDocumentHeader.documentStatus"
-  						p:optionsFinderClass="org.kuali.rice.kew.impl.document.search.DocumentStatusValuesFinder">
+  						p:optionsFinderClass="org.kuali.rice.kew.impl.document.search.DocumentStatusValuesFinder"
+  						p:label="Document Status">
   				<property name="control">
-  					<bean parent="Uif-MultiSelectControl"/>
+  					<bean parent="Uif-DropdownControl"/>
   				</property>
   			</bean>
   			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="beginDate" p:ranged="true" p:label="Begin Date">

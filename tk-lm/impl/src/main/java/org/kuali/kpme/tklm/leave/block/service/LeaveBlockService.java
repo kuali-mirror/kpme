@@ -194,4 +194,19 @@ public interface LeaveBlockService {
      */
     @Cacheable(value= LeaveBlock.CACHE_NAME, key="'{getABELeaveBlocksSinceTime}' + 'principalId=' + #p0 + '|' + 'lastRanTime=' + #p1")
     public List<LeaveBlock> getABELeaveBlocksSinceTime(String principalId, DateTime lastRanDateTime);
+
+    /**
+     * retrieves a list of leave blocks of type "TIME_CALENADAR" whose optional parameters match those required in Time Block Lookup.
+     * 
+     * @param documentId	This field is not used in persistence criteria. Leave Blocks do not have timesheet document id populated. TODO: Remove param, or set timesheet header ids on leave blocks.
+     * @param principalId	optional principal to find leave blocks for
+     * @param userPrincipalId optional principal that made modifications to the leave block - i.e. an admin targeting a specific user.
+     * @param fromDate	optional lower bound date, inclusive. matches against LeaveBlock.leaveDate
+     * @param toDate	optional upper bound date, exclusive. matches against LeaveBlock.leaveDate
+     * @return
+     */
+    @Cacheable(value= LeaveBlock.CACHE_NAME, key="'{getTimeCalendarLeaveBlocksForTimeBlockLookup}' + 'principalId=' + #p0 + '|' + 'lastRanTime=' + #p1")
+	public List<LeaveBlock> getTimeCalendarLeaveBlocksForTimeBlockLookup(
+			String documentId, String principalId, String userPrincipalId,
+			LocalDate fromDate, LocalDate toDate);
 }

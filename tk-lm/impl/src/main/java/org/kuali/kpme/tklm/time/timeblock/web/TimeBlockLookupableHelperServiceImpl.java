@@ -107,37 +107,119 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 		}
 
 		//Could also simply use super.getSearchResults for an initial object list, then invoke LeaveBlockService with the relevant query params.
-		List<CalendarBlock> calendarBlockList = HrServiceLocator.getCalendarBlockService().getCalendarBlocksForTimeBlockLookup(documentId, principalId, userPrincipalId, fromDate, toDate);
-		List<TimeBlock> objectList = new ArrayList<TimeBlock>();//(List<TimeBlock>) super.getSearchResults(form, searchCriteria, unbounded);
-		for(CalendarBlock cBlock : calendarBlockList) {
-			if(StringUtils.equals(cBlock.getConcreteBlockType(),"Time")) {
-				TimeBlock tBlock = TkServiceLocator.getTimeBlockService().getTimeBlock(cBlock.getConcreteBlockId());
+		List<TimeBlock> timeBlockList = TkServiceLocator.getTimeBlockService().getTimeBlocksForLookup(documentId, principalId, userPrincipalId, fromDate, toDate);
+		List<TimeBlock> objectList = new ArrayList<TimeBlock>();
+		for(TimeBlock tBlock : timeBlockList) {
+
+			TimesheetDocumentHeader timesheetHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(tBlock.getDocumentId());
+			
+			if(timesheetHeader != null) {
+				if(StringUtils.isNotBlank(searchCriteria.get(DOC_STATUS_ID))) {
+					//only add if doc status is one of those specified
+					if(searchCriteria.get(DOC_STATUS_ID).contains("category")) {
+						//format for categorical statuses is "category:Q" where 'Q' is one of "P,S,U".
+						//which category was selected, and is the time block on a timesheet with this status.
+						if(searchCriteria.get(DOC_STATUS_ID).contains("P")) {
+							//pending statuses
+							if("I,S,R,E".contains(timesheetHeader.getDocumentStatus())) {
+								objectList.add(tBlock);
+							}
+						}
+						else if(searchCriteria.get(DOC_STATUS_ID).contains("S")) {
+							//successful statuses
+							if("P,F".contains(timesheetHeader.getDocumentStatus())) {
+								objectList.add(tBlock);
+							}
+						}
+						else if(searchCriteria.get(DOC_STATUS_ID).contains("U")) {
+							//unsuccessful statuses
+							if("X,D".contains(timesheetHeader.getDocumentStatus())) {
+								objectList.add(tBlock);
+							}
+						}
+					}
+					else if(searchCriteria.get(DOC_STATUS_ID).contains(timesheetHeader.getDocumentStatus())) {
+						//match the specific doc status
+						objectList.add(tBlock);
+					}
+				}
+				else {
+					//no status specified, add regardless of status
+					objectList.add(tBlock);
+				}
+			}
+			else if(StringUtils.isBlank(searchCriteria.get(DOC_STATUS_ID))) {
+				//can't match doc status with a non existent header
+				//only add to list if no status was selected
 				objectList.add(tBlock);
 			}
-			else if(StringUtils.equals(cBlock.getConcreteBlockType(), "Leave")) {
-				LeaveBlock lBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(cBlock.getConcreteBlockId());
-				// NOTE: Do NOT set tkTimeBlockId.
-				// We'll leave this field blank. When getActionUrlHref is called with this object
-				// we can infer that the object is a "mocked" time block, and remove the "view" link from results.
-				TimeBlock tBlock = new TimeBlock();
-				tBlock.setAmount(cBlock.getAmount());
-				tBlock.setHours(cBlock.getHours());
-				tBlock.setJobNumber(cBlock.getJobNumber());
-				tBlock.setEarnCode(cBlock.getEarnCode());
-				tBlock.setPrincipalId(cBlock.getPrincipalId());
-				tBlock.setUserPrincipalId(lBlock.getPrincipalIdModified());
-				tBlock.setWorkArea(cBlock.getWorkArea());
-				tBlock.setTask(cBlock.getTask());
-				tBlock.setOvertimePref(cBlock.getOvertimePref());
-				tBlock.setLunchDeleted(cBlock.getLunchDeleted());
-				tBlock.setDocumentId(cBlock.getDocumentId());
-				tBlock.setBeginDate(lBlock.getLeaveDate());
-				tBlock.setEndDate(lBlock.getLeaveDate());
-				tBlock.setTimeHourDetails(new ArrayList<TimeHourDetail>());
-				TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(cBlock.getDocumentId());
-				tBlock.setTimesheetDocumentHeader(tdh);
+		}
+		
+		List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getTimeCalendarLeaveBlocksForTimeBlockLookup(documentId,principalId,userPrincipalId,fromDate,toDate);
+		for(LeaveBlock leaveBlock : leaveBlocks) {
+			TimesheetDocumentHeader timesheetHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(leaveBlock.getPrincipalId(), 
+					new DateTime(leaveBlock.getLeaveDate().getTime()));
+
+			// NOTE: Do NOT set tkTimeBlockId.
+			// We'll leave this field blank. When getActionUrlHref is called with this object
+			// we can infer that the object is a "mocked" time block, and remove the "view" link from results.
+			TimeBlock tBlock = new TimeBlock();
+			tBlock.setAmount(leaveBlock.getAmount());
+			tBlock.setHours(leaveBlock.getHours());
+			tBlock.setJobNumber(leaveBlock.getJobNumber());
+			tBlock.setEarnCode(leaveBlock.getEarnCode());
+			tBlock.setPrincipalId(leaveBlock.getPrincipalId());
+			tBlock.setUserPrincipalId(leaveBlock.getPrincipalIdModified());
+			tBlock.setWorkArea(leaveBlock.getWorkArea());
+			tBlock.setTask(leaveBlock.getTask());
+			tBlock.setOvertimePref(leaveBlock.getOvertimePref());
+			tBlock.setLunchDeleted(leaveBlock.getLunchDeleted());
+			tBlock.setBeginDate(leaveBlock.getLeaveDate());
+			tBlock.setEndDate(leaveBlock.getLeaveDate());
+			tBlock.setTimeHourDetails(new ArrayList<TimeHourDetail>());
+			if(timesheetHeader != null) {
+				tBlock.setDocumentId(timesheetHeader.getDocumentId());
+				tBlock.setTimesheetDocumentHeader(timesheetHeader);
+				if(StringUtils.isNotBlank(searchCriteria.get(DOC_STATUS_ID))) {
+					//only add if doc status is one of those specified
+					if(searchCriteria.get(DOC_STATUS_ID).contains("category")) {
+						//format for categorical statuses is "category:Q" where 'Q' is one of "P,S,U".
+						//which category was selected, and is the time block on a timesheet with this status.
+						if(searchCriteria.get(DOC_STATUS_ID).contains("P")) {
+							//pending statuses
+							if("I,S,R,E".contains(timesheetHeader.getDocumentStatus())) {
+								objectList.add(tBlock);
+							}
+						}
+						else if(searchCriteria.get(DOC_STATUS_ID).contains("S")) {
+							//successful statuses
+							if("P,F".contains(timesheetHeader.getDocumentStatus())) {
+								objectList.add(tBlock);
+							}
+						}
+						else if(searchCriteria.get(DOC_STATUS_ID).contains("U")) {
+							//unsuccessful statuses
+							if("X,D".contains(timesheetHeader.getDocumentStatus())) {
+								objectList.add(tBlock);
+							}
+						}
+					}
+					else if(searchCriteria.get(DOC_STATUS_ID).contains(timesheetHeader.getDocumentStatus())) {
+						//match the specific doc status
+						objectList.add(tBlock);
+					}
+				}
+				else {
+					//no status specified, add regardless of status
+					objectList.add(tBlock);
+				}
+			}
+			else if(StringUtils.isBlank(searchCriteria.get(DOC_STATUS_ID))) {
+				//can't match doc status with a non existent header
+				//only add to list if no status was selected
 				objectList.add(tBlock);
 			}
+
 		}
 		
         if(!objectList.isEmpty()) {
