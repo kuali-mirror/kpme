@@ -104,10 +104,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>xerces</groupId>
-            <artifactId>xercesImpl</artifactId>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>kpme-core-impl</artifactId>
             <version>${project.version}</version>

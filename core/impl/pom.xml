@@ -133,10 +133,6 @@
             <artifactId>spring-mock</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>xerces</groupId>
-            <artifactId>xercesImpl</artifactId>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
