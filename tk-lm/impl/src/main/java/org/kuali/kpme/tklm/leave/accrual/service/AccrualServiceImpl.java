@@ -33,6 +33,7 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
@@ -480,7 +481,7 @@ public class AccrualServiceImpl implements AccrualService {
 	}
 	
 	private boolean isDateAnIntervalDate(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
-		if(earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL)) {
+		if(earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {
 			return isDateAtPayCalInterval(aDate, earnInterval, payCalName, aMap);
 		} else {
 			return this.isDateAtEarnInterval(aDate, earnInterval);
@@ -490,7 +491,7 @@ public class AccrualServiceImpl implements AccrualService {
 	private boolean isDateAtPayCalInterval(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(StringUtils.isNotEmpty(payCalName) 
 				&& !aMap.isEmpty()
-				&& earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL)) {	// only used for ac earn interval == pay calendar
+				&& earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {	// only used for ac earn interval == pay calendar
 			List<CalendarEntry> entryList = aMap.get(payCalName);
 			if(CollectionUtils.isNotEmpty(entryList)) {
 				for(CalendarEntry anEntry : entryList) {
@@ -508,30 +509,31 @@ public class AccrualServiceImpl implements AccrualService {
 	@Override
 	public boolean isDateAtEarnInterval(LocalDate aDate, String earnInterval) {
 		boolean atEarnInterval = false;
-		if (HrConstants.ACCRUAL_EARN_INTERVAL_MAP.containsKey(earnInterval)) {
-			if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.DAILY)) {
+        AccrualEarnInterval accrualEarnInterval = AccrualEarnInterval.fromCode(earnInterval);
+		if (accrualEarnInterval != null) {
+			if (AccrualEarnInterval.DAILY.equals(accrualEarnInterval)) {
 				atEarnInterval = true;
-			} else if(earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.WEEKLY)) {
+			} else if(AccrualEarnInterval.WEEKLY.equals(accrualEarnInterval)) {
 				// figure out if the day is a Saturday
 				if (aDate.getDayOfWeek() == DateTimeConstants.SATURDAY) {
 					atEarnInterval = true;
 				}
-			} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.SEMI_MONTHLY)) {
+			} else if (AccrualEarnInterval.SEMI_MONTHLY.equals(accrualEarnInterval)) {
 				// either the 15th or the last day of the month
 				if (aDate.getDayOfMonth() == 15 || aDate.getDayOfMonth() == aDate.dayOfMonth().getMaximumValue()) {
 					atEarnInterval = true;
 				}
-			} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.MONTHLY)) {
+			} else if (AccrualEarnInterval.MONTHLY.equals(accrualEarnInterval)) {
 				// the last day of the month
 				if (aDate.getDayOfMonth() == aDate.dayOfMonth().getMaximumValue()) {
 					atEarnInterval = true;
 				}
-			} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.YEARLY)) {
+			} else if (AccrualEarnInterval.YEARLY.equals(accrualEarnInterval)) {
 				// the last day of the year
 				if (aDate.getDayOfYear() == aDate.dayOfYear().getMaximumValue()) {
 					atEarnInterval = true;
 				}
-			} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.NO_ACCRUAL)) {
+			} else if (AccrualEarnInterval.NO_ACCRUAL.equals(accrualEarnInterval)) {
 				// no calculation
 			}
 		}
@@ -907,7 +909,7 @@ public class AccrualServiceImpl implements AccrualService {
 	}
 
 	private DateTime getPrevIntervalDate(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
-		if(earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL)) {
+		if(earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {
 			return this.getPrevPayCalIntervalDate(aDate, earnInterval, payCalName, aMap);
 		} else {
 			return this.getPreviousAccrualIntervalDate(earnInterval, aDate);
@@ -917,25 +919,25 @@ public class AccrualServiceImpl implements AccrualService {
 	@Override
 	public DateTime getPreviousAccrualIntervalDate(String earnInterval, DateTime aDate) {
 		DateTime previousAccrualIntervalDate = null;
-
-		if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.DAILY)) {
+        AccrualEarnInterval accrualEarnInterval = AccrualEarnInterval.fromCode(earnInterval);
+		if (AccrualEarnInterval.DAILY.equals(accrualEarnInterval)) {
 			previousAccrualIntervalDate = aDate.minusDays(1);
-		} else if(earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.WEEKLY)) {
+		} else if(AccrualEarnInterval.WEEKLY.equals(accrualEarnInterval)) {
 			previousAccrualIntervalDate = aDate.minusWeeks(1).withDayOfWeek(DateTimeConstants.SATURDAY);
-		} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.SEMI_MONTHLY)) {
+		} else if (AccrualEarnInterval.SEMI_MONTHLY.equals(accrualEarnInterval)) {
 			previousAccrualIntervalDate = aDate.minusDays(15);
 			if (previousAccrualIntervalDate.getDayOfMonth() <= 15) {
 				previousAccrualIntervalDate = previousAccrualIntervalDate.withDayOfMonth(15);
 			} else {
 				previousAccrualIntervalDate = previousAccrualIntervalDate.withDayOfMonth(previousAccrualIntervalDate.dayOfMonth().getMaximumValue());
 			}
-		} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.MONTHLY)) {
+		} else if (AccrualEarnInterval.MONTHLY.equals(accrualEarnInterval)) {
 			previousAccrualIntervalDate = aDate.minusMonths(1);
 			previousAccrualIntervalDate = previousAccrualIntervalDate.withDayOfMonth(previousAccrualIntervalDate.dayOfMonth().getMaximumValue());
-		} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.YEARLY)) {
+		} else if (AccrualEarnInterval.YEARLY.equals(accrualEarnInterval)) {
 			previousAccrualIntervalDate = aDate.minusYears(1);
 			previousAccrualIntervalDate = previousAccrualIntervalDate.withDayOfYear(previousAccrualIntervalDate.dayOfYear().getMaximumValue());
-		} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.NO_ACCRUAL)) {
+		} else if (AccrualEarnInterval.NO_ACCRUAL.equals(accrualEarnInterval)) {
 			previousAccrualIntervalDate = aDate;
 		}
 		
@@ -945,7 +947,7 @@ public class AccrualServiceImpl implements AccrualService {
 	private DateTime getPrevPayCalIntervalDate(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(StringUtils.isNotEmpty(payCalName) 
 				&& !aMap.isEmpty()
-				&& earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL)) {	// only used for ac earn interval == pay calendar
+				&& earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {	// only used for ac earn interval == pay calendar
 			List<CalendarEntry> entryList = aMap.get(payCalName);
 			if(CollectionUtils.isNotEmpty(entryList)) {
 				for(CalendarEntry anEntry : entryList) {
@@ -961,9 +963,10 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 		return aDate;
 	}
-	
-	private DateTime getNextIntervalDate(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
-		if(earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL)) {
+
+    @Override
+	public DateTime getNextIntervalDate(DateTime aDate, String earnInterval, String payCalName, Map<String, List<CalendarEntry>> aMap) {
+		if(earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {
 			return this.getNextPayCalIntervalDate(aDate, earnInterval, payCalName, aMap);
 		} else {
 			return this.getNextAccrualIntervalDate(earnInterval, aDate);
@@ -973,7 +976,7 @@ public class AccrualServiceImpl implements AccrualService {
 	private DateTime getNextPayCalIntervalDate(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(StringUtils.isNotEmpty(payCalName) 
 				&& !aMap.isEmpty()
-				&& earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL)) {	// only used for ac earn interval == pay calendar
+				&& earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {	// only used for ac earn interval == pay calendar
 			List<CalendarEntry> entryList = aMap.get(payCalName);
 			if(CollectionUtils.isNotEmpty(entryList)) {
 				for(CalendarEntry anEntry : entryList) {
@@ -992,28 +995,28 @@ public class AccrualServiceImpl implements AccrualService {
 	@Override
 	public DateTime getNextAccrualIntervalDate(String earnInterval, DateTime aDate) {
 		DateTime nextAccrualIntervalDate = null;
-		
-		if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.DAILY)) {
+        AccrualEarnInterval accrualEarnInterval = AccrualEarnInterval.fromCode(earnInterval);
+		if (AccrualEarnInterval.DAILY.equals(accrualEarnInterval)) {
 			nextAccrualIntervalDate = aDate;
-		} else if(earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.WEEKLY)) {
+		} else if(AccrualEarnInterval.WEEKLY.equals(accrualEarnInterval)) {
 			if (aDate.getDayOfWeek() != DateTimeConstants.SATURDAY) {
 				nextAccrualIntervalDate = aDate.withDayOfWeek(DateTimeConstants.SATURDAY);
 			} else {
 				nextAccrualIntervalDate = aDate.withWeekOfWeekyear(1);
 			}
-		} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.SEMI_MONTHLY)) {
+		} else if (AccrualEarnInterval.SEMI_MONTHLY.equals(accrualEarnInterval)) {
 			if(aDate.getDayOfMonth() <= 15) {
 				nextAccrualIntervalDate = aDate.withDayOfMonth(15);
 			} else {
 				nextAccrualIntervalDate = aDate.withDayOfMonth(aDate.dayOfMonth().getMaximumValue());
 			}
-		} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.MONTHLY)) {
+		} else if (AccrualEarnInterval.MONTHLY.equals(accrualEarnInterval)) {
 			nextAccrualIntervalDate = aDate.withDayOfMonth(aDate.dayOfMonth().getMaximumValue());
-		} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.YEARLY)) {
+		} else if (AccrualEarnInterval.YEARLY.equals(accrualEarnInterval)) {
 			nextAccrualIntervalDate = aDate.withDayOfYear(aDate.dayOfYear().getMaximumValue());
-		} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.NO_ACCRUAL)) {
+		} else if (AccrualEarnInterval.NO_ACCRUAL.equals(accrualEarnInterval)) {
 			nextAccrualIntervalDate = aDate;
-		} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL)) {
+		} else if (AccrualEarnInterval.PAY_CAL.equals(accrualEarnInterval)) {
 			//TODO: How is the next accrual interval date determined for a PAY_CAL earn interval?
 			nextAccrualIntervalDate = aDate;
 		}
@@ -1022,7 +1025,7 @@ public class AccrualServiceImpl implements AccrualService {
 	}
 
 	private int getWorkDaysInInterval(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
-		if(earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL)) {
+		if(earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {
 			return this.getWorkDaysInPayCalInterval(aDate, earnInterval, payCalName, aMap);
 		} else {
 			return this.getWorkDaysInAccrualInterval(earnInterval, aDate);
@@ -1032,7 +1035,7 @@ public class AccrualServiceImpl implements AccrualService {
 	private int getWorkDaysInPayCalInterval(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(StringUtils.isNotEmpty(payCalName) 
 				&& !aMap.isEmpty()
-				&& earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL)) {	// only used for ac earn interval == pay calendar
+				&& earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {	// only used for ac earn interval == pay calendar
 			List<CalendarEntry> entryList = aMap.get(payCalName);
 			if(CollectionUtils.isNotEmpty(entryList)) {
 				for(CalendarEntry anEntry : entryList) {
@@ -1049,23 +1052,26 @@ public class AccrualServiceImpl implements AccrualService {
 	
 	@Override
 	public int getWorkDaysInAccrualInterval(String earnInterval, DateTime aDate) {
-		if(earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.DAILY)) {
-			return 1;
-		} else if(earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.WEEKLY)) {
-			return 5;	
-		} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.SEMI_MONTHLY)) {
-			if(aDate.getDayOfMonth() <= 15) {
-				return TKUtils.getWorkDays(aDate.withDayOfMonth(1), aDate.withDayOfMonth(15));
-			} else {
-				return TKUtils.getWorkDays(aDate.withDayOfMonth(16), aDate.withDayOfMonth(aDate.dayOfMonth().getMaximumValue()));
-			}
-		} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.MONTHLY)) {
-			return TKUtils.getWorkDays(aDate.withDayOfMonth(1), aDate.withDayOfMonth(aDate.dayOfMonth().getMaximumValue()));
-		} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.YEARLY)) {
-			return TKUtils.getWorkDays(aDate.withDayOfYear(1), aDate.withDayOfYear(aDate.dayOfYear().getMaximumValue()));
-		} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.NO_ACCRUAL)) {
-			return 0;
-		}		
+        AccrualEarnInterval accrualEarnInterval = AccrualEarnInterval.fromCode(earnInterval);
+        if (accrualEarnInterval != null) {
+            if(AccrualEarnInterval.DAILY.equals(accrualEarnInterval)) {
+                return 1;
+            } else if(AccrualEarnInterval.WEEKLY.equals(accrualEarnInterval)) {
+                return 5;
+            } else if (AccrualEarnInterval.SEMI_MONTHLY.equals(accrualEarnInterval)) {
+                if(aDate.getDayOfMonth() <= 15) {
+                    return TKUtils.getWorkDays(aDate.withDayOfMonth(1), aDate.withDayOfMonth(15));
+                } else {
+                    return TKUtils.getWorkDays(aDate.withDayOfMonth(16), aDate.withDayOfMonth(aDate.dayOfMonth().getMaximumValue()));
+                }
+            } else if (AccrualEarnInterval.MONTHLY.equals(accrualEarnInterval)) {
+                return TKUtils.getWorkDays(aDate.withDayOfMonth(1), aDate.withDayOfMonth(aDate.dayOfMonth().getMaximumValue()));
+            } else if (AccrualEarnInterval.YEARLY.equals(accrualEarnInterval)) {
+                return TKUtils.getWorkDays(aDate.withDayOfYear(1), aDate.withDayOfYear(aDate.dayOfYear().getMaximumValue()));
+            } else if (AccrualEarnInterval.NO_ACCRUAL.equals(accrualEarnInterval)) {
+                return 0;
+            }
+        }
 		return 0;
 	}
 	

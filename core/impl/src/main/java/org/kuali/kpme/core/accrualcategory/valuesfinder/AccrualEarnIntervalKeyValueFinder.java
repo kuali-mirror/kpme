@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -36,8 +37,9 @@ public class AccrualEarnIntervalKeyValueFinder extends KeyValuesBase {
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
 		// KPME-1347 Kagata Use LMConstant instead of TKConstant
 		//for (Map.Entry entry : HrConstants.ACCRUAL_EARN_INTERVAL.entrySet()) {
-		for (Map.Entry entry : HrConstants.ACCRUAL_EARN_INTERVAL_MAP.entrySet()) {
-			keyValues.add(new ConcreteKeyValue((String)entry.getKey(), (String)entry.getValue()));
+
+        for (AccrualEarnInterval aei : AccrualEarnInterval.values()) {
+			keyValues.add(new ConcreteKeyValue(aei.getCode(), aei.getDescription()));
         }     		
         return keyValues;
 	}

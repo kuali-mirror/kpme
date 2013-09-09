@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.dao.AccrualCategoryDao;
+import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -100,7 +101,7 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 		List<AccrualCategory> accrualCategories = accrualCategoryDao.getActiveAccrualCategories(leavePlanStr, asOfDate); 
 		for(AccrualCategory accrualCat : accrualCategories){
 			//if no rules continue
-			if(StringUtils.equals(accrualCat.getAccrualEarnInterval(), HrConstants.ACCRUAL_EARN_INTERVAL.NO_ACCRUAL) 
+			if(StringUtils.equals(accrualCat.getAccrualEarnInterval(), AccrualEarnInterval.NO_ACCRUAL.getCode())
 					|| accrualCat.getAccrualCategoryRules().isEmpty()){
 				continue;
 			}

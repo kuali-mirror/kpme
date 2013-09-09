@@ -38,6 +38,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.role.KPMERole;
@@ -99,9 +100,9 @@ public class PersonInfoAction extends KPMEAction {
 						
 						accrualCategoryRates.put(accrualCategory.getAccrualCategory(), accrualCategoryRule.getAccrualRate());
 
-						for (Map.Entry<String, String> entry : HrConstants.ACCRUAL_EARN_INTERVAL_MAP.entrySet()) {					            
-				            if (accrualCategory.getAccrualEarnInterval().equals(entry.getKey())) {
-				            	accrualEarnIntervals.put(accrualCategory.getAccrualCategory(), entry.getValue());
+						for (AccrualEarnInterval entry : AccrualEarnInterval.values()) {
+				            if (accrualCategory.getAccrualEarnInterval().equals(entry.getCode())) {
+				            	accrualEarnIntervals.put(accrualCategory.getAccrualCategory(), entry.getDescription());
 				            	break;
 				            }
 				        } 

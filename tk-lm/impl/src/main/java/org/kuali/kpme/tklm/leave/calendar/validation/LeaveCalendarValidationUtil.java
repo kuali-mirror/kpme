@@ -34,18 +34,21 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition;
+import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.leave.accrual.RateRangeAggregate;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarWSForm;
@@ -272,7 +275,16 @@ public class LeaveCalendarValidationUtil {
     	if(earnCodeObj != null && earnCodeObj.getAllowNegativeAccrualBalance().equals("N")) {
     		AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), endDate);
     		if(accrualCategory != null) {
-    			DateTime nextIntervalDate = LmServiceLocator.getAccrualService().getNextAccrualIntervalDate(accrualCategory.getAccrualEarnInterval(), endDate.toDateTimeAtStartOfDay());
+                AccrualEarnInterval accrualEarnInterval = AccrualEarnInterval.fromCode(accrualCategory.getAccrualEarnInterval());
+                DateTime nextIntervalDate;
+                if (accrualEarnInterval != null
+                        && AccrualEarnInterval.PAY_CAL.equals(accrualEarnInterval)) {
+                    RateRangeAggregate rrAggregate = LmServiceLocator.getAccrualService().buildRateRangeAggregate(HrContext.getTargetPrincipalId(), startDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
+                    PrincipalHRAttributes phra = rrAggregate.getRateOnDate(endDate.toDateTimeAtStartOfDay()).getPrincipalHRAttributes();
+                    nextIntervalDate = LmServiceLocator.getAccrualService().getNextIntervalDate(endDate.toDateTimeAtStartOfDay(), accrualEarnInterval.getCode(), phra.getPayCalendar(), rrAggregate.getCalEntryMap());
+                } else {
+    			    nextIntervalDate = LmServiceLocator.getAccrualService().getNextAccrualIntervalDate(accrualCategory.getAccrualEarnInterval(), endDate.toDateTimeAtStartOfDay());
+                }
 				// get the usage checking cut off Date, normally it's the day before the next interval date
     			DateTime usageEndDate = nextIntervalDate;
 				if (nextIntervalDate.compareTo(endDate.toDateTimeAtCurrentTime()) > 0) {
@@ -280,7 +292,7 @@ public class LeaveCalendarValidationUtil {
 				}
 				// use the end of the year as the interval date for usage checking of no-accrual hours,
 				// normally no-accrual hours are from banked/transferred system scheduled time offs
-				if(accrualCategory.getAccrualEarnInterval().equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.NO_ACCRUAL)) {
+				if(accrualCategory.getAccrualEarnInterval().equals(AccrualEarnInterval.NO_ACCRUAL.getCode())) {
 					usageEndDate = endDate.toDateTimeAtStartOfDay().withMonthOfYear(DateTimeConstants.DECEMBER).withDayOfMonth(31);
 				}
 				BigDecimal availableBalance = LmServiceLocator.getLeaveSummaryService()

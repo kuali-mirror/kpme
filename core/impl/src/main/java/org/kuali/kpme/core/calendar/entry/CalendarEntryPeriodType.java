@@ -16,7 +16,6 @@
 package org.kuali.kpme.core.calendar.entry;
 
 import org.apache.log4j.Logger;
-import org.kuali.kpme.core.earncode.security.EarnCodeType;
 
 
 public enum CalendarEntryPeriodType {

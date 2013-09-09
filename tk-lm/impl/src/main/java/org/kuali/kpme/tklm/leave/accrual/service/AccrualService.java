@@ -17,10 +17,12 @@ package org.kuali.kpme.tklm.leave.accrual.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.tklm.leave.accrual.RateRangeAggregate;
 
 public interface AccrualService {
@@ -107,5 +109,6 @@ public interface AccrualService {
 	public BigDecimal getAccruedBalanceForPrincipal(String principalId, AccrualCategory accrualCategory, LocalDate asOfDate);
 	
 	public BigDecimal getApprovedBalanceForPrincipal(String principalId, AccrualCategory accrualCategory, LocalDate asOfDate);
-	
+
+    DateTime getNextIntervalDate(DateTime aDate, String earnInterval, String payCalName, Map<String, List<CalendarEntry>> aMap);
 }
