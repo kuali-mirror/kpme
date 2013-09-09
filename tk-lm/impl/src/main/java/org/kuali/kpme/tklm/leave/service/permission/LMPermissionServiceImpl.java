@@ -27,6 +27,8 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.permission.HrPermissionServiceBase;
@@ -40,7 +42,6 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionType;
@@ -176,8 +177,9 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
                     || StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, blockType)
                     || StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR, blockType)) {
 
-            	if (!TkContext.isDepartmentAdmin()
-                        || HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), leaveBlock.getWorkArea(), new DateTime())) {
+//            	if (!TkContext.isDepartmentAdmin()
+//                        || HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), leaveBlock.getWorkArea(), new DateTime())) {
+            	if(this.userHasRolesToEditLeaveBlock(principalId, leaveBlock)) {
                     return updateCanEditLeavePerm(principalId, perms, true);
             	}
             } else if (LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT.equals(blockType)
@@ -203,6 +205,46 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
         }
 
         return false;
+    }
+    
+    @Override
+    public boolean userHasRolesToEditLeaveBlock(String principalId, LeaveBlock aLeaveBlock) {
+    	// Location and sys admins along with approver,reviewer, payroll processors should have access to edit calendar
+    	// department admins and view only should not have access to edit timesheets. view only roles are location view only and global view only
+    	// location and sys admin roles should have priority unless it is their own calendar.
+      
+	    // use if blocks to check the roles in priority order and returns true so we don't need to check all possible roles for performance purpose 
+    	// system admin
+	    if(HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(principalId, DateTime.now()))
+	    	return true;
+	   // LeaveSysAdmin
+	    if(HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_SYSTEM_ADMINISTRATOR.getRoleName(), new DateTime()))
+	    	return true;
+	    
+	    // use job to find the department, then use the location from Department to get the location roles 
+	    Job aJob = HrServiceLocator.getJobService().getJob(aLeaveBlock.getPrincipalId(), aLeaveBlock.getJobNumber(), aLeaveBlock.getLeaveLocalDate());
+	    if(aJob != null) {
+	    	Department aDept = HrServiceLocator.getDepartmentService().getDepartment(aJob.getDept(), aJob.getEffectiveLocalDate());
+	    	if(aDept != null) {
+	    		// LeaveLocationAdmin
+			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), aDept.getLocation(), new DateTime()))
+			    	return true;
+	    	}
+	    }	    
+    	Long aWorkArea = aLeaveBlock.getWorkArea();
+	    // Reviewer
+	    if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), aWorkArea, new DateTime()))
+	    	return true;
+	    // Approver
+	    if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), aWorkArea, new DateTime()))
+	    	return true;
+	    // Approver Delegate
+	    if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), aWorkArea, new DateTime()))
+	    	return true;
+	    
+	    // no eligible roles found
+	    return false;
+	 
     }
 
     private boolean updateCanDeleteLeaveblockPerm(String principalId, CalendarBlockPermissions perms, boolean canDelete) {

@@ -221,5 +221,13 @@ public interface LMPermissionService {
 	 * @return
 	 */
 	boolean canBankSSTOUsage(LeaveBlock leaveBlock);
+	
+	/**
+	 * Determine if the given {@code principalId} is authorized to edit given {@code aLeaveBlock}
+	 * @param principalId
+	 * @param aLeaveBlock
+	 * @return
+	 */
+	public boolean userHasRolesToEditLeaveBlock(String principalId, LeaveBlock aLeaveBlock);
 
 }
