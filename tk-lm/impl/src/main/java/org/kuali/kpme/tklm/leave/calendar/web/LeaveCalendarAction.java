@@ -258,6 +258,9 @@ public class LeaveCalendarAction extends CalendarFormAction {
 	        setMessages(leaveCalendarForm, leaveBlocks);
 	        
 	        setBlockSubmittable(leaveCalendarForm, leaveCalendarDocument);
+	        
+	        boolean leavePlanningCalendar = LmServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
+	        leaveCalendarForm.setLeavePlanningCalendar(leavePlanningCalendar);
         }
 
 		return actionForward;
