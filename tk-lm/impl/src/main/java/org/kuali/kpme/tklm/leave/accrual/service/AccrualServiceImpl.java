@@ -1017,8 +1017,8 @@ public class AccrualServiceImpl implements AccrualService {
 		} else if (AccrualEarnInterval.NO_ACCRUAL.equals(accrualEarnInterval)) {
 			nextAccrualIntervalDate = aDate;
 		} else if (AccrualEarnInterval.PAY_CAL.equals(accrualEarnInterval)) {
-			//TODO: How is the next accrual interval date determined for a PAY_CAL earn interval?
-			nextAccrualIntervalDate = aDate;
+			LOG.error("Accrual Earn Interval of Pay CAL is not valid for AccrualServiceImpl:getNextAccrualIntervalDate");
+            nextAccrualIntervalDate = null;
 		}
 		
 		return nextAccrualIntervalDate;
