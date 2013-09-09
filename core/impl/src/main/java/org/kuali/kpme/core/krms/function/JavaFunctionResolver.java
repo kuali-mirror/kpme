@@ -15,8 +15,7 @@
  */
 package org.kuali.kpme.core.krms.function;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.krms.api.repository.function.FunctionDefinition;
 import org.kuali.rice.krms.api.repository.function.FunctionParameterDefinition;
@@ -29,8 +28,7 @@ import java.util.*;
  * and resolves the result. (copied from Kuali Coeus)
  */
 public class JavaFunctionResolver extends FunctionTermResolver{
-    
-    protected final Log LOG = LogFactory.getLog(JavaFunctionResolver.class);
+    private static final Logger LOG = Logger.getLogger(JavaFunctionResolver.class);
 
     public JavaFunctionResolver(List<String> orderedInputParams, Set<String> parameterNames, String output, FunctionDefinition functionTerm) {
         super(orderedInputParams, parameterNames, output);

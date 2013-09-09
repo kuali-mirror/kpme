@@ -66,9 +66,9 @@ public class PayStepDaoOjbImpl extends PlatformAwareDaoBaseOjb implements
 		Criteria activeFilter = new Criteria();
 		if(StringUtils.isNotBlank(active)) {
 			activeFilter.addEqualTo("active",active);
-		}
-		else
+		} else {
 			activeFilter.addNotNull("active");
+        }
 
 		crit.addAndCriteria(activeFilter);
 		

@@ -90,7 +90,7 @@
         <!--<property name="properties" ref="configProperties" />-->
     </bean>
 
-    <bean id="edlConfigurer" class="org.kuali.rice.edl.impl.config.EDLConfigurer"/>
+    <!--<bean id="edlConfigurer" class="org.kuali.rice.edl.impl.config.EDLConfigurer"/>-->
 
     <bean id="krmsConfigurer" class="org.kuali.rice.krms.config.KRMSConfigurer" />
 

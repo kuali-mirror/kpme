@@ -183,7 +183,7 @@
         <servlet-name>kcb</servlet-name>
     </filter-mapping>
 
-    <filter-mapping>
+    <!--<filter-mapping>
         <filter-name>BootstrapFilter</filter-name>
         <servlet-name>edoclite</servlet-name>
     </filter-mapping>
@@ -196,7 +196,7 @@
     <filter-mapping>
         <filter-name>UserPreferencesFilter</filter-name>
         <servlet-name>edoclite</servlet-name>
-    </filter-mapping>
+    </filter-mapping>-->
 
     <filter-mapping>
         <filter-name>Log4JContextClearingFilter</filter-name>
@@ -338,10 +338,10 @@
         <servlet-class>org.kuali.rice.kew.notes.web.AttachmentServlet</servlet-class>
     </servlet>
     
-    <servlet>
+    <!--<servlet>
         <servlet-name>edoclite</servlet-name>
         <servlet-class>org.kuali.rice.edl.impl.EDLServlet</servlet-class>
-    </servlet>
+    </servlet>-->
 	
 	<servlet>
         <servlet-name>krad</servlet-name>
@@ -407,10 +407,10 @@
         <url-pattern>/kew/attachment/*</url-pattern>
     </servlet-mapping>
     
-    <servlet-mapping>
+    <!--<servlet-mapping>
         <servlet-name>edoclite</servlet-name>
         <url-pattern>/kew/EDocLite</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 	
 	<servlet-mapping>
         <servlet-name>krad</servlet-name>

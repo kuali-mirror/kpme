@@ -26,42 +26,10 @@
     <name>KPME Core API</name>
     <artifactId>kpme-core-api</artifactId>
     <dependencies>
-        <!--    <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-core-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-kew-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-kim-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-ken-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-krms-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-core-service-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-location-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-ksb-api</artifactId>
-        </dependency> -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-krad-app-framework</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-krad-web-framework</artifactId>
