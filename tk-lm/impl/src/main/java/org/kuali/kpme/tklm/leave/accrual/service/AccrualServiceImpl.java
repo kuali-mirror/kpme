@@ -1013,6 +1013,9 @@ public class AccrualServiceImpl implements AccrualService {
 			nextAccrualIntervalDate = aDate.withDayOfYear(aDate.dayOfYear().getMaximumValue());
 		} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.NO_ACCRUAL)) {
 			nextAccrualIntervalDate = aDate;
+		} else if (earnInterval.equals(HrConstants.ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL)) {
+			//TODO: How is the next accrual interval date determined for a PAY_CAL earn interval?
+			nextAccrualIntervalDate = aDate;
 		}
 		
 		return nextAccrualIntervalDate;

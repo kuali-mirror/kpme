@@ -48,6 +48,7 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
@@ -338,7 +339,7 @@ public class ClockAction extends TimesheetAction {
 		String[] endTimes = caf.getNewETCol().split(SEPERATOR);
 		String[] hrs = caf.getNewHrsCol().split(SEPERATOR);
 		String earnCode = TkServiceLocator.getTimeBlockService().getTimeBlock(tbId).getEarnCode();
-
+		TimesheetDocument tsDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocId);
 		List<TimeBlock> newTbList = new ArrayList<TimeBlock>();
 		for(int i = 0; i < hrs.length; i++) {
 			BigDecimal hours = new BigDecimal(hrs[i]);
@@ -347,12 +348,11 @@ public class ClockAction extends TimesheetAction {
 			String assignString = assignments[i];
 			Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(assignString);
 			
-			TimesheetDocument tsDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocId);
-			
 			TimeBlock tb = TkServiceLocator.getTimeBlockService().createTimeBlock(tsDoc, beginDateTime, endDateTime, assignment, earnCode, hours,BigDecimal.ZERO, false, false, HrContext.getPrincipalId());
 			newTbList.add(tb);
 		}
 		TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTbList);
+		TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTbList, new ArrayList<LeaveBlock>(), tsDoc.getCalendarEntry(), tsDoc, tsDoc.getPrincipalId());
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(newTbList);
 		TimeBlock oldTB = TkServiceLocator.getTimeBlockService().getTimeBlock(tbId);
 		TkServiceLocator.getTimeBlockService().deleteTimeBlock(oldTB);
