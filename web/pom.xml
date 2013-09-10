@@ -472,12 +472,9 @@
                             <dependency>
                                 <groupId>mysql</groupId>
                                 <artifactId>${mysql.jdbc.artifactId}</artifactId>
+                                <version>${mysql.jdbc.version}</version>
                                 <scope>runtime</scope>
                             </dependency>
-                            <!--<dependency>
-                                <groupId>xerces</groupId>
-                                <artifactId>xercesImpl</artifactId>
-                            </dependency>-->
                         </dependencies>
                     </plugin>
                 </plugins>

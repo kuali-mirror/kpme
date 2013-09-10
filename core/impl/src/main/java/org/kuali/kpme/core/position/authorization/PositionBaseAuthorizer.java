@@ -18,10 +18,11 @@ package org.kuali.kpme.core.position.authorization;
 import java.util.Map;
 
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
+import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 
 @SuppressWarnings("deprecation")
-public class PositionBaseAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
+public class PositionBaseAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer {
 
 	private static final long serialVersionUID = 1013650349529679077L;
 
