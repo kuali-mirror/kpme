@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.leave.block.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 
 public interface LeaveBlockHistoryDao {
@@ -29,5 +30,8 @@ public interface LeaveBlockHistoryDao {
 	
 	public List<LeaveBlockHistory> getLeaveBlockHistoriesForLeaveDisplay(String principalId, LocalDate beginDate, LocalDate endDate, boolean considerModifiedUser);
 	public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId,String requestStatus, String action, LocalDate currentDate);
+	public List<LeaveBlockHistory> getLeaveBlockHistoriesForLookup(String documentId,
+			String principalId, String userPrincipalId, LocalDate fromDate,
+			LocalDate toDate);
 
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.block.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -26,9 +27,5 @@ public interface CalendarBlockService {
 	public List<CalendarBlock> getAllCalendarBlocks();
 
 	public DateTime getLatestEndTimestampForEarnCode(String earnCode, String calendarBlockType);
-
-	public List<CalendarBlock> getCalendarBlocksForTimeBlockLookup(String documentId,
-			String principalId, String userPrincipalId, LocalDate fromDate,
-			LocalDate toDate);
 	
 }

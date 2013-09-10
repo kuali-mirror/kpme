@@ -26,9 +26,12 @@
   <bean id="TimesheetDocumentHeader-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader" />
     <property name="objectLabel" value="TimesheetDocumentHeader" />
-<!--     <property name="lookupDefinition" >
+    <property name="lookupDefinition" >
       <ref bean="TimesheetDocumentHeader-lookupDefinition" />
-    </property> -->
+    </property>
+    <property name="inquiryDefinition" >
+    	<ref bean="TimesheetDocumentHeader-inquiryDefinition"/>
+    </property>
     <property name="titleAttribute" value="documentId" />
     <property name="attributes" >
       <list>
@@ -135,7 +138,7 @@
     </property>
   </bean>
 
-<!--   <bean id="TimesheetDocumentHeader-lookupDefinition" parent="TimesheetDocumentHeader-lookupDefinition-parentBean" />
+  <bean id="TimesheetDocumentHeader-lookupDefinition" parent="TimesheetDocumentHeader-lookupDefinition-parentBean" />
 
   <bean id="TimesheetDocumentHeader-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     
@@ -156,5 +159,48 @@
       </list>
     </property>
     <property name="title" value="Timesheet Document Header Lookup" />
-  </bean> -->
+  </bean>
+  
+  <bean id="TimesheetDocumentHeader-inquiryDefinition" parent="TimesheetDocumentHeader-inquiryDefinition-parentBean" />
+  <bean id="TimesheetDocumentHeader-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+	  <property name="inquirySections">
+	  	<list>
+	  		<bean parent="InquirySectionDefinition">
+	  			<property name="numberOfColumns" value="1"/>
+	  			<property name="inquiryFields">
+	  				<list>
+				        <bean parent="FieldDefinition" p:attributeName="documentId" p:forceInquiry="true" />
+				        <bean parent="FieldDefinition" p:attributeName="principalId" />
+				        <bean parent="FieldDefinition" p:attributeName="documentStatus" />
+				        <bean parent="FieldDefinition" p:attributeName="beginDate" />
+				        <bean parent="FieldDefinition" p:attributeName="endDate" />  					
+	  				</list>
+	  			</property>
+	  		</bean>
+	  	</list>
+	  </property>
+  </bean>
+  
+  <bean id="TimesheetDocumentHeader-inquiryView" parent="TimesheetDocumentHeader-inquiryView-parentBean" />
+  <bean id="TimesheetDocumentHeader-inquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+  	<property name="headerText" value="Timesheet Document Header Inquiry"/>
+  	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader"/>
+  	<property name="singlePageView" value="true"/>
+    <property name="items" >
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="layoutManager.numberOfColumns" value="2" />
+          <property name="items" >
+            <list>
+              <bean parent="Uif-DataField" p:propertyName="documentId" />
+        	  <bean parent="Uif-DataField" p:propertyName="principalId" />
+              <bean parent="Uif-DataField" p:propertyName="beginDate"/>
+        	  <bean parent="Uif-DataField" p:propertyName="endDate" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="title" value="Timesheet Document Header Inquiry"/>
+  </bean>
 </beans>

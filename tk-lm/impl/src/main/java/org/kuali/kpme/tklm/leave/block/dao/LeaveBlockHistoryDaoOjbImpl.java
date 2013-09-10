@@ -19,12 +19,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.common.LMConstants;
+import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -127,5 +130,33 @@ public class LeaveBlockHistoryDaoOjbImpl extends PlatformAwareDaoBaseOjb impleme
 			leaveBlockHistories.addAll(c);
 		}
 		return leaveBlockHistories;
+	}
+
+	@Override
+	public List<LeaveBlockHistory> getLeaveBlockHistoriesForLookup(String documentId,
+			String principalId, String userPrincipalId, LocalDate fromDate,
+			LocalDate toDate) {
+	   	List<LeaveBlockHistory> leaveBlocks = new ArrayList<LeaveBlockHistory>();
+        Criteria criteria = new Criteria();
+
+        if(fromDate != null) {
+        	criteria.addGreaterOrEqualThan("beginTimestamp", fromDate.toDate());
+        }
+        if(toDate != null) {
+        	criteria.addLessOrEqualThan("endTimestamp",toDate.toDate());
+        }
+        if(StringUtils.isNotBlank(principalId)) {
+        	criteria.addEqualTo("principalId", principalId);
+        }
+        if(StringUtils.isNotBlank(userPrincipalId)) {
+        	criteria.addEqualTo("principalIdModified", userPrincipalId);
+        }
+        criteria.addEqualTo("leaveBlockType",LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR);
+        Query query = QueryFactory.newQuery(LeaveBlock.class, criteria);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (c != null) {
+        	leaveBlocks.addAll(c);
+        }
+        return leaveBlocks;
 	}
 }

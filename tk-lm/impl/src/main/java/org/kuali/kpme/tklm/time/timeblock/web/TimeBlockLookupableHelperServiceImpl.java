@@ -25,10 +25,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
-import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
@@ -42,8 +42,12 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.search.Range;
+import org.kuali.rice.core.api.search.SearchExpressionUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.uif.view.LookupView;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.LookupForm;
 
 public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
@@ -53,10 +57,12 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	static final String DOC_ID = "documentId";
-	static final String DOC_STATUS_ID = "timesheetDocumentHeader.documentStatus";
-	static final String BEGIN_DATE_ID = "beginDate";
+	private static final String DOC_ID = "documentId";
+	private static final String DOC_STATUS_ID = "timesheetDocumentHeader.documentStatus";
+	private static final String BEGIN_DATE_ID = "beginDate";
 	private static final String BEGIN_TIMESTAMP = "beginTimestamp";
+
+	private static final Logger LOG = Logger.getLogger(TimeBlockLookupableHelperServiceImpl.class);
 	
 
 	@Override
@@ -69,41 +75,47 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 			 searchCriteria.remove(BEGIN_DATE_ID);
 		 }
 		 
-/*		 if(searchCriteria.containsKey(DOC_STATUS_ID)) {
-			 String docStatuses = searchCriteria.get(DOC_STATUS_ID);
-			 String [] docStatusArray = docStatuses.split(",");
-			 if(searchCriteria.get("DOC_ID") != null) {
-				 //attach error to return lookup form: "doc status must match that of the document whose id is documentId"
-				 //or clear doc statuses and keep only the status that matches the doc id.
-			 }
-			 else {
-				 TkServiceLocator.getTimesheetDocumentHeaderService().get
-			 }
-			 searchCriteria.remove(DOC_STATUS_ID);
-		 }*/
-		 
-		@SuppressWarnings("unchecked")
-		String documentId = null;
-		if(StringUtils.isNotBlank(searchCriteria.get(DOC_ID))) {
-			documentId = searchCriteria.get(DOC_ID);
-		}
-		String principalId = null;
-		if(StringUtils.isNotBlank(searchCriteria.get("principalId"))) {
-			principalId = searchCriteria.get("principalId");
-		}
-		String userPrincipalId = null;
-		if(StringUtils.isNotBlank(searchCriteria.get("userPrincipalId"))) {
-			userPrincipalId = searchCriteria.get("userPrincipalId");
-		}
+		String documentId = searchCriteria.get(DOC_ID);
+		String principalId = searchCriteria.get("principalId");
+		String userPrincipalId = searchCriteria.get("userPrincipalId");
+		String fromDateString = TKUtils.getFromDateString(searchCriteria.get(BEGIN_TIMESTAMP));
+		String toDateString = TKUtils.getToDateString(searchCriteria.get(BEGIN_TIMESTAMP));
+
 		LocalDate fromDate = null;
 		LocalDate toDate = null;
 		if(StringUtils.isNotBlank(searchCriteria.get(BEGIN_TIMESTAMP))) {
-			String fromDateString = searchCriteria.get(BEGIN_TIMESTAMP).substring(0, 10);
-			if(searchCriteria.get(BEGIN_TIMESTAMP).length() > 10) {
-				String toDateString = searchCriteria.get(BEGIN_TIMESTAMP).substring(12,22);
+			Range range = SearchExpressionUtils.parseRange(searchCriteria.get(BEGIN_TIMESTAMP));
+			boolean invalid = false;
+			if(range.getLowerBoundValue() != null && range.getUpperBoundValue() != null) {
+				fromDate = TKUtils.formatDateString(fromDateString);
+				if(fromDate == null) {
+					GlobalVariables.getMessageMap().putError("lookupCriteria[rangeLowerBoundKeyPrefix_beginDate]", "error.invalidLookupDate", range.getLowerBoundValue());
+					invalid = true;
+				}
+
 				toDate = TKUtils.formatDateString(toDateString);
+				if(toDate == null) {
+					GlobalVariables.getMessageMap().putError("lookupCriteria[beginDate]", "error.invalidLookupDate", range.getUpperBoundValue());
+					invalid = true;
+				}
 			}
-			fromDate = TKUtils.formatDateString(fromDateString);
+			else if(range.getLowerBoundValue() != null) {
+				fromDate = TKUtils.formatDateString(fromDateString);
+				if(fromDate == null) {
+					GlobalVariables.getMessageMap().putError("lookupCriteria[rangeLowerBoundKeyPrefix_beginDate]", "error.invalidLookupDate", range.getLowerBoundValue());
+					invalid = true;
+				}
+			}
+			else if(range.getUpperBoundValue() != null) {
+				toDate = TKUtils.formatDateString(toDateString);
+				if(toDate == null) {
+					GlobalVariables.getMessageMap().putError("lookupCriteria[beginDate]", "error.invalidLookupDate", range.getUpperBoundValue());
+					invalid = true;
+				}
+			}
+			if(invalid) {
+				return new ArrayList<TimeBlock>();
+			}
 		}
 
 		//Could also simply use super.getSearchResults for an initial object list, then invoke LeaveBlockService with the relevant query params.

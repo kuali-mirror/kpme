@@ -17,6 +17,8 @@ package org.kuali.kpme.tklm.time.timeblock.dao;
 
 import java.util.List;
 
+import org.joda.time.LocalDate;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 
 public interface TimeBlockHistoryDao {
@@ -25,4 +27,7 @@ public interface TimeBlockHistoryDao {
 	public void saveOrUpdate(List<TimeBlockHistory> timeBlockHistoryList);
 
     public List<TimeBlockHistory> getTimeBlockHistoryByTkTimeBlockId(String tkTimeBlockId);
+	public List<TimeBlock> getTimeBlockHistoriesForLookup(String documentId,
+			String principalId, String userPrincipalId, LocalDate fromDate,
+			LocalDate toDate);
 }

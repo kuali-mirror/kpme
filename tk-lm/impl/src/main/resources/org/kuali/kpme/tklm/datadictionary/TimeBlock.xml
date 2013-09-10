@@ -56,6 +56,7 @@
 				<property name="primitiveAttributes">
 					<list>
 						<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentId" p:targetName="documentId"/>
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
 						<bean parent="PrimitiveAttributeDefinition" p:sourceName="timesheetDocumentHeader.documentStatus" p:targetName="documentStatus" />
 					</list>
 				</property>
@@ -399,7 +400,7 @@
     <property name="translateCodes" value="false"/>
   </bean>
 
-  <!-- KNS Inquiry Definition -->
+  <!-- KRAD Inquiry View -->
   <bean id="TimeBlock-inquiryView" parent="TimeBlock-inquiryView-parentBean" />
   <bean id="TimeBlock-inquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
   	<property name="headerText" value="Time Block Inquiry"/>

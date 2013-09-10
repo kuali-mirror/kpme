@@ -333,11 +333,11 @@
         </property>
     </bean> -->
 
-    <bean id="timeBlockHistoryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+<!--     <bean id="timeBlockHistoryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.tklm.time.timeblock.web.TimeBlockHistoryLookupableHelperServiceImpl"/>
         </property>
-    </bean>
+    </bean> -->
     
     <bean id="timeBlockSerializerService" class="org.kuali.kpme.tklm.time.scheduler.TimeBlockSerializerService" />
 

@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.time.timeblock.service;
 
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 
@@ -45,4 +46,8 @@ public interface TimeBlockHistoryService {
 	 * @param timeBlock
 	 */
     public void addTimeBlockHistoryDetails(TimeBlockHistory timeBlockHistory, TimeBlock timeBlock);
+    
+	public List<TimeBlock> getTimeBlockHistoriesForLookup(String documentId,
+			String principalId, String userPrincipalId, LocalDate fromDate,
+			LocalDate toDate);
 }

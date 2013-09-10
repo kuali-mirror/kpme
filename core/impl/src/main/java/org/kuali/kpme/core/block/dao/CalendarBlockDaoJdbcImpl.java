@@ -15,6 +15,8 @@
  */
 package org.kuali.kpme.core.block.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -22,115 +24,66 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.core.framework.persistence.jdbc.sql.Criteria;
+import org.kuali.rice.core.framework.persistence.jdbc.sql.SqlBuilder;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
 public class CalendarBlockDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implements CalendarBlockDao {
 
+	private static final Log LOG = LogFactory.getLog(CalendarBlockDaoJdbcImpl.class);
+	
 	@Override
 	public List<CalendarBlock> getAllCalendarBlocks() {
-		List<CalendarBlock> calendarBlocks = this.getJdbcTemplate().query("" +
-				"SELECT begin_ts, end_ts, lm_leave_block_id as c_block_id, 'Leave' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, principal_id_modified as user_principal_id, timestamp, task, work_area, earn_code, " +
-				"'N' as lunch_deleted, null as overtime_pref, null as hours, leave_amount as amount " +
-				 "FROM lm_leave_block_t " +
-				 "UNION " +
-				 "SELECT begin_ts, end_ts, tk_time_block_id as c_block_id, 'Time' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, user_principal_id, timestamp, task, work_area, earn_code, " +
-				"lunch_deleted, ovt_pref as overtime_pref, hours, amount " +
-				 "FROM tk_time_block_t;", new CalendarBlockRowMapper());
+		List<CalendarBlock> calendarBlocks = new ArrayList<CalendarBlock>();
+		PreparedStatementCreator psc = new PreparedStatementCreator(){
+
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				String query = "SELECT begin_ts, end_ts, lm_leave_block_id as c_block_id, 'Leave' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, principal_id_modified as user_principal_id, timestamp, task, work_area, earn_code, " +
+								"'N' as lunch_deleted, null as overtime_pref, null as hours, leave_amount as amount " +
+								 "FROM lm_leave_block_t " +
+								 "UNION " +
+								 "SELECT begin_ts, end_ts, tk_time_block_id as c_block_id, 'Time' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, user_principal_id, timestamp, task, work_area, earn_code, " +
+								"lunch_deleted, ovt_pref as overtime_pref, hours, amount " +
+								 "FROM tk_time_block_t;";
+				
+				return conn.prepareStatement(query);
+			}
+			
+		};
+		calendarBlocks = this.getJdbcTemplate().query(psc, new CalendarBlockRowMapper());
 		return calendarBlocks;
 	}
 
 	@Override
 	public List<CalendarBlock> getActiveCalendarBlocksForDate(LocalDate asOfDate) {
-		List<CalendarBlock> calendarBlocks = this.getJdbcTemplate().query("" +
-				 "SELECT begin_ts, end_ts, tk_time_block_id as c_block_id, 'Time' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, user_principal_id, timestamp, task, work_area, earn_code " +
-				 "FROM tk_time_block_t", new CalendarBlockRowMapper());
+		PreparedStatementCreator psc = new PreparedStatementCreator(){
+			/**
+			 * TODO: For use, our effective dating strategy must be included in the query below.
+			 */
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				String query = "SELECT begin_ts, end_ts, tk_time_block_id as c_block_id, 'Time' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, user_principal_id, timestamp, task, work_area, earn_code " +
+						 		"FROM tk_time_block_t";
+				
+				return conn.prepareStatement(query);
+			}
+			
+		};
+		
+		List<CalendarBlock> calendarBlocks = this.getJdbcTemplate().query(psc, new CalendarBlockRowMapper());
 		return calendarBlocks;
 	}
 	
-	@Override
-	public List<CalendarBlock> getCalendarBlocksForTimeBlockLookup(String documentId, String principalId, String userPrincipalId, LocalDate fromDate, LocalDate toDate) {
-		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT begin_ts, end_ts, lm_leave_block_id as c_block_id, 'Leave' as c_block_type, document_id, 'N' as lunch_deleted, ");
-		sql.append("null as hours, leave_amount as amount, null as overtime_pref, ");
-		sql.append("job_number, obj_id, ver_nbr, principal_id, principal_id_modified as user_principal_id, timestamp, task, work_area, earn_code ");
-		sql.append("FROM lm_leave_block_t WHERE leave_block_type = 'TC'");
-		if(documentId != null) {
-			sql.append(" and document_id = '" + documentId + "'");
-		}
-		if(principalId != null) {
-			sql.append(" and principal_id = '" + principalId + "'");
-		}
-		if(userPrincipalId != null) {
-			sql.append(" and principal_id_modified = '" + userPrincipalId + "'");
-		}
-		if(fromDate != null) {
-			//TODO: ensure correct formatter used for date
-			sql.append(" and begin_ts >= '" + fromDate.toString() + "'");
-		}
-		if(toDate != null) {
-			sql.append(" and end_ts <= '" + toDate.toString() + "'");
-		}
-		List<CalendarBlock> leaveBlocks = this.getJdbcTemplate().query(sql.toString(), new CalendarBlockRowMapper());
-		
-		sql = new StringBuffer();
-		sql.append("SELECT begin_ts, end_ts, tk_time_block_id as c_block_id, 'Time' as c_block_type, document_id, lunch_deleted, ");
-		sql.append("ovt_pref as overtime_pref, hours, amount, ");
-		sql.append("job_number, obj_id, ver_nbr, principal_id, user_principal_id, timestamp, task, work_area, earn_code ");
-		sql.append("FROM tk_time_block_t ");
-		boolean whereAdded = false;
-		if(documentId != null) {
-			if(whereAdded == false) {
-				sql.append("WHERE document_id = '" + documentId + "'");
-				whereAdded = true;
-			} else {
-				sql.append(" and document_id = '" + documentId + "'");
-			}
-		}
-		if(principalId != null) {
-			if(whereAdded == false) {
-				sql.append("WHERE principal_id = '" + principalId + "'");
-				whereAdded = true;
-			} else {
-				sql.append(" and principal_id = '" + principalId + "'");
-			}
-		}
-		if(userPrincipalId != null) {
-			if(whereAdded == false) {
-				sql.append("WHERE user_principal_id = '" + userPrincipalId + "'");
-				whereAdded = true;
-			} else {
-				sql.append(" and user_principal_id = '" + userPrincipalId + "'");
-			}
-		}
-		if(fromDate != null) {
-			//TODO: ensure correct formatter used for date
-			if(whereAdded == false) {
-				sql.append("WHERE begin_ts >= '" + fromDate.toString() + "'");
-				whereAdded = true;
-			} else {
-				sql.append(" and begin_ts >= '" + fromDate.toString() + "'");
-			}
-		}
-		if(toDate != null) {
-			if(whereAdded == false) {
-				sql.append("WHERE end_ts <= '" + toDate.toString() + "'");
-				whereAdded = true;
-			} else {
-				sql.append(" and end_ts <= '" + toDate.toString() + "'");
-			}
-		}
-		
-		List<CalendarBlock> timeBlocks = this.getJdbcTemplate().query(sql.toString(), new CalendarBlockRowMapper());
-
-		List<CalendarBlock> calendarBlocks = leaveBlocks;
-		calendarBlocks.addAll(timeBlocks);
-		return calendarBlocks;
-	}
-
 	private class CalendarBlockRowMapper implements RowMapper<CalendarBlock> {
 
 		@Override
@@ -161,26 +114,68 @@ public class CalendarBlockDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implement
 	
 	@Override
 	public DateTime getLatestEndTimestampForEarnCode(String earnCode, String calendarBlockType) {
-        StringBuffer sql = new StringBuffer();
-        sql.append("SELECT max(end_ts) ");
-        if (StringUtils.equals(calendarBlockType, "Time")) {
-            sql.append("FROM tk_time_block_t ");
-        } else if (StringUtils.equals(calendarBlockType, "Leave")) {
-            sql.append("FROM lm_leave_block_t ");
-        }
-        else {
-        	throw new IllegalArgumentException("calendarBlockType must be one of 'Time' or 'Leave'");
-        }
-        sql.append("WHERE earn_code = '").append(earnCode).append("' ");
-
-
-	  Timestamp maxDate = this.getJdbcTemplate().queryForObject(sql.toString(), Timestamp.class);
-	  if(maxDate == null) {
-		  return null;
-	  }
-	  else {
-		  return new DateTime(maxDate.getTime());
-	  }
+		
+		PreparedStatementCreator timeBlockPSC = new PreparedStatementCreator() {
+			
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				StringBuffer sql = new StringBuffer();
+		        sql.append("SELECT max(end_ts) ");
+	            sql.append("FROM tk_time_block_t ");
+	            sql.append("WHERE earn_code = ?");
+				
+				String query = sql.toString();
+				
+				return conn.prepareStatement(query);
+			}
+		};
+		
+		PreparedStatementCreator leaveBlockPSC = new PreparedStatementCreator() {
+			
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				StringBuffer sql = new StringBuffer();
+		        sql.append("SELECT max(end_ts) ");
+	            sql.append("FROM lm_leave_block_t ");
+	            sql.append("WHERE earn_code = ?");
+				
+				String query = sql.toString();
+				
+				return conn.prepareStatement(query);
+			}
+		};
+    	try {
+    		PreparedStatement statement = null;
+		    if (StringUtils.equals(calendarBlockType, "Time")) {
+				statement = timeBlockPSC.createPreparedStatement(this.getDataSource().getConnection());
+		    } else if (StringUtils.equals(calendarBlockType, "Leave")) {
+		    	statement = leaveBlockPSC.createPreparedStatement(this.getDataSource().getConnection());
+		    }
+		    else {
+		    	throw new IllegalArgumentException("calendarBlockType must be one of 'Time' or 'Leave'");
+		    }
+		    if(statement != null) {
+		    	statement.setString(1, earnCode);
+		    }
+		    
+		    ResultSet rs = statement.executeQuery();
+		    if(rs != null) {
+		    	boolean empty = !rs.first();
+		    	Timestamp maxDate = rs.getTimestamp("max(end_ts)");
+		  	  if(maxDate == null) {
+				  return null;
+			  }
+			  else {
+				  return new DateTime(maxDate.getTime());
+			  }
+		    }
+		} catch (SQLException e) {
+			LOG.warn("error creating or executing sql statement");
+			throw new RuntimeException();
+		}
+        return null;
 	}
 	
 }

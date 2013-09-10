@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.block.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -42,11 +43,6 @@ public class CalendarBlockServiceImpl implements CalendarBlockService {
 	@Override
 	public DateTime getLatestEndTimestampForEarnCode(String earnCode, String calendarBlockType) {
 		return calendarBlockDao.getLatestEndTimestampForEarnCode(earnCode, calendarBlockType);
-	}
-
-	@Override
-	public List<CalendarBlock> getCalendarBlocksForTimeBlockLookup(String documentId, String principalId, String userPrincipalId, LocalDate fromDate, LocalDate toDate) {
-		return calendarBlockDao.getCalendarBlocksForTimeBlockLookup(documentId, principalId, userPrincipalId, fromDate, toDate);
 	}
 	
 }

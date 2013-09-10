@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.time.timeblock.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistoryDetail;
@@ -55,5 +56,12 @@ public class TimeBlockHistoryServiceImpl implements TimeBlockHistoryService {
       	timeBlockHistory.setTimeBlockHistoryDetails(tbhds);
       }
     }
+
+	@Override
+	public List<TimeBlock> getTimeBlockHistoriesForLookup(String documentId,
+			String principalId, String userPrincipalId, LocalDate fromDate,
+			LocalDate toDate) {
+		return timeBlockHistoryDao.getTimeBlockHistoriesForLookup(documentId,principalId,userPrincipalId,fromDate,toDate);
+	}
 
 }

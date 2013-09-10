@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.leave.block.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.block.dao.LeaveBlockHistoryDao;
 
@@ -60,6 +61,13 @@ public class LeaveBlockHistoryServiceImpl implements LeaveBlockHistoryService {
 	@Override
 	public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId,String requestStatus, String action, LocalDate currentDate) {
 		return leaveBlockHistoryDao.getLeaveBlockHistories(principalId, requestStatus, action, currentDate);
+	}
+
+	@Override
+	public List<LeaveBlockHistory> getLeaveBlockHistoriesForLookup(String documentId,
+			String principalId, String userPrincipalId, LocalDate fromDate,
+			LocalDate toDate) {
+		return leaveBlockHistoryDao.getLeaveBlockHistoriesForLookup(documentId,principalId,userPrincipalId,fromDate,toDate);
 	}
 	
 
