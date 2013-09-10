@@ -295,14 +295,14 @@
                 <artifactId>rice-impl</artifactId>
                 <version>${rice.version}</version>
                 <exclusions>
-                    <exclusion>
+                    <!--<exclusion>
                         <groupId>xerces</groupId>
                         <artifactId>xercesImpl</artifactId>
-                    </exclusion>
-                    <exclusion>
+                    </exclusion>-->
+                    <!--<exclusion>
                         <groupId>xml-apis</groupId>
                         <artifactId>xml-apis</artifactId>
-                    </exclusion>
+                    </exclusion>-->
                     <exclusion>
                         <groupId>org.slf4j</groupId>
                         <artifactId>slf4j-api</artifactId>

@@ -69,12 +69,10 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
  		} else {
 	    	for (EarnCodeSecurity earnCodeSecurityObj : earnCodeSecurityObjs) {
 	    		if(StringUtils.equals(earnCodeSecurityObj.getEarnCodeType(),earnCodeType) || StringUtils.equals(earnCodeType, "A")) {
-		        	String department = earnCodeSecurityObj.getDept();
-		        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, earnCodeSecurityObj.getEffectiveLocalDate());
-		        	String loc = departmentObj != null ? departmentObj.getLocation() : null;
-		        	
+		        	String department = StringUtils.equals("%", earnCodeSecurityObj.getDept().trim()) ? "*" : earnCodeSecurityObj.getDept();
+		        	String loc = StringUtils.equals("%", earnCodeSecurityObj.getLocation()) ? "*" : earnCodeSecurityObj.getLocation();
 		        	Map<String, String> roleQualification = new HashMap<String, String>();
-		        	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
+		        	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, "*"); //userPrincipalId);
 		        	roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
 		        	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), loc);
 		        	
