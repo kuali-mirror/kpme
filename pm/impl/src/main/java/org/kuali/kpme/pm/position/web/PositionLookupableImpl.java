@@ -87,5 +87,13 @@ public class PositionLookupableImpl extends KPMELookupableImpl {
 	        return (hrefPrefix + paramString);
 		}
     }
-	
+
+    @Override
+    public void initSuppressAction(LookupForm lookupForm) {
+    /*
+     * lookupAuthorizer.canInitiateDocument(lookupForm, user) returns false in this instance, because no
+     * documentTypeName can be obtained within LookupViewAuthorizeBase.canInitiateDocument(LookupForm, Person).
+     */
+        ((LookupView) lookupForm.getView()).setSuppressActions(false);
+    }
 }
