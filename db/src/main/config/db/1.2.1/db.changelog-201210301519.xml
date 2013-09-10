@@ -157,6 +157,7 @@
         <createIndex indexName="TK_TIME_COLLECTION_RL_IDX1" tableName="TK_TIME_COLLECTION_RL_T" unique="true">
             <column name="DEPT" />
             <column name="WORK_AREA" />
+            <column name="PAY_TYPE" />
             <column name="EFFDT" />
             <column name="TIMESTAMP" />
         </createIndex>

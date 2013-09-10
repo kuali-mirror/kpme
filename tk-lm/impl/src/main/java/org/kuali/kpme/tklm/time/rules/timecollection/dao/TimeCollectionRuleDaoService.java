@@ -22,7 +22,6 @@ import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 
 public interface TimeCollectionRuleDaoService {
 	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, LocalDate asOfDate);
-	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, LocalDate asOfDate);
 	public TimeCollectionRule getTimeCollectionRule(String tkTimeCollectionRuleId);
 
     List<TimeCollectionRule> getTimeCollectionRules(String dept, Long workArea, String payType, String active, String showHistory);

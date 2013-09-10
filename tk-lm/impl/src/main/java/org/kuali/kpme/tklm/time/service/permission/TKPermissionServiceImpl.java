@@ -146,7 +146,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                 		timeBlock.getEarnCode())) {
                     //KPME-2727
                     if (timeBlock.getPrincipalId().equals(principalId)) {
-                        TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),timeBlock.getBeginDateTime().toLocalDate());
+                        TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(), payType.getPayType(), timeBlock.getBeginDateTime().toLocalDate());
 
                         if (tcr == null || tcr.isClockUserFl()) {
                             //if there is only 1 assignment here, it isn't editable.
@@ -247,7 +247,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
         			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime()) || isAnyPayrollProcessor) {
         		
                 if (StringUtils.equals(payType.getRegEarnCode(), timeBlock.getEarnCode())) {
-                    TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),timeBlock.getBeginDateTime().toLocalDate());
+                    TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(), payType.getPayType(), timeBlock.getBeginDateTime().toLocalDate());
                     
                     if (tcr != null && !tcr.isClockUserFl()) {
                         return updateCanEditAllFieldsTimeblockPerm(principalId, perms, true);
@@ -478,14 +478,16 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
         		aDate = tdh.getEndDateTime();
         	}
         	
-        	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(anAssignment.getDept(), anAssignment.getWorkArea(), anAssignment.getJob().getHrPayType(), aDate.toLocalDate());
-        	if (tcr == null || tcr.isClockUserFl()) {
-        		// use assignment to get the payType object, then check if the regEarnCode of the paytyep matches the earn code of the timeblock
-        		// if they do match, then return false
-        		PayType pt = HrServiceLocator.getPayTypeService().getPayType(anAssignment.getJob().getHrPayType(), anAssignment.getJob().getEffectiveLocalDate());
-        		if(pt != null && pt.getRegEarnCode().equals(tb.getEarnCode())) {
-                    updateCanRegEarnCd(perms, false);
-        		}
+        	if(anAssignment.getJob() != null) {
+	        	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(anAssignment.getDept(), anAssignment.getWorkArea(), anAssignment.getJob().getHrPayType(), aDate.toLocalDate());
+	        	if (tcr == null || tcr.isClockUserFl()) {
+	        		// use assignment to get the payType object, then check if the regEarnCode of the paytyep matches the earn code of the timeblock
+	        		// if they do match, then return false
+	        		PayType pt = HrServiceLocator.getPayTypeService().getPayType(anAssignment.getJob().getHrPayType(), anAssignment.getJob().getEffectiveLocalDate());
+	        		if(pt != null && pt.getRegEarnCode().equals(tb.getEarnCode())) {
+	                    updateCanRegEarnCd(perms, false);
+	        		}
+	        	}
         	}
         }
     	return updateCanRegEarnCd(perms, true);

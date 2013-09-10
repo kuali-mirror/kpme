@@ -32,19 +32,19 @@ public class TimeCollectionRuleTest extends TKLMIntegrationTestCase{
 	public void testTimeCollectionRuleFetch() throws Exception{
 		loadData();
 		TimeCollectionRule timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-DEPT",
-												1234L, LocalDate.now());
+												1234L, "%", LocalDate.now());
 		Assert.assertTrue("Time collection rule present" , timeCollection!=null);
 
 		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-ME",
-				1234L, LocalDate.now());
+				1234L, "%", LocalDate.now());
 		Assert.assertTrue("Time collection rule present" , timeCollection!=null);
 
 		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-DEPT",
-				234L, LocalDate.now());
+				234L, "%", LocalDate.now());
 		Assert.assertTrue("Time collection rule present" , timeCollection!=null);
 
 		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-ME",
-				234L, LocalDate.now());
+				234L, "%", LocalDate.now());
 		Assert.assertTrue("Time collection rule present" , timeCollection!=null);
 	}
 
@@ -55,6 +55,7 @@ public class TimeCollectionRuleTest extends TKLMIntegrationTestCase{
 		timeCollectionRule.setWorkArea(1234L);
 		timeCollectionRule.setEffectiveLocalDate(LocalDate.now());
 		timeCollectionRule.setActive(true);
+		timeCollectionRule.setPayType("%");
 		timeCollectionRule.setTimestamp(TKUtils.getCurrentTimestamp());
 		KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule);
 
@@ -63,6 +64,7 @@ public class TimeCollectionRuleTest extends TKLMIntegrationTestCase{
 		timeCollectionRule2.setWorkArea(234L);
 		timeCollectionRule2.setEffectiveLocalDate(LocalDate.now());
 		timeCollectionRule2.setActive(true);
+		timeCollectionRule2.setPayType("%");
 		timeCollectionRule2.setTimestamp(TKUtils.getCurrentTimestamp());
 		KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule2);
 	}

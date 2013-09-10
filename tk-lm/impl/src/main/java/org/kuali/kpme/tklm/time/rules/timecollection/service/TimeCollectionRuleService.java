@@ -22,19 +22,7 @@ import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.springframework.cache.annotation.Cacheable;
 
 public interface TimeCollectionRuleService {
-	/**
-	 * Fetch TimeCollectionRule for a given dept and work area as of a particular date
-	 * @param dept
-	 * @param workArea
-	 * @param asOfDate
-	 * @return
-	 */
-    @Cacheable(value= TimeCollectionRule.CACHE_NAME,
-            key="'dept=' + #p0" +
-                "+ '|' + 'workArea=' + #p1" +
-                "+ '|' + 'asOfDate=' + #p2")
-	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea,LocalDate asOfDate);
-
+	
     @Cacheable(value= TimeCollectionRule.CACHE_NAME,
             key="'dept=' + #p0" +
                 "+ '|' + 'workArea=' + #p1" +

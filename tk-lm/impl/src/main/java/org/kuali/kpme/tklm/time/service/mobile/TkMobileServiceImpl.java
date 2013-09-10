@@ -50,11 +50,13 @@ public class TkMobileServiceImpl implements TkMobileService {
 		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
 		for(Assignment assignment : assignments){
-			TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), LocalDate.now());
-			if(tcr == null || tcr.isClockUserFl()){
-				String key = new AssignmentDescriptionKey(assignment).toAssignmentKeyString();
-				String desc = assignment.getAssignmentDescription();
-				clockEntryInfo.getAssignKeyToAssignmentDescriptions().put(key, desc);
+			if(assignment.getJob() != null) {
+				TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.now());
+				if(tcr == null || tcr.isClockUserFl()){
+					String key = new AssignmentDescriptionKey(assignment).toAssignmentKeyString();
+					String desc = assignment.getAssignmentDescription();
+					clockEntryInfo.getAssignKeyToAssignmentDescriptions().put(key, desc);
+				}
 			}
 		}
 		List<String> clockActions = getClockActions(principalId);

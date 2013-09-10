@@ -313,15 +313,17 @@ public class ClockActionForm extends TimesheetActionForm {
 					Assignment assignment = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(timeBlock.getAssignmentKey()), LocalDate.fromDateFields(timeBlock.getBeginDate()));
 					if (assignment != null) {
 						WorkArea aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), LocalDate.fromDateFields(timeBlock.getBeginDate()));
-						TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), LocalDate.fromDateFields(timeBlock.getBeginDate()));
-						if (rule != null && aWorkArea != null && aWorkArea.isHrsDistributionF() && rule.isClockUserFl()) {
-							List<TimeBlock> timeBlockList = timeBlocksMap.get(assignment.getAssignmentDescription());
-							if (timeBlockList == null) {
-								timeBlockList = new ArrayList<TimeBlock>();
+						if(assignment.getJob() != null) {
+							TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.fromDateFields(timeBlock.getBeginDate()));
+							if (rule != null && aWorkArea != null && aWorkArea.isHrsDistributionF() && rule.isClockUserFl()) {
+								List<TimeBlock> timeBlockList = timeBlocksMap.get(assignment.getAssignmentDescription());
+								if (timeBlockList == null) {
+									timeBlockList = new ArrayList<TimeBlock>();
+								}
+								timeBlockList.add(timeBlock);
+								Collections.sort(timeBlockList);
+								timeBlocksMap.put(assignment.getAssignmentDescription(), timeBlockList);	
 							}
-							timeBlockList.add(timeBlock);
-							Collections.sort(timeBlockList);
-							timeBlocksMap.put(assignment.getAssignmentDescription(), timeBlockList);	
 						}
 					}
 				}
@@ -344,10 +346,12 @@ public class ClockActionForm extends TimesheetActionForm {
 			List<String> distributeAssignList = new ArrayList<String>();
 			for (Assignment assignment : getTimesheetDocument().getAssignments()) {
 				WorkArea aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), LocalDate.fromDateFields(tb.getBeginDate()));
-				TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), LocalDate.fromDateFields(tb.getBeginDate()));
-				if (rule != null && aWorkArea != null && aWorkArea.isHrsDistributionF() && rule.isClockUserFl()) {
-					desList.put(assignment.getTkAssignmentId().toString(), assignment.getAssignmentDescription());
-					distributeAssignList.add(assignment.getAssignmentDescription()+ "=" + assignment.getTkAssignmentId().toString());
+				if(assignment.getJob() != null) {
+					TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.fromDateFields(tb.getBeginDate()));
+					if (rule != null && aWorkArea != null && aWorkArea.isHrsDistributionF() && rule.isClockUserFl()) {
+						desList.put(assignment.getTkAssignmentId().toString(), assignment.getAssignmentDescription());
+						distributeAssignList.add(assignment.getAssignmentDescription()+ "=" + assignment.getTkAssignmentId().toString());
+					}
 				}
 			}
 			setDesList(desList);

@@ -28,41 +28,7 @@ import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb implements TimeCollectionRuleDaoService {
-    
-    /*
-      * Returns valid TimeCollectionRule based on dept,workArea, and asOfDate
-      * dept and work area are wildcardable values
-      * @see org.kuali.kpme.tklm.time.rules.timecollection.dao.TimeCollectionRuleDaoService#getTimeCollectionRule(java.lang.String dept,
-      * java.lang.Long workArea, org.joda.time.LocalDate asOfDate)
-      */
-
-    @Override
-    public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, LocalDate asOfDate) {
-
-
-        TimeCollectionRule timeCollectionRule = new TimeCollectionRule();
-
-        //First call confirm no exact match
-        timeCollectionRule = getTimeCollectionRuleWildCarded(dept, workArea, asOfDate);
-        if (timeCollectionRule != null) {
-            return timeCollectionRule;
-        }
-        //Try with dept wildcarded *
-        timeCollectionRule = getTimeCollectionRuleWildCarded("%", workArea, asOfDate);
-        if (timeCollectionRule != null) {
-            return timeCollectionRule;
-        }
-
-        //Try with work area wildcarded
-        timeCollectionRule = getTimeCollectionRuleWildCarded(dept, -1L, asOfDate);
-        if (timeCollectionRule != null) {
-            return timeCollectionRule;
-        }
-
-        //Try with everything wildcarded
-        return getTimeCollectionRuleWildCarded("%", -1L, asOfDate);
-    }
-
+ 
     private TimeCollectionRule getTimeCollectionRuleWildCarded(String dept, Long workArea, LocalDate asOfDate) {
         Criteria root = new Criteria();
     	//KPME-2273/1965 Primary Business Keys list being used instead.	

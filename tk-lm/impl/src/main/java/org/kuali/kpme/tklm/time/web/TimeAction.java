@@ -81,15 +81,16 @@ public class TimeAction extends KPMEAction {
             return new ActionRedirect("/PersonInfo.do");
         }
         Job job = HrServiceLocator.getJobService().getPrimaryJob(principalId, LocalDate.now());
-        boolean activeAssignments = false;
+
         if (job != null) {
-            String flsa = job.getFlsaStatus();
             List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(principalId, job.getJobNumber(), LocalDate.now());
             for (Assignment asmnt : assignments) {
                 if (asmnt.isActive()) {
                     if (job.getFlsaStatus().equals(HrConstants.FLSA_STATUS_NON_EXEMPT)) {
-                        TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(asmnt.getJob().getDept(), asmnt.getWorkArea(), LocalDate.now());
-                        if (tcr.isClockUserFl()) {
+                        TimeCollectionRule tcr = null;
+                        if(asmnt.getJob() != null)
+                        	tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(asmnt.getJob().getDept(), asmnt.getWorkArea(), asmnt.getJob().getHrPayType(), LocalDate.now());
+                        if (tcr != null && tcr.isClockUserFl()) {
                             return new ActionRedirect("/Clock.do");
                         } else {
                             return new ActionRedirect("/TimeDetail.do");

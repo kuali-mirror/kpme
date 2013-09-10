@@ -34,6 +34,7 @@ public class TimeCollectionRule extends HrBusinessObject implements TimeCollecti
 	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("workArea")
             .add("dept")
+            .add("payType")
             .build();
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
             .add(TimeCollectionRule.CACHE_NAME)

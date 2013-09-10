@@ -18,7 +18,6 @@ package org.kuali.kpme.tklm.time.approval.service;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -32,10 +31,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDate;
 import org.joda.time.Hours;
 import org.joda.time.Interval;
-import org.joda.time.LocalDateTime;
+import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
@@ -301,8 +299,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         boolean isSynchronousUser = false;
         if (CollectionUtils.isNotEmpty(assignments)) {
             for (Assignment assignment : assignments) {
-                TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), LocalDate.now());
-                isSynchronousUser |= (tcr == null || tcr.isClockUserFl());
+            	if(assignment.getJob() != null) {
+		            TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.now());
+		            isSynchronousUser |= (tcr == null || tcr.isClockUserFl());
+            	}
             }
         }
         return isSynchronousUser;

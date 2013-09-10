@@ -158,7 +158,9 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
         	String principalId = GlobalVariables.getUserSession().getPrincipalId();
 
         	if (HrServiceLocator.getHRPermissionService().canViewCalendarDocumentAssignment(principalId, this, assignment)) {
-        		TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), LocalDate.now());
+        		TimeCollectionRule tcr = null;
+        		if(assignment.getJob() != null)
+        			tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.now());
         		boolean isSynchronous = tcr == null || tcr.isClockUserFl();
                 if (!clockOnlyAssignments || isSynchronous) {
                     assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));

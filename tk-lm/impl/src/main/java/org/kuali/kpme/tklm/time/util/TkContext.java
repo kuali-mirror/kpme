@@ -88,7 +88,9 @@ public class TkContext {
     	List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), LocalDate.now());
     	
     	for (Assignment assignment : assignments) {
-    		TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), LocalDate.now());
+    		TimeCollectionRule tcr = null;
+    		if(assignment.getJob() != null)
+    			tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.now());
             if (tcr == null || tcr.isClockUserFl()) {
             	isSynchronous = true;
             	break;
@@ -104,7 +106,9 @@ public class TkContext {
     	List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(getTargetPrincipalId(), LocalDate.now());
     	
     	for (Assignment assignment : assignments) {
-    		TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), LocalDate.now());
+    		TimeCollectionRule tcr = null;
+    		if(assignment.getJob() != null)
+    			tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.now());
             if (tcr == null || tcr.isClockUserFl()) {
             	isSynchronous = true;
             	break;

@@ -40,11 +40,6 @@ public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService 
 		return timeCollectRuleDao.getTimeCollectionRule(dept, workArea, payType, asOfDate);
 	}
 
-    @Override
-	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea,LocalDate asOfDate){
-		return timeCollectRuleDao.getTimeCollectionRule(dept, workArea, asOfDate);
-	}
-
 	public TimeCollectionRuleDaoService getTimeCollectRuleDao() {
 		return timeCollectRuleDao;
 	}

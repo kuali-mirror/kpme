@@ -146,6 +146,7 @@ public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
 		timeCollectionRule.setTimestamp(TKUtils.getCurrentTimestamp());
 		timeCollectionRule.setUserPrincipalId(TEST_CODE);
         timeCollectionRule.setActive(true);
+        timeCollectionRule.setPayType("%");
         timeCollectionRule = KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule);
 		timeCollectionRuleId = timeCollectionRule.getTkTimeCollectionRuleId();
 
@@ -165,6 +166,7 @@ public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
 				.setDept(TEST_CODE_DEPARTMENT_VALID);
 		timeCollectionRuleWIthInvalidWorkArea.setEffectiveLocalDate(TEST_DATE);
         timeCollectionRuleWIthInvalidWorkArea.setActive(true);
+        timeCollectionRuleWIthInvalidWorkArea.setPayType("%");
 		timeCollectionRuleWIthInvalidWorkArea.setTimestamp(TKUtils.getCurrentTimestamp());
 		timeCollectionRuleWIthInvalidWorkArea.setUserPrincipalId(TEST_CODE);
 		timeCollectionRuleWIthInvalidWorkArea
@@ -187,7 +189,7 @@ public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
 				timeCollectionRuleObj);
 
 		timeCollectionRuleObj = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(TEST_CODE_DEPARTMENT_VALID,
-									TEST_CODE_INVALID_WORKAREA, LocalDate.now());
+									TEST_CODE_INVALID_WORKAREA, "%", LocalDate.now());
 		//timeCollectionRuleObj = KRADServiceLocator.getBusinessObjectService()
         //        .findByPrimaryKey(TimeCollectionRule.class, Collections.singletonMap("tkTimeCollectionRuleId", timeCollectionRuleIdWithInvalidWorkArea));
 		KRADServiceLocator.getBusinessObjectService().delete(
