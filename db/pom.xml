@@ -26,6 +26,10 @@
     <name>KPME DB</name>
     <artifactId>kpme-db</artifactId>
     <packaging>pom</packaging>
+    <properties>
+        <kr.dataSource.dropFirst>false</kr.dataSource.dropFirst>
+        <kpme.dataSource.dropFirst>false</kpme.dataSource.dropFirst>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>mysql</groupId>
@@ -89,6 +93,13 @@
     </build>
     <profiles>
         <profile>
+            <id>dropFirst</id>
+            <properties>
+                <kr.dataSource.dropFirst>true</kr.dataSource.dropFirst>
+                <kpme.dataSource.dropFirst>true</kpme.dataSource.dropFirst>
+            </properties>
+        </profile>
+        <profile>
             <id>db</id>
             <build>
                 <plugins>
@@ -137,7 +148,7 @@
                 <kr.dataSource.username>krtt</kr.dataSource.username>
                 <kr.dataSource.password>krtt</kr.dataSource.password>
                 <kr.dataSource.validationQuery>select 1</kr.dataSource.validationQuery>
-                <kr.dataSource.dropFirst>false</kr.dataSource.dropFirst>
+                <!--<kr.dataSource.dropFirst>false</kr.dataSource.dropFirst>-->
                 <kr.dataSource.clearCheckSums>true</kr.dataSource.clearCheckSums>
                 <kr.dataSource.contexts>rice-server-bootstrap,kpme-server-bootstrap,kpme-server-staging</kr.dataSource.contexts>
                 <kpme.dataSource.driver>com.mysql.jdbc.Driver</kpme.dataSource.driver>
@@ -146,7 +157,7 @@
                 <kpme.dataSource.username>tk</kpme.dataSource.username>
                 <kpme.dataSource.password>tk_tk_tk</kpme.dataSource.password>
                 <kpme.dataSource.validationQuery>select 1</kpme.dataSource.validationQuery>
-                <kpme.dataSource.dropFirst>false</kpme.dataSource.dropFirst>
+                <!--<kpme.dataSource.dropFirst>false</kpme.dataSource.dropFirst>-->
                 <kpme.dataSource.clearCheckSums>true</kpme.dataSource.clearCheckSums>
                 <kpme.dataSource.contexts>rice-client-bootstrap,kpme-client-bootstrap,kpme-client-staging</kpme.dataSource.contexts>
             </properties>

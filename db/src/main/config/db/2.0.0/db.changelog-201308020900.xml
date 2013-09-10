@@ -85,7 +85,7 @@
         <insert tableName="KRMS_ACTN_ATTR_T">
             <column name="ACTN_ATTR_DATA_ID" value="KPME0010"/>
             <column name="ACTN_ID" value="KPME0005"/>
-            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR_RULE')"/>
+            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR-RULE')"/>
             <column name="ATTR_VAL" value="WorkArea PeopleFlow"/>
         </insert>
 
@@ -99,7 +99,7 @@
         <insert tableName="KRMS_ACTN_ATTR_T">
             <column name="ACTN_ATTR_DATA_ID" value="KPME0012"/>
             <column name="ACTN_ID" value="KPME0006"/>
-            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR_RULE')"/>
+            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR-RULE')"/>
             <column name="ATTR_VAL" value="Payroll PeopleFlow"/>
         </insert>
 
@@ -113,7 +113,7 @@
         <insert tableName="KRMS_ACTN_ATTR_T">
             <column name="ACTN_ATTR_DATA_ID" value="KPME0014"/>
             <column name="ACTN_ID" value="KPME0007"/>
-            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR_RULE')"/>
+            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR-RULE')"/>
             <column name="ATTR_VAL" value="WorkArea PeopleFlow"/>
         </insert>
 

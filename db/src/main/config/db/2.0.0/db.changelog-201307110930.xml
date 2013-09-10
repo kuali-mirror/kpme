@@ -400,7 +400,7 @@
         <insert tableName="KRMS_ACTN_ATTR_T">
             <column name="ACTN_ATTR_DATA_ID" value="KPME0002"/>
             <column name="ACTN_ID" value="KPME0001"/>
-            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR_RULE')"/>
+            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR-RULE')"/>
             <column name="ATTR_VAL" value="WorkArea PeopleFlow"/>
         </insert>
 
@@ -414,7 +414,7 @@
         <insert tableName="KRMS_ACTN_ATTR_T">
             <column name="ACTN_ATTR_DATA_ID" value="KPME0004"/>
             <column name="ACTN_ID" value="KPME0002"/>
-            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR_RULE')"/>
+            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR-RULE')"/>
             <column name="ATTR_VAL" value="Payroll PeopleFlow"/>
         </insert>
         <!-- END people flow rules for TK -->
@@ -490,7 +490,7 @@
         <insert tableName="KRMS_ACTN_ATTR_T">
             <column name="ACTN_ATTR_DATA_ID" value="KPME0006"/>
             <column name="ACTN_ID" value="KPME0003"/>
-            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR_RULE')"/>
+            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR-RULE')"/>
             <column name="ATTR_VAL" value="WorkArea PeopleFlow"/>
         </insert>
 
@@ -504,7 +504,7 @@
         <insert tableName="KRMS_ACTN_ATTR_T">
             <column name="ACTN_ATTR_DATA_ID" value="KPME0008"/>
             <column name="ACTN_ID" value="KPME0004"/>
-            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR_RULE')"/>
+            <column name="ATTR_DEFN_ID" valueComputed="(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NM='peopleFlowName' and NMSPC_CD='KR-RULE')"/>
             <column name="ATTR_VAL" value="Payroll PeopleFlow"/>
         </insert>
         <!-- END people flow rules for LM -->
