@@ -441,6 +441,10 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                 boolean toReturn = HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
                         || HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime());
                 return updateCanEditOvtPerm(principalId, perms, toReturn);
+            } else if(StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.PAYROLL_PROCESSOR.getRoleName()) ||
+                StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName())) {
+                boolean toReturn = isPrincipalAnyProcessorInWorkArea(principalId, workArea, timeBlock.getBeginDateTime().toLocalDate());
+                return updateCanEditOvtPerm(principalId, perms, toReturn);
             } else {
                 boolean toReturn = HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
                         || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
