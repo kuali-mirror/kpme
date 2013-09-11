@@ -242,10 +242,10 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 				
 				Long workArea = tb.getWorkArea();
 				
-				Job job = HrServiceLocator.getJobService().getJob(tb.getPrincipalId(), tb.getJobNumber(), LocalDate.now(), false);
+				Job job = HrServiceLocator.getJobService().getJob(tb.getPrincipalId(), tb.getJobNumber(), LocalDate.fromDateFields(tb.getBeginDate()), false);
 				String department = job != null ? job.getDept() : null;
 				
-				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
+				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(tb.getBeginDate()));
 				String location = departmentObj != null ? departmentObj.getLocation() : null;
 				
 				boolean valid = false;
