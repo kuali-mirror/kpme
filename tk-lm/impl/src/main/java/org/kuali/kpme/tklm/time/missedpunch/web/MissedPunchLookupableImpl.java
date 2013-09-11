@@ -50,6 +50,7 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.view.LookupView;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.LookupForm;
 
@@ -76,27 +77,27 @@ public class MissedPunchLookupableImpl extends KPMELookupableImpl {
 			if(range.getLowerBoundValue() != null && range.getUpperBoundValue() != null) {
 				fromDate = TKUtils.formatDateString(fromDateString);
 				if(fromDate == null) {
-					GlobalVariables.getMessageMap().putError("lookupCriteria[rangeLowerBoundKeyPrefix_beginDate]", "error.invalidLookupDate", range.getLowerBoundValue());
+					GlobalVariables.getMessageMap().putError("lookupCriteria[rangeLowerBoundKeyPrefix_actionDate]", "error.invalidLookupDate", range.getLowerBoundValue());
 					invalid = true;
 				}
 
 				toDate = TKUtils.formatDateString(toDateString);
 				if(toDate == null) {
-					GlobalVariables.getMessageMap().putError("lookupCriteria[beginDate]", "error.invalidLookupDate", range.getUpperBoundValue());
+					GlobalVariables.getMessageMap().putError("lookupCriteria[actionDate]", "error.invalidLookupDate", range.getUpperBoundValue());
 					invalid = true;
 				}
 			}
 			else if(range.getLowerBoundValue() != null) {
 				fromDate = TKUtils.formatDateString(fromDateString);
 				if(fromDate == null) {
-					GlobalVariables.getMessageMap().putError("lookupCriteria[rangeLowerBoundKeyPrefix_beginDate]", "error.invalidLookupDate", range.getLowerBoundValue());
+					GlobalVariables.getMessageMap().putError("lookupCriteria[rangeLowerBoundKeyPrefix_actionDate]", "error.invalidLookupDate", range.getLowerBoundValue());
 					invalid = true;
 				}
 			}
 			else if(range.getUpperBoundValue() != null) {
 				toDate = TKUtils.formatDateString(toDateString);
 				if(toDate == null) {
-					GlobalVariables.getMessageMap().putError("lookupCriteria[beginDate]", "error.invalidLookupDate", range.getUpperBoundValue());
+					GlobalVariables.getMessageMap().putError("lookupCriteria[actionDate]", "error.invalidLookupDate", range.getUpperBoundValue());
 					invalid = true;
 				}
 			}
@@ -107,7 +108,9 @@ public class MissedPunchLookupableImpl extends KPMELookupableImpl {
 		searchCriteria.remove("actionDate");
 		List<?> searchResults = super.getSearchResults(form, searchCriteria, unbounded);
 		//clear result messages, these will be re-added with the correct number of retrieved objects once filtering has been completed.
-		GlobalVariables.getMessageMap().getInfoMessagesForProperty("LookupResultMessages").clear();
+		if(ObjectUtils.isNotNull(GlobalVariables.getMessageMap().getInfoMessagesForProperty("LookupResultMessages"))) {
+			GlobalVariables.getMessageMap().getInfoMessagesForProperty("LookupResultMessages").clear();
+		}
 		for (Object searchResult : searchResults) {
 			MissedPunch missedPunch = (MissedPunch) searchResult;
 			results.add(missedPunch);
@@ -119,7 +122,6 @@ public class MissedPunchLookupableImpl extends KPMELookupableImpl {
 			try {
 				results = filterByActionTime(results,actionTimeString);
 			} catch (ParseException e) {
-				
 				LOG.warn("caught ParseException while filtering results by Missed Action Time. Cause: " + e.getCause());
 			}
 		}

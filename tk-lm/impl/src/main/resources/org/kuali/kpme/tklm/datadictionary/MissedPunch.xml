@@ -246,7 +246,7 @@
     <bean id="MissedPunch-actionTime" parent="MissedPunch-actionTime-parentBean" />
     <bean id="MissedPunch-actionTime-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="actionTime" />
-        <property name="label" value="Missed Action Time (00:00 AM)" />
+        <property name="label" value="Missed Action Time" />
         <property name="shortLabel" value="Missed Action Time" />
         <property name="required" value="true" />
         <property name="validCharactersConstraint">
@@ -255,7 +255,7 @@
                   p:messageKey="validation.time12AMPM"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" />
+            <bean parent="Uif-TextControl" p:watermarkText="6:00 AM"/>
         </property>
     </bean>
 
