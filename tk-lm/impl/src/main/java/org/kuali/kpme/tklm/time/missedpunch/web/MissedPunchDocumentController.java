@@ -32,6 +32,7 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.uif.UifConstants.WorkflowAction;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.DocumentControllerBase;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
@@ -171,5 +172,13 @@ public class MissedPunchDocumentController extends DocumentControllerBase {
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
     }
+
+	@Override
+	@RequestMapping(params = "methodToCall=back")
+	public ModelAndView back(@ModelAttribute("KualiForm") UifFormBase form,
+			BindingResult result, HttpServletRequest request,
+			HttpServletResponse response) {
+		return super.back(form, result, request, response);
+	}
 
 }

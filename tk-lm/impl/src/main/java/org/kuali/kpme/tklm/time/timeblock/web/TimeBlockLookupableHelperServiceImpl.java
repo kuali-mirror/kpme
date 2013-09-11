@@ -42,7 +42,6 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.search.Range;
 import org.kuali.rice.core.api.search.SearchExpressionUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
