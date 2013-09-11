@@ -15,13 +15,13 @@
  */
 package org.kuali.kpme.core.salarygroup.authorization;
 
-import java.util.Map;
-
-import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
+import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 
+import java.util.Map;
+
 @SuppressWarnings("deprecation")
-public class SalaryGroupAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
+public class SalaryGroupAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer {
 
 	private static final long serialVersionUID = 7842865077640195329L;
 

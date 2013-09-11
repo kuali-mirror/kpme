@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.authorization;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.rice.kim.api.KimConstants;
@@ -58,5 +59,8 @@ public class KPMEMaintenanceDocumentViewAuthorizer extends MaintenanceDocumentAu
         return canCreate(maintenanceDocument.getDocumentDataObject().getClass(), user) || canMaintain(maintenanceDocument.getDocumentDataObject(), user);
     }
 
+    protected String cleanAttributeValue(String value) {
+        return StringUtils.equals("%", value) ? StringUtils.EMPTY : value;
+    }
 
 }
