@@ -435,7 +435,9 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             String location = departmentObj != null ? departmentObj.getLocation() : null;
 
             if (StringUtils.equals(workAreaObj.getOvertimeEditRole(), "Employee")) {
-                return updateCanEditOvtPerm(principalId, perms, true);
+            	if(principalId.equals(timeBlock.getPrincipalId())) {
+            		return updateCanEditOvtPerm(principalId, perms, true);
+            	} 
             } else if (StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.APPROVER.getRoleName()) ||
                     StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.APPROVER_DELEGATE.getRoleName())) {
                 boolean toReturn = HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
