@@ -31,7 +31,6 @@ import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
