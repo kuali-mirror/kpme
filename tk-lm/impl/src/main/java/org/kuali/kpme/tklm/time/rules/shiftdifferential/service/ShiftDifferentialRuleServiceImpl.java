@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -299,10 +300,21 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 											// Check Gap, if good, sum hours, if maxGap is 0, ignore gaps
 											if (rule.getMaxGap().compareTo(BigDecimal.ZERO) == 0 || bgdHours.compareTo(rule.getMaxGap()) <= 0) {
-												// Calculate Overlap and add it to hours before virtual day bucket.
+												// Calculate Overlap and add it to hours before virtual day bucket.												
 												if (blockInterval.overlaps(previousDayShiftInterval)) {
-													BigDecimal hrs = TKUtils.convertMillisToHours(blockInterval.overlap(previousDayShiftInterval).toDurationMillis());
-													hoursBeforeVirtualDay = hoursBeforeVirtualDay.add(hrs);
+													boolean ruleAppliedAlready = false;
+													if(CollectionUtils.isNotEmpty(b.getTimeHourDetails())) {														
+														for(TimeHourDetail tbd : b.getTimeHourDetails()) {
+															if(tbd.getEarnCode().equals(rule.getEarnCode())) {
+																ruleAppliedAlready = true;
+															}
+														}
+													}
+													// if this time block already had this rule applied to it, no need to calculate the same hours again
+													if(!ruleAppliedAlready) {
+														BigDecimal hrs = TKUtils.convertMillisToHours(blockInterval.overlap(previousDayShiftInterval).toDurationMillis());
+														hoursBeforeVirtualDay = hoursBeforeVirtualDay.add(hrs);
+													}
 												}
 
 											} else {
