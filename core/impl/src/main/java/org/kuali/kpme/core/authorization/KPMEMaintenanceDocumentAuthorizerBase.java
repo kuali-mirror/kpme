@@ -18,6 +18,7 @@ package org.kuali.kpme.core.authorization;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.rice.kim.api.KimConstants;
@@ -45,12 +46,13 @@ public class KPMEMaintenanceDocumentAuthorizerBase extends MaintenanceDocumentAu
     @Override
     public boolean canMaintain(Object dataObject, Person user) {
 		Map<String, String> permissionDetails = new HashMap<String, String>();
+        Map<String, String> roleQualifications = getRoleQualification(dataObject, user.getPrincipalId());
 		permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, getDocumentDictionaryService().getMaintenanceDocumentTypeName(dataObject.getClass()));
 		return !permissionExistsByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(), 
 										   KPMEPermissionTemplate.EDIT_KPME_MAINTENANCE_DOCUMENT.getPermissionTemplateName(), permissionDetails)
 				|| isAuthorizedByTemplate(dataObject, KPMENamespace.KPME_WKFLW.getNamespaceCode(), 
 										  KPMEPermissionTemplate.EDIT_KPME_MAINTENANCE_DOCUMENT.getPermissionTemplateName(), user.getPrincipalId(), 
-										  permissionDetails, null);
+										  permissionDetails, roleQualifications);
     }
 
     @Override
@@ -58,4 +60,7 @@ public class KPMEMaintenanceDocumentAuthorizerBase extends MaintenanceDocumentAu
         return canCreate(maintenanceDocument.getDocumentDataObject().getClass(), user) || canMaintain(maintenanceDocument.getDocumentDataObject(), user);
     }
 
+    protected String cleanAttributeValue(String value) {
+        return StringUtils.equals("%", value) ? StringUtils.EMPTY : value;
+    }
 }

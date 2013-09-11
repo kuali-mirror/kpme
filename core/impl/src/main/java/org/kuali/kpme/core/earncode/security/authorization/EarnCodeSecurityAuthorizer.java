@@ -37,8 +37,8 @@ public class EarnCodeSecurityAuthorizer extends KPMEMaintenanceDocumentAuthorize
 			EarnCodeSecurity earnCodeSecurityObj = (EarnCodeSecurity) dataObject;
 			
 			if (earnCodeSecurityObj != null) {
-				department = earnCodeSecurityObj.getDept();
-				location = earnCodeSecurityObj.getLocation();
+				department = StringUtils.equals(earnCodeSecurityObj.getDept(), "%") ? StringUtils.EMPTY : earnCodeSecurityObj.getDept();
+				location = StringUtils.equals(earnCodeSecurityObj.getLocation(), "%") ? StringUtils.EMPTY : earnCodeSecurityObj.getLocation();
 			}
 		}
 		
