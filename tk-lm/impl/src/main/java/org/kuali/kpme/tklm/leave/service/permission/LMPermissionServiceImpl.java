@@ -42,6 +42,7 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionType;
@@ -212,14 +213,19 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
     	// Location and sys admins along with approver,reviewer, payroll processors should have access to edit calendar
     	// department admins and view only should not have access to edit timesheets. view only roles are location view only and global view only
     	// location and sys admin roles should have priority unless it is their own calendar.
-      
+
+        if (StringUtils.equals(TkContext.getTargetPrincipalId(), principalId)) {
+            return true;
+        }
 	    // use if blocks to check the roles in priority order and returns true so we don't need to check all possible roles for performance purpose 
     	// system admin
-	    if(HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(principalId, DateTime.now()))
+	    if(HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(principalId, LocalDate.now().toDateTimeAtStartOfDay())) {
 	    	return true;
+        }
 	   // LeaveSysAdmin
-	    if(HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_SYSTEM_ADMINISTRATOR.getRoleName(), new DateTime()))
+	    if(HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_SYSTEM_ADMINISTRATOR.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay())) {
 	    	return true;
+        }
 	    
 	    // use job to find the department, then use the location from Department to get the location roles 
 	    Job aJob = HrServiceLocator.getJobService().getJob(aLeaveBlock.getPrincipalId(), aLeaveBlock.getJobNumber(), aLeaveBlock.getLeaveLocalDate());
@@ -227,20 +233,23 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 	    	Department aDept = HrServiceLocator.getDepartmentService().getDepartment(aJob.getDept(), aJob.getEffectiveLocalDate());
 	    	if(aDept != null) {
 	    		// LeaveLocationAdmin
-			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), aDept.getLocation(), new DateTime()))
+			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), aDept.getLocation(), LocalDate.now().toDateTimeAtStartOfDay()))
 			    	return true;
 	    	}
 	    }	    
     	Long aWorkArea = aLeaveBlock.getWorkArea();
 	    // Reviewer
-	    if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), aWorkArea, new DateTime()))
+	    if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), aWorkArea, LocalDate.now().toDateTimeAtStartOfDay())) {
 	    	return true;
+        }
 	    // Approver
-	    if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), aWorkArea, new DateTime()))
+	    if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), aWorkArea, LocalDate.now().toDateTimeAtStartOfDay())) {
 	    	return true;
+        }
 	    // Approver Delegate
-	    if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), aWorkArea, new DateTime()))
+	    if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), aWorkArea, LocalDate.now().toDateTimeAtStartOfDay())) {
 	    	return true;
+        }
 	    
 	    // no eligible roles found
 	    return false;
