@@ -344,4 +344,9 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 		this.tkRuleControllerService = tkRuleControllerService;
 	}
 
+	@Override
+	public MissedPunchDocument getMissedPunchDocumentByMissedPunchId(String tkMissedPunchId) {
+		return missedPunchDao.getMissedPunchDocument(tkMissedPunchId);
+	}
+
 }

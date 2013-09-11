@@ -62,5 +62,7 @@ public interface MissedPunchService {
      * @param missedPunchDocument The Missed Punch Document to approve
      */
     public void approveMissedPunchDocument(MissedPunchDocument missedPunchDocument);
+
+	public MissedPunchDocument getMissedPunchDocumentByMissedPunchId(String tkMissedPunchId);
     
 }

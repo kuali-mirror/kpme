@@ -228,7 +228,7 @@
 
     <bean id="MissedPunch-relativeEffectiveDate" parent="MissedPunch-actionDate-parentBean" p:name="relativeEffectiveDate">
         <property name="controlField">
-            <bean parent="Uif-DateControl"/>
+            <bean parent="Uif-DateControl" p:hidden="true"/>
         </property>
     </bean>
 	
@@ -239,7 +239,7 @@
         <property name="shortLabel" value="Missed Action Date" />
         <property name="required" value="true" />
         <property name="controlField">
-            <bean parent="Uif-DateControl" />
+            <bean parent="Uif-DateControl" p:watermarkText="MM/DD/YYYY" />
         </property>
     </bean>
 
@@ -332,14 +332,65 @@
         <property name="criteriaFields">
             <list>
 		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalName" />
-		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="timesheetDocumentId" />
-		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="jobNumber" />
-		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="workArea" />
-		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="task" /> 
-		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="actionDate" />
+		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="timesheetDocumentId">
+<!-- 	  				<property name="quickfinder">
+	  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader"
+	  						p:fieldConversions="documentId:timesheetDocumentId"/>
+	  				</property> -->
+		        </bean>
+		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="jobNumber">
+		        <!-- Can be enabled once a principal id fetch is defined for principalName and
+		        	KRAD Views have been defined for jobNumber. -->
+<!-- 	  				<property name="quickfinder">
+	  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.job.Job"
+	  						p:fieldConversions="jobNumber:jobNumber"/>
+	  				</property>
+	  				<property name="inquiry">
+	  					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.job.Job">
+	  						<property name="inquiryParameters">
+	  							<map>
+	  								<entry key="principalId" value="principalId"/>
+	  								<entry key="jobNumber" value="jobNumber"/>
+	  							</map>
+	  						</property>
+	  					</bean>
+	  				</property> -->
+		        </bean>
+		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="workArea">
+		        <!-- can be enabled once KRAD Views have been defined for task -->
+<!-- 	  				<property name="quickfinder">
+	  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.workarea.WorkArea"
+	  						p:fieldConversions="workArea:workArea"/>
+	  				</property>
+	  				<property name="inquiry">
+	  					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.workarea.WorkArea"
+	  						p:inquiryParameters="workArea:workArea"/>
+	  				</property> -->
+				</bean>
+		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="task">
+		        <!-- can be re-enabled once KRAD Views have been defined for task. -->
+<!-- 	  				<property name="quickfinder">
+	  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.task.Task"
+	  						p:fieldConversions="task:task"/>
+	  				</property>
+	  				<property name="inquiry">
+	  					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.task.Task">
+	  						<property name="inquiryParameters">
+	  							<map>
+	  								<entry key="workArea" value="workArea"/>
+	  								<entry key="task" value="task"/>
+	  							</map>
+	  						</property>
+	  					</bean>
+	  				</property> -->
+  				</bean> 
+		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="actionDate" p:ranged="true" p:label="Missed Action Date" />
 		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="actionTime" />
 		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="clockAction" />
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="relativeEffectiveDate" p:hidden="true" p:defaultValue=" "/>
+		        <!-- uncomment to support direct inquiries and lookups for commented properties above.
+		        	principalId field should be populated when principal name is returned. i.e. need relationship definition. -->
+<!-- 		        <bean parent="Uif-HiddenInputField" p:propertyName="relativeEffectiveDate"/>
+		        <bean parent="Uif-HiddenInputField" p:propertyName="principalId" /> -->
             </list>
         </property>
         <property name="resultFields">
