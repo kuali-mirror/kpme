@@ -22,22 +22,24 @@
             <a href="Clock.do">Clock</a>
         </li>
         <li>
-            <a href="DepartmentAdmin.do">Department Admin</a>
+            <a href="TimeDetail.do">Time Detail</a>
         </li>
         <li>
             <a href="LeaveCalendar.do">Leave Calendar</a>
         </li>
         <li>
+            <a href="PersonInfo.do">Person Info</a>
+        </li>                        
+    </ul>
+    <ul class="chan">
+        <li>
             <a href="TimeApproval.do">Time Approval</a>
         </li>
         <li>
             <a href="LeaveApproval.do">Leave Approval</a>
-        </li>
+        </li>                 
         <li>
-            <a href="TimeDetail.do">Time Detail</a>
-        </li>
-        <li>
-            <a href="PersonInfo.do">Person Info</a>
+            <a href="DepartmentAdmin.do">Department Admin</a>
         </li>
 	</ul>
 </div>
