@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<channel:portalChannelTop channelTitle="KPME Links" />
+<channel:portalChannelTop channelTitle="Time and Leave Management" />
 <div class="body">
     <ul class="chan">
         <li>
