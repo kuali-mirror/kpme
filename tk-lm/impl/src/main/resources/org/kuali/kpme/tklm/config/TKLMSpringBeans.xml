@@ -669,7 +669,6 @@
                 <idref local="timeBlockService"/>
                 <idref local="timeBlockHistoryService"/>
                 <idref local="timeBlockHistoryDetailService"/>
-                <idref local="timeBlockSerializerService"/>
                 <idref local="timesheetDocumentHeaderService"/>
                 <idref local="timesheetService"/>
                 <idref local="timeHourDetailService"/>
