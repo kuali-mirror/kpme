@@ -29,13 +29,16 @@ import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.uif.UifConstants.WorkflowAction;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.DocumentControllerBase;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
+import org.kuali.rice.krad.web.form.HistoryFlow;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -178,6 +181,15 @@ public class MissedPunchDocumentController extends DocumentControllerBase {
 	public ModelAndView back(@ModelAttribute("KualiForm") UifFormBase form,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
+
+        HistoryFlow historyFlow = form.getHistoryManager().getMostRecentFlowByFormKey(form.getFlowKey(),
+                form.getRequestedFormKey());
+        if(historyFlow == null) {
+        	//TODO: Chances are, a new window/tab was opened to display the inquiry. Close it.
+        	String applicationUrl = ConfigContext.getCurrentContextConfig().getProperty(KRADConstants.APPLICATION_URL_KEY);
+        	applicationUrl = applicationUrl + "/portal.do?selectedTab=main";
+        	form.setReturnLocation(applicationUrl);
+        }
 		return super.back(form, result, request, response);
 	}
 
