@@ -97,4 +97,61 @@ public class LocationValidation extends MaintenanceDocumentRuleBase {
         return valid & activeFlag;
     }
 
+	@Override
+	public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName,
+			PersistableBusinessObject line) {
+		boolean valid = true;
+		
+		if(line instanceof LocationPrincipalRoleMemberBo) {
+			LocationPrincipalRoleMemberBo roleMember = (LocationPrincipalRoleMemberBo) line;
+			Location location = (Location) document.getDocumentBusinessObject();
+			List<LocationPrincipalRoleMemberBo> existingRoleMembers = location.getRoleMembers();
+			for(ListIterator<LocationPrincipalRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
+				int index = iter.nextIndex();
+	            String prefix = "roleMembers[" + index + "].";
+				LocationPrincipalRoleMemberBo existingRoleMember = iter.next();
+				if(StringUtils.equals(existingRoleMember.getPrincipalId(),roleMember.getPrincipalId())) {
+					if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
+						if(existingRoleMember.getActiveToDate() != null) {
+							if(roleMember.getActiveFromDate().compareTo(existingRoleMember.getActiveToDate()) < 0) {
+								valid &= false;
+								this.putFieldError(prefix + "effectiveDate", "error.role.active.existence");
+								this.putFieldError("add.roleMembers.effectiveDate", "error.role.active.duplicate");
+							}
+						}
+						else {
+							valid &= false;
+							this.putFieldError(prefix + "effectiveDate", "error.role.active.existence");
+							this.putFieldError("add.roleMembers.effectiveDate", "error.role.active.duplicate");
+						}
+					}
+				}
+			}
+			existingRoleMembers = location.getInactiveRoleMembers();
+			for(ListIterator<LocationPrincipalRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
+				int index = iter.nextIndex();
+	            String prefix = "inactiveRoleMembers[" + index + "].";
+				LocationPrincipalRoleMemberBo existingRoleMember = iter.next();
+				if(StringUtils.equals(existingRoleMember.getPrincipalId(),roleMember.getPrincipalId())) {
+					if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
+						if(existingRoleMember.getActiveToDate() != null) {
+							if(roleMember.getActiveFromDate().compareTo(existingRoleMember.getActiveToDate()) < 0) {
+								valid &= false;
+								this.putFieldError(prefix + "effectiveDate", "error.role.inactive.existence");
+								this.putFieldError("add.roleMembers.effectiveDate", "error.role.inactive.duplicate");
+							}
+						}
+						else {
+							valid &= false;
+							this.putFieldError(prefix + "effectiveDate", "error.role.inactive.existence");
+							this.putFieldError("add.roleMembers.effectiveDate", "error.role.inactive.duplicate");
+						}
+					}
+				}
+			}
+		}
+		
+		return valid;
+	}
+
 }

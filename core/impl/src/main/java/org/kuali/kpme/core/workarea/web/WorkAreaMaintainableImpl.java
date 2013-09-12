@@ -337,9 +337,9 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         }
         
         for (RoleMemberBo newRoleMember : newRoleMembers) {
+    		Role newRole = KimApiServiceLocator.getRoleService().getRole(newRoleMember.getRoleId());
         	for (RoleMemberBo oldRoleMember : oldRoleMembers) {
-        		Role newRole = KimApiServiceLocator.getRoleService().getRole(newRoleMember.getRoleId());
-        		Role oldRole = KimApiServiceLocator.getRoleService().getRole(newRoleMember.getRoleId());
+        		Role oldRole = KimApiServiceLocator.getRoleService().getRole(oldRoleMember.getRoleId());
 			  	
         		if (StringUtils.equals(newRole.getName(), oldRole.getName()) && StringUtils.equals(newRoleMember.getMemberId(), oldRoleMember.getMemberId())) {
         			RoleMember.Builder builder = RoleMember.Builder.create(oldRoleMember);
