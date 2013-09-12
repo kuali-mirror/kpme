@@ -199,9 +199,6 @@
 
 
     <!-- CORE Service Definitions -->
-
-    
-    
     <bean id="payStepService" class="org.kuali.kpme.core.paystep.service.PayStepServiceImpl">
         <property name="payStepDao" ref="payStepDao"/>
     </bean>
@@ -499,5 +496,45 @@
     	<property name="lookupableHelperService">
     		<bean class="org.kuali.kpme.core.institution.web.InstitutionLookupableHelper"/>
     	</property>    
+    </bean>
+
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="interceptorNames">
+            <list>
+                <idref bean="matchAllTxInterceptor" />
+            </list>
+        </property>
+        <property name="beanNames">
+            <list>
+                <idref local="payStepService"/>
+                <idref local="kpmeNotificationService"/>
+                <idref local="timezoneService"/>
+                <idref local="leavePlanService"/>
+                <idref local="accrualCategoryService"/>
+                <idref local="accrualCategoryRuleService"/>
+                <idref local="locationService"/>
+                <idref local="payGradeService"/>
+                <idref local="principalHRAttributesService"/>
+                <idref local="earnCodeSecurityService"/>
+                <idref local="departmentService"/>
+                <idref local="earnCodeService"/>
+                <idref local="earnCodeGroupService"/>
+                <idref local="salaryGroupService"/>
+                <idref local="workAreaService"/>
+                <idref local="jobService"/>
+                <idref local="taskService"/>
+                <idref local="payTypeService"/>
+                <idref local="calendarService"/>
+                <idref local="calendarEntryService"/>
+                <idref local="assignmentService"/>
+                <idref local="calendarBlockService"/>
+                <idref local="positionBaseService"/>
+                <idref local="calendarDocumentFactBuilderService"/>
+                <idref local="kpmeGroupService"/>
+                <idref local="hrPermissionService"/>
+                <idref local="kpmeRoleService" />
+                <idref local="workAreaRoleTypeService"/>
+            </list>
+        </property>
     </bean>
 </beans>

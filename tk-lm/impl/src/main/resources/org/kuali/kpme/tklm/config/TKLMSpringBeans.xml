@@ -416,7 +416,7 @@
 
     <bean id="timeApproveService" class="org.kuali.kpme.tklm.time.approval.service.TimeApproveServiceImpl"/>
 
-    <bean name="tkMobileService" class="org.kuali.kpme.tklm.time.service.mobile.TkMobileServiceImpl"/>
+    <bean id="tkMobileService" name="tkMobileService" class="org.kuali.kpme.tklm.time.service.mobile.TkMobileServiceImpl"/>
 
     <bean id="tkMobileServiceExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
@@ -637,6 +637,63 @@
                 <ref bean="leaveCalendarDelinquencyTrigger" />
                 <ref bean="serializerTrigger" />
                 <ref bean="carryOverSchedulerTrigger" />
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="interceptorNames">
+            <list>
+                <idref bean="matchAllTxInterceptor" />
+            </list>
+        </property>
+        <property name="beanNames">
+            <list>
+                <idref local="principalAccrualRanService" />
+                <idref local="leaveSummaryService"/>
+                <idref local="leaveApprovalService"/>
+                <idref local="leaveRequestDocumentService"/>
+                <idref local="accrualCategoryMaxCarryOverService"/>
+                <idref local="tkPermissionService"/>
+                <idref local="lmPermissionService"/>
+                <idref local="missedPunchService"/>
+                <idref local="deptLunchRuleService"/>
+                <idref local="systemLunchRuleService"/>
+                <idref local="gracePeriodService"/>
+                <idref local="clockLogService"/>
+                <idref local="clockLocationService"/>
+                <idref local="weeklyOvertimeRuleService"/>
+                <idref local="shiftDifferentialRuleService"/>
+                <idref local="dailyOvertimeRuleService"/>
+                <idref local="timeCollectionRuleService"/>
+                <idref local="timeBlockService"/>
+                <idref local="timeBlockHistoryService"/>
+                <idref local="timeBlockHistoryDetailService"/>
+                <idref local="timeBlockSerializerService"/>
+                <idref local="timesheetDocumentHeaderService"/>
+                <idref local="timesheetService"/>
+                <idref local="timeHourDetailService"/>
+                <idref local="userPrefService"/>
+                <idref local="accrualService"/>
+                <idref local="balanceTransferService"/>
+                <idref local="accrualCategoryMaxBalanceService"/>
+                <idref local="leavePayoutService"/>
+                <idref local="leaveDonationService"/>
+                <idref local="systemScheduledTimeOffService"/>
+                <idref local="leaveBlockService"/>
+                <idref local="leaveBlockHistoryService"/>
+                <idref local="leaveCalendarService"/>
+                <idref local="leaveCalendarDocumentHeaderService"/>
+                <idref local="employeeOverrideService"/>
+                <idref local="leaveAdjustmentService"/>
+                <idref local="timeSummaryService"/>
+                <idref local="lmFactBuilderService"/>
+                <idref local="tkServiceLocator"/>
+                <idref local="lmServiceLocator"/>
+                <idref local="tkRuleControllerService"/>
+                <idref local="tkSearchableAttributeService"/>
+                <idref local="timeApproveService"/>
+                <idref local="tkMobileService"/>
             </list>
         </property>
     </bean>

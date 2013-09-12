@@ -44,10 +44,11 @@
     <import resource="classpath:org/kuali/kpme/core/config/CommonRiceServiceSpringBeans.xml"/>
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
     <import resource="classpath:org/kuali/kpme/core/config/DataSourceSpringBeans.xml" />
+    <import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
 
-    <bean id="rice.core.config.propertyPlaceholderConfigurer"
+    <!--<bean id="rice.core.config.propertyPlaceholderConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-          p:properties="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}"/>
+          p:properties="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}"/>-->
 
     <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
         <property name="jcdAlias" value="kradApplicationDataSource" />
@@ -61,7 +62,7 @@
 
     <!--<bean name="springContext" class="org.kuali.kpme.core.sys.context.SpringContext" />-->
 
-    <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    <!--<bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="dbPlatform" />
     </bean>
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -91,6 +92,10 @@
         </property>
     </bean>
 
+    <bean id="transactionTemplate"
+          class="org.springframework.transaction.support.TransactionTemplate"
+          p:transactionManager-ref="transactionManager"/>
+
     <bean id="userTransaction" class="org.kuali.rice.core.framework.persistence.jta.UserTransactionFactoryBean" lazy-init="true" />
 
     <bean id="jtaTransactionManager" class="org.kuali.rice.core.framework.persistence.jta.TransactionManagerFactoryBean" lazy-init="true" />
@@ -102,7 +107,7 @@
 
     <bean id="annotationTransactionAttributeSource" class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
 
-    <bean id="commonDefaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+    <bean id="commonDefaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />-->
 
     <bean id="kpme.serviceExporter" abstract="true" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter"
           p:serviceBus-ref="rice.ksb.import.serviceBus" />

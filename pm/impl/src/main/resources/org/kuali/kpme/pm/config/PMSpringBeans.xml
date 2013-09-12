@@ -271,4 +271,37 @@
 	   	</property>    
     </bean>
 
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="interceptorNames">
+            <list>
+                <idref bean="matchAllTxInterceptor" />
+            </list>
+        </property>
+        <property name="beanNames">
+            <list>
+                <idref local="pmServiceLocator"/>
+                <idref local="positionService"/>
+                <idref local="positionReportTypeService"/>
+                <idref local="positionReportGroupService"/>
+                <idref local="positionReportCatService"/>
+                <idref local="positionReportSubCatService"/>
+                <idref local="pstnRptGrpSubCatService"/>
+                <idref local="positionTypeService"/>
+                <idref local="positionFlagService"/>
+                <idref local="pstnQlfrTypeService"/>
+                <idref local="pstnQlfctnVlService"/>
+                <idref local="positionAppointmentService"/>
+                <idref local="pstnContractTypeService"/>
+                <idref local="positionDepartmentAffiliationService"/>
+                <idref local="positionDepartmentService"/>
+                <idref local="positionResponsibilityOptionService"/>
+                <idref local="positionResponsibilityService"/>
+                <idref local="classificationService"/>
+                <idref local="classificationDutyService"/>
+                <idref local="classificationFlagService"/>
+                <idref local="classificationQualificationService"/>
+                <idref local="positionFundingService"/>
+            </list>
+        </property>
+    </bean>
 </beans>
