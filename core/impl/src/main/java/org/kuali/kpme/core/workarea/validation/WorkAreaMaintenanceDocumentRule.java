@@ -26,9 +26,10 @@ import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.KPMERoleMemberBo;
 import org.kuali.kpme.core.role.PositionRoleMemberBo;
 import org.kuali.kpme.core.role.PrincipalRoleMemberBo;
+import org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo;
+import org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.Task;
-import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.kim.api.role.Role;
@@ -98,6 +99,106 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 					}
 					
 					task.setWorkArea(workArea.getWorkArea());
+				}
+			}
+		}
+		
+		//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...
+		if(line instanceof WorkAreaPrincipalRoleMemberBo) {
+			WorkAreaPrincipalRoleMemberBo roleMember = (WorkAreaPrincipalRoleMemberBo) line;
+			WorkArea location = (WorkArea) document.getDocumentBusinessObject();
+			List<WorkAreaPrincipalRoleMemberBo> existingRoleMembers = location.getPrincipalRoleMembers();
+			for(ListIterator<WorkAreaPrincipalRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
+				int index = iter.nextIndex();
+	            String prefix = "roleMembers[" + index + "].";
+				WorkAreaPrincipalRoleMemberBo existingRoleMember = iter.next();
+				if(StringUtils.equals(existingRoleMember.getPrincipalId(),roleMember.getPrincipalId())) {
+					if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
+						if(existingRoleMember.getActiveToDate() != null) {
+							if(roleMember.getActiveFromDate().compareTo(existingRoleMember.getActiveToDate()) < 0) {
+								valid &= false;
+								this.putFieldError(prefix + "effectiveDate", "error.role.active.existence");
+								this.putFieldError("add.roleMembers.effectiveDate", "error.role.active.duplicate");
+							}
+						}
+						else {
+							valid &= false;
+							this.putFieldError(prefix + "effectiveDate", "error.role.active.existence");
+							this.putFieldError("add.roleMembers.effectiveDate", "error.role.active.duplicate");
+						}
+					}
+				}
+			}
+			existingRoleMembers = location.getInactivePrincipalRoleMembers();
+			for(ListIterator<WorkAreaPrincipalRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
+				int index = iter.nextIndex();
+	            String prefix = "inactiveRoleMembers[" + index + "].";
+				WorkAreaPrincipalRoleMemberBo existingRoleMember = iter.next();
+				if(StringUtils.equals(existingRoleMember.getPrincipalId(),roleMember.getPrincipalId())) {
+					if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
+						if(existingRoleMember.getActiveToDate() != null) {
+							if(roleMember.getActiveFromDate().compareTo(existingRoleMember.getActiveToDate()) < 0) {
+								valid &= false;
+								this.putFieldError(prefix + "effectiveDate", "error.role.inactive.existence");
+								this.putFieldError("add.roleMembers.effectiveDate", "error.role.inactive.duplicate");
+							}
+						}
+						else {
+							valid &= false;
+							this.putFieldError(prefix + "effectiveDate", "error.role.inactive.existence");
+							this.putFieldError("add.roleMembers.effectiveDate", "error.role.inactive.duplicate");
+						}
+					}
+				}
+			}
+		}
+		
+		//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...
+		if(line instanceof WorkAreaPositionRoleMemberBo) {
+			WorkAreaPositionRoleMemberBo roleMember = (WorkAreaPositionRoleMemberBo) line;
+			WorkArea location = (WorkArea) document.getDocumentBusinessObject();
+			List<WorkAreaPositionRoleMemberBo> existingRoleMembers = location.getPositionRoleMembers();
+			for(ListIterator<WorkAreaPositionRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
+				int index = iter.nextIndex();
+	            String prefix = "roleMembers[" + index + "].";
+				WorkAreaPositionRoleMemberBo existingRoleMember = iter.next();
+				if(StringUtils.equals(existingRoleMember.getPositionNumber(),roleMember.getPositionNumber())) {
+					if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
+						if(existingRoleMember.getActiveToDate() != null) {
+							if(roleMember.getActiveFromDate().compareTo(existingRoleMember.getActiveToDate()) < 0) {
+								valid &= false;
+								this.putFieldError(prefix + "effectiveDate", "error.role.active.existence");
+								this.putFieldError("add.roleMembers.effectiveDate", "error.role.active.duplicate");
+							}
+						}
+						else {
+							valid &= false;
+							this.putFieldError(prefix + "effectiveDate", "error.role.active.existence");
+							this.putFieldError("add.roleMembers.effectiveDate", "error.role.active.duplicate");
+						}
+					}
+				}
+			}
+			existingRoleMembers = location.getInactivePositionRoleMembers();
+			for(ListIterator<WorkAreaPositionRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
+				int index = iter.nextIndex();
+	            String prefix = "inactiveRoleMembers[" + index + "].";
+				WorkAreaPositionRoleMemberBo existingRoleMember = iter.next();
+				if(StringUtils.equals(existingRoleMember.getPositionNumber(),roleMember.getPositionNumber())) {
+					if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
+						if(existingRoleMember.getActiveToDate() != null) {
+							if(roleMember.getActiveFromDate().compareTo(existingRoleMember.getActiveToDate()) < 0) {
+								valid &= false;
+								this.putFieldError(prefix + "effectiveDate", "error.role.inactive.existence");
+								this.putFieldError("add.roleMembers.effectiveDate", "error.role.inactive.duplicate");
+							}
+						}
+						else {
+							valid &= false;
+							this.putFieldError(prefix + "effectiveDate", "error.role.inactive.existence");
+							this.putFieldError("add.roleMembers.effectiveDate", "error.role.inactive.duplicate");
+						}
+					}
 				}
 			}
 		}

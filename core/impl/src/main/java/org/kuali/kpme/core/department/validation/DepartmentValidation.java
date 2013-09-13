@@ -163,4 +163,63 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 		return valid & activeFlag;
 	}
 
+	@Override
+	public boolean processCustomAddCollectionLineBusinessRules(
+			MaintenanceDocument document, String collectionName,
+			PersistableBusinessObject line) {
+		boolean valid = true;
+		
+		//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...
+		if(line instanceof DepartmentPrincipalRoleMemberBo) {
+			DepartmentPrincipalRoleMemberBo roleMember = (DepartmentPrincipalRoleMemberBo) line;
+			Department location = (Department) document.getDocumentBusinessObject();
+			List<DepartmentPrincipalRoleMemberBo> existingRoleMembers = location.getRoleMembers();
+			for(ListIterator<DepartmentPrincipalRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
+				int index = iter.nextIndex();
+	            String prefix = "roleMembers[" + index + "].";
+				DepartmentPrincipalRoleMemberBo existingRoleMember = iter.next();
+				if(StringUtils.equals(existingRoleMember.getPrincipalId(),roleMember.getPrincipalId())) {
+					if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
+						if(existingRoleMember.getActiveToDate() != null) {
+							if(roleMember.getActiveFromDate().compareTo(existingRoleMember.getActiveToDate()) < 0) {
+								valid &= false;
+								this.putFieldError(prefix + "effectiveDate", "error.role.active.existence");
+								this.putFieldError("add.roleMembers.effectiveDate", "error.role.active.duplicate");
+							}
+						}
+						else {
+							valid &= false;
+							this.putFieldError(prefix + "effectiveDate", "error.role.active.existence");
+							this.putFieldError("add.roleMembers.effectiveDate", "error.role.active.duplicate");
+						}
+					}
+				}
+			}
+			existingRoleMembers = location.getInactiveRoleMembers();
+			for(ListIterator<DepartmentPrincipalRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
+				int index = iter.nextIndex();
+	            String prefix = "inactiveRoleMembers[" + index + "].";
+				DepartmentPrincipalRoleMemberBo existingRoleMember = iter.next();
+				if(StringUtils.equals(existingRoleMember.getPrincipalId(),roleMember.getPrincipalId())) {
+					if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
+						if(existingRoleMember.getActiveToDate() != null) {
+							if(roleMember.getActiveFromDate().compareTo(existingRoleMember.getActiveToDate()) < 0) {
+								valid &= false;
+								this.putFieldError(prefix + "effectiveDate", "error.role.inactive.existence");
+								this.putFieldError("add.roleMembers.effectiveDate", "error.role.inactive.duplicate");
+							}
+						}
+						else {
+							valid &= false;
+							this.putFieldError(prefix + "effectiveDate", "error.role.inactive.existence");
+							this.putFieldError("add.roleMembers.effectiveDate", "error.role.inactive.duplicate");
+						}
+					}
+				}
+			}
+		}
+		
+		return valid;
+	}
+
 }
