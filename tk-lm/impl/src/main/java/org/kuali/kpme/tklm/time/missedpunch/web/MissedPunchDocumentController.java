@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.missedpunch.web;
 
+import java.util.Properties;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,8 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.UifConstants.WorkflowAction;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -181,15 +184,6 @@ public class MissedPunchDocumentController extends DocumentControllerBase {
 	public ModelAndView back(@ModelAttribute("KualiForm") UifFormBase form,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
-
-        HistoryFlow historyFlow = form.getHistoryManager().getMostRecentFlowByFormKey(form.getFlowKey(),
-                form.getRequestedFormKey());
-        if(historyFlow == null) {
-        	//TODO: Chances are, a new window/tab was opened to display the inquiry. Close it.
-        	String applicationUrl = ConfigContext.getCurrentContextConfig().getProperty(KRADConstants.APPLICATION_URL_KEY);
-        	applicationUrl = applicationUrl + "/portal.do?selectedTab=main";
-        	form.setReturnLocation(applicationUrl);
-        }
 		return super.back(form, result, request, response);
 	}
 
