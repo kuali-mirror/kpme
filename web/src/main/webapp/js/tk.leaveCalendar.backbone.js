@@ -716,6 +716,7 @@ $(function () {
                 params['endTime'] = $('#endTime').val();
                 params['leaveAmount'] = $('#leaveAmount').val();
                 params['selectedEarnCode'] = $('#selectedEarnCode option:selected').val();
+                params['selectedAssignment'] = _.getSelectedAssignmentValue();
                 params['spanningWeeks'] = $('#spanningWeeks').is(':checked') ? 'y' : 'n'; // KPME-1446
                 params['approval'] = $('#approval').is(':checked') ? 'y' : 'n'; // KPME-2540
                 params['leaveBlockId'] = $('#leaveBlockId').val();

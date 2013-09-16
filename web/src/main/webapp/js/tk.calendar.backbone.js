@@ -1259,7 +1259,8 @@ $(function () {
             $('#startDate').val(timeBlock.get("startDate"));
             $('#startTime').val(timeBlock.get("startTime"));
             $('#startTimeHourMinute').val(timeBlock.get("startTimeHourMinute"));
-            $('#endDate').val(timeBlock.get("endDate"));
+            //$('#endDate').val(timeBlock.get("endDate"));
+            $('#endDate').val(timeBlock.get("startDate"));
             $('#endTime').val(timeBlock.get("endTime"));
             $('#endTimeHourMinute').val(timeBlock.get("endTimeHourMinute"));
             $("#selectedAssignment option[value='" + timeBlock.get("assignment") + "']").prop("selected", "selected");
@@ -1295,7 +1296,8 @@ $(function () {
             $('#startDate').val(leaveBlock.get("startDate"));
             $('#startTime').val(leaveBlock.get("startTime"));
             $('#startTimeHourMinute').val(leaveBlock.get("startTimeHourMinute"));
-            $('#endDate').val(leaveBlock.get("endDate"));
+            //$('#endDate').val(leaveBlock.get("endDate"));
+            $('#endDate').val(leaveBlock.get("startDate"));
             $('#endTime').val(leaveBlock.get("endTime"));
             $('#endTimeHourMinute').val(leaveBlock.get("endTimeHourMinute"));
         },

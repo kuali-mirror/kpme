@@ -533,7 +533,8 @@ public class LeaveCalendarValidationUtil {
 
     	LocalDate aDate = TKUtils.formatDateString(endDate);
     	
-    	if (StringUtils.isNotBlank(selectedEarnCode)) {
+    	if (leaveAmount != null
+            && StringUtils.isNotBlank(selectedEarnCode)) {
     		EarnCode  earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, aDate);
 	    	
     		if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_HOUR)) {
