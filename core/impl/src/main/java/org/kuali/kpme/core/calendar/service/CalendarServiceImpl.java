@@ -70,6 +70,8 @@ public class CalendarServiceImpl implements CalendarService {
             if(!findLeaveCal) {
                 pcal = principalCalendar.getCalendar();
                 if (pcal == null){
+                	//shouldn't we just be returning null?
+                	//which code expects a non-null value being returned?
                     pcal = principalCalendar.getLeaveCalObj();
                     if(pcal == null){
                         return pcal;
@@ -112,6 +114,8 @@ public class CalendarServiceImpl implements CalendarService {
             if(!findLeaveCal) {
             	pcal = principalCalendar.getCalendar();
             	if (pcal == null){
+                	//shouldn't we just be returning null?
+                	//which code expects a non-null value being returned?
             		pcal = principalCalendar.getLeaveCalObj();
             		if(pcal == null){
             			return pcal;

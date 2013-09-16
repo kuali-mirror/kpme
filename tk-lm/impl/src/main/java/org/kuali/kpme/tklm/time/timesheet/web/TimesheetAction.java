@@ -28,11 +28,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.common.CalendarFormAction;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
@@ -117,10 +119,18 @@ public class TimesheetAction extends CalendarFormAction {
         		calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(timesheetActionForm.getHrCalendarEntryId());
         	} else {
         		calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(principalId, new LocalDate().toDateTimeAtStartOfDay());
+            	//the above service call returns a LEAVE calendar type when no PAY calendar type is found.
         	}
         	
         	if (calendarEntry != null) {
-        		timesheetDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, calendarEntry);
+            	Calendar calendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+            	if(calendar != null && StringUtils.equals(calendar.getCalendarTypes(),TkConstants.CALENDAR_TYPE_PAY)) {
+            		//view does not like a null timesheet document on form.
+            		timesheetDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, calendarEntry);
+            	}
+            	else if(calendar != null) {
+            		calendarEntry = null;
+            	}
         	}
         }
 
