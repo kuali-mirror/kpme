@@ -304,7 +304,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         TkServiceLocator.getTimesheetDocumentHeaderService().deleteTimesheetHeader(documentId);
     }
 
-    public TimeBlock resetWorkedHours(TimeBlock timeBlock, LocalDate asOfDate) {
+    public TimeBlock resetWorkedHours(TimeBlock previousTimeBlock, TimeBlock timeBlock, LocalDate asOfDate) {
     	EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), asOfDate);
     	
         if (timeBlock.getBeginTime() != null && timeBlock.getEndTime() != null && StringUtils.equals(timeBlock.getEarnCodeType(), HrConstants.EARN_CODE_TIME)) {
@@ -316,8 +316,17 @@ public class TimesheetServiceImpl implements TimesheetService {
             if (earnCodeObj.getInflateMinHours() != null) {
             	if ((earnCodeObj.getInflateMinHours().compareTo(BigDecimal.ZERO) != 0) &&
             			earnCodeObj.getInflateMinHours().compareTo(hours) > 0) {
-            		hours = earnCodeObj.getInflateMinHours();
-            	}
+                    //if previous timeblock has no gap then assume its one block if the same earn code and divide inflated hours accordingly
+                    if(previousTimeBlock != null && StringUtils.equals(earnCodeObj.getEarnCode(),previousTimeBlock.getEarnCode()) &&
+                            (timeBlock.getBeginTime().getTime() - previousTimeBlock.getEndTime().getTime() == 0L)){
+                        BigDecimal prevTimeBlockHours = TKUtils.getHoursBetween(previousTimeBlock.getBeginTime().getTime(), previousTimeBlock.getEndTime().getTime());
+                        previousTimeBlock.setHours(prevTimeBlockHours);
+                        hours = earnCodeObj.getInflateMinHours().subtract(prevTimeBlockHours,HrConstants.MATH_CONTEXT);
+
+                    } else {
+            		    hours = earnCodeObj.getInflateMinHours();
+            	    }
+                }
             }
             //If earn code has an inflate factor multiple hours specified by the factor
             if (earnCodeObj.getInflateFactor() != null) {
@@ -334,8 +343,10 @@ public class TimesheetServiceImpl implements TimesheetService {
 
     @Override
     public void resetTimeBlock(List<TimeBlock> timeBlocks, LocalDate asOfDate) {
+        TimeBlock previous = null;
         for (TimeBlock tb : timeBlocks) {
-            resetWorkedHours(tb, asOfDate);
+            resetWorkedHours(previous, tb, asOfDate);
+            previous = tb;
         }
         TkServiceLocator.getTimeBlockService().resetTimeHourDetail(timeBlocks);
     }
