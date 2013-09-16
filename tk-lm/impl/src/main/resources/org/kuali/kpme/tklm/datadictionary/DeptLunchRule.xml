@@ -138,7 +138,7 @@
 		</property>
 		<property name="name" value="workArea" />
 		<property name="label" value="Work Area" />
-		<property name="formatterClass" value="org.kuali.kpme.core.workarea.WorkAreaFormatter"/>
+        <property name="formatterClass" value="org.kuali.kpme.core.web.formatter.LongOrWildcardFormatter"/>
 	</bean>
 
 	<!-- 
@@ -177,7 +177,7 @@
 		</property>
 		<property name="name" value="jobNumber" />
 		<property name="label" value="Job Number" />
-		<property name="formatterClass" value="org.kuali.kpme.core.job.JobNumberFormatter"/>
+        <property name="formatterClass" value="org.kuali.kpme.core.web.formatter.LongOrWildcardFormatter"/>
 	</bean>
 
 	<bean id="DeptLunchRule-deductionMins" parent="DeptLunchRule-deductionMins-parentBean" />

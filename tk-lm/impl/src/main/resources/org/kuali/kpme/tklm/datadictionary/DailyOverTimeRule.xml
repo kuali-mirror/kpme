@@ -196,8 +196,8 @@
     	</property>
     	<property name="control">
       		<bean parent="TextControlDefinition" p:size="10"/>
-    	</property>    
-    	<property name="formatterClass" value="org.kuali.kpme.core.workarea.WorkAreaFormatter"/>
+    	</property>
+        <property name="formatterClass" value="org.kuali.kpme.core.web.formatter.LongOrWildcardFormatter"/>
     	<property name="name" value="workArea"/>
     	<property name="label" value="Work Area"/>
 	</bean>

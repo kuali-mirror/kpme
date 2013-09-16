@@ -20,13 +20,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
-import org.kuali.kpme.core.bo.HrWorkAreaMaintainableImpl;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class DeptLunchRuleMaintainableImpl extends HrWorkAreaMaintainableImpl {
+public class DeptLunchRuleMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	/**
 	 * 
