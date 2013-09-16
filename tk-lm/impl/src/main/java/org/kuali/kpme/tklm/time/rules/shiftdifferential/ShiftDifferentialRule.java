@@ -42,6 +42,15 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
             .add("payGrade")
             .add("earnCode")
             .add("pyCalendarGroup")
+            .add("beginTime")
+            .add("endTime")
+            .add("sunday")
+            .add("monday")
+            .add("tuesday")
+            .add("wednesday")
+            .add("thursday")
+            .add("friday")
+            .add("saturday")
             .build();
 	
 	private String tkShiftDiffRuleId;
