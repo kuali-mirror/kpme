@@ -82,10 +82,6 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     
     @Transient
     private Boolean overtimeEditable;
-    
-    @Transient
-    private Boolean regEarnCodeEditable;
-
 
     // the two variables below are used to determine if a time block needs to be visually pushed forward / backward
     @Transient
@@ -620,10 +616,6 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
 
 	public Boolean getOvertimeEditable() {
 		return TkServiceLocator.getTKPermissionService().canEditOvertimeEarnCode(HrContext.getPrincipalId(), this);
-	}
-	
-	public Boolean getRegEarnCodeEditable() {
-		return TkServiceLocator.getTKPermissionService().canEditRegEarnCode(this);
 	}
 
     public Boolean getTimeBlockEditable(){

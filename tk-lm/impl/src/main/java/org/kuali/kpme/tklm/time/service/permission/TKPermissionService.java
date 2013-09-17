@@ -162,11 +162,6 @@ public interface TKPermissionService {
     //@Cacheable(value= TimeBlock.PERMISSIONS_CACHE_NAME,
     //        key="'{canEditOvertimeEarnCode}' + 'principalId=' + #p0 + 'timeBlock=' + #p1?.getTkTimeBlockId()")
     boolean canEditOvertimeEarnCode(String principalId, TimeBlock timeBlock);
-
-    //@Cacheable(value= TimeBlock.PERMISSIONS_CACHE_NAME,
-    //        key="'{canEditRegEarnCode}' + 'principalId=' + #p0 + 'timeBlock=' + #p1?.getTkTimeBlockId()")
-    boolean canEditRegEarnCode(TimeBlock timeBlock);
-    
     
     /**
      * Checks wheather the given {@code principalId} has systemAdmin/TimeSystemAdmin/TimeLocationAdmin roles on given {@code aTimeBlock}

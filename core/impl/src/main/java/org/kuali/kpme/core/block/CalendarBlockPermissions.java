@@ -31,7 +31,6 @@ public class CalendarBlockPermissions implements Serializable {
     private Map<String, Boolean> canEditAllFields = new HashMap<String, Boolean>();
     private Map<String, Boolean> canDelete = new HashMap<String, Boolean>();
     private Map<String, Boolean> canEditOvertimeEarnCode = new HashMap<String, Boolean>();
-    private Boolean canEditRegEarnCode;
 
     public static CalendarBlockPermissions newInstance(String timeBlockId) {
         return new CalendarBlockPermissions(timeBlockId);
@@ -114,11 +113,11 @@ public class CalendarBlockPermissions implements Serializable {
         this.canEditOvertimeEarnCode.put(principalId, edit);
     }
 
-    public Boolean getCanEditRegEarnCode() {
-        return canEditRegEarnCode;
-    }
-
-    public void setCanEditRegEarnCode(Boolean canEditRegEarnCode) {
-        this.canEditRegEarnCode = canEditRegEarnCode;
-    }
+//    public Boolean getCanEditRegEarnCode() {
+//        return canEditRegEarnCode;
+//    }
+//
+//    public void setCanEditRegEarnCode(Boolean canEditRegEarnCode) {
+//        this.canEditRegEarnCode = canEditRegEarnCode;
+//    }
 }

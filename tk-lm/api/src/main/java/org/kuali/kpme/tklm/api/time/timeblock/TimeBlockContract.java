@@ -435,18 +435,6 @@ public interface TimeBlockContract extends CalendarBlockContract {
 	 * @return Y if overtime earn code can be edited, N if not
 	 */
 	public Boolean getOvertimeEditable();
-	
-	/**
-	 * Indicates if regular earn code can be edited
-	 * 
-	 * <p>
-	 * This method is used in calendar.tag.  It's only used when a user is working on its own timesheet, regular earn code 
-	 * cannot be editable on clock entered time block
-	 * </p>
-	 * 
-	 * @return Y if regular earn code can be edited, N if not
-	 */
-	public Boolean getRegEarnCodeEditable();
 
 	/**
 	 * Indicates if this user has a permission to edit this time block
