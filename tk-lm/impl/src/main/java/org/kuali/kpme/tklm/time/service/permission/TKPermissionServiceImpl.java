@@ -191,8 +191,8 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
 	        }
 		    
 		    // Payroll Processor / Payroll Processor Delegate
-		    if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), aTimeBlock.getWorkArea(), asOfDate)
-		    	|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), aTimeBlock.getWorkArea(), asOfDate)) {
+		    if(HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), job.getDept(), asOfDate)
+			    	|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), job.getDept(), asOfDate)) {
 		    	for(EarnCodeSecurity ecs : earnCodeSecurityList ) {
 	        		if(ecs.isPayrollProcessor() && StringUtils.equals(ecs.getEarnCode(),aTimeBlock.getEarnCode()))
 	        			return true;
