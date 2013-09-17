@@ -58,6 +58,8 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 	private transient Job jobObj;
 	private transient WorkArea workAreaObj;
 	private transient Task taskObj;
+    private transient LocalDate localDate;
+    private transient LocalTime localTime;
 	
 	private transient boolean isAssignmentReadOnly;
 
@@ -152,23 +154,30 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 	}
 	
     public Date getActionDate() {
-    	return actionDateTime != null ? LocalDate.fromDateFields(actionDateTime).toDate() : null;
+    	return actionDateTime != null ? LocalDate.fromDateFields(actionDateTime).toDate() : (getLocalDate() != null ? getLocalDate().toDate() : null);
     }
     
     public void setActionDate(Date actionDate) {
-    	LocalDate localDate = actionDate != null ? LocalDate.fromDateFields(actionDate) : null;
-    	LocalTime localTime = actionDateTime != null ? LocalTime.fromDateFields(actionDateTime) : LocalTime.MIDNIGHT;
-    	actionDateTime = localDate != null ? localDate.toDateTime(localTime).toDate() : null;
+    	setLocalDate(actionDate != null ? LocalDate.fromDateFields(actionDate) : null);
+    	//LocalTime localTime = actionDateTime != null ? LocalTime.fromDateFields(actionDateTime) : LocalTime.MIDNIGHT;
+        if (localDate != null
+                && localTime != null) {
+    	    actionDateTime = localDate.toDateTime(localTime).toDate();
+        }
     }
     
     public String getActionTime() {
-    	return actionDateTime != null ? FORMATTER.print(LocalTime.fromDateFields(actionDateTime)) : null;
+    	return actionDateTime != null ? FORMATTER.print(LocalTime.fromDateFields(actionDateTime)) : getLocalTimeString();
     }
     
     public void setActionTime(String actionTime) {
-    	LocalDate localDate = actionDateTime != null ? LocalDate.fromDateFields(actionDateTime) : LocalDate.now();
-    	LocalTime localTime = actionTime != null ? FORMATTER.parseLocalTime(actionTime) : null;
-    	actionDateTime = localTime != null ? localTime.toDateTime(localDate.toDateTimeAtStartOfDay()).toDate() : null;
+        if (StringUtils.isNotBlank(actionTime)) {
+            setLocalTime(actionTime != null ? FORMATTER.parseLocalTime(actionTime) : null);
+            if (localDate != null
+                    && localTime != null) {
+                actionDateTime = localTime.toDateTime(localDate.toDateTimeAtStartOfDay()).toDate();
+            }
+        }
     }
 
 	public String getClockAction() {
@@ -253,4 +262,28 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 		this.isAssignmentReadOnly = isAssignmentReadOnly;
 	}
 
+    public LocalDate getLocalDate() {
+        return localDate;
+    }
+
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
+    }
+
+    public LocalTime getLocalTime() {
+        return localTime;
+    }
+
+    public void setLocalTime(LocalTime localTime) {
+        this.localTime = localTime;
+    }
+
+    protected String getLocalTimeString() {
+        if (getLocalTime() != null) {
+            return FORMATTER.print(getLocalTime());
+        } else {
+            return StringUtils.EMPTY;
+        }
+
+    }
 }
