@@ -83,7 +83,7 @@ $(document).ready(function () {
         select:function (event, data) {
             var rows = $('#approvals-table tbody tr').length;
             var isAscending = getParameterByName("ascending");
-            window.location = 'TimeApproval.do?methodToCall=searchResult&searchField=' + $('#searchField').val() + '&searchTerm=' + data.item.id;
+            window.location = 'TimeApproval.do?methodToCall=searchResult&searchField=' + $('#searchField').val() + '&searchTerm=' + data.item.id + '&selectedPayPeriod=' +  $('#selectedPayPeriod').val();
         },
         open:function () {
             $(this).removeClass("ui-corner-all");
@@ -128,7 +128,7 @@ $(document).ready(function () {
         select:function (event, data) {
             var rows = $('#approvals-table tbody tr').length;
             var isAscending = getParameterByName("ascending");
-            window.location = 'LeaveApproval.do?methodToCall=searchResult&searchField=' + $('#searchField').val() + '&searchTerm=' + data.item.id;
+            window.location = 'LeaveApproval.do?methodToCall=searchResult&searchField=' + $('#searchField').val() + '&searchTerm=' + data.item.id + '&selectedPayPeriod=' +  $('#selectedPayPeriod').val();;
         },
         open:function () {
             $(this).removeClass("ui-corner-all");

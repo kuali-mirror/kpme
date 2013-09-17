@@ -67,6 +67,8 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 			}
         } else if (timeApprovalActionForm.getHrCalendarEntryId() != null) {
         	calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(timeApprovalActionForm.getHrCalendarEntryId());
+        } else if (StringUtils.isNotBlank(timeApprovalActionForm.getSelectedPayPeriod())) {
+        	calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(timeApprovalActionForm.getSelectedPayPeriod());
         } else {
         	Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByGroup(timeApprovalActionForm.getSelectedPayCalendarGroup());
             if (calendar != null) {
@@ -173,7 +175,10 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 				&& StringUtils.isNotBlank(request.getParameter("searchValue"))) {
 			timeApprovalActionForm.setSearchTerm(request.getParameter("searchValue"));
 		}		
- 
+		if(StringUtils.isBlank(timeApprovalActionForm.getSelectedPayPeriod()) 
+				&& StringUtils.isNotBlank(request.getParameter("selectedPayPeriod"))) {
+			timeApprovalActionForm.setSelectedPayPeriod(request.getParameter("selectedPayPeriod"));
+		}		
 		return mapping.findForward("basic");
 	}
 	
