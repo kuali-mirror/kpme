@@ -27,6 +27,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -145,15 +146,13 @@ public class ClockAction extends TimesheetAction {
 		        }
 		        
 		        // KPME-2772 This issue happens when target employee is clocked out and there are multiple assignments 
-		        // because when there are more than one assignment, it uses "default" assginment on the clock action form, 
+		        // because when there are more than one assignment, it uses "default" assignment on the clock action form,
 		        // which never gets set above.  When target employee is clocked in, there is always one assignment, so it works.
 		        // The solution is to add else if statement and set clockButtonEnabled flag to true when target employee is clocked out.  
 		        // Since all the assignments for target employee are already filtered by the time it gets here (i.e, only showing the ones
 		        // that approver has permission to view for), we will just enable buttons.  When target employee is clocked in, it gets
 		        // handled in else statement
 		        if (StringUtils.equals(GlobalVariables.getUserSession().getPrincipalId(), HrContext.getTargetPrincipalId())) {
-		        	clockActionForm.setClockButtonEnabled(true);
-		        } else if (lastClockLog == null || StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_OUT)){ 
 		        	clockActionForm.setClockButtonEnabled(true);
 		        } else {
 		        	boolean isApproverOrReviewerForCurrentAssignment = false;
@@ -172,13 +171,23 @@ public class ClockAction extends TimesheetAction {
 		        		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(selectedAssignment), LocalDate.now());
 		        		if (assignment != null) {
 		        			Long workArea = assignment.getWorkArea();
-		        			String principalId = GlobalVariables.getUserSession().getPrincipalId();
-		        			Boolean isAnyPayrollProcessor = this.isPrincipalAnyProcessorInWorkArea(principalId, workArea, new DateTime().toLocalDate());
-		        			isApproverOrReviewerForCurrentAssignment = HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
-		        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
-		        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), workArea, new DateTime()) || isAnyPayrollProcessor;
+                            String dept = assignment.getJob().getDept();
+		        			String principalId = HrContext.getPrincipalId();
+		        			DateTime startOfToday = LocalDate.now().toDateTimeAtStartOfDay();
+                            isApproverOrReviewerForCurrentAssignment =
+                                    HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, startOfToday)
+		        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, startOfToday)
+		        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), workArea, startOfToday)
+                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, startOfToday)
+                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), dept, startOfToday);
 		        		}
-		        	}
+		        	} else {
+                        if (CollectionUtils.isNotEmpty(clockActionForm.getAssignmentDescriptions().entrySet())) {
+                            //only assignments that target user and logged in user have access to should be in this list
+                            isApproverOrReviewerForCurrentAssignment = true;
+                        }
+
+                    }
 		        	clockActionForm.setClockButtonEnabled(isApproverOrReviewerForCurrentAssignment);
 		        }
 		        
@@ -228,7 +237,6 @@ public class ClockAction extends TimesheetAction {
     	}
     }
     
-    @CacheEvict(value={WorkArea.CACHE_NAME}, allEntries = true)
     public ActionForward clockAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ClockActionForm caf = (ClockActionForm) form;
 

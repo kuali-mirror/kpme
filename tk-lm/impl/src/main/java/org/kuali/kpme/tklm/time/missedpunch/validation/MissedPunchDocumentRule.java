@@ -19,7 +19,12 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
@@ -123,6 +128,28 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
 	        		
 	        DateTime dateTimeWithUserZone = TKUtils.convertDateStringToDateTime(dateString, timeString);
 	        DateTime actionDateTime = dateTimeWithUserZone.withZone(TKUtils.getSystemDateTimeZone());
+
+            //Make sure user should be able to route!!
+            String userPrincipalId = HrContext.getPrincipalId();
+            if (!StringUtils.equals(userPrincipalId, missedPunch.getPrincipalId())) {
+                Assignment assignment = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(missedPunch.getAssignmentKey()), actionDateTime.toLocalDate());
+                if (assignment != null) {
+                    Long workArea = assignment.getWorkArea();
+                    String dept = assignment.getJob().getDept();
+
+                    boolean isApproverOrReviewerForCurrentAssignment =
+                            HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, actionDateTime)
+                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, actionDateTime)
+                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), workArea, actionDateTime)
+                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, actionDateTime)
+                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), dept, actionDateTime);
+                    if (!isApproverOrReviewerForCurrentAssignment) {
+                        GlobalVariables.getMessageMap().putError("document", "clock.mp.unauthorized", GlobalVariables.getUserSession().getPrincipalName(), missedPunch.getPrincipalName());
+                        //if this fails, don't bother checking the other rules
+                        return false;
+                    }
+                }
+            }
 	
 	        if (actionDateTime.toLocalDate().isAfter(LocalDate.now())) {
 	        	GlobalVariables.getMessageMap().putError("document.actionDate", "clock.mp.future.date");

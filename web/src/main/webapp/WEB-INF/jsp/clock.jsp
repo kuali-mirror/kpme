@@ -111,7 +111,7 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
 		                                    <input id="clock-button" type="submit" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction';"/>
 		                                </c:when>
 		                                <c:otherwise>
-		                                    <input disabled id="clock-button" type="submit" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction';"/>
+		                                    <input disabled id="clock-button" type="submit" class="button" value="${clockActionDescription}" name="clockAction" />
 		                                </c:otherwise>
 		                            </c:choose>
 	        					</c:when>
@@ -125,7 +125,7 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
                                                     <input type="submit" class="button" value="Take Lunch" name="lunchOut" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LO';"/>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <input disabled type="submit" class="button" value="Take Lunch" name="lunchOut" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LO';"/>
+                                                    <input disabled type="submit" class="button" value="Take Lunch" name="lunchOut" />
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:when>
@@ -137,7 +137,7 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
                                             <input type="submit" class="button" value="Return From Lunch" name="lunchIn" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LI';"/>
                                         </c:when>
                                         <c:otherwise>
-                                            <input disabled type="submit" class="button" value="Return From Lunch" name="lunchIn" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LI';"/>
+                                            <input disabled type="submit" class="button" value="Return From Lunch" name="lunchIn"/>
                                         </c:otherwise>
                                     </c:choose>
                                 </c:when>
@@ -147,7 +147,7 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
                                     <input type="button" class="button" value="Missed Punch" name="missedPunch" onClick="javascript: showLightboxUrl(extractUrlBase() + '/kpme/missedPunch?&methodToCall=start&viewId=MissedPunch-SubmitView&missedPunch.timesheetDocumentId=' + tdocid, {minHeight: 500, maxWidth: 600, closeBtn: false})" />
                                 </c:when>
                                 <c:otherwise>
-                                    <input disabled type="button" class="button" value="Missed Punch" name="missedPunch" onClick="javascript: showLightboxUrl(extractUrlBase() + '/kpme/missedPunch?&methodToCall=start&viewId=MissedPunch-SubmitView&missedPunch.timesheetDocumentId=' + tdocid, {minHeight: 500, maxWidth: 600, closeBtn: false})" />
+                                    <input disabled type="button" class="button" value="Missed Punch" name="missedPunch"  />
                                 </c:otherwise>
                             </c:choose>
         					<c:if test="${Form.showDistributeButton}">
@@ -158,7 +158,7 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
                                     </c:when>
                                     <c:otherwise>
                                         <input disabled id="distribute-button" type="button" class="button" value="Distribute Time Blocks"
-                                            name="distributeTime" onclick="javascrpt: window.open(extractUrlBase()+'/Clock.do?methodToCall=distributeTimeBlocks', 'distributePopup')"/>
+                                            name="distributeTime" />
                                     </c:otherwise>
                                 </c:choose>
                             </c:if>
