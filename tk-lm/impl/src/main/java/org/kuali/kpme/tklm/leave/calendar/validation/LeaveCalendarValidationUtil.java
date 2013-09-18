@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;
@@ -48,24 +49,58 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.accrual.RateRangeAggregate;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
+import org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarForm;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarWSForm;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
+import org.kuali.kpme.tklm.time.detail.validation.TimeDetailValidationUtil;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 
 public class LeaveCalendarValidationUtil {
     
+	private static Logger LOG = Logger.getLogger(LeaveCalendarValidationUtil.class);
+	
+	public static List<String> validateLeaveEntry(LeaveCalendarForm lcf) {
+
+    	List<String> errorMsgList = new ArrayList<String>();
+    	CalendarEntry leaveCalendarEntry = lcf.getCalendarEntry();
+    	
+    	if(leaveCalendarEntry != null) {
+	    	// validates the selected earn code exists on every day within the date range
+	    	errorMsgList.addAll(TimeDetailValidationUtil.validateEarnCode(lcf.getSelectedEarnCode(), lcf.getStartDate(), lcf.getEndDate()));
+	    	if(errorMsgList.isEmpty()) {
+		    	errorMsgList.addAll(LeaveCalendarValidationUtil.validateParametersForLeaveEntry(lcf.getSelectedEarnCode(), leaveCalendarEntry, lcf.getStartDate(), lcf.getEndDate(), lcf.getStartTime(), lcf.getEndTime(), lcf.getSelectedAssignment(), lcf.getLeaveBlockId()));
+		    	LeaveBlock updatedLeaveBlock = null;
+		    	if(lcf.getLeaveBlockId() != null) {
+					updatedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lcf.getLeaveBlockId());
+		    	}
+		    	errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalanceForUsage(lcf.getSelectedEarnCode(), lcf.getStartDate(), lcf.getEndDate(), lcf.getLeaveAmount(), updatedLeaveBlock));
+		    	//KPME-1263
+		        errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(lcf.getLeaveSummary(), lcf.getSelectedEarnCode(), lcf.getStartDate(),
+		    			lcf.getEndDate(), lcf.getLeaveAmount(), updatedLeaveBlock));
+		
+		        //KPME-2010
+		        if(StringUtils.equalsIgnoreCase(lcf.getSpanningWeeks(),"y")) {
+		        	errorMsgList.addAll(LeaveCalendarValidationUtil.validateSpanningWeeks(lcf.getSelectedEarnCode(),lcf.getStartDate(),lcf.getEndDate()));
+		        }
+	    	}
+    	}
+    	//should we really allow validation to pass without a calendar entry, or Log an error and throw some kind of exception?
+
+    	return errorMsgList;
+	}
+	
     //begin KPME-1263
     public static List<String> validateLeaveAccrualRuleMaxUsage(LeaveCalendarWSForm lcf) {
     	LeaveBlock updatedLeaveBlock = null;
     	if(lcf.getLeaveBlockId() != null) {
     		updatedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lcf.getLeaveBlockId());
     	}
-    	return validateLeaveAccrualRuleMaxUsage(lcf.getLeaveSummary(), lcf.getSelectedEarnCode(), lcf.getStartDate(),
+    	LeaveSummary leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(HrContext.getTargetPrincipalId(), TKUtils.formatDateString(lcf.getEndDate()));
+    	return validateLeaveAccrualRuleMaxUsage(leaveSummary, lcf.getSelectedEarnCode(), lcf.getStartDate(),
     			lcf.getEndDate(), lcf.getLeaveAmount(), updatedLeaveBlock);
     }
 
@@ -420,7 +455,7 @@ public class LeaveCalendarValidationUtil {
     // KPME-2010
     public static List<String> validateSpanningWeeks(LeaveCalendarWSForm lcf) {
     	
-    	boolean spanningWeeks = lcf.getSpanningWeeks().equalsIgnoreCase("y");
+    	boolean spanningWeeks = StringUtils.equalsIgnoreCase(lcf.getSpanningWeeks(),"y");
     	if (!spanningWeeks) {
     		return validateSpanningWeeks(lcf.getSelectedEarnCode(),lcf.getStartDate(),lcf.getEndDate());
     	}
@@ -430,13 +465,15 @@ public class LeaveCalendarValidationUtil {
     }
     
     public static List<String> validateParametersAccordingToSelectedEarnCodeRecordMethod(LeaveCalendarWSForm lcf) {
-    	return validateParametersForLeaveEntry(lcf.getSelectedEarnCode(), lcf.getCalendarEntry(), lcf.getStartDate(), lcf.getEndDate(), lcf.getStartTime(), lcf.getEndTime(), lcf.getSelectedAssignment(), lcf.getLeaveCalendarDocument(), lcf.getLeaveBlockId());
+    	return validateParametersForLeaveEntry(lcf.getSelectedEarnCode(), lcf.getCalendarEntry(), lcf.getStartDate(), lcf.getEndDate(), lcf.getStartTime(), lcf.getEndTime(), lcf.getSelectedAssignment(), lcf.getLeaveBlockId());
     }
     
-    public static List<String> validateParametersForLeaveEntry(String selectedEarnCode, CalendarEntry leaveCalEntry, String startDateS, String endDateS, String startTimeS, String endTimeS, String selectedAssignment, LeaveCalendarDocument leaveCalendarDocument, String leaveBlockId) {
+    public static List<String> validateParametersForLeaveEntry(String selectedEarnCode, CalendarEntry leaveCalEntry, String startDateS, String endDateS, String startTimeS, String endTimeS, String selectedAssignment, String leaveBlockId) {
     	List<String> errors = new ArrayList<String>();
     	if (StringUtils.isNotBlank(selectedEarnCode)) {
-    		EarnCode  earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, leaveCalEntry.getEndPeriodFullDateTime().toLocalDate());
+    		//earn code is validate through the span of the leave entry, could the earn code's record method change between then and the leave period end date?
+    		//Why not use endDateS to retrieve the earn code?
+    		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, leaveCalEntry.getEndPeriodFullDateTime().toLocalDate());
 	    	
     		if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
     			

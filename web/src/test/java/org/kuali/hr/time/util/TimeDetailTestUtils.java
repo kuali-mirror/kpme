@@ -46,7 +46,6 @@ public class TimeDetailTestUtils {
      * From the provided set of parameters, build an action form suitable for
      * submitting to the TimeDetailAction servlet. In our case, we are mostly
      * using it in a mock type of situation.
-     *
      * @param timeshetDocument
      * @param assignment
      * @param earnCode
@@ -58,7 +57,7 @@ public class TimeDetailTestUtils {
      *
      * @return A populated TimeDetailActionFormBase object.
      */
-    public static TimeDetailActionFormBase buildDetailActionForm(String principalId, TimesheetDocument timeshetDocument, Assignment assignment, EarnCode earnCode, DateTime start, DateTime end, BigDecimal amount, boolean acrossDays, String timeblockId, boolean spanningWeeks) {
+    public static TimeDetailActionFormBase buildDetailActionForm(TimesheetDocument timeshetDocument, Assignment assignment, EarnCode earnCode, DateTime start, DateTime end, BigDecimal amount, boolean acrossDays, String timeblockId, boolean spanningWeeks) {
         TimeDetailActionFormBase tdaf = new TimeDetailActionFormBase();
         /**
          * 
@@ -104,7 +103,7 @@ public class TimeDetailTestUtils {
         tdaf.setTimesheetDocument(timeshetDocument);
         tdaf.setSelectedAssignment(selectedAssignment);
         tdaf.setSelectedEarnCode(selectedEarnCode);
-        tdaf.setPrincipalId(principalId);
+        //tdaf.setPrincipalId(principalId);
         tdaf.setMethodToCall("addTimeBlock");
 
         return tdaf;
@@ -143,7 +142,7 @@ public class TimeDetailTestUtils {
             form.setAttribute("selectedAssignment", tdaf.getSelectedAssignment());
             form.setAttribute("acrossDays", tdaf.getAcrossDays());
             form.setAttribute("methodToCall", tdaf.getMethodToCall());
-            form.setAttribute("principalId", tdaf.getPrincipalId());
+            //form.setAttribute("principalId", tdaf.getPrincipalId());
         }
 
         return errors;
@@ -245,7 +244,7 @@ public class TimeDetailTestUtils {
             builder.append("&endDate=").append(URLEncoder.encode(tdaf.getEndDate(), "UTF-8"));
             builder.append("&selectedAssignment=").append(URLEncoder.encode(tdaf.getSelectedAssignment(), "UTF-8"));
             builder.append("&selectedEarnCode=").append(URLEncoder.encode(tdaf.getSelectedEarnCode(), "UTF-8"));
-            builder.append("&principalId=").append(URLEncoder.encode(tdaf.getPrincipalId(), "UTF-8"));
+            //builder.append("&principalId=").append(URLEncoder.encode(tdaf.getPrincipalId(), "UTF-8"));
             if (tdaf.getTkTimeBlockId() != null) {
                 builder.append("&tkTimeBlockId=").append(URLEncoder.encode(tdaf.getTkTimeBlockId().toString(), "UTF-8"));
             }

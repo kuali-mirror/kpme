@@ -111,8 +111,9 @@ public class LeaveCalendarWSAction extends LeaveCalendarAction {
     	LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
     	JSONArray errorMsgList = new JSONArray();
 
-    	// validates the selected earn code exists on every day within the date range
-    	errorMsgList.addAll(TimeDetailValidationUtil.validateEarnCode(lcf.getSelectedEarnCode(), lcf.getStartDate(), lcf.getEndDate()));
+    	errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveEntry(lcf));
+    	
+/*    	errorMsgList.addAll(TimeDetailValidationUtil.validateEarnCode(lcf.getSelectedEarnCode(), lcf.getStartDate(), lcf.getEndDate()));
     	if(errorMsgList.isEmpty()) {
 	    	errorMsgList.addAll(LeaveCalendarValidationUtil.validateParametersAccordingToSelectedEarnCodeRecordMethod(lcf));
 	    	
@@ -122,7 +123,7 @@ public class LeaveCalendarWSAction extends LeaveCalendarAction {
 	
 	        //KPME-2010                
 	        errorMsgList.addAll(LeaveCalendarValidationUtil.validateSpanningWeeks(lcf));
-    	}
+    	}*/
     	
         lcf.setOutputString(JSONValue.toJSONString(errorMsgList));
         

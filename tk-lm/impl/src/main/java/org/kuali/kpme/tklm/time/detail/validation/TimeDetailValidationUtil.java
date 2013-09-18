@@ -34,6 +34,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
@@ -56,18 +57,20 @@ public class TimeDetailValidationUtil {
 			if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
 				lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(tdaf.getLmLeaveBlockId());
 			}
-			
-			LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(tdaf.getPrincipalId(), TKUtils.formatDateString(tdaf.getEndDate()));
-			// Validate LeaveBlock timings and all that
-			errorMsgList.addAll(LeaveCalendarValidationUtil.validateParametersForLeaveEntry(tdaf.getSelectedEarnCode(), tdaf.getCalendarEntry(),
-					tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getStartTime(), tdaf.getEndTime(), tdaf.getSelectedAssignment(), null, tdaf.getLmLeaveBlockId()));
-			errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalanceForUsage(tdaf.getSelectedEarnCode(), 
-					tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
-			//Validate leave block does not exceed max usage. Leave Calendar Validators at this point rely on a leave summary.
-	        errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, tdaf.getSelectedEarnCode(),
-                    tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
-	        errorMsgList.addAll(LeaveCalendarValidationUtil.validateHoursUnderTwentyFour(tdaf.getSelectedEarnCode(),
-	        		tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount()));
+			errorMsgList.addAll(validateEarnCode(tdaf.getSelectedEarnCode(),tdaf.getStartDate(),tdaf.getEndDate()));
+			if(errorMsgList.isEmpty()) {
+				LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(tdaf.getPrincipalId(), TKUtils.formatDateString(tdaf.getEndDate()));
+				// Validate LeaveBlock timings and all that
+				errorMsgList.addAll(LeaveCalendarValidationUtil.validateParametersForLeaveEntry(tdaf.getSelectedEarnCode(), payCalendarEntry,
+						tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getStartTime(), tdaf.getEndTime(), tdaf.getSelectedAssignment(), tdaf.getLmLeaveBlockId()));
+				errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalanceForUsage(tdaf.getSelectedEarnCode(), 
+						tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
+				//Validate leave block does not exceed max usage. Leave Calendar Validators at this point rely on a leave summary.
+		        errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, tdaf.getSelectedEarnCode(),
+		                tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
+		        errorMsgList.addAll(LeaveCalendarValidationUtil.validateHoursUnderTwentyFour(tdaf.getSelectedEarnCode(),
+		        		tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount()));
+			}
 		}
 		return errorMsgList;
     }
@@ -86,10 +89,9 @@ public class TimeDetailValidationUtil {
     	LocalDate tempDate = TKUtils.formatDateTimeStringNoTimezone(startDateString).toLocalDate();
     	LocalDate localEnd = TKUtils.formatDateTimeStringNoTimezone(endDateString).toLocalDate();
     	while(localEnd.isAfter(tempDate)) {
-    		EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, tempDate);
-    		if(ec == null) {
+    		if(ValidationUtils.validateEarnCode(earnCode, tempDate)) {
     			 errors.add("Earn Code " + earnCode + " is not available for " + tempDate);
-    			 return errors;
+    			 break;
     		}
     		tempDate = tempDate.plusDays(1);
     	}
@@ -109,7 +111,6 @@ public class TimeDetailValidationUtil {
     		spanningWeeks = tdaf.getSpanningWeeks().equalsIgnoreCase("y");
     	}
         return validateTimeEntryDetails(
-        		tdaf.getPrincipalId(),
                 tdaf.getHours(), tdaf.getAmount(), tdaf.getStartTime(), tdaf.getEndTime(),
                 tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getTimesheetDocument(),
                 tdaf.getSelectedEarnCode(), tdaf.getSelectedAssignment(),
@@ -117,7 +118,7 @@ public class TimeDetailValidationUtil {
         );
     }
 
-    public static List<String> validateTimeEntryDetails(String principalId, BigDecimal hours, BigDecimal amount, String startTimeS, String endTimeS, String startDateS, String endDateS, TimesheetDocument timesheetDocument, String selectedEarnCode, String selectedAssignment, boolean acrossDays, String timeblockId, String overtimePref, boolean spanningWeeks) {
+    public static List<String> validateTimeEntryDetails(BigDecimal hours, BigDecimal amount, String startTimeS, String endTimeS, String startDateS, String endDateS, TimesheetDocument timesheetDocument, String selectedEarnCode, String selectedAssignment, boolean acrossDays, String timeblockId, String overtimePref, boolean spanningWeeks) {
         List<String> errors = new ArrayList<String>();
 
         if (timesheetDocument == null) {
@@ -179,7 +180,6 @@ public class TimeDetailValidationUtil {
         //Check that assignment is valid within the timeblock span. 
         AssignmentDescriptionKey assignKey = HrServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssignment);
         Assignment assign = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignKey, startTemp.toLocalDate());
-        //assign = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignKey, startTemp.toLocalDate());
         if (assign == null) errors.add("Assignment is not valid for start date " + TKUtils.formatDate(new LocalDate(startTime)));
         assign = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignKey, endTemp.toLocalDate());
         if (assign == null) errors.add("Assignment is not valid for end date " + TKUtils.formatDate(new LocalDate(endTime)));

@@ -71,6 +71,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 		if(cal == null)
 			return eligibilities;
 		
+		//Consider time sheet intervals that stagger a leave period end date...
 		List<CalendarEntry> leaveCalEntries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(cal.getHrCalendarId(), entry.getBeginPeriodFullDateTime(), entry.getEndPeriodFullDateTime());
 		CalendarEntry yearEndLeaveEntry = null;
 		CalendarEntry leaveLeaveEntry = null;

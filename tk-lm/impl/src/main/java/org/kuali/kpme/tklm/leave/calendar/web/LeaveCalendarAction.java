@@ -277,7 +277,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
 		
 		//KPME-2832: validate leave entry prior to save.
 		//This duplicates validation done on submissions that went through LeaveCalendarWSAction, i.e. typical leave calendar transactions.
-    	List<String> errorMsgList = validateLeaveEntry(lcf);
+    	List<String> errorMsgList = LeaveCalendarValidationUtil.validateLeaveEntry(lcf);
     	if(!errorMsgList.isEmpty()) {
     		lcf.setErrorMessages(errorMsgList);
     		return mapping.findForward("basic");
@@ -347,40 +347,6 @@ public class LeaveCalendarAction extends CalendarFormAction {
 		}
 		
 		return mapping.findForward("basic");
-	}
-
-
-	private List<String> validateLeaveEntry(LeaveCalendarForm lcf) {
-
-		LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
-
-    	List<String> errorMsgList = new ArrayList<String>();
-
-		if(lcd != null) {
-	
-	    	// validates the selected earn code exists on every day within the date range
-	    	errorMsgList.addAll(TimeDetailValidationUtil.validateEarnCode(lcf.getSelectedEarnCode(), lcf.getStartDate(), lcf.getEndDate()));
-	    	if(errorMsgList.isEmpty()) {
-		    	errorMsgList.addAll(LeaveCalendarValidationUtil.validateParametersForLeaveEntry(lcf.getSelectedEarnCode(), lcd.getCalendarEntry(), lcf.getStartDate(), lcf.getEndDate(), lcf.getStartTime(), lcf.getEndTime(), lcf.getSelectedAssignment(), lcd, lcf.getLeaveBlockId()));
-		    	LeaveBlock updatedLeaveBlock = null;
-		    	if(lcf.getLeaveBlockId() != null) {
-					updatedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lcf.getLeaveBlockId());
-		    	}
-		    	errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalanceForUsage(lcf.getSelectedEarnCode(), lcf.getStartDate(), lcf.getEndDate(), lcf.getLeaveAmount(), updatedLeaveBlock));
-		    	//KPME-1263
-		        errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(lcf.getLeaveSummary(), lcf.getSelectedEarnCode(), lcf.getStartDate(),
-		    			lcf.getEndDate(), lcf.getLeaveAmount(), updatedLeaveBlock));
-		
-		        //KPME-2010
-		        if(StringUtils.equals(lcf.getSpanningWeeks(),"Y")) {
-		        	errorMsgList.addAll(LeaveCalendarValidationUtil.validateSpanningWeeks(lcf.getSelectedEarnCode(),lcf.getStartDate(),lcf.getEndDate()));
-		        }
-	    	}
-		}
-		else {
-			LOG.warn("No leave calendar document was found on the given form, validation was not performed.");
-		}
-    	return errorMsgList;
 	}
 
 	public ActionForward deleteLeaveBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -685,7 +651,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
 		
 		//KPME-2832: validate leave entry prior to save. 
 		//This duplicates validation done on submissions that went through LeaveCalendarWSAction, i.e. typical leave calendar transactions.
-		List<String> errorMsgList = validateLeaveEntry(lcf);
+		List<String> errorMsgList = LeaveCalendarValidationUtil.validateLeaveEntry(lcf);
 		if(!errorMsgList.isEmpty()) {
 			lcf.setErrorMessages(errorMsgList);
 			return mapping.findForward("basic");
