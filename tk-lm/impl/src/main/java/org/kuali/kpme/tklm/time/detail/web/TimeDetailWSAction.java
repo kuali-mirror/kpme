@@ -76,12 +76,12 @@ public class TimeDetailWSAction extends TimesheetAction {
         JSONArray errorMsgList = new JSONArray();
         List<String> errors;
         
-        EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate()).toLocalDate());
-    	
         // validates the selected earn code exists on every day within the date range
         errors = TimeDetailValidationUtil.validateEarnCode(tdaf.getSelectedEarnCode(), tdaf.getStartDate(), tdaf.getEndDate());
         if(errors.isEmpty()) {
-	        if(ec != null && ec.getLeavePlan() != null) {	// leave blocks changes
+            EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(),
+            																TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate()).toLocalDate());
+	        if(ec != null && ec.getLeavePlan() != null) {    // leave blocks changes
 	    		errors = TimeDetailValidationUtil.validateLeaveEntry(tdaf);
 	    	} else {	// time blocks changes
 	    		errors = TimeDetailValidationUtil.validateTimeEntryDetails(tdaf);
