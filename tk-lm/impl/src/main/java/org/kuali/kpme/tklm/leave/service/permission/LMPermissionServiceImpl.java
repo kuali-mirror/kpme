@@ -235,6 +235,14 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 	    		// LeaveLocationAdmin
 			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), aDept.getLocation(), LocalDate.now().toDateTimeAtStartOfDay()))
 			    	return true;
+			    // Payroll Processor
+			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), aDept.getDept(), LocalDate.now().toDateTimeAtStartOfDay())) {
+			    	return true;
+		        }
+			    // Payroll Processor Delegate
+			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), aDept.getDept(), LocalDate.now().toDateTimeAtStartOfDay())) {
+			    	return true;
+		        }
 	    	}
 	    }	    
     	Long aWorkArea = aLeaveBlock.getWorkArea();
@@ -250,6 +258,9 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 	    if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), aWorkArea, LocalDate.now().toDateTimeAtStartOfDay())) {
 	    	return true;
         }
+	    
+	  
+	    
 	    
 	    // no eligible roles found
 	    return false;
