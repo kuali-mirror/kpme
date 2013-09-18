@@ -106,10 +106,9 @@
 <c:forEach var="block" items="${day.leaveBlockRenderers}" varStatus="status">
     <div class="event ${block.assignmentClass}">
 		<c:set var="editableClass" value="event-title-false"/>
-	    <c:if test="${Form.docEditable}">
+	    <c:if test="${Form.docEditable && block.leaveBlock.editable}">
 	        <c:set var="editableClass" value="event-title-true"/>
-	    </c:if>
-	
+	    </c:if>	
 	    <div id="leaveblock_${block.leaveBlockId}" class="${editableClass}">
 	        <c:if test="${block.deletable}">
 	            <div><img id="leaveBlockDelete_${block.leaveBlockId}"
@@ -117,8 +116,14 @@
 	                      src='images/delete.png'/>
 	            </div>
 	        </c:if>
-	
-	        <div id="leaveShow_${block.leaveBlockId}">${block.assignmentTitle}</div>
+			<c:choose>
+                <c:when test="${block.leaveBlock.editable}">
+                    <div id="leaveShow_${block.leaveBlockId}">${block.assignmentTitle}</div>
+                </c:when>
+                <c:otherwise>
+                    <div>${block.assignmentTitle}</div>
+                </c:otherwise>
+            </c:choose>
 	    </div>
 	    <div>
 	    ${block.timeRange}
