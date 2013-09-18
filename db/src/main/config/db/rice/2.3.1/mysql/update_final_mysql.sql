@@ -218,3 +218,5 @@ WHERE attr_val = '*' AND perm_id =
     SELECT perm_id FROM krim_perm_t WHERE nm='Recall Document' AND nmspc_cd='KR-WKFLW'
   )
 ;
+ALTER TABLE krlc_cntry_t MODIFY COLUMN postal_cntry_nm VARCHAR(255) DEFAULT NULL
+;
