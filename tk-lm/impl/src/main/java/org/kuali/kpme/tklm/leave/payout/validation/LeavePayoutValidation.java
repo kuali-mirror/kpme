@@ -166,7 +166,8 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 	
 	private boolean validateTransferToEarnCode(EarnCode transferToEarnCode, AccrualCategoryRule acr, String principalId, PrincipalHRAttributes pha, LocalDate effectiveDate) {
 		boolean isValid = true;
-		if(transferToEarnCode != null) {
+        //commenting out for KPME-2847
+		/*if(transferToEarnCode != null) {
 			LeavePlan earnCodeLeavePlan = HrServiceLocator.getLeavePlanService().getLeavePlan(transferToEarnCode.getLeavePlan(),effectiveDate);
 			if(earnCodeLeavePlan != null) {
 				LeavePlan phaLeavePlan = HrServiceLocator.getLeavePlanService().getLeavePlan(pha.getLeavePlan(), effectiveDate);
@@ -182,8 +183,8 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.earnCode", "leavePayout.earncode.leaveplan.exists");
 				isValid &= false;
 			}
-		}
-		else {
+		}*/
+		if (transferToEarnCode == null) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.earnCode", "leavePayout.earncode.exists");
 			isValid &= false;
 		}
