@@ -61,6 +61,7 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.kpme.tklm.leave.transfer.validation.BalanceTransferValidationUtils;
 import org.kuali.kpme.tklm.time.calendar.TkCalendar;
+import org.kuali.kpme.tklm.time.detail.validation.TimeDetailValidationUtil;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
@@ -208,7 +209,7 @@ public class TimeDetailAction extends TimesheetAction {
 
         }
         tdaf.setTimeSummary(ts);
-      //  ActionFormUtils.validateHourLimit(tdaf);
+        //ActionFormUtils.validateHourLimit(tdaf);
         ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
         ActionFormUtils.addUnapprovedIPWarningFromClockLog(tdaf);
 	}
@@ -382,35 +383,48 @@ public class TimeDetailAction extends TimesheetAction {
     public ActionForward addTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
         
-        String principalId = HrContext.getPrincipalId();
-        String targetPrincipalId = HrContext.getTargetPrincipalId();
-        String documentId = tdaf.getDocumentId();
-        if(StringUtils.isNotEmpty(tdaf.getTkTimeBlockId())) {
-        	// the user is changing an existing time block, so need to delete this time block
-//        	this.removeOldTimeBlock(tdaf);
-        } else if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
-        	// the user is changing an existing leave block, so need to delete this leave block
-//        	this.removeOldLeaveBlock(tdaf.getLmLeaveBlockId());
-        	
-        	 this.updateLeaveBlock(tdaf);
-        	 generateTimesheetChangedNotification(principalId, targetPrincipalId, documentId);
-             return mapping.findForward("basic");
-             
+        if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
+        	List<String> errors = TimeDetailValidationUtil.validateLeaveEntry(tdaf);
+        	if(errors.isEmpty()) {
+        		//KPME-2832: validate leave entry prior to save.
+        		//This duplicates validation done on submissions that went through TimeDetailWSAction, i.e. typical time calendar transactions.
+        		this.updateLeaveBlock(tdaf);
+        	}
+        	else {
+        		tdaf.setErrorMessages(errors);
+        	}
+        	return mapping.findForward("basic");
         }
+        
         if(StringUtils.isNotEmpty(tdaf.getSelectedEarnCode())) {
         	EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate()).toLocalDate());
-        	if(ec != null && ec.getLeavePlan() != null) {	// leave blocks changes
-        		this.changeLeaveBlocks(tdaf);
-        	} else {	// time blocks changes
-        		this.changeTimeBlocks(tdaf);
+        	if(ec != null && ec.getLeavePlan() != null) {
+        		//leave blocks changes
+            	List<String> errors = TimeDetailValidationUtil.validateLeaveEntry(tdaf);
+            	if(errors.isEmpty()) {
+            		//KPME-2832: validate leave entry prior to save.
+            		//This duplicates validation done on submissions that went through TimeDetailWSAction, i.e. typical time calendar transactions.
+            		this.changeLeaveBlocks(tdaf);
+            	}
+            	else {
+            		tdaf.setErrorMessages(errors);
+            	}
+            } else {
+            	// time blocks changes
+                List<String> errors = TimeDetailValidationUtil.validateTimeEntryDetails(tdaf);
+                if(errors.isEmpty()) {
+            		//KPME-2832: validate leave entry prior to save.
+            		//This duplicates validation done on submissions that went through TimeDetailWSAction, i.e. typical time calendar transactions.
+                	this.changeTimeBlocks(tdaf);
+                }
+                else {
+                	tdaf.setErrorMessages(errors);
+                }
         	}
         }
         
        // ActionFormUtils.validateHourLimit(tdaf);
         ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
-        
-        generateTimesheetChangedNotification(principalId, targetPrincipalId, documentId);
-
         return mapping.findForward("basic");
     }
     
@@ -440,6 +454,12 @@ public class TimeDetailAction extends TimesheetAction {
   	  }
     }
     
+	/**
+	 * 
+	 * Callers must first run Time Entry validations on tdaf.
+	 * 
+	 * @param tdaf
+	 */
     // add/update leave blocks 
 	private void changeLeaveBlocks(TimeDetailActionForm tdaf) {
 		DateTime beginDate = null;
@@ -460,23 +480,31 @@ public class TimeDetailAction extends TimesheetAction {
 		String desc = "";	// there's no description field in time calendar pop window
 		String spanningWeeks = tdaf.getSpanningWeeks();
         Assignment currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
+
         LmServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, tdaf.getCalendarEntry(), selectedEarnCode, leaveAmount, desc, currentAssignment,
                 spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR, HrContext.getTargetPrincipalId());
 
-         List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
-         List<String> assignmentKeys = new ArrayList<String>();
-         for (Assignment assignment : assignments) {
-             	assignmentKeys.add(assignment.getAssignmentKey());
-         }
+        List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+        List<String> assignmentKeys = new ArrayList<String>();
+        for (Assignment assignment : assignments) {
+          	assignmentKeys.add(assignment.getAssignmentKey());
+        }
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(HrContext.getTargetPrincipalId(), tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
 
 		// A bad hack to apply rules to all timeblocks on timesheet
 		List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
 		TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(newTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
+        generateTimesheetChangedNotification(HrContext.getPrincipalId(), HrContext.getTargetPrincipalId(), tdaf.getDocumentId());
 	}
 	
-    // add/update time blocks
+	/**
+	 * 
+	 * Callers must first run Time Entry validations on tdaf.
+	 * 
+	 * @param tdaf
+	 */
+	// add/update time blocks
 	private void changeTimeBlocks(TimeDetailActionForm tdaf) {
 		boolean isClockLogCreated = false;
         tdaf.getDocumentId();
@@ -488,9 +516,6 @@ public class TimeDetailAction extends TimesheetAction {
             if (tb != null) {
 	            isClockLogCreated = tb.getClockLogCreated();
             }
-            // old time block is deleted from addTimeBlock method
-            // no, its not
-            // this.removeOldTimeBlock(tdaf);
         }
 
         Assignment currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
@@ -596,15 +621,23 @@ public class TimeDetailAction extends TimesheetAction {
         TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, finalNewTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
 
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, finalNewTimeBlocks, HrContext.getPrincipalId());
+        
+        generateTimesheetChangedNotification(HrContext.getPrincipalId(), HrContext.getTargetPrincipalId(), tdaf.getDocumentId());
 
 	}
 	
+	/**
+	 * 
+	 * Callers must first run Time Entry validations on tdaf.
+	 * 
+	 * @param tdaf
+	 */
 	// KPME-2386
 	private void updateLeaveBlock(TimeDetailActionForm tdaf) throws Exception {
 
 		String principalId = HrContext.getPrincipalId();
-		HrContext.getTargetPrincipalId();
-		tdaf.getCalendarEntry();
+		String targetPrincipalId = HrContext.getTargetPrincipalId();
+
 		String selectedEarnCode = tdaf.getSelectedEarnCode();
 		String leaveBlockId = tdaf.getLmLeaveBlockId();
 		
@@ -642,18 +675,20 @@ public class TimeDetailAction extends TimesheetAction {
         List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
         for (Assignment assignment : assignments) {
-            	assignmentKeys.add(assignment.getAssignmentKey());
+            assignmentKeys.add(assignment.getAssignmentKey());
         }
-        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(HrContext.getTargetPrincipalId(), tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
+        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(targetPrincipalId, tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
 
         // A bad hack to apply rules to all timeblocks on timesheet
 		List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
-		TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
-		TkServiceLocator.getTimeBlockService().saveTimeBlocks(newTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
+		TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), principalId);
+		//should we validate time blocks altered by rules service before saving? i.o.w. disallow leave block changes that would otherwise invalidate certain time entries?
+		TkServiceLocator.getTimeBlockService().saveTimeBlocks(newTimeBlocks, newTimeBlocks, principalId);
+   	 	generateTimesheetChangedNotification(principalId, targetPrincipalId, tdaf.getDocumentId());
 
     }
 
-
+	//No time blocks should be saved directly in this action forward without first validating the entry.
     public ActionForward updateTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
@@ -688,7 +723,10 @@ public class TimeDetailAction extends TimesheetAction {
         	tbh.setActionHistory(TkConstants.ACTIONS.UPDATE_TIME_BLOCK);
         	TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
         }
+        
+        //addTimeBlock handles validation and creation of object. Do not save time blocks directly in this method without validating the entry!
         tdaf.setMethodToCall("addTimeBlock");
+
         return mapping.findForward("basic");
     }
 

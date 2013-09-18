@@ -101,10 +101,9 @@ public class TimesheetAction extends CalendarFormAction {
     @Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		TimesheetActionForm timesheetActionForm = (TimesheetActionForm) form;
-		
 		String documentId = timesheetActionForm.getDocumentId();
         String principalId = HrContext.getTargetPrincipalId();
-        
+        timesheetActionForm.setPrincipalId(principalId);
 		CalendarEntry calendarEntry = null;
 		TimesheetDocument timesheetDocument = null;
 

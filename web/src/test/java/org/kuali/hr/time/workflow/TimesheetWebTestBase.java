@@ -30,8 +30,11 @@ import org.junit.Ignore;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.TestAutoLoginFilter;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrTestConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.utils.TkTestConstants;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
@@ -64,6 +67,10 @@ public class TimesheetWebTestBase extends KPMEWebTestCase {
     public static String getTimesheetDocumentUrl(String tdocId) {
         return BASE_DETAIL_URL + tdocId;
     }
+    
+    public static String getTargetedTimesheetDocumentUrl(String tdocId, String targetUser) {
+    	return HrTestConstants.BASE_URL + "/changeTargetPerson.do?methodToCall=changeTargetPerson&principalName=" + targetUser + "&targetUrl=TimeDetail.do?documentId=" + tdocId;
+    }
 
     /**
      * Uses an ID hack to manipulate the current Test user Login.
@@ -93,6 +100,34 @@ public class TimesheetWebTestBase extends KPMEWebTestCase {
         return page;
     }
 
+    /**
+     * Uses an ID hack to manipulate the current Test user Login.
+     *
+     */
+    public static synchronized HtmlPage loginTargetAndGetTimeDetailsHtmlPage(WebClient webClient, String userPrincipalId, String targetPrincipalId, String tdocId, boolean assertValid) throws Exception {
+
+        Person person = KimApiServiceLocator.getPersonService().getPerson(targetPrincipalId);
+        Assert.assertNotNull(person);
+        Assert.assertEquals(person.getPrincipalId(), targetPrincipalId);
+        TestAutoLoginFilter.OVERRIDE_ID = userPrincipalId;
+        // need to create new web client for new user
+        webClient.getPage(new URL(TkTestConstants.Urls.LOG_OUT_URL));
+        webClient.closeAllWindows();
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(webClient, getTargetedTimesheetDocumentUrl(tdocId,person.getPrincipalName()));
+        //TestAutoLoginFilter.OVERRIDE_ID = "";
+        Assert.assertNotNull(page);
+        HtmlUnitUtil.createTempFile(page, "Login-"+userPrincipalId);
+        LOG.debug(page.asText());
+        String pageAsText = page.asText();
+        if (assertValid) {
+        	Assert.assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));
+        	Assert.assertTrue("Login info not present for " + person.getName() , pageAsText.contains(person.getName()));
+        	Assert.assertTrue("Wrong Document Loaded.", pageAsText.contains(tdocId));
+        }
+
+        return page;
+    }
+    
     /**
      * Examines the JSON structure that is written to each output TimeDetails
      * page.

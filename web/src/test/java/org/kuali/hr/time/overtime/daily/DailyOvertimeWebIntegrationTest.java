@@ -82,7 +82,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
 
         // Build an action form - we're using it as a POJO, it ties into the
         // existing TK validation setup
-        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(tdoc, assignment, earnCode, start, end, null, true, null, true);
+        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(USER_PRINCIPAL_ID, tdoc, assignment, earnCode, start, end, null, true, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         // Check for errors
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());

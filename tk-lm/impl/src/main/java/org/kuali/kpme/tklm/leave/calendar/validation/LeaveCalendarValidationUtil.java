@@ -40,14 +40,12 @@ import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
-import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.accrual.RateRangeAggregate;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
@@ -79,7 +77,6 @@ public class LeaveCalendarValidationUtil {
     	if(leaveAmount == null) {
     		leaveAmount  = TKUtils.getHoursBetween(TKUtils.formatDateString(leaveStartDateString).toDate().getTime(), TKUtils.formatDateString(leaveEndDateString).toDate().getTime());
     	}
-
     	if(ls != null && CollectionUtils.isNotEmpty(ls.getLeaveSummaryRows())) {
 	    	BigDecimal oldLeaveAmount = null;
 	    	boolean earnCodeChanged = false;
@@ -390,38 +387,46 @@ public class LeaveCalendarValidationUtil {
 //    	return errors;
 //    }
     
+    public static List<String> validateSpanningWeeks(String selectedEarnCode, String startDateString, String endDateString) {
+
+    	List<String> errors = new ArrayList<String>();
+
+    	EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, TKUtils.formatDateString(startDateString));
+    	DateTime startDate = null;
+    	DateTime endDate = null;
+
+        if (ec != null && !ec.getRecordMethod().equals(HrConstants.RECORD_METHOD.TIME)) {
+        	startDate = TKUtils.formatDateString(startDateString).toDateTimeAtStartOfDay();
+            endDate = TKUtils.formatDateString(endDateString).toDateTimeAtStartOfDay();
+        } else {
+        	startDate = TKUtils.formatDateTimeString(startDateString);
+        	endDate = TKUtils.formatDateTimeString(endDateString);
+        }
+    	
+        boolean isOnlyWeekendSpan = true;
+        while ((startDate.isBefore(endDate) || startDate.isEqual(endDate)) && isOnlyWeekendSpan) {
+        	if (startDate.getDayOfWeek() != DateTimeConstants.SATURDAY && startDate.getDayOfWeek() != DateTimeConstants.SUNDAY) {
+        		isOnlyWeekendSpan = false;
+        	}
+        	startDate = startDate.plusDays(1);
+        }
+        if (isOnlyWeekendSpan) {
+        	errors.add("Weekend day is selected, but include weekends checkbox is not checked");            //errorMessages
+        }
+        
+        return errors;
+    }
 
     // KPME-2010
     public static List<String> validateSpanningWeeks(LeaveCalendarWSForm lcf) {
-    	List<String> errors = new ArrayList<String>();
     	
     	boolean spanningWeeks = lcf.getSpanningWeeks().equalsIgnoreCase("y");
     	if (!spanningWeeks) {
-	        EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(lcf.getSelectedEarnCode(), TKUtils.formatDateString(lcf.getStartDate()));
-	    	DateTime startDate = null;
-	    	DateTime endDate = null;
-	
-	        if (ec != null && !ec.getRecordMethod().equals(HrConstants.RECORD_METHOD.TIME)) {
-	        	startDate = TKUtils.formatDateString(lcf.getStartDate()).toDateTimeAtStartOfDay();
-	            endDate = TKUtils.formatDateString(lcf.getEndDate()).toDateTimeAtStartOfDay();
-	        } else {
-	        	startDate = TKUtils.formatDateTimeString(lcf.getStartDate());
-	        	endDate = TKUtils.formatDateTimeString(lcf.getEndDate());
-	        }
-	    	
-	        boolean isOnlyWeekendSpan = true;
-	        while ((startDate.isBefore(endDate) || startDate.isEqual(endDate)) && isOnlyWeekendSpan) {
-	        	if (startDate.getDayOfWeek() != DateTimeConstants.SATURDAY && startDate.getDayOfWeek() != DateTimeConstants.SUNDAY) {
-	        		isOnlyWeekendSpan = false;
-	        	}
-	        	startDate = startDate.plusDays(1);
-	        }
-	        if (isOnlyWeekendSpan) {
-	        	errors.add("Weekend day is selected, but include weekends checkbox is not checked");            //errorMessages
-	        }
+    		return validateSpanningWeeks(lcf.getSelectedEarnCode(),lcf.getStartDate(),lcf.getEndDate());
     	}
-    	
-    	return errors;
+    	else {
+    		return new ArrayList<String>();
+    	}
     }
     
     public static List<String> validateParametersAccordingToSelectedEarnCodeRecordMethod(LeaveCalendarWSForm lcf) {
@@ -528,7 +533,7 @@ public class LeaveCalendarValidationUtil {
     }
 
 	public static Collection<? extends String> validateHoursUnderTwentyFour(
-			String selectedEarnCode, String startDate, String endDate, BigDecimal leaveAmount, LeaveBlock lb) {
+			String selectedEarnCode, String startDate, String endDate, BigDecimal leaveAmount) {
     	List<String> errors = new ArrayList<String>();
 
     	LocalDate aDate = TKUtils.formatDateString(endDate);

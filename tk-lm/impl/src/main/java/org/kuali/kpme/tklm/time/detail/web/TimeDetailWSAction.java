@@ -82,7 +82,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         errors = TimeDetailValidationUtil.validateEarnCode(tdaf.getSelectedEarnCode(), tdaf.getStartDate(), tdaf.getEndDate());
         if(errors.isEmpty()) {
 	        if(ec != null && ec.getLeavePlan() != null) {	// leave blocks changes
-	    		errors = this.validateLeaveEntry(tdaf);
+	    		errors = TimeDetailValidationUtil.validateLeaveEntry(tdaf);
 	    	} else {	// time blocks changes
 	    		errors = TimeDetailValidationUtil.validateTimeEntryDetails(tdaf);
 	    	}
@@ -93,11 +93,13 @@ public class TimeDetailWSAction extends TimesheetAction {
         return mapping.findForward("ws");
     }
 
-    public List<String> validateLeaveEntry(TimeDetailActionFormBase tdaf) throws Exception {
+/*
+ * Moved to TimeDetailValidationUtil
+ * 
+ *     public List<String> validateLeaveEntry(TimeDetailActionFormBase tdaf) throws Exception {
     	List<String> errorMsgList = new ArrayList<String>();
     	CalendarEntry payCalendarEntry = tdaf.getCalendarEntry();
     	if(ObjectUtils.isNotNull(payCalendarEntry)) {
-			LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(HrContext.getTargetPrincipalId(), tdaf.getCalendarEntry());
 			LeaveBlock lb = null;
 			if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
 				lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(tdaf.getLmLeaveBlockId());
@@ -106,17 +108,16 @@ public class TimeDetailWSAction extends TimesheetAction {
 			// Validate LeaveBlock timings and all that
 			errorMsgList.addAll(LeaveCalendarValidationUtil.validateParametersForLeaveEntry(tdaf.getSelectedEarnCode(), tdaf.getCalendarEntry(),
 					tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getStartTime(), tdaf.getEndTime(), tdaf.getSelectedAssignment(), null, tdaf.getLmLeaveBlockId()));
-			
 			errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalanceForUsage(tdaf.getSelectedEarnCode(), 
 					tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
 			//Validate leave block does not exceed max usage. Leave Calendar Validators at this point rely on a leave summary.
-	        errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, tdaf.getSelectedEarnCode(),
+	        errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(tdaf.getSelectedEarnCode(),
                     tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
 	        errorMsgList.addAll(LeaveCalendarValidationUtil.validateHoursUnderTwentyFour(tdaf.getSelectedEarnCode(),
-	        		tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
+	        		tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount()));
 		}
 		return errorMsgList;
-    }
+    }*/
     
     
     //this is an ajax call for the assignment maintenance page

@@ -17,6 +17,7 @@ package org.kuali.hr.time.util;
 
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -57,7 +58,7 @@ public class TimeDetailTestUtils {
      *
      * @return A populated TimeDetailActionFormBase object.
      */
-    public static TimeDetailActionFormBase buildDetailActionForm(TimesheetDocument timeshetDocument, Assignment assignment, EarnCode earnCode, DateTime start, DateTime end, BigDecimal amount, boolean acrossDays, String timeblockId, boolean spanningWeeks) {
+    public static TimeDetailActionFormBase buildDetailActionForm(String principalId, TimesheetDocument timeshetDocument, Assignment assignment, EarnCode earnCode, DateTime start, DateTime end, BigDecimal amount, boolean acrossDays, String timeblockId, boolean spanningWeeks) {
         TimeDetailActionFormBase tdaf = new TimeDetailActionFormBase();
         /**
          * 
@@ -103,6 +104,7 @@ public class TimeDetailTestUtils {
         tdaf.setTimesheetDocument(timeshetDocument);
         tdaf.setSelectedAssignment(selectedAssignment);
         tdaf.setSelectedEarnCode(selectedEarnCode);
+        tdaf.setPrincipalId(principalId);
         tdaf.setMethodToCall("addTimeBlock");
 
         return tdaf;
@@ -120,7 +122,7 @@ public class TimeDetailTestUtils {
     public static List<String> setTimeBlockFormDetails(HtmlForm form, TimeDetailActionFormBase tdaf) {
         // Validation -- the same call the WS makes. (should already be valid...)
         List<String> errors = TimeDetailValidationUtil.validateTimeEntryDetails(tdaf);
-
+/*        errors = new ArrayList<String>();*/
         // If validation passes, we can add the time block.
         if (errors.size() == 0) {
             if (tdaf.getTkTimeBlockId() != null) {
@@ -141,6 +143,7 @@ public class TimeDetailTestUtils {
             form.setAttribute("selectedAssignment", tdaf.getSelectedAssignment());
             form.setAttribute("acrossDays", tdaf.getAcrossDays());
             form.setAttribute("methodToCall", tdaf.getMethodToCall());
+            form.setAttribute("principalId", tdaf.getPrincipalId());
         }
 
         return errors;
@@ -242,6 +245,7 @@ public class TimeDetailTestUtils {
             builder.append("&endDate=").append(URLEncoder.encode(tdaf.getEndDate(), "UTF-8"));
             builder.append("&selectedAssignment=").append(URLEncoder.encode(tdaf.getSelectedAssignment(), "UTF-8"));
             builder.append("&selectedEarnCode=").append(URLEncoder.encode(tdaf.getSelectedEarnCode(), "UTF-8"));
+            builder.append("&principalId=").append(URLEncoder.encode(tdaf.getPrincipalId(), "UTF-8"));
             if (tdaf.getTkTimeBlockId() != null) {
                 builder.append("&tkTimeBlockId=").append(URLEncoder.encode(tdaf.getTkTimeBlockId().toString(), "UTF-8"));
             }

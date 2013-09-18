@@ -152,7 +152,7 @@ public class TimesheetSubmitAction extends KPMEAction {
             		if(!eligiblePayouts.isEmpty()) {
                 		payoutRedirect.setPath("/LeavePayout.do?"+request.getQueryString());
                 		request.getSession().setAttribute("eligibilities", eligiblePayouts);
-                		return payoutRedirect;           			
+                		return payoutRedirect;
             		}
             	}
                 TkServiceLocator.getTimesheetService().routeTimesheet(HrContext.getTargetPrincipalId(), document);
