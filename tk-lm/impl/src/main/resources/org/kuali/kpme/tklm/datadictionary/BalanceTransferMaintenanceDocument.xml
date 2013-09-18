@@ -40,7 +40,10 @@
     </property>
     <property name="lockingKeys">
       <list>
-          <value>balanceTransferId</value>
+          <value>effectiveDate</value>
+          <value>principalId</value>
+          <value>fromAccrualCategory</value>
+          <value>toAccrualCategory</value>
       </list>
     </property>
     <property name="documentTypeName" value="BalanceTransferDocumentType"/>

@@ -16,6 +16,7 @@
 package org.kuali.kpme.tklm.leave.calendar.rules;
 
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.core.krms.KPMERulesEngineExecuter;
 import org.kuali.kpme.core.krms.KpmeKrmsFactBuilderService;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -50,7 +51,7 @@ public class LeaveCalendarRulesEngineExecutor extends KPMERulesEngineExecuter {
         KpmeKrmsFactBuilderService fbService = HrServiceLocator.getService("calendarDocumentFactBuilderService");
         Facts.Builder factsBuilder = Facts.Builder.create();
         fbService.addFacts(factsBuilder, doc, TklmKrmsConstants.Calendar.KPME_LEAVE_CALENDAR_CONTEXT_NAME, KPMENamespace.KPME_LM.getNamespaceCode());
-        factsBuilder.addFact("Assignments", doc);
+        factsBuilder.addFact(Assignable.ASSIGNABLE_TERM_NAME, doc);
         return engine.execute(selectionCriteria, factsBuilder.build(), null);
     }
 }

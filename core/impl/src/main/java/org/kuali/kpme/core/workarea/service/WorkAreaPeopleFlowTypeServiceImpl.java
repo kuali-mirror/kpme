@@ -15,7 +15,12 @@
  */
 package org.kuali.kpme.core.workarea.service;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kpme.core.KPMEAttributes;
+import org.kuali.kpme.core.api.assignment.Assignable;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
@@ -25,8 +30,13 @@ import org.kuali.rice.core.api.util.jaxb.MapStringStringAdapter;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.DocumentContent;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.workflow.DataDictionaryPeopleFlowTypeServiceImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -40,32 +50,42 @@ import javax.xml.xpath.XPathConstants;
 import java.io.ByteArrayInputStream;
 import java.util.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: jjhanso
- * Date: 7/8/13
- * Time: 8:42 PM
- * To change this template use File | Settings | File Templates.
- */
 public class WorkAreaPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowTypeServiceImpl {
-    /*@Override
-    public List<String> filterToSelectableRoleIds(@WebParam(name = "kewTypeId") String kewTypeId,
-                                                  @WebParam(name = "roleIds") List<String> roleIds) {
-        return roleIds;
-    }*/
-
+    private static final Logger LOG = Logger.getLogger(WorkAreaPeopleFlowTypeServiceImpl.class);
     @Override
     public List<Map<String, String>> resolveMultipleRoleQualifiers(
             @WebParam(name = "kewTypeId") String kewTypeId,
             @WebParam(name = "roleId") String roleId,
             @WebParam(name = "document") Document document,
             @WebParam(name = "documentContent") DocumentContent documentContent) {
+
         List<Map<String, String>> workAreaQualifiers = new ArrayList<Map<String, String>>();
         List<String> workAreas = getElementValues(documentContent.getApplicationContent(), "//WORKAREA/@value");
-        for (String workArea : workAreas) {
-            workAreaQualifiers.add(
-                    Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(),
-                    workArea));
+        if (CollectionUtils.isNotEmpty(workAreas)) {
+            for (String workArea : workAreas) {
+                workAreaQualifiers.add(
+                        Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(),
+                        workArea));
+            }
+        } else {
+            //try to get values from maintainable object if instance of assignable
+            try {
+                org.kuali.rice.krad.document.Document doc = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentId());
+                if (doc instanceof MaintenanceDocument) {
+                    MaintenanceDocument md =  (MaintenanceDocument)doc;
+                    if (md.getNewMaintainableObject().getDataObject() instanceof Assignable) {
+                        Assignable assignable = (Assignable)(md.getNewMaintainableObject().getDataObject());
+                        List<? extends AssignmentContract> assignments = assignable.getAssignments();
+                        for (AssignmentContract ac : assignments) {
+                            workAreaQualifiers.add(
+                                    Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(ac.getWorkArea()))
+                            );
+                        }
+                    }
+                }
+            } catch (WorkflowException e) {
+                LOG.error("Unable to retrieve document with documemnt ID: " + document.getDocumentId());
+            }
         }
 
         return workAreaQualifiers;
@@ -80,27 +100,6 @@ public class WorkAreaPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowT
             @WebParam(name = "documentContent") DocumentContent documentContent) {
         return null;
     }
-
-    /*@Override
-    public List<RemotableAttributeField> getAttributeFields(@WebParam(name = "kewTypeId") String kewTypeId) {
-        return Collections.singletonList(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName());
-    }*/
-
-    /*@Override
-    public List<RemotableAttributeError> validateAttributes(@WebParam(name = "kewTypeId") String kewTypeId,
-            @WebParam(name = "attributes") @XmlJavaTypeAdapter(MapStringStringAdapter.class) Map<String, String> attributes) throws RiceIllegalArgumentException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }*/
-
-    /*@Override
-    public List<RemotableAttributeError> validateAttributesAgainstExisting(
-            @WebParam(name = "kewTypeId") String kewTypeId,
-            @WebParam(name = "newAttributes")
-            @XmlJavaTypeAdapter(MapStringStringAdapter.class) Map<String, String> newAttributes,
-            @WebParam(name = "oldAttributes")
-            @XmlJavaTypeAdapter(MapStringStringAdapter.class) Map<String, String> oldAttributes) throws RiceIllegalArgumentException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }*/
 
     protected String getElementValue(String docContent, String xpathExpression) {
         try {

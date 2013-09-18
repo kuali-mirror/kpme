@@ -40,7 +40,10 @@
     </property>
       <property name="lockingKeys">
           <list>
-              <value>lmLeavePayoutId</value>
+              <value>effectiveDate</value>
+              <value>principalId</value>
+              <value>earnCode</value>
+              <value>fromAccrualCategory</value>
           </list>
       </property>
     <property name="documentTypeName" value="LeavePayoutDocumentType"/>
