@@ -32,6 +32,14 @@
 		p:businessRulesClass="org.kuali.kpme.core.assignment.validation.AssignmentRule"
 		p:maintainableClass="org.kuali.kpme.core.assignment.web.AssignmentMaintainableServiceImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.core.assignment.authorization.AssignmentAuthorizer">
+        <property name="lockingKeys">
+            <list>
+                <value>principalId</value>
+                <value>workArea</value>
+                <value>task</value>
+                <value>jobNumber</value>
+            </list>
+        </property>
 		<property name="maintainableSections">
 			<list>
 				<ref bean="AssignmentMaintenanceDocument-AssignmentMaintenance" />

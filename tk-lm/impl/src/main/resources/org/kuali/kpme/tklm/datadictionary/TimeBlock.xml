@@ -460,7 +460,7 @@
   			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="documentId">
   				<property name="quickfinder">
   					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader"
-  						p:fieldConversions="documentId:documentId"/>
+  						p:fieldConversions="documentId:documentId,documentStatus:timesheetDocumentHeader.documentStatus"/>
   				</property>
   				<property name="inquiry">
   					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader"
@@ -484,11 +484,13 @@
   				</property>
   				<property name="inquiry">
   					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
-  						p:inquiryParameters="principalId:userPrincipalId"/>
+  						p:inquiryParameters="userPrincipalId:principalId"/>
   				</property>
   			</bean>
   			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="timesheetDocumentHeader.documentStatus"
   						p:optionsFinderClass="org.kuali.rice.kew.impl.document.search.DocumentStatusValuesFinder"
+                        p:enableAutoDirectInquiry="false"
+                        p:enableAutoQuickfinder="false"
   						p:label="Document Status">
   				<property name="control">
   					<bean parent="Uif-DropdownControl"/>
