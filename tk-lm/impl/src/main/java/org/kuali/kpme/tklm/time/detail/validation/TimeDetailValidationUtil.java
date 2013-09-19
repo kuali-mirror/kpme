@@ -88,8 +88,8 @@ public class TimeDetailValidationUtil {
 
     	LocalDate tempDate = TKUtils.formatDateTimeStringNoTimezone(startDateString).toLocalDate();
     	LocalDate localEnd = TKUtils.formatDateTimeStringNoTimezone(endDateString).toLocalDate();
-    	// tempDate and localEnd could be the same day
-    	while(!localEnd.isBefore(tempDate)) {
+		// tempDate and localEnd could be the same day
+    	while(localEnd.isBefore(tempDate)) {
     		if(!ValidationUtils.validateEarnCode(earnCode, tempDate)) {
     			 errors.add("Earn Code " + earnCode + " is not available for " + tempDate);
     			 break;
@@ -108,14 +108,18 @@ public class TimeDetailValidationUtil {
      */
     public static List<String> validateTimeEntryDetails(TimeDetailActionFormBase tdaf) {
     	boolean spanningWeeks = false;
+    	boolean acrossDays = false;
     	if(tdaf.getSpanningWeeks() != null) {
     		spanningWeeks = tdaf.getSpanningWeeks().equalsIgnoreCase("y");
+    	}
+    	if(tdaf.getAcrossDays() != null) {
+    		acrossDays = tdaf.getAcrossDays().equalsIgnoreCase("y");
     	}
         return validateTimeEntryDetails(
                 tdaf.getHours(), tdaf.getAmount(), tdaf.getStartTime(), tdaf.getEndTime(),
                 tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getTimesheetDocument(),
                 tdaf.getSelectedEarnCode(), tdaf.getSelectedAssignment(),
-                tdaf.getAcrossDays().equalsIgnoreCase("y"), tdaf.getTkTimeBlockId(), tdaf.getOvertimePref(), spanningWeeks
+                acrossDays, tdaf.getTkTimeBlockId(), tdaf.getOvertimePref(), spanningWeeks
         );
     }
 
