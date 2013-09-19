@@ -89,7 +89,7 @@ public class TimeDetailValidationUtil {
     	LocalDate tempDate = TKUtils.formatDateTimeStringNoTimezone(startDateString).toLocalDate();
     	LocalDate localEnd = TKUtils.formatDateTimeStringNoTimezone(endDateString).toLocalDate();
 		// tempDate and localEnd could be the same day
-    	while(localEnd.isBefore(tempDate)) {
+    	while(!localEnd.isBefore(tempDate)) {
     		if(!ValidationUtils.validateEarnCode(earnCode, tempDate)) {
     			 errors.add("Earn Code " + earnCode + " is not available for " + tempDate);
     			 break;
