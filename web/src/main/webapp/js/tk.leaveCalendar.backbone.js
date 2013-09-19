@@ -203,7 +203,7 @@ $(function () {
                             break;
                         }
                     }
-                    $("#spanningWeeks").prop("checked", spanningWeeks);
+                    $("#spanningWeeks").attr("checked", spanningWeeks);
                 },
                 close : function () {
                 	$('.cal-table td').removeClass('ui-selected');

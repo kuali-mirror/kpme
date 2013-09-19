@@ -275,7 +275,7 @@ $(function () {
                                 break;
                             }
                         }
-                        $("#spanningWeeks").prop("checked", spanningWeeks);
+                        $("#spanningWeeks").attr("checked", spanningWeeks);
                     },
                     close : function () {
                         // reset values on the form
@@ -345,7 +345,7 @@ $(function () {
             // but when we submit the form, we will want to keep all the original values.
             // That's why we call the fillInform() method below, so all the values will still be there when the form is submitted.
             dfd.done(self.fetchOvertimeEarnCode(key.id))
-                    .done($("#overtimePref option[value='" + currentOvertimePref + "']").prop("selected", "selected"))
+                    .done($("#overtimePref option[value='" + currentOvertimePref + "']").attr("selected", "selected"))
                     .done(_(timeBlock).fillInForm());
 
             $("#overtime-section").dialog({
@@ -399,7 +399,7 @@ $(function () {
             var isTimeBlockReadOnly = timeBlock.get("canEditTBAssgOnly") ? true : false;
 
             dfd.done(this.fetchEarnCode(timeBlock.get("assignment"), isTimeBlockReadOnly))
-                    .done($("#selectedEarnCode option[value='" + timeBlock.get("earnCode") + "']").prop("selected", "selected"))
+                    .done($("#selectedEarnCode option[value='" + timeBlock.get("earnCode") + "']").attr("selected", "selected"))
                     .done(this.showFieldByEarnCodeType())
                     .done(_(timeBlock).fillInForm())
                     .done(this.applyRules(timeBlock));
@@ -517,10 +517,10 @@ $(function () {
                     break;
                 }
             }
-            $("#spanningWeeks").prop("checked", spanningWeeks);
+            $("#spanningWeeks").attr("checked", spanningWeeks);
 			dfd.done()
 				.done(this.fetchEarnCode(leaveBlock.get("assignment"), isLeaveBlockReadOnly))
-				.done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").prop("selected", "selected"))
+				.done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected"))
 				.done(this.showFieldByEarnCodeType())
 				.done(_(leaveBlock).leaveBlockFillInForm());
         },
@@ -768,6 +768,8 @@ $(function () {
             // If there is an earn code in the newly created collection that matches the old
             // earn code, keep the earn code selected.
             if(_.contains(EarnCodes.pluck('earnCode'),earnCode)) {
+            	//usage of prop should be restricted to dom element manipulations; tagName, nodeName, defaultChecked
+            	//ref http://www.w3schools.com/jquery/html_prop.asp
             	$("#selectedEarnCode option:selected").removeAttr("selected");
             	$("#selectedEarnCode option[value='" + earnCode + "']").attr("selected", "selected");
             }
@@ -1043,6 +1045,20 @@ $(function () {
             return _.first(matchedEarnCode).leavePlan;
         },
         
+        getEarnCodeInflateMinHour : function (earnCodeJson, earnCode) {
+        	var matchedEarnCode = _.filter(earnCodeJson, function (json) {
+        		return json["earnCode"] == earnCode
+        	});
+        	return _.first(matchedEarnCode).inflateMinHours
+        },
+        
+        getEarnCodeInflateFactor : function (earnCodeJson, earnCode) {
+        	var matchedEarnCode = _.filter(earnCodeJson, function (json) {
+        		return json["earnCode"] == earnCode
+        	});
+        	return _.first(matchedEarnCode).inflateFactor
+        },
+        
         getEarnCodeFractionalAllowedTime : function (earnCodeJson, earnCode) {
        	 var matchedEarnCode = _.filter(earnCodeJson, function (json) {
                 return json["earnCode"] == earnCode
@@ -1265,7 +1281,7 @@ $(function () {
             $('#endDate').val(timeBlock.get("startDate"));
             $('#endTime').val(timeBlock.get("endTime"));
             $('#endTimeHourMinute').val(timeBlock.get("endTimeHourMinute"));
-            $("#selectedAssignment option[value='" + timeBlock.get("assignment") + "']").prop("selected", "selected");
+            $("#selectedAssignment option[value='" + timeBlock.get("assignment") + "']").attr("selected", "selected");
             $('#tkTimeBlockId').val(timeBlock.get("tkTimeBlockId"));
             $('#hours').val(timeBlock.get("hours"));
             $('#amount').val(timeBlock.get("amount"));
@@ -1287,12 +1303,12 @@ $(function () {
                     break;
                 }
             }
-            $("#spanningWeeks").prop("checked", spanningWeeks);
+            $("#spanningWeeks").attr("checked", spanningWeeks);
             
         },
         leaveBlockFillInForm : function (leaveBlock) {
-            $("#selectedAssignment option[value='" + leaveBlock.get("assignment") + "']").prop("selected", "selected");
-            $("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").prop("selected", "selected");
+            $("#selectedAssignment option[value='" + leaveBlock.get("assignment") + "']").attr("selected", "selected");
+            $("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected");
             $('#lmLeaveBlockId').val(leaveBlock.get("lmLeaveBlockId"));
             $('#leaveAmount').val(leaveBlock.get("leaveAmount"));
             $('#startDate').val(leaveBlock.get("startDate"));
