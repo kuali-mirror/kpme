@@ -17,6 +17,7 @@ package org.kuali.hr;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -184,6 +185,7 @@ public abstract class KPMEWebTestCase extends RiceInternalSuiteDataTestCase {
 	
 	    File[] files = new File(FILE_PREFIX).listFiles();
 	    if (files != null) {
+            Arrays.sort(files);
 	        for (File file : files) {
 	            if (file.getName().endsWith(".xml")) {
 	                lifecycles.add(new KPMEXmlDataLoaderLifecycle(FILE_PREFIX + file.getName()));

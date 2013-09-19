@@ -17,6 +17,7 @@ package org.kuali.kpme.core;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -154,7 +155,9 @@ public abstract class KPMEIntegrationTestCase extends RiceInternalSuiteDataTestC
 	    lifecycles.add(clearDatabaseLifecycle);
 	
 	    File[] files = new File(FILE_PREFIX).listFiles();
+
 	    if (files != null) {
+            Arrays.sort(files);
 	        for (File file : files) {
 	            if (file.getName().endsWith(".xml")) {
 	                lifecycles.add(new KPMEXmlDataLoaderLifecycle(FILE_PREFIX + file.getName()));
