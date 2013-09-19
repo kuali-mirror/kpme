@@ -156,20 +156,35 @@ public interface TKPermissionService {
     boolean canEditOvertimeEarnCode(String principalId, TimeBlock timeBlock);
     
     /**
-     * Checks wheather the given {@code principalId} has systemAdmin/TimeSystemAdmin/TimeLocationAdmin roles on given {@code aTimeBlock}
+     * Checks whether the given {@code principalId} has systemAdmin/TimeSystemAdmin/TimeLocationAdmin roles on given {@code aTimeBlock}
      * @param principalId
      * @param aTimeBlock
      * @return
      */
 	public boolean userHasTimeSysLocationAdminRoles(String principalId,TimeBlock aTimeBlock);
 	/**
-     * Checks wheather the given {@code principalId} has edit permission roles on given {@code aTimeBlock}
+     * Checks whether the given {@code principalId} has edit permission roles on given {@code aTimeBlock}
      * @param principalId
      * @param aTimeBlock
      * @return
      */
     public boolean userHasRolesToEditTimeBlock(String principalId, TimeBlock aTimeBlock);
-
-
-
+    
+    /**
+     * Checks whether the given {@code principalId} has PayrollProcessor/PayrollProcessorDelegate roles on given {@code dept} and {@code asOfDate}
+     * @param principalId
+     * @param dept
+     * @param asOfDate
+     * @return
+     */
+    public boolean isPayrollProcessorForDepartment(String principalId, String dept, DateTime asOfDate);
+    
+    /**
+     * Checks whether the given {@code principalId} has Approver/ApproverDelegate roles on given {@code workArea} and {@code asOfDate}
+     * @param principalId
+     * @param workArea
+     * @param asOfDate
+     * @return
+     */
+    public boolean isApproverForWorkArea(String principalId, Long workArea, DateTime asOfDate);
 }

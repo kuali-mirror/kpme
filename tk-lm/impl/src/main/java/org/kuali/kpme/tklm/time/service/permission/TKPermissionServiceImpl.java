@@ -315,47 +315,65 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     
     @Override
     public boolean canEditOvertimeEarnCode(String principalId, TimeBlock timeBlock) {
-        //String principalId = GlobalVariables.getUserSession().getPrincipalId();
         if (principalId != null) {
             CalendarBlockPermissions perms = HrServiceLocator.getHRPermissionService().getTimeBlockPermissions(timeBlock.getTkTimeBlockId());
             Boolean canEdit = perms.isPrincipalCanEditOvertimeEarnCode(principalId);
             if (canEdit != null) {
                 return canEdit;
             }
-
+            
+            boolean workingOnOwnTimesheet = principalId.equals(timeBlock.getPrincipalId());
+            // sys admin/Time sys admin/Time Location admins should have access to overtime earn code if they are not working on their own time sheet
+            if(this.userHasTimeSysLocationAdminRoles(principalId, timeBlock) && !workingOnOwnTimesheet)
+            	return updateCanEditOvtPerm(principalId, perms, true);
+            
             Long workArea = timeBlock.getWorkArea();
             WorkArea workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, timeBlock.getEndDateTime().toLocalDate());
             String department = workAreaObj.getDept();
-            Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
-            String location = departmentObj != null ? departmentObj.getLocation() : null;
-
-            if (StringUtils.equals(workAreaObj.getOvertimeEditRole(), "Employee")) {
-            	if(principalId.equals(timeBlock.getPrincipalId())) {
+            DateTime tbDateTime = timeBlock.getBeginDateTime();	// datetime used to retrieve user roles
+            
+            if(workingOnOwnTimesheet) {
+            	// when user is working on his/her own timesheet, the user can only edit overtime if overtime edit role is "employee"
+            	if (StringUtils.equals(workAreaObj.getOvertimeEditRole(), "Employee"))
             		return updateCanEditOvtPerm(principalId, perms, true);
-            	} 
-            } else if (StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.APPROVER.getRoleName()) ||
-                    StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.APPROVER_DELEGATE.getRoleName())) {
-                boolean toReturn = HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
-                        || HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime());
-                return updateCanEditOvtPerm(principalId, perms, toReturn);
-            } else if(StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.PAYROLL_PROCESSOR.getRoleName()) ||
-                StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName())) {
-                boolean toReturn = isPayrollProcessorForDepartment(principalId, department, timeBlock.getBeginDateTime());
-                return updateCanEditOvtPerm(principalId, perms, toReturn);
-            } else {
-                boolean toReturn = HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-                        || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
-                        || HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
-                        || HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime());
-                return updateCanEditOvtPerm(principalId, perms, toReturn);
+            	else 
+            		return updateCanEditOvtPerm(principalId, perms, false);
+            } else {	// user is not working on his/her own timesheet
+	            // when workarea's overtime edit role is employee, approver/approver delegate/payroll processor/payroll processor delegate should all have edit permission
+	            if (StringUtils.equals(workAreaObj.getOvertimeEditRole(), "Employee")) {
+            		boolean toReturn = this.isApproverForWorkArea(principalId, workArea, tbDateTime)
+            							|| this.isPayrollProcessorForDepartment(principalId, department, tbDateTime);
+            		return updateCanEditOvtPerm(principalId, perms, toReturn);
+	            } else if (StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.APPROVER.getRoleName())) {
+	            	// when overtime edit role is approver, only approver/approver delegate/payroll processor/payroll processor delegate have edit permission
+	                boolean toReturn = this.isApproverForWorkArea(principalId, workArea, tbDateTime)
+	                        			|| this.isPayrollProcessorForDepartment(principalId, department, tbDateTime);
+	                return updateCanEditOvtPerm(principalId, perms, toReturn);
+	            } else if(StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.PAYROLL_PROCESSOR.getRoleName())) {
+	            	// when overtime edit role is Payroll processor, only payroll processor/payroll processor delegate have edit permission
+	                boolean toReturn = isPayrollProcessorForDepartment(principalId, department, tbDateTime);
+	                return updateCanEditOvtPerm(principalId, perms, toReturn);
+	            } else if(StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName())) {
+	            	// when overtime edit role is Time Dept Admin, only Time Dept Admin has edit permission
+	                boolean toReturn = HrServiceLocator.getKPMERoleService()
+	                		.principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime());
+	                return updateCanEditOvtPerm(principalId, perms, toReturn);
+	            }
             }
         }
         return false;
     }
     
-    private Boolean isPayrollProcessorForDepartment(String principalId, String dept, DateTime asOfDate) {
+    @Override
+    public boolean isPayrollProcessorForDepartment(String principalId, String dept, DateTime asOfDate) {
     	return HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, asOfDate)
-    	|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), dept, asOfDate);
+    			|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), dept, asOfDate);
+    }
+    
+    @Override
+    public boolean isApproverForWorkArea(String principalId, Long workArea, DateTime asOfDate) {
+    	return HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, asOfDate)
+    			|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, asOfDate);
     }
 
 	public PermissionService getPermissionService() {
