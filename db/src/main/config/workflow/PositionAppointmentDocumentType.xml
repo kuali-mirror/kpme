@@ -23,7 +23,7 @@
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>PositionAppointmentMaintenanceDocumentType</name>
-			<parent>RiceDocument</parent>
+			<parent>KpmeDocument</parent>
 			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.kpme.pm.positionappointment.PositionAppointment
 	      	</docHandler>
 			<label>Position Appointment Document</label>

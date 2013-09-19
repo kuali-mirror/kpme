@@ -23,7 +23,7 @@
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>AccrualCategoryDocumentType</name>
-			<parent>RiceDocument</parent>
+			<parent>KpmeDocument</parent>
 			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<label>Accrual Category Document</label>
 		</documentType>   

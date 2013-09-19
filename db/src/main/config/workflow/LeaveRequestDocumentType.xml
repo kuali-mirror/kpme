@@ -23,7 +23,7 @@
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
             <name>LeaveRequestDocument</name>
-			<parent>RiceDocument</parent>
+			<parent>KpmeDocument</parent>
 			<applicationId>KPME</applicationId>
 			<superUserGroupName namespace="KPME-HR">System Administrator</superUserGroupName>
 			<blanketApproveGroupName namespace="KPME-HR">System Administrator</blanketApproveGroupName>

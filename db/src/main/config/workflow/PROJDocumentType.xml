@@ -23,7 +23,7 @@
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
      	<documentType>
       		<name>ProjectCodeMaintenanceDocumentType</name>
-      		<parent>RiceDocument</parent>
+      		<parent>KpmeDocument</parent>
       		<label>Project Code</label>
       		<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
      	</documentType>

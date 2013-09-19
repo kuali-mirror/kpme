@@ -23,7 +23,7 @@
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">            
 		<documentType>
             <name>LeavePayoutDocumentType</name>
-			<parent>RiceDocument</parent>
+			<parent>KpmeDocument</parent>
 			<superUserGroupName namespace="KPME-HR">System Administrator</superUserGroupName>
 			<blanketApproveGroupName namespace="KPME-HR">System Administrator</blanketApproveGroupName>
 			<defaultExceptionGroupName namespace="KPME-HR">System Administrator</defaultExceptionGroupName>

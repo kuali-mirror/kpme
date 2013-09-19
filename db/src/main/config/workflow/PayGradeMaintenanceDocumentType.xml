@@ -23,7 +23,7 @@
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     	<documentType>
     		<name>PayGradeMaintenanceDocumentType</name>
-    		<parent>RiceDocument</parent>
+    		<parent>KpmeDocument</parent>
     		<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.kpme.paygrade.PayGrade</docHandler>
     		<label>Pay Grade Document</label>
     	</documentType>
