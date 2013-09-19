@@ -623,9 +623,11 @@ $(function () {
             // If there is an earn code in the newly created collection that matches the old
             // earn code, keep the earn code selected.
             if(_.contains(EarnCodes.pluck('earnCode'),earnCode)) {
-                $("#selectedEarnCode option:selected").attr("selected",false);
-//              $("#selectedEarnCode option[value='" + earnCode + "']").attr("selected", "selected");
+                $("#selectedEarnCode option:selected").removeAttr("selected");
                 $("#selectedEarnCode option:first").attr("selected", "selected");
+            }
+            else {
+                $("#selectedEarnCode option[value='" + earnCode + "']").attr("selected", "selected");
             }
         },
 
