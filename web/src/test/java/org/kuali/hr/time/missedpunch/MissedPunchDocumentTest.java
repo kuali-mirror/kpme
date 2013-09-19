@@ -45,12 +45,10 @@ import com.google.common.collect.Lists;
 @FunctionalTest
 public class MissedPunchDocumentTest extends KPMEWebTestCase {
     private static final Logger LOG = Logger.getLogger(MissedPunchDocumentTest.class);
-	private static String lookupUrl = null;
 
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		lookupUrl = HrTestConstants.Urls.MISSED_PUNCH_LOOKUP_URL;
 	}
 
 	@After
@@ -68,10 +66,10 @@ public class MissedPunchDocumentTest extends KPMEWebTestCase {
 
 	@Test
 	public void testLookup() throws Exception {
-		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), lookupUrl);
+		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.MISSED_PUNCH_LOOKUP_URL);
 		assertNotNull("lookup page is null", lookupPage);
 
-		assertTrue("lookup page should contain Timesheet Id field",lookupPage.asText().contains("Timesheet Id"));
+		assertTrue("lookup page should contain Timesheet Id field",lookupPage.asText().contains("Timesheet Document Id"));
 		assertTrue("lookup page should contain Work Area",lookupPage.asText().contains("Work Area"));
 		assertTrue("lookup page should contain Job Number",lookupPage.asText().contains("Job Number"));
 		assertTrue("lookup page should contain Task",lookupPage.asText().contains("Task"));

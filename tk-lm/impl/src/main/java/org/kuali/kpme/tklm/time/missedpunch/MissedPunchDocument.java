@@ -15,8 +15,18 @@
  */
 package org.kuali.kpme.tklm.time.missedpunch;
 
+import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.task.Task;
+import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunchDocumentContract;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class MissedPunchDocument extends TransactionalDocumentBase implements MissedPunchDocumentContract {
 
@@ -26,6 +36,10 @@ public class MissedPunchDocument extends TransactionalDocumentBase implements Mi
 	
 	private MissedPunch missedPunch = new MissedPunch();
 
+    private transient Job jobObj;
+    private transient WorkArea workAreaObj;
+    private transient Department departmentObj;
+    private transient Task taskObj;
 	public String getTkMissedPunchId() {
 		return tkMissedPunchId;
 	}
@@ -42,4 +56,65 @@ public class MissedPunchDocument extends TransactionalDocumentBase implements Mi
 		this.missedPunch = missedPunch;
 	}
 
+
+    //helper methods!!!!
+    public String getPrincipalId() {
+        return missedPunch.getPrincipalId();
+    }
+
+    public String getTimesheetDocumentId() {
+        return missedPunch.getTimesheetDocumentId();
+    }
+
+    public Long getJobNumber() {
+        return missedPunch.getJobNumber();
+    }
+
+    public Long getWorkArea() {
+        return missedPunch.getWorkArea();
+    }
+
+    public Long getTask() {
+        return missedPunch.getTask();
+    }
+
+    public Date getActionDateTime() {
+        return null;
+    }
+
+    public String getClockAction() {
+        return missedPunch.getClockAction();
+    }
+
+    public String getTkClockLogId() {
+        return missedPunch.getTkClockLogId();
+    }
+
+    public Timestamp getTimestamp() {
+        return missedPunch.getTimestamp();
+    }
+
+    public String getDepartment() {
+        return missedPunch.getDepartment();
+    }
+
+    /*public Date getRelativeEffectiveDate() {
+        return missedPunch.getRelativeEffectiveDate();
+    }*/
+
+    public Task getTaskObj() {
+        return taskObj;
+    }
+
+    public Job getJobObj() {
+        return jobObj;
+    }
+
+    public WorkArea getWorkAreaObj() {
+        return workAreaObj;
+    }
+
+    public Department getDepartmentObj() {
+        return departmentObj;
+    }
 }

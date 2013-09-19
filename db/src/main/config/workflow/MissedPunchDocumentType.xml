@@ -23,6 +23,7 @@
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">            
 		<documentType>
             <name>MissedPunchDocumentType</name>
+            <!--<parent>KpmeDocument</parent>-->
             <parent>RiceDocument</parent>
             <applicationId>KPME</applicationId>
             <superUserGroupName namespace="KPME-HR">System Administrator</superUserGroupName>
@@ -34,7 +35,7 @@
             <active>true</active>
             <routingVersion>1</routingVersion>
 			<attributes>
-				<attribute>
+				<!--<attribute>
 					<name>MissedPunchTimesheetIdSearchAttribute</name>
 				</attribute>
 				<attribute>
@@ -48,7 +49,10 @@
 				</attribute>
 				<attribute>
 					<name>MissedPunchClockActionSearchAttribute</name>
-				</attribute>
+				</attribute>-->
+                <attribute>
+                    <name>MissedPunchDataDictionarySearchableAttribute</name>
+                </attribute>
 			</attributes>
             <routePaths>
                 <routePath>
@@ -207,6 +211,13 @@
             <description>MissedPunchRoleAttribute</description>
             <type>RuleAttribute</type>
             <applicationId>KPME</applicationId>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>MissedPunchDataDictionarySearchableAttribute</name>
+            <className>org.kuali.rice.kns.workflow.attribute.DataDictionaryDocumentSearchCustomizer</className>
+            <label>Test Data Dictionary Searchable Attribute</label>
+            <description>DD searchable attribute for testing purposes</description>
+            <type>SearchableAttribute</type>
         </ruleAttribute>
     </ruleAttributes>
 	

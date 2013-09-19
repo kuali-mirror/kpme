@@ -28,10 +28,19 @@
 		<property name="documentClass" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument" />
         <property name="businessRulesClass" value="org.kuali.kpme.tklm.time.missedpunch.validation.MissedPunchDocumentRule" />
         <property name="documentAuthorizerClass" value="org.kuali.kpme.tklm.time.missedpunch.authorization.MissedPunchDocumentAuthorizer" />
-		<property name="attributes">
+        <property name="workflowAttributes">
+            <ref bean="MissedPunchDocument-workflowAttributes"/>
+        </property>
+        <property name="attributes">
 			<list>
 				<ref bean="MissedPunchDocument-documentNumber" />
 				<ref bean="MissedPunchDocument-tkMissedPunchId" />
+                <ref bean="MissedPunchDocument-department"/>
+                <ref bean="MissedPunchDocument-workArea"/>
+                <ref bean="MissedPunchDocument-jobNumber"/>
+                <ref bean="MissedPunchDocument-task"/>
+                <ref bean="MissedPunchDocument-missedPunch-timesheetDocumentId"/>
+                <ref bean="MissedPunchDocument-clockAction"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -44,6 +53,43 @@
                         </list>
                     </property>
                 </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="jobObj" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="jobNumber" p:targetName="jobNumber" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
+                                  p:targetName="principalId" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="workAreaObj" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea" p:targetName="workArea" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="department" p:targetName="dept" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="departmentObj" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="department" p:targetName="dept" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="taskObj" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="task" p:targetName="task" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
+                                  p:targetName="workArea" />
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
 	</bean>
@@ -53,7 +99,46 @@
     
     <bean id="MissedPunchDocument-tkMissedPunchId" parent="MissedPunchDocument-tkMissedPunchId-parentBean" />
     <bean id="MissedPunchDocument-tkMissedPunchId-parentBean" abstract="true" parent="MissedPunch-tkMissedPunchId" />
-    
+
+
+
+    <!-- these needed here?????? -->
+    <bean id="MissedPunchDocument-department" parent="MissedPunchDocument-department-parentBean" />
+    <bean id="MissedPunchDocument-department-parentBean" abstract="true" parent="MissedPunch-department"/>
+    <bean id="MissedPunchDocument-workArea" parent="MissedPunchDocument-workArea-parentBean" />
+    <bean id="MissedPunchDocument-workArea-parentBean" abstract="true" parent="MissedPunch-workArea"/>
+    <bean id="MissedPunchDocument-task" parent="MissedPunchDocument-task-parentBean" />
+    <bean id="MissedPunchDocument-task-parentBean" abstract="true" parent="MissedPunch-task"/>
+    <bean id="MissedPunchDocument-jobNumber" parent="MissedPunchDocument-jobNumber-parentBean" />
+    <bean id="MissedPunchDocument-jobNumber-parentBean" abstract="true" parent="MissedPunch-jobNumber"/>
+
+    <bean id="MissedPunchDocument-clockAction" parent="MissedPunchDocument-clockAction-parentBean" />
+    <bean id="MissedPunchDocument-clockAction-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="name" value="clockAction" />
+        <property name="label" value="Missed Clock Action" />
+        <property name="shortLabel" value="Missed Clock Action" />
+        <property name="maxLength" value="2" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="2" />
+        </property>
+        <!-- select box control seems to be broken for document search on rice 2.2/2.3 -->
+        <!--<property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kpme.tklm.time.missedpunch.MissedPunchClockActionKeyValuesFinder"
+                  p:includeKeyInLabel="false"/>
+        </property>-->
+    </bean>
+
+
+
+
+
+    <bean id="MissedPunchDocument-missedPunch-timesheetDocumentId" parent="MissedPunchDocument-missedPunch-timesheetDocumentId-parentBean" />
+    <bean id="MissedPunchDocument-missedPunch-timesheetDocumentId-parentBean" abstract="true" parent="MissedPunch-timesheetDocumentId">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="14" />
+        </property>
+    </bean>
     <!--  Document View -->
 
     <bean id="MissedPunch-DocumentView" parent="MissedPunch-DocumentView-parentBean" />
@@ -98,5 +183,107 @@
 			</bean>
 		</property>
     </bean>
-    
+
+    <!-- Workflow attributes. -->
+
+    <bean id="MissedPunchDocument-workflowAttributes" parent="MissedPunchDocument-workflowAttributes-parentBean"/>
+
+    <bean id="MissedPunchDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+        <property name="searchingTypeDefinitions">
+            <ref bean="MissedPunchDocument-searchingTypeDefinitions"/>
+        </property>
+    </bean>
+    <bean id="MissedPunchDocument-searchingTypeDefinitions" parent="MissedPunchDocument-searchingTypeDefinitions-parentBean"/>
+
+    <bean id="MissedPunchDocument-searchingTypeDefinitions-parentBean" abstract="true" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute"
+                                p:showAttributeInResultSet="true">
+                            <property name="businessObjectClassName" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument"/>
+                            <property name="attributeName" value="department"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>department</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute"
+                              p:showAttributeInResultSet="true">
+                            <property name="businessObjectClassName" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument"/>
+                            <property name="attributeName" value="workArea"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>workArea</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute"
+                              p:showAttributeInResultSet="true">
+                            <property name="businessObjectClassName" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunch"/>
+                            <property name="attributeName" value="timesheetDocumentId"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>timesheetDocumentId</value>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute"
+                              p:showAttributeInResultSet="true">
+                            <property name="businessObjectClassName" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument"/>
+                            <property name="attributeName" value="jobNumber"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>jobNumber</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute"
+                              p:showAttributeInResultSet="true">
+                            <property name="businessObjectClassName" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument"/>
+                            <property name="attributeName" value="task"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>task</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute"
+                              p:showAttributeInResultSet="true">
+                            <property name="businessObjectClassName" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument"/>
+                            <property name="attributeName" value="clockAction"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>clockAction</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 </beans>

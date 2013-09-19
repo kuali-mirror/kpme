@@ -24,8 +24,11 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.workarea.WorkArea;
@@ -57,6 +60,7 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
     private transient String personName;
 	private transient Job jobObj;
 	private transient WorkArea workAreaObj;
+    private transient Department departmentObj;
 	private transient Task taskObj;
     private transient LocalDate localDate;
     private transient LocalTime localTime;
@@ -284,6 +288,21 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
         } else {
             return StringUtils.EMPTY;
         }
+    }
 
+    public String getDepartment() {
+        if (getAssignmentKey() != null) {
+            Assignment a = HrServiceLocator.getAssignmentService().getAssignment(getPrincipalId(), AssignmentDescriptionKey.get(getAssignmentKey()), getActionFullDateTime().toLocalDate());
+            return a != null ? (a.getJob() != null ? a.getJob().getDept() : null) : null;
+        }
+        return null;
+    }
+
+    public Department getDepartmentObj() {
+        return departmentObj;
+    }
+
+    public void setDepartmentOjb(Department departmentObj) {
+        this.departmentObj = departmentObj;
     }
 }

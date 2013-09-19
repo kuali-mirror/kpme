@@ -38,6 +38,7 @@
 				<ref bean="MissedPunch-assignmentValue" />
                 <ref bean="MissedPunch-jobNumber" />
                 <ref bean="MissedPunch-workArea" />
+                <ref bean="MissedPunch-department"/>
                 <ref bean="MissedPunch-task" />
                 <ref bean="MissedPunch-actionDateTime" />
 				<ref bean="MissedPunch-actionDate" />
@@ -69,6 +70,16 @@
                             <bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea" p:targetName="workArea" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
 								p:targetName="effectiveDate" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="departmentObj" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="department" p:targetName="dept" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
                         </list>
                     </property>
                 </bean>
@@ -147,6 +158,9 @@
         <property name="controlField">
             <bean parent="Uif-TextControl" p:size="14" />
         </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="14" />
+        </property>
     </bean>
     
     <bean id="MissedPunch-assignmentKey" parent="MissedPunch-assignmentKey-parentBean" />
@@ -185,6 +199,9 @@
         <property name="controlField">
             <bean parent="Uif-TextControl" p:size="3" />
         </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
     </bean>
     
     <bean id="MissedPunch-workArea" parent="MissedPunch-workArea-parentBean" />
@@ -197,7 +214,11 @@
             <bean parent="NumericPatternConstraint" />
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10" />
+            <bean parent="Uif-TextControl" p:size="7" />
+        </property>
+        <!-- need this for custom doc search until krad rewrite -->
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="7" />
         </property>
     </bean>
 
@@ -212,6 +233,9 @@
         </property>
         <property name="controlField">
             <bean parent="Uif-TextControl" p:size="10" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10" />
         </property>
     </bean>
     
@@ -229,6 +253,26 @@
     <bean id="MissedPunch-relativeEffectiveDate" parent="MissedPunch-actionDate-parentBean" p:name="relativeEffectiveDate">
         <property name="controlField">
             <bean parent="Uif-DateControl" p:hidden="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+        </property>
+    </bean>
+
+    <bean id="MissedPunch-department" parent="MissedPunch-department-parentBean" />
+    <bean id="MissedPunch-department-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="department" />
+        <property name="label" value="Department" />
+        <property name="shortLabel" value="Department" />
+        <property name="forceUppercase" value="true" />
+        <property name="maxLength" value="21" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="21" />
         </property>
     </bean>
 	
@@ -320,6 +364,34 @@
 	        </list>
         </property>
     </bean> 
+
+
+    <!-- KNS Lookup :( -->
+    <!-- Look up Definitions -->
+    <bean id="MissedPunch-lookupDefinition" parent="MissedPunch-lookupDefinition-parentBean" />
+    <bean id="MissedPunch-lookupDefinition-parentBean" abstract="true"
+          parent="LookupDefinition">
+        <property name="lookupableID" value="missedPunchLookupable"></property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
+                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+                <bean parent="FieldDefinition" p:attributeName="principalId" />
+                <bean parent="FieldDefinition" p:attributeName="jobNumber"
+                      p:noDirectInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="department" />
+                <bean parent="FieldDefinition" p:attributeName="workArea" />
+                <bean parent="FieldDefinition" p:attributeName="hrJobId" />
+            </list>
+
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="tkMissedPunchId" />
+            </list>
+        </property>
+        <property name="title" value="MissedPunch Lookup" />
+    </bean>
 
     <!-- Lookup View -->
     <!-- We Use a custom Doc Search for Missed Punch Lookups -->
