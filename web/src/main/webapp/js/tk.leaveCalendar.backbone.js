@@ -459,6 +459,9 @@ $(function () {
             if ($('#docEditable').val() == 'false') {
                 return null;
             }
+            if(id.indexOf("noEditLeave") != -1) {
+				return null;
+			}
             if (_(e).parseEventKey().action == "leaveBlockDelete") {
                 return null;
             }
