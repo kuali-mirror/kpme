@@ -86,7 +86,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
                 		endOfFirstDay = endDt.withZone(zone);
                 		diffInMillis = endOfFirstDay.minus(beginDt.getMillis()).getMillis();
                 	} else {
-                        firstTimeBlock = createTimeBlock(timesheetDocument, beginDateTime, endDt, assignment, earnCode, hours, amount, false, getLunchDeleted, userPrincipalId);
+                        firstTimeBlock = createTimeBlock(timesheetDocument, beginDateTime, endDt, assignment, earnCode, hours, amount, getClockLogCreated, getLunchDeleted, userPrincipalId);
                         lstTimeBlocks.add(firstTimeBlock);                		
                 	}
                 } else {
@@ -108,7 +108,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         		(currTime.getDayOfWeek() == DateTimeConstants.SATURDAY || currTime.getDayOfWeek() == DateTimeConstants.SUNDAY)) {
         		// do nothing
         	} else {
-	            TimeBlock tb = createTimeBlock(timesheetDocument, currTime, currTime.plus(diffInMillis), assignment, earnCode, hours, amount, false, getLunchDeleted, userPrincipalId);
+	            TimeBlock tb = createTimeBlock(timesheetDocument, currTime, currTime.plus(diffInMillis), assignment, earnCode, hours, amount, getClockLogCreated, getLunchDeleted, userPrincipalId);
 	            lstTimeBlocks.add(tb);
         	}
         	currTime = currTime.plusDays(1);
