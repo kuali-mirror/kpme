@@ -147,20 +147,12 @@ public interface TKPermissionService {
 	 */
 	boolean isAuthorizedByTemplateInLocation(String principalId, String namespaceCode, String permissionTemplateName, String location, DateTime asOfDate);
 
-    //@Cacheable(value= TimeBlock.PERMISSIONS_CACHE_NAME,
-    //        key="'{canEditTimeBlock}' + 'principalId=' + #p0 + 'timeBlock=' + #p1?.getTkTimeBlockId()")
 	boolean canEditTimeBlock(String principalId, TimeBlock timeBlock);
 
-    //@Cacheable(value= TimeBlock.PERMISSIONS_CACHE_NAME,
-    //        key="'{canEditTimeBlockAllFields}' + 'principalId=' + #p0 + 'timeBlock=' + #p1?.getTkTimeBlockId()")
     boolean canEditTimeBlockAllFields(String principalId, TimeBlock timeBlock);
 
-    //@Cacheable(value= TimeBlock.PERMISSIONS_CACHE_NAME,
-    //        key="'{canDeleteTimeBlock}' + 'principalId=' + #p0 + 'timeBlock=' + #p1?.getTkTimeBlockId()")
     boolean canDeleteTimeBlock(String principalId, TimeBlock timeBlock);
 
-    //@Cacheable(value= TimeBlock.PERMISSIONS_CACHE_NAME,
-    //        key="'{canEditOvertimeEarnCode}' + 'principalId=' + #p0 + 'timeBlock=' + #p1?.getTkTimeBlockId()")
     boolean canEditOvertimeEarnCode(String principalId, TimeBlock timeBlock);
     
     /**

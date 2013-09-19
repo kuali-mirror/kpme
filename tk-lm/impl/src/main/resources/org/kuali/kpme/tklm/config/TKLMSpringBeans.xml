@@ -654,8 +654,8 @@
                 <idref local="leaveApprovalService"/>
                 <idref local="leaveRequestDocumentService"/>
                 <idref local="accrualCategoryMaxCarryOverService"/>
-                <idref local="tkPermissionService"/>
-                <idref local="lmPermissionService"/>
+                <!--<idref local="tkPermissionService"/>
+                <idref local="lmPermissionService"/>-->
                 <idref local="missedPunchService"/>
                 <idref local="deptLunchRuleService"/>
                 <idref local="systemLunchRuleService"/>
@@ -687,8 +687,6 @@
                 <idref local="leaveAdjustmentService"/>
                 <idref local="timeSummaryService"/>
                 <idref local="lmFactBuilderService"/>
-                <idref local="tkServiceLocator"/>
-                <idref local="lmServiceLocator"/>
                 <idref local="tkRuleControllerService"/>
                 <idref local="tkSearchableAttributeService"/>
                 <idref local="timeApproveService"/>

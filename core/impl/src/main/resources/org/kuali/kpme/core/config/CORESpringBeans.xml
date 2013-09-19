@@ -507,7 +507,7 @@
         <property name="beanNames">
             <list>
                 <idref local="payStepService"/>
-                <idref local="kpmeNotificationService"/>
+
                 <idref local="timezoneService"/>
                 <idref local="leavePlanService"/>
                 <idref local="accrualCategoryService"/>
@@ -529,11 +529,12 @@
                 <idref local="assignmentService"/>
                 <idref local="calendarBlockService"/>
                 <idref local="positionBaseService"/>
-                <idref local="calendarDocumentFactBuilderService"/>
-                <idref local="kpmeGroupService"/>
-                <idref local="hrPermissionService"/>
-                <idref local="kpmeRoleService" />
-                <idref local="workAreaRoleTypeService"/>
+                <!--<idref local="kpmeNotificationService"/>-->
+                <!--<idref local="calendarDocumentFactBuilderService"/>-->
+                <!--<idref local="kpmeGroupService"/>-->
+                <!--<idref local="hrPermissionService"/>-->
+                <!--<idref local="kpmeRoleService" />-->
+                <!--<idref local="workAreaRoleTypeService"/>-->
             </list>
         </property>
     </bean>
