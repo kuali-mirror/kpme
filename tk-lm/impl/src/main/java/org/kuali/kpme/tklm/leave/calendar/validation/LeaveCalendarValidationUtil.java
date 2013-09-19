@@ -83,7 +83,7 @@ public class LeaveCalendarValidationUtil {
 		    			lcf.getEndDate(), lcf.getLeaveAmount(), updatedLeaveBlock));
 		
 		        //KPME-2010
-		        if(StringUtils.equalsIgnoreCase(lcf.getSpanningWeeks(),"y")) {
+		        if(!StringUtils.equalsIgnoreCase(lcf.getSpanningWeeks(),"y")) {
 		        	errorMsgList.addAll(LeaveCalendarValidationUtil.validateSpanningWeeks(lcf.getSelectedEarnCode(),lcf.getStartDate(),lcf.getEndDate()));
 		        }
 	    	}
