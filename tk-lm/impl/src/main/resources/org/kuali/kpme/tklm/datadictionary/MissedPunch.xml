@@ -31,7 +31,7 @@
             <list>
                 <ref bean="MissedPunch-tkMissedPunchId" />
 				<ref bean="MissedPunch-principalId" />
-				<ref bean="MissedPunch-principalName" />
+				<!--<ref bean="MissedPunch-principalName" />-->
 				<ref bean="MissedPunch-personName" />
 				<ref bean="MissedPunch-timesheetDocumentId" />
 				<ref bean="MissedPunch-assignmentKey" />
@@ -51,6 +51,22 @@
 		</property>
         <property name="relationships">
             <list>
+                <bean parent="RelationshipDefinition" p:objectAttributeName="person">
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
+                                  p:targetName="principalId"/>
+                        </list>
+                    </property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:identifier="true"
+                                  p:sourceName="principalName" p:targetName="principalName"/>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="personName"
+                                  p:targetName="name"/>
+                        </list>
+                    </property>
+                </bean>
                 <bean parent="RelationshipDefinition">
                     <property name="objectAttributeName" value="jobObj" />
                     <property name="primitiveAttributes">
@@ -125,15 +141,15 @@
         </property>
     </bean>
 
-    <bean id="MissedPunch-principalName" parent="MissedPunch-principalName-parentBean"/>
+    <!--<bean id="MissedPunch-principalName" parent="MissedPunch-principalName-parentBean"/>
     <bean id="MissedPunch-principalName-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="principalName" />
         <property name="label" value="Principal Name" />
         <property name="shortLabel" value="principalName" />
-        <property name="controlField">
-            <bean parent="Uif-KimPersonControl" p:principalIdPropertyName="missedPunch.principalId" p:personNamePropertyName="missedPunch.personName" />
-        </property>
-    </bean>
+        &lt;!&ndash;<property name="controlField">
+            <bean parent="Uif-KimPersonControl" p:principalIdPropertyName="principalId" p:personNamePropertyName="person.personName" p:watermarkText="Name"/>
+        </property>&ndash;&gt;
+    </bean>-->
     
     <bean id="MissedPunch-personName" parent="MissedPunch-personName-parentBean"/>
     <bean id="MissedPunch-personName-parentBean" abstract="true" parent="AttributeDefinition">
@@ -403,7 +419,13 @@
         <property name="viewHelperServiceClass" value="org.kuali.kpme.tklm.time.missedpunch.web.MissedPunchLookupableImpl" />
         <property name="criteriaFields">
             <list>
-		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalName" />
+		        <bean parent="Uif-LookupCriteriaInputField"
+                      p:propertyName="principalName"
+                      p:label="Principal Name">
+                    <property name="control">
+                        <bean parent="Uif-KimPersonControl" p:principalIdPropertyName="principalId" p:personNamePropertyName="person.name" p:watermarkText="Name"/>
+                    </property>
+                </bean>
 		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="timesheetDocumentId">
 <!-- 	  				<property name="quickfinder">
 	  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader"

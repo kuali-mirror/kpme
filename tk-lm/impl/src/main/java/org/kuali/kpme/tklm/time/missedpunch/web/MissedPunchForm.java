@@ -56,5 +56,5 @@ public class MissedPunchForm extends TransactionalDocumentFormBase {
 	public void setMissedPunchSubmitted(boolean missedPunchSubmitted) {
 		this.missedPunchSubmitted = missedPunchSubmitted;
 	}
-	
+
 }

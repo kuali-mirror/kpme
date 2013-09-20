@@ -94,15 +94,14 @@
 
 	
 	<!-- Message Resources -->
-    <param name="core.rice.struts.message.resources">org.kuali.rice.krad.ApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.ApplicationResources,org.kuali.rice.kim.ApplicationResources,org.kuali.rice.krms.ApplicationResources,org.kuali.rice.core.web.cache.CacheApplicationResources</param>
+    <param name="core.rice.struts.message.resources">org.kuali.rice.krad.ApplicationResources,org.kuali.rice.krad.KRADApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.ApplicationResources,org.kuali.rice.kim.ApplicationResources,org.kuali.rice.krms.ApplicationResources,org.kuali.rice.core.web.cache.CacheApplicationResources</param>
     <param name="kpme.struts.message.resources">ApplicationResources</param>
-    <param name="rice.struts.message.resources">${core.rice.struts.message.resources}, ${kpme.struts.message.resources}</param>
+    <param name="rice.struts.message.resources">${core.rice.struts.message.resources},${kpme.struts.message.resources}</param>
 
    <!-- list of resource bundle names (full qualified classnames) for application messages (default namespace
    of KUALI), for messages associated with a namespace use the resourceBundleName configuration on the
    corresponding ModuleDefinition -->
- 	<param name="resourceBundleNames">org.kuali.rice.krad.KRADApplicationResources,org.kuali.rice.krad.ApplicationResources,org.kuali.rice.krms.ApplicationResources,ApplicationResources</param>
-
+ 	<param name="resourceBundleNames">org.kuali.rice.krad.KRADApplicationResources,org.kuali.rice.core.web.cache.CacheApplicationResources,org.kuali.rice.krad.ApplicationResources,org.kuali.rice.krms.ApplicationResources,ApplicationResources</param>
 
     <!-- KPME Client DB -->
     <param name="datasource.url" override="false">jdbc:mysql://localhost:3306/kpmedev</param>

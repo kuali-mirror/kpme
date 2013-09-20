@@ -35,7 +35,9 @@ import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunchContract;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -64,6 +66,7 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 	private transient Task taskObj;
     private transient LocalDate localDate;
     private transient LocalTime localTime;
+    private transient Person person;
 	
 	private transient boolean isAssignmentReadOnly;
 
@@ -210,8 +213,8 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 
 	public String getPrincipalName() {
 		if (StringUtils.isBlank(principalName) && StringUtils.isNotBlank(principalId)) {
-			EntityNamePrincipalName entityNamePrincipalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
-			return entityNamePrincipalName.getPrincipalName();
+			Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(principalId);
+            principalName = principal != null ? principal.getPrincipalName() : null;
 		}
 		
 		return principalName;
@@ -304,5 +307,13 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 
     public void setDepartmentOjb(Department departmentObj) {
         this.departmentObj = departmentObj;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }

@@ -40,6 +40,7 @@ import org.kuali.rice.krad.uif.UifConstants.WorkflowAction;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.DocumentControllerBase;
+import org.kuali.rice.krad.web.controller.TransactionalDocumentControllerBase;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.HistoryFlow;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -51,7 +52,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/missedPunch")
-public class MissedPunchDocumentController extends DocumentControllerBase {
+public class MissedPunchDocumentController extends TransactionalDocumentControllerBase {
 	
 	private transient SequenceAccessorService sequenceAccessorService;
 	
@@ -184,7 +185,10 @@ public class MissedPunchDocumentController extends DocumentControllerBase {
 	public ModelAndView back(@ModelAttribute("KualiForm") UifFormBase form,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
-		return super.back(form, result, request, response);
+        if (!StringUtils.contains(form.getReturnLocation(), "dataObjectClassName="+MissedPunch.class.getName())) {
+            form.setReturnLocation(UifConstants.NO_RETURN);
+        }
+        return super.back(form, result, request, response);
 	}
 
 }
