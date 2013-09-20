@@ -30,7 +30,7 @@
             <column name="DOC_TYP_ID" value="KPME0001"/>
             <column name="PARNT_ID" valueComputed="(select B.DOC_TYP_ID from KREW_DOC_TYP_T B where B.DOC_TYP_NM = 'RiceDocument' AND B.ACTV_IND = 1 AND B.CUR_IND = 1)"  />
             <column name="DOC_TYP_NM" value="KpmeDocument"/>
-            <column name="DOC_TYP_VER_NBR" value="0"/>
+            <column name="DOC_TYP_VER_NBR" value="3"/>
             <column name="ACTV_IND" value="1"/>
             <column name="CUR_IND" value="1"/>
             <column name="LBL" value="Base KPME Rule Document"/>
