@@ -47,15 +47,19 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -74,7 +78,6 @@ import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.kpme.tklm.leave.transfer.validation.BalanceTransferValidationUtils;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
-import org.kuali.kpme.tklm.time.detail.validation.TimeDetailValidationUtil;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -234,12 +237,28 @@ public class LeaveCalendarAction extends CalendarFormAction {
 	        	assignmentKeys.add(assignment.getAssignmentKey());
 	        }
 	        
+	        // use the logged in user's id to retrieve assignments so that approver can only see assignments they have permission to edit
+        	String loggedInUserId = HrContext.getPrincipalId();        	new ArrayList<Assignment>();
+        	DateTime asOfDate = calendarEntry.getBeginPeriodFullDateTime();
+        	// if user is working on his/her own calendar, use the original assignment list,
+        	// otherwise, call the method to make sure the user has permission for the assignments
+        	List<Assignment> loggedInUserassignments = loggedInUserId.equals(principalId) ? assignments : this.availableAssignmentsForLoggedUser(assignments, loggedInUserId, asOfDate);
+        	
+			List<String> loggedInUserAssignmentKeys = new ArrayList<String>();
+	        for (Assignment assignment : loggedInUserassignments) {
+	        	loggedInUserAssignmentKeys.add(assignment.getAssignmentKey());
+	        }
 	        if (leaveCalendarDocument != null) {
 	        	leaveCalendarForm.setLeaveCalendarDocument(leaveCalendarDocument);
 	        	leaveCalendarForm.setDocumentId(leaveCalendarDocument.getDocumentId());
-	        	leaveCalendarForm.setAssignmentDescriptions(leaveCalendarDocument.getAssignmentDescriptions());
+	        	List<Assignment> docAssignments = new ArrayList<Assignment>();
+	        	for(Assignment anAssignment : leaveCalendarDocument.getAssignments()) {
+	        		if(loggedInUserAssignmentKeys.contains(anAssignment.getAssignmentKey()))
+	        			docAssignments.add(anAssignment);
+	        	}
+	        	leaveCalendarForm.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(docAssignments));
 	        } else {
-	        	leaveCalendarForm.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments));
+	        	leaveCalendarForm.setAssignmentDescriptions(HrServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(loggedInUserassignments));
 	        }
 	        
 			if (HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithNEStatus()) {
@@ -265,6 +284,46 @@ public class LeaveCalendarAction extends CalendarFormAction {
         }
 
 		return actionForward;
+	}
+	
+	private List<Assignment> availableAssignmentsForLoggedUser(List<Assignment> fullAssignmentList, String principalId, DateTime asOfDate) {
+		List<Assignment> loggedInUserassignments = new ArrayList<Assignment>();
+		if(HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(principalId, asOfDate)
+				|| HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_SYSTEM_ADMINISTRATOR.getRoleName(), asOfDate)) {
+			loggedInUserassignments.addAll(fullAssignmentList);
+		} else {
+			for(Assignment anAssignment : fullAssignmentList) {
+				// if user has approver/approver delegates/reviewer roles to the workarea, then the user has access to the assignment
+				if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), anAssignment.getWorkArea(), asOfDate)
+			    	|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), anAssignment.getWorkArea(), asOfDate)
+			    	|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), anAssignment.getWorkArea(), asOfDate)) {
+					loggedInUserassignments.add(anAssignment);
+			    	continue;
+				}
+				Job aJob = anAssignment.getJob();
+				if(aJob != null) {
+					// Payroll Processor / Payroll Processor Delegate
+				    if(HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), aJob.getDept(), asOfDate)
+					    	|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), aJob.getDept(), asOfDate)) {
+				    	loggedInUserassignments.add(anAssignment);
+				    	continue;
+			        }
+				 // if user is location admin, then the user can access this assignment
+					// use job to find the department, then use the location from Department to get the location roles
+					Department aDept = aJob.getDeptObj();
+					if(aDept != null) {
+					    if(HrServiceLocator.getKPMERoleService()
+					    		.principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), aDept.getLocation(), asOfDate)
+					    	|| HrServiceLocator.getKPMERoleService()
+					    		.principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), aDept.getLocation(), asOfDate)) {
+					    	loggedInUserassignments.add(anAssignment);
+					    	continue;
+					    }
+					}
+				}				
+			}
+		}
+		return loggedInUserassignments;
 	}
 
 	public ActionForward addLeaveBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
