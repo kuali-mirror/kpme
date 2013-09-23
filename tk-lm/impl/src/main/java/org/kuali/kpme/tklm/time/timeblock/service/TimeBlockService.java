@@ -56,13 +56,16 @@ public interface TimeBlockService {
 	 * @param endDateTime
 	 * @param hours
      * @param amount
-	 * @param isClockLogCreated
-     * @param isLunchDeleted
+	 * @param getClockLogCreated
+     * @param getLunchDeleted
+     * @param clockLogBeginId
+     * @param clockLogEndId
 	 * @return
 	 */
 	public List<TimeBlock> buildTimeBlocks(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument,
 											DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount,
-                                            Boolean getClockLogCreated, Boolean getLunchDeleted, String userPrincipalId);
+                                            Boolean getClockLogCreated, Boolean getLunchDeleted, String userPrincipalId,
+                                            String clockLogBeginId, String clockLogEndId);
 	/**
 	 * Save a list of new TimeBlocks
 	 * does a comparison for the old versus the new and only saves changed/new/deleted TimeBlocks
@@ -117,7 +120,8 @@ public interface TimeBlockService {
 	 */
 	public List<TimeBlock> buildTimeBlocksSpanDates(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument,
 												DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount,
-                                                Boolean getClockLogCreated, Boolean getLunchDeleted, String spanningWeeks, String userPrincipalId);
+                                                Boolean getClockLogCreated, Boolean getLunchDeleted, String spanningWeeks, String userPrincipalId,
+                                                String clockLogBeginId, String clockLogEndId);
 	/**
 	 * Create a TimeBlock for the given criteria
 	 * @param timesheetDocument

@@ -258,7 +258,8 @@ public class TkTestUtils {
 			DateTime ci = start.plusDays(i);
 			DateTime co = ci.plusHours(hours.intValue());
 
-			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, ci, co, hours, amount, false, false, principalId));
+			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, ci, co, hours, amount,
+                    false, false, principalId, null, null));
 		}
 
 		return blocks;

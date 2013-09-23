@@ -228,14 +228,10 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         // Add TimeBlocks after we store our reference object!
         List<TimeBlock> blocks = getTimeBlockService().buildTimeBlocks(
                 currentAssignment, earnCode, tdoc, beginDateTime,
-                endDateTime, BigDecimal.ZERO, BigDecimal.ZERO, true, false, HrContext.getPrincipalId());
+                endDateTime, BigDecimal.ZERO, BigDecimal.ZERO, true, false, HrContext.getPrincipalId(),
+                beginClockLog != null ? beginClockLog.getTkClockLogId() : null,
+                endClockLog != null ? endClockLog.getTkClockLogId() : null);
 
-
-        // Add the clock log IDs to the time blocks that were just created.
-        for (TimeBlock block : blocks) {
-            block.setClockLogBeginId(beginClockLog != null ? beginClockLog.getTkClockLogId() : null);
-            block.setClockLogEndId(endClockLog != null ? endClockLog.getTkClockLogId() : null);
-        }
 
         newTimeBlocks.addAll(blocks);
 

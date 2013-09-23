@@ -507,7 +507,10 @@ public class TimeDetailAction extends TimesheetAction {
 	// add/update time blocks
 	private void changeTimeBlocks(TimeDetailActionForm tdaf) {
 		boolean isClockLogCreated = false;
+        String clockLogBeginId = null;
+        String clockLogEndId = null;
         tdaf.getDocumentId();
+
         
         // This is for updating a timeblock or changing
         // If tkTimeBlockId is not null and the new timeblock is valid, delete the existing timeblock and a new one will be created after submitting the form.
@@ -515,6 +518,8 @@ public class TimeDetailAction extends TimesheetAction {
             TimeBlock tb = TkServiceLocator.getTimeBlockService().getTimeBlock(tdaf.getTkTimeBlockId());
             if (tb != null) {
 	            isClockLogCreated = tb.getClockLogCreated();
+                clockLogBeginId = tb.getClockLogBeginId();
+                clockLogEndId = tb.getClockLogEndId();
             }
         }
 
@@ -555,12 +560,14 @@ public class TimeDetailAction extends TimesheetAction {
 
             timeBlocksToAdd = TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(currentAssignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
-                    endTime, tdaf.getHours(), tdaf.getAmount(), isClockLogCreated, Boolean.parseBoolean(tdaf.getLunchDeleted()), tdaf.getSpanningWeeks(), HrContext.getPrincipalId());
+                    endTime, tdaf.getHours(), tdaf.getAmount(), isClockLogCreated, Boolean.parseBoolean(tdaf.getLunchDeleted()),
+                    tdaf.getSpanningWeeks(), HrContext.getPrincipalId(), clockLogBeginId, clockLogEndId);
            
         } else {
             timeBlocksToAdd = TkServiceLocator.getTimeBlockService().buildTimeBlocks(currentAssignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
-                    endTime, tdaf.getHours(), tdaf.getAmount(), isClockLogCreated, Boolean.parseBoolean(tdaf.getLunchDeleted()), HrContext.getPrincipalId());
+                    endTime, tdaf.getHours(), tdaf.getAmount(), isClockLogCreated, Boolean.parseBoolean(tdaf.getLunchDeleted()),
+                    HrContext.getPrincipalId(), clockLogBeginId, clockLogEndId);
         }
         
         TimeBlock existingTimeBlock = null;

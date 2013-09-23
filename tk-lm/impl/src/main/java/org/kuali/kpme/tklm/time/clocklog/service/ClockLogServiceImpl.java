@@ -112,11 +112,10 @@ public class ClockLogServiceImpl implements ClockLogService {
 	        }
 	
 	        // Add TimeBlocks after we store our reference object!
-	        List<TimeBlock> aList = TkServiceLocator.getTimeBlockService().buildTimeBlocks(currentAssignment, currentAssignment.getJob().getPayTypeObj().getRegEarnCode(), td, beginDateTime, endDateTime, BigDecimal.ZERO, BigDecimal.ZERO, true, false, userPrincipalId);
-	        for (TimeBlock tb : aList) {
-	            tb.setClockLogBeginId(beginClockLogId);
-	            tb.setClockLogEndId(endClockLogId);
-	        }
+	        List<TimeBlock> aList = TkServiceLocator.getTimeBlockService().buildTimeBlocks(currentAssignment,
+                    currentAssignment.getJob().getPayTypeObj().getRegEarnCode(), td, beginDateTime, endDateTime,
+                    BigDecimal.ZERO, BigDecimal.ZERO, true, false, userPrincipalId, beginClockLogId, endClockLogId);
+
 	        newTimeBlocks.addAll(aList);
 	        
 	        List<Assignment> assignments = td.getAssignments();
