@@ -26,10 +26,12 @@ import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.cache.CacheUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.LMConstants;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
@@ -316,7 +318,10 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 					leaveBlocks.add(aLeaveBlock);
 				}
 			}
-
+			//Need to re-load leave blocks to ensure those created here are included on the ee's calendar and leave/time summary
+			//when they return to that page. If they are not re-loaded, their adjustments won't be taken into consideration
+			//when determining payout eligibility, possibly prompting them to submit the payout again.
+			CacheUtils.flushCache(TkConstants.CacheNamespace.NAMESPACE_PREFIX+"LeaveBlock");
 			return leavePayout;
 		}
 	}
@@ -324,6 +329,9 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 	@Override
 	public void submitToWorkflow(LeavePayout leavePayout)
 			throws WorkflowException {
+		
+		leavePayout = payout(leavePayout);
+		
 		//leavePayout.setStatus(HrConstants.ROUTE_STATUS.ENROUTE);
         EntityNamePrincipalName principalName = null;
         if (leavePayout.getPrincipalId() != null) {
@@ -350,6 +358,9 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 		lpObj.setPrincipalId(leavePayout.getPrincipalId());
 		lpObj.setEarnCode(leavePayout.getEarnCode());
 		lpObj.setPayoutAmount(leavePayout.getPayoutAmount());
+		lpObj.setPayoutLeaveBlockId(leavePayout.getPayoutLeaveBlockId());
+		lpObj.setForfeitedLeaveBlockId(leavePayout.getForfeitedLeaveBlockId());
+		lpObj.setPayoutFromLeaveBlockId(leavePayout.getPayoutFromLeaveBlockId());
 		lpObj.setDocumentHeaderId(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
 		
 		document.getNewMaintainableObject().setDataObject(lpObj);

@@ -87,7 +87,7 @@ public class BalanceTransferMaintainableImpl extends
 	            try {
 	                MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
 	
-	                balanceTransfer = LmServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
+	                //balanceTransfer = LmServiceLocator.getBalanceTransferService().transfer(balanceTransfer); transfer now occurs prior to workflow submission
 	                md.getNewMaintainableObject().setDataObject(balanceTransfer);
 	                documentService.saveDocument(md);
 	            }

@@ -15,18 +15,23 @@
  */
 package org.kuali.kpme.tklm.leave.transfer;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 
+import junit.framework.Assert;
+
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
@@ -34,6 +39,9 @@ import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 @IntegrationTest
@@ -465,8 +473,16 @@ public class BalanceTransferServiceTest extends TKLMIntegrationTestCase {
 	//TODO: write tests for adjusted max balance cases - i.e. FTE < 1, employee override's w/ type MAX_BALANCE
 
 	@Test
-	public void testSubmitToWorkflow() {
-		assertNull(null);
+	public void testSubmitToWorkflow() throws Exception {
+		BalanceTransfer balanceTransfer = new BalanceTransfer();
+		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
+		LeaveSummaryRow aRow = summary.getLeaveSummaryRowForAccrualCategory(YE_XFER);
+		LocalDate effectiveDate = janStart.plusDays(3);
+		balanceTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(USER_ID, YE_XFER, aRow.getAccruedBalance(), effectiveDate);
+		String workflowDocId = LmServiceLocator.getBalanceTransferService().submitToWorkflow(balanceTransfer);
+		assertNotNull("transfer document should have a workflow id", workflowDocId);
+		DocumentStatus docStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(workflowDocId);
+		assertTrue("doc status should be enroute", StringUtils.equals(docStatus.getCode(),"R"));
 	}
 
 }

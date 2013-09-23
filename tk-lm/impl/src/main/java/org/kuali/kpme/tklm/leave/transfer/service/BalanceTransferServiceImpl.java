@@ -27,10 +27,12 @@ import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.cache.CacheUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.LMConstants;
+import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
@@ -326,7 +328,9 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					leaveBlocks.add(aLeaveBlock);
 				}
 			}
-
+			//These leave blocks MUST be present when the calendar / leave summary is reloaded.
+			//If not, employees will re-directed again to transfer a balance and their calendar will not be submitted.
+			CacheUtils.flushCache(TkConstants.CacheNamespace.NAMESPACE_PREFIX+"LeaveBlock");
 			return balanceTransfer;
 		}
 	}
@@ -340,9 +344,11 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 	}
 
 	@Override
-	public void submitToWorkflow(BalanceTransfer balanceTransfer)
+	public String submitToWorkflow(BalanceTransfer balanceTransfer)
 			throws WorkflowException {
-		
+
+		balanceTransfer = transfer(balanceTransfer);
+
 		//balanceTransfer.setStatus(HrConstants.ROUTE_STATUS.ENROUTE);
         EntityNamePrincipalName principalName = null;
         if (balanceTransfer.getPrincipalId() != null) {
@@ -372,6 +378,9 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		btObj.setAmountTransferred(balanceTransfer.getAmountTransferred());
 		btObj.setLeaveCalendarDocumentId(balanceTransfer.getLeaveCalendarDocumentId());
 		btObj.setSstoId(balanceTransfer.getSstoId());
+		btObj.setDebitedLeaveBlockId(balanceTransfer.getDebitedLeaveBlockId());
+		btObj.setAccruedLeaveBlockId(balanceTransfer.getAccruedLeaveBlockId());
+		btObj.setForfeitedLeaveBlockId(balanceTransfer.getForfeitedLeaveBlockId());
 		btObj.setDocumentHeaderId(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
 /*        LmServiceLocator.getBalanceTransferService().saveOrUpdate(btObj);
 		document.getNewMaintainableObject().setDataObject(btObj);*/
@@ -380,6 +389,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 
 		document.getDocumentHeader().getWorkflowDocument().route("");
 		
+		return document.getDocumentHeader().getDocumentNumber();
 	}
 	
 	@Override

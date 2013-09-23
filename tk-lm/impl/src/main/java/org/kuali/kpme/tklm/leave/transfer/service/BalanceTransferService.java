@@ -73,7 +73,7 @@ public interface BalanceTransferService {
 	 */
 /*	public Map<String,ArrayList<String>> getEligibleTransfers(CalendarEntry calendarEntry, String principalId) throws Exception;
 */	
-	public void submitToWorkflow(BalanceTransfer balanceTransfer) throws WorkflowException;
+	public String submitToWorkflow(BalanceTransfer balanceTransfer) throws WorkflowException;
 	
 	/**
 	 * transfer system scheduled time off
