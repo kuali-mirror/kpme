@@ -54,16 +54,6 @@
                     </property>
                 </bean>
                 <bean parent="RelationshipDefinition">
-                    <property name="objectAttributeName" value="jobObj" />
-                    <property name="primitiveAttributes">
-                        <list>
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="jobNumber" p:targetName="jobNumber" />
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
-                                  p:targetName="principalId" />
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="RelationshipDefinition">
                     <property name="objectAttributeName" value="workAreaObj" />
                     <property name="primitiveAttributes">
                         <list>
@@ -249,21 +239,6 @@
                     <property name="documentValues">
                         <list>
                             <value>timesheetDocumentId</value>
-                        </list>
-                    </property>
-                </bean>
-
-                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
-                    <property name="searchingAttribute">
-                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute"
-                              p:showAttributeInResultSet="true">
-                            <property name="businessObjectClassName" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument"/>
-                            <property name="attributeName" value="jobNumber"/>
-                        </bean>
-                    </property>
-                    <property name="documentValues">
-                        <list>
-                            <value>jobNumber</value>
                         </list>
                     </property>
                 </bean>
