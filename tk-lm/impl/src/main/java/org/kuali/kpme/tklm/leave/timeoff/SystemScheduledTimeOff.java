@@ -26,6 +26,7 @@ import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.timeoff.SystemScheduledTimeOffContract;
 import org.kuali.kpme.tklm.common.TkConstants;
 
@@ -155,7 +156,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 	}
 
 	public BigDecimal getAmountofTime() {
-		return amountofTime;
+		return amountofTime != null ? amountofTime.setScale(HrConstants.BIG_DECIMAL_SCALE) : null;
 	}
 
 	public void setAmountofTime(BigDecimal amountofTime) {
@@ -171,7 +172,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 	}
 
 	public BigDecimal getTransferConversionFactor() {
-		return transferConversionFactor;
+		return transferConversionFactor != null ? transferConversionFactor.setScale(HrConstants.BIG_DECIMAL_SCALE) : null;
 	}
 
 	public void setTransferConversionFactor(BigDecimal transferConversionFactor) {
