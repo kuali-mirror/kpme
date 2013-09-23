@@ -459,6 +459,7 @@ $(function () {
             if ($('#docEditable').val() == 'false') {
                 return null;
             }
+            var id = (e.target || e.srcElement).id;
             if(id.indexOf("noEditLeave") != -1) {
 				return null;
 			}
