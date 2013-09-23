@@ -264,14 +264,26 @@ public class AccrualServiceImpl implements AccrualService {
 						continue;
 					}
 					
+					//Fetch the accrual rate based on rate range for today(Rate range is the accumulated list of jobs and accrual rate for today)
+					BigDecimal accrualRate = currentAcRule.getAccrualRate();
+					int numberOfWorkDays = this.getWorkDaysInInterval(currentDate, anAC.getAccrualEarnInterval(), phra.getPayCalendar(), rrAggregate.getCalEntryMap());
+					BigDecimal dayRate = numberOfWorkDays > 0 ? accrualRate.divide(new BigDecimal(numberOfWorkDays), 6, BigDecimal.ROUND_HALF_UP) : new BigDecimal(0);
+					
+					// the full fte of this period is granted, no need to calculate the accrual, but need to calculate the adjusted hours
+					if(fullFteGranted) {
+						//get not eligible for accrual hours based on leave block on this day
+						BigDecimal noAccrualHours = getNotEligibleForAccrualHours(principalId, currentDate.toLocalDate());
+						if(noAccrualHours != null && noAccrualHours.compareTo(BigDecimal.ZERO) != 0 && totalOfStandardHours.compareTo(BigDecimal.ZERO) != 0) {
+							BigDecimal dayHours = totalOfStandardHours.divide(new BigDecimal(5), 6, BigDecimal.ROUND_HALF_UP);
+							BigDecimal noAccrualRate = dayRate.multiply(noAccrualHours.divide(dayHours));
+							this.calculateHours(anAC.getLmAccrualCategoryId(), ftePercentage, noAccrualRate, accumulatedAccrualCatToNegativeAccrualAmounts);
+						}
+					}
+					
 					// only accrual on work days
 					if(!TKUtils.isWeekend(currentDate) && !fullFteGranted) {
-						BigDecimal accrualRate = currentAcRule.getAccrualRate();
-						int numberOfWorkDays = this.getWorkDaysInInterval(currentDate, anAC.getAccrualEarnInterval(), phra.getPayCalendar(), rrAggregate.getCalEntryMap());
-						BigDecimal dayRate = numberOfWorkDays > 0 ? accrualRate.divide(new BigDecimal(numberOfWorkDays), 6, BigDecimal.ROUND_HALF_UP) : new BigDecimal(0);
-						//Fetch the accural rate based on rate range for today(Rate range is the accumulated list of jobs and accrual rate for today)
 						//Add to total accumulatedAccrualCatToAccrualAmounts
-						//use rule and ftePercentage to calculate the hours						
+						//use rule and ftePercentage to calculate the hours				
 						this.calculateHours(anAC.getLmAccrualCategoryId(), ftePercentage, dayRate, accumulatedAccrualCatToAccrualAmounts);
 						
 						//get not eligible for accrual hours based on leave block on this day
