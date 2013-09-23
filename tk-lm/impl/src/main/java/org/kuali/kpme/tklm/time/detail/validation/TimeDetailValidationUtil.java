@@ -35,6 +35,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.tklm.common.CalendarValidationUtil;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
@@ -47,9 +48,11 @@ import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class TimeDetailValidationUtil {
+public class TimeDetailValidationUtil extends CalendarValidationUtil {
 
     public static List<String> validateLeaveEntry(TimeDetailActionFormBase tdaf) throws Exception {
+    	// This validator could be shared between LeaveCalendarValidationUtil and TimeDetailValidationUtil
+    	// if the common parameters required by both are moved to a shared parent of TimeDetailActionFormBase and LeaveCalendarForm.
     	List<String> errorMsgList = new ArrayList<String>();
     	CalendarEntry payCalendarEntry = tdaf.getCalendarEntry();
     	if(ObjectUtils.isNotNull(payCalendarEntry)) {
@@ -57,12 +60,17 @@ public class TimeDetailValidationUtil {
 			if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
 				lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(tdaf.getLmLeaveBlockId());
 			}
-			errorMsgList.addAll(validateEarnCode(tdaf.getSelectedEarnCode(),tdaf.getStartDate(),tdaf.getEndDate()));
+			errorMsgList.addAll(CalendarValidationUtil.validateEarnCode(tdaf.getSelectedEarnCode(),tdaf.getStartDate(),tdaf.getEndDate()));
 			if(errorMsgList.isEmpty()) {
-				LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(tdaf.getPrincipalId(), TKUtils.formatDateString(tdaf.getEndDate()));
+				LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(HrContext.getTargetPrincipalId(), TKUtils.formatDateString(tdaf.getEndDate()));
 				// Validate LeaveBlock timings and all that
-				errorMsgList.addAll(LeaveCalendarValidationUtil.validateParametersForLeaveEntry(tdaf.getSelectedEarnCode(), payCalendarEntry,
-						tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getStartTime(), tdaf.getEndTime(), tdaf.getSelectedAssignment(), tdaf.getLmLeaveBlockId()));
+				/**
+				 * In all cases, TIME, AMOUNT, HOUR, DAY, we should validate usage and balance limits. But depending on earn code record method, the derivation of requested
+				 * leave amount varies. It can be derived from endTime - startTime, or vary by units.
+				 * 
+				 * TimeDetailValidationUtil.validateLeaveParametersByEarnCodeRecordMethod offers a form of organization for these validations.
+				 */
+				errorMsgList.addAll(TimeDetailValidationUtil.validateLeaveParametersByEarnCodeRecordMethod(tdaf));
 				errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalanceForUsage(tdaf.getSelectedEarnCode(), 
 						tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
 				//Validate leave block does not exceed max usage. Leave Calendar Validators at this point rely on a leave summary.
@@ -75,6 +83,30 @@ public class TimeDetailValidationUtil {
 		return errorMsgList;
     }
     
+    public static List<String> validateLeaveParametersByEarnCodeRecordMethod(TimeDetailActionFormBase lcf) {
+    	List<String> errors = new ArrayList<String>();
+    	if (StringUtils.isNotBlank(lcf.getSelectedEarnCode()) &&  lcf.getCalendarEntry() != null) {
+    		//earn code is validate through the span of the leave entry, could the earn code's record method change between then and the leave period end date?
+    		//Why not use endDateS to retrieve the earn code?
+    		CalendarEntry calendarEntry = lcf.getCalendarEntry();
+    		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(lcf.getSelectedEarnCode(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
+    		if(earnCode != null) {
+    			if(earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
+    		    	return LeaveCalendarValidationUtil.validateTimeParametersForLeaveEntry(earnCode, lcf.getCalendarEntry(), lcf.getStartDate(), lcf.getEndDate(), lcf.getStartTime(), lcf.getEndTime(), lcf.getSelectedAssignment(), lcf.getLmLeaveBlockId(), lcf.getSpanningWeeks());
+    			}
+    			else if (earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_AMOUNT)) {
+    		    	return validateAmountParametersForLeaveEntry(earnCode, lcf.getCalendarEntry(), lcf.getStartDate(), lcf.getEndDate(), lcf.getSelectedAssignment(), lcf.getLmLeaveBlockId());
+    			}
+    			else if (earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_HOUR)) {
+    		    	return validateHourParametersForLeaveEntry(earnCode, lcf.getCalendarEntry(), lcf.getStartDate(), lcf.getEndDate(), lcf.getSelectedAssignment(), lcf.getLmLeaveBlockId());
+    			}
+    			else if (earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_DAY)) {
+    		    	return validateDayParametersForLeaveEntry(earnCode, lcf.getCalendarEntry(), lcf.getStartDate(), lcf.getEndDate(), lcf.getSelectedAssignment(), lcf.getLmLeaveBlockId());
+    			}
+    		}
+    	}
+    	return errors;
+    }
 	 /**
      * Validate the earn code exists on every day within the date rage
      * @param earnCode
@@ -83,6 +115,7 @@ public class TimeDetailValidationUtil {
      *
      * @return A list of error strings.
      */
+    @Deprecated
     public static List<String> validateEarnCode(String earnCode, String startDateString, String endDateString) {
     	List<String> errors = new ArrayList<String>();
 
@@ -138,11 +171,10 @@ public class TimeDetailValidationUtil {
         }
         boolean isTimeRecordMethod = earnCode != null && StringUtils.equalsIgnoreCase(earnCode.getRecordMethod(), HrConstants.EARN_CODE_TIME);
 
-        errors.addAll(TimeDetailValidationUtil.validateDates(startDateS, endDateS));
-
+        errors.addAll(CalendarValidationUtil.validateDates(startDateS, endDateS));
 
         if (isTimeRecordMethod) {
-            errors.addAll(TimeDetailValidationUtil.validateTimes(startTimeS, endTimeS));
+            errors.addAll(CalendarValidationUtil.validateTimes(startTimeS, endTimeS));
         }
         if (errors.size() > 0) return errors;
 
@@ -156,7 +188,7 @@ public class TimeDetailValidationUtil {
         startTime = TKUtils.convertDateStringToDateTimeWithoutZone(startDateS, startTimeS).getMillis();
         endTime = TKUtils.convertDateStringToDateTimeWithoutZone(endDateS, endTimeS).getMillis();
 
-        errors.addAll(validateInterval(payCalEntry, startTime, endTime));
+        errors.addAll(CalendarValidationUtil.validateInterval(payCalEntry, startTime, endTime));
         if (errors.size() > 0) return errors;
 
         if (isTimeRecordMethod) {
@@ -209,7 +241,10 @@ public class TimeDetailValidationUtil {
         // -------------------------------
         // check if there is a weekend day when the include weekends flag is checked
         //--------------------------------
-        errors.addAll(validateSpanningWeeks(spanningWeeks, startTemp, endTemp));
+        //KPME-2010
+        if(!spanningWeeks) {
+        	errors.addAll(validateSpanningWeeks(startTemp,endTemp));
+        }
         if (errors.size() > 0) return errors;
 
         //------------------------
@@ -383,25 +418,48 @@ public class TimeDetailValidationUtil {
 
         return errors;
     }
-
+    
+    /*
+     * Moving to CalendarValidationUtil
+     * @param startDateS
+     * @param endDateS
+     * @return
+     */
+    @Deprecated
     public static List<String> validateDates(String startDateS, String endDateS) {
         List<String> errors = new ArrayList<String>();
         if (errors.size() == 0 && StringUtils.isEmpty(startDateS)) errors.add("The start date is blank.");
         if (errors.size() == 0 && StringUtils.isEmpty(endDateS)) errors.add("The end date is blank.");
         return errors;
     }
-
+    
+    /*
+     * Moving to CalendarValidationUtil
+     * @param startTimeS
+     * @param endTimeS
+     * @return
+     */
+    @Deprecated
     public static List<String> validateTimes(String startTimeS, String endTimeS) {
         List<String> errors = new ArrayList<String>();
         if (errors.size() == 0 && startTimeS == null) errors.add("The start time is blank.");
         if (errors.size() == 0 && endTimeS == null) errors.add("The end time is blank.");
         return errors;
     }
-
+    
+    /*
+     * Moving to CalendarValidationUtil
+     * @param payCalEntry
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @Deprecated
     public static List<String> validateInterval(CalendarEntry payCalEntry, Long startTime, Long endTime) {
         List<String> errors = new ArrayList<String>();
         LocalDateTime pcb_ldt = payCalEntry.getBeginPeriodLocalDateTime();
         LocalDateTime pce_ldt = payCalEntry.getEndPeriodLocalDateTime();
+
         DateTime p_cal_b_dt = pcb_ldt.toDateTime();
         DateTime p_cal_e_dt = pce_ldt.toDateTime();
 
@@ -414,8 +472,10 @@ public class TimeDetailValidationUtil {
         }
         return errors;
     }
-    
+
     // KPME-1446
+    // Moving to CalendarValidationUtil
+    @Deprecated
     public static List<String> validateSpanningWeeks(boolean spanningWeeks, DateTime startTemp, DateTime endTemp) {
     	List<String> errors = new ArrayList<String>();
     	
@@ -434,4 +494,5 @@ public class TimeDetailValidationUtil {
     	
     	return errors;
     }
+
 }

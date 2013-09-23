@@ -238,7 +238,7 @@ $(function () {
                         $('#approval').val($('#approval').is(':checked') ? 'y' : 'n');  // KPME-2540
                         isValid = self.validateLeaveBlock();
                         if (!_.isEmpty($("#leaveBlockId").val())) {
-                        	$('#methodToCall').val(CONSTANTS.ACTIONS.UPDATE_LEAVE_BLOCK);	
+                        	$('#methodToCall').val(CONSTANTS.ACTIONS.UPDATE_LEAVE_BLOCK);
                         } else {
                         	$("#methodToCall").val(CONSTANTS.ACTIONS.ADD_LEAVE_BLOCK);
                         }
@@ -829,6 +829,14 @@ $(function () {
             	return false;
             }
             return true;
+        },
+        
+        checkNegativeValue : function (o, n) {
+        	if (o.val() < 0) {
+        		this.displayErrorMessages(n, o);
+        		return false;
+        	}
+        	return true;
         },
 
         displayErrorMessages : function (t, object) {

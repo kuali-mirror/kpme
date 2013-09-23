@@ -36,7 +36,6 @@ public class MissedPunchDocumentAuthorizer extends TransactionalDocumentAuthoriz
     @Override
     public boolean canSendAdHocRequests(Document document, String actionRequestCd, Person user) {
         return false;
-    }
-	
+    }	
 
 }
