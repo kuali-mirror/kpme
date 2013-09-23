@@ -71,7 +71,6 @@ public class MissedPunchDocumentTest extends KPMEWebTestCase {
 
 		assertTrue("lookup page should contain Timesheet Id field",lookupPage.asText().contains("Timesheet Document Id"));
 		assertTrue("lookup page should contain Work Area",lookupPage.asText().contains("Work Area"));
-		assertTrue("lookup page should contain Job Number",lookupPage.asText().contains("Job Number"));
 		assertTrue("lookup page should contain Task",lookupPage.asText().contains("Task"));
 		assertTrue("lookup page should contain Clock Action",lookupPage.asText().contains("Clock Action"));
 		
