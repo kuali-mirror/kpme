@@ -213,10 +213,11 @@
         </ruleAttribute>
         <ruleAttribute>
             <name>MissedPunchDataDictionarySearchableAttribute</name>
-            <className>org.kuali.rice.kns.workflow.attribute.DataDictionaryDocumentSearchCustomizer</className>
+            <className>{http://kpme.kuali.org/tklm/v2_0}missedPunchDocSearchCustomizer</className>
             <label>Test Data Dictionary Searchable Attribute</label>
             <description>DD searchable attribute for testing purposes</description>
             <type>SearchableAttribute</type>
+            <applicationId>KPME</applicationId>
         </ruleAttribute>
     </ruleAttributes>
 	

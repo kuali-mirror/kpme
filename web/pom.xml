@@ -28,6 +28,10 @@
     <packaging>war</packaging>
     <dependencies>
         <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+        </dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>kpme-core-impl</artifactId>
             <version>${project.version}</version>

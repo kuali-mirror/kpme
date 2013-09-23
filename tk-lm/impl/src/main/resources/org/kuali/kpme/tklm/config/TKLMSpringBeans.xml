@@ -275,6 +275,17 @@
         <property name="tkRuleControllerService" ref="tkRuleControllerService" />
     </bean>
 
+    <bean id="missedPunchDocSearchCustomizer" class="org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchDocSearchCustomizer"/>
+    <bean id="missedPunchDocSearchCustomizer.exporter" parent="kpme.tklm.callback.service"
+          p:callbackService-ref="missedPunchDocSearchCustomizer"
+          p:localServiceName="missedPunchDocSearchCustomizer"
+          p:serviceInterface="org.kuali.rice.kew.framework.document.search.DocumentSearchCustomizer" />
+
+    <bean id="kpme.tklm.callback.service" class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" abstract="true">
+        <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/tklm/v2_0" />
+        <property name="serviceBus" ref="rice.ksb.import.serviceBus" />
+    </bean>
+
     <bean id="deptLunchRuleService" class="org.kuali.kpme.tklm.time.rules.lunch.department.service.DepartmentLunchRuleServiceImpl">
         <property name="deptLunchRuleDao" ref="deptLunchRuleDao"/>
     </bean>
