@@ -114,12 +114,12 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	//Transfer to accrual category should match the value defined in the accrual category rule
 	private boolean validateTransferToAccrualCategory(AccrualCategory accrualCategory, String principalId, LocalDate effectiveDate, AccrualCategoryRule acr, String toAccrualCategory, boolean isSomeAdmin) {
 		boolean isValid = true;
-		if(accrualCategory != null && !isSomeAdmin) {
+		if(accrualCategory != null) {
 			if(acr != null) {
 				//processCustomRouteDocumentBusinessRule will provide the invalidation on system triggered transfers
 				//if the accrual category rule is null, i.o.w. this code block should never be reached when acr is null on sys triggered transfers.
 				AccrualCategory maxBalTranToAccCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(acr.getMaxBalanceTransferToAccrualCategory(),effectiveDate);
-				if(!StringUtils.equals(maxBalTranToAccCat.getLmAccrualCategoryId(),accrualCategory.getLmAccrualCategoryId())) {
+				if(!StringUtils.equals(maxBalTranToAccCat.getLmAccrualCategoryId(),accrualCategory.getLmAccrualCategoryId()) && !isSomeAdmin) {
 					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.toAccrualCategory", "balanceTransfer.toAccrualCategory.noMatch",accrualCategory.getAccrualCategory());
 					isValid &= false;
 				}
