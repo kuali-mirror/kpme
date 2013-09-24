@@ -388,7 +388,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
 		
 		// call accrual service if earn code is not eligible for accrual
 		if(calendarEntry != null) {
-			this.rerunAccrualForNotEligibleForAccrualChanges(selectedEarnCode, endDate.toLocalDate(), calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
+			this.rerunAccrualForNotEligibleForAccrualChanges(selectedEarnCode, null, endDate.toLocalDate(), calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 		 }
 		// recalculate summary
 		if (calendarEntry != null) {
@@ -458,7 +458,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
         	
 		    // recalculate accruals
 		    if(lcf.getCalendarEntry() != null) {
-		    	rerunAccrualForNotEligibleForAccrualChanges(blockToDelete.getEarnCode(), blockToDelete.getLeaveLocalDate(), calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
+		    	rerunAccrualForNotEligibleForAccrualChanges(blockToDelete.getEarnCode(), null, blockToDelete.getLeaveLocalDate(), calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 		    }	
         }
 		// recalculate summary
@@ -674,16 +674,22 @@ public class LeaveCalendarAction extends CalendarFormAction {
     }
 	
 	/**
-	 * Recalculate accrual when a leave block with not-eligible-for-accrual earn code is added or deleted
+	 * Recalculate accrual when a leave block with not-eligible-for-accrual earn code is added/deleted/updated
 	 * calculate accrual only for the calendar entry period
 	 * @param earnCode
+	 * @param previousEarnCode
 	 * @param asOfDate
 	 * @param startDate
 	 * @param endDate
 	 */
-	private void rerunAccrualForNotEligibleForAccrualChanges(String earnCode, LocalDate asOfDate, LocalDate startDate, LocalDate endDate) {
+	private void rerunAccrualForNotEligibleForAccrualChanges(String earnCode, String previousEarnCode, LocalDate asOfDate, LocalDate startDate, LocalDate endDate) {
 		EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
-		if(ec != null && ec.getEligibleForAccrual().equals("N")) {
+		EarnCode previousEc = null;
+		if(StringUtils.isNotBlank(previousEarnCode)) {
+			previousEc = HrServiceLocator.getEarnCodeService().getEarnCode(previousEarnCode, asOfDate);
+		}
+		if((ec != null && ec.getEligibleForAccrual().equals("N"))
+				|| (previousEc != null && previousEc.getEligibleForAccrual().equals("N")) ) {
 			if(startDate != null && endDate != null) {
 				// since we are only recalculating accrual for this pay period, we use "false" to not record the accrual run data
 				LmServiceLocator.getLeaveAccrualService().runAccrual(HrContext.getTargetPrincipalId(), startDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay(), false);
@@ -707,6 +713,10 @@ public class LeaveCalendarAction extends CalendarFormAction {
 		
 		LeaveBlock updatedLeaveBlock = null;
 		updatedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
+		String previousEarnCode = null;
+		if(updatedLeaveBlock != null) {
+			previousEarnCode = updatedLeaveBlock.getEarnCode();
+		}
 		
 		//KPME-2832: validate leave entry prior to save. 
 		//This duplicates validation done on submissions that went through LeaveCalendarWSAction, i.e. typical leave calendar transactions.
@@ -755,6 +765,8 @@ public class LeaveCalendarAction extends CalendarFormAction {
     		if(lcf.getCalendarEntry() != null) {
     			LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
     		    lcf.setLeaveSummary(ls);
+    		    // call accrual service if earn code is not eligible for accrual
+    		    this.rerunAccrualForNotEligibleForAccrualChanges(selectedEarnCode, previousEarnCode, TKUtils.formatDateTimeStringNoTimezone(lcf.getEndDate()).toLocalDate(), calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
     		}
     		
     		// KPME-2540 replicate submitForApproval method in LeaveRequestAction here

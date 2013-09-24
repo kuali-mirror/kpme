@@ -411,7 +411,7 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
 
 				if(oldAmount!=null) {
 					if(!earnCodeChanged ||
-							updatedLeaveBlock.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
+							(updatedLeaveBlock.getAccrualCategory() != null && updatedLeaveBlock.getAccrualCategory().equals(accrualCategory.getAccrualCategory()))) {
 						availableBalance = availableBalance.add(oldAmount.abs());
 					}
 				}
