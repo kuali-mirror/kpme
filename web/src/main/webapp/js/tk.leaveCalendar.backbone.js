@@ -273,9 +273,9 @@ $(function () {
             
             // for pending leave request blocks, show dates as read only
             if(leaveBlock.get("requestStatus") == "R") {
-		         $('#startDate').attr('disabled', 'disabled');
+		         $('#startDate').attr('readOnly', 'true');
 		         $('#startDate').datepicker("destroy");
-		         $('#endDate').attr('disabled', 'disabled');
+		         $('#endDate').attr('readOnly', 'true');
 		         $('#endDate').datepicker("destroy");
             }
             
