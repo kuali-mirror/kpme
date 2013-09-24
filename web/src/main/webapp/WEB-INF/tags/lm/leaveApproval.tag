@@ -33,7 +33,7 @@
 	          <c:if test="${not empty row.documentId }">
 	           <c:choose>
 	         <c:when test="${row.exemptEmployee}">
-	        	Doc Id: <a href="changeTargetPerson.do?${row.userTargetURLParams}&targetUrl=LeaveCalendar.do%3FdocumentId=${row.documentId}&returnUrl=LeaveApproval.do%3FselectedPayCalendarGroup=${Form.selectedPayCalendarGroup}%26selectedDept=${Form.selectedDept}%26selectedWorkArea=${Form.selectedWorkArea}">${row.documentId}</a>
+	        	Doc Id: <a href="changeTargetPerson.do?${row.userTargetURLParams}&targetUrl=LeaveCalendar.do%3FdocumentId=${row.documentId}&returnUrl=LeaveApproval.do%3FselectedPayCalendarGroup=${Form.selectedPayCalendarGroup}%26selectedPayPeriod=${Form.selectedPayPeriod}%26selectedDept=${Form.selectedDept}%26selectedWorkArea=${Form.selectedWorkArea}">${row.documentId}</a>
 	         </c:when>
 	         <c:otherwise>
 	         	<c:out value="Non-Exempt Employee"/>
@@ -113,7 +113,7 @@
 	  	
         <display:column title="Leave Summary" sortable="true" sortName="documentId" style=" width:70%">
         	<%-- render Leave summary --%>
-            <c:if test="${not empty row.weeklyDistribution }">
+            <c:if test="${not empty row.weeklyDistribution}">
              	 <lm:leaveApprovalWeekSummary leaveApprovalWeekSummary="${row}" principalId="${row.principalId}" earnCodeLeaveHours="${row.earnCodeLeaveHours}"/>
             </c:if>
 			 
