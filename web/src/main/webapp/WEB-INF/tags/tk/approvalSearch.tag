@@ -47,6 +47,8 @@ the id is used in approval.js--%>
                     <span id='loading-value' style="display:none;"><img src='images/ajax-loader.gif'></span>
                     <input type="button" id='search' value="Search" class="ui-button ui-widget ui-state-default ui-corner-all" 
                            onclick="this.form.methodToCall.value='searchResult'; this.form.submit();" name="searchResult" />
+                    <input type="button" id='reset' value="Reset" class="ui-button ui-widget ui-state-default ui-corner-all" 
+                   		   onclick="this.form.methodToCall.value='resetSearch'; this.form.submit();" name="resetSearch" />
                 </label>
             </td>
             <td>

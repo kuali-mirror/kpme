@@ -182,6 +182,13 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 		return mapping.findForward("basic");
 	}
 	
+	public ActionForward resetSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		TimeApprovalActionForm timeApprovalActionForm = (TimeApprovalActionForm) form;
+		timeApprovalActionForm.setSearchField("");
+		timeApprovalActionForm.setSearchTerm("");
+		return mapping.findForward("basic");
+	}
+	
     private List<String> getPrincipalIds(TimeApprovalActionForm timeApprovalActionForm) {
         List<String> workAreas = new ArrayList<String>();
         if (StringUtil.isEmpty(timeApprovalActionForm.getSelectedWorkArea())) {

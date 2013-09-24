@@ -187,6 +187,14 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 		return mapping.findForward("basic");
 	}
 	
+	public ActionForward resetSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
+		leaveApprovalActionForm.setSearchField("");
+		leaveApprovalActionForm.setSearchTerm("");
+			
+		return mapping.findForward("basic");
+	}
+	
 	protected List<String> getPrincipalIds(LeaveApprovalActionForm leaveApprovalActionForm) {
         List<String> workAreas = new ArrayList<String>();
         if (StringUtil.isEmpty(leaveApprovalActionForm.getSelectedWorkArea())) {
