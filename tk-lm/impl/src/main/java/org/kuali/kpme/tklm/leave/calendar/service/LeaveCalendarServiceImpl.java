@@ -170,6 +170,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 	    			LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), batchUserPrincipalId);
 	    		} else if (StringUtils.equals(leaveBlock.getRequestStatus(), HrConstants.REQUEST_STATUS.REQUESTED)) {
 	    	        if (StringUtils.equals(getInitiateLeaveRequestAction(), LMConstants.INITIATE_LEAVE_REQUEST_ACTION_OPTIONS.DELETE)) {
+                        LmServiceLocator.getLeaveRequestDocumentService().suCancelLeave(
+                                leaveBlock.getLeaveRequestDocumentId(), batchUserPrincipalId);
 	    	        	LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), batchUserPrincipalId);
 	    	        } else if (StringUtils.equals(getInitiateLeaveRequestAction(), LMConstants.INITIATE_LEAVE_REQUEST_ACTION_OPTIONS.APPROVE)) {
 	    	        	List<LeaveRequestDocument> leaveRequestDocuments = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(leaveBlock.getLmLeaveBlockId());

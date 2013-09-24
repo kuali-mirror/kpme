@@ -173,7 +173,14 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         DocumentActionParameters parameters = DocumentActionParameters.create(documentId, principalId);
         docActionService.superUserBlanketApprove(parameters, true);
     }
-   
+
+    @Override
+    public void suCancelLeave(String documentId, String principalId) {
+        WorkflowDocumentActionsService docActionService = KewApiServiceLocator.getWorkflowDocumentActionsService();
+        DocumentActionParameters parameters = DocumentActionParameters.create(documentId, principalId);
+        docActionService.superUserCancel(parameters, true);
+    }
+
     public LeaveRequestDocumentDao getLeaveRequestDocumentDao() {
         return leaveRequestDocumentDao;
     }

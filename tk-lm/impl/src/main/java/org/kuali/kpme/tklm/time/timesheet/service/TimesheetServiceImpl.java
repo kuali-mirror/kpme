@@ -239,7 +239,9 @@ public class TimesheetServiceImpl implements TimesheetService {
 	
 	    	for (LeaveBlock leaveBlock : leaveBlocks) {
 	    		if (!StringUtils.equals(leaveBlock.getRequestStatus(), HrConstants.REQUEST_STATUS.APPROVED)) {
-	    			LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), batchUserPrincipalId);
+                    LmServiceLocator.getLeaveRequestDocumentService().suCancelLeave(
+                            leaveBlock.getLeaveRequestDocumentId(), batchUserPrincipalId);
+                    LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), batchUserPrincipalId);
 	    		}
 	    	}
         } else {
