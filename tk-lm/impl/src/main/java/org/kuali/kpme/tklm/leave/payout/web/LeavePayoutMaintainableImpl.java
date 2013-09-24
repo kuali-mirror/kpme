@@ -78,7 +78,7 @@ public class LeavePayoutMaintainableImpl extends
             try {
                 MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
 
-                //payout = LmServiceLocator.getLeavePayoutService().payout(payout); payout now occurs prior to submitting to workflow.
+                payout = LmServiceLocator.getLeavePayoutService().payout(payout);
                 md.getNewMaintainableObject().setDataObject(payout);
                 documentService.saveDocument(md);
             }

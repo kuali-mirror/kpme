@@ -45,6 +45,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -227,7 +228,6 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			return null;
 //			throw new RuntimeException("did not supply a valid BalanceTransfer object.");
 		} else {
-			List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 			BigDecimal transferAmount = balanceTransfer.getTransferAmount();
 			LeaveBlock aLeaveBlock = null;
 
@@ -252,14 +252,9 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					//Want to store the newly created leave block id on this maintainable object
 					//when the status of the maintenance document encapsulating this maintainable changes
 					//the id will be used to fetch and update the leave block statuses.
-					aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
+					aLeaveBlock = LmServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock, GlobalVariables.getUserSession().getPrincipalId());
 
 					balanceTransfer.setAccruedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
-					// save history
-					LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
-					lbh.setAction(HrConstants.ACTION.ADD);
-					LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
-					leaveBlocks.add(aLeaveBlock);
 				}
 			}
 
@@ -283,15 +278,9 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					//Want to store the newly created leave block id on this maintainable object.
 					//when the status of the maintenance document encapsulating this maintainable changes
 					//the id will be used to fetch and update the leave block statuses.
-					aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
+					aLeaveBlock = LmServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock, GlobalVariables.getUserSession().getPrincipalId());
 
 					balanceTransfer.setDebitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
-					// save history
-					LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
-					lbh.setAction(HrConstants.ACTION.ADD);
-					LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
-
-					leaveBlocks.add(aLeaveBlock);
 				}
 			}
 
@@ -317,20 +306,11 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					//Want to store the newly created leave block id on this maintainable object
 					//when the status of the maintenance document encapsulating this maintainable changes
 					//the id will be used to fetch and update the leave block statuses.
-					aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
-
+					
+					aLeaveBlock = LmServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock, GlobalVariables.getUserSession().getPrincipalId());
 					balanceTransfer.setForfeitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
-					// save history
-					LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
-					lbh.setAction(HrConstants.ACTION.ADD);
-					LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
-
-					leaveBlocks.add(aLeaveBlock);
 				}
 			}
-			//These leave blocks MUST be present when the calendar / leave summary is reloaded.
-			//If not, employees will re-directed again to transfer a balance and their calendar will not be submitted.
-			CacheUtils.flushCache(TkConstants.CacheNamespace.NAMESPACE_PREFIX+"LeaveBlock");
 			return balanceTransfer;
 		}
 	}
@@ -346,8 +326,6 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 	@Override
 	public String submitToWorkflow(BalanceTransfer balanceTransfer)
 			throws WorkflowException {
-
-		balanceTransfer = transfer(balanceTransfer);
 
 		//balanceTransfer.setStatus(HrConstants.ROUTE_STATUS.ENROUTE);
         EntityNamePrincipalName principalName = null;
@@ -378,9 +356,6 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		btObj.setAmountTransferred(balanceTransfer.getAmountTransferred());
 		btObj.setLeaveCalendarDocumentId(balanceTransfer.getLeaveCalendarDocumentId());
 		btObj.setSstoId(balanceTransfer.getSstoId());
-		btObj.setDebitedLeaveBlockId(balanceTransfer.getDebitedLeaveBlockId());
-		btObj.setAccruedLeaveBlockId(balanceTransfer.getAccruedLeaveBlockId());
-		btObj.setForfeitedLeaveBlockId(balanceTransfer.getForfeitedLeaveBlockId());
 		btObj.setDocumentHeaderId(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
 /*        LmServiceLocator.getBalanceTransferService().saveOrUpdate(btObj);
 		document.getNewMaintainableObject().setDataObject(btObj);*/

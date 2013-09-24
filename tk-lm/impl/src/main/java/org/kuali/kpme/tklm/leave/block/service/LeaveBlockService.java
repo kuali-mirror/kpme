@@ -52,14 +52,14 @@ public interface LeaveBlockService {
     public Map<String, LeaveBlock> getLastCarryOverBlocks(String principalId, LocalDate asOfDate);
     
     @CacheEvict(value={LeaveBlock.CACHE_NAME}, allEntries = true)
-    public void saveLeaveBlocks(List<LeaveBlock> leaveBlocks);
+    public List<LeaveBlock> saveLeaveBlocks(List<LeaveBlock> leaveBlocks);
 
     @CacheEvict(value={LeaveBlock.CACHE_NAME}, allEntries = true)
     @Caching(evict = {
             @CacheEvict(value={LeaveBlock.CACHE_NAME}, allEntries = true),
             @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, key="#p0.blockId")
     })
-    public void saveLeaveBlock(LeaveBlock leaveBlock, String principalId);
+    public LeaveBlock saveLeaveBlock(LeaveBlock leaveBlock, String principalId);
 
     /**
      * The deletion marks the leave block inactive instead of removing the row from the database.

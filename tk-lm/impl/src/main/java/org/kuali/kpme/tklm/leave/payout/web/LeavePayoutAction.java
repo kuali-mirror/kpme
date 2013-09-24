@@ -109,7 +109,7 @@ public class LeavePayoutAction extends KPMEAction {
 				LeaveCalendarDocument lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
 				calendarEntry = lcd == null ? null : lcd.getCalendarEntry();
 				strutsActionForward = "leaveCalendarPayoutSuccess";
-				methodToCall = "approveLeaveCalendar";    
+				methodToCall = "approveLeaveCalendar";
 			}
 			
 			if(ObjectUtils.isNull(calendarEntry)) {

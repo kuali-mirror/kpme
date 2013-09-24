@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.leave.block.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,7 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class LeaveBlockServiceImpl implements LeaveBlockService {
@@ -103,8 +105,10 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
     @Override
-    public void saveLeaveBlocks(List<LeaveBlock> leaveBlocks) {
-    	KRADServiceLocator.getBusinessObjectService().save(leaveBlocks);
+    public List<LeaveBlock> saveLeaveBlocks(List<LeaveBlock> leaveBlocks) {
+    	List<LeaveBlock> savedLeaveBlocks = new ArrayList<LeaveBlock>();
+    	
+    	Collection<LeaveBlock> savedObjects = (Collection<LeaveBlock>) KRADServiceLocator.getBusinessObjectService().save(leaveBlocks);
     	
     	List<LeaveBlockHistory> leaveBlockHistories = new ArrayList<LeaveBlockHistory>();
         for (LeaveBlock leaveBlock : leaveBlocks) {
@@ -115,6 +119,10 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         }
         
         KRADServiceLocator.getBusinessObjectService().save(leaveBlockHistories);
+        
+        savedLeaveBlocks.addAll(savedObjects);
+        
+        return savedLeaveBlocks;
     }
 
     @Override
@@ -140,8 +148,8 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
     @Override
-    public void saveLeaveBlock(LeaveBlock leaveBlock, String principalId) {
-
+    public LeaveBlock saveLeaveBlock(LeaveBlock leaveBlock, String principalId) {
+    	LeaveBlock savedLeaveBlock = null;
     	// first delete and create new entry in the database
     	KRADServiceLocator.getBusinessObjectService().delete(leaveBlock);
     	
@@ -149,13 +157,13 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         leaveBlock.setLmLeaveBlockId(null);
     	leaveBlock.setTimestamp(TKUtils.getCurrentTimestamp());
     	leaveBlock.setPrincipalIdModified(principalId);
-    	KRADServiceLocator.getBusinessObjectService().save(leaveBlock);
+    	savedLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(leaveBlock);
 
         // save history
         LeaveBlockHistory lbh = new LeaveBlockHistory(leaveBlock);
         lbh.setAction(HrConstants.ACTION.MODIFIED);
         LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
-        
+        return savedLeaveBlock;
     }
 
     @Override

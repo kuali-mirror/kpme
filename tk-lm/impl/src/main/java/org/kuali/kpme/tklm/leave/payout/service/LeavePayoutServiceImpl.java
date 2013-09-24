@@ -45,6 +45,7 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -246,14 +247,9 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 					//Want to store the newly created leave block id on this maintainable object
 					//when the status of the maintenance document encapsulating this maintainable changes
 					//the id will be used to fetch and update the leave block statuses.
-			    	aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
+					aLeaveBlock = LmServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock, GlobalVariables.getUserSession().getPrincipalId());
 
 			    	leavePayout.setPayoutLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
-			        // save history
-			        LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
-			        lbh.setAction(HrConstants.ACTION.ADD);
-			        LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
-					leaveBlocks.add(aLeaveBlock);
 					
 					//Create leave block that removes the correct transfer amount from the originating accrual category.
 					aLeaveBlock = new LeaveBlock();
@@ -273,15 +269,9 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 					//Want to store the newly created leave block id on this maintainable object.
 					//when the status of the maintenance document encapsulating this maintainable changes
 					//the id will be used to fetch and update the leave block statuses.
-			    	aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
+					aLeaveBlock = LmServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock, GlobalVariables.getUserSession().getPrincipalId());
 
 			    	leavePayout.setPayoutFromLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
-			        // save history
-			        lbh = new LeaveBlockHistory(aLeaveBlock);
-			        lbh.setAction(HrConstants.ACTION.ADD);
-			        LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
-					
-					leaveBlocks.add(aLeaveBlock);
 				}
 			}
 			
@@ -307,21 +297,11 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 					//Want to store the newly created leave block id on this maintainable object
 					//when the status of the maintenance document encapsulating this maintainable changes
 					//the id will be used to fetch and update the leave block statuses.
-			    	aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
+					aLeaveBlock = LmServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock, GlobalVariables.getUserSession().getPrincipalId());
 
 			    	leavePayout.setForfeitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
-			        // save history
-			        LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
-			        lbh.setAction(HrConstants.ACTION.ADD);
-			        LmServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
-					
-					leaveBlocks.add(aLeaveBlock);
 				}
 			}
-			//Need to re-load leave blocks to ensure those created here are included on the ee's calendar and leave/time summary
-			//when they return to that page. If they are not re-loaded, their adjustments won't be taken into consideration
-			//when determining payout eligibility, possibly prompting them to submit the payout again.
-			CacheUtils.flushCache(TkConstants.CacheNamespace.NAMESPACE_PREFIX+"LeaveBlock");
 			return leavePayout;
 		}
 	}
@@ -329,8 +309,6 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 	@Override
 	public void submitToWorkflow(LeavePayout leavePayout)
 			throws WorkflowException {
-		
-		leavePayout = payout(leavePayout);
 		
 		//leavePayout.setStatus(HrConstants.ROUTE_STATUS.ENROUTE);
         EntityNamePrincipalName principalName = null;
@@ -358,9 +336,6 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 		lpObj.setPrincipalId(leavePayout.getPrincipalId());
 		lpObj.setEarnCode(leavePayout.getEarnCode());
 		lpObj.setPayoutAmount(leavePayout.getPayoutAmount());
-		lpObj.setPayoutLeaveBlockId(leavePayout.getPayoutLeaveBlockId());
-		lpObj.setForfeitedLeaveBlockId(leavePayout.getForfeitedLeaveBlockId());
-		lpObj.setPayoutFromLeaveBlockId(leavePayout.getPayoutFromLeaveBlockId());
 		lpObj.setDocumentHeaderId(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
 		
 		document.getNewMaintainableObject().setDataObject(lpObj);

@@ -112,9 +112,9 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	}
 	
 	//Transfer to accrual category should match the value defined in the accrual category rule
-	private boolean validateTransferToAccrualCategory(AccrualCategory accrualCategory, String principalId, LocalDate effectiveDate, AccrualCategoryRule acr, String toAccrualCategory) {
+	private boolean validateTransferToAccrualCategory(AccrualCategory accrualCategory, String principalId, LocalDate effectiveDate, AccrualCategoryRule acr, String toAccrualCategory, boolean isSomeAdmin) {
 		boolean isValid = true;
-		if(accrualCategory != null) {
+		if(accrualCategory != null && !isSomeAdmin) {
 			if(acr != null) {
 				//processCustomRouteDocumentBusinessRule will provide the invalidation on system triggered transfers
 				//if the accrual category rule is null, i.o.w. this code block should never be reached when acr is null on sys triggered transfers.
@@ -221,14 +221,17 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 				AccrualCategory toCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
 				PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
 				
+				// TODO Check for role in specific dept / location
 				boolean isDeptAdmin = TkContext.isDepartmentAdmin();
 				boolean isSysAdmin = HrContext.isSystemAdmin();
+				boolean isLocAdmin = TkContext.isLocationAdmin();
+				
 				if(ObjectUtils.isNotNull(pha)) {
-					if(isDeptAdmin || isSysAdmin) {
+					if(isDeptAdmin || isSysAdmin || isLocAdmin) {
 						isValid &= validateLeavePlan(pha,fromCat,toCat,effectiveDate);
 						isValid &= validatePrincipal(pha,principalId);
 						isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,null,fromAccrualCategory);
-						isValid &= validateTransferToAccrualCategory(toCat,principalId,effectiveDate,null,toAccrualCategory);
+						isValid &= validateTransferToAccrualCategory(toCat,principalId,effectiveDate,null,toAccrualCategory,true);
 						isValid &= validateTransferAmount(balanceTransfer.getTransferAmount(),fromCat,toCat, principalId, effectiveDate);
 					}
 					else {
@@ -244,7 +247,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 										isValid &= validateEffectiveDate(effectiveDate);
 										isValid &= validateLeavePlan(pha,fromCat,toCat,effectiveDate);
 										isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,acr,fromAccrualCategory);
-										isValid &= validateTransferToAccrualCategory(toCat,principalId,effectiveDate,acr,toAccrualCategory);
+										isValid &= validateTransferToAccrualCategory(toCat,principalId,effectiveDate,acr,toAccrualCategory,false);
 										isValid &= validateTransferAmount(balanceTransfer.getTransferAmount(),fromCat,toCat, null, null);
 										isValid &= isTransferAmountUnderMaxLimit(principalId,effectiveDate,fromAccrualCategory,balanceTransfer.getTransferAmount(),acr,pha.getLeavePlan());
 									}
