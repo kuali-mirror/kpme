@@ -111,7 +111,7 @@ public class LeaveCalendar extends CalendarParent implements LeaveCalendarContra
                if (HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithNEStatus()) {
 	               TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveDate.toDateTimeAtStartOfDay());
 	               if (tdh != null) {
-	            	   if (DateUtils.isSameDay(leaveDate.toDate(), tdh.getEndDate()) || leaveDate.isAfter(LocalDate.fromDateFields(tdh.getEndDate()))) {
+	            	   if (DateUtils.isSameDay(leaveDate.toDate(),tdh.getBeginDate()) || leaveDate.isAfter(LocalDate.fromDateFields(tdh.getEndDate()))) {
 	            		   leaveCalendarDay.setDayEditable(true);
 	            	   }
 	               } else {
