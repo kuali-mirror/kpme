@@ -25,7 +25,7 @@
               	<td style="border-right-style: none">
 					            	
 	              	<c:set var="weekString" value="${fn:replace(entry.key, ' ', '')}" />
-	              	<c:if test="${not empty leaveApprovalWeekSummary.documentId and leaveApprovalWeekSummary.enableWeekDetails[entry.key]}">
+	              	<c:if test="${ leaveApprovalWeekSummary.enableWeekDetails[entry.key]}">
 			            <div class="ui-state-default ui-corner-all" style="float:left;">
 			                <span id="showLeaveDetail_${weekString}_${principalId}" class="ui-icon ui-icon-plus rowInfo"></span>
 			            </div>

@@ -47,6 +47,7 @@ import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.approval.web.ApprovalLeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
@@ -55,6 +56,7 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -109,10 +111,31 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 			}
 			
 			List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, payBeginDate.toLocalDate(), payEndDate.toLocalDate());
-			
 			if(aDoc != null ){
-				Map<Integer, String> weeklyDistribution = getWeekHeadersForSummary(aDoc,payCalendarEntry,aRow.getWeekDates(), aRow.getWeekDateList(), aRow.getDetailMap(), aRow.getEnableWeekDetails());
+				Map<Integer, String> weeklyDistribution = getWeekHeadersForSummary(principalId,aDoc,payCalendarEntry,aRow.getWeekDates(), aRow.getWeekDateList(), aRow.getDetailMap(), aRow.getEnableWeekDetails());
 				aRow.setWeeklyDistribution(weeklyDistribution);
+			}else {
+											
+				if (payCalendarEntry != null) {
+					try{
+						LeaveCalendarDocument leaveCalendarDocument = null;	
+					if (LmServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(principalId, payCalendarEntry)) {
+						leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(principalId, payCalendarEntry);
+					} else {
+						 aDoc = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, payCalendarEntry.getBeginPeriodFullDateTime(), payCalendarEntry.getEndPeriodFullDateTime());
+						if (aDoc != null) {
+							leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(aDoc.getDocumentId());
+						}
+					}
+					
+					} catch (WorkflowException e) {
+			    		e.printStackTrace();
+			    	}
+		    	}	
+				
+				 Map<Integer, String> weeklyDistribution = getWeekHeadersForSummary(principalId,aDoc,payCalendarEntry,aRow.getWeekDates(), aRow.getWeekDateList(), aRow.getDetailMap(), aRow.getEnableWeekDetails());
+				 aRow.setWeeklyDistribution(weeklyDistribution);
+				
 			}
 			
             aRow.setLeaveBlockList(leaveBlocks);
@@ -152,7 +175,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
         return cal;
     }
 
-	private Map<Integer, String> getWeekHeadersForSummary(LeaveCalendarDocumentHeader lcdh,CalendarEntry cal, Map<String, String> weekDates, Map<String, Set<Date>> weekDateList, Map<String,List<Map<String, Object>>> weekDetailMap, Map<String,Boolean> enableWeekDetails) {
+	private Map<Integer, String> getWeekHeadersForSummary(String principalId,LeaveCalendarDocumentHeader lcdh,CalendarEntry cal, Map<String, String> weekDates, Map<String, Set<Date>> weekDateList, Map<String,List<Map<String, Object>>> weekDetailMap, Map<String,Boolean> enableWeekDetails) {
         
 		Map<Integer, String> header = new LinkedHashMap<Integer,String>();                
         header.put(DateTimeConstants.SUNDAY, "Sun");
@@ -257,10 +280,11 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
         	if (cnt == weekDateList.size()) {
         		ed = endDate;
         	}
-	        List<Map<String, Object>> detailMap = this.getLeaveApprovalDetailSections(lcdh,sd.toDateTime(), ed.toDateTime(), new ArrayList<Date>(dateList), key, enableWeekDetails);
+	        List<Map<String, Object>> detailMap = this.getLeaveApprovalDetailSections(principalId, lcdh,sd.toDateTime(), ed.toDateTime(), new ArrayList<Date>(dateList), key, enableWeekDetails);
 	        weekDetailMap.put(key, detailMap);
 	        cnt++;
         }
+               
         return header;
     }
 	
@@ -402,11 +426,11 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 		return acRows;
 	}
 
-	public List<Map<String, Object>> getLeaveApprovalDetailSections(LeaveCalendarDocumentHeader lcdh,DateTime beginDate, DateTime endDate, List<Date> leaveSummaryDates, String week, Map<String,Boolean> enableWeekDetails)  {
+	public List<Map<String, Object>> getLeaveApprovalDetailSections(String principalId, LeaveCalendarDocumentHeader lcdh,DateTime beginDate, DateTime endDate, List<Date> leaveSummaryDates, String week, Map<String,Boolean> enableWeekDetails)  {
 		List<Map<String, Object>> acRows = new ArrayList<Map<String, Object>>();
-		String principalId = lcdh.getPrincipalId();
+		
 		 
-        CalendarEntry calendarEntry = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcdh.getDocumentId()).getCalendarEntry();
+        //CalendarEntry calendarEntry = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcdh.getDocumentId()).getCalendarEntry();
 		//CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(lcdh.getBeginDate(), lcdh.getEndDate());
 			LeaveSummary leaveSummary;
 			PrincipalHRAttributes pha; 
