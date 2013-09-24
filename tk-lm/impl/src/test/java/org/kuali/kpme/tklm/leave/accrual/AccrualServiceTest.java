@@ -654,8 +654,8 @@ public class AccrualServiceTest extends TKLMIntegrationTestCase {
 	@Test
 	/* testUser7's service date is 2012-03-10
 	 * testUser7 has two leave blocks scheduled on 04/26/2012 for 2 hours and 05/08/2012 for 5 hours, they both are NOT eligible for accrual
-	 * testUser7 has one leave block scheduled on 05/22/1012 of 8 horus, it's eligible for accrual
-	 * testUser7 has one leave block scheduled on 06/12/1012 of 15 horus, it's NOT eligible for accrual
+	 * testUser7 has one leave block scheduled on 05/22/1012 of 8 hours, it's eligible for accrual
+	 * testUser7 has one leave block scheduled on 06/12/1012 of 15 hours, it's NOT eligible for accrual
 	 * testUser7 has one accrual category rule of 32 hours of accrual rate, two jobs are eligible for leave with total of 40 standard hours
 	 * run accrual for testUser7 for 5 months
 	 */
@@ -704,18 +704,19 @@ public class AccrualServiceTest extends TKLMIntegrationTestCase {
 		 }
 		 
 		 //06/30/2012
+		 // we added top limit to accrual adjustment, so the 06/12/1012 of 15 hours is counted as leave of 8 hours
 		 intervalDate = new DateTime(2012, 6, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 2 leave block for date " + intervalDate.toString(), leaveBlockList.size() == 2);
 		 for(LeaveBlock aLeaveBlock : leaveBlockList) {
-			 if(aLeaveBlock.getLeaveAmount().equals(new BigDecimal(-3))) {
-				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be 'testAC9' , not " + lb.getAccrualCategory()
-						 , lb.getAccrualCategory().equals("testAC9")); 
+			 if(aLeaveBlock.getLeaveAmount().equals(new BigDecimal(-2))) {
+				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be 'testAC9' , not " + aLeaveBlock.getAccrualCategory()
+						 , aLeaveBlock.getAccrualCategory().equals("testAC9")); 
 			 } else if(aLeaveBlock.getLeaveAmount().equals(new BigDecimal(32))) {
-				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be 'testAC9' , not " + lb.getAccrualCategory()
-						 , lb.getAccrualCategory().equals("testAC9")); 
+				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be 'testAC9' , not " + aLeaveBlock.getAccrualCategory()
+						 , aLeaveBlock.getAccrualCategory().equals("testAC9")); 
 			 } else {
-				 Assert.fail("Hours of the leave block for date  " + intervalDate.toString() + " should be either 32 or -3, not " + lb.getLeaveAmount().toString());
+				 Assert.fail("Hours of the leave block for date  " + intervalDate.toString() + " should be either 32 or -2, not " + aLeaveBlock.getLeaveAmount().toString());
 			 }
 		 }
 	}
