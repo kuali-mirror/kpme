@@ -15,22 +15,11 @@
  */
 package org.kuali.kpme.tklm.leave.block.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
+import org.joda.time.*;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -46,8 +35,10 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class LeaveBlockServiceImpl implements LeaveBlockService {
 
@@ -341,12 +332,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     @Override
     public void updateLeaveBlock(LeaveBlock leaveBlock, String principalId) {
     	//verify that if leave block is usage, leave amount is negative
-        if ((LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR.equals(leaveBlock.getLeaveBlockType())
-                    || LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR.equals(leaveBlock.getLeaveBlockType()))
-                && BigDecimal.ZERO.compareTo(leaveBlock.getLeaveAmount()) < 0) {
-            leaveBlock.setLeaveAmount(leaveBlock.getLeaveAmount().negate());
-        }
-
+        leaveBlock.setLeaveAmount(negateHoursIfNecessary(leaveBlock.getLeaveBlockType(), leaveBlock.getLeaveAmount()));
         // Make entry into LeaveBlockHistory table
         LeaveBlockHistory leaveBlockHistory = new LeaveBlockHistory(leaveBlock);
         leaveBlockHistory.setPrincipalIdDeleted(principalId);
