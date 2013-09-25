@@ -119,7 +119,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
                     List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId, timesheetDocumentHeader.getBeginDateTime().toLocalDate(), timesheetDocumentHeader.getEndDateTime().toLocalDate(), assignmentKeys);
                     if (CollectionUtils.isNotEmpty(timeBlocks)) {
 						CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(principalId, timesheetDocumentHeader.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE);
-						TkTimeBlockAggregate previousAggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntry, calendarEntry.getCalendarObj(), true);
+						TkTimeBlockAggregate previousAggregate = new TkTimeBlockAggregate(timeBlocks, leaveBlocks, calendarEntry, calendarEntry.getCalendarObj(), true);
 						List<FlsaWeek> previousWeek = previousAggregate.getFlsaWeeks(zone);
 						if (CollectionUtils.isNotEmpty(previousWeek)) {
 							flsaWeek.add(previousWeek.get(previousWeek.size() - 1));
@@ -132,11 +132,17 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 			
 			if (index == currentWeeks.size() - 1 && !currentWeek.isLastWeekFull()) {
 				TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getNextDocumentHeader(principalId, endDate);
-				if (timesheetDocumentHeader != null) { 
+				if (timesheetDocumentHeader != null) {
+                    TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
+                    List<String> assignmentKeys = new ArrayList<String>();
+                    for(Assignment assignment : timesheetDocument.getAssignments()) {
+                        assignmentKeys.add(assignment.getAssignmentKey());
+                    }
 					List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(timesheetDocumentHeader.getDocumentId());
+                    List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId, timesheetDocumentHeader.getBeginDateTime().toLocalDate(), timesheetDocumentHeader.getEndDateTime().toLocalDate(), assignmentKeys);
 					if (CollectionUtils.isNotEmpty(timeBlocks)) {
 						CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(principalId, timesheetDocumentHeader.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE);
-						TkTimeBlockAggregate nextAggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntry, calendarEntry.getCalendarObj(), true);
+						TkTimeBlockAggregate nextAggregate = new TkTimeBlockAggregate(timeBlocks, leaveBlocks, calendarEntry, calendarEntry.getCalendarObj(), true);
 						List<FlsaWeek> nextWeek = nextAggregate.getFlsaWeeks(zone);
 						if (CollectionUtils.isNotEmpty(nextWeek)) {
 							flsaWeek.add(nextWeek.get(0));
@@ -171,6 +177,11 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 						}
 					}
 				}
+                for (LeaveBlock leaveBlock : flsaDay.getAppliedLeaveBlocks()) {
+                    if (maxHoursEarnCodes.contains(leaveBlock.getEarnCode())) {
+                        maxHours = maxHours.add(leaveBlock.getLeaveAmount().negate());
+                    }
+                }
 			}
 		}
 		
