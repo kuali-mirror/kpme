@@ -108,6 +108,14 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
         return beginDate;
     }
 
+    public Timestamp getBeginTimestampVal() {
+        return new Timestamp(beginTimestamp.getTime());
+    }
+
+    public Timestamp getEndTimestampVal() {
+        return new Timestamp(endTimestamp.getTime());
+    }
+
     public void setBeginDate(Date beginDate) {
     	DateTime dateTime = new DateTime(beginTimestamp);
     	LocalDate localDate = new LocalDate(beginDate);

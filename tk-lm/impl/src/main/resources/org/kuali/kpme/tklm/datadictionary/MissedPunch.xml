@@ -41,6 +41,7 @@
                 <ref bean="MissedPunch-department"/>
                 <ref bean="MissedPunch-task" />
                 <ref bean="MissedPunch-actionDateTime" />
+                <ref bean="MissedPunch-actionDateTimestamp" />
 				<ref bean="MissedPunch-actionDate" />
 				<ref bean="MissedPunch-actionTime" />
 				<ref bean="MissedPunch-clockAction" />
@@ -266,6 +267,17 @@
         </property>
     </bean>
 
+    <bean id="MissedPunch-actionDateTimestamp" parent="MissedPunch-actionDateTimestamp-parentBean" />
+    <bean id="MissedPunch-actionDateTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="actionDateTimestamp" />
+        <property name="label" value="Missed Action Date Time" />
+        <property name="shortLabel" value="Missed Action Date Time" />
+        <property name="maxLength" value="22" />
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="22" />
+        </property>
+    </bean>
+
     <bean id="MissedPunch-relativeEffectiveDate" parent="MissedPunch-actionDate-parentBean" p:name="relativeEffectiveDate">
         <property name="controlField">
             <bean parent="Uif-DateControl" p:hidden="true"/>
@@ -302,6 +314,7 @@
             <bean parent="Uif-DateControl" p:watermarkText="MM/DD/YYYY" />
         </property>
     </bean>
+
 
     <bean id="MissedPunch-actionTime" parent="MissedPunch-actionTime-parentBean" />
     <bean id="MissedPunch-actionTime-parentBean" abstract="true" parent="AttributeDefinition">
@@ -492,7 +505,7 @@
 		        <bean parent="Uif-DataField" p:propertyName="personName" />
 		        <bean parent="Uif-DataField" p:propertyName="timesheetDocumentId" />
 		        <bean parent="Uif-DataField" p:propertyName="assignmentValue" />
-		        <bean parent="Uif-DataField" p:propertyName="actionDateTime" />
+		        <bean parent="Uif-DataField" p:propertyName="actionDateTimestamp" />
 		        <bean parent="Uif-DataField" p:propertyName="clockAction" />
             </list>
         </property>

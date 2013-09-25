@@ -156,6 +156,10 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 		return actionDateTime;
 	}
 
+    public Timestamp getActionDateTimestamp() {
+        return new Timestamp(actionDateTime.getTime());
+    }
+
 	public void setActionDateTime(Date actionDateTime) {
 		this.actionDateTime = actionDateTime;
 	}
