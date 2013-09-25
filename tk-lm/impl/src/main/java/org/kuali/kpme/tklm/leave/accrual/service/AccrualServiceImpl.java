@@ -319,8 +319,11 @@ public class AccrualServiceImpl implements AccrualService {
 				BigDecimal hrs = ssto.getAmountofTime().multiply(ftePercentage);
 				// system scheduled time off leave block
 				createLeaveBlock(principalId, accrualLeaveBlocks, currentDate.toLocalDate(), hrs, anAC, ssto.getLmSystemScheduledTimeOffId(), true, currentRange.getLeaveCalendarDocumentId());
-				// usage leave block with negative amount
-				createLeaveBlock(principalId, accrualLeaveBlocks, currentDate.toLocalDate(), hrs.negate(), anAC, ssto.getLmSystemScheduledTimeOffId(), true, currentRange.getLeaveCalendarDocumentId());
+				// we only need to create usage leave block for ssto if there is a scheduled time off date
+				if(ssto.getScheduledTimeOffDate() != null) {
+					// usage leave block with negative amount.
+					createLeaveBlock(principalId, accrualLeaveBlocks, ssto.getScheduledTimeOffLocalDate(), hrs.negate(), anAC, ssto.getLmSystemScheduledTimeOffId(), true, currentRange.getLeaveCalendarDocumentId());
+				}
 			}
 			// if today is the last day of the employment, create leave blocks if there's any hours available
 			if(endPhra != null && currentDate.toLocalDate().equals(endPhra.getEffectiveLocalDate())){

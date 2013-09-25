@@ -39,7 +39,8 @@ public class AccrualServiceTest extends TKLMIntegrationTestCase {
 	@Test
 	/*the employee has job A starts from 03/01/2012, ends on 04/01/2012 with standard hours of 40, so fte is 1.0
 	 * job B starts on 04/01/2012, no end to it with standard hours of 20, fte is 0.5
-	 * on 04/10/2012, there's a system scheduled time off of 8 hrs
+	 * on 04/10/2012, there's a system scheduled time off of 8 hrs with a systemScheduledTimeOffDate of 04/12/2012
+	 * on 04/11/2012, there's a system scheduled time off of 8 hrs without a systemScheduledTimeOffDate, so no usage leave block will be created for this ssto
 	 */
 	public void testRunAccrualForStatusChange() {
 		 String principal_id = "testUser";
@@ -51,7 +52,7 @@ public class AccrualServiceTest extends TKLMIntegrationTestCase {
 		 verifyLeaveBlocksForStatusChange();
 		 
 		 List<LeaveBlockHistory> historyList = LmServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories(principal_id, null);
-		 Assert.assertTrue("There should be 5 leave block history for emplyee " + principal_id + ", not " + historyList.size(), historyList.size()== 5);
+		 Assert.assertTrue("There should be 6 leave block history for emplyee " + principal_id + ", not " + historyList.size(), historyList.size()== 6);
 		 LeaveBlockHistory lbh = historyList.get(0);
 		 Assert.assertTrue("Leave Block Type of leave block history should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lbh.getLeaveBlockType()
 					, lbh.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
@@ -61,14 +62,14 @@ public class AccrualServiceTest extends TKLMIntegrationTestCase {
 		 verifyLeaveBlocksForStatusChange();
 		 
 		 historyList = LmServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories(principal_id, null);
-		 Assert.assertTrue("There should be 15 leave block history for employee " + principal_id + ", not " + historyList.size(), historyList.size()== 15);
+		 Assert.assertTrue("There should be 16 leave block history for employee " + principal_id + ", not " + historyList.size(), historyList.size()== 16);
 	}
 	private void verifyLeaveBlocksForStatusChange() {
 		String principal_id = "testUser";
 		List<LeaveBlock> leaveBlockList;
 		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE.toLocalDate(), END_DATE.toLocalDate());
 		Assert.assertFalse("No leave blocks created by runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
-		Assert.assertTrue("There should be 5 leave blocks for emplyee 'testUser', not " + leaveBlockList.size(), leaveBlockList.size()== 5);
+		Assert.assertTrue("There should be 6 leave blocks for emplyee 'testUser', not " + leaveBlockList.size(), leaveBlockList.size()== 6);
 		 
 		// there should be one leave block of 16 hours on 03/31/2012
 		DateTime intervalDate = new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
@@ -97,20 +98,44 @@ public class AccrualServiceTest extends TKLMIntegrationTestCase {
 		Assert.assertTrue("Requst status of leave block should be " + HrConstants.REQUEST_STATUS.APPROVED + ", not " + lb.getRequestStatus()
 				, lb.getRequestStatus().equals(HrConstants.REQUEST_STATUS.APPROVED));
 		
-		// there should be two holiday leave blocks of 4 hours on 04/10/2012, one positive, one negative
+		// there should be one holiday leave blocks of 4 hours on 04/10/2012, this is the accrualed leave block for the ssto
 		intervalDate = new DateTime(2012, 4, 10, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
-		Assert.assertTrue("There should be 2 leave block for date 04/10/2012.", leaveBlockList.size()==2);
-		for(LeaveBlock aLeaveBlock : leaveBlockList) {
-			Assert.assertNotNull("lm_sys_schd_timeoff_id should NOT be null for holiday accrual leave block", aLeaveBlock.getScheduleTimeOffId());
-			Assert.assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + aLeaveBlock.getLeaveBlockType()
-					, aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
-			Assert.assertTrue("Requst status of leave block should be " + HrConstants.REQUEST_STATUS.APPROVED + ", not " + aLeaveBlock.getRequestStatus()
-					, aLeaveBlock.getRequestStatus().equals(HrConstants.REQUEST_STATUS.APPROVED));
-			if(!aLeaveBlock.getLeaveAmount().equals(new BigDecimal(4)) && !aLeaveBlock.getLeaveAmount().equals(new BigDecimal(-4))) {
-				Assert.fail("Hours of the leave blocks for date 04/10/2012 should be either 4 or -4, not " + aLeaveBlock.getLeaveAmount().toString());
-			} 
-		}
+		Assert.assertTrue("There should be 1 leave block for date 04/10/2012.", leaveBlockList.size()==1);
+		lb = leaveBlockList.get(0);
+		Assert.assertNotNull("lm_sys_schd_timeoff_id should NOT be null for holiday accrual leave block", lb.getScheduleTimeOffId());
+		Assert.assertTrue("lm_sys_schd_timeoff_id should be 5000, not " + lb.getScheduleTimeOffId(), lb.getScheduleTimeOffId().equals("5000"));
+		Assert.assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lb.getLeaveBlockType()
+				, lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
+		Assert.assertTrue("Requst status of leave block should be " + HrConstants.REQUEST_STATUS.APPROVED + ", not " + lb.getRequestStatus()
+				, lb.getRequestStatus().equals(HrConstants.REQUEST_STATUS.APPROVED));
+		Assert.assertTrue("Hours of the leave block for date 04/10/2012 should be 4, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(4)));
+		
+		// there should be one usage leave blocks of 4 hours on 04/12/2012
+		intervalDate = new DateTime(2012, 4, 12, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		Assert.assertTrue("There should be 1 leave block for date 04/12/2012.", leaveBlockList.size()==1);
+		lb = leaveBlockList.get(0);
+		Assert.assertNotNull("lm_sys_schd_timeoff_id should NOT be null for holiday accrual leave block", lb.getScheduleTimeOffId());
+		Assert.assertTrue("lm_sys_schd_timeoff_id should be 5000, not " + lb.getScheduleTimeOffId(), lb.getScheduleTimeOffId().equals("5000"));
+		Assert.assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lb.getLeaveBlockType()
+				, lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
+		Assert.assertTrue("Requst status of leave block should be " + HrConstants.REQUEST_STATUS.APPROVED + ", not " + lb.getRequestStatus()
+				, lb.getRequestStatus().equals(HrConstants.REQUEST_STATUS.APPROVED));
+		Assert.assertTrue("Hours of the leave block for date 04/12/2012 should be -4, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(-4)));		
+		
+		// there should be one accrualed leave blocks of 4 hours on 04/11/2012
+		intervalDate = new DateTime(2012, 4, 11, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
+		Assert.assertTrue("There should be 1 leave block for date 04/11/2012.", leaveBlockList.size()==1);
+		lb = leaveBlockList.get(0);
+		Assert.assertNotNull("lm_sys_schd_timeoff_id should NOT be null for holiday accrual leave block", lb.getScheduleTimeOffId());
+		Assert.assertTrue("lm_sys_schd_timeoff_id should be 5005, not " + lb.getScheduleTimeOffId(), lb.getScheduleTimeOffId().equals("5005"));
+		Assert.assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lb.getLeaveBlockType()
+				, lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
+		Assert.assertTrue("Requst status of leave block should be " + HrConstants.REQUEST_STATUS.APPROVED + ", not " + lb.getRequestStatus()
+				, lb.getRequestStatus().equals(HrConstants.REQUEST_STATUS.APPROVED));
+		Assert.assertTrue("Hours of the leave block for date 04/11/2012 should be 4, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(4)));	
 		
 		// the disabled system scheduled time off on 04/20/2012 should not generate accruals
 		intervalDate = new DateTime(2012, 4, 20, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
