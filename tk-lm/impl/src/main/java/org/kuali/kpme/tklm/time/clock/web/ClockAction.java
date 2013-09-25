@@ -349,6 +349,9 @@ public class ClockAction extends TimesheetAction {
 		String earnCode = TkServiceLocator.getTimeBlockService().getTimeBlock(tbId).getEarnCode();
 		TimesheetDocument tsDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocId);
 		List<TimeBlock> newTbList = new ArrayList<TimeBlock>();
+		if(tsDoc != null) {
+			newTbList.addAll(tsDoc.getTimeBlocks());
+		}
 		for(int i = 0; i < hrs.length; i++) {
 			BigDecimal hours = new BigDecimal(hrs[i]);
 			DateTime beginDateTime = TKUtils.convertDateStringToDateTime(beginDates[i], beginTimes[i]);
