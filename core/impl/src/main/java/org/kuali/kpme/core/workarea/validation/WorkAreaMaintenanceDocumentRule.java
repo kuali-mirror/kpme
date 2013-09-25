@@ -328,6 +328,8 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 	}
 	
 	boolean validateTask(Task task, WorkArea workArea) {
+
+
 		boolean valid = true;
         if (task.getEffectiveDate() == null) {
             return false;
@@ -336,6 +338,28 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
             this.putGlobalError("task.workarea.invalid.effdt", "effective date '" + task.getEffectiveDate().toString() + "'");
             valid = false;
         }
+
+         //before commit check against tasks common to different work areas and assignments
+         List<Long> inactiveTasks = new ArrayList<Long>();
+            for (Task inactiveTask : workArea.getTasks()) {
+                if(!inactiveTask.isActive()){
+                    inactiveTasks.add(inactiveTask.getTask());
+                }
+            }
+
+            if(!inactiveTasks.isEmpty()){
+                List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
+                for(Assignment assignment : assignments){
+                    for(Long inactiveTask : inactiveTasks){
+                        if(inactiveTask.equals(assignment.getTask())){
+                            this.putGlobalError("task.active.inactivate", inactiveTask.toString());
+                            valid = false;
+                        }
+                    }
+                }
+            }
+
+
 		
 		return valid;
 	}
