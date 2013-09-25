@@ -15,15 +15,20 @@
  */
 package org.kuali.kpme.tklm.time.missedpunch.validation;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
@@ -31,6 +36,8 @@ import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.document.Document;
@@ -51,6 +58,7 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
         	valid &= validateTimesheet(missedPunch);
         	valid &= validateClockAction(missedPunch);
         	valid &= validateClockTime(missedPunch);
+        	valid &= validateOverLappingTimeBlocks(missedPunch, missedPunch.getTimesheetDocumentId());
         }
 	    
         return valid;
@@ -177,6 +185,42 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
 	        }
         }
 
+        return valid;
+    }
+    
+    /**
+     * 
+     * @param missedPunch
+     * @return
+     */
+    boolean validateOverLappingTimeBlocks(MissedPunch missedPunch, String documentId) {
+        boolean valid = true;
+        if (missedPunch.getActionFullDateTime() != null) {
+	       // convert the action time to system time zone since we will be comparing it with system time
+	        String dateString = TKUtils.formatDateTimeShort(missedPunch.getActionFullDateTime());
+	        String longDateString = TKUtils.formatDateTimeLong(missedPunch.getActionFullDateTime());
+	        String timeString = TKUtils.formatTimeShort(longDateString);
+	        		
+	        DateTime dateTimeWithUserZone = TKUtils.convertDateStringToDateTime(dateString, timeString);
+	        DateTime actionDateTime = dateTimeWithUserZone.withZone(TKUtils.getSystemDateTimeZone());
+	        
+	        TimesheetDocument timesheetDocument = null;
+	        if (StringUtils.isNotBlank(documentId)) {
+	            timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
+		        List<TimeBlock> tbList = timesheetDocument.getTimeBlocks();
+		        for(TimeBlock tb : tbList) {
+		        	String earnCode = tb.getEarnCode();
+		        	EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, timesheetDocument.getAsOfDate());
+		        	if(earnCodeObj != null && HrConstants.EARN_CODE_TIME.equals(earnCodeObj.getEarnCodeType())) {
+		        		Interval clockInterval = new Interval(tb.getBeginTimestamp().getTime(), tb.getEndTimestamp().getTime());
+		           	 	if(clockInterval.contains(actionDateTime.getMillis())) {
+		           	 		GlobalVariables.getMessageMap().putError("document", "clock.mp.already.logged.time");
+		           	 		return false;
+		           	 	}
+		        	}
+		        }
+	        }
+        }
         return valid;
     }
 

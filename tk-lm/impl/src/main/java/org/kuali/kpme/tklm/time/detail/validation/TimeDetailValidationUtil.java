@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -312,6 +313,9 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
         //------------------------
 
         boolean isRegularEarnCode = StringUtils.equals(assign.getJob().getPayTypeObj().getRegEarnCode(),selectedEarnCode);
+        
+        startTime = TKUtils.convertDateStringToDateTime(startDateS, startTimeS).getMillis();
+        endTime = TKUtils.convertDateStringToDateTime(endDateS, endTimeS).getMillis();
         errors.addAll(validateOverlap(startTime, endTime, acrossDays, startDateS, endTimeS,startTemp, endTemp, timesheetDocument, timeblockId, isRegularEarnCode));
         if (errors.size() > 0) return errors;
 
@@ -343,6 +347,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
             if (lastClockDateTime.getMillis() > currentTime.getMillis()) {
                 currentTime = new DateTime(lastClockDateTime.getMillis());
             }
+            
             Interval currentClockInInterval = new Interval(lastClockDateTime, currentTime);
        
             if (isRegularEarnCode && addedTimeblockInterval.overlaps(currentClockInInterval)) {
@@ -400,14 +405,14 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
                 	// as iadetail1, intv interval is 10a to 12p in America/New York timezone.  This is why it was giving the error below because it was
                 	// comparing a time block with 9a-11a to a time block with 10a-12p (overlapping).  To fix this, we will create
                 	// an interval with the right time in the server timezone.
-                    String start_datetime = TKUtils.formatDateTimeLong(intv.getStart());
-                	String start_date = TKUtils.formatDateTimeShort(intv.getStart());
-                	String start_time = TKUtils.formatTimeShort(start_datetime);
-                	String end_datetime = TKUtils.formatDateTimeLong(intv.getEnd());                	
-                	String end_date = TKUtils.formatDateTimeShort(intv.getEnd());
-                	String end_time =  TKUtils.formatTimeShort(end_datetime);
-                	DateTime start_dt_timezone = TKUtils.convertDateStringToDateTime(start_date, start_time); // start datetime in user timezone
-                	DateTime end_dt_timezone = TKUtils.convertDateStringToDateTime(end_date, end_time);       // end datetime in user timezone
+//                    String start_datetime = TKUtils.formatDateTimeLong(intv.getStart());
+//                	String start_date = TKUtils.formatDateTimeShort(intv.getStart());
+//                	String start_time = TKUtils.formatTimeShort(start_datetime);
+//                	String end_datetime = TKUtils.formatDateTimeLong(intv.getEnd());                	
+//                	String end_date = TKUtils.formatDateTimeShort(intv.getEnd());
+//                	String end_time =  TKUtils.formatTimeShort(end_datetime);
+                	DateTime start_dt_timezone = new DateTime(startTime);
+                	DateTime end_dt_timezone = new DateTime(endTime);
                 	Interval converted_intv = new Interval(start_dt_timezone.getMillis(), end_dt_timezone.getMillis()); // interval with start/end datetime in server timezone
                 	if (isRegularEarnCode && timeBlockInterval.overlaps(converted_intv) && (timeblockId == null || timeblockId.compareTo(timeBlock.getTkTimeBlockId()) != 0)) {
                         errors.add("The time block you are trying to add overlaps with an existing time block.");

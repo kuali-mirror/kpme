@@ -40,7 +40,11 @@
 	<tk:approvalFilter />
 
 	<tk:approvalSearch calType="payCalendar" searchId="searchValue" />
-
+     <div id="errorMessage" style="color:red;font-size:14px">
+    	<c:forEach var="action" items="${Form.errorMessageList}">
+            <b>Error</b> : <span class="action"> ${action}</span> <br/>
+        </c:forEach>
+     </div>
     <tk:timeApproval />
     
     <c:if test="${fn:length(Form.approvalRows) != 0}">

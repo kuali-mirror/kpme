@@ -27,6 +27,7 @@ public class TimeApprovalActionForm extends CalendarApprovalForm {
 	
 	private List<String> payCalendarLabels = new ArrayList<String>();
 	private List<ApprovalTimeSummaryRow> approvalRows = new ArrayList<ApprovalTimeSummaryRow>();
+	private List<String> errorMessageList;
 	
 	public List<String> getPayCalendarLabels() {
 		return payCalendarLabels;
@@ -56,5 +57,13 @@ public class TimeApprovalActionForm extends CalendarApprovalForm {
 		return isAnyApprovalRowApprovable;
 	}
 	
+	public List<String> getErrorMessageList() {
+		return errorMessageList;
+	}
+	
+	public void setErrorMessageList(List<String> errorMessageList) {
+		this.errorMessageList = errorMessageList;
+	}
 
+	
 }

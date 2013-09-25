@@ -42,6 +42,7 @@ import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
+import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -271,8 +272,26 @@ public class ClockAction extends TimesheetAction {
         }
         
         String pId = HrContext.getTargetPrincipalId();
+        LocalDate beginDate = LocalDate.now();
+   	 	DateTime clockBeginDateTime = new DateTime(beginDate.toDateTimeAtCurrentTime());
         // validate if there's any overlapping with existing time blocks
-        if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {        	
+        if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_IN) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_IN)) {
+        	 List<TimeBlock> tbList = caf.getTimesheetDocument().getTimeBlocks();
+	         for(TimeBlock tb : tbList) {
+	        	 String earnCode = tb.getEarnCode();
+	        	 EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, caf.getTimesheetDocument().getAsOfDate());
+	        	 if(earnCodeObj != null && HrConstants.EARN_CODE_TIME.equals(earnCodeObj.getEarnCodeType())) {
+	        		 Interval clockInterval = new Interval(new DateTime(tb.getBeginTimestamp().getTime()), new DateTime(tb.getEndTimestamp().getTime()));
+	        		 if(clockInterval.contains(clockBeginDateTime.getMillis())) {
+	        			 caf.setErrorMessage("User has already logged time for this clock period.");
+	        			 return mapping.findForward("basic");
+	        		 }
+	        	 }
+	         }
+        }
+        
+        // validate if there's any overlapping with existing time blocks
+        if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
         	 List<TimeBlock> tbList = caf.getTimesheetDocument().getTimeBlocks();
         	 ClockLog lastLog = null;
         	 if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
@@ -286,16 +305,20 @@ public class ClockAction extends TimesheetAction {
 	         	 DateTime endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(new DateTime(), caf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate());
 	             Interval clockInterval = new Interval(beginDateTime, endDateTime);
 	             for(TimeBlock tb : tbList) {
-	            	 if(clockInterval.contains(tb.getBeginDateTime().getMillis()) || clockInterval.contains(tb.getEndDateTime().getMillis())) {
-	            		 caf.setErrorMessage("User has already logged time for this clock period.");
-	            		 return mapping.findForward("basic");
-	            	 }
+		        	 String earnCode = tb.getEarnCode();
+		        	 EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, caf.getTimesheetDocument().getAsOfDate());
+		        	 if(earnCodeObj != null && HrConstants.EARN_CODE_TIME.equals(earnCodeObj.getEarnCodeType())) {
+		            	 if(clockInterval.contains(tb.getBeginDateTime().getMillis()) || clockInterval.contains(tb.getEndDateTime().getMillis())) {
+		            		 caf.setErrorMessage("User has already logged time for this clock period.");
+		            		 return mapping.findForward("basic");
+		            	 }
+		        	 }
 	             }
              }             
         }
         
         ClockLog clockLog = TkServiceLocator.getClockLogService().processClockLog(new DateTime(), assignment, caf.getCalendarEntry(), ip,
-                LocalDate.now(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), true, pId);
+        		beginDate, caf.getTimesheetDocument(), caf.getCurrentClockAction(), true, pId);
 
         caf.setClockLog(clockLog);
 
