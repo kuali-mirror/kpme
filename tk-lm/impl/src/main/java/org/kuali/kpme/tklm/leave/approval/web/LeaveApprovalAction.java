@@ -155,17 +155,18 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 	
 	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
-	
-        setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm), "");
-    	
+		
+		if (leaveApprovalActionForm.getCalendarEntry() != null) {
+			setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm), "");
+		}
         return mapping.findForward("basic");
 	}
 	
 	public ActionForward selectNewWorkArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
-
-		setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm), "");
-        
+		if (leaveApprovalActionForm.getCalendarEntry() != null) {
+			setApprovalTables(leaveApprovalActionForm, request, getPrincipalIds(leaveApprovalActionForm), "");
+		}
 		return mapping.findForward("basic");
 	}	
 	
