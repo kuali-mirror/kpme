@@ -71,7 +71,7 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 				calendarEntry = timesheetDocument.getCalendarEntry();
 				timeApprovalActionForm.setCalendarDocument(timesheetDocument);
 			}
-        } else if (timeApprovalActionForm.getHrCalendarEntryId() != null) {
+        } else if (StringUtils.isNotBlank(timeApprovalActionForm.getHrCalendarEntryId())) {
         	calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(timeApprovalActionForm.getHrCalendarEntryId());
         } else if (StringUtils.isNotBlank(timeApprovalActionForm.getSelectedPayPeriod())) {
         	calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(timeApprovalActionForm.getSelectedPayPeriod());
@@ -192,6 +192,15 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 		TimeApprovalActionForm timeApprovalActionForm = (TimeApprovalActionForm) form;
 		timeApprovalActionForm.setSearchField("");
 		timeApprovalActionForm.setSearchTerm("");
+		return mapping.findForward("basic");
+	}
+	
+	public ActionForward goToCurrentPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		TimeApprovalActionForm timeApprovalActionForm = (TimeApprovalActionForm) form;
+		timeApprovalActionForm.setSearchField("");
+		timeApprovalActionForm.setSearchTerm("");
+		timeApprovalActionForm.setSelectedPayPeriod("");
+		timeApprovalActionForm.setHrCalendarEntryId("");
 		return mapping.findForward("basic");
 	}
 	

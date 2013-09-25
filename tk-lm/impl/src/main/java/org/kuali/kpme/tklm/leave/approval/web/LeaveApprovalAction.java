@@ -72,7 +72,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 				calendarEntry = leaveCalendarDocument.getCalendarEntry();
 				leaveApprovalActionForm.setCalendarDocument(leaveCalendarDocument);
 			}
-        } else if (leaveApprovalActionForm.getHrCalendarEntryId() != null) {
+        } else if (StringUtils.isNotBlank(leaveApprovalActionForm.getHrCalendarEntryId())) {
         	calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveApprovalActionForm.getHrCalendarEntryId());
         } else if (StringUtils.isNotBlank(leaveApprovalActionForm.getSelectedPayPeriod())) {
         	calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveApprovalActionForm.getSelectedPayPeriod());
@@ -193,6 +193,15 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 		leaveApprovalActionForm.setSearchField("");
 		leaveApprovalActionForm.setSearchTerm("");
 			
+		return mapping.findForward("basic");
+	}
+	
+	public ActionForward goToCurrentPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
+		leaveApprovalActionForm.setSearchField("");
+		leaveApprovalActionForm.setSearchTerm("");
+		leaveApprovalActionForm.setSelectedPayPeriod("");
+		leaveApprovalActionForm.setHrCalendarEntryId("");
 		return mapping.findForward("basic");
 	}
 	
