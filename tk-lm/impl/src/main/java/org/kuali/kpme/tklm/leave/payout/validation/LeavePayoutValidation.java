@@ -369,55 +369,65 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 			isValid &= validatePayoutAmount(principalId,payoutAmount,fromAccrualCat,leavePayout.getEffectiveLocalDate());
 
 		}
-				
 		return isValid;
 	}
 
 	private boolean validateAccrualCateogry(String fromAccrualCat,
 			LocalDate effectiveLocalDate) {
+		boolean valid = true;
 		if(StringUtils.isNotEmpty(fromAccrualCat)) {
-			return ValidationUtils.validateAccCategory(fromAccrualCat, effectiveLocalDate);
+			valid &= ValidationUtils.validateAccCategory(fromAccrualCat, effectiveLocalDate);
+			if(!valid) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "leavePayout.fromAccrualCategory.exists");
+			}
 		}
-		else
-			return false;
+		return valid;
 	}
+	
 	private boolean validatePayoutAmount(String principalId, BigDecimal payoutAmount,
 			String fromAccrualCat, LocalDate effectiveLocalDate) {
-		boolean isValid = false;
+		boolean isValid = true;
 		if(payoutAmount != null) {
 			LeaveSummary leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(principalId, effectiveLocalDate, fromAccrualCat);
 			if(leaveSummary != null) {
 				LeaveSummaryRow leaveSummaryRow = leaveSummary.getLeaveSummaryRowForAccrualCtgy(fromAccrualCat);
 				if(leaveSummaryRow != null) {
 					BigDecimal accruedBalance = leaveSummaryRow.getAccruedBalance();
-					if(payoutAmount.compareTo(accruedBalance) >= 0) {
-						isValid = true;
+					if(payoutAmount.compareTo(accruedBalance) > 0) {
+						isValid &= false;
+						GlobalVariables.getMessageMap().putError("document.newMaintainableObject.payoutAmount", "leavePayout.payoutAmount.exceeds.balance");
 					}
 				}
 			}
 			if(payoutAmount.compareTo(BigDecimal.ZERO) < 0 ) {
 				isValid  &= false;
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.payoutAmount", "leavePayout.payoutAmount.negative");
 			}
 		}
-
 		return isValid;
 	}
 
 	private boolean validatePrincipalId(String principalId,
 			LocalDate effectiveLocalDate) {
+		boolean isValid = true;
 		if(StringUtils.isNotEmpty(principalId)) {
-			return ValidationUtils.validatePrincipalId(principalId);
+			isValid &= ValidationUtils.validatePrincipalId(principalId);
+			if(!isValid) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "leavePayout.principal.exists");
+			}
 		}
-		else
-			return false;
+		return isValid;
 	}
 
 	private boolean validateEarnCode(String toEarnCode,
 			LocalDate effectiveLocalDate) {
+		boolean isValid = true;
 		if(StringUtils.isNotEmpty(toEarnCode)) {
-			return ValidationUtils.validateEarnCode(toEarnCode, effectiveLocalDate);
+			isValid &= ValidationUtils.validateEarnCode(toEarnCode, effectiveLocalDate);
+			if(!isValid) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.earnCode", "leavePayout.earncode.exists");	
+			}
 		}
-		else
-			return false;
+		return isValid;
 	}
 }

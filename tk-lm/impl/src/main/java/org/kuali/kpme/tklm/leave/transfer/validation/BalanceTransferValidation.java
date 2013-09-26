@@ -311,8 +311,8 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 			String principalId = balanceTransfer.getPrincipalId();
 			BigDecimal transferAmount = balanceTransfer.getTransferAmount();
 			
-			isValid &= validateAccrualCateogry(fromAccrualCat,balanceTransfer.getEffectiveLocalDate());
-			isValid &= validateAccrualCateogry(toAccrualCat,balanceTransfer.getEffectiveLocalDate());
+			isValid &= validateFromAccrualCateogry(fromAccrualCat,balanceTransfer.getEffectiveLocalDate());
+			isValid &= validateToAccrualCateogry(toAccrualCat,balanceTransfer.getEffectiveLocalDate());
 			isValid &= validatePrincipalId(principalId,balanceTransfer.getEffectiveLocalDate());
 			isValid &= validateTransferAmount(principalId,transferAmount,fromAccrualCat,balanceTransfer.getEffectiveLocalDate());
 
@@ -321,14 +321,28 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 		return isValid;
 	}
 
-	private boolean validateAccrualCateogry(String fromAccrualCat,
+	private boolean validateFromAccrualCateogry(String fromAccrualCat,
 			LocalDate effectiveLocalDate) {
+		boolean isValid = true;
 		if(StringUtils.isNotEmpty(fromAccrualCat)) {
-			return ValidationUtils.validateAccCategory(fromAccrualCat, effectiveLocalDate);
+			if(!isValid) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "balanceTransfer.accrualcategory.exists", fromAccrualCat);
+			}
 		}
-		else
-			return false;
+		return isValid;
 	}
+	
+	private boolean validateToAccrualCateogry(String toAccrualCat,
+			LocalDate effectiveLocalDate) {
+		boolean isValid = true;
+		if(StringUtils.isNotEmpty(toAccrualCat)) {
+			if(!isValid) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.toAccrualCategory", "balanceTransfer.accrualcategory.exists", toAccrualCat);
+			}
+		}
+		return isValid;
+	}
+	
 	private boolean validateTransferAmount(String principalId, BigDecimal transferAmount,
 			String fromAccrualCat, LocalDate effectiveLocalDate) {
 		boolean isValid = false;
@@ -338,26 +352,30 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 				LeaveSummaryRow leaveSummaryRow = leaveSummary.getLeaveSummaryRowForAccrualCtgy(fromAccrualCat);
 				if(leaveSummaryRow != null) {
 					BigDecimal accruedBalance = leaveSummaryRow.getAccruedBalance();
-					if(transferAmount.compareTo(accruedBalance) >= 0) {
-						isValid = true;
+					if(transferAmount.compareTo(accruedBalance) > 0) {
+						isValid &= false;
+						GlobalVariables.getMessageMap().putError("document.newMaintainableObject.transferAmount", "balanceTransfer.transferAmount.exceeds.balance");
 					}
 				}
 			}
 			if(transferAmount.compareTo(BigDecimal.ZERO) < 0 ) {
 				isValid  &= false;
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.transferAmount", "balanceTransfer.transferAmount.negative");
 			}
 		}
-
 		return isValid;
 	}
 
 	private boolean validatePrincipalId(String principalId,
 			LocalDate effectiveLocalDate) {
+		boolean isValid = true;
 		if(StringUtils.isNotEmpty(principalId)) {
-			return ValidationUtils.validatePrincipalId(principalId);
+			isValid &= ValidationUtils.validatePrincipalId(principalId);
+			if(!isValid) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "balanceTransfer.principal.exists");
+			}
 		}
-		else
-			return false;
+		return isValid;
 	}
 	
 }
