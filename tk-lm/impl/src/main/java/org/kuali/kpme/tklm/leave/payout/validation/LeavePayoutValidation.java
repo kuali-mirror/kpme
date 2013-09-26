@@ -363,6 +363,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 			String principalId = leavePayout.getPrincipalId();
 			BigDecimal payoutAmount = leavePayout.getPayoutAmount();
 			
+			isValid &= validateEffectiveDate(leavePayout.getEffectiveLocalDate());
 			isValid &= validateAccrualCateogry(fromAccrualCat,leavePayout.getEffectiveLocalDate());
 			isValid &= validateEarnCode(toEarnCode,leavePayout.getEffectiveLocalDate());
 			isValid &= validatePrincipalId(principalId,leavePayout.getEffectiveLocalDate());
@@ -370,6 +371,15 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 
 		}
 		return isValid;
+	}
+
+	private boolean validateEffectiveDate(LocalDate date) {
+		//Limit on future dates?
+		if(date.isAfter(LocalDate.now().plusYears(1))) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.effectiveDate", "leavePayout.effectiveDate.overOneYear");
+			return false;
+		}
+		return true;
 	}
 
 	private boolean validateAccrualCateogry(String fromAccrualCat,

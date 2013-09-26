@@ -311,6 +311,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 			String principalId = balanceTransfer.getPrincipalId();
 			BigDecimal transferAmount = balanceTransfer.getTransferAmount();
 			
+			isValid &= validateEffectiveDate(balanceTransfer.getEffectiveLocalDate());
 			isValid &= validateFromAccrualCateogry(fromAccrualCat,balanceTransfer.getEffectiveLocalDate());
 			isValid &= validateToAccrualCateogry(toAccrualCat,balanceTransfer.getEffectiveLocalDate());
 			isValid &= validatePrincipalId(principalId,balanceTransfer.getEffectiveLocalDate());
@@ -321,6 +322,17 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 		return isValid;
 	}
 
+	//Effective date not more than one year in advance
+	private boolean validateEffectiveDate(LocalDate date) {
+		if(date != null) {
+			if(date.isAfter(LocalDate.now().plusYears(1))) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.effectiveDate", "balanceTransfer.effectiveDate.error");
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	private boolean validateFromAccrualCateogry(String fromAccrualCat,
 			LocalDate effectiveLocalDate) {
 		boolean isValid = true;
