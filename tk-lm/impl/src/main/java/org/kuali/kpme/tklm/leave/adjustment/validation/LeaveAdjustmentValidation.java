@@ -17,14 +17,17 @@ package org.kuali.kpme.tklm.leave.adjustment.validation;
 
 import java.math.BigDecimal;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.tklm.leave.adjustment.LeaveAdjustment;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 	
@@ -50,10 +53,19 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 
 	boolean validatePrincipal(String principalId) {
 		boolean valid = true;
-		if (!ValidationUtils.validatePrincipalId(principalId)) {
-			this.putFieldError("principalId", "error.existence",
-					"principalId '" + principalId + "'");
-			valid = false;
+		if(principalId != null && StringUtils.isNotEmpty(principalId)) {
+			if(StringUtils.equals(principalId, GlobalVariables.getUserSession().getPrincipalId())){
+				this.putFieldError("principalId", "error.cannot.modify.own.balance",
+						"principalId '" + principalId + "'");
+				valid = false;
+			}
+			if(valid){
+				if (!ValidationUtils.validatePrincipalId(principalId)) {
+					this.putFieldError("principalId", "error.existence",
+							"principalId '" + principalId + "'");
+					valid = false;
+				}
+			}
 		}
 		return valid;
 	}
