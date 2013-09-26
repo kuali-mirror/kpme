@@ -35,6 +35,7 @@
     <property name="maintainableSections">
       <list>
         <ref bean="LeaveDonationMaintenanceDocument-LeaveDonationMaintenance"/>
+        <ref bean="LeaveDonationMaintenanceDocument-HiddenFields" />
       </list>
     </property>
     <property name="documentTypeName" value="LeaveDonationDocument"/>
@@ -62,5 +63,8 @@
       </list>
     </property>
   </bean>
+
+    <bean id="LeaveDonationMaintenanceDocument-HiddenFields"
+          parent="MaintDoc-HiddenFields-parentBean" />
 
 </beans>

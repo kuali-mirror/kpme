@@ -48,6 +48,7 @@
 				<ref bean="LeaveDonation-timestamp" />
 				<ref bean="LeaveDonation-history" />
 				<ref bean="LeaveDonation-active" />
+                <ref bean="LeaveDonation-relativeEffectiveDate" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -78,6 +79,12 @@
 								p:targetName="accrualCategory" />
 						</list>
 					</property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+                    </property>
 				</bean>
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="accrualCategoryObj" />
@@ -87,6 +94,12 @@
 								p:targetName="accrualCategory" />
 						</list>
 					</property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+                    </property>
 				</bean>
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="earnCodeObj" />
@@ -96,6 +109,12 @@
 								p:targetName="earnCode" />
 						</list>
 					</property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+                    </property>
 				</bean>
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="earnCodeObj" />
@@ -105,6 +124,12 @@
 								p:targetName="earnCode" />
 						</list>
 					</property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+                    </property>
 				</bean>
 			</list>
 		</property>
@@ -218,7 +243,12 @@
 		<property name="name" value="amountDonated" />
 		<property name="label" value="Amount Donated" />
 	</bean>
-	
+
+    <bean id="LeaveDonation-relativeEffectiveDate" parent="LeaveDonation-effectiveDate-parentBean" p:name="relativeEffectiveDate">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+    </bean>
 	<!-- amountReceived -->
 	<bean id="LeaveDonation-amountReceived" parent="LeaveDonation-amountReceived-parentBean" />
 	<bean id="LeaveDonation-amountReceived-parentBean" abstract="true"
@@ -373,6 +403,8 @@
 							<bean parent="FieldDefinition" p:attributeName="amountReceived" />
 							<bean parent="FieldDefinition" p:attributeName="description" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
+                            <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
+                                  p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
 						</list>
 					</property>
 					<property name="title" value="LeaveDonation" />
@@ -400,6 +432,8 @@
 				<bean parent="FieldDefinition" p:attributeName="amountReceived" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
+                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
 
 			</list>
 		</property>
