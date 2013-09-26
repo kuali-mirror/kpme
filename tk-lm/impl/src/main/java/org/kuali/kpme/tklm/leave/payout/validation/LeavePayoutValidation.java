@@ -395,6 +395,9 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 					}
 				}
 			}
+			if(payoutAmount.compareTo(BigDecimal.ZERO) < 0 ) {
+				isValid  &= false;
+			}
 		}
 
 		return isValid;

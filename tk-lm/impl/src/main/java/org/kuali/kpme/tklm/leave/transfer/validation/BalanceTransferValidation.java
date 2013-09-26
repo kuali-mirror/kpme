@@ -329,19 +329,22 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 		else
 			return false;
 	}
-	private boolean validateTransferAmount(String principalId, BigDecimal payoutAmount,
+	private boolean validateTransferAmount(String principalId, BigDecimal transferAmount,
 			String fromAccrualCat, LocalDate effectiveLocalDate) {
 		boolean isValid = false;
-		if(payoutAmount != null) {
+		if(transferAmount != null) {
 			LeaveSummary leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(principalId, effectiveLocalDate, fromAccrualCat);
 			if(leaveSummary != null) {
 				LeaveSummaryRow leaveSummaryRow = leaveSummary.getLeaveSummaryRowForAccrualCtgy(fromAccrualCat);
 				if(leaveSummaryRow != null) {
 					BigDecimal accruedBalance = leaveSummaryRow.getAccruedBalance();
-					if(payoutAmount.compareTo(accruedBalance) >= 0) {
+					if(transferAmount.compareTo(accruedBalance) >= 0) {
 						isValid = true;
 					}
 				}
+			}
+			if(transferAmount.compareTo(BigDecimal.ZERO) < 0 ) {
+				isValid  &= false;
 			}
 		}
 
