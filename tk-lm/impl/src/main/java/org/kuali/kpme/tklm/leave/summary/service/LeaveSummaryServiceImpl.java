@@ -445,57 +445,41 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                     if((StringUtils.isBlank(accrualCategory) && StringUtils.isBlank(aLeaveBlock.getAccrualCategory()))
                             || (StringUtils.isNotBlank(aLeaveBlock.getAccrualCategory())
                                 && StringUtils.equals(aLeaveBlock.getAccrualCategory(), accrualCategory))) {
-                        if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0
-                                && !aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)) {
-                            if(!(StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
-                            		StringUtils.equals(HrConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
-                                if (aLeaveBlock.getLeaveLocalDate().toDate().getTime() <= cutOffDate.toDate().getTime()) {
-                                    String yearKey = getYearKey(aLeaveBlock.getLeaveLocalDate(), lp);
-                                    BigDecimal co = yearlyAccrued.get(yearKey);
-                                    if (co == null) {
-                                        co = BigDecimal.ZERO.setScale(2);
-                                    }
-                                    co = co.add(aLeaveBlock.getLeaveAmount());
-                                    yearlyAccrued.put(yearKey, co);
-                                } else if(aLeaveBlock.getLeaveDate().getTime() < ytdEarnedEffectiveDate.toDate().getTime()) {
-                                    accrualedBalance = accrualedBalance.add(aLeaveBlock.getLeaveAmount());
-                                }
-                           }
-                        } else {
-                        	BigDecimal currentLeaveAmount = aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) > 0 ? aLeaveBlock.getLeaveAmount().negate() : aLeaveBlock.getLeaveAmount();
-                        	//we only want this for the current calendar!!!
-                        	if(!(StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
-                        			StringUtils.equals(HrConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
-
-                        		EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveLocalDate());
-
-                        		if ((ec != null && StringUtils.equals(ec.getAccrualBalanceAction(), HrConstants.ACCRUAL_BALANCE_ACTION.USAGE))
-                        				|| aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER)
-                        				|| aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT)
-                        				|| aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_ADJUSTMENT_MAINT)
-                        				|| aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.DONATION_MAINT)){
-                        			if (aLeaveBlock.getLeaveDate().getTime() > cutOffDate.toDate().getTime()) {
-
-                        				approvedUsage = approvedUsage.add(currentLeaveAmount);
-
-                        				if(ec != null && ec.getFmla().equals("Y")) {
-                        					fmlaUsage = fmlaUsage.add(aLeaveBlock.getLeaveAmount());
-                        				}
-                        			} else {
-                        				//these usages are for previous years, to help figure out correct carry over values
-                        				String yearKey = getYearKey(aLeaveBlock.getLeaveLocalDate(), lp);
-                        				BigDecimal use = yearlyUsage.get(yearKey);
-                        				if (use == null) {
-                        					use = BigDecimal.ZERO.setScale(2);
-                        				}
-                        				use = use.add(currentLeaveAmount);
-                        				yearlyUsage.put(yearKey, use);
-                        			}
-                        		}
-                        	}
-                        }
-
-                        //}
+                    	// disapproved/deferred leave blocks should not be calculated into the approved values
+                    	 if(!(StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
+                         		StringUtils.equals(HrConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
+                    		 EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveLocalDate());
+                    		 // use accrualBalanceAction flag of the earn code to determine which bucket the leave block should go into
+                    		 if (ec != null && StringUtils.equals(ec.getAccrualBalanceAction(), HrConstants.ACCRUAL_BALANCE_ACTION.ADJUSTMENT)) {
+                    			 if (aLeaveBlock.getLeaveLocalDate().toDate().getTime() <= cutOffDate.toDate().getTime()) {
+                                     String yearKey = getYearKey(aLeaveBlock.getLeaveLocalDate(), lp);
+                                     BigDecimal co = yearlyAccrued.get(yearKey);
+                                     if (co == null) {
+                                         co = BigDecimal.ZERO.setScale(2);
+                                     }
+                                     co = co.add(aLeaveBlock.getLeaveAmount());
+                                     yearlyAccrued.put(yearKey, co);
+                                 } else if(aLeaveBlock.getLeaveDate().getTime() < ytdEarnedEffectiveDate.toDate().getTime()) {
+                                     accrualedBalance = accrualedBalance.add(aLeaveBlock.getLeaveAmount());
+                                 }                     			 
+                    		 } else if (ec != null && StringUtils.equals(ec.getAccrualBalanceAction(), HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)) {
+                    			 if (aLeaveBlock.getLeaveDate().getTime() > cutOffDate.toDate().getTime()) {
+                     				approvedUsage = approvedUsage.add(aLeaveBlock.getLeaveAmount());
+                     				if(ec.getFmla().equals("Y")) {
+                     					fmlaUsage = fmlaUsage.add(aLeaveBlock.getLeaveAmount());
+                     				}
+                     			} else {
+                     				//these usages are for previous years, to help figure out correct carry over values
+                     				String yearKey = getYearKey(aLeaveBlock.getLeaveLocalDate(), lp);
+                     				BigDecimal use = yearlyUsage.get(yearKey);
+                     				if (use == null) {
+                     					use = BigDecimal.ZERO.setScale(2);
+                     				}
+                     				use = use.add(aLeaveBlock.getLeaveAmount());
+                     				yearlyUsage.put(yearKey, use);
+                     			}
+                    		 }
+                    	 }
                     }
                 } else {
                     //we can actually use the carry over block!!
@@ -507,8 +491,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
         lsr.setPriorYearsTotalAccrued(yearlyAccrued);
         lsr.setPriorYearsUsage(yearlyUsage);
 		lsr.setYtdAccruedBalance(accrualedBalance);
-		lsr.setYtdApprovedUsage(approvedUsage.negate());
-		lsr.setFmlaUsage(fmlaUsage.negate());
+		lsr.setYtdApprovedUsage(approvedUsage);
+		lsr.setFmlaUsage(fmlaUsage);
 		
 		//lsr.setLeaveBalance(lsr.getYtdAccruedBalance().add(approvedUsage));
 	}
