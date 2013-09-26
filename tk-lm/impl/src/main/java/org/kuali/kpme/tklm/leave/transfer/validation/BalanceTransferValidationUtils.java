@@ -170,13 +170,9 @@ public class BalanceTransferValidationUtils {
 			GlobalVariables.getMessageMap().putError("balanceTransfer.transferAmount","balanceTransfer.transferAmount.negative");
 		}
 		
-		if(balance.subtract(transferAmount).compareTo(BigDecimal.ZERO) < 0 ) {
-			if(StringUtils.equals(fromCat.getEarnCodeObj().getAllowNegativeAccrualBalance(),"Y"))
-				isValid &= true;
-			else {
-				isValid &= false;
-				GlobalVariables.getMessageMap().putError("balanceTransfer.transferAmount", "maxBalance.amount.exceedsBalance");
-			}
+		if(transferAmount.compareTo(balance) > 0 ) {
+			isValid &= false;
+			GlobalVariables.getMessageMap().putError("balanceTransfer.transferAmount", "maxBalance.amount.exceedsBalance");
 		}
 		
 		return isValid;

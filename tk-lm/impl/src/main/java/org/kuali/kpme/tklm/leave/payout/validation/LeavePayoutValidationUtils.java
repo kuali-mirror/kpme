@@ -133,13 +133,9 @@ public class LeavePayoutValidationUtils {
 			GlobalVariables.getMessageMap().putError("leavePayout.payoutAmount","leavePayout.payoutAmount.negative");
 		}
 		
-		if(balance.subtract(payoutAmount).compareTo(BigDecimal.ZERO) < 0 ) {
-			if(StringUtils.equals(fromCat.getEarnCodeObj().getAllowNegativeAccrualBalance(),"Y"))
-				isValid &= true;
-			else {
-				isValid &= false;
-				GlobalVariables.getMessageMap().putError("leavePayout.payoutAmount", "maxBalance.amount.exceedsBalance");
-			}
+		if(payoutAmount.compareTo(balance) > 0 ) {
+			isValid &= false;
+			GlobalVariables.getMessageMap().putError("leavePayout.payoutAmount", "maxBalance.amount.exceedsBalance", balance.toString());
 		}	
 		return isValid;
 	}
