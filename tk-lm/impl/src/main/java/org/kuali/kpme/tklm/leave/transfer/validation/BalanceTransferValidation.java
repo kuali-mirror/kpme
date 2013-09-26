@@ -26,9 +26,12 @@ import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
+import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.rice.kim.api.identity.Person;
@@ -41,7 +44,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 
-	//the "to" and "from" accrual categories should be in the supplied principal's leave plan as of the effective date.
+/*	//the "to" and "from" accrual categories should be in the supplied principal's leave plan as of the effective date.
 	private boolean validateLeavePlan(PrincipalHRAttributes pha,
 			AccrualCategory fromAccrualCategory, AccrualCategory toAccrualCategory, LocalDate effectiveDate) {
 		boolean isValid = true;
@@ -203,7 +206,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 			}
 			if(isValid) {
 
-				/**
+				*//**
 				 * Validation is basically governed by accrual category rules. Get accrual category
 				 * rules for both the "To" and "From" accrual categories, pass to validators along with the
 				 * values needing to be validated.
@@ -212,7 +215,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 				 * populated, thus validated, including the accrual category rule for the "From" accrual category.
 				 * 
 				 * Balance transfers initiated via the Maintenance tab will have no values populated.
-				 */
+				 *//*
 				String principalId = balanceTransfer.getPrincipalId();
 				LocalDate effectiveDate = balanceTransfer.getEffectiveLocalDate();
 				String fromAccrualCategory = balanceTransfer.getFromAccrualCategory();
@@ -289,5 +292,69 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 			}
 		}
 		return isValid; 
+	}*/
+	
+	@Override
+	protected boolean processCustomRouteDocumentBusinessRules(
+			MaintenanceDocument document) {
+		boolean isValid = true;
+
+		LOG.debug("entering custom validation for Balance Transfer");
+
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
+
+		if(pbo instanceof BalanceTransfer) {
+
+			BalanceTransfer balanceTransfer = (BalanceTransfer) pbo;
+			String fromAccrualCat = balanceTransfer.getFromAccrualCategory();
+			String toAccrualCat = balanceTransfer.getToAccrualCategory();
+			String principalId = balanceTransfer.getPrincipalId();
+			BigDecimal transferAmount = balanceTransfer.getTransferAmount();
+			
+			isValid &= validateAccrualCateogry(fromAccrualCat,balanceTransfer.getEffectiveLocalDate());
+			isValid &= validateAccrualCateogry(toAccrualCat,balanceTransfer.getEffectiveLocalDate());
+			isValid &= validatePrincipalId(principalId,balanceTransfer.getEffectiveLocalDate());
+			isValid &= validateTransferAmount(principalId,transferAmount,fromAccrualCat,balanceTransfer.getEffectiveLocalDate());
+
+		}
+				
+		return isValid;
 	}
+
+	private boolean validateAccrualCateogry(String fromAccrualCat,
+			LocalDate effectiveLocalDate) {
+		if(StringUtils.isNotEmpty(fromAccrualCat)) {
+			return ValidationUtils.validateAccCategory(fromAccrualCat, effectiveLocalDate);
+		}
+		else
+			return false;
+	}
+	private boolean validateTransferAmount(String principalId, BigDecimal payoutAmount,
+			String fromAccrualCat, LocalDate effectiveLocalDate) {
+		boolean isValid = false;
+		if(payoutAmount != null) {
+			LeaveSummary leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(principalId, effectiveLocalDate, fromAccrualCat);
+			if(leaveSummary != null) {
+				LeaveSummaryRow leaveSummaryRow = leaveSummary.getLeaveSummaryRowForAccrualCtgy(fromAccrualCat);
+				if(leaveSummaryRow != null) {
+					BigDecimal accruedBalance = leaveSummaryRow.getAccruedBalance();
+					if(payoutAmount.compareTo(accruedBalance) >= 0) {
+						isValid = true;
+					}
+				}
+			}
+		}
+
+		return isValid;
+	}
+
+	private boolean validatePrincipalId(String principalId,
+			LocalDate effectiveLocalDate) {
+		if(StringUtils.isNotEmpty(principalId)) {
+			return ValidationUtils.validatePrincipalId(principalId);
+		}
+		else
+			return false;
+	}
+	
 }

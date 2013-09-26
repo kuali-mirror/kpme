@@ -32,6 +32,8 @@ import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.payout.LeavePayout;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
+import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -43,7 +45,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 
-	private boolean validateAgainstLeavePlan(PrincipalHRAttributes pha, AccrualCategory fromAccrualCategory, LocalDate effectiveDate) {
+/*	private boolean validateAgainstLeavePlan(PrincipalHRAttributes pha, AccrualCategory fromAccrualCategory, LocalDate effectiveDate) {
 		boolean isValid = true;
 		if(pha==null) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "leavePayout.principal.noLeavePlan");
@@ -74,7 +76,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 	}
 	
 	//Employee Overrides???
-	/**
+	*//**
 	 * Transfer amount could be validated against several variables, including max transfer amount,
 	 * max carry over.
 	 * ( if transfers count as usage ).
@@ -85,7 +87,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 	 * @param effectiveDate TODO
 	 * @param isSomeAdmin 
 	 * @return true if transfer amount is valid
-	 */
+	 *//*
 	private boolean validatePayoutAmount(BigDecimal transferAmount,
 			AccrualCategory debitedAccrualCategory,
 			EarnCode payoutEarnCode, String principalId, LocalDate effectiveDate, boolean isSomeAdmin) {
@@ -111,11 +113,11 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 
-	/**
+	*//**
 	 * Are there any rules in place for effective date? i.e. not more than one year in advance...
 	 * @param date
 	 * @return
-	 */
+	 *//*
 	private boolean validateEffectiveDate(LocalDate date) {
 		//Limit on future dates?
 		if(date.isAfter(LocalDate.now().plusYears(1))) {
@@ -125,7 +127,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 	
-	/**
+	*//**
 	 * Is the "From" accrual category required to be over its maximum balance before a transfer can take place?
 	 * The "From" accrual category must be defined in an accrual category rule as having a max bal rule.
 	 * @param accrualCategory
@@ -133,7 +135,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 	 * @param principalId 
 	 * @param fromAccrualCategory 
 	 * @return
-	 */
+	 *//*
 	private boolean validateTransferFromAccrualCategory(AccrualCategory accrualCategory, String principalId,
 			LocalDate effectiveDate, String fromAccrualCategory) {
 		boolean isValid = ValidationUtils.validateAccCategory(fromAccrualCategory, principalId, effectiveDate);
@@ -171,7 +173,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 	private boolean validateTransferToEarnCode(EarnCode transferToEarnCode, AccrualCategoryRule acr, String principalId, PrincipalHRAttributes pha, LocalDate effectiveDate, boolean isSomeAdmin) {
 		boolean isValid = true;
         //commenting out for KPME-2847
-/*		if(transferToEarnCode != null && !isSomeAdmin) {
+		if(transferToEarnCode != null && !isSomeAdmin) {
 			LeavePlan earnCodeLeavePlan = HrServiceLocator.getLeavePlanService().getLeavePlan(transferToEarnCode.getLeavePlan(),effectiveDate);
 			if(earnCodeLeavePlan != null) {
 				LeavePlan phaLeavePlan = HrServiceLocator.getLeavePlanService().getLeavePlan(pha.getLeavePlan(), effectiveDate);
@@ -187,7 +189,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.earnCode", "leavePayout.earncode.leaveplan.exists");
 				isValid &= false;
 			}
-		}*/
+		}
 		if (transferToEarnCode == null) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.earnCode", "leavePayout.earncode.exists");
 			isValid &= false;
@@ -260,7 +262,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 
 			LeavePayout leavePayout = (LeavePayout) pbo;
 
-			/**
+			*//**
 			 * Validation is basically governed by accrual category rules. Get accrual category
 			 * rules for both the "To" and "From" accrual categories, pass to validators along with the
 			 * values needing to be validated.
@@ -269,7 +271,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 			 * populated, thus validated, including the accrual category rule for the "From" accrual category.
 			 * 
 			 * Balance transfers initiated via the Maintenance tab will have no values populated.
-			 */
+			 *//*
 			String principalId = leavePayout.getPrincipalId();
 			LocalDate effectiveDate = leavePayout.getEffectiveLocalDate();
 			String fromAccrualCategory = leavePayout.getFromAccrualCategory();
@@ -342,5 +344,77 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 			}
 		}
 		return isValid;
+	}*/
+	
+	@Override
+	protected boolean processCustomRouteDocumentBusinessRules(
+			MaintenanceDocument document) {
+		boolean isValid = true;
+
+		LOG.debug("entering custom validation for Balance Transfer");
+
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
+
+		if(pbo instanceof LeavePayout) {
+
+			LeavePayout leavePayout = (LeavePayout) pbo;
+			String fromAccrualCat = leavePayout.getFromAccrualCategory();
+			String toEarnCode = leavePayout.getEarnCode();
+			String principalId = leavePayout.getPrincipalId();
+			BigDecimal payoutAmount = leavePayout.getPayoutAmount();
+			
+			isValid &= validateAccrualCateogry(fromAccrualCat,leavePayout.getEffectiveLocalDate());
+			isValid &= validateEarnCode(toEarnCode,leavePayout.getEffectiveLocalDate());
+			isValid &= validatePrincipalId(principalId,leavePayout.getEffectiveLocalDate());
+			isValid &= validatePayoutAmount(principalId,payoutAmount,fromAccrualCat,leavePayout.getEffectiveLocalDate());
+
+		}
+				
+		return isValid;
+	}
+
+	private boolean validateAccrualCateogry(String fromAccrualCat,
+			LocalDate effectiveLocalDate) {
+		if(StringUtils.isNotEmpty(fromAccrualCat)) {
+			return ValidationUtils.validateAccCategory(fromAccrualCat, effectiveLocalDate);
+		}
+		else
+			return false;
+	}
+	private boolean validatePayoutAmount(String principalId, BigDecimal payoutAmount,
+			String fromAccrualCat, LocalDate effectiveLocalDate) {
+		boolean isValid = false;
+		if(payoutAmount != null) {
+			LeaveSummary leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(principalId, effectiveLocalDate, fromAccrualCat);
+			if(leaveSummary != null) {
+				LeaveSummaryRow leaveSummaryRow = leaveSummary.getLeaveSummaryRowForAccrualCtgy(fromAccrualCat);
+				if(leaveSummaryRow != null) {
+					BigDecimal accruedBalance = leaveSummaryRow.getAccruedBalance();
+					if(payoutAmount.compareTo(accruedBalance) >= 0) {
+						isValid = true;
+					}
+				}
+			}
+		}
+
+		return isValid;
+	}
+
+	private boolean validatePrincipalId(String principalId,
+			LocalDate effectiveLocalDate) {
+		if(StringUtils.isNotEmpty(principalId)) {
+			return ValidationUtils.validatePrincipalId(principalId);
+		}
+		else
+			return false;
+	}
+
+	private boolean validateEarnCode(String toEarnCode,
+			LocalDate effectiveLocalDate) {
+		if(StringUtils.isNotEmpty(toEarnCode)) {
+			return ValidationUtils.validateEarnCode(toEarnCode, effectiveLocalDate);
+		}
+		else
+			return false;
 	}
 }
