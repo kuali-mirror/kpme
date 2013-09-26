@@ -19,6 +19,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTimeConstants;
@@ -29,6 +30,9 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class Calendar extends PersistableBusinessObjectBase implements CalendarContract {
     public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Calendar";
+    public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("calendarName")
+            .build();
     /**
      *
      */
