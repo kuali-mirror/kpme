@@ -82,6 +82,16 @@ public class WorkAreaPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowT
                             );
                         }
                     }
+                } else {
+                    // If doc itself is instance of Assignable
+                    if (doc instanceof Assignable) {
+                        List<? extends AssignmentContract> assignments = ((Assignable)doc).getAssignments();
+                        for (AssignmentContract ac : assignments) {
+                            workAreaQualifiers.add(
+                                    Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(ac.getWorkArea()))
+                            );
+                        }
+                    }
                 }
             } catch (WorkflowException e) {
                 LOG.error("Unable to retrieve document with documemnt ID: " + document.getDocumentId());
@@ -92,7 +102,6 @@ public class WorkAreaPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowT
         //documentContent.getSearchableContent()
 
     }
-
 
     @Override
     public Map<String, String> resolveRoleQualifiers(@WebParam(name = "kewTypeId") String kewTypeId,

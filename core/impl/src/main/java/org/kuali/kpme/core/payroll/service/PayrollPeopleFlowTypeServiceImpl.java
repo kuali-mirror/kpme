@@ -73,6 +73,16 @@ public class PayrollPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowTy
                             );
                         }
                     }
+                } else {
+                    // If doc itself is instance of Assignable
+                    if (doc instanceof Assignable) {
+                        List<? extends AssignmentContract> assignments = ((Assignable)doc).getAssignments();
+                        for (AssignmentContract ac : assignments) {
+                            deptQualifiers.add(
+                                    Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(ac.getDept()))
+                            );
+                        }
+                    }
                 }
             } catch (WorkflowException e) {
                 LOG.error("Unable to retrieve document with documemnt ID: " + document.getDocumentId());

@@ -327,7 +327,7 @@ public class LeaveBlock extends CalendarBlock implements Assignable, LeaveBlockC
 	}
 
     public List<Assignment> getAssignments() {
-        AssignmentDescriptionKey key = new AssignmentDescriptionKey(getJobNumber(), getWorkArea(), getTask());
+        AssignmentDescriptionKey key = AssignmentDescriptionKey.get(getAssignmentKey());
         return Collections.singletonList(
                 HrServiceLocator.getAssignmentService().getAssignment(getPrincipalId(), key, getLeaveLocalDate()));
     }

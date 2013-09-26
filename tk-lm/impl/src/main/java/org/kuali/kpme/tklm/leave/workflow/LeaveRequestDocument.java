@@ -15,10 +15,14 @@
  */
 package org.kuali.kpme.tklm.leave.workflow;
 
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.tklm.api.leave.workflow.LeaveRequestDocumentContract;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
+
+import java.util.Collections;
+import java.util.List;
 
 public class LeaveRequestDocument extends TransactionalDocumentBase implements LeaveRequestDocumentContract {
 
@@ -65,5 +69,12 @@ public class LeaveRequestDocument extends TransactionalDocumentBase implements L
 
     public LeaveBlock getLeaveBlock() {
         return getLmLeaveBlockId() == null ? null : LmServiceLocator.getLeaveBlockService().getLeaveBlock(getLmLeaveBlockId());
+    }
+
+
+    @Override
+    public List<? extends AssignmentContract> getAssignments() {
+        LeaveBlock lb = getLeaveBlock();
+        return lb != null ? lb.getAssignments() : Collections.<AssignmentContract>emptyList();
     }
 }

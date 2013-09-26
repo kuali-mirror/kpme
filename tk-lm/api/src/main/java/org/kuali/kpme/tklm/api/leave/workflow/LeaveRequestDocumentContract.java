@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.tklm.api.leave.workflow;
 
+import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.document.TransactionalDocument;
@@ -25,7 +26,7 @@ import org.kuali.rice.krad.document.TransactionalDocument;
  * <p>LeaveRequestDocumentContract interface</p>
  *
  */
-public interface LeaveRequestDocumentContract extends TransactionalDocument, SessionDocument {
+public interface LeaveRequestDocumentContract extends TransactionalDocument, SessionDocument, Assignable {
     
 	/**
 	 * The lmLeaveBlockId associated with the LeaveRequestDocument
