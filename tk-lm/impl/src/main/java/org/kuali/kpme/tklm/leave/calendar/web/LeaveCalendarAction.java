@@ -137,6 +137,8 @@ public class LeaveCalendarAction extends CalendarFormAction {
             		builder.append("&returnUrl=LeaveApproval.do");
             	} else {
             		builder.append("LeaveApproval.do");
+            		builder.append("?documentId=");
+            		builder.append(documentId);
             	}
         	} else {
         		builder.append("LeaveCalendar.do");
