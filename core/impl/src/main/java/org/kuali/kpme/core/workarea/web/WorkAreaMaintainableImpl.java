@@ -183,6 +183,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         for (Task task : tasks) {
             task.setTkTaskId(null);
             task.setTimestamp(new Timestamp(System.currentTimeMillis()));
+            task.setWorkArea(workArea.getWorkArea());
         }
         workArea.setTasks(tasks);
 
