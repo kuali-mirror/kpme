@@ -491,8 +491,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
         lsr.setPriorYearsTotalAccrued(yearlyAccrued);
         lsr.setPriorYearsUsage(yearlyUsage);
 		lsr.setYtdAccruedBalance(accrualedBalance);
-		lsr.setYtdApprovedUsage(approvedUsage);
-		lsr.setFmlaUsage(fmlaUsage);
+		lsr.setYtdApprovedUsage(approvedUsage.negate());
+		lsr.setFmlaUsage(fmlaUsage.negate());
 		
 		//lsr.setLeaveBalance(lsr.getYtdAccruedBalance().add(approvedUsage));
 	}
