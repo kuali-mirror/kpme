@@ -373,7 +373,11 @@ public class ClockAction extends TimesheetAction {
 		TimesheetDocument tsDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocId);
 		List<TimeBlock> newTbList = new ArrayList<TimeBlock>();
 		if(tsDoc != null) {
-			newTbList.addAll(tsDoc.getTimeBlocks());
+			for(TimeBlock oldTB : tsDoc.getTimeBlocks()) {
+				if(!(oldTB.getTkTimeBlockId().compareTo(tbId) == 0)) {
+					newTbList.add(oldTB);
+				}
+			}
 		}
 		for(int i = 0; i < hrs.length; i++) {
 			BigDecimal hours = new BigDecimal(hrs[i]);
