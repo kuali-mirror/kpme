@@ -337,6 +337,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 			LocalDate effectiveLocalDate) {
 		boolean isValid = true;
 		if(StringUtils.isNotEmpty(fromAccrualCat)) {
+			isValid &= ValidationUtils.validateAccCategory(fromAccrualCat, effectiveLocalDate);
 			if(!isValid) {
 				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "balanceTransfer.accrualcategory.exists", fromAccrualCat);
 			}
@@ -348,6 +349,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 			LocalDate effectiveLocalDate) {
 		boolean isValid = true;
 		if(StringUtils.isNotEmpty(toAccrualCat)) {
+			isValid &= ValidationUtils.validateAccCategory(toAccrualCat, effectiveLocalDate);
 			if(!isValid) {
 				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.toAccrualCategory", "balanceTransfer.accrualcategory.exists", toAccrualCat);
 			}
