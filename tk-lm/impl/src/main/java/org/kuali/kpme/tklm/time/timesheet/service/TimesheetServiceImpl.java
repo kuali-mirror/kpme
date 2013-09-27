@@ -439,39 +439,41 @@ public class TimesheetServiceImpl implements TimesheetService {
 
                     //  make sure we got something back from the earn code dao
                     if (ec != null) {
-
-                        //  if the user's fmla flag is Yes, that means we are not restricting codes based on this flag, so any code is shown.
-                        //    if the fmla flag on a code is yes they can see it.    (allow)
-                        //    if the fmla flag on a code is no they should see it.  (allow)
-                        //  if the user's fmla flag is No,
-                        //    they can see any codes which are fmla=no.             (allow)
-                        //    they can not see codes with fmla=yes.                 (exclude earn code)
-                        //  the fmla earn codes=no do not require any exclusion
-                        //  the only action required is if the fmla user flag=no: exclude those codes with fmla=yes.
-
-                        if ( (fmlaEligible || ec.getFmla().equals("N")) ) {
-                        	if (ec.getAccrualCategory() == null
-                        		|| (listAccrualCategories.contains(ec.getAccrualCategory())
-                         	 		&& HrConstants.ACCRUAL_BALANCE_ACTION.USAGE.equals(ec.getAccrualBalanceAction()))) {
-                            // go on, we are allowing these three combinations: YY, YN, NN
-
-                                //  apply the same logic as FMLA to the Worker Compensation flags.
-                                if ( (workersCompEligible || ec.getWorkmansComp().equals("N")) ) {
-                                    // go on, we are allowing these three combinations: YY, YN, NN.
-
-                                    //  determine if the holiday earn code should be displayed.
-                                    if ( showEarnCodeIfHoliday(ec, dec) ) {
-                                        //  non-Holiday earn code will go on, Holiday earn code must meet some requirements in the method.
-                                    	// KPME-2556
-                                        //if ( !StringUtils.equals(regularEarnCode.toString(), dec.getEarnCode()) ) {
-                                    	if (!StringUtils.equals(regularEarnCode.getEarnCode(), dec.getEarnCode()) ) {
-                                            //  add earn code if it is not the reg earn code.
-                                            earnCodes.add(ec);
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    	// make sure the earn code's leave plan matches the user's leave plan
+                    	if((StringUtils.isNotBlank(leavePlan) && StringUtils.isNotBlank(ec.getLeavePlan()) && leavePlan.equals(ec.getLeavePlan()))
+    							|| (StringUtils.isBlank(leavePlan) && StringUtils.isBlank(ec.getLeavePlan()))) {                    	
+	                        //  if the user's fmla flag is Yes, that means we are not restricting codes based on this flag, so any code is shown.
+	                        //    if the fmla flag on a code is yes they can see it.    (allow)
+	                        //    if the fmla flag on a code is no they should see it.  (allow)
+	                        //  if the user's fmla flag is No,
+	                        //    they can see any codes which are fmla=no.             (allow)
+	                        //    they can not see codes with fmla=yes.                 (exclude earn code)
+	                        //  the fmla earn codes=no do not require any exclusion
+	                        //  the only action required is if the fmla user flag=no: exclude those codes with fmla=yes.
+	                        if ( (fmlaEligible || ec.getFmla().equals("N")) ) {
+	                        	if (ec.getAccrualCategory() == null
+	                        		|| (listAccrualCategories.contains(ec.getAccrualCategory())
+	                         	 		&& HrConstants.ACCRUAL_BALANCE_ACTION.USAGE.equals(ec.getAccrualBalanceAction()))) {
+	                            // go on, we are allowing these three combinations: YY, YN, NN
+	
+	                                //  apply the same logic as FMLA to the Worker Compensation flags.
+	                                if ( (workersCompEligible || ec.getWorkmansComp().equals("N")) ) {
+	                                    // go on, we are allowing these three combinations: YY, YN, NN.
+	
+	                                    //  determine if the holiday earn code should be displayed.
+	                                    if ( showEarnCodeIfHoliday(ec, dec) ) {
+	                                        //  non-Holiday earn code will go on, Holiday earn code must meet some requirements in the method.
+	                                    	// KPME-2556
+	                                        //if ( !StringUtils.equals(regularEarnCode.toString(), dec.getEarnCode()) ) {
+	                                    	if (!StringUtils.equals(regularEarnCode.getEarnCode(), dec.getEarnCode()) ) {
+	                                            //  add earn code if it is not the reg earn code.
+	                                            earnCodes.add(ec);
+	                                        }
+	                                    }
+	                                }
+	                            }
+	                        }
+                    	}
                     }
                 }
             }
