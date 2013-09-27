@@ -76,6 +76,7 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory" p:targetName="accrualCategory" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan" p:targetName="leavePlan" />
 						</list>
 					</property>
                     <property name="supportAttributes">
@@ -249,7 +250,7 @@
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true" />
 				<!--<bean parent="FieldDefinition" p:attributeName="leavePlan" p:noInquiry="true" p:noLookup="true"/>-->
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
-				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="accrualCategory" p:noDirectInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
                 <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
                       p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" " />

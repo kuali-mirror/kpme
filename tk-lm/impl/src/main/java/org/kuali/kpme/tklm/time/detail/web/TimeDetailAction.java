@@ -542,16 +542,17 @@ public class TimeDetailAction extends TimesheetAction {
             endTime = TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate());
         }
 
+        // This is just a reference, for code clarity, the below list is actually
+        // separate at the object level.
+        List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
+
         // We need a  cloned reference set so we know whether or not to
         // persist any potential changes without making hundreds of DB calls.
-        List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(tdaf.getTimesheetDocument().getTimeBlocks().size());
-        for (TimeBlock tb : tdaf.getTimesheetDocument().getTimeBlocks()) {
+        List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(newTimeBlocks.size());
+        for (TimeBlock tb : newTimeBlocks) {
             referenceTimeBlocks.add(tb.copy());
         }
 
-        // This is just a reference, for code clarity, the above list is actually
-        // separate at the object level.
-        List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
         List<TimeBlock> timeBlocksToAdd = null;
         // KPME-1446 add spanningweeks to the calls below 
         if (StringUtils.equals(tdaf.getAcrossDays(), "y")
@@ -622,7 +623,7 @@ public class TimeDetailAction extends TimesheetAction {
         for (Assignment assignment : assignments) {
             	assignmentKeys.add(assignment.getAssignmentKey());
         }
-        
+
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(HrContext.getTargetPrincipalId(), tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
 
         TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, finalNewTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
@@ -688,9 +689,15 @@ public class TimeDetailAction extends TimesheetAction {
 
         // A bad hack to apply rules to all timeblocks on timesheet
 		List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
+        // We need a  cloned reference set so we know whether or not to
+        // persist any potential changes without making hundreds of DB calls.
+        List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(newTimeBlocks.size());
+        for (TimeBlock tb : newTimeBlocks) {
+            referenceTimeBlocks.add(tb.copy());
+        }
 		TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), principalId);
 		//should we validate time blocks altered by rules service before saving? i.o.w. disallow leave block changes that would otherwise invalidate certain time entries?
-		TkServiceLocator.getTimeBlockService().saveTimeBlocks(newTimeBlocks, newTimeBlocks, principalId);
+		TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, principalId);
    	 	generateTimesheetChangedNotification(principalId, targetPrincipalId, tdaf.getDocumentId());
 
     }
