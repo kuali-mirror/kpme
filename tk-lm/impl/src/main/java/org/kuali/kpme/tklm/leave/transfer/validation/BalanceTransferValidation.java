@@ -297,7 +297,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
-		boolean isValid = true;
+		boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
 		LOG.debug("entering custom validation for Balance Transfer");
 
@@ -318,7 +318,6 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 			isValid &= validateTransferAmount(principalId,transferAmount,fromAccrualCat,balanceTransfer.getEffectiveLocalDate());
 
 		}
-				
 		return isValid;
 	}
 
@@ -359,7 +358,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	
 	private boolean validateTransferAmount(String principalId, BigDecimal transferAmount,
 			String fromAccrualCat, LocalDate effectiveLocalDate) {
-		boolean isValid = false;
+		boolean isValid = true;
 		if(transferAmount != null) {
 			LeaveSummary leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(principalId, effectiveLocalDate, fromAccrualCat);
 			if(leaveSummary != null) {
@@ -368,7 +367,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 					BigDecimal accruedBalance = leaveSummaryRow.getAccruedBalance();
 					if(transferAmount.compareTo(accruedBalance) > 0) {
 						isValid &= false;
-						GlobalVariables.getMessageMap().putError("document.newMaintainableObject.transferAmount", "balanceTransfer.transferAmount.exceeds.balance");
+						GlobalVariables.getMessageMap().putError("document.newMaintainableObject.transferAmount", "balanceTransfer.transferAmount.exceedsBalance");
 					}
 				}
 			}
