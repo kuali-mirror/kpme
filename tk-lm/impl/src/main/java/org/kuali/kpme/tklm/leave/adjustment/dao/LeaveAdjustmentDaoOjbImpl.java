@@ -36,8 +36,8 @@ public class LeaveAdjustmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implement
         List<LeaveAdjustment> leaveAdjustments = new ArrayList<LeaveAdjustment>();
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LeaveAdjustment.class, asOfDate, LeaveAdjustment.EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeaveAdjustment.class, LeaveAdjustment.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LeaveAdjustment.class, asOfDate, LeaveAdjustment.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeaveAdjustment.class, LeaveAdjustment.BUSINESS_KEYS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);

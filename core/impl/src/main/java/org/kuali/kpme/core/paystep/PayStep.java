@@ -29,7 +29,7 @@ public class PayStep extends HrBusinessObject implements Comparable, PayStepCont
 
 	private static final Logger LOG = Logger.getLogger(PayStep.class);
 	//KPME-2273/1965 Primary Business Keys List.	
-	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 		    .add("payStep")
 		    .build();
 

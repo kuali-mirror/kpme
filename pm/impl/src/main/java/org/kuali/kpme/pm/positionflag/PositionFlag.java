@@ -20,7 +20,7 @@ import org.kuali.kpme.pm.api.positionflag.PositionFlagContract;
 
 import com.google.common.collect.ImmutableList;
 public class PositionFlag extends HrBusinessObject implements PositionFlagContract {
-	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 												    .add("category")
 												    .add("positionFlagName")
 												    .build();

@@ -41,8 +41,8 @@ public class InstitutionDaoOjbImpl extends PlatformAwareDaoBaseOjb implements In
 		if(StringUtils.isNotEmpty(institution) && !ValidationUtils.isWildCard(institution)) {
 			root.addEqualTo("institutionCode", institution);
 		}
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Institution.class, asOfDate, Institution.EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Institution.class, Institution.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Institution.class, asOfDate, Institution.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Institution.class, Institution.BUSINESS_KEYS, false));
 		
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
@@ -65,7 +65,7 @@ public class InstitutionDaoOjbImpl extends PlatformAwareDaoBaseOjb implements In
 		
 		Criteria root = new Criteria();
 
-		root.addEqualTo("effectiveDate",  OjbSubQueryUtil.getEffectiveDateSubQuery(Institution.class, asOfDate, Institution.EQUAL_TO_FIELDS, false));
+		root.addEqualTo("effectiveDate",  OjbSubQueryUtil.getEffectiveDateSubQuery(Institution.class, asOfDate, Institution.BUSINESS_KEYS, false));
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
@@ -120,8 +120,8 @@ public class InstitutionDaoOjbImpl extends PlatformAwareDaoBaseOjb implements In
 		if(StringUtils.isNotEmpty(institutionCode) && !ValidationUtils.isWildCard(institutionCode)) {
 			crit.addEqualTo("institutionCode", institutionCode);
 		}
-		crit.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Institution.class, asOfDate, Institution.EQUAL_TO_FIELDS, false));
-		crit.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Institution.class, Institution.EQUAL_TO_FIELDS, false));
+		crit.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Institution.class, asOfDate, Institution.BUSINESS_KEYS, false));
+		crit.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Institution.class, Institution.BUSINESS_KEYS, false));
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
 		crit.addAndCriteria(activeFilter);
@@ -162,8 +162,8 @@ public class InstitutionDaoOjbImpl extends PlatformAwareDaoBaseOjb implements In
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-        	root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(Institution.class, effectiveDateFilter, Institution.EQUAL_TO_FIELDS, false));
-        	root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Institution.class, Institution.EQUAL_TO_FIELDS, false));
+        	root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(Institution.class, effectiveDateFilter, Institution.BUSINESS_KEYS, false));
+        	root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Institution.class, Institution.BUSINESS_KEYS, false));
         }
 
         Query query = QueryFactory.newQuery(Institution.class, root);

@@ -31,7 +31,7 @@ import com.google.common.collect.ImmutableList;
 
 public class LeaveAdjustment extends HrBusinessObject implements LeaveAdjustmentContract {
 	private static final long serialVersionUID = 1L;
-	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add("principalId")
             .add("jobNumber")
             .add("accrualCategory")

@@ -93,8 +93,8 @@ public class LeaveDonationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
         }
 
         if (StringUtils.equals(showHist, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(LeaveDonation.class, effectiveDateFilter, LeaveDonation.EQUAL_TO_FIELDS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeaveDonation.class, LeaveDonation.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(LeaveDonation.class, effectiveDateFilter, LeaveDonation.BUSINESS_KEYS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeaveDonation.class, LeaveDonation.BUSINESS_KEYS, false));
         }
 
         Query query = QueryFactory.newQuery(LeaveDonation.class, root);

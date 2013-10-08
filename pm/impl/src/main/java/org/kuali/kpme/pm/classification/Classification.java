@@ -31,7 +31,7 @@ import com.google.common.collect.ImmutableList;
 public class Classification extends HrBusinessObject implements ClassificationContract {
 
 	private static final long serialVersionUID = 1L;
-	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 											    .add("positionClass")
 											    .add("classificationTitle")
 											    .add("institution")

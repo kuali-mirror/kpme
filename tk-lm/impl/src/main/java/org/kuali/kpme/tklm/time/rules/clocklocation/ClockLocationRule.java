@@ -36,7 +36,7 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule, Clock
 
 	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "ClockLocationRule";
 	//KPME-2273/1965 Primary Business Keys List. 
-	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add("dept")
             .add("workArea")
             .add("jobNumber")

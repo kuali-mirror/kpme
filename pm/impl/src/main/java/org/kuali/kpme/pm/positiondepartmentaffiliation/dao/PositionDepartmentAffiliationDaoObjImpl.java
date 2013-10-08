@@ -49,8 +49,8 @@ public class PositionDepartmentAffiliationDaoObjImpl extends PlatformAwareDaoBas
 			root.addEqualTo("positionDeptAfflType", positionDeptAfflType); 
 		}
         
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionDepartmentAffiliation.class, asOfDate, PositionDepartmentAffiliation.EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionDepartmentAffiliation.class, PositionDepartmentAffiliation.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionDepartmentAffiliation.class, asOfDate, PositionDepartmentAffiliation.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionDepartmentAffiliation.class, PositionDepartmentAffiliation.BUSINESS_KEYS, false));
         
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);

@@ -32,7 +32,7 @@ public class PrincipalHRAttributes extends HrBusinessObject implements Principal
 
 	private static final long serialVersionUID = 6843318899816055301L;
 	//KPME-2273/1965 Primary Business Keys List.	
-	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add("principalId")
             .build();
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PrincipalHRAttributes";

@@ -21,7 +21,7 @@ import org.kuali.kpme.pm.api.positiondepartmentaffiliation.PositionDepartmentAff
 import com.google.common.collect.ImmutableList;
 public class PositionDepartmentAffiliation extends HrBusinessObject implements PositionDepartmentAffiliationContract {
 	
-	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 		    .add("positionDeptAfflType")
 		    .build();
 	

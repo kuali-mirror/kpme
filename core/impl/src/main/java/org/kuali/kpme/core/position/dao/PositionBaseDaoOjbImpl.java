@@ -44,8 +44,8 @@ public class PositionBaseDaoOjbImpl extends PlatformAwareDaoBaseOjb implements P
         Criteria root = new Criteria();
 
         root.addEqualTo("positionNumber", positionNumber);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionBase.class, effectiveDate, PositionBase.EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionBase.class, PositionBase.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionBase.class, effectiveDate, PositionBase.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionBase.class, PositionBase.BUSINESS_KEYS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
@@ -93,8 +93,8 @@ public class PositionBaseDaoOjbImpl extends PlatformAwareDaoBaseOjb implements P
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PositionBase.class, effectiveDateFilter, PositionBase.EQUAL_TO_FIELDS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionBase.class, PositionBase.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PositionBase.class, effectiveDateFilter, PositionBase.BUSINESS_KEYS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionBase.class, PositionBase.BUSINESS_KEYS, false));
         }
         
         Query query = QueryFactory.newQuery(PositionBase.class, root);

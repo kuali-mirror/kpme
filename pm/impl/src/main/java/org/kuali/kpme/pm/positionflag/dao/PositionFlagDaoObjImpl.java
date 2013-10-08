@@ -54,8 +54,8 @@ public class PositionFlagDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 			root.addEqualTo("positionFlagName", name); 
 		}
         
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionFlag.class, effDate, PositionFlag.EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionFlag.class, PositionFlag.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionFlag.class, effDate, PositionFlag.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionFlag.class, PositionFlag.BUSINESS_KEYS, false));
         
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
@@ -102,7 +102,7 @@ public class PositionFlagDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 		
 		if(effDate != null) {
 			root.addLessOrEqualThan("effectiveDate", effDate.toDate());
-			root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionFlag.class, effDate, PositionFlag.EQUAL_TO_FIELDS, false));
+			root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionFlag.class, effDate, PositionFlag.BUSINESS_KEYS, false));
 		}
 		Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);

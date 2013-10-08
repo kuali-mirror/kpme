@@ -36,7 +36,7 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
 
 	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "ShiftDifferentialRule";
 	//KPME-2273/1965 Primary Business Keys List.	
-	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add("location")
             .add("hrSalGroup")
             .add("payGrade")

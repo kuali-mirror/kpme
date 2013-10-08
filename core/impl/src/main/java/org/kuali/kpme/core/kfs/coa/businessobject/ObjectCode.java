@@ -32,7 +32,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements ObjectC
         PersistenceStructureServiceImpl.referenceConversionMap.put(ObjectCode.class, ObjectCodeCurrent.class);
     }*/
 	// business keys. ( also primary key in db ).
-	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add("universityFiscalYear")
             .add("chartOfAccountsCode")
             .add("financialObjectCode")

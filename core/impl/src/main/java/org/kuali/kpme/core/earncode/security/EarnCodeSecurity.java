@@ -42,7 +42,7 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
             .add(CalendarBlockPermissions.CACHE_NAME)
             .build();
 	//KPME-2273/1965 Primary Business Keys List. Will be using this from now on instead.	
-    public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+    public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add("dept")
             .add("hrSalGroup")
             .add("earnCode")

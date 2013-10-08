@@ -30,7 +30,7 @@ public class EmployeeOverride extends HrBusinessObject implements EmployeeOverri
 
 	private static final long serialVersionUID = 1L;
 	//KPME-2273/1965 Primary Business Keys List. Will be using this from now on instead.	
-	public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add("principalId")
             .add("leavePlan")
             .add("accrualCategory")

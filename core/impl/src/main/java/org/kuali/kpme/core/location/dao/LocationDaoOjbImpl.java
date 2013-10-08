@@ -34,8 +34,8 @@ public class LocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Locat
 	public Location getLocation(String location, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 		root.addEqualTo("location", location);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Location.class, asOfDate, Location.EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Location.class, Location.EQUAL_TO_FIELDS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Location.class, asOfDate, Location.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Location.class, Location.BUSINESS_KEYS, false));
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
 		root.addAndCriteria(activeFilter);
@@ -61,8 +61,8 @@ public class LocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Locat
 		if(StringUtils.isNotEmpty(location) && !ValidationUtils.isWildCard(location)) {
 			crit.addEqualTo("location", location);
 		}
-		crit.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Location.class, asOfDate, Location.EQUAL_TO_FIELDS, false));
-		crit.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Location.class, Location.EQUAL_TO_FIELDS, false));
+		crit.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Location.class, asOfDate, Location.BUSINESS_KEYS, false));
+		crit.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Location.class, Location.BUSINESS_KEYS, false));
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
 		crit.addAndCriteria(activeFilter);
@@ -96,8 +96,8 @@ public class LocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Locat
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(Location.class, Location.EQUAL_TO_FIELDS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Location.class, Location.EQUAL_TO_FIELDS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(Location.class, Location.BUSINESS_KEYS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Location.class, Location.BUSINESS_KEYS, false));
         }
         
         Query query = QueryFactory.newQuery(Location.class, root);

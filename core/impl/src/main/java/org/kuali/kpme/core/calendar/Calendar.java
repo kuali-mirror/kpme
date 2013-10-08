@@ -30,7 +30,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class Calendar extends PersistableBusinessObjectBase implements CalendarContract {
     public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Calendar";
-    public static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+    public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add("calendarName")
             .build();
     /**
