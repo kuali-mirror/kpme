@@ -48,6 +48,8 @@ import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -558,6 +560,18 @@ public class TKUtils {
 			GlobalVariables.getMessageMap().putError(KRADConstants.DOCUMENT_ERRORS, RiceKeyConstants.ERROR_CUSTOM, new String[] { "Invalid Numeric Input: " + value });
 			return null;
 		}
+	}
+	
+	public static String getDocumentDescription(String principalId, LocalDate effectiveDate) {
+		StringBuffer docDescription = new StringBuffer();
+		EntityNamePrincipalName principalName = null;
+        if (principalId != null) {
+            principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
+        }
+        String personName = (principalName != null  && principalName.getDefaultName() != null) ? principalName.getDefaultName().getCompositeName() : StringUtils.EMPTY;
+        String date = TKUtils.formatDate(effectiveDate);
+        docDescription.append(personName + " (" + principalId + ")  - " + date);
+		return docDescription.toString();
 	}
 
 }

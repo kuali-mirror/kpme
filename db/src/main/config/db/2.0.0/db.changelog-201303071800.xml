@@ -19,7 +19,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-	<changeSet id="1" author="vchauhan" dbms="mysql"
+	<changeSet id="1" author="vchauhan"
 		context="kpme-client-bootstrap">
 		<comment>KPME-2017 Set Nullable = true as per specifications</comment>
 		<dropNotNullConstraint tableName="LM_ACCRUAL_CATEGORY_RULES_T"

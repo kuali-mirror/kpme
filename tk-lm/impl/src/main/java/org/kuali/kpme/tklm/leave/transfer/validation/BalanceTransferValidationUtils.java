@@ -24,6 +24,7 @@ import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
@@ -43,6 +44,27 @@ public class BalanceTransferValidationUtils {
 		String fromAccrualCategory = balanceTransfer.getFromAccrualCategory();
 		String toAccrualCategory = balanceTransfer.getToAccrualCategory();
 		AccrualCategory fromCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
+		
+		if(!ValidationUtils.validateAccrualCategory(fromAccrualCategory, effectiveDate)) {
+			GlobalVariables.getMessageMap().putError("balanceTransfer.fromAccrualCategory", "balanceTransfer.accrualcategory.exists");
+			isValid &= false;
+		}
+		
+		if(!ValidationUtils.validateAccrualCategory(toAccrualCategory, effectiveDate)) {
+			GlobalVariables.getMessageMap().putError("balanceTransfer.toAccrualCategory", "balanceTransfer.accrualcategory.exists");
+			isValid &= false;
+		}
+		
+		if(!ValidationUtils.validatePrincipalId(principalId)) {
+			GlobalVariables.getMessageMap().putError("balanceTransfer.principalId", "balanceTransfer.principal.exists");
+			isValid &= false;
+		}
+		
+		if(effectiveDate.isAfter(LocalDate.now().plusYears(1))) {
+			GlobalVariables.getMessageMap().putError("balanceTransfer.effectiveDate", "balanceTransfer.effectiveDate.error");
+			isValid &= false;
+		}
+		
 		AccrualCategory toCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
 		PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
 		
@@ -61,13 +83,14 @@ public class BalanceTransferValidationUtils {
 							isValid &= validateAgainstLeavePlan(pha,fromCat,toCat,effectiveDate);
 							isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,acr);
 							isValid &= validateTransferToAccrualCategory(toCat,principalId,effectiveDate,acr);*/
+							isValid &= validateAmountTransferred(balanceTransfer.getAmountTransferred());
 							isValid &= validateMaxCarryOver(balanceTransfer.getAmountTransferred(),toCat,principalId,effectiveDate,acr, pha);
 							isValid &= validateTransferAmount(balanceTransfer.getTransferAmount(),fromCat,toCat, principalId, effectiveDate, acr);
 							isValid &= validateForfeitedAmount(balanceTransfer.getForfeitedAmount());
 						}
 						else {
 							//should never be the case if accrual category rules are validated correctly.
-							GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory",
+							GlobalVariables.getMessageMap().putError("balanceTransfer.fromAccrualCategory",
 									"balanceTransfer.fromAccrualCategory.rules.transferToAccrualCategory",
 									fromAccrualCategory);
 							isValid &= false;
@@ -75,36 +98,47 @@ public class BalanceTransferValidationUtils {
 					}
 					else {
 						//max bal flag null, blank, empty, or "N"
-						GlobalVariables.getMessageMap().putError("document.newMaintinableObject.fromAccrualCategory",
+						GlobalVariables.getMessageMap().putError("balanceTransfer.fromAccrualCategory",
 								"balanceTransfer.fromAccrualCategory.rules.maxBalFlag", fromAccrualCategory);
 						isValid &= false;
 					}
 				}
 				else {
 					//department admins must validate amount to transfer does not exceed current balance.
-					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory",
+					GlobalVariables.getMessageMap().putError("balanceTransfer.fromAccrualCategory",
 							"balanceTransfer.fromAccrualCategory.rules.exist",fromCat.getAccrualCategory());
 					isValid &= false;
 				}
 			}
 			else {
 				//if the principal doesn't have a leave plan, there aren't any accrual categories that can be debited/credited.
-				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId","balanceTransfer.principal.noLeavePlan");
+				GlobalVariables.getMessageMap().putError("balanceTransfer.principalId","balanceTransfer.principal.noLeavePlan");
 				isValid &=false;
 			}
 		}
 		else  {
 			//if the principal has no principal hr attributes, they're not a principal.
-			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId","balanceTransfer.principal.noAttributes");
+			GlobalVariables.getMessageMap().putError("balanceTransfer.principalId","balanceTransfer.principal.noAttributes");
 			isValid &= false;
 		}
 /*		}*/
 		return isValid;
-
 	}
 
 	private static boolean validateForfeitedAmount(BigDecimal forfeitedAmount) {
-		return forfeitedAmount.compareTo(BigDecimal.ZERO) >= 0 ? true: false;
+		if(forfeitedAmount.compareTo(BigDecimal.ZERO) < 0) {
+			GlobalVariables.getMessageMap().putError("balanceTransfer.forfeitedAmount", "balanceTransfer.transferAmount.negative");
+			return false;
+		}
+		return true;
+	}
+	
+	private static boolean validateAmountTransferred(BigDecimal amountTransferred) {
+		if(amountTransferred.compareTo(BigDecimal.ZERO) < 0) {
+			GlobalVariables.getMessageMap().putError("balanceTransfer.amountTransferred", "balanceTransfer.transferAmount.negative");
+			return false;
+		}
+		return true;
 	}
 
 	private boolean validateMaxBalance() {

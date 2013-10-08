@@ -225,7 +225,7 @@
             <table>
 				<tr>
 					<th></th>
-					<th>Forfeited Amount</th>
+					<th>Amount</th>
 				</tr>
 				<tbody>
 				<c:forEach var="forfeiture" items="${Form.forfeitures}">

@@ -19,6 +19,9 @@ import java.util.Map;
 
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
 
 @SuppressWarnings("deprecation")
 public class LeavePayoutAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
@@ -30,6 +33,15 @@ public class LeavePayoutAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase
 
 		attributes.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), "%");
 		attributes.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), "%");
+	}
+
+	@Override
+	public boolean canEdit(Document document, Person user) {
+		if(document.getDocumentHeader().hasWorkflowDocument()) {
+			//only editable when creating a new document.
+			return(document.getDocumentHeader().getWorkflowDocument().getStatus().equals(DocumentStatus.INITIATED));
+		}
+		return false;
 	}
 	
 }

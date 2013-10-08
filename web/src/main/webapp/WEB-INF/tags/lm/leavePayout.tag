@@ -97,16 +97,8 @@
 		            </td>
 				</tr>
 			</table>
-			<input type="hidden" name="forfeitedAmount" id="forfeitedAmount" value=""/>
-			<input type="hidden" name="leaveCalendarDocumentId" id="leaveCalendarDocumentId" value=""/>
-			<c:choose>
-				<c:when test="${leavePayout.onLeaveApproval}">
-					<html:image property="methodToCall.leavePayoutOnLeaveApproval" src='${ConfigProperties.kew.externalizable.images.url}buttonsmall_submit.gif' styleClass="tinybutton"/>
-        		</c:when>
-        		<c:otherwise>
-					<html:image property="methodToCall.leavePayoutOnLeaveApproval" src='${ConfigProperties.kew.externalizable.images.url}buttonsmall_submit.gif' styleClass="tinybutton"/>
-				</c:otherwise>
-			</c:choose>
+			</br>
+			<html:image property="methodToCall.leavePayoutOnLeaveApproval" src='${ConfigProperties.kew.externalizable.images.url}buttonsmall_submit.gif' styleClass="tinybutton"/>
 			<html:image property="methodToCall.cancel" src='${ConfigProperties.kew.externalizable.images.url}buttonsmall_cancel.gif' styleClass="tinybutton"/>
 		</div>
 	</html:form>

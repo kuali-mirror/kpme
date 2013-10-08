@@ -69,10 +69,10 @@
             <column name="TYPE" type="VARCHAR(20)">
                 <constraints nullable="false" />
             </column>
-            <column name="DESC" type="VARCHAR(100)">
+            <column name="DESCR" type="VARCHAR(100)">
             	<constraints nullable="true" />
             </column>
-            <column name="VALUE" type="VARCHAR(20)">
+            <column name="VAL" type="VARCHAR(20)">
                 <constraints nullable="false" />
             </column>
             <column name="SELECT_VALUES" type="VARCHAR(100)">

@@ -94,7 +94,7 @@ the id is used in approval.js--%>
                     	<fieldset style="width:75%;">
                         	<legend>Leave Request Status</legend>
                         	<div>Approved/Usage: <span class="approvals-approved">bold</span></div>
-                        	<div>Planned/Defered: <span class="approvals-requested">italics</span></div>
+                        	<div>Planned/Deferred: <span class="approvals-requested">italics</span></div>
                     	</fieldset>
                 	</c:when>
                 </c:choose>

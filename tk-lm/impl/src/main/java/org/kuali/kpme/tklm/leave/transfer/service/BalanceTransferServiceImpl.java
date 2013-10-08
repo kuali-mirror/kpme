@@ -16,6 +16,7 @@
 package org.kuali.kpme.tklm.leave.transfer.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -214,7 +215,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			bt.setFromAccrualCategory(fromAccrualCategory.getAccrualCategory());
 			bt.setPrincipalId(principalId);
 			if(ObjectUtils.isNotNull(transferConversionFactor))
-				bt.setAmountTransferred(bt.getTransferAmount().multiply(transferConversionFactor).setScale(2));
+				bt.setAmountTransferred(bt.getTransferAmount().multiply(transferConversionFactor).setScale(2, RoundingMode.HALF_UP));
 			else
 				bt.setAmountTransferred(bt.getTransferAmount());
 		}
@@ -294,7 +295,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setLeaveDate(balanceTransfer.getEffectiveDate());
 					aLeaveBlock.setEarnCode(balanceTransfer.getDebitedAccrualCategory().getEarnCode());
 					aLeaveBlock.setAccrualCategory(balanceTransfer.getFromAccrualCategory());
-					aLeaveBlock.setDescription("Forfeited balance transfer amount");
+					aLeaveBlock.setDescription(LMConstants.TRANSFER_FORFEIT_LB_DESCRIPTION);
 					aLeaveBlock.setLeaveAmount(forfeitedAmount.negate());
 					aLeaveBlock.setAccrualGenerated(true);
 					aLeaveBlock.setTransactionDocId(balanceTransfer.getDocumentHeaderId());
@@ -328,19 +329,13 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			throws WorkflowException {
 
 		//balanceTransfer.setStatus(HrConstants.ROUTE_STATUS.ENROUTE);
-        EntityNamePrincipalName principalName = null;
-        if (balanceTransfer.getPrincipalId() != null) {
-            principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(balanceTransfer.getPrincipalId());
-        }
 
 		/*MaintenanceDocument document = KRADServiceLocatorWeb.getMaintenanceDocumentService().setupNewMaintenanceDocument(BalanceTransfer.class.getName(),
 				"BalanceTransferDocumentType",KRADConstants.MAINTENANCE_NEW_ACTION);*/
 		
 		MaintenanceDocument document =  (MaintenanceDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument("BalanceTransferDocumentType");
 
-        String personName = (principalName != null  && principalName.getDefaultName() != null) ? principalName.getDefaultName().getCompositeName() : StringUtils.EMPTY;
-        String date = TKUtils.formatDate(balanceTransfer.getEffectiveLocalDate());
-        document.getDocumentHeader().setDocumentDescription(personName + " (" + balanceTransfer.getPrincipalId() + ")  - " + date);
+        document.getDocumentHeader().setDocumentDescription(TKUtils.getDocumentDescription(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveLocalDate()));
 		Map<String,String[]> params = new HashMap<String,String[]>();
 		
 		KRADServiceLocatorWeb.getMaintenanceDocumentService().setupMaintenanceObject(document, KRADConstants.MAINTENANCE_NEW_ACTION, params);

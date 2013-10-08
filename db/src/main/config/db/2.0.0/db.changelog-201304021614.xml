@@ -23,5 +23,11 @@
         <comment>timestamp default value</comment>
 		<sql> ALTER TABLE PM_INSTITUTION_T CHANGE COLUMN TIMESTAMP TIMESTAMP DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00';</sql>
     </changeSet>
+
+    <changeSet id="2" author="dgodfrey" dbms="oracle" context="kpme-client-bootstrap">
+        <comment>timestamp default value</comment>
+        <sql> ALTER TABLE PM_INSTITUTION_T MODIFY TIMESTAMP TIMESTAMP DEFAULT to_date('1970-01-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS')</sql>
+    </changeSet>
+
     
 </databaseChangeLog>

@@ -15,8 +15,7 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.kuali.kpme</groupId>
@@ -26,11 +25,32 @@
     <name>KPME Distribution</name>
     <artifactId>kpme-dist</artifactId>
     <packaging>pom</packaging>
+
+    <properties>
+        <docbook.date.format>MM-dd-yyyy</docbook.date.format>
+    </properties>
     <profiles>
         <profile>
             <id>kuali-release</id>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>buildnumber-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>create-timestamp</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>create-timestamp</goal>
+                                </goals>
+                                <configuration>
+                                    <timestampFormat>${docbook.date.format}</timestampFormat>
+                                    <timestampPropertyName>docbook.build.timestamp</timestampPropertyName>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-resources-plugin</artifactId>

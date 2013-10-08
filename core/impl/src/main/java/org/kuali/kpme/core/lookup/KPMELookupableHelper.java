@@ -36,6 +36,13 @@ public class KPMELookupableHelper extends KualiLookupableHelperServiceImpl {
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
         List<HtmlData> existingCustomActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+
+		for (HtmlData existingCustomActionUrl : existingCustomActionUrls) {
+			if (!StringUtils.equals(existingCustomActionUrl.getMethodToCall(), KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL)) {
+				customActionUrls.add(existingCustomActionUrl);
+			}
+		}
+		
         if (businessObject instanceof HrBusinessObject) {
             HrBusinessObject bo = (HrBusinessObject) businessObject;
             if (!bo.isActive()) {
@@ -49,12 +56,6 @@ public class KPMELookupableHelper extends KualiLookupableHelperServiceImpl {
                 }
             }
         }
-		for (HtmlData existingCustomActionUrl : existingCustomActionUrls) {
-			if (!StringUtils.equals(existingCustomActionUrl.getMethodToCall(), KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL)) {
-				customActionUrls.add(existingCustomActionUrl);
-			}
-		}
-		
 		return customActionUrls;
 	}
 

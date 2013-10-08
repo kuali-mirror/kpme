@@ -103,7 +103,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
     <property name="name" value="flsaBeginTime"/>
-    <property name="label" value="Flsa Begin Time (00:00 AM)"/>
+    <property name="label" value="Flsa Begin Time (12:00 AM)"/>
   </bean>
   
   <bean id="Calendar-calendarTypes" parent="Calendar-calendarTypes-parentBean"/>

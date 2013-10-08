@@ -48,6 +48,10 @@ public class LMConstants {
 	    
 	 public static final String STATUS_CHANGE_EARN_CODE = "Accrual Note";
 	 
+	 //leave block identification depends on this string.
+	 public static final String PAYOUT_FORFEIT_LB_DESCRIPTION = "Forfeited payout amount";
+	 public static final String TRANSFER_FORFEIT_LB_DESCRIPTION = "Forfeited balance transfer amount";
+	 
 	 public static final String RUN_ACCRUAL_FROM_CALENDAR = "run.accrual.from.calendar";   // controls if accrual should be ran from Leave calendar
 	 
 	 public static final String INITIATE_LEAVE_REQUEST_ACTION = "kpme.lm.leaveCalendar.initiate.leaveRequest.action";

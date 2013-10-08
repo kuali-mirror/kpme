@@ -31,6 +31,7 @@ import org.kuali.kpme.core.paygrade.PayGrade;
 import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
@@ -236,6 +237,9 @@ public class Job extends HrBusinessObject implements JobContract {
 	}
 
 	public Department getDeptObj() {
+		if(deptObj == null) {
+			this.setDeptObj(HrServiceLocator.getDepartmentService().getDepartment(dept, getEffectiveLocalDate()));
+		}
 		return deptObj;
 	}
 

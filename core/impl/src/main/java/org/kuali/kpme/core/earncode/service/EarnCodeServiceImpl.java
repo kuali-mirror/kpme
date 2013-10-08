@@ -159,7 +159,8 @@ public class EarnCodeServiceImpl implements EarnCodeService {
     public boolean addEarnCodeBasedOnEmployeeApproverSettings(EarnCodeSecurity security, Assignment a, LocalDate asOfDate) {
         boolean addEarnCode = false;
         if (security.isEmployee() &&
-                (StringUtils.equals(HrContext.getTargetPrincipalId(), GlobalVariables.getUserSession().getPrincipalId()))) {
+                (StringUtils.equals(HrContext.getTargetPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
+                		|| HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(GlobalVariables.getUserSession().getPrincipalId(), asOfDate.toDateTimeAtCurrentTime()))) {
             addEarnCode = true;
         }
 

@@ -8,5 +8,9 @@
         our colleagues who might consider adopting the software to make as fully informed decision as possible, to limit surprises that would be encountered 
         during implementation and to eliminate the expenditure of unnecessary time discovering and confirming issues that are already known.  Those known 
         issues will be attended to in future patches and releases.
+
+        To view these issues, please click the following link:
+
+        <link xlink:show="new" xlink:href="https://jira.kuali.org/issues/?jql=project%20%3D%20KPME%20AND%20affectedVersion%20%3D%20%222.0.0%22%20AND%20fixVersion%20!%3D%20%222.0.0%22">KPME 2.0.0 Known Issues</link>
     </para>
 </section>

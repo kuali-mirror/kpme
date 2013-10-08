@@ -64,8 +64,8 @@
                 <para>100 Mbit/s network card (gigabit preferred)</para>
             </listitem>
             <listitem>
-                <para>200 MB of hard disk space (for Tomcat server and web application)</para>
-                <note><para>Additional space needed if storing attachments.</para></note>
+                <para>500 MB of free hard disk space (for Tomcat server and web application)</para>
+                <note><para>Additional space needed if storing attachments or not clearing out log files.</para></note>
             </listitem>
         </itemizedlist>
     </section>
@@ -387,11 +387,12 @@ SQL></programlisting>
             <para>KPME requires the following software to be setup and configured:</para>
             <itemizedlist>
                 <listitem>
-                    <para>Sun Microsystems Java Development Kit (JDK 1.6.x)</para>
+                    <para>Oracle Java Development Kit (JDK 1.6.x or JDK 1.7.x)</para>
                         <warning>
                             <para>
-                                You must use a JDK and not a Java runtime environment (JRE); the JDK you use must be version 1.6.x. Additionally, KPME has not 
-                                been tested on JDKs other than Sun. So alternative implementations like OpenJDK should be used at your own risk.
+                                You must use a JDK and not a Java runtime environment (JRE); the JDK you use must be either version 1.6.x or 1.7.x.
+                                Additionally, KPME has not been tested on JDKs other than Oracle. So alternative implementations
+                                like OpenJDK should be used at your own risk.
                             </para>
                         </warning>
                 </listitem>
@@ -487,11 +488,11 @@ export PATH M2_HOME MAVEN_OPTS JAVA_HOME CATALINA_HOME MYSQL_HOME</programlistin
             <section>
                 <title>Installation</title>
                 <para>
-                    You should download and install the latest version of JDK 6. If you are on Windows, you can download it from the following URL: 
+                    You should download and install the latest version of JDK 7. If you are on Windows, you can download it from the following URL:
                     <link xlink:href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">http://www.oracle.com/technetwork/java/javase/downloads/index.html</link>.
                 </para>
                 <para>
-                    If you are on a Mac, then Java 6 should alredy be installed if you are up to date with the latest updates from Apple.
+                    If you are on a Mac, then Java 7 should alredy be installed if you are up to date with the latest updates from Apple.
                 </para>
             </section>
             <section>
@@ -588,7 +589,8 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
             <para>KPME ${project.version} supports the following Tomcat versions:</para>
             <itemizedlist>
                 <listitem>
-                    <para>Tomcat 6 (Servlet API 2.5, JSP 2.1) </para>
+                    <para>Tomcat 6 </para>
+                    <para>Tomcat 7 </para>
                 </listitem>
             </itemizedlist>
             <para>
@@ -622,7 +624,7 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
             <note>
                 <para>
                     You will need to already have a working instance of a Rice ${rice.version} up and running since you will need to run sql statements against
-                    that Rice database.
+                    that Rice database.  Before running any scripts against the rice database, please update your existing rice installation to Rice ${rice.version}.
                 </para>
             </note>
             <section>
@@ -708,17 +710,24 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
                         <title>Full Install</title>
 	                    <itemizedlist>
 	                        <listitem>
-	                            <para>Oracle Client</para>
+	                            <para>Oracle Client (note: for the rice scripts listed below, only run the scripts necessary based
+                                    on your current version of the rice database as seen here:
+                                    <link xlink:href="https://wiki.kuali.org/x/mMo3Ew">https://wiki.kuali.org/x/mMo3Ew</link>)</para>
 	                            <orderedlist>
 	                                <listitem><emphasis role="bold">1.2.0/oracle/rice-1.0.3-oracle-client-install.sql</emphasis></listitem>
 	                                <listitem><emphasis role="bold">1.2.0/oracle/rice-2.0.0-oracle-client-install.sql</emphasis></listitem>
 	                                <listitem><emphasis role="bold">1.2.0/oracle/rice-2.1.0-oracle-client-install.sql</emphasis></listitem>
 	                                <listitem><emphasis role="bold">1.2.0/oracle/kpme-1.2.0-oracle-client-install.sql</emphasis></listitem>
 	                                <listitem><emphasis role="bold">1.2.1/oracle/kpme-1.2.1-oracle-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">1.5.0/oracle/rice-2.1.2-oracle-client-upgrade.sql</emphasis></listitem>
                                     <listitem><emphasis role="bold">1.5.0/oracle/rice-2.1.3-oracle-client-upgrade.sql</emphasis></listitem>
 	                                <listitem><emphasis role="bold">1.5.0/oracle/kpme-1.5.0-oracle-client-upgrade.sql</emphasis></listitem>
 	                                <listitem><emphasis role="bold">1.5.1/oracle/kpme-1.5.1-oracle-client-upgrade.sql</emphasis></listitem>
 	                                <listitem><emphasis role="bold">1.5.2/oracle/kpme-1.5.2-oracle-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.0/oracle/rice-2.2.1-oracle-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.0/oracle/rice-2.2.2-oracle-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.0/oracle/rice-2.2.4-oracle-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.0/oracle/kpme-2.0.0-oracle-client-upgrade.sql</emphasis></listitem>
 	                            </orderedlist>
 	                        </listitem>
 	                        <listitem>
@@ -726,10 +735,13 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
 	                            <orderedlist>
 	                                <listitem><emphasis role="bold">1.2.0/oracle/kpme-1.2.0-oracle-server-install.sql</emphasis></listitem>
 	                                <listitem><emphasis role="bold">1.5.0/oracle/kpme-1.5.0-oracle-server-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.0/oracle/kpme-2.0.0-oracle-server-upgrade.sql</emphasis></listitem>
 	                            </orderedlist>
 	                        </listitem>
 	                        <listitem>
-	                            <para>MySQL Client</para>
+	                            <para>MySQL Client (note: for the rice scripts listed below, only run the scripts necessary based
+                                    on your current version of the rice database as seen here:
+                                    <link xlink:href="https://wiki.kuali.org/x/mMo3Ew">https://wiki.kuali.org/x/mMo3Ew</link>)</para>
 	                            <orderedlist>
 		                            <listitem><emphasis role="bold">1.2.0/mysql/rice-1.0.3-mysql-client-install.sql</emphasis></listitem>
 		                            <listitem><emphasis role="bold">1.2.0/mysql/rice-2.0.0-mysql-client-install.sql</emphasis></listitem>
@@ -741,6 +753,9 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
                                     <listitem><emphasis role="bold">1.5.0/mysql/kpme-1.5.0-mysql-client-upgrade.sql</emphasis></listitem>
                                     <listitem><emphasis role="bold">1.5.1/mysql/kpme-1.5.1-mysql-client-upgrade.sql</emphasis></listitem>
                                     <listitem><emphasis role="bold">1.5.2/mysql/kpme-1.5.2-mysql-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.0/mysql/rice-2.2.2-mysql-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.0/mysql/rice-2.2.4-mysql-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.0/mysql/kpme-2.0.0-mysql-client-upgrade.sql</emphasis></listitem>
 	                            </orderedlist>
 	                        </listitem>
 	                        <listitem>
@@ -748,35 +763,36 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
 	                            <orderedlist>
 	                                <listitem><emphasis role="bold">1.2.0/mysql/kpme-1.2.0-mysql-server-install.sql</emphasis></listitem>
 	                                <listitem><emphasis role="bold">1.5.0/mysql/kpme-1.5.0-mysql-server-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.0/mysql/kpme-2.0.0-mysql-server-upgrade.sql</emphasis></listitem>
 	                            </orderedlist>
 	                        </listitem>
 	                    </itemizedlist>
 	               </section>
 	               <section>
-                        <title>Upgrade from 1.5.0</title>
+                        <title>Upgrade from 1.5.2</title>
                         <itemizedlist>
                             <listitem>
                                 <para>Oracle Client</para>
                                 <orderedlist>
-                                    <listitem><emphasis role="bold">1.5.2/oracle/kpme-1.5.2-oracle-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.0/oracle/kpme-2.0.0-oracle-client-upgrade.sql</emphasis></listitem>
                                 </orderedlist>
                             </listitem>
                             <listitem>
                                 <para>Oracle Server</para>
                                 <orderedlist>
-                                    <listitem><emphasis role="bold">None</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.0/oracle/kpme-2.0.0-server-client-upgrade.sql</emphasis></listitem>
                                 </orderedlist>
                             </listitem>
                             <listitem>
                                 <para>MySQL Client</para>
                                 <orderedlist>
-                                    <listitem><emphasis role="bold">1.5.2/mysql/kpme-1.5.2-mysql-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.0/mysql/kpme-2.0.0-mysql-client-upgrade.sql</emphasis></listitem>
                                 </orderedlist>
                             </listitem>
                             <listitem>
                                 <para>MySQL Server</para>
                                 <orderedlist>
-                                    <listitem><emphasis role="bold">None</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.0/mysql/kpme-2.0.0-mysql-server-upgrade.sql</emphasis></listitem>
                                 </orderedlist>
                             </listitem>
                         </itemizedlist>
@@ -1036,5 +1052,82 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
                 </tgroup>
             </table>
 	    </section>
+        <section>
+            <title>KPME 2.0.0 Upgrade - HR Roles to Rice KIM Role transition</title>
+            <para>As part of KPME 2.0 development, existing KPME roles from the HR_ROLES_T table
+                have been replaced by KIM roles.  Because of the extreme differences of these two
+                types of data structures, the sql scripts do not directly handle this conversion if upgrading
+                from a previous version of KPME.  Instead, a groovy script is provided to generate a script that
+                will assist in performing this conversion for you.</para>
+            <para>In order to use this script you must first have <link xlink:href="http://groovy.codehaus.org">Groovy 1.8</link>
+                installed on the machine from which you will run the scripts. You must also know the
+                details to connect up to the Rice database for which you want to generate
+                upgrade SQL.</para>
+            <para>It's important to note that these scripts will <emphasis>not</emphasis>
+                update any data in your database, they will just read the data located
+                therein and produce output to the terminal window.</para>
+            <para>In order to run the script, follow these steps:<orderedlist>
+                <listitem>
+                    <para>Download the KPME distribution if you have
+                        not done so already and unzip it.</para>
+                </listitem>
+                <listitem>
+                    <para>Open a command-line window and change directory to the
+                        <code>db/src/main/config/groovy/2.0.0/scripts</code>
+                        directory.</para>
+                </listitem>
+                <listitem>
+                    <para>Execute a command similar to the following (enter on a single
+                        line in the terminal):</para>
+                    <para><emphasis>If using
+                        MySQL:</emphasis><programlisting>groovy -cp /java/drivers/mysql-connector-java-5.1.16-bin.jar
+                        DbUpdateTool.groovy jdbc:mysql://localhost:3306/tk db-username db-password KimConverter mysql</programlisting></para>
+                    <para><emphasis>If using
+                        Oracle:</emphasis><programlisting>groovy -cp /java/drivers/ojdbc6.jar DbUpdateTool.groovy
+                        jdbc:oracle:thin:@localhost:1521:ORACLE db-username db-password KimConverter oracle</programlisting></para>
+                </listitem>
+                <listitem>
+                    <para>In the examples above, be sure to change the "-cp" argument to
+                        point to the MySQL jdbc driver if you are using MySQL or the
+                        Oracle jdbc driver if you are using Oracle.  If you don't have
+                        the appropriate driver you will need to download it to a
+                        location of your choosing.  You will also need to pass the
+                        appropriate database connection arguments as well.</para>
+                </listitem>
+                <listitem>
+                    <para>This command will read the KPME role data in your
+                        database and generate sql output that can be used on your rice database.  The output might
+                        look similar to the
+                        following:<programlisting>$ groovy -cp /java/drivers/mysql-connector-java-5.1.16-bin.jar
+                            DbUpdateTool.groovy jdbc:mysql://localhost:3306/dbschema user password KimConverter mysql
+                            Loading command KimConverter
+                            Loading command RoleConverter
+                            java.lang.ClassNotFoundException: oracle.jdbc.OracleDriver
+                            Executing: SELECT * FROM HR_ROLES_T
+
+                            Generating transformation SQL:
+
+                            INSERT INTO KRIM_ROLE_MBR_ID_S VALUES (NULL);
+                            INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT, OBJ_ID, VER_NBR) VALUES ((SELECT MAX(ID) FROM KRIM_ROLE_MBR_ID_S), (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department Administrator'), '10001', 'P', '2010-01-01 00:00:00.0', null, '1970-01-01 00:00:00.0', UUID(), '1');
+                            INSERT INTO KRIM_ATTR_DATA_ID_S VALUES (NULL);
+                            INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, KIM_ATTR_DEFN_ID, KIM_TYP_ID, ROLE_MBR_ID, ATTR_VAL, OBJ_ID, VER_NBR) VALUES ((SELECT MAX(ID) FROM KRIM_ATTR_DATA_ID_S), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'department'), (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Department'), (SELECT MAX(ID) FROM KRIM_ROLE_MBR_ID_S), 'UA-ISU', UUID(), '1');
+                            INSERT INTO KRIM_ROLE_MBR_ID_S VALUES (NULL);
+                            INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT, OBJ_ID, VER_NBR) VALUES ((SELECT MAX(ID) FROM KRIM_ROLE_MBR_ID_S), (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver'), (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Derived Role : Position'), 'R', '2010-01-01 00:00:00.0', null, '2012-09-06 15:21:30.0', UUID(), '1');
+                            ...
+
+                            Done.</programlisting></para>
+                </listitem>
+                <listitem>
+                    <para>At this point you can copy the output between "Generating
+                        transformation SQL" and "Done" for both permissions and
+                        responsibilities and create an SQL script to run as the first
+                        step of your database upgrade.  Please note that these should
+                        be reviewed before execution</para>
+                </listitem>
+            </orderedlist>
+                From the example above, you can see that the script just
+                generates role/group membership records for Kim roles and/or groups.  This then needs to be run
+                against your rice database after a review.</para>
+        </section>
 	</section>
 </chapter>

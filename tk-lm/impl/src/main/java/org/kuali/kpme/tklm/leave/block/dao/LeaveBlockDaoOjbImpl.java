@@ -327,7 +327,7 @@ public class LeaveBlockDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Lea
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
         root.addGreaterOrEqualThan("leaveDate", beginDate.toDate());
-        root.addLessOrEqualThan("leaveDate", endDate.toDate());
+        root.addLessThan("leaveDate", endDate.toDate());
         List<String> typeValues = new ArrayList<String>();
         typeValues.add(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR);
         typeValues.add(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR);

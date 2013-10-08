@@ -270,47 +270,61 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
         
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(principalId, fromDate, toDate, LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
         Set<String> workflowDocIds = new HashSet<String>();
+        boolean transferForfeit = false;
         for(LeaveBlock lb : leaveBlocks) {
         	if(lb.getTransactionalDocId() != null) {
         		workflowDocIds.add(lb.getTransactionalDocId());
-            } else {
-        		if(StringUtils.contains(lb.getDescription(), "Forfeited balance transfer amount")) {
-        			infoMessages.add("A max balance action that forfeited accrued leave occurred on this calendar");
-                }
+            }
+    		if(StringUtils.contains(lb.getDescription(), LMConstants.TRANSFER_FORFEIT_LB_DESCRIPTION)) {
+    			transferForfeit = true;
             }
         }
         for(String workflowDocId : workflowDocIds) {
             DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(workflowDocId);
             
             if(StringUtils.equals(status.getCode(), HrConstants.ROUTE_STATUS.FINAL)) {
-            	infoMessages.add("A transfer action occurred on this calendar");
+            	//show only one of these two messages.
+            	if(transferForfeit
+                		&& !infoMessages.contains("One or more balance transfer(s) that forfeited accrued leave occurred on this calendar")) 
+                	infoMessages.add("One or more balance transfer(s) that forfeited accrued leave occurred on this calendar");
+            	else if(!transferForfeit
+            			&& !infoMessages.contains("A balance transfer action occurred on this calendar")) {
+            		infoMessages.add("A balance transfer action occurred on this calendar");
+            	}
             }
-            else if(StringUtils.equals(status.getCode(), HrConstants.ROUTE_STATUS.ENROUTE)) {
+            else if(StringUtils.equals(status.getCode(), HrConstants.ROUTE_STATUS.ENROUTE)
+            		&& !infoMessages.contains("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved")) {
             	actionMessages.add("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved");
-            }
-            else {
-            	warningMessages.add("A balance transfer document exists for this calendar with status neither final nor enroute");
             }
         }
         
         leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(principalId, fromDate, toDate, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT);
         workflowDocIds = new HashSet<String>();
+        boolean payoutForfeit = false;
         for(LeaveBlock lb : leaveBlocks) {
         	if(lb.getTransactionalDocId() != null) {
         		workflowDocIds.add(lb.getTransactionalDocId());
+            }
+    		if(StringUtils.contains(lb.getDescription(), LMConstants.PAYOUT_FORFEIT_LB_DESCRIPTION)) {
+    			payoutForfeit = true;
             }
         }
         for(String workflowDocId : workflowDocIds) {
             DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(workflowDocId);
 
             if(StringUtils.equals(status.getCode(), HrConstants.ROUTE_STATUS.FINAL)) {
-            	infoMessages.add("A payout action occurred on this calendar");
+            	//only show one of these two messages.
+            	if(payoutForfeit
+                		&& !infoMessages.contains("One or more leave payout(s) that forfeited accrued leave occurred on this calendar")) 
+                	infoMessages.add("One or more leave payout(s) that forfeited accrued leave occurred on this calendar");
+            	else if(!payoutForfeit
+            			&& !infoMessages.contains("A payout action occurred on this calendar")) {
+            		infoMessages.add("A leave payout action occurred on this calendar");
+            	}
             }
-            else if(StringUtils.equals(status.getCode(), HrConstants.ROUTE_STATUS.ENROUTE)) {
+            else if(StringUtils.equals(status.getCode(), HrConstants.ROUTE_STATUS.ENROUTE)
+            		&& !infoMessages.contains("A pending payout exists on this calendar. It must be finalized before this calendar can be approved")) {
             	actionMessages.add("A pending payout exists on this calendar. It must be finalized before this calendar can be approved");
-            }
-            else {
-            	warningMessages.add("A payout document exists for this calendar with status neither final or enroute");
             }
         }
         allMessages.put("actionMessages", actionMessages);
@@ -581,8 +595,8 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
     				}
     			}
     		}
-   		}
-    	return errors;
+		}
+		return errors;
 
 	}
 

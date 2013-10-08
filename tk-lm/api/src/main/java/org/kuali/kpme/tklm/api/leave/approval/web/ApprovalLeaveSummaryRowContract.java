@@ -174,7 +174,7 @@ public interface ApprovalLeaveSummaryRowContract {
 	 * 
 	 * @return moreThanOneCalendar flag for an ApprovalTimeSummaryRow
 	 */
-	public Boolean getSMoreThanOneCalendar();
+	public Boolean getMoreThanOneCalendar();
 
 	/**
      * TODO: Is this field needed?

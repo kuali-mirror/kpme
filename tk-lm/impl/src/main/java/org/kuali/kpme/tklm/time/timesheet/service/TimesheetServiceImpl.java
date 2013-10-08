@@ -440,7 +440,10 @@ public class TimesheetServiceImpl implements TimesheetService {
                     //  make sure we got something back from the earn code dao
                     if (ec != null) {
                     	// make sure the earn code's leave plan matches the user's leave plan
-                    	if((StringUtils.isNotBlank(leavePlan) && StringUtils.isNotBlank(ec.getLeavePlan()) && leavePlan.equals(ec.getLeavePlan()))
+                    	// if user has a leave plan, we show earn codes with a matching leave plan and all earn codes without a leave plan
+                    	// if user doe not have a leave plan, we show earn codes that don't have a leave plan
+                    	if( (StringUtils.isNotBlank(leavePlan) && StringUtils.isBlank(ec.getLeavePlan()))
+                    			|| (StringUtils.isNotBlank(leavePlan) && StringUtils.isNotBlank(ec.getLeavePlan()) && leavePlan.equals(ec.getLeavePlan()))
     							|| (StringUtils.isBlank(leavePlan) && StringUtils.isBlank(ec.getLeavePlan()))) {                    	
 	                        //  if the user's fmla flag is Yes, that means we are not restricting codes based on this flag, so any code is shown.
 	                        //    if the fmla flag on a code is yes they can see it.    (allow)

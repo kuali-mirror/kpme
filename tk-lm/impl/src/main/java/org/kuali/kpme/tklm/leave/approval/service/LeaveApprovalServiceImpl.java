@@ -110,7 +110,13 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 				aRow.setMoreThanOneCalendar(true);
 			}
 			
-			List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, payBeginDate.toLocalDate(), payEndDate.toLocalDate());
+	        // if the time of the last day of the pay period is 00:00 or 12:00 am, we should subtract a day from the calendar's end date
+	        // since the leave blocks from that day should go into next pay period
+			LocalDate endDate = payEndDate.toLocalDate();
+	        if(payEndDate.getHourOfDay() == 0) {
+	        	endDate = endDate.plusDays(-1);
+	        }
+			List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, payBeginDate.toLocalDate(), endDate);
 			if(aDoc != null ){
 				Map<Integer, String> weeklyDistribution = getWeekHeadersForSummary(principalId,aDoc,payCalendarEntry,aRow.getWeekDates(), aRow.getWeekDateList(), aRow.getDetailMap(), aRow.getEnableWeekDetails());
 				aRow.setWeeklyDistribution(weeklyDistribution);
@@ -195,6 +201,11 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 
         LocalDateTime actualStartDate = cal.getBeginPeriodLocalDateTime();
         LocalDateTime actualEndDate = cal.getEndPeriodLocalDateTime();
+        // if the time of the last day of the pay period is 00:00 or 12:00 am, we should subtract a day from the calendar's end date
+        // since the leave blocks from that day should go into next pay periodd
+        if(cal.getEndPeriodFullDateTime().getHourOfDay() == 0) {
+        	endDate = endDate.plusDays(-1);
+        }
         
         int daysToMinus = 0;
         if(DateTimeConstants.SUNDAY != startDate.getDayOfWeek()) {
@@ -231,9 +242,14 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
             if (currentDate.getDayOfWeek() == flsaBeginDay && afterFirstDay) {
             	String weekString = "Week " + week;
                 StringBuilder display = new StringBuilder();
-                display.append(weekStart.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
+                // show the week's range within the calendar period
+                String startDateString = weekStart.isBefore(startDate) ? 
+                		startDate.toString(TkConstants.DT_ABBREV_DATE_FORMAT) : weekStart.toString(TkConstants.DT_ABBREV_DATE_FORMAT);
+                display.append(startDateString);
                 display.append(" - ");
-                display.append(weekEnd.minusDays(1).toString(TkConstants.DT_ABBREV_DATE_FORMAT));
+                String endDateString = weekEnd.minusDays(1).isAfter(endDate) ? 
+                		endDate.toString(TkConstants.DT_ABBREV_DATE_FORMAT) : weekEnd.minusDays(1).toString(TkConstants.DT_ABBREV_DATE_FORMAT);
+                display.append(endDateString);
                 weekDates.put(weekString, display.toString());
                 weekDateList.put(weekString, dates);
                 dates = new TreeSet<Date>();
@@ -255,9 +271,14 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
         if (!header.isEmpty() && !header.get(header.size() - 1).startsWith("Week")) {
         	if(weekStart.compareTo(endDate) < 0) {
 	        	StringBuilder display = new StringBuilder();
-	            display.append(weekStart.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
+	        	// show the week's range within the calendar period
+	        	String startDateString = weekStart.isBefore(startDate) ? 
+                		startDate.toString(TkConstants.DT_ABBREV_DATE_FORMAT) : weekStart.toString(TkConstants.DT_ABBREV_DATE_FORMAT);
+                display.append(startDateString);
 	            display.append(" - ");
-	            display.append(actualEndDate.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
+	            String endDateString = actualEndDate.isAfter(endDate) ? 
+                		endDate.toString(TkConstants.DT_ABBREV_DATE_FORMAT) : actualEndDate.toString(TkConstants.DT_ABBREV_DATE_FORMAT);
+                display.append(endDateString);
 	            weekDates.put("Week "+week, display.toString());
 	            dates.add(actualEndDate.toDate());
 	            weekDateList.put("Week "+week, dates);

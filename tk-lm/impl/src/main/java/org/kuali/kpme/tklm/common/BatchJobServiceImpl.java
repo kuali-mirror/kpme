@@ -39,6 +39,7 @@ import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.batch.CarryOverJob;
+import org.kuali.kpme.tklm.leave.batch.LeaveCalendarDelinquencyJob;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.leave.workflow.service.LeaveCalendarDocumentHeaderService;
 import org.kuali.kpme.tklm.time.batch.EmployeeApprovalJob;
@@ -377,6 +378,39 @@ public class BatchJobServiceImpl implements BatchJobService {
         jobDataMap.put("documentId", calendarDocumentHeaderContract.getDocumentId());
 		
         scheduleJob(PayrollApprovalJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
+	}
+		
+	@Override
+	public void scheduleLeaveCalendarDelinquencyJobs(CalendarEntry calendarEntry) throws SchedulerException {
+		scheduleLeaveCalendarDelinquencyJobs(calendarEntry, calendarEntry.getBatchPayrollApprovalFullDateTime());
+	}
+	
+	@Override
+	public void scheduleLeaveCalendarDelinquencyJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException {
+		DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
+		DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
+    	Calendar calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+
+    	if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
+	        List<TimesheetDocumentHeader> timesheetDocumentHeaders = getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+	        for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
+	        	scheduleLeaveCalendarDelinquencyJob(calendarEntry, scheduleDate, timesheetDocumentHeader);
+	        }
+    	} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
+	        List<LeaveCalendarDocumentHeader> leaveCalendarDocumentHeaders = getLeaveCalendarDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+	        for (LeaveCalendarDocumentHeader leaveCalendarDocumentHeader : leaveCalendarDocumentHeaders) {
+	        	scheduleLeaveCalendarDelinquencyJob(calendarEntry, scheduleDate, leaveCalendarDocumentHeader);
+	        }
+    	}
+	}
+	private void scheduleLeaveCalendarDelinquencyJob(CalendarEntry calendarEntry, DateTime scheduleDate, CalendarDocumentHeaderContract calendarDocumentHeaderContract) throws SchedulerException {
+        Map<String, String> jobGroupDataMap = new HashMap<String, String>();
+        jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
+		
+		Map<String, String> jobDataMap = new HashMap<String, String>();
+        jobDataMap.put("documentId", calendarDocumentHeaderContract.getDocumentId());
+		
+        scheduleJob(LeaveCalendarDelinquencyJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
 	}
 	
 	@SuppressWarnings("unchecked")

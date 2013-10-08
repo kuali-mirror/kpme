@@ -211,7 +211,7 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 	}
 
 
-	public Boolean getSMoreThanOneCalendar() {
+	public Boolean getMoreThanOneCalendar() {
 		return moreThanOneCalendar;
 	}
 

@@ -188,7 +188,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
     <property name="name" value="beginPeriodTime"/>
-    <property name="label" value="Begin Period Time (00:00 AM)"/>
+    <property name="label" value="Begin Period Time (12:00 AM)"/>
   </bean>
 
   <bean id="CalendarEntry-endPeriodDateTime" parent="CalendarEntry-endPeriodDateTime-parentBean"/>
@@ -230,7 +230,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
     <property name="name" value="endPeriodTime"/>
-    <property name="label" value="End Period Time (00:00 AM)"/>
+    <property name="label" value="End Period Time (12:00 AM)"/>
   </bean>
   
   <bean id="CalendarEntry-batchInitiateDateTime" parent="CalendarEntry-batchInitiateDateTime-parentBean"/>
@@ -272,7 +272,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
     <property name="name" value="batchInitiateTime"/>
-    <property name="label" value="Batch Initiate Time (00:00 AM)"/>
+    <property name="label" value="Batch Initiate Time (12:00 AM)"/>
   </bean>
 
   <bean id="CalendarEntry-batchEndPayPeriodDateTime" parent="CalendarEntry-batchEndPayPeriodDateTime-parentBean"/>
@@ -314,7 +314,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
     <property name="name" value="batchEndPayPeriodTime"/>
-    <property name="label" value="Batch End Period Time (00:00 AM)"/>
+    <property name="label" value="Batch End Period Time (12:00 AM)"/>
   </bean>
 
   <bean id="CalendarEntry-batchEmployeeApprovalDateTime" parent="CalendarEntry-batchEmployeeApprovalDateTime-parentBean"/>
@@ -356,7 +356,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
     <property name="name" value="batchEmployeeApprovalTime"/>
-    <property name="label" value="Batch Employee Approval Time (00:00 AM)"/>
+    <property name="label" value="Batch Employee Approval Time (12:00 AM)"/>
   </bean>
 
   <bean id="CalendarEntry-batchSupervisorApprovalDateTime" parent="CalendarEntry-batchSupervisorApprovalDateTime-parentBean"/>
@@ -398,7 +398,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
     <property name="name" value="batchSupervisorApprovalTime"/>
-    <property name="label" value="Batch Supervisor Approval Time (00:00 AM)"/>
+    <property name="label" value="Batch Supervisor Approval Time (12:00 AM)"/>
   </bean>
   
   <bean id="CalendarEntry-batchPayrollApprovalDateTime" parent="CalendarEntry-batchPayrollApprovalDateTime-parentBean"/>
@@ -440,7 +440,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
     <property name="name" value="batchPayrollApprovalTime"/>
-    <property name="label" value="Batch Payroll Approval Time (00:00 AM)"/>
+    <property name="label" value="Batch Payroll Approval Time (12:00 AM)"/>
   </bean>
 
   <!-- Lookup definition -->

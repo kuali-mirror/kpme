@@ -258,6 +258,7 @@ public class TimeDetailAction extends TimesheetAction {
 						        	BalanceTransfer loseTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(principalId, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveLocalDate());
 						        	boolean valid = BalanceTransferValidationUtils.validateTransfer(loseTransfer);
 						        	if (valid) {
+						        		//validation occurs again before the "transfer" action occurs that submits the forfeiture.
 						        		losses.add(loseTransfer);
 						        	}
 				        		}
@@ -491,10 +492,16 @@ public class TimeDetailAction extends TimesheetAction {
         }
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(HrContext.getTargetPrincipalId(), tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
 
-		// A bad hack to apply rules to all timeblocks on timesheet
-		List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
+        // A bad hack to apply rules to all timeblocks on timesheet
+        List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
+        // We need a  cloned reference set so we know whether or not to
+        // persist any potential changes without making hundreds of DB calls.
+        List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(newTimeBlocks.size());
+        for (TimeBlock tb : newTimeBlocks) {
+            referenceTimeBlocks.add(tb.copy());
+        }
 		TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
-		TkServiceLocator.getTimeBlockService().saveTimeBlocks(newTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
+		TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
         generateTimesheetChangedNotification(HrContext.getPrincipalId(), HrContext.getTargetPrincipalId(), tdaf.getDocumentId());
 	}
 	
@@ -793,8 +800,27 @@ public class TimeDetailAction extends TimesheetAction {
       LeaveBlock blockToDelete = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
       if (blockToDelete != null && LmServiceLocator.getLMPermissionService().canDeleteLeaveBlock(HrContext.getPrincipalId(), blockToDelete)) {
 		    LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, HrContext.getPrincipalId());
-      
-		    generateTimesheetChangedNotification(principalId, targetPrincipalId, documentId);
+
+          // A bad hack to apply rules to all timeblocks on timesheet
+          List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
+          // We need a  cloned reference set so we know whether or not to
+          // persist any potential changes without making hundreds of DB calls.
+          List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(newTimeBlocks.size());
+          for (TimeBlock tb : newTimeBlocks) {
+              referenceTimeBlocks.add(tb.copy());
+          }
+          List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+          List<String> assignmentKeys = new ArrayList<String>();
+          for (Assignment assignment : assignments) {
+              assignmentKeys.add(assignment.getAssignmentKey());
+          }
+          List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId, tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
+
+          //reset time block
+          TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks, tdaf.getTimesheetDocument().getAsOfDate());
+          TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
+          TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
+          generateTimesheetChangedNotification(principalId, targetPrincipalId, documentId);
       }
 
       // if the leave block is NOT eligible for accrual, rerun accrual service for the leave calendar the leave block is on

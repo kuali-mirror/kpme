@@ -61,7 +61,7 @@
               </tr>
                <tbody id="leaveApprovalWeekSummary${weekString}_${principalId}" style="display: none">
                <tr class='leaveDetailRow_${weekString} ui-state-default' style="background: rgb(224, 235, 225);" >
-               <th colspan='7'/><th style="border-left: 2px double #666666;">Period Usage</th><th style="border-left: 2px double #666666;">Available</th>
+               <th colspan='7'/><th style="border-left: 2px double #666666;">Weekly Activity</th><th style="border-left: 2px double #666666;">Available</th>
                </tr>
                <c:forEach var="earnCodeMap" items="${leaveApprovalWeekSummary.detailMap[entry.key]}" >
                	     <tr class="ui-state-default" style="background: rgb(224, 235, 225); font-weight: bold;">

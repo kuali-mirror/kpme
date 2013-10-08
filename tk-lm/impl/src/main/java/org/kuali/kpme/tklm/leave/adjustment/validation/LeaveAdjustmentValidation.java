@@ -16,10 +16,15 @@
 package org.kuali.kpme.tklm.leave.adjustment.validation;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.ValidationUtils;
@@ -79,6 +84,36 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 		}
 		return valid;
 	}
+
+    boolean validateDepartmentAdmin(String principalId) {
+
+        boolean valid = false;
+        String LoggedInPrincipalID = GlobalVariables.getUserSession().getPrincipalId();
+        LocalDate loggedInDay =  LocalDate.now();
+        DateTime asOfDate =  DateTime.now();
+
+        if(principalId != null && StringUtils.isNotEmpty(principalId)) {
+            List<Job> targetUserJob = HrServiceLocator.getJobService().getActiveLeaveJobs(principalId, loggedInDay);
+
+            if(!targetUserJob.isEmpty()) {
+            //the target user should have at least one job and not have more than one leave eligible dept
+                  String targetUserDept = targetUserJob.get(0).getDept();
+                  //check to see if the logged in user is the dept admin for the leave adjustment target user's dept
+                  if(HrContext.isSystemAdmin() 
+                		|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(LoggedInPrincipalID, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), targetUserDept, asOfDate)
+                        || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(LoggedInPrincipalID, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), targetUserDept, asOfDate)
+                        || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(LoggedInPrincipalID, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), targetUserDept, asOfDate)
+                        || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(LoggedInPrincipalID, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), targetUserDept, asOfDate))
+                  {
+                      valid = true;
+                  }
+            }//List
+        }
+        if(!valid) {
+        	GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "principal.is.not.dept.admin");
+        }
+        return valid;
+    }
 	
 	private boolean validateFraction(String earnCode, BigDecimal amount, LocalDate asOfDate) {
 		boolean valid = true;
@@ -110,6 +145,7 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 				valid = true;
 				if(leaveAdjustment.getPrincipalId() != null) {
 					valid &= this.validatePrincipal(leaveAdjustment.getPrincipalId());
+                    valid &= this.validateDepartmentAdmin(leaveAdjustment.getPrincipalId());
 				}
 				if(leaveAdjustment.getAccrualCategory() != null) {
 					valid &= this.validateAccrualCategory(leaveAdjustment.getAccrualCategory(),leaveAdjustment.getEffectiveLocalDate(), leaveAdjustment.getPrincipalId());

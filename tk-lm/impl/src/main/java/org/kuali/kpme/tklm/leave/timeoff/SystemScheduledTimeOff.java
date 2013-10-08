@@ -156,7 +156,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 	}
 
 	public BigDecimal getAmountofTime() {
-		return amountofTime != null ? amountofTime.setScale(HrConstants.BIG_DECIMAL_SCALE) : null;
+		return amountofTime; // != null ? amountofTime.setScale(scale) : null;
 	}
 
 	public void setAmountofTime(BigDecimal amountofTime) {

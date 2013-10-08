@@ -103,6 +103,7 @@ public class LeaveCalendarSubmitAction extends KPMEAction {
             		}
         		}
         		if(!eligibleTransfers.isEmpty()) {
+        			//LOSE actions get lumped into this set, and are redirected back to this page to handle submission via dialog.
             		transferRedirect.setPath("/BalanceTransfer.do?"+request.getQueryString());
             		request.getSession().setAttribute("eligibilities", eligibleTransfers);
             		return transferRedirect;

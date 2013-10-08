@@ -27,7 +27,7 @@
     <admin:hrPayroll />
     <admin:timeKeeping />
     <admin:leaveMaintenance />
-    <admin:positionManagement />
+    <%-- applicable to 2.1 and greater releases <admin:positionManagement /> --%>
     <admin:administrative />
 </td>
 <td class="content" valign="top">

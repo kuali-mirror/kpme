@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.kuali.kpme.api.tklm.common.WorkflowTagSupportContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -78,7 +77,7 @@ public class WorkflowTagSupport implements WorkflowTagSupportContract {
     	LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
         return isRouteButtonEnabled(documentId) && isNotDelinquent(documentId) 
         		&& (HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithEStatus() 
-        		&& LocalDate.now().toDate().compareTo(leaveCalendarDocument.getDocumentHeader().getEndDate()) > 0);
+        		&& DateTime.now().toDate().compareTo(leaveCalendarDocument.getDocumentHeader().getEndDate()) > 0);
     }
 
     private static boolean isNotDelinquent(String documentId) {

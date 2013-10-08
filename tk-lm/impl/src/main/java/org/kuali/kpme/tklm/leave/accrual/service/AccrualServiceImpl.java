@@ -408,7 +408,9 @@ public class AccrualServiceImpl implements AccrualService {
 				return null;
 //				throw new RuntimeException("Cannot find Earn Code for Leave block " + lb.getLmLeaveBlockId());
 			}
-			if(ec.getEligibleForAccrual().equals("N") && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) != 0) {
+			if(ec.getEligibleForAccrual().equals("N") 
+					&& ec.getAccrualBalanceAction().equals(HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)
+					&& lb.getLeaveAmount().compareTo(BigDecimal.ZERO) != 0) {
 				hours = hours.add(lb.getLeaveAmount());
 			}		
 		}

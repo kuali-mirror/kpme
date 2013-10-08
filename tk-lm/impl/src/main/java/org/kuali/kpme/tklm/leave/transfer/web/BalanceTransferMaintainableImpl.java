@@ -27,6 +27,7 @@ import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -58,13 +59,13 @@ public class BalanceTransferMaintainableImpl extends
         String documentId = documentHeader.getDocumentNumber();
         BalanceTransfer balanceTransfer = (BalanceTransfer)this.getDataObject();
         DocumentService documentService = KRADServiceLocatorWeb.getDocumentService();
-
+        balanceTransfer.setDocumentHeaderId(documentId);
         DocumentStatus newDocumentStatus = documentHeader.getWorkflowDocument().getStatus();
         String routedByPrincipalId = documentHeader.getWorkflowDocument().getRoutedByPrincipalId();
         /**
          * TODO:
          * if (!document.getDocumentStatus().equals(statusChangeEvent.getNewRouteStatus())) {
-         * 	LmServiceLocator.getBalanceTransferService().saveOrUpdate(balanceTransfer)... locking issue resolved??
+         * 	LmServiceLocator.getBalanceTransferService().saveOrUpdate(balanceTransfer)...??
          * }
          * 
          */
@@ -75,6 +76,7 @@ public class BalanceTransferMaintainableImpl extends
         		try {
 	                MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
 	                balanceTransfer = LmServiceLocator.getBalanceTransferService().transferSsto(balanceTransfer);
+	                md.getDocumentHeader().setDocumentDescription(TKUtils.getDocumentDescription(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveLocalDate()));
 	                md.getNewMaintainableObject().setDataObject(balanceTransfer);
 	                documentService.saveDocument(md);
 	            }
@@ -86,7 +88,7 @@ public class BalanceTransferMaintainableImpl extends
                 //when transfer document is routed, initiate the balance transfer - creating the leave blocks
 	            try {
 	                MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
-	
+	                md.getDocumentHeader().setDocumentDescription(TKUtils.getDocumentDescription(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveLocalDate()));
 	                balanceTransfer = LmServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
 	                md.getNewMaintainableObject().setDataObject(balanceTransfer);
 	                documentService.saveDocument(md);
@@ -101,7 +103,6 @@ public class BalanceTransferMaintainableImpl extends
         	 * TODO: Remove disapproval action
         	 */
         	// this is a balance transfer on a system scheduled time off leave block
-
             if(StringUtils.isNotEmpty(balanceTransfer.getSstoId())) {
         		// put two accrual service generated leave blocks back, one accrued, one usage
         		List<LeaveBlock> lbList = buildSstoLeaveBlockList(balanceTransfer);    			

@@ -82,16 +82,22 @@ public class TkPostProcessor extends DefaultPostProcessor {
 				List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 				
 				for (TimeBlock timeBlock : timeBlocks) {
-					EarnCode overtimeEarnCode = getOvertimeEarnCode(timeBlock, endDate.toLocalDate());
-					
-					if (overtimeEarnCode != null) {
+					EarnCode overtimeEarnCode = null;
+					BigDecimal leaveAmount = null;
+					for (TimeHourDetail timeHourDetail : timeBlock.getTimeHourDetails()) {
+						EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(timeHourDetail.getEarnCode(),  endDate.toLocalDate());
+						if (earnCode != null && earnCode.getOvtEarnCode()) {
+							overtimeEarnCode = earnCode;
+							leaveAmount = timeHourDetail.getHours();
+							//What if [can] the units are [be] days?
+							break;
+						}
+					}
+					if (overtimeEarnCode != null && leaveAmount != null) {
 						AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(overtimeEarnCode.getAccrualCategory(), endDate.toLocalDate());
 						
 						if (accrualCategory != null) {
 							LocalDate leaveDate = LocalDate.fromDateFields(timeBlock.getBeginDate());
-							BigDecimal leaveAmount = timeBlock.getHours();
-							//What if [can] the units are [be] days?
-							
 							LeaveBlock.Builder builder = new LeaveBlock.Builder(leaveDate, null, principalId, overtimeEarnCode.getEarnCode(), leaveAmount)
 								.accrualCategory(accrualCategory.getAccrualCategory())
 								.leaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE)
@@ -105,21 +111,6 @@ public class TkPostProcessor extends DefaultPostProcessor {
 				LmServiceLocator.getLeaveBlockService().saveLeaveBlocks(leaveBlocks);
 			}
 		}
-	}
-	
-	private EarnCode getOvertimeEarnCode(TimeBlock timeBlock, LocalDate asOfDate) {
-		EarnCode overtimeEarnCode = null;
-		
-		for (TimeHourDetail timeHourDetail : timeBlock.getTimeHourDetails()) {
-			EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(timeHourDetail.getEarnCode(), asOfDate);
-		
-			if (earnCode != null && earnCode.getOvtEarnCode()) {
-				overtimeEarnCode = earnCode;
-				break;
-			}
-		}
-		
-		return overtimeEarnCode;
 	}
 	
 	private void calculateMaxCarryOver(TimesheetDocumentHeader timesheetDocumentHeader, DocumentStatus newDocumentStatus) {

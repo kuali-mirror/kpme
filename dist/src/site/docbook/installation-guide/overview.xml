@@ -30,11 +30,14 @@
             </itemizedlist></para>
         <para>
             Note that while Ubuntu Linux is the distribution most frequently used for testing, other Linux distributions such as Fedora, Red Hat Enterprise 
-            Linux, CentOS, Gentoo, and others should also be able to run KPME.
+            Linux, CentOS, Debian, Gentoo, and others should also be able to run KPME.
         </para>
         <para>
-            Additionally, KPME will likely work on other Unix operating systems such as Sun Microsystems Solaris and IBM AIX, although the software has not 
+            Additionally, KPME will likely work on other Unix operating systems such as Oracle Solaris and IBM AIX, although the software has not
             been tested here.
+        </para>
+        <para>
+            KPME has only been tested with the oracle distribution of the JDK.  Any other jdk (IBM, OpenJDK, etc) must be used at your own risk.
         </para>
     </section>
     <section>

@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.payout.LeavePayout;
@@ -41,25 +42,7 @@ public class LeavePayoutMaintainableImpl extends
     private static final long serialVersionUID = 1L;
 
     @Override
-    public void saveBusinessObject() {
-		LeavePayout bt = (LeavePayout) this.getBusinessObject();
-		
-		LeavePayout existingBt = LmServiceLocator.getLeavePayoutService().getLeavePayoutById(bt.getId());
-		
-		if(ObjectUtils.isNotNull(existingBt)) {
-			if(existingBt.getPayoutAmount().compareTo(bt.getPayoutAmount()) != 0) {
-				//TODO: Create leave block reference within bt, and update leave amount.
-			}
-			if(existingBt.getForfeitedAmount().compareTo(bt.getForfeitedAmount()) != 0) {
-				//TODO: Create reference within bt for forfeited leave block, update leave amount.
-			}
-			//Will approvers / department admins be changing accrual category? effective date?
-		}
-    }
-    
-    @Override
     public HrBusinessObject getObjectById(String id) {
-        // TODO Auto-generated method stub
         return LmServiceLocator.getLeavePayoutService().getLeavePayoutById(id);
     }
 
@@ -69,7 +52,7 @@ public class LeavePayoutMaintainableImpl extends
         String documentId = documentHeader.getDocumentNumber();
         LeavePayout payout = (LeavePayout)this.getDataObject();
         DocumentService documentService = KRADServiceLocatorWeb.getDocumentService();
-
+        payout.setDocumentHeaderId(documentId);
         DocumentStatus newDocumentStatus = documentHeader.getWorkflowDocument().getStatus();
         String routedByPrincipalId = documentHeader.getWorkflowDocument().getRoutedByPrincipalId();
         if (DocumentStatus.ENROUTE.equals(newDocumentStatus)
@@ -77,8 +60,8 @@ public class LeavePayoutMaintainableImpl extends
             //when payout document is routed, initiate the leave payout - creating the leave blocks
             try {
                 MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
-
                 payout = LmServiceLocator.getLeavePayoutService().payout(payout);
+                md.getDocumentHeader().setDocumentDescription(TKUtils.getDocumentDescription(payout.getPrincipalId(), payout.getEffectiveLocalDate()));
                 md.getNewMaintainableObject().setDataObject(payout);
                 documentService.saveDocument(md);
             }

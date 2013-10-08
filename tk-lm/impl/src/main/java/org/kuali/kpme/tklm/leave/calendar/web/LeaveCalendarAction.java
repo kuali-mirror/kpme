@@ -240,7 +240,8 @@ public class LeaveCalendarAction extends CalendarFormAction {
 	        }
 	        
 	        // use the logged in user's id to retrieve assignments so that approver can only see assignments they have permission to edit
-        	String loggedInUserId = HrContext.getPrincipalId();        	new ArrayList<Assignment>();
+        	String loggedInUserId = HrContext.getPrincipalId();
+        	new ArrayList<Assignment>();
         	DateTime asOfDate = calendarEntry.getBeginPeriodFullDateTime();
         	// if user is working on his/her own calendar, use the original assignment list,
         	// otherwise, call the method to make sure the user has permission for the assignments
@@ -302,7 +303,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
 					loggedInUserassignments.add(anAssignment);
 			    	continue;
 				}
-				Job aJob = anAssignment.getJob();
+				Job aJob = HrServiceLocator.getJobService().getJob(anAssignment.getPrincipalId(), anAssignment.getJobNumber(), asOfDate.toLocalDate());
 				if(aJob != null) {
 					// Payroll Processor / Payroll Processor Delegate
 				    if(HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), aJob.getDept(), asOfDate)
@@ -312,7 +313,8 @@ public class LeaveCalendarAction extends CalendarFormAction {
 			        }
 				 // if user is location admin, then the user can access this assignment
 					// use job to find the department, then use the location from Department to get the location roles
-					Department aDept = aJob.getDeptObj();
+				    // aJob.getDeptObj() does not reliably return a Department Object.
+					Department aDept = HrServiceLocator.getDepartmentService().getDepartment(aJob.getDept(), asOfDate.toLocalDate());
 					if(aDept != null) {
 					    if(HrServiceLocator.getKPMERoleService()
 					    		.principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), aDept.getLocation(), asOfDate)
@@ -594,6 +596,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
 				        	BalanceTransfer loseTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(principalId, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveLocalDate());
 				        	boolean valid = BalanceTransferValidationUtils.validateTransfer(loseTransfer);
 				        	if (valid) {
+				        		//validates again before the "transfer" action is triggered on the forfeiture.
 				        		losses.add(loseTransfer);
 				        	}
 		        		}

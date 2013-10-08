@@ -198,7 +198,7 @@
             <table>
 				<tr>
 					<th></th>
-					<th>Forfeited Amount</th>
+					<th>Amount</th>
 				</tr>
 				<tbody>
 				<c:forEach var="forfeiture" items="${Form.forfeitures}">
@@ -209,9 +209,6 @@
 				</c:forEach>
 				</tbody>
             </table>
-            <div>
-            Effective: ${forfeiture.effectiveDate}
-            </div>
         </div>
     </html:form>
 </div>

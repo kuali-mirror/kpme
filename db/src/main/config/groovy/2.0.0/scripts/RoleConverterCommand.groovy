@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import java.sql.Connection
+import java.sql.Timestamp
 
 class RoleConverterCommand extends RecordSelectPerform {
 
@@ -47,38 +48,38 @@ class RoleConverterCommand extends RecordSelectPerform {
         switch (row['ROLE_NAME']) {
             case 'TK_SYS_ADMIN':
                 if (row['PRINCIPAL_ID'] != 'admin') {
-                    actions << generateInsertKimGroupMember("KPME-HR", "System Administrator", quote(row['PRINCIPAL_ID']), quote(row['EFFDT']), quote(row['EXPDT']), quote(row['TIMESTAMP']), row['ACTIVE'])
+                    actions << generateInsertKimGroupMember("KPME-HR", "System Administrator", quote(row['PRINCIPAL_ID']), generateDateValues(row['EFFDT']), generateDateValues(row['EXPDT']), generateDateValues(row['TIMESTAMP']), row['ACTIVE'])
                 }
                 break
             case 'TK_GLOBAL_VO':
-                actions << generateInsertKimGroupMember("KPME-HR", "System View Only Group", quote(row['PRINCIPAL_ID']), quote(row['EFFDT']), quote(row['EXPDT']), quote(row['TIMESTAMP']), row['ACTIVE'])
+                actions << generateInsertKimGroupMember("KPME-HR", "System View Only Group", quote(row['PRINCIPAL_ID']), generateDateValues(row['EFFDT']), generateDateValues(row['EXPDT']), generateDateValues(row['TIMESTAMP']), row['ACTIVE'])
                 break
             case 'TK_ORG_ADMIN':
-                actions << generateInsertKimLocationRoleMember("KPME-TK", "Time Location Administrator", quote(row['PRINCIPAL_ID']), quote(row['EFFDT']), quote(row['EXPDT']), quote(row['TIMESTAMP']), row['ACTIVE'], quote(row['CHART']))
+                actions << generateInsertKimLocationRoleMember("KPME-TK", "Time Location Administrator", quote(row['PRINCIPAL_ID']), generateDateValues(row['EFFDT']), generateDateValues(row['EXPDT']), generateDateValues(row['TIMESTAMP']), row['ACTIVE'], quote(row['CHART']))
                 break
             case 'TK_LOCATION_VO':
-                actions << generateInsertKimLocationRoleMember("KPME-TK", "Time Location View Only", quote(row['PRINCIPAL_ID']), quote(row['EFFDT']), quote(row['EXPDT']), quote(row['TIMESTAMP']), row['ACTIVE'], quote(row['CHART']))
+                actions << generateInsertKimLocationRoleMember("KPME-TK", "Time Location View Only", quote(row['PRINCIPAL_ID']), generateDateValues(row['EFFDT']), generateDateValues(row['EXPDT']), generateDateValues(row['TIMESTAMP']), row['ACTIVE'], quote(row['CHART']))
                 break
             case 'TK_DEPT_ADMIN':
-                actions << generateInsertKimDepartmentRoleMember("KPME-TK", "Time Department Administrator", quote(row['PRINCIPAL_ID']), quote(row['EFFDT']), quote(row['EXPDT']), quote(row['TIMESTAMP']), row['ACTIVE'], quote(row['DEPT']))
+                actions << generateInsertKimDepartmentRoleMember("KPME-TK", "Time Department Administrator", quote(row['PRINCIPAL_ID']), generateDateValues(row['EFFDT']), generateDateValues(row['EXPDT']), generateDateValues(row['TIMESTAMP']), row['ACTIVE'], quote(row['DEPT']))
                 break
             case 'TK_DEPT_VO':
-                actions << generateInsertKimDepartmentRoleMember("KPME-TK", "Time Department View Only", quote(row['PRINCIPAL_ID']), quote(row['EFFDT']), quote(row['EXPDT']), quote(row['TIMESTAMP']), row['ACTIVE'], quote(row['DEPT']))
+                actions << generateInsertKimDepartmentRoleMember("KPME-TK", "Time Department View Only", quote(row['PRINCIPAL_ID']), generateDateValues(row['EFFDT']), generateDateValues(row['EXPDT']), generateDateValues(row['TIMESTAMP']), row['ACTIVE'], quote(row['DEPT']))
                 break
             case 'LV_DEPT_ADMIN':
-                actions << generateInsertKimDepartmentRoleMember("KPME-LM", "Leave Department Administrator", quote(row['PRINCIPAL_ID']), quote(row['EFFDT']), quote(row['EXPDT']), quote(row['TIMESTAMP']), row['ACTIVE'], quote(row['DEPT']))
+                actions << generateInsertKimDepartmentRoleMember("KPME-LM", "Leave Department Administrator", quote(row['PRINCIPAL_ID']), generateDateValues(row['EFFDT']), generateDateValues(row['EXPDT']), generateDateValues(row['TIMESTAMP']), row['ACTIVE'], quote(row['DEPT']))
                 break
             case 'LV_DEPT_VO':
-                actions << generateInsertKimDepartmentRoleMember("KPME-LM", "Leave Department View Only", quote(row['PRINCIPAL_ID']), quote(row['EFFDT']), quote(row['EXPDT']), quote(row['TIMESTAMP']), row['ACTIVE'], quote(row['DEPT']))
+                actions << generateInsertKimDepartmentRoleMember("KPME-LM", "Leave Department View Only", quote(row['PRINCIPAL_ID']), generateDateValues(row['EFFDT']), generateDateValues(row['EXPDT']), generateDateValues(row['TIMESTAMP']), row['ACTIVE'], quote(row['DEPT']))
                 break
             case 'TK_APPROVER':
-                actions << generateInsertKimWorkAreaRoleMember("KPME-HR", "Approver", quote(row['PRINCIPAL_ID']), quote(row['POSITION_NBR']), quote(row['EFFDT']), quote(row['EXPDT']), quote(row['TIMESTAMP']), row['ACTIVE'], quote(row['WORK_AREA']))
+                actions << generateInsertKimWorkAreaRoleMember("KPME-HR", "Approver", quote(row['PRINCIPAL_ID']), quote(row['POSITION_NBR']), generateDateValues(row['EFFDT']), generateDateValues(row['EXPDT']), generateDateValues(row['TIMESTAMP']), row['ACTIVE'], quote(row['WORK_AREA']))
                 break
             case 'TK_APPROVER_DELEGATE':
-                actions << generateInsertKimWorkAreaRoleMember("KPME-HR", "Approver Delegate", quote(row['PRINCIPAL_ID']), quote(row['POSITION_NBR']), quote(row['EFFDT']), quote(row['EXPDT']), quote(row['TIMESTAMP']), row['ACTIVE'], quote(row['WORK_AREA']))
+                actions << generateInsertKimWorkAreaRoleMember("KPME-HR", "Approver Delegate", quote(row['PRINCIPAL_ID']), quote(row['POSITION_NBR']), generateDateValues(row['EFFDT']), generateDateValues(row['EXPDT']), generateDateValues(row['TIMESTAMP']), row['ACTIVE'], quote(row['WORK_AREA']))
                 break
             case 'TK_REVIEWER':
-                actions << generateInsertKimWorkAreaRoleMember("KPME-HR", "Reviewer", quote(row['PRINCIPAL_ID']), quote(row['POSITION_NBR']), quote(row['EFFDT']), quote(row['EXPDT']), quote(row['TIMESTAMP']), row['ACTIVE'], quote(row['WORK_AREA']))
+                actions << generateInsertKimWorkAreaRoleMember("KPME-HR", "Reviewer", quote(row['PRINCIPAL_ID']), quote(row['POSITION_NBR']), generateDateValues(row['EFFDT']), generateDateValues(row['EXPDT']), generateDateValues(row['TIMESTAMP']), row['ACTIVE'], quote(row['WORK_AREA']))
                 break
         }
 
@@ -204,6 +205,16 @@ class RoleConverterCommand extends RecordSelectPerform {
             nextInsert += "${sequenceName}.NEXTVAL"
         } else if (dbType == 'mysql') {
             nextInsert += "(SELECT MAX(ID) FROM ${sequenceName})"
+        }
+    }
+
+    def String generateDateValues(Object timestamp) {
+        if (timestamp == null) return null;
+        String str = timestamp.toString();
+        if (dbType == 'oracle') {
+            return "TO_TIMESTAMP('" + str + "', 'YYYY-MM-DD HH24:MI:SS.FF')";
+        } else if (dbType == 'mysql') {
+            return "'" + str + "'";
         }
     }
     

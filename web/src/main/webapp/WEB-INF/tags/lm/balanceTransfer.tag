@@ -112,9 +112,7 @@
 		            </td>
 				</tr>
 			</table>
-			<input type="hidden" name="forfeitedAmount" id="forfeitedAmount" value=""/>
-			<input type="hidden" name="leaveCalendarDocumentId" id="leaveCalendarDocumentId" value=""/>
-			
+			</br>
 			<c:set var="actionMethod" value="balanceTransferOnLeaveApproval" />
 			<c:if test="${KualiForm.sstoTransfer}">
 				<c:set var="actionMethod" value="balanceTransferOnSSTO" />
@@ -122,6 +120,6 @@
 			<html:image property="methodToCall.${actionMethod}" src='${ConfigProperties.kew.externalizable.images.url}buttonsmall_submit.gif' styleClass="tinybutton"/>
         		
 			<html:image property="methodToCall.cancel" src='${ConfigProperties.kew.externalizable.images.url}buttonsmall_cancel.gif' styleClass="tinybutton"/>
-			
+			</div>
 	</html:form>
 </div>

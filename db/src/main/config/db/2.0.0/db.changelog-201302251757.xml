@@ -19,7 +19,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     
-    <changeSet id="1-mysql" author="dgodfrey" dbms="mysql" context="kpme-client-bootstrap">
+    <changeSet id="1" author="dgodfrey" context="kpme-client-bootstrap">
         <comment>description should be nullable</comment>
 		<dropNotNullConstraint tableName="PM_INSTITUTION_T" columnName="DESCRIPTION" columnDataType="VARCHAR(50)"/>
     </changeSet>

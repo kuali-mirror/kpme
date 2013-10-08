@@ -15,8 +15,7 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.kuali.pom</groupId>
@@ -61,6 +60,7 @@
         <junit.version>4.11</junit.version>
         <kuali.release.goals>pre-site deploy</kuali.release.goals>
         <kuali.release.arguments>-DskipTests</kuali.release.arguments>
+        <log4j.version>1.2.16</log4j.version>
         <mysql.jdbc.version>5.1.23</mysql.jdbc.version>
         <mysql.jdbc.artifactId>mysql-connector-java</mysql.jdbc.artifactId>
         <mysql-connector-java.jar.location>${jdbc.drivers.location}/mysql/${mysql.jdbc.artifactId}/${mysql.jdbc.version}/${mysql.jdbc.artifactId}-${mysql.jdbc.version}.jar</mysql-connector-java.jar.location>
@@ -331,6 +331,16 @@
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-krms-impl</artifactId>
                 <version>${rice.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.kuali.rice</groupId>
@@ -368,6 +378,16 @@
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-ksb-web</artifactId>
                 <version>${rice.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.kuali.rice</groupId>
@@ -481,6 +501,11 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>jcl-over-slf4j</artifactId>
                 <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -858,7 +883,7 @@
                                     </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                    <ignore/>
+                                    <ignore />
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -871,7 +896,7 @@
                                     </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                    <ignore/>
+                                    <ignore />
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -884,7 +909,7 @@
                                     </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                    <ignore/>
+                                    <ignore />
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
@@ -1001,8 +1026,8 @@
         </repository>
     </repositories>
     <scm>
-        <connection>scm:${project.scm.vendor}:https://svn.kuali.org/repos/kpme/trunk</connection>
-        <developerConnection>scm:${project.scm.vendor}:https://svn.kuali.org/repos/kpme/trunk</developerConnection>
-        <url>https://svn.kuali.org/repos/kpme/trunk</url>
+        <connection>scm:${project.scm.vendor}:https://svn.kuali.org/repos/kpme/tags/kpme-2.0.0</connection>
+        <developerConnection>scm:${project.scm.vendor}:https://svn.kuali.org/repos/kpme/tags/kpme-2.0.0</developerConnection>
+        <url>https://svn.kuali.org/repos/kpme/tags/kpme-2.0.0</url>
     </scm>
 </project>

@@ -53,5 +53,9 @@ public interface BatchJobService {
 	void schedulePayrollApprovalJobs(CalendarEntry calendarEntry) throws SchedulerException;
 	
 	void schedulePayrollApprovalJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException;
+	
+	void scheduleLeaveCalendarDelinquencyJobs(CalendarEntry calendarEntry) throws SchedulerException;
+	
+	void scheduleLeaveCalendarDelinquencyJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException;
     
 }
