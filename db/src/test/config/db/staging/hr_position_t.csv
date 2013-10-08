@@ -1,4 +1,51 @@
 HR_POSITION_ID,POSITION_NBR,DESCRIPTION,EFFDT,ACTIVE
-1,1,Exempt Position 1,2010-01-01,Y
-2,2,Hourly Position 1,2010-01-01,Y
-3,3,Non-Exempt Position 1,2010-01-01,Y
+1,1,TK Test Position,2010-01-01,Y
+2,2,LM Test Positoin,2010-01-01,Y
+3,3,Hourly Positions,2010-01-01,Y
+4,4,Non-Exempt Position,2010-01-01,Y
+5,5,Exempt Position,2010-01-01,Y
+6,6,Approver,2010-01-01,Y
+7,7,Approver I,2010-01-01,Y
+8,8,Approver II,2010-01-01,Y
+9,9,Payroll Processor,2010-01-01,Y
+10,10,Dept Admin,2010-01-01,Y
+11,11,Location Admin,2010-01-01,Y
+12,12,IN Hourly Positions,2010-01-01,Y
+13,13,IN Non-Exempt Position,2010-01-01,Y
+14,14,IN Non-Exempt Position I,2010-01-01,Y
+15,15,IN Non-Exempt Position II,2010-01-01,Y
+16,16,IN Exempt Position,2010-01-01,Y
+17,17,IN Exempt Position I,2010-01-01,Y
+18,18,IN Exempt Position II,2010-01-01,Y
+19,19,IN Approver,2010-01-01,Y
+20,20,IN Approver I,2010-01-01,Y
+21,21,IN Approver II,2010-01-01,Y
+22,22,IN Payroll Processor,2010-01-01,Y
+23,23,IN Dept Admin,2010-01-01,Y
+24,24,IN Location Admin,2010-01-01,Y
+25,25,IA Hourly Positions,2010-01-01,Y
+26,26,IA Non-Exempt Position,2010-01-01,Y
+27,27,IA Non-Exempt Position I,2010-01-01,Y
+28,28,IA Non-Exempt Position II,2010-01-01,Y
+29,29,IA Exempt Position,2010-01-01,Y
+30,30,IA Exempt Position I,2010-01-01,Y
+31,31,IA Exempt Position II,2010-01-01,Y
+32,32,IA Approver,2010-01-01,Y
+33,33,IA Approver I,2010-01-01,Y
+34,34,IA Approver II,2010-01-01,Y
+35,35,IA Payroll Processor,2010-01-01,Y
+36,36,IA Dept Admin,2010-01-01,Y
+37,37,IA Location Admin,2010-01-01,Y
+38,38,GA Hourly Positions,2010-01-01,Y
+39,39,GA Non-Exempt Position,2010-01-01,Y
+40,40,GA Non-Exempt Position I,2010-01-01,Y
+41,41,GA Non-Exempt Position II,2010-01-01,Y
+42,42,GA Exempt Position,2010-01-01,Y
+43,43,GA Exempt Position I,2010-01-01,Y
+44,44,GA Exempt Position II,2010-01-01,Y
+45,45,GA Approver,2010-01-01,Y
+46,46,GA Approver I,2010-01-01,Y
+47,47,GA Approver II,2010-01-01,Y
+48,48,GA Payroll Processor,2010-01-01,Y
+49,49,GA Dept Admin,2010-01-01,Y
+50,50,GA Location Admin,2010-01-01,Y
