@@ -10,43 +10,183 @@
             that includes integration with Time and Attendance. KPME modules handle multiple jobs,
             pay types, and pay cycles based on employee’s active appointment in your department. The
             system also provides approval routing based on jobs so your designated approvers can
-            view and approve employee timesheets and leave online. </para>
+            view and approve employee timesheets and leave online.
+        </para>
     </section>
     <section>
         <title>What is KPME TIime?</title>
         <para>KPME Time provides a 24/7 electronic timekeeping system to record hours worked, hours in pay status, 
             and absent time in an easy-to-use, always accessible, web-based interface. It also calculates all special 
-            rates of pay such as overtime, shift differential, premium, and holiday pay.</para>
+            rates of pay such as overtime, shift differential, premium, and holiday pay.
+        </para>
     </section>
     <section>
         <title>What is KPME Leave Management?</title>
         <para>KPME Leave Management also provides a 24/7 electronic leave management system for organizations and their 
             employees to accrue, request, report and track the use of benefit time (eg. Vacation, Sick) for exempt and 
-            non-exempt faculty and staff.</para>
+            non-exempt faculty and staff.
+        </para>
     </section>
     <section>
         <title>Why is is used?</title>
-        <para/>
+        <para>The primary purposes of the timekeeping and leave management system are:
+        </para>
+        <itemizedlist>
+            <listitem>
+                <para>Elimination of paper-based, departmental, or outsourced systems
+                </para>
+            </listitem>
+            <listitem>
+                <para>Provide for appropriate approval routing based on jobs and labor distribution
+                </para>
+            </listitem>
+            <listitem>
+                <para>Provide for consistent application of an department’s policy as well as state and federal labor laws
+                </para>
+            </listitem>
+            <listitem>
+                <para>Provide for easy auditing of records and reports
+                </para>
+            </listitem>            
+        </itemizedlist>
+        <para>Timekeeping and leave data can also be used to generate relevant reports that are useful for tasks such as labor budgeting.
+        </para>
     </section>
     <section>
-        <title>When is it used??</title>
+        <title>Who uses it?</title>
+        <itemizedlist>
+            <listitem>
+                <para><emphasis role="bold">Employees</emphasis> use the system to record the time
+                    worked and/or leave. The system supports hourly and flat- rate employees which
+                    allow it to handle uncommon pay conditions. Employees also use KPME to record
+                    leave usage such as days off when sick or on vacation and request future planned
+                    leave.
+                </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Approvers</emphasis> use KPME to review, edit, and approve
+                    the hours worked their employees have recorded and/or leave reporting calendars.
+                    Approvers can also approved leave requested submitted by their employees.
+                </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Reviewers</emphasis> are KPME users who have the same
+                    ‘view and edit’ timesheet options as Approvers but are unable to approve
+                    timesheets or leave calendars.
+                </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Department Administrators</emphasis> are able to access
+                    the administrative or HR/Payroll functions in KPME allowing them to create Work
+                    Areas, add approvers for approval routing, and change the rules in their
+                    department.
+                </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">System and Location Administrators</emphasis> are able to
+                    access all timesheets, administrative and system functions and provide support
+                    to answer questions or assist users.
+                </para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">View Only</emphasis> users are granted access to view, but
+                    not modify, timesheets for a given department.
+                </para>
+            </listitem>            
+        </itemizedlist>
+    </section>    
+    <section>
+        <title>When is it used?</title>
         <para>KPME’s Timekeeping and Leave Management is available 24 hours, 7 days a week, and 365 days a year for 
             employees to record hours worked and report leave and for approvers to process timesheet approvals.</para>
     </section>
     <section>
         <title>How does it work?</title>
+        <para>KPME is a web-based application and can be accessed from any network-connected device with a web browser. 
+            Non-exempt employees will log into the KPME Time central portal which provides access to timesheets for either 
+            clock entry or manual entry of hours worked. Non-exempt employees with leave benefits will also have access 
+            to a leave calendar to plan and request leave along with accessing their accrual balances. Exempt employees 
+            will log into KPME Leave Management to access their leave calendar with accrual balances to plan, request, 
+            and report leave time.
+        </para>
+        <para>A department must first create <emphasis role="bold">Work Areas</emphasis> in KPME to
+            control the Approval Routing and to set up <emphasis role="bold">Assignments</emphasis>
+            that the employee uses to record work hours and leave time. KPME also allows for further
+            definition of Work Areas called Tasks. Tasks are optional sub-divisions of Work Areas
+            and allow departments to keep track of the hours an employee works on a particular
+            project. </para>
         <section>
             <title>Work Area Example</title>
-            <para/>
+            <table frame="all">
+                <title>Work Area Example</title>
+                <tgroup cols="3">
+                    <tbody>
+                        <row>
+                            <entry><emphasis role="bold"><emphasis role="underline"
+                                        >Organization</emphasis></emphasis>: DP-BOOK</entry>
+                            <entry/>
+                            <entry><emphasis role="bold"><emphasis role="underline"
+                                        >Organization</emphasis></emphasis>: DP-BOOK</entry>
+                        </row>
+                        <row>
+                            <entry><emphasis role="bold"><emphasis role="underline">Work
+                                        Area</emphasis></emphasis>: Cashier</entry>
+                            <entry/>
+                            <entry><emphasis role="bold"><emphasis role="underline">Work
+                                        Area</emphasis></emphasis>: Warehouse</entry>
+                        </row>
+                        <row>
+                            <entry><emphasis role="bold"><emphasis role="underline"
+                                        >Approver</emphasis></emphasis>: John Doe</entry>
+                            <entry/>
+                            <entry><emphasis role="bold"><emphasis role="underline"
+                                        >Approver</emphasis></emphasis>: Sally Farnsworth</entry>
+                        </row>
+                        <row>
+                            <entry><emphasis role="bold"><emphasis role="underline"
+                                        >Employees</emphasis></emphasis>: Daniel Smith, Ramona
+                                Sinclare</entry>
+                            <entry/>
+                            <entry><emphasis role="bold"><emphasis role="underline"
+                                        >Employees</emphasis></emphasis>: Ray Johnson, Daniel
+                                Smith</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+            <para>The above example shows one Organization with two different Work Areas in KPME. Notice that one employee 
+                (Daniel Smith) works in both Work Areas. When employees are associated with a KPME Work Area it appears as 
+                an "Assignment" on their timesheet and/or leave calendar.
+            </para>
+            <para>Employees can have many different Assignments and can even have multiple Assignments associated with the 
+                same job. Non-exempt Employees either clock in/out or manually edit the timesheet to record hours worked 
+                in their various Assignments. Employees can also enter the leave hours taken during a pay or leave calendar. 
+            </para>
+            <para>The timesheet or leave calendar at the end of each period is submitted by the Employee to an Approver 
+                and the Employee can access it up until it is approved. Each Approver must then review and approve all hours
+                worked and/or leave taken for their specific Work Area. Once the Approver has reviewed and approved all of 
+                the work and leave hours, the timesheet or leave calendar is Final and can only be changed at that point by 
+                the System Administrator.
+            </para>
+            <para>In the example above, Daniel's timesheet will route to both John (Work Area: Cashier) and Sally (Work Area: 
+                Warehouse) for approval of hours worked in their work area. John will be able to see Warehouse hours on 
+                Daniel's timesheet but he is not able to add/modify/delete those hours because he does not have a KPME 
+                role in that Work Area. The same is true for Sally.
+            </para>
+            <para>After all timesheet approvals are recorded, the hours for that employee can be transferred to your 
+                institution’s payroll system.   
+            </para>
         </section>
     </section>
     <section>
         <title>Recommended System Specifications</title>
-        <para>Note: These configurations are current as of the publication of this User Manual.</para>
+        <para>Note: These configurations are current as of the publication of this User Manual.
+        </para>
         <section>
             <title>Desktop Devices</title>
             <para>Workstations must run Windows 7, XP or Vista with Internet Explorer version 5.5 Service Pack 2 or newer. 
-                KPME also functions with other operating systems and browsers such as Mozilla Firefox and Google Chrome.</para>
+                KPME also functions with other operating systems and browsers such as Mozilla Firefox and Google Chrome.
+            </para>
         </section>
     </section>    
 </chapter>
