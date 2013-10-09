@@ -2,5 +2,32 @@
 <chapter xml:id="otherTKOptions" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Other Employee Timekeeping Options</title>
-    <para/>
+    <section>
+        <title>Changing Comp Hours to Overtime (and vice versa)</title>
+        <para/>
+    </section>
+    <section>
+        <title>Notifying Approvers</title>
+        <para/>
+    </section>
+    <section>
+        <title>Adding, Editing or Deleting a Timesheet Note</title>
+        <para/>
+    </section>
+    <section>
+        <title>Viewing the Route Log</title>
+        <para/>
+    </section>
+    <section>
+        <title>Viewing your Jobs, Asignments or Roles</title>
+        <para/>
+    </section>
+    <section>
+        <title>Getting Help and Reporting Problems</title>
+        <para/>
+    </section>
+    <section>
+        <title>Logging Out</title>
+        <para/>
+    </section>
 </chapter>

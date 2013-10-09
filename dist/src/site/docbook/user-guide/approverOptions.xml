@@ -2,5 +2,94 @@
 <chapter xml:id="approverOptions" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Approver Options</title>
-    <para/>
+    <section>
+        <title>Overview of the Time and Leave Approval tabs</title>
+        <para/>
+    </section>
+    <section>
+        <title>Timesheet Monitoring, Reviewing and Correcting</title>
+        <section>
+            <title>Finding Timesheets</title>
+            <para/>
+        </section>
+        <section>
+            <title>Viewing Previous and Next Timesheets</title>
+            <para/>
+        </section>
+        <section>
+            <title>Viewing Employee Work Status</title>
+            <para/>
+        </section>
+        <section>
+            <title>Viewing Timesheet Warnings and Notes</title>
+            <para/>
+        </section>
+        <section>
+            <title>Opening (and Closing) the 'Summary View' of Employee Hours</title>
+            <para/>
+        </section>
+        <section>
+            <title>Opening a Timsheet</title>
+            <para/>
+        </section>
+        <section>
+            <title>Adding Time Blocks to a Timesheet</title>
+            <para/>
+        </section>
+        <section>
+            <title>Editing Existing Time Blocks</title>
+            <para/>
+        </section>
+        <section>
+            <title>Deleting Time Blocks</title>
+            <para/>
+        </section>
+        <section>
+            <title>Adjusting Shift Differential Hours</title>
+            <para/>
+        </section>
+    </section>
+    <section>
+        <title>Timesheet Approval and Routing</title>
+        <section>
+            <title>Employee Submission</title>
+            <para/>
+        </section>
+        <section>
+            <title>Approver Approvals</title>
+            <para/>
+        </section>
+        <section>
+            <title>Timesheets Not Ready to Approve</title>
+            <para/>
+        </section>
+        <section>
+            <title>Approving Timesheets</title>
+            <para/>
+        </section>
+        <section>
+            <title>Automated Approvals</title>
+            <para/>
+        </section>
+        <section>
+            <title>Adding a Note to Employee Timesheets</title>
+            <para/>
+        </section>
+        <section>
+            <title>Checking the Route Log</title>
+            <para/>
+        </section>
+    </section>
+    <section>
+        <title>Leave Calendar Monitoring, Reviewing and Correcting</title>
+        <para/>
+    </section>
+    <section>
+        <title>Leave Reqeuest Approval</title>
+        <para/>
+    </section>
+    <section>
+        <title>Leave Calendar Approval and Routing</title>
+        <para/>
+    </section>
 </chapter>

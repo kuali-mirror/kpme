@@ -2,5 +2,97 @@
 <chapter xml:id="employeeOptions" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Employee Options</title>
-    <para/>
+    <section>
+        <title>Timesheets</title>
+        <section>
+            <title>Timesheet Creation</title>
+            <para/>
+        </section>
+        <section>
+            <title>Clock-Entry vs. Manual Entry</title>
+            <para/>
+        </section>
+        <section>
+            <title>Timesheet Overview and Navigation</title>
+            <para/>
+        </section>
+    </section>
+    <section>
+        <title>Clock-Entry Timekeeping</title>
+        <section>
+            <title>How to Record Hours (on the Clock tab)</title>
+            <para/>
+        </section>
+        <section>
+            <title>Clocking In and Out</title>
+            <para/>
+        </section>
+        <section>
+            <title>Adding a Missed Punch</title>
+            <para/>
+        </section>
+        <section>
+            <title>Time Detail Tab</title>
+            <para/>
+        </section>
+        <section>
+            <title>Adding Leave Hours to a Timesheet</title>
+            <para/>
+        </section>
+        <section>
+            <title>Editing Leave Hours on a Timesheet</title>
+            <para/>
+        </section>
+        <section>
+            <title>Deleting Leave Hours from a Timesheet</title>
+            <para/>
+        </section>
+        <section>
+            <title>Correcting a Time Block Clocked on the Wrong Job/Assignment</title>
+            <para/>
+        </section>
+        <section>
+            <title>Viewing Recorded Time Blocks on your Pay Period Calendar</title>
+            <para/>
+        </section>
+        <section>
+            <title>Viewing a Summary of Worked Hours</title>
+            <para/>
+        </section>
+        <section>
+            <title>Viewing (and Correcting) Automatic Lunch/Meal Deductions</title>
+            <para/>
+        </section>
+        <section>
+            <title>Distributing Work Hours</title>
+            <para/>
+        </section>
+    </section>
+    <section>
+        <title>Manual Entry Timekeeping</title>
+        <section>
+            <title>How to Record Hours (on the Time Detail tab)</title>
+            <para/>
+        </section>
+        <section>
+            <title>Adding Time Blocks to a Timesheet</title>
+            <para/>
+        </section>
+        <section>
+            <title>Editing Existing Time Blocks</title>
+            <para/>
+        </section>
+        <section>
+            <title>Deleting Time Blocks</title>
+            <para/>
+        </section>
+        <section>
+            <title>Viewing a Summary of Worked Hours</title>
+            <para/>
+        </section>
+    </section>
+    <section>
+        <title>Timesheet Errors and Warnings</title>
+        <para/>
+    </section>
 </chapter>

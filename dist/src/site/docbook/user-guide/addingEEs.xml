@@ -2,5 +2,19 @@
 <chapter xml:id="addingEEs" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Adding Employees to KPME</title>
-    <para/>
+    <section>
+        <title>Hiring an Employee</title>
+        <section>
+            <title>Adding an Assignment</title>
+            <para/>
+        </section>
+        <section>
+            <title>Editing an Assingment</title>
+            <para/>
+        </section>
+        <section>
+            <title>Removing/Inactivating an Assignment</title>
+            <para/>
+        </section>
+    </section>
 </chapter>

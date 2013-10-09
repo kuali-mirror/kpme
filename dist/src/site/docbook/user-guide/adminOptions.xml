@@ -2,5 +2,38 @@
 <chapter xml:id="admindOptions" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>More Options for Administrators</title>
-    <para/>
+    <section>
+        <title>Using Inquiry Pages</title>
+        <section>
+            <title>Time Block Inquiry</title>
+            <para/>
+        </section>
+        <section>
+            <title>Time Block History Inquiry</title>
+            <para/>
+        </section>
+        <section>
+            <title>Clock Log Inquiry</title>
+            <para/>
+        </section>
+        <section>
+            <title>Missed Punch Inquiry</title>
+            <para/>
+        </section>
+    </section>
+    <section>
+        <title>Timekeeping Rules</title>
+        <section>
+            <title>Using the 'Show History' and 'Active?' Radio Buttons</title>
+            <para/>
+        </section>
+        <section>
+            <title>Rule Look-up Example</title>
+            <para/>
+        </section>
+    </section>
+    <section>
+        <title>Viewing Work Area Maintenance</title>
+        <para/>
+    </section>
 </chapter>

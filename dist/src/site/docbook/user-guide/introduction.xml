@@ -2,5 +2,38 @@
 <chapter xml:id="introduction" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Introduction</title>
-    <para/>
+    <section>
+        <title>What is KPME?</title>
+            <para/>
+    </section>
+    <section>
+        <title>What is KPME TIime?</title>
+        <para/>
+    </section>
+    <section>
+        <title>What is KPME Leave Management?</title>
+        <para/>
+    </section>
+    <section>
+        <title>Why is is used?</title>
+        <para/>
+    </section>
+    <section>
+        <title>When is it used??</title>
+        <para/>
+    </section>
+    <section>
+        <title>How does it work?</title>
+        <section>
+            <title>Work Area Example</title>
+            <para/>
+        </section>
+    </section>
+    <section>
+        <title>Recommended System Specifications</title>
+        <section>
+            <title>Desktop Devices</title>
+            <para/>
+        </section>
+    </section>    
 </chapter>

@@ -2,5 +2,82 @@
 <chapter xml:id="deptAdminOptions" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Department Administrator Options</title>
-    <para/>
+    <section>
+        <title>Timekeeping Rules</title>
+        <section>
+            <title>How Rules Work</title>
+            <para/>
+        </section>
+        <section>
+            <title>Rule Hierarchy</title>
+            <para/>
+        </section>
+        <section>
+            <title>Effective Dates</title>
+            <para/>
+        </section>
+        <section>
+            <title>Searching for Rules</title>
+            <para/>
+        </section>
+        <section>
+            <title>Creating a New Rule</title>
+            <para/>
+        </section>
+        <section>
+            <title>Editing a Rule</title>
+            <para/>
+        </section>
+        <section>
+            <title>Inactivating a Rule</title>
+            <para/>
+        </section>
+        <section>
+            <title>Clock Location Rule</title>
+            <para/>
+        </section>
+        <section>
+            <title>Time Collection Rule</title>
+            <para/>
+        </section>
+        <section>
+            <title>Department Lunch Deduction Rule</title>
+            <para/>
+        </section>
+    </section>
+    <section>
+        <title>Leave Maintenance Functions</title>
+        <para/>
+    </section>
+    <section>
+        <title>Administrative and HR/Payroll Functions</title>
+        <section>
+            <title>Work Area Maintenance</title>
+            <para/>
+        </section>
+        <section>
+            <title>Creating a New Work Area or Task</title>
+            <para/>
+        </section>
+        <section>
+            <title>Editing a Work Area, Task or Role</title>
+            <para/>
+        </section>
+        <section>
+            <title>Inactivating a Work Area</title>
+            <para/>
+        </section>
+        <section>
+            <title>Inactivating a Task</title>
+            <para/>
+        </section>
+        <section>
+            <title>Inactivating an Approver, Approver Delegate or Reviewer Role</title>
+            <para/>
+        </section>
+    </section>
+    <section>
+        <title>Inquiries</title>
+        <para/>
+    </section>
 </chapter>
