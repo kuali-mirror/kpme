@@ -29,7 +29,7 @@
                     <departmentAdmin:hrPayroll />
                     <departmentAdmin:timeKeeping />
                     <departmentAdmin:leaveMaintenance />
-                    <%--applicable to 2.1 and greater releases <departmentAdmin:positionManagement />--%>
+                    <departmentAdmin:positionManagement />
                 </td>
                 <td class="content" valign="top">
                     <departmentAdmin:inquiries />
