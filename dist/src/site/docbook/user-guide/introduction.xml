@@ -4,15 +4,25 @@
     <title>Introduction</title>
     <section>
         <title>What is KPME?</title>
-            <para/>
+        <para>KPME is an open source, Comprehensive HR/Payroll system built for Higher Ed, By Higher
+            Ed. The KPME roadmap can be found at: <link xlink:href="http://kuali.org/kpme">http://kuali.org/kpme</link>. 
+            The first KPME module release was Time and Attendance and the latest release is Leave Management
+            that includes integration with Time and Attendance. KPME modules handle multiple jobs,
+            pay types, and pay cycles based on employee’s active appointment in your department. The
+            system also provides approval routing based on jobs so your designated approvers can
+            view and approve employee timesheets and leave online. </para>
     </section>
     <section>
         <title>What is KPME TIime?</title>
-        <para/>
+        <para>KPME Time provides a 24/7 electronic timekeeping system to record hours worked, hours in pay status, 
+            and absent time in an easy-to-use, always accessible, web-based interface. It also calculates all special 
+            rates of pay such as overtime, shift differential, premium, and holiday pay.</para>
     </section>
     <section>
         <title>What is KPME Leave Management?</title>
-        <para/>
+        <para>KPME Leave Management also provides a 24/7 electronic leave management system for organizations and their 
+            employees to accrue, request, report and track the use of benefit time (eg. Vacation, Sick) for exempt and 
+            non-exempt faculty and staff.</para>
     </section>
     <section>
         <title>Why is is used?</title>
@@ -20,7 +30,8 @@
     </section>
     <section>
         <title>When is it used??</title>
-        <para/>
+        <para>KPME’s Timekeeping and Leave Management is available 24 hours, 7 days a week, and 365 days a year for 
+            employees to record hours worked and report leave and for approvers to process timesheet approvals.</para>
     </section>
     <section>
         <title>How does it work?</title>
@@ -31,9 +42,11 @@
     </section>
     <section>
         <title>Recommended System Specifications</title>
+        <para>Note: These configurations are current as of the publication of this User Manual.</para>
         <section>
             <title>Desktop Devices</title>
-            <para/>
+            <para>Workstations must run Windows 7, XP or Vista with Internet Explorer version 5.5 Service Pack 2 or newer. 
+                KPME also functions with other operating systems and browsers such as Mozilla Firefox and Google Chrome.</para>
         </section>
     </section>    
 </chapter>
