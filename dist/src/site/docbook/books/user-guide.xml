@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<book xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>
+            <para>${project.name} ${project.version} User Guide</para>
+        </title>
+        <titleabbrev>User Guide</titleabbrev>
+    </info>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../user-guide/introduction.xml"/> 
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../user-guide/loggingIn.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../user-guide/employeeOptions.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../user-guide/leaveCalendar.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../user-guide/otherTKOptions.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../user-guide/approverOptions.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../user-guide/adminOptions.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../user-guide/deptAdminOptions.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../user-guide/addingEEs.xml"/>    
+</book>
