@@ -2,97 +2,810 @@
 <chapter xml:id="employeeOptions" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Employee Options</title>
+    <para>This section provides a description of the timesheet and leave calendar used in KPME, including the navigational options. 
+        In addition, it describes the two methods used to record work or leave hours, explains how to use the timesheet to record 
+        hours, distribute work hours and report missed clock punches, and how to request future leave.</para>
     <section>
         <title>Timesheets</title>
+        <para>Non-exempt employee in KPME has one timesheet for each pay period. Pay periods can be set up to fit departmental needs, 
+            such as weekly, biweekly, or bimonthly. Each FSLA (Fair Labor Standards Act) period meets the standard for overtime hours, 
+            overtime pay and collected unpaid overtime. Each timesheet represents a document in the Kuali Rice/Workflow system—a 
+            routing and approval engine used to manage who can view and take actions on a particular timesheet.</para>
         <section>
             <title>Timesheet Creation</title>
-            <para/>
+            <para>Employees with active KPME assignments during the pay period will have timesheets created automatically before the 
+                next pay period begins, or when the batch job is scheduled. The batch job can be run nightly.</para>
+            <para>If an employee is missing a timesheet, one may need to be created by the System Administrator who can use the 
+                timesheet Create maintenance document to do so. Please contact your Department Administrator or System Administrator 
+                and include the employee’s Principal ID number in the request.</para>
         </section>
         <section>
             <title>Clock-Entry vs. Manual Entry</title>
-            <para/>
+            <para>There are two methods an employee may use to record regular hours:</para>
+            <orderedlist>
+                <listitem>
+                    <para><emphasis role="bold">Clock-Entry</emphasis> is used when capturing exact
+                        in and out times. After logging in, the timesheet opens on the <emphasis
+                            role="bold">Clock Tab</emphasis>. This tab includes a clock section with
+                        a dropdown list of active Clock Assignments, and one selects the appropriate
+                        assignment to clock in or out. Clock buttons that may be visible here
+                        include Clock In or Clock Out, Missed Punch and Distribute Time
+                        Blocks.</para>
+                    <para>Only assignments where you must clock in and out will show up in the Clock
+                        Assignment dropdown. If you also have Manual Entry assignments you will need
+                        to click on the <emphasis role="bold">Time Detail</emphasis> tab to manually
+                        enter those work hours (see Manual Entry below).</para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">Manual Entry</emphasis> is used when clocking in/out
+                        is not required, and the hours worked are recorded by entering blocks of
+                        time manually into the timesheet. After logging in, the timesheet opens on
+                        the <emphasis role="bold">Time Detail</emphasis> tab. Manual Entry
+                        assignments do not appear on the Clock Tab. If your only time assignment is
+                        a Manual Entry assignment, you will not see the Clock Tab on your
+                        timesheet.</para>
+                </listitem>
+            </orderedlist>
         </section>
         <section>
             <title>Timesheet Overview and Navigation</title>
-            <para/>
+            <para>When you open a timesheet, it shows side by side <emphasis role="bold">Navigation
+                    tabs</emphasis> that you can use to navigate from page to page. These tabs show
+                where you are and where you can go within the timesheet.</para>
+            <para>To navigate to any other page in your timesheet, just click on that tab.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>If you are an employee with a <emphasis role="bold">Clock-Entry</emphasis>
+                        assignment, your timesheet will open on the Clock tab so you can easily
+                        clock in and out. This tab also provides a <emphasis role="bold"
+                            >Note</emphasis> section, so you can add a note to your timesheet. (See
+                            <emphasis role="italic">Clock</emphasis> tab illustration below.)</para>
+                </listitem>
+                <listitem>
+                    <para>If you are an employee with a <emphasis role="bold"
+                            >Manual-Entry</emphasis> assignment, your timesheet will open on the
+                        Time Detail tab, where you manually add the time blocks you have worked or
+                        the leave hours you have taken.</para>
+                </listitem>
+            </itemizedlist>
+            <para>Other navigational tabs you may see on your timesheet include the <emphasis
+                    role="italic">Time Detail</emphasis> tab, the <emphasis role="italic">Leave
+                    Calendar</emphasis> tab,<emphasis role="italic"> Person Info</emphasis> tab and
+                the <emphasis role="underline">Help tab</emphasis>. If you are an employee who is
+                also an approver for a Work Area, you may also see a <emphasis role="italic">Time
+                    Approva</emphasis>l and/or a<emphasis role="italic"> Leave Approval</emphasis>
+                tabs.</para>
+            <para>All timesheets display a “<emphasis role="bold">Document Header</emphasis>” in the
+                top right corner that includes your identifying information, such as Employee Name,
+                Employee Id, (timesheet) Document Id, and Document status (Saved, Enroute, or
+                Final).</para>
+            <para>This area also includes a <emphasis role="bold"><emphasis role="underline"
+                        >Logout</emphasis></emphasis> link that you will use to log out of the
+                system and close your timesheet.</para>
+            <para>If you click on your underlined Employee Name here, it will open the Person Info tab, where you can view details
+                about your time assignments, jobs, and roles. Or you can click on the Person Info tab to open the same page.</para>
+            <para>Let’s take a closer look at the<emphasis role="italic"> Time Detail</emphasis>
+                tab. (See<emphasis role="italic"> Time Detail</emphasis> tab illustration
+                below.)</para>
+            <para>All employees (whether <emphasis role="bold">Clock-Entry</emphasis> or<emphasis
+                    role="bold"> Manual-Entry</emphasis>) will have the <emphasis role="italic">Time
+                    Detail</emphasis> tab which opens a calendar view of the pay period covered by
+                the timesheet. (A pay period can be weekly, biweekly, bimonthly or monthly,
+                depending how your organization wishes to define it.) </para>
+            <para><emphasis role="bold">Clock-Entry</emphasis> employees will use this tab to review
+                the time blocks they have clocked on the timesheet and to manually enter any leave
+                hours, such as sick, vacation or PTO they took during the pay period. </para>
+            <para><emphasis role="bold">Manual-Entry</emphasis> employees will use this tab to
+                manually add time blocks for the hours they have worked and the leave hours they
+                have taken during the pay period. </para>
+            <para>There are <emphasis role="bold">Previous</emphasis> and <emphasis role="bold"
+                    >Next</emphasis> arrow buttons located on each side of the Pay Period heading
+                that allows you to scroll back and forth by pay period, in chronological order, and
+                view a previously approved timesheet or to go forward to the next timesheet (in the
+                order). </para>
+            <para>This tab also provides two dropdown search fields, <emphasis role="bold">Calendar
+                    Year</emphasis> and <emphasis role="bold">Pay Period</emphasis> where if you
+                jointly select the year and pay period, it jumps to the selected timesheet, so you
+                can view it. </para>
+            <para>Once you open any previous timesheet, the<emphasis role="bold"><emphasis
+                        role="underline"> Go to Current Period</emphasis></emphasis> link will
+                appear on the page, and serves as a “shortcut” you can click to return to your
+                timesheet for the current pay period. </para>
+            <para>Also, <emphasis role="bold">Clock-Entry</emphasis> employees can click the
+                    <emphasis role="bold"><emphasis role="underline">Actual Time
+                    inquiry</emphasis></emphasis> link to view a list of their actual clock times. </para>
+            <para>Below the calendar is a <emphasis role="bold">Summary</emphasis> section that
+                shows the total Worked Hours for each day along with a breakdown of the hours worked
+                by assignment, day and by earn code (regular, vacation, sick, overtime, shift,
+                etc.). It also provides a Weekly and Period Total. </para>
+            <para>An Earn Code is a classification of earning that represents the hours worked or
+                some special earning like shift time, sick time or overtime. An Assignment is a
+                unique combination of your Job, Job Number, and Work Area (and Task), and is used to
+                record the hours that you work. </para>
+            <para>The bottom of the timesheet on both the <emphasis role="italic">Clock</emphasis>
+                and <emphasis role="italic">Time Detail</emphasis> tab contains a <emphasis
+                    role="bold">Note</emphasis> section, which allows you, your approvers and
+                administrators to add and save notes on the timesheet. The <emphasis role="italic"
+                    >Time Detail</emphasis> tab also includes a <emphasis role="bold">Route
+                    Log</emphasis> section that allows you to view the approval routing for your
+                timesheet. </para>
+            <para>If you click on the<emphasis role="italic"> Leave Calendar tab</emphasis>, you see
+                leave recorded on the timesheet. When you scroll forward to future calendars, leave
+                blocks can be added similar to time detail that will be used to plan and request
+                time off. </para>
         </section>
     </section>
     <section>
         <title>Clock-Entry Timekeeping</title>
+        <para>Employees with <emphasis role="bold">Clock-Entry</emphasis> assignments use the
+                <emphasis role="italic">Clock</emphasis> tab to clock in and out. When you login to
+            KPME Time, your timesheet will open on this tab. </para>
+        <para>Let’s review the fields and buttons available on this tab:</para>
+        <itemizedlist>
+            <listitem>
+                <para>The “ <emphasis role="underline">Current Time</emphasis> ” field shows you the
+                    current clock time. </para>
+            </listitem>
+            <listitem>
+                <para>The “ <emphasis role="underline">Work Status</emphasis> ” field shows you the
+                    last clock action you recorded on your timesheet. It shows your last action
+                    (clocked in/clocked out), and the date and time of that action. </para>
+            </listitem>
+            <listitem>
+                <para>A time <emphasis role="bold">Assignment</emphasis> is a unique combination of
+                    your Job, Job Number, Work Area (and Task), and is used to record the hours that
+                    you work. </para>
+            </listitem>
+            <listitem>
+                <para>The “ <emphasis role="underline">Clock Assignment</emphasis>” field will show
+                    you a list of your current assignments so you can select the specific <emphasis
+                        role="bold">Assignment</emphasis> you are going to clock in on. If you only
+                    have one assignment, or are already clocked in there wo n’ t be an assignment
+                    dropdown. </para>
+            </listitem>
+            <listitem>
+                <para>The <emphasis role="bold"><emphasis role="underline">Clock
+                        In</emphasis></emphasis> and <emphasis role="bold"><emphasis
+                            role="underline">Clock Out </emphasis></emphasis>buttons allow you to
+                    clock in or out.</para>
+            </listitem>
+            <listitem>
+                <para>If you forgot to clock in or clock out, the <emphasis role="bold"><emphasis
+                            role="underline">Missed Punch</emphasis></emphasis> button allows you to
+                    submit a missed punch document to notify your approver or supervisor and record
+                    the “missed punch” on your timesheet.</para>
+            </listitem>
+            <listitem>
+                <para>The optional <emphasis role="bold">Distribute Time Blocks</emphasis> button,
+                    when present, allows you to clock in and out of a single assignment to create
+                    one time block and then distribute those hours at the end of your shift to
+                    multiple assignments. </para>
+            </listitem>
+            <listitem>
+                <para>The <emphasis role="bold">Note</emphasis> section allows you to add a Note on
+                    your timesheet.</para>
+            </listitem>
+            <listitem>
+                <para>The <emphasis role="bold">Logout</emphasis> link (located with the “<emphasis
+                        role="bold">Document Header</emphasis>” in the upper-right hand corner of
+                    the page) allows you to log out of the system and close your timesheet.</para>
+            </listitem>
+        </itemizedlist>
         <section>
             <title>How to Record Hours (on the Clock tab)</title>
-            <para/>
+            <para>On the <emphasis role="italic">Clock</emphasis> tab, you will use the
+                clock-buttons to clock in and out. This tab also allows you to submit a Missed Punch
+                document if you missed a clock in, lunch out, lunch in, or clock out; to add a Note
+                to your timesheet; and (if applicable) to distribute work hours clocked on one
+                assignment over several assignments. </para>
         </section>
         <section>
             <title>Clocking In and Out</title>
-            <para/>
+            <para>To clock in: </para>
+            <orderedlist>
+                <listitem>
+                    <para>Log into KPME Time. (Timesheet opens on the <emphasis role="italic"
+                            >Clock</emphasis> tab.)</para>
+                </listitem>
+                <listitem>
+                    <para>In the<emphasis role="underline"> Clock Assignment</emphasis> field,
+                        select an Assignment. (If you only have one assignment, it will already be
+                        selected.)</para>
+                </listitem>
+                <listitem>
+                    <para>Click on <emphasis role="bold">Clock In</emphasis> button. (Work Status
+                        will show you are clocked in.)</para>
+                </listitem>
+            </orderedlist>
+            <para>To clock out: </para>
+            <orderedlist>
+                <listitem>
+                    <para>Log into KPME Time and click on<emphasis role="bold"> Clock Out</emphasis>
+                        button. (Work Status will then change to show you are clocked out.)</para>
+                </listitem>
+            </orderedlist>
         </section>
         <section>
             <title>Adding a Missed Punch</title>
-            <para/>
+            <para>If you missed your last clock action, you can click on the <emphasis role="bold"
+                    >Missed Punch</emphasis> button to add that missed clock in, lunch out, return
+                from lunch, or clock out to your timesheet. </para>
+            <para>This opens the <emphasis role="italic">Missed Punch</emphasis> maintenance
+                document, where you enter your missing clock action information and submit it for
+                approval. </para>
+            <para>Once you submit this document, the missed clock action is added to your timesheet,
+                and the missed punch document is routed to your timesheet approver for approval. </para>
+            <para><emphasis role="bold"><emphasis role="underline">Only submit a Missed Punch
+                        document if you missed your last clock action .
+                </emphasis></emphasis></para>
+            <warning><para><emphasis role="bold"><emphasis role="italic">Employees can only submit one Missed Punch
+                            document per (work shift) Time Block.</emphasis></emphasis></para>
+            </warning>
+            <para>To submit this document, please follow the steps below:</para>
+            <orderedlist>
+                <listitem>
+                    <para>From the Clock tab, click on <emphasis role="bold">Missed
+                        Punch</emphasis>. This opens the Missed Punch maintenance document (and
+                        inserts your timesheet Document ID and your Principal ID).</para>
+                </listitem>
+                <listitem>
+                    <para>Select the Assignment where you missed clocking in or out. (If you only have one Assignment, the field
+                        will default to that value.)</para>
+                    <note><para>Note: The<emphasis role="underline"> Missed Clock Action</emphasis> field will default to the
+                            clock punch that you missed, (i.e., ‘clock out’ if you missed clocking
+                            out, or ‘lunch in’ if you missed clocking your return from
+                            lunch).</para></note>
+                </listitem>
+                <listitem>
+                    <para>Enter the date of your missed clock punch into the<emphasis
+                            role="underline"> Missed Action Date</emphasis> field. The Date format
+                        to use is: MM/DD/YYYY. You can type in the date or select it using the
+                        calendar button, located with each date field.</para>
+                </listitem>
+                <listitem>
+                    <para>Enter the time (then enter a space followed by AM or PM) of your missed
+                        clock punch into the<emphasis role="underline"> Missed Action
+                            Time</emphasis> field. The format to use is: <emphasis role="bold">hh:mm
+                            AM/PM (i.e., 10:54 AM or 9:06 PM)</emphasis></para>
+                </listitem>
+                <listitem>
+                    <para>Click <emphasis role="bold">Submit</emphasis> to enter the missed punch on
+                        your timesheet.</para>
+                </listitem>
+                <listitem>
+                    <para>Click <emphasis role="bold">Close</emphasis> to close out of the
+                        document.</para>
+                </listitem>
+            </orderedlist>
         </section>
         <section>
             <title>Time Detail Tab</title>
-            <para/>
+            <para>The <emphasis role="italic">Time Detail </emphasis>tab is visible to all
+                employees. As a <emphasis role="bold">Clock-Entry</emphasis> employee, you will use
+                this tab to view the time blocks clocked on your timesheet, to add time blocks that
+                record any leave hours you are taking, and to correct (the assignment for) a time
+                block that was accidently clocked on the wrong assignment. </para>
+            <para>You can also use this tab to view a summary of your worked hours, to add a
+                timesheet Note, to view the Route Log to see who approves your timesheet, and, if
+                applicable, to view any automatic meal deductions that were subtracted. </para>
         </section>
         <section>
             <title>Adding Leave Hours to a Timesheet</title>
-            <para/>
+            <para>Any employee (whether <emphasis role="bold">Clock-Entry</emphasis> or <emphasis
+                    role="bold">Manual-Entry</emphasis> ) who qualifies to accrue benefit Leave
+                Hours such as paid time-off (PTO), vacation (VAC) or sick hours (SCK) will use the
+                    <emphasis role="italic">Time Detail </emphasis>tab to enter those hours for the
+                current pay period. Future leave hours can be requested from the Leave Calendar tab
+                reviewed later in this section. </para>
+            <para>This requires that you enter the number of “ hours ” to track your usage . Once
+                the appropriate benefit earn code is selected, the ‘Add Time Blocks’ entry box w ill
+                change to display an ‘Hours’ input field (instead of the usual In/Out fields. </para>
+            <para>To enter leave hours on your timesheet: </para>
+            <orderedlist>
+                <listitem>
+                    <para>Log into KPME Time (and go to the <emphasis role="italic">Time
+                            Detail</emphasis> tab.)</para>
+                </listitem>
+                <listitem>
+                    <para>On the timesheet pay period calendar, select the day or date range on which you want to add leave
+                        hours. This will open the ‘Add Time Blocks’ entry box:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>To add leave hours for one single day, click on the day you want to add.</para>
+                        </listitem>
+                        <listitem>
+                            <para>To add the same number of leave hours on multiple days, go to the
+                                first day you are taking leave in the calendar, and simultaneously
+                                    <emphasis role="bold">click and hold down your (left) mouse
+                                    button</emphasis> and drag the cursor across the days you will
+                                be out, and then release the button. (For example, click and hold on
+                                Monday, drag cursor across to Friday, and release it, and that will
+                                enter a date range of Monday through Friday.)</para>
+                        </listitem>
+                        <listitem>
+                            <para>You can also type in or select a range of dates in the <emphasis
+                                    role="underline">Date Range</emphasis> fields on the ‘Add Time
+                                Blocks’ entry box to enter the same number of leave hours on each
+                                day. If you type in the dates, use this format: M/D/YYYY (e.g.
+                                2/4/2012 or 10/22/2012 )</para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+                <listitem>
+                    <para>Select the <emphasis role="underline">Earn Code</emphasis> for the type of
+                        leave you are taking, such as SCK (sick), PTO, VAC (vacation), etc.</para>
+                </listitem>
+                <listitem>
+                    <para>In the <emphasis role="underline">Hours</emphasis> field, enter the number
+                        of leave hours you are taking.</para>
+                </listitem>
+                <listitem>
+                    <para>If you selected a range of dates, make sure the ‘Apply time to each day’ checkbox is checked, so the
+                        hours you entered are applied to each day.</para>
+                </listitem>
+                <listitem>
+                    <para>Click <emphasis role="bold">Add</emphasis> and verify that the time
+                        block(s) for your leave hours are correct on your timesheet.</para>
+                </listitem>
+            </orderedlist>
         </section>
         <section>
             <title>Editing Leave Hours on a Timesheet</title>
-            <para/>
+            <para>To <emphasis role="bold">edit</emphasis> a leave time block: </para>
+            <orderedlist>
+                <listitem>
+                    <para>Click on the underlined Assignment name (in the example shown above, you
+                        would click on ‘<emphasis role="underline">Cust Serv
+                        Desk</emphasis>’).</para>
+                </listitem>
+                <listitem>
+                    <para>This reopens the ‘Add Time Blocks’ entry box and you can modify the
+                            <emphasis role="underline">Date Range</emphasis>, the <emphasis
+                            role="underline">Earn Code</emphasis> (VAC, PTO, SCK, CPT, etc.) or the
+                        number of <emphasis role="underline">Hours</emphasis> of leave you are
+                        taking.</para>
+                </listitem>
+                <listitem>
+                    <para>When finished, click <emphasis role="bold">Update</emphasis> and verify
+                        that the time block(s) are correct on your timesheet.</para>
+                </listitem>
+            </orderedlist>
         </section>
         <section>
             <title>Deleting Leave Hours from a Timesheet</title>
-            <para/>
+            <orderedlist>
+                <listitem>
+                    <para>To <emphasis role="bold">delete</emphasis> a leave time block from a
+                        timesheet, click on the red ‘X’ button, in the upper right-hand corner of
+                        the time block. (See Leave time block example above).</para>
+                </listitem>
+                <listitem>
+                    <para>When asked to confirm the deletion, click <emphasis role="bold"
+                            >OK</emphasis> to delete it.</para>
+                </listitem>
+            </orderedlist>
         </section>
         <section>
             <title>Correcting a Time Block Clocked on the Wrong Job/Assignment</title>
-            <para/>
+            <para>If you clock in on one job assignment, and find that you have clocked-in on the
+                wrong assignment, you should continue to work and clock out at the end of your work
+                period. That will record a Time Block for that assignment. </para>
+            <para><emphasis role="bold"><emphasis role="underline">During the current pay period
+                        only</emphasis></emphasis>, you can change the assignment for a Time Block
+                you clocked and recorded under the wrong assignment so it shows for the assignment
+                you actually worked. </para>
+            <para>To move a clocked Time Block (and the hours worked) over to the correct
+                Assignment: </para>
+            <orderedlist>
+                <listitem>
+                    <para>Go to the <emphasis role="italic">Time Detail</emphasis> tab on your
+                        timesheet.</para>
+                </listitem>
+                <listitem>
+                    <para>Find the time block you need to change.</para>
+                </listitem>
+                <listitem>
+                    <para>Click on the underlined <emphasis role="underline">Assignment</emphasis>
+                        link in that time block (which opens the ‘Add Time Block’ entry box).</para>
+                </listitem>
+                <listitem>
+                    <para>In the <emphasis role="underline">Assignment</emphasis> dropdown, select
+                        the assignment that you actually worked.</para>
+                </listitem>
+                <listitem>
+                    <para>Click <emphasis role="bold">Update</emphasis>.</para>
+                </listitem>
+            </orderedlist>
+            <para>This will update your timesheet so that Time Block (and the work hours) will show
+                under the Assignment that you actually worked. </para>
         </section>
         <section>
             <title>Viewing Recorded Time Blocks on your Pay Period Calendar</title>
-            <para/>
+            <para>Click on the <emphasis role="italic">Time Detail</emphasis> tab to open the Pay
+                Period calendar and view the current pay period. (See the illustration of the Calen
+                dar under the section, “ <emphasis role="bold"><emphasis role="underline">Timesheet
+                        Overview and Navigation </emphasis></emphasis>.”) </para>
+            <para>This tab displays all the time blocks you have clocked, or manually entered, such
+                as time blocks you added to record any leave hours that you took during the pay
+                period. If you work more than one time assignment; they are color coded, so you can
+                see the time blocks and hours that you have accumulated under each assignment. </para>
+            <para>There are <emphasis role="bold">Previous</emphasis> and <emphasis role="bold"
+                    >Next</emphasis> buttons next to the pay period dates, that allow you to scroll
+                back and forth to view your previous timesheets. A <emphasis role="bold">Document
+                    Header</emphasis> includes your Name, Employee Id, and the Document Id </para>
+            <para>of the timesheet. </para>
         </section>
         <section>
             <title>Viewing a Summary of Worked Hours</title>
-            <para/>
+            <para>Below the calendar is a section showing a <emphasis role="bold">Summary</emphasis>
+                of the hours that you have recorded on your timesheet. This section shows you the
+                total ‘Worked Hours’ for each day along with a breakdown of the hours you worked by
+                assignment, day and by earn code (regular, vacation, sick, overtime, shift, etc.).
+                It also provides a weekly total, FLSA total and period total. </para>
+            <para>An earn code is a classification of earnings that represents regular hours worked
+                or special type of earnings like sick time, shift or premium pay. </para>
+            <para>Regular hours that contribute toward weekly overtime eligibility are totaled and
+                displayed. Sick or Vacation/PTO hours will also appear in separate rows. Overtime or
+                Compensatory hours, if they exist, will appear in a row below your regular hours.
+                Additional pay hours, such as shift rates or premiums will appear in rows above or
+                below that. </para>
         </section>
         <section>
             <title>Viewing (and Correcting) Automatic Lunch/Meal Deductions</title>
-            <para/>
+            <para>Some departments set up automatic lunch deduction rules for Clock-Entry employees.
+                In those departments, all employees have to do is clock in and clock out (and work
+                the required minimum number of hours), and the timesheet will automatically deduct
+                the meal (whether breakfast, lunch, or dinner), usually 30 minutes (0.50 hours) or
+                60 minutes (1 hour). </para>
+            <para>Timesheets will show the amount of time deducted for a meal, highlighted in a
+                yellow bar, at the bottom of a clocked time block. </para>
+            <para>If an employee works through a scheduled meal or skips it for some reason, the
+                timesheet may still show that a meal was deducted on that day. </para>
+            <para><emphasis role="bold">If you are a Clock-Entry employee and work through or skip
+                    your scheduled meal break (with departmental approval), and a meal was deducted
+                    on that day, please notify your supervisor to correct your timesheet.</emphasis>
+            </para>
         </section>
         <section>
             <title>Distributing Work Hours</title>
-            <para/>
+            <para>Some employees will have the option to clock in and out of a single Assignment and
+                then click on the<emphasis role="bold"> Distribute Time Blocks</emphasis> button (on
+                the Clock tab) to distribute those worked hours between two or more assignments. </para>
+            <note>
+                <para>You can also open the Note section when working in these screens to add a note to your timesheet.</para>
+            </note>
+            <para>To distribute clocked work hours:</para>
+            <orderedlist>
+                <listitem>
+                    <para>From the Clock tab, click on <emphasis role="bold">Distribute Time
+                            Blocks</emphasis>. This opens the <emphasis role="italic">Time Blocks to
+                            Distribute</emphasis> screen.</para>
+                </listitem>
+                <listitem>
+                    <para>Select the Time Block you want to distribute and click <emphasis
+                            role="bold">Edit</emphasis> . This opens the<emphasis role="italic">
+                            Distribute Hours </emphasis>screen, showing the Time Block you selected
+                        with the total Hours you worked. </para>
+                    <para>Just below your selected Time Block, a special “form” displays and shows
+                        that Time Block as already split into two rows so you can enter Time Blocks
+                        for each of those two different Assignments. </para>
+                    <para>If you are distributing the hours from your original Time Block to more
+                        than two Assignments, use the <emphasis role="bold">Add</emphasis> button to
+                        add additional (Assignment) rows to the form. Then, complete each row on the
+                        form to enter the distinct Time Blocks you worked in each Assignment. </para>
+                </listitem>
+                <listitem>
+                    <para>To complete the form and distribute your hours: </para>
+                    <orderedlist numeration="loweralpha">
+                        <listitem>
+                            <para>Determine how many Assignment rows you need on the form. You need one row on the form for 
+                                each Assignment you actually worked. (To distribute hours to three Assignments, you need three 
+                                rows; for four Assignments, four rows, and so on.)</para>
+                            <para>To add an additional row to the form, click <emphasis role="bold"
+                                    >Add</emphasis>, and repeat for each row you need to add. This
+                                inserts a duplicate of the second row onto the form.</para>
+                        </listitem>
+                        <listitem>
+                            <para>On the form, go through every row and verify the Assignment
+                                showing in each one is correct. Use the <emphasis role="underline"
+                                    >Assignment</emphasis> dropdown in any row where you need to
+                                change the Assignment to the one you actually worked.</para>
+                        </listitem>
+                        <listitem>
+                            <para>Go through each row and verify the <emphasis role="underline"
+                                    >Begin Date</emphasis> and<emphasis role="underline"> End
+                                    Date</emphasis> are correct for the selected Assignment. To
+                                change a date, click on the calendar button, and then select a date
+                                from the pop-up calendar. Or, type a date into the field, formatted
+                                as DD/MM/YYYY.</para>
+                            <note>
+                                <para>You probably won’t need to adjust these dates unless you worked a Time Block in that Assignment that 
+                                    was overnight and spans over two days.</para>
+                            </note>
+                        </listitem>
+                        <listitem>
+                            <para>Go through each row and enter your <emphasis role="underline"
+                                    >Begin Time</emphasis> and <emphasis role="underline">End
+                                    Time</emphasis> for the selected Assignment:</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>In Row 1 all you can enter is your actual <emphasis
+                                            role="underline">End Time</emphasis> for that
+                                        Assignment. (The <emphasis role="underline">Begin
+                                            Time</emphasis> cannot be changed.)</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Go to the next row on the form and enter the same
+                                            <emphasis role="underline">Begin Time</emphasis> as the
+                                            <emphasis role="underline">End Time</emphasis> you
+                                        entered in the row above. Then continue (in that same row)
+                                        and enter the <emphasis role="underline">End
+                                        Time</emphasis>, Repeat this step for each row on the form,
+                                            <emphasis role="bold">unless it is the last
+                                            row</emphasis>.</para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">If this is the last row on the
+                                            form,</emphasis> all you need to enter is the <emphasis
+                                            role="underline">Begin Time</emphasis> (and leave the
+                                            <emphasis role="underline">End Time</emphasis>
+                                        unchanged).</para>
+                                </listitem>
+                            </itemizedlist>
+                            <para>The form will then show each Time Block and calculate the hours you worked in that Time Block for each 
+                                Assignment.</para>
+                            <note>
+                                <para>Roll your cursor over the Question Mark, to see what formats are accepted by time-entry fields.</para>
+                            </note>
+                        </listitem>
+                        <listitem>
+                            <para>Verify the <emphasis role="bold">Total Hours</emphasis> you
+                                distributed to all your Assignments match the number of <emphasis
+                                    role="bold">Hours</emphasis> you worked in the original Time
+                                Block (at the top of the screen). If not, enter any adjustments to
+                                the Time Blocks in your Assignment rows, as needed.</para>
+                        </listitem>
+                    </orderedlist>
+                </listitem>
+                <listitem>
+                    <para>Click <emphasis role="bold">Save</emphasis>. That will distribute the
+                        hours, and return you to the <emphasis role="italic">Clock</emphasis> tab.
+                        If you open your <emphasis role="italic">Time Detail </emphasis>tab you can
+                        view the new Time Blocks (and hours worked) under each Assignment.</para>
+                </listitem>
+            </orderedlist>
         </section>
     </section>
     <section>
         <title>Manual Entry Timekeeping</title>
+        <para>Employees with <emphasis role="bold">Manual-Entry</emphasis> assignments will use the
+                <emphasis role="italic">Time Detail</emphasis> tab to manually add time blocks for
+            the hours they work or the hours of leave they take. When you login to KPME Time, your
+            timesheet will open on this tab. </para>
         <section>
             <title>How to Record Hours (on the Time Detail tab)</title>
-            <para/>
+            <para>If you have a <emphasis role="bold">Manual-Entry</emphasis> assignment, you will
+                use the <emphasis role="italic">Time Detail</emphasis> tab on your timesheet to
+                record your work hours. Here you enter your time “In” and time “Out” which adds a
+                Time Block to your timesheet. If you accrue benefit leave hours, you will also enter
+                a Time Block to record the type of leave (sick, vacation, PTO) and number of “Hours”
+                that you took. This tab also allows designated employees to add a Time Block to
+                enter a fixed -rate dollar “Amount” (such as tips). </para>
         </section>
         <section>
             <title>Adding Time Blocks to a Timesheet</title>
-            <para/>
+            <para>To <emphasis role="bold">add</emphasis> work hours, leave hours, or fixed dollar
+                amounts on your timesheet, you must add a Time Block: </para>
+            <orderedlist>
+                <listitem>
+                    <para>Log into KPME Time. (Timesheet opens on the <emphasis role="italic">Time
+                            Detail</emphasis> tab.)</para>
+                </listitem>
+                <listitem>
+                    <para>On the pay period calendar, select the day or date range to add your Time Blocks:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>To add a Time Block for one single day, click on the day you want to add.</para>
+                        </listitem>
+                        <listitem>
+                            <para>To add the same Time Block on multiple days, such as Monday
+                                through Friday, <emphasis role="bold">click and hold down the (left)
+                                    mouse button</emphasis> on the first day of your date range
+                                (Monday), <emphasis role="bold">and simultaneously drag the
+                                    cursor</emphasis> over to the last day in the range (Friday),
+                                then release it.</para>
+                        </listitem>
+                    </itemizedlist>
+                    <para>If you select multiple days, it highlights those days, and the ‘Add Time Blocks’ 
+                        entry box opens showing the range of dates you selected. A single day entry, just opens the 
+                        ‘Add Time Blocks’ screen with the date range showing as the same day.</para>
+                    <para>If you work an <emphasis role="bold"><emphasis role="underline">overnight
+                                shift</emphasis></emphasis>, you can use the <emphasis role="bold"
+                            >click and drag</emphasis> method to select your two days. But, make
+                        sure you UNCHECK the ‘Apply time to each day’ checkbox.</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>Once you open the ‘Add Time Blocks’ entry box, you can also type in the date range you want or
+                                click the calendar button, located with each date field, to pop-up a monthly calendar and 
+                                select a range of dates. For example, you could type in or select the date range as: 02/27/2012 
+                                to 03/01/2012.</para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+                <listitem>
+                    <para>Verify the <emphasis role="underline">Date Range </emphasis>is
+                        correct.</para>
+                </listitem>
+                <listitem>
+                    <para>Select the <emphasis role="underline">Assignment</emphasis> for the time
+                        block you are adding. (If you only have one Assignment, it will already be
+                        selected.) A time <emphasis role="bold">Assignment</emphasis> is a unique
+                        combination of your Job, Job Number, Work Area (and Task), and is used to
+                        record the hours that you work.</para>
+                </listitem>
+                <listitem>
+                    <para>The Earn Code field will default to the regular earn code for your job
+                        (RGH, RGW, RGN, RGP, or RBP). If you need to change it, select the
+                        appropriate <emphasis role="underline">Earn Code</emphasis> from the
+                        dropdown.</para>
+                </listitem>
+                <listitem>
+                    <para>You can enter Time Blocks for hours you have worked, hours of leave time, or for fixed dollar amounts:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>If your entry is to add a time block for hours you have worked:</para>
+                            <orderedlist numeration="loweralpha">
+                                <listitem>
+                                    <para>In the ‘<emphasis role="underline">In</emphasis>’ box,
+                                        enter the time you started working.</para>
+                                </listitem>
+                                <listitem>
+                                    <para>In the ‘<emphasis role="underline">Out</emphasis>’ box,
+                                        enter the time you stopped working</para>
+                                </listitem>
+                            </orderedlist>
+                            <note>
+                                <para>Roll your cursor over the Question Mark, to see what formats are accepted by time-entry fields.</para>
+                            </note>
+                        </listitem>
+                        <listitem>
+                            <para>If your entry is to add a time block of Leave Hours (e.g., sick, vacation):</para>
+                            <orderedlist numeration="loweralpha">
+                                <listitem>
+                                    <para>In the ‘<emphasis role="underline">Hours</emphasis>’ box,
+                                        enter the number of leave hours you are taking.</para>
+                                </listitem>
+                            </orderedlist>
+                        </listitem>
+                        <listitem>
+                            <para>If your entry is to add an amount (e.g. tips):</para>
+                            <orderedlist numeration="loweralpha">
+                                <listitem>
+                                    <para>In the ‘<emphasis role="underline">Amount</emphasis>’ box,
+                                        enter the fixed dollar amount (e.g. 29 or 100 or
+                                        79.75).</para>
+                                </listitem>
+                            </orderedlist>
+                        </listitem>                        
+                    </itemizedlist>
+                </listitem>
+                <listitem>
+                    <para>When checked, the ‘Apply time to each day’ checkbox will enter the same
+                        time blocks each day, for the range of dates you entered. <emphasis
+                            role="bold"><emphasis role="underline">Uncheck this box for overnight
+                                shifts.</emphasis></emphasis></para>
+                </listitem>
+                <listitem>
+                    <para>When finished, click <emphasis role="bold">Add</emphasis>. This adds a
+                        time block either for the hours you worked, the leave hours or the fixed
+                        amount you entered.</para>
+                </listitem>
+            </orderedlist>
         </section>
         <section>
             <title>Editing Existing Time Blocks</title>
-            <para/>
+            <para>To <emphasis role="bold">edit</emphasis> a time block: </para>
+            <orderedlist>
+                <listitem>
+                    <para>Click on the underlined Assignment name (in the example above, you would
+                        click on ‘<emphasis role="underline">Cust Serv Desk</emphasis>’).</para>
+                </listitem>
+                <listitem>
+                    <para>This reopens the ‘Add Time Blocks’ entry box and you can edit the
+                            <emphasis role="underline">Date Range</emphasis>, and/or the<emphasis
+                            role="underline"> Earn Code</emphasis>.</para>
+                </listitem>
+                <listitem>
+                    <para>Depending on the Earn Code selected, you can also edit the <emphasis
+                            role="underline">In</emphasis> and <emphasis role="underline"
+                            >Out</emphasis> times, the number of <emphasis role="underline"
+                            >Hours</emphasis>, or the <emphasis role="underline"
+                        >Amount</emphasis>.</para>
+                </listitem>
+                <listitem>
+                    <para>When finished with your entries, click <emphasis role="bold"
+                            >Update</emphasis>.</para>
+                </listitem>
+                <listitem>
+                    <para>Verify that the Time Blocks are correct before you exit the timesheet.</para>
+                </listitem>
+            </orderedlist>
         </section>
         <section>
             <title>Deleting Time Blocks</title>
-            <para/>
+            <para>To <emphasis role="bold">delete</emphasis> any time block from a timesheet, click
+                on the red ‘X’ button, in the upper right-hand corner of the time block. (See Time
+                Block examples above.) When asked to confirm the deletion, click <emphasis
+                    role="bold">OK</emphasis> to delete it. </para>
+            <para>Employees can continue to edit their timesheets until it is approved by their
+                timesheet Approver. If you have any questions about which Assignments or Earn Codes
+                you should use, please contact your Approver. </para>
         </section>
         <section>
             <title>Viewing a Summary of Worked Hours</title>
-            <para/>
+            <para>On the <emphasis role="italic">Time Detail</emphasis> tab, below the calendar is a
+                section showing a <emphasis role="bold">Summary</emphasis> of the hours that you
+                have recorded on your timesheet. This section shows you the total ‘Worked Hours’ for
+                each day along with a breakdown of the hours you worked by assignment, day and by
+                earn code (regular, vacation, sick, overtime, shift, etc.). It also provides a week
+                total, FLSA total, and period total. </para>
+            <para>An earn code is a classification of earning that represents regular hours worked
+                or special type of earning like sick time, shift or premium pay. </para>
+            <para>Regular hours that contribute toward weekly overtime eligibility are totaled and
+                displayed. Sick or Vacation hours will also appear in separate rows. Overtime or
+                Compensatory hours, if they exist, will appear in a row below your regular hours.
+                Additional pay hours, such as shift rates or premiums will appear in rows above or
+                below that. </para>
         </section>
     </section>
     <section>
         <title>Timesheet Errors and Warnings</title>
-        <para/>
+        <para>If an employee should input an error when adding or modifying time blocks, the ‘Add
+            Time Block’ entry box will show an error message highlighted in red at the top of the
+            box. Corrective action should be taken to fix the fields noted in the error message. </para>
+        <para>Possible entry errors include:</para>
+        <itemizedlist>
+            <listitem>
+                <para>The time or date is not valid.</para>
+            </listitem>
+            <listitem>
+                <para>Start time and end time cannot be equivalent.</para>
+            </listitem>
+            <listitem>
+                <para>Time entry field cannot be empty.</para>
+            </listitem>
+            <listitem>
+                <para>Hour field cannot be empty.</para>
+            </listitem>
+            <listitem>
+                <para>Amount field cannot be empty</para>
+            </listitem>
+            <listitem>
+                <para>Amount cannot have more than two digits after decimal point.</para>
+            </listitem>
+            <listitem>
+                <para>The start date/time is outside the pay period.</para>
+            </listitem>
+            <listitem>
+                <para>The end date/time is outside the pay period.</para>
+            </listitem>
+            <listitem>
+                <para>One time block cannot exceed 24 hours.</para>
+            </listitem>
+            <listitem>
+                <para>The time block you are trying to add overlaps with an existing time block.</para>
+            </listitem>
+            <listitem>
+                <para>Assignment is not valid for start/end date</para>
+            </listitem>
+        </itemizedlist>
+        <para>The <emphasis role="italic">Time Detail </emphasis>tab will also display error and
+            warning messages at the top of the timesheet in red text. Most entries, such as using
+            sick or vacation time in excess of available balances, will issue a warning.</para>
+        <para>If there are only warnings, the timesheet will advance for approval, but the warning stays on the 
+            timesheet so the Approver will see it during approvals.</para>
+        <para>Corrective action should be taken to fix any errors or warnings that violate University or 
+            departmental policies.</para>
+        <para>The image below shows an example of a timesheet warning:</para>
     </section>
 </chapter>

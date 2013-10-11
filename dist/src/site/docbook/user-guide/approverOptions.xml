@@ -2,9 +2,84 @@
 <chapter xml:id="approverOptions" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Approver Options</title>
+    <para>This section discusses the key tasks that Approvers can perform in the KPME system, such
+        as approving timesheets, entering/modifying Time Blocks, reviewing missed clock punches,
+        adding Notes to a timesheet, or viewing Route Logs. KPME can have two types of approvers
+        depending on the employee’s assignments on their timesheet or leave calendar. First required
+        approval will be by the assignments Work Area approver. An optional second level routing can
+        be designated by Department for approval of a department’s Payroll Processor. Work Area
+        Approvers and Department Payroll Processors will use the same Time and Leave Approval tabs
+        for approving timesheets and leave calendars. </para>
     <section>
         <title>Overview of the Time and Leave Approval tabs</title>
-        <para/>
+        <para>When you log into the system as an a work area approver or department payroll
+            processor, you will have the Time Approval and Leave Approval tabs. Time Approval is
+            used for approving their non- exempt employees’ timesheets. Leave Approval is used for
+            approving exempt employees leave calendars. Work Area approvers can also access the
+            Leave Request Approval page from the Leave Calendar to approve employee submitted leave
+            requests. </para>
+        <para>The approval tabs open the ‘ monitor and approval ’ page which provides a “one - stop”
+            portal for approvers to monitor, clean-up and approve timesheets or leave calendars. The
+            Calendar Period heading on these tabs will show what period you are in. </para>
+        <para>This page provides the ability to ‘ sort and filter ’ by Department and Work Area to
+            find those timesheets or leave calendars which you monitor and approve, and the ability
+            to ‘ search by ’ Principal ID or Document ID and find a specific timesheet or leave
+            calendar. However, these fields only search within the calendar period you are viewing
+            at that time. </para>
+        <para>It also provides two other dropdown search fields, Calendar Year and Calendar
+            Pay/Leave Period when used jointly gives you the ability to instantly jump to any set of
+            employee timesheets or leave calendars. </para>
+        <para>Once you go to any historical timesheets or leave calendar, the Go to Current Period
+            link will appear, and serves as a “shortcut” you can click to return to the same set of
+            employee timesheets or leave calendars in the current calendar period. </para>
+        <para>Finally, there are Previous and Next arrow buttons located on each side of the
+            Calendar Period heading that allow you to scroll back and forth through a set of
+            historical (or current) calendars by calendar period, in sequential order. </para>
+        <para>You can open ‘quick views’ of any Notes and Warnings present on the timesheet or leave
+            calendar, and scroll back and forth by calendar period to view and open previously
+            “approved” timesheets and previous or future leave calendars. On Time Approval, you can
+            monitor a Clock-Entry employee’s work status (in real -time). If one of your timesheet
+            employees fails to clock out after 12 hours, their Name is shaded in red to flat it for
+            attention. </para>
+        <para>When necessary, you can click on a Document Id number to open that employee’s
+            timesheet or leave calendar to enter corrections, to delete an automatic meal deduction
+            on a timesheet when the employee did not take one, and if applicable, to distribute work
+            hours between multiple Assignments. </para>
+        <para>Additionally, you can open any historical timesheet or leave calendar to review the
+            recorded time or leave blocks for that employee. </para>
+        <para>Or, you can use the Name link to access the Person Info tab and view the jobs,
+            assignments and KPME roles held by that employee. </para>
+        <para>On Time Approval, a summary view of the employee’s timesheet can be viewed by using
+            the Plus buttons to pop - open the summary (minus to close). This view can be used to
+            monitory their daily hours, review their daily weekly and total pay period hours by
+            assignment. Leave Approval has Plus buttons that expand to show the leave usage and
+            balance for the period. </para>
+        <para>These approval tools allow you to monitor, review and clean- up your employee’s
+            timesheets or leave calendar prior to approval and during the calendar reporting period. </para>
+        <para>If you are a work area approver, you should check your Action List notification emails
+            during each pay period to ‘Approve’ or to ‘Correct and Approve’ any Missed Punch
+            documents routed to you. These documents inform you of any missed clock-ins or
+            clock-outs by the employees you supervise, and allow you to correct a document submitted
+            with an inaccurate clock time. Leave requests are also routed to only the Work Area
+            Approvers. Balance Transfers and Payouts triggered by max balances on the leave calendar
+            are routed for approval to the work area approver and department’s payroll processor, if
+            applicable for that department, </para>
+        <para>At the end of each pay period, work area approvers must approve timesheets. The
+            ‘monitor and approval’ page provides you the option to approve an individual timesheet
+            or do bulk approvals. Work area timesheets that require the second level Department
+            Payroll Processor approval will be routed for approval. On ‘monitor and approval’ page,
+            timesheets that enroute will have a label above the “Approve” button to indicate the
+            next approval action, “Approver” or “Payroll Processor” , The information on a fully
+            approved (Final) timesheet is then processed and can be sent to an associated Payroll
+            system. </para>
+        <para>After the leave calendar period, an exempt employee can submit their leave calendars
+            for approval. On the Leave Approval page, employees’ leave calendar will be available to
+            approve individual or in bulk. </para>
+        <para>The following illustration of the Time Approval tab demonstrates the options available
+            on both the approval tabs. </para>
+        <para>(The letters located next to each option below are used to show that option on the
+            illustration.) </para>
+        <para>Let’s look’s at the options available to you on the Time Approval tab. You can: </para>
     </section>
     <section>
         <title>Timesheet Monitoring, Reviewing and Correcting</title>

@@ -2,16 +2,110 @@
 <chapter xml:id="leaveCalendar" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Leave Calendar</title>
+        <para>Leave eligible employees in KPME will have <emphasis role="italic">Leave
+            Calendar</emphasis> tab that displays the leave reporting period for the employee. Leave
+        reporting periods can be set up to fit department needs, such as weekly, biweekly, or
+        bimonthly. </para>
+        <para>Non-exempt employees will report their leave usage on their timesheet and will use
+                future leave calendars to plan and request leave. Exempt employees will report leave
+                on their current and previous reporting leave calendars and will use future leave
+                calendar periods to plan and request leave. Exempt employees’ reporting leave
+                calendars Kuali Rice/Workflow documents — Kuali Rice/Workflow is a routing and
+                approval engine used to manage who can view and take actions on a particular leave
+                calendar. Exempt employees with an active KPME Assignment will have a leave calendar
+                automatically created when accessing the current leave calendar period. </para>
+        <para>Navigating the <emphasis role="italic">Leave Calendar</emphasis> is similar to the
+            <emphasis role="italic">Time Detail</emphasis> tab described earlier in this document.
+        There are two additional leave related links next to the go to <emphasis role="underline"
+            >Current Leave Calendar</emphasis> link. </para>
+        <para><emphasis role="underline">Leave Ledger</emphasis> is a tabular version of all the
+        leave blocks on the leave calendar showing planned, requested, usage, and accrual leave
+        entries in chronological order with balances for identified accrual categories. Previous and
+        future year leave usage and accruals can be accessed by using the scrolling buttons shown on
+        each side of the displayed year. The Leave Ledger also displays a record of the “Days
+        removed in correction” and “Inactive Leave Entries”. A link to the <emphasis
+            role="underline">Current Leave Period</emphasis> at the top right side of the page takes
+        returns to your leave calendars. </para>
+    <para>The <emphasis role="underline">Leave Reques</emphasis>t link from the leave calendar
+        displays planned leave blocks that have been placed on future leave calendars and can be
+        submitted for approval. This page also contains Leave Request Pending Approval, Approved
+        Leave Requests and Disapproved Leave Requests. Past and future year leave requests and
+        approvals accruals can be accessed by using the scrolling buttons shown on each side of the
+        displayed year. A link to the <emphasis role="underline">Current Leave Period</emphasis> at
+        the top right side of the page takes returns to your leave calendars. </para>
     <section>
         <title>Adding/Editing/Deleting Leave Blocks to a Leave Calendar</title>
-        <para/>
+        <para>An employee who accrues leave hours such as paid time-off (PTO), vacation (VAC) or
+            sick hours (SCK) will enter those hours either on their current timesheet if non-exempt
+            or on their current leave calendar if exempt employee. <emphasis role="underline"
+                >Adding, editing and deleting leave blocks to Leave Calendar works the same adding
+                time to the Time Detail</emphasis>. </para>
+        <para>Future leave hours can be added by scrolling forward to desired leave calendar period
+            and adding a leave block. When adding a leave block, the request for leave can
+            immediately be submitted for approval by checking “S ubmit leave request for approval”
+            or the leave block can be added to the calendar as planned leave and later submitted for
+            approval from the <emphasis role="underline">Leave Request</emphasis> page. </para>
     </section>
     <section>
         <title>Viewing a Leave Summary</title>
-        <para/>
+        <para>Below the calendar is a section showing the leave summary. </para>
+        <para>Accrual Category totals... </para>
+        <itemizedlist>
+            <listitem>
+                <para>Prior Year Carryover is the final accrued leave balance from the leave plan’s previous year.</para>
+            </listitem>
+            <listitem>
+                <para>YTD (year to date) Earned is the total accruals along with any leave adjustments that have occurred since
+                    the beginning of the Leave Plan’s start date to the first date of the leave calendar being displayed (i.e.
+                    above example shows accruals up to March 17th).</para>
+            </listitem>
+            <listitem>
+                <para>YTD Usage is the total usage since the beginning of the Leave Plan’s start date to the last date of the
+                    leave calendar being displayed (i.e. above example totals include March 30th).</para>
+            </listitem>
+            <listitem>
+                <para>Accrued Balance is sum of the Prior Year Carryover and YTD Earned minus YTD Usage and future leave
+                    usage</para>
+            </listitem>
+            <listitem>
+                <para>Available Balance is the Usage Limit minus the YTD Usage.</para>
+            </listitem>
+            <listitem>
+                <para>Usage Limit is the accrual category’s rule applicable for the displayed leave calendar. When new usage
+                    leave blocks are added to the calendar, the total YTD usage cannot exceed the Usage Limit if there is
+                    one.</para>
+            </listitem>
+            <listitem>
+                <para>Future/Planned Usage is the total usage leave blocks that have been added to future leave calendars.</para>
+            </listitem>
+            <listitem>
+                <para>YTD FMLA Usage is the total usage of leave blocks with an FMLA flagged earned code that exists on the
+                    current and previous leave calendars.</para>
+            </listitem>
+        </itemizedlist>
+        <para>The leave summary on leave calendars for the previous leave plan year will show the leave plan year’s totals. </para>
     </section>
     <section>
         <title>Leave Requests</title>
-        <para/>
+        <para>Leave blocks are added to future leave calendars, they can be added to the leave
+            calendar as a leave block with status of “planned” . To submit “planned” leave, click on
+            the <emphasis role="bold"><emphasis role="underline">Leave Request</emphasis></emphasis>
+            link on the left under the document header. The Leave Request page has 4 different
+            sections that leave blocks by leave block statuses: planned leave, requested leave that
+            is pending approval, approved leave requests, and disapproved leave requests. </para>
+        <para>The Planned Leave section displays leave blocks that can be submitted for approval.
+            From the planned leave section, leave can be requested. Leave can also be requested when
+            adding leave blocks or editing a leave block on a future leave calendar by checking
+            “Submit leave request for approval” on the add Leave Block dialog box. Leave requests
+            are routed for approval to the requested leave block’s assignment’s Work Area Approver.
+            A leave block that has been submitted for approval will appear in the Leave Request
+            Pending Approval section of the Leave Request page. Once the leave requested is
+            approved, the leave block will appear on the Leave Request page as an Approved Leave
+            Requests and the leave block will appear on the leave calendars as approved. If leave
+            block will appear is disapproved the requested leave block will be removed from the
+            leave calendar and will appear in the last section of the Leave Request page,
+            Disapproved Leave Requests , with the approver’s reason . Approvers can also defer
+            requested leave with a reason for deferring. Deferred leave blocks will return to status
+            of “p lanned ” and the reason appears in the description on the Leave Request page. </para>
     </section>
 </chapter>
