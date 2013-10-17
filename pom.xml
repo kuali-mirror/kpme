@@ -88,6 +88,7 @@
         <mysql.host>localhost</mysql.host>
         <mysql.dba.username>root</mysql.dba.username>
         <mysql.dba.password>NONE</mysql.dba.password>
+        <project.scm.url>https://svn.kuali.org/repos/kpme/trunk</project.scm.url>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -1026,8 +1027,8 @@
         </repository>
     </repositories>
     <scm>
-        <connection>scm:${project.scm.vendor}:https://svn.kuali.org/repos/kpme/tags/kpme-2.0.0</connection>
-        <developerConnection>scm:${project.scm.vendor}:https://svn.kuali.org/repos/kpme/tags/kpme-2.0.0</developerConnection>
-        <url>https://svn.kuali.org/repos/kpme/tags/kpme-2.0.0</url>
+        <connection>scm:${project.scm.vendor}:${project.scm.url}</connection>
+        <developerConnection>scm:${project.scm.vendor}:${project.scm.url}</developerConnection>
+        <url>${project.scm.url}</url>
     </scm>
 </project>
