@@ -15,12 +15,7 @@
  */
 package org.kuali.kpme.core.workarea.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
@@ -118,6 +113,36 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 		return workAreaObj;
 	}
 
+    @Override
+    public List<WorkArea> getWorkAreasWithoutRoles(List<Long> workAreas, LocalDate asOfDate) {
+        if (CollectionUtils.isEmpty(workAreas)) {
+            return Collections.emptyList();
+        }
+        return workAreaDao.getWorkAreas(workAreas, asOfDate);
+    }
+
+    @Override
+    public List<Long> getWorkAreasForDepartment(String department, LocalDate asOfDate) {
+        List<WorkArea> workAreas = workAreaDao.getWorkArea(department, asOfDate);
+        List<Long> was = new ArrayList<Long>();
+        for (WorkArea wa : workAreas) {
+            was.add(wa.getWorkArea());
+        }
+        return was;
+    }
+
+    @Override
+    public List<Long> getWorkAreasForDepartments(List<String> departments, LocalDate asOfDate) {
+        if (CollectionUtils.isEmpty(departments)) {
+            return Collections.emptyList();
+        }
+        List<WorkArea> workAreas = workAreaDao.getWorkAreaForDepartments(departments, asOfDate);
+        List<Long> was = new ArrayList<Long>();
+        for (WorkArea wa : workAreas) {
+            was.add(wa.getWorkArea());
+        }
+        return was;
+    }
     @Override
     public List<WorkArea> getWorkAreas(String department, LocalDate asOfDate) {
         List<WorkArea> workAreas = workAreaDao.getWorkArea(department, asOfDate);

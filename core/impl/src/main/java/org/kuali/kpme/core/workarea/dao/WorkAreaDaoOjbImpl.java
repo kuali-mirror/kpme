@@ -48,7 +48,45 @@ public class WorkAreaDaoOjbImpl extends PlatformAwareDaoBaseOjb implements WorkA
     }
 
     @Override
-    public List<WorkArea> getWorkArea(String department, LocalDate asOfDate) {
+    public List<WorkArea> getWorkAreas(List<Long> workAreas, LocalDate asOfDate) {
+        Criteria root = new Criteria();
+
+        root.addIn("workArea", workAreas);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(WorkArea.class, asOfDate, WorkArea.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkArea.class, WorkArea.BUSINESS_KEYS, false));
+
+        Criteria activeFilter = new Criteria(); // Inner Join For Activity
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+
+        Query query = QueryFactory.newQuery(WorkArea.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        List<WorkArea> wal = new ArrayList<WorkArea>(c.size());
+        wal.addAll(c);
+        return wal;
+    }
+
+    @Override
+    public List<WorkArea> getWorkAreaForDepartments(List<String> departments, LocalDate asOfDate) {
+        Criteria root = new Criteria();
+
+        root.addIn("dept", departments);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(WorkArea.class, asOfDate, WorkArea.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkArea.class, WorkArea.BUSINESS_KEYS, false));
+
+        Criteria activeFilter = new Criteria(); // Inner Join For Activity
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+
+        Query query = QueryFactory.newQuery(WorkArea.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        List<WorkArea> wal = new ArrayList<WorkArea>(c.size());
+        wal.addAll(c);
+        return wal;
+    }
+
+    @Override
+     public List<WorkArea> getWorkArea(String department, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
         root.addEqualTo("dept", department);

@@ -110,11 +110,12 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
 
         page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), tdaf);
         Assert.assertNotNull(page);
+        page = getWebClient().getPage(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId));
         HtmlUnitUtil.createTempFile(page, "TimeBlockPresent");
-
+        
         // Verify block present on rendered page.
         String pageAsText = page.asText();
-
+        
         // JSON
         //
         //

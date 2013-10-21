@@ -30,8 +30,6 @@ public interface CalendarDao {
 	public Calendar getCalendar(String hrPyCalendarId);
 
 	public Calendar getCalendarByGroup(String pyCalendarGroup);
-	
-	public CalendarEntry getPreviousCalendarEntry(String tkCalendarId, DateTime beginDateCurrentCalendar);
 
     public List<Calendar> getCalendars(String calendarName, String calendarTypes, String flsaBeginDay, String flsaBeginTime);
 

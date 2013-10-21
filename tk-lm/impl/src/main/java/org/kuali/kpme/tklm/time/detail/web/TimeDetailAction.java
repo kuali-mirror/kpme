@@ -37,6 +37,7 @@ import org.apache.commons.lang.SystemUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
@@ -106,12 +107,10 @@ public class TimeDetailAction extends TimesheetAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);
-
         TimeDetailActionForm timeDetailActionForm = (TimeDetailActionForm) form;
 
         CalendarEntry calendarEntry = timeDetailActionForm.getCalendarEntry();
         TimesheetDocument timesheetDocument = timeDetailActionForm.getTimesheetDocument();
-
 
         if (calendarEntry != null && timesheetDocument != null) {
 			List<String> assignmentKeys = new ArrayList<String>();
@@ -186,7 +185,6 @@ public class TimeDetailAction extends TimesheetAction {
 	        setMessages(timeDetailActionForm);
 
         }
-        
         return forward;
     }
 
@@ -238,8 +236,8 @@ public class TimeDetailAction extends TimesheetAction {
         		for (Entry<String,Set<LeaveBlock>> entry : maxBalInfractions.entrySet()) {
         			for (LeaveBlock lb : entry.getValue()) {
         				if (calendarInterval.contains(lb.getLeaveDate().getTime())) {
-	    	        		AccrualCategory accrualCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveLocalDate());
-				        	AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+	    	        		AccrualCategory accrualCat = lb.getAccrualCategoryObj();
+				        	AccrualCategoryRule aRule = lb.getAccrualCategoryRule();
 				        	if (StringUtils.equals(aRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.LOSE)) {
 				        		DateTime aDate = null;
 				        		if (StringUtils.equals(aRule.getMaxBalanceActionFrequency(), HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
@@ -255,7 +253,7 @@ public class TimeDetailAction extends TimesheetAction {
 					    			AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
 					    			BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, lb.getLeaveLocalDate());
 						        	
-						        	BalanceTransfer loseTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(principalId, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveLocalDate());
+						        	BalanceTransfer loseTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(principalId, aRule.getLmAccrualCategoryRuleId(), accruedBalance, lb.getLeaveLocalDate());
 						        	boolean valid = BalanceTransferValidationUtils.validateTransfer(loseTransfer);
 						        	if (valid) {
 						        		//validation occurs again before the "transfer" action occurs that submits the forfeiture.
@@ -383,7 +381,7 @@ public class TimeDetailAction extends TimesheetAction {
      */
     public ActionForward addTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-        
+        //if(this.isTokenValid(request,true)) {
         if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
         	List<String> errors = TimeDetailValidationUtil.validateLeaveEntry(tdaf);
         	if(errors.isEmpty()) {
@@ -423,10 +421,13 @@ public class TimeDetailAction extends TimesheetAction {
                 }
         	}
         }
-        
        // ActionFormUtils.validateHourLimit(tdaf);
+        // Removing the redirect and returning the basic action mapping forward results in
+        // duplicate time detail entry forms being submitted on browser refresh or back actions.
         ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
-        return mapping.findForward("basic");
+        ActionRedirect redirect = new ActionRedirect();
+        redirect.setPath("/TimeDetail.do");
+        return redirect;
     }
     
     private void removeOldTimeBlock(TimeDetailActionForm tdaf) {
@@ -570,7 +571,6 @@ public class TimeDetailAction extends TimesheetAction {
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
                     endTime, tdaf.getHours(), tdaf.getAmount(), isClockLogCreated, Boolean.parseBoolean(tdaf.getLunchDeleted()),
                     tdaf.getSpanningWeeks(), HrContext.getPrincipalId(), clockLogBeginId, clockLogEndId);
-           
         } else {
             timeBlocksToAdd = TkServiceLocator.getTimeBlockService().buildTimeBlocks(currentAssignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
@@ -621,7 +621,7 @@ public class TimeDetailAction extends TimesheetAction {
 	        	if ((StringUtils.isNotEmpty(tdaf.getTkTimeBlockId()) && tdaf.getTkTimeBlockId().equals(tb.getTkTimeBlockId()))
 	        		|| (tb.getBeginTimestamp().equals(startTime) && tb.getEndTimestamp().equals(endTime))) {
 	                tb.setOvertimePref(tdaf.getOvertimePref());
-	            } 
+	            }
 	        }
         }
 
@@ -638,7 +638,7 @@ public class TimeDetailAction extends TimesheetAction {
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, finalNewTimeBlocks, HrContext.getPrincipalId());
         
         generateTimesheetChangedNotification(HrContext.getPrincipalId(), HrContext.getTargetPrincipalId(), tdaf.getDocumentId());
-
+        
 	}
 	
 	/**
@@ -718,8 +718,12 @@ public class TimeDetailAction extends TimesheetAction {
         //Grab timeblock to be updated from form
         List<TimeBlock> timeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
         TimeBlock updatedTimeBlock = null;
+        List<TimeHourDetail> oldDetailList = new ArrayList<TimeHourDetail>();
+        String oldAssignmenString = "";
         for (TimeBlock tb : timeBlocks) {
             if (tb.getTkTimeBlockId().compareTo(tdaf.getTkTimeBlockId()) == 0) {
+            	oldDetailList = tb.getTimeHourDetails();
+            	oldAssignmenString = tb.getAssignmentKey();
                 updatedTimeBlock = tb;
                 tb.setJobNumber(assignment.getJobNumber());
                 tb.setWorkArea(assignment.getWorkArea());
@@ -727,7 +731,20 @@ public class TimeDetailAction extends TimesheetAction {
                 break;
             }
         }
-
+        
+        AssignmentDescriptionKey assignKey = AssignmentDescriptionKey.get(oldAssignmenString);
+        Assignment oldAssignment = HrServiceLocator.getAssignmentService().getAssignment(updatedTimeBlock.getPrincipalId(), assignKey, new LocalDate(updatedTimeBlock.getBeginDate()));
+        String oldRegEarnCode = oldAssignment.getJob().getPayTypeObj().getRegEarnCode();
+        
+        List<TimeHourDetail> tempList = new ArrayList<TimeHourDetail>();
+        tempList.addAll(oldDetailList);
+        for(TimeHourDetail thd : tempList) {
+        	// remove rule created details from old time block
+        	if(!thd.getEarnCode().equals(oldRegEarnCode)) {
+        	    oldDetailList.remove(thd);
+        	}
+        }
+        
         Set<String> earnCodes = new HashSet<String>();
         if (updatedTimeBlock != null) {
             List<EarnCode> validEarnCodes = TkServiceLocator.getTimesheetService().getEarnCodesForTime(assignment, updatedTimeBlock.getBeginDateTime().toLocalDate(), true);
@@ -738,11 +755,14 @@ public class TimeDetailAction extends TimesheetAction {
 
         if (updatedTimeBlock != null
         		&& earnCodes.contains(updatedTimeBlock.getEarnCode())) {
-        	TkServiceLocator.getTimeBlockService().updateTimeBlock(updatedTimeBlock);
+        	List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+            List<String> assignmentKeys = new ArrayList<String>();
+            for (Assignment assign : assignments) {
+                	assignmentKeys.add(assign.getAssignmentKey());
+            }        	
+            List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(HrContext.getTargetPrincipalId(), tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
 
-        	TimeBlockHistory tbh = new TimeBlockHistory(updatedTimeBlock);
-        	tbh.setActionHistory(TkConstants.ACTIONS.UPDATE_TIME_BLOCK);
-        	TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
+        	TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, timeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
         }
         
         //addTimeBlock handles validation and creation of object. Do not save time blocks directly in this method without validating the entry!
@@ -858,6 +878,26 @@ public class TimeDetailAction extends TimesheetAction {
 		Properties params = new Properties();
 		params.put("documentId", documentId);
 		return UrlFactory.parameterizeUrl(getApplicationBaseUrl() + "/TimeDetail.do", params);
+	}
+
+	@Override
+	protected String generateToken(HttpServletRequest request) {
+		return super.generateToken(request);
+	}
+
+	@Override
+	protected boolean isTokenValid(HttpServletRequest request, boolean reset) {
+		return super.isTokenValid(request, reset);
+	}
+
+	@Override
+	protected void resetToken(HttpServletRequest request) {
+		super.resetToken(request);
+	}
+
+	@Override
+	protected void saveToken(HttpServletRequest request) {
+		super.saveToken(request);
 	}
 
 }

@@ -1,0 +1,416 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  <bean id="LeaveBlockHistory" parent="LeaveBlockHistory-parentBean" />
+  <bean id="LeaveBlockHistory-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kpme.tklm.leave.block.LeaveBlockHistory" />
+    <property name="titleAttribute" value="lmLeaveBlockHistoryId" />
+    <property name="attributes" >
+      <list>
+      	<ref bean="LeaveBlockHistory-lmLeaveBlockHistoryId" />      	
+        <ref bean="LeaveBlockHistory-principalId"/>
+        <ref bean="LeaveBlockHistory-leaveAmount" />
+        <ref bean="LeaveBlockHistory-earnCode" />
+      	<ref bean="LeaveBlockHistory-documentId" />
+      	<ref bean="LeaveBlockHistory-userPrincipalId" />
+        <ref bean="LeaveBlockHistory-timestamp" />
+        <ref bean="LeaveBlockHistory-beginDate" />
+        <ref bean="LeaveBlockHistory-accrualGenerated" />        
+        <ref bean="LeaveBlockHistory-scheduleTimeOffId" />
+        <ref bean="LeaveBlockHistory-accrualCategory" />
+        <ref bean="LeaveBlockHistory-requestStatus" />
+        <ref bean="LeaveBlockHistory-leaveBlockType" />
+       	<ref bean="LeaveBlockHistory-jobNumber"/>
+        <ref bean="LeaveBlockHistory-workArea" />
+        <ref bean="LeaveBlockHistory-task" />
+        <ref bean="LeaveBlockHistory-leaveCalendarDocumentHeader" />
+        </list>
+    </property>
+    	<property name="relationships">
+  		<list>
+  			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="leaveCalendarDocumentHeader" />
+				<property name="primitiveAttributes">
+					<list>
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentId" p:targetName="documentId"/>
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="leaveCalendarDocumentHeader.documentStatus" p:targetName="documentStatus" />
+					</list>
+				</property>
+			</bean>
+        </list>
+    </property> 
+    <property name="objectLabel" value="leaveBlockObj"/>
+  </bean>
+
+<!-- Attribute Definitions -->
+  <bean id="LeaveBlockHistory-lmLeaveBlockHistoryId" parent="LeaveBlockHistory-lmLeaveBlockHistoryId-parentBean"/>
+  <bean id="LeaveBlockHistory-lmLeaveBlockHistoryId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Leave Block History Id"/>
+    <property name="maxLength" value="60"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="60" />
+		</property>
+    <property name="name" value="lmLeaveBlockHistoryId"/>
+    <property name="label" value="Leave Block History Id"/>
+  </bean>
+  
+ <bean id="LeaveBlockHistory-documentId" parent="LeaveBlockHistory-documentId-parentBean" />
+
+  <bean id="LeaveBlockHistory-documentId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true" />
+
+    <property name="maxLength" value="14" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="14" />
+    </property>
+
+    <property name="name" value="documentId" />
+    <property name="label" value="Document Id" />
+    <property name="description" value="Document Id" />
+  </bean>    
+  
+ <bean id="LeaveBlockHistory-workArea" parent="LeaveBlockHistory-workArea-parentBean"/>
+  <bean id="LeaveBlockHistory-workArea-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Work Area"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+ 		<bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
+    </property>
+    <property name="name" value="workArea"/>
+    <property name="label" value="Work Area"/>
+  </bean>
+  
+  <bean id="LeaveBlockHistory-task" parent="LeaveBlockHistory-task-parentBean"/>
+  <bean id="LeaveBlockHistory-task-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Task"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
+    </property>
+    <property name="name" value="task"/>
+    <property name="label" value="Task"/>
+  </bean>
+ 
+<bean id="LeaveBlockHistory-jobNumber" parent="LeaveBlockHistory-jobNumber-parentBean" />
+  <bean id="LeaveBlockHistory-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="forceUppercase" value="true" />
+      <property name="maxLength" value="7"/>
+       <property name="validationPattern">
+ 		 <bean parent="NumericValidationPattern"/>
+       </property>      
+      <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10"/>
+      </property>
+    <property name="name" value="jobNumber" />
+    <property name="label" value="Job Number" />
+    <property name="description" value="jobNumber" />
+  </bean>
+  
+ <bean id="LeaveBlockHistory-earnCode" parent="LeaveBlockHistory-earnCode-parentBean" />
+
+  <bean id="LeaveBlockHistory-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true" />
+    <property name="maxLength" value="15" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="15" />
+    </property>
+    <property name="name" value="earnCode" />
+    <property name="label" value="Earn Code" />
+    <property name="description" value="Earn Code" />
+  </bean>  
+  
+	<bean id="LeaveBlockHistory-timestamp" parent="LeaveBlockHistory-timestamp-parentBean" />
+	<bean id="LeaveBlockHistory-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Modified Time" />
+		<property name="maxLength" value="22" />
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="22" />
+        </property>
+		<property name="formatterClass"
+			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Modified Time" />
+	</bean>  
+	
+	<bean id="LeaveBlockHistory-beginDate" parent="LeaveBlockHistory-beginDate-parentBean" />
+	<bean id="LeaveBlockHistory-beginDate-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Date" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
+		<property name="name" value="beginDate" />
+		<property name="label" value="Date" />
+	</bean> 
+
+
+  <bean id="LeaveBlockHistory-principalId" parent="LeaveBlockHistory-principalId-parentBean"/>
+  <bean id="LeaveBlockHistory-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Principal Id"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern">
+      	<property name="allowWhitespace" value="false"/>
+      </bean>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+    <property name="name" value="principalId"/>
+    <property name="label" value="Principal Id"/>
+  </bean>  
+ 
+  <bean id="LeaveBlockHistory-userPrincipalId" parent="LeaveBlockHistory-userPrincipalId-parentBean"/>
+  <bean id="LeaveBlockHistory-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="User Principal Id"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern">
+      	<property name="allowWhitespace" value="false"/>
+      </bean>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+    <property name="name" value="userPrincipalId"/>
+    <property name="label" value="User Principal Id"/>
+  </bean>  
+  <bean id="LeaveBlockHistory-leaveBlockType" parent="LeaveBlockHistory-leaveBlockType-parentBean"/>
+    <bean id="LeaveBlockHistory-leaveBlockType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="true"/>
+
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+
+        <property name="name" value="leaveBlockType"/>
+        <property name="label" value="Leave Block Type"/>
+        <property name="description" value="Leave Block Type"/>
+    </bean>
+    <bean id="LeaveBlockHistory-leaveAmount" parent="LeaveBlockHistory-leaveAmount-parentBean" />
+ 	 <bean id="LeaveBlockHistory-leaveAmount-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="forceUppercase" value="true" />
+       <property name="validationPattern">
+ 		 <bean parent="NumericValidationPattern"/>
+       </property>      
+      <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10"/>
+      </property>
+    <property name="name" value="leaveAmount" />
+    <property name="label" value="Leave Amount" />
+    <property name="description" value="Leave Amount" />
+  	</bean>    
+    <bean id="LeaveBlockHistory-requestStatus" parent="LeaveBlockHistory-requestStatus-parentBean"/>
+    <bean id="LeaveBlockHistory-requestStatus-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="true"/>
+
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+
+        <property name="name" value="requestStatus"/>
+        <property name="label" value="Request Status"/>
+        <property name="description" value="Request Status"/>
+    </bean>
+       
+    <bean id="LeaveBlockHistory-accrualGenerated" parent="LeaveBlockHistory-accrualGenerated-parentBean" />
+	<bean id="LeaveBlockHistory-accrualGenerated-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Accrual Generated" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="accrualGenerated" />
+		<property name="label" value="Accrual Generated" />
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+	</bean>	
+	
+	 <bean id="LeaveBlockHistory-accrualCategory" parent="LeaveBlockHistory-accrualCategory-parentBean"/>
+    <bean id="LeaveBlockHistory-accrualCategory-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="true"/>
+
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+
+        <property name="name" value="accrualCategory"/>
+        <property name="label" value="Accrual Category"/>
+        <property name="description" value="Accrual Category"/>
+    </bean>
+    
+     <bean id="LeaveBlockHistory-scheduleTimeOffId" parent="LeaveBlockHistory-scheduleTimeOffId-parentBean"/>
+    <bean id="LeaveBlockHistory-scheduleTimeOffId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="true"/>
+
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+
+        <property name="name" value="scheduleTimeOffId"/>
+        <property name="label" value="Schedule TimeOff Id"/>
+        <property name="description" value="Schedule TimeOff Id"/>
+    </bean>
+ 	<bean id="LeaveBlockHistory-leaveCalendarDocumentHeader" parent="LeaveBlockHistory-leaveCalendarDocumentHeader-parentBean" />
+	<bean id="LeaveBlockHistory-leaveCalendarDocumentHeader-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="leaveCalendarDocumentHeader"/>
+		<property name="label" value="Document Status"/>
+		<property name="required" value="false"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kew.lookup.valuefinder.DocumentRouteStatusValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+	</bean>
+
+
+<!--   KRAD Inquiry View -->
+  <bean id="LeaveBlockHistory-inquiryView" parent="LeaveBlockHistory-inquiryView-parentBean" />
+  <bean id="LeaveBlockHistory-inquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+  	<property name="headerText" value="Leave Block History Inquiry"/>
+  	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.leave.block.LeaveBlockHistory"/>
+  	<property name="singlePageView" value="true"/>
+    <property name="items" >
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="layoutManager.numberOfColumns" value="2" />
+          <property name="items" >
+            <list>
+              <bean parent="Uif-DataField" p:propertyName="documentId" />
+              <bean parent="Uif-DataField" p:propertyName="jobNumber" />
+              <bean parent="Uif-DataField" p:propertyName="workArea"/>
+              <bean parent="Uif-DataField" p:propertyName="earnCode"/>
+              <bean parent="Uif-DataField" p:propertyName="leaveAmount"/>
+        	  <bean parent="Uif-DataField" p:propertyName="requestStatus" />
+        	  <bean parent="Uif-DataField" p:propertyName="accrualGenerated" />
+        	  <bean parent="Uif-DataField" p:propertyName="accrualCategory" />
+        	  <bean parent="Uif-DataField" p:propertyName="leaveBlockType" />
+        	  <bean parent="Uif-DataField" p:propertyName="principalId" />
+        	  <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />        	  
+              <bean parent="Uif-DataField" p:propertyName="timestamp" />
+            </list>
+          </property>
+          <property name="title" value="Leave Block History" />
+        </bean>	                   
+      </list>
+    </property>
+    <property name="title" value="Leave Block History Inquiry" />
+  </bean>
+  
+  <!-- KRAD Lookup View -->
+  <bean id="LeaveBlockHistory-lookupView" parent="KPMEUif-LookupView">
+  	<property name="headerText" value="Leave Block History Lookup" />
+  	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.leave.block.LeaveBlockHistory"/>
+  	<property name="viewHelperServiceClass" value="org.kuali.kpme.tklm.leave.block.web.LeaveBlockHistoryLookupableHelperServiceImpl"/>
+  	<property name="criteriaFields">
+  		<list>
+  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="documentId">
+  				<property name="quickfinder">
+  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader"
+  						p:fieldConversions="documentId:documentId,documentStatus:leaveCalendarDocumentHeader.documentStatus"/>
+  				</property>
+  				<property name="inquiry">
+  					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader"
+  						p:inquiryParameters="documentId:documentId"/>
+  				</property>
+  			</bean>
+  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId">
+  				<property name="quickfinder">
+  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+  						p:fieldConversions="principalId:principalId"/>
+  				</property>
+  				<property name="inquiry">
+  					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+  						p:inquiryParameters="principalId:principalId"/>
+  				</property>
+  			</bean>
+  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="userPrincipalId">
+  				<property name="quickfinder">
+  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+  						p:fieldConversions="principalId:userPrincipalId"/>
+  				</property>
+  				<property name="inquiry">
+  					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+  						p:inquiryParameters="userPrincipalId:principalId"/>
+  				</property>
+  			</bean>
+  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="leaveBlockType"
+  						p:optionsFinderClass="org.kuali.kpme.tklm.leave.block.LeaveBlockTypeValuesFinder"
+                        p:enableAutoDirectInquiry="false"
+                        p:enableAutoQuickfinder="false"
+  						p:label="Leave Block Type">
+  				<property name="control">
+  					<bean parent="Uif-DropdownControl"/>
+  				</property>
+  			</bean>  			
+  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="leaveCalendarDocumentHeader.documentStatus"
+  						p:optionsFinderClass="org.kuali.kpme.tklm.leave.block.LeaveCalendarHeaderDocTypeStatusValuesFinder"
+                        p:enableAutoDirectInquiry="false"
+                        p:enableAutoQuickfinder="false"
+  						p:label="Document Status">
+  				<property name="control">
+  					<bean parent="Uif-DropdownControl"/>
+  				</property>
+  			</bean>
+  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="beginDate" p:ranged="true" p:label="Begin Date">
+  				<property name="control">
+  					<bean parent="Uif-DateControl" p:watermarkText="MM/DD/YYYY"/>
+  				</property>
+  			</bean>
+  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="timeStamp" p:ranged="true" p:label="Modified Time">
+  				<property name="control">
+  					<bean parent="Uif-DateControl" p:watermarkText="MM/DD/YYYY"/>
+  				</property>
+  			</bean>
+  		</list>
+  	</property>
+  	<property name="resultFields">
+  		<list>
+  			<bean parent="Uif-DataField" p:propertyName="documentId"/>
+  			<bean parent="Uif-DataField" p:propertyName="principalId"/>
+  			<bean parent="Uif-DataField" p:propertyName="jobNumber"/>
+  			<bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
+  			<bean parent="Uif-DataField" p:propertyName="earnCode"/>
+  			<bean parent="Uif-DataField" p:propertyName="workArea"/>
+  			<bean parent="Uif-DataField" p:propertyName="task"/>
+  			<bean parent="Uif-DataField" p:propertyName="accrualGenerated"/>
+  			<bean parent="Uif-DataField" p:propertyName="accrualCategory"/>
+  			<bean parent="Uif-DataField" p:propertyName="leaveBlockType"/>
+  		</list>
+  	</property>
+  </bean>
+
+</beans>

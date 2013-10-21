@@ -284,35 +284,38 @@ $(function () {
                     },
                     buttons : {
                         "Add" : function () {
-                            // If the end time is 12:00 am, change the end date to the next day if it has not already been done
-                            if (!_.isEmpty($("#startDate").val()) && !_.isEmpty($("#endDate").val()) && !_.isEmpty($("#endTime").val())) {
-                                var midnight = Date.parse($('#endDate').val()).set({
-                                    hour : 0,
-                                    minute : 0,
-                                    second : 0,
-                                    millisecond : 0
-                                });
-
-                                var startDate = Date.parse($('#startDate').val());
-                                var endDate = Date.parse($('#endDate').val());
-                                var endDateTime = Date.parse($('#endDate').val() + " " + $('#endTime').val());
-
-                                // Compare and see if the end time is at midnight
-                                if (Date.compare(startDate, endDate) == 0 && Date.compare(midnight, endDateTime) == 0) {
-                                    $('#endDate').val(endDateTime.add(1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
-                                }
-                            }
+                        	var isValid = self.checkStartEndDateFields($("#startDate"),$("#endDate"),"Start Date","End Date");
+                        	
+                        	if(isValid) {
+	                            // If the end time is 12:00 am, change the end date to the next day if it has not already been done
+	                            if (!_.isEmpty($("#startDate").val()) && !_.isEmpty($("#endDate").val()) && !_.isEmpty($("#endTime").val())) {
+	                                var midnight = Date.parse($('#endDate').val()).set({
+	                                    hour : 0,
+	                                    minute : 0,
+	                                    second : 0,
+	                                    millisecond : 0
+	                                });
+	
+	                                var startDate = Date.parse($('#startDate').val());
+	                                var endDate = Date.parse($('#endDate').val());
+	                                var endDateTime = Date.parse($('#endDate').val() + " " + $('#endTime').val());
+	
+	                                // Compare and see if the end time is at midnight
+	                                if (Date.compare(startDate, endDate) == 0 && Date.compare(midnight, endDateTime) == 0) {
+	                                    $('#endDate').val(endDateTime.add(1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
+	                                }
+	                            }
+                        	}
 
                             $('#acrossDays').val($('#acrossDays').is(':checked') ? 'y' : 'n');
                             $('#spanningWeeks').val($('#spanningWeeks').is(':checked') ? 'y' : 'n');  // KPME-1446
 
-                            var isValid = true;
                             // If the user can only update the assignment, there is no need to do the validations.
                             var canEditAssignmentOnly = $("#selectedEarnCode").is('[disabled]');
                             if (canEditAssignmentOnly) {
                                 $('#methodToCall').val(CONSTANTS.ACTIONS.UPDATE_TIME_BLOCK);
                             } else {
-                                isValid = self.validateTimeBlock();
+                                isValid = isValid && self.validateTimeBlock();
                                 $("#methodToCall").val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
                             }
 
@@ -907,6 +910,7 @@ $(function () {
             var self = this;
             var isValid = true;
             isValid = isValid && this.checkEmptyField($("#selectedAssignment"), "Assignment");
+            isValid = isValid && this.checkStartEndDateFields($("#startDate"),$("#endDate"),"Start Date", "End Date");
             isValid = isValid && this.validateEarnCode();
 
             if (isValid) {
@@ -1097,6 +1101,24 @@ $(function () {
             var val = o.val();
             if (val == '' || val == undefined) {
                 this.displayErrorMessages(field + " field cannot be empty", o);
+                return false;
+            }
+            return true;
+        },
+        
+        checkStartEndDateFields : function (o1, o2, startField, endField) {
+            var val1 = Date.parse(o1.val());
+            var val2 = Date.parse(o2.val());
+            if(val1 == null) {
+            	this.displayErrorMessages(startField + " is not a valid date", o1);
+            	return false;
+            }
+            if(val2 == null) {
+            	this.displayErrorMessages(endField + " is not a valid date", o2);
+            	return false;
+            }
+            if (val1.compareTo(val2) > 0) {
+                this.displayErrorMessages(startField + " is later than end date.", o1);
                 return false;
             }
             return true;

@@ -70,5 +70,12 @@ public class LeaveBlockHistoryServiceImpl implements LeaveBlockHistoryService {
 		return leaveBlockHistoryDao.getLeaveBlockHistoriesForLookup(documentId,principalId,userPrincipalId,fromDate,toDate);
 	}
 	
+	@Override
+	public List<LeaveBlockHistory> getLeaveBlockHistoriesForLookup(String documentId,
+			String principalId, String userPrincipalId, LocalDate fromDate,
+			LocalDate toDate, String leaveBlockType) {
+		return leaveBlockHistoryDao.getLeaveBlockHistoriesForLookup(documentId,principalId,userPrincipalId,fromDate,toDate,leaveBlockType);
+	}
+	
 
 }

@@ -91,7 +91,7 @@ public class SimpleTimeEntryValidationTest extends KPMEWebTestCase {
 
         // Check for errors
         Assert.assertEquals("There should be 1 error in this time detail submission", 1, errors.size());
-        Assert.assertEquals("Error String Unexpected", "The start date/time is outside the pay period", errors.get(0));
+        Assert.assertEquals("Error String Unexpected", "The start date/time is outside the calendar period", errors.get(0));
     }
 
 
@@ -135,6 +135,7 @@ public class SimpleTimeEntryValidationTest extends KPMEWebTestCase {
         // Note - This currently uses a less than desirable method to accomplish this...
         page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), baseUrl, tdaf);
         Assert.assertNotNull(page);
+        page = getWebClient().getPage(baseUrl);
         //HtmlUnitUtil.createTempFile(page, "TimeBlockPresent");
 
         // Verify block present on rendered page.

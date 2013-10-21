@@ -15,12 +15,7 @@
  */
 package org.kuali.kpme.core.department.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
@@ -102,6 +97,32 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 		return departmentObj;
 	}
+
+
+    @Override
+    public List<String> getDepartmentsForLocation(String location, LocalDate asOfDate) {
+        List<Department> departmentObjs = departmentDao.getDepartments(location, asOfDate);
+        List<String> depts = new ArrayList<String>();
+        for (Department departmentObj : departmentObjs) {
+            depts.add(departmentObj.getDept());
+        }
+
+        return depts;
+    }
+
+    @Override
+    public List<String> getDepartmentsForLocations(List<String> locations, LocalDate asOfDate) {
+        if (CollectionUtils.isEmpty(locations)) {
+            return Collections.emptyList();
+        }
+        List<Department> departmentObjs = departmentDao.getDepartmentsForLocations(locations, asOfDate);
+        List<String> depts = new ArrayList<String>();
+        for (Department departmentObj : departmentObjs) {
+            depts.add(departmentObj.getDept());
+        }
+
+        return depts;
+    }
 
     @Override
     public List<Department> getDepartments(String location, LocalDate asOfDate) {

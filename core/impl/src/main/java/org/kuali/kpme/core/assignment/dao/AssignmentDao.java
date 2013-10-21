@@ -27,7 +27,7 @@ public interface AssignmentDao {
 	 * the specified payPeriodEndDate.
 	 *
 	 * @param principalId
-	 * @param payPeriodEndDate
+	 * @param asOfDate
 	 * @return
 	 */
 	public List<Assignment> findAssignments(String principalId, LocalDate asOfDate);
@@ -55,6 +55,8 @@ public interface AssignmentDao {
 	 * @return
 	 */
 	public List<Assignment> getActiveAssignmentsInWorkArea(Long workArea, LocalDate asOfDate);
+
+    public List<Assignment> getActiveAssignmentsInWorkAreas(List<Long> workAreas, LocalDate asOfDate);
 
 	public Assignment getAssignment(String tkAssignmentId);
 

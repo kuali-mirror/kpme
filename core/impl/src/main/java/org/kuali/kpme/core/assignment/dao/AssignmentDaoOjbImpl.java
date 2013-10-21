@@ -177,6 +177,30 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
         return assignments;
     }
 
+    @Override
+    public List<Assignment> getActiveAssignmentsInWorkAreas(List<Long> workAreas, LocalDate asOfDate) {
+        List<Assignment> assignments = new ArrayList<Assignment>();
+        Criteria root = new Criteria();
+
+        root.addIn("workArea", workAreas);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, asOfDate, Assignment.BUSINESS_KEYS, true));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, Assignment.BUSINESS_KEYS, true));
+        root.addEqualTo("active", true);
+
+        Criteria activeFilter = new Criteria(); // Inner Join For Activity
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+
+        Query query = QueryFactory.newQuery(Assignment.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (c != null) {
+            assignments.addAll(c);
+        }
+
+        return assignments;
+    }
+
     public List<Assignment> getActiveAssignments(LocalDate asOfDate) {
         List<Assignment> assignments = new ArrayList<Assignment>();
         

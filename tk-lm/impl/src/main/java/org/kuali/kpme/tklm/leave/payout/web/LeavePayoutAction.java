@@ -325,13 +325,12 @@ public class LeavePayoutAction extends KPMEAction {
 			String principalId = lcd == null ? null : lcd.getPrincipalId();
 			LeaveBlock leaveBlock = eligiblePayouts.get(0);
 			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
-			String accrualCategoryRuleId = leaveBlock.getAccrualCategoryRuleId();
-			if(!StringUtils.isBlank(accrualCategoryRuleId)) {
-				AccrualCategoryRule accrualRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
+            AccrualCategoryRule accrualRule = leaveBlock.getAccrualCategoryRule();
+			if(accrualRule != null) {
 				AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 				BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, effectiveDate);
 			
-				LeavePayout leavePayout = LmServiceLocator.getLeavePayoutService().initializePayout(principalId, accrualCategoryRuleId, accruedBalance, effectiveDate);
+				LeavePayout leavePayout = LmServiceLocator.getLeavePayoutService().initializePayout(principalId, accrualRule.getLmAccrualCategoryRuleId(), accruedBalance, effectiveDate);
 				leavePayout.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 	
 				if(ObjectUtils.isNotNull(leavePayout)) { 
@@ -420,8 +419,8 @@ public class LeavePayoutAction extends KPMEAction {
 			LeaveBlock leaveBlock = eligiblePayouts.get(0);
 			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
 			String accrualCategoryRuleId = leaveBlock.getAccrualCategoryRuleId();
-			if(!StringUtils.isBlank(accrualCategoryRuleId)) {
-				AccrualCategoryRule accrualRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
+            AccrualCategoryRule accrualRule = leaveBlock.getAccrualCategoryRule();
+			if(accrualRule != null) {
 				AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 				BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, effectiveDate);
 

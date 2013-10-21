@@ -20,6 +20,7 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.springframework.cache.annotation.Cacheable;
 
 public interface AccrualCategoryRuleService {
 	
@@ -28,6 +29,7 @@ public interface AccrualCategoryRuleService {
      * @param accrualCategoryId
      * @return
      */
+    @Cacheable(value= AccrualCategoryRule.CACHE_NAME, key="'accrualCategoryId=' + #p0")
     public List <AccrualCategoryRule> getActiveAccrualCategoryRules(String accrualCategoryId);
     
     /**
@@ -35,11 +37,13 @@ public interface AccrualCategoryRuleService {
      * @param lmAccrualCategoryRuleId
      * @return
      */
+    @Cacheable(value= AccrualCategoryRule.CACHE_NAME, key="'lmAccrualCategoryRuleId=' + #p0")
     public AccrualCategoryRule getAccrualCategoryRule(String lmAccrualCategoryRuleId);
     
     /**
      * Fetch the accrual category rule applies for the given date and accrualCategory
      */
+    @Cacheable(value= AccrualCategoryRule.CACHE_NAME, key="'accrualCategory=' + #p0.getLmAccrualCategoryId() + '|' + 'asOfDate=' + #p1 + '|' + 'serviceDate=' + #p2")
     public AccrualCategoryRule getAccrualCategoryRuleForDate(AccrualCategory accrualCategory, LocalDate currentDate, LocalDate serviceDate);
     
     public List <AccrualCategoryRule> getActiveRulesForAccrualCategoryId(String accrualCategoryId);

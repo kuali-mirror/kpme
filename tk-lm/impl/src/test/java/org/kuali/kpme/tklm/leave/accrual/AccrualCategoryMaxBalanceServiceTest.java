@@ -147,7 +147,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 		//assertEquals(6, maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
 		for(LeaveBlock eligibleTransfer : maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
-			rules.add(HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
+			rules.add(eligibleTransfer.getAccrualCategoryRule());
 		
 		// Set should contain an accrual category whose rule's max balance is trumped by an employee override.
 		// Comparing accrued balance to a rule's defined max balance is insufficient for testing
@@ -176,7 +176,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
 		for(LeaveBlock eligibleTransfer : maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
-			rules.add(HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
+			rules.add(eligibleTransfer.getAccrualCategoryRule());
 
 		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
 		for(AccrualCategoryRule aRule : rules) {

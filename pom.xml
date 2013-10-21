@@ -40,7 +40,7 @@
     </modules>
     <properties>
         <apache.cxf.version>2.7.0</apache.cxf.version>
-        <build.version>NO VERSION</build.version>
+        <build.version>${project.name} :: ${project.version} :: ${kuali.build.timestamp}</build.version>
         <docbook.src>${basedir}/src/site/docbook</docbook.src>
         <docbook.filtered>${project.build.directory}/docbook-filtered</docbook.filtered>
         <docbook.dest>${project.build.directory}/site/reference</docbook.dest>
@@ -1009,7 +1009,7 @@
         <profile>
             <id>kuali-release</id>
             <properties>
-                <build.version>${project.name} :: ${project.version}-${svn.revision} :: ${kuali.build.timestamp}</build.version>
+                <build.version>${project.name} :: ${project.version} :: ${kuali.build.timestamp}</build.version>
             </properties>
         </profile>
     </profiles>

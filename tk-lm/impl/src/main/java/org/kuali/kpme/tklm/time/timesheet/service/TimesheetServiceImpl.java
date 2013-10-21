@@ -320,23 +320,22 @@ public class TimesheetServiceImpl implements TimesheetService {
             			earnCodeObj.getInflateMinHours().compareTo(hours) > 0) {
                     //if previous timeblock has no gap then assume its one block if the same earn code and divide inflated hours accordingly
                     if(previousTimeBlock != null && StringUtils.equals(earnCodeObj.getEarnCode(),previousTimeBlock.getEarnCode()) &&
-                            (timeBlock.getBeginTime().getTime() - previousTimeBlock.getEndTime().getTime() == 0L)){
+                            (timeBlock.getBeginTime().getTime() - previousTimeBlock.getEndTime().getTime() == 0L)) {
                         BigDecimal prevTimeBlockHours = TKUtils.getHoursBetween(previousTimeBlock.getBeginTime().getTime(), previousTimeBlock.getEndTime().getTime());
                         previousTimeBlock.setHours(prevTimeBlockHours);
-                        hours = earnCodeObj.getInflateMinHours().subtract(prevTimeBlockHours,HrConstants.MATH_CONTEXT);
-
-                    } else {
-            		    hours = earnCodeObj.getInflateMinHours();
-            	    }
+                        if(earnCodeObj.getInflateMinHours().compareTo(prevTimeBlockHours.add(hours,HrConstants.MATH_CONTEXT)) > 0) {
+                        	//hours = earnCodeObj.getInflateMinHours().subtract(prevTimeBlockHours,HrConstants.MATH_CONTEXT);
+                        }
+                    }
                 }
             }
             //If earn code has an inflate factor multiple hours specified by the factor
-            if (earnCodeObj.getInflateFactor() != null) {
+/*            if (earnCodeObj.getInflateFactor() != null) {
             	if ((earnCodeObj.getInflateFactor().compareTo(new BigDecimal(1.0)) != 0)
             			&& (earnCodeObj.getInflateFactor().compareTo(BigDecimal.ZERO)!= 0) ) {
             		hours = earnCodeObj.getInflateFactor().multiply(hours, HrConstants.MATH_CONTEXT).setScale(HrConstants.BIG_DECIMAL_SCALE);
             	}
-            }
+            }*/
             
             timeBlock.setHours(hours);
         }

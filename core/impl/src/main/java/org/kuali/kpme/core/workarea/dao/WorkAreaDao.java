@@ -22,11 +22,13 @@ import org.kuali.kpme.core.workarea.WorkArea;
 
 public interface WorkAreaDao {
 
-    public WorkArea getWorkArea(Long workArea, LocalDate asOfDate);
-    public List<WorkArea> getWorkArea(String department, LocalDate asOfDate);
-    public void saveOrUpdate(WorkArea workArea);
-    public WorkArea getWorkArea(String tkWorkAreaId);
-    public Long getNextWorkAreaKey();
-    public List<WorkArea> getWorkAreas(String dept, String workArea, String description, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
-    public int getWorkAreaCount(String dept, Long workArea);
+    WorkArea getWorkArea(Long workArea, LocalDate asOfDate);
+    List<WorkArea> getWorkArea(String department, LocalDate asOfDate);
+    List<WorkArea> getWorkAreaForDepartments(List<String> department, LocalDate asOfDate);
+    void saveOrUpdate(WorkArea workArea);
+    WorkArea getWorkArea(String tkWorkAreaId);
+    Long getNextWorkAreaKey();
+    List<WorkArea> getWorkAreas(String dept, String workArea, String description, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+    int getWorkAreaCount(String dept, Long workArea);
+    List<WorkArea> getWorkAreas(List<Long> workAreas, LocalDate asOfDate);
 }

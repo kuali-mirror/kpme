@@ -149,14 +149,14 @@
 	<bean id="DeptLunchRule-principalId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Principal Id" />
-		<property name="maxLength" value="10" />
+		<property name="maxLength" value="40" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+			<bean parent="TextControlDefinition" p:size="20" />
 		</property>
 		<property name="name" value="principalId" />
 		<property name="label" value="Principal Id" />
@@ -266,14 +266,14 @@
 	<bean id="DeptLunchRule-userPrincipalId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="User Principal Id" />
-		<property name="maxLength" value="10" />
+		<property name="maxLength" value="40" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+			<bean parent="LookupReadonlyControlDefinition" p:size="20" />
 		</property>
 		<property name="name" value="userPrincipalId" />
 		<property name="label" value="User Principal Id" />

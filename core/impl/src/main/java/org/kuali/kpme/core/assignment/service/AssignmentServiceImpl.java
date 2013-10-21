@@ -15,12 +15,7 @@
  */
 package org.kuali.kpme.core.assignment.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -236,6 +231,29 @@ public class AssignmentServiceImpl implements AssignmentService {
             populateAssignment(assignment, asOfDate);
         }
         return assignments;
+    }
+
+    @Override
+    public List<String> getPrincipalIdsInActiveAssignmentsForWorkArea(Long workArea, LocalDate asOfDate) {
+        List<Assignment> assignments = assignmentDao.getActiveAssignmentsInWorkArea(workArea, asOfDate);
+        Set<String> principalIds = new HashSet<String>();
+        for (Assignment assignment : assignments) {
+            principalIds.add(assignment.getPrincipalId());
+        }
+        return new ArrayList<String>(principalIds);
+    }
+
+    @Override
+    public List<String> getPrincipalIdsInActiveAssignmentsForWorkAreas(List<Long> workAreas, LocalDate asOfDate) {
+        if (org.springframework.util.CollectionUtils.isEmpty(workAreas)) {
+            return Collections.emptyList();
+        }
+        List<Assignment> assignments = assignmentDao.getActiveAssignmentsInWorkAreas(workAreas, asOfDate);
+        Set<String> principalIds = new HashSet<String>();
+        for (Assignment assignment : assignments) {
+            principalIds.add(assignment.getPrincipalId());
+        }
+        return new ArrayList<String>(principalIds);
     }
 
     @Override

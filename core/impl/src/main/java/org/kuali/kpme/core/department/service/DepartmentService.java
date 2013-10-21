@@ -59,6 +59,28 @@ public interface DepartmentService {
      */
     @Cacheable(value=Department.CACHE_NAME, key="'chart=' + #p0 + '|' + 'asOfDate=' + #p1")
     List<Department> getDepartments(String location, LocalDate asOfDate);
+
+    /**
+     * Fetches a list of departments as of the specified date all of which
+     * belong to the indicated location.
+     *
+     * @param location The search criteria
+     * @param asOfDate Effective date
+     * @return A List<String> object.
+     */
+    @Cacheable(value=Department.CACHE_NAME, key="'{getDepartmentsForLocation}' + 'location=' + #p0 + '|' + 'asOfDate=' + #p1")
+    List<String> getDepartmentsForLocation(String location, LocalDate asOfDate);
+
+    /**
+     * Fetches a list of departments as of the specified date all of which
+     * belong to the indicated locations.
+     *
+     * @param locations The search criteria
+     * @param asOfDate Effective date
+     * @return A List<String> object.
+     */
+    @Cacheable(value=Department.CACHE_NAME, key="'{getDepartmentsForLocations}' + 'location=' + T(org.kuali.rice.core.api.cache.CacheKeyUtils).key(#p0) + '|' + 'asOfDate=' + #p1")
+    List<String> getDepartmentsForLocations(List<String> locations, LocalDate asOfDate);
     
 	/**
 	 * get count of department with given department

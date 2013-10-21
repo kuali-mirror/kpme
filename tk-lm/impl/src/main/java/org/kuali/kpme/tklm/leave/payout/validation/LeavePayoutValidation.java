@@ -16,15 +16,26 @@
 package org.kuali.kpme.tklm.leave.payout.validation;
 
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.role.KPMERole;
+import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.ValidationUtils;
@@ -35,6 +46,11 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.time.util.TkContext;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.RequestedActions;
+import org.kuali.rice.kew.api.document.DocumentContent;
+import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -112,20 +128,6 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 
 		return true;
 	}
-
-	*//**
-	 * Are there any rules in place for effective date? i.e. not more than one year in advance...
-	 * @param date
-	 * @return
-	 *//*
-	private boolean validateEffectiveDate(LocalDate date) {
-		//Limit on future dates?
-		if(date.isAfter(LocalDate.now().plusYears(1))) {
-			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.effectiveDate", "leavePayout.effectiveDate.overOneYear");
-			return false;
-		}
-		return true;
-	}
 	
 	*//**
 	 * Is the "From" accrual category required to be over its maximum balance before a transfer can take place?
@@ -141,31 +143,6 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 		boolean isValid = ValidationUtils.validateAccCategory(fromAccrualCategory, principalId, effectiveDate);
 		if(!isValid) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory","balanceTransfer.accrualcategory.exists",fromAccrualCategory);
-		}
-		return isValid;
-	}
-	
-	//no validation
-	private boolean validatePrincipal(PrincipalHRAttributes pha, String principalId, boolean isSomeAdmin) {
-		boolean isValid = true;
-		if(principalId != null) {
-			if(pha == null) {
-				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "balanceTransfer.principal.noAttributes");
-				isValid &= false;
-			}
-			else {
-				Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
-				if(person != null) {
-					if(!person.isActive() && !isSomeAdmin) {
-						GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "balanceTransfer.principal.active");
-						isValid &= false;
-					}
-				}
-				else {
-					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "balanceTransfer.principal.exists");
-					isValid &= false;
-				}
-			}
 		}
 		return isValid;
 	}
@@ -366,8 +343,13 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 			isValid &= validateEffectiveDate(leavePayout.getEffectiveLocalDate());
 			isValid &= validateAccrualCateogry(fromAccrualCat,leavePayout.getEffectiveLocalDate());
 			isValid &= validateEarnCode(toEarnCode,leavePayout.getEffectiveLocalDate());
-			isValid &= validatePrincipalId(principalId,leavePayout.getEffectiveLocalDate());
 			isValid &= validatePayoutAmount(principalId,payoutAmount,fromAccrualCat,leavePayout.getEffectiveLocalDate());
+			if(validatePrincipalId(principalId,leavePayout.getEffectiveLocalDate())) {
+				isValid &= validatePrincipal(principalId,leavePayout.getEffectiveDate(),GlobalVariables.getUserSession().getPrincipalId(),document.getDocumentHeader().getWorkflowDocument());
+			}
+			else {
+				isValid &= false;
+			}
 
 		}
 		return isValid;
@@ -436,6 +418,64 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 			isValid &= ValidationUtils.validateEarnCode(toEarnCode, effectiveLocalDate);
 			if(!isValid) {
 				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.earnCode", "leavePayout.earncode.exists");	
+			}
+		}
+		return isValid;
+	}
+	
+	private boolean validatePrincipal(String principalId, Date effectiveDate, String userPrincipalId, WorkflowDocument workflowDocument) {
+		boolean isValid = true;
+		PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, LocalDate.fromDateFields(effectiveDate));
+
+		if(pha == null) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "balanceTransfer.principal.noAttributes");
+			isValid &= false;
+		}
+		else {
+			boolean canCreate = false;
+			if(!StringUtils.equals(principalId,userPrincipalId)) {
+				List<Job> principalsJobs = HrServiceLocator.getJobService().getActiveLeaveJobs(principalId, LocalDate.fromDateFields(effectiveDate));
+				for(Job job : principalsJobs) {
+					
+					
+					if(job.isEligibleForLeave()) {
+						
+						String department = job != null ? job.getDept() : null;
+						Department departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(effectiveDate)) : null;
+						String location = departmentObj != null ? departmentObj.getLocation() : null;
+
+						//logged in user may ONLY submit documents for principals in authorized departments / location.
+			        	if (LmServiceLocator.getLMPermissionService().isAuthorizedInDepartment(userPrincipalId, "Create Leave Payout", department, new DateTime(effectiveDate.getTime()))
+							|| LmServiceLocator.getLMPermissionService().isAuthorizedInLocation(userPrincipalId, "Create Leave Payout", location, new DateTime(effectiveDate.getTime()))) {
+								canCreate = true;
+								break;
+						}
+			        	else {
+			        		//do NOT block approvers, processors, delegates from approving the document.
+							List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(principalId, job.getJobNumber(), LocalDate.fromDateFields(effectiveDate));
+							for(Assignment assignment : assignments) {
+								if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))
+										|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))
+										|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))
+										|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))) {
+									canCreate = true;
+									break;
+								}
+							}
+			        	}
+					}
+				}
+			}
+			else {
+				//should be able to submit their own transaction documents...
+				//max balance triggered transactions go through this validation. Set a userPrincipal to system and deny LEAVE DEPT/LOC Admins ability to submit their own
+				//transactions these simplified rules??
+				canCreate = false;
+			}
+			
+			if(!canCreate) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "balanceTransfer.userNotAuthorized");
+				isValid &= false;
 			}
 		}
 		return isValid;

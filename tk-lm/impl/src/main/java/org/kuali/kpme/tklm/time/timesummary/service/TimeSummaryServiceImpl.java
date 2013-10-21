@@ -196,7 +196,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
                     		//or if the infraction did not occur within this interval. ( if it occurred during the previous interval, 
                     		//the employee will have the option to take action in that interval up to & including the end date of that interval. )
 	            			row.setInfractingLeaveBlockId(lb.getAccrualCategoryRuleId());
-	            			AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+	            			AccrualCategoryRule aRule = lb.getAccrualCategoryRule();
 	            			
 	            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER))
 	            				row.setTransferable(true);

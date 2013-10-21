@@ -249,7 +249,7 @@
         			 p:fieldConversions="leavePlan:leavePlan"/>
    		 	</property>
         </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
     </property>
@@ -287,7 +287,7 @@
 		        <bean parent="FieldDefinition" p:attributeName="benefitsEligible" />
 		        <bean parent="FieldDefinition" p:attributeName="leaveEligible" />
 		        <bean parent="FieldDefinition" p:attributeName="leavePlan"/>
-		        <bean parent="FieldDefinition" p:attributeName="history" />
+		        <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N" />
 		        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 			</list>
 		</property>

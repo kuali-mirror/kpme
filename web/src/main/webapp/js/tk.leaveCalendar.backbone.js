@@ -708,7 +708,7 @@ $(function () {
             
             isValid = isValid && this.checkEmptyField($("#startDate"), "Start Date");
             isValid = isValid && this.checkEmptyField($("#endDate"), "End Date");
-            isValid = isValid && this.checkStartEndDateFields($("#startDate"), $("#endDate"),"Start Date");
+            isValid = isValid && this.checkStartEndDateFields($("#startDate"), $("#endDate"),"Start Date", "End Date");
             isValid = isValid && this.validateEarnCode();
              
             if (isValid) {
@@ -764,6 +764,24 @@ $(function () {
             return isValid;
         },
         
+        checkStartEndDateFields : function (o1, o2, startField, endField) {
+            var val1 = Date.parse(o1.val());
+            var val2 = Date.parse(o2.val());
+            if(val1 == null) {
+            	this.displayErrorMessages(startField + " is not a valid date", o1);
+            	return false;
+            }
+            if(val2 == null) {
+            	this.displayErrorMessages(endField + " is not a valid date", o2);
+            	return false;
+            }
+            if (val1.compareTo(val2) > 0) {
+                this.displayErrorMessages(startField + " is later than end date.", o1);
+                return false;
+            }
+            return true;
+        },
+        
         checkLength : function (o, n, min, max) {
             if (o.val().length > max || o.val().length < min) {
                 this.displayErrorMessages(n + " field cannot be empty", o);
@@ -776,16 +794,6 @@ $(function () {
             var val = o.val();
             if (val == '' || val == undefined) {
                 this.displayErrorMessages(field + " field cannot be empty", o);
-                return false;
-            }
-            return true;
-        },
-        
-        checkStartEndDateFields : function (o1, o2, field) {
-            var val1 = new Date(o1.val());
-            var val2 = new Date(o2.val());
-            if (val1 > val2) {
-                this.displayErrorMessages(field + " is later than end date.", o1);
                 return false;
             }
             return true;

@@ -24,6 +24,6 @@ public interface PayStepService {
 	public PayStep getPayStepById(String payStepId);
 
 	public List<PayStep> getPaySteps(String payStep, String institution,
-			String location, String salaryGroup, String payGrade, String active);
+			String location, String salaryGroup, String payGrade, String history, String active);
 	
 }

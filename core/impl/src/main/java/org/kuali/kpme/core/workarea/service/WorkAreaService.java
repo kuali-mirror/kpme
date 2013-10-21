@@ -40,13 +40,24 @@ public interface WorkAreaService {
     int getWorkAreaCount(String dept, Long workArea);
     
 	/**
-	 * Fetch WorkArea as of a particular date
-	 * @param workArea
-	 * @param asOfDate
-	 * @return
-	 */
+     * Fetch WorkArea as of a particular date
+     * @param workArea
+     * @param asOfDate
+     * @return
+     */
     @Cacheable(value= WorkArea.CACHE_NAME, key="'workArea=' + #p0 + '|' + 'asOfDate=' + #p1")
     WorkArea getWorkArea(Long workArea, LocalDate asOfDate);
+
+    /**
+     * Fetch WorkArea as of a particular date.
+     * This method will not populate the WorkArea role information in order to speed up the method
+     * If the role sub-objects are needed, please use a different method.
+     * @param workArea
+     * @param asOfDate
+     * @return
+     */
+    @Cacheable(value= WorkArea.CACHE_NAME, key="'{getWorkAreasWithoutRoles}' + 'workAreas=' + T(org.kuali.rice.core.api.cache.CacheKeyUtils).key(#p0) + '|' + 'asOfDate=' + #p1")
+    List<WorkArea> getWorkAreasWithoutRoles(List<Long> workArea, LocalDate asOfDate);
 
     /**
      * Fetch a List of WorkArea objects for a given department as of the
@@ -58,6 +69,28 @@ public interface WorkAreaService {
      */
     @Cacheable(value= WorkArea.CACHE_NAME, key="'department=' + #p0 + '|' + 'asOfDate=' + #p1")
     List<WorkArea> getWorkAreas(String department, LocalDate asOfDate);
+
+    /**
+     * Fetch a List of WorkArea Long objects for a given department as of the
+     * indicated date.
+     *
+     * @param department The department we want to use.
+     * @param asOfDate An effective date.
+     * @return A List<WorkArea> that matches the provided params.
+     */
+    @Cacheable(value= WorkArea.CACHE_NAME, key="'{getWorkAreasForDepartment}' + 'department=' + #p0 + '|' + 'asOfDate=' + #p1")
+    public List<Long> getWorkAreasForDepartment(String department, LocalDate asOfDate);
+
+    /**
+     * Fetch a List of WorkArea Long objects for a given list of departments as of the
+     * indicated date.
+     *
+     * @param departments The departments we want to use.
+     * @param asOfDate An effective date.
+     * @return A List<WorkArea> that matches the provided params.
+     */
+    @Cacheable(value= WorkArea.CACHE_NAME, key="'{getWorkAreasForDepartments}' + 'department=' + T(org.kuali.rice.core.api.cache.CacheKeyUtils).key(#p0) + '|' + 'asOfDate=' + #p1")
+    public List<Long> getWorkAreasForDepartments(List<String> departments, LocalDate asOfDate);
 
     /**
      * Save or Update given work area

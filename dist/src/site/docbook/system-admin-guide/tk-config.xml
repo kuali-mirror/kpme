@@ -3,7 +3,7 @@
     xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Timekeeping Configuration</title>
     <para>This chapter discusses all rules and configurations for Time keeping module of KPME. All
-        rules and configurations can be accessed through maintenance documents listed under
+        rules and configurations can be accessed through maintenance documents listed under the
             <emphasis role="bold">Timekeeping</emphasis> section on the maintenance tab. </para>
     <mediaobject>
         <imageobject>
@@ -14,23 +14,23 @@
         </caption>
     </mediaobject>
     <para> Please note that most of the configurations in Time keeping module rely heavily on
-        configurations made in HR and payroll module and therefore cannot be completed without
+        configurations made in the HR and payroll module and therefore cannot be completed without
         setting those up properly.</para>
     <!-- Clock Location Rule   -->
     <section>
         <title>Clock Location Rule</title>
         <para>This feature enables administrators to restrict clock entry locations by defining
-            approved IP addresses. Clock location rules can be set system wide, or as granular as a
-            specific employee job record. In case of having more than one valid clock location rule
-            for an assignment, the most specific rule for that assignment will be enforced by the
-            system. </para>
+            approved IP addresses for Timekeeping use. Clock location rules can be set system wide,
+            or as granular as a specific employee job record. In case of having more than one valid
+            clock location rule for an assignment, the most specific rule for that assignment will be
+            enforced by the system. </para>
         <important>
             <para>A clock location rule will not restrict the clock action from an unapproved IP but
                 will add a note to the timesheet indicating that the clock action was from an
                 "unapproved location".</para>
         </important>
         <para>Regardless of a rule, the IP address is captured on every clock action and can be seen
-            in the Clock Log Inquiry page.</para>
+            on the Clock Log Inquiry page.</para>
         <para> Table below shows fields used to record and maintain a clock location rule along with
             their description.</para>
         <mediaobject>
@@ -54,8 +54,8 @@
                 </substeps>
             </step>
             <step performance="required">
-                <para>On the <emphasis role="bold">Document Overview</emphasis>tab, Enter a short
-                    description of what you're going to do. Example: clock location rule for
+                <para>On the <emphasis role="bold">Document Overview</emphasis> tab, Enter a short
+                    description of what you're going to do. For example: clock location rule for
                     IU-UITS</para>
                 <substeps performance="optional">
                     <step>
@@ -67,7 +67,7 @@
             </step>
             <step performance="required">
                 <para> On the next tab, Clock Location Rule Maintenance, all fields are required,
-                    however you can skip specifying any of them by entering a % sign as wild card.
+                    however you can skip specifying any field by entering the '%' character as wild card.
                 </para>
             </step>
             <step>
@@ -75,16 +75,16 @@
                     writing it in the effective date text box. </para>
             </step>
             <step performance="required">
-                <para>Enter a department Id to set the clock location for it. You can use the lookup
-                    to select a department by clicking the magnifying glass or enter the id manually
-                    in the input field. You can also use % to generalize this rule to all
+                <para>Enter a department ID to set the clock location for it. You can use the lookup
+                    to select a department by clicking the magnifying glass or enter the ID manually
+                    in the input field. You can also use '%' to generalize this rule to all
                     departments.</para>
             </step>
             <step performance="required">
                 <para>Enter a work area. You have the same options as in the previous step.</para>
             </step>
             <step performance="required">
-                <para>Enter a principal Id to enforce your rule on only one employee or use % to
+                <para>Enter a principal ID to enforce your rule on only one employee or use '%' to
                     cover all employees that match your other criteria.</para>
             </step>
             <step performance="required">
@@ -97,7 +97,8 @@
             </step>
             <step performance="required">
                 <para>On the IP address tab, you need to specify an approved IP address. You can use
-                    wildcard in any of the portions to cover a larger set of addresses.</para>
+                    the '%' character wildcard in any of the IP address sections, starting from the rightmost section,
+                    to cover a progressively larger set of addresses.</para>
                 <substeps performance="optional">
                     <step>
                         <para> You can add multiple addresses by adding them one by one. </para>
@@ -155,7 +156,7 @@
                     </row>
                     <row>
                         <entry>Principal ID</entry>
-                        <entry>If a principal id is defined, only this specific employee will be
+                        <entry>If a principal ID is defined, only this specific employee will be
                             subject to IP address validation. Wild card of (%) is acceptable as
                             input for this field.</entry>
                     </row>
@@ -182,8 +183,8 @@
         </table>
         <tip>
             <!-- TODO: is this a correct way of saying it? probably not-->
-            <para> To eliminate a clock location rule, insert a new effective dated row and uncheck
-                the active box. </para>
+            <para> To eliminate a clock location rule, insert a new effective dated row for that rule and uncheck
+                the active box on the rule to be eliminated. </para>
         </tip>
     </section>
     <!-- Daily Overtime Rule   -->
@@ -205,7 +206,7 @@
         <procedure>
             <title>Setting up a Daily Overtime Rule</title>
             <step performance="required">
-                <para> Put in a short description of what you are doing. </para>
+                <para> Put in a short description of the daily overtime rule you are creating. </para>
             </step>
             <step>
                 <para> Pick a date that you want your new rule to be effective from. </para>
@@ -237,10 +238,11 @@
             </step>
             <step>
                 <para> Check the box if you want your rule to be active. Unchecked means that the
-                    rule is not active. </para>
+                    rule is not active. You can still create the rule, even if you leave it as
+                    inactive. </para>
             </step>
             <step>
-                <para> In "convert to Earn Code" you specify the earn code which hours will be
+                <para> In "Convert to Earn Code" you specify the earn code which hours will be
                     converted to as overtime. <important>
                         <para>Only earn codes that are designated as an Overtime Earn Code can be
                             used</para>
@@ -327,7 +329,7 @@
                         <entry>Active</entry>
                         <entry>Status of the rule, checked indicates Active, unchecked indicates
                             Inactive. If the rule is being eliminated, insert a new effective dated
-                            row and uncheck the active box.</entry>
+                            row and uncheck the active box on the existing row.</entry>
                     </row>
                 </tbody>
             </tgroup>
@@ -356,7 +358,7 @@
         <procedure>
             <title>Setting up a weekly overtime rule</title>
             <step performance="required">
-                <para> Put in a short description of what you are doing. </para>
+                <para> Put in a short description of the weekly overtime rule you are creating. </para>
             </step>
             <step>
                 <para> Pick a date that you want your new rule to be effective from. </para>
@@ -371,7 +373,7 @@
                     earn codes to be converted to overtime. </para>
             </step>
             <step>
-                <para> In "convert to Earn Code" you specify the earn code which hours will be
+                <para> In "Convert to Earn Code" specify the earn code which hours will be
                     converted to as overtime. <important>
                         <para>Only earn codes that are designated as an Overtime Earn Code can be
                             used</para>
@@ -388,7 +390,8 @@
             </step>
             <step>
                 <para> Check the box if you want your rule to be active. Unchecked means that the
-                    rule is not active. </para>
+                    rule is not active. You can still create the rule, even if you leave it as
+                    inactive. </para>
             </step>
             <step>
                 <para> Route your rule document by clicking submit button at the bottom of the page.
@@ -399,8 +402,8 @@
             <para>If there is only one step in weekly overtime calculation, the <emphasis
                     role="bold">Convert from Earn Group</emphasis> will be the same as <emphasis
                     role="bold">Max Hour Earn Group</emphasis>. If there are multiple steps in
-                overtime calculation, the former will be an earn group which is a subset of the max
-                hours earn group.</para>
+                overtime calculation, the 'convert from earn group' will be an earn group which is a subset of the 'max
+                hours earn group'.</para>
         </important>
         <mediaobject>
             <imageobject>
@@ -426,7 +429,7 @@
                     <row>
                         <entry>Effective Date</entry>
                         <entry>Effective date for which the Weekly Overtime Rule will be effective.
-                            This date needs to be on or prior to the date the rule to take effect.
+                            This date needs to be on or prior to the date the rule is to take effect.
                             When editing, it will determine the date the new values go into
                             effect.</entry>
                     </row>
@@ -468,7 +471,7 @@
         <title> Department Lunch Deduction Rule </title>
         <para>The Department Lunch Deduction rule is used to define automatic lunch deductions. This
             rule only applies to clock entry employees and rules can be set system wide, or as
-            granular as on a specific employee job record. The most specific rule for a given
+            granular as a specific employee job record. The most specific rule for a given
             assignment will be enforced. Employees subject to the automatic lunch time deduction
             will not see the <emphasis role="bold">lunch in/out</emphasis> buttons (even if that
             system setting is enabled).</para>
@@ -485,7 +488,7 @@
         <procedure>
             <title>Setting up a department lunch deduction rule</title>
             <step performance="required">
-                <para> Put in a short description of what you are doing. </para>
+                <para> Put in a short description of the lunch reduction rule you are creating. </para>
             </step>
             <step>
                 <para> Pick a date that you want your new rule to be effective from. </para>
@@ -496,12 +499,12 @@
             </step>
             <step>
                 <para> Select a work area. If a work area is defined, only entries associated with a
-                    job that has this work area will be subject to this rule. </para>
+                    job in this work area will be subject to this rule. </para>
             </step>
             <step>
-                <para>If you want to apply this rule to only one user, enter their principal id in
+                <para>If you want to apply this rule to only one user, enter their principal ID in
                     the form. You can use the lookup widget to do this. To leave this field as
-                    general as possible, simply enter a wildcard character (%) as principal id. That
+                    general as possible, simply enter a wildcard character (%) as principal ID. That
                     means all users that match your other criteria.</para>
             </step>
             <step>
@@ -550,7 +553,7 @@
                     <row>
                         <entry>Effective Date</entry>
                         <entry>The Effective date for which the automatic lunch deduction rule will
-                            be effective. This date needs to be on/prior to the date the rule to
+                            be effective. This date needs to be on/prior to the date the rule is to
                             take effect. When editing, it will determine the date the new values go
                             into effect.</entry>
                     </row>
@@ -568,7 +571,7 @@
                     </row>
                     <row>
                         <entry>Principal ID</entry>
-                        <entry>If a principal id is defined, only this specific employee will be
+                        <entry>If a principal ID is defined, only this specific employee will be
                             subject to the automatic lunch deduction. Wild card of (%) is acceptable
                             as input.</entry>
                     </row>
@@ -601,7 +604,7 @@
         </table>
         <tip>
             <para>To eliminate an existing rule, insert a new effective dated row and uncheck the
-                active box.</para>
+                active box on the existing rule.</para>
         </tip>
         <note>
             <para>To show departmental lunch deductions on the timesheet, add a new Earn Code LUN
@@ -626,7 +629,27 @@
                 <para>Grace Period Rule Maintenance document</para>
             </caption>
         </mediaobject>
-
+        <procedure>
+            <title>Setting up a grace period rule</title>
+            <step performance="required">
+                <para> Put in a short description of the grace period you are creating. </para>
+            </step>
+            <step>
+                <para> Pick a date that you want your new grace period to be effective from. </para>
+            </step>
+            <step>
+                <para> Enter the minutes that will define the grace period. As you can see in the table below,
+                the minute entered will become the fourth value in a range of six minutes that comprise the grace period. </para>
+            </step>
+            <step>
+                <para> Check the box if you want your grace period to be active. Unchecked means that the
+                    rule is not active. You can still create the rule, even if you leave it as
+                    inactive.</para>
+            </step>
+            <step>
+                <para>Submit the document after filling out all required fields.</para>
+            </step>
+        </procedure>
         <table>
             <title>Grace period rule</title>
             <tgroup cols="2">
@@ -708,7 +731,7 @@
         <procedure>
             <title>setting up a shift differential rule</title>
             <step performance="required">
-                <para> Put in a short description of what you are doing. </para>
+                <para> Put in a short description of the shift differential rule you are creating. </para>
             </step>
             <step>
                 <para> Pick a date that you want your rule to be effective from. </para>
@@ -741,14 +764,14 @@
                 <para> Enter the end time for an eligible shift. </para>
             </step>
             <step>
-                <para> Enter the minimum number of hours of a shift that should be in order to
+                <para> Enter the minimum number of hours a shift should be in order to
                     qualify for shift differential. </para>
             </step>
             <step>
-                <para> Select the week days that are eligible for shift differential. </para>
+                <para> Check the week days that are eligible for shift differential. </para>
             </step>
             <step>
-                <para> Enter the maximum number of minutes which can separate time blocks, and still
+                <para> Enter the maximum number of minutes which can separate time blocks and still
                     qualify as an eligible shift. </para>
             </step>
             <step>
@@ -757,7 +780,7 @@
                     inactive.</para>
             </step>
             <step>
-                <para> Enter the pay Calendar record that defines the FLSA period. </para>
+                <para> Enter the Pay Calendar Group record that defines the FLSA period. </para>
             </step>
             <step>
                 <para>Submit the document after filling out all required fields.</para>
@@ -789,7 +812,7 @@
                     <row>
                         <entry>Effective Date</entry>
                         <entry>The effective date which the shift differential rule will be
-                            effective. This date needs to be on or prior to the date the rule to
+                            effective. This date needs to be on or prior to the date the rule is to
                             take effect.</entry>
                     </row>
                     <row>
@@ -841,7 +864,7 @@
                     </row>
                     <row>
                         <entry>Maximum Gap Minutes</entry>
-                        <entry>The maximum number of minutes which can separate time blocks, and
+                        <entry>The maximum number of minutes which can separate time blocks and
                             still qualify as an eligible shift.</entry>
                     </row>
                     <row>
@@ -850,7 +873,8 @@
                     </row>
                     <row>
                         <entry>Active</entry>
-                        <entry>Status of the shift differential rule.</entry>
+                        <entry>Status of the shift differential rule, checked indicates
+                            Active, unchecked indicates Inactive.</entry>
                     </row>
                     <row>
                         <entry>Calendar Group</entry>
@@ -907,7 +931,7 @@
         </table>
         <tip>
             <para>To eliminate a system lunch rule, insert a new effective dated row and uncheck the
-                active check box.</para>
+                active check box on the existing row.</para>
         </tip>
     </section>
     <!-- Time collection Rule -->
@@ -965,13 +989,6 @@
                         <entry>If this box is checked, clock entry will be required for recording
                             time based on the department and work area values provided
                             above.</entry>
-                    </row>
-                    <row>
-                        <entry>Hour Distribution</entry>
-                        <entry>Used to allow employees to clock in and out of a single assignment
-                            and then distribute hours at the end of the day to multiple assignments.
-                            Hours distribution is only available for time blocks created by the
-                            clock.</entry>
                     </row>
                     <row>
                         <entry>User Principal ID</entry>

@@ -131,7 +131,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 	}
 
 	public void addLeaveBlock(LeaveBlock leaveBlock) throws KPMEBalanceException {
-		AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(leaveBlock.getAccrualCategory(), leaveBlock.getLeaveLocalDate());
+		AccrualCategory accrualCategory = leaveBlock.getAccrualCategoryObj();
 		List<LeaveBalance> balancesForAccrualCategory = leaveBalances.get(accrualCategory.getLmAccrualCategoryId());
 		if(balancesForAccrualCategory == null) {
 			try {
@@ -164,7 +164,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 	}
 
 	public void removeLeaveBlock(LeaveBlock leaveBlock) throws KPMEBalanceException {
-		AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(leaveBlock.getAccrualCategory(), leaveBlock.getLeaveLocalDate());
+		AccrualCategory accrualCategory = leaveBlock.getAccrualCategoryObj();
 		List<LeaveBalance> balancesForAccrualCategory = leaveBalances.get(accrualCategory.getLmAccrualCategoryId());
 		if(balancesForAccrualCategory == null) {
 			try {
@@ -199,7 +199,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 	}
 	
 	public void editLeaveBlock(LeaveBlock leaveBlock) throws KPMEBalanceException {
-		AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(leaveBlock.getAccrualCategory(), leaveBlock.getLeaveLocalDate());
+		AccrualCategory accrualCategory = leaveBlock.getAccrualCategoryObj();
 		List<LeaveBalance> balancesForAccrualCategory = leaveBalances.get(accrualCategory.getLmAccrualCategoryId());
 		if(balancesForAccrualCategory == null) {
 			try {

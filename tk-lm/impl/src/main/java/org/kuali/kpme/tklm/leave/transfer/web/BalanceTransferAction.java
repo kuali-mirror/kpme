@@ -315,19 +315,18 @@ public class BalanceTransferAction extends KPMEAction {
 			String principalId = lcd == null ? null : lcd.getPrincipalId();
 			LeaveBlock leaveBlock = eligibleTransfers.get(0);
 			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
-			String accrualCategoryRuleId = leaveBlock.getAccrualCategoryRuleId();
-			if(!StringUtils.isBlank(accrualCategoryRuleId)) {
+            AccrualCategoryRule aRule = leaveBlock.getAccrualCategoryRule();
+			if(aRule != null) {
 				
-				AccrualCategoryRule accrualRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
-				AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
+				AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
 				BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, leaveBlock.getLeaveLocalDate());
 				
-				BalanceTransfer balanceTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(principalId, accrualCategoryRuleId, accruedBalance, effectiveDate);
+				BalanceTransfer balanceTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(principalId, aRule.getLmAccrualCategoryRuleId(), accruedBalance, effectiveDate);
 				
 				balanceTransfer.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 				
 				if(ObjectUtils.isNotNull(balanceTransfer)) {
-					if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.LOSE)) {
+					if(StringUtils.equals(aRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.LOSE)) {
 	
                         //LmServiceLocator.getBalanceTransferService().submitToWorkflow(balanceTransfer);
                         balanceTransfer = LmServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
@@ -338,8 +337,8 @@ public class BalanceTransferAction extends KPMEAction {
                         LmServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, principalId);
 
                         if(ObjectUtils.isNotNull(leaveCalendarDocumentId)) {
-                            if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
-                                    StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(), HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+                            if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
+                                    StringUtils.equals(aRule.getMaxBalanceActionFrequency(), HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
                                 ActionForward loseForward = new ActionForward(mapping.findForward("leaveCalendarTransferSuccess"));
                                 loseForward.setPath(loseForward.getPath()+"?documentId="+leaveCalendarDocumentId+"&action=R&methodToCall=approveLeaveCalendar");
                                 return loseForward;
@@ -402,13 +401,12 @@ public class BalanceTransferAction extends KPMEAction {
 			
 			LeaveBlock leaveBlock = eligibleTransfers.get(0);
 			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
-			String accrualCategoryRuleId = leaveBlock.getAccrualCategoryRuleId();
-			if(!StringUtils.isBlank(accrualCategoryRuleId)) {
-				AccrualCategoryRule accrualRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
+            AccrualCategoryRule accrualRule = leaveBlock.getAccrualCategoryRule();
+			if(accrualRule != null) {
 				AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 				BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, leaveBlock.getLeaveLocalDate());
 
-				BalanceTransfer balanceTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(principalId, accrualCategoryRuleId, accruedBalance, effectiveDate);
+				BalanceTransfer balanceTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(principalId, accrualRule.getLmAccrualCategoryRuleId(), accruedBalance, effectiveDate);
 				balanceTransfer.setLeaveCalendarDocumentId(timesheetDocumentId);
 	
 				if(ObjectUtils.isNotNull(balanceTransfer)) {

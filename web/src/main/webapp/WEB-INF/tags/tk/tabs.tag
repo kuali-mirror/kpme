@@ -7,9 +7,9 @@
     <c:set var="globalViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isGlobalViewOnly()%>' />
     <c:set var="locationViewOnly" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationViewOnly()%>' />
     <c:set var="departmentViewOnly" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isDepartmentViewOnly()%>' />
-    <c:set var="approver" value='<%=org.kuali.kpme.core.util.HrContext.isAnyApprover()%>' />
-    <c:set var="payrollProcessor" value='<%=org.kuali.kpme.core.util.HrContext.isAnyPayrollProcessor()%>' />
-    <c:set var="reviewer" value='<%=org.kuali.kpme.core.util.HrContext.isReviewer()%>' />
+    <c:set var="approver" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetAnyApprover()%>' />
+    <c:set var="payrollProcessor" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetAnyPayrollProcessor()%>' />
+    <c:set var="reviewer" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetReviewer()%>' />
     <c:set var="targetActiveEmployee" value='<%=org.kuali.kpme.core.util.HrContext.isTargetActiveEmployee()%>' />
     <c:set var="targetSynchronous" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isTargetSynchronous()%>' />
 </c:if>

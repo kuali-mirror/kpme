@@ -15,12 +15,15 @@
  */
 package org.kuali.kpme.tklm.time.missedpunch.web;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
@@ -32,11 +35,18 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.UifConstants.WorkflowAction;
+import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.widget.Disclosure;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.DocumentControllerBase;
@@ -113,17 +123,34 @@ public class MissedPunchDocumentController extends TransactionalDocumentControll
 		MissedPunchForm missedPunchForm = (MissedPunchForm) form;
 		
     	createDocument(missedPunchForm);
-    	
-    	ModelAndView modelAndView = save(missedPunchForm, result, request, response);
+        ModelAndView modelAndView = null;
+        try {
+            missedPunchForm.getDocument().validateBusinessRules(new SaveDocumentEvent( missedPunchForm.getDocument()));
 
-	    if (GlobalVariables.getMessageMap().hasNoErrors()) {
+            if (GlobalVariables.getMessageMap().hasNoErrors()) {
+                modelAndView = save(missedPunchForm, result, request, response);
+
+                if (StringUtils.isNotBlank(missedPunchForm.getMissedPunch().getNote())) {
+                    Document doc = missedPunchForm.getDocument();
+                    Note note = new Note();
+                    note.setNoteText(missedPunchForm.getMissedPunch().getNote());
+                    note.setAuthorUniversalIdentifier(HrContext.getPrincipalId());
+                    note.setNotePostedTimestampToCurrent();
+                    doc.setNotes(Collections.<Note>singletonList(note));
+                }
 	    	modelAndView = route(missedPunchForm, result, request, response);
 	    	missedPunchForm.setMissedPunchSubmitted(true);
-	    }
-	    
+
 		return modelAndView;
     }
     
+
+        } catch (ValidationException exception) {
+            //ignore
+        }
+        return getUIFModelAndView(form);
+    }
+
 	@Override
     @RequestMapping(params = "methodToCall=route")
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
@@ -180,15 +207,35 @@ public class MissedPunchDocumentController extends TransactionalDocumentControll
         this.sequenceAccessorService = sequenceAccessorService;
     }
 
-	@Override
-	@RequestMapping(params = "methodToCall=back")
-	public ModelAndView back(@ModelAttribute("KualiForm") UifFormBase form,
-			BindingResult result, HttpServletRequest request,
-			HttpServletResponse response) {
+    @Override
+    @RequestMapping(params = "methodToCall=docHandler")
+    public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView mav = super.docHandler(form, result, request, response);
+
+        //return getUIFModelAndView(form);
+        List<? extends Component> pageComponents = ((MissedPunchForm)form).getView().getItems().get(0).getItems();
+        for (Component c : pageComponents)  {
+            if (c instanceof CollectionGroup) {
+                CollectionGroup collGroup = (CollectionGroup)c;
+                if (CollectionUtils.isNotEmpty(collGroup.getItems())) {
+                    Disclosure disclosure = collGroup.getDisclosure();
+                    disclosure.setDefaultOpen(true);
+                }
+            }
+        }
+        return mav;
+    }
+
+    @Override
+    @RequestMapping(params = "methodToCall=back")
+    public ModelAndView back(@ModelAttribute("KualiForm") UifFormBase form,
+                             BindingResult result, HttpServletRequest request,
+                             HttpServletResponse response) {
         if (!StringUtils.contains(form.getReturnLocation(), "dataObjectClassName="+MissedPunch.class.getName())) {
             form.setReturnLocation(UifConstants.NO_RETURN);
         }
         return super.back(form, result, request, response);
-	}
+    }
 
 }

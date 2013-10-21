@@ -90,7 +90,8 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
         page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), getTimesheetDocumentUrl(tdocId), tdaf);
         Assert.assertNotNull(page);
         //HtmlUnitUtil.createTempFile(page, "TimeBlockPresent");
-
+        page = getWebClient().getPage(getTimesheetDocumentUrl(tdocId));
+        Assert.assertNotNull(page);
         // Verify block present on rendered page.
         String pageAsText = page.asText();
         //HtmlUnitUtil.createTempFile(page, "Hours");

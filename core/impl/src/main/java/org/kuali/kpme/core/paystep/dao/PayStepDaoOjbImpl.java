@@ -24,6 +24,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kpme.core.paystep.PayStep;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class PayStepDaoOjbImpl extends PlatformAwareDaoBaseOjb implements
@@ -43,7 +44,7 @@ public class PayStepDaoOjbImpl extends PlatformAwareDaoBaseOjb implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PayStep> getPaySteps(String payStep, String institution,
-			String location, String salaryGroup, String payGrade, String active) {
+			String location, String salaryGroup, String payGrade, String history, String active) {
 		List<PayStep> results = new ArrayList<PayStep>();
 
 		Criteria crit = new Criteria();
@@ -71,6 +72,11 @@ public class PayStepDaoOjbImpl extends PlatformAwareDaoBaseOjb implements
         }
 
 		crit.addAndCriteria(activeFilter);
+		
+        if (StringUtils.equals(history, "N")) {
+            crit.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(PayStep.class, PayStep.BUSINESS_KEYS, false));
+            crit.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PayStep.class, PayStep.BUSINESS_KEYS, false));
+        }
 		
 		Query query = QueryFactory.newQuery(PayStep.class, crit);
 		

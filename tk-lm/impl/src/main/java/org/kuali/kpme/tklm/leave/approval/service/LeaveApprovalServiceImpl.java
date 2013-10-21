@@ -237,9 +237,10 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
         LocalDateTime weekStart = actualStartDate;
         LocalDateTime weekEnd = actualStartDate;
         Set<Date> dates = new TreeSet<Date>();
-        for (LocalDateTime currentDate = actualStartDate; currentDate.compareTo(actualEndDate) < 0; currentDate = currentDate.plusDays(1)) {
+        for (LocalDateTime currentDate = actualStartDate; currentDate.compareTo(actualEndDate) <= 0; currentDate = currentDate.plusDays(1)) {
         	
-            if (currentDate.getDayOfWeek() == flsaBeginDay && afterFirstDay) {
+            if ( (currentDate.getDayOfWeek() == flsaBeginDay && afterFirstDay)
+            		|| currentDate.compareTo(actualEndDate) == 0) {
             	String weekString = "Week " + week;
                 StringBuilder display = new StringBuilder();
                 // show the week's range within the calendar period
@@ -256,11 +257,9 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
                 dates.add(currentDate.toDate());
                 weekStart = currentDate;
                 week++;
-
             } else {
             	dates.add(currentDate.toDate());
             }
-
             weekEnd = weekEnd.plusDays(1);
             afterFirstDay = true;
         }
@@ -335,8 +334,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
     	if (eligibilities != null) {
     		for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
     			for(LeaveBlock block : entry.getValue()) {
-
-    				AccrualCategoryRule rule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
+                    AccrualCategoryRule rule = block.getAccrualCategoryRule();
     				if (rule != null) {
     					AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
     					if (rule.getActionAtMaxBalance().equals(HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER)) {
@@ -521,7 +519,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 		for (LeaveBlock lb : leaveBlocks) {
 			DateTime leaveDate = lb.getLeaveLocalDate().toDateTimeAtStartOfDay();
 			
-			AccrualCategory ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveLocalDate());
+			AccrualCategory ac = lb.getAccrualCategoryObj();
 			if (ac != null && ac.getShowOnGrid().equals("Y")) {
 				if (accrualCategoryLeaveHours.get(leaveDate.toDate()) != null) {
 					Map<String, BigDecimal> leaveHours = accrualCategoryLeaveHours.get(leaveDate.toDate());

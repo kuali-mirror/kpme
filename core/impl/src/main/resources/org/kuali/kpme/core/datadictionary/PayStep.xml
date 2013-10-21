@@ -36,6 +36,7 @@
 				<ref bean="PayStep-compRate" />
 				<ref bean="PayStep-serviceAmount" />
 				<ref bean="PayStep-serviceUnit" />
+                <ref bean="PayStep-history"/>
 				<ref bean="PayStep-active" />
 			</list>
 		</property>
@@ -160,11 +161,34 @@
 	<bean id="PayStep-serviceUnit-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Service Unit" />
 		<property name="controlField">
-			<bean parent="Uif-VerticalRadioControl"/>
+			<bean parent="Uif-VerticalRadioControl">
+				<property name="options">
+					<list>
+						<bean parent="Uif-KeyLabelPair" p:key="N" p:value="Not Applicable"/>
+						<bean parent="Uif-KeyLabelPair" p:key="M" p:value="Months"/>
+						<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Years"/>
+					</list>
+				</property>
+			</bean>
 		</property>
 		<property name="name" value="serviceUnit" />
 		<property name="label" value="Service Unit" />
 	</bean>
+	
+	<!-- history -->
+    <bean id="PayStep-history" parent="PayStep-history-parentBean" />
+    <bean id="PayStep-history-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="Show History" />
+        <property name="controlField">
+            <bean parent="Uif-HorizontalRadioControl" />
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
+        </property>
+        <property name="name" value="history" />
+        <property name="label" value="Show History" />
+    </bean>
 
 	<bean id="PayStep-active" parent="PayStep-active-parentBean" />
 	<bean id="PayStep-active-parentBean" abstract="true"
@@ -257,12 +281,7 @@
 							<bean parent="IntegerPatternConstraint"/>
 						</property>
 					</bean>
-					<bean parent="Uif-InputField" p:propertyName="serviceUnit"
-					p:optionsFinderClass="org.kuali.kpme.core.paystep.valuesfinder.ServiceUnitKeyValueFinder" >
-						<property name="control">
-							<bean parent="Uif-VerticalRadioControl"/>
-						</property>
-					</bean>
+					<bean parent="Uif-InputField" p:propertyName="serviceUnit" p:defaultValue="N"/>
 			        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" p:required="true"/>
 			    </list>
 	      	</property>
@@ -303,6 +322,7 @@
 	                  p:fieldConversions="payGrade:payGrade"/>
 	        </property>
 		</bean>
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N"/>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
     </property>

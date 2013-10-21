@@ -180,7 +180,8 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		// submit the details of Timeblock to be added.
 		page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
 		Assert.assertNotNull(page);
-
+		page = getWebClient().getPage(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId));
+		Assert.assertNotNull(page);
 		// get Timeblocks objects from Timeblock string
 		String dataText = page.getElementById("timeBlockString").getFirstChild().getNodeValue();
 
@@ -242,7 +243,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 		page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
 		Assert.assertNotNull(page);
-
+		page = getWebClient().getPage(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId));
 		// chk if the page contains the created time block.
 		Assert.assertTrue("TimeBlock not Present.", page.asText().contains("work area description-description 1"));
 		Assert.assertTrue("TimeBlock not Present.", page.asText().contains("RGN - 2.00 hours"));
@@ -270,7 +271,8 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		// update it
 		page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), updateTB);
 		Assert.assertNotNull(page);
-
+		page = getWebClient().getPage(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId));
+		Assert.assertNotNull(page);
 		// chk the timesheet contains the changes done with the time block
 		Assert.assertTrue("TimeBlock did not updated properly.", page.asText().contains("work area description-description 1"));
 		Assert.assertTrue("TimeBlock did not updated properly.", page.asText().contains("RGN - 3.00 hours"));
@@ -299,7 +301,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 		page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
 		Assert.assertNotNull(page);
-
+		page = getWebClient().getPage(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId));
 		// chk the page must contain the created time block
 		Assert.assertTrue("TimeBlock did not created successfully.", page.asText().contains("work area description-description 1"));
 		Assert.assertTrue("TimeBlock did not created successfully.", page.asText().contains("RGN - 2.00 hours"));
@@ -319,7 +321,8 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		// submitting the page
 		page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), deleteTB);
 		Assert.assertNotNull(page);
-
+		page = getWebClient().getPage(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId));
+		Assert.assertNotNull(page);
 		// chk the timesheet does not contain the time block
 		Assert.assertTrue("TimeBlock did not deleted successfully.", !page.asText().contains("work area description-description 1"));
 		Assert.assertTrue("TimeBlock did not deleted successfully.", !page.asText().contains("RGN - 2.00 hours"));

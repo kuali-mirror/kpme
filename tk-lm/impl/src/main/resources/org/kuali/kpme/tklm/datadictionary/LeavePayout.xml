@@ -111,7 +111,7 @@
 	<bean id="LeavePayout-principalId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="PrincipalId" />
-		<property name="maxLength" value="20" />
+		<property name="maxLength" value="40" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />

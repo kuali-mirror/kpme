@@ -48,6 +48,7 @@
 				<ref bean="MissedPunch-tkClockLogId" />
 				<ref bean="MissedPunch-timestamp" />
 				<ref bean="MissedPunch-relativeEffectiveDate" />
+                <ref bean="MissedPunch-note"/>
 			</list>
 		</property>
         <property name="relationships">
@@ -162,6 +163,17 @@
         </property>
     </bean>
     
+    <bean id="MissedPunch-note" parent="MissedPunch-note-parentBean"/>
+    <bean id="MissedPunch-note-parentBean" abstract="true" parent="Note-noteText">
+        <property name="name" value="note" />
+        <property name="label" value="Note" />
+        <property name="required" value="false" />
+        <property name="shortLabel" value="Note" />
+        <property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="30" p:rows="5"/>
+        </property>
+    </bean>
+
     <bean id="MissedPunch-timesheetDocumentId" parent="MissedPunch-timesheetDocumentId-parentBean" />
     <bean id="MissedPunch-timesheetDocumentId-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="timesheetDocumentId" />
@@ -533,10 +545,15 @@
                                     <bean parent="Uif-InputField" p:propertyName="missedPunch.timesheetDocumentId"
                                          p:readOnly="@{!#empty(#dp.missedPunch.timesheetDocumentId)}" />
                                     <bean parent="Uif-InputField" p:propertyName="missedPunch.assignmentKey"
-                                         p:readOnly="@{#dp.assignmentReadOnly}" p:refreshWhenChangedPropertyNames="#dp.missedPunch.timesheetDocumentId" />
-                                    <bean parent="Uif-InputField" p:propertyName="missedPunch.actionDate" />
-                                    <bean parent="Uif-InputField" p:propertyName="missedPunch.actionTime" />
-                                    <bean parent="Uif-InputField" p:propertyName="missedPunch.clockAction" />
+                                         p:readOnly="@{#dp.assignmentReadOnly  or #dp.missedPunchSubmitted}" p:refreshWhenChangedPropertyNames="#dp.missedPunch.timesheetDocumentId" />
+                                    <bean parent="Uif-InputField" p:propertyName="missedPunch.actionDate"
+                                          p:readOnly="@{#dp.missedPunchSubmitted}"/>
+                                    <bean parent="Uif-InputField" p:propertyName="missedPunch.actionTime"
+                                          p:readOnly="@{#dp.missedPunchSubmitted}"/>
+                                    <bean parent="Uif-InputField" p:propertyName="missedPunch.clockAction"
+                                          p:readOnly="@{#dp.missedPunchSubmitted}"/>
+                                    <bean parent="Uif-InputField" p:propertyName="missedPunch.note"
+                                          p:readOnly="@{#dp.missedPunchSubmitted}"/>
                                 </list>
                             </property>
                         </bean>

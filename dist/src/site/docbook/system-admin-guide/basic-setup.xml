@@ -798,6 +798,40 @@
 					</tbody>
 				</tgroup>
 			</table>
+			<para>
+	            We seperated Time and Leave attributes into different sections on Earn Code Maintenance Document to better organize the fields and make the GUI more user friendly. 
+	            <mediaobject>
+		            <imageobject>
+		                <imagedata fileref="../images/EarnCodeSections.jpg" format="JPG" scale="40"/>
+		            </imageobject>
+		            <textobject>
+		                <phrase>Earn Code Maintenance Document</phrase>
+		            </textobject>
+		            <caption>Earn Code Maintenance Document</caption>
+	        	</mediaobject>
+	        	<para>
+		        	<mediaobject>
+			            <imageobject>
+			                <imagedata fileref="../images/tk/EarnCodeTimeExpanded.jpg" format="JPG" scale="40"/>
+			            </imageobject>
+			            <textobject>
+			                <phrase>Earn Code Maintenance Document - Time Keeping expanded</phrase>
+			            </textobject>
+			            <caption>Earn Code Maintenance Document - Time Keeping expanded</caption>
+		        	</mediaobject>
+	        	</para>
+	        	<para>
+		        	<mediaobject>
+			            <imageobject>
+			                <imagedata fileref="../images/lm/EarnCodeLeaveExpanded.jpg" format="JPG" scale="40"/>
+			            </imageobject>
+			            <textobject>
+			                <phrase>Earn Code Maintenance Document - Leave Management expanded</phrase>
+			            </textobject>
+			            <caption>Earn Code Maintenance Document - Leave Management expanded</caption>
+		        	</mediaobject>
+	        	</para>
+	        </para>
 			<note>
 				<para>
 					Earn Codes must have an Earn Code Security entry to appear on the calendars. If an Earn Code does not have an Earn Code Security entry it 

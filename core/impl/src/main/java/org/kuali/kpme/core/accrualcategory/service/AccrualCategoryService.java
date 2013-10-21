@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 public interface AccrualCategoryService {
@@ -35,6 +36,7 @@ public interface AccrualCategoryService {
      * Save or Update an accrual category
      * @param accrualCategory
      */
+    @CacheEvict(value={AccrualCategory.CACHE_NAME}, allEntries = true)
     public void saveOrUpdate(AccrualCategory accrualCategory);
     
     /**

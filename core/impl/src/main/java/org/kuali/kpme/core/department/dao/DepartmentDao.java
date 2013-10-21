@@ -24,6 +24,7 @@ public interface DepartmentDao {
 	public void saveOrUpdate(Department dept);
 	public Department getDepartment(String department,LocalDate asOfDate);
     public List<Department> getDepartments(String location, LocalDate asOfDate);
+    public List<Department> getDepartmentsForLocations(List<String> locations, LocalDate asOfDate);
     public Department getDepartment(String hrDeptId);
     public int getDepartmentCount(String department);
     public List<Department> getDepartments(String department);

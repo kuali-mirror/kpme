@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.tklm.common;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
 
@@ -86,31 +88,55 @@ public class CalendarValidationUtil {
 
         Interval payInterval = new Interval(p_cal_b_dt, p_cal_e_dt);
         if (errors.size() == 0 && !payInterval.contains(startTime)) {
-            errors.add("The start date/time is outside the pay period");
+            errors.add("The start date/time is outside the calendar period");
         }
         if (errors.size() == 0 && !payInterval.contains(endTime) && p_cal_e_dt.getMillis() != endTime) {
-            errors.add("The end date/time is outside the pay period");
+            errors.add("The end date/time is outside the calendar period");
         }
         return errors;
     }
 
 	protected static List<String> validateDayParametersForLeaveEntry(EarnCode earnCode,
-			CalendarEntry calendarEntry, String startDate, String endDate, String startTime, String endTime) {
-				// TODO Auto-generated method stub
-				return new ArrayList<String>();
-			}
+			CalendarEntry calendarEntry, String startDate, String endDate, BigDecimal leaveAmount) {
+		List<String> errors = new ArrayList<String>();
+		if(leaveAmount == null) {
+			 errors.add("The Day field should not be empty.");
+			 return errors;
+		}
+    	errors.addAll(validateDateTimeParametersForCalendarEntry(earnCode, calendarEntry, startDate, endDate));
+		return errors;
+	}
 
-	protected static List<String> validateHourParametersForLeaveEntry(EarnCode earnCode,
-			CalendarEntry calendarEntry, String startDate, String endDate, String startTime, String endTime) {
-				// TODO Auto-generated method stub
-				return new ArrayList<String>();
-			}
-
-	protected static List<String> validateAmountParametersForLeaveEntry(EarnCode earnCode,
-			CalendarEntry calendarEntry, String startDate, String endDate, String startTime, String endTime) {
-				// TODO Auto-generated method stub
-				return new ArrayList<String>();
-			}
+	public static List<String> validateHourParametersForLeaveEntry(EarnCode earnCode,
+			CalendarEntry calendarEntry, String startDate, String endDate, BigDecimal leaveAmount) {
+		List<String> errors = new ArrayList<String>();
+		if(leaveAmount == null) {
+			 errors.add("The Hour field should not be empty.");
+			 return errors;
+		}
+    	errors.addAll(validateDateTimeParametersForCalendarEntry(earnCode, calendarEntry, startDate, endDate));
+		return errors;
+	}
+	
+	/*
+	 * Validates if the state/end dates is within the range of the calendar entry
+	 */
+	public static List<String> validateDateTimeParametersForCalendarEntry(EarnCode earnCode,
+			CalendarEntry calendarEntry, String startDate, String endDate) {
+		if(!(earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_HOUR)
+				|| earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_AMOUNT) ))
+			return new ArrayList<String>();
+		
+		List<String> errors = new ArrayList<String>();
+    	errors.addAll(CalendarValidationUtil.validateDates(startDate, endDate));
+        if (errors.size() > 0) 
+        	return errors;
+        // use beginning hour of the start date and ending hour of the end date to fake the time to validate intervals 
+        Long startTime= TKUtils.convertDateStringToDateTimeWithoutZone(startDate, "00:00:00").getMillis();
+        Long endTime= TKUtils.convertDateStringToDateTimeWithoutZone(endDate, "11:59:59").getMillis();
+        errors.addAll(CalendarValidationUtil.validateInterval(calendarEntry, startTime, endTime));
+		return errors;
+	}
 
 	public static List<String> validateSpanningWeeks(DateTime startDate, DateTime endDate) {
 		List<String> errors = new ArrayList<String>();

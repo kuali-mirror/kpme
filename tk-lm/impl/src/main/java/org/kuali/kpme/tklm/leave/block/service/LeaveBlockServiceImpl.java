@@ -490,4 +490,12 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 			LocalDate fromDate, LocalDate toDate) {
 		return leaveBlockDao.getTimeCalendarLeaveBlocksForTimeBlockLookup(documentId,principalId,userPrincipalId,fromDate,toDate);
 	}
+	
+	@Override
+	public List<LeaveBlock> getLeaveBlocksForLookup(
+			String documentId, String principalId, String userPrincipalId,
+			LocalDate fromDate, LocalDate toDate,String leaveBlockType) {
+		return leaveBlockDao.getLeaveBlocksForLookup(documentId,principalId,userPrincipalId,fromDate,toDate,leaveBlockType);
+	}
+	
 }

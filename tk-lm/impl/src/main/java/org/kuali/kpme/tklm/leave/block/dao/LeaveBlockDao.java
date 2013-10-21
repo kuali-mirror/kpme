@@ -55,5 +55,9 @@ public interface LeaveBlockDao {
 	public List<LeaveBlock> getTimeCalendarLeaveBlocksForTimeBlockLookup(
 			String documentId, String principalId, String userPrincipalId,
 			LocalDate fromDate, LocalDate toDate);
+	public List<LeaveBlock> getLeaveBlocksForLookup(
+			String documentId, String principalId, String userPrincipalId,
+			LocalDate fromDate, LocalDate toDate, String leaveBlockType);
+	
 }
 

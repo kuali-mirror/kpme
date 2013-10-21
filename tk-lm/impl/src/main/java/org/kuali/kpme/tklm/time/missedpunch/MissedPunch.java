@@ -69,6 +69,7 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
     private transient Person person;
 	
 	private transient boolean isAssignmentReadOnly;
+    private transient String note;
 
 	public String getTkMissedPunchId() {
 		return tkMissedPunchId;
@@ -319,5 +320,13 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

@@ -26,6 +26,7 @@
                   copyOnWrite="false"/>
     <cache name="http://kpme.kuali.org/core/Global" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true"/>
     <cache name="http://kpme.kuali.org/core/AccrualCategory" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="http://kpme.kuali.org/core/AccrualCategoryRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="http://kpme.kuali.org/core/Assignment" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="http://kpme.kuali.org/core/Calendar" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="http://kpme.kuali.org/core/CalendarBlockPermission" maxEntriesLocalHeap="50000" timeToLiveSeconds="300" copyOnRead="true" copyOnWrite="true"/>

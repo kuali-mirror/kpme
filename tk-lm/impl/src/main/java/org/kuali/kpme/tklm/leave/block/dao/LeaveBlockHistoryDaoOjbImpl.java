@@ -159,4 +159,31 @@ public class LeaveBlockHistoryDaoOjbImpl extends PlatformAwareDaoBaseOjb impleme
         }
         return leaveBlocks;
 	}
+	@Override
+	public List<LeaveBlockHistory> getLeaveBlockHistoriesForLookup(String documentId,
+			String principalId, String userPrincipalId, LocalDate fromDate,
+			LocalDate toDate, String leaveBlockType) {
+	   	List<LeaveBlockHistory> leaveBlocks = new ArrayList<LeaveBlockHistory>();
+        Criteria criteria = new Criteria();
+
+        if(fromDate != null) {
+        	criteria.addGreaterOrEqualThan("beginTimestamp", fromDate.toDate());
+        }
+        if(toDate != null) {
+        	criteria.addLessOrEqualThan("endTimestamp",toDate.toDate());
+        }
+        if(StringUtils.isNotBlank(principalId)) {
+        	criteria.addEqualTo("principalId", principalId);
+        }
+        if(StringUtils.isNotBlank(userPrincipalId)) {
+        	criteria.addEqualTo("principalIdModified", userPrincipalId);
+        }
+        criteria.addEqualTo("leaveBlockType",leaveBlockType);
+        Query query = QueryFactory.newQuery(LeaveBlock.class, criteria);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (c != null) {
+        	leaveBlocks.addAll(c);
+        }
+        return leaveBlocks;
+	}
 }

@@ -39,9 +39,9 @@ public class PayStepServiceImpl implements PayStepService {
 
 	@Override
 	public List<PayStep> getPaySteps(String payStep, String institution,
-			String location, String salaryGroup, String payGrade, String active) {
+			String location, String salaryGroup, String payGrade, String history, String active) {
 		// TODO Auto-generated method stub
-		return payStepDao.getPaySteps(payStep,institution,location,salaryGroup,payGrade,active);
+		return payStepDao.getPaySteps(payStep,institution,location,salaryGroup,payGrade,history,active);
 	}
 
 }

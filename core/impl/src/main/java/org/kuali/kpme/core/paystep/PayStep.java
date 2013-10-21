@@ -45,6 +45,7 @@ public class PayStep extends HrBusinessObject implements Comparable, PayStepCont
 	private BigDecimal compRate;
 	private int serviceAmount;
 	private String serviceUnit;
+	private String history;
 	
 	@Override
 	public boolean isActive() {
@@ -188,6 +189,14 @@ public class PayStep extends HrBusinessObject implements Comparable, PayStepCont
 
 	public void setPmPayStepId(String pmPayStepId) {
 		this.pmPayStepId = pmPayStepId;
+	}
+
+	public String getHistory() {
+		return history;
+	}
+
+	public void setHistory(String history) {
+		this.history = history;
 	}
 
 

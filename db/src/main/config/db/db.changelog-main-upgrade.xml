@@ -19,12 +19,10 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <!-- rice upgrade includes here.  commented out example below -->
+    <!--<include file="src/main/config/db/rice/db.changelog-2.3.1.xml" />-->
 
-    <include file="src/main/config/db/rice/db.changelog-2.2.1.xml" />
-    <include file="src/main/config/db/rice/db.changelog-2.2.2.xml" />
-    <include file="src/main/config/db/rice/db.changelog-2.2.4.xml" />
-    <include file="src/main/config/db/rice/db.changelog-2.3.1.xml" />
-    
-    <include file="src/main/config/db/db.changelog-2.0.0.xml" />
+    <!-- uncomment the following line when first changeset in the 2.0.1 folder is created -->
+    <include file="src/main/config/db/db.changelog-2.0.1.xml" />
     
 </databaseChangeLog>

@@ -173,7 +173,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 			for(LeaveBlock lb : leaveBlocks) {
 				if(StringUtils.equals(lb.getRequestStatus(),HrConstants.REQUEST_STATUS.DISAPPROVED) || StringUtils.equals(lb.getRequestStatus(),HrConstants.REQUEST_STATUS.DEFERRED))
 					continue;
-				AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveLocalDate());
+				AccrualCategory accrualCategory = lb.getAccrualCategoryObj();
 				BigDecimal tally = accruedBalance.get(accrualCategory.getLmAccrualCategoryId());
 				tally = tally.add(lb.getLeaveAmount());
 				
@@ -264,8 +264,8 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 		
 		for(Entry<String,Set<LeaveBlock>> entries : maxBalanceViolations.entrySet()) {
 			for(LeaveBlock lb : entries.getValue()) {
-				AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
-				eligibilities.get(aRule.getMaxBalanceActionFrequency()).add(lb);
+				AccrualCategoryRule aRule = lb.getAccrualCategoryRule();
+                eligibilities.get(aRule.getMaxBalanceActionFrequency()).add(lb);
 			}
 		}
 		
@@ -275,7 +275,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 	protected LeaveBlock retreivePreviousInfraction(Set<LeaveBlock> eligibleLeaveBlocks, LeaveBlock lb, Interval leavePeriodInterval, Interval yearEndPeriodInterval, Interval thisEntryInterval, AccrualCategoryRule asOfLeaveDateRule) {
 		LeaveBlock tempLB = null;
 		for(LeaveBlock block : eligibleLeaveBlocks) {
-			AccrualCategoryRule blockRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
+			AccrualCategoryRule blockRule = block.getAccrualCategoryRule();
 			if(StringUtils.equals(asOfLeaveDateRule.getLmAccrualCategoryRuleId(),blockRule.getLmAccrualCategoryRuleId())) {
 				if((StringUtils.equals(asOfLeaveDateRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)
 						&& StringUtils.equals(blockRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))

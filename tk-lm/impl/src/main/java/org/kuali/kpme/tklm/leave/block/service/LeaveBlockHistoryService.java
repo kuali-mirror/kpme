@@ -38,5 +38,8 @@ public interface LeaveBlockHistoryService {
 	public List<LeaveBlockHistory> getLeaveBlockHistoriesForLookup(String documentId,
 			String principalId, String userPrincipalId, LocalDate fromDate,
 			LocalDate toDate);
+	public List<LeaveBlockHistory> getLeaveBlockHistoriesForLookup(String documentId,
+			String principalId, String userPrincipalId, LocalDate fromDate,
+			LocalDate toDate, String leaveBlockType);
     
 }

@@ -260,11 +260,6 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
     }
     
     @Override
-  	public CalendarEntry getPreviousCalendarEntry(String tkCalendarId, DateTime beginDateCurrentCalendar){
-  		return calendarDao.getPreviousCalendarEntry(tkCalendarId, beginDateCurrentCalendar);
-  	}
-    
-    @Override
     public CalendarEntry getCurrentCalendarDatesForLeaveCalendar(String principalId, DateTime beginDate, DateTime endDate) {
         CalendarEntry pcd = null;
         Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, beginDate.toLocalDate(), endDate.toLocalDate(), true);

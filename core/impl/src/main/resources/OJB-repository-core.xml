@@ -145,7 +145,7 @@
         <field-descriptor name="dept"                       column="DEPT"                       jdbc-type="VARCHAR"     length="21" nullable="false" primarykey="false" />
         <field-descriptor name="defaultOvertimeEarnCode"    column="DEFAULT_OVERTIME_EARNCODE"  jdbc-type="VARCHAR"     nullable="true" length="15" primarykey="false" />
         <field-descriptor name="adminDescr"                 column="ADMIN_DESCR"                jdbc-type="VARCHAR"     length="30" nullable="false" />
-        <field-descriptor name="userPrincipalId"            column="USER_PRINCIPAL_ID"          jdbc-type="VARCHAR"     length="10" nullable="false" />
+        <field-descriptor name="userPrincipalId"            column="USER_PRINCIPAL_ID"          jdbc-type="VARCHAR"     length="40" nullable="false" />
         <field-descriptor name="hrsDistributionF"       	column="HRS_DISTRIBUTION_FL"    	jdbc-type="VARCHAR"     length="1" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="overtimeEditRole"           column="OVERTIME_EDIT_ROLE"         jdbc-type="VARCHAR"     length="20" primarykey="false" />
         <field-descriptor name="timestamp"                  column="TIMESTAMP"                  jdbc-type="TIMESTAMP"   nullable="false" primarykey="false" conversion="org.kuali.kpme.core.TimestampConverter" />
@@ -243,7 +243,7 @@
         <field-descriptor name="workArea"                   column="WORK_AREA"          jdbc-type="BIGINT" />
         <field-descriptor name="description"                column="DESCR"              jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
         <field-descriptor name="administrativeDescription"  column="ADMIN_DESCR"        jdbc-type="VARCHAR" length="30" nullable="false" />
-        <field-descriptor name="userPrincipalId"            column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR" length="27" nullable="false" />
+        <field-descriptor name="userPrincipalId"            column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR" length="40" nullable="false" />
         <field-descriptor name="effectiveDate"              column="EFFDT"              jdbc-type="DATE" nullable="true" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="active"                     column="ACTIVE"             jdbc-type="VARCHAR" length="1" nullable="false"    conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="timestamp"                  column="TIMESTAMP"          jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
@@ -382,7 +382,7 @@
         <field-descriptor name="effectiveDate"      column="EFFDT"              jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="timestamp"          column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="active"             column="ACTIVE"             jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="27" nullable="false" />
+        <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="40" nullable="false" />
         <field-descriptor name="objectId"               column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     </class-descriptor>
@@ -404,7 +404,7 @@
         <field-descriptor name="effectiveDate"      column="EFFDT"              jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="timestamp"          column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="active"             column="ACTIVE"             jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="27" nullable="false" />
+        <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="40" nullable="false" />
     </class-descriptor>
 
     <!--  Position -->

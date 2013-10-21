@@ -40,6 +40,11 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
+
+import com.gargoylesoftware.htmlunit.WebRequest;
+import com.gargoylesoftware.htmlunit.WebResponse;
+import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -101,12 +106,19 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         // OVT - 0 Hrs Expected
         final DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, dateTimeZone);
         final DateTime end = new DateTime(2011, 3, 2, 13, 0, 0, 0, dateTimeZone);
+
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
+
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
         page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), getTimesheetDocumentUrl(tdocId), tdaf);
         Assert.assertNotNull(page);
+        page = loginAndGetTimeDetailsHtmlPage(getWebClient(), userId, tdocId, true);
 
+        String pageAsText = page.asText();
+        DomElement element = page.getElementById("timeBlockString");
+        Assert.assertNotNull(element);
+        String elementAsText = element.asText();
         String dataText = page.getElementById("timeBlockString").getFirstChild().getNodeValue();
         JSONArray jsonData = (JSONArray) JSONValue.parse(dataText);
         final JSONObject jsonDataObject = (JSONObject) jsonData.get(0);
@@ -185,8 +197,11 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         page = getWebClient().getPage(targetedTimesheetUrl);
         Assert.assertNotNull(page);
         String submitDetailsUrl = BASE_DETAIL_URL + tdocId;
+        //The following page does not contain timeBlockString data after KPME-2959.
         page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), submitDetailsUrl, tdaf);
         Assert.assertNotNull(page);
+        //This extra page get was needed for KPME-2959.
+        page = getWebClient().getPage(targetedTimesheetUrl);
         HtmlUnitUtil.createTempFile(page, "initiatetest");
         String dataText = page.getElementById("timeBlockString").getFirstChild().getNodeValue();
         JSONArray jsonData = (JSONArray) JSONValue.parse(dataText);

@@ -319,7 +319,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		if (eligibilities != null) {
 			for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
 				for(LeaveBlock lb : entry.getValue()) {
-					AccrualCategoryRule rule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+					AccrualCategoryRule rule = lb.getAccrualCategoryRule();
 					if (rule != null) {
 						AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
 						if (rule.getActionAtMaxBalance().equals(HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER)) {
@@ -347,29 +347,17 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	 * @return
 	 */
 	private String createLabelForLastClockLog(ClockLog cl, DateTimeZone approverTimeZone) {
-		// return sdf.format(dt);
 		if (cl == null) {
 			return "No previous clock information";
 		}
 		
 		String zoneString = "";
-		DateTime clockTimeWithZone = new DateTime(cl.getClockTimestamp());
-		if(StringUtils.isNotBlank(cl.getClockTimestampTimezone())) {
-			DateTimeZone clTimeZone = DateTimeZone.forID(cl.getClockTimestampTimezone());
-			if(clTimeZone != null) {
-				clockTimeWithZone = new DateTime(cl.getClockTimestamp(), clTimeZone) ;
-				zoneString = DateTime.now(clTimeZone).toString("z");
-			}
-		}
-		
+		DateTime clockTimeWithZone = cl.getClockDateTime();
 		if(approverTimeZone != null) {
 			clockTimeWithZone = clockTimeWithZone.withZone(approverTimeZone);
 			zoneString = DateTime.now(approverTimeZone).toString("z");;
 		}
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-		String dateTime = sdf.format(clockTimeWithZone.toDate());
-		
+		String dateTime = clockTimeWithZone.toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
 		dateTime += " " + zoneString;
 				
 		if (StringUtils.equals(cl.getClockAction(), TkConstants.CLOCK_IN)) {
@@ -386,7 +374,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		} else {
 			return "No previous clock information";
 		}
-
 	}
 
 	/**

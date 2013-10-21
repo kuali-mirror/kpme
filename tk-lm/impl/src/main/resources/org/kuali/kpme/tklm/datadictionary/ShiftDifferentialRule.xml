@@ -437,7 +437,7 @@
 	<bean id="ShiftDifferentialRule-userPrincipalId-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="User PrincipalId" />
-		<property name="maxLength" value="10" />
+		<property name="maxLength" value="40" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />

@@ -40,7 +40,25 @@ $(function () {
           	var hrCalendarEntryId = $("#selectedPayPeriod option:selected").val();
         	var newLoc = window.location.pathname + '?hrCalendarEntryId=' + hrCalendarEntryId ;
             window.location = newLoc ;
-         }
+         },
+         
+         checkStartEndDateFields : function (o1, o2, startField, endField) {
+             var val1 = Date.parse(o1.val());
+             var val2 = Date.parse(o2.val());
+             if(val1 == null) {
+             	this.displayErrorMessages(startField + " is not a valid date", o1);
+             	return false;
+             }
+             if(val2 == null) {
+             	this.displayErrorMessages(endField + " is not a valid date", o2);
+             	return false;
+             }
+             if (val1.compareTo(val2) > 0) {
+                 this.displayErrorMessages(startField + " is later than end date.", o1);
+                 return false;
+             }
+             return true;
+         }         
     
     });
     

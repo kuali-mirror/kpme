@@ -81,6 +81,22 @@ public class HrContext {
 	public static boolean isTargetAnyApprover() {
 		return isTargetApprover() || isTargetApproverDelegate();
 	}
+	
+	public static boolean isUserOrTargetAnyApprover() {
+		return isAnyApprover() || isTargetAnyApprover();
+	}
+	
+	public static boolean isUserOrTargetAnyPayrollProcessor() {
+		return isAnyPayrollProcessor() || isTargetAnyPayrollProcessor();
+	}
+	
+	public static boolean isUserOrTargetReviewer() {
+		return isReviewer() || isTargetReviewer();
+	}
+	
+	public static boolean isTargetAnyPayrollProcessor() {
+		return isTargetPayrollProcessor() || isTargetPayrollProcessorDelegate();
+	}
 
     public static boolean isAnyAdmin() {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();

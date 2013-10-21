@@ -104,7 +104,7 @@ public class TimesheetSubmitAction extends KPMEAction {
 	            		for(LeaveBlock lb : entry.getValue()) {
 	            			if(interval.contains(lb.getLeaveDate().getTime())) {
 	            				//maxBalanceViolations should, if a violation exists, return a leave block with leave date either current date, or the end period date - 1 days.
-		        				AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+		        				AccrualCategoryRule aRule = lb.getAccrualCategoryRule();
 	
 		            			if(ObjectUtils.isNotNull(aRule)
 		            					&& !StringUtils.equals(aRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) {

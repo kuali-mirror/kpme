@@ -162,12 +162,52 @@ public interface KPMERoleService {
 	 * @param namespaceCode The namespace of the role
 	 * @param roleName The name of the role
 	 * @param asOfDate The effective date of the role
-	 * @param getActiveOnly Whether or not to get only active role members
+	 * @param activeOnly Whether or not to get only active role members
 	 * 
 	 * @return the list of work areas for the given {@code principalId} in the role {@code roleName}.
 	 */
-    @Cacheable(value= RoleMember.Cache.NAME, key="'{getWorkAreasForPrincipalInRole}' + 'principal=' + #p0 + '|' + 'namespace=' + #p1 + '|' + 'roleName=' + #p2  + '|' + 'asOfDate=' + #p3 + '|' + 'isActiveOnly=' + #p4")
-	List<Long> getWorkAreasForPrincipalInRole(String principalId, String namespaceCode, String roleName, DateTime asOfDate, boolean isActiveOnly);
+    @Cacheable(value= RoleMember.Cache.NAME, key="'{getWorkAreasForPrincipalInRole}' + 'principal=' + #p0 + '|' + 'namespace=' + #p1 + '|' + 'roleName=' + #p2  + '|' + 'asOfDate=' + #p3 + '|' + 'activeOnly=' + #p4")
+	List<Long> getWorkAreasForPrincipalInRole(String principalId, String namespaceCode, String roleName, DateTime asOfDate, boolean activeOnly);
+
+    /**
+     * Gets the work areas for the given {@code principalId} in the role {@code roleName}.
+     *
+     * @param principalId The person to check the role for
+     * @param roleIds The list of roleIds
+     * @param asOfDate The effective date of the role
+     * @param activeOnly Whether or not to get only active role members
+     *
+     * @return the list of work areas for the given {@code principalId} in the role {@code roleName}.
+     */
+    @Cacheable(value= RoleMember.Cache.NAME, key="'{getWorkAreasForPrincipalInRoles}' + 'principal=' + #p0 + '|' + 'roleIds=' + T(org.kuali.rice.core.api.cache.CacheKeyUtils).key(#p1) + '|' + 'asOfDate=' + #p3 + '|' + 'activeOnly=' + #p4")
+    List<Long> getWorkAreasForPrincipalInRoles(String principalId, List<String> roleIds, DateTime asOfDate, boolean activeOnly);
+
+    /**
+     * Gets the departments for the given {@code principalId} in the roles {@code roleIds}.
+     *
+     * @param principalId The person to check the role for
+     * @param roleIds The list of roleIds
+     * @param asOfDate The effective date of the role
+     * @param activeOnly Whether or not to get only active role members
+     *
+     * @return the list of work areas for the given {@code principalId} in the roles {@code roleIds}.
+     */
+    @Cacheable(value= RoleMember.Cache.NAME, key="'{getDepartmentsForPrincipalInRoles}' + 'principal=' + #p0 + '|' + 'roleIds=' + T(org.kuali.rice.core.api.cache.CacheKeyUtils).key(#p1) + '|' + 'asOfDate=' + #p3 + '|' + 'activeOnly=' + #p4")
+    List<String> getDepartmentsForPrincipalInRoles(String principalId, List<String> roleIds, DateTime asOfDate, boolean activeOnly);
+
+    /**
+     * Gets the locations for the given {@code principalId} in the roles {@code roleIds}.
+     *
+     * @param principalId The person to check the role for
+     * @param roleIds The list of roleIds
+     * @param asOfDate The effective date of the role
+     * @param activeOnly Whether or not to get only active role members
+     *
+     * @return the list of work areas for the given {@code principalId} in the roles {@code roleIds}.
+     */
+    @Cacheable(value= RoleMember.Cache.NAME, key="'{getLocationsForPrincipalInRoles}' + 'principal=' + #p0 + '|' + 'roleIds=' + T(org.kuali.rice.core.api.cache.CacheKeyUtils).key(#p1) + '|' + 'asOfDate=' + #p3 + '|' + 'activeOnly=' + #p4")
+    List<String> getLocationsForPrincipalInRoles(String principalId, List<String> roleIds, DateTime asOfDate, boolean activeOnly);
+
 
 	/**
 	 * Gets the departments for the given {@code principalId} in the role {@code roleName}.

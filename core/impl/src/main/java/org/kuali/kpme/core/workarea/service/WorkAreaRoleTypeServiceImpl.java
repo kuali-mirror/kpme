@@ -22,6 +22,7 @@ import java.util.Map;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
 @SuppressWarnings("deprecation")
@@ -35,12 +36,17 @@ public class WorkAreaRoleTypeServiceImpl extends RoleTypeServiceBase {
 	@Override
 	public boolean performMatch(Map<String, String> inputAttributes, Map<String, String> storedAttributes) {
 		boolean matches = false;
-		
-		Long inputWorkArea = MapUtils.getLong(inputAttributes, KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName());
+
+        Long inputWorkArea;
+        if (MapUtils.getString(inputAttributes, KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName()).equals("%"))
+            inputWorkArea = HrConstants.WILDCARD_LONG;
+        else {
+		    inputWorkArea = MapUtils.getLong(inputAttributes, KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName());
+        }
 		Long storedWorkArea = MapUtils.getLong(storedAttributes, KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName());
 		
 		if (storedWorkArea != null) {
-			matches = ObjectUtils.equals(inputWorkArea, storedWorkArea) || ObjectUtils.equals(inputWorkArea, -1);
+			matches = ObjectUtils.equals(inputWorkArea, storedWorkArea) || ObjectUtils.equals(inputWorkArea, HrConstants.WILDCARD_LONG);
 		}
 		
 		return matches;

@@ -2,6 +2,189 @@
 <chapter xml:id="lm-admin" xmlns:xlink="http://www.w3.org/1999/xlink"
 	xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Leave Management Administrative Tools</title>
+	<section>
+		<title>Accrual Category</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/lm/accrualcatmaintcompact.jpg" format="JPG" scale="40"/>
+            </imageobject>
+            <caption>Accrual Category Maintenance Document</caption>
+        </mediaobject>
+		<table frame="none">
+			<title>Accrual Category Fields :</title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="2.00*" />
+				<colspec colname="c2" colnum="2" colwidth="4.00*" />
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry>Date the override will go into effect.</entry>
+					</row>
+					<row>
+						<entry>Accrual Category</entry>
+						<entry>Short code used to identify the accrual category.</entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry>Text description for the accrual category.</entry>
+					</row>
+					<row>
+						<entry>Leave Plan</entry>
+						<entry>Leave Plan under which the accrual category will reside.</entry>
+					</row>
+					<row>
+						<entry>Accrual Earn Interval</entry>
+						<entry>An interval of time that should pass, if any, between accruals.</entry>
+					</row>
+					<row>
+						<entry>Proration</entry>
+						<entry>On/Off flag used to pro-rate accruals for partial earn intervals.</entry>
+					</row>
+					<row>
+						<entry>Unit of Time</entry>
+						<entry>The units associated with accruals. Either days or hours.</entry>
+					</row>
+					<row>
+						<entry>Min Percent Worked to Earn Accrual</entry>
+						<entry>Defines a minimum percentage of an accrual interval needed in terms of time worked, in order to receive some accrual under this category.</entry>
+					</row>
+					<row>
+						<entry>Donation</entry>
+						<entry>Flag indicating whether this accrual cateogry is eligible for donations.</entry>
+					</row>
+					<row>
+						<entry>Show on Grid</entry>
+						<entry>Yes/No Flag indicating whether the accrual category is to appear on time sheets and/or Leave Calendars within summaries.</entry>
+					</row>
+					<row>
+						<entry>Default Earn Code</entry>
+						<entry>The underlying earn code used to report leave under this accrual category.</entry>
+					</row>
+					<row>
+						<entry>Category Has Rules</entry>
+						<entry>Yes/No flag indicating whether the accrual category has associated rules.</entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>Flag indicating activity. If checked, 'Y', indicates the record will become active as of the effective date. If unchecked, 'N',
+							indicates the record is to become inactive as of the effective date.</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		<section>
+			<title>Accrual Category Rule</title>
+	        <mediaobject>
+	            <imageobject>
+	                <imagedata fileref="../images/lm/accrualrulecompact.jpg" format="JPG" scale="40"/>
+	            </imageobject>
+	            <caption>Accrual Category Rule Maintenance</caption>
+	        </mediaobject>
+	        <para>Accrual Category Rule's are maintained within Accrual Cateogry Maintenance. In order to define a rule, the owning Accrual Category must indicate
+	        	'Yes' for Category Has Rules.</para>
+        <table frame="none">
+            <title>Accrual Category Fields :</title>
+            <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="2.00*" />
+                <colspec colname="c2" colnum="2" colwidth="4.00*" />
+                <thead>
+                    <row>
+                        <entry>Field</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Service Unit of Time</entry>
+                        <entry>Unit of time associated with the start and end fields.</entry>
+                    </row>
+                    <row>
+                        <entry>Start</entry>
+                        <entry>When added to an employee's service date, defines the start of the service interval under which this rule will be in effect.
+                        	There should be no gaps nor overlap when defining more than one rule. 0 (Zero) is a valid entry for Start.</entry>
+                    </row>
+                    <row>
+                        <entry>End</entry>
+                        <entry>When added to an employee's service date, defines the end of the service interval under which this rule will no longer be in effect.
+                        	There should be no gaps nor overlap when defining more than one rule.</entry>
+                    </row>
+                    <row>
+                        <entry>Accrual Rate</entry>
+                        <entry>The amount of leave that will accrue over a full Accrual Earn Interval, defined on the Accrual Category. This value uses the units
+                        	supplied in the Accrual Category's Unit of Time field. NOTE: This is NOT the Accrual Category Rule's 'Service Unit of Time' field.</entry>
+                    </row>
+                    <row>
+                        <entry>Max Bal Flag</entry>
+                        <entry>Yes/No flag used to indicate that a maximum balance limit will be in effect during this rules service interval.</entry>
+                    </row>
+                    <row>
+                    	<entry>Max Balance</entry>
+                    	<entry>The maximum balance allowed for the accrual category while the employee resides within this rule's service interval.
+                    		This is a required field if Max Bal Flag is set to 'Yes'.</entry>
+                    </row>
+                    <row>
+                        <entry>Max Balance Action Frequency</entry>
+                        <entry>Defines a frequency with which an Action at Max Balance may occur; Leave Approve - once at the end of every leave period,
+                        	Year End - once at the end of the leave plan's calendar year. On-Demand - at the employee's discretion.</entry>
+                    </row>
+                    <row>
+                        <entry>Action at Max Balance</entry>
+                        <entry>Provides three options; Transfer, Payout or Lose (forfeit). This action should occur with the given frequency only if an employee has
+                        	exceeded the Max Balance as of the end of the frequency period.</entry>
+                    </row>
+					<row>
+						<entry>Max Balance Transfer to Accrual Category</entry>
+						<entry>If 'Transfer' is selected action, the transaction will place the converted leave amount into the supplied Max Balance Transfer to Accrual Category,
+							and will be made available for use via the Max Balance Transfer to Accrual Category's default earn code.</entry>
+					</row>
+					<row>
+						<entry>Max Balance Transfer Conversion Factor</entry>
+						<entry>A conversion factor used to adjust the actual amount credited to the Max Balance Transfer to Accrual Category.</entry>
+					</row>
+					<row>
+						<entry>Max Transfer Amount</entry>
+						<entry>Optionally defines a maximum amount that the employee is allowed to transfer when conducting a transfer.</entry>
+					</row>
+					<row>
+						<entry>Max Payout Amount</entry>
+						<entry>Optionally defines a maximum amount that the employee is allowed to pay out when conducting a payout</entry>
+					</row>
+					<row>
+						<entry>Max Payout Earn Code</entry>
+						<entry>if 'Payout' is selected action, the transaction will place the un-converted leave amount into the supplied Max Payout Earn Code.
+							This code will likely be in tight relationship to payroll.</entry>
+					</row>
+					<row>
+						<entry>Max Usage</entry>
+						<entry>The given amount, in the accrual category's Unit of Time, places a ceiling on the amount of leave an employee is allowed to used over
+							the leave plan's calendar year.</entry>
+					</row>
+					<row>
+						<entry>Max Carryover</entry>
+						<entry>The given amount, in the accrual category's Unit of Time, places a ceiling on the amount of leave an employee is allowed to carryover into
+							a subsequent leave plan calendar year.</entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>Flag indicating activity. When checked, 'Y', the rule will be effective as of the Accrual Category's effective date. Any employee
+							who's service amount falls within the start and end dates [end date exclusive] shall be included under this rule. When unchecked, 'N', the
+							record shall become inactive as of the Accrual Category's effective date.</entry>
+					</row>
+                </tbody>
+            </tgroup>
+        </table>
+        <para>
+        	For a detailed examination of Accrual Category Rules including configuration examples, please consult the
+        	<link xlink:href="https://wiki.kuali.org/display/KPMEDOC/KPME+System+Administration+Guide">Leave Management Configuration</link> guide.
+        </para>
+		</section>
+	</section>
     <section>
         <title>Balance Transfer</title>
         <mediaobject>
@@ -14,10 +197,9 @@
             <caption>The Balance Transfer Maintenance Document</caption>
         </mediaobject>
         <para>
-            Department, Location, and System Administrators have access to create and view Balance Transfer maintenance documents.  Admins can access to this 
-            document is used to perform balance transfer transactions that are not triggered by the Accrual Category’s Max Balance limit and transfer action.  
-            A new balance transfer record will create the leave blocks on the employee’s leave calendar that reflect the balance transfer amounts on the records 
-            effective date.  On the approval type a note regarding the transaction will appears with the employee’s record.  
+            Department, Location, and System Administrators have access to create and view Balance Transfer maintenance documents.  Admins can access this 
+            document to perform transactions that are not triggered by the Accrual Category’s Max Balance limit.  
+            A new balance transfer record will create up to three leave blocks on the employee’s leave calendar as of the record's effective date.
         </para>
         <table frame="none">
             <title>Balance Transfer fields :</title>
@@ -317,10 +499,10 @@
         </mediaobject>
         <para>
             Payout maintenance document can be used to payout earned accruals. Department, Location, and System Administrators can use this document to preform 
-            payout transactions that are not triggered by the Accrual Category’s Max Balance limit and the payout action.  Example uses of this document maybe 
-            need to process a payout of earned accrual at time of termination/retirement.  After the document is submitted and approved, using the effective 
-            leave blocks that reflect the payout transaction will be created for the appropriate Accrual Category.  The payout earn code will need to be fed to 
-            payroll for the payout to be processed.  
+            payout transactions that are not triggered by the Accrual Category’s Max Balance limit and the payout action.  Example uses of this document include 
+            payout of earned accrual at time of termination/retirement.  After a Payout document is submitted leave blocks that reflect
+            the payout transaction will be created for the appropriate Accrual Category using the effective date of the payout document. The payout earn code will
+            need to be fed to payroll for the payout to be processed.
         </para>
         <table frame="none">
             <title>Leave Payout fields :</title>
@@ -361,5 +543,122 @@
                 </tbody>
             </tgroup>
         </table>        
+    </section>
+	<section>
+        <title>System Scheduled Time Off</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/lm/newsstodoc.jpg" format="JPG" scale="40"/>
+            </imageobject>
+            <textobject>
+                <phrase>System Scheduled Time Off [SSTO] Maintenance Document</phrase>
+            </textobject>
+            <caption>SSTO Maintenance Document</caption>
+        </mediaobject>
+        <para>
+            SSTO enables the designation of specific dates as "Time Off", supporting several configurations including the ability to bank and transfer unused time.
+        </para>
+        <table frame="none">
+            <title>SSTO Fields :</title>
+            <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="2.00*" />
+                <colspec colname="c2" colnum="2" colwidth="4.00*" />
+                <thead>
+                    <row>
+                        <entry>Field</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>Effective Date</entry>
+                        <entry>Date the scheduled time off record will go into effect</entry>
+                    </row>
+                    <row>
+                        <entry>Earn Code</entry>
+                        <entry>The earn code associated with the scheduled time off.</entry>
+                    </row>
+                    <row>
+                        <entry>Accrual Category</entry>
+                        <entry>Read-only field, populated from the accrual category field of the given earn code.</entry>
+                    </row>
+                    <row>
+                        <entry>Leave Plan</entry>
+                        <entry>Read-only field, populated from the leave plan field of the given earn code / accrual category.</entry>
+                    </row>
+                    <row>
+                        <entry>Accrued Date</entry>
+                        <entry>Date the holiday is available to use.</entry>
+                    </row>
+                    <row>
+                        <entry>Scheduled Time Off Date</entry>
+                        <entry>Date of the scheduled time off that is put on the calendar.</entry>
+                    </row>
+					<row>
+						<entry>Location</entry>
+						<entry>The location in which this SSTO is applicable. Accepts wild card (%).</entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry>Text field used to describe the scheduled time off.</entry>
+					</row>
+					<row>
+						<entry>Amount of Time</entry>
+						<entry>The amount of leave time available for this scheduled time off. Precision is based off Earn Code's Fractional Time Allowed field.</entry>
+					</row>
+					<row>
+						<entry>Unused Time</entry>
+						<entry>Provides options on how the amount of time can be used. No Unused Time Allowed, Transfer and Bank. For more information
+							on the configuration and use of these options, consult the appropriate section in the
+							<link xlink:href="https://wiki.kuali.org/display/KPMEDOC/KPME+System+Administration+Guide">Leave Management Configuration Guide</link></entry>
+					</row>
+					<row>
+						<entry>Transfer to Earn Code</entry>
+						<entry>If Unused Time is Transfer, the converted amount of time will be made available for use by this earn code.</entry>
+					</row>
+					<row>
+						<entry>Transfer Conversion Factor</entry>
+						<entry>Converts the amount of time available for use after transfer by this amount.</entry>
+					</row>
+					<row>
+						<entry>Premium Holiday</entry>
+						<entry>Flag indicating whether this SSTO is a premium holiday. If checked, 'Y', gives certain employees a higher rate of pay when working
+							the Scheduled Time Off Date.</entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>Flag indicating activitiy. If checked, 'Y', record will be active as of the effective date. if unchecked, 'N', record will become
+							inactive as of the effective date.</entry>
+					</row>
+                </tbody>
+            </tgroup>
+        </table>        
+    </section>
+	<section>
+        <title>Earn Code - Leave Management Attributes </title>
+         <para>
+            We seperated Time and Leave attributes into different sections on Earn Code Maintenance Document to better organize the fields and make the GUI more user friendly. 
+            Please refer to the field definition of Earn Code in Basic Setup guide.
+            <mediaobject>
+	            <imageobject>
+	                <imagedata fileref="../images/lm/EarnCodeLeaveSection.jpg" format="JPG" scale="40"/>
+	            </imageobject>
+	            <textobject>
+	                <phrase>Earn Code Maintenance Document - Leave Management Attributes section</phrase>
+	            </textobject>
+	            <caption>Earn Code Maintenance Document - Leave Management Attributes section</caption>
+        	</mediaobject>
+        	<para>
+	        	<mediaobject>
+		            <imageobject>
+		                <imagedata fileref="../images/lm/EarnCodeLeaveExpanded.jpg" format="JPG" scale="40"/>
+		            </imageobject>
+		            <textobject>
+		                <phrase>Earn Code Maintenance Document - Leave Management expanded</phrase>
+		            </textobject>
+		            <caption>Earn Code Maintenance Document - Leave Management expanded</caption>
+	        	</mediaobject>
+        	</para>
+        </para>
     </section>
 </chapter>

@@ -78,6 +78,28 @@ public class DepartmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Dep
 		return d;
     }
 
+    @Override
+    public List<Department> getDepartmentsForLocations(List<String> locations, LocalDate asOfDate) {
+        Criteria root = new Criteria();
+
+        root.addIn("location", locations);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Department.class, asOfDate, Department.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Department.class, Department.BUSINESS_KEYS, false));
+
+        Criteria activeFilter = new Criteria(); // Inner Join For Activity
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+
+
+        Query query = QueryFactory.newQuery(Department.class, root);
+
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        List<Department> d = new ArrayList<Department>(c.size());
+        d.addAll(c);
+
+        return d;
+    }
+
 	@Override
 	@SuppressWarnings("unchecked")
     public List<Department> getDepartments(String dept, String location, String departmentDescr, String active, String showHistory) {

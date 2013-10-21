@@ -102,6 +102,7 @@ public interface PrincipalHRAttributesService {
     /*
      * Fetch list of PrincipalHRAttributes that become active for given principalId and date range
      */
+    @Cacheable(value= PrincipalHRAttributes.CACHE_NAME, key="'{getActivePrincipalHrAttributesForRange}' + 'principalId=' + #p0 + '|' + 'startDate=' + #p1 + '|' + 'startDate=' + #p2")
     public List<PrincipalHRAttributes> getActivePrincipalHrAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate);
     /*
      * Fetch list of PrincipalHRAttributes that become inactive for given principalId and date range

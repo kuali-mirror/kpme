@@ -22,7 +22,7 @@
     <class-descriptor class="org.kuali.kpme.tklm.leave.transfer.BalanceTransfer" table="LM_BALANCE_TRANSFER_T">
         <field-descriptor name="balanceTransferId"      column="LM_BALANCE_TRANSFER_ID"   		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_BALANCE_TRANSFER_S" />
         <field-descriptor name="accrualCategoryRule"	column="LM_ACCRUAL_CATEGORY_RULES_ID"	jdbc-type="VARCHAR"		length="60"	/>
-        <field-descriptor name="principalId"      		column="PRINCIPAL_ID"					jdbc-type="VARCHAR"     length="50" nullable="false"/>
+        <field-descriptor name="principalId"      		column="PRINCIPAL_ID"					jdbc-type="VARCHAR"     length="40" nullable="false"/>
         <field-descriptor name="transferAmount"     	column="TRANSFER_AMOUNT"    			jdbc-type="DECIMAL"     length="20" nullable="false" />
         <field-descriptor name="fromAccrualCategory"    column="FROM_ACCRUAL_CATEGORY"			jdbc-type="VARCHAR"     length="15" nullable="false" />
         <field-descriptor name="amountTransferred"		column="AMOUNT_TRANSFERRED"				jdbc-type="DECIMAL"		length="20" />
@@ -37,7 +37,7 @@
     <!-- Business Keys - [principalId : effectiveDate : fromAccrualCategory] -->
     <class-descriptor class="org.kuali.kpme.tklm.leave.payout.LeavePayout" table="LM_LEAVE_PAYOUT_T">
         <field-descriptor name="lmLeavePayoutId"        column="LM_LEAVE_PAYOUT_ID"       		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_PAYOUT_S" />
-        <field-descriptor name="principalId"      		column="PRINCIPAL_ID"					jdbc-type="VARCHAR"     length="50" nullable="false"/>
+        <field-descriptor name="principalId"      		column="PRINCIPAL_ID"					jdbc-type="VARCHAR"     length="40" nullable="false"/>
         <field-descriptor name="earnCode"               column="EARN_CODE"                      jdbc-type="VARCHAR"     length="15" />
         <field-descriptor name="effectiveDate"          column="EFFDT"         		            jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="fromAccrualCategory"    column="FROM_ACCRUAL_CATEGORY"			jdbc-type="VARCHAR"     length="15" nullable="false" />

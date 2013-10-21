@@ -15,17 +15,34 @@
  */
 package org.kuali.kpme.tklm.leave.transfer.web;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
+import org.kuali.kpme.core.role.KPMERole;
+import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
@@ -65,8 +82,59 @@ public class BalanceTransferLookupableHelper extends KPMELookupableHelper {
         String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
 
-        return LmServiceLocator.getBalanceTransferService().getBalanceTransfers(principalId, fromAccrualCategory, transferAmount, toAccrualCategory, 
+        List<BalanceTransfer> transfers = LmServiceLocator.getBalanceTransferService().getBalanceTransfers(principalId, fromAccrualCategory, transferAmount, toAccrualCategory, 
         		amountTransferred, forfeitedAmount, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt));
+        
+        transfers = filterByPrincipalId(transfers);
+        
+        return transfers;
     }
+
+	private List<BalanceTransfer> filterByPrincipalId(
+			List<BalanceTransfer> transfers) {
+		if(!transfers.isEmpty()) {
+			Iterator<? extends BusinessObject> iter = transfers.iterator();
+			while(iter.hasNext()) {
+				BalanceTransfer transfer = (BalanceTransfer) iter.next();
+				LocalDate effectiveLocalDate = transfer.getEffectiveLocalDate();
+				DateTime effectiveDate = effectiveLocalDate.toDateTimeAtStartOfDay();
+				List<Job> principalsJobs = HrServiceLocator.getJobService().getActiveLeaveJobs(transfer.getPrincipalId(), effectiveLocalDate);
+				String userPrincipalId = HrContext.getPrincipalId();
+				boolean canView = false;
+				for(Job job : principalsJobs) {
+					
+					if(job.isEligibleForLeave()) {
+						
+						String department = job != null ? job.getDept() : null;
+						Department departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartment(department, effectiveLocalDate) : null;
+						String location = departmentObj != null ? departmentObj.getLocation() : null;
+
+			        	if (LmServiceLocator.getLMPermissionService().isAuthorizedInDepartment(userPrincipalId, "View Balance Transfer", department, effectiveDate)
+							|| LmServiceLocator.getLMPermissionService().isAuthorizedInLocation(userPrincipalId, "View Balance Transfer", location, effectiveDate)) {
+								canView = true;
+								break;
+						}
+			        	else {
+			        		//do NOT block approvers, processors, delegates from viewing the object.
+							List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(transfer.getPrincipalId(), job.getJobNumber(), effectiveLocalDate);
+							for(Assignment assignment : assignments) {
+								if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))
+										|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))
+										|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))
+										|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))) {
+									canView = true;
+									break;
+								}
+							}
+			        	}
+					}
+				}
+				if(!canView) {
+					iter.remove();
+				}
+			}
+		}
+		return transfers;
+	}
 
 }

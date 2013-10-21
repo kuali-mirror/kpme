@@ -98,12 +98,13 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
             if(!targetUserJob.isEmpty()) {
             //the target user should have at least one job and not have more than one leave eligible dept
                   String targetUserDept = targetUserJob.get(0).getDept();
+                  String targetUserLocation = targetUserJob.get(0).getLocation();
                   //check to see if the logged in user is the dept admin for the leave adjustment target user's dept
                   if(HrContext.isSystemAdmin() 
                 		|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(LoggedInPrincipalID, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), targetUserDept, asOfDate)
                         || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(LoggedInPrincipalID, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), targetUserDept, asOfDate)
-                        || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(LoggedInPrincipalID, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), targetUserDept, asOfDate)
-                        || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(LoggedInPrincipalID, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), targetUserDept, asOfDate))
+                        || HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(LoggedInPrincipalID, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), targetUserLocation, asOfDate)
+                        || HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(LoggedInPrincipalID, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), targetUserLocation, asOfDate))
                   {
                       valid = true;
                   }

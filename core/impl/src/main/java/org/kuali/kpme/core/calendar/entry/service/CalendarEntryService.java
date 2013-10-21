@@ -126,15 +126,6 @@ public interface CalendarEntryService {
     public CalendarEntry getCalendarDatesByPayEndDate(String principalId, DateTime payEndDate, String calendarType);
     
     /**
-	 * Returns the Pay CalendarEntry for previous pay calendar
-	 * @param tkCalendarId
-	 * @param beginDateCurrentCalendar
-	 * @return
-	 */
-    @Cacheable(value= CalendarEntry.CACHE_NAME, key="'tkCalendarId=' + #p0 + '|' + 'beginDateCurrentCalendar=' + #p1")
-	public CalendarEntry getPreviousCalendarEntry(String tkCalendarId, DateTime beginDateCurrentCalendar);
-    
-    /**
     *
     * @param principalId
     * @param beginDate
