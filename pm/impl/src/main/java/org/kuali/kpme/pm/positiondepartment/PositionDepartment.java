@@ -24,6 +24,7 @@ import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffilia
 
 import com.google.common.collect.ImmutableList;
 public class PositionDepartment extends HrBusinessObject implements PositionDepartmentContract {
+    //TODO reslove the issue with PositionDepartmentAffiliation to implement  PositionDepartmentContract
 	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 		    .add("department")
@@ -36,7 +37,8 @@ public class PositionDepartment extends HrBusinessObject implements PositionDepa
 	private String location;
 	private String department;
 	private String positionDeptAffl;
-		
+
+    private String hrPositionId;
 	private Location locationObj;
 	private Institution institutionObj;
 	private Department departmentObj;
@@ -86,7 +88,21 @@ public class PositionDepartment extends HrBusinessObject implements PositionDepa
 		this.positionDeptAfflObj = positionDeptAfflObj;
 	}
 
-	/**
+    /**
+     * @return the hrPositionId
+     */
+    public String getHrPositionId() {
+        return hrPositionId;
+    }
+    /**
+     * @param hrPositionId the hrPositionId to set
+     */
+    public void setHrPositionId(String hrPositionId) {
+        this.hrPositionId = hrPositionId;
+    }
+
+
+    /**
 	 * @return the pmPositionDeptId
 	 */
 	public String getPmPositionDeptId() {

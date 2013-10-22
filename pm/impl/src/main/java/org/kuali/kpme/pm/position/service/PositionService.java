@@ -24,7 +24,7 @@ public interface PositionService {
 
 	public Position getPosition(String id);
 	
-	public List<Position> getPositions(String positionNum, String description, String workingPositionTitle,
+	public List<Position> getPositions(String positionNum, String description,
                                        String campus, String institution, String classificationTitle, String positionType,
                                        String poolEligible, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 }

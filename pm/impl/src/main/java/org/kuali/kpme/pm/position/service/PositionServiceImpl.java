@@ -30,11 +30,11 @@ public class PositionServiceImpl implements PositionService {
 		return positionDao.getPosition(id);
 	}
 	@Override
-	public List<Position> getPositions(String positionNum, String description, String workingPositionTitle,
+	public List<Position> getPositions(String positionNum, String description,
             String campus, String institution, String classificationTitle, String positionType,
             String poolEligible, LocalDate fromEffdt, LocalDate toEffdt, String active,
 			String showHistory) {
-		return positionDao.getPositions(positionNum, description, workingPositionTitle, campus, institution,
+		return positionDao.getPositions(positionNum, description, campus, institution,
                 classificationTitle, positionType, poolEligible, fromEffdt, toEffdt, active, showHistory);
 	}
 	

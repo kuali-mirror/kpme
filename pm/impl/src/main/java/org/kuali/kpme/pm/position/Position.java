@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.rice.location.impl.campus.CampusBo;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.util.HrConstants;
@@ -50,13 +51,14 @@ public class Position extends PositionBase implements PositionContract {
     private List<PstnFlag> flagList = new LinkedList<PstnFlag>();
     private List<PositionResponsibility> positionResponsibilityList = new LinkedList<PositionResponsibility>();
     private List<PositionFunding> fundingList = new ArrayList<PositionFunding>();
+    private List<PositionDepartment> departmentList = new ArrayList<PositionDepartment>();
 
     private String institution;
     private String campus;
     private String salaryGroup;
     private String pmPositionClassId;
     private String classificationTitle;
-    private String workingPositionTitle;
+
     private BigDecimal percentTime;
     private int workMonths;
     private String benefitsEligible;
@@ -223,13 +225,6 @@ public class Position extends PositionBase implements PositionContract {
         this.classificationTitle = classificationTitle;
     }
 
-    public String getWorkingPositionTitle() {
-        return workingPositionTitle;
-    }
-
-    public void setWorkingPositionTitle(String workingPositionTitle) {
-        this.workingPositionTitle = workingPositionTitle;
-    }
 
     public BigDecimal getPercentTime() {
         return percentTime;
@@ -309,5 +304,13 @@ public class Position extends PositionBase implements PositionContract {
 
     public void setWorkMonths(int workMonths) {
         this.workMonths = workMonths;
+    }
+
+    public List<PositionDepartment> getDepartmentList() {
+        return departmentList;
+    }
+
+    public void setDepartmentList(List<PositionDepartment> departmentList) {
+        this.departmentList = departmentList;
     }
 }

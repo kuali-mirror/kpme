@@ -44,7 +44,6 @@
                 <ref bean="Position-campus"/>
                 <ref bean="Position-salaryGroup"/>
                 <ref bean="Position-classificationTitle"/>
-                <ref bean="Position-workingPositionTitle"/>
                 <ref bean="Position-percentTime"/>
                 <ref bean="Position-workMonths"/>
                 <ref bean="Position-benefitsEligible"/>
@@ -218,21 +217,6 @@
         <property name="label" value="Classification Title" />
     </bean>
 
-    <bean id="Position-workingPositionTitle" parent="Position-workingPositionTitle-parentBean" />
-    <bean id="Position-workingPositionTitle-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="shortLabel" value="Working Position Title" />
-        <property name="maxLength" value="100" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="true" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="100" />
-        </property>
-        <property name="name" value="workingPositionTitle" />
-        <property name="label" value="Working Position Title" />
-    </bean>
 
     <bean id="Position-percentTime" parent="Position-percentTime-parentBean" />
     <bean id="Position-percentTime-parentBean" abstract="true" parent="AttributeDefinition">
@@ -553,7 +537,6 @@
 							<bean parent="Uif-DataField" p:propertyName="description" />
                             <bean parent="Uif-DataField" p:propertyName="institution" />
                             <bean parent="Uif-DataField" p:propertyName="campus" />
-                            <bean parent="Uif-DataField" p:propertyName="workingPositionTitle" />
                             <bean parent="Uif-DataField" p:propertyName="classificationTitle" />
                             <bean parent="Uif-DataField" p:propertyName="positionType" />
                             <bean parent="Uif-DataField" p:propertyName="poolEligible" />
@@ -589,7 +572,6 @@
                     </property>
                 </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="workingPositionTitle" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="classificationTitle" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionType" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="poolEligible" />
@@ -611,7 +593,6 @@
 				<bean parent="Uif-DataField" p:propertyName="description" />
                 <bean parent="Uif-DataField" p:propertyName="institution" />
                 <bean parent="Uif-DataField" p:propertyName="campus" />
-                <bean parent="Uif-DataField" p:propertyName="workingPositionTitle" />
                 <bean parent="Uif-DataField" p:propertyName="classificationTitle" />
                 <bean parent="Uif-DataField" p:propertyName="positionType" />
                 <bean parent="Uif-DataField" p:propertyName="poolEligible" />
@@ -889,5 +870,33 @@
 			</list>
 		</property>
 	</bean>
+
+    <!-- Departments List, used by maintenance views -->
+    <bean id="Position-departments" parent="Uif-TableCollectionGroup" p:align="left">
+        <property name="collectionObjectClass" value="org.kuali.kpme.pm.positiondepartment.PositionDepartment" />
+        <property name="propertyName" value="departmentList" />
+        <property name="refreshWhenChangedPropertyNames" value="pmPositionClassId" />
+        <property name="addLinePlacement" value="BOTTOM" />
+        <property name="layoutManager.generateAutoSequence" value="true" />
+        <property name="layoutManager.numberOfColumns" value="4" />
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="institution">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+                              p:fieldConversions="institutionCode:institution" />
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="location" />
+                <bean parent="Uif-InputField" p:propertyName="department" />
+                <bean parent="Uif-InputField" p:propertyName="positionDeptAffl" />
+                <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+                <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" />
+            </list>
+        </property>
+    </bean>
+
 </beans>
 

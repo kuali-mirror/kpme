@@ -21,6 +21,10 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class PositionDepartmentDaoObjImpl extends PlatformAwareDaoBaseOjb implements PositionDepartmentDao {
 
 	@Override
@@ -34,4 +38,19 @@ public class PositionDepartmentDaoObjImpl extends PlatformAwareDaoBaseOjb implem
 	}
 
 
+    public List<PositionDepartment> getDepartmentListForPosition(String hrPositionId) {
+        List<PositionDepartment> departmentList = new ArrayList<PositionDepartment>();
+        Criteria crit = new Criteria();
+        crit.addEqualTo("hrPositionId", hrPositionId);
+
+        Query query = QueryFactory.newQuery(PositionDepartment.class, crit);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (c != null) {
+            departmentList.addAll(c);
+        }
+        return departmentList;
+
+
+    }
 }

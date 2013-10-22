@@ -268,6 +268,7 @@
     <!-- Business Keys - [department : effectiveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.pm.positiondepartment.PositionDepartment" table="PM_PSTN_DEPT_T">
         <field-descriptor name="pmPositionDeptId"       column="PM_PSTN_DEPT_ID"  	     jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_DEPT_S" />
+        <field-descriptor name="hrPositionId"   			column="HR_PSTN_ID"    		jdbc-type="VARCHAR"     length="60"  		nullable="false" />
         <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="location"    				column="LOCATION"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="department"    			column="DEPT"					 jdbc-type="VARCHAR"     length="21" 		nullable="false" />
@@ -342,7 +343,6 @@
         <field-descriptor name="salaryGroup"    		column="SAL_GROUP"		jdbc-type="VARCHAR"     length="10"  	nullable="false" />
 
         <field-descriptor name="classificationTitle"    column="CL_TTL"         jdbc-type="VARCHAR"     length="100" 	nullable="false" />
-        <field-descriptor name="workingPositionTitle"   column="WK_PSTN_TTL"    jdbc-type="VARCHAR"     length="100" 	nullable="false" />
         <field-descriptor name="percentTime"      		column="PRCT_TM"        jdbc-type="DECIMAL"     length="10"  	nullable="false" />
         <field-descriptor name="workMonths"   			column="WK_MONTHS"		jdbc-type="TINYINT"	/>
         <field-descriptor name="benefitsEligible"       column="BNFT_ELIG"      jdbc-type="VARCHAR"     length="1" 	 	nullable="false" />
@@ -372,6 +372,10 @@
         </collection-descriptor>
         <collection-descriptor name="fundingList" element-class-ref="org.kuali.kpme.pm.position.funding.PositionFunding"
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="hrPositionId" />
+        </collection-descriptor>
+        <collection-descriptor name="departmentList" element-class-ref="org.kuali.kpme.pm.positiondepartment.PositionDepartment"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="hrPositionId" />
         </collection-descriptor>
     </class-descriptor>

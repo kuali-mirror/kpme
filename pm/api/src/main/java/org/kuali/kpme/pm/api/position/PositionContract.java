@@ -21,18 +21,16 @@ import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationContract;
 import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
 import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibilityContract;
-import org.kuali.rice.location.api.campus.CampusContract;
+
+//import org.kuali.rice.location.impl.campus.CampusBo;
+
 import java.math.BigDecimal;
 import java.util.*;
 
-/**
- * <p>PositionContract interface</p>
- *
- */
 public interface PositionContract extends PositionBaseContract {
 
     /**
-     * The list of PositionDuty objects associated with the Position
+     * The Position Duty List
      *
      * <p>
      * dutyList of a Position.
@@ -42,8 +40,9 @@ public interface PositionContract extends PositionBaseContract {
      */
     public List<? extends PositionDutyContract> getDutyList();
 
+
     /**
-     * The list of PositionResponsibility objects associated with the Position
+     * The Position Responsibility List
      *
      * <p>
      * positionResponsibilityList of a Position.
@@ -51,10 +50,10 @@ public interface PositionContract extends PositionBaseContract {
      *
      * @return List positionResponsibilityList for Position
      */
-	public List<? extends PositionResponsibilityContract> getPositionResponsibilityList();
+    public List<? extends PositionResponsibilityContract> getPositionResponsibilityList();
 
     /**
-     * The list of PositionQualification objects associated with the Position
+     * The Position Qualification List
      *
      * <p>
      * qualificationList of a Position.
@@ -62,10 +61,11 @@ public interface PositionContract extends PositionBaseContract {
      *
      * @return List qualificationList for Position
      */
-	public List<? extends PositionQualificationContract> getQualificationList();
+    public List<? extends PositionQualificationContract> getQualificationList();
+
 
     /**
-     * The list of PositionFlag objects associated with the Position
+     * The Position Flag List
      *
      * <p>
      * flagList of a Position.
@@ -73,10 +73,11 @@ public interface PositionContract extends PositionBaseContract {
      *
      * @return List flagList for Position
      */
-	public List<? extends PstnFlagContract> getFlagList();
+    public List<? extends PstnFlagContract> getFlagList();
+
 
     /**
-     * The position class id associated with the Position 
+     * The Position ID
      *
      * <p>
      * pmPositionClassId of a Position.
@@ -84,10 +85,10 @@ public interface PositionContract extends PositionBaseContract {
      *
      * @return pmPositionClassId for Position
      */
-	public String getPmPositionClassId();
+    public String getPmPositionClassId();
 
     /**
-     * The list of ClassificationQualification objects associated with the Position
+     * The Position Required ClassificationQualification List
      *
      * <p>
      * requiredQualList of a Position.
@@ -95,10 +96,10 @@ public interface PositionContract extends PositionBaseContract {
      *
      * @return List requiredQualList for Position
      */
-	public List<? extends ClassificationQualificationContract> getRequiredQualList();
+    public List<? extends ClassificationQualificationContract> getRequiredQualList();
 
     /**
-     * The list of PositionFunding objects associated with the Position
+     * The Position PositionFunding List
      *
      * <p>
      * requiredQualList of a Position.
@@ -106,10 +107,12 @@ public interface PositionContract extends PositionBaseContract {
      *
      * @return List fundingList for Position
      */
-	public List<? extends PositionFundingContract> getFundingList();
+    public List<? extends PositionFundingContract> getFundingList();
+
+
 
     /**
-     * The category associated with the Position
+     * The Position Category
      *
      * <p>
      * category of a Position.
@@ -117,10 +120,10 @@ public interface PositionContract extends PositionBaseContract {
      *
      * @return category for Position
      */
-	public String getCategory();
+    public String getCategory();
 
     /**
-     * The institution associated with the Position
+     * The Position Institution
      *
      * <p>
      * institution of a Position.
@@ -130,8 +133,9 @@ public interface PositionContract extends PositionBaseContract {
      */
     public String getInstitution();
 
+
     /**
-     * The campus associated with the Position
+     * The Position Campus
      *
      * <p>
      * campus of a Position.
@@ -141,8 +145,9 @@ public interface PositionContract extends PositionBaseContract {
      */
     public String getCampus();
 
+
     /**
-     * The Campus Business Object associated with the Position
+     * The Position Campus Business Object
      *
      * <p>
      * campusObj of a Position.
@@ -150,10 +155,11 @@ public interface PositionContract extends PositionBaseContract {
      *
      * @return campusObj for Position
      */
-    public CampusContract getCampusObj();
+    //public CampusBo getCampusObj();
+    //DO find the right import for this
 
     /**
-     * The salary group associated with the Position
+     * The Position Salary Group
      *
      * <p>
      * salaryGroup of a Position.
@@ -164,7 +170,7 @@ public interface PositionContract extends PositionBaseContract {
     public String getSalaryGroup();
 
     /**
-     * The classification title associated with the Position
+     * The Position Classification Title
      *
      * <p>
      * classificationTitle of a Position.
@@ -174,19 +180,9 @@ public interface PositionContract extends PositionBaseContract {
      */
     public String getClassificationTitle();
 
-    /**
-     * The descriptive title for the Position
-     *
-     * <p>
-     * workingPositionTitle of a Position.
-     * <p>
-     *
-     * @return workingPositionTitle for Position
-     */
-    public String getWorkingPositionTitle();
 
     /**
-     * The maximum percentage of time worked for the position
+     * The Position Percent Time
      *
      * <p>
      * percentTime of a Position.
@@ -196,8 +192,9 @@ public interface PositionContract extends PositionBaseContract {
      */
     public BigDecimal getPercentTime();
 
+
     /**
-     * The flag indicating if the position is eligible for benefits
+     * The Position Benefits Eligibility
      *
      * <p>
      * benefitsEligible of a Position.
@@ -207,8 +204,9 @@ public interface PositionContract extends PositionBaseContract {
      */
     public String getBenefitsEligible();
 
+
     /**
-     * The flag indicating if the position is eligible for leave benefits 
+     * The Position Leave Eligibility
      *
      * <p>
      * leaveEligible of a Position.
@@ -218,8 +216,9 @@ public interface PositionContract extends PositionBaseContract {
      */
     public String getLeaveEligible();
 
+
     /**
-     * The leave plan associated with the Position
+     * The Position Leave Plan
      *
      * <p>
      * leavePlan of a Position.
@@ -229,8 +228,9 @@ public interface PositionContract extends PositionBaseContract {
      */
     public String getLeavePlan();
 
+
     /**
-     * The position reporting group associated with the Position
+     * The Position Reporting Group
      *
      * <p>
      * positionReportGroup of a Position.
@@ -240,8 +240,9 @@ public interface PositionContract extends PositionBaseContract {
      */
     public String getPositionReportGroup();
 
+
     /**
-     * The grouping of positions to determine routing for position maintenance
+     * The Position Type
      *
      * <p>
      * positionType of a Position.
@@ -251,8 +252,9 @@ public interface PositionContract extends PositionBaseContract {
      */
     public String getPositionType();
 
+
     /**
-     * The flag indicating if the position classification is eligible to be used for pooled position
+     * The Position Pool Eligibility
      *
      * <p>
      * poolEligible of a Position.
@@ -262,8 +264,10 @@ public interface PositionContract extends PositionBaseContract {
      */
     public String getPoolEligible();
 
+
+
     /**
-     * Indicates the maximum number of pooled positions to associate with the Position 
+     * The Position Max Pool Head Count
      *
      * <p>
      * maxPoolHeadCount of a Position.
@@ -273,8 +277,9 @@ public interface PositionContract extends PositionBaseContract {
      */
     public int getMaxPoolHeadCount();
 
+
     /**
-     * The flag indicating if the position classification is eligible for tenure
+     * The Position Tenure Eligibility
      *
      * <p>
      * tenureEligible of a Position.
@@ -284,8 +289,9 @@ public interface PositionContract extends PositionBaseContract {
      */
     public String getTenureEligible();
 
+
     /**
-     * The number of months in the year the position for the salary group works
+     * The Position Work Months
      *
      * <p>
      * workMonths of a Position.
@@ -294,5 +300,6 @@ public interface PositionContract extends PositionBaseContract {
      * @return workMonths for Position
      */
     public int getWorkMonths();
+
 
 }

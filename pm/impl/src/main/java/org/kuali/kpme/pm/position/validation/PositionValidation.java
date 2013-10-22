@@ -19,18 +19,22 @@ import java.math.BigDecimal;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.pm.classification.Classification;
-import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
-import org.kuali.kpme.pm.position.Position;
-import org.kuali.kpme.pm.position.PositionDuty;
-import org.kuali.kpme.pm.position.funding.PositionFunding;
+import java.math.BigDecimal;
+import org.joda.time.LocalDate;
+
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+
+import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.pm.classification.Classification;
+import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
+import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionDuty;
+import org.kuali.kpme.pm.position.funding.PositionFunding;
 
 public class PositionValidation extends MaintenanceDocumentRuleBase {
 	@Override
