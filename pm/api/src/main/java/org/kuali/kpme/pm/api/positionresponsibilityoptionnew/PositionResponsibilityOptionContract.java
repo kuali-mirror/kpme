@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.api.positionResponsibilityOption;
+package org.kuali.kpme.pm.api.positionresponsibilityoptionnew;
 
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 
