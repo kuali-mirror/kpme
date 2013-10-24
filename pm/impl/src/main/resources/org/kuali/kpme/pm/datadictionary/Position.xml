@@ -108,6 +108,13 @@
                 <property name="shortLabel" value="Flags" />
                 <property name="label" value="Position Responsibilities" />
             </bean>
+              <bean parent="CollectionDefinition">
+                  <property name="dataObjectClass"
+                            value="org.kuali.kpme.pm.positiondepartment.PositionDepartment" />
+                  <property name="name" value="departmentList" />
+                  <property name="shortLabel" value="Departments" />
+                  <property name="label" value="Position Departments" />
+              </bean>
 	      </list>
 	    </property>
 		
@@ -483,7 +490,6 @@
 	    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification"/>
 	    <property name="propertyName" value="requiredQualList"/>
 	    <property name="headerText" value="Required Qualification" />
-<!-- 	    <property name="header.render" value="false" /> -->
         <property name="layoutManager.lineGroupPrototype.layoutManager.orientation" value="HORIZONTAL" />
         <property name="refreshWhenChangedPropertyNames" value="pmPositionClassId" />
 	    <property name="items">
@@ -520,6 +526,26 @@
 			</list>
 		</property>
 	</bean>
+
+    <!-- Department List, used by inquiry view -->
+    <bean id="Position-departmentList" abstract="true" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="collectionObjectClass" value="org.kuali.kpme.pm.position.positiondepartment.PositionDepartment" />
+        <property name="propertyName" value="departmentList" />
+        <property name="headerText" value="Department" />
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="institution" />
+                <bean parent="Uif-DataField" p:propertyName="location" />
+                <bean parent="Uif-DataField" p:propertyName="department" />
+                <bean parent="Uif-DataField" p:propertyName="positionDeptAffl" />
+                <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+                <bean parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
     
 	<!--  Inquiry Definitions  -->
   	<bean id="Position-InquiryView" parent="Uif-InquiryView" >
@@ -545,11 +571,68 @@
 					</property>
 					<property name="title" value="Position" />
 				</bean>
-				<bean parent="Position-qualificationList"/>
-	       		<bean parent="Position-dutyList"/>
-	      		<bean parent="Position-flagList"/>
-	      		<bean parent="Position-requiredQualList"/>
-	      		<bean parent="Position-fundingList" />
+
+                <bean parent="Uif-TabGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalBoxSection" p:headerText="Qualification">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-VerticalBoxSection">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Position-requiredQualList"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-VerticalBoxSection" p:headerText="Preferred Qualification">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Position-qualifications"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <!--bean parent="Uif-VerticalBoxSection" p:headerText="Duties">
+                               <property name="items">
+                                   <list>
+                                       <ref bean="Position-duties"/>
+                                 </list>
+                             </property>
+                           </bean -->
+                            <bean parent="Uif-VerticalBoxSection" p:headerText="Flags">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Position-flags"/>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalBoxSection" p:headerText="Position Responsibilities">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Position-responsibilities"/>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalBoxSection" p:headerText="Funding">
+                                <property name="items">
+                                    <list>
+                                        <ref bean="Position-fundings"/>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalBoxSection" p:headerText="Departments">
+                                <property name="items">
+                                    <list>
+                                        <ref bean="Position-departments"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
 			</list>
 		</property>
 	</bean>

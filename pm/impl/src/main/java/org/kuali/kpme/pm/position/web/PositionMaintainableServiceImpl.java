@@ -31,6 +31,7 @@ import org.kuali.kpme.pm.position.PositionDuty;
 import org.kuali.kpme.pm.position.PositionQualification;
 import org.kuali.kpme.pm.position.PstnFlag;
 import org.kuali.kpme.pm.position.funding.PositionFunding;
+import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.kpme.pm.positionflag.PositionFlag;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -68,6 +69,10 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 			aFunding.setHrPositionId(aPosition.getHrPositionId());
 			aFunding.setPmPositionFunctionId(null);
 		}
+        for(PositionDepartment aDepartment : aPosition.getDepartmentList()) {
+            aDepartment.setHrPositionId(aPosition.getHrPositionId());
+            aDepartment.setPmPositionDeptId(null);
+        }
 		
 	}
 	
@@ -96,6 +101,20 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 		        		return false;
 		        	}
 		        }
+
+                /*
+
+                PositionDepartment -- if needed
+
+                // Department line validation
+                if (addLine instanceof PositionDepartment) {
+                    //PositionDepartment pdpt = (PositionDepartment) addLine;
+                    boolean results = this.validateAddDepartmentLine(aPosition);
+                    if(!results) {
+                        return false;
+                    }
+                }
+                                 */
 	        }
         }
 
@@ -146,7 +165,7 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
     	if(StringUtils.isNotEmpty(pf.getObjectCode())) {
     		boolean results = ValidationUtils.validateObjectCode(pf.getObjectCode(), pf.getChart(), Integer.valueOf(pf.getEffectiveLocalDate().getYear()));
     		if(!results) {
-      			 GlobalVariables.getMessageMap().putError("Position-fundings","error.existence", "ObjectCode '" + pf.getObjectCode() + "'");
+      			 GlobalVariables.getMessageMap().putError("Position-fundings","error.existence", "Objecpublic PositionDepartment getPositionDepartmentById(String pmPositionDeptId);tCode '" + pf.getObjectCode() + "'");
       			 return results;
     		}
     	}
@@ -164,5 +183,25 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
     	return true;
     
 	}
+
+
+     /*
+
+     PositionDepartment -- if needed
+
+    private boolean validateAddDepartmentLine(Position aPosition)  {
+        if(CollectionUtils.isNotEmpty(aPosition.getDepartmentList())) {
+
+            for(PositionDepartment aPosDept : aPosition.getDepartmentList()) {
+                if(aPosDept != null && aPosDept.getEffectiveDate() != null) {
+                      if(aPosDept.getHrPositionId() == null) {
+                          return false;
+                      }
+                }
+            }
+        }
+        return true;
+     }
+         */
 
 }
