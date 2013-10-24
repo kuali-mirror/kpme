@@ -52,10 +52,10 @@ public interface PositionResponsibilityContract extends HrBusinessObjectContract
      * The position responsibility Option associated with the PositionResponsibility
      *
      * <p>
-     * positionresponsibilityoptionnew of a PositionResponsibility.
+     * positionresponsibilityoption of a PositionResponsibility.
      * <p>
      *
-     * @return positionresponsibilityoptionnew for PositionResponsibility
+     * @return positionresponsibilityoption for PositionResponsibility
      */
 	public String getPositionResponsibilityOption();
 

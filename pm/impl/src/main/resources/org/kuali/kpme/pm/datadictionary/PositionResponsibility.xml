@@ -113,9 +113,9 @@
 
 	<!-- here comes the position responsibility option look up 
 	
-	<bean id="PositionResponsibility-positionresponsibilityoptionnew"
-		parent="PositionResponsibility-positionresponsibilityoptionnew-parentBean" />
-	<bean id="PositionResponsibility-positionresponsibilityoptionnew-parentBean"
+	<bean id="PositionResponsibility-positionresponsibilityoption"
+		parent="PositionResponsibility-positionresponsibilityoption-parentBean" />
+	<bean id="PositionResponsibility-positionresponsibilityoption-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="required" value="false" />
 		<property name="forceUppercase" value="false" />
@@ -126,7 +126,7 @@
     	<property name="optionsFinder">
       		<bean class="org.kuali.kpme.pm.util.PstnRspOptionKeyValueFinder"/>
     	</property>
-		<property name="name" value="positionresponsibilityoptionnew" />
+		<property name="name" value="positionresponsibilityoption" />
 		<property name="label" value="Position Responsibility Option" />
 	</bean>
 	-->
@@ -210,7 +210,7 @@
 				</bean>
 				
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionresponsibilityoptionnew" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionresponsibilityoption" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="percentTime" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active"
 					p:defaultValue="Y" />
@@ -221,7 +221,7 @@
 				<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
 				<bean parent="Uif-InputField" p:propertyName="institution" />
 				<bean parent="Uif-InputField" p:propertyName="campus" />
-				<bean parent="Uif-InputField" p:propertyName="positionresponsibilityoptionnew" />
+				<bean parent="Uif-InputField" p:propertyName="positionresponsibilityoption" />
 				<bean parent="Uif-InputField" p:propertyName="percentTime" />
 				<bean parent="Uif-InputField" p:propertyName="active" />
 			</list>

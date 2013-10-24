@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kpme.pm.api.positionresponsibilityoptionnew.PositionResponsibilityOptionContract;
+import org.kuali.kpme.pm.api.positionresponsibilityoption.PositionResponsibilityOptionContract;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;

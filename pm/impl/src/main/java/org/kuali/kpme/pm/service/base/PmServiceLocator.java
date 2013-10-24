@@ -21,7 +21,7 @@ import org.kuali.kpme.pm.api.classification.flag.service.ClassificationFlagServi
 import org.kuali.kpme.pm.api.classification.qual.service.ClassificationQualificationService;
 import org.kuali.kpme.pm.api.classification.service.ClassificationService;
 import org.kuali.kpme.pm.api.position.service.PositionService;
-import org.kuali.kpme.pm.api.positionresponsibilityoptionnew.service.PositionResponsibilityOptionService;
+import org.kuali.kpme.pm.api.positionresponsibilityoption.service.PositionResponsibilityOptionService;
 import org.kuali.kpme.pm.api.positionappointment.service.PositionAppointmentService;
 import org.kuali.kpme.pm.api.positiondepartment.service.PositionDepartmentService;
 import org.kuali.kpme.pm.api.positiondepartmentaffiliation.service.PositionDepartmentAffiliationService;
