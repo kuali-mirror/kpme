@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.positionreportcat.service;
+package org.kuali.kpme.pm.api.positionreportcat.service;
 
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
+import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
 
 public interface PositionReportCatService {
 	
@@ -27,7 +27,7 @@ public interface PositionReportCatService {
 	 * @param pmPositionReportCatId
 	 * @return
 	 */
-	public PositionReportCategory getPositionReportCatById(String pmPositionReportCatId);
+	public PositionReportCategoryContract getPositionReportCatById(String pmPositionReportCatId);
 	
 	/**
 	 * Get List of PositionReportCategory with given category, type and effective date
@@ -38,7 +38,7 @@ public interface PositionReportCatService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String institution, String location, LocalDate asOfDate);
+	public List<? extends PositionReportCategoryContract> getPositionReportCatList(String positionReportCat, String positionReportType, String institution, String location, LocalDate asOfDate);
 	
 	/**
 	 * Retrieve the latest active PositionReportCategory with given positionReportCat and effective date
@@ -46,6 +46,6 @@ public interface PositionReportCatService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public PositionReportCategory getPositionReportCat(String positionReportCat, LocalDate asOfDate);
+	public PositionReportCategoryContract getPositionReportCat(String positionReportCat, LocalDate asOfDate);
 
 }

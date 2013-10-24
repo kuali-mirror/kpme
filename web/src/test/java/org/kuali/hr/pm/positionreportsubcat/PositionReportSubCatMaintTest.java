@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
+import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategoryContract;
 import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.kpme.pm.utils.PmTestConstants;
@@ -63,7 +64,7 @@ public class PositionReportSubCatMaintTest extends KPMEWebTestCase {
 	@Test
 	public void testAddNew() throws Exception {
 		String prscString = "testPRSC";
-		PositionReportSubCategory prsc = PmServiceLocator.getPositionReportSubCatService().getPositionReportSubCatById("1000");
+		PositionReportSubCategoryContract prsc = PmServiceLocator.getPositionReportSubCatService().getPositionReportSubCatById("1000");
 		Assert.assertTrue("There should NOT be Position Report Sub Category with name " + prscString, prsc == null);
 		
 	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_SUB_CAT_MAINT_NEW_URL;

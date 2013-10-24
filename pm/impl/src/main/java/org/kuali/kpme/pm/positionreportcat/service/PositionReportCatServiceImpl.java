@@ -18,6 +18,7 @@ package org.kuali.kpme.pm.positionreportcat.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.pm.api.positionreportcat.service.PositionReportCatService;
 import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
 import org.kuali.kpme.pm.positionreportcat.dao.PositionReportCatDao;
 

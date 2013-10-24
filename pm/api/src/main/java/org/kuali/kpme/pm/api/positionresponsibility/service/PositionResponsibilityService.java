@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.positionresponsibility.service;
+package org.kuali.kpme.pm.api.positionresponsibility.service;
 
-import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
+import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibilityContract;
 
 public interface PositionResponsibilityService {
-	public PositionResponsibility getPositionResponsibilityById(String positionResponsibilityId);
+	public PositionResponsibilityContract getPositionResponsibilityById(String positionResponsibilityId);
 
 }

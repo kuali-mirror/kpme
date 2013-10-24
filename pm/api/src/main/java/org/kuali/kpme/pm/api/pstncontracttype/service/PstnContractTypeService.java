@@ -13,21 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.positiondepartmentaffiliation.service;
+package org.kuali.kpme.pm.api.pstncontracttype.service;
 
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
+import org.kuali.kpme.pm.api.pstncontracttype.PstnContractTypeContract;
 
-public interface PositionDepartmentAffiliationService {
-
+public interface PstnContractTypeService {
 	/**
-	 * retrieve the PositionDepartmentAffiliation with given id
-	 * @param pmPositionDeptAfflId
+	 * retrieve the PstnContractType with given id
+	 * @param pmCntrctTypeId
 	 * @return
 	 */
-	public PositionDepartmentAffiliation getPositionDepartmentAffiliationById(String pmPositionDeptAfflId);
+	public PstnContractTypeContract getPstnContractTypeById(String pmCntrctTypeId);
 	
-	public List<PositionDepartmentAffiliation> getPositionDepartmentAffiliationList(String positionDeptAfflType, LocalDate asOfDate);
+	/**
+	 * Get list of PstnContractType with given group, institution, location and effective date
+	 * wild card allowed
+	 * @param institution
+	 * @param location
+	 * @param asOfDate
+	 * @return
+	 */
+	public List<? extends PstnContractTypeContract> getPstnContractTypeList(String institution, String location, LocalDate asOfDate);
 }

@@ -18,6 +18,7 @@ package org.kuali.kpme.pm.positionreporttype.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.pm.api.positionreporttype.service.PositionReportTypeService;
 import org.kuali.kpme.pm.positionreporttype.PositionReportType;
 import org.kuali.kpme.pm.positionreporttype.dao.PositionReportTypeDao;
 

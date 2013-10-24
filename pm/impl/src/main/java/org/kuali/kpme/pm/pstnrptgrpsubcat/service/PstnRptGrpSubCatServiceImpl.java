@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.pm.pstnrptgrpsubcat.service;
 
+import org.kuali.kpme.pm.api.pstnrptgrpsubcat.service.PstnRptGrpSubCatService;
 import org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory;
 import org.kuali.kpme.pm.pstnrptgrpsubcat.dao.PstnRptGrpSubCatDao;
 

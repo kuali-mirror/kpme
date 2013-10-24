@@ -15,26 +15,27 @@
  */
 package org.kuali.kpme.pm.service.base;
 
-import org.kuali.kpme.pm.classification.duty.service.ClassificationDutyService;
-import org.kuali.kpme.pm.classification.flag.service.ClassificationFlagService;
-import org.kuali.kpme.pm.classification.qual.service.ClassificationQualificationService;
-import org.kuali.kpme.pm.classification.service.ClassificationService;
-import org.kuali.kpme.pm.position.service.PositionService;
-import org.kuali.kpme.pm.positionResponsibilityOption.service.PositionResponsibilityOptionService;
-import org.kuali.kpme.pm.positionappointment.service.PositionAppointmentService;
-import org.kuali.kpme.pm.positiondepartment.service.PositionDepartmentService;
-import org.kuali.kpme.pm.positiondepartmentaffiliation.service.PositionDepartmentAffiliationService;
-import org.kuali.kpme.pm.positionflag.service.PositionFlagService;
-import org.kuali.kpme.pm.positionreportcat.service.PositionReportCatService;
-import org.kuali.kpme.pm.positionreportgroup.service.PositionReportGroupService;
-import org.kuali.kpme.pm.positionreportsubcat.service.PositionReportSubCatService;
-import org.kuali.kpme.pm.positionreporttype.service.PositionReportTypeService;
-import org.kuali.kpme.pm.positionresponsibility.service.PositionResponsibilityService;
-import org.kuali.kpme.pm.positiontype.service.PositionTypeService;
-import org.kuali.kpme.pm.pstncontracttype.service.PstnContractTypeService;
-import org.kuali.kpme.pm.pstnqlfctnvl.service.PositionQualificationValueService;
-import org.kuali.kpme.pm.pstnqlfrtype.service.PstnQlfrTypeService;
-import org.kuali.kpme.pm.pstnrptgrpsubcat.service.PstnRptGrpSubCatService;
+
+import org.kuali.kpme.pm.api.classification.duty.service.ClassificationDutyService;
+import org.kuali.kpme.pm.api.classification.flag.service.ClassificationFlagService;
+import org.kuali.kpme.pm.api.classification.qual.service.ClassificationQualificationService;
+import org.kuali.kpme.pm.api.classification.service.ClassificationService;
+import org.kuali.kpme.pm.api.position.service.PositionService;
+import org.kuali.kpme.pm.api.positionResponsibilityOption.service.PositionResponsibilityOptionService;
+import org.kuali.kpme.pm.api.positionappointment.service.PositionAppointmentService;
+import org.kuali.kpme.pm.api.positiondepartment.service.PositionDepartmentService;
+import org.kuali.kpme.pm.api.positiondepartmentaffiliation.service.PositionDepartmentAffiliationService;
+import org.kuali.kpme.pm.api.positionflag.service.PositionFlagService;
+import org.kuali.kpme.pm.api.positionreportcat.service.PositionReportCatService;
+import org.kuali.kpme.pm.api.positionreportgroup.service.PositionReportGroupService;
+import org.kuali.kpme.pm.api.positionreportsubcat.service.PositionReportSubCatService;
+import org.kuali.kpme.pm.api.positionreporttype.service.PositionReportTypeService;
+import org.kuali.kpme.pm.api.positionresponsibility.service.PositionResponsibilityService;
+import org.kuali.kpme.pm.api.positiontype.service.PositionTypeService;
+import org.kuali.kpme.pm.api.pstncontracttype.service.PstnContractTypeService;
+import org.kuali.kpme.pm.api.pstnqlfctnvl.service.PositionQualificationValueService;
+import org.kuali.kpme.pm.api.pstnqlfrtype.service.PstnQlfrTypeService;
+import org.kuali.kpme.pm.api.pstnrptgrpsubcat.service.PstnRptGrpSubCatService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

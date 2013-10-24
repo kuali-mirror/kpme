@@ -18,6 +18,7 @@ package org.kuali.kpme.pm.positionreportgroup.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.pm.api.positionreportgroup.service.PositionReportGroupService;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
 import org.kuali.kpme.pm.positionreportgroup.dao.PositionReportGroupDao;
 

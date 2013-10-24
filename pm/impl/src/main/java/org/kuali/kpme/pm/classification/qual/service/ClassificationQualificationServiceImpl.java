@@ -17,6 +17,8 @@ package org.kuali.kpme.pm.classification.qual.service;
 
 import java.util.List;
 
+import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationContract;
+import org.kuali.kpme.pm.api.classification.qual.service.ClassificationQualificationService;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
 import org.kuali.kpme.pm.classification.qual.dao.ClassificationQualificationDao;
 
@@ -25,7 +27,7 @@ public class ClassificationQualificationServiceImpl implements ClassificationQua
 	private ClassificationQualificationDao classQualDao;
 	
 	@Override
-	public List<ClassificationQualification> getQualListForClassification(String pmClassificationId) {
+	public List<? extends ClassificationQualificationContract> getQualListForClassification(String pmClassificationId) {
 		return classQualDao.getQualListForClassification(pmClassificationId);
 	}
 	

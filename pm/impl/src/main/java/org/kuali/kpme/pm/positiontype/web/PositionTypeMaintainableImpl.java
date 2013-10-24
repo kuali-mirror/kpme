@@ -25,6 +25,6 @@ public class PositionTypeMaintainableImpl extends HrBusinessObjectMaintainableIm
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return PmServiceLocator.getPositionTypeService().getPositionTypeById(id);
+		return (HrBusinessObject) PmServiceLocator.getPositionTypeService().getPositionTypeById(id);
 	}
 }

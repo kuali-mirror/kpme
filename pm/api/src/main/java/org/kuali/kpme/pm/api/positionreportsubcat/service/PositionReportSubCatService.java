@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.positionreportsubcat.service;
+package org.kuali.kpme.pm.api.positionreportsubcat.service;
 
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory;
+import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategoryContract;
 
 public interface PositionReportSubCatService {
 	
@@ -27,7 +27,7 @@ public interface PositionReportSubCatService {
 	 * @param pmPositionReportSubCatId
 	 * @return
 	 */
-	public PositionReportSubCategory getPositionReportSubCatById(String pmPositionReportSubCatId);
+	public PositionReportSubCategoryContract getPositionReportSubCatById(String pmPositionReportSubCatId);
 	
 	/**
 	 * retrieve list of active PositionReportSubCategory with given pstnRptSubCat, institution, location and effective date
@@ -38,7 +38,7 @@ public interface PositionReportSubCatService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String institution, String location, LocalDate asOfDate);
+	public List<? extends PositionReportSubCategoryContract> getPositionReportSubCat(String pstnRptSubCat, String institution, String location, LocalDate asOfDate);
 	
 	/**
 	 * Retrieve the last active PositionReportSubCategory with given pstnRptSubCat and effective date
@@ -46,5 +46,5 @@ public interface PositionReportSubCatService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public PositionReportSubCategory getPositionReportSubCat(String pstnRptSubCat, LocalDate asOfDate);
+	public PositionReportSubCategoryContract getPositionReportSubCat(String pstnRptSubCat, LocalDate asOfDate);
 }

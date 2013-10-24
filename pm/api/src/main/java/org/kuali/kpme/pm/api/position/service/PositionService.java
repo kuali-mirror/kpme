@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.positiondepartment.service;
+package org.kuali.kpme.pm.api.position.service;
 
-import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
+import java.util.List;
 
-public interface PositionDepartmentService {
+import org.joda.time.LocalDate;
+import org.kuali.kpme.pm.api.position.PositionContract;
 
-	/**
-	 * retrieve the PositionDepartment with given id
-	 * @param pmPositionDeptId
-	 * @return
-	 */
-	public PositionDepartment getPositionDepartmentById(String pmPositionDeptId);
+
+public interface PositionService {
+
+	public PositionContract getPosition(String id);
 	
+	public List<? extends PositionContract> getPositions(String positionNum, String description,
+                                       String campus, String institution, String classificationTitle, String positionType,
+                                       String poolEligible, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 }

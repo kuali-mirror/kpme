@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.classification.qual.service;
+package org.kuali.kpme.pm.api.classification.qual.service;
 
 import java.util.List;
 
-import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
+import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationContract;
 
 public interface ClassificationQualificationService {
 	/**
@@ -25,5 +25,5 @@ public interface ClassificationQualificationService {
 	 * @param pmClassificationId
 	 * @return
 	 */
-	public List<ClassificationQualification> getQualListForClassification(String pmClassificationId);
+	public List<? extends ClassificationQualificationContract> getQualListForClassification(String pmClassificationId);
 }

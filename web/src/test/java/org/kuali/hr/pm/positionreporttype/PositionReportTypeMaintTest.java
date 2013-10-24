@@ -25,6 +25,7 @@ import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.pm.api.positionreporttype.PositionReportTypeContract;
 import org.kuali.kpme.pm.positionreporttype.PositionReportType;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.kpme.pm.utils.PmTestConstants;
@@ -65,7 +66,7 @@ public class PositionReportTypeMaintTest extends KPMEWebTestCase {
 	public void testAddNew() throws Exception {
 		DateTime effectiveDate =  new DateTime(2012, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		String prtString = "testPRT";
-		List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeList(prtString, "testInst", "TS", effectiveDate.toLocalDate());
+		List<? extends PositionReportTypeContract> prtList = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeList(prtString, "testInst", "TS", effectiveDate.toLocalDate());
 		Assert.assertTrue("There should NOT be Position Report Type with name " + prtString, prtList.isEmpty());
 		
 	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_TYPE_MAINT_NEW_URL;

@@ -17,6 +17,7 @@ package org.kuali.kpme.pm.positionreportcat.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.pm.api.positionreporttype.PositionReportTypeContract;
 import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
 import org.kuali.kpme.pm.positionreporttype.PositionReportType;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
@@ -42,7 +43,7 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 	
 	private boolean validatePositionReportType(PositionReportCategory prc) {
 		// validatePositionReportType handles wild card for institution and location
-		PositionReportType aType = PmServiceLocator.getPositionReportTypeService().getPositionReportType(prc.getPositionReportType(), prc.getEffectiveLocalDate());
+		PositionReportTypeContract aType = PmServiceLocator.getPositionReportTypeService().getPositionReportType(prc.getPositionReportType(), prc.getEffectiveLocalDate());
 		String positionReportTypeError = "PositionReportType '" + prc.getPositionReportType() + "'";
 		if(aType == null) {
 			this.putFieldError("positionReportType", "error.existence", positionReportTypeError);

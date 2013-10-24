@@ -18,6 +18,7 @@ package org.kuali.kpme.pm.positiondepartmentaffiliation.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.pm.api.positiondepartmentaffiliation.service.PositionDepartmentAffiliationService;
 import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
 import org.kuali.kpme.pm.positiondepartmentaffiliation.dao.PositionDepartmentAffiliationDao;
 

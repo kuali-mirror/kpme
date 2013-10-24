@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.positiontype.service;
+package org.kuali.kpme.pm.api.positiontype.service;
 
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.positiontype.PositionType;
+import org.kuali.kpme.pm.api.positiontype.PositionTypeContract;
 
 public interface PositionTypeService {
 	/**
@@ -26,7 +26,7 @@ public interface PositionTypeService {
 	 * @param pmPositionTypeId
 	 * @return
 	 */
-	public PositionType getPositionTypeById(String pmPositionTypeId);
+	public PositionTypeContract getPositionTypeById(String pmPositionTypeId);
 	
 	/**
 	 * Get list of PositionType with given group, institution, location and effective date
@@ -37,7 +37,7 @@ public interface PositionTypeService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PositionType> getPositionTypeList(String positionType, String institution, String location, LocalDate asOfDate);
+	public List<? extends PositionTypeContract> getPositionTypeList(String positionType, String institution, String location, LocalDate asOfDate);
 	
 	/**
 	 * Retrieve the latest active Position Type with given positionType and effectiveDate
@@ -45,5 +45,5 @@ public interface PositionTypeService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public PositionType getPositionType(String positionType, LocalDate asOfDate);
+	public PositionTypeContract getPositionType(String positionType, LocalDate asOfDate);
 }

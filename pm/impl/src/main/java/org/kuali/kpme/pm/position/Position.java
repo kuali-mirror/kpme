@@ -23,12 +23,15 @@ import java.util.List;
 import java.math.BigDecimal;
 
 import com.google.common.collect.ImmutableList;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.rice.location.impl.campus.CampusBo;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
+import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
 import org.kuali.kpme.pm.api.position.PositionContract;
 import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
@@ -78,11 +81,11 @@ public class Position extends PositionBase implements PositionContract {
 
     public List<PositionDuty> getDutyList() {
     	if(CollectionUtils.isEmpty(dutyList) && StringUtils.isNotEmpty(this.getPmPositionClassId())) {
-    		List<ClassificationDuty> aList = PmServiceLocator.getClassificationDutyService().getDutyListForClassification(this.getPmPositionClassId());
+    		List<? extends ClassificationDutyContract> aList = PmServiceLocator.getClassificationDutyService().getDutyListForClassification(this.getPmPositionClassId());
     		if(CollectionUtils.isNotEmpty(aList)) {
     			List<PositionDuty> pDutyList = new ArrayList<PositionDuty>();
     			// copy basic information from classificaton duty list
-    			for(ClassificationDuty aDuty : aList) {
+    			for(ClassificationDutyContract aDuty : aList) {
     				PositionDuty pDuty = new PositionDuty();
     				pDuty.setName(aDuty.getName());
     				pDuty.setDescription(aDuty.getDescription());
@@ -119,11 +122,11 @@ public class Position extends PositionBase implements PositionContract {
 
 	public List<PstnFlag> getFlagList() {
 		if(CollectionUtils.isEmpty(flagList) && StringUtils.isNotEmpty(this.getPmPositionClassId())) {
-    		List<ClassificationFlag> aList = PmServiceLocator.getClassificationFlagService().getFlagListForClassification(this.getPmPositionClassId());
+    		List<? extends ClassificationFlagContract> aList = PmServiceLocator.getClassificationFlagService().getFlagListForClassification(this.getPmPositionClassId());
     		if(CollectionUtils.isNotEmpty(aList)) {
     			List<PstnFlag> pFlagList = new ArrayList<PstnFlag>();
     			// copy basic information from classificaton flag list
-    			for(ClassificationFlag aFlag : aList) {
+    			for(ClassificationFlagContract aFlag : aList) {
     				PstnFlag pFlag = new PstnFlag();
     				pFlag.setCategory(aFlag.getCategory());
     				pFlag.setNames(aFlag.getNames());
@@ -155,7 +158,7 @@ public class Position extends PositionBase implements PositionContract {
 			if(CollectionUtils.isEmpty(requiredQualList) ||
 					(CollectionUtils.isNotEmpty(requiredQualList) 
 							&& !requiredQualList.get(0).getPmPositionClassId().equals(this.getPmPositionClassId()))) {
-				List<ClassificationQualification> aList = PmServiceLocator.getClassificationQualService()
+				List<ClassificationQualification> aList = (List<ClassificationQualification>)PmServiceLocator.getClassificationQualService()
 						.getQualListForClassification(this.getPmPositionClassId());
 				if(CollectionUtils.isNotEmpty(aList))
 					this.setRequiredQualList(aList);

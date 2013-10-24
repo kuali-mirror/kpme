@@ -26,7 +26,7 @@ public class PositionAppointmentMaintainableImpl extends HrBusinessObjectMaintai
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return PmServiceLocator.getPositionAppointmentService().getPositionAppointmentById(id);
+		return (HrBusinessObject) PmServiceLocator.getPositionAppointmentService().getPositionAppointmentById(id);
 	}
 
 }

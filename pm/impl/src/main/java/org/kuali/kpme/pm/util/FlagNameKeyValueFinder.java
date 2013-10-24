@@ -22,6 +22,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.pm.api.positionflag.PositionFlagContract;
 import org.kuali.kpme.pm.flag.Flag;
 import org.kuali.kpme.pm.positionflag.PositionFlag;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
@@ -46,9 +47,9 @@ public class FlagNameKeyValueFinder extends UifKeyValuesFinderBase {
 		if(aFlagObj != null && StringUtils.isNotEmpty(aFlagObj.getCategory())) {
 			category = aFlagObj.getCategory();
 		}
-		List<PositionFlag> flagList = PmServiceLocator.getPositionFlagService().getAllActivePositionFlagsWithCategory(category, aDate);
+		List<? extends PositionFlagContract> flagList = PmServiceLocator.getPositionFlagService().getAllActivePositionFlagsWithCategory(category, aDate);
 		if(CollectionUtils.isNotEmpty(flagList)) {
-			for(PositionFlag aFlag : flagList) {
+			for(PositionFlagContract aFlag : flagList) {
 				options.add(new ConcreteKeyValue((String) aFlag.getPositionFlagName(), (String) aFlag.getPositionFlagName()));
 			}
 		}

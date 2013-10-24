@@ -25,7 +25,7 @@ public class PstnQlfrTypeMaintainableImpl extends HrBusinessObjectMaintainableIm
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeById(id);
+		return (HrBusinessObject) PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeById(id);
 	}
 
 }

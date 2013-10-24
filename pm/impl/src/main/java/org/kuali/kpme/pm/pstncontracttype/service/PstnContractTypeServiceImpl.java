@@ -18,6 +18,7 @@ package org.kuali.kpme.pm.pstncontracttype.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.pm.api.pstncontracttype.service.PstnContractTypeService;
 import org.kuali.kpme.pm.pstncontracttype.PstnContractType;
 import org.kuali.kpme.pm.pstncontracttype.dao.PstnContractTypeDao;
 

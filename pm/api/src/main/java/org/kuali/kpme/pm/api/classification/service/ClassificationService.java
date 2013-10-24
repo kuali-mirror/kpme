@@ -13,22 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.pstnqlfctnvl.service;
+package org.kuali.kpme.pm.api.classification.service;
 
-import org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue;
+import org.kuali.kpme.pm.api.classification.ClassificationContract;
 
-public interface PositionQualificationValueService {
-	/**
-	 * retrieve the PositionQualificationValue with given value
-	 * @param value
-	 * @return
-	 */
-	public PositionQualificationValue getPositionQualificationValueByValue(String value);
-	/**
-	 * retrieve the PositionQualificationValue with given id
-	 * @param id
-	 * @return
-	 */
-	public PositionQualificationValue getPositionQualificationValueById(String id);
-
+public interface ClassificationService {
+	public ClassificationContract getClassificationById(String pmClassificationId);
 }

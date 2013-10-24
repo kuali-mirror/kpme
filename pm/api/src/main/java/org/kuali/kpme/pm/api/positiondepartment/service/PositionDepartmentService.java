@@ -13,10 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.classification.service;
+package org.kuali.kpme.pm.api.positiondepartment.service;
 
-import org.kuali.kpme.pm.classification.Classification;
+import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
 
-public interface ClassificationService {
-	public Classification getClassificationById(String pmClassificationId);
+public interface PositionDepartmentService {
+
+	/**
+	 * retrieve the PositionDepartment with given id
+	 * @param pmPositionDeptId
+	 * @return
+	 */
+	public PositionDepartmentContract getPositionDepartmentById(String pmPositionDeptId);
+	
 }

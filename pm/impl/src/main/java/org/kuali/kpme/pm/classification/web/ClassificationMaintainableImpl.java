@@ -29,7 +29,7 @@ public class ClassificationMaintainableImpl extends HrBusinessObjectMaintainable
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return PmServiceLocator.getClassificationService().getClassificationById(id);
+		return (HrBusinessObject) PmServiceLocator.getClassificationService().getClassificationById(id);
 	}
 	@Override
 	public void customSaveLogic(HrBusinessObject hrObj){

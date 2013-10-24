@@ -25,6 +25,13 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.PMConstants;
+import org.kuali.kpme.pm.api.positiondepartmentaffiliation.PositionDepartmentAffiliationContract;
+import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
+import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
+import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategoryContract;
+import org.kuali.kpme.pm.api.positionreporttype.PositionReportTypeContract;
+import org.kuali.kpme.pm.api.positiontype.PositionTypeContract;
+import org.kuali.kpme.pm.api.pstnqlfctnvl.PositionQualificationValueContract;
 import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
 import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
@@ -67,7 +74,7 @@ public class PmValidationUtils {
 	public static boolean validatePositionReportType(String positionReportType, String institution, String location, LocalDate asOfDate) {
 		boolean valid = false;
 		if (asOfDate != null) {
-			List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeList(positionReportType, institution, location, asOfDate);
+			List<? extends PositionReportTypeContract> prtList = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeList(positionReportType, institution, location, asOfDate);
 			valid = (CollectionUtils.isNotEmpty(prtList));
 		} 
 		return valid;
@@ -83,7 +90,7 @@ public class PmValidationUtils {
 	 */
 	public static boolean validateInstitutionWithPRT(String positionReportType, String institutionCode, LocalDate asOfDate) {
 		if (asOfDate != null) {
-			List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService()
+			List<? extends PositionReportTypeContract> prtList = PmServiceLocator.getPositionReportTypeService()
 				.getPositionReportTypeList(positionReportType, institutionCode, PMConstants.WILDCARD_CHARACTER, asOfDate);
 			return CollectionUtils.isNotEmpty(prtList);
 		} 
@@ -100,7 +107,7 @@ public class PmValidationUtils {
 	 */
 	public static boolean validateCampusWithPRT(String positionReportType, String campus, LocalDate asOfDate) {
 		if (asOfDate != null) {
-			List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService()
+			List<? extends PositionReportTypeContract> prtList = PmServiceLocator.getPositionReportTypeService()
 				.getPositionReportTypeList(positionReportType, HrConstants.WILDCARD_CHARACTER, campus, asOfDate);
 			return CollectionUtils.isNotEmpty(prtList);
 		} 
@@ -127,7 +134,7 @@ public class PmValidationUtils {
 	 */
 	public static boolean validatePositionReportCategory(String positionReportCat, String positionReportType, String institution, String campus, LocalDate asOfDate) {
 		if (StringUtils.isNotEmpty(positionReportCat) && asOfDate != null) {
-			List<PositionReportCategory> prcList = PmServiceLocator.getPositionReportCatService().getPositionReportCatList(positionReportCat, positionReportType, institution, campus, asOfDate);
+			List<? extends PositionReportCategoryContract> prcList = PmServiceLocator.getPositionReportCatService().getPositionReportCatList(positionReportCat, positionReportType, institution, campus, asOfDate);
 			return CollectionUtils.isNotEmpty(prcList);
 		}
 		return false;
@@ -145,7 +152,7 @@ public class PmValidationUtils {
 	
 	public static boolean validatePositionReportSubCat(String pstnRptSubCat, String institution, String location, LocalDate asOfDate) {
 		if(asOfDate != null) {
-			List<PositionReportSubCategory> prscList = PmServiceLocator.getPositionReportSubCatService().getPositionReportSubCat(pstnRptSubCat, institution, location, asOfDate);
+			List<? extends PositionReportSubCategoryContract> prscList = PmServiceLocator.getPositionReportSubCatService().getPositionReportSubCat(pstnRptSubCat, institution, location, asOfDate);
 			return CollectionUtils.isNotEmpty(prscList);
 		}
 		return false;
@@ -153,7 +160,7 @@ public class PmValidationUtils {
 	
 	public static boolean validatePstnRptGrp(String PstnRptGrp, String institution, String location, LocalDate asOfDate) {
 		if(asOfDate != null) {
-			List<PositionReportGroup> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(PstnRptGrp, institution, location, asOfDate);
+			List<? extends PositionReportGroupContract> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(PstnRptGrp, institution, location, asOfDate);
 			return CollectionUtils.isNotEmpty(prgList);
 		}
 		return false;
@@ -161,7 +168,7 @@ public class PmValidationUtils {
 	
 	public static boolean validatePositionQualificationValue(String qValue) {
 		if(StringUtils.isNotEmpty(qValue)) {
-			PositionQualificationValue aPqv = PmServiceLocator.getPositionQualificationValueService().getPositionQualificationValueByValue(qValue);
+			PositionQualificationValueContract aPqv = PmServiceLocator.getPositionQualificationValueService().getPositionQualificationValueByValue(qValue);
 			if(aPqv != null) {
 				return true;
 			}
@@ -171,7 +178,7 @@ public class PmValidationUtils {
 	
 	public static boolean validateAffiliation(String positionDeptAffl,  LocalDate asOfDate) {
 		if (asOfDate != null) {
-			List<PositionDepartmentAffiliation> pdaList = PmServiceLocator.getPositionDepartmentAffiliationService().getPositionDepartmentAffiliationList(positionDeptAffl, asOfDate);
+			List<? extends PositionDepartmentAffiliationContract> pdaList = PmServiceLocator.getPositionDepartmentAffiliationService().getPositionDepartmentAffiliationList(positionDeptAffl, asOfDate);
 			return CollectionUtils.isNotEmpty(pdaList);
 		}
 		return false;
@@ -179,7 +186,7 @@ public class PmValidationUtils {
 
 	public static boolean validatePositionType(String pType, String institution, String campus, LocalDate asOfDate) {
 		if(asOfDate != null) {
-			List<PositionType> ptList = PmServiceLocator.getPositionTypeService().getPositionTypeList(pType, institution, campus, asOfDate);
+			List<? extends PositionTypeContract> ptList = PmServiceLocator.getPositionTypeService().getPositionTypeList(pType, institution, campus, asOfDate);
 			return CollectionUtils.isNotEmpty(ptList);
 		}
 		return false;

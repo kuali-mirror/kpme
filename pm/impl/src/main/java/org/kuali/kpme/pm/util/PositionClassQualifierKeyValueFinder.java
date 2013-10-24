@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kpme.pm.PMConstants;
+import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
 import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
@@ -49,7 +50,7 @@ public class PositionClassQualifierKeyValueFinder extends UifKeyValuesFinderBase
 		ClassificationQualification aQualification = (ClassificationQualification) docForm.getNewCollectionLines().get("document.newMaintainableObject.dataObject.qualificationList");
 		if(aQualification != null) {
 			String aTypeId = aQualification.getQualificationType();
-			PstnQlfrType aTypeObj = PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeById(aTypeId);
+			PstnQlfrTypeContract aTypeObj = PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeById(aTypeId);
 			if(aTypeObj != null) {
 				if(aTypeObj.getTypeValue().equals(PMConstants.PSTN_QLFR_TEXT)
 						|| aTypeObj.getTypeValue().equals(PMConstants.PSTN_QLFR_SELECT)) {

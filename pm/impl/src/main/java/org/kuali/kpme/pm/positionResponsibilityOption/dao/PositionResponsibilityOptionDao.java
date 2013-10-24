@@ -17,7 +17,7 @@ package org.kuali.kpme.pm.positionResponsibilityOption.dao;
 
 import java.util.List;
 
-import org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption;
+import org.kuali.kpme.pm.positionresponsibilityoption.PositionResponsibilityOption;
 
 public interface PositionResponsibilityOptionDao {
 	

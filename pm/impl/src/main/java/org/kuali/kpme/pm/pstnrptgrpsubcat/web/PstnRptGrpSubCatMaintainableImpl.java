@@ -25,7 +25,7 @@ public class PstnRptGrpSubCatMaintainableImpl extends HrBusinessObjectMaintainab
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return PmServiceLocator.getPstnRptGrpSubCatService().getPstnRptGrpSubCatById(id);
+		return (HrBusinessObject) PmServiceLocator.getPstnRptGrpSubCatService().getPstnRptGrpSubCatById(id);
 	}
 
 }

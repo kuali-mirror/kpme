@@ -25,6 +25,6 @@ public class PositionDepartmentMaintainableImpl extends HrBusinessObjectMaintain
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return PmServiceLocator.getPositionDepartmentService().getPositionDepartmentById(id);
+		return (HrBusinessObject) PmServiceLocator.getPositionDepartmentService().getPositionDepartmentById(id);
 	}
 }

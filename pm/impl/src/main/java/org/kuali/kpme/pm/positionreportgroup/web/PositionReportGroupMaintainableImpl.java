@@ -25,6 +25,6 @@ public class PositionReportGroupMaintainableImpl extends HrBusinessObjectMaintai
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return PmServiceLocator.getPositionReportGroupService().getPositionReportGroupById(id);
+		return (HrBusinessObject) PmServiceLocator.getPositionReportGroupService().getPositionReportGroupById(id);
 	}
 }

@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.classification.flag.service;
+package org.kuali.kpme.pm.api.pstnrptgrpsubcat.service;
 
-import java.util.List;
+import org.kuali.kpme.pm.api.pstnrptgrpsubcat.PositionReportGroupSubCategoryContract;
 
-import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
-
-public interface ClassificationFlagService {
+public interface PstnRptGrpSubCatService {
+	
 	/**
-	 * Get the Flag list with given Classification Id
-	 * @param pmClassificationId
+	 * Retrieve the PositionReportGroupSubCategory with given id
+	 * @param pmPstnRptGrpSubCatId
 	 * @return
 	 */
-	public List<ClassificationFlag> getFlagListForClassification(String pmClassificationId);
+	public PositionReportGroupSubCategoryContract getPstnRptGrpSubCatById(String pmPstnRptGrpSubCatId);
+
+
 }

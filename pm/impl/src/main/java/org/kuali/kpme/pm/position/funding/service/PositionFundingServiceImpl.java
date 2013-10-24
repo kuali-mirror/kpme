@@ -17,6 +17,7 @@ package org.kuali.kpme.pm.position.funding.service;
 
 import java.util.List;
 
+import org.kuali.kpme.pm.api.position.funding.service.PositionFundingService;
 import org.kuali.kpme.pm.position.funding.PositionFunding;
 import org.kuali.kpme.pm.position.funding.dao.PositionFundingDao;
 

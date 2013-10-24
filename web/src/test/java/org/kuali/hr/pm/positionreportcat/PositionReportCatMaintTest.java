@@ -26,6 +26,7 @@ import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
 import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.kpme.pm.utils.PmTestConstants;
@@ -69,7 +70,7 @@ public class PositionReportCatMaintTest extends KPMEWebTestCase {
 		DateTime effectiveDate =  new DateTime(2012, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		String prcString = "testPRC";
 		String prtString = "testPRT";
-		List<PositionReportCategory> prcList = PmServiceLocator.getPositionReportCatService().getPositionReportCatList(prcString, prtString, "testInst", "TS", effectiveDate.toLocalDate());
+		List<? extends PositionReportCategoryContract> prcList = PmServiceLocator.getPositionReportCatService().getPositionReportCatList(prcString, prtString, "testInst", "TS", effectiveDate.toLocalDate());
 		Assert.assertTrue("There should NOT be Position Report Category with name " + prcString, CollectionUtils.isEmpty(prcList));
 		
 	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_CAT_MAINT_NEW_URL;

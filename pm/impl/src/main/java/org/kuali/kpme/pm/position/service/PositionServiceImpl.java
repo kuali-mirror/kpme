@@ -18,6 +18,7 @@ package org.kuali.kpme.pm.position.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.pm.api.position.service.PositionService;
 import org.kuali.kpme.pm.position.Position;
 import org.kuali.kpme.pm.position.dao.PositionDao;
 

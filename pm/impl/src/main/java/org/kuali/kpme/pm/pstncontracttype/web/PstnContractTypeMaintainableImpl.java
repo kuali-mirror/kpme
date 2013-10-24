@@ -26,6 +26,6 @@ public class PstnContractTypeMaintainableImpl extends HrBusinessObjectMaintainab
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return PmServiceLocator.getPstnContractTypeService().getPstnContractTypeById(id);
+		return (HrBusinessObject) PmServiceLocator.getPstnContractTypeService().getPstnContractTypeById(id);
 	}
 }

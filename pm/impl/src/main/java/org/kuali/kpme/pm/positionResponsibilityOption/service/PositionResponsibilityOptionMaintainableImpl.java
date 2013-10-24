@@ -30,7 +30,7 @@ public class PositionResponsibilityOptionMaintainableImpl extends HrBusinessObje
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return PmServiceLocator.getPositionResponsibilityOptionService().getPositionResponsibilityOptionById(id);
+		return (HrBusinessObject) PmServiceLocator.getPositionResponsibilityOptionService().getPositionResponsibilityOptionById(id);
 	}
 
 }

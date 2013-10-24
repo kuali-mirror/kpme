@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
 import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -32,10 +33,10 @@ public class PstnQlfrTypeKeyValueFinder extends KeyValuesBase{
 	@Override
 	public List<KeyValue> getKeyValues() {
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
-		List<PstnQlfrType> typeList = PmServiceLocator.getPstnQlfrTypeService().getAllActivePstnQlfrTypes();
+		List<? extends PstnQlfrTypeContract> typeList = PmServiceLocator.getPstnQlfrTypeService().getAllActivePstnQlfrTypes();
 		keyValues.add(new ConcreteKeyValue("", ""));
 		if(CollectionUtils.isNotEmpty(typeList)) {
-			for(PstnQlfrType aType : typeList) {
+			for(PstnQlfrTypeContract aType : typeList) {
 				keyValues.add(new ConcreteKeyValue((String) aType.getPmPstnQlfrTypeId(), (String) aType.getType()));
 			}
 		}         

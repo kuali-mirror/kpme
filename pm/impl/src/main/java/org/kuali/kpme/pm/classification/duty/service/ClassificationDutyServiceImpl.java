@@ -17,6 +17,7 @@ package org.kuali.kpme.pm.classification.duty.service;
 
 import java.util.List;
 
+import org.kuali.kpme.pm.api.classification.duty.service.ClassificationDutyService;
 import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.classification.duty.dao.ClassificationDutyDao;
 

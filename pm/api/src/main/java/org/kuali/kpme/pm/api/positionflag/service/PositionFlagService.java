@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.positionflag.service;
+package org.kuali.kpme.pm.api.positionflag.service;
 
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.positionflag.PositionFlag;
+import org.kuali.kpme.pm.api.positionflag.PositionFlagContract;
 
 public interface PositionFlagService {
 	/**
@@ -33,13 +33,13 @@ public interface PositionFlagService {
 	 * @param effDate
 	 * @return
 	 */
-	public List<PositionFlag> getAllActivePositionFlags(String category, String name, LocalDate effDate);
+	public List<? extends PositionFlagContract> getAllActivePositionFlags(String category, String name, LocalDate effDate);
 	
-	public List<PositionFlag> getAllActivePositionFlagsWithCategory(String category, LocalDate effDate);
+	public List<? extends PositionFlagContract> getAllActivePositionFlagsWithCategory(String category, LocalDate effDate);
 	/**
      * retrieve the PositionFlag with given id
 	 * @param pmPositionFlagId
 	 * @return
 	 */
-	public PositionFlag getPositionFlagById(String pmPositionFlagId);
+	public PositionFlagContract getPositionFlagById(String pmPositionFlagId);
 }

@@ -22,7 +22,7 @@ import org.kuali.kpme.pm.service.base.PmServiceLocator;
 public class PositionReportSubCatMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return PmServiceLocator.getPositionReportSubCatService().getPositionReportSubCatById(id);
+		return (HrBusinessObject) PmServiceLocator.getPositionReportSubCatService().getPositionReportSubCatById(id);
 	}
 
 }

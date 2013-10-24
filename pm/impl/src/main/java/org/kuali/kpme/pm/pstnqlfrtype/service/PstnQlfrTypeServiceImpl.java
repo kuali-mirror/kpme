@@ -17,6 +17,7 @@ package org.kuali.kpme.pm.pstnqlfrtype.service;
 
 import java.util.List;
 
+import org.kuali.kpme.pm.api.pstnqlfrtype.service.PstnQlfrTypeService;
 import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
 import org.kuali.kpme.pm.pstnqlfrtype.dao.PstnQlfrTypeDao;
 

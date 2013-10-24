@@ -13,23 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.pstnqlfrtype.service;
+package org.kuali.kpme.pm.api.pstnqlfctnvl.service;
 
-import java.util.List;
+import org.kuali.kpme.pm.api.pstnqlfctnvl.PositionQualificationValueContract;
 
-import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
-
-public interface PstnQlfrTypeService {
+public interface PositionQualificationValueService {
 	/**
-	 * retrieve the Position Qualifier Type with given id
-	 * @param pmPstnQlfrTypeId
+	 * retrieve the PositionQualificationValue with given value
+	 * @param value
 	 * @return
 	 */
-	public PstnQlfrType getPstnQlfrTypeById(String pmPstnQlfrTypeId);
-	
+	public PositionQualificationValueContract getPositionQualificationValueByValue(String value);
 	/**
-	 * retrieve all active Position Qualifier Types
+	 * retrieve the PositionQualificationValue with given id
+	 * @param id
 	 * @return
 	 */
-	public List<PstnQlfrType> getAllActivePstnQlfrTypes();
+	public PositionQualificationValueContract getPositionQualificationValueById(String id);
+
 }

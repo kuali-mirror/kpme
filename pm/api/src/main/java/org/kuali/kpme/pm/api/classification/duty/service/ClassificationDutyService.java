@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.pstnrptgrpsubcat.service;
+package org.kuali.kpme.pm.api.classification.duty.service;
 
-import org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory;
+import java.util.List;
 
-public interface PstnRptGrpSubCatService {
-	
+import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
+
+public interface ClassificationDutyService {
 	/**
-	 * Retrieve the PositionReportGroupSubCategory with given id
-	 * @param pmPstnRptGrpSubCatId
+	 * Get the Duty list with given Classification Id
+	 * @param pmClassificationId
 	 * @return
 	 */
-	public PositionReportGroupSubCategory getPstnRptGrpSubCatById(String pmPstnRptGrpSubCatId);
-
-
+	public List<? extends ClassificationDutyContract> getDutyListForClassification(String pmClassificationId);
 }

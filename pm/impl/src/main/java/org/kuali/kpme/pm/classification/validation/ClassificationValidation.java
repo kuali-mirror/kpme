@@ -22,6 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
+import org.kuali.kpme.pm.api.positiontype.PositionTypeContract;
 import org.kuali.kpme.pm.classification.Classification;
 import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
@@ -113,7 +115,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 	
 	private boolean validateReportingGroup(Classification clss) {
 		if(StringUtils.isNotBlank(clss.getPositionReportGroup())) {
-			PositionReportGroup aPrg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroup(clss.getPositionReportGroup(), clss.getEffectiveLocalDate());
+			PositionReportGroupContract aPrg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroup(clss.getPositionReportGroup(), clss.getEffectiveLocalDate());
 			String errorMes = "PositionReportGroup '" + clss.getPositionReportGroup() + "'";
 			if(aPrg == null) {
 				this.putFieldError("dataObject.positionReportGroup", "error.existence", errorMes);
@@ -141,7 +143,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 	}
 	
 	private boolean validatePositionType(Classification clss) {
-		PositionType aPType = PmServiceLocator.getPositionTypeService().getPositionType(clss.getPositionType(),  clss.getEffectiveLocalDate());
+		PositionTypeContract aPType = PmServiceLocator.getPositionTypeService().getPositionType(clss.getPositionType(),  clss.getEffectiveLocalDate());
 		String errorMes = "PositionType '" + clss.getPositionType() + "'";
 		if(aPType == null) {
 			this.putFieldError("dataObject.positionType", "error.existence", errorMes);

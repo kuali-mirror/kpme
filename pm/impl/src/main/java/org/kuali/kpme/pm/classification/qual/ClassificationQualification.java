@@ -18,6 +18,7 @@ package org.kuali.kpme.pm.classification.qual;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationContract;
+import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
 import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -84,7 +85,7 @@ public class ClassificationQualification extends PersistableBusinessObjectBase i
 
 	public String getTypeValue() {
 		if(StringUtils.isNotEmpty(this.getQualificationType())) {
-			PstnQlfrType aTypeObj = PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeById(this.getQualificationType());
+			PstnQlfrTypeContract aTypeObj = PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeById(this.getQualificationType());
 			if(aTypeObj != null) {
 				return aTypeObj.getTypeValue();
 			}

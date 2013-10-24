@@ -26,6 +26,7 @@ import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.kpme.pm.utils.PmTestConstants;
@@ -66,7 +67,7 @@ public class PositionReportGroupMaintTest extends KPMEWebTestCase {
 	public void testAddNew() throws Exception {
 		DateTime effectiveDate =  new DateTime(2012, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		String prgString = "testPRG";
-		List<PositionReportGroup> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(prgString, "testInst", "TS", effectiveDate.toLocalDate());
+		List<? extends PositionReportGroupContract> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(prgString, "testInst", "TS", effectiveDate.toLocalDate());
 		Assert.assertTrue("There should NOT be Position Report Group with name " + prgString, CollectionUtils.isEmpty(prgList));
 		
 	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_GROUP_MAINT_NEW_URL;

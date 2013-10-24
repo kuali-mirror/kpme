@@ -17,6 +17,7 @@ package org.kuali.kpme.pm.positionreportsubcat.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
 import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
 import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
@@ -40,7 +41,7 @@ public class PositionReportSubCatValidation extends MaintenanceDocumentRuleBase 
 	}
 	
 	private boolean validatePositionReportCategory(PositionReportSubCategory prsc) {
-		PositionReportCategory aCat = PmServiceLocator.getPositionReportCatService().getPositionReportCat(prsc.getPositionReportCat(), prsc.getEffectiveLocalDate());
+		PositionReportCategoryContract aCat = PmServiceLocator.getPositionReportCatService().getPositionReportCat(prsc.getPositionReportCat(), prsc.getEffectiveLocalDate());
 		
 		String errorMes = "PositionReportCategory '" + prsc.getPositionReportCat() + "'";
 		if(aCat == null) {

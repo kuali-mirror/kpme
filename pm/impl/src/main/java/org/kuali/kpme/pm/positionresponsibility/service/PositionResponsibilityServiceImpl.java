@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.pm.positionresponsibility.service;
 
+import org.kuali.kpme.pm.api.positionresponsibility.service.PositionResponsibilityService;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.positionresponsibility.dao.PositionResponsibilityDao;
 

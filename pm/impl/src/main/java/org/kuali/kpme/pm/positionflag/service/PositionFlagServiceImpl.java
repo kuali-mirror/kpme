@@ -18,6 +18,7 @@ package org.kuali.kpme.pm.positionflag.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.pm.api.positionflag.service.PositionFlagService;
 import org.kuali.kpme.pm.positionflag.PositionFlag;
 import org.kuali.kpme.pm.positionflag.dao.PositionFlagDao;
 

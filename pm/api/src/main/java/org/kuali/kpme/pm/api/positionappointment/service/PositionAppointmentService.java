@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.positionappointment.service;
+package org.kuali.kpme.pm.api.positionappointment.service;
 
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.positionappointment.PositionAppointment;
+import org.kuali.kpme.pm.api.positionappointment.PositionAppointmentContract;
 
 public interface PositionAppointmentService {
 
@@ -28,7 +28,7 @@ public interface PositionAppointmentService {
 	 * @param pmPositionAppointmentId
 	 * @return
 	 */
-	public PositionAppointment getPositionAppointmentById(String pmPositionAppointmentId);
+	public PositionAppointmentContract getPositionAppointmentById(String pmPositionAppointmentId);
 
 	/**
 	 * Get list of PositionAppointment with given group, description, institution, location and
@@ -44,5 +44,5 @@ public interface PositionAppointmentService {
 	 * @param showHistory
 	 * @return
 	 */
-	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String description, String institution, String location, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+	public List<? extends PositionAppointmentContract> getPositionAppointmentList(String positionAppointment, String description, String institution, String location, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 }

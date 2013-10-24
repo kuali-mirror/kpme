@@ -25,7 +25,7 @@ public class PositionFlagMaintainableImpl extends HrBusinessObjectMaintainableIm
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return PmServiceLocator.getPositionFlagService().getPositionFlagById(id);
+		return (HrBusinessObject) PmServiceLocator.getPositionFlagService().getPositionFlagById(id);
 	}
 
 }
