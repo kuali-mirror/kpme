@@ -113,7 +113,7 @@ $(function () {
         
         events : {
             "click span[id^=showLeaveDetailButton]" : "showLeaveSummary",
-            "click span[id^=showLeaveDetail_" : "showLeaveDetailSummary"
+            "click span[id^=showLeaveDetail_]" : "showLeaveDetailSummary"
         },
         
         initialize : function () {
@@ -126,13 +126,12 @@ $(function () {
         
         showLeaveDetailSummary : function (e) {
             var self = this;
-            var docId = e.target.id.split("_")[1];
-            var pId = e.target.id.split("_")[2];
+            var pId = e.target.id.split("_")[1];
             // This is to grab a person's <tr> in the table
             var $parent = ($("#" + e.target.id).closest("tr"));
             // Grab the + / - icon
             var $element = $("#" + e.target.id);
-            var $summary = $("#leaveApprovalWeekSummary"+docId+"_"+pId);
+            var $summary = $("#leaveApprovalSummary_"+pId);
             // Toggle the + / - icon
             if ($element.hasClass('ui-icon-plus')) {
                 // change the icon from - to +

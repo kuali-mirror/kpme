@@ -4,18 +4,33 @@
 <jsp:useBean id="workflowTagSupport" class="org.kuali.kpme.tklm.common.WorkflowTagSupport"/>
 
 <%@ attribute name="leaveSummary" required="true" type="org.kuali.kpme.tklm.leave.summary.LeaveSummary"%>
+<%@ attribute name="principalId" required="false" type="java.lang.String"%>
 
-<div id="leave-summary">
+<c:choose>
+<c:when test="${not empty principalId}">
+<c:set var="mainDivId" value="leaveApprovalSummary_${principalId}"/>
+<c:set var="innerDivId" value="approval-leave-summary-table"/>
+<c:set var="displayString" value="none"/>
+</c:when>
+<c:otherwise>
+<c:set var="mainDivId" value="leave-summary"/>
+<c:set var="innerDivId" value="leave-summary-table"/>
+<c:set var="displayString" value=""/>
+</c:otherwise>
+</c:choose>
+<div id="${mainDivId}" style="display: ${displayString}">
 	<c:if test="${not empty leaveSummary.leaveSummaryRows}">
-		<div class="summaryTitle" style="clear:both; text-align:center; font-weight: bold; margin-bottom: 5px;">${leaveSummary.pendingDatesString} </div>
-			<div id="leave-summary-table">
+		<div class="summaryTitle" style="clear:both; text-align:center; font-weight: bold; "> </div>
+			<div id="${innerDivId}">
 				<table>
 					<thead>
+					 <c:if test="${empty principalId}">
                         <tr class="noborder">
                             <td width="20%" align="left"> ${leaveSummary.note}</td>
                             <td colspan="7">last approved: ${leaveSummary.ytdDatesString}</td>
                             <td width="20%"></td>
                         </tr>
+                     </c:if>
 						<%--<tr class="noborder" >
 							<td></td>
 							<td></td>

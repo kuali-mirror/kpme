@@ -46,20 +46,15 @@ public class GracePeriodServiceImpl implements GracePeriodService {
 		
 		GracePeriodRule gracePeriodRule = getGracePeriodRule(asOfDate);
 		if (gracePeriodRule!=null) {
-			//go ahead and round off seconds
+			//go ahead and round off seconds and milliseconds
 			gracePeriodDateTime = gracePeriodDateTime.withSecondOfMinute(0);
+            gracePeriodDateTime = gracePeriodDateTime.withMillisOfSecond(0);
 			
 			BigDecimal minuteIncrement = gracePeriodRule.getHourFactor();
 			if(minuteIncrement.compareTo(BigDecimal.ZERO) == 0) {
 				return gracePeriodDateTime;
 			}
 			else  {
-/*				DateTime hour = gracePeriodDateTime.withMinuteOfHour(0);
-				List<Interval> gracePeriodIntervals = new ArrayList<Interval>();
-				while(hour.getHourOfDay() < gracePeriodDateTime.getHourOfDay() + 1) {
-					
-					Interval interval = new Interval(hour)
-				}*/
 				BigDecimal minutes = new BigDecimal(gracePeriodDateTime.getMinuteOfHour());
 				int bottomIntervalFactor = minutes.divide(minuteIncrement, 0, BigDecimal.ROUND_FLOOR).intValue();
 				BigDecimal bottomInterval = new BigDecimal(bottomIntervalFactor).multiply(minuteIncrement);

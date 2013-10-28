@@ -81,6 +81,13 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
                            && name.getDefaultName().getCompositeName() != null ? name.getDefaultName().getCompositeName() : principalId);
 			aRow.setPrincipalId(principalId);
 			
+			try {
+				aRow.setLeaveSummary(LmServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, payCalendarEntry));
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			String lastApprovedString = "No previous approved leave calendar information";
 			LeaveCalendarDocumentHeader lastApprovedDoc = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getMaxEndDateApprovedLeaveCalendar(principalId);
 			if(lastApprovedDoc != null) {
@@ -252,6 +259,9 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
                 		endDate.toString(TkConstants.DT_ABBREV_DATE_FORMAT) : weekEnd.minusDays(1).toString(TkConstants.DT_ABBREV_DATE_FORMAT);
                 display.append(endDateString);
                 weekDates.put(weekString, display.toString());
+                if(currentDate.compareTo(actualEndDate) == 0) {
+                	dates.add(currentDate.toDate());
+                }
                 weekDateList.put(weekString, dates);
                 dates = new TreeSet<Date>();
                 dates.add(currentDate.toDate());

@@ -32,6 +32,7 @@ import org.kuali.kpme.tklm.api.leave.approval.web.ApprovalLeaveSummaryRowContrac
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -65,8 +66,18 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 	private Boolean exemptEmployee;
 	private String color;
 	private Map<String,List<Map<String, Object>>> detailMap = new LinkedHashMap<String, List<Map<String,Object>>>();
+	private LeaveSummary leaveSummary;
 	
-    /**
+    public LeaveSummary getLeaveSummary() {
+		return leaveSummary;
+	}
+
+	public void setLeaveSummary(LeaveSummary leaveSummary) {
+		this.leaveSummary = leaveSummary;
+	}
+
+
+	/**
      * Is this record ready to be approved?
      * @return true if a valid TK_APPROVER / TK_PROCESSOR can approve, false otherwise.
      */

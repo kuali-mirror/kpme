@@ -25,19 +25,14 @@
               	<td style="border-right-style: none">
 					            	
 	              	<c:set var="weekString" value="${fn:replace(entry.key, ' ', '')}" />
-	              	<c:if test="${ leaveApprovalWeekSummary.enableWeekDetails[entry.key]}">
-			            <div class="ui-state-default ui-corner-all" style="float:left;">
-			                <span id="showLeaveDetail_${weekString}_${principalId}" class="ui-icon ui-icon-plus rowInfo"></span>
-			            </div>
-	            	</c:if>
 	           	</td>	            
-              	<td  style="border-left: none"> 
+              	<td style="border-left: none"> 
 						${entry.key}
 						<br/>
 						(${leaveApprovalWeekSummary.weekDates[entry.key]})
-              	</td>              	
+              	</td> 	
               	<c:forEach var="leaveCalendarDate" items="${entry.value}">
-		        	<td >
+		        	<td style="${not fn:contains(Form.leaveCalendarDates, leaveCalendarDate) ? 'background-color:rgb(224, 235, 225);' : ''}">
 		        		<c:forEach var="earnCodeMap" items="${leaveApprovalWeekSummary.earnCodeLeaveHours[leaveCalendarDate]}" >
 		                    <c:set var="key" value="${fn:split(earnCodeMap.key, '|')}"/>
 		                    <c:set var="ac" value="${key[0]}"/>
@@ -59,21 +54,11 @@
 		        	</td>
 		   		</c:forEach> 
               </tr>
-               <tbody id="leaveApprovalWeekSummary${weekString}_${principalId}" style="display: none">
-               <tr class='leaveDetailRow_${weekString} ui-state-default' style="background: rgb(224, 235, 225);" >
-               <th colspan='7'/><th style="border-left: 2px double #666666;">Weekly Activity</th><th style="border-left: 2px double #666666;">Available</th>
-               </tr>
-               <c:forEach var="earnCodeMap" items="${leaveApprovalWeekSummary.detailMap[entry.key]}" >
-               	     <tr class="ui-state-default" style="background: rgb(224, 235, 225); font-weight: bold;">
-               	     	<td class="earnCodeCell"  colspan="2">${earnCodeMap['accrualCategory']}</td>
-               	     	<td style="border-right-style: none" colspan="5"></td>
-               	     	<td style="border-left: 2px double #666666;">${earnCodeMap['periodUsage']}</td>
-               	     	<td style="border-left: 2px double #666666;">${earnCodeMap['availableBalance']}</td>
-               	     </tr>
-               </c:forEach>
-               </tbody>
               </c:forEach>
-		        
+		       <tr>
+		       <td colspan="9">
+		       <lm:leaveSummary leaveSummary="${leaveApprovalWeekSummary.leaveSummary}" principalId="${leaveApprovalWeekSummary.principalId}"/></td>
+		       </tr>
 			</tbody>
 		</table>
 		</div>

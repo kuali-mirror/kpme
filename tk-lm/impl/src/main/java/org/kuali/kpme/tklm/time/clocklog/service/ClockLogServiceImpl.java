@@ -64,13 +64,26 @@ public class ClockLogServiceImpl implements ClockLogService {
 
     @Override
     public synchronized ClockLog processClockLog(DateTime clockDateTime, Assignment assignment,CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId, String userPrincipalId) {
- LOG.info("in ClockLogServiceImpl.processClockLog, clockAction is " + clockAction);
- 
         // process rules
         DateTime roundedClockDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockDateTime, pe.getBeginPeriodFullDateTime().toLocalDate());
 
+        ClockLog lastClockLog = null;
+        if (StringUtils.equals(clockAction, TkConstants.LUNCH_OUT)) {
+            lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(assignment.getPrincipalId(), TkConstants.CLOCK_IN);
+        } else if (StringUtils.equals(clockAction, TkConstants.CLOCK_OUT)
+                   || StringUtils.equals(clockAction, TkConstants.CLOCK_IN)) {
+            lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(assignment.getPrincipalId());
+        }
+
+        DateTime lastClockLogTime = lastClockLog != null ? lastClockLog.getClockDateTime() : null;
+        if (lastClockLog != null
+                && lastClockLogTime.withMillisOfSecond(0).equals(roundedClockDateTime.withMillisOfSecond(0))) {
+            roundedClockDateTime = roundedClockDateTime.withMillisOfSecond(lastClockLogTime.getMillisOfSecond() + 1);
+        }
+
+
         ClockLog clockLog = buildClockLog(roundedClockDateTime, new Timestamp(System.currentTimeMillis()), assignment, td, clockAction, ip, userPrincipalId);
-LOG.info("Clock log is created but not saved yet, so clockLogId is " + clockLog.getTkClockLogId());        
+
         if (runRules) {
         	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, asOfDate);
         }
@@ -82,7 +95,6 @@ LOG.info("Clock log is created but not saved yet, so clockLogId is " + clockLog.
             //Save current clock log to get id for timeblock building
             KRADServiceLocator.getBusinessObjectService().save(clockLog);
         }
-LOG.info("Clock log is saved, clockLogId is " + clockLog.getTkClockLogId());     
         return clockLog;
     }
 

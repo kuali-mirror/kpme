@@ -24,13 +24,15 @@
 <%--           </c:if> --%>
 <%--           </display:column> --%>
         <display:column title="Name" sortable="true" sortName="name" style="${row.moreThanOneCalendar ? 'background-color: #F08080;' : ''} width:10%;">
-	    	
-	    
+	    	&nbsp;
+	    	<div class="ui-state-default ui-corner-all" style="float:left;">
+			     <span id="showLeaveDetail_${row.principalId}" class="ui-icon ui-icon-plus rowInfo"></span>
+			</div>
 	        <a href="changeTargetPerson.do?${row.userTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=LeaveApproval.do%3FselectedPayCalendarGroup=${Form.selectedPayCalendarGroup}%26selectedDept=${Form.selectedDept}%26selectedWorkArea=${Form.selectedWorkArea}">${row.name}</a> (${row.principalId})
 	         <br/>${row.lastApproveMessage}
 	         <br/><br/>
 	          
-	          <c:if test="${not empty row.documentId }">
+	          <c:if test="${not empty row.documentId}">
 	           <c:choose>
 	         <c:when test="${row.exemptEmployee}">
 	        	Doc Id: <a href="changeTargetPerson.do?${row.userTargetURLParams}&targetUrl=LeaveCalendar.do%3FdocumentId=${row.documentId}&returnUrl=LeaveApproval.do%3FselectedPayCalendarGroup=${Form.selectedPayCalendarGroup}%26selectedPayPeriod=${Form.selectedPayPeriod}%26selectedDept=${Form.selectedDept}%26selectedWorkArea=${Form.selectedWorkArea}">${row.documentId}</a>
@@ -116,9 +118,6 @@
             <c:if test="${not empty row.weeklyDistribution}">
              	 <lm:leaveApprovalWeekSummary leaveApprovalWeekSummary="${row}" principalId="${row.principalId}" earnCodeLeaveHours="${row.earnCodeLeaveHours}"/>
             </c:if>
-			 
-<%--         <lm:leaveApprovalWeekSummary leaveApprovalWeekSummary="${row}" principalId="${row.principalId}" earnCodeLeaveHours="${row.earnCodeLeaveHours}"/> --%>
-            
         </display:column>
        
    		<display:column title="Action" style=" width:10%">
@@ -134,6 +133,6 @@
        		</c:if>
         	<div id="leaveDetails_${row.documentId}" style="display: none;"></div>
    		</display:column>
-
+   		
 	</display:table>
 </div></tr></table>
