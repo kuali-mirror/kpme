@@ -56,7 +56,9 @@ public class FlagCategoryKeyValueFinder extends UifKeyValuesFinderBase {
 			options.add(new ConcreteKeyValue("", "Select category to see flags"));
 			if(CollectionUtils.isNotEmpty(flagList)) {
 				for(PositionFlagContract aFlag : flagList) {
-					options.add(new ConcreteKeyValue((String) aFlag.getCategory(), (String) aFlag.getCategory()));
+					if (!options.contains(new ConcreteKeyValue((String) aFlag.getCategory(), (String) aFlag.getCategory()))) {
+						options.add(new ConcreteKeyValue((String) aFlag.getCategory(), (String) aFlag.getCategory()));						
+					}
 				}
 			}         
 		} else {

@@ -16,6 +16,8 @@
 package org.kuali.kpme.pm.api.flag;
 
 
+import java.util.List;
+
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
@@ -55,6 +57,7 @@ public interface FlagContract extends PersistableBusinessObject {
 	 * 
 	 * @return names for Flag
 	 */
-	public String getNames();
+	//public String getNames(); // KPME-2360/2958
+	public List<String> getNames();
 
 }

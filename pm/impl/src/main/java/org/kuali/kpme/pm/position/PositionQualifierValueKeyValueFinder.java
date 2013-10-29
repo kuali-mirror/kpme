@@ -18,13 +18,15 @@ package org.kuali.kpme.pm.position;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
-import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
@@ -45,6 +47,7 @@ public class PositionQualifierValueKeyValueFinder  extends UifKeyValuesFinderBas
 				if(aTypeObj.getTypeValue().equals(PMConstants.PSTN_QLFR_SELECT)){
 					String[] aCol = aTypeObj.getSelectValues().split(",");
 					for(String aString : aCol){
+						aString = StringUtils.strip(aString);
 						options.add(new ConcreteKeyValue(aString, aString));
 					}
 				} else{
@@ -55,5 +58,44 @@ public class PositionQualifierValueKeyValueFinder  extends UifKeyValuesFinderBas
         return options;
 	}
 	
+	// KPME-2958
+	@Override
+    public List<KeyValue> getKeyValues(ViewModel model, InputField field){
+		 
+		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
+		HrBusinessObject anHrObject = (HrBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
+		List<KeyValue> options = new ArrayList<KeyValue>();
+		
+		if (field.getId().contains("add")) {
+			// For "add" line, just delegate to getKeyValues(model) method as it is working correctly
+			options = getKeyValues(model);	
+		} else {
+			// Strip index off field id
+			String fieldId = field.getId();
+			int line_index = fieldId.indexOf("line");
+			int index = Integer.parseInt(fieldId.substring(line_index+4));
+			
+			Position aPosition = (Position)anHrObject;
+			List<PositionQualification> qualificationList = aPosition.getQualificationList(); // holds "added" lines
+			PositionQualification posQualification = (PositionQualification)qualificationList.get(index);
+			String aTypeId = posQualification.getQualificationType();
+			
+			PstnQlfrTypeContract aTypeObj = PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeById(aTypeId);;
+			if(aTypeObj != null) {
+				if(aTypeObj.getTypeValue().equals(PMConstants.PSTN_QLFR_SELECT)){
+					String[] aCol = aTypeObj.getSelectValues().split(",");
+					for(String aString : aCol){
+						aString = StringUtils.strip(aString);
+						options.add(new ConcreteKeyValue(aString, aString));
+					}
+				} else{
+					return new ArrayList<KeyValue>();
+				}
+			}
+		} 
+
+		return options;
+		
+	}
 
 }

@@ -726,8 +726,7 @@
 		<property name="layoutManager.numberOfColumns" value="4" />
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="qualificationType"
-					p:readOnly="@{!#isAddLine}">
+				<bean parent="Uif-InputField" p:propertyName="qualificationType" >
 					<property name="control">
 						<bean parent="Uif-DropdownControl" />
 					</property>
@@ -735,8 +734,7 @@
 					<bean class="org.kuali.kpme.pm.util.PstnQlfrTypeKeyValueFinder" />
 				</property>
            </bean>
-           <bean parent="Uif-InputField" p:propertyName="qualifier" p:readOnly="@{!#isAddLine}"
-            		p:refreshWhenChangedPropertyNames="#lp.qualificationType">
+           <bean parent="Uif-InputField" p:propertyName="qualifier" p:refreshWhenChangedPropertyNames="#lp.qualificationType">
            		<property name="control">
 					<bean parent="Uif-DropdownControl"/>
 				</property>
@@ -744,8 +742,7 @@
 					<bean class="org.kuali.kpme.pm.position.PositionQualifierKeyValueFinder" />
 				</property>
            </bean>
-           <bean parent="Uif-InputField" p:propertyName="qualificationValue" p:readOnly="@{!#isAddLine}"
-           			p:refreshWhenChangedPropertyNames="#lp.qualificationType">
+           <bean parent="Uif-InputField" p:propertyName="qualificationValue" p:refreshWhenChangedPropertyNames="#lp.qualificationType">
            		<property name="control">
 					<bean parent="Uif-DropdownControl"/>
 				</property>
@@ -825,7 +822,7 @@
 		  <property name="layoutManager.numberOfColumns" value="4" />
 		  <property name="items">
 		    <list>
-	           <bean parent="Uif-InputField" p:propertyName="category" p:readOnly="@{!#isAddLine}" >
+	           <bean parent="Uif-InputField" p:propertyName="category" >
 					<property name="control">
 						<bean parent="Uif-DropdownControl" />
 					</property>
@@ -833,8 +830,7 @@
 						<bean class="org.kuali.kpme.pm.util.FlagCategoryKeyValueFinder" p:addBlankOption="false"/>
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="names"
-					p:readOnly="@{!#isAddLine}" p:refreshWhenChangedPropertyNames="#lp.category">
+				<bean parent="Uif-InputField" p:propertyName="names" p:refreshWhenChangedPropertyNames="#lp.category">
 					<property name="control">
 						<bean parent="Uif-HorizontalCheckboxesControl" />
 					</property>

@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
-import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -64,4 +64,42 @@ public class PositionQualifierKeyValueFinder extends UifKeyValuesFinderBase{
 		
         return options;
     }
+	
+	// KPME-2958
+	@Override
+    public List<KeyValue> getKeyValues(ViewModel model, InputField field){
+		 
+		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
+		HrBusinessObject anHrObject = (HrBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
+		List<KeyValue> options = new ArrayList<KeyValue>();
+		
+		if (field.getId().contains("add")) {
+			// For "add" line, just delegate to getKeyValues(model) method as it is working correctly
+			options = getKeyValues(model);	
+		} else {
+			// Strip index off field id
+			String fieldId = field.getId();
+			int line_index = fieldId.indexOf("line");
+			int index = Integer.parseInt(fieldId.substring(line_index+4));
+			
+			Position aPosition = (Position)anHrObject;
+			List<PositionQualification> qualificationList = aPosition.getQualificationList(); // holds "added" lines
+			PositionQualification posQualification = (PositionQualification)qualificationList.get(index);
+			String aTypeId = posQualification.getQualificationType();
+
+			PstnQlfrTypeContract aTypeObj = PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeById(aTypeId);;
+			if(aTypeObj != null) {
+				if(aTypeObj.getTypeValue().equals(PMConstants.PSTN_QLFR_TEXT)
+						|| aTypeObj.getTypeValue().equals(PMConstants.PSTN_QLFR_SELECT)) {
+					 options.add(new ConcreteKeyValue(PMConstants.PSTN_CLSS_QLFR_VALUE.EQUAL, PMConstants.PSTN_CLSS_QLFR_VALUE_MAP.get(PMConstants.PSTN_CLSS_QLFR_VALUE.EQUAL)));
+				} else if(aTypeObj.getTypeValue().equals(PMConstants.PSTN_QLFR_NUMBER)){
+					options = this.getKeyValues();
+				}
+			}
+		} 
+
+		return options;
+		
+	}
+	
 }

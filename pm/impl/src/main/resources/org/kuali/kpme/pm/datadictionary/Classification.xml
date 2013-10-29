@@ -443,7 +443,7 @@
 	  <property name="layoutManager.numberOfColumns" value="4" />
 	  <property name="items">
 	    <list>
-           <bean parent="Uif-InputField" p:propertyName="qualificationType" p:readOnly="@{!#isAddLine}">
+           <bean parent="Uif-InputField" p:propertyName="qualificationType" >
            		<property name="control">
 					<bean parent="Uif-DropdownControl"/>
 				</property>
@@ -451,7 +451,7 @@
 					<bean class="org.kuali.kpme.pm.util.PstnQlfrTypeKeyValueFinder" />
 				</property>
            </bean>
-           <bean parent="Uif-InputField" p:propertyName="qualifier" p:readOnly="@{!#isAddLine}"
+           <bean parent="Uif-InputField" p:propertyName="qualifier"
             		p:refreshWhenChangedPropertyNames="#lp.qualificationType">
            		<property name="control">
 					<bean parent="Uif-DropdownControl"/>
@@ -460,7 +460,7 @@
 					<bean class="org.kuali.kpme.pm.util.PositionClassQualifierKeyValueFinder" />
 				</property>
            </bean>
-           <bean parent="Uif-InputField" p:propertyName="qualificationValue" p:readOnly="@{!#isAddLine}"
+           <bean parent="Uif-InputField" p:propertyName="qualificationValue"
            			p:refreshWhenChangedPropertyNames="#lp.qualificationType">
            		<property name="control">
 					<bean parent="Uif-DropdownControl"/>
@@ -534,8 +534,8 @@
 	      </property>
 		  <property name="items">
 			  <list>
-			  	 <bean parent="Uif-InputField" p:propertyName="name" p:readOnly="@{!#isAddLine}" />
-		         <bean parent="Uif-InputField" p:propertyName="description" p:readOnly="@{!#isAddLine}" />
+			  	 <bean parent="Uif-InputField" p:propertyName="name" />
+		         <bean parent="Uif-InputField" p:propertyName="description" />
 		         <bean parent="Uif-InputField" p:propertyName="percentage"
 		         		p:exclusiveMin="0" p:inclusiveMax="100" p:constraintText="Must be a number between 0 and 100.">
 		         	<property name="validCharactersConstraint">
@@ -573,7 +573,7 @@
 		  <property name="layoutManager.numberOfColumns" value="4" />
 		  <property name="items">
 		    <list>
-	           <bean parent="Uif-InputField" p:propertyName="category" p:readOnly="@{!#isAddLine}" >
+	           <bean parent="Uif-InputField" p:propertyName="category" >
 	           		<property name="control">
 						<bean parent="Uif-DropdownControl"/>
 					</property>
@@ -581,7 +581,7 @@
 						<bean class="org.kuali.kpme.pm.util.FlagCategoryKeyValueFinder" p:addBlankOption="false"/>
 					</property>
 	           </bean>
-	           <bean parent="Uif-InputField" p:propertyName="names" p:readOnly="@{!#isAddLine}"
+	           <bean parent="Uif-InputField" p:propertyName="names" 
 	            		p:refreshWhenChangedPropertyNames="#lp.category">
 	            	<property name="control">
 	            		<bean parent="Uif-HorizontalCheckboxesControl" />
