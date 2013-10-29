@@ -17,15 +17,15 @@ package org.kuali.kpme.core.assignment.validation;
 
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.web.KpmeEffectiveDatePromptBase;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.kpme.core.web.KPMEHrObjectNewerVersionPromptBase;
 
-public class AssignmentEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
+public class AssignmentEffectiveDatePrompt extends KPMEHrObjectNewerVersionPromptBase {
     
 	@Override
-    protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
+    protected boolean doesNewerVersionExist(HrBusinessObject pbo) {
     	boolean futureEffectiveDateExists = false;
     	
         Assignment assignment = (Assignment) pbo;

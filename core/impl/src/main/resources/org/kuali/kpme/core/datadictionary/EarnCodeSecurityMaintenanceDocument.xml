@@ -27,7 +27,7 @@
 	<bean id="EarnCodeSecurityMaintenanceDocument" parent="EarnCodeSecurityMaintenanceDocument-parentBean" />
 
 	<bean id="EarnCodeSecurityMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kpme.core.earncode.security.EarnCodeSecurity"
+		parent="KPMEHrBusinessObjectMaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kpme.core.earncode.security.EarnCodeSecurity"
 		p:businessRulesClass="org.kuali.kpme.core.earncode.security.validation.EarnCodeSecurityRule"
 		p:maintainableClass="org.kuali.kpme.core.earncode.security.web.EarnCodeSecurityMaintainableImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.core.earncode.security.authorization.EarnCodeSecurityAuthorizer">
@@ -43,7 +43,7 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="EarnCodeSecurityDocumentType" />
-        <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.earncode.security.validation.EarnCodeSecurityEffectiveDatePrompt"/>
+<!--         <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.earncode.security.validation.EarnCodeSecurityEffectiveDatePrompt"/> -->
 	</bean>
 
 	<bean id="EarnCodeSecurityMaintenanceDocument-HiddenFieldsSection" parent="MaintDoc-HiddenFields-parentBean" />

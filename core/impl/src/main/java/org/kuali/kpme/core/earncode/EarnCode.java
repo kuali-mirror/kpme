@@ -79,6 +79,15 @@ public class EarnCode extends HrBusinessObject implements EarnCodeContract {
 	private String usageLimit;
 	private String countsAsRegularPay;
 	
+	
+	
+	@Override
+	public Map<String, Object> getBusinessKeyValuesMap() {
+		Map<String, Object> businessKeyValuesMap = new HashMap<String, Object>();
+		businessKeyValuesMap.put("earnCode", this.getEarnCode());
+		return businessKeyValuesMap;
+	}
+
 	public String getCountsAsRegularPay() {
 		return countsAsRegularPay;
 	}

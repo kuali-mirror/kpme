@@ -16,15 +16,15 @@
 package org.kuali.kpme.core.accrualcategory.validation;
 
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.web.KpmeEffectiveDatePromptBase;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.kpme.core.web.KPMEHrObjectNewerVersionPromptBase;
 
-public class AccrualCategoryEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
+public class AccrualCategoryEffectiveDatePrompt extends KPMEHrObjectNewerVersionPromptBase {
     
 	@Override
-    protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
+    protected boolean doesNewerVersionExist(HrBusinessObject pbo) {
     	boolean futureEffectiveDateExists = false;
     	
         AccrualCategory accrualCategory = (AccrualCategory) pbo;

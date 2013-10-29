@@ -17,7 +17,9 @@ package org.kuali.kpme.core.earncode.security;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.block.CalendarBlockPermissions;
@@ -66,6 +68,18 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
     private Location locationObj;
     private String history;
 
+    
+    @Override
+	public Map<String, Object> getBusinessKeyValuesMap() {
+		Map<String, Object> businessKeyValuesMap = new HashMap<String, Object>();
+		businessKeyValuesMap.put("dept", this.getDept());
+		businessKeyValuesMap.put("hrSalGroup", this.getHrSalGroup());
+		businessKeyValuesMap.put("earnCode", this.getEarnCode());
+		businessKeyValuesMap.put("location", this.getLocation());
+		return businessKeyValuesMap;
+	}
+    
+    
 	public String getHrEarnCodeSecurityId() {
 		return hrEarnCodeSecurityId;
 	}

@@ -15,15 +15,15 @@
  */
 package org.kuali.kpme.core.principal.validation;
 
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.web.KpmeEffectiveDatePromptBase;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.kpme.core.web.KPMEHrObjectNewerVersionPromptBase;
 
-public class PrincipalHRAttributesEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
+public class PrincipalHRAttributesEffectiveDatePrompt extends KPMEHrObjectNewerVersionPromptBase {
     
 	@Override
-    protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
+    protected boolean doesNewerVersionExist(HrBusinessObject pbo) {
     	boolean futureEffectiveDateExists = false;
     	
         PrincipalHRAttributes phrAttr = (PrincipalHRAttributes) pbo;

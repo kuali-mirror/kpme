@@ -18,15 +18,15 @@ package org.kuali.kpme.tklm.time.rules.clocklocation.validation;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kpme.core.web.KpmeEffectiveDatePromptBase;
+import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.web.KPMEHrObjectNewerVersionPromptBase;
 import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
-public class ClockLocationRuleEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
+public class ClockLocationRuleEffectiveDatePrompt extends KPMEHrObjectNewerVersionPromptBase {
     
 	@Override
-    protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
+    protected boolean doesNewerVersionExist(HrBusinessObject pbo) {
 		boolean futureEffectiveDateExists = false;
         ClockLocationRule clr = (ClockLocationRule) pbo;
         if(clr.getEffectiveLocalDate() != null) {

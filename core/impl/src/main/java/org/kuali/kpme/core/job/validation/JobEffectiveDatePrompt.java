@@ -15,16 +15,16 @@
  */
 package org.kuali.kpme.core.job.validation;
 
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.web.KpmeEffectiveDatePromptBase;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.kpme.core.web.KPMEHrObjectNewerVersionPromptBase;
 
-public class JobEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
+public class JobEffectiveDatePrompt extends KPMEHrObjectNewerVersionPromptBase {
     
 	@Override
-    protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
+    protected boolean doesNewerVersionExist(HrBusinessObject pbo) {
     	boolean futureEffectiveDateExists = false;
     	
         Job job = (Job) pbo;

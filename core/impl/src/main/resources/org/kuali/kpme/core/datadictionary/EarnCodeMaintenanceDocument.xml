@@ -26,7 +26,7 @@
                            http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="EarnCodeMaintenanceDocument" parent="EarnCodeMaintenanceDocument-parentBean"/>
-  <bean id="EarnCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
+  <bean id="EarnCodeMaintenanceDocument-parentBean" abstract="true" parent="KPMEHrBusinessObjectMaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.kpme.core.earncode.EarnCode"
   		p:businessRulesClass="org.kuali.kpme.core.earncode.validation.EarnCodeValidation"
   		p:maintainableClass="org.kuali.kpme.core.earncode.web.EarnCodeMaintainableServiceImpl"
@@ -45,7 +45,7 @@
 			</list>
 		</property>
     <property name="documentTypeName" value="EarnCodeMaintenanceDocumentType"/>
-    <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.earncode.validation.EarnCodeEffectiveDatePrompt"/>
+<!--     <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.earncode.validation.EarnCodeEffectiveDatePrompt"/> -->
   </bean>
 
   <!-- Maintenance Section Definitions -->

@@ -16,7 +16,9 @@
 package org.kuali.kpme.core.earncode.group;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
@@ -46,6 +48,13 @@ public class EarnCodeGroup extends HrBusinessObject implements EarnCodeGroupCont
 	
 	private String warningText;
 
+	
+	@Override
+	public Map<String, Object> getBusinessKeyValuesMap() {
+		Map<String, Object> businessKeyValuesMap = new HashMap<String, Object>();
+		businessKeyValuesMap.put("earnCodeGroup", this.getEarnCodeGroup());
+		return businessKeyValuesMap;
+	}
 	
 
 	public Boolean getHistory() {

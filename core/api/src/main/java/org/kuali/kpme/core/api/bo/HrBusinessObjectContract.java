@@ -17,6 +17,7 @@ package org.kuali.kpme.core.api.bo;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Map;
 
 import org.joda.time.LocalDate;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
@@ -82,4 +83,13 @@ public interface HrBusinessObjectContract extends PersistableBusinessObject, Ina
 	 * @return timestamp of HrBusinessObject
 	 */
 	public Timestamp getTimestamp();
+	
+	
+	
+	/**
+	 * The map of key-vaue pairs that together form the business key criteria for this instance.
+	 * 
+	 * @return map of key-value pairs that comprise the business key
+	 */
+	public Map<String, Object> getBusinessKeyValuesMap();
 }

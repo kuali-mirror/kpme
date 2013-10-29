@@ -150,7 +150,7 @@
 
     <!-- CORE DAOs -->
     
-
+	<bean id="hrBusinessObjectDao" class="org.kuali.kpme.core.bo.dao.HrBusinessObjectDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="taskDao" class="org.kuali.kpme.core.task.dao.TaskDaoOjbImpl" parent="platformAwareDao" />
 
@@ -199,6 +199,13 @@
 
 
     <!-- CORE Service Definitions -->
+    
+    <bean id="hrBusinessObjectService" class="org.kuali.kpme.core.bo.service.HrBusinessObjectServiceImpl">
+        <property name="hrBusinessObjectDao" ref="hrBusinessObjectDao"/>
+    </bean>
+    
+    
+    
     <bean id="payStepService" class="org.kuali.kpme.core.paystep.service.PayStepServiceImpl">
         <property name="payStepDao" ref="payStepDao"/>
     </bean>
@@ -506,6 +513,8 @@
         </property>
         <property name="beanNames">
             <list>
+            	<idref local="hrBusinessObjectService"/>
+            	
                 <idref local="payStepService"/>
 
                 <idref local="timezoneService"/>
