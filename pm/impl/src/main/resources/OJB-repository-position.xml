@@ -383,6 +383,7 @@
     <!-- Position Responsibilty  -->
     <class-descriptor class="org.kuali.kpme.pm.positionresponsibility.PositionResponsibility" table="PM_PSTN_RPS_T">
         <field-descriptor name="positionResponsibilityId" 		column="PM_PSTN_RPS_ID" 		 		jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PSTN_RPS_OPT_S" />
+        <field-descriptor name="positionResponsibilityOption"   column="PM_RPS_OPTION"      		 	jdbc-type="VARCHAR"     length="20" 		nullable="false" />
         <field-descriptor name="institution"     		  		column="INSTITUTION"			 		jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="location"  		          		column="LOCATION"     		 	 		jdbc-type="VARCHAR"     length="50"  		nullable="false" />
        	<field-descriptor name="hrPositionId"   				column="HR_PSTN_ID"    					jdbc-type="VARCHAR"     length="60"  		nullable="false" />

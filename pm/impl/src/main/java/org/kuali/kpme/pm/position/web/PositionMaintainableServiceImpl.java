@@ -33,6 +33,7 @@ import org.kuali.kpme.pm.position.PstnFlag;
 import org.kuali.kpme.pm.position.funding.PositionFunding;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.kpme.pm.positionflag.PositionFlag;
+import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
@@ -73,7 +74,10 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
             aDepartment.setHrPositionId(aPosition.getHrPositionId());
             aDepartment.setPmPositionDeptId(null);
         }
-		
+        for(PositionResponsibility aResponsibility : aPosition.getPositionResponsibilityList()) {
+        	aResponsibility.setHrPositionId(aPosition.getHrPositionId());
+        	aResponsibility.setPositionResponsibilityId(null);
+        }
 	}
 	
 	@Override

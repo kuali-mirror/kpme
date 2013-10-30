@@ -105,7 +105,7 @@
                 <property name="dataObjectClass"
                     value="org.kuali.kpme.pm.positionresponsibility.PositionResponsibility" />
                 <property name="name" value="positionResponsibilityList" />
-                <property name="shortLabel" value="Flags" />
+                <property name="shortLabel" value="Responsibilities" />
                 <property name="label" value="Position Responsibilities" />
             </bean>
               <bean parent="CollectionDefinition">
@@ -547,6 +547,26 @@
         </property>
     </bean>
     
+    <!-- Responsibility List, used by inquiry view -->
+    <bean id="Position-responsibilityList" abstract="true" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="collectionObjectClass" value="org.kuali.kpme.pm.positionresponsibility.PositionResponsibility" />
+        <property name="propertyName" value="positionResponsibilityList" />
+        <property name="headerText" value="Responsibility" />
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="institution" />
+                <bean parent="Uif-DataField" p:propertyName="location" />
+                <bean parent="Uif-DataField" p:propertyName="percentTime" />
+                <bean parent="Uif-DataField" p:propertyName="positionResponsibilityOption" />
+                <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+                <bean parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+    
 	<!--  Inquiry Definitions  -->
   	<bean id="Position-InquiryView" parent="Uif-InquiryView" >
 		<property name="headerText" value="Position Inquiry"/>
@@ -605,14 +625,14 @@
                             <bean parent="Uif-VerticalBoxSection" p:headerText="Flags">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Position-flags"/>
+                                        <bean parent="Position-flagList"/>
                                     </list>
                                 </property>
                             </bean>
                             <bean parent="Uif-VerticalBoxSection" p:headerText="Position Responsibilities">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Position-responsibilities"/>
+                                        <bean parent="Position-responsibilityList"/>
                                     </list>
                                 </property>
                             </bean>
@@ -799,8 +819,8 @@
 	      </property>
 		  <property name="items">
 			  <list>
-			  	 <bean parent="Uif-InputField" p:propertyName="name" p:readOnly="@{!#isAddLine}" />
-		         <bean parent="Uif-InputField" p:propertyName="description" p:readOnly="@{!#isAddLine}" />
+			  	 <bean parent="Uif-InputField" p:propertyName="name" />
+		         <bean parent="Uif-InputField" p:propertyName="description" />
 		         <bean parent="Uif-InputField" p:propertyName="percentage"
 		         		p:exclusiveMin="0" p:inclusiveMax="100" p:constraintText="Must be a number between 0 and 100.">
 		         	<property name="validCharactersConstraint">
@@ -873,8 +893,7 @@
 					</property>
 				</bean>
 				
-				<bean parent="Uif-InputField" p:propertyName="positionResponsibilityOption"
-					p:readOnly="@{!#isAddLine}">
+				<bean parent="Uif-InputField" p:propertyName="positionResponsibilityOption">
 					<property name="control">
 						<bean parent="Uif-DropdownControl" />
 					</property>
