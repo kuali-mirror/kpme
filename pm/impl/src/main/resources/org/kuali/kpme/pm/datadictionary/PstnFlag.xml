@@ -51,7 +51,7 @@
 	<bean id="PstnFlag-category" parent="PstnFlag-category-parentBean" />
 	<bean id="PstnFlag-category-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
-		<property name="maxLength" value="20"/>
+		<property name="maxLength" value="50"/>
 		<property name="controlField">
 			<bean parent="Uif-TextAreaControl" />
 		</property>

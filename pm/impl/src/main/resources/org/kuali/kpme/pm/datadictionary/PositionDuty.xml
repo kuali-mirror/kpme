@@ -64,7 +64,7 @@
 	<bean id="PositionDuty-description" parent="PositionDuty-description-parentBean" />
 	<bean id="PositionDuty-description-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
-		<property name="maxLength" value="20"/>
+		<property name="maxLength" value="300"/>
 		<property name="controlField">
 			<bean parent="Uif-TextAreaControl" />
 		</property>

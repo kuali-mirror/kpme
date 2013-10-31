@@ -244,7 +244,7 @@
     <!-- Position Classification Flag -->
     <class-descriptor class="org.kuali.kpme.pm.classification.flag.ClassificationFlag" table="PM_PSTN_CL_FLAG_T">
         <field-descriptor name="pmFlagId"   				column="PM_FLAG_ID"    		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_CL_FLAG_S" />
-        <field-descriptor name="category"    				column="CATEGORY"           jdbc-type="VARCHAR"     length="20" 		nullable="false" />
+        <field-descriptor name="category"    				column="CATEGORY"           jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="names"    					column="NAMES"      		jdbc-type="VARCHAR"     length="100" 		nullable="false" conversion="org.kuali.kpme.core.ListConverter" />
         <field-descriptor name="pmPositionClassId"   		column="PM_PSTN_CL_ID"    	jdbc-type="VARCHAR"     length="60"  		nullable="false" />
 		<field-descriptor name="objectId"      				column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
@@ -420,7 +420,7 @@
     <!-- Position  Flag -->
     <class-descriptor class="org.kuali.kpme.pm.position.PstnFlag" table="PM_PSTN_FLAG_T">
         <field-descriptor name="pmFlagId"   				column="PM_FLAG_ID"    		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_FLAG_S" />
-        <field-descriptor name="category"    				column="CATEGORY"           jdbc-type="VARCHAR"     length="20" 		nullable="false" />
+        <field-descriptor name="category"    				column="CATEGORY"           jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="names"    					column="NAMES"      		jdbc-type="VARCHAR"     length="100" 		nullable="false" conversion="org.kuali.kpme.core.ListConverter" />
         <field-descriptor name="hrPositionId"   			column="HR_PSTN_ID"    		jdbc-type="VARCHAR"     length="60"  		nullable="false" />
         <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
