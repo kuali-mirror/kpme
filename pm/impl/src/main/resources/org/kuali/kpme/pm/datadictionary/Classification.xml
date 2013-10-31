@@ -443,7 +443,7 @@
 	  <property name="layoutManager.numberOfColumns" value="4" />
 	  <property name="items">
 	    <list>
-           <bean parent="Uif-InputField" p:propertyName="qualificationType" >
+           <bean parent="Uif-InputField" p:propertyName="qualificationType" p:readOnly="@{!#isAddLine}" >
            		<property name="control">
 					<bean parent="Uif-DropdownControl"/>
 				</property>
@@ -452,7 +452,7 @@
 				</property>
            </bean>
            <bean parent="Uif-InputField" p:propertyName="qualifier"
-            		p:refreshWhenChangedPropertyNames="#lp.qualificationType">
+            		p:refreshWhenChangedPropertyNames="#lp.qualificationType" p:readOnly="@{!#isAddLine}">
            		<property name="control">
 					<bean parent="Uif-DropdownControl"/>
 				</property>
@@ -461,7 +461,7 @@
 				</property>
            </bean>
            <bean parent="Uif-InputField" p:propertyName="qualificationValue"
-           			p:refreshWhenChangedPropertyNames="#lp.qualificationType">
+           			p:refreshWhenChangedPropertyNames="#lp.qualificationType" p:readOnly="@{!#isAddLine}">
            		<property name="control">
 					<bean parent="Uif-DropdownControl"/>
 				</property>
@@ -573,7 +573,7 @@
 		  <property name="layoutManager.numberOfColumns" value="4" />
 		  <property name="items">
 		    <list>
-	           <bean parent="Uif-InputField" p:propertyName="category" >
+	           <bean parent="Uif-InputField" p:propertyName="category" p:readOnly="@{!#isAddLine}">
 	           		<property name="control">
 						<bean parent="Uif-DropdownControl"/>
 					</property>
