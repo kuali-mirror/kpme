@@ -74,6 +74,7 @@ public class EarnCodeSecurityMaintenanceTest extends KPMEWebTestCase{
         String testDept = "testDept";
         String testSalGroup = "testSalGroup";
         String testEarnCode = "testEarnCode";
+        String testLocation = "testLocation";
 
 
 		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.EARN_CODE_SECURITY_MAINT_URL);
@@ -93,6 +94,9 @@ public class EarnCodeSecurityMaintenanceTest extends KPMEWebTestCase{
 
         HtmlInput inputForEarnCode = HtmlUnitUtil.getInputContainingText(maintPage, "document.newMaintainableObject.earnCode");
         inputForEarnCode.setValueAttribute(testEarnCode);
+        
+        HtmlInput inputForLocation = HtmlUnitUtil.getInputContainingText(maintPage, "document.newMaintainableObject.location");
+        inputForLocation.setValueAttribute(testLocation);
 
         HtmlPage resultantPageAfterEdit = HtmlUnitUtil
 				.clickInputContainingText(maintPage, "submit");
