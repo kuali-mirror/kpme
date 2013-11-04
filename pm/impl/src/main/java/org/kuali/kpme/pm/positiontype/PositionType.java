@@ -21,11 +21,14 @@ import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.pm.api.positiontype.PositionTypeContract;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class PositionType extends HrBusinessObject implements PositionTypeContract {
+	private static final String POSITION_TYPE = "positionType";
+
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-		    .add("positionType")
+		    .add(POSITION_TYPE)
 		    .build();
 
 	private static final long serialVersionUID = 1L;
@@ -39,6 +42,13 @@ public class PositionType extends HrBusinessObject implements PositionTypeContra
 	private Location locationObj;
 	private Institution institutionObj;
 
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.put(POSITION_TYPE, this.getPositionType())
+				.build();
+	}
+	
 	@Override
 	public String getId() {
 		return this.getPmPositionTypeId();

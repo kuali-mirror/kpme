@@ -20,6 +20,8 @@ import java.math.BigDecimal;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
 
+import com.google.common.collect.ImmutableMap;
+
 public class PositionFunding extends HrBusinessObject implements PositionFundingContract {
 	private static final long serialVersionUID = 1L;
 	
@@ -40,6 +42,13 @@ public class PositionFunding extends HrBusinessObject implements PositionFunding
 	// indicates where the funding information comes from, it could be from maint document, Institution batch imports, etc..
 	// we use source on the maint document to determine which funding information is readonly
 	private String source;		
+	
+	// TODO returning an empty map for the time-being, until the BK is finalized
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.build();
+	}
 	
 
 	@Override

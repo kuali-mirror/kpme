@@ -32,6 +32,8 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import com.google.common.collect.ImmutableMap;
+
 public class BalanceTransfer extends HrBusinessObject implements Assignable, BalanceTransferContract {
 
 	private static final long serialVersionUID = 6948695780968441016L;
@@ -54,6 +56,13 @@ public class BalanceTransfer extends HrBusinessObject implements Assignable, Bal
 	private String sstoId;
 	
 	private transient Person principal;
+	
+	// TODO returning an empty map for the time-being, until the BK is finalized
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.build();
+	}
 	
 	public String getPrincipalId() {
 		return principalId;

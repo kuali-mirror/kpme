@@ -17,7 +17,6 @@ package org.kuali.kpme.core.bo;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Map;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
@@ -77,9 +76,9 @@ public abstract class HrBusinessObject extends PersistableBusinessObjectBase imp
 		return timestamp;
 	}
 	
-	@Override
-	public Map<String, Object> getBusinessKeyValuesMap() {
-		return null;
-	}
+//	@Override
+//	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+//		return null;
+//	}
 
 }

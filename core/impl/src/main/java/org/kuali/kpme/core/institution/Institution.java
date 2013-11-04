@@ -18,24 +18,33 @@ package org.kuali.kpme.core.institution;
 import org.kuali.kpme.core.api.institution.InstitutionContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class Institution extends HrBusinessObject implements InstitutionContract {
 
-	 /**
+	 private static final String INSTITUTION_CODE = "institutionCode";
+
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4414386560856612370L;
 
 	//KPME-2273/1965 Primary Business Keys List.
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add("institutionCode")
+            .add(INSTITUTION_CODE)
             .build();    
 	
 	private String pmInstitutionId;
 	private String institutionCode;
 	private String description;
 	private boolean history;
-	private boolean active;
+	
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+    	return  new ImmutableMap.Builder<String, Object>()
+			.put(INSTITUTION_CODE, this.getInstitutionCode())
+			.build();
+	}
 	
 	public String getInstitutionCode() {
 		return institutionCode;
@@ -53,13 +62,6 @@ public class Institution extends HrBusinessObject implements InstitutionContract
 		this.description = description;
 	}
 	
-	public boolean isActive() {
-		return active;
-	}
-	
-	public void setActive(boolean active) {
-		this.active = active;
-	}
 
 	@Override
 	public String getId() {

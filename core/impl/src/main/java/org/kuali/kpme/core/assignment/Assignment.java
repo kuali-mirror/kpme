@@ -35,16 +35,22 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class Assignment extends HrBusinessObject implements AssignmentContract {
 
+	private static final String PRINCIPAL_ID = "principalId";
+	private static final String TASK = "task";
+	private static final String WORK_AREA = "workArea";
+	private static final String JOB_NUMBER = "jobNumber";
+	
 	private static final long serialVersionUID = 6347435053054442195L;
 	//KPME-2273/1965 Primary Business Keys List. 
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add("jobNumber")
-            .add("workArea")
-            .add("task")
-            .add("principalId")
+            .add(JOB_NUMBER)
+            .add(WORK_AREA)
+            .add(TASK)
+            .add(PRINCIPAL_ID)
             .build();
 
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
@@ -75,6 +81,18 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 
 	private List<AssignmentAccount> assignmentAccounts = new LinkedList<AssignmentAccount>();
 
+	
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.put(JOB_NUMBER, this.getJobNumber())
+				.put(WORK_AREA, this.getWorkArea())
+				.put(TASK, this.getTask())
+				.put(PRINCIPAL_ID, this.getPrincipalId())
+				.build();
+	}
+	
+	
 	public List<AssignmentAccount> getAssignmentAccounts() {
 		return assignmentAccounts;
 	}

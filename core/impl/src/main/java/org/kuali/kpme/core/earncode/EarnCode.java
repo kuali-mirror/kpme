@@ -16,11 +16,8 @@
 package org.kuali.kpme.core.earncode;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
@@ -32,8 +29,11 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class EarnCode extends HrBusinessObject implements EarnCodeContract {
+
+	private static final String EARN_CODE = "earnCode";
 
 	private static final long serialVersionUID = -1470603919624794932L;
 	
@@ -44,7 +44,7 @@ public class EarnCode extends HrBusinessObject implements EarnCodeContract {
             .build();
     //KPME-2273/1965 Primary Business Keys List.
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add("earnCode")
+            .add(EARN_CODE)
             .build();
 
 	
@@ -82,10 +82,10 @@ public class EarnCode extends HrBusinessObject implements EarnCodeContract {
 	
 	
 	@Override
-	public Map<String, Object> getBusinessKeyValuesMap() {
-		Map<String, Object> businessKeyValuesMap = new HashMap<String, Object>();
-		businessKeyValuesMap.put("earnCode", this.getEarnCode());
-		return businessKeyValuesMap;
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.put(EARN_CODE, this.getEarnCode())		
+				.build();
 	}
 
 	public String getCountsAsRegularPay() {
@@ -271,7 +271,7 @@ public class EarnCode extends HrBusinessObject implements EarnCodeContract {
 	public void assingAccrualCategoryObj() {
 		Map<String,Object> parameters = new HashMap<String,Object>();
 		parameters.put("accrualCategory", getAccrualCategory());
-		Collection c = KRADServiceLocator.getBusinessObjectService().findMatching(AccrualCategory.class, parameters);
+		Collection<AccrualCategory> c = KRADServiceLocator.getBusinessObjectService().findMatching(AccrualCategory.class, parameters);
 		if(!c.isEmpty()) {
 			this.setAccrualCategoryObj((AccrualCategory)c.toArray()[0]);
 		}

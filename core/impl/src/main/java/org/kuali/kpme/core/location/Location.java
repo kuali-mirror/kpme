@@ -26,13 +26,16 @@ import org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class Location extends HrBusinessObject implements LocationContract {
 
+	private static final String LOCATION = "location";
+	
 	private static final long serialVersionUID = 9015089510044249197L;
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-	            .add("location")
+	            .add(LOCATION)
 	            .build();
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Location";
 
@@ -42,6 +45,14 @@ public class Location extends HrBusinessObject implements LocationContract {
 	private String description;
 	private String userPrincipalId;
 	private String history;
+	
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+    	return  new ImmutableMap.Builder<String, Object>()
+			.put(LOCATION, this.getLocation())
+			.build();
+	}
+	
 	
     @Transient
     private List<LocationPrincipalRoleMemberBo> roleMembers = new ArrayList<LocationPrincipalRoleMemberBo>();

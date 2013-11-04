@@ -18,9 +18,23 @@ package org.kuali.kpme.pm.pstnqlfrtype;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
 
-public class PstnQlfrType extends HrBusinessObject implements PstnQlfrTypeContract {
-	private static final long serialVersionUID = 1L;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
+public class PstnQlfrType extends HrBusinessObject implements PstnQlfrTypeContract {
+	
+	private static final String TYPE_VALUE = "typeValue";
+	private static final String TYPE = "type";
+	private static final String CODE = "code";
+
+	private static final long serialVersionUID = 1L;
+	
+	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
+			.add(CODE)
+			.add(TYPE)
+			.add(TYPE_VALUE)
+			.build();
+	
 	private String pmPstnQlfrTypeId;
 	private String code;
 	private String type;
@@ -28,6 +42,16 @@ public class PstnQlfrType extends HrBusinessObject implements PstnQlfrTypeContra
 	private String typeValue;
 //	private PriorityQueue<String> selectValues;
 	private String selectValues;
+	
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.put(CODE, this.getCode())
+				.put(TYPE, this.getType())
+				.put(TYPE_VALUE, this.getTypeValue())
+				.build();
+	}
+	
 	
 	@Override
 	public String getId() {

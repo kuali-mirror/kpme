@@ -18,17 +18,34 @@ package org.kuali.kpme.pm.positionResponsibilityOption;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.api.positionresponsibilityoption.PositionResponsibilityOptionContract;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+
 public class PositionResponsibilityOption extends HrBusinessObject implements PositionResponsibilityOptionContract {
 	
+	private static final String PR_DESCRIPTION = "prDescription";
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5054782543015429750L;
 	
+	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
+		    .add(PR_DESCRIPTION)
+		    .build();
+	
+	
 	private String prOptionId;
 	private String prOptionName;
 	private String prDescription;
 	
+	
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.put(PR_DESCRIPTION, this.getPrDescription())
+				.build();
+	}
 	
 	public String getPrOptionId() {
 		return prOptionId;

@@ -26,15 +26,22 @@ import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class DeptLunchRule extends HrBusinessObject implements DeptLunchRuleContract {
-    public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "DeptLunchRule";
+    
+	private static final String JOB_NUMBER = "jobNumber";
+	private static final String PRINCIPAL_ID = "principalId";
+	private static final String WORK_AREA = "workArea";
+	private static final String DEPT = "dept";
+	
+	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "DeptLunchRule";
     //KPME-2273/1965 Primary Business Keys List.
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add("dept")
-            .add("workArea")
-            .add("principalId")
-            .add("jobNumber")
+            .add(DEPT)
+            .add(WORK_AREA)
+            .add(PRINCIPAL_ID)
+            .add(JOB_NUMBER)
             .build();
 
 	
@@ -57,6 +64,16 @@ public class DeptLunchRule extends HrBusinessObject implements DeptLunchRuleCont
     private transient Department departmentObj;
     private transient Job job;
 	private transient Person principal;
+	
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+    	return  new ImmutableMap.Builder<String, Object>()
+			.put(DEPT, this.getDept())
+			.put(WORK_AREA, this.getWorkArea())
+			.put(PRINCIPAL_ID, this.getPrincipalId())
+			.put(JOB_NUMBER, this.getJobNumber())
+			.build();
+	}
 	
 	//for lookups
 	private boolean history;

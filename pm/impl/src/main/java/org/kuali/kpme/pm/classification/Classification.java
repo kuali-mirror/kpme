@@ -27,15 +27,21 @@ import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class Classification extends HrBusinessObject implements ClassificationContract {
 
+	private static final String LOCATION = "location";
+	private static final String INSTITUTION = "institution";
+	private static final String CLASSIFICATION_TITLE = "classificationTitle";
+	private static final String POSITION_CLASS = "positionClass";
+	
 	private static final long serialVersionUID = 1L;
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-											    .add("positionClass")
-											    .add("classificationTitle")
-											    .add("institution")
-											    .add("location")
+											    .add(POSITION_CLASS)
+											    .add(CLASSIFICATION_TITLE)
+											    .add(INSTITUTION)
+											    .add(LOCATION)
 											    .build();
 	private String pmPositionClassId;
 	private String positionClass;
@@ -61,6 +67,17 @@ public class Classification extends HrBusinessObject implements ClassificationCo
 	// list of position flags, need to add flag maint section to Position maint doc
 	
 	private Location locationObj;
+	
+	
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.put(POSITION_CLASS, this.getPositionClass())
+				.put(CLASSIFICATION_TITLE, this.getClassificationTitle())
+				.put(INSTITUTION, this.getInstitution())
+				.put(LOCATION, this.getLocation())
+				.build();
+	}
 	
 	@Override
 	public String getId() {

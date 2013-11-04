@@ -19,10 +19,15 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.api.positionflag.PositionFlagContract;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 public class PositionFlag extends HrBusinessObject implements PositionFlagContract {
+	
+	private static final String POSITION_FLAG_NAME = "positionFlagName";
+	private static final String CATEGORY = "category";
+
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-												    .add("category")
-												    .add("positionFlagName")
+												    .add(CATEGORY)
+												    .add(POSITION_FLAG_NAME)
 												    .build();
 	
 	private static final long serialVersionUID = 1L;
@@ -30,6 +35,14 @@ public class PositionFlag extends HrBusinessObject implements PositionFlagContra
 	private String pmPositionFlagId;
 	private String category;
 	private String positionFlagName;
+	
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.put(CATEGORY, this.getCategory())
+				.put(POSITION_FLAG_NAME, this.getPositionFlagName())
+				.build();
+	}
 	
 	public String getPmPositionFlagId() {
 		return pmPositionFlagId;

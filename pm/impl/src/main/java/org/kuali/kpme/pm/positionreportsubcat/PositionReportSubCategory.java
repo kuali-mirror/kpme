@@ -22,11 +22,15 @@ import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategoryContr
 import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class PositionReportSubCategory extends HrBusinessObject implements PositionReportSubCategoryContract {
+	
+	private static final String POSITION_REPORT_SUB_CAT = "positionReportSubCat";
+
 	//KPME-2273/1965 Primary Business Keys List.
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-		     .add("positionReportSubCat")
+		     .add(POSITION_REPORT_SUB_CAT)
 		     .build();
 
 	private static final long serialVersionUID = 1L;
@@ -41,6 +45,13 @@ public class PositionReportSubCategory extends HrBusinessObject implements Posit
 	private Location locationObj;
 	private Institution institutionObj;
 	private PositionReportCategory prcObj;
+	
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.put(POSITION_REPORT_SUB_CAT, this.getPositionReportSubCat())
+				.build();
+	}
 	
 	@Override
 	public String getId() {

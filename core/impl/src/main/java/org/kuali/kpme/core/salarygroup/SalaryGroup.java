@@ -22,14 +22,17 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 public class SalaryGroup extends HrBusinessObject implements SalaryGroupContract {
+
+	private static final String HR_SAL_GROUP = "hrSalGroup";
 
 	private static final long serialVersionUID = 8169672203236887348L;
 
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "SalaryGroup";
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add("hrSalGroup")
+            .add(HR_SAL_GROUP)
             .build();
 
 	
@@ -46,6 +49,13 @@ public class SalaryGroup extends HrBusinessObject implements SalaryGroupContract
 	private String leaveEligible;
 	private String leavePlan;
 
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+    	return  new ImmutableMap.Builder<String, Object>()
+			.put(HR_SAL_GROUP, this.getHrSalGroup())
+			.build();
+	}
+	
 	public boolean isHistory() {
 		return history;
 	}

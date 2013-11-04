@@ -29,15 +29,18 @@ import org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class Department extends HrBusinessObject implements DepartmentContract {
+
+	private static final String DEPT = "dept";
 
 	private static final long serialVersionUID = 5476378484272246487L;
 
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Department";
 	//KPME-2273/1965 Primary Business Keys List.		
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add("dept")
+            .add(DEPT)
             .build();
 
     private String hrDeptId;
@@ -58,6 +61,14 @@ public class Department extends HrBusinessObject implements DepartmentContract {
     
     @Transient
     private List<DepartmentPrincipalRoleMemberBo> inactiveRoleMembers = new ArrayList<DepartmentPrincipalRoleMemberBo>();
+    
+    
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.put(DEPT, this.getDept())		
+				.build();
+	}
     
 	@Override
 	public String getUniqueKey() {

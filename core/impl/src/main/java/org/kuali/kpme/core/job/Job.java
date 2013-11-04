@@ -39,14 +39,17 @@ import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class Job extends HrBusinessObject implements JobContract {
 
+	private static final String JOB_NUMBER = "jobNumber";
+	private static final String PRINCIPAL_ID = "principalId";
 	private static final long serialVersionUID = 1369595897637935064L;	
 	//KPME-2273/1965 Primary Business Keys List. Will be using this from now on instead.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-	            .add("principalId")
-	            .add("jobNumber")
+	            .add(PRINCIPAL_ID)
+	            .add(JOB_NUMBER)
 	            .build();
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Job";
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
@@ -84,6 +87,16 @@ public class Job extends HrBusinessObject implements JobContract {
     
     private BigDecimal fte = new BigDecimal(0); //kpme1465, chen
     private String flsaStatus;
+    
+    
+    @Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.put(PRINCIPAL_ID, this.getPrincipalId())
+				.put(JOB_NUMBER, this.getJobNumber())
+				.build();
+	}
+    
     
 	public String getFlsaStatus() {
 		return flsaStatus;

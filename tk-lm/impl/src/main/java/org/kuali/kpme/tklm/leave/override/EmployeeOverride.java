@@ -25,16 +25,22 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class EmployeeOverride extends HrBusinessObject implements EmployeeOverrideContract {
 
+	private static final String OVERRIDE_TYPE = "overrideType";
+	private static final String ACCRUAL_CATEGORY = "accrualCategory";
+	private static final String LEAVE_PLAN = "leavePlan";
+	private static final String PRINCIPAL_ID = "principalId";
+	
 	private static final long serialVersionUID = 1L;
 	//KPME-2273/1965 Primary Business Keys List. Will be using this from now on instead.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add("principalId")
-            .add("leavePlan")
-            .add("accrualCategory")
-            .add("overrideType")
+            .add(PRINCIPAL_ID)
+            .add(LEAVE_PLAN)
+            .add(ACCRUAL_CATEGORY)
+            .add(OVERRIDE_TYPE)
             .build();
 	
 	private String lmEmployeeOverrideId;
@@ -48,6 +54,17 @@ public class EmployeeOverride extends HrBusinessObject implements EmployeeOverri
 	private Long overrideValue;
 	private String description;
 
+	
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+    	return  new ImmutableMap.Builder<String, Object>()
+    		.put(PRINCIPAL_ID, this.getPrincipalId())
+			.put(LEAVE_PLAN, this.getLeavePlan())
+			.put(ACCRUAL_CATEGORY, this.getAccrualCategory())
+			.put(OVERRIDE_TYPE, this.getOverrideType())
+			.build();
+	}
+	
 	@Override
 	public String getId() {
 		return getLmEmployeeOverrideId();

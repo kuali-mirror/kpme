@@ -17,11 +17,12 @@ package org.kuali.kpme.core.api.bo;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Map;
 
 import org.joda.time.LocalDate;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+
+import com.google.common.collect.ImmutableMap;
 /**
  * <p>HrBusinessObjectContract interface.</p>
  *
@@ -91,5 +92,5 @@ public interface HrBusinessObjectContract extends PersistableBusinessObject, Ina
 	 * 
 	 * @return map of key-value pairs that comprise the business key
 	 */
-	public Map<String, Object> getBusinessKeyValuesMap();
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap();
 }

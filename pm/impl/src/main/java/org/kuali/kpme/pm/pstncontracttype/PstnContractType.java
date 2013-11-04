@@ -21,23 +21,34 @@ import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.pm.api.pstncontracttype.PstnContractTypeContract;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class PstnContractType extends HrBusinessObject implements PstnContractTypeContract {
-	//KPME-2273/1965 Primary Business Keys List.	
-		public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-			    .add("name")
-			    .build();
+	
+	private static final String NAME = "name";
 
-		private static final long serialVersionUID = 1L;
+	//KPME-2273/1965 Primary Business Keys List.	
+	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
+		    .add(NAME)
+		    .build();
+
+	private static final long serialVersionUID = 1L;
+	
+	private String pmCntrctTypeId;		
+	private String name;
+	private String description;
+	private String institution;
+	private String location;
 		
-		private String pmCntrctTypeId;		
-		private String name;
-		private String description;
-		private String institution;
-		private String location;
-		
-		private Location locationObj;
-		private Institution institutionObj;
+	private Location locationObj;
+	private Institution institutionObj;
+	
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+    	return  new ImmutableMap.Builder<String, Object>()
+			.put(NAME, this.getName())
+			.build();
+	}
 
 	@Override
 	public String getId() {

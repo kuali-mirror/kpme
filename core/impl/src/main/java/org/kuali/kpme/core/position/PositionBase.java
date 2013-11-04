@@ -20,13 +20,15 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class PositionBase extends HrBusinessObject implements PositionBaseContract {
 
+	private static final String POSITION_NUMBER = "positionNumber";
 	private static final long serialVersionUID = -3258249005786874634L;
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add("positionNumber")
+            .add(POSITION_NUMBER)
             .build();
 
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PositionBase";
@@ -35,6 +37,13 @@ public class PositionBase extends HrBusinessObject implements PositionBaseContra
 	private String positionNumber;
 	private String description;
 	private String history;
+	
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+    	return  new ImmutableMap.Builder<String, Object>()
+			.put(POSITION_NUMBER, this.getPositionNumber())
+			.build();
+	}
 	
 
 	@Override

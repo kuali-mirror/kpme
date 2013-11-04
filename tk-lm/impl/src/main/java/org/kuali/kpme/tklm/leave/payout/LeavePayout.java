@@ -33,6 +33,8 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
+import com.google.common.collect.ImmutableMap;
+
 public class LeavePayout extends HrBusinessObject implements Assignable, LeavePayoutContract {
 
 	private static final long serialVersionUID = 1L;
@@ -56,6 +58,13 @@ public class LeavePayout extends HrBusinessObject implements Assignable, LeavePa
     private String payoutLeaveBlockId;
 
 	private String status;
+	
+	// TODO returning an empty map for the time-being, until the BK is finalized
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.build();
+	}
 
 	public String getEarnCode() {
 		return earnCode;

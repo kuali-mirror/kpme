@@ -23,11 +23,15 @@ import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
 import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 public class PositionDepartment extends HrBusinessObject implements PositionDepartmentContract {
-    //TODO reslove the issue with PositionDepartmentAffiliation to implement  PositionDepartmentContract
+	
+    private static final String DEPARTMENT = "department";
+
+	//TODO reslove the issue with PositionDepartmentAffiliation to implement  PositionDepartmentContract
 	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-		    .add("department")
+		    .add(DEPARTMENT)
 		    .build();
 	
 	private static final long serialVersionUID = 1L;
@@ -44,6 +48,13 @@ public class PositionDepartment extends HrBusinessObject implements PositionDepa
 	private Department departmentObj;
 	private PositionDepartmentAffiliation positionDeptAfflObj;
 
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.put(DEPARTMENT, this.getDepartment())
+				.build();
+	}	
+	
 	@Override
 	public String getId() {
 		return this.getPmPositionDeptId();

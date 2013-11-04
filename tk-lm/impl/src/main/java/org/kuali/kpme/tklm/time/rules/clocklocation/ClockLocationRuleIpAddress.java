@@ -18,12 +18,21 @@ package org.kuali.kpme.tklm.time.rules.clocklocation;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.tklm.api.time.rules.clocklocation.ClockLocationRuleIpAddressContract;
 
+import com.google.common.collect.ImmutableMap;
+
 public class ClockLocationRuleIpAddress extends HrBusinessObject implements ClockLocationRuleIpAddressContract {
 
 	private static final long serialVersionUID = 1L;
 	private String tkClockLocationRuleIpId;
 	private String tkClockLocationRuleId;
 	private String ipAddress;
+	
+	// TODO returning an empty map for the time-being, until the BK is finalized
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.build();
+	}
 	
 	@Override
 	public String getId() {

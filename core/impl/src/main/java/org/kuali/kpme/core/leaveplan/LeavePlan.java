@@ -23,13 +23,16 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class LeavePlan extends HrBusinessObject implements LeavePlanContract {
+	
+	private static final String LEAVE_PLAN = "leavePlan";
 	
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "LeavePlan";
 	//KPME-2273/1965 Primary Business Keys List.
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-	            .add("leavePlan")
+	            .add(LEAVE_PLAN)
 	            .build();
 
 	private static final long serialVersionUID = 1L;
@@ -41,6 +44,14 @@ public class LeavePlan extends HrBusinessObject implements LeavePlanContract {
 	private String planningMonths;
 	private String batchPriorYearCarryOverStartDate;
 	private Time batchPriorYearCarryOverStartTime;
+	
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+    	return  new ImmutableMap.Builder<String, Object>()
+			.put(LEAVE_PLAN, this.getLeavePlan())
+			.build();
+	}
+	
 
 	public String getBatchPriorYearCarryOverStartDate() {
 		return batchPriorYearCarryOverStartDate;

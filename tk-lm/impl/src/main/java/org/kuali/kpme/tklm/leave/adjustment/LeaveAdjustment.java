@@ -28,14 +28,18 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class LeaveAdjustment extends HrBusinessObject implements LeaveAdjustmentContract {
+	private static final String EARN_CODE = "earnCode";
+	private static final String ACCRUAL_CATEGORY = "accrualCategory";
+	private static final String PRINCIPAL_ID = "principalId";
+	
 	private static final long serialVersionUID = 1L;
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add("principalId")
-            .add("jobNumber")
-            .add("accrualCategory")
-            .add("earnCode")
+            .add(PRINCIPAL_ID)
+            .add(ACCRUAL_CATEGORY)
+            .add(EARN_CODE)
             .build();	
 	private String lmLeaveAdjustmentId;
 	private String principalId;
@@ -48,6 +52,18 @@ public class LeaveAdjustment extends HrBusinessObject implements LeaveAdjustment
 	private transient AccrualCategory accrualCategoryObj;
 	private transient EarnCode earnCodeObj;
 	private transient PrincipalHRAttributes principalHRAttrObj;
+	
+	
+
+    @Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+    	return  new ImmutableMap.Builder<String, Object>()
+			.put(PRINCIPAL_ID, this.getPrincipalId())
+			.put(ACCRUAL_CATEGORY, this.getAccrualCategory())
+			.put(EARN_CODE, this.getEarnCode())
+			.build();
+	}
+    
 	
 	public String getEarnCode() {
 		return earnCode;

@@ -21,15 +21,18 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.workarea.WorkArea;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class Task extends HrBusinessObject implements TaskContract {
+
+	private static final String TASK = "task";
 
 	private static final long serialVersionUID = -7536342291963303862L;
 
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Task";
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add("task")
+            .add(TASK)
             .build();
 
     private String tkTaskId;
@@ -41,6 +44,13 @@ public class Task extends HrBusinessObject implements TaskContract {
     
     private WorkArea workAreaObj;
 	
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.put(TASK, this.getTask())		
+				.build();
+	}
+    
 	public String getTkTaskId() {
 		return tkTaskId;
 	}

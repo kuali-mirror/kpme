@@ -21,6 +21,8 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibilityContract;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
+import com.google.common.collect.ImmutableMap;
+
 
 public class PositionResponsibility extends HrBusinessObject implements PositionResponsibilityContract {
 
@@ -37,6 +39,14 @@ public class PositionResponsibility extends HrBusinessObject implements Position
 	private String hrPositionId;
 	private CampusBo campusObj;
 
+	// TODO returning an empty map for the time-being, until the BK is finalized
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.build();
+	}
+	
+	
 	public String getPositionResponsibilityId() {
 		return positionResponsibilityId;
 	}

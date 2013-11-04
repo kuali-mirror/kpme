@@ -21,6 +21,8 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.tklm.api.time.rules.graceperiod.GracePeriodRuleContract;
 import org.kuali.kpme.tklm.common.TkConstants;
 
+import com.google.common.collect.ImmutableMap;
+
 public class GracePeriodRule extends HrBusinessObject implements GracePeriodRuleContract {
 
 	private static final long serialVersionUID = 2756221187837436165L;
@@ -31,6 +33,13 @@ public class GracePeriodRule extends HrBusinessObject implements GracePeriodRule
 	private BigDecimal hourFactor;
 	private String userPrincipalId;
 	private boolean history; // KPME-2543
+	
+	// TODO returning an empty map for the time-being, until the BK is finalized
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return new ImmutableMap.Builder<String, Object>()
+				.build();
+	}
 
 	public BigDecimal getHourFactor() {
 	    return hourFactor;

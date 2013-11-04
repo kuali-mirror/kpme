@@ -25,18 +25,27 @@ import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class LeaveDonation extends HrBusinessObject implements LeaveDonationContract {
-    public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "LeaveDonation";
+	
+    private static final String AMOUNT_RECEIVED = "amountReceived";
+	private static final String RECIPIENTS_ACCRUAL_CATEGORY = "recipientsAccrualCategory";
+	private static final String RECIPIENTS_PRINCIPAL_ID = "recipientsPrincipalID";
+	private static final String AMOUNT_DONATED = "amountDonated";
+	private static final String DONATED_ACCRUAL_CATEGORY = "donatedAccrualCategory";
+	private static final String DONORS_PRINCIPAL_ID = "donorsPrincipalID";
+    
+	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "LeaveDonation";
     private static final long serialVersionUID = 1L;
     //KPME-2273/1965 Primary Business Keys List.	
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add("donorsPrincipalID")
-            .add("donatedAccrualCategory")
-            .add("amountDonated")
-            .add("recipientsPrincipalID")
-            .add("recipientsAccrualCategory")
-            .add("amountReceived")
+            .add(DONORS_PRINCIPAL_ID)
+            .add(DONATED_ACCRUAL_CATEGORY)
+            .add(AMOUNT_DONATED)
+            .add(RECIPIENTS_PRINCIPAL_ID)
+            .add(RECIPIENTS_ACCRUAL_CATEGORY)
+            .add(AMOUNT_RECEIVED)
             .build();    
     
     private String lmLeaveDonationId;
@@ -57,6 +66,18 @@ public class LeaveDonation extends HrBusinessObject implements LeaveDonationCont
 	private String donatedEarnCode;
 	private String recipientsEarnCode;
 
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+    	return  new ImmutableMap.Builder<String, Object>()
+			.put(DONORS_PRINCIPAL_ID, this.getDonorsPrincipalID())
+			.put(DONATED_ACCRUAL_CATEGORY, this.getDonatedAccrualCategory())
+			.put(AMOUNT_DONATED, this.getAmountDonated())
+			.put(RECIPIENTS_PRINCIPAL_ID, this.getRecipientsPrincipalID())
+			.put(RECIPIENTS_ACCRUAL_CATEGORY, this.getRecipientsAccrualCategory())
+			.put(AMOUNT_RECEIVED, this.getAmountReceived())
+			.build();
+	}
+	
 	public EarnCode getEarnCodeObj() {
 		return earnCodeObj;
 	}

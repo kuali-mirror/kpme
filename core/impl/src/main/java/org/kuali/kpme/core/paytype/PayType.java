@@ -32,9 +32,11 @@ import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class PayType extends HrBusinessObject implements PayTypeContract {
-    public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PayType";
+    private static final String PAY_TYPE = "payType";
+	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PayType";
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
             .add(PayType.CACHE_NAME)
             .add(Job.CACHE_NAME)
@@ -43,7 +45,7 @@ public class PayType extends HrBusinessObject implements PayTypeContract {
             .build();
     //KPME-2273/1965 Primary Business Keys List.	
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add("payType")
+            .add(PAY_TYPE)
             .build();
 
 	private static final long serialVersionUID = 1L;
@@ -69,6 +71,13 @@ public class PayType extends HrBusinessObject implements PayTypeContract {
 	
 	private Location locationObj;
 	private Institution institutionObj;
+	
+	@Override
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+    	return  new ImmutableMap.Builder<String, Object>()
+			.put(PAY_TYPE, this.getPayType())
+			.build();
+	}
 
     public EarnCode getRegEarnCodeObj() {
         return regEarnCodeObj;
