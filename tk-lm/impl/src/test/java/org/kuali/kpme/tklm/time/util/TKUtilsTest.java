@@ -444,11 +444,11 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
     public void testisDateEqualOrBetween() throws Exception {
         //equals
         DateTime equalsDate = new DateTime(2013,1,1,0,0,0);
-        Assert.assertEquals("This should be true",true,TKUtils.isDateEqualOrBetween(equalsDate, "01/01/2013..01/07/2013"));
+        Assert.assertTrue("This should be true",TKUtils.isDateEqualOrBetween(equalsDate, "01/01/2013..01/07/2013"));
 
         //between
         DateTime betweenDate = new DateTime(2013,1,4,0,0,0);
-        Assert.assertEquals("This should be true",true,TKUtils.isDateEqualOrBetween(betweenDate, "01/01/2013..01/07/2013"));
+        Assert.assertTrue("This should be true",TKUtils.isDateEqualOrBetween(betweenDate, "01/01/2013..01/07/2013"));
 
     }
     @Test
