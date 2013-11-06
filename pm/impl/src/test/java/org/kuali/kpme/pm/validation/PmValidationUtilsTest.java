@@ -20,7 +20,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.PMIntegrationTestCase;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 
@@ -101,7 +100,30 @@ public class PmValidationUtilsTest extends PMIntegrationTestCase {
 		results = PmValidationUtils.validateCampusWithPRT(prt, campus, aDate.toLocalDate()); 
 		Assert.assertTrue(results);
 	}
-	
+
+
+    @Test
+    public void testValidatePayGradeWithSalaryGroup() {
+        DateTime aDate = INVALID_DATE;
+        String payGrade = "nonExist";
+        String salaryGroup = "*";
+        boolean results = PmValidationUtils.validatePayGradeWithSalaryGroup(salaryGroup, payGrade, aDate.toLocalDate());  //non-existing
+        Assert.assertFalse(results);
+
+        payGrade = "T";
+        results = PmValidationUtils.validatePayGradeWithSalaryGroup(salaryGroup, payGrade, aDate.toLocalDate()); //existing, Wrong Date
+        Assert.assertFalse(results);
+
+        aDate = VALID_DATE;
+        salaryGroup = "nonExist";
+        results = PmValidationUtils.validatePayGradeWithSalaryGroup(salaryGroup, payGrade, aDate.toLocalDate());  //existing, wrong salaryGroup
+        Assert.assertFalse(results);
+
+        salaryGroup = "testSalGrp";
+        results = PmValidationUtils.validatePayGradeWithSalaryGroup(salaryGroup, payGrade, aDate.toLocalDate());
+        Assert.assertTrue(results);
+    }
+
 	@Test
 	public void testValidatePositionReportCategory() {
 		DateTime aDate = INVALID_DATE;
@@ -164,7 +186,7 @@ public class PmValidationUtilsTest extends PMIntegrationTestCase {
 		Assert.assertFalse(results);
 		
 		prg = "testPRG";	
-		results = PmValidationUtils.validatePstnRptGrp(prg, institution, campus, aDate.toLocalDate()); ; // existing, but wrong date
+		results = PmValidationUtils.validatePstnRptGrp(prg, institution, campus, aDate.toLocalDate()); // existing, but wrong date
 		Assert.assertFalse(results);
 		
 		aDate = VALID_DATE;
@@ -181,4 +203,61 @@ public class PmValidationUtilsTest extends PMIntegrationTestCase {
 		results = PmValidationUtils.validatePstnRptGrp(prg, institution, campus, aDate.toLocalDate()); 
 		Assert.assertTrue(results);
 	}
+
+    @Test
+    public void testValidatePositionQualificationValue() {
+        String qValue = "nonExist";
+        boolean results = PmValidationUtils.validatePositionQualificationValue(qValue);  //non-existing
+        Assert.assertFalse(results);
+
+        qValue = "existing";
+        results = PmValidationUtils.validatePositionQualificationValue(qValue);
+        Assert.assertTrue(results);
+    }
+
+    @Test
+    public void testValidateAffiliation() {
+       DateTime aDate = INVALID_DATE;
+       String positionDeptAffl = "nonExist";
+       boolean results = PmValidationUtils.validateAffiliation(positionDeptAffl, aDate.toLocalDate()); //non-existing
+       Assert.assertFalse(results);
+
+       positionDeptAffl = "testType";
+       results = PmValidationUtils.validateAffiliation(positionDeptAffl, aDate.toLocalDate()); //existing, but wrong date
+       Assert.assertFalse(results);
+
+       aDate = VALID_DATE;
+       results = PmValidationUtils.validateAffiliation(positionDeptAffl, aDate.toLocalDate());
+       Assert.assertTrue(results);
+
+    }
+
+    @Test
+    public void testValidatePositionType(){
+        DateTime aDate = INVALID_DATE;
+        String pType = "nonExist";
+        String institution ="*";
+        String campus = "*";
+        boolean results = PmValidationUtils.validatePositionType(pType,institution,campus,aDate.toLocalDate()); //non-existing
+        Assert.assertFalse(results);
+
+        pType = "testTyp";
+        results = PmValidationUtils.validatePositionType(pType,institution,campus,aDate.toLocalDate());  //existing, wrong date
+        Assert.assertFalse(results);
+
+        institution = "nonExist";
+        aDate = VALID_DATE;
+        results = PmValidationUtils.validatePositionType(pType,institution,campus,aDate.toLocalDate()); //existing, wrong institution
+        Assert.assertFalse(results);
+
+        institution = "testInst";
+        campus = "nonExist";
+        results = PmValidationUtils.validatePositionType(pType,institution,campus,aDate.toLocalDate());   //existing, wrong campus
+        Assert.assertFalse(results);
+
+        campus = "BL";
+        results = PmValidationUtils.validatePositionType(pType,institution,campus,aDate.toLocalDate());
+        Assert.assertTrue(results);
+
+    }
 }
