@@ -17,7 +17,6 @@ package org.kuali.hr.time.util;
 
 import java.math.BigDecimal;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -25,8 +24,8 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.TestAutoLoginFilter;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.detail.validation.TimeDetailValidationUtil;

@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
@@ -144,11 +145,11 @@ public class BalanceTransfer extends HrBusinessObject implements Assignable, Bal
 	}
 
 	public AccrualCategory getCreditedAccrualCategory() {
-		return HrServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, getEffectiveLocalDate());
+		return (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, getEffectiveLocalDate());
 	}
 
 	public AccrualCategory getDebitedAccrualCategory() {
-		return HrServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, getEffectiveLocalDate());
+		return (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, getEffectiveLocalDate());
 	}
 
 	public String getLeaveCalendarDocumentId() {
@@ -172,7 +173,7 @@ public class BalanceTransfer extends HrBusinessObject implements Assignable, Bal
 	 */
 	public BalanceTransfer adjust(BigDecimal transferAmount) {
 		BigDecimal difference = this.transferAmount.subtract(transferAmount);
-		AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRule);
+		AccrualCategoryRuleContract aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRule);
 		//technically if there is forfeiture, then the transfer amount has already been maximized
 		//via BalanceTransferService::initializeTransfer(...)
 		//i.o.w. transfer amount cannot be increased.
@@ -296,7 +297,7 @@ public class BalanceTransfer extends HrBusinessObject implements Assignable, Bal
 
     @Override
     public List<Assignment> getAssignments() {
-        return HrServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), getEffectiveLocalDate());
+        return (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), getEffectiveLocalDate());
     }
 
     //Comparable for order handling of more than one transfer occurring during the same

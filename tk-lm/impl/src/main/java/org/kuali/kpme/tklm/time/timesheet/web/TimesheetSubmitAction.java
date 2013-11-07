@@ -37,9 +37,9 @@ import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -86,7 +86,7 @@ public class TimesheetSubmitAction extends KPMEAction {
             				HrConstants.FLSA_STATUS_NON_EXEMPT, true);
             	if(nonExemptLE) {
             		Map<String,Set<LeaveBlock>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(document.getCalendarEntry(), document.getPrincipalId());
-            		PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), document.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
+            		PrincipalHRAttributes pha = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), document.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
 					Calendar cal = pha.getLeaveCalObj();
 					if(cal == null) {
 						//non exempt leave eligible employee without a leave calendar?
@@ -127,7 +127,7 @@ public class TimesheetSubmitAction extends KPMEAction {
 		            				}
 		            				if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
 		            					//a leave period should end within the time period.
-		            					CalendarEntry leaveEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(cal.getHrCalendarId(), lb.getLeaveLocalDate().toDateTimeAtStartOfDay());
+		            					CalendarEntry leaveEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(cal.getHrCalendarId(), lb.getLeaveLocalDate().toDateTimeAtStartOfDay());
 		            					if(ObjectUtils.isNotNull(leaveEntry)) {
 		            						//only leave blocks belonging to the calendar entry being submitted may reach this point.
 		            						//if the infraction occurs before the end of the leave calendar entry, then action will be executed.
@@ -247,7 +247,7 @@ public class TimesheetSubmitAction extends KPMEAction {
         	if(earnCodeTypeMap.containsKey(earnCode)) {
         		earnCodeType = earnCodeTypeMap.get(earnCode);
         	} else {
-       	 		EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, tDoc.getAsOfDate());
+       	 		EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, tDoc.getAsOfDate());
        	 		if(earnCodeObj != null) {
        	 			earnCodeType = earnCodeObj.getEarnCodeType();
        	 		}
@@ -261,7 +261,7 @@ public class TimesheetSubmitAction extends KPMEAction {
 	            		if(earnCodeTypeMap.containsKey(earnCode)) {
 	                		earnCodeType = earnCodeTypeMap.get(earnCode);
 	                	} else {
-	   	        	 		EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, tDoc.getAsOfDate());
+	   	        	 		EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, tDoc.getAsOfDate());
 	   	        	 		if(earnCodeObj != null) {
 	   	        	 			earnCodeType = earnCodeObj.getEarnCodeType();
 	   	        	 		}

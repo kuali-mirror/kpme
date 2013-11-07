@@ -18,6 +18,7 @@ package org.kuali.kpme.core.institution.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.institution.service.InstitutionService;
 import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.core.institution.dao.InstitutionDao;
 

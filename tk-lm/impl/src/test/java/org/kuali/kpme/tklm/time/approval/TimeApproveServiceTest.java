@@ -25,7 +25,7 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -80,7 +80,7 @@ public class TimeApproveServiceTest extends TKLMIntegrationTestCase {
         List<String> principalIds = new ArrayList<String>();
         principalIds.add("admin");
         List<String> payCalendarLabels = new ArrayList<String>();
-        CalendarEntry pce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+        CalendarEntryContract pce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 
     }
 }

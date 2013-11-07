@@ -28,8 +28,8 @@ import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -39,8 +39,9 @@ import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -74,10 +75,10 @@ public class PersonInfoAction extends KPMEAction {
             // set name
             personForm.setName(name.getDefaultName() != null ? name.getDefaultName().getCompositeName() : StringUtils.EMPTY);
         }
-		personForm.setJobs(HrServiceLocator.getJobService().getJobs(HrContext.getTargetPrincipalId(), LocalDate.now()));
+		personForm.setJobs((List<Job>) HrServiceLocator.getJobService().getJobs(HrContext.getTargetPrincipalId(), LocalDate.now()));
 		
 		//KPME-1441
-		PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(personForm.getPrincipalId(), LocalDate.now());
+		PrincipalHRAttributesContract principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(personForm.getPrincipalId(), LocalDate.now());
 		if ( principalHRAttributes != null && principalHRAttributes.getServiceDate() != null ){
 			personForm.setServiceDate(principalHRAttributes.getServiceDate().toString());
 		} else {
@@ -91,10 +92,10 @@ public class PersonInfoAction extends KPMEAction {
 		    Map<String, String> accrualEarnIntervals = new HashMap<String, String>();
 		    Map<String, String> unitOfTime = new HashMap<String, String>();
 			
-			List<AccrualCategory> allAccrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalHRAttributes.getLeavePlan(), LocalDate.now());
+			List<AccrualCategory> allAccrualCategories = (List<AccrualCategory>) HrServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalHRAttributes.getLeavePlan(), LocalDate.now());
 		    for (AccrualCategory accrualCategory : allAccrualCategories) {
 				if (StringUtils.equalsIgnoreCase(accrualCategory.getHasRules(), "Y")) {
-					AccrualCategoryRule accrualCategoryRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, LocalDate.now(), principalHRAttributes.getServiceLocalDate());
+					AccrualCategoryRule accrualCategoryRule = (AccrualCategoryRule) HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, LocalDate.now(), principalHRAttributes.getServiceLocalDate());
 					if (accrualCategoryRule != null) {
 						accrualCategories.add(accrualCategory);
 						
@@ -124,7 +125,7 @@ public class PersonInfoAction extends KPMEAction {
 		
 		setupRolesOnForm(personForm);
 
-		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(HrContext.getTargetPrincipalId(), LocalDate.now());
+		List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(HrContext.getTargetPrincipalId(), LocalDate.now());
 		
 		Map<Long, Set<Assignment>> jobNumberToListAssignments = new HashMap<Long,Set<Assignment>>();
 		Map<Long, Set<Person>> workAreaToApproverPerson = new HashMap<Long, Set<Person>>();

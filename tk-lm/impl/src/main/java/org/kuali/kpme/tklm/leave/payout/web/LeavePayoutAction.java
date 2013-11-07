@@ -119,8 +119,8 @@ public class LeavePayoutAction extends KPMEAction {
 				return mapping.findForward("basic");
 			}
 			
-			AccrualCategoryRule accrualRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
-			AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
+			AccrualCategoryRule accrualRule = (AccrualCategoryRule) HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+			AccrualCategory accrualCategory = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 			BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(leavePayout.getPrincipalId(), accrualCategory, leavePayout.getEffectiveLocalDate());
 
 			LeavePayout defaultBT = LmServiceLocator.getLeavePayoutService().initializePayout(leavePayout.getPrincipalId(), accrualRuleId, accruedBalance, leavePayout.getEffectiveLocalDate());
@@ -163,7 +163,7 @@ public class LeavePayoutAction extends KPMEAction {
 		LeavePayoutForm lpf = (LeavePayoutForm) form;
 		LeavePayout leavePayout = lpf.getLeavePayout();
 		String accrualCategoryRuleId = leavePayout.getAccrualCategoryRule();
-		AccrualCategoryRule accrualRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
+		AccrualCategoryRule accrualRule = (AccrualCategoryRule) HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
 		String actionFrequency = accrualRule.getMaxBalanceActionFrequency();
 		
 		if(StringUtils.equals(actionFrequency,HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
@@ -219,7 +219,7 @@ public class LeavePayoutAction extends KPMEAction {
 			isTimesheet = true;
 		}
 		if(ObjectUtils.isNotNull(leaveBlockId)) {
-			AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(leaveBlockId);
+			AccrualCategoryRule aRule = (AccrualCategoryRule) HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(leaveBlockId);
 			if(ObjectUtils.isNotNull(aRule)) {
 				//should somewhat safegaurd against url fabrication.
 				if(!StringUtils.equals(aRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) {
@@ -242,8 +242,8 @@ public class LeavePayoutAction extends KPMEAction {
 						principalId = lcd == null ? null : lcd.getPrincipalId();
 					}
 					
-					AccrualCategoryRule accrualRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(leaveBlockId);
-					AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
+					AccrualCategoryRule accrualRule = (AccrualCategoryRule) HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(leaveBlockId);
+					AccrualCategory accrualCategory = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 					BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, LocalDate.now());
 
 					LeavePayout leavePayout = LmServiceLocator.getLeavePayoutService().initializePayout(principalId, leaveBlockId, accruedBalance, LocalDate.now());
@@ -327,7 +327,7 @@ public class LeavePayoutAction extends KPMEAction {
 			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
             AccrualCategoryRule accrualRule = leaveBlock.getAccrualCategoryRule();
 			if(accrualRule != null) {
-				AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
+				AccrualCategory accrualCategory = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 				BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, effectiveDate);
 			
 				LeavePayout leavePayout = LmServiceLocator.getLeavePayoutService().initializePayout(principalId, accrualRule.getLmAccrualCategoryRuleId(), accruedBalance, effectiveDate);
@@ -421,7 +421,7 @@ public class LeavePayoutAction extends KPMEAction {
 			String accrualCategoryRuleId = leaveBlock.getAccrualCategoryRuleId();
             AccrualCategoryRule accrualRule = leaveBlock.getAccrualCategoryRule();
 			if(accrualRule != null) {
-				AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
+				AccrualCategory accrualCategory = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 				BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, effectiveDate);
 
 				LeavePayout leavePayout = LmServiceLocator.getLeavePayoutService().initializePayout(principalId, accrualCategoryRuleId, accruedBalance, effectiveDate);

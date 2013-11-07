@@ -48,11 +48,11 @@ public class ActionFormUtilsTest extends TKLMIntegrationTestCase {
 	@Test
 	public void testGetUnitOfTimeForEarnCode() throws Exception {
 		// earn code with an existing Accrual category
-		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCodeById("5000");
+		EarnCode earnCode = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCodeById("5000");
 		String unitOfTime = ActionFormUtils.getUnitOfTimeForEarnCode(earnCode);
 		Assert.assertTrue("Unit of Time should be 'H', not " + unitOfTime, unitOfTime.equals("H"));
 		// earn code without an existing accrual category
-		earnCode = HrServiceLocator.getEarnCodeService().getEarnCodeById("5002");
+		earnCode = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCodeById("5002");
 		unitOfTime = ActionFormUtils.getUnitOfTimeForEarnCode(earnCode);
 		Assert.assertTrue("Unit of Time should be 'H', not " + unitOfTime, unitOfTime.equals("H"));
 		

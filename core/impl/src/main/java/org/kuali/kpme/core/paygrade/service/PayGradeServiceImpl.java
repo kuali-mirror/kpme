@@ -34,6 +34,7 @@ package org.kuali.kpme.core.paygrade.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.paygrade.service.PayGradeService;
 import org.kuali.kpme.core.paygrade.PayGrade;
 import org.kuali.kpme.core.paygrade.dao.PayGradeDao;
 

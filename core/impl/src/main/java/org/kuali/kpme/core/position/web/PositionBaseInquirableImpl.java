@@ -15,15 +15,16 @@
  */
 package org.kuali.kpme.core.position.web;
 
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
-
-import java.util.Map;
 
 public class PositionBaseInquirableImpl extends KualiInquirableImpl {
 
@@ -32,7 +33,7 @@ public class PositionBaseInquirableImpl extends KualiInquirableImpl {
 	@Override
 	@SuppressWarnings("rawtypes")
 	public BusinessObject getBusinessObject(Map fieldValues) {
-		PositionBase position = null;
+		PositionBaseContract position = null;
 		
 		if (StringUtils.isNotBlank((String)fieldValues.get("hrPositionId"))) {
             position = HrServiceLocator.getPositionService().getPosition((String) fieldValues.get("hrPositionId"));

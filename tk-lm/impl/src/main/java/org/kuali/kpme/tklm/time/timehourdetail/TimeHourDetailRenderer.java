@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.timehourdetail;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailRendererContract;
@@ -71,7 +71,7 @@ public class TimeHourDetailRenderer implements TimeHourDetailRendererContract {
 			if(timeBlock.getEarnCode().equals(HrConstants.HOLIDAY_EARN_CODE)) {
 				String documentId = timeBlock.getDocumentId();
 				TimesheetDocumentHeader docHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
-				PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(docHeader.getPrincipalId(), timeBlock.getBeginDateTime().toLocalDate());
+				PrincipalHRAttributesContract principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(docHeader.getPrincipalId(), timeBlock.getBeginDateTime().toLocalDate());
 				
 				if(principalCalendar != null && StringUtils.isNotEmpty(principalCalendar.getLeavePlan())) {
 					holidayDesc = LmServiceLocator.getSysSchTimeOffService().getSSTODescriptionForDate(principalCalendar.getLeavePlan(), timeBlock.getBeginDateTime().toLocalDate());

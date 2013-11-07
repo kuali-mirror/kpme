@@ -40,7 +40,7 @@ public class CarryOverSchedulerJob extends QuartzJobBean {
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		LocalDate asOfDate = LocalDate.now();
-		List<LeavePlan> leavePlans = HrServiceLocator.getLeavePlanService().getLeavePlansNeedsCarryOverScheduled(getLeavePlanPollingWindow(), asOfDate);
+		List<LeavePlan> leavePlans = (List<LeavePlan>) HrServiceLocator.getLeavePlanService().getLeavePlansNeedsCarryOverScheduled(getLeavePlanPollingWindow(), asOfDate);
         try {
         	if(leavePlans!=null && !leavePlans.isEmpty()) {
 				DateTime current = asOfDate.toDateTimeAtStartOfDay();

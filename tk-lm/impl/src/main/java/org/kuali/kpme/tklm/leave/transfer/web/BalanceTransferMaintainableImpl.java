@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -154,7 +154,7 @@ public class BalanceTransferMaintainableImpl extends
 	private List<LeaveBlock> buildSstoLeaveBlockList(BalanceTransfer bt) {
 		String leaveDocId = CollectionUtils.isNotEmpty(bt.getLeaveBlocks())? bt.getLeaveBlocks().get(0).getDocumentId() : "";
 		List<LeaveBlock> lbList = new ArrayList<LeaveBlock>();
-		AccrualCategory fromAC = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getFromAccrualCategory(), bt.getEffectiveLocalDate());
+		AccrualCategoryContract fromAC = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getFromAccrualCategory(), bt.getEffectiveLocalDate());
 		
 		LeaveBlock accruedLeaveBlock = new LeaveBlock();
 		accruedLeaveBlock.setAccrualCategory(bt.getFromAccrualCategory());

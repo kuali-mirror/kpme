@@ -22,10 +22,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -86,7 +86,7 @@ public class TkWorkflowTimesheetAttribute extends AbstractRoleAttribute {
 		List<Id> principals = new ArrayList<Id>();
 		String routeHeaderId = routeContext.getDocument().getDocumentId();
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId.toString());
-		WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, timesheetDocument.getAsOfDate());
+		WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, timesheetDocument.getAsOfDate());
 
 		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 		

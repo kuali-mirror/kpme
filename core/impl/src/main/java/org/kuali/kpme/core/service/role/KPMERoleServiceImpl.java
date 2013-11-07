@@ -23,7 +23,13 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.isNull;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.lessThanOrEqual;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
@@ -34,12 +40,10 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
-import org.kuali.kpme.core.department.Department;
-import org.kuali.kpme.core.department.service.DepartmentService;
+import org.kuali.kpme.core.api.department.service.DepartmentService;
+import org.kuali.kpme.core.api.workarea.service.WorkAreaService;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
-import org.kuali.kpme.core.workarea.WorkArea;
-import org.kuali.kpme.core.workarea.service.WorkAreaService;
 import org.kuali.rice.core.api.criteria.LookupCustomizer;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -51,7 +55,6 @@ import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kim.api.type.KimTypeInfoService;
 import org.kuali.rice.kim.framework.role.RoleTypeService;

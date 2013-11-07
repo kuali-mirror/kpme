@@ -29,6 +29,8 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
@@ -241,10 +243,10 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 				
 				Long workArea = tb.getWorkArea();
 				
-				Job job = HrServiceLocator.getJobService().getJob(tb.getPrincipalId(), tb.getJobNumber(), LocalDate.fromDateFields(tb.getBeginDate()), false);
+				JobContract job = HrServiceLocator.getJobService().getJob(tb.getPrincipalId(), tb.getJobNumber(), LocalDate.fromDateFields(tb.getBeginDate()), false);
 				String department = job != null ? job.getDept() : null;
 				
-				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(tb.getBeginDate()));
+				DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(tb.getBeginDate()));
 				String location = departmentObj != null ? departmentObj.getLocation() : null;
 				
 				boolean valid = false;

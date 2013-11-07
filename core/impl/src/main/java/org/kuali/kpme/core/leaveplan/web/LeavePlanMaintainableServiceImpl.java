@@ -28,6 +28,6 @@ public class LeavePlanMaintainableServiceImpl extends HrBusinessObjectMaintainab
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return HrServiceLocator.getLeavePlanService().getLeavePlan(id);
+		return (HrBusinessObject) HrServiceLocator.getLeavePlanService().getLeavePlan(id);
 	}
 }

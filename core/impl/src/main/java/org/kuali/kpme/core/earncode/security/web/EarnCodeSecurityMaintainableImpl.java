@@ -52,6 +52,6 @@ public class EarnCodeSecurityMaintainableImpl extends HrBusinessObjectMaintainab
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurity(id);
+		return (HrBusinessObject) HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurity(id);
 	}
 }

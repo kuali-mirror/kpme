@@ -22,6 +22,7 @@ import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 
 /**
  * <p>AccrualCategoryContract interface.</p>
@@ -29,7 +30,9 @@ import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
  */
 public interface AccrualCategoryContract extends HrBusinessObjectContract {
 	
-	/**
+	 public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "AccrualCategory";
+	
+	 /**
 	 * Flag that shows if the AccrualCetegory has any AccrualCategoryRules
 	 * 
 	 * <p>

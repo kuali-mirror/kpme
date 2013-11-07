@@ -50,7 +50,7 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     private transient Calendar calendarObj;
 
     public String getHrCalendarId() {
-        calendarObj = HrServiceLocator.getCalendarService().getCalendarByGroup(this.getCalendarName());
+        calendarObj = (Calendar)HrServiceLocator.getCalendarService().getCalendarByGroup(this.getCalendarName());
         if (calendarObj != null) {
             this.setHrCalendarId(calendarObj.getHrCalendarId());
         }

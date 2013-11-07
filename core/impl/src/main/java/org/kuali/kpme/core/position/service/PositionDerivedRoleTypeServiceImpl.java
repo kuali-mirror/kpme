@@ -22,7 +22,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.job.service.JobService;
+import org.kuali.kpme.core.api.job.service.JobService;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.Role;

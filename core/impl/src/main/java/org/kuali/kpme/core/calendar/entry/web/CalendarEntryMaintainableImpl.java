@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.calendar.entry.web;
 
+import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.cache.CacheUtils;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -29,7 +30,7 @@ public class CalendarEntryMaintainableImpl extends KualiMaintainableImpl {
 	public void saveBusinessObject() {
 		CalendarEntry calendarEntry = (CalendarEntry) super.getBusinessObject();
 		
-		Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByGroup(calendarEntry.getCalendarName());
+		CalendarContract calendar = HrServiceLocator.getCalendarService().getCalendarByGroup(calendarEntry.getCalendarName());
 		calendarEntry.setHrCalendarId(calendar.getHrCalendarId());
 		
 		super.saveBusinessObject();

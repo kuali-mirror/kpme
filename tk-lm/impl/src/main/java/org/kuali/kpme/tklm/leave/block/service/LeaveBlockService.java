@@ -21,8 +21,8 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.springframework.cache.annotation.CacheEvict;

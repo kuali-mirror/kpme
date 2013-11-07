@@ -33,27 +33,22 @@ import org.apache.struts.action.ActionMapping;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
-import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.time.detail.validation.TimeDetailValidationUtil;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetAction;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TimeDetailWSAction extends TimesheetAction {
 
@@ -79,7 +74,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         // validates the selected earn code exists on every day within the date range
         errors = TimeDetailValidationUtil.validateEarnCode(tdaf.getSelectedEarnCode(), tdaf.getStartDate(), tdaf.getEndDate());
         if(errors.isEmpty()) {
-            EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(),
+            EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(),
             																TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate()).toLocalDate());
 	        if(ec != null && ec.getLeavePlan() != null) {    // leave blocks changes
 	    		errors = TimeDetailValidationUtil.validateLeaveEntry(tdaf);
@@ -127,7 +122,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         String principalId = (String) request.getAttribute("principalId");
         Long jobNumber = (Long) request.getAttribute("jobNumber");
 
-        Job job = HrServiceLocator.getJobService().getJob(principalId, jobNumber, LocalDate.now());
+        JobContract job = HrServiceLocator.getJobService().getJob(principalId, jobNumber, LocalDate.now());
         kualiForm.setAnnotation(job.getDept());
 
         return mapping.findForward("ws");
@@ -206,7 +201,7 @@ public class TimeDetailWSAction extends TimesheetAction {
     				EarnCode ec = payType.getRegEarnCodeObj();
     				if (ec == null
     						&& StringUtils.isNotEmpty(payType.getRegEarnCode()))  {
-    					ec = HrServiceLocator.getEarnCodeService().getEarnCode(payType.getRegEarnCode(), payType.getEffectiveLocalDate());
+    					ec = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(payType.getRegEarnCode(), payType.getEffectiveLocalDate());
     				}
     				regEarnCodes.put(a.getAssignmentKey(), ec);
 	    			}
@@ -244,20 +239,20 @@ public class TimeDetailWSAction extends TimesheetAction {
 
     public ActionForward getOvertimeEarnCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailWSActionForm tdaf = (TimeDetailWSActionForm) form;
-        List<EarnCode> overtimeEarnCodes = HrServiceLocator.getEarnCodeService().getOvertimeEarnCodes(LocalDate.now());
+        List<EarnCode> overtimeEarnCodes = (List<EarnCode>) HrServiceLocator.getEarnCodeService().getOvertimeEarnCodes(LocalDate.now());
         List<Map<String, Object>> overtimeEarnCodeList = new LinkedList<Map<String, Object>>();
         
         if(StringUtils.isNotEmpty(tdaf.getTkTimeBlockId())) {
         	TimeBlock tb = TkServiceLocator.getTimeBlockService().getTimeBlock(tdaf.getTkTimeBlockId());
         	if(tb != null) {
-        		Job job = HrServiceLocator.getJobService().getJob(HrContext.getTargetPrincipalId(), tb.getJobNumber(), tb.getEndDateTime().toLocalDate());
+        		JobContract job = HrServiceLocator.getJobService().getJob(HrContext.getTargetPrincipalId(), tb.getJobNumber(), tb.getEndDateTime().toLocalDate());
         		if(job != null) {
         			for (EarnCode earnCode : overtimeEarnCodes) {
         				String employee = HrContext.isActiveEmployee() ? "Y" : null;
         				String approver = HrContext.isApprover() ? "Y" : null;
         				String payrollProcessor = HrContext.isPayrollProcessor() ? "Y" : null; // KPME-2532
         				
-        				List<EarnCodeSecurity> securityList = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList(job.getDept(), job.getHrSalGroup(), earnCode.getEarnCode(), employee, approver, payrollProcessor, job.getLocation(),
+        				List<EarnCodeSecurity> securityList = (List<EarnCodeSecurity>) HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList(job.getDept(), job.getHrSalGroup(), earnCode.getEarnCode(), employee, approver, payrollProcessor, job.getLocation(),
         									"Y", tb.getEndDateTime().toLocalDate());
         				if(CollectionUtils.isNotEmpty(securityList)) {
         					Map<String, Object> earnCodeMap = new HashMap<String, Object>();

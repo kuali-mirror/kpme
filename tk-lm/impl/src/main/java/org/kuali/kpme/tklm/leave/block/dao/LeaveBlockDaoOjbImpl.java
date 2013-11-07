@@ -30,6 +30,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.common.LMConstants;
@@ -408,7 +409,7 @@ public class LeaveBlockDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Lea
 		}
 		for(LeaveBlock lb : tempList) {
 			if(lb != null && StringUtils.isNotEmpty(lb.getEarnCode())) {
-				EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
+				EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
 				if(ec != null && ec.getEligibleForAccrual().equals("N")) {
 					leaveBlocks.add(lb);
 				}

@@ -85,7 +85,7 @@ public class TkPostProcessor extends DefaultPostProcessor {
 					EarnCode overtimeEarnCode = null;
 					BigDecimal leaveAmount = null;
 					for (TimeHourDetail timeHourDetail : timeBlock.getTimeHourDetails()) {
-						EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(timeHourDetail.getEarnCode(),  endDate.toLocalDate());
+						EarnCode earnCode = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(timeHourDetail.getEarnCode(),  endDate.toLocalDate());
 						if (earnCode != null && earnCode.getOvtEarnCode()) {
 							overtimeEarnCode = earnCode;
 							leaveAmount = timeHourDetail.getHours();
@@ -94,7 +94,7 @@ public class TkPostProcessor extends DefaultPostProcessor {
 						}
 					}
 					if (overtimeEarnCode != null && leaveAmount != null) {
-						AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(overtimeEarnCode.getAccrualCategory(), endDate.toLocalDate());
+						AccrualCategory accrualCategory = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(overtimeEarnCode.getAccrualCategory(), endDate.toLocalDate());
 						
 						if (accrualCategory != null) {
 							LocalDate leaveDate = LocalDate.fromDateFields(timeBlock.getBeginDate());
@@ -121,10 +121,10 @@ public class TkPostProcessor extends DefaultPostProcessor {
 		if (DocumentStatus.ENROUTE.equals(newDocumentStatus)) {
 			//create pending carry over leave blocks.
 			
-			Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, endDate.toLocalDate(), true);
+			Calendar calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, endDate.toLocalDate(), true);
 			
 			if (calendar != null) {
-				List<CalendarEntry> calendarEntries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(calendar.getHrCalendarId(), beginDate, endDate);
+				List<CalendarEntry> calendarEntries = (List<CalendarEntry>) HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(calendar.getHrCalendarId(), beginDate, endDate);
 				
 				LmServiceLocator.getAccrualCategoryMaxCarryOverService().calculateMaxCarryOver(documentId, principalId, calendarEntries, endDate.toLocalDate());
 			}

@@ -16,48 +16,28 @@
 package org.kuali.kpme.tklm.leave.transfer.validation;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.role.KPMERole;
-import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.util.TkContext;
-import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 
@@ -392,7 +372,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 
 	private boolean validatePrincipal(String principalId, Date effectiveDate, String userPrincipalId) {
 		boolean isValid = true;
-		PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, LocalDate.fromDateFields(effectiveDate));
+		PrincipalHRAttributesContract pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, LocalDate.fromDateFields(effectiveDate));
 		
 		if(pha == null) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "balanceTransfer.principal.noAttributes");
@@ -401,14 +381,14 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 		else {
 			boolean canCreate = false;
 			if(!StringUtils.equals(principalId,userPrincipalId)) {
-				List<Job> principalsJobs = HrServiceLocator.getJobService().getActiveLeaveJobs(principalId, LocalDate.fromDateFields(effectiveDate));
+				List<Job> principalsJobs = (List<Job>) HrServiceLocator.getJobService().getActiveLeaveJobs(principalId, LocalDate.fromDateFields(effectiveDate));
 
 				for(Job job : principalsJobs) {
 					
 					if(job.isEligibleForLeave()) {
 						
 						String department = job != null ? job.getDept() : null;
-						Department departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(effectiveDate)) : null;
+						DepartmentContract departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(effectiveDate)) : null;
 						String location = departmentObj != null ? departmentObj.getLocation() : null;
 						//logged in user may only submit documents for principals in authorized departments / location.
 			        	if (LmServiceLocator.getLMPermissionService().isAuthorizedInDepartment(userPrincipalId, "Create Balance Transfer", department, new DateTime(effectiveDate.getTime()))
@@ -418,7 +398,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 						}
 			        	else {
 			        		//do NOT block approvers, processors, delegates from approving the document.
-							List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(principalId, job.getJobNumber(), LocalDate.fromDateFields(effectiveDate));
+							List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(principalId, job.getJobNumber(), LocalDate.fromDateFields(effectiveDate));
 							for(Assignment assignment : assignments) {
 								if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))
 										|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))

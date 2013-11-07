@@ -20,13 +20,14 @@ import java.math.BigDecimal;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 
 /**
  * <p>EarnCodeContract interface.</p>
  *
  */
 public interface EarnCodeContract extends HrBusinessObjectContract {
-	
+	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "EarnCode";
 	/**
 	 * The flag that indicates if the worked hours under an EarnCode should be counted as regular pay
 	 * Use this field to calculate the "Worked Hours in the Time Summary.
@@ -316,4 +317,14 @@ public interface EarnCodeContract extends HrBusinessObjectContract {
 	 * @return leavePlanObj for EarnCode
 	 */	
 	public LeavePlanContract getLeavePlanObj();
+	
+	/**
+	 * Indicates the record method time, hour or amount
+	 * 
+	 * <p>
+	 * recordmethod of an EarnCode
+	 * <p>
+	 * @return
+	 */
+	public String getEarnCodeType();
 }

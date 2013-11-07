@@ -19,15 +19,13 @@ import java.math.BigDecimal;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.salarygroup.SalaryGroup;
+import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
 import org.kuali.kpme.pm.api.positiontype.PositionTypeContract;
 import org.kuali.kpme.pm.classification.Classification;
 import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
-import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
-import org.kuali.kpme.pm.positiontype.PositionType;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
@@ -86,7 +84,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 	}
 	
 	private boolean validateSalGroup(Classification clss) {
-		SalaryGroup aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(clss.getSalaryGroup(), clss.getEffectiveLocalDate());
+		SalaryGroupContract aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(clss.getSalaryGroup(), clss.getEffectiveLocalDate());
 		String errorMes = "SalaryGroup '" + clss.getSalaryGroup() + "'";
 		if(aSalGroup != null) {
 			if(!ValidationUtils.wildCardMatch(aSalGroup.getInstitution(), clss.getInstitution())) {

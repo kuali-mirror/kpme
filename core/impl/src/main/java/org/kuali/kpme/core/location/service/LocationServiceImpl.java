@@ -25,6 +25,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.location.service.LocationService;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.location.dao.LocationDao;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;

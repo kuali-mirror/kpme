@@ -28,8 +28,8 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
@@ -146,7 +146,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	}
 
 	private Assignment getIdentifyingKey(TimeBlock block, LocalDate asOfDate, String principalId) {
-		List<Assignment> lstAssign = HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
+		List<Assignment> lstAssign = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
 
 		for(Assignment assign : lstAssign){
 			if((assign.getJobNumber().compareTo(block.getJobNumber()) == 0) && (assign.getWorkArea().compareTo(block.getWorkArea()) == 0)){
@@ -376,7 +376,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	
     	for (DailyOvertimeRule dailyOvertimeRuleObj : dailyOvertimeRuleObjs) {
         	String department = dailyOvertimeRuleObj.getDept();
-        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, dailyOvertimeRuleObj.getEffectiveLocalDate());
+        	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, dailyOvertimeRuleObj.getEffectiveLocalDate());
         	String loc = departmentObj != null ? departmentObj.getLocation() : null;
         	
         	Map<String, String> roleQualification = new HashMap<String, String>();

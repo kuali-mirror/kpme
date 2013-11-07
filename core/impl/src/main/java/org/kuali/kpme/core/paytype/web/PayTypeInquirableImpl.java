@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.inquirable.KPMEInquirableImpl;
+import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
@@ -38,7 +38,7 @@ public class PayTypeInquirableImpl extends KualiInquirableImpl {
 	@Override
 	@Deprecated
 	public BusinessObject getBusinessObject(Map fieldValues) {
-        PayType payTypeObj = null;
+        PayTypeContract payTypeObj = null;
 
         if (StringUtils.isNotBlank((String) fieldValues.get("hrPayTypeId"))) {
             payTypeObj = HrServiceLocator.getPayTypeService().getPayType((String) fieldValues.get("hrPayTypeId"));

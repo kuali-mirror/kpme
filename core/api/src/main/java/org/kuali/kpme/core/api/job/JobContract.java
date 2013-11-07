@@ -24,6 +24,7 @@ import org.kuali.kpme.core.api.paygrade.PayGradeContract;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 
@@ -32,6 +33,8 @@ import org.kuali.rice.kim.api.identity.Person;
  *
  */
 public interface JobContract extends HrBusinessObjectContract {
+	
+	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "Job";
 	
 	/**
 	 * Indicates if Job is FLSA exempt or non-exempt. 

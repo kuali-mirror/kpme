@@ -19,9 +19,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
-import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -48,7 +48,7 @@ public class SystemScheduledTimeOffMaintainableServiceImpl extends HrBusinessObj
 			&& StringUtils.isNotEmpty(fieldValues.get("effectiveDate"))) {
 			
 			LocalDate effDate = TKUtils.formatDateString(fieldValues.get("effectiveDate"));
-			EarnCode ec =  HrServiceLocator.getEarnCodeService().getEarnCode(fieldValues.get("earnCode"), effDate);
+			EarnCodeContract ec =  HrServiceLocator.getEarnCodeService().getEarnCode(fieldValues.get("earnCode"), effDate);
 			if (ec != null) {
 				fieldValues.put("accrualCategory", ec.getAccrualCategory());
 				fieldValues.put("leavePlan", ec.getLeavePlan());

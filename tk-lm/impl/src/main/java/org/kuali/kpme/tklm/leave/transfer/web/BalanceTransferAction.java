@@ -107,9 +107,9 @@ public class BalanceTransferAction extends KPMEAction {
 //				throw new RuntimeException("Could not retreive calendar entry for document " + documentId);
 			}
 			
-			AccrualCategoryRule accrualRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+			AccrualCategoryRule accrualRule = (AccrualCategoryRule) HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
 			
-			AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
+			AccrualCategory accrualCategory = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 			BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(balanceTransfer.getPrincipalId(), accrualCategory, balanceTransfer.getEffectiveLocalDate());
 
 			BalanceTransfer defaultBT = LmServiceLocator.getBalanceTransferService().initializeTransfer(balanceTransfer.getPrincipalId(), accrualRuleId, accruedBalance, balanceTransfer.getEffectiveLocalDate());
@@ -156,7 +156,7 @@ public class BalanceTransferAction extends KPMEAction {
 		}
 		
 		String accrualCategoryRuleId = bt.getAccrualCategoryRule();
-		AccrualCategoryRule accrualRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
+		AccrualCategoryRule accrualRule = (AccrualCategoryRule) HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
 		String actionFrequency = accrualRule.getMaxBalanceActionFrequency();
 		
 		if(StringUtils.equals(actionFrequency,HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) 
@@ -211,7 +211,7 @@ public class BalanceTransferAction extends KPMEAction {
 		}
 		if(ObjectUtils.isNotNull(accrualRuleId)) {
 			//LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
-			AccrualCategoryRule aRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+			AccrualCategoryRule aRule = (AccrualCategoryRule) HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
 			if(ObjectUtils.isNotNull(aRule)) {
 				//should somewhat safegaurd against url fabrication.
 				if(!StringUtils.equals(aRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) {
@@ -231,8 +231,8 @@ public class BalanceTransferAction extends KPMEAction {
 			 	 	 	principalId = lcd == null ? null : lcd.getPrincipalId();
 					}
 
-					AccrualCategoryRule accrualRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
-					AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
+					AccrualCategoryRule accrualRule = (AccrualCategoryRule) HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+					AccrualCategory accrualCategory = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 					BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, LocalDate.now());
 
 					BalanceTransfer balanceTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(principalId, aRule.getLmAccrualCategoryRuleId(), accruedBalance, LocalDate.now());
@@ -318,7 +318,7 @@ public class BalanceTransferAction extends KPMEAction {
             AccrualCategoryRule aRule = leaveBlock.getAccrualCategoryRule();
 			if(aRule != null) {
 				
-				AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
+				AccrualCategory accrualCategory = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
 				BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, leaveBlock.getLeaveLocalDate());
 				
 				BalanceTransfer balanceTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(principalId, aRule.getLmAccrualCategoryRuleId(), accruedBalance, effectiveDate);
@@ -403,7 +403,7 @@ public class BalanceTransferAction extends KPMEAction {
 			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
             AccrualCategoryRule accrualRule = leaveBlock.getAccrualCategoryRule();
 			if(accrualRule != null) {
-				AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
+				AccrualCategory accrualCategory = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 				BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, leaveBlock.getLeaveLocalDate());
 
 				BalanceTransfer balanceTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(principalId, accrualRule.getLmAccrualCategoryRuleId(), accruedBalance, effectiveDate);
@@ -490,7 +490,7 @@ public class BalanceTransferAction extends KPMEAction {
 		}
 		SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
 		BigDecimal amountTransferred = ssto.getTransferConversionFactor() == null ? lb.getLeaveAmount() : lb.getLeaveAmount().multiply(ssto.getTransferConversionFactor());
-		EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(ssto.getTransfertoEarnCode(), lb.getLeaveLocalDate());
+		EarnCode ec = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(ssto.getTransfertoEarnCode(), lb.getLeaveLocalDate());
 		
 		BalanceTransfer bt = new BalanceTransfer();
 		bt.setTransferAmount(lb.getLeaveAmount().abs());	// the usage leave block's leave amount is negative

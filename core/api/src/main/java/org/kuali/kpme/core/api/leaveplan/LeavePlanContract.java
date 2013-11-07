@@ -18,12 +18,15 @@ package org.kuali.kpme.core.api.leaveplan;
 import java.sql.Time;
 
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 
 /**
  * <p>LeavePlanContract interface.</p>
  *
  */
 public interface LeavePlanContract extends HrBusinessObjectContract {
+	
+	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "LeavePlan";
 	
 	/**
 	 * The date batch job should run to create a carry over leave block 

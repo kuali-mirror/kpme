@@ -101,7 +101,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 		}
 		if (this.earnCodeObj == null && 
 				(!StringUtils.isEmpty(this.earnCode) && getEffectiveDate() != null)) {		
-			earnCodeObj =  HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveLocalDate());
+			earnCodeObj =  (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveLocalDate());
 		}
 		leavePlan = (earnCodeObj != null) ? earnCodeObj.getLeavePlan() : "";
 		return leavePlan;
@@ -117,7 +117,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
         }
 		if (this.earnCodeObj == null &&
 				(!StringUtils.isEmpty(this.earnCode) && getEffectiveDate() != null)) {
-			earnCodeObj =  HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveLocalDate());
+			earnCodeObj =  (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveLocalDate());
 		}
 		accrualCategory = (earnCodeObj != null) ? earnCodeObj.getAccrualCategory() : "";
 		return accrualCategory;

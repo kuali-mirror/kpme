@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.salarygroup.validation;
 
+import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -28,7 +29,7 @@ public class SalaryGroupEffectiveDatePrompt extends KPMEHrObjectNewerVersionProm
     	boolean futureEffectiveDateExists = false;
     	
         SalaryGroup salaryGroup = (SalaryGroup) pbo;
-        SalaryGroup lastSalaryGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salaryGroup.getHrSalGroup(), TKUtils.END_OF_TIME);
+        SalaryGroupContract lastSalaryGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salaryGroup.getHrSalGroup(), TKUtils.END_OF_TIME);
         if (lastSalaryGroup != null && lastSalaryGroup.getEffectiveLocalDate() != null && salaryGroup.getEffectiveLocalDate() != null) {
         	futureEffectiveDateExists = lastSalaryGroup.getEffectiveLocalDate().isAfter(salaryGroup.getEffectiveLocalDate());
         }

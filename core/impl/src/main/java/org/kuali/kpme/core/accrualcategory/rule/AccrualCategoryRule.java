@@ -27,7 +27,7 @@ import com.google.common.collect.ImmutableMap;
 
 
 public class AccrualCategoryRule extends HrBusinessObject implements AccrualCategoryRuleContract {
-    public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "AccrualCategoryRule";
+   
 	/**
 	 * 
 	 */

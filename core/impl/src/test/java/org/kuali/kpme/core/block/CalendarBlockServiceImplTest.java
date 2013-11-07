@@ -15,7 +15,9 @@
  */
 package org.kuali.kpme.core.block;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
@@ -43,7 +45,7 @@ public class CalendarBlockServiceImplTest extends CoreUnitTestCase {
 	@Test
 	public void testGetAllCalendarBlocks() {
 		assertNull(null);
-		List<CalendarBlock> calendarBlocks = HrServiceLocator.getCalendarBlockService().getAllCalendarBlocks();
+		List<CalendarBlock> calendarBlocks = (List<CalendarBlock>) HrServiceLocator.getCalendarBlockService().getAllCalendarBlocks();
 		assertEquals("number of returned entries should be 2", 2, calendarBlocks.size());
 		for(CalendarBlock calendarBlock : calendarBlocks) {
 			assertNotNull("Concrete block id should never be null", calendarBlock.getConcreteBlockId());

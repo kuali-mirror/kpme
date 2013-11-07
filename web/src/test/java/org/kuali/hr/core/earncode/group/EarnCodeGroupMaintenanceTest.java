@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
+import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition;
@@ -122,7 +123,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMEWebTestCase {
 		HtmlUnitUtil.createTempFile(earnCodeLookUp);
 		Assert.assertTrue("Page contains REG entry", earnCodeLookUp.asText().contains("REG"));	
 		
-		EarnCodeGroup earnGroup = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup("REG", LocalDate.now());
+		EarnCodeGroupContract earnGroup = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup("REG", LocalDate.now());
 		String earnGroupId = earnGroup.getHrEarnCodeGroupId().toString();
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnCodeLookUp, "edit", earnGroupId);		
 		HtmlUnitUtil.createTempFile(maintPage);

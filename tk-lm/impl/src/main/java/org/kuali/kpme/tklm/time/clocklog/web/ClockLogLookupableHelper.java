@@ -23,8 +23,8 @@ import java.util.Properties;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
-import org.kuali.kpme.core.department.Department;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
@@ -98,10 +98,10 @@ public class ClockLogLookupableHelper extends KPMELookupableHelper {
                 }
             }
 
-            Job jobObj = HrServiceLocator.getJobService().getJob(clockLog.getPrincipalId(), clockLog.getJobNumber(), LocalDate.fromDateFields(clockLog.getClockTimestamp()), false);
+            JobContract jobObj = HrServiceLocator.getJobService().getJob(clockLog.getPrincipalId(), clockLog.getJobNumber(), LocalDate.fromDateFields(clockLog.getClockTimestamp()), false);
             String department = jobObj != null ? jobObj.getDept() : null;
 
-            Department departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(clockLog.getClockTimestamp())) : null;
+            DepartmentContract departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(clockLog.getClockTimestamp())) : null;
             String location = departmentObj != null ? departmentObj.getLocation() : null;
 
             Map<String, String> roleQualification = new HashMap<String, String>();

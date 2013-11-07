@@ -15,8 +15,8 @@
  */
 package org.kuali.kpme.core.paygrade.validation;
 
+import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.kuali.kpme.core.paygrade.PayGrade;
-import org.kuali.kpme.core.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -37,7 +37,7 @@ public class PayGradeValidation extends MaintenanceDocumentRuleBase {
 	}
 	
 	private boolean validateSalGroup(PayGrade aPayGrade){
-		SalaryGroup aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(aPayGrade.getSalGroup(), aPayGrade.getEffectiveLocalDate()) ;
+		SalaryGroupContract aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(aPayGrade.getSalGroup(), aPayGrade.getEffectiveLocalDate()) ;
 		String errorMes = "Salgroup '"+ aPayGrade.getSalGroup() + "'";
 		if(aSalGroup == null) {
 			this.putFieldError("dataObject.salGroup", "error.existence", errorMes);

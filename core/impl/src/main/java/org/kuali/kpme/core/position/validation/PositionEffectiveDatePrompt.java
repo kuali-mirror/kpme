@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.position.validation;
 
+import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -28,7 +29,7 @@ public class PositionEffectiveDatePrompt extends KPMEHrObjectNewerVersionPromptB
     	boolean futureEffectiveDateExists = false;
     	
         PositionBase position = (PositionBase) pbo;
-        PositionBase lastPosition = HrServiceLocator.getPositionService().getPosition(position.getPositionNumber(), TKUtils.END_OF_TIME);
+        PositionBaseContract lastPosition = HrServiceLocator.getPositionService().getPosition(position.getPositionNumber(), TKUtils.END_OF_TIME);
         if (lastPosition != null && lastPosition.getEffectiveLocalDate() != null && position.getEffectiveLocalDate() != null) {
         	futureEffectiveDateExists = lastPosition.getEffectiveLocalDate().isAfter(position.getEffectiveLocalDate());
         }

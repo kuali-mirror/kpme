@@ -24,8 +24,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.kpme.core.FunctionalTest;
-import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
-import org.kuali.kpme.core.earncode.security.service.EarnCodeSecurityService;
+import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
+import org.kuali.kpme.core.api.earncode.security.service.EarnCodeSecurityService;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
 @FunctionalTest
@@ -48,7 +48,7 @@ public class EarnCodeSecurityServiceImplTest extends KPMEWebTestCase {
 	@Test
 	public void testGetEarnCodeSecurities() throws Exception {		
 		// Testing Wildcard on department.
-		List<EarnCodeSecurity> earnCodeSecurities = earnCodeSecurityService.getEarnCodeSecurities(TEST_LORA, TEST_SAL_GROUP_A10, TEST_LOCATION, TEST_DATE.toLocalDate());
+		List<? extends EarnCodeSecurityContract> earnCodeSecurities = earnCodeSecurityService.getEarnCodeSecurities(TEST_LORA, TEST_SAL_GROUP_A10, TEST_LOCATION, TEST_DATE.toLocalDate());
 		Assert.assertEquals("Wrong number of earn codes returned.", 5, earnCodeSecurities.size());
 		// Test sorting of earn codes
 		Assert.assertEquals("First Earn Code should be RGH", "RGH", earnCodeSecurities.get(0).getEarnCode());
@@ -57,16 +57,16 @@ public class EarnCodeSecurityServiceImplTest extends KPMEWebTestCase {
 		Assert.assertEquals("Forth Earn Code should be XYZ", "XYZ", earnCodeSecurities.get(3).getEarnCode());
 		Assert.assertEquals("Fifth Earn Code should be XZZ", "XZZ", earnCodeSecurities.get(4).getEarnCode());
 		
-		for (EarnCodeSecurity ec : earnCodeSecurities) {
+		for (EarnCodeSecurityContract ec : earnCodeSecurities) {
 			Assert.assertTrue("Wrong department earn code.", ((ec.getDept()).equals("LORA-DEPT") || (ec.getDept()).equals("%")) );
 			Assert.assertTrue("Wrong SAL_GROUP.", (ec.getHrSalGroup()).equals(TEST_SAL_GROUP_A10) || (ec.getHrSalGroup()).equals("%") );
 		}
 		
 		// Testing Wildcard on dept and salGroup.
-		List<EarnCodeSecurity> earnCodesSec1 = earnCodeSecurityService.getEarnCodeSecurities(TEST_TEST_DEPT, TEST_SAL_GROUP_A, TEST_LOCATION, TEST_DATE.toLocalDate());
+		List<? extends EarnCodeSecurityContract> earnCodesSec1 = earnCodeSecurityService.getEarnCodeSecurities(TEST_TEST_DEPT, TEST_SAL_GROUP_A, TEST_LOCATION, TEST_DATE.toLocalDate());
 		Assert.assertEquals("Wrong number of earn codes returned.", 2, earnCodesSec1.size());
 		
-		for (EarnCodeSecurity ec1 : earnCodesSec1) {
+		for (EarnCodeSecurityContract ec1 : earnCodesSec1) {
 			Assert.assertTrue("Wrong department earn code.", ((ec1.getDept()).equals(TEST_TEST_DEPT) || (ec1.getDept()).equals("%")) );
 			Assert.assertTrue("Wrong SAL_GROUP.", (ec1.getHrSalGroup()).equals(TEST_SAL_GROUP_A) || (ec1.getHrSalGroup()).equals("%") );
 		}
@@ -75,17 +75,17 @@ public class EarnCodeSecurityServiceImplTest extends KPMEWebTestCase {
 	@Ignore
 	@Test
 	public void testSearchEarnCodeSecurities() throws Exception {
-		List<EarnCodeSecurity> allResults = HrServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities("admin", null, null, null, null, null, null, "Y", "N");
+		List<? extends EarnCodeSecurityContract> allResults = HrServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities("admin", null, null, null, null, null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 19, allResults.size());
 		
-		List<EarnCodeSecurity> restrictedResults = HrServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities("testuser6", null, null, null, null, null, null, "Y", "N");
+		List<? extends EarnCodeSecurityContract> restrictedResults = HrServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities("testuser6", null, null, null, null, null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 11, restrictedResults.size());
 	}
 	
 	@Test
 	public void testGetEarnCodeSecurityList() throws Exception {
 		// wild card for dept and sal_group
-		List<EarnCodeSecurity> allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("test", "test", "XZZ", "Y", null, null, null, "Y", TEST_DATE.toLocalDate());
+		List<? extends EarnCodeSecurityContract> allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("test", "test", "XZZ", "Y", null, null, null, "Y", TEST_DATE.toLocalDate());
 		Assert.assertEquals("Search returned the wrong number of results.", 1, allResults.size());
 		
 		// wild card for dept

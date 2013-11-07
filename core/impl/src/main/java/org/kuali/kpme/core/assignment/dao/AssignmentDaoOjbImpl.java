@@ -293,7 +293,7 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
         if (StringUtils.isNotBlank(dept)) {
             Criteria workAreaCriteria = new Criteria();
             LocalDate asOfDate = toEffdt != null ? toEffdt : LocalDate.now();
-            Collection<WorkArea> workAreasForDept = HrServiceLocator.getWorkAreaService().getWorkAreas(dept,asOfDate);
+            Collection<WorkArea> workAreasForDept = (Collection<WorkArea>) HrServiceLocator.getWorkAreaService().getWorkAreas(dept,asOfDate);
             if (CollectionUtils.isNotEmpty(workAreasForDept)) {
                 List<Long> longWorkAreas = new ArrayList<Long>();
                 for(WorkArea cwa : workAreasForDept){

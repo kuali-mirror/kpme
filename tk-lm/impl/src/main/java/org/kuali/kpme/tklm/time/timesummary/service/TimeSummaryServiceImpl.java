@@ -16,7 +16,17 @@
 package org.kuali.kpme.tklm.time.timesummary.service;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
@@ -30,12 +40,12 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.earncode.EarnCode;
-import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -75,7 +85,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 
 		timeSummary.setTimeSummaryHeader(getHeaderForSummary(timesheetDocument.getCalendarEntry(), timeSummary));
 		
-		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), timesheetDocument.getCalendarEntry(), HrServiceLocator.getCalendarService().getCalendar(timesheetDocument.getCalendarEntry().getHrCalendarId()), true);
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), timesheetDocument.getCalendarEntry(), (Calendar)HrServiceLocator.getCalendarService().getCalendar(timesheetDocument.getCalendarEntry().getHrCalendarId()), true);
 
         List<Assignment> timeAssignments = timesheetDocument.getAssignments();
         List<String> tAssignmentKeys = new ArrayList<String>();
@@ -268,7 +278,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 							if(earnCodeSection == null){
 								earnCodeSection = new EarnCodeSection();
 								earnCodeSection.setEarnCode(thd.getEarnCode());
-								EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(thd.getEarnCode(), asOfDate);
+								EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(thd.getEarnCode(), asOfDate);
 								earnCodeSection.setDescription(earnCodeObj != null ? earnCodeObj.getDescription() : null);
 				 	 	 	 	earnCodeSection.setIsAmountEarnCode(earnCodeObj != null ? HrConstants.EARN_CODE_AMOUNT.equalsIgnoreCase(earnCodeObj.getRecordMethod()) : false);
 								for(int i = 0;i<(numEntries-1);i++){
@@ -282,19 +292,19 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 								assignRow = new AssignmentRow();
 								assignRow.setAssignmentKey(assignKey);
 								AssignmentDescriptionKey assignmentKey = HrServiceLocator.getAssignmentService().getAssignmentDescriptionKey(assignKey);
-								Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, asOfDate);
+								Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, asOfDate);
 								// some assignment may not be effective at the beginning of the pay period, use the end date of the period to find it
 								if(assignment == null) {
-									assignment = HrServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, asOfDate);
+									assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, asOfDate);
 								}
 								//TODO push this up to the assignment fetch/fully populated instead of like this
 								if(assignment != null){
 									if(assignment.getJob() == null){
-										Job aJob = HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(),assignment.getJobNumber(), assignment.getEffectiveLocalDate());
+										Job aJob = (Job) HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(),assignment.getJobNumber(), assignment.getEffectiveLocalDate());
 										assignment.setJob(aJob);
 									}
 									if(assignment.getWorkAreaObj() == null){
-										WorkArea aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), assignment.getEffectiveLocalDate());
+										WorkArea aWorkArea = (WorkArea) HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), assignment.getEffectiveLocalDate());
 										assignment.setWorkAreaObj(aWorkArea);
 									}
 									assignRow.setDescr(assignment.getAssignmentDescription());
@@ -332,7 +342,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 			List<EarnCodeSection> earnCodeToEarnCodeSections = earnCodeSections.get(key);
 			for(EarnCodeSection earnCodeSection : earnCodeToEarnCodeSections){
 				String earnCode = earnCodeSection.getEarnCode();
-				EarnCodeGroup earnGroupObj = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupSummaryForEarnCode(earnCode, asOfDate);
+				EarnCodeGroupContract earnGroupObj = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupSummaryForEarnCode(earnCode, asOfDate);
 				String earnGroup = null;
 				if(earnGroupObj == null){
 					earnGroup = OTHER_EARN_GROUP;
@@ -422,7 +432,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
                 LocalDateTime ld = day.getFlsaDate();
                 int ldDay = ld.getDayOfWeek();
                 for (TimeBlock block : day.getAppliedTimeBlocks()) {
-                    EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(block.getEarnCode(), block.getEndDateTime().toLocalDate());
+                    EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(block.getEarnCode(), block.getEndDateTime().toLocalDate());
                     if (ec != null
                             && (ec.getOvtEarnCode()
                             || regularEarnCodes.contains(ec.getEarnCode()) || ec.getCountsAsRegularPay().equals("Y"))) {
@@ -622,7 +632,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         Calendar cal = null;
 
         if (calEntry != null) {
-            cal = HrServiceLocator.getCalendarService().getCalendar(calEntry.getHrCalendarId());
+            cal = (Calendar) HrServiceLocator.getCalendarService().getCalendar(calEntry.getHrCalendarId());
         }
 
         return cal;

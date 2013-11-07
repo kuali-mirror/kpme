@@ -15,13 +15,25 @@
  */
 package org.kuali.kpme.tklm.leave.block.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.*;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -36,9 +48,6 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 public class LeaveBlockServiceImpl implements LeaveBlockService {
 
@@ -192,7 +201,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     	Interval firstDay = null;
     	DateTime currentDate = beginDate;
         
-    	EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, endDate.toLocalDate()); 
+    	EarnCode earnCodeObj = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, endDate.toLocalDate()); 
         for (Interval leaveBlockInt : leaveBlockIntervals) {
             if (calendarInterval.contains(leaveBlockInt)) {
             	// KPME-1446 if "Include weekends" check box is checked, don't add Sat and Sun to the leaveblock list
@@ -205,7 +214,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
             		 // Currently, we store the accrual category value in the leave code table, but store accrual category id in the leaveBlock.
                     // That's why there is a two step server call to get the id. This might be changed in the future.
 
-                    CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(ce.getHrCalendarId(), new LocalDate().toDateTimeAtStartOfDay());
+                    CalendarEntryContract calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(ce.getHrCalendarId(), new LocalDate().toDateTimeAtStartOfDay());
                     DateTime leaveBlockDate = leaveBlockInt.getStart();
                     String requestStatus = HrConstants.REQUEST_STATUS.USAGE;
                     if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, HrConstants.FLSA_STATUS_NON_EXEMPT, true)) {

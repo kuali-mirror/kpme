@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
@@ -30,7 +31,7 @@ public class LeavePlanInquirableImpl extends KualiInquirableImpl {
 	@Override
 	public BusinessObject getBusinessObject(Map fieldValues) {
 		
-		LeavePlan lp = null;
+		LeavePlanContract lp = null;
 		if(StringUtils.isNotBlank((String)fieldValues.get("lmLeavePlanId"))) {
 			lp = HrServiceLocator.getLeavePlanService().getLeavePlan((String)fieldValues.get("lmLeavePlanId"));
 			

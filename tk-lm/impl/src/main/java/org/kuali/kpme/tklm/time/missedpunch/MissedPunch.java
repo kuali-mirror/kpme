@@ -24,8 +24,8 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -300,7 +300,7 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 
     public String getDepartment() {
         if (getAssignmentKey() != null) {
-            Assignment a = HrServiceLocator.getAssignmentService().getAssignment(getPrincipalId(), AssignmentDescriptionKey.get(getAssignmentKey()), getActionFullDateTime().toLocalDate());
+            AssignmentContract a = HrServiceLocator.getAssignmentService().getAssignment(getPrincipalId(), AssignmentDescriptionKey.get(getAssignmentKey()), getActionFullDateTime().toLocalDate());
             return a != null ? (a.getJob() != null ? a.getJob().getDept() : null) : null;
         }
         return null;

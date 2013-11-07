@@ -41,7 +41,7 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 		// plan can't be inactivated, so return false otherwise true
 		if (!leavePlan.isActive()) {
 			// this has to use the effective date of the job passed in
-			List<PrincipalHRAttributes> pList = HrServiceLocator
+			List<PrincipalHRAttributes> pList = (List<PrincipalHRAttributes>) HrServiceLocator
 					.getPrincipalHRAttributeService()
 					.getActiveEmployeesForLeavePlan(leavePlan.getLeavePlan(),
 							leavePlan.getEffectiveLocalDate());

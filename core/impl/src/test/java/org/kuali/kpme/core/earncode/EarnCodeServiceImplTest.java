@@ -20,7 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
 import org.kuali.kpme.core.IntegrationTest;
-import org.kuali.kpme.core.earncode.service.EarnCodeService;
+import org.kuali.kpme.core.api.earncode.service.EarnCodeService;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
 @IntegrationTest

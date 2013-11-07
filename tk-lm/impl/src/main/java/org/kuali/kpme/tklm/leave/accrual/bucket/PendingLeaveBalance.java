@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -45,7 +45,7 @@ public class PendingLeaveBalance extends LeaveBalance implements PendingLeaveBal
 	@Override
 	public void add(LeaveBlock leaveBlock) throws UsageLimitException,
 			MaximumBalanceException, NegativeBalanceException {
-		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(leaveBlock.getEarnCode(), LocalDate.fromDateFields(leaveBlock.getLeaveDate()));
+		EarnCodeContract earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(leaveBlock.getEarnCode(), LocalDate.fromDateFields(leaveBlock.getLeaveDate()));
 		if(earnCode != null) {
 			if(leaveBlock.getLeaveDate().compareTo(asOfDate.toDate()) > 0 && leaveBlock.getLeaveAmount().signum() < 0) {
 				
@@ -73,7 +73,7 @@ public class PendingLeaveBalance extends LeaveBalance implements PendingLeaveBal
 	@Override
 	public void remove(LeaveBlock leaveBlock) throws UsageLimitException,
 			MaximumBalanceException, NegativeBalanceException {
-		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(leaveBlock.getEarnCode(), LocalDate.fromDateFields(leaveBlock.getLeaveDate()));
+		EarnCodeContract earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(leaveBlock.getEarnCode(), LocalDate.fromDateFields(leaveBlock.getLeaveDate()));
 		if(earnCode != null) {
 			if(leaveBlock.getLeaveDate().compareTo(asOfDate.toDate()) > 0 && leaveBlock.getLeaveAmount().signum() < 0) {
 				

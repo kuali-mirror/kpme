@@ -18,10 +18,11 @@ package org.kuali.kpme.core.job.validation;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.location.LocationContract;
 import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -43,7 +44,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 
 	private boolean validateJobNumber(Job job) {
 		if (job.getJobNumber() != null) {
-			Job jobObj = HrServiceLocator.getJobService().getJob(
+			JobContract jobObj = HrServiceLocator.getJobService().getJob(
 					job.getPrincipalId(), job.getJobNumber(),
 					job.getEffectiveLocalDate(), false);
 			if (jobObj != null) {
@@ -123,7 +124,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 			if(oldJob!=null && oldJob.getPrimaryIndicator()!=null && oldJob.getPrimaryIndicator()){
 				return valid;
 			}
-			Job existingJob = HrServiceLocator.getJobService().getPrimaryJob(job.getPrincipalId(), LocalDate.now());
+			JobContract existingJob = HrServiceLocator.getJobService().getPrimaryJob(job.getPrincipalId(), LocalDate.now());
 			if (existingJob != null && existingJob.getPrimaryIndicator()) {
 				this.putFieldError("primaryIndicator", "error.primary.job.already.exist", job.getPrincipalId());
 				valid = false;
@@ -140,7 +141,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 		// If the list is not null, there are active assignments and the job can't be inactivated, so return false, otherwise true
 		if(!job.isActive()) {
 			//this has to use the effective date of the job passed in
-			List<Assignment> aList = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(job.getPrincipalId(), job.getJobNumber(), job.getEffectiveLocalDate());
+			List<AssignmentContract> aList = (List<AssignmentContract>) HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(job.getPrincipalId(), job.getJobNumber(), job.getEffectiveLocalDate());
 			if (aList != null && aList.size() > 0) {
 				// error.job.inactivate=Can not inactivate job number {0}.  It is used in active assignments.
 				this.putFieldError("active", "error.job.inactivate", job.getJobNumber().toString());
@@ -153,8 +154,8 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 
 	private boolean validateConsistentLocation(Job job) {
 		String department = job.getDept();
-		Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, job.getEffectiveLocalDate());
-		Location location = HrServiceLocator.getLocationService().getLocation(job.getLocation(), job.getEffectiveLocalDate());
+		DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, job.getEffectiveLocalDate());
+		LocationContract location = HrServiceLocator.getLocationService().getLocation(job.getLocation(), job.getEffectiveLocalDate());
 		if(departmentObj != null && location != null) {
 			if(departmentObj.getLocation().equals(location.getLocation())) {
 				return true;

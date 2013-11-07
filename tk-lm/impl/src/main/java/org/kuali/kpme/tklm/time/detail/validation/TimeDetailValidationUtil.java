@@ -23,12 +23,11 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
-import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -90,7 +89,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
     		//earn code is validate through the span of the leave entry, could the earn code's record method change between then and the leave period end date?
     		//Why not use endDateS to retrieve the earn code?
     		CalendarEntry calendarEntry = lcf.getCalendarEntry();
-    		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(lcf.getSelectedEarnCode(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
+    		EarnCode earnCode = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(lcf.getSelectedEarnCode(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
     		if(earnCode != null) {
     			if(earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
     		    	return LeaveCalendarValidationUtil.validateTimeParametersForLeaveEntry(earnCode, lcf.getCalendarEntry(), lcf.getStartDate(), lcf.getEndDate(), lcf.getStartTime(), lcf.getEndTime(), lcf.getSelectedAssignment(), lcf.getLmLeaveBlockId(), lcf.getSpanningWeeks());
@@ -169,7 +168,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
         CalendarEntry payCalEntry = timesheetDocument.getCalendarEntry();
         EarnCode earnCode = null;
         if (StringUtils.isNotBlank(selectedEarnCode)) {
-            earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, TKUtils.formatDateTimeStringNoTimezone(endDateS).toLocalDate());
+            earnCode = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, TKUtils.formatDateTimeStringNoTimezone(endDateS).toLocalDate());
         }
         boolean isTimeRecordMethod = earnCode != null && StringUtils.equalsIgnoreCase(earnCode.getRecordMethod(), HrConstants.EARN_CODE_TIME);
 
@@ -218,7 +217,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
 
         //Check that assignment is valid within the timeblock span. 
         AssignmentDescriptionKey assignKey = HrServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssignment);
-        Assignment assign = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignKey, startTemp.toLocalDate());
+        AssignmentContract assign = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignKey, startTemp.toLocalDate());
         if (assign == null) errors.add("Assignment is not valid for start date " + TKUtils.formatDate(new LocalDate(startTime)));
         assign = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignKey, endTemp.toLocalDate());
         if (assign == null) errors.add("Assignment is not valid for end date " + TKUtils.formatDate(new LocalDate(endTime)));

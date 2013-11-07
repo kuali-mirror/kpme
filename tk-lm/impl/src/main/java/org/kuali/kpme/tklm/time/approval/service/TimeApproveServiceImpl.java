@@ -16,7 +16,6 @@
 package org.kuali.kpme.tklm.time.approval.service;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -87,7 +86,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		Map<String, TimesheetDocumentHeader> principalDocumentHeader = getPrincipalDocumentHeader(
                 principalIds, payBeginDate, payEndDate, docIdSearchTerm);
 
-		Calendar payCalendar = HrServiceLocator.getCalendarService()
+		Calendar payCalendar = (Calendar) HrServiceLocator.getCalendarService()
 				.getCalendar(payCalendarEntry.getHrCalendarId());
 		DateTimeZone dateTimeZone = HrServiceLocator.getTimezoneService()
 				.getUserTimezoneWithFallback();
@@ -295,7 +294,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	}
 
     private boolean isSynchronousUser(String principalId) {
-        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
+        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
         boolean isSynchronousUser = false;
         if (CollectionUtils.isNotEmpty(assignments)) {
             for (Assignment assignment : assignments) {
@@ -321,7 +320,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				for(LeaveBlock lb : entry.getValue()) {
 					AccrualCategoryRule rule = lb.getAccrualCategoryRule();
 					if (rule != null) {
-						AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
+						AccrualCategory accrualCategory = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
 						if (rule.getActionAtMaxBalance().equals(HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER)) {
 							//Todo: add link to balance transfer
 							allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");   //warningMessages
@@ -498,7 +497,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     	if (CollectionUtils.isEmpty(workAreaList)) {
     		return new ArrayList<String>();
   	    }
-  		List<Assignment> assignmentList = HrServiceLocator.getAssignmentService().getAssignments(workAreaList, effdt, beginDate, endDate);
+  		List<Assignment> assignmentList = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(workAreaList, effdt, beginDate, endDate);
   		List<Assignment> tempList = this.removeNoTimeAssignment(assignmentList);
   		Set<String> pids = new HashSet<String>();
         for(Assignment anAssignment : tempList) {

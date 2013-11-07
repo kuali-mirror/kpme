@@ -19,6 +19,8 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.leaveplan.service.LeavePlanService;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.leaveplan.dao.LeavePlanDao;
@@ -70,7 +72,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
     }
     
     @Override
-	public boolean isFirstCalendarPeriodOfLeavePlan(CalendarEntry calendarEntry, String leavePlan, LocalDate asOfDate) {
+	public boolean isFirstCalendarPeriodOfLeavePlan(CalendarEntryContract calendarEntry, String leavePlan, LocalDate asOfDate) {
 		boolean isFirstCalendarPeriodOfLeavePlan = false;
     	
     	LeavePlan leavePlanObj = getLeavePlan(leavePlan, asOfDate);
@@ -90,7 +92,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 	}
     
     @Override
-	public boolean isLastCalendarPeriodOfLeavePlan(CalendarEntry calendarEntry, String leavePlan, LocalDate asOfDate) {
+	public boolean isLastCalendarPeriodOfLeavePlan(CalendarEntryContract calendarEntry, String leavePlan, LocalDate asOfDate) {
     	boolean isLastCalendarPeriodOfLeavePlan = false;
     	
     	LeavePlan leavePlanObj = getLeavePlan(leavePlan, asOfDate);

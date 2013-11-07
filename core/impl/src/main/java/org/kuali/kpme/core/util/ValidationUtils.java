@@ -23,29 +23,31 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
+import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
+import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupDefinitionContract;
+import org.kuali.kpme.core.api.institution.InstitutionContract;
+import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
+import org.kuali.kpme.core.api.location.LocationContract;
+import org.kuali.kpme.core.api.paygrade.PayGradeContract;
+import org.kuali.kpme.core.api.paytype.PayTypeContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
+import org.kuali.kpme.core.api.task.TaskContract;
+import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.earncode.EarnCode;
-import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
-import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
-import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.core.kfs.coa.businessobject.Account;
 import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
 import org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
 import org.kuali.kpme.core.kfs.coa.businessobject.SubAccount;
 import org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
-import org.kuali.kpme.core.location.Location;
-import org.kuali.kpme.core.paygrade.PayGrade;
-import org.kuali.kpme.core.paytype.PayType;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
-import org.kuali.kpme.core.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.task.Task;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -103,7 +105,7 @@ public class ValidationUtils {
 		if (StringUtils.equals(salGroup, HrConstants.WILDCARD_CHARACTER)) {
 			valid = true;
 		} else if (asOfDate != null) {
-			SalaryGroup sg = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salGroup, asOfDate);
+			SalaryGroupContract sg = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salGroup, asOfDate);
 			valid = (sg != null);
 		} else {
 			int count = HrServiceLocator.getSalaryGroupService().getSalGroupCount(salGroup);
@@ -117,7 +119,7 @@ public class ValidationUtils {
 		boolean valid = false;
 
 		if (asOfDate != null) {
-			EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+			EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
 			valid = (ec != null);
 		} else {
 			int count = HrServiceLocator.getEarnCodeService().getEarnCodeCount(earnCode);
@@ -131,7 +133,7 @@ public class ValidationUtils {
 		boolean valid = false;
 		
 		if (asOfDate != null) {
-			LeavePlan lp = HrServiceLocator.getLeavePlanService().getLeavePlan(leavePlan, asOfDate);
+			LeavePlanContract lp = HrServiceLocator.getLeavePlanService().getLeavePlan(leavePlan, asOfDate);
 			valid = (lp != null);
 		} else {
 			// chen, moved the code that access db to service and dao
@@ -145,7 +147,7 @@ public class ValidationUtils {
 		boolean valid = false;
 		
 		if (asOfDate != null) {
-			AccrualCategory accrualCategoryObj = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
+			AccrualCategoryContract accrualCategoryObj = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
 			if (accrualCategoryObj != null) {
 				if (StringUtils.equals(earnCode, accrualCategoryObj.getEarnCode())) {
 					valid = true;
@@ -166,7 +168,7 @@ public class ValidationUtils {
 		boolean valid = false;
 		
 		if (asOfDate != null) {
-			AccrualCategory ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
+			AccrualCategoryContract ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
 			valid = (ac != null);
 		} else {
 			Map<String, String> fieldValues = new HashMap<String, String>();
@@ -183,11 +185,11 @@ public class ValidationUtils {
 		boolean valid = false;
 		
 		if (asOfDate != null) {
-			AccrualCategory ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
+			AccrualCategoryContract ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
 			if(ac != null && ac.getLeavePlan() != null) {
 				// fetch leave plan users
 				if(principalId != null) {
-					PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+					PrincipalHRAttributesContract principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
 					if(principalHRAttributes != null && principalHRAttributes.getLeavePlan() != null) {
 						valid = StringUtils.equals(ac.getLeavePlan().trim(), principalHRAttributes.getLeavePlan().trim());
 					}
@@ -213,7 +215,7 @@ public class ValidationUtils {
 					int count = HrServiceLocator.getLocationService().getLocationCount(location, asOfDate);
 					valid = (count > 0);
 				} else {
-					Location l = HrServiceLocator.getLocationService().getLocation(location, asOfDate);
+					LocationContract l = HrServiceLocator.getLocationService().getLocation(location, asOfDate);
 					valid = (l != null);
 				}
 			}
@@ -226,7 +228,7 @@ public class ValidationUtils {
 		boolean valid = false;
 
 		if (asOfDate != null) {
-			PayType pt = HrServiceLocator.getPayTypeService().getPayType(payType, asOfDate);
+			PayTypeContract pt = HrServiceLocator.getPayTypeService().getPayType(payType, asOfDate);
 			valid = (pt != null);
 		} else {
 			int count = HrServiceLocator.getPayTypeService().getPayTypeCount(payType);
@@ -241,7 +243,7 @@ public class ValidationUtils {
 		boolean valid = false;
 
 		if (asOfDate != null) {
-			PayGrade pg = HrServiceLocator.getPayGradeService().getPayGrade(payGrade, salGroup, asOfDate);
+			PayGradeContract pg = HrServiceLocator.getPayGradeService().getPayGrade(payGrade, salGroup, asOfDate);
 			valid = (pg != null);
 		} else {
 			int count = HrServiceLocator.getPayGradeService().getPayGradeCount(payGrade);
@@ -262,7 +264,7 @@ public class ValidationUtils {
         boolean valid = false;
 
         if (asOfDate != null) {
-            EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+            EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
             valid = (ec != null) && (otEarnCode ? ec.getOvtEarnCode().booleanValue() : true);
         }
 
@@ -279,7 +281,7 @@ public class ValidationUtils {
         if (StringUtils.isEmpty(department)) {
           // do nothing, let false be returned.
         } else if (asOfDate != null) {
-			Department d = HrServiceLocator.getDepartmentService().getDepartment(department, asOfDate);
+			DepartmentContract d = HrServiceLocator.getDepartmentService().getDepartment(department, asOfDate);
 		    valid = (d != null);
 		} else {
 			int count = HrServiceLocator.getDepartmentService().getDepartmentCount(department);
@@ -325,7 +327,7 @@ public class ValidationUtils {
 		} else if (workArea.equals(HrConstants.WILDCARD_LONG)) {
 			valid = true;
 		} else if (asOfDate != null) {
-			WorkArea wa = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, asOfDate);
+			WorkAreaContract wa = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, asOfDate);
             if (wa != null && dept != null) {
                 valid = StringUtils.equalsIgnoreCase(dept, wa.getDept());
             } else {
@@ -347,7 +349,7 @@ public class ValidationUtils {
 		if (StringUtils.equals(accrualCategory, HrConstants.WILDCARD_CHARACTER)) {
 			valid = true;
 		} else if (asOfDate != null) {
-			AccrualCategory ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
+			AccrualCategoryContract ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
 			valid = (ac != null);
 		}
 
@@ -377,7 +379,7 @@ public class ValidationUtils {
         boolean valid = false;
 
         if (task != null && asOfDate != null) {
-            Task t = HrServiceLocator.getTaskService().getTask(task, asOfDate);
+            TaskContract t = HrServiceLocator.getTaskService().getTask(task, asOfDate);
             valid = (t != null);
         } else if (task != null) {
         	int count = HrServiceLocator.getTaskService().getTaskCount(task);
@@ -397,7 +399,7 @@ public class ValidationUtils {
         boolean valid = false;
 
         if (earnGroup != null && asOfDate != null) {
-            EarnCodeGroup eg = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(earnGroup, asOfDate);
+            EarnCodeGroupContract eg = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(earnGroup, asOfDate);
             valid = (eg != null);
         } else if (earnGroup != null) {
         	int count = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupCount(earnGroup);
@@ -414,11 +416,11 @@ public class ValidationUtils {
      */
     public static boolean earnGroupHasOvertimeEarnCodes(String earnGroup, LocalDate asOfDate) {
          if (earnGroup != null && asOfDate != null) {
-             EarnCodeGroup eg = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(earnGroup, asOfDate);
+             EarnCodeGroupContract eg = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(earnGroup, asOfDate);
              if(eg != null) {
-            	for(EarnCodeGroupDefinition egd : eg.getEarnCodeGroups()) {
+            	for(EarnCodeGroupDefinitionContract egd : eg.getEarnCodeGroups()) {
             		if(egd.getEarnCode() != null) {
-            			EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(egd.getEarnCode(), asOfDate);
+            			EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(egd.getEarnCode(), asOfDate);
             			if(ec != null && ec.getOvtEarnCode()) {
             				return true;
             			}
@@ -508,7 +510,7 @@ public class ValidationUtils {
 	public static boolean validateRecordMethod(String recordMethod, String accrualCategory, LocalDate asOfDate) {
 		boolean valid = false;
 		if (asOfDate != null) {
-			AccrualCategory ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
+			AccrualCategoryContract ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
 			if (ac != null
                     && ac.getUnitOfTime() != null) {
                 if (HrConstants.RECORD_METHOD.HOUR.equals(ac.getUnitOfTime())
@@ -526,7 +528,7 @@ public class ValidationUtils {
 	
 	public static boolean validateEarnCodeFraction(String earnCode, BigDecimal amount, LocalDate asOfDate) {
 		boolean valid = true;
-		 EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+		 EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
 		 if(ec != null && ec.getFractionalTimeAllowed() != null) {
 			 BigDecimal fracAllowed = new BigDecimal(ec.getFractionalTimeAllowed());
 			if(amount == null) {
@@ -542,7 +544,7 @@ public class ValidationUtils {
 	
 	public static boolean validatePayGradeWithSalaryGroup(String salaryGroup, String payGrade, LocalDate asOfDate) {
 		if (asOfDate != null) {
-			PayGrade grade = HrServiceLocator.getPayGradeService().getPayGrade(payGrade, salaryGroup, asOfDate);
+			PayGradeContract grade = HrServiceLocator.getPayGradeService().getPayGrade(payGrade, salaryGroup, asOfDate);
 			if(grade != null && StringUtils.isNotBlank(grade.getSalGroup())) 
 				return StringUtils.equals(grade.getSalGroup(), salaryGroup);
 		}
@@ -558,7 +560,7 @@ public class ValidationUtils {
 					int count =  HrServiceLocator.getInstitutionService().getInstitutionCount(institutionCode, asOfDate);
 					valid = (count > 0);
 				} else {
-					Institution inst = HrServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
+					InstitutionContract inst = HrServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
 					valid = (inst != null);
 				}
 			}
@@ -706,7 +708,7 @@ public class ValidationUtils {
 	 */
 	public static boolean validateLocationWithSalaryGroup(String salaryGroup, String location, LocalDate asOfDate) {
 		if (asOfDate != null) {
-			SalaryGroup salGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salaryGroup, asOfDate);
+			SalaryGroupContract salGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salaryGroup, asOfDate);
 			if (salGroup != null && StringUtils.isNotBlank(salGroup.getLocation())) {
 				if (ValidationUtils.isWildCard(salGroup.getLocation())) {
 					return true;

@@ -29,8 +29,8 @@ import org.junit.Test;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.workflow.TimesheetWebTestBase;
 import org.kuali.kpme.core.FunctionalTest;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -59,7 +59,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
     public void testSimpleDOTCalculationIntegration() throws Exception {
         DateTime asOfDate = new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
-        CalendarEntry pcd = HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(USER_PRINCIPAL_ID, asOfDate);
+        CalendarEntry pcd = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(USER_PRINCIPAL_ID, asOfDate);
         Assert.assertNotNull("No PayCalendarDates", pcd);
 
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, pcd);
@@ -70,8 +70,8 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
         Assert.assertNotNull(form);
 
         // 1. Obtain User Data
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(HrContext.getPrincipalId(), AssignmentDescriptionKey.get("30_30_30"), JAN_AS_OF_DATE.toLocalDate());
-        EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE.toLocalDate());
+        Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(HrContext.getPrincipalId(), AssignmentDescriptionKey.get("30_30_30"), JAN_AS_OF_DATE.toLocalDate());
+        EarnCode earnCode = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE.toLocalDate());
         Assert.assertEquals("There should be no existing time blocks.", 0, tdoc.getTimeBlocks().size());
 
         // 2. Set Timeblock Start and End time

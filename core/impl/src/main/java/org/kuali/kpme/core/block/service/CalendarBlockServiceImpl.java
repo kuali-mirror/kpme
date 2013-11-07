@@ -15,11 +15,10 @@
  */
 package org.kuali.kpme.core.block.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.block.service.CalendarBlockService;
 import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.kpme.core.block.dao.CalendarBlockDao;
 

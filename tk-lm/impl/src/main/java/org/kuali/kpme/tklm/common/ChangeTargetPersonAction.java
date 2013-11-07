@@ -29,8 +29,8 @@ import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -86,7 +86,7 @@ public class ChangeTargetPersonAction extends KPMEAction {
     }
     
     private boolean isReviewerForPerson(String principalId) {
-        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
+        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
         for (Assignment assignment : assignments) {
             if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), assignment.getWorkArea(), LocalDate.now().toDateTimeAtStartOfDay())) {
@@ -97,7 +97,7 @@ public class ChangeTargetPersonAction extends KPMEAction {
     }
 
     private boolean isApproverForPerson(String principalId) {
-        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
+        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
         for (Assignment assignment : assignments) {
         	if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), LocalDate.now().toDateTimeAtStartOfDay())
@@ -110,7 +110,7 @@ public class ChangeTargetPersonAction extends KPMEAction {
     }
 
     private boolean isPayrollProcessorForPerson(String principalId) {
-        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
+        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
         for (Assignment assignment : assignments) {
             if (HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), assignment.getDept(), LocalDate.now().toDateTimeAtStartOfDay())
@@ -123,12 +123,12 @@ public class ChangeTargetPersonAction extends KPMEAction {
     }
 
     private boolean isViewOnlyForPerson(String principalId) {
-        List<Job> jobs = HrServiceLocator.getJobService().getJobs(principalId, LocalDate.now());
+        List<Job> jobs = (List<Job>) HrServiceLocator.getJobService().getJobs(principalId, LocalDate.now());
         
         for (Job job : jobs) {
         	String department = job != null ? job.getDept() : null;
 			
-			Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
+			DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 
             if (HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department, LocalDate.now().toDateTimeAtStartOfDay())
@@ -143,12 +143,12 @@ public class ChangeTargetPersonAction extends KPMEAction {
     }
     
     private boolean isAdministratorForPerson(String principalId) {
-        List<Job> jobs = HrServiceLocator.getJobService().getJobs(principalId, LocalDate.now());
+        List<Job> jobs = (List<Job>) HrServiceLocator.getJobService().getJobs(principalId, LocalDate.now());
         
         for (Job job : jobs) {
 			String department = job != null ? job.getDept() : null;
 			
-			Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
+			DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 			
         	if (HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, LocalDate.now().toDateTimeAtStartOfDay())

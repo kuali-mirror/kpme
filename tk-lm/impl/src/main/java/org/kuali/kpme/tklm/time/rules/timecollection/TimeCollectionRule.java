@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.rules.timecollection;
 
-import org.kuali.kpme.core.block.CalendarBlockPermissions;
+import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.paytype.PayType;

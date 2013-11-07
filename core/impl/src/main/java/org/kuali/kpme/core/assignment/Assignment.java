@@ -22,8 +22,9 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.assignment.account.AssignmentAccount;
-import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -119,7 +120,7 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 
 	public Job getJob() {
 		if(job == null && this.getJobNumber() != null) {
-			this.setJob(HrServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveLocalDate()));
+			this.setJob((Job)HrServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveLocalDate()));
 		}
 		return job;
 	}
@@ -176,9 +177,9 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 		if(this.getJobNumber()!= null) {
 			if(this.getJob() == null || !this.getJobNumber().equals(this.getJob().getJobNumber())) {
 				if(this.getEffectiveDate()!=null){
-					this.setJob(HrServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveLocalDate(), false));
+					this.setJob((Job) HrServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveLocalDate(), false));
 				}else{
-					this.setJob(HrServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), LocalDate.now(), false));
+					this.setJob((Job) HrServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), LocalDate.now(), false));
 				}
 			}
 			setDept((this.getJob() != null) ? this.getJob().getDept() : "");
@@ -192,7 +193,7 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 
 	public WorkArea getWorkAreaObj() {
 		if(workAreaObj == null && workArea != null) {
-			this.setWorkAreaObj(HrServiceLocator.getWorkAreaService().getWorkArea(this.getWorkArea(), this.getEffectiveLocalDate()));
+			this.setWorkAreaObj((WorkArea) HrServiceLocator.getWorkAreaService().getWorkArea(this.getWorkArea(), this.getEffectiveLocalDate()));
 		}
 		return workAreaObj;
 	}

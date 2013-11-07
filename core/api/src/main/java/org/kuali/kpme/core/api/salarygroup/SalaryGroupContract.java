@@ -18,12 +18,15 @@ package org.kuali.kpme.core.api.salarygroup;
 import java.math.BigDecimal;
 
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 
 /**
  * <p>SalaryGroupContract interface.</p>
  *
  */
 public interface SalaryGroupContract extends HrBusinessObjectContract {
+	
+	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "SalaryGroup";
 	
 	/**
 	 * History flag for SalaryGroup lookups 

@@ -20,13 +20,12 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -65,7 +64,7 @@ public class BalanceTransferWorkflowAttribute extends AbstractRoleAttribute {
 		}
 		
         if (balanceTransfer != null) {
-            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveLocalDate());
+            List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveLocalDate());
             for (Assignment assignment : assignments) {
                 String roleStr = roleName + "_" + assignment.getWorkArea();
                 if (!roles.contains(roleStr)) {
@@ -112,7 +111,7 @@ public class BalanceTransferWorkflowAttribute extends AbstractRoleAttribute {
         }
         
         if (balanceTransfer != null) {
-	        WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, balanceTransfer.getEffectiveLocalDate());
+	        WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, balanceTransfer.getEffectiveLocalDate());
 	
 	        List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 	        

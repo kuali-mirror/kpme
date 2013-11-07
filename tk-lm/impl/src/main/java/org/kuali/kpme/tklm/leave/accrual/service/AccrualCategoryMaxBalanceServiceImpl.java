@@ -61,7 +61,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 		if(!thisEntryInterval.contains(asOfDate.toDate().getTime()))
 			asOfDate = entry.getEndPeriodFullDateTime().minusDays(1).toLocalDate();
 
-		PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+		PrincipalHRAttributes pha = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
 		
 		if(pha == null)
 			return eligibilities;
@@ -72,7 +72,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 			return eligibilities;
 		
 		//Consider time sheet intervals that stagger a leave period end date...
-		List<CalendarEntry> leaveCalEntries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(cal.getHrCalendarId(), entry.getBeginPeriodFullDateTime(), entry.getEndPeriodFullDateTime());
+		List<CalendarEntry> leaveCalEntries = (List<CalendarEntry>) HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(cal.getHrCalendarId(), entry.getBeginPeriodFullDateTime(), entry.getEndPeriodFullDateTime());
 		CalendarEntry yearEndLeaveEntry = null;
 		CalendarEntry leaveLeaveEntry = null;
 		if(!leaveCalEntries.isEmpty()) {
@@ -92,7 +92,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 				yearEndPeriodInterval = leavePeriodInterval;
 		}
 		
-		List<AccrualCategory> accrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), asOfDate);
+		List<AccrualCategory> accrualCategories = (List<AccrualCategory>) HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), asOfDate);
 
 		if(!accrualCategories.isEmpty()) {
 			
@@ -177,7 +177,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 				BigDecimal tally = accruedBalance.get(accrualCategory.getLmAccrualCategoryId());
 				tally = tally.add(lb.getLeaveAmount());
 				
-				AccrualCategoryRule asOfLeaveDateRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, lb.getLeaveLocalDate(), pha.getServiceLocalDate());
+				AccrualCategoryRule asOfLeaveDateRule = (AccrualCategoryRule) HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, lb.getLeaveLocalDate(), pha.getServiceLocalDate());
 
 				//Employee overrides...
 				if(ObjectUtils.isNotNull(asOfLeaveDateRule)) {

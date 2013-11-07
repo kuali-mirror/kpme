@@ -30,8 +30,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -49,7 +49,7 @@ public class LeaveCalendarWSAction extends LeaveCalendarAction {
     public ActionForward getEarnCodeInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
         LOG.info(lcf.toString());
-        EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCodeById(lcf.getSelectedEarnCode());
+        EarnCode earnCode = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCodeById(lcf.getSelectedEarnCode());
     	String unitTime = ActionFormUtils.getUnitOfTimeForEarnCode(earnCode);
         Map<String, Object> earnCodeMap = new HashMap<String, Object>();
         earnCodeMap.put("unitOfTime", unitTime);
@@ -66,14 +66,14 @@ public class LeaveCalendarWSAction extends LeaveCalendarAction {
 
         CalendarEntry calendarEntry = lcf.getCalendarEntry();
         if (StringUtils.isNotBlank(lcf.getSelectedAssignment())) {
-        	List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(HrContext.getTargetPrincipalId(), lcf.getCalendarEntry());
+        	List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(HrContext.getTargetPrincipalId(), lcf.getCalendarEntry());
         	boolean leavePlanningCalendar = LmServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(HrContext.getTargetPrincipalId(), calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
             AssignmentDescriptionKey key = AssignmentDescriptionKey.get(lcf.getSelectedAssignment());
             for (Assignment assignment : assignments) {
             	if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
                         assignment.getWorkArea().compareTo(key.getWorkArea()) == 0 &&
                         assignment.getTask().compareTo(key.getTask()) == 0) {
-            		List<EarnCode> earnCodes = HrServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, TKUtils.formatDateTimeString(lcf.getEndDate()).toLocalDate(), leavePlanningCalendar);
+            		List<EarnCode> earnCodes = (List<EarnCode>) HrServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, TKUtils.formatDateTimeString(lcf.getEndDate()).toLocalDate(), leavePlanningCalendar);
                     for (EarnCode earnCode : earnCodes) {
                         Map<String, Object> earnCodeMap = new HashMap<String, Object>();
                         earnCodeMap.put("assignment", assignment.getAssignmentKey());

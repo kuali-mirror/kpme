@@ -21,6 +21,7 @@ import org.kuali.kpme.core.api.assignment.account.AssignmentAccountContract;
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.task.TaskContract;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.rice.kim.api.identity.Person;
 
@@ -29,6 +30,8 @@ import org.kuali.rice.kim.api.identity.Person;
  *
  */
 public interface AssignmentContract extends HrBusinessObjectContract {
+	
+	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "Assignment";
 	
 	/**
 	 * List of AssignmentAccounts associated with this Assignment

@@ -34,30 +34,28 @@ import org.joda.time.LocalTime;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.assignment.Assignable;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.task.TaskContract;
+import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.expression.spel.ast.Assign;
 
 public class LeaveBlock extends CalendarBlock implements Assignable, LeaveBlockContract {
 	
@@ -356,18 +354,18 @@ public class LeaveBlock extends CalendarBlock implements Assignable, LeaveBlockC
     public List<Assignment> getAssignments() {
         AssignmentDescriptionKey key = AssignmentDescriptionKey.get(getAssignmentKey());
         return Collections.singletonList(
-                HrServiceLocator.getAssignmentService().getAssignment(getPrincipalId(), key, getLeaveLocalDate()));
+                (Assignment)HrServiceLocator.getAssignmentService().getAssignment(getPrincipalId(), key, getLeaveLocalDate()));
     }
 	public String getAssignmentTitle() {
 		StringBuilder b = new StringBuilder();
 
 		if (this.workArea != null) {
-			WorkArea wa = HrServiceLocator.getWorkAreaService().getWorkArea(
+			WorkAreaContract wa = HrServiceLocator.getWorkAreaService().getWorkArea(
 					this.workArea, LocalDate.now());
 			if (wa != null) {
 				b.append(wa.getDescription());
 			}
-			Task task = HrServiceLocator.getTaskService().getTask(
+			TaskContract task = HrServiceLocator.getTaskService().getTask(
 					this.getTask(), this.getLeaveLocalDate());
 			if (task != null) {
 				// do not display task description if the task is the default
@@ -387,13 +385,13 @@ public class LeaveBlock extends CalendarBlock implements Assignable, LeaveBlockC
 	}
 
 	public String getCalendarId() {
-		PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(this.principalId, LocalDate.now());
+		PrincipalHRAttributes principalHRAttributes = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(this.principalId, LocalDate.now());
 		Calendar pcal= null;
 		if(principalHRAttributes != null) {
 			//pcal = principalHRAttributes.getCalendar() != null ? principalHRAttributes.getCalendar() : principalHRAttributes.getLeaveCalObj() ;
 			pcal = principalHRAttributes.getLeaveCalObj() != null ? principalHRAttributes.getLeaveCalObj() : principalHRAttributes.getCalendar();
             if(pcal!= null) {
-				CalendarEntry calEntries = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(pcal.getHrCalendarId(), getLeaveLocalDate().toDateTimeAtStartOfDay());
+				CalendarEntryContract calEntries = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(pcal.getHrCalendarId(), getLeaveLocalDate().toDateTimeAtStartOfDay());
 				if(calEntries != null) {
 					this.calendarId = calEntries.getHrCalendarEntryId();
 				}
@@ -409,7 +407,7 @@ public class LeaveBlock extends CalendarBlock implements Assignable, LeaveBlockC
 	public String getEarnCodeDescription() {
 		String earnCodeDescription = "";
 		
-		EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, getLeaveLocalDate());
+		EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, getLeaveLocalDate());
 		if (earnCodeObj != null) {
 			earnCodeDescription = earnCodeObj.getDescription();
 		}
@@ -651,15 +649,15 @@ public class LeaveBlock extends CalendarBlock implements Assignable, LeaveBlockC
     public AccrualCategoryRule getAccrualCategoryRule() {
         if (accrualCategoryRule == null) {
             AccrualCategory category = getAccrualCategoryObj();
-            PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, getLeaveLocalDate());
-            accrualCategoryRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(category, getLeaveLocalDate(), pha.getServiceLocalDate());
+            PrincipalHRAttributesContract pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, getLeaveLocalDate());
+            accrualCategoryRule = (AccrualCategoryRule) HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(category, getLeaveLocalDate(), pha.getServiceLocalDate());
         }
         return accrualCategoryRule;
     }
 
     public AccrualCategory getAccrualCategoryObj() {
         if (accrualCategoryObj == null) {
-            accrualCategoryObj = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, getLeaveLocalDate());
+            accrualCategoryObj = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, getLeaveLocalDate());
         }
         return accrualCategoryObj;
     }

@@ -98,7 +98,7 @@ public class LeaveAdjustment extends HrBusinessObject implements LeaveAdjustment
 	
 	public String getLeavePlan() {
 		if (!StringUtils.isEmpty(this.principalId)) {
-			principalHRAttrObj = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveLocalDate());
+			principalHRAttrObj = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveLocalDate());
 		}
 		return (principalHRAttrObj != null) ? principalHRAttrObj.getLeavePlan() : "";
 	}

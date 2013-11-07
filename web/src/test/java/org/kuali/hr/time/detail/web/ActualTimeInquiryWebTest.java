@@ -46,7 +46,7 @@ public class ActualTimeInquiryWebTest extends KPMEWebTestCase {
     public void setUp() throws Exception {
         super.setUp();
 
-        CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
+        CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
         TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", calendarEntry);
         documentId = timesheetDocument.getDocumentId();
     }

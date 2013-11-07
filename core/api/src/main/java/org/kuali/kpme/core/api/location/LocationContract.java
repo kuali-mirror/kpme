@@ -19,12 +19,15 @@ import java.util.List;
 
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.role.location.LocationPrincipalRoleMemberBoContract;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 
 /**
  * <p>LocationContract interface.</p>
  *
  */
 public interface LocationContract extends HrBusinessObjectContract {
+	
+	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "Location";
 	
 	/**
 	 * The Primary Key of a Location entry saved in a database

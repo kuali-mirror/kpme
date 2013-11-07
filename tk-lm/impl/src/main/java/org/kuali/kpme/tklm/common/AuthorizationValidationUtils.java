@@ -19,8 +19,8 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.authorization.DepartmentalRule;
-import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -50,7 +50,7 @@ public class AuthorizationValidationUtils {
     	if (departmentalRule != null) {
 	    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
 	    	String department = departmentalRule.getDept();
-	    	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
+	    	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 	    	
 	        if (!HrConstants.WILDCARD_CHARACTER.equals(department)) {
@@ -85,7 +85,7 @@ public class AuthorizationValidationUtils {
         if (departmentalRule != null) {
 	    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
 	    	String department = departmentalRule.getDept();
-	    	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
+	    	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 	        
 	        if (!HrConstants.WILDCARD_CHARACTER.equals(department)) {
@@ -126,7 +126,7 @@ public class AuthorizationValidationUtils {
         	String principalId = GlobalVariables.getUserSession().getPrincipalId();
         	Long workArea = departmentalRule.getWorkArea();
         	String department = departmentalRule.getDept();
-        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
+        	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
     		String location = departmentObj != null ? departmentObj.getLocation() : null;
             
             if (HrConstants.WILDCARD_CHARACTER.equals(department) && HrConstants.WILDCARD_LONG.equals(workArea)) {

@@ -22,10 +22,13 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
+import org.kuali.kpme.core.api.document.calendar.CalendarDocumentContract;
+import org.kuali.kpme.core.api.permission.service.HRPermissionService;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -66,10 +69,10 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
 	}
 	
     @Override
-    public boolean canApproveCalendarDocument(String principalId, CalendarDocument calendarDocument) {
+    public boolean canApproveCalendarDocument(String principalId, CalendarDocumentContract calendarDocument) {
     	boolean canApproveLeaveCalendar = false;
     	
-    	ValidActions validActions = KewApiServiceLocator.getWorkflowDocumentActionsService().determineValidActions(calendarDocument.getDocumentId(), principalId);
+    	ValidActions validActions = KewApiServiceLocator.getWorkflowDocumentActionsService().determineValidActions(((CalendarDocument)calendarDocument).getDocumentId(), principalId);
     	
     	if (validActions.getValidActions() != null) {
     		canApproveLeaveCalendar = validActions.getValidActions().contains(ActionType.APPROVE);
@@ -79,38 +82,38 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
     }
 	
     @Override
-    public boolean canViewCalendarDocument(String principalId, CalendarDocument calendarDocument) {
+    public boolean canViewCalendarDocument(String principalId, CalendarDocumentContract calendarDocument) {
     	return canSuperUserAdministerCalendarDocument(principalId, calendarDocument) 
-    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, calendarDocument);
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, (CalendarDocument)calendarDocument);
     }
     
     @Override
-    public boolean canViewCalendarDocumentAssignment(String principalId, CalendarDocument calendarDocument, Assignment assignment) {
-    	return canSuperUserAdministerCalendarDocument(principalId, calendarDocument)
-    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, calendarDocument, assignment);
+    public boolean canViewCalendarDocumentAssignment(String principalId, CalendarDocumentContract calendarDocument, AssignmentContract assignment) {
+    	return canSuperUserAdministerCalendarDocument(principalId, (CalendarDocument)calendarDocument)
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, (CalendarDocument)calendarDocument, (Assignment)assignment);
     }
     
     @Override
-    public boolean canEditCalendarDocument(String principalId, CalendarDocument calendarDocument) {
-    	return canSuperUserAdministerCalendarDocument(principalId, calendarDocument) 
-    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, calendarDocument);
+    public boolean canEditCalendarDocument(String principalId, CalendarDocumentContract calendarDocument) {
+    	return canSuperUserAdministerCalendarDocument(principalId, (CalendarDocument)calendarDocument) 
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, (CalendarDocument)calendarDocument);
     }
     
     @Override
-    public boolean canEditCalendarDocumentAssignment(String principalId, CalendarDocument calendarDocument, Assignment assignment) {
-    	return canSuperUserAdministerCalendarDocument(principalId, calendarDocument)
-    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, calendarDocument, assignment);
+    public boolean canEditCalendarDocumentAssignment(String principalId, CalendarDocumentContract calendarDocument, AssignmentContract assignment) {
+    	return canSuperUserAdministerCalendarDocument(principalId, (CalendarDocument)calendarDocument)
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, (CalendarDocument)calendarDocument, (Assignment)assignment);
     }
     
     @Override
-    public boolean canSubmitCalendarDocument(String principalId, CalendarDocument calendarDocument) {
-        return canSuperUserAdministerCalendarDocument(principalId, calendarDocument) 
-        		|| isAuthorizedByTemplate(principalId, KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, KimConstants.PermissionTemplateNames.ROUTE_DOCUMENT, calendarDocument);
+    public boolean canSubmitCalendarDocument(String principalId, CalendarDocumentContract calendarDocument) {
+        return canSuperUserAdministerCalendarDocument(principalId, (CalendarDocument)calendarDocument) 
+        		|| isAuthorizedByTemplate(principalId, KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, KimConstants.PermissionTemplateNames.ROUTE_DOCUMENT, (CalendarDocument)calendarDocument);
     }
     
     @Override
-    public boolean canSuperUserAdministerCalendarDocument(String principalId, CalendarDocument calendarDocument) {
-        return isAuthorizedByTemplate(principalId, KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, "Administer Routing for Document", calendarDocument);
+    public boolean canSuperUserAdministerCalendarDocument(String principalId, CalendarDocumentContract calendarDocument) {
+        return isAuthorizedByTemplate(principalId, KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, "Administer Routing for Document", (CalendarDocument)calendarDocument);
     }
     
     private boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, CalendarDocument calendarDocument) {
@@ -165,9 +168,9 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
     private boolean isActiveAssignmentFoundOnJobFlsaStatus(String principalId, String flsaStatus, boolean chkForLeaveEligible) {
     	boolean isActiveAssFound = false;
     	LocalDate asOfDate = LocalDate.now();
-     	List<Assignment> activeAssignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
+     	List<AssignmentContract> activeAssignments = (List<AssignmentContract>) HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
      	if(activeAssignments != null && !activeAssignments.isEmpty()) {
-     		for(Assignment assignment : activeAssignments) {
+     		for(AssignmentContract assignment : activeAssignments) {
      			if(assignment != null && assignment.getJob() != null && assignment.getJob().getFlsaStatus() != null && assignment.getJob().getFlsaStatus().equalsIgnoreCase(flsaStatus)) {
      				if(chkForLeaveEligible) {
      					isActiveAssFound = assignment.getJob().isEligibleForLeave();
@@ -185,7 +188,7 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
     
     private boolean isCalendarDefined(String calendarType, String principalId, LocalDate asOfDate, boolean chkForLeavePlan){
     	boolean calDefined = false;
-    	PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+    	PrincipalHRAttributesContract principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
     	if(principalHRAttributes != null) {
     		if(calendarType.equalsIgnoreCase("payCalendar")) {
     			calDefined = principalHRAttributes.getPayCalendar() != null ? true : false;

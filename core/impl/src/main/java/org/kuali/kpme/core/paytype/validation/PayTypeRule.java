@@ -76,7 +76,7 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 
 	boolean validateActive(String hrPayType, LocalDate asOfDate) {
 		boolean valid = true;
-		List<Job> jobs = HrServiceLocator.getJobService()
+		List<Job> jobs = (List<Job>) HrServiceLocator.getJobService()
 				.getActiveJobsForPayType(hrPayType, asOfDate);
 		if (jobs != null && !jobs.isEmpty()) {
 			this.putFieldError("active", "paytype.inactivate.locked", hrPayType);

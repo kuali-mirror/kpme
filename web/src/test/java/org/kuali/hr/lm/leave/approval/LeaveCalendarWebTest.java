@@ -42,14 +42,14 @@ public class LeaveCalendarWebTest extends KPMEWebTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		
-		CalendarEntry firstCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("202");
+		CalendarEntry firstCalendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("202");
         LeaveCalendarDocument firstLeaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", firstCalendarEntry);
         documentId = firstLeaveCalendarDocument.getDocumentId();
         
-        CalendarEntry secondCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("203");
+        CalendarEntry secondCalendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("203");
         LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", secondCalendarEntry);
         
-        CalendarEntry thirdCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("204");
+        CalendarEntry thirdCalendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("204");
         LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", thirdCalendarEntry);
 	}
 

@@ -18,10 +18,7 @@ package org.kuali.kpme.tklm.time.service.permission;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 
 public interface TKPermissionService {
 

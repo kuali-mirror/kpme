@@ -28,7 +28,7 @@ public class InstitutionMaintainableImpl extends HrBusinessObjectMaintainableImp
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return HrServiceLocator.getInstitutionService().getInstitutionById(id);
+		return (HrBusinessObject) HrServiceLocator.getInstitutionService().getInstitutionById(id);
 	}
 	
 }

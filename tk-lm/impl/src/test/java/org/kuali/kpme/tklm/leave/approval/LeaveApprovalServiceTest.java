@@ -44,7 +44,7 @@ public class LeaveApprovalServiceTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testGetLeaveApprovalSummaryRows() {
-		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<Date> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		List<String> testPrincipalIds = new ArrayList<String>();
 		testPrincipalIds.add("admin");
@@ -58,7 +58,7 @@ public class LeaveApprovalServiceTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testGetPrincipalDocumentHeader() {
-		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<String> testPrincipalIds = new ArrayList<String>();
 		testPrincipalIds.add("admin");
 		Map<String, LeaveCalendarDocumentHeader> lvCalHdr = LmServiceLocator.getLeaveApprovalService().getPrincipalDocumentHeader(testPrincipalIds, ce.getBeginPeriodFullDateTime(), ce.getEndPeriodFullDateTime());
@@ -68,7 +68,7 @@ public class LeaveApprovalServiceTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testGetEarnCodeLeaveHours() throws Exception {
-		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<Date> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		List<LeaveBlock> lbList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodFullDateTime().toLocalDate(), ce.getEndPeriodFullDateTime().toLocalDate());
@@ -83,7 +83,7 @@ public class LeaveApprovalServiceTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testGetAccrualCategoryLeaveHours() throws Exception {
-		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<Date> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		List<LeaveBlock> lbList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodFullDateTime().toLocalDate(), ce.getEndPeriodFullDateTime().toLocalDate());

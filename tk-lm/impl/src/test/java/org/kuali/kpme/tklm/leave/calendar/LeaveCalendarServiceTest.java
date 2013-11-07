@@ -33,7 +33,7 @@ public class LeaveCalendarServiceTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testOpenLeaveCalendarDocument() throws WorkflowException {
-		CalendarEntry calEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
+		CalendarEntry calEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
 		DateTime beginDate = calEntry.getBeginPeriodFullDateTime();
 		DateTime endDate = calEntry.getEndPeriodFullDateTime();
 		
@@ -53,7 +53,7 @@ public class LeaveCalendarServiceTest extends TKLMIntegrationTestCase {
 	@Test
 	public void testShouldCreateLeaveDocument(){
 		// no jobs found for assignment of testUser1 with flsa_status = exempt and leave_eligible = yes
-		CalendarEntry calEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("5001");
+		CalendarEntry calEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("5001");
 		boolean flag = LmServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument("testUser1", calEntry);
 		Assert.assertFalse("Should NOT create leave document for 'testUser1'", flag);
 		

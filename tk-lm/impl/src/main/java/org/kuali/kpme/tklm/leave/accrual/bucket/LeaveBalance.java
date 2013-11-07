@@ -85,7 +85,7 @@ public abstract class LeaveBalance implements LeaveBalanceContract {
 	public BigDecimal getBalance() { return balance; }
 
 	protected AccrualCategoryRule getAccrualCategoryRuleForDate(LocalDate leaveLocalDate) {
-		return HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, leaveLocalDate, principalCalendar.getServiceLocalDate());
+		return (AccrualCategoryRule) HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, leaveLocalDate, principalCalendar.getServiceLocalDate());
 	}
 
 	protected EmployeeOverride getEmployeeOverride(LeaveBlock leaveBlock, String overrideType) {

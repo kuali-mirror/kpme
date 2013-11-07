@@ -31,7 +31,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.Interval;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -83,7 +83,7 @@ public class LeaveCalendarSubmitAction extends KPMEAction {
             		for(LeaveBlock lb : entry.getValue()) {
             			if(interval.contains(lb.getLeaveDate().getTime())) {
 	            			//maxBalanceViolations should, if a violation exists, return a leave block with leave date either current date, or the end period date - 1 days.
-                    		PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), lb.getLeaveLocalDate());
+                    		PrincipalHRAttributesContract pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), lb.getLeaveLocalDate());
 	        				AccrualCategoryRule aRule = lb.getAccrualCategoryRule();
 	
 	            			if(ObjectUtils.isNotNull(aRule)

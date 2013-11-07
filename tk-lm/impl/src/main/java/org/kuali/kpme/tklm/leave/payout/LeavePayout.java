@@ -74,7 +74,7 @@ public class LeavePayout extends HrBusinessObject implements Assignable, LeavePa
 	}
 	public EarnCode getEarnCodeObj() {
 		if (earnCodeObj == null) {
-            earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(this.earnCode, getEffectiveLocalDate());
+            earnCodeObj = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(this.earnCode, getEffectiveLocalDate());
         }
         return earnCodeObj;
 	}
@@ -102,7 +102,7 @@ public class LeavePayout extends HrBusinessObject implements Assignable, LeavePa
 	
 	public String getLeavePlan() {
 		if (!StringUtils.isEmpty(this.principalId)) {
-			principalHRAttrObj = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveLocalDate());
+			principalHRAttrObj = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveLocalDate());
 		}
 		return (principalHRAttrObj != null) ? principalHRAttrObj.getLeavePlan() : "";
 	}
@@ -136,7 +136,7 @@ public class LeavePayout extends HrBusinessObject implements Assignable, LeavePa
     }
 	public AccrualCategory getFromAccrualCategoryObj() {
         if (fromAccrualCategoryObj == null) {
-            fromAccrualCategoryObj =  HrServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, getEffectiveLocalDate());
+            fromAccrualCategoryObj =  (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, getEffectiveLocalDate());
         }
         return fromAccrualCategoryObj;
 	}
@@ -269,6 +269,6 @@ public class LeavePayout extends HrBusinessObject implements Assignable, LeavePa
 
     @Override
     public List<Assignment> getAssignments() {
-        return HrServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), getEffectiveLocalDate());
+        return (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), getEffectiveLocalDate());
     }
 }

@@ -18,6 +18,7 @@ package org.kuali.kpme.core.salarygroup.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.salarygroup.service.SalaryGroupService;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.salarygroup.dao.SalaryGroupDao;
 

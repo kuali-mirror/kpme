@@ -23,14 +23,15 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
-import org.kuali.kpme.core.accrualcategory.rule.service.AccrualCategoryRuleService;
-import org.kuali.kpme.core.accrualcategory.service.AccrualCategoryService;
+import org.kuali.kpme.core.api.accrualcategory.rule.service.AccrualCategoryRuleService;
+import org.kuali.kpme.core.api.accrualcategory.service.AccrualCategoryService;
+import org.kuali.kpme.core.api.job.service.JobService;
+import org.kuali.kpme.core.api.leaveplan.service.LeavePlanService;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.job.service.JobService;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
-import org.kuali.kpme.core.leaveplan.service.LeavePlanService;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
-import org.kuali.kpme.core.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.LMConstants;
@@ -53,7 +54,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 	public boolean exceedsAccrualCategoryMaxCarryOver(String accrualCategory, String principalId, List<CalendarEntry> calendarEntries, LocalDate asOfDate) {
 		boolean exceedsAccrualCategoryMaxCarryOver = false;
 		
-		PrincipalHRAttributes principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+		PrincipalHRAttributesContract principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 		
 		if (principalCalendar != null) {
 			CalendarEntry lastCalendarPeriodOfLeavePlan = null;
@@ -77,7 +78,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 	public boolean exceedsAccrualCategoryMaxCarryOver(String accrualCategory, String principalId, CalendarEntry calendarEntry, LocalDate asOfDate) {
 		boolean exceedsAccrualCategoryMaxCarryOver = false;
 		
-		PrincipalHRAttributes principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+		PrincipalHRAttributesContract principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 		
 		if (principalCalendar != null) {
 			if (getLeavePlanService().isLastCalendarPeriodOfLeavePlan(calendarEntry, principalCalendar.getLeavePlan(), asOfDate)) {
@@ -90,7 +91,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 	
 	@Override
 	public void calculateMaxCarryOver(String documentId, String principalId, List<CalendarEntry> calendarEntries, LocalDate asOfDate) {
-		PrincipalHRAttributes principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+		PrincipalHRAttributesContract principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 		
 		if (principalCalendar != null) {
 			CalendarEntry lastCalendarPeriodOfLeavePlan = null;
@@ -110,7 +111,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 		
 	@Override
 	public void calculateMaxCarryOver(String documentId, String principalId, CalendarEntry calendarEntry, LocalDate asOfDate) {
-		PrincipalHRAttributes principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+		PrincipalHRAttributesContract principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 		
 		if (principalCalendar != null) {			
 			if (getLeavePlanService().isLastCalendarPeriodOfLeavePlan(calendarEntry, principalCalendar.getLeavePlan(), asOfDate)) {
@@ -120,7 +121,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 	}
 	
 	private void calculateMaxCarryOverForLeavePlan(String documentId, String principalId, CalendarEntry calendarEntry, String leavePlan, LocalDate asOfDate) {
-		List<AccrualCategory> accrualCategories = getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, asOfDate);
+		List<AccrualCategory> accrualCategories = (List<AccrualCategory>) getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, asOfDate);
 		
 		for (AccrualCategory accrualCategory : accrualCategories) {
 			BigDecimal adjustmentAmount = getAccrualCategoryCarryOverAdjustment(accrualCategory.getAccrualCategory(), principalId, calendarEntry, asOfDate);
@@ -136,13 +137,13 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 	private BigDecimal getAccrualCategoryCarryOverAdjustment(String accrualCategory, String principalId, CalendarEntry calendarEntry, LocalDate asOfDate) {
 		BigDecimal accrualCategoryCarryOverAdjustment = BigDecimal.ZERO;
 		
-		PrincipalHRAttributes principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+		PrincipalHRAttributesContract principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 		
 		if (principalCalendar != null) {
-			LeavePlan leavePlan = getLeavePlanService().getLeavePlan(principalCalendar.getLeavePlan(), principalCalendar.getEffectiveLocalDate());
+			LeavePlan leavePlan = (LeavePlan) getLeavePlanService().getLeavePlan(principalCalendar.getLeavePlan(), principalCalendar.getEffectiveLocalDate());
 			
 			if (leavePlan != null) {
-				AccrualCategory accrualCategoryObj = getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
+				AccrualCategory accrualCategoryObj = (AccrualCategory) getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
 				
 				if (accrualCategoryObj != null) {
 					AccrualCategoryRule accrualCategoryRule = getMaxCarryOverAccrualCategoryRule(accrualCategoryObj, principalCalendar.getServiceLocalDate(), asOfDate);
@@ -170,7 +171,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 	private AccrualCategoryRule getMaxCarryOverAccrualCategoryRule(AccrualCategory accrualCategory, LocalDate serviceDate, LocalDate asOfDate) {
 		AccrualCategoryRule maxCarryOverAccrualCategoryRule = null;
 		
-		AccrualCategoryRule accrualCategoryRule = getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, asOfDate, serviceDate);
+		AccrualCategoryRule accrualCategoryRule = (AccrualCategoryRule) getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, asOfDate, serviceDate);
 		
 		if (accrualCategoryRule != null) {
 			if (StringUtils.equals(accrualCategoryRule.getMaxBalFlag(), "N") || !StringUtils.equals(accrualCategoryRule.getMaxBalanceActionFrequency(), HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {

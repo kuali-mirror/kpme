@@ -16,6 +16,7 @@
 package org.kuali.kpme.core.accrualcategory.validation;
 
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
@@ -28,7 +29,7 @@ public class AccrualCategoryEffectiveDatePrompt extends KPMEHrObjectNewerVersion
     	boolean futureEffectiveDateExists = false;
     	
         AccrualCategory accrualCategory = (AccrualCategory) pbo;
-        AccrualCategory latestAccrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory.getAccrualCategory(), TKUtils.END_OF_TIME);
+        AccrualCategoryContract latestAccrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory.getAccrualCategory(), TKUtils.END_OF_TIME);
         if (latestAccrualCategory != null && latestAccrualCategory.getEffectiveLocalDate() != null && accrualCategory.getEffectiveLocalDate() != null) {
         	futureEffectiveDateExists = latestAccrualCategory.getEffectiveLocalDate().isAfter(accrualCategory.getEffectiveLocalDate());
         }

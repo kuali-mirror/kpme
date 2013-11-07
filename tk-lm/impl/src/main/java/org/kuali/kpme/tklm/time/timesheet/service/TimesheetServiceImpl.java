@@ -26,15 +26,17 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
+import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.permission.service.HRPermissionService;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.earncode.security.EarnCodeType;
 import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.service.permission.HRPermissionService;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
@@ -45,8 +47,6 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.service.permission.TKPermissionService;
-import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
@@ -143,7 +143,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         TimesheetDocumentHeader header = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, begin, end);
 
         if (header == null) {
-            List<Assignment> activeAssignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarDates);
+            List<Assignment> activeAssignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarDates);
             //HrServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getTimelessDate(payCalendarDates.getEndPeriodDate()));
             if (activeAssignments.size() == 0) {
                 LOG.warn("No active assignments for " + principalId + " for " + calendarDates.getEndPeriodDate());
@@ -176,7 +176,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     public void loadHolidaysOnTimesheet(TimesheetDocument timesheetDocument, String principalId, LocalDate beginDate, LocalDate endDate) {
-        PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, beginDate);
+        PrincipalHRAttributesContract principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, beginDate);
         if (principalCalendar != null && StringUtils.isNotEmpty(principalCalendar.getLeavePlan())) {
         	List<SystemScheduledTimeOff> sstoList = LmServiceLocator.getSysSchTimeOffService()
         		.getSystemScheduledTimeOffForPayPeriod(principalCalendar.getLeavePlan(), beginDate, endDate);
@@ -197,7 +197,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     private Assignment getAssignmentToApplyScheduledTimeOff(String principalId, List<Assignment> assignments, LocalDate endDate) {
-		Job primaryJob = HrServiceLocator.getJobService().getPrimaryJob(principalId, endDate);
+		JobContract primaryJob = HrServiceLocator.getJobService().getPrimaryJob(principalId, endDate);
 		for(Assignment assign : assignments){
 			if(assign.getJobNumber().equals(primaryJob.getJobNumber())){
 				return assign;
@@ -271,7 +271,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
         if (tdh != null) {
             timesheetDocument = new TimesheetDocument(tdh);
-            CalendarEntry pce = HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), tdh.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE);
+            CalendarEntry pce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), tdh.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE);
             loadTimesheetDocumentData(timesheetDocument, tdh.getPrincipalId(), pce);
 
             timesheetDocument.setCalendarEntry(pce);
@@ -281,15 +281,15 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     protected void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, CalendarEntry payCalEntry) {
-    	tdoc.setAssignments(HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, payCalEntry));
+    	tdoc.setAssignments((List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, payCalEntry));
     	if (payCalEntry != null) {
-    		tdoc.setJobs(HrServiceLocator.getJobService().getJobs(principalId, payCalEntry.getEndPeriodFullDateTime().toLocalDate()));
+    		tdoc.setJobs((List<Job>) HrServiceLocator.getJobService().getJobs(principalId, payCalEntry.getEndPeriodFullDateTime().toLocalDate()));
     	}
     	tdoc.setTimeBlocks(TkServiceLocator.getTimeBlockService().getTimeBlocks(tdoc.getDocumentHeader().getDocumentId()));
     }
 
     public boolean isSynchronousUser() {
-        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(HrContext.getTargetPrincipalId(), LocalDate.now());
+        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(HrContext.getTargetPrincipalId(), LocalDate.now());
         boolean isSynchronousUser = true;
         for (Assignment assignment : assignments) {
         	if(assignment.getJob() != null) {
@@ -307,7 +307,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     public TimeBlock resetWorkedHours(TimeBlock previousTimeBlock, TimeBlock timeBlock, LocalDate asOfDate) {
-    	EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), asOfDate);
+    	EarnCode earnCodeObj = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), asOfDate);
     	
         if (timeBlock.getBeginTime() != null && timeBlock.getEndTime() != null && StringUtils.equals(timeBlock.getEarnCodeType(), HrConstants.EARN_CODE_TIME)) {
             BigDecimal hours = TKUtils.getHoursBetween(timeBlock.getBeginTime().getTime(), timeBlock.getEndTime().getTime());
@@ -395,7 +395,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         boolean isUsersTimesheet = StringUtils.equals(HrContext.getPrincipalId(),a.getPrincipalId());
 
         // Reg earn codes will typically not be defined in the earn code security table
-        EarnCode regularEarnCode = HrServiceLocator.getEarnCodeService().getEarnCode(job.getPayTypeObj().getRegEarnCode(), asOfDate);
+        EarnCode regularEarnCode = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(job.getPayTypeObj().getRegEarnCode(), asOfDate);
         if (regularEarnCode == null) {
         	LOG.error("No regular earn code defined for job pay type.");
         	return null;
@@ -411,13 +411,13 @@ public class TimesheetServiceImpl implements TimesheetService {
         String accrualCategory;
 
         //  first make a list of the accrual categories available to the user's Leave Plan (yes, leave plan), for later comparison.
-        PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(job.getPrincipalId(), asOfDate);
+        PrincipalHRAttributesContract principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(job.getPrincipalId(), asOfDate);
         boolean fmlaEligible = principalHRAttributes.isFmlaEligible();
         boolean workersCompEligible = principalHRAttributes.isWorkersCompEligible();
 
         String leavePlan = principalHRAttributes.getLeavePlan();
         if (leavePlan != null) {
-            for (AccrualCategory accrualCategories : HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, asOfDate)) {
+            for (AccrualCategory accrualCategories : (List<AccrualCategory>)HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, asOfDate)) {
                 accrualCategory = accrualCategories.getAccrualCategory();
                 if(accrualCategory != null) {
                     listAccrualCategories.add(accrualCategory);
@@ -426,7 +426,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         }
 
         //  get all earn codes by user security, then we'll filter on accrual category first as we process them.
-        List<EarnCodeSecurity> decs = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
+        List<EarnCodeSecurity> decs = (List<EarnCodeSecurity>) HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
         for (EarnCodeSecurity dec : decs) {
 
             boolean addEarnCode = HrServiceLocator.getEarnCodeService().addEarnCodeBasedOnEmployeeApproverSettings(dec, a, asOfDate);
@@ -434,7 +434,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
                 //  allow types Time AND Both
                 if (earnTypeCode.equals(dec.getEarnCodeType()) || EarnCodeType.BOTH.getCode().equals(dec.getEarnCodeType())) {
-                    EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(dec.getEarnCode(), asOfDate);
+                    EarnCode ec = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(dec.getEarnCode(), asOfDate);
 
                     //  make sure we got something back from the earn code dao
                     if (ec != null) {

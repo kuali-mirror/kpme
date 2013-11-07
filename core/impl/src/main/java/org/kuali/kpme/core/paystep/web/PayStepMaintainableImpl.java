@@ -25,7 +25,7 @@ public class PayStepMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return HrServiceLocator.getPayStepService().getPayStepById(id);
+		return (HrBusinessObject) HrServiceLocator.getPayStepService().getPayStepById(id);
 	}
 
 }

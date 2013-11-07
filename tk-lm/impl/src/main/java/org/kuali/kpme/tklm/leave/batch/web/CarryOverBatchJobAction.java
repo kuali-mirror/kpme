@@ -33,7 +33,7 @@ public class CarryOverBatchJobAction extends KPMEAction {
     public ActionForward runCarryOverBatchJob(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	CarryOverBatchJobActionForm cobjaf = (CarryOverBatchJobActionForm) form;
 
-    	LeavePlan leavePlan = HrServiceLocator.getLeavePlanService().getLeavePlan(cobjaf.getLeavePlan(), LocalDate.now());
+    	LeavePlan leavePlan = (LeavePlan) HrServiceLocator.getLeavePlanService().getLeavePlan(cobjaf.getLeavePlan(), LocalDate.now());
     	DateTime scheduleDate = new DateTime();
     	
     	TkServiceLocator.getBatchJobService().scheduleLeaveCarryOverJobs(leavePlan, scheduleDate);

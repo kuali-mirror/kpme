@@ -24,8 +24,8 @@ import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -50,7 +50,7 @@ public class SimpleTimeEntryValidationTest extends KPMEWebTestCase {
     public void setUp() throws Exception {
         super.setUp();
 
-        CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(USER_PRINCIPAL_ID, CALENDAR_ENTRY_DATE);
+        CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(USER_PRINCIPAL_ID, CALENDAR_ENTRY_DATE);
         TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, calendarEntry);
         documentId = timesheetDocument.getDocumentId();
     }
@@ -73,8 +73,8 @@ public class SimpleTimeEntryValidationTest extends KPMEWebTestCase {
         Assert.assertNotNull(form);
 
         // 1. Obtain User Data
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, AssignmentDescriptionKey.get("30_30_30"), JAN_AS_OF_DATE.toLocalDate());
-		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE.toLocalDate());
+        Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, AssignmentDescriptionKey.get("30_30_30"), JAN_AS_OF_DATE.toLocalDate());
+		EarnCode earnCode = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE.toLocalDate());
 
         TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 
@@ -113,8 +113,8 @@ public class SimpleTimeEntryValidationTest extends KPMEWebTestCase {
         Assert.assertNotNull(form);
 
         // 1. Obtain User Data
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, AssignmentDescriptionKey.get("30_30_30"), JAN_AS_OF_DATE.toLocalDate());
-		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE.toLocalDate());
+        Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, AssignmentDescriptionKey.get("30_30_30"), JAN_AS_OF_DATE.toLocalDate());
+		EarnCode earnCode = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE.toLocalDate());
 
         TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 

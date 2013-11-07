@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
@@ -32,7 +32,7 @@ public class JobInquirableImpl extends KualiInquirableImpl {
     @Override
     @SuppressWarnings("rawtypes")
     public BusinessObject getBusinessObject(Map fieldValues) {
-        Job jobObj = null;
+        JobContract jobObj = null;
 
         if (StringUtils.isNotBlank((String) fieldValues.get("hrJobId"))) {
             jobObj = HrServiceLocator.getJobService().getJob((String) fieldValues.get("hrJobId"));

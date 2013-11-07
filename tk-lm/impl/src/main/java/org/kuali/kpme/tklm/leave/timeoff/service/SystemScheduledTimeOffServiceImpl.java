@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
@@ -68,7 +69,7 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
 	}	
 	@Override
 	public Assignment getAssignmentToApplyHolidays(TimesheetDocument timesheetDocument, LocalDate payEndDate) {
-		Job primaryJob = HrServiceLocator.getJobService().getPrimaryJob(timesheetDocument.getPrincipalId(), payEndDate);
+		JobContract primaryJob = HrServiceLocator.getJobService().getPrimaryJob(timesheetDocument.getPrincipalId(), payEndDate);
 		for(Assignment assign : timesheetDocument.getAssignments()){
 			if(assign.getJobNumber().equals(primaryJob.getJobNumber())){
 				return assign;

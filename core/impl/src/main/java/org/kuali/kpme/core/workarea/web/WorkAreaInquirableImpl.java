@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.workarea.WorkArea;
@@ -33,7 +34,7 @@ public class WorkAreaInquirableImpl extends KualiInquirableImpl {
 	@Override
 	@SuppressWarnings("rawtypes")
 	public BusinessObject getBusinessObject(Map fieldValues) {
-        WorkArea workAreaObj = null;
+        WorkAreaContract workAreaObj = null;
         
         if (StringUtils.isNotBlank((String) fieldValues.get("tkWorkAreaId"))) {
             workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea((String) fieldValues.get("tkWorkAreaId"));

@@ -15,15 +15,11 @@
  */
 package org.kuali.kpme.core.paytype;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import javax.persistence.Transient;
 
+import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.institution.Institution;

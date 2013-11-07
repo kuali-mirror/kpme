@@ -20,10 +20,10 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.task.TaskContract;
+import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.api.time.timeblock.web.TimeBlockRendererContract;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
@@ -70,11 +70,11 @@ public class TimeBlockRenderer implements TimeBlockRendererContract {
     public String getTitle() {
         StringBuilder b = new StringBuilder();
 
-        WorkArea wa = HrServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), LocalDate.now());
+        WorkAreaContract wa = HrServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), LocalDate.now());
         if(wa != null) {
         	b.append(wa.getDescription());
         }
-        Task task = HrServiceLocator.getTaskService().getTask(timeBlock.getTask(), timeBlock.getBeginDateTime().toLocalDate());
+        TaskContract task = HrServiceLocator.getTaskService().getTask(timeBlock.getTask(), timeBlock.getBeginDateTime().toLocalDate());
         if(task != null) {
         	// do not display task description if the task is the default one
         	// default task is created in getTask() of TaskService

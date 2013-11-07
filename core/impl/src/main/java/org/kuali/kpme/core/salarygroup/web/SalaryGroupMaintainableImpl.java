@@ -28,7 +28,7 @@ public class SalaryGroupMaintainableImpl extends HrBusinessObjectMaintainableImp
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return HrServiceLocator.getSalaryGroupService().getSalaryGroup(id);
+		return (HrBusinessObject) HrServiceLocator.getSalaryGroupService().getSalaryGroup(id);
 	}
 
 }

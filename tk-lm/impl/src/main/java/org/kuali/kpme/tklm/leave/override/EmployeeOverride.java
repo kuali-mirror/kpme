@@ -153,7 +153,7 @@ public class EmployeeOverride extends HrBusinessObject implements EmployeeOverri
             return leavePlan;
         }
 		if (this.principalHRAttrObj == null && !StringUtils.isEmpty(this.principalId)) {
-			principalHRAttrObj = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveLocalDate());
+			principalHRAttrObj = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveLocalDate());
 		}
         leavePlan = principalHRAttrObj == null ? null : principalHRAttrObj.getLeavePlan();
 		return leavePlan;

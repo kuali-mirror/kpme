@@ -24,17 +24,13 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.api.earncode.security.service.EarnCodeSecurityService;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
-import org.kuali.kpme.core.earncode.security.EarnCodeType;
 import org.kuali.kpme.core.earncode.security.dao.EarnCodeSecurityDao;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
-import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 

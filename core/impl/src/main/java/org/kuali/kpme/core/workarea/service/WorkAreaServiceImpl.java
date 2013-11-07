@@ -15,21 +15,29 @@
  */
 package org.kuali.kpme.core.workarea.service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.workarea.WorkAreaContract;
+import org.kuali.kpme.core.api.workarea.service.WorkAreaService;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.core.workarea.dao.WorkAreaDao;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
@@ -72,7 +80,7 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 		
         for (WorkArea workAreaObj : workAreaObjs) {
         	String department = workAreaObj.getDept();
-        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, workAreaObj.getEffectiveLocalDate());
+        	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, workAreaObj.getEffectiveLocalDate());
         	String location = departmentObj != null ? departmentObj.getLocation() : null;
         	
         	Map<String, String> roleQualification = new HashMap<String, String>();
@@ -156,7 +164,7 @@ public class WorkAreaServiceImpl implements WorkAreaService {
     }
     
 	private void populateWorkAreaTasks(WorkArea workArea) {
-		workArea.setTasks(HrServiceLocator.getTaskService().getTasks(null, null, String.valueOf(workArea.getWorkArea()), workArea.getEffectiveLocalDate(), null));
+		workArea.setTasks((List<Task>) HrServiceLocator.getTaskService().getTasks(null, null, String.valueOf(workArea.getWorkArea()), workArea.getEffectiveLocalDate(), null));
 	}
 
     private void populateWorkAreaRoleMembers(WorkArea workArea, LocalDate asOfDate) {
@@ -190,8 +198,8 @@ public class WorkAreaServiceImpl implements WorkAreaService {
     }
     
 	@Override
-	public void saveOrUpdate(WorkArea workArea) {
-		workAreaDao.saveOrUpdate(workArea);
+	public void saveOrUpdate(WorkAreaContract workArea) {
+		workAreaDao.saveOrUpdate((WorkArea)workArea);
 	}
     
 }

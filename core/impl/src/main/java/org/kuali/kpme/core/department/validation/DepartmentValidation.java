@@ -26,7 +26,6 @@ import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
@@ -63,7 +62,7 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 		boolean valid = true;
 		
 		if (StringUtils.isNotBlank(department.getDept()) && department.getEffectiveDate() != null) {
-			List<Department> depts = HrServiceLocator.getDepartmentService().getDepartments(department.getDept());
+			List<Department> depts = (List<Department>) HrServiceLocator.getDepartmentService().getDepartments(department.getDept());
 			if (depts != null && depts.size() > 0) {
 				 this.putFieldError("dept", "error.department.duplicate.exists", department.getDept());
 				 valid = false;

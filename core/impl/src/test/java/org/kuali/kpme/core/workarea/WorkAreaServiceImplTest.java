@@ -29,10 +29,10 @@ public class WorkAreaServiceImplTest extends CoreUnitTestCase {
 	
 	@Test
 	public void testSearchWorkAreas() throws Exception {
-		List<WorkArea> allResults = HrServiceLocator.getWorkAreaService().getWorkAreas("admin", null, null, null, null, null, "Y", "N");
+		List<WorkArea> allResults = (List<WorkArea>) HrServiceLocator.getWorkAreaService().getWorkAreas("admin", null, null, null, null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 8, allResults.size());
 		
-		List<WorkArea> restrictedResults = HrServiceLocator.getWorkAreaService().getWorkAreas("testuser6", null, null, null, null, null, "Y", "N");
+		List<WorkArea> restrictedResults = (List<WorkArea>) HrServiceLocator.getWorkAreaService().getWorkAreas("testuser6", null, null, null, null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 2, restrictedResults.size());
 	}
 

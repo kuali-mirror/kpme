@@ -17,13 +17,10 @@ package org.kuali.kpme.core.job;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
+import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.location.Location;
@@ -251,7 +248,7 @@ public class Job extends HrBusinessObject implements JobContract {
 
 	public Department getDeptObj() {
 		if(deptObj == null) {
-			this.setDeptObj(HrServiceLocator.getDepartmentService().getDepartment(dept, getEffectiveLocalDate()));
+			this.setDeptObj((Department)HrServiceLocator.getDepartmentService().getDepartment(dept, getEffectiveLocalDate()));
 		}
 		return deptObj;
 	}

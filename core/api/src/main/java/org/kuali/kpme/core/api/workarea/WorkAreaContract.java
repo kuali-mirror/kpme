@@ -23,12 +23,15 @@ import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.role.workarea.WorkAreaPositionRoleMemberBoContract;
 import org.kuali.kpme.core.api.role.workarea.WorkAreaPrincipalRoleMemberBoContract;
 import org.kuali.kpme.core.api.task.TaskContract;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 
 /**
  * <p>WorkAreaContract interface.</p>
  *
  */
 public interface WorkAreaContract extends HrBusinessObjectContract {
+	
+	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "WorkArea";
 	
 	/**
 	 * The Primary Key of a WorkArea entry saved in a database

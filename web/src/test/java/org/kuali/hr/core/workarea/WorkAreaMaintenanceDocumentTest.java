@@ -23,6 +23,8 @@ import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
+import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrTestConstants;
@@ -110,7 +112,7 @@ public class WorkAreaMaintenanceDocumentTest extends KPMEWebTestCase {
         Assert.assertTrue("Page contains test Earn Code", searchPage.asText().contains(workArea.toString()));
 		
 		DateTime aDate = new DateTime(2011, 5, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		WorkArea wa = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, aDate.toLocalDate());
+		WorkAreaContract wa = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, aDate.toLocalDate());
 		String workAreaId = wa.getTkWorkAreaId().toString();
 		this.workArea = wa.getWorkArea();
 		
@@ -126,8 +128,8 @@ public class WorkAreaMaintenanceDocumentTest extends KPMEWebTestCase {
 	
 	@Override
 	public void tearDown() throws Exception {
-		Department deptObj = HrServiceLocator.getDepartmentService().getDepartment(TEST_CODE_DEPARTMENT_VALID, LocalDate.now());
-		WorkArea workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, LocalDate.now());
+		DepartmentContract deptObj = HrServiceLocator.getDepartmentService().getDepartment(TEST_CODE_DEPARTMENT_VALID, LocalDate.now());
+		WorkAreaContract workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, LocalDate.now());
 		KRADServiceLocator.getBusinessObjectService().delete(workAreaObj);
 		KRADServiceLocator.getBusinessObjectService().delete(deptObj);
 		super.tearDown();

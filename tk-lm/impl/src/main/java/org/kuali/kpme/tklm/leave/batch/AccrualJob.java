@@ -20,12 +20,12 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.service.AssignmentService;
+import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
+import org.kuali.kpme.core.api.leaveplan.service.LeavePlanService;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.service.AssignmentService;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
-import org.kuali.kpme.core.leaveplan.service.LeavePlanService;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
-import org.kuali.kpme.core.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.accrual.service.AccrualService;
 import org.kuali.kpme.tklm.leave.calendar.service.LeaveCalendarServiceImpl;
@@ -51,15 +51,15 @@ public class AccrualJob implements Job {
         
         if (batchUserPrincipalId != null) {
     		LocalDate asOfDate = LocalDate.now();
-			List<Assignment> assignments = getAssignmentService().getActiveAssignments(asOfDate);
+			List<Assignment> assignments = (List<Assignment>) getAssignmentService().getActiveAssignments(asOfDate);
 			
 			for (Assignment assignment : assignments) {
 				if (assignment.getJob().isEligibleForLeave()) {
 					String principalId = assignment.getPrincipalId();
 					
-					PrincipalHRAttributes principalHRAttributes = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+					PrincipalHRAttributesContract principalHRAttributes = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 					if (principalHRAttributes != null) {
-						LeavePlan leavePlan = getLeavePlanService().getLeavePlan(principalHRAttributes.getLeavePlan(), principalHRAttributes.getEffectiveLocalDate());
+						LeavePlanContract leavePlan = getLeavePlanService().getLeavePlan(principalHRAttributes.getLeavePlan(), principalHRAttributes.getEffectiveLocalDate());
 						if (leavePlan != null) {
 							DateTime endDate = asOfDate.toDateTimeAtStartOfDay().plusMonths(Integer.parseInt(leavePlan.getPlanningMonths()));
 							getAccrualService().runAccrual(principalId, asOfDate.toDateTimeAtStartOfDay(), endDate, true, batchUserPrincipalId);

@@ -22,6 +22,7 @@ import org.kuali.kpme.core.api.kfs.coa.businessobject.ChartContract;
 import org.kuali.kpme.core.api.kfs.coa.businessobject.OrganizationContract;
 import org.kuali.kpme.core.api.location.LocationContract;
 import org.kuali.kpme.core.api.role.department.DepartmentPrincipalRoleMemberBoContract;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 
 /**
  * <p>DepartmentContract interface.</p>
@@ -29,6 +30,8 @@ import org.kuali.kpme.core.api.role.department.DepartmentPrincipalRoleMemberBoCo
  */
 public interface DepartmentContract extends HrBusinessObjectContract {
 
+	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "Department";
+	
 	/**
 	 * The Primary Key of a Department entry saved in a database
 	 * 

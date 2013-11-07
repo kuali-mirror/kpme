@@ -63,8 +63,8 @@ public class SupervisorApprovalJob implements Job {
 			String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
 			String documentId = jobDataMap.getString("documentId");
 	
-			CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
-			Calendar calendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+			CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
+			Calendar calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
 					
 			if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
 				TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);

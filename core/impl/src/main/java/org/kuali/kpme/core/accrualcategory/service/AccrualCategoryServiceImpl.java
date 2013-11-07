@@ -22,11 +22,14 @@ import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.dao.AccrualCategoryDao;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
+import org.kuali.kpme.core.api.accrualcategory.service.AccrualCategoryService;
+import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.HrConstants;
 
 public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 
@@ -41,8 +44,8 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 	}
 
 	@Override
-	public void saveOrUpdate(AccrualCategory accrualCategory) {
-		accrualCategoryDao.saveOrUpdate(accrualCategory);
+	public void saveOrUpdate(AccrualCategoryContract accrualCategory) {
+		accrualCategoryDao.saveOrUpdate((AccrualCategory)accrualCategory);
 	}
 
 	public AccrualCategoryDao getAccrualCategoryDao() {
@@ -70,31 +73,27 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
    
 
 	public void runAccrual(String principalId, LocalDate asOfDate){
-		PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+		PrincipalHRAttributesContract principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
 		if(principalHRAttributes == null){
 			LOG.error("Cannot find principal hr attributes for "+principalId);
 			return;
-//			throw new RuntimeException("Cannot find principal hr attributes for "+principalId);
 		}
 		//Grab the service date
 		LocalDate serviceDate = principalHRAttributes.getServiceLocalDate();
 		if(serviceDate == null){
 			LOG.error("Cannot find service date on principal hr attribute for "+principalId);
 			return;
-//			throw new RuntimeException("Cannot find service date on principal hr attribute for "+principalId);
 		}
 		
 		String leavePlanStr = principalHRAttributes.getLeavePlan();
 		if(StringUtils.isBlank(leavePlanStr)){
 			LOG.error("Cannot find leave plan for "+principalId);
 			return;
-//			throw new RuntimeException("Cannot find leave plan for "+principalId);
 		}
-		LeavePlan leavePlan = HrServiceLocator.getLeavePlanService().getLeavePlan(leavePlanStr, asOfDate);
+		LeavePlanContract leavePlan = HrServiceLocator.getLeavePlanService().getLeavePlan(leavePlanStr, asOfDate);
 		if(leavePlan == null){
 			LOG.error("Cannot find leave plan object for leave plan " + leavePlanStr);
 			return;
-//			throw new RuntimeException("Cannot find leave plan object for leave plan " + leavePlanStr);
 		}
 
 		//Grab all the accrual categories for leave plan
@@ -107,8 +106,6 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 			}
 			String serviceUnitOfTime = accrualCat.getUnitOfTime();
 			accrualCat.getAccrualEarnInterval();
-			
-			
 			
 		}
 	}	

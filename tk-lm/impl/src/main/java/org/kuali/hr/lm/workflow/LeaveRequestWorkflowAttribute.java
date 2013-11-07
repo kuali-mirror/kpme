@@ -22,11 +22,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -56,7 +56,7 @@ public class LeaveRequestWorkflowAttribute extends AbstractRoleAttribute {
         if (leaveRequestDocument != null) {
             LeaveBlock leaveBlock = leaveRequestDocument.getLeaveBlock();
             CalendarEntry ce = getCalendarEntry(leaveBlock);
-            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(leaveBlock.getPrincipalId(), ce);
+            List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(leaveBlock.getPrincipalId(), ce);
             for (Assignment assignment : assignments) {
                 String roleStr = roleName + "_" + assignment.getWorkArea();
                 if (!roles.contains(roleStr)) {
@@ -91,7 +91,7 @@ public class LeaveRequestWorkflowAttribute extends AbstractRoleAttribute {
         String routeHeaderId = routeContext.getDocument().getDocumentId();
         LeaveRequestDocument leaveRequestDocument = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(routeHeaderId);
         LeaveBlock leaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leaveRequestDocument.getLmLeaveBlockId());
-        WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leaveBlock.getLeaveLocalDate());
+        WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leaveBlock.getLeaveLocalDate());
 
         List<RoleMember> roleMembers = new ArrayList<RoleMember>();
         
@@ -120,6 +120,6 @@ public class LeaveRequestWorkflowAttribute extends AbstractRoleAttribute {
     }
 
     private CalendarEntry getCalendarEntry(LeaveBlock leaveBlock) {
-        return HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
+        return (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
     }
 }

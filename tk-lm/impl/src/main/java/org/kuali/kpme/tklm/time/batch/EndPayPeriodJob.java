@@ -16,12 +16,12 @@
 package org.kuali.kpme.tklm.time.batch;
 
 import java.sql.Timestamp;
-import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.common.TkConstants;
@@ -36,7 +36,6 @@ import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.kuali.kpme.core.calendar.Calendar;
 
 public class EndPayPeriodJob implements Job {
 	
@@ -52,12 +51,12 @@ LOG.info("Starting of EndPayPeriod Job!!!");
 			String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
 			String tkClockLogId = jobDataMap.getString("tkClockLogId");
 LOG.info("Calendar entry id is " + hrCalendarEntryId + ", Clock log id is " + tkClockLogId);			
-	        CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
-	        Calendar calendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+	        CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
+	        Calendar calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
 	        calendarEntry.setCalendarObj(calendar);
 	        
 	        DateTime endPeriodDateTime = calendarEntry.getEndPeriodFullDateTime();
-            CalendarEntry nextCalendarEntry = HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
+            CalendarEntry nextCalendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
             DateTime beginNextPeriodDateTime = nextCalendarEntry.getBeginPeriodFullDateTime();
 
 LOG.info("Current Calendar entry beginDateTime is " + calendarEntry.getBeginPeriodFullDateTime().toString() + ", endDateTime is " + calendarEntry.getEndPeriodFullDateTime().toString());

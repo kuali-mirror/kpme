@@ -37,7 +37,7 @@ public class CalendarEntrySchedulerJob extends QuartzJobBean {
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		DateTime asOfDate = new LocalDate().toDateTimeAtStartOfDay();
-        List<CalendarEntry> calendarEntries = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
+        List<CalendarEntry> calendarEntries = (List<CalendarEntry>) HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
 
         try {
 	        for (CalendarEntry calendarEntry : calendarEntries) {

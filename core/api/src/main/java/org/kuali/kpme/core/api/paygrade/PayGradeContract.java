@@ -18,12 +18,15 @@ package org.kuali.kpme.core.api.paygrade;
 import java.math.BigDecimal;
 
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 
 /**
  * <p>PayGradeContract interface.</p>
  *
  */
 public interface PayGradeContract extends HrBusinessObjectContract {
+	
+	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "PayGrade";
 	
 	/**
 	 * The Primary Key of a PayGrade entry saved in a database

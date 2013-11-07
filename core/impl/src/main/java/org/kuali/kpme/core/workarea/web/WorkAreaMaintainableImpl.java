@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.position.PositionBase;
@@ -57,7 +58,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	@Override
     public HrBusinessObject getObjectById(String id) {
-        return HrServiceLocator.getWorkAreaService().getWorkArea(id);
+        return (HrBusinessObject) HrServiceLocator.getWorkAreaService().getWorkArea(id);
     }
     
 	@Override
@@ -93,9 +94,9 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         
         WorkArea oldWorkArea = oldMaintainableObject;
         if(StringUtils.isNotBlank(oldMaintainableObject.getTkWorkAreaId())) {
-        	oldWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(oldMaintainableObject.getTkWorkAreaId());
+        	oldWorkArea = (WorkArea) HrServiceLocator.getWorkAreaService().getWorkArea(oldMaintainableObject.getTkWorkAreaId());
         } else {
-        	oldWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(oldMaintainableObject.getWorkArea(), oldMaintainableObject.getEffectiveLocalDate());
+        	oldWorkArea = (WorkArea) HrServiceLocator.getWorkAreaService().getWorkArea(oldMaintainableObject.getWorkArea(), oldMaintainableObject.getEffectiveLocalDate());
         }
         
         oldMaintainableObject.setTasks(oldWorkArea.getTasks());
@@ -106,9 +107,9 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         
         WorkArea newWorkArea = newMaintainableObject;
         if(StringUtils.isNotBlank(newMaintainableObject.getTkWorkAreaId())) {
-        	newWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(newMaintainableObject.getTkWorkAreaId());
+        	newWorkArea = (WorkArea) HrServiceLocator.getWorkAreaService().getWorkArea(newMaintainableObject.getTkWorkAreaId());
         } else {
-        	newWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(newMaintainableObject.getWorkArea(), newMaintainableObject.getEffectiveLocalDate());
+        	newWorkArea = (WorkArea) HrServiceLocator.getWorkAreaService().getWorkArea(newMaintainableObject.getWorkArea(), newMaintainableObject.getEffectiveLocalDate());
         }
         newMaintainableObject.setTasks(newWorkArea.getTasks());
         newMaintainableObject.setPrincipalRoleMembers(newWorkArea.getPrincipalRoleMembers());
@@ -156,7 +157,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         	PositionRoleMemberBo roleMember = (PositionRoleMemberBo) newCollectionLines.get(collectionName);
             if (roleMember != null) {
             	if (!StringUtils.isEmpty(roleMember.getPositionNumber())) {
-            		PositionBase position = HrServiceLocator.getPositionService().getPosition(roleMember.getPositionNumber(), workArea.getEffectiveLocalDate());
+            		PositionBaseContract position = HrServiceLocator.getPositionService().getPosition(roleMember.getPositionNumber(), workArea.getEffectiveLocalDate());
             		if (position == null) {
             			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"positionRoleMembers", 
                 				"error.role.positionNumber.notexist", roleMember.getPositionNumber());

@@ -27,15 +27,15 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.accrualcategory.service.AccrualCategoryService;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
+import org.kuali.kpme.core.api.accrualcategory.service.AccrualCategoryService;
+import org.kuali.kpme.core.api.assignment.service.AssignmentService;
+import org.kuali.kpme.core.api.calendar.entry.service.CalendarEntryService;
+import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
+import org.kuali.kpme.core.api.leaveplan.service.LeavePlanService;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.service.AssignmentService;
-import org.kuali.kpme.core.calendar.entry.service.CalendarEntryService;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
-import org.kuali.kpme.core.leaveplan.service.LeavePlanService;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
-import org.kuali.kpme.core.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.common.LMConstants;
@@ -76,8 +76,8 @@ public class CarryOverJob implements Job{
             if (leavePlan!= null) {
 
             	LocalDate asOfDate = LocalDate.now();
-                LeavePlan leavePlanObj = getLeavePlanService().getLeavePlan(leavePlan, asOfDate);
-                List<Assignment> assignments = getAssignmentService().getActiveAssignments(asOfDate);
+                LeavePlanContract leavePlanObj = getLeavePlanService().getLeavePlan(leavePlan, asOfDate);
+                List<Assignment> assignments = (List<Assignment>) getAssignmentService().getActiveAssignments(asOfDate);
 
                 //holds a list of principalIds so this isn't run multiple time for the same person
                 Set<String> principalIds = new HashSet<String>();
@@ -85,7 +85,7 @@ public class CarryOverJob implements Job{
                     String principalId = assignment.getPrincipalId();
                     if (assignment.getJob().isEligibleForLeave() && !principalIds.contains(principalId)) {
 
-                        PrincipalHRAttributes principalHRAttributes = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+                        PrincipalHRAttributesContract principalHRAttributes = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
                         principalIds.add(principalId);
 
                         if (principalHRAttributes != null) {
@@ -232,7 +232,7 @@ public class CarryOverJob implements Job{
         if(leaveSummaryRows !=null && !leaveSummaryRows.isEmpty()){
 
             for(LeaveSummaryRow lsr : leaveSummaryRows){
-                AccrualCategory accrualCategory = getAccrualCategoryService().getAccrualCategory(lsr.getAccrualCategoryId());
+                AccrualCategoryContract accrualCategory = getAccrualCategoryService().getAccrualCategory(lsr.getAccrualCategoryId());
 
                 LeaveBlock leaveBlock = new LeaveBlock();
                 leaveBlock.setAccrualCategory(lsr.getAccrualCategory());

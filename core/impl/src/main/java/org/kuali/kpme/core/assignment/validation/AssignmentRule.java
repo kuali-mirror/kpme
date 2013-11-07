@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.core.assignment.validation;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -24,13 +23,13 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.paytype.PayTypeContract;
+import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.account.AssignmentAccount;
-import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.kfs.coa.businessobject.Account;
-import org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.Task;
@@ -38,7 +37,6 @@ import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 
 @SuppressWarnings("deprecation")
 public class AssignmentRule extends MaintenanceDocumentRuleBase {
@@ -66,7 +64,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		boolean valid = true;
 		//task by default is zero so if non zero validate against existing taskss
 		if (assignment.getTask() != null && !assignment.getTask().equals(0L)) {
-			Task task = HrServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveLocalDate());
+			TaskContract task = HrServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveLocalDate());
 			if(task != null) {
 				if(task.getWorkArea() == null || !task.getWorkArea().equals(assignment.getWorkArea())) {
 					this.putFieldError("task", "task.workarea.invalid.sync");
@@ -93,7 +91,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	protected boolean validateJob(Assignment assignment) {
 		boolean valid = false;
 		LOG.debug("Validating job: " + assignment.getPrincipalId() +" Job number: "+assignment.getJobNumber());
-		Job job = HrServiceLocator.getJobService().getJob(
+		JobContract job = HrServiceLocator.getJobService().getJob(
 				assignment.getPrincipalId(), assignment.getJobNumber(),
 				assignment.getEffectiveLocalDate(), false);
 		// Job job =
@@ -157,7 +155,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	protected boolean validateEarnCode(AssignmentAccount assignmentAccount, LocalDate assignmentEffectiveDate) {
 		boolean valid = false;
 		LOG.debug("Validating EarnCode: " + assignmentAccount.getEarnCode());
-		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(
+		EarnCodeContract earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(
 				assignmentAccount.getEarnCode(), assignmentEffectiveDate);
 		if (earnCode != null) {
 
@@ -175,9 +173,9 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		LOG.debug("Validating Regular pay EarnCodes: " + assignment.getAssignmentAccounts().size());
 		for(AssignmentAccount assignmentAccount : assignment.getAssignmentAccounts()){
 			if(assignment.getJobNumber()!=null && assignment.getPrincipalId()!=null){
-				Job job = HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveLocalDate(), false);
+				JobContract job = HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveLocalDate(), false);
 				if(job !=null){
-					PayType payType = HrServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), assignment.getEffectiveLocalDate());
+					PayTypeContract payType = HrServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), assignment.getEffectiveLocalDate());
 					if(StringUtils.equals(assignmentAccount.getEarnCode(), payType.getRegEarnCode())){
 						valid = true;
 						break;

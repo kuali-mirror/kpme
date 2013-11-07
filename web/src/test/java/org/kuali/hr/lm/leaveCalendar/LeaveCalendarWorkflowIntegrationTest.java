@@ -33,8 +33,8 @@ import org.junit.Test;
 import org.kuali.hr.TestAutoLoginFilter;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -70,15 +70,15 @@ public class LeaveCalendarWorkflowIntegrationTest extends LeaveCalendarWebTestBa
      */
     public void testLeaveCalendarSubmissionIntegration() throws Exception {
         DateTime asOfDate = new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-        CalendarEntry pcd = HrServiceLocator.getCalendarEntryService().getCurrentCalendarDatesForLeaveCalendar(USER_PRINCIPAL_ID, asOfDate);
+        CalendarEntry pcd = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarDatesForLeaveCalendar(USER_PRINCIPAL_ID, asOfDate);
         Assert.assertNotNull("No CalendarEntry", pcd);
         LeaveCalendarDocument tdoc = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(USER_PRINCIPAL_ID, pcd);
         String tdocId = tdoc.getDocumentId();
         HtmlPage page = loginAndGetLeaveCalendarHtmlPage("admin", tdocId, true);
 
         // 1. Obtain User Data
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(HrContext.getPrincipalId(), AssignmentDescriptionKey.get("30_30_30"), JAN_AS_OF_DATE.toLocalDate());
-        EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode("VAC", JAN_AS_OF_DATE.toLocalDate());
+        Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(HrContext.getPrincipalId(), AssignmentDescriptionKey.get("30_30_30"), JAN_AS_OF_DATE.toLocalDate());
+        EarnCode earnCode = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode("VAC", JAN_AS_OF_DATE.toLocalDate());
 
         // 2. Set Timeblock Start and End time
         // 3/02/2011 - 8:00a to 4:00pm

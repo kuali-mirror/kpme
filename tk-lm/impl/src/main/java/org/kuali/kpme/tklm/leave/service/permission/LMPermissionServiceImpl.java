@@ -25,10 +25,10 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
-import org.kuali.kpme.core.block.CalendarBlockPermissions;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.department.Department;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.permission.HrPermissionServiceBase;
@@ -228,9 +228,9 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
         }
 	    
 	    // use job to find the department, then use the location from Department to get the location roles 
-	    Job aJob = HrServiceLocator.getJobService().getJob(aLeaveBlock.getPrincipalId(), aLeaveBlock.getJobNumber(), aLeaveBlock.getLeaveLocalDate());
+	    JobContract aJob = HrServiceLocator.getJobService().getJob(aLeaveBlock.getPrincipalId(), aLeaveBlock.getJobNumber(), aLeaveBlock.getLeaveLocalDate());
 	    if(aJob != null) {
-	    	Department aDept = HrServiceLocator.getDepartmentService().getDepartment(aJob.getDept(), aJob.getEffectiveLocalDate());
+	    	DepartmentContract aDept = HrServiceLocator.getDepartmentService().getDepartment(aJob.getDept(), aJob.getEffectiveLocalDate());
 	    	if(aDept != null) {
 	    		// LeaveLocationAdmin
 			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), aDept.getLocation(), LocalDate.now().toDateTimeAtStartOfDay()))
@@ -328,7 +328,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 		   SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
 		   if(ssto != null && StringUtils.equals(ssto.getUnusedTime(), LMConstants.UNUSED_TIME.BANK)) {
 			   String viewPrincipal = HrContext.getTargetPrincipalId();
-			   CalendarEntry ce = HrServiceLocator.getCalendarEntryService()
+			   CalendarEntryContract ce = HrServiceLocator.getCalendarEntryService()
 						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 			   if(ce != null) {
 				   if(!lb.getLeaveDate().before(ce.getBeginPeriodDate()) && !lb.getLeaveDate().after(ce.getEndPeriodDate())) {
@@ -349,7 +349,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 		   SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
 		   if(ssto != null && LMConstants.UNUSED_TIME.TRANSFER.equals(ssto.getUnusedTime())) {
 			   String viewPrincipal = HrContext.getTargetPrincipalId();
-			   CalendarEntry ce = HrServiceLocator.getCalendarEntryService()
+			   CalendarEntryContract ce = HrServiceLocator.getCalendarEntryService()
 						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 			   if(ce != null) {
 				   if(!lb.getLeaveDate().before(ce.getBeginPeriodDate()) && !lb.getLeaveDate().after(ce.getEndPeriodDate())) {

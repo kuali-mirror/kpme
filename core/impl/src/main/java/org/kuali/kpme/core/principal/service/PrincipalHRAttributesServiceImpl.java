@@ -22,8 +22,10 @@ import java.util.Map;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
-import org.kuali.kpme.core.department.Department;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
+import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.principal.dao.PrincipalHRAttributesDao;
@@ -42,8 +44,8 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
 	public PrincipalHRAttributes getPrincipalCalendar(String principalId, LocalDate asOfDate){
 		PrincipalHRAttributes pc =  this.principalHRAttributesDao.getPrincipalCalendar(principalId, asOfDate);
 		if(pc != null) {
-			pc.setCalendar(HrServiceLocator.getCalendarService().getCalendarByGroup(pc.getPayCalendar()));
-			pc.setLeaveCalObj(HrServiceLocator.getCalendarService().getCalendarByGroup(pc.getLeaveCalendar()));
+			pc.setCalendar((Calendar)HrServiceLocator.getCalendarService().getCalendarByGroup(pc.getPayCalendar()));
+			pc.setLeaveCalObj((Calendar)HrServiceLocator.getCalendarService().getCalendarByGroup(pc.getLeaveCalendar()));
 		}
 		return pc;
 	}
@@ -119,10 +121,10 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
     	List<PrincipalHRAttributes> principalHRAttributeObjs = principalHRAttributesDao.getPrincipalHrAtributes(principalId, leavePlan, fromEffdt, toEffdt, active, showHistory);
     
     	for (PrincipalHRAttributes principalHRAttributeObj : principalHRAttributeObjs) {
-        	Job jobObj = HrServiceLocator.getJobService().getPrimaryJob(principalHRAttributeObj.getPrincipalId(), principalHRAttributeObj.getEffectiveLocalDate());
+        	JobContract jobObj = HrServiceLocator.getJobService().getPrimaryJob(principalHRAttributeObj.getPrincipalId(), principalHRAttributeObj.getEffectiveLocalDate());
     		
     		String department = jobObj != null ? jobObj.getDept() : null;
-        	Department departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, jobObj.getEffectiveLocalDate()) : null;
+        	DepartmentContract departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, jobObj.getEffectiveLocalDate()) : null;
         	String location = departmentObj != null ? departmentObj.getLocation() : null;
         	
         	Map<String, String> roleQualification = new HashMap<String, String>();

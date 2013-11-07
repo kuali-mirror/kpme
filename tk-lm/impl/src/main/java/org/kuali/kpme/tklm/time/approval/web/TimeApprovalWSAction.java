@@ -33,12 +33,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.hsqldb.lib.StringUtil;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
@@ -56,10 +55,10 @@ import org.kuali.kpme.tklm.time.timesummary.EarnCodeSection;
 import org.kuali.kpme.tklm.time.timesummary.EarnGroupSection;
 import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
-
-import com.google.common.collect.Lists;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+
+import com.google.common.collect.Lists;
 
 public class TimeApprovalWSAction extends KPMEAction {
 
@@ -95,7 +94,7 @@ public class TimeApprovalWSAction extends KPMEAction {
         }
         
         if(StringUtils.isNotBlank(taaf.getSelectedPayPeriod())) {
-        	CalendarEntry currentCE = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getSelectedPayPeriod());
+        	CalendarEntryContract currentCE = HrServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getSelectedPayPeriod());
         	if(currentCE != null) {
         		 LocalDate endDate = currentCE.getEndPeriodFullDateTime().toLocalDate();
         	     LocalDate beginDate = currentCE.getBeginPeriodFullDateTime().toLocalDate();

@@ -24,6 +24,8 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
@@ -67,10 +69,10 @@ public class TimeBlockHistoryLookupableHelperServiceImpl extends KPMELookupableI
 		List<TimeBlockHistory> results = new ArrayList<TimeBlockHistory>();
 		
 		for (TimeBlockHistory timeBlockHistory : timeBlockHistories) {
-			Job jobObj = HrServiceLocator.getJobService().getJob(timeBlockHistory.getPrincipalId(), timeBlockHistory.getJobNumber(), LocalDate.fromDateFields(timeBlockHistory.getBeginDate()), false);
+			JobContract jobObj = HrServiceLocator.getJobService().getJob(timeBlockHistory.getPrincipalId(), timeBlockHistory.getJobNumber(), LocalDate.fromDateFields(timeBlockHistory.getBeginDate()), false);
 			String department = jobObj != null ? jobObj.getDept() : null;
 
-			Department departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(timeBlockHistory.getBeginDate())) : null;
+			DepartmentContract departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(timeBlockHistory.getBeginDate())) : null;
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 
 			Map<String, String> roleQualification = new HashMap<String, String>();

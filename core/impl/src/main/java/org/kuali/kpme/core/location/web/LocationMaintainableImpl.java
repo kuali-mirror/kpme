@@ -48,7 +48,7 @@ public class LocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return HrServiceLocator.getLocationService().getLocation(id);
+		return (HrBusinessObject) HrServiceLocator.getLocationService().getLocation(id);
 	}
 	
 	@Override
@@ -73,9 +73,9 @@ public class LocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         
         Location oldLocation = oldMaintainableObject;
         if(StringUtils.isNotBlank(oldMaintainableObject.getHrLocationId())) {
-        	oldLocation = HrServiceLocator.getLocationService().getLocation(oldMaintainableObject.getHrLocationId());
+        	oldLocation = (Location) HrServiceLocator.getLocationService().getLocation(oldMaintainableObject.getHrLocationId());
         } else {
-        	oldLocation = HrServiceLocator.getLocationService().getLocation(oldMaintainableObject.getLocation(), oldMaintainableObject.getEffectiveLocalDate());
+        	oldLocation = (Location) HrServiceLocator.getLocationService().getLocation(oldMaintainableObject.getLocation(), oldMaintainableObject.getEffectiveLocalDate());
         }
         
         oldMaintainableObject.setRoleMembers(oldLocation.getRoleMembers());
@@ -83,15 +83,15 @@ public class LocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         
         Location newLocation = newMaintainableObject;
         if(StringUtils.isNotBlank(newMaintainableObject.getHrLocationId())) {
-        	newLocation = HrServiceLocator.getLocationService().getLocation(newMaintainableObject.getHrLocationId());
+        	newLocation = (Location) HrServiceLocator.getLocationService().getLocation(newMaintainableObject.getHrLocationId());
         } else {
-        	newLocation = HrServiceLocator.getLocationService().getLocation(newMaintainableObject.getLocation(), newMaintainableObject.getEffectiveLocalDate());
+        	newLocation = (Location) HrServiceLocator.getLocationService().getLocation(newMaintainableObject.getLocation(), newMaintainableObject.getEffectiveLocalDate());
         }
         
         newMaintainableObject.setRoleMembers(newLocation.getRoleMembers());
         newMaintainableObject.setInactiveRoleMembers(newLocation.getInactiveRoleMembers());
 
-        List<Location> locationList = HrServiceLocator.getLocationService().getNewerVersionLocation(newLocation.getLocation(), newLocation.getEffectiveLocalDate());
+        List<Location> locationList = (List<Location>) HrServiceLocator.getLocationService().getNewerVersionLocation(newLocation.getLocation(), newLocation.getEffectiveLocalDate());
         if (locationList.size() > 0) {
             GlobalVariables.getMessageMap().putWarningForSectionId(
                     "Location Maintenance",

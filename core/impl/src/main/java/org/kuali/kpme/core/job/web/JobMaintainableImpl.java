@@ -18,6 +18,7 @@ package org.kuali.kpme.core.job.web;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.job.Job;
@@ -41,7 +42,7 @@ public class JobMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	
 	public void setJobNumber(Job job) {
 		Long jobNumber = new Long("0");
-		Job maxJob = HrServiceLocator.getJobService().getMaxJob(job.getPrincipalId());
+		JobContract maxJob = HrServiceLocator.getJobService().getMaxJob(job.getPrincipalId());
 		
 		if(maxJob != null) {
 			// get the max of job number of the collection
@@ -68,7 +69,7 @@ public class JobMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 		if(StringUtils.equals(getMaintenanceAction(),"New")){
 			if (!fieldValues.containsKey("jobNumber") || StringUtils.isEmpty(fieldValues.get("jobNumber"))) {
 				if (fieldValues.containsKey("principalId") && StringUtils.isNotEmpty(fieldValues.get("principalId"))) {
-					Job maxJob = HrServiceLocator.getJobService().getMaxJob(fieldValues.get("principalId"));
+					JobContract maxJob = HrServiceLocator.getJobService().getMaxJob(fieldValues.get("principalId"));
 					if(maxJob != null) {
 						fieldValues.put("jobNumber", Long.toString(maxJob.getJobNumber() +1));
 					} else {

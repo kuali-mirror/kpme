@@ -21,7 +21,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -59,7 +59,7 @@ public class AvailableLeaveBalance extends LeaveBalance implements AvailableLeav
 				//AVAILABLE BALANCE = USAGE LIMIT - YTDUSAGE - PENDING/FUTURE USAGE
 				ytdUsage.add(leaveBlock);
 				
-				EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(leaveBlock.getEarnCode(), LocalDate.fromDateFields(leaveBlock.getLeaveDate()));
+				EarnCodeContract earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(leaveBlock.getEarnCode(), LocalDate.fromDateFields(leaveBlock.getLeaveDate()));
 				if(earnCode != null) {
 					if(earnCode.getAccrualBalanceAction().equals(HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)){
 						//available balance is derived from ytdUsage, usage limit ( if any ), and pendingBalance[usage]
@@ -125,7 +125,7 @@ public class AvailableLeaveBalance extends LeaveBalance implements AvailableLeav
 				//AVAILABLE BALANCE = USAGE LIMIT - YTDUSAGE - PENDING/FUTURE USAGE
 				ytdUsage.remove(leaveBlock);
 				
-				EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(leaveBlock.getEarnCode(), LocalDate.fromDateFields(leaveBlock.getLeaveDate()));
+				EarnCodeContract earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(leaveBlock.getEarnCode(), LocalDate.fromDateFields(leaveBlock.getLeaveDate()));
 				if(earnCode != null) {
 					if(earnCode.getAccrualBalanceAction().equals(HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)){
 						//available balance is derived from ytdUsage, usage limit ( if any ), and pendingBalance[usage]

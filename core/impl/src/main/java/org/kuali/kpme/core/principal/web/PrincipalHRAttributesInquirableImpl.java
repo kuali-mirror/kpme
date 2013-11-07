@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
@@ -29,7 +30,7 @@ public class PrincipalHRAttributesInquirableImpl extends KualiInquirableImpl {
 	
     @Override
     public BusinessObject getBusinessObject(Map fieldValues) {
-    	PrincipalHRAttributes principalAttributes = null;
+    	PrincipalHRAttributesContract principalAttributes = null;
     	if (StringUtils.isNotBlank((String)fieldValues.get("hrPrincipalAttributeId"))) {
     		principalAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes((String) fieldValues.get("hrPrincipalAttributeId"));
     	} else if(StringUtils.isNotBlank((String)fieldValues.get("principalId"))

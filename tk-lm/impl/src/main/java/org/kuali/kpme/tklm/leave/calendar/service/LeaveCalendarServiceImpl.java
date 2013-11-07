@@ -63,7 +63,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
         if (lcdh != null) {
             lcd = new LeaveCalendarDocument(lcdh);
-            CalendarEntry pce = HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(lcdh.getPrincipalId(), lcdh.getEndDateTime(), HrConstants.LEAVE_CALENDAR_TYPE);
+            CalendarEntry pce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(lcdh.getPrincipalId(), lcdh.getEndDateTime(), HrConstants.LEAVE_CALENDAR_TYPE);
             lcd.setCalendarEntry(pce);
         } else {
         	LOG.error("Could not find LeaveCalendarDocumentHeader for DocumentID: " + documentId);
@@ -74,7 +74,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         lcd.setLeaveBlocks(leaveBlocks);
 
         // Fetching assignments
-        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(lcdh.getPrincipalId(), lcd.getCalendarEntry());
+        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(lcdh.getPrincipalId(), lcd.getCalendarEntry());
         lcd.setAssignments(assignments);
         
         return lcd;
@@ -117,8 +117,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     		return false;
     	}
         
-        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, calEntry);
-    	List<Assignment> results = HrServiceLocator.getAssignmentService().filterAssignments(assignments, HrConstants.FLSA_STATUS_EXEMPT, true);
+        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, calEntry);
+    	List<Assignment> results = (List<Assignment>) HrServiceLocator.getAssignmentService().filterAssignments(assignments, HrConstants.FLSA_STATUS_EXEMPT, true);
     	return CollectionUtils.isNotEmpty(results);
     }
     
@@ -207,7 +207,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     protected void loadLeaveCalendarDocumentData(LeaveCalendarDocument ldoc, String principalId, CalendarEntry calEntry) {
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(ldoc.getDocumentId());
         ldoc.setLeaveBlocks(leaveBlocks);
-        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calEntry);
+        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calEntry);
         ldoc.setAssignments(assignments);
     }
 
@@ -228,7 +228,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 		lcdh.setEndDate(calendarEntry.getEndPeriodDateTime());
 		leaveCalendarDocument.setDocumentHeader(lcdh);
 		// Fetching assignments
-        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
+        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
         leaveCalendarDocument.setAssignments(assignments);
 		return leaveCalendarDocument;
 	}
@@ -326,7 +326,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     public boolean isLeavePlanningCalendar(String principalId, LocalDate beginDate, LocalDate endDate) {
         LocalDate today = LocalDate.now();
 
-        List<Job> jobs = HrServiceLocator.getJobService().getJobs(principalId, endDate);
+        List<Job> jobs = (List<Job>) HrServiceLocator.getJobService().getJobs(principalId, endDate);
         for (Job job : jobs) {
             //  Check for Leave eligibility.
             if (job.isEligibleForLeave()) {

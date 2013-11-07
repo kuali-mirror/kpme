@@ -38,8 +38,8 @@ public class InitiateJob implements Job {
 		String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
 		String principalId = jobDataMap.getString("principalId");
 		
-		CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
-		Calendar calendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+		CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
+		Calendar calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
 		
 		try {
 			if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {

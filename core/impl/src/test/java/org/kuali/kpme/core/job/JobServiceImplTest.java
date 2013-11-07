@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
 import org.kuali.kpme.core.IntegrationTest;
-import org.kuali.kpme.core.job.service.JobService;
+import org.kuali.kpme.core.api.job.service.JobService;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 
@@ -44,24 +44,24 @@ public class JobServiceImplTest extends CoreUnitTestCase {
 	@Test
 	public void testGetJobs() {
 		DateTime payPeriodEndDate = new DateTime(2010,7,30,1,0,0,0, TKUtils.getSystemDateTimeZone());
-		List<Job> jobs = jobService.getJobs(TEST_USER, payPeriodEndDate.toLocalDate());
+		List<Job> jobs = (List<Job>) jobService.getJobs(TEST_USER, payPeriodEndDate.toLocalDate());
 		Assert.assertNotNull("Jobs was null", jobs);
 		Assert.assertEquals("Incorrect number of jobs", 2, jobs.size());
 	}
 	
 	@Test
 	public void testGetMaxJob() {
-		Job aJob = jobService.getMaxJob("admin");
+		Job aJob = (Job) jobService.getMaxJob("admin");
 		Assert.assertNotNull("Max Job should not be null", aJob);
 		Assert.assertEquals("Max job number of admin should be 30", new Long("30"), aJob.getJobNumber());
 	}
 	
 	@Test
 	public void testSearchJobs() throws Exception {
-		List<Job> allResults = HrServiceLocator.getJobService().getJobs("admin", null, null, null, null, null, null, null, null, null, "Y", "N");
+		List<Job> allResults = (List<Job>) HrServiceLocator.getJobService().getJobs("admin", null, null, null, null, null, null, null, null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 9, allResults.size());
 		
-		List<Job> restrictedResults = HrServiceLocator.getJobService().getJobs("testuser6", null, null, null, null, null, null, null, null, null, "Y", "N");
+		List<Job> restrictedResults = (List<Job>) HrServiceLocator.getJobService().getJobs("testuser6", null, null, null, null, null, null, null, null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 5, restrictedResults.size());
 	}
 	

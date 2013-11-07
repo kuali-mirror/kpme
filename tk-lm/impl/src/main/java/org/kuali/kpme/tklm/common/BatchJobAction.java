@@ -35,7 +35,7 @@ public class BatchJobAction extends KPMEAction {
         BatchJobActionForm bjaf = (BatchJobActionForm) form;
         String batchJobName = bjaf.getSelectedBatchJob();
 
-        CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(bjaf.getHrPyCalendarEntryId());
+        CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry(bjaf.getHrPyCalendarEntryId());
         DateTime scheduleDate = new DateTime();
         
         if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.INITIATE)) {

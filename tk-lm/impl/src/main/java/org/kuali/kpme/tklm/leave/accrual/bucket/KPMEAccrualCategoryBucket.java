@@ -60,7 +60,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 		leaveBalances = new LinkedHashMap<String, List<LeaveBalance>>();
 		principalCalendar = currentPrincipalCalendar;
 		asOfDate = DateTime.now().toLocalDate();
-		List<AccrualCategory> accrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(currentPrincipalCalendar.getLeavePlan(), asOfDate);
+		List<AccrualCategory> accrualCategories = (List<AccrualCategory>) HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(currentPrincipalCalendar.getLeavePlan(), asOfDate);
 		for(AccrualCategory accrualCategory : accrualCategories) {
 			List<LeaveBalance> leaveBalances = new ArrayList<LeaveBalance>();
 			for(Class<LeaveBalance> leaveBalanceClazz : baseBalanceList) {
@@ -315,7 +315,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 		
 		//fetch calendar entries in this sequence belonging to the current leave year.
 		String dateString = TKUtils.formatDate(LocalDate.now());
-		List<CalendarEntry> calendarEntries = HrServiceLocator.getCalendarEntryService().getAllCalendarEntriesForCalendarIdAndYear(calendarEntry.getHrCalendarId(), dateString.substring(6, 10));
+		List<CalendarEntry> calendarEntries = (List<CalendarEntry>) HrServiceLocator.getCalendarEntryService().getAllCalendarEntriesForCalendarIdAndYear(calendarEntry.getHrCalendarId(), dateString.substring(6, 10));
 
 		//calendar change into a different leave calendar year
 		if(rolloverDate != null) {
@@ -434,7 +434,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 			
 			while(!itor.getEndPeriodDate().before(otherCalendarEntry.getEndPeriodDate())) {
 				//need to iterate over calendars to gather assignment keys
-				List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalCalendar.getPrincipalId(), itor);
+				List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalCalendar.getPrincipalId(), itor);
 		        for (Assignment assignment : assignments) {
 		        	assignmentKeys.add(assignment.getAssignmentKey());
 		        }
@@ -443,7 +443,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 		        	rolloverDate = HrServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(principalCalendar.getLeavePlan(), LocalDate.fromDateFields(itor.getBeginPeriodDate()));
 		        	leavePlanPrevStart = rolloverDate;
 		        }
-				itor = HrServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(viewingCalendarEntry.getHrCalendarId(), itor);
+				itor = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(viewingCalendarEntry.getHrCalendarId(), itor);
 
 			}
 			
@@ -453,7 +453,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 			CalendarEntry itor = viewingCalendarEntry;
 			while(!itor.getEndPeriodDate().after(otherCalendarEntry.getEndPeriodDate())) {
 				
-				List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalCalendar.getPrincipalId(), itor);
+				List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalCalendar.getPrincipalId(), itor);
 		        for (Assignment assignment : assignments) {
 		        	assignmentKeys.add(assignment.getAssignmentKey());
 		        }
@@ -463,7 +463,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 					leavePlanStart = rolloverDate;
 				}
 				
-				itor = HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(viewingCalendarEntry.getHrCalendarId(), itor);
+				itor = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(viewingCalendarEntry.getHrCalendarId(), itor);
 			}
 		}
 

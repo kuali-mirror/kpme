@@ -19,13 +19,12 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -140,7 +139,7 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
             //Make sure user should be able to route!!
             String userPrincipalId = HrContext.getPrincipalId();
             if (!StringUtils.equals(userPrincipalId, missedPunch.getPrincipalId())) {
-                Assignment assignment = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(missedPunch.getAssignmentKey()), actionDateTime.toLocalDate());
+                AssignmentContract assignment = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(missedPunch.getAssignmentKey()), actionDateTime.toLocalDate());
                 if (assignment != null) {
                     Long workArea = assignment.getWorkArea();
                     String dept = assignment.getJob().getDept();
@@ -210,7 +209,7 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
 		        List<TimeBlock> tbList = timesheetDocument.getTimeBlocks();
 		        for(TimeBlock tb : tbList) {
 		        	String earnCode = tb.getEarnCode();
-		        	EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, timesheetDocument.getAsOfDate());
+		        	EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, timesheetDocument.getAsOfDate());
 		        	if(earnCodeObj != null && HrConstants.EARN_CODE_TIME.equals(earnCodeObj.getEarnCodeType())) {
 		        		Interval clockInterval = new Interval(tb.getBeginTimestamp().getTime(), tb.getEndTimestamp().getTime());
 		           	 	if(clockInterval.contains(actionDateTime.getMillis())) {

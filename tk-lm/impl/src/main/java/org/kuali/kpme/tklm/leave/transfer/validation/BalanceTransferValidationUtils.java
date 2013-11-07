@@ -43,7 +43,7 @@ public class BalanceTransferValidationUtils {
 		LocalDate effectiveDate = balanceTransfer.getEffectiveLocalDate();
 		String fromAccrualCategory = balanceTransfer.getFromAccrualCategory();
 		String toAccrualCategory = balanceTransfer.getToAccrualCategory();
-		AccrualCategory fromCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
+		AccrualCategory fromCat = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
 		
 		if(!ValidationUtils.validateAccrualCategory(fromAccrualCategory, effectiveDate)) {
 			GlobalVariables.getMessageMap().putError("balanceTransfer.fromAccrualCategory", "balanceTransfer.accrualcategory.exists");
@@ -65,12 +65,12 @@ public class BalanceTransferValidationUtils {
 			isValid &= false;
 		}
 		
-		AccrualCategory toCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
-		PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
+		AccrualCategory toCat = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
+		PrincipalHRAttributes pha = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
 		
 		if(ObjectUtils.isNotNull(pha)) {
 			if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
-				AccrualCategoryRule acr = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat,
+				AccrualCategoryRule acr = (AccrualCategoryRule) HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat,
 						effectiveDate, pha.getServiceLocalDate());
 				if(ObjectUtils.isNotNull(acr)) {
 					if(ObjectUtils.isNotNull(acr.getMaxBalFlag())
@@ -229,18 +229,18 @@ public class BalanceTransferValidationUtils {
 			return false;
 		}
 		
-		AccrualCategory fromAC = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getFromAccrualCategory(), bt.getEffectiveLocalDate());
+		AccrualCategory fromAC = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getFromAccrualCategory(), bt.getEffectiveLocalDate());
 		if(fromAC == null) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "balanceTransfer.transferSSTO.acDoesNotExist", bt.getFromAccrualCategory());
 			return false;
 		}
-		AccrualCategory toAC = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getToAccrualCategory(), bt.getEffectiveLocalDate());
+		AccrualCategory toAC = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getToAccrualCategory(), bt.getEffectiveLocalDate());
 		if(toAC == null) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.toAccrualCategory", "balanceTransfer.transferSSTO.acDoesNotExist", bt.getToAccrualCategory());
 			return false;
 		}
 		// make sure the leave plan of from/to accrual categories are consistent with the employee's leave plan
-		PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(bt.getPrincipalId(),bt.getEffectiveLocalDate());
+		PrincipalHRAttributes pha = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(bt.getPrincipalId(),bt.getEffectiveLocalDate());
 		if(StringUtils.isNotEmpty(fromAC.getLeavePlan())){
 			if(!fromAC.getLeavePlan().equals(pha.getLeavePlan())) {
 				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "balanceTransfer.transferSSTO.wrongACLeavePlan", fromAC.getLeavePlan(), pha.getLeavePlan());

@@ -77,7 +77,7 @@ public class LeavePayoutRoleAttribute extends GenericRoleAttribute {
 		}
 		
         if (leavePayout != null) {
-            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(leavePayout.getPrincipalId(), leavePayout.getEffectiveLocalDate());
+            List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(leavePayout.getPrincipalId(), leavePayout.getEffectiveLocalDate());
             for (Assignment assignment : assignments) {
             	roleNameQualifiers.add(String.valueOf(assignment.getWorkArea()));
             }

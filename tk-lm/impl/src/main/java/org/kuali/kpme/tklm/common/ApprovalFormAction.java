@@ -27,7 +27,6 @@ import org.hsqldb.lib.StringUtil;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.web.KPMEAction;
@@ -67,7 +66,7 @@ public abstract class ApprovalFormAction extends KPMEAction {
 	        approvalForm.setPayCalendarGroups(calendarGroups);
 		}
 
-        List<WorkArea> workAreasWithoutRoles = HrServiceLocator.getWorkAreaService().getWorkAreasWithoutRoles(new ArrayList<Long>(workAreas), currentDate);
+        List<WorkArea> workAreasWithoutRoles = (List<WorkArea>) HrServiceLocator.getWorkAreaService().getWorkAreasWithoutRoles(new ArrayList<Long>(workAreas), currentDate);
 		if (CollectionUtils.isEmpty(approvalForm.getDepartments())) {
 			Set<String> departments = new TreeSet<String>();
 			

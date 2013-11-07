@@ -20,12 +20,15 @@ import java.math.BigDecimal;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 
 /**
  * <p>AccrualCategoryRuleContract interface.</p>
  *
  */
 public interface AccrualCategoryRuleContract extends HrBusinessObjectContract {
+	
+	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "AccrualCategoryRule";
 	
 	/**
 	 * The earnCodeObject associated with an AccrualCategoryRule

@@ -15,11 +15,18 @@
  */
 package org.kuali.kpme.core.department.service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.department.service.DepartmentService;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.department.dao.DepartmentDao;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;

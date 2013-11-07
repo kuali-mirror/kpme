@@ -46,10 +46,10 @@ public class WorkflowTimesheetTest extends KPMEWebTestCase {
 
 		DateTime asOfDate = new DateTime(2010, 8, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
-		List<Job> jobs = HrServiceLocator.getJobService().getJobs(GlobalVariables.getUserSession().getPrincipalId(), asOfDate.toLocalDate());
+		List<Job> jobs = (List<Job>) HrServiceLocator.getJobService().getJobs(GlobalVariables.getUserSession().getPrincipalId(), asOfDate.toLocalDate());
 		Assert.assertNotNull("No jobs", jobs);
 		Assert.assertTrue("Should only be two Jobs.", jobs.size() == 2);
-		CalendarEntry pcd = HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(GlobalVariables.getUserSession().getPrincipalId(), asOfDate);
+		CalendarEntry pcd = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(GlobalVariables.getUserSession().getPrincipalId(), asOfDate);
 		Assert.assertNotNull("No PayCalendarDates", pcd);
 		
 		TimesheetDocument tdoc = timesheetService.openTimesheetDocument(GlobalVariables.getUserSession().getPrincipalId(), pcd);

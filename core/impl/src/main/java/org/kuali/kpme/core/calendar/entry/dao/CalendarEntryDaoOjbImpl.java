@@ -29,6 +29,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -259,9 +260,9 @@ public class CalendarEntryDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
         List<CalendarEntry> results = new ArrayList<CalendarEntry>();
         // for either pay or leave (not both!) get all the calendars that match
         if (!StringUtils.equals(calendarTypes,"")) {
-            List<Calendar> calendars = HrServiceLocator.getCalendarService().getCalendars(calendarName, calendarTypes, null, null);
+            List<CalendarContract> calendars = (List<CalendarContract>) HrServiceLocator.getCalendarService().getCalendars(calendarName, calendarTypes, null, null);
             List<String> hrCalendarIdList = new ArrayList<String>();
-            for (Calendar cal : calendars) {
+            for (CalendarContract cal : calendars) {
                 hrCalendarIdList.add(cal.getHrCalendarId());
             }
             if (hrCalendarIdList.isEmpty()) {      //no calendar with that combination of name and type

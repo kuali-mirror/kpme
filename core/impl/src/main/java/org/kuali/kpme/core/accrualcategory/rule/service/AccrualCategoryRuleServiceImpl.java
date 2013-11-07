@@ -21,8 +21,11 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.accrualcategory.rule.dao.AccrualCategoryRuleDao;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
+import org.kuali.kpme.core.api.accrualcategory.rule.service.AccrualCategoryRuleService;
 
-public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleService{
+public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleService {
 	
 	private AccrualCategoryRuleDao accrualCategoryRuleDao;
 	
@@ -35,7 +38,7 @@ public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleServic
 			
 	}
 	
-    public AccrualCategoryRule getAccrualCategoryRuleForDate(AccrualCategory accrualCategory, LocalDate currentDate, LocalDate serviceDate) {
+    public AccrualCategoryRule getAccrualCategoryRuleForDate(AccrualCategoryContract accrualCategory, LocalDate currentDate, LocalDate serviceDate) {
     	if(serviceDate == null) {
     		return null;
     	}
@@ -85,5 +88,6 @@ public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleServic
     @Override
     public List <AccrualCategoryRule> getInActiveRulesForAccrualCategoryId(String accrualCategoryId) {
     	return this.accrualCategoryRuleDao.getInActiveRulesForAccrualCategoryId(accrualCategoryId);
-    }	
+    }
+
 }

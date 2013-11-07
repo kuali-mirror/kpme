@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;
@@ -127,7 +127,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
     private boolean validateFraction(String earnCode, BigDecimal amount, LocalDate asOfDate, String fieldName) {
         boolean valid = true;
         if (!ValidationUtils.validateEarnCodeFraction(earnCode, amount, asOfDate)) {
-            EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+            EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
             if(ec != null && ec.getFractionalTimeAllowed() != null) {
                 BigDecimal fracAllowed = new BigDecimal(ec.getFractionalTimeAllowed());
                 String[] parameters = new String[2];

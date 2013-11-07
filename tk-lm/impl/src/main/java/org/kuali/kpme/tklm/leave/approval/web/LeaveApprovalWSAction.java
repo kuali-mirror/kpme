@@ -36,7 +36,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.KPMENamespace;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.web.KPMEAction;
@@ -84,7 +84,7 @@ public class LeaveApprovalWSAction extends KPMEAction {
 		  }
 		  
 	        if(StringUtils.isNotBlank(laaf.getSelectedPayPeriod())) {
-	        	CalendarEntry currentCE = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getSelectedPayPeriod());
+	        	CalendarEntryContract currentCE = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getSelectedPayPeriod());
 	        	if(currentCE != null) {
 				  LocalDate endDate = currentCE.getEndPeriodFullDateTime().toLocalDate();
 				  LocalDate beginDate = currentCE.getBeginPeriodFullDateTime().toLocalDate();

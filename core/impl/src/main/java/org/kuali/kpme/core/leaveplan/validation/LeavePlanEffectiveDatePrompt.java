@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.leaveplan.validation;
 
+import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -28,7 +29,7 @@ public class LeavePlanEffectiveDatePrompt extends KPMEHrObjectNewerVersionPrompt
     	boolean futureEffectiveDateExists = false;
     	
         LeavePlan leavePlan = (LeavePlan) pbo;
-        LeavePlan lastLeavePlan = HrServiceLocator.getLeavePlanService().getLeavePlan(leavePlan.getLeavePlan(), TKUtils.END_OF_TIME);
+        LeavePlanContract lastLeavePlan = HrServiceLocator.getLeavePlanService().getLeavePlan(leavePlan.getLeavePlan(), TKUtils.END_OF_TIME);
         if (lastLeavePlan != null && lastLeavePlan.getEffectiveLocalDate() != null && leavePlan.getEffectiveLocalDate() != null) {
         	futureEffectiveDateExists = lastLeavePlan.getEffectiveLocalDate().isAfter(leavePlan.getEffectiveLocalDate());
         }

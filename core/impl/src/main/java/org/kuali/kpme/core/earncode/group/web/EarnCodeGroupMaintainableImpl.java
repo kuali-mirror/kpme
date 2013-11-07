@@ -72,7 +72,7 @@ public class EarnCodeGroupMaintainableImpl extends HrBusinessObjectMaintainableI
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(id);
+		return (HrBusinessObject) HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(id);
 	} 
 
     @Override

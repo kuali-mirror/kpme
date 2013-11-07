@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -93,7 +93,7 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
         DateTime asOfDate =  DateTime.now();
 
         if(principalId != null && StringUtils.isNotEmpty(principalId)) {
-            List<Job> targetUserJob = HrServiceLocator.getJobService().getActiveLeaveJobs(principalId, loggedInDay);
+            List<Job> targetUserJob = (List<Job>) HrServiceLocator.getJobService().getActiveLeaveJobs(principalId, loggedInDay);
 
             if(!targetUserJob.isEmpty()) {
             //the target user should have at least one job and not have more than one leave eligible dept
@@ -119,7 +119,7 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 	private boolean validateFraction(String earnCode, BigDecimal amount, LocalDate asOfDate) {
 		boolean valid = true;
 		if (!ValidationUtils.validateEarnCodeFraction(earnCode, amount, asOfDate)) {
-			EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+			EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
 			if(ec != null && ec.getFractionalTimeAllowed() != null) {
 				BigDecimal fracAllowed = new BigDecimal(ec.getFractionalTimeAllowed());
 				String[] parameters = new String[2];

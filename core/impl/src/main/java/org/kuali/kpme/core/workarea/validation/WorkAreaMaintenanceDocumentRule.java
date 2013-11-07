@@ -21,7 +21,8 @@ import java.util.ListIterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.KPMERoleMemberBo;
 import org.kuali.kpme.core.role.PositionRoleMemberBo;
@@ -37,9 +38,6 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-//import org.kuali.kpme.core.authorization.DepartmentalRule;
-//import org.kuali.kpme.tklm.common.AuthorizationValidationUtils;
-//import org.kuali.rice.krad.util.GlobalVariables;
 
 @SuppressWarnings("deprecation")
 public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
@@ -294,8 +292,8 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		boolean valid = true;
 		
 		if(!workArea.isActive()){
-			List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
-			for(Assignment assignment: assignments){
+			List<AssignmentContract> assignments = (List<AssignmentContract>) HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
+			for(AssignmentContract assignment: assignments){
 				if(assignment.getWorkArea().equals(workArea.getWorkArea())){
 					this.putGlobalError("workarea.active.required");
 					valid = false;
@@ -311,8 +309,8 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 			}
 			
 			if(!inactiveTasks.isEmpty()){
-				List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
-				for(Assignment assignment : assignments){
+				List<AssignmentContract> assignments = (List<AssignmentContract>) HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
+				for(AssignmentContract assignment : assignments){
 					for(Long inactiveTask : inactiveTasks){
 						if(inactiveTask.equals(assignment.getTask())){
 							this.putGlobalError("task.active.required", inactiveTask.toString());
@@ -348,8 +346,8 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
             }
 
             if(!inactiveTasks.isEmpty()){
-                List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
-                for(Assignment assignment : assignments){
+                List<AssignmentContract> assignments = (List<AssignmentContract>)HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
+                for(AssignmentContract assignment : assignments){
                     for(Long inactiveTask : inactiveTasks){
                         if(inactiveTask.equals(assignment.getTask())){
                             this.putGlobalError("task.active.inactivate", inactiveTask.toString());
@@ -367,7 +365,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 	private Long getMaxTaskNumber(WorkArea workArea) {
 		Long task = new Long("100");
 		
-		Task maxTask = HrServiceLocator.getTaskService().getMaxTask();
+		TaskContract maxTask = HrServiceLocator.getTaskService().getMaxTask();
 		
 		if (maxTask != null) {
 			task = maxTask.getTask() + 1;

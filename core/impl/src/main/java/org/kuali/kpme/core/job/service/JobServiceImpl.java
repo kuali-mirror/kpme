@@ -25,7 +25,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.job.service.JobService;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.job.dao.JobDao;
 import org.kuali.kpme.core.paytype.PayType;
@@ -45,13 +47,13 @@ public class JobServiceImpl implements JobService {
     private JobDao jobDao;
 
     @Override
-    public void saveOrUpdate(Job job) {
-        jobDao.saveOrUpdate(job);
+    public void saveOrUpdate(JobContract job) {
+        jobDao.saveOrUpdate((Job)job);
     }
 
     @Override
-    public void saveOrUpdate(List<Job> jobList) {
-        jobDao.saveOrUpdate(jobList);
+    public void saveOrUpdate(List<? extends JobContract> jobList) {
+        jobDao.saveOrUpdate((List<Job>)jobList);
     }
 
     public void setJobDao(JobDao jobDao) {
@@ -63,7 +65,7 @@ public class JobServiceImpl implements JobService {
         List<Job> jobs = jobDao.getJobs(principalId, asOfDate);
 
         for (Job job : jobs) {
-            PayType payType = HrServiceLocator.getPayTypeService().getPayType(
+            PayType payType = (PayType) HrServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), asOfDate);
             job.setPayTypeObj(payType);
         }
@@ -96,7 +98,7 @@ public class JobServiceImpl implements JobService {
             	LOG.warn("No pay type for this job!");
                 return null;
             }
-            PayType payType = HrServiceLocator.getPayTypeService().getPayType(
+            PayType payType = (PayType) HrServiceLocator.getPayTypeService().getPayType(
                     hrPayType, asOfDate);
             if (payType == null) {
 //                throw new RuntimeException("No paytypes defined for this job!");
@@ -148,7 +150,7 @@ public class JobServiceImpl implements JobService {
         
     	for (Job jobObj : jobObjs) {
         	String department = jobObj.getDept();
-        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, jobObj.getEffectiveLocalDate());
+        	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, jobObj.getEffectiveLocalDate());
         	String location = departmentObj != null ? departmentObj.getLocation() : null;
         	
         	Map<String, String> roleQualification = new HashMap<String, String>();
@@ -177,9 +179,9 @@ public class JobServiceImpl implements JobService {
     }
     
     @Override
-    public BigDecimal getFteSumForJobs(List<Job> jobs) {
+    public BigDecimal getFteSumForJobs(List<? extends JobContract> jobs) {
     	BigDecimal fteSum = new BigDecimal(0);
-    	for(Job aJob : jobs) {
+    	for(JobContract aJob : jobs) {
     		fteSum = fteSum.add(aJob.getFte());
     	}
     	return fteSum;
@@ -197,9 +199,9 @@ public class JobServiceImpl implements JobService {
 	}
     
     @Override
-    public BigDecimal getStandardHoursSumForJobs(List<Job> jobs) {
+    public BigDecimal getStandardHoursSumForJobs(List<? extends JobContract> jobs) {
     	BigDecimal hoursSum = new BigDecimal(0);
-    	for(Job aJob : jobs) {
+    	for(JobContract aJob : jobs) {
     		hoursSum = hoursSum.add(aJob.getStandardHours());
     	}
     	return hoursSum;

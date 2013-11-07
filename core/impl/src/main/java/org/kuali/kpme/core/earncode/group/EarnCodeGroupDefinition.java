@@ -17,6 +17,7 @@ package org.kuali.kpme.core.earncode.group;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupDefinitionContract;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -78,7 +79,7 @@ public class EarnCodeGroupDefinition extends PersistableBusinessObjectBase imple
 	
 	// this is for the maintenance screen
 	public String getEarnCodeDesc() {
-		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(this.earnCode, LocalDate.now());
+		EarnCodeContract earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(this.earnCode, LocalDate.now());
 		
 		if(earnCode != null && StringUtils.isNotBlank(earnCode.getDescription())) {
 			return earnCode.getDescription();

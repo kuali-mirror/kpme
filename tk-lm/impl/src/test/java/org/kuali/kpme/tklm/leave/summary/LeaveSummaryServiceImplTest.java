@@ -33,7 +33,7 @@ public class LeaveSummaryServiceImplTest extends TKLMIntegrationTestCase {
 	@Test
 	public void testGetLeaveSummary() throws Exception {
 		// selected calendar entry is 03/15/2012 - 04/01/2012
-		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("56");
+		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("56");
 		
 		LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be 'March 1 - March 14 2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("March 1 - March 14 2012"));
@@ -55,7 +55,7 @@ public class LeaveSummaryServiceImplTest extends TKLMIntegrationTestCase {
 		Assert.assertTrue("FMLA usage for Row should be '-3', not " + aRow.getFmlaUsage(), aRow.getFmlaUsage().compareTo(new BigDecimal(-3)) == 0);
 		
 		// selected calendar entry is 04/01/2012 - 04/30/2012
-		ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("58");
+		ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("58");
 		ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be 'March 1 - March 14 2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("March 1 - March 14 2012"));
 		Assert.assertTrue("There pending dates String should be 'April 15 - April 30 2012', not " + ls.getPendingDatesString(), ls.getPendingDatesString().equals("April 15 - April 30 2012"));
@@ -76,7 +76,7 @@ public class LeaveSummaryServiceImplTest extends TKLMIntegrationTestCase {
 		Assert.assertTrue("FMLA usage for Row should be '-3', not " + aRow.getFmlaUsage(), aRow.getFmlaUsage().compareTo(new BigDecimal(-3)) == 0);
 		
 		// selected calendar entry is 05/01/2012 - 05/31/2012
-		ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("59");
+		ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("59");
 		ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be 'March 1 - March 14 2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("March 1 - March 14 2012"));
 		Assert.assertTrue("There pending dates String should be 'May 1 - May 14 2012', not " + ls.getPendingDatesString(), ls.getPendingDatesString().equals("May 1 - May 14 2012"));
@@ -113,7 +113,7 @@ public class LeaveSummaryServiceImplTest extends TKLMIntegrationTestCase {
 		// selected calendar entry is 02/1/2012 - 02/15/2012
 		// principal HR attribute does not exist on 02/01/2012, it becomes active on 02/05/2012
 		// this is testing null principalHrAttributes with beginning date of Calendar entry
-		ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("53");
+		ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("53");
 		ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		rows = ls.getLeaveSummaryRows();
 		Assert.assertTrue("There should be 1 leave summary rows for emplyee 'testUser', not " + rows.size(), rows.size()== 1);
@@ -121,7 +121,7 @@ public class LeaveSummaryServiceImplTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testGetHeaderForSummary() throws Exception {
-		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("56");
+		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("56");
 		List<Date> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		Assert.assertTrue("The number of leave summary dates should be 17, not " + leaveSummaryDates.size(), leaveSummaryDates.size()== 17);

@@ -15,8 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.transfer.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,24 +23,19 @@ import java.util.Properties;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
-import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERole;
-import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
-import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
@@ -98,7 +91,7 @@ public class BalanceTransferLookupableHelper extends KPMELookupableHelper {
 				BalanceTransfer transfer = (BalanceTransfer) iter.next();
 				LocalDate effectiveLocalDate = transfer.getEffectiveLocalDate();
 				DateTime effectiveDate = effectiveLocalDate.toDateTimeAtStartOfDay();
-				List<Job> principalsJobs = HrServiceLocator.getJobService().getActiveLeaveJobs(transfer.getPrincipalId(), effectiveLocalDate);
+				List<Job> principalsJobs = (List<Job>) HrServiceLocator.getJobService().getActiveLeaveJobs(transfer.getPrincipalId(), effectiveLocalDate);
 				String userPrincipalId = HrContext.getPrincipalId();
 				boolean canView = false;
 				for(Job job : principalsJobs) {
@@ -106,7 +99,7 @@ public class BalanceTransferLookupableHelper extends KPMELookupableHelper {
 					if(job.isEligibleForLeave()) {
 						
 						String department = job != null ? job.getDept() : null;
-						Department departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartment(department, effectiveLocalDate) : null;
+						DepartmentContract departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartment(department, effectiveLocalDate) : null;
 						String location = departmentObj != null ? departmentObj.getLocation() : null;
 
 			        	if (LmServiceLocator.getLMPermissionService().isAuthorizedInDepartment(userPrincipalId, "View Balance Transfer", department, effectiveDate)
@@ -116,7 +109,7 @@ public class BalanceTransferLookupableHelper extends KPMELookupableHelper {
 						}
 			        	else {
 			        		//do NOT block approvers, processors, delegates from viewing the object.
-							List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(transfer.getPrincipalId(), job.getJobNumber(), effectiveLocalDate);
+							List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(transfer.getPrincipalId(), job.getJobNumber(), effectiveLocalDate);
 							for(Assignment assignment : assignments) {
 								if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))
 										|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))

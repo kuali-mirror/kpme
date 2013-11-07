@@ -22,10 +22,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.payout.LeavePayout;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -63,7 +63,7 @@ public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
 		}
 		
         if (leavePayout != null) {
-            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(leavePayout.getPrincipalId(), leavePayout.getEffectiveLocalDate());
+            List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(leavePayout.getPrincipalId(), leavePayout.getEffectiveLocalDate());
             for (Assignment assignment : assignments) {
                 String roleStr = roleName + "_" + assignment.getWorkArea();
                 if (!roles.contains(roleStr)) {
@@ -110,7 +110,7 @@ public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
         }
         
         if (leavePayout != null) {
-	        WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leavePayout.getEffectiveLocalDate());
+	        WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leavePayout.getEffectiveLocalDate());
 	
 	        List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 	        

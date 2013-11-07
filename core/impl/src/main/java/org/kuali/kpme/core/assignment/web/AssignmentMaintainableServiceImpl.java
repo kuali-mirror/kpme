@@ -20,13 +20,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.account.AssignmentAccount;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
-import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.kfs.coa.businessobject.Account;
-import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -94,9 +94,9 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 				&& assignment.getPrincipalId() != null 
 				&& assignment.getJobNumber() != null 
 				&& assignment.getEffectiveDate() != null) {
-			  Job job = HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveLocalDate(), false);
+			  JobContract job = HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveLocalDate(), false);
 			  if(job != null) {
-					PayType payType = HrServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), assignment.getEffectiveLocalDate());
+					PayTypeContract payType = HrServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), assignment.getEffectiveLocalDate());
 					fieldValues.put("assignmentAccounts.earnCode", (payType != null) ? payType.getRegEarnCode() : "");
 				}
 			}
@@ -126,7 +126,7 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return HrServiceLocator.getAssignmentService().getAssignment(id);
+		return (HrBusinessObject)HrServiceLocator.getAssignmentService().getAssignment(id);
 	}
 
 	@Override

@@ -28,7 +28,7 @@ public class PayTypeMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return HrServiceLocator.getPayTypeService().getPayType(id);
+		return (HrBusinessObject) HrServiceLocator.getPayTypeService().getPayType(id);
 	}
 
 }

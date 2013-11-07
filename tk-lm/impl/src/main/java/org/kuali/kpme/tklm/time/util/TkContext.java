@@ -85,7 +85,7 @@ public class TkContext {
 	public static boolean isSynchronous() {
     	boolean isSynchronous = false;
     	
-    	List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), LocalDate.now());
+    	List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), LocalDate.now());
     	
     	for (Assignment assignment : assignments) {
     		TimeCollectionRule tcr = null;
@@ -103,7 +103,7 @@ public class TkContext {
     public static boolean isTargetSynchronous() {
     	boolean isSynchronous = false;
     	
-    	List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(getTargetPrincipalId(), LocalDate.now());
+    	List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(getTargetPrincipalId(), LocalDate.now());
     	
     	for (Assignment assignment : assignments) {
     		TimeCollectionRule tcr = null;

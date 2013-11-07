@@ -37,7 +37,7 @@ public class LeaveBlockAggregateTest extends TKLMIntegrationTestCase {
 		// 03/01/2012 to 03/15/2012
 		LocalDate beginDate = new LocalDate(2012, 3, 1);
 		LocalDate endDate = beginDate.plusDays(14);
-		CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(TEST_USER, beginDate, endDate);
 		
 		// get leaveBlockAggaregate with leaveBlocks, calendarEntry and intervals

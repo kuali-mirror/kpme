@@ -28,10 +28,10 @@ public class DepartmentServiceImplTest extends CoreUnitTestCase {
 	
 	@Test
 	public void testSearchDepartments() throws Exception {
-		List<Department> allResults = HrServiceLocator.getDepartmentService().getDepartments("admin", null, null, null, "Y", "N");
+		List<Department> allResults = (List<Department>) HrServiceLocator.getDepartmentService().getDepartments("admin", null, null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 11, allResults.size());
 		
-		List<Department> restrictedResults = HrServiceLocator.getDepartmentService().getDepartments("testuser6", null, null, null, "Y", "N");
+		List<Department> restrictedResults = (List<Department>) HrServiceLocator.getDepartmentService().getDepartments("testuser6", null, null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 1, restrictedResults.size());
 	}
 

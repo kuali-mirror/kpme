@@ -16,7 +16,8 @@
 package org.kuali.kpme.core.paystep.validation;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.institution.Institution;
+import org.kuali.kpme.core.api.paygrade.PayGradeContract;
+import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.kuali.kpme.core.paygrade.PayGrade;
 import org.kuali.kpme.core.paystep.PayStep;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
@@ -46,7 +47,7 @@ public class PayStepValidation extends MaintenanceDocumentRuleBase {
 	}
 
 	private boolean validatePayGrade(PayStep payStep) {
-		PayGrade aPayGrade = HrServiceLocator.getPayGradeService().getPayGrade(payStep.getPayGrade(), payStep.getSalaryGroup(), payStep.getEffectiveLocalDate());
+		PayGradeContract aPayGrade = HrServiceLocator.getPayGradeService().getPayGrade(payStep.getPayGrade(), payStep.getSalaryGroup(), payStep.getEffectiveLocalDate());
 		String errorMes = "Pay Grade '" + payStep.getPayGrade() + "'";
 		if(aPayGrade == null) {
 			this.putFieldError("dataObject.payGrade", "error.existence", errorMes);
@@ -73,7 +74,7 @@ public class PayStepValidation extends MaintenanceDocumentRuleBase {
 	}
 
 	private boolean validateSalaryGroup(PayStep payStep) {
-		SalaryGroup aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(payStep.getSalaryGroup(), payStep.getEffectiveLocalDate());
+		SalaryGroupContract aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(payStep.getSalaryGroup(), payStep.getEffectiveLocalDate());
 		String errorMes = "SalaryGroup '" + payStep.getSalaryGroup() + "'";
 		if(aSalGroup != null) {
 			if(!ValidationUtils.wildCardMatch(aSalGroup.getInstitution(), payStep.getInstitution())) {

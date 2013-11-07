@@ -18,6 +18,7 @@ package org.kuali.kpme.core.workarea.authorization;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
@@ -41,7 +42,7 @@ public class WorkAreaAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
 			if (workAreaObj != null) {
 				department = cleanAttributeValue(workAreaObj.getDept());
 				
-				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, workAreaObj.getEffectiveLocalDate());
+				DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, workAreaObj.getEffectiveLocalDate());
 			
 				if (departmentObj != null) {
 					location = cleanAttributeValue(departmentObj.getLocation());

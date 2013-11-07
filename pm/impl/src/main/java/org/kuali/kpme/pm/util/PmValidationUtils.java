@@ -20,6 +20,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.paygrade.PayGradeContract;
 import org.kuali.kpme.core.paygrade.PayGrade;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -32,13 +33,6 @@ import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategoryContr
 import org.kuali.kpme.pm.api.positionreporttype.PositionReportTypeContract;
 import org.kuali.kpme.pm.api.positiontype.PositionTypeContract;
 import org.kuali.kpme.pm.api.pstnqlfctnvl.PositionQualificationValueContract;
-import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
-import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
-import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
-import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory;
-import org.kuali.kpme.pm.positionreporttype.PositionReportType;
-import org.kuali.kpme.pm.positiontype.PositionType;
-import org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.services.LocationApiServiceLocator;
@@ -116,7 +110,7 @@ public class PmValidationUtils {
 	
 	public static boolean validatePayGradeWithSalaryGroup(String salaryGroup, String payGrade, LocalDate asOfDate) {
 		if (asOfDate != null) {
-			PayGrade grade = HrServiceLocator.getPayGradeService().getPayGrade(payGrade, salaryGroup, asOfDate);
+			PayGradeContract grade = HrServiceLocator.getPayGradeService().getPayGrade(payGrade, salaryGroup, asOfDate);
 			if(grade != null && StringUtils.isNotBlank(grade.getSalGroup())) 
 				return StringUtils.equals(grade.getSalGroup(), salaryGroup);
 		}

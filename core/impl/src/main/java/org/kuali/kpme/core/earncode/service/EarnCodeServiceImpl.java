@@ -27,23 +27,24 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
+import org.kuali.kpme.core.api.earncode.service.EarnCodeService;
+import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.dao.EarnCodeDao;
-import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.earncode.security.EarnCodeType;
-import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import com.google.common.collect.Ordering;
@@ -58,7 +59,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 	}
 
 	//Move to LeaveCalendarDocumentService
-    public List<EarnCode> getEarnCodesForLeave(Assignment a, LocalDate asOfDate, boolean isLeavePlanningCalendar) {
+    public List<EarnCode> getEarnCodesForLeave(AssignmentContract a, LocalDate asOfDate, boolean isLeavePlanningCalendar) {
         //getEarnCodesForTime and getEarnCodesForLeave have some overlapping logic, but they were separated so that they could follow their own distinct logic, so consolidation of logic is not desirable.
 
         if (a == null){
@@ -67,7 +68,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 //        	throw new RuntimeException("No assignment parameter.");
         }
         
-        Job job = a.getJob();
+        JobContract job = a.getJob();
         if (job == null || job.getPayTypeObj() == null) { 
 //        	throw new RuntimeException("Null job or null job pay type on assignment.");
         	LOG.error("Null job or null job pay type on assignment.");
@@ -82,13 +83,13 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         String accrualCategory;
 
         //  first make a list of the accrual categories available to the user's leave plan, for later comparison.
-        PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(job.getPrincipalId(), asOfDate);
+        PrincipalHRAttributesContract principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(job.getPrincipalId(), asOfDate);
         boolean fmlaEligible = principalHRAttributes.isFmlaEligible();
         boolean workersCompEligible = principalHRAttributes.isWorkersCompEligible();
 
         String leavePlan = principalHRAttributes.getLeavePlan();
         if (leavePlan != null) {
-            for (AccrualCategory accrualCategories : HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, asOfDate)) {
+            for (AccrualCategoryContract accrualCategories : HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, asOfDate)) {
                 accrualCategory = accrualCategories.getAccrualCategory();
                 if(accrualCategory != null) {
                     listAccrualCategories.add(accrualCategory);
@@ -97,8 +98,8 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         }
 
         //  get all earn codes by user security, then we'll filter on accrual category first as we process them.
-        List<EarnCodeSecurity> decs = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
-        for (EarnCodeSecurity dec : decs) {
+        List<EarnCodeSecurityContract> decs = (List<EarnCodeSecurityContract>) HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
+        for (EarnCodeSecurityContract dec : decs) {
 
             boolean addEarnCode = addEarnCodeBasedOnEmployeeApproverSettings(dec, a, asOfDate);
             if (addEarnCode) {
@@ -156,7 +157,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         return earnCodes;
     }
 
-    public boolean addEarnCodeBasedOnEmployeeApproverSettings(EarnCodeSecurity security, Assignment a, LocalDate asOfDate) {
+    public boolean addEarnCodeBasedOnEmployeeApproverSettings(EarnCodeSecurityContract security, AssignmentContract a, LocalDate asOfDate) {
         boolean addEarnCode = false;
         if (security.isEmployee() &&
                 (StringUtils.equals(HrContext.getTargetPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
@@ -174,7 +175,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
             workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), asOfDate.toDateTimeAtStartOfDay(), true));
 
             for (Long wa : workAreas) {
-                WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
+                WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
                 if (workArea!= null && a.getWorkArea().compareTo(workArea.getWorkArea())==0) {
                     addEarnCode = true;
                     break;
@@ -191,7 +192,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
             workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), asOfDate.toDateTimeAtStartOfDay(), true));
 
             for (Long wa : workAreas) {
-                WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
+                WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
                 if (workArea!= null && a.getWorkArea().compareTo(workArea.getWorkArea())==0) {
                     addEarnCode = true;
                     break;
@@ -208,7 +209,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
             depts.addAll(HrServiceLocator.getKPMERoleService().getDepartmentsForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), asOfDate.toDateTimeAtStartOfDay(), true));
 
             for (String dept : depts) {
-                Department department = HrServiceLocator.getDepartmentService().getDepartment(dept, asOfDate);
+                DepartmentContract department = HrServiceLocator.getDepartmentService().getDepartment(dept, asOfDate);
                 if (department!= null && a.getDept().equalsIgnoreCase(department.getDept())) {
                     addEarnCode = true;
                     break;
@@ -222,8 +223,8 @@ public class EarnCodeServiceImpl implements EarnCodeService {
     @Override
     public List<EarnCode> getEarnCodesForPrincipal(String principalId, LocalDate asOfDate, boolean isLeavePlanningCalendar) {
         List<EarnCode> earnCodes = new LinkedList<EarnCode>();
-        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
-        for (Assignment assignment : assignments) {
+        List<AssignmentContract> assignments = (List<AssignmentContract>) HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
+        for (AssignmentContract assignment : assignments) {
             List<EarnCode> assignmentEarnCodes = getEarnCodesForLeave(assignment, asOfDate, isLeavePlanningCalendar);
             //  the following list processing does work as hoped, comparing the objects' data, rather than their references to memory structures.
             earnCodes.removeAll(assignmentEarnCodes); //ensures no overlap during the addAll
@@ -274,7 +275,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 	}
 
 	@Override
-	public BigDecimal roundHrsWithEarnCode(BigDecimal hours, EarnCode earnCode) {
+	public BigDecimal roundHrsWithEarnCode(BigDecimal hours, EarnCodeContract earnCode) {
 		String roundOption = HrConstants.ROUND_OPTION_MAP.get(earnCode.getRoundingOption());
 		BigDecimal fractScale = new BigDecimal(earnCode.getFractionalTimeAllowed());
 		if(roundOption == null) {

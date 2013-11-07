@@ -19,12 +19,15 @@ import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.institution.InstitutionContract;
 import org.kuali.kpme.core.api.location.LocationContract;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 
 /**
  * <p>PayTypeContract interface.</p>
  *
  */
 public interface PayTypeContract extends HrBusinessObjectContract {
+	
+	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "PayType";
 	
 	/**
 	 * The EarnCode object which is used to record regular time by this PayType

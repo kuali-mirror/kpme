@@ -55,7 +55,7 @@ public class LeaveBlockDisplayAction extends KPMEAction {
 		
 		LeaveBlockDisplayForm lbdf = (LeaveBlockDisplayForm) form;	
 
-		PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(HrContext.getTargetPrincipalId(), LocalDate.now());
+		PrincipalHRAttributes principalHRAttributes = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(HrContext.getTargetPrincipalId(), LocalDate.now());
 		String leavePlan = (principalHRAttributes != null) ? principalHRAttributes.getLeavePlan() : null;
 
 		if (lbdf.getNavString() == null) {
@@ -123,7 +123,7 @@ public class LeaveBlockDisplayAction extends KPMEAction {
 	private List<AccrualCategory> getAccrualCategories(String leavePlan) {
 		List<AccrualCategory> accrualCategories = new ArrayList<AccrualCategory>();
 		
-		List<AccrualCategory> allAccrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, LocalDate.now());
+		List<AccrualCategory> allAccrualCategories = (List<AccrualCategory>) HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, LocalDate.now());
 		if (allAccrualCategories != null) {
 			for (AccrualCategory ac : allAccrualCategories) {
 				if (StringUtils.equalsIgnoreCase(ac.getShowOnGrid(), "Y")) {

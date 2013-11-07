@@ -28,10 +28,10 @@ public class LocationServiceImplTest extends CoreUnitTestCase {
 
 	@Test
 	public void testSearchLocations() throws Exception {
-		List<Location> allResults = HrServiceLocator.getLocationService().searchLocations("admin", null, null, "Y", "N");
+		List<Location> allResults = (List<Location>) HrServiceLocator.getLocationService().searchLocations("admin", null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 2, allResults.size());
 		
-		List<Location> restrictedResults = HrServiceLocator.getLocationService().searchLocations("testuser6", null, null, "Y", "N");
+		List<Location> restrictedResults = (List<Location>) HrServiceLocator.getLocationService().searchLocations("testuser6", null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 0, restrictedResults.size());
 	}
 	

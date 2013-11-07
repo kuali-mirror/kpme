@@ -19,6 +19,7 @@ import java.sql.Time;
 import java.util.List;
 
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
@@ -26,6 +27,8 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
  *
  */
 public interface CalendarContract extends PersistableBusinessObject {
+	
+	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "Calendar";
 
 	/**
 	 * The primary Key of a Calendar entry saved in a database

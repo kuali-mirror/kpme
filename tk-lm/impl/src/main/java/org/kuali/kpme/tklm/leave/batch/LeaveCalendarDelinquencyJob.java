@@ -23,10 +23,11 @@ import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.service.CalendarEntryService;
+import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.calendar.entry.service.CalendarEntryService;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
-import org.kuali.kpme.core.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.service.notification.KPMENotificationService;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.leave.workflow.service.LeaveCalendarDocumentHeaderService;
@@ -48,19 +49,19 @@ public class LeaveCalendarDelinquencyJob implements Job {
 		Set<String> principalIds = new HashSet<String>();
 		
 		DateTime asOfDate = new LocalDate().toDateTimeAtStartOfDay();
-		List<CalendarEntry> calendarEntries = getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
+		List<CalendarEntry> calendarEntries = (List<CalendarEntry>) getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
 		
 		for (CalendarEntry calendarEntry : calendarEntries) {
 			String hrCalendarId = calendarEntry.getHrCalendarId();
 			DateTime currentBeginDate = calendarEntry.getBeginPeriodFullDateTime();
 			
 			if (currentBeginDate.isBefore(asOfDate) || DateUtils.isSameDay(currentBeginDate.toDate(), asOfDate.toDate())) {
-				CalendarEntry previousCalendarEntry = getCalendarEntryService().getPreviousCalendarEntryByCalendarId(hrCalendarId, calendarEntry);
+				CalendarEntryContract previousCalendarEntry = getCalendarEntryService().getPreviousCalendarEntryByCalendarId(hrCalendarId, calendarEntry);
 				
 				if (previousCalendarEntry != null) {
 					String calendarName = previousCalendarEntry.getCalendarName();
 					LocalDate previousBeginDate = previousCalendarEntry.getBeginPeriodFullDateTime().toLocalDate();
-					List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForLeaveCalendar(calendarName, previousBeginDate);
+					List<PrincipalHRAttributes> principalHRAttributes = (List<PrincipalHRAttributes>) getPrincipalHRAttributesService().getActiveEmployeesForLeaveCalendar(calendarName, previousBeginDate);
 					
 					for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
 						String principalId = principalHRAttribute.getPrincipalId();

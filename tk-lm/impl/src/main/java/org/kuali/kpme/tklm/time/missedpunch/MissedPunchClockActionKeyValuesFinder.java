@@ -22,7 +22,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.common.TkConstants;
@@ -60,7 +60,7 @@ public class MissedPunchClockActionKeyValuesFinder extends UifKeyValuesFinderBas
 	                    TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(TkConstants.CLOCK_OUT));
 	
 	            if (lastClock != null) {
-	            	Job jobObj = HrServiceLocator.getJobService().getJob(HrContext.getTargetPrincipalId(), lastClock.getJobNumber(), LocalDate.now());
+	            	JobContract jobObj = HrServiceLocator.getJobService().getJob(HrContext.getTargetPrincipalId(), lastClock.getJobNumber(), LocalDate.now());
 		            String department = jobObj != null ? jobObj.getDept() : null;
 	            	Long workArea = lastClock.getWorkArea();
 		            Long jobNumber = lastClock.getJobNumber();

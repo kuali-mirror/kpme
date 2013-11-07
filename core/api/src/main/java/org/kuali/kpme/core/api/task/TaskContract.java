@@ -16,6 +16,7 @@
 package org.kuali.kpme.core.api.task;
 
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 
 /**
@@ -23,6 +24,8 @@ import org.kuali.kpme.core.api.workarea.WorkAreaContract;
  *
  */
 public interface TaskContract extends HrBusinessObjectContract {
+	
+	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "Task";
 	
 	/**
 	 * The Primary Key of a Task entry saved in a database

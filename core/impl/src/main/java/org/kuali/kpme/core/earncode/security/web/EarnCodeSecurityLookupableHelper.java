@@ -77,7 +77,7 @@ public class EarnCodeSecurityLookupableHelper extends KPMELookupableHelper {
         
         List<EarnCodeSecurity> searchResults = new ArrayList<EarnCodeSecurity>();
 
-        List<EarnCodeSecurity> rawSearchResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecuritiesByType(GlobalVariables.getUserSession().getPrincipalId(), dept, salGroup, earnCode, location, TKUtils.formatDateString(fromEffdt), 
+        List<EarnCodeSecurity> rawSearchResults = (List<EarnCodeSecurity>) HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecuritiesByType(GlobalVariables.getUserSession().getPrincipalId(), dept, salGroup, earnCode, location, TKUtils.formatDateString(fromEffdt), 
         		TKUtils.formatDateString(toEffdt), active, showHist, earnCodeType);
         
         if(rawSearchResults != null && !rawSearchResults.isEmpty()) {

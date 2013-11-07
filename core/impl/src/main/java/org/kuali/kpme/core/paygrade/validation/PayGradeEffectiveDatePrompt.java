@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.paygrade.validation;
 
+import org.kuali.kpme.core.api.paygrade.PayGradeContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.paygrade.PayGrade;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -28,7 +29,7 @@ public class PayGradeEffectiveDatePrompt extends KPMEHrObjectNewerVersionPromptB
     	boolean futureEffectiveDateExists = false;
     	
         PayGrade payGrade = (PayGrade) pbo;
-        PayGrade lastPayGrade = HrServiceLocator.getPayGradeService().getPayGrade(payGrade.getPayGrade(), payGrade.getSalGroup(), TKUtils.END_OF_TIME);
+        PayGradeContract lastPayGrade = HrServiceLocator.getPayGradeService().getPayGrade(payGrade.getPayGrade(), payGrade.getSalGroup(), TKUtils.END_OF_TIME);
         if (lastPayGrade != null && lastPayGrade.getEffectiveLocalDate() != null && payGrade.getEffectiveLocalDate() != null) {
         	futureEffectiveDateExists = lastPayGrade.getEffectiveLocalDate().isAfter(payGrade.getEffectiveLocalDate());
         }

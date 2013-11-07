@@ -15,8 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.timeblock;
 
-import org.joda.time.DateTimeZone;
-
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -26,13 +24,15 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.kpme.core.block.CalendarBlockBase;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -46,7 +46,6 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kim.api.identity.Person;
-import org.apache.commons.lang.ObjectUtils;
 
 public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockContract {
 
@@ -445,7 +444,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
 
     public String getAssignmentDescription() {
         AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber(), this.getWorkArea(), this.getTask());
-        Assignment anAssignment = HrServiceLocator.getAssignmentService().getAssignment(principalId, adk, this.getBeginDateTime().toLocalDate());
+        AssignmentContract anAssignment = HrServiceLocator.getAssignmentService().getAssignment(principalId, adk, this.getBeginDateTime().toLocalDate());
         return anAssignment == null ? this.getAssignmentKey() : anAssignment.getAssignmentDescription();
     }
 

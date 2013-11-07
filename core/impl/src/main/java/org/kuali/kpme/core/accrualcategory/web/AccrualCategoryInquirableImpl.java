@@ -20,6 +20,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.inquirable.KPMEInquirableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
@@ -29,7 +30,7 @@ public class AccrualCategoryInquirableImpl extends KPMEInquirableImpl {
 	
 	@Override
 	public BusinessObject getBusinessObject(Map fieldValues) {
-		AccrualCategory ac = null;
+		AccrualCategoryContract ac = null;
 		if(StringUtils.isNotBlank((String)fieldValues.get("lmAccrualCategoryId"))) {
 			ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory((String)fieldValues.get("lmAccrualCategoryId"));
 			

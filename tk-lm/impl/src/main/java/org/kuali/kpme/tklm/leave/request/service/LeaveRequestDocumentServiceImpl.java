@@ -23,13 +23,13 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.request.LeaveRequestActionValue;
 import org.kuali.kpme.tklm.leave.request.dao.LeaveRequestDocumentDao;
@@ -246,13 +246,13 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         List<String> salGroups = new ArrayList<String>();
         CalendarEntry ce = getCalendarEntry(leaveBlock);
         if (ce != null) {
-            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(leaveBlock.getPrincipalId(), ce);
+            List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(leaveBlock.getPrincipalId(), ce);
 
             for(Assignment assign: assignments){
                 if(!workAreas.contains(assign.getWorkArea())){
                     workAreas.add(assign.getWorkArea());
                 }
-                Job job = HrServiceLocator.getJobService().getJob(assign.getPrincipalId(), assign.getJobNumber(), leaveBlock.getLeaveLocalDate());
+                JobContract job = HrServiceLocator.getJobService().getJob(assign.getPrincipalId(), assign.getJobNumber(), leaveBlock.getLeaveLocalDate());
 
                 if(!salGroups.contains(job.getHrSalGroup())){
                     salGroups.add(job.getHrSalGroup());
@@ -260,7 +260,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
             }
         }
         for(Long workArea : workAreas){
-            WorkArea workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, leaveBlock.getLeaveLocalDate());
+            WorkAreaContract workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, leaveBlock.getLeaveLocalDate());
             if(deptToListOfWorkAreas.containsKey(workAreaObj.getDept())){
                 List<Long> deptWorkAreas = deptToListOfWorkAreas.get(workAreaObj.getDept());
                 deptWorkAreas.add(workArea);
@@ -293,7 +293,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
     }
 
     private CalendarEntry getCalendarEntry(LeaveBlock leaveBlock) {
-        return HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
+        return (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
     }
     
     public List<String> getApproverIdList(String documentId) {

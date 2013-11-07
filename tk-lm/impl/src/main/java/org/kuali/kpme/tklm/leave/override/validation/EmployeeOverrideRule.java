@@ -16,8 +16,8 @@
 package org.kuali.kpme.tklm.leave.override.validation;
 
 import org.apache.cxf.common.util.StringUtils;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -43,9 +43,9 @@ public class EmployeeOverrideRule extends MaintenanceDocumentRuleBase{
 			this.putFieldError("leavePlan", "error.employeeOverride.leavePlan.notfound");
 			return false;
 		} else if(eo.getEffectiveDate() != null) {
-			AccrualCategory ac = HrServiceLocator.getAccrualCategoryService().
+			AccrualCategoryContract ac = HrServiceLocator.getAccrualCategoryService().
 				getAccrualCategory(eo.getAccrualCategory(), eo.getEffectiveLocalDate());
-			PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().
+			PrincipalHRAttributesContract pha = HrServiceLocator.getPrincipalHRAttributeService().
 				getPrincipalCalendar(eo.getPrincipalId(), eo.getEffectiveLocalDate());
 			if(ac != null && pha != null && !ac.getLeavePlan().equals(pha.getLeavePlan())) {
 				this.putFieldError("leavePlan", "error.employeeOverride.leavePlan.inconsistent", eo.getAccrualCategory() );
@@ -57,7 +57,7 @@ public class EmployeeOverrideRule extends MaintenanceDocumentRuleBase{
 	
 	boolean validateAccrualCategory(EmployeeOverride eo) {
 		if(eo.getAccrualCategory() != null && eo.getEffectiveDate() != null) {
-			AccrualCategory ac = HrServiceLocator.getAccrualCategoryService().
+			AccrualCategoryContract ac = HrServiceLocator.getAccrualCategoryService().
 				getAccrualCategory(eo.getAccrualCategory(), eo.getEffectiveLocalDate());
 			if(ac == null) {
 				this.putFieldError("accrualCategory", "error.employeeOverride.accrualCategory.notfound", eo.getAccrualCategory() );
@@ -69,7 +69,7 @@ public class EmployeeOverrideRule extends MaintenanceDocumentRuleBase{
 	
 	boolean validatePrincipalHRAttributes(EmployeeOverride eo) {
 		if(eo.getPrincipalId() != null && eo.getEffectiveDate() != null) {
-			PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(eo.getPrincipalId(), eo.getEffectiveLocalDate());
+			PrincipalHRAttributesContract pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(eo.getPrincipalId(), eo.getEffectiveLocalDate());
 			if(pha == null) {
 				this.putFieldError("principalId", "error.employeeOverride.principalHRAttributes.notfound", eo.getPrincipalId() );
 				return false;
