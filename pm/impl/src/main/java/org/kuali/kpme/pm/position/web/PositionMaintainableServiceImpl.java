@@ -16,6 +16,7 @@
 package org.kuali.kpme.pm.position.web;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -207,5 +208,22 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
         return true;
      }
          */
+	
+	@Override
+	public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        //set document description
+		Position position = (Position)document.getDocumentDataObject();
+		String docDesc = "Editing Position Maintenance Document: " + position.getPositionNumber() + " Status: " + position.getProcess();
+        document.getDocumentHeader().setDocumentDescription(docDesc);
+    }
+	
+	@Override 
+	public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+		//set document description
+		Position position = (Position)document.getDocumentDataObject();
+		String docDesc = "Creating Position Maintenance Document: " + position.getPositionNumber();
+        document.getDocumentHeader().setDocumentDescription(docDesc);
+	}
+	
 
 }

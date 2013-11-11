@@ -41,6 +41,7 @@
 			/> -->
 		<property name="items">
 			<list>
+				<ref bean="Pos-OverviewPage" />
 				<ref bean="Pos-ClassificationPage" />
 				<ref bean="Pos-DepartmentPage" />
 				<ref bean="Pos-QualificationDutyPage" />
@@ -68,6 +69,8 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-HeaderTwo" p:headerText="Position Details" />
+				<bean parent="Uif-NavigationActionLink" id="Pos-Overview-Actionlink"
+					p:navigateToPageId="Pos-OverviewPage" p:actionLabel="Overview" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-Classification-Actionlink"
 					p:navigateToPageId="Pos-ClassificationPage" p:actionLabel="Classification" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-Department-Actionlink"
@@ -86,6 +89,65 @@
 					p:navigateToPageId="Pos-AdHocPage" p:actionLabel="Ad Hoc Recipients" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-RouteLog-Actionlink"
 					p:navigateToPageId="Pos-RouteLogPage" p:actionLabel="Route Log" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Overview Section -->
+	<bean id="Pos-OverviewPage" parent="Uif-MaintenancePage">
+		<property name="items">
+			<list>
+				<ref bean="Pos-OverviewPage-Widgets" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Pos-OverviewPage-Widgets" parent="Uif-VerticalBoxSection"
+		p:headerText="Overview">
+		<property name="items">
+			<list>
+			 	<bean parent="Uif-InputField" p:propertyName="process"
+					p:required="true">
+					<property name="control">
+						<bean parent="Uif-DropdownControl" />
+					</property>
+					<property name="optionsFinder">
+						<bean class="org.kuali.kpme.pm.util.ProcessKeyValueFinder"
+							p:addBlankOption="false" />
+					</property>
+				</bean>
+				<ref bean="Pos-OverviewPage-Section" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Pos-OverviewPage-Section" parent="Uif-MaintenanceGridSection" >
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="effectiveDate"
+					p:required="true" />
+				<bean parent="Uif-InputField" p:propertyName="description"
+					p:required="true" />	
+				<bean parent="Uif-InputField" p:propertyName="classificationTitle"
+					p:readOnly="true" />
+				<bean parent="Uif-InputField" p:propertyName="positionStatus"
+					p:required="true">
+					<property name="control">
+						<bean parent="Uif-DropdownControl" />
+					</property>
+					<property name="optionsFinder">
+						<bean class="org.kuali.kpme.pm.util.StatusKeyValueFinder"
+							p:addBlankOption="false" />
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="primaryDepartment"
+					p:readOnly="true" />
+				<bean parent="Uif-InputField" p:propertyName="institution" p:required="true" />
+				<bean parent="Uif-InputField" p:propertyName="location" p:required="true" />
+				<bean parent="Uif-InputField" p:propertyName="positionType"
+					p:required="true" p:readOnly="true" />
+				<bean parent="Uif-InputField" p:propertyName="positionNumber"
+					p:required="true" p:readOnly="true" />
 			</list>
 		</property>
 	</bean>
@@ -208,8 +270,6 @@
 
 	<!-- Position Qualification/Duty Section -->
 	<bean id="Pos-QualificationDutyPage" parent="Uif-MaintenancePage">
-	    <!-- 
-		<property name="header" ref="Pos-Overview-Header" />  -->
 		<property name="items">
 			<list>
 				<bean parent="Uif-VerticalBoxSection">
@@ -327,88 +387,28 @@
 			<bean parent="Uif-OverviewSection" />
 		</property>
 	</bean>
-	
-	<bean id="Uif-DocumentInfoGroup" parent="Uif-GridGroup"
+
+	<bean id="Uif-OverviewSection" parent="Uif-VerticalBoxSection"
 		p:readOnly="true">
 		<property name="items">
 			<list>
-				<bean parent="Uif-DocumentNumber" />
-				<bean parent="Uif-DocumentStatus" />
-				<bean parent="Uif-DocumentInitiatorNetworkId" />
-				<bean parent="Uif-DocumentCreateDate" />
-			</list>
-		</property>
-		<property name="layoutManager">
-			<bean parent="Uif-GridLayoutBase" p:numberOfColumns="4"
-				p:applyDefaultCellWidths="false" />
-		</property>
-		<property name="fieldBindingObjectPath" value="document" />
-		<property name="validationMessages.render" value="false" />
-	</bean>
-	
-	<bean id="Uif-OverviewSection" parent="Uif-VerticalBoxSection">
-		<property name="items">
-			<list>
-			    <bean parent="Uif-Message" p:messageText="[b]Document Overview[/b]" />
-			    <bean parent="Uif-DocumentOverviewSection" />
 			    <bean parent="Uif-Message" p:messageText="[b]Position Overview[/b]" />
 				<bean parent="Uif-PositionOverviewSection" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="Uif-DocumentOverviewSection" parent="Uif-GridGroup"
-		p:layoutManager.numberOfColumns="4"
-		p:layoutManager.applyDefaultCellWidths="false">
-		<property name="items">
-			<list>
-				<bean parent="Uif-DocumentDescription" p:required="true"
-					p:label="Description" p:width="25%" p:fieldLabel.width="25%" />
-				<bean parent="Uif-DocumentExplaination" p:rowSpan="2"
-					p:fieldLabel.rowSpan="2" p:width="40%" p:fieldLabel.width="10%" />
-				<bean parent="Uif-OrganizationDocumentNumber" p:width="25%"
-					p:fieldLabel.width="25%" />
-			</list>
-		</property>
-		<property name="fieldBindingObjectPath" value="document.documentHeader" />
-	</bean>
-	
 	<bean id="Uif-PositionOverviewSection" parent="Uif-GridGroup"
 		p:layoutManager.numberOfColumns="4"
 		p:layoutManager.applyDefaultCellWidths="true">
 		<property name="headerText" value="Position Overview" />
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="effectiveDate"
-					p:required="true" />
-				<bean parent="Uif-InputField" p:propertyName="process"
-					p:required="true">
-					<property name="control">
-						<bean parent="Uif-DropdownControl" />
-					</property>
-					<property name="optionsFinder">
-						<bean class="org.kuali.kpme.pm.util.ProcessKeyValueFinder"
-							p:addBlankOption="false" />
-					</property>
-				</bean>
-				<bean parent="Uif-InputField" p:propertyName="classificationTitle"
-					p:readOnly="true" />
-				<bean parent="Uif-InputField" p:propertyName="positionStatus"
-					p:required="true">
-					<property name="control">
-						<bean parent="Uif-DropdownControl" />
-					</property>
-					<property name="optionsFinder">
-						<bean class="org.kuali.kpme.pm.util.StatusKeyValueFinder"
-							p:addBlankOption="false" />
-					</property>
-				</bean>
-				<bean parent="Uif-InputField" p:propertyName="primaryDepartment"
-					p:readOnly="true" />
-				<bean parent="Uif-InputField" p:propertyName="positionType"
-					p:required="true" p:readOnly="true" />
-				<bean parent="Uif-InputField" p:propertyName="positionNumber"
-					p:required="true" p:readOnly="true" />
+				<bean parent="Uif-InputField" p:colSpan="3" p:propertyName="classificationTitle" />
+				<bean parent="Uif-InputField" p:propertyName="primaryDepartment" />
+				<bean parent="Uif-InputField" p:propertyName="location" />	
+				<bean parent="Uif-InputField" p:propertyName="positionType" />
+				<bean parent="Uif-InputField" p:propertyName="positionNumber" />
 			</list>
 		</property>
 	</bean>

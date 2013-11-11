@@ -29,6 +29,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.rice.location.impl.campus.CampusBo;
 import org.kuali.kpme.core.position.PositionBase;
+import org.kuali.kpme.core.salarygroup.SalaryGroup;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
@@ -39,6 +41,7 @@ import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
 import org.kuali.kpme.pm.position.funding.PositionFunding;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 
 public class Position extends PositionBase implements PositionContract {
 	private static final long serialVersionUID = 1L;
@@ -61,6 +64,7 @@ public class Position extends PositionBase implements PositionContract {
     private String salaryGroup;
     private String pmPositionClassId;
     private String classificationTitle;
+    private String location; // KPME-3016
 
     private BigDecimal percentTime;
     private int workMonths;
@@ -353,4 +357,16 @@ public class Position extends PositionBase implements PositionContract {
 		return primaryDepartment;
 	}
 
+	public String getLocation() {
+		SalaryGroupContract aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salaryGroup, this.getEffectiveLocalDate());
+		if (aSalGroup != null && !StringUtils.isEmpty(aSalGroup.getLocation())) {
+			return aSalGroup.getLocation();
+		}
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	
 }
