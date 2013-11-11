@@ -62,5 +62,37 @@ public class PMConstants {
         public static final String NAMESPACE_PREFIX = KPMEConstants.CacheNamespace.ROOT_NAMESPACE_PREFIX + "/"
                 + MODULE_NAME + "/";
     }
-
+    
+    
+    // Position Process Category
+    public static final String PSTN_PROCESS_NEW = "New";
+    public static final String PSTN_PROCESS_REORG = "Reorganization";
+    public static final String PSTN_PROCESS_RECLASS = "Reclassification";
+    public static final String PSTN_PROCESS_UPDATE = "Data Update";
+    public static final String PSTN_PROCESS_STATUS = "Change Status";
+    
+    public static final List<String> PSTN_PROCESS_LIST = new ArrayList<String>();
+	static {
+		 PSTN_PROCESS_LIST.add(PSTN_PROCESS_NEW);
+		 PSTN_PROCESS_LIST.add(PSTN_PROCESS_REORG);
+		 PSTN_PROCESS_LIST.add(PSTN_PROCESS_RECLASS);
+		 PSTN_PROCESS_LIST.add(PSTN_PROCESS_UPDATE);
+		 PSTN_PROCESS_LIST.add(PSTN_PROCESS_STATUS);
+	}
+	
+	// Position Status
+	public static final class PSTN_STATUS {
+		public static final String NEW = "New";
+	    public static final String FILLED = "Filled";
+	    public static final String VACANT = "Vacant";
+	    public static final String INACTIVE = "Inactive";
+	}
+	
+    public static final Map<String, String> PSTN_STATUS_MAP = new LinkedHashMap<String, String>(2);
+	static {
+		PSTN_STATUS_MAP.put(PSTN_STATUS.NEW, PSTN_STATUS.NEW);
+		PSTN_STATUS_MAP.put(PSTN_STATUS.FILLED, PSTN_STATUS.FILLED);
+		PSTN_STATUS_MAP.put(PSTN_STATUS.VACANT, PSTN_STATUS.VACANT);
+		PSTN_STATUS_MAP.put(PSTN_STATUS.INACTIVE, PSTN_STATUS.INACTIVE);
+	}
 }

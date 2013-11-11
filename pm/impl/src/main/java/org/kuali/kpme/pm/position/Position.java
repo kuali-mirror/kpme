@@ -72,6 +72,10 @@ public class Position extends PositionBase implements PositionContract {
     private String poolEligible;
     private int maxPoolHeadCount;
     private String tenureEligible;
+    
+    private String process;
+    private String positionStatus;
+    private String primaryDepartment;
 
     private CampusBo campusObj;
     
@@ -316,4 +320,37 @@ public class Position extends PositionBase implements PositionContract {
     public void setDepartmentList(List<PositionDepartment> departmentList) {
         this.departmentList = departmentList;
     }
+
+	public String getProcess() {
+		return process;
+	}
+
+	public void setProcess(String process) {
+		this.process = process;
+	}
+
+	public String getPositionStatus() {
+		return positionStatus;
+	}
+
+	public void setPositionStatus(String positionStatus) {
+		this.positionStatus = positionStatus;
+	}
+
+	public String getPrimaryDepartment() {
+
+		if (this.departmentList != null && this.departmentList.size() > 0) {
+			// For now, we will just return the first one
+			// go through department list and find primary department
+			//for (PositionDepartment department: this.departmentList) {
+			//	if department is primary
+			//     primaryDepartment = department.getDepartment();
+			//}
+			
+			primaryDepartment = departmentList.get(0).getDepartment();
+		}
+		
+		return primaryDepartment;
+	}
+
 }

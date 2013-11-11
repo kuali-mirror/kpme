@@ -60,6 +60,9 @@
 				<ref bean="Position-active" />
 				<ref bean="Position-timestamp" />
 				<ref bean="Position-category" />
+				<ref bean="Position-process" />
+				<ref bean="Position-positionStatus" />
+				<ref bean="Position-primaryDepartment" />
 			</list>
 		</property>
         <property name="relationships">
@@ -428,7 +431,34 @@
 	    </property>
 	    <property name="name" value="category"/>
 	    <property name="label" value="Category"/>
-	</bean> 	
+	</bean> 
+	
+	<bean id="Position-process" parent="Position-process-parentBean" />
+    <bean id="Position-process-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20" />
+        </property>
+        <property name="name" value="process" />
+        <property name="label" value="Process" />
+    </bean>
+    
+    <bean id="Position-positionStatus" parent="Position-positionStatus-parentBean" />
+    <bean id="Position-positionStatus-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10" />
+        </property>
+        <property name="name" value="positionStatus" />
+        <property name="label" value="Position Status" />
+    </bean>	
+    
+    <bean id="Position-primaryDepartment" parent="Position-primaryDepartment-parentBean" />
+    <bean id="Position-primaryDepartment-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10" />
+        </property>
+        <property name="name" value="primaryDepartment" />
+        <property name="label" value="Primary Department" />
+    </bean>	
 	
 	<!-- Position Qualification List, used by inquiry view -->
 	<bean id="Position-qualificationList" abstract="true"
