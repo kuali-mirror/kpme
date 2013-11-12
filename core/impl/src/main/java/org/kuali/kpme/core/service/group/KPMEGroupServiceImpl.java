@@ -49,7 +49,7 @@ public class KPMEGroupServiceImpl implements KPMEGroupService {
 			List<Predicate> predicates = new ArrayList<Predicate>();
 			predicates.add(equal("groupId", group.getId()));
 			predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
-			predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new DateTime())));
+			predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", asOfDate)));
 			
 			List<GroupMember> groupMembers = getGroupService().findGroupMembers(QueryByCriteria.Builder.fromPredicates(predicates.toArray(new Predicate[] {}))).getResults();
 	

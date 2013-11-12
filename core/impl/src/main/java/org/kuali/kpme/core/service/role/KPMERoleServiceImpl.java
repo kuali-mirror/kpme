@@ -91,7 +91,7 @@ public class KPMERoleServiceImpl implements KPMERoleService {
             List<Predicate> predicates = new ArrayList<Predicate>();
             predicates.add(equal(KimConstants.PrimaryKeyConstants.SUB_ROLE_ID, roleId));
             predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
-            predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new DateTime())));
+            predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", asOfDate)));
 
             LookupCustomizer.Builder<RoleMemberBo> builder = LookupCustomizer.Builder.create();
             builder.setPredicateTransform(AttributeTransform.getInstance());
@@ -184,7 +184,7 @@ public class KPMERoleServiceImpl implements KPMERoleService {
                     predicates.add(equal(KimConstants.PrimaryKeyConstants.SUB_ROLE_ID, role.getId()));
                     if (activeOnly) {
                         predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
-                        predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new DateTime())));
+                        predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", asOfDate)));
                     }
 
                     LookupCustomizer.Builder<RoleMemberBo> builder = LookupCustomizer.Builder.create();
@@ -476,7 +476,7 @@ public class KPMERoleServiceImpl implements KPMERoleService {
 
         if (activeOnly) {
             predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
-            predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new DateTime())));
+            predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", asOfDate)));
         }
 
         return getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates(predicates.toArray(new Predicate[] {}))).getResults();
@@ -517,7 +517,7 @@ public class KPMERoleServiceImpl implements KPMERoleService {
 		
 		if (activeOnly) {
 			predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
-			predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new DateTime())));
+			predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", asOfDate)));
 		}
 		
 		return getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates(predicates.toArray(new Predicate[] {}))).getResults();
