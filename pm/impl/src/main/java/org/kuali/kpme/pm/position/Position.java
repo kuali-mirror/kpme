@@ -17,6 +17,7 @@ package org.kuali.kpme.pm.position;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,9 +30,12 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
 import org.kuali.kpme.pm.api.position.PositionContract;
+import org.kuali.kpme.pm.api.positiondepartmentaffiliation.PositionDepartmentAffiliationContract;
+import org.kuali.kpme.pm.api.positiondepartmentaffiliation.service.PositionDepartmentAffiliationService;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
 import org.kuali.kpme.pm.position.funding.PositionFunding;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
+import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
@@ -74,6 +78,12 @@ public class Position extends PositionBase implements PositionContract {
     private String process;
     private String positionStatus;
     private String primaryDepartment;
+    private String reportsTo;
+    private Date expectedEndDate;
+    private String renewEligible;
+    private String temporary;
+    private String contract;
+    private String contractType;
     
     private String category;		// used to determine what fields should show when editing an existing maint doc
     
@@ -320,14 +330,16 @@ public class Position extends PositionBase implements PositionContract {
 	public String getPrimaryDepartment() {
 
 		if (this.departmentList != null && this.departmentList.size() > 0) {
-			// For now, we will just return the first one
-			// go through department list and find primary department
-			//for (PositionDepartment department: this.departmentList) {
-			//	if department is primary
-			//     primaryDepartment = department.getDepartment();
-			//}
-			
-			primaryDepartment = departmentList.get(0).getDepartment();
+
+			PositionDepartmentAffiliationService pdaService = PmServiceLocator.getPositionDepartmentAffiliationService();
+			for (PositionDepartment department: this.departmentList) {
+				
+				PositionDepartmentAffiliationContract pda = pdaService.getPositionDepartmentAffiliationByType(department.getPositionDeptAffl());
+				if (pda.isPrimaryIndicator()) {
+					primaryDepartment = department.getDepartment();
+					break;
+				} 
+			}
 		}
 		
 		return primaryDepartment;
@@ -339,6 +351,54 @@ public class Position extends PositionBase implements PositionContract {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public String getReportsTo() {
+		return reportsTo;
+	}
+
+	public void setReportsTo(String reportsTo) {
+		this.reportsTo = reportsTo;
+	}
+
+	public Date getExpectedEndDate() {
+		return expectedEndDate;
+	}
+
+	public void setExpectedEndDate(Date expectedEndDate) {
+		this.expectedEndDate = expectedEndDate;
+	}
+
+	public String getRenewEligible() {
+		return renewEligible;
+	}
+
+	public void setRenewEligible(String renewEligible) {
+		this.renewEligible = renewEligible;
+	}
+
+	public String getTemporary() {
+		return temporary;
+	}
+
+	public void setTemporary(String temporary) {
+		this.temporary = temporary;
+	}
+
+	public String getContract() {
+		return contract;
+	}
+
+	public void setContract(String contract) {
+		this.contract = contract;
+	}
+
+	public String getContractType() {
+		return contractType;
+	}
+
+	public void setContractType(String contractType) {
+		this.contractType = contractType;
 	}
 	
 }

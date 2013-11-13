@@ -37,6 +37,14 @@ public class PositionDepartmentAffiliationDaoObjImpl extends PlatformAwareDaoBas
         Query query = QueryFactory.newQuery(PositionDepartmentAffiliation.class, crit);
         return (PositionDepartmentAffiliation) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
+	
+	@Override
+	public PositionDepartmentAffiliation getPositionDepartmentAffiliationByType(String positionDeptAfflType) {
+		Criteria crit = new Criteria();
+        crit.addEqualTo("positionDeptAfflType", positionDeptAfflType);
+        Query query = QueryFactory.newQuery(PositionDepartmentAffiliation.class, crit);
+        return (PositionDepartmentAffiliation) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
 
 	@Override
 	public List<PositionDepartmentAffiliation> getPositionDepartmentAffiliationList(String positionDeptAfflType, LocalDate asOfDate) {

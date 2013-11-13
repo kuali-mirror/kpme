@@ -23,6 +23,7 @@ import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffilia
 public interface PositionDepartmentAffiliationDao {
 	
 	public PositionDepartmentAffiliation getPositionDepartmentAffiliationById(String pmPositionDeptAfflId);
+	public PositionDepartmentAffiliation getPositionDepartmentAffiliationByType(String positionDeptAfflType);
 	public List<PositionDepartmentAffiliation> getPositionDepartmentAffiliationList(String positionDeptAfflType, LocalDate asOfDate);
 	
 }

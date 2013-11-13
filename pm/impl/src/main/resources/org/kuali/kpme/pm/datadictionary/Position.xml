@@ -23,14 +23,6 @@
 	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
 	express or implied. See the License for the specific language governing permissions 
 	and limitations under the License. -->
-<!-- Copyright 2004-2013 The Kuali Foundation Licensed under the Educational 
-	Community License, Version 2.0 (the "License"); you may not use this file 
-	except in compliance with the License. You may obtain a copy of the License 
-	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
-	law or agreed to in writing, software distributed under the License is distributed 
-	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
-	express or implied. See the License for the specific language governing permissions 
-	and limitations under the License. -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -71,6 +63,12 @@
 				<ref bean="Position-process" />
 				<ref bean="Position-positionStatus" />
 				<ref bean="Position-primaryDepartment" />
+				<ref bean="Position-reportsTo" />
+				<ref bean="Position-expectedEndDate" />
+				<ref bean="Position-renewEligible" />
+				<ref bean="Position-temporary" />
+				<ref bean="Position-contract" />
+				<ref bean="Position-contractType" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -376,7 +374,6 @@
 		<property name="label" value="Tenure Eligible" />
 	</bean>
 
-
 	<bean id="Position-effectiveDate" parent="Position-effectiveDate-parentBean" />
 	<bean id="Position-effectiveDate-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -479,6 +476,93 @@
 		<property name="name" value="primaryDepartment" />
 		<property name="label" value="Primary Department" />
 	</bean>
+	
+	<bean id="Position-reportsTo" parent="Position-reportsTo-parentBean" />
+	<bean id="Position-reportsTo-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="40" />
+		</property>
+		<property name="name" value="reportsTo" />
+		<property name="label" value="Reports To" />
+	</bean>	
+	
+	<bean id="Position-expectedEndDate" parent="Position-expectedEndDate-parentBean" />
+	<bean id="Position-expectedEndDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Expected End Date" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-DateControl" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
+		<property name="name" value="expectedEndDate" />
+		<property name="label" value="Expected End Date" />
+	</bean>
+	
+	<bean id="Position-renewEligible" parent="Position-renewEligible-parentBean" />
+	<bean id="Position-renewEligible-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl">
+				<property name="options">
+					<list>
+						<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
+						<bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="name" value="renewEligible" />
+		<property name="label" value="Renewal Eligible" />
+	</bean>
+	
+	<bean id="Position-temporary" parent="Position-temporary-parentBean" />
+	<bean id="Position-temporary-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl">
+				<property name="options">
+					<list>
+						<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
+						<bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="name" value="temporary" />
+		<property name="label" value="Temporary" />
+	</bean>
+	
+	<bean id="Position-contract" parent="Position-contract-parentBean" />
+	<bean id="Position-contract-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl">
+				<property name="options">
+					<list>
+						<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
+						<bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="name" value="contract" />
+		<property name="label" value="Contract" />
+	</bean>
+
+	<bean id="Position-contractType" parent="Position-contractType-parentBean" />
+	<bean id="Position-contractType-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
+		<property name="name" value="contractType" />
+		<property name="label" value="Contract Type" />
+	</bean>	
 
 	<!-- Position Qualification List, used by inquiry view -->
 	<bean id="Position-qualificationList" abstract="true"
@@ -731,10 +815,19 @@
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
+				
+				    <!-- 
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.hr.pm.institution.Institution"
 							p:fieldConversions="institutionCode:institution" />
+					</property>   -->
+
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+							p:fieldConversions="institutionCode:institution" />
 					</property>
+					<property name="quickfinder.autoSearch" value="true" />
+
 				</bean>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="classificationTitle" />
@@ -1081,14 +1174,25 @@
 					</property>
 				</bean>
 
-				<bean parent="Uif-InputField" p:propertyName="location" />
+				<bean parent="Uif-InputField" p:propertyName="location">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+							p:fieldConversions="location:location" />
+					</property>
+				</bean>
 				<bean parent="Uif-InputField" p:propertyName="department">
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
 							p:fieldConversions="dept:department" />
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="positionDeptAffl" />
+				<bean parent="Uif-InputField" p:propertyName="positionDeptAffl">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript"
+							p:dataObjectClassName="org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation"
+							p:fieldConversions="positionDeptAfflType:positionDeptAffl" />
+					</property>
+				</bean>
 				<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
 				<bean parent="Uif-InputField" p:propertyName="active"
 					p:defaultValue="true" />

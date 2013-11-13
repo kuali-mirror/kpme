@@ -48,6 +48,11 @@ public class PositionDepartmentAffiliationServiceImpl implements PositionDepartm
 	}
 	
 	@Override
+	public PositionDepartmentAffiliation getPositionDepartmentAffiliationByType(String positionDeptAfflType) {
+		return this.positionDepartmentAffiliationDao.getPositionDepartmentAffiliationByType(positionDeptAfflType);
+	}
+	
+	@Override
 	public List<PositionDepartmentAffiliation> getPositionDepartmentAffiliationList(String positionDeptAfflType, LocalDate asOfDate) {
 		return this.positionDepartmentAffiliationDao.getPositionDepartmentAffiliationList(positionDeptAfflType, asOfDate);
 	}

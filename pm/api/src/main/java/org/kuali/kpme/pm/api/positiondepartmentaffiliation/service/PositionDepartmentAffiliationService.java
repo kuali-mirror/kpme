@@ -29,5 +29,12 @@ public interface PositionDepartmentAffiliationService {
 	 */
 	public PositionDepartmentAffiliationContract getPositionDepartmentAffiliationById(String pmPositionDeptAfflId);
 	
+	/**
+	 * retrieve the PositionDepartmentAffiliation with given affiliation type
+	 * @param positionDeptAfflType
+	 * @return
+	 */
+	public PositionDepartmentAffiliationContract getPositionDepartmentAffiliationByType(String positionDeptAfflType);
+	
 	public List<? extends PositionDepartmentAffiliationContract> getPositionDepartmentAffiliationList(String positionDeptAfflType, LocalDate asOfDate);
 }

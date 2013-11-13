@@ -23,12 +23,14 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.pm.api.positiondepartmentaffiliation.service.PositionDepartmentAffiliationService;
 import org.kuali.kpme.pm.position.Position;
 import org.kuali.kpme.pm.position.PositionDuty;
 import org.kuali.kpme.pm.position.PositionQualification;
 import org.kuali.kpme.pm.position.PstnFlag;
 import org.kuali.kpme.pm.position.funding.PositionFunding;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
+import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -191,6 +193,29 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
     	return true;
     
 	}
+	
+	//TODO: find out why it's not getting in here
+	@Override
+    public void addNewLineToCollection(String collectionName) {
+        if (collectionName.equals("departmentList")) {
+        	
+        	PositionDepartmentAffiliationService pdaService = PmServiceLocator.getPositionDepartmentAffiliationService();
+        	
+        	
+        	PositionDepartment aPositionDepartment = (PositionDepartment)newCollectionLines.get(collectionName);
+        	if(aPositionDepartment != null && aPositionDepartment.getPositionDeptAffl() != null) {
+				//PositionDepartmentAffiliation pda = (PositionDepartmentAffiliation)aPositionDepartment.getPositionDeptAfflObj();
+        		PositionDepartmentAffiliation pda = (PositionDepartmentAffiliation)pdaService.getPositionDepartmentAffiliationByType(aPositionDepartment.getPositionDeptAffl());
+				if (pda.isPrimaryIndicator()) {
+					Position aPosition = (Position)this.getDataObject();
+					aPosition.setLocation(aPositionDepartment.getLocation());
+					aPosition.setInstitution(aPositionDepartment.getInstitution());
+				}
+			}
+            
+        }
+       super.addNewLineToCollection(collectionName);
+    }
 
 
      /*
@@ -218,6 +243,8 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 		Position position = (Position)document.getDocumentDataObject();
 		String docDesc = "Position Number: " + position.getPositionNumber() + " Status: " + position.getProcess();
         document.getDocumentHeader().setDocumentDescription(docDesc);
+        
+        super.processAfterEdit(document, requestParameters);
     }
 	
 	@Override 
@@ -226,6 +253,8 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 		Position position = (Position)document.getDocumentDataObject();
 		String docDesc = "Position Number: " + position.getPositionNumber();
         document.getDocumentHeader().setDocumentDescription(docDesc);
+        
+        super.processAfterNew(document, requestParameters);
 	}
 	
 	//TODO:

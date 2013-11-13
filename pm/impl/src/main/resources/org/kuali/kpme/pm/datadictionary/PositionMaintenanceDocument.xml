@@ -118,7 +118,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="Pos-OverviewPage-Widgets" parent="Uif-VerticalBoxSection"
 		p:headerText="Overview">
 		<property name="items">
@@ -155,6 +155,12 @@
 							p:addBlankOption="false" />
 					</property>
 				</bean>
+				<bean parent="Uif-InputField" p:propertyName="reportsTo" />
+				<bean parent="Uif-InputField" p:propertyName="expectedEndDate" />
+				<bean parent="Uif-InputField" p:propertyName="renewEligible" p:required="true" />
+			    <bean parent="Uif-InputField" p:propertyName="temporary" p:required="true" />
+			    <bean parent="Uif-InputField" p:propertyName="contract" p:required="true" />
+				<bean parent="Uif-InputField" p:propertyName="contractType" />
 				<bean parent="Uif-InputField" p:propertyName="positionNumber"
 					p:readOnly="true" />
 			</list>
@@ -173,7 +179,8 @@
 		p:headerText="Classification">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="pmPositionClassId" p:required="true" >
+				<bean parent="Uif-InputField" p:propertyName="pmPositionClassId"
+					p:required="true">
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinder"
 							p:dataObjectClassName="org.kuali.kpme.pm.classification.Classification" />

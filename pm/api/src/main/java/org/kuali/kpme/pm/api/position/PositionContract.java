@@ -17,11 +17,13 @@ package org.kuali.kpme.pm.api.position;
 
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationContract;
 import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
+import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
 import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibilityContract;
 
 public interface PositionContract extends PositionBaseContract {
@@ -284,6 +286,93 @@ public interface PositionContract extends PositionBaseContract {
      * @return workMonths for Position
      */
     public int getWorkMonths();
+    
+    /**
+     * The Position Department List
+     *
+     * <p>
+     * departmentList of a Position.
+     * <p>
+     *
+     * @return List departmentList for Position
+     */
+    public List<? extends PositionDepartmentContract> getDepartmentList();
+    
+    /**
+     * The Position Status
+     *
+     * <p>
+     * positionStatus of a Position.
+     * <p>
+     *
+     * @return positionStatus for Position
+     */
+    public String getPositionStatus();
+    
+    /**
+     * The Position ID or Principal ID that the current Position reports to
+     *
+     * <p>
+     * reportsTo of a Position.
+     * <p>
+     *
+     * @return reportsTo for Position
+     */
+    public String getReportsTo();
+    
+    /**
+     * The date the Position is expected to end
+     *
+     * <p>
+     * expectedEndDate of a Position.
+     * <p>
+     *
+     * @return expectedEndDate for Position
+     */
+    public Date getExpectedEndDate();
+    
+    /**
+     * The flag to indicate if a contract position or position with an expected end date is eligible for renewal 
+     *
+     * <p>
+     * renewEligible of a Position.
+     * <p>
+     *
+     * @return renewEligible for Position
+     */
+    public String getRenewEligible();
+    
+    /**
+     * The informational flag indicating the position is temporary
+     *
+     * <p>
+     * temporary of a Position.
+     * <p>
+     *
+     * @return temporary for Position
+     */
+    public String getTemporary();
 
+    /**
+     * The informational flag indicating the position is a contract position
+     *
+     * <p>
+     * contract of a Position.
+     * <p>
+     *
+     * @return contract for Position
+     */
+    public String getContract();
+  
+    /**
+     * The Position Contract Type
+     *
+     * <p>
+     * contractType of a Position.
+     * <p>
+     *
+     * @return contractType for Position
+     */
+    public String getContractType();
 
 }
