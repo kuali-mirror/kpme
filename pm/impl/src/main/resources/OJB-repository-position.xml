@@ -337,7 +337,7 @@
         <field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
 
 		<field-descriptor name="pmPositionClassId"    	column="PM_PSTN_CL_ID"  jdbc-type="VARCHAR"     length="60" />
-        <field-descriptor name="campus"    				column="CAMPUS"			jdbc-type="VARCHAR"     length="15"  	nullable="false" />
+        <field-descriptor name="location"    			column="LOCATION"		jdbc-type="VARCHAR"     length="15" 	nullable="false" />
         <field-descriptor name="institution"    		column="INSTITUTION"	jdbc-type="VARCHAR"     length="15"  	nullable="false" />
 
         <field-descriptor name="salaryGroup"    		column="SAL_GROUP"		jdbc-type="VARCHAR"     length="10"  	nullable="false" />
@@ -353,6 +353,7 @@
         <field-descriptor name="poolEligible"       	column="POOL_ELIG"      jdbc-type="VARCHAR"     length="1" 	 	nullable="false" />
         <field-descriptor name="maxPoolHeadCount"   	column="MAX_POOL"		jdbc-type="TINYINT"		nullable="true" />
         <field-descriptor name="tenureEligible"         column="TNR_ELIG"       jdbc-type="VARCHAR"     length="1" 	 	nullable="false" />
+        <field-descriptor name="positionStatus"         column="PSTN_STATUS"    jdbc-type="VARCHAR"     length="20" 	nullable="false" />
 
  		<collection-descriptor name="qualificationList" element-class-ref="org.kuali.kpme.pm.position.PositionQualification"
          		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">

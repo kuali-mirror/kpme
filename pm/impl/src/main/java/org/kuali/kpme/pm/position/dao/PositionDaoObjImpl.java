@@ -39,7 +39,7 @@ public class PositionDaoObjImpl extends PlatformAwareDaoBaseOjb implements Posit
 	}
 
 	@Override
-	public List<Position> getPositions(String positionNum, String description, String campus,
+	public List<Position> getPositions(String positionNum, String description, String location,
             String institution, String classificationTitle, String positionType, String poolEligible,
 			LocalDate fromEffdt, LocalDate toEffdt, String active,
 			String showHistory) {
@@ -56,8 +56,8 @@ public class PositionDaoObjImpl extends PlatformAwareDaoBaseOjb implements Posit
             root.addLike("UPPER(`description`)", description.toUpperCase());
         }
 
-        if (StringUtils.isNotBlank(campus)) {
-            root.addLike("UPPER(`campus`)", campus.toUpperCase());
+        if (StringUtils.isNotBlank(location)) {
+            root.addLike("UPPER(`location`)", location.toUpperCase());
         }
 
         if (StringUtils.isNotBlank(institution)) {

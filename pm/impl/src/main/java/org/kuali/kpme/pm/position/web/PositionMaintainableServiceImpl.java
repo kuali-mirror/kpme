@@ -23,24 +23,18 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.pm.classification.Classification;
-import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
-import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
-import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
 import org.kuali.kpme.pm.position.Position;
 import org.kuali.kpme.pm.position.PositionDuty;
 import org.kuali.kpme.pm.position.PositionQualification;
 import org.kuali.kpme.pm.position.PstnFlag;
 import org.kuali.kpme.pm.position.funding.PositionFunding;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
-import org.kuali.kpme.pm.positionflag.PositionFlag;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
 public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl {
@@ -79,6 +73,15 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
         	aResponsibility.setHrPositionId(aPosition.getHrPositionId());
         	aResponsibility.setPositionResponsibilityId(null);
         }
+        
+        // temporary
+        if (StringUtils.isEmpty(aPosition.getLocation())) {
+        	aPosition.setLocation("*");
+        }
+        if (StringUtils.isEmpty(aPosition.getInstitution())) {
+        	aPosition.setInstitution("*");
+        }
+        
 	}
 	
 	@Override
@@ -213,7 +216,7 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 	public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
         //set document description
 		Position position = (Position)document.getDocumentDataObject();
-		String docDesc = "Editing Position Maintenance Document: " + position.getPositionNumber() + " Status: " + position.getProcess();
+		String docDesc = "Position Number: " + position.getPositionNumber() + " Status: " + position.getProcess();
         document.getDocumentHeader().setDocumentDescription(docDesc);
     }
 	
@@ -221,9 +224,22 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 	public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
 		//set document description
 		Position position = (Position)document.getDocumentDataObject();
-		String docDesc = "Creating Position Maintenance Document: " + position.getPositionNumber();
+		String docDesc = "Position Number: " + position.getPositionNumber();
         document.getDocumentHeader().setDocumentDescription(docDesc);
 	}
 	
-
+	//TODO:
+	//Document description needs to have been set already when you submit/save a document, so the above two methods are necessary.
+	//Need to find how to override the document description.  The method below is not working for some reason
+	/*
+	@Override
+    public void saveDataObject() {
+		
+		Position position = (Position)getDataObject();
+		String docDesc = "Position Number: " + position.getPositionNumber() + " Status: " + position.getProcess();
+		
+		String documentHeaderId = this.getDocumentNumber();
+		DocumentHeader documentHeader = KRADServiceLocatorWeb.getDocumentHeaderService().getDocumentHeaderById(documentHeaderId);
+		documentHeader.setDocumentDescription(docDesc);
+	}*/
 }

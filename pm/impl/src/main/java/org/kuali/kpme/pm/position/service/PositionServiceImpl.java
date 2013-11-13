@@ -32,10 +32,10 @@ public class PositionServiceImpl implements PositionService {
 	}
 	@Override
 	public List<Position> getPositions(String positionNum, String description,
-            String campus, String institution, String classificationTitle, String positionType,
+            String location, String institution, String classificationTitle, String positionType,
             String poolEligible, LocalDate fromEffdt, LocalDate toEffdt, String active,
 			String showHistory) {
-		return positionDao.getPositions(positionNum, description, campus, institution,
+		return positionDao.getPositions(positionNum, description, location, institution,
                 classificationTitle, positionType, poolEligible, fromEffdt, toEffdt, active, showHistory);
 	}
 	

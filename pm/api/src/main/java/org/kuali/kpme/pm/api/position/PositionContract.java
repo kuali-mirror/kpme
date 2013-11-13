@@ -16,16 +16,13 @@
 package org.kuali.kpme.pm.api.position;
 
 
-import org.kuali.kpme.core.api.position.PositionBaseContract;
+import java.math.BigDecimal;
+import java.util.List;
 
+import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationContract;
 import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
 import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibilityContract;
-
-//import org.kuali.rice.location.impl.campus.CampusBo;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 public interface PositionContract extends PositionBaseContract {
 
@@ -135,28 +132,15 @@ public interface PositionContract extends PositionBaseContract {
 
 
     /**
-     * The Position Campus
+     * The Position Location
      *
      * <p>
-     * campus of a Position.
+     * location of a Position.
      * <p>
      *
-     * @return campus for Position
+     * @return location for Position
      */
-    public String getCampus();
-
-
-    /**
-     * The Position Campus Business Object
-     *
-     * <p>
-     * campusObj of a Position.
-     * <p>
-     *
-     * @return campusObj for Position
-     */
-    //public CampusBo getCampusObj();
-    //DO find the right import for this
+    public String getLocation();
 
     /**
      * The Position Salary Group

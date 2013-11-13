@@ -15,33 +15,27 @@
  */
 package org.kuali.kpme.pm.position;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.math.BigDecimal;
-
-import com.google.common.collect.ImmutableList;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
-import org.kuali.rice.location.impl.campus.CampusBo;
+import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.kuali.kpme.core.position.PositionBase;
-import org.kuali.kpme.core.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
 import org.kuali.kpme.pm.api.position.PositionContract;
-import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
-import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
 import org.kuali.kpme.pm.position.funding.PositionFunding;
+import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
-import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
+
+import com.google.common.collect.ImmutableList;
 
 public class Position extends PositionBase implements PositionContract {
 	private static final long serialVersionUID = 1L;
@@ -60,11 +54,9 @@ public class Position extends PositionBase implements PositionContract {
     private List<PositionDepartment> departmentList = new ArrayList<PositionDepartment>();
 
     private String institution;
-    private String campus;
     private String salaryGroup;
     private String pmPositionClassId;
     private String classificationTitle;
-    private String location; // KPME-3016
 
     private BigDecimal percentTime;
     private int workMonths;
@@ -77,11 +69,11 @@ public class Position extends PositionBase implements PositionContract {
     private int maxPoolHeadCount;
     private String tenureEligible;
     
+    // KPME-3016
+    private String location; 
     private String process;
     private String positionStatus;
     private String primaryDepartment;
-
-    private CampusBo campusObj;
     
     private String category;		// used to determine what fields should show when editing an existing maint doc
     
@@ -202,22 +194,6 @@ public class Position extends PositionBase implements PositionContract {
 
     public void setInstitution(String institution) {
         this.institution = institution;
-    }
-
-    public String getCampus() {
-        return campus;
-    }
-
-    public void setCampus(String campus) {
-        this.campus = campus;
-    }
-
-    public CampusBo getCampusObj() {
-        return campusObj;
-    }
-
-    public void setCampusObj(CampusBo campusObj) {
-        this.campusObj = campusObj;
     }
 
     public String getSalaryGroup() {
@@ -358,10 +334,6 @@ public class Position extends PositionBase implements PositionContract {
 	}
 
 	public String getLocation() {
-		SalaryGroupContract aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salaryGroup, this.getEffectiveLocalDate());
-		if (aSalGroup != null && !StringUtils.isEmpty(aSalGroup.getLocation())) {
-			return aSalGroup.getLocation();
-		}
 		return location;
 	}
 
