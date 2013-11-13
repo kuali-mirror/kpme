@@ -21,7 +21,7 @@
     <!-- Business Keys - [positionReportType : effectiveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.pm.positionreporttype.PositionReportType" table="PM_PSTN_RPT_TYP_T">
         <field-descriptor name="pmPositionReportTypeId" column="PM_PSTN_RPT_TYP_ID"  jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_RPT_TYP_S" />
-        <field-descriptor name="positionReportType"      column="PSTN_RPT_TYP"			 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
+        <field-descriptor name="positionReportType"      column="PSTN_RPT_TYP"			 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="description"  			column="DESCRIPTION"     		 jdbc-type="VARCHAR"     length="100"  		nullable="true" />
         <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="location"    				column="LOCATION"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
@@ -36,7 +36,7 @@
     <!-- Business Keys - [positionReportGroup : effectiveDate : timestamp] -->	
     <class-descriptor class="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" table="PM_PSTN_RPT_GRP_T">
         <field-descriptor name="pmPositionReportGroupId" column="PM_PSTN_RPT_GRP_ID"  	 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_RPT_GRP_S" />
-        <field-descriptor name="positionReportGroup"      column="PSTN_RPT_GRP"			 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
+        <field-descriptor name="positionReportGroup"      column="PSTN_RPT_GRP"			 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="description"  			column="DESCRIPTION"     		 jdbc-type="VARCHAR"     length="100"  		nullable="true" />
         <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="location"    				column="LOCATION"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
@@ -52,7 +52,7 @@
     <class-descriptor class="org.kuali.kpme.pm.positionreportcat.PositionReportCategory" table="PM_PSTN_RPT_CAT_T">
         <field-descriptor name="pmPositionReportCatId" column="PM_PSTN_RPT_CAT_ID"  	 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_RPT_CAT_S" />
         <field-descriptor name="positionReportCat"     column="PSTN_RPT_CAT"			 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
-         <field-descriptor name="positionReportType"   column="PSTN_RPT_TYPE"			 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
+         <field-descriptor name="positionReportType"   column="PSTN_RPT_TYPE"			 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="description"  			column="DESCRIPTION"     		 jdbc-type="VARCHAR"     length="100"  		nullable="true" />
         <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="location"    				column="LOCATION"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
@@ -67,9 +67,9 @@
     <!-- Business Keys - [positionReportSubCat : effectiveDate : timestamp] -->	
     <class-descriptor class="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" table="PM_PSTN_RPT_SUB_CAT_T">
         <field-descriptor name="pmPositionReportSubCatId" column="PM_PSTN_RPT_SUB_CAT_ID"  	 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_RPT_SUB_CAT_S" />
-        <field-descriptor name="positionReportSubCat"     column="PSTN_RPT_SUB_CAT"			 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
-        <field-descriptor name="positionReportCat"     	  column="PSTN_RPT_CAT"			 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
-        <field-descriptor name="positionReportType"  	column="PSTN_RPT_TYPE"			 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
+        <field-descriptor name="positionReportSubCat"     column="PSTN_RPT_SUB_CAT"			 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
+        <field-descriptor name="positionReportCat"     	  column="PSTN_RPT_CAT"			 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
+        <field-descriptor name="positionReportType"  	column="PSTN_RPT_TYPE"			 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="description"  			column="DESCRIPTION"     		 jdbc-type="VARCHAR"     length="100"  		nullable="true" />
         <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="location"    				column="LOCATION"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
@@ -84,9 +84,9 @@
     <!-- Business Keys - [positionReportGroup : positionReportSubCat : effectiveDate : timestamp] -->	
     <class-descriptor class="org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory" table="PM_PSTN_RPT_GRP_SUB_CAT_T">
     	<field-descriptor name="pmPstnRptGrpSubCatId" 	column="PM_PSTN_RPT_GRP_SUB_CAT_ID"  	 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_RPT_GRP_SUB_CAT_S" />
-        <field-descriptor name="pstnRptGrpSubCat"     	column="PSTN_RPT_GRP_SUB_CAT"			 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
-        <field-descriptor name="positionReportGroup"    column="PSTN_RPT_GRP"			 		 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
-        <field-descriptor name="positionReportSubCat"   column="PSTN_RPT_SUB_CAT"		 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
+        <field-descriptor name="pstnRptGrpSubCat"     	column="PSTN_RPT_GRP_SUB_CAT"			 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
+        <field-descriptor name="positionReportGroup"    column="PSTN_RPT_GRP"			 		 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
+        <field-descriptor name="positionReportSubCat"   column="PSTN_RPT_SUB_CAT"		 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="description"  			column="DESCRIPTION"     		 jdbc-type="VARCHAR"     length="100"  		nullable="true" />
         <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="location"    				column="LOCATION"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
@@ -164,7 +164,7 @@
         <field-descriptor name="benefitsEligible"        column="BNFT_ELIG"           	jdbc-type="VARCHAR"     length="1" 			nullable="false" />
         <field-descriptor name="leaveEligible"          column="LV_ELIG"           		jdbc-type="VARCHAR"     length="1" 			nullable="false" />
         <field-descriptor name="leavePlan"    			column="LV_PLN"			 		jdbc-type="VARCHAR"     length="15" 		nullable="true" />
-        <field-descriptor name="positionReportGroup"    column="PSTN_RPT_GRP"			jdbc-type="VARCHAR"     length="10" 		nullable="true" />
+        <field-descriptor name="positionReportGroup"    column="PSTN_RPT_GRP"			jdbc-type="VARCHAR"     length="50" 		nullable="true" />
         <field-descriptor name="positionType"    		column="PSTN_TYP"				jdbc-type="VARCHAR"     length="10" 		nullable="false" />
         <field-descriptor name="poolEligible"       	column="POOL_ELIG"           	jdbc-type="VARCHAR"     length="1" 			nullable="false" />
         <field-descriptor name="tenureEligible"         column="TNR_ELIG"           	jdbc-type="VARCHAR"     length="1" 			nullable="false" />
@@ -233,7 +233,7 @@
    <!-- Position Classification Duty -->
     <class-descriptor class="org.kuali.kpme.pm.classification.duty.ClassificationDuty" table="PM_PSTN_CL_DUTY_T">
         <field-descriptor name="pmDutyId"   				column="PM_DUTY_ID"    		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_CL_DUTY_S" />
-        <field-descriptor name="name"    					column="NAME"      			jdbc-type="VARCHAR"     length="20" 		nullable="false" />
+        <field-descriptor name="name"    					column="NAME"      			jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="description"    			column="DESCR"             	jdbc-type="VARCHAR"     length="300" 		nullable="false" />
         <field-descriptor name="percentage"      			column="PRCTG"         		jdbc-type="DECIMAL"     length="10" 		nullable="true" />
         <field-descriptor name="pmPositionClassId"   		column="PM_PSTN_CL_ID"    	jdbc-type="VARCHAR"     length="60"  		nullable="false" />

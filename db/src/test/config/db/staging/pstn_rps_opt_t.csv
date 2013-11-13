@@ -1,0 +1,6 @@
+PSTN_RPS_OPT_ID,NAME,DESCRIPTION,EFFDT,ACTIVE,VER_NBR
+1,Instruction,Instruction,2010-01-01,Y,1
+2,Administrative,Administrative,2010-01-01,Y,1
+3,Research,Research and Scholarship,2010-01-01,Y,1
+4,Outreach,Outreach,2010-01-01,Y,1
+5,Service,Service and Other,2010-01-01,Y,1

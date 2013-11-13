@@ -190,4 +190,22 @@
             <column name="EFFDT" header="EFFDT" type="DATE" />
         </loadData>
     </changeSet>
+    
+    <changeSet id="8" author="yingzhou" context="kpme-client-staging">
+        <loadData tableName="PM_PSTN_CL_QLFCTN_T" file="src/test/config/db/staging/pm_pstn_cl_qlfctn_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="PM_PSTN_CL_FLAG_T" file="src/test/config/db/staging/pm_pstn_cl_flag_t.csv">
+         	<column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="PM_PSTN_CL_DUTY_T" file="src/test/config/db/staging/pm_pstn_cl_duty_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="PM_PSTN_CNTRCT_TYP_T" file="src/test/config/db/staging/pm_pstn_cntrct_typ_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+        <loadData tableName="PSTN_RPS_OPT_T" file="src/test/config/db/staging/pstn_rps_opt_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>        
+    </changeSet>
 </databaseChangeLog>

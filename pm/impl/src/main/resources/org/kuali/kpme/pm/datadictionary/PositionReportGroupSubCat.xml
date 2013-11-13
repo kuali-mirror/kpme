@@ -70,7 +70,7 @@
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Group Sub Category" />
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="20" />
+			<bean parent="Uif-TextControl" p:size="50" />
 		</property>
 		<property name="name" value="pstnRptGrpSubCat" />
 		<property name="label" value="Position Report Group Sub Category" />
@@ -82,7 +82,7 @@
 	<bean id="PositionReportGroupSubCat-positionReportGroup-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
 	    <property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
+			<bean parent="Uif-TextControl" p:size="50" />
 		</property>
 		<property name="name" value="positionReportGroup" />
 		<property name="label" value="Position Report Group" />

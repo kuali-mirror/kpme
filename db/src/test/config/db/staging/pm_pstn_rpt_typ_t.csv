@@ -2,3 +2,4 @@ PM_PSTN_RPT_TYP_ID,PSTN_RPT_TYP,DESCRIPTION,INSTITUTION,LOCATION,EFFDT,ACTIVE,OB
 1,Internal,Internal Report,UGA,GA,2010-01-01,Y,1,1
 2,State,State Report,UGA,GA,2010-01-01,Y,2,1
 3,Federal,Federal Report,UGA,GA,2010-01-01,Y,3,1
+4,Report Type,Reporting Type,%,%,2010-01-01,Y,4,1

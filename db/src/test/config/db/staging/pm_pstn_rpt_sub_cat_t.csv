@@ -8,3 +8,4 @@ PM_PSTN_RPT_SUB_CAT_ID,PSTN_RPT_SUB_CAT,PSTN_RPT_CAT,PSTN_RPT_TYPE,DESCRIPTION,I
 7,Faculty,IPEDS,Federal,Faculty,UGA,GA,2010-01-01,Y,7,1
 8,Other Prof,IPEDS,Federal,Other Professionals,UGA,GA,2010-01-01,Y,8,1
 9,Gen/Op Mgr,Bureau Labor Statistics,Federal,General and Operations Manager,UGA,GA,2010-01-01,Y,9,1
+10,Report Sub Category,Report Category,Report Type,Report Sub Category,%,%,2010-01-01,Y,10,1

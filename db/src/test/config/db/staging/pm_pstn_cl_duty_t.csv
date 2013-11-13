@@ -1,0 +1,17 @@
+PM_DUTY_ID,NAME,DESCR,PRCTG,PM_PSTN_CL_ID,VER_NBR
+1,Advising,"Assist undergraduates with scheduling, registration, degree audits and course selection, including study abroad options. Interpret academic policies and procedures and assists students concerning academic standards, dismissals and reinstatements.",45,7,1
+2,Administrative,Coordinate course registration and degree audit process. Assist with preparing materials for student services. Organize meetings between faculty and prospective students and their families.,30,7,1
+3,Prospective Student Advising and Recruiting,"Provide advising, procedural, and resource information to prospective students and parents. Connect with transfer institutions and community colleges to promote undergraduate programs.",15,7,1
+4,Orientation,Teach orientation courses and lead workshops for students and faculty.,5,7,1
+5,Other duties as assigned.,test,5,7,1
+6,Advising,"Advise undergraduates, including transfers, within a specific department/college on university policies and procedures, degree requirements, academic probations, warnings, and reinstatements. Serve as an advisor for student groups.",45,8,1
+7,Prospective Student Advising and Recruitment,Meets with prospective students and parents. Gives informational presentations to prospective students and other interested parties.,25,8,1
+8,Administrative,"Interpret academic policies and procedures for students. Maintain student/advisee records. Approve substitutions, waivers, minors and curriculum changes. Serve on committees as needed.",15,8,1
+9,Orientation and Teaching,Assist in developing and teaching departmental orientation sources.,10,8,1
+10,Other duties as assigned.,test,5,8,1
+11,Advising,"Guide students planning to enter graduate programs. Assist undecided students with selecting a major. Approve degree audit changes and requests for minors. Interpret college and university rules for students, faculty, and staff.",45,9,1
+12,Administration,"Manage student records, analyze enrollment data and trends, and prepare reports as requested. Coordinate advising activities. Serve on committees.",25,9,1
+13,Recruiting,Provide information to prospective students and family members. Participate in learning and outreach events. Develop transfer plans for community colleges. Create marketing materials for a college or program.,10,9,1
+14,Teaching,Teach one or more sections of orientation.,10,9,1
+15,Personnel,"Hire, train and supervise staff, which may include students, Merit, or PandS employees.",5,9,1
+16,Other duties as assigned.,test,5,9,1

@@ -223,7 +223,7 @@
 	<bean id="Classification-positionReportGroup-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Report Group" />
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
+			<bean parent="Uif-TextControl" p:size="50" />
 		</property>
 		<property name="name" value="positionReportGroup" />
 		<property name="label" value="Position Report Group" />
