@@ -122,9 +122,9 @@
 	
 	<bean id="PositionReportCat-positionReportType" parent="PositionReportCat-positionReportType-parentBean" />
 	<bean id="PositionReportCat-positionReportType-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="maxLength" value="10" />
+		<property name="maxLength" value="50" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
+			<bean parent="TextControlDefinition" p:size="50" />
 		</property>
 		<property name="name" value="positionReportType" />
 		<property name="label" value="Position Report Type" />
