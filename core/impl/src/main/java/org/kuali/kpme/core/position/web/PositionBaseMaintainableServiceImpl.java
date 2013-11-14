@@ -53,10 +53,11 @@ public class PositionBaseMaintainableServiceImpl extends HrBusinessObjectMaintai
         // This will not be needed once the copy link gets suppressed
         // KPME- 2247 set position number to null so that it will be auto generated
         if (getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
-        	position.setPositionNumber(null);
+//		    code commented for KPME-3024, position number will be generated in validation class now
+//        	position.setPositionNumber(null);
         	position.setTimestamp(null);
         }
-
+        
         KRADServiceLocator.getBusinessObjectService().save(position);
         CacheUtils.flushCache(PositionBase.CACHE_NAME);
     }

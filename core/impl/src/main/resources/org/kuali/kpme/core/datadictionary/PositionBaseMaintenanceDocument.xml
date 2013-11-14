@@ -60,7 +60,7 @@
                     <!--<bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.NextUniquePositionNumberFinder"/>-->
                     <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
                     <bean parent="Uif-InputField" p:propertyName="description" p:required="true"/>
-                    <bean parent="Uif-InputField" p:propertyName="active" p:required="true"/>
+                    <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
 			    </list>
 			</property>
 	    </bean>
