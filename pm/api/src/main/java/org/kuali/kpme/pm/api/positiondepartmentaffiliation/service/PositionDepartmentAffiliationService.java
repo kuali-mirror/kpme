@@ -37,4 +37,10 @@ public interface PositionDepartmentAffiliationService {
 	public PositionDepartmentAffiliationContract getPositionDepartmentAffiliationByType(String positionDeptAfflType);
 	
 	public List<? extends PositionDepartmentAffiliationContract> getPositionDepartmentAffiliationList(String positionDeptAfflType, LocalDate asOfDate);
+	
+	/**
+	 * Retrieve the list of all active affiliations	
+	 * @return
+	 */
+	public List<? extends PositionDepartmentAffiliationContract> getAllActiveAffiliations();
 }

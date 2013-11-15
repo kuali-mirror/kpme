@@ -57,5 +57,9 @@ public class PositionDepartmentAffiliationServiceImpl implements PositionDepartm
 		return this.positionDepartmentAffiliationDao.getPositionDepartmentAffiliationList(positionDeptAfflType, asOfDate);
 	}
 
+	@Override
+	public List<PositionDepartmentAffiliation> getAllActiveAffiliations() {
+		return this.positionDepartmentAffiliationDao.getAllActiveAffiliations();
+	}
 
 }

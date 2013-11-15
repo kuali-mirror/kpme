@@ -1190,10 +1190,11 @@
 					</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="positionDeptAffl">
-					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript"
-							p:dataObjectClassName="org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation"
-							p:fieldConversions="positionDeptAfflType:positionDeptAffl" />
+					<property name="control">
+						<bean parent="Uif-DropdownControl" />
+					</property>
+					<property name="optionsFinder">
+						<bean class="org.kuali.kpme.pm.util.DepartmentAffiliationKeyValueFinder" />
 					</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="effectiveDate" />

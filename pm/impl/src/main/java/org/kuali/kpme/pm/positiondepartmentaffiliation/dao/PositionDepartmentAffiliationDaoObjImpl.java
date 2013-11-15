@@ -72,5 +72,19 @@ public class PositionDepartmentAffiliationDaoObjImpl extends PlatformAwareDaoBas
 		
 		return pdaList;
 	}
+	
+	@Override
+	public List<PositionDepartmentAffiliation> getAllActiveAffiliations() {
+		List<PositionDepartmentAffiliation> aList = new ArrayList<PositionDepartmentAffiliation>();
+		Criteria root = new Criteria();
+		root.addEqualTo("active", true);
+		Query query = QueryFactory.newQuery(PositionDepartmentAffiliation.class, root);
+		
+		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		if(!c.isEmpty())
+			aList.addAll(c);
+		
+		return aList;
+	}
 
 }
