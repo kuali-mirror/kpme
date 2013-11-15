@@ -354,6 +354,13 @@
         <field-descriptor name="maxPoolHeadCount"   	column="MAX_POOL"		jdbc-type="TINYINT"		nullable="true" />
         <field-descriptor name="tenureEligible"         column="TNR_ELIG"       jdbc-type="VARCHAR"     length="1" 	 	nullable="false" />
         <field-descriptor name="positionStatus"         column="PSTN_STATUS"    jdbc-type="VARCHAR"     length="20" 	nullable="false" />
+        <field-descriptor name="appointmentType"        column="APPT_TYP"       jdbc-type="VARCHAR"     length="15" 	nullable="false" />
+        <field-descriptor name="reportsTo"         		column="REPORTS_TO"     jdbc-type="VARCHAR"     length="40" 	nullable="true" />
+        <field-descriptor name="expectedEndDate"        column="EXP_ENDDT" 		jdbc-type="DATE"     	nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" length="20" />
+        <field-descriptor name="renewEligible"          column="RENEW_ELIG"     jdbc-type="VARCHAR"     length="1" 		nullable="false" />
+        <field-descriptor name="temporary"         		column="TEMPORARY"    	jdbc-type="VARCHAR"     length="1" 		nullable="false" />
+        <field-descriptor name="contract"         		column="CONT"    		jdbc-type="VARCHAR"     length="1" 		nullable="false" />
+        <field-descriptor name="contractType"         	column="CONT_TYP"    	jdbc-type="VARCHAR"     length="10" 	nullable="true" />
 
  		<collection-descriptor name="qualificationList" element-class-ref="org.kuali.kpme.pm.position.PositionQualification"
          		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">

@@ -78,6 +78,7 @@ public class Position extends PositionBase implements PositionContract {
     private String process;
     private String positionStatus;
     private String primaryDepartment;
+    private String appointmentType;
     private String reportsTo;
     private Date expectedEndDate;
     private String renewEligible;
@@ -399,6 +400,14 @@ public class Position extends PositionBase implements PositionContract {
 
 	public void setContractType(String contractType) {
 		this.contractType = contractType;
+	}
+
+	public String getAppointmentType() {
+		return appointmentType;
+	}
+
+	public void setAppointmentType(String appointmentType) {
+		this.appointmentType = appointmentType;
 	}
 	
 }

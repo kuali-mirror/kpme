@@ -83,6 +83,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		if (aPosition.getEffectiveDate() == null
 				|| StringUtils.isEmpty(aPosition.getDescription())
 				|| StringUtils.isEmpty(aPosition.getPositionStatus())
+				|| StringUtils.isEmpty(aPosition.getAppointmentType())
 				|| StringUtils.isEmpty(aPosition.getRenewEligible())
 				|| StringUtils.isEmpty(aPosition.getTemporary())
 				|| StringUtils.isEmpty(aPosition.getContract())) {

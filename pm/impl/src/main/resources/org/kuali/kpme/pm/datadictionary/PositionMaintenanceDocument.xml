@@ -79,6 +79,7 @@
 			<bean parent="KPME-Uif-DocumentViewHeader" />
 		</property>
 		<property name="stickyHeader" value="true" />
+		<property name="applyDirtyCheck" value="false" />
 	</bean> <!-- maintenance -->
 
 	<!-- Navigation -->
@@ -155,12 +156,29 @@
 							p:addBlankOption="false" />
 					</property>
 				</bean>
+				<bean parent="Uif-InputField" p:propertyName="appointmentType" p:required="true">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript"
+							p:dataObjectClassName="org.kuali.kpme.pm.positionappointment.PositionAppointment"
+							p:fieldConversions="positionAppointment:appointmentType" />
+					</property>
+					<property name="quickfinder.autoSearch" value="true" />
+				</bean>
 				<bean parent="Uif-InputField" p:propertyName="reportsTo" />
 				<bean parent="Uif-InputField" p:propertyName="expectedEndDate" />
-				<bean parent="Uif-InputField" p:propertyName="renewEligible" p:required="true" />
-			    <bean parent="Uif-InputField" p:propertyName="temporary" p:required="true" />
-			    <bean parent="Uif-InputField" p:propertyName="contract" p:required="true" />
-				<bean parent="Uif-InputField" p:propertyName="contractType" />
+				<bean parent="Uif-InputField" p:propertyName="renewEligible"
+					p:required="true" />
+				<bean parent="Uif-InputField" p:propertyName="temporary"
+					p:required="true" />
+				<bean parent="Uif-InputField" p:propertyName="contract"
+					p:required="true" />
+				<bean parent="Uif-InputField" p:propertyName="contractType">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript"
+							p:dataObjectClassName="org.kuali.kpme.pm.pstncontracttype.PstnContractType"
+							p:fieldConversions="name:contractType" />
+					</property>
+				</bean>
 				<bean parent="Uif-InputField" p:propertyName="positionNumber"
 					p:readOnly="true" />
 			</list>

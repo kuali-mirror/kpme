@@ -63,6 +63,7 @@
 				<ref bean="Position-process" />
 				<ref bean="Position-positionStatus" />
 				<ref bean="Position-primaryDepartment" />
+				<ref bean="Position-appointmentType" />
 				<ref bean="Position-reportsTo" />
 				<ref bean="Position-expectedEndDate" />
 				<ref bean="Position-renewEligible" />
@@ -477,6 +478,16 @@
 		<property name="label" value="Primary Department" />
 	</bean>
 	
+	<bean id="Position-appointmentType" parent="Position-appointmentType-parentBean" />
+	<bean id="Position-appointmentType-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="15" />
+		</property>
+		<property name="name" value="appointmentType" />
+		<property name="label" value="Appointment Type" />
+	</bean>
+
 	<bean id="Position-reportsTo" parent="Position-reportsTo-parentBean" />
 	<bean id="Position-reportsTo-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -815,19 +826,11 @@
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
-				
-				    <!-- 
-					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.hr.pm.institution.Institution"
-							p:fieldConversions="institutionCode:institution" />
-					</property>   -->
-
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
 							p:fieldConversions="institutionCode:institution" />
 					</property>
 					<property name="quickfinder.autoSearch" value="true" />
-
 				</bean>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="classificationTitle" />
