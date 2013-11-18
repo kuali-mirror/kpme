@@ -85,6 +85,7 @@ public class BalanceTransferLookupableHelper extends KPMELookupableHelper {
 
 	private List<BalanceTransfer> filterByPrincipalId(
 			List<BalanceTransfer> transfers) {
+        //TODO - performance
 		if(!transfers.isEmpty()) {
 			Iterator<? extends BusinessObject> iter = transfers.iterator();
 			while(iter.hasNext()) {
@@ -99,7 +100,7 @@ public class BalanceTransferLookupableHelper extends KPMELookupableHelper {
 					if(job.isEligibleForLeave()) {
 						
 						String department = job != null ? job.getDept() : null;
-						DepartmentContract departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartment(department, effectiveLocalDate) : null;
+						DepartmentContract departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, effectiveLocalDate) : null;
 						String location = departmentObj != null ? departmentObj.getLocation() : null;
 
 			        	if (LmServiceLocator.getLMPermissionService().isAuthorizedInDepartment(userPrincipalId, "View Balance Transfer", department, effectiveDate)

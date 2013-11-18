@@ -55,7 +55,7 @@ public class LMFactBuilderServiceImpl extends KpmeKrmsFactBuilderServiceHelper {
             for (AssignmentContract a : assignable.getAssignments()) {
                 workAreas.add(String.valueOf(a.getWorkArea()));
                 depts.add(a.getDept());
-                DepartmentContract department = HrServiceLocator.getDepartmentService().getDepartment(a.getDept(), a.getEffectiveLocalDate());
+                DepartmentContract department = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(a.getDept(), a.getEffectiveLocalDate());
                 if (department != null
                         && department.isPayrollApproval()) {
                     factsBuilder.addFact(new Term("payrollProcessorApproval"), Boolean.TRUE);

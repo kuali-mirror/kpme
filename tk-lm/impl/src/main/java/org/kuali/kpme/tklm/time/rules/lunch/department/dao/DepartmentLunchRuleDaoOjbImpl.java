@@ -92,13 +92,9 @@ public class DepartmentLunchRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb imple
         if (StringUtils.isNotBlank(dept)) {
             Criteria workAreaCriteria = new Criteria();
             LocalDate asOfDate = LocalDate.now();
-            Collection<WorkArea> workAreasForDept = (Collection<WorkArea>) HrServiceLocator.getWorkAreaService().getWorkAreas(dept,asOfDate);
+            List<Long> workAreasForDept = HrServiceLocator.getWorkAreaService().getWorkAreasForDepartment(dept, asOfDate);
             if (CollectionUtils.isNotEmpty(workAreasForDept)) {
-                List<Long> longWorkAreas = new ArrayList<Long>();
-                for(WorkArea cwa : workAreasForDept){
-                    longWorkAreas.add(cwa.getWorkArea());
-                }
-                workAreaCriteria.addIn("workArea", longWorkAreas);
+                workAreaCriteria.addIn("workArea", workAreasForDept);
             }
             root.addAndCriteria(workAreaCriteria);
         }

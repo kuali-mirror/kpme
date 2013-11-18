@@ -26,6 +26,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.department.service.DepartmentService;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.department.dao.DepartmentDao;
@@ -95,7 +96,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 	
     @Override
-	public Department getDepartment(String department, LocalDate asOfDate) {
+	public DepartmentContract getDepartment(String department, LocalDate asOfDate) {
         Department departmentObj = departmentDao.getDepartment(department, asOfDate);
         
         if (departmentObj != null) {
@@ -104,6 +105,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 		return departmentObj;
 	}
+
+    @Override
+    public DepartmentContract getDepartmentWithoutRoles(String department, LocalDate asOfDate) {
+        return departmentDao.getDepartment(department, asOfDate);
+    }
 
 
     @Override
@@ -151,7 +157,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     	if (department != null && asOfDate != null 
     			&& CollectionUtils.isEmpty(department.getRoleMembers()) && CollectionUtils.isEmpty(department.getInactiveRoleMembers())) {
     		Set<RoleMember> roleMembers = new HashSet<RoleMember>();
-    		
+
 	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
 	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
 	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));

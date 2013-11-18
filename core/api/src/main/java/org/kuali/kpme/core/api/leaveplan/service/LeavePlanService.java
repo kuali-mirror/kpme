@@ -36,6 +36,9 @@ public interface LeavePlanService {
     @Cacheable(value= LeavePlanContract.CACHE_NAME, key="'leavePlan=' + #p0 + '|' + 'asOfDate=' + #p1")
     public LeavePlanContract getLeavePlan(String leavePlan, LocalDate asOfDate);
     
+    @Cacheable(value= LeavePlanContract.CACHE_NAME, key="'leavePlans=' + T(org.kuali.rice.core.api.cache.CacheKeyUtils).key(#p0) + '|' + 'asOfDate=' + #p1")
+    public List<? extends LeavePlanContract> getLeavePlans(List<String> leavePlan, LocalDate asOfDate);
+
     public boolean isValidLeavePlan(String leavePlan);
     
     public List<? extends LeavePlanContract> getAllActiveLeavePlan(String leavePlan, LocalDate asOfDate);
@@ -51,6 +54,9 @@ public interface LeavePlanService {
     
     public List<? extends LeavePlanContract> getLeavePlansNeedsCarryOverScheduled(int thresholdDays, LocalDate asOfDate);
 
+    @Cacheable(value= LeavePlanContract.CACHE_NAME, key="'{getFirstDayOfLeavePlan}' + 'leavePlan=' + #p0 + '|' + 'date=' + #p1")
     public DateTime getFirstDayOfLeavePlan(String leavePlan, LocalDate date);
+
+    @Cacheable(value= LeavePlanContract.CACHE_NAME, key="'{getRolloverDayOfLeavePlan}' + 'leavePlan=' + #p0 + '|' + 'date=' + #p1")
     public DateTime getRolloverDayOfLeavePlan(String leavePlan, LocalDate asOfDate);
 }

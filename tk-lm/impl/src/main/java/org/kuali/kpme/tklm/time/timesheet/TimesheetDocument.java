@@ -113,6 +113,9 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
 	}
 
 	public TimeSummary getTimeSummary() {
+        if (timeSummary == null) {
+            timeSummary = TkServiceLocator.getTimeSummaryService().getTimeSummary(this);
+        }
 		return timeSummary;
 	}
 

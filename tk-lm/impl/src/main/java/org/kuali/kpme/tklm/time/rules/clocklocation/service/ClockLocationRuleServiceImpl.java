@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -161,7 +162,7 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
     
     	for (ClockLocationRule clockLocationRuleObj : clockLocationRuleObjs) {
         	String department = clockLocationRuleObj.getDept();
-        	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, clockLocationRuleObj.getEffectiveLocalDate());
+        	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, clockLocationRuleObj.getEffectiveLocalDate());
         	String location = departmentObj != null ? departmentObj.getLocation() : null;
         	
         	Map<String, String> roleQualification = new HashMap<String, String>();

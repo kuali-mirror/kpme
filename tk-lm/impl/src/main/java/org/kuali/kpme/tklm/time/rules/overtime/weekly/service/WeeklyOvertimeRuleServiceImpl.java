@@ -201,7 +201,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
         String overtimeEarnCode = weeklyOvertimeRule.getConvertToEarnCode();
 
         // KPME-2554 use time block end date instead of passed in asOfDate
-        WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), timeBlock.getEndDateTime().toLocalDate());
+        WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(timeBlock.getWorkArea(), timeBlock.getEndDateTime().toLocalDate());
 		if (StringUtils.isNotBlank(workArea.getDefaultOvertimeEarnCode())){
 			overtimeEarnCode = workArea.getDefaultOvertimeEarnCode();
 		}

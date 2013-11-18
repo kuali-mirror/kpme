@@ -62,10 +62,11 @@ public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService 
     	Long workAreaToSearch = StringUtils.isEmpty(workArea) ? null : Long.parseLong(workArea);
     	
     	List<TimeCollectionRule> timeCollectionRuleObjs = timeCollectRuleDao.getTimeCollectionRules(dept, workAreaToSearch , payType, active, showHistory);
-    
+
+        //TODO - performance  too many db calls in loop
     	for (TimeCollectionRule timeCollectionRuleObj : timeCollectionRuleObjs) {
         	String department = timeCollectionRuleObj.getDept();
-        	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, timeCollectionRuleObj.getEffectiveLocalDate());
+        	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, timeCollectionRuleObj.getEffectiveLocalDate());
         	String location = departmentObj != null ? departmentObj.getLocation() : null;
         	Map<String, String> permissionDetails = new HashMap<String, String>();
         	permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, KRADServiceLocatorWeb.getDocumentDictionaryService().getMaintenanceDocumentTypeName(TimeCollectionRule.class));

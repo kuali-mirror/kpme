@@ -70,7 +70,7 @@ public class TimeBlockRenderer implements TimeBlockRendererContract {
     public String getTitle() {
         StringBuilder b = new StringBuilder();
 
-        WorkAreaContract wa = HrServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), LocalDate.now());
+        WorkAreaContract wa = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(timeBlock.getWorkArea(), LocalDate.now());
         if(wa != null) {
         	b.append(wa.getDescription());
         }

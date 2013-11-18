@@ -86,17 +86,17 @@ public class TkSearchableAttributeServiceImpl implements
 			}
 		}
 
-		for(Long workArea : workAreas){
-			WorkAreaContract workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, asOfDate);
+        List<? extends WorkAreaContract> workAreaList = HrServiceLocator.getWorkAreaService().getWorkAreasWithoutRoles(workAreas, asOfDate);
+		for(WorkAreaContract workAreaObj : workAreaList){
 			String department = workAreaObj != null ? workAreaObj.getDept() : null;
 			
 			if (department != null) {
 				if(deptToListOfWorkAreas.containsKey(department)){
 					List<Long> deptWorkAreas = deptToListOfWorkAreas.get(workAreaObj.getDept());
-					deptWorkAreas.add(workArea);
+					deptWorkAreas.add(workAreaObj.getWorkArea());
 				} else {
 					List<Long> deptWorkAreas = new ArrayList<Long>();
-					deptWorkAreas.add(workArea);
+					deptWorkAreas.add(workAreaObj.getWorkArea());
 					deptToListOfWorkAreas.put(department, deptWorkAreas);
 				}
 			}

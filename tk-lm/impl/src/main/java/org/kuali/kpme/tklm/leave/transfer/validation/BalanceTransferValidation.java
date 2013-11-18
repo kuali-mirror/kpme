@@ -388,7 +388,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 					if(job.isEligibleForLeave()) {
 						
 						String department = job != null ? job.getDept() : null;
-						DepartmentContract departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(effectiveDate)) : null;
+						DepartmentContract departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, LocalDate.fromDateFields(effectiveDate)) : null;
 						String location = departmentObj != null ? departmentObj.getLocation() : null;
 						//logged in user may only submit documents for principals in authorized departments / location.
 			        	if (LmServiceLocator.getLMPermissionService().isAuthorizedInDepartment(userPrincipalId, "Create Balance Transfer", department, new DateTime(effectiveDate.getTime()))

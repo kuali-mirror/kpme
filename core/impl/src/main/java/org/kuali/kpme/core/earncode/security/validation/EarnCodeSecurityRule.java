@@ -63,16 +63,14 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
         if (StringUtils.equals(departmentEarnCode.getLocation(), HrConstants.WILDCARD_CHARACTER)) {
             return true;
         }
-        List<DepartmentContract> depts = (List<DepartmentContract>) HrServiceLocator.getDepartmentService().getDepartments(departmentEarnCode.getLocation(), departmentEarnCode.getEffectiveLocalDate());
+        List<String> depts = HrServiceLocator.getDepartmentService().getDepartmentsForLocation(departmentEarnCode.getLocation(), departmentEarnCode.getEffectiveLocalDate());
         if (depts.isEmpty()) {
 
             this.putFieldError("dept", "error.department.location.nomatch", departmentEarnCode.getDept());
             return false;
         } else {
-            for (DepartmentContract dept : depts) {
-                if (StringUtils.equals(dept.getDept(),departmentEarnCode.getDept())) {
-                    return true;
-                }
+            if (depts.contains(departmentEarnCode.getDept())) {
+                return true;
             }
             this.putFieldError("dept", "error.department.location.nomatch", departmentEarnCode.getDept());
             return false;
@@ -114,10 +112,12 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		
 		String principalId = GlobalVariables.getUserSession().getPrincipalId();
 		String department = departmentEarnCode.getDept();
-		DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
+		DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, LocalDate.now());
 		String location = departmentObj != null ? departmentObj.getLocation() : null;
 
         DateTime asOfDate = LocalDate.now().toDateTimeAtStartOfDay();
+
+        //TODO - performance
 		if (!HrContext.isSystemAdmin() 
 				&& !HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, asOfDate)
     			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, asOfDate)

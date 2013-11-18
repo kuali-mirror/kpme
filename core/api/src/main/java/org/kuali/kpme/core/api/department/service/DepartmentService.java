@@ -50,6 +50,15 @@ public interface DepartmentService {
     DepartmentContract getDepartment(String department, LocalDate asOfDate);
 
     /**
+     * Fetch department by id without sub kim role member data
+     * @param department
+     * @param asOfDate
+     * @return Department
+     */
+    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartmentWithoutRoles}' + 'department=' + #p0 + '|' + 'asOfDate=' + #p1")
+    DepartmentContract getDepartmentWithoutRoles(String department, LocalDate asOfDate);
+
+    /**
      * Fetches a list of Department objects as of the specified date all of which
      * belong to the indicated location.
      *

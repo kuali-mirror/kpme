@@ -154,7 +154,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 
 	private boolean validateConsistentLocation(Job job) {
 		String department = job.getDept();
-		DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, job.getEffectiveLocalDate());
+		DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, job.getEffectiveLocalDate());
 		LocationContract location = HrServiceLocator.getLocationService().getLocation(job.getLocation(), job.getEffectiveLocalDate());
 		if(departmentObj != null && location != null) {
 			if(departmentObj.getLocation().equals(location.getLocation())) {

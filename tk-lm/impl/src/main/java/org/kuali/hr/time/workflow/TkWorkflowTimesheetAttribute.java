@@ -86,7 +86,7 @@ public class TkWorkflowTimesheetAttribute extends AbstractRoleAttribute {
 		List<Id> principals = new ArrayList<Id>();
 		String routeHeaderId = routeContext.getDocument().getDocumentId();
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId.toString());
-		WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, timesheetDocument.getAsOfDate());
+		WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(workAreaNumber, timesheetDocument.getAsOfDate());
 
 		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 		

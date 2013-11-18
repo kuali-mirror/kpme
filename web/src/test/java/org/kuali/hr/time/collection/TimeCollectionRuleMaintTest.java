@@ -196,7 +196,7 @@ public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
 		KRADServiceLocator.getBusinessObjectService().delete(
 				timeCollectionRuleObj);
 
-		DepartmentContract deptObj = HrServiceLocator.getDepartmentService().getDepartment(TEST_CODE_DEPARTMENT_VALID, LocalDate.now());
+		DepartmentContract deptObj = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(TEST_CODE_DEPARTMENT_VALID, LocalDate.now());
 		KRADServiceLocator.getBusinessObjectService().delete(deptObj);
 		super.tearDown();
 	}

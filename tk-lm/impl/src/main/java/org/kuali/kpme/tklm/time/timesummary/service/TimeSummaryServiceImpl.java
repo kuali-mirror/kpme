@@ -43,6 +43,7 @@ import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
+import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -304,8 +305,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 										assignment.setJob(aJob);
 									}
 									if(assignment.getWorkAreaObj() == null){
-										WorkArea aWorkArea = (WorkArea) HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), assignment.getEffectiveLocalDate());
-										assignment.setWorkAreaObj(aWorkArea);
+										WorkAreaContract aWorkArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(assignment.getWorkArea(), assignment.getEffectiveLocalDate());
+										assignment.setWorkAreaObj((WorkArea)aWorkArea);
 									}
 									assignRow.setDescr(assignment.getAssignmentDescription());
 								}

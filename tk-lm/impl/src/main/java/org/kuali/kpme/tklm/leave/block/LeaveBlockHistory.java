@@ -97,7 +97,7 @@ public class LeaveBlockHistory extends LeaveBlock implements LeaveBlockHistoryCo
 		LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(super.getLmLeaveBlockId());
 		if(lb != null){
 			if (lb.getWorkArea() != null) {
-				WorkAreaContract wa = HrServiceLocator.getWorkAreaService().getWorkArea(
+				WorkAreaContract wa = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(
 					lb.getWorkArea(), LocalDate.now());
 				if (wa != null) {
 					b.append(wa.getDescription());

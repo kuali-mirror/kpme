@@ -38,6 +38,7 @@ import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
@@ -189,12 +190,13 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 
         Set<String> leavePlans = getLeavePlans(principalId, startDate, endDate);
         PrincipalHRAttributes pha = getPrincipalHrAttributes(principalId, startDate, endDate);
-        if (CollectionUtils.isNotEmpty(leavePlans)) {
-            for(String aLpString : leavePlans) {
-                LeavePlan lp = (LeavePlan) HrServiceLocator.getLeavePlanService().getLeavePlan(aLpString, startDate);
-                if(lp == null) {
-                    continue;
-                }
+        List<? extends LeavePlanContract> leavePlanList = HrServiceLocator.getLeavePlanService().getLeavePlans(new ArrayList<String>(leavePlans), startDate);
+        if (CollectionUtils.isNotEmpty(leavePlanList)) {
+            LeaveCalendarDocumentHeader approvedLcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getMaxEndDateApprovedLeaveCalendar(principalId);
+            //until we have something that creates carry over, we need to grab everything.
+            // Calculating leave bLocks from Calendar Year start instead of Service Date
+            Map<String, LeaveBlock> carryOverBlocks = getLeaveBlockService().getLastCarryOverBlocks(principalId, startDate);
+            for(LeavePlanContract lp : leavePlanList) {
                 DateTimeFormatter formatter = DateTimeFormat.forPattern("MMMM d");
                 DateTimeFormatter formatter2 = DateTimeFormat.forPattern("MMMM d yyyy");
                 DateTime entryEndDate = endDate.toDateTimeAtStartOfDay();
@@ -204,7 +206,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                 String aString = formatter.print(startDate) + " - " + formatter2.print(entryEndDate);
                 ls.setPendingDatesString(aString);
 
-                LeaveCalendarDocumentHeader approvedLcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getMaxEndDateApprovedLeaveCalendar(principalId);
+
                 if(approvedLcdh != null) {
                     DateTime endApprovedDate = approvedLcdh.getEndDateTime();
                     LocalDateTime aLocalTime = approvedLcdh.getEndDateTime().toLocalDateTime();
@@ -216,9 +218,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                     ls.setYtdDatesString(datesString);
                 }
 
-                //until we have something that creates carry over, we need to grab everything.
-                // Calculating leave bLocks from Calendar Year start instead of Service Date
-                Map<String, LeaveBlock> carryOverBlocks = getLeaveBlockService().getLastCarryOverBlocks(principalId, startDate);
+
                 
                 boolean filterByAccrualCategory = false;
                 if (StringUtils.isNotEmpty(accrualCategory)) {
@@ -278,7 +278,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 
                             //handle up to current leave blocks
                             //CalendarEntry.getEndPeriodDate passed to fetch leave block amounts on last day of Calendar period
-                            assignApprovedValuesToRow(lsr, ac.getAccrualCategory(), leaveBlockMap.get(ac.getAccrualCategory()), lp, startDate, endDate);
+                            assignApprovedValuesToRow(lsr, ac.getAccrualCategory(), leaveBlockMap.get(ac.getAccrualCategory()), (LeavePlan)lp, startDate, endDate);
 
                             //how about the leave blocks on the calendar entry being currently handled??
 /*                            if(carryOverBlocks.containsKey(lsr.getAccrualCategory())) {
@@ -299,6 +299,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             Set<String> keyset = new HashSet<String>();
                             keyset.addAll(lsr.getPriorYearsUsage().keySet());
                             keyset.addAll(lsr.getPriorYearsTotalAccrued().keySet());
+                            EmployeeOverride carryOverOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), ac.getAccrualCategory(), "MAC", endDate);
+
                             for (String key : keyset) {
                                 BigDecimal value = lsr.getPriorYearsTotalAccrued().get(key);
                                 if (value == null) {
@@ -307,24 +309,24 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                 carryOver = carryOver.add(value);
                                 BigDecimal use = lsr.getPriorYearsUsage().containsKey(key) ? lsr.getPriorYearsUsage().get(key) : BigDecimal.ZERO;
                                 carryOver = carryOver.add(use);
-                                EmployeeOverride carryOverOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), ac.getAccrualCategory(), "MAC", endDate);
                  	 	 	 	if (acRule != null  && acRule.getMaxCarryOver() != null) {
                  	 	 	 		BigDecimal carryOverDisplay = BigDecimal.ZERO;
-                 	 	 	 		if(carryOverOverride != null)
+                 	 	 	 		if(carryOverOverride != null) {
                  	 	 	 			carryOverDisplay = new BigDecimal(carryOverOverride.getOverrideValue() < carryOver.longValue() ? carryOverOverride.getOverrideValue() : carryOver.longValue());
-                 	 	 	 		else
+                                    } else {
                  	 	 	 			carryOverDisplay =  new BigDecimal(acRule.getMaxCarryOver() < carryOver.longValue() ? acRule.getMaxCarryOver() : carryOver.longValue());
+                                    }
                  	 	 	 		carryOver = carryOverDisplay;
                  	 	 	 	}
                             }
                             
                             lsr.setCarryOver(carryOver);
                             if (acRule != null && acRule.getMaxCarryOver() != null) {
-                            	EmployeeOverride carryOverOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), ac.getAccrualCategory(), "MAC", endDate);
-                 	 	 	 	if(carryOverOverride != null)
+                 	 	 	 	if(carryOverOverride != null) {
                  	 	 	 		lsr.setMaxCarryOver(new BigDecimal(carryOverOverride.getOverrideValue()));
-                 	 	 	 	else
+                                } else {
                  	 	 	 		lsr.setMaxCarryOver(new BigDecimal(acRule.getMaxCarryOver() < carryOver.longValue() ? acRule.getMaxCarryOver() : carryOver.longValue()));
+                                }
                             }
 
                             //handle future leave blocks
@@ -359,7 +361,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                         LeaveSummaryRow otherLeaveSummary = new LeaveSummaryRow();
                         //otherLeaveSummary.setAccrualCategory("Other");
 
-                        assignApprovedValuesToRow(otherLeaveSummary, null, leaveBlockMap.get(null), lp, startDate, endDate);
+                        assignApprovedValuesToRow(otherLeaveSummary, null, leaveBlockMap.get(null), (LeavePlan)lp, startDate, endDate);
                         BigDecimal carryOver = BigDecimal.ZERO.setScale(2);
                         for (Map.Entry<String, BigDecimal> entry : otherLeaveSummary.getPriorYearsTotalAccrued().entrySet()) {
                             carryOver = carryOver.add(entry.getValue());

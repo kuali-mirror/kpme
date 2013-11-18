@@ -50,7 +50,7 @@ public class AuthorizationValidationUtils {
     	if (departmentalRule != null) {
 	    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
 	    	String department = departmentalRule.getDept();
-	    	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
+	    	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 	    	
 	        if (!HrConstants.WILDCARD_CHARACTER.equals(department)) {
@@ -85,7 +85,7 @@ public class AuthorizationValidationUtils {
         if (departmentalRule != null) {
 	    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
 	    	String department = departmentalRule.getDept();
-	    	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
+	    	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, LocalDate.now());
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 	        
 	        if (!HrConstants.WILDCARD_CHARACTER.equals(department)) {
@@ -126,7 +126,7 @@ public class AuthorizationValidationUtils {
         	String principalId = GlobalVariables.getUserSession().getPrincipalId();
         	Long workArea = departmentalRule.getWorkArea();
         	String department = departmentalRule.getDept();
-        	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
+        	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, LocalDate.now());
     		String location = departmentObj != null ? departmentObj.getLocation() : null;
             
             if (HrConstants.WILDCARD_CHARACTER.equals(department) && HrConstants.WILDCARD_LONG.equals(workArea)) {

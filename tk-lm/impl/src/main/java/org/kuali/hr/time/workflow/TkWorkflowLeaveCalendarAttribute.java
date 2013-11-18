@@ -88,7 +88,7 @@ public class TkWorkflowLeaveCalendarAttribute extends AbstractRoleAttribute {
 		LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(routeHeaderId);
 		WorkAreaContract workArea = null;
 		if (leaveCalendarDocument != null) {
-			workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leaveCalendarDocument.getAsOfDate());
+			workArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(workAreaNumber, leaveCalendarDocument.getAsOfDate());
 		}
 
 		List<RoleMember> roleMembers = new ArrayList<RoleMember>();

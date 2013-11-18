@@ -260,7 +260,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
             }
         }
         for(Long workArea : workAreas){
-            WorkAreaContract workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, leaveBlock.getLeaveLocalDate());
+            WorkAreaContract workAreaObj = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(workArea, leaveBlock.getLeaveLocalDate());
             if(deptToListOfWorkAreas.containsKey(workAreaObj.getDept())){
                 List<Long> deptWorkAreas = deptToListOfWorkAreas.get(workAreaObj.getDept());
                 deptWorkAreas.add(workArea);

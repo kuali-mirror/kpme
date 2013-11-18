@@ -100,7 +100,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     	
     	for (Assignment assignmentObj : assignmentObjs) {
         	String department = assignmentObj.getDept();
-        	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, assignmentObj.getEffectiveLocalDate());
+        	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, assignmentObj.getEffectiveLocalDate());
         	String location = departmentObj != null ? departmentObj.getLocation() : null;
         	
         	Map<String, String> roleQualification = new HashMap<String, String>();

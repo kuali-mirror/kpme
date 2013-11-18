@@ -146,7 +146,7 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
     
     	for (DeptLunchRule departmentLunchRuleObj : departmentLunchRuleObjs) {
         	String department = departmentLunchRuleObj.getDept();
-        	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, departmentLunchRuleObj.getEffectiveLocalDate());
+        	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, departmentLunchRuleObj.getEffectiveLocalDate());
         	String location = departmentObj != null ? departmentObj.getLocation() : null;
         	
         	Map<String, String> roleQualification = new HashMap<String, String>();

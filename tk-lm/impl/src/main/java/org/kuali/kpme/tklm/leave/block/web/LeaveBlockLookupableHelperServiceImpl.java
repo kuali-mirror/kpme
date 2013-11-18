@@ -173,7 +173,7 @@ public class LeaveBlockLookupableHelperServiceImpl extends KPMELookupableImpl  {
 				JobContract job = HrServiceLocator.getJobService().getJob(lb.getPrincipalId(), lb.getJobNumber(), LocalDate.fromDateFields(lb.getLeaveDate()), false);
 				String department = job != null ? job.getDept() : null;
 				
-				DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(lb.getLeaveDate()));
+				DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, LocalDate.fromDateFields(lb.getLeaveDate()));
 				String location = departmentObj != null ? departmentObj.getLocation() : null;
 				
 				boolean valid = false;

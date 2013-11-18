@@ -178,7 +178,7 @@ public class ActionFormUtils {
         for (TimeBlock timeBlock : timeBlocks) {
             Map<String, Object> timeBlockMap = new LinkedHashMap<String, Object>();
 
-            WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), timeBlock.getEndDateTime().toLocalDate());
+            WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(timeBlock.getWorkArea(), timeBlock.getEndDateTime().toLocalDate());
             String workAreaDesc = workArea.getDescription();
 
             timeBlockMap.put("isApprover", isAnyApprover);

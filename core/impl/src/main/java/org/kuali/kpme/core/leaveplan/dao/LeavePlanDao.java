@@ -30,6 +30,8 @@ public interface LeavePlanDao {
 	public LeavePlan getLeavePlan(String lmLeavePlanId);
 	
 	public LeavePlan getLeavePlan(String leavePlan, LocalDate asOfDate);
+
+    public List<LeavePlan> getLeavePlans(List<String> leavePlan, LocalDate asOfDate);
 	
 	public int getNumberLeavePlan(String leavePlan);
 	

@@ -15,14 +15,12 @@
  */
 package org.kuali.kpme.tklm.time.detail.validation;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.Days;
+import org.joda.time.DurationFieldType;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -48,6 +46,10 @@ import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 public class TimeDetailValidationUtil extends CalendarValidationUtil {
 
     public static List<String> validateLeaveEntry(TimeDetailActionFormBase tdaf) throws Exception {
@@ -63,6 +65,14 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
 			errorMsgList.addAll(CalendarValidationUtil.validateEarnCode(tdaf.getSelectedEarnCode(),tdaf.getStartDate(),tdaf.getEndDate()));
 			if(errorMsgList.isEmpty()) {
 				LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(HrContext.getTargetPrincipalId(), TKUtils.formatDateString(tdaf.getEndDate()));
+				
+				  BigDecimal leaveAmount = tdaf.getLeaveAmount();
+                  if(leaveAmount == null) {
+	                  Long startTime = TKUtils.convertDateStringToDateTimeWithoutZone(tdaf.getStartDate(), tdaf.getStartTime()).getMillis();
+	                  Long endTime = TKUtils.convertDateStringToDateTimeWithoutZone(tdaf.getEndDate(), tdaf.getEndTime()).getMillis();
+	                  leaveAmount = TKUtils.getHoursBetween(startTime, endTime);
+                  }
+				
 				// Validate LeaveBlock timings and all that
 				/**
 				 * In all cases, TIME, AMOUNT, HOUR, DAY, we should validate usage and balance limits. But depending on earn code record method, the derivation of requested
@@ -72,12 +82,12 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
 				 */
 				errorMsgList.addAll(TimeDetailValidationUtil.validateLeaveParametersByEarnCodeRecordMethod(tdaf));
 				errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalanceForUsage(tdaf.getSelectedEarnCode(), 
-						tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
+						tdaf.getStartDate(), tdaf.getEndDate(), leaveAmount, lb));
 				//Validate leave block does not exceed max usage. Leave Calendar Validators at this point rely on a leave summary.
 		        errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, tdaf.getSelectedEarnCode(),
-		                tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
+		                tdaf.getStartDate(), tdaf.getEndDate(), leaveAmount, lb));
 		        errorMsgList.addAll(LeaveCalendarValidationUtil.validateHoursUnderTwentyFour(tdaf.getSelectedEarnCode(),
-		        		tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount()));
+		        		tdaf.getStartDate(), tdaf.getEndDate(),leaveAmount));
 			}
 		}
 		return errorMsgList;
@@ -414,8 +424,27 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
                 	DateTime start_dt_timezone = new DateTime(startTime);
                 	DateTime end_dt_timezone = new DateTime(endTime);
                 	Interval converted_intv = new Interval(start_dt_timezone.getMillis(), end_dt_timezone.getMillis()); // interval with start/end datetime in server timezone
-                	if (isRegularEarnCode && timeBlockInterval.overlaps(converted_intv) && (timeblockId == null || timeblockId.compareTo(timeBlock.getTkTimeBlockId()) != 0)) {
-                        errors.add("The time block you are trying to add overlaps with an existing time block.");
+                    List<Interval> intervals = new ArrayList<Interval>();
+                    if (acrossDays) {
+                        List<LocalDate> localDates = new ArrayList<LocalDate>();
+                        LocalDate startDay = new LocalDate(start_dt_timezone);
+                        int days = Days.daysBetween(startDay, new LocalDate(end_dt_timezone)).getDays()+1;
+                        for (int i=0; i < days; i++) {
+                            LocalDate d = startDay.withFieldAdded(DurationFieldType.days(), i);
+                            localDates.add(d);
+                        }
+                        for (LocalDate localDate : localDates) {
+                            intervals.add(new Interval(localDate.toDateTime(start_dt_timezone.toLocalTime()), localDate.toDateTime(end_dt_timezone.toLocalTime())));
+                        }
+
+                    } else {
+                        intervals.add(converted_intv);
+                    }
+
+                    for (Interval interval : intervals) {
+                        if (isRegularEarnCode && timeBlockInterval.overlaps(interval) && (timeblockId == null || timeblockId.compareTo(timeBlock.getTkTimeBlockId()) != 0)) {
+                            errors.add("The time block you are trying to add overlaps with an existing time block.");
+                        }
                     }
                 }
             }

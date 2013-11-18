@@ -237,7 +237,8 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 		
         if(!objectList.isEmpty()) {
         	Iterator<? extends BusinessObject> itr = objectList.iterator();
-			
+
+            //TODO - performance  reduce db calls in loop?
         	while (itr.hasNext()) {
 				TimeBlock tb = (TimeBlock) itr.next();
 				
@@ -246,7 +247,7 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 				JobContract job = HrServiceLocator.getJobService().getJob(tb.getPrincipalId(), tb.getJobNumber(), LocalDate.fromDateFields(tb.getBeginDate()), false);
 				String department = job != null ? job.getDept() : null;
 				
-				DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(tb.getBeginDate()));
+				DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, LocalDate.fromDateFields(tb.getBeginDate()));
 				String location = departmentObj != null ? departmentObj.getLocation() : null;
 				
 				boolean valid = false;

@@ -15,11 +15,7 @@
  */
 package org.kuali.kpme.tklm.common;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -54,9 +50,8 @@ public abstract class CalendarApprovalFormAction extends ApprovalFormAction {
 
 		if (calendarApprovalForm.getCalendarDocument() != null) {
 			calendarApprovalForm.setSelectedPayCalendarGroup(calendarApprovalForm.getCalendarDocument().getCalendarEntry().getCalendarName());
-
 			for (Assignment assignment : calendarApprovalForm.getCalendarDocument().getAssignments()) {
-				WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), assignment.getEffectiveLocalDate());
+				WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(assignment.getWorkArea(), assignment.getEffectiveLocalDate());
 				if (calendarApprovalForm.getDepartments().contains(workArea.getDept())) {
 					calendarApprovalForm.setSelectedDept(workArea.getDept());
 					break;

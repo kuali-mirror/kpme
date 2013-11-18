@@ -49,6 +49,15 @@ public interface WorkAreaService {
     WorkAreaContract getWorkArea(Long workArea, LocalDate asOfDate);
 
     /**
+     * Fetch WorkArea as of a particular date without role sub object data
+     * @param workArea
+     * @param asOfDate
+     * @return
+     */
+    @Cacheable(value= WorkAreaContract.CACHE_NAME, key="'{getWorkAreasWithoutRoles}' + 'workArea=' + #p0 + '|' + 'asOfDate=' + #p1")
+    WorkAreaContract getWorkAreaWithoutRoles(Long workArea, LocalDate asOfDate);
+
+    /**
      * Fetch WorkArea as of a particular date.
      * This method will not populate the WorkArea role information in order to speed up the method
      * If the role sub-objects are needed, please use a different method.

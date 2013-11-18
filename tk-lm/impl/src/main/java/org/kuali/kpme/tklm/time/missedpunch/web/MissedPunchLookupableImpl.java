@@ -194,12 +194,13 @@ public class MissedPunchLookupableImpl extends KPMELookupableImpl {
 
 	private List<MissedPunch> filterByPrincipalId(List<MissedPunch> missedPunches, String principalId) {
 		List<MissedPunch> results = new ArrayList<MissedPunch>();
-		
+
+        //TODO - performance  too many db calls in loop
 		for (MissedPunch missedPunch : missedPunches) {
 			JobContract jobObj = HrServiceLocator.getJobService().getJob(missedPunch.getPrincipalId(), missedPunch.getJobNumber(), LocalDate.fromDateFields(missedPunch.getActionDate()));
 			String department = jobObj != null ? jobObj.getDept() : null;
 			
-			DepartmentContract departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(missedPunch.getActionDate())) : null;
+			DepartmentContract departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, LocalDate.fromDateFields(missedPunch.getActionDate())) : null;
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 			
 			Map<String, String> roleQualification = new HashMap<String, String>();

@@ -33,7 +33,7 @@
       	<ref bean="LeaveBlock-documentId" />
       	<ref bean="LeaveBlock-userPrincipalId" />
         <ref bean="LeaveBlock-timestamp" />
-        <ref bean="LeaveBlock-beginDate" />
+<!--         <ref bean="LeaveBlock-beginDate" /> -->
         <ref bean="LeaveBlock-accrualGenerated" />
         <ref bean="LeaveBlock-scheduleTimeOffId" />
         <ref bean="LeaveBlock-accrualCategory" />
@@ -43,6 +43,7 @@
         <ref bean="LeaveBlock-workArea" />
         <ref bean="LeaveBlock-task" />
         <ref bean="LeaveBlock-leaveCalendarDocumentHeader" />
+        <ref bean="LeaveBlock-leaveDate" />
         </list>
     </property>
     	<property name="relationships">
@@ -160,9 +161,24 @@
 		<property name="label" value="Time Stamp" />
 	</bean>  
 	
-	<bean id="LeaveBlock-beginDate" parent="LeaveBlock-beginDate-parentBean" />
-	<bean id="LeaveBlock-beginDate-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Date" />
+<!-- 	<bean id="LeaveBlock-beginDate" parent="LeaveBlock-beginDate-parentBean" /> -->
+<!-- 	<bean id="LeaveBlock-beginDate-parentBean" abstract="true" parent="AttributeDefinition"> -->
+<!-- 		<property name="shortLabel" value="Date" /> -->
+<!-- 		<property name="maxLength" value="10" /> -->
+<!-- 		<property name="validationPattern"> -->
+<!-- 			<bean parent="DateValidationPattern" /> -->
+<!-- 		</property> -->
+<!-- 		<property name="control"> -->
+<!-- 			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" /> -->
+<!-- 		</property> -->
+<!-- 		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" /> -->
+<!-- 		<property name="name" value="beginDate" /> -->
+<!-- 		<property name="label" value="Date" /> -->
+<!-- 	</bean>  -->
+	
+	<bean id="LeaveBlock-leaveDate" parent="LeaveBlock-leaveDate-parentBean" />
+	<bean id="LeaveBlock-leaveDate-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Leave Date" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
 			<bean parent="DateValidationPattern" />
@@ -171,10 +187,9 @@
 			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
 		</property>
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="beginDate" />
-		<property name="label" value="Date" />
+		<property name="name" value="leaveDate" />
+		<property name="label" value="Leave Date" />
 	</bean> 
-
 
   <bean id="LeaveBlock-principalId" parent="LeaveBlock-principalId-parentBean"/>
   <bean id="LeaveBlock-principalId-parentBean" abstract="true" parent="AttributeDefinition">
@@ -313,6 +328,7 @@
               <bean parent="Uif-DataField" p:propertyName="jobNumber" />
               <bean parent="Uif-DataField" p:propertyName="workArea"/>
               <bean parent="Uif-DataField" p:propertyName="earnCode"/>
+              <bean parent="Uif-DataField" p:propertyName="leaveDate"/>
               <bean parent="Uif-DataField" p:propertyName="leaveAmount"/>
         	  <bean parent="Uif-DataField" p:propertyName="requestStatus" />
         	  <bean parent="Uif-DataField" p:propertyName="accrualGenerated" />
@@ -386,7 +402,7 @@
   					<bean parent="Uif-DropdownControl"/>
   				</property>
   			</bean>
-  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="beginDate" p:ranged="true" p:label="Begin Date">
+  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="leaveDate" p:ranged="true" p:label="Leave Date">
   				<property name="control">
   					<bean parent="Uif-DateControl" p:watermarkText="MM/DD/YYYY"/>
   				</property>
@@ -400,6 +416,7 @@
   			<bean parent="Uif-DataField" p:propertyName="jobNumber"/>
   			<bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
   			<bean parent="Uif-DataField" p:propertyName="earnCode"/>
+  			<bean parent="Uif-DataField" p:propertyName="leaveDate"/>
   			<bean parent="Uif-DataField" p:propertyName="workArea"/>
   			<bean parent="Uif-DataField" p:propertyName="task"/>
   			<bean parent="Uif-DataField" p:propertyName="accrualGenerated"/>

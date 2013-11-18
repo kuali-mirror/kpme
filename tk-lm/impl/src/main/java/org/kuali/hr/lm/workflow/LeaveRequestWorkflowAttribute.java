@@ -91,7 +91,7 @@ public class LeaveRequestWorkflowAttribute extends AbstractRoleAttribute {
         String routeHeaderId = routeContext.getDocument().getDocumentId();
         LeaveRequestDocument leaveRequestDocument = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(routeHeaderId);
         LeaveBlock leaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leaveRequestDocument.getLmLeaveBlockId());
-        WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leaveBlock.getLeaveLocalDate());
+        WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(workAreaNumber, leaveBlock.getLeaveLocalDate());
 
         List<RoleMember> roleMembers = new ArrayList<RoleMember>();
         

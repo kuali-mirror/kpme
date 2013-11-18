@@ -48,6 +48,10 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 	public LeavePlan getLeavePlan(String leavePlan, LocalDate asOfDate) {
 		return getLeavePlanDao().getLeavePlan(leavePlan, asOfDate);
 	}
+
+    public List<LeavePlan> getLeavePlans(List<String> leavePlans, LocalDate asOfDate) {
+        return getLeavePlanDao().getLeavePlans(leavePlans, asOfDate);
+    }
    
 	@Override
 	public boolean isValidLeavePlan(String leavePlan){

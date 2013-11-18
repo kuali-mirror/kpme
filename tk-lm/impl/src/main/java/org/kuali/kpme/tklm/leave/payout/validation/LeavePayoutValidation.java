@@ -24,6 +24,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.job.Job;
@@ -415,14 +416,15 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 		else {
 			boolean canCreate = false;
 			if(!StringUtils.equals(principalId,userPrincipalId)) {
-				List<Job> principalsJobs = (List<Job>) HrServiceLocator.getJobService().getActiveLeaveJobs(principalId, LocalDate.fromDateFields(effectiveDate));
-				for(Job job : principalsJobs) {
+				List<? extends JobContract> principalsJobs = HrServiceLocator.getJobService().getActiveLeaveJobs(principalId, LocalDate.fromDateFields(effectiveDate));
+				//TODO - performance get job/dept map in 1 query?
+                for(JobContract job : principalsJobs) {
 					
 					
 					if(job.isEligibleForLeave()) {
 						
 						String department = job != null ? job.getDept() : null;
-						DepartmentContract departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(effectiveDate)) : null;
+						DepartmentContract departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, LocalDate.fromDateFields(effectiveDate)) : null;
 						String location = departmentObj != null ? departmentObj.getLocation() : null;
 
 						//logged in user may ONLY submit documents for principals in authorized departments / location.

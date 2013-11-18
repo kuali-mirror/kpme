@@ -101,7 +101,7 @@ public class ClockLogLookupableHelper extends KPMELookupableHelper {
             JobContract jobObj = HrServiceLocator.getJobService().getJob(clockLog.getPrincipalId(), clockLog.getJobNumber(), LocalDate.fromDateFields(clockLog.getClockTimestamp()), false);
             String department = jobObj != null ? jobObj.getDept() : null;
 
-            DepartmentContract departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(clockLog.getClockTimestamp())) : null;
+            DepartmentContract departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, LocalDate.fromDateFields(clockLog.getClockTimestamp())) : null;
             String location = departmentObj != null ? departmentObj.getLocation() : null;
 
             Map<String, String> roleQualification = new HashMap<String, String>();

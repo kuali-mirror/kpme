@@ -168,9 +168,9 @@ public class TimesheetServiceImpl implements TimesheetService {
             }
         }
 
-        if (timesheetDocument != null) {
-        	timesheetDocument.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(timesheetDocument));
-        }
+        //if (timesheetDocument != null) {
+        //	timesheetDocument.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(timesheetDocument));
+        //}
         
         return timesheetDocument;
     }

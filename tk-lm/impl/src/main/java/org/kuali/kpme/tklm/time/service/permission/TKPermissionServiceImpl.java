@@ -217,7 +217,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
 		// use job to find the department, then use the location from Department to get the location roles 
 		JobContract aJob = HrServiceLocator.getJobService().getJob(aTimeBlock.getPrincipalId(), aTimeBlock.getJobNumber(), aTimeBlock.getEndDateTime().toLocalDate());
 		if(aJob != null) {
-			DepartmentContract aDept = HrServiceLocator.getDepartmentService().getDepartment(aJob.getDept(), aJob.getEffectiveLocalDate());
+			DepartmentContract aDept = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(aJob.getDept(), aJob.getEffectiveLocalDate());
 			if(aDept != null) {
 				// TimeLocationAdmin
 			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), aDept.getLocation(), asOfDate))
@@ -328,7 +328,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             	return updateCanEditOvtPerm(principalId, perms, true);
             
             Long workArea = timeBlock.getWorkArea();
-            WorkAreaContract workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, timeBlock.getEndDateTime().toLocalDate());
+            WorkAreaContract workAreaObj = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(workArea, timeBlock.getEndDateTime().toLocalDate());
             String department = workAreaObj.getDept();
             DateTime tbDateTime = timeBlock.getBeginDateTime();	// datetime used to retrieve user roles
             

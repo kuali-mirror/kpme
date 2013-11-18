@@ -67,12 +67,13 @@ public class TimeBlockHistoryLookupableHelperServiceImpl extends KPMELookupableI
 	
 	private List<TimeBlockHistory> filterByPrincipalId(List<TimeBlockHistory> timeBlockHistories, String principalId) {
 		List<TimeBlockHistory> results = new ArrayList<TimeBlockHistory>();
-		
+
+        //TODO - performance  too many db calls in loop
 		for (TimeBlockHistory timeBlockHistory : timeBlockHistories) {
 			JobContract jobObj = HrServiceLocator.getJobService().getJob(timeBlockHistory.getPrincipalId(), timeBlockHistory.getJobNumber(), LocalDate.fromDateFields(timeBlockHistory.getBeginDate()), false);
 			String department = jobObj != null ? jobObj.getDept() : null;
 
-			DepartmentContract departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(timeBlockHistory.getBeginDate())) : null;
+			DepartmentContract departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, LocalDate.fromDateFields(timeBlockHistory.getBeginDate())) : null;
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 
 			Map<String, String> roleQualification = new HashMap<String, String>();
