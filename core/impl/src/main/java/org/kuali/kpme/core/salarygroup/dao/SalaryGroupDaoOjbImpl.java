@@ -70,7 +70,7 @@ public class SalaryGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Sa
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<SalaryGroup> getSalaryGroups(String hrSalGroup, String institution, String location, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory, String payGrade) {
+    public List<SalaryGroup> getSalaryGroups(String hrSalGroup, String institution, String location, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
         List<SalaryGroup> results = new ArrayList<SalaryGroup>();
     	
     	Criteria root = new Criteria();
@@ -89,11 +89,7 @@ public class SalaryGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Sa
         if (StringUtils.isNotBlank(leavePlan)) {
             root.addLike("UPPER(`lv_pln`)", leavePlan.toUpperCase());
         }
-
-        //KPME-3052
-        if (StringUtils.isNotBlank(payGrade)) {
-            root.addLike("UPPER(`pay_grade`)", payGrade.toUpperCase());
-        }
+        
         
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {

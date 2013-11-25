@@ -50,6 +50,7 @@ public class Classification extends HrBusinessObject implements ClassificationCo
 	private String location;
 	// salary group fields
 	private String salaryGroup;
+    private String payGrade;
 	private BigDecimal percentTime;
 	private String benefitsEligible;
 	private String leaveEligible;
@@ -134,7 +135,15 @@ public class Classification extends HrBusinessObject implements ClassificationCo
 		this.salaryGroup = salaryGroup;
 	}
 
-	public BigDecimal getPercentTime() {
+    public String getPayGrade() {
+        return payGrade;
+    }
+
+    public void setPayGrade(String payGrade) {
+        this.payGrade = payGrade;
+    }
+
+    public BigDecimal getPercentTime() {
 		return percentTime;
 	}
 

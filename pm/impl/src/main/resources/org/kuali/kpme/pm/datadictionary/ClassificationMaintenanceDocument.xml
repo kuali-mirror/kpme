@@ -105,6 +105,13 @@
 				   	   </property>
 				   	   <property name="quickfinder.autoSearch" value="true"/>
 			       </bean>
+                   <bean parent="Uif-InputField" p:propertyName="payGrade">
+                       <property name="quickfinder">
+                           <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paygrade.PayGrade"
+                                 p:fieldConversions="payGrade:payGrade"/>
+                       </property>
+                       <property name="quickfinder.autoSearch" value="true"/>
+                   </bean>
 			       <bean parent="Uif-InputField" p:propertyName="percentTime" p:exclusiveMin="0" p:inclusiveMax="100"
 			        	 p:constraintText="Must be a number between 0 and 100.">
 			        	<property name="validCharactersConstraint">

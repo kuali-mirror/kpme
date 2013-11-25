@@ -46,6 +46,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 			valid &= this.validateReportingGroup(clss);
 			valid &= this.validatePositionType(clss);
 			valid &= this.validatePercentTime(clss);
+            valid &= this.validatePayGrade(clss);
 		}
 		return valid;
 	}
@@ -186,5 +187,17 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 		}		
 		return true;
 	}
+
+    private boolean validatePayGrade(Classification clss) {
+        if (StringUtils.isNotEmpty(clss.getPayGrade()) && !ValidationUtils.validatePayGrade(clss.getPayGrade(), clss.getSalaryGroup(), clss.getEffectiveLocalDate())) {
+            String[] params = new String[2];
+            params[0] = clss.getPayGrade();
+            params[1] = clss.getSalaryGroup();
+            this.putFieldError("dataObject.payGrade", "salaryGroup.contains.payGrade", params);
+            return false;
+        } else {
+            return true;
+        }
+    }
 	
 }

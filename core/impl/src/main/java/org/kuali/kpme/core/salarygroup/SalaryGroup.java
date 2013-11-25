@@ -48,9 +48,8 @@ public class SalaryGroup extends HrBusinessObject implements SalaryGroupContract
 	private String benefitsEligible;
 	private String leaveEligible;
 	private String leavePlan;
-    private String payGrade;
 
-    @Override
+	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
 			.put(HR_SAL_GROUP, this.getHrSalGroup())
@@ -152,11 +151,4 @@ public class SalaryGroup extends HrBusinessObject implements SalaryGroupContract
 		this.location = location;
 	}
 
-    public String getPayGrade() {
-        return payGrade;
-    }
-
-    public void setPayGrade(String payGrade) {
-        this.payGrade = payGrade;
-    }
 }

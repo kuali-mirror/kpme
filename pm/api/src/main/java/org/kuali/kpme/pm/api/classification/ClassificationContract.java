@@ -85,6 +85,17 @@ public interface ClassificationContract extends HrBusinessObjectContract {
 	 */
 	public String getSalaryGroup();
 
+    /**
+     * The Pay Grade to be assigned to Position Classification
+     *
+     * <p>
+     * payGrade for the Classification.
+     * <p>
+     *
+     * @return payGrade for Classification
+     */
+    public String getPayGrade();
+
 	/**
 	 * The maximum percentage of time worked for the position classification
 	 * 

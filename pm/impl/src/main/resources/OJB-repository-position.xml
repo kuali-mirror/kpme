@@ -160,6 +160,7 @@
         <field-descriptor name="institution"    		column="INSTITUTION"			jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="location"    				column="LOCATION"					jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="salaryGroup"    		column="SAL_GROUP"				jdbc-type="VARCHAR"     length="10" 		nullable="false" />
+        <field-descriptor name="payGrade"    		column="PAY_GRADE"				jdbc-type="VARCHAR"     length="20" 		nullable="true" />
         <field-descriptor name="percentTime"      		column="PRCT_TM"         		jdbc-type="DECIMAL"     length="10" 		nullable="false" />
         <field-descriptor name="benefitsEligible"        column="BNFT_ELIG"           	jdbc-type="VARCHAR"     length="1" 			nullable="false" />
         <field-descriptor name="leaveEligible"          column="LV_ELIG"           		jdbc-type="VARCHAR"     length="1" 			nullable="false" />

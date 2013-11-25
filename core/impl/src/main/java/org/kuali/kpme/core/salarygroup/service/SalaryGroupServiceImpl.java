@@ -46,7 +46,7 @@ public class SalaryGroupServiceImpl implements SalaryGroupService {
 	}
 
     @Override
-    public List<SalaryGroup> getSalaryGroups(String salGroup, String institution, String location, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist, String payGrade) {
-        return salaryGroupDao.getSalaryGroups(salGroup, institution, location, leavePlan, fromEffdt, toEffdt, active, showHist, payGrade);
+    public List<SalaryGroup> getSalaryGroups(String salGroup, String institution, String location, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
+        return salaryGroupDao.getSalaryGroups(salGroup, institution, location, leavePlan, fromEffdt, toEffdt, active, showHist);
     }
 }
