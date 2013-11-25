@@ -140,4 +140,15 @@ public interface SalaryGroupContract extends HrBusinessObjectContract {
 	 * @return location for SalaryGroup
 	 */
 	public String getLocation();
+
+    /**
+     * The name of the Location the salary group is associated with.
+     *
+     * <p>
+     * payGrade of a SalaryGroup
+     * <p>
+     *
+     * @return payGrade for SalaryGroup
+     */
+    public String getPayGrade();
 }

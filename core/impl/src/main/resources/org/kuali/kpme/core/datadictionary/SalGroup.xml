@@ -37,6 +37,7 @@
 	        <ref bean="SalaryGroup-effectiveDate"/>
 	        <ref bean="SalaryGroup-hrSalGroup"/>
 	        <ref bean="SalaryGroup-descr"/>
+            <ref bean="SalaryGroup-payGrade"/>
 	        <ref bean="SalaryGroup-institution"/>
 	        <ref bean="SalaryGroup-location"/>
 	        <ref bean="SalaryGroup-percentTime"/>
@@ -47,7 +48,7 @@
 	        <ref bean="SalaryGroup-active"/>
 		 </list>
 	    </property>
-	    <property name="objectLabel" value="SalaryGroup"/>
+	    <property name="objectLabel" value="payGrade"/>
   	</bean>
 
 <!-- Attribute Definitions -->  
@@ -98,7 +99,24 @@
 		<property name="label" value="Description" />
 		<property name="description" value="description" />
 	</bean>
-	
+
+    <bean id="SalaryGroup-payGrade" parent="SalaryGroup-payGrade-parentBean"/>
+    <bean id="SalaryGroup-payGrade-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="payGrade" />
+        <property name="required" value="false" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20" />
+        </property>
+        <property name="name" value="payGrade" />
+        <property name="label" value="Pay Grade" />
+    </bean>
+
 	<bean id="SalaryGroup-institution" parent="SalaryGroup-institution-parentBean" />
 	<bean id="SalaryGroup-institution-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
@@ -227,13 +245,19 @@
     <property name="criteriaFields">
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrSalGroup" />       
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrSalGroup" />
+          <bean parent="Uif-LookupCriteriaInputField" p:propertyName="payGrade">
+              <property name="quickfinder">
+                  <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paygrade.PayGrade"
+                        p:fieldConversions="payGrade:payGrade"/>
+              </property>
+          </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
-	         <property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
-	        		 p:fieldConversions="institutionCode:institution"/>
-	   		 </property>
-        </bean>
+          <property name="quickfinder">
+              <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+                    p:fieldConversions="institutionCode:institution"/>
+          </property>
+      </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location">
        		<property name="quickfinder">
 	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
@@ -262,6 +286,7 @@
 	        	 p:inquiryParameters="hrSalGroupId:hrSalGroupId"/>
     		</property>
         </bean>
+        <bean parent="Uif-DataField" p:propertyName="payGrade"/>
         <bean parent="Uif-DataField" p:propertyName="institution" />
         <bean parent="Uif-DataField" p:propertyName="location" />
         <bean parent="Uif-DataField" p:propertyName="percentTime" />
@@ -280,7 +305,8 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate"  />
-		        <bean parent="FieldDefinition" p:attributeName="hrSalGroup" />       
+		        <bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
+                <bean parent="FieldDefinition" p:attributeName="payGrade"/>
 		        <bean parent="FieldDefinition" p:attributeName="institution"/>
 		        <bean parent="FieldDefinition" p:attributeName="location"/>
 		        <bean parent="FieldDefinition" p:attributeName="percentTime" />
@@ -295,6 +321,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 		        <bean parent="FieldDefinition" p:attributeName="hrSalGroup"/>
+                <bean parent="FieldDefinition" p:attributeName="payGrade"/>
 		        <bean parent="FieldDefinition" p:attributeName="institution" />
 		        <bean parent="FieldDefinition" p:attributeName="location" />
 		        <bean parent="FieldDefinition" p:attributeName="percentTime" />
@@ -322,6 +349,7 @@
                             <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
                             <bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
                             <bean parent="FieldDefinition" p:attributeName="descr" />
+                            <bean parent="FieldDefinition" p:attributeName="payGrade"/>
                             <bean parent="FieldDefinition" p:attributeName="institution" />
                             <bean parent="FieldDefinition" p:attributeName="location" />
                             <bean parent="FieldDefinition" p:attributeName="percentTime" />
@@ -353,6 +381,7 @@
 		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
 			        <bean parent="Uif-DataField" p:propertyName="hrSalGroup" />
 			        <bean parent="Uif-DataField" p:propertyName="descr" />
+                    <bean parent="Uif-DataField" p:attributeName="payGrade"/>
 			        <bean parent="Uif-DataField" p:propertyName="institution" />
 			        <bean parent="Uif-DataField" p:propertyName="location" />
 			        <bean parent="Uif-DataField" p:propertyName="percentTime" />
@@ -381,6 +410,12 @@
 	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
 		        <bean parent="Uif-InputField" p:propertyName="hrSalGroup" />
 		        <bean parent="Uif-InputField" p:propertyName="descr" />
+                <bean parent="Uif-InputField" p:propertyName="payGrade">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paygrade.PayGrade"
+                              p:fieldConversions="payGrade:payGrade"/>
+                    </property>
+                </bean>
 		        <bean parent="Uif-InputField" p:propertyName="institution" >
 			        <property name="quickfinder">
 		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"

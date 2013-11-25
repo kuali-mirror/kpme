@@ -34,6 +34,7 @@ public class SalaryGroupValidation  extends MaintenanceDocumentRuleBase{
 			valid &= this.validateInstitution(sg);
 			valid &= this.validateLocation(sg);
 			valid &= this.validateLeavePlan(sg);
+            valid &= this.validatePayGrade(sg);
 		}
 		return valid;
 	}
@@ -70,4 +71,16 @@ public class SalaryGroupValidation  extends MaintenanceDocumentRuleBase{
 			return true;
 		}
 	}
+
+    private boolean validatePayGrade(SalaryGroup sg) {
+        if (StringUtils.isNotEmpty(sg.getPayGrade()) && !ValidationUtils.validatePayGrade(sg.getPayGrade(), sg.getHrSalGroup(), sg.getEffectiveLocalDate())) {
+            String[] params = new String[2];
+            params[0] = sg.getPayGrade();
+            params[1] = sg.getHrSalGroup();
+            this.putFieldError("dataObject.payGrade", "salaryGroup.contains.payGrade", params);
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

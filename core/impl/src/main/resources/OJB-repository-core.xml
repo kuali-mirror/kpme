@@ -268,6 +268,7 @@
         <field-descriptor name="benefitsEligible"        column="BNFT_ELIG"           	 jdbc-type="VARCHAR"     length="1" 		nullable="false" />
         <field-descriptor name="leaveEligible"          column="LV_ELIG"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false" />
         <field-descriptor name="leavePlan"    			column="LV_PLN"			 		jdbc-type="VARCHAR"     length="15" 		nullable="true" />
+        <field-descriptor name="payGrade"    			column="PAY_GRADE"			 		jdbc-type="VARCHAR"     length="20" 		nullable="true" />
     </class-descriptor>
 
     <!-- PayType -->
