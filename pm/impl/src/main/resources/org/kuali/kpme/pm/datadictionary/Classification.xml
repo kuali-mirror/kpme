@@ -239,6 +239,7 @@
 	
 	<bean id="Classification-positionReportGroup" parent="Classification-positionReportGroup-parentBean" />
 	<bean id="Classification-positionReportGroup-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="50" />
 		<property name="shortLabel" value="Report Group" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="50" />
