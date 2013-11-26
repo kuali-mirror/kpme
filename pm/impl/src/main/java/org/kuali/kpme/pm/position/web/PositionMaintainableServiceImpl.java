@@ -202,30 +202,6 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
     	return true;
     
 	}
-	
-	//TODO: find out why it's not getting in here
-	@Override
-    public void addNewLineToCollection(String collectionName) {
-        if (collectionName.equals("departmentList")) {
-        	
-        	PositionDepartmentAffiliationService pdaService = PmServiceLocator.getPositionDepartmentAffiliationService();
-        	
-        	
-        	PositionDepartment aPositionDepartment = (PositionDepartment)newCollectionLines.get(collectionName);
-        	if(aPositionDepartment != null && aPositionDepartment.getPositionDeptAffl() != null) {
-				//PositionDepartmentAffiliation pda = (PositionDepartmentAffiliation)aPositionDepartment.getPositionDeptAfflObj();
-        		PositionDepartmentAffiliation pda = (PositionDepartmentAffiliation)pdaService.getPositionDepartmentAffiliationByType(aPositionDepartment.getPositionDeptAffl());
-				if (pda.isPrimaryIndicator()) {
-					Position aPosition = (Position)this.getDataObject();
-					aPosition.setLocation(aPositionDepartment.getLocation());
-					aPosition.setInstitution(aPositionDepartment.getInstitution());
-				}
-			}
-            
-        }
-       super.addNewLineToCollection(collectionName);
-    }
-
 
      /*
 
