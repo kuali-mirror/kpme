@@ -54,6 +54,7 @@
 	 <!-- Attribute Definitions -->  
 	 <bean id="PositionDepartment-pmPositionDeptId" parent="PositionDepartment-pmPositionDeptId-parentBean"/>
 	 <bean id="PositionDepartment-pmPositionDeptId-parentBean" abstract="true" parent="AttributeDefinition">
+	 	<property name="maxLength" value="60" />
 	    <property name="required" value="false" />
 	    <property name="forceUppercase" value="false"/>
 	    <property name="shortLabel" value="id"/>
@@ -78,6 +79,7 @@
 
 	<bean id="PositionDepartment-institution" parent="PositionDepartment-institution-parentBean" />
 	<bean id="PositionDepartment-institution-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="15" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Institution" />
 		<property name="validationPattern">
@@ -107,6 +109,7 @@
 	
 	<bean id="PositionDepartment-department" parent="PositionDepartment-department-parentBean" />
 	<bean id="PositionDepartment-department-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="50" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Department" />
 		<property name="validationPattern">
@@ -121,6 +124,7 @@
 	
 	<bean id="PositionDepartment-positionDeptAffl" parent="PositionDepartment-positionDeptAffl-parentBean" />
 	<bean id="PositionDepartment-positionDeptAffl-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="60" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Affiliation" />
 		<property name="validationPattern">

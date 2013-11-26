@@ -58,6 +58,7 @@
 		parent="PositionResponsibility-positionResponsibilityId-parentBean" />
 	<bean id="PositionResponsibility-positionResponsibilityId-parentBean"
 		abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="60" />
 		<property name="required" value="false" />
 		<property name="forceUppercase" value="false" />
 		<property name="shortLabel" value="id" />
@@ -84,6 +85,7 @@
 	<bean id="PositionResponsibility-institution" parent="PositionResponsibility-institution-parentBean" />
 	<bean id="PositionResponsibility-institution-parentBean" abstract="true"
 		parent="AttributeDefinition">
+		<property name="maxLength" value="15" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Institution" />
 		<property name="validationPattern">
@@ -99,6 +101,7 @@
 	<bean id="PositionResponsibility-location" parent="PositionResponsibility-location-parentBean" />
 	<bean id="PositionResponsibility-location-parentBean" abstract="true"
 		parent="AttributeDefinition">
+		<property name="maxLength" value="15" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Location" />
 		<property name="validationPattern">
@@ -132,6 +135,7 @@
 	-->
 	<bean id="PositionResponsibility-positionResponsibilityOption" parent="PositionResponsibility-positionResponsibilityOption-parentBean" />
 	<bean id="PositionResponsibility-positionResponsibilityOption-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="20" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Responsibility Option" />
 		<property name="controlField">
@@ -179,6 +183,7 @@
 	
 	<bean id="PositionDuty-hrPositionId" parent="PositionDuty-hrPositionId-parentBean"/>
 	<bean id="PositionDuty-hrPositionId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="60" />
 	    <property name="required" value="false" />
 	    <property name="forceUppercase" value="false"/>
 	    <property name="shortLabel" value="id"/>

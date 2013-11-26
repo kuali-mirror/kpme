@@ -54,11 +54,12 @@
 <!-- Attribute Definitions -->  
 	 <bean id="PositionType-pmPositionTypeId" parent="PositionType-pmPositionTypeId-parentBean"/>
 	 <bean id="PositionType-pmPositionTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+	 	<property name="maxLength" value="60" />
 	    <property name="required" value="false" />
 	    <property name="forceUppercase" value="false"/>
 	    <property name="shortLabel" value="id"/>
 	    <property name="controlField">
-	      <bean parent="Uif-TextControl" p:size="10"/>
+	      <bean parent="Uif-TextControl" p:size="60"/>
 	    </property>
 	    <property name="name" value="pmPositionTypeId"/>
 	    <property name="label" value="Position Type Id"/>
@@ -91,6 +92,7 @@
 
 	<bean id="PositionType-description" parent="PositionType-description-parentBean" />
 	<bean id="PositionType-description-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="100" />
 		<property name="required" value="false" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="100" />
@@ -102,6 +104,7 @@
 	
 	<bean id="PositionType-institution" parent="PositionType-institution-parentBean" />
 	<bean id="PositionType-institution-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="15" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Institution" />
 		<property name="validationPattern">

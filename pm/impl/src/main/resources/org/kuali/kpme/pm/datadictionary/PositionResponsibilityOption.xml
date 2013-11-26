@@ -40,6 +40,7 @@
 <!-- Attribute Definitions -->  
 	 <bean id="PositionResponsibilityOption-prOptionId" parent="PositionResponsibilityOption-prOptionId-parentBean"/>
 	 <bean id="PositionResponsibilityOption-prOptionId-parentBean" abstract="true" parent="AttributeDefinition">
+	 	<property name="maxLength" value="60" />
 	    <property name="required" value="false" />
 	    <property name="forceUppercase" value="false"/>
 	    <property name="shortLabel" value="id"/>
@@ -65,6 +66,7 @@
 	
 	<bean id="PositionResponsibilityOption-prOptionName" parent="PositionResponsibilityOption-prOptionName-parentBean" />
 	<bean id="PositionResponsibilityOption-prOptionName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="50" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Category" />
 		<property name="controlField">
@@ -77,6 +79,7 @@
 
 	<bean id="PositionResponsibilityOption-prDescription" parent="PositionResponsibilityOption-prDescription-parentBean" />
 	<bean id="PositionResponsibilityOption-prDescription-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="500" />
 		<property name="required" value="yes" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="100" />

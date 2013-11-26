@@ -40,6 +40,7 @@
 <!-- Attribute Definitions -->  
 	 <bean id="PositionFlag-pmPositionFlagId" parent="PositionFlag-pmPositionFlagId-parentBean"/>
 	 <bean id="PositionFlag-pmPositionFlagId-parentBean" abstract="true" parent="AttributeDefinition">
+	 	<property name="maxLength" value="60" />
 	    <property name="required" value="false" />
 	    <property name="forceUppercase" value="false"/>
 	    <property name="shortLabel" value="id"/>
@@ -53,6 +54,7 @@
 	 
 	<bean id="PositionFlag-effectiveDate" parent="PositionFlag-effectiveDate-parentBean" />
 	<bean id="PositionFlag-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="10" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Effective Date" />
 		<property name="controlField">
@@ -65,6 +67,7 @@
 	
 	<bean id="PositionFlag-category" parent="PositionFlag-category-parentBean" />
 	<bean id="PositionFlag-category-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="50" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Category" />
 		<property name="controlField">
@@ -77,6 +80,7 @@
 
 	<bean id="PositionFlag-positionFlagName" parent="PositionFlag-positionFlagName-parentBean" />
 	<bean id="PositionFlag-positionFlagName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="50" />
 		<property name="required" value="yes" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="100" />

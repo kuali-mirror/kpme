@@ -54,6 +54,7 @@
 <!-- Attribute Definitions -->  
 	 <bean id="PstnContractType-pmCntrctTypeId" parent="PstnContractType-pmCntrctTypeId-parentBean"/>
 	 <bean id="PstnContractType-pmCntrctTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+	 	<property name="maxLength" value="60" />
 	    <property name="required" value="false" />
 	    <property name="forceUppercase" value="false"/>
 	    <property name="shortLabel" value="id"/>
@@ -79,7 +80,7 @@
 	<bean id="PstnContractType-name" parent="PstnContractType-name-parentBean" />
 	<bean id="PstnContractType-name-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
-		<property name="maxLength" value="10"/>
+		<property name="maxLength" value="50"/>
 		<property name="shortLabel" value="Name" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="10" />
@@ -91,6 +92,7 @@
 	
 	<bean id="PstnContractType-description" parent="PstnContractType-description-parentBean" />
 	<bean id="PstnContractType-description-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="100" />
 		<property name="required" value="false" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="100" />
@@ -101,6 +103,7 @@
 	
 	<bean id="PstnContractType-institution" parent="PstnContractType-institution-parentBean" />
 	<bean id="PstnContractType-institution-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="15" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Institution" />
 		<property name="validationPattern">

@@ -36,6 +36,7 @@
 <!-- Attribute Definitions -->  
 	 <bean id="PositionQualificationValue-pmPstnQlfctnVlId" parent="PositionQualificationValue-pmPstnQlfctnVlId-parentBean"/>
 	 <bean id="PositionQualificationValue-pmPstnQlfctnVlId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="maxLength" value="60"/>
 	    <property name="required" value="false" />
 	    <property name="forceUppercase" value="false"/>
 	    <property name="shortLabel" value="id"/>

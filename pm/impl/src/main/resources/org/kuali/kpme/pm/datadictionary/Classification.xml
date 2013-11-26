@@ -33,7 +33,6 @@
 	        <ref bean="Classification-institution"/>
 	        <ref bean="Classification-location"/>
 	        <ref bean="Classification-salaryGroup"/>
-            <ref bean="Classification-payGrade"/>
 	        <ref bean="Classification-percentTime"/>
 	        <ref bean="Classification-benefitsEligible"/>
 	        <ref bean="Classification-leaveEligible"/>
@@ -77,6 +76,7 @@
 <!-- Attribute Definitions -->  
 	 <bean id="Classification-pmPositionClassId" parent="Classification-pmPositionClassId-parentBean"/>
 	 <bean id="Classification-pmPositionClassId-parentBean" abstract="true" parent="AttributeDefinition">
+	 	<property name="maxLength" value="60" />
 	    <property name="required" value="false" />
 	    <property name="forceUppercase" value="false"/>
 	    <property name="shortLabel" value="id"/>
@@ -89,6 +89,7 @@
 	
 	<bean id="Classification-positionClass" parent="Classification-positionClass-parentBean" />
 	<bean id="Classification-positionClass-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="50" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Class" />
 		<property name="controlField">
@@ -100,6 +101,7 @@
 
 	<bean id="Classification-classificationTitle" parent="Classification-classificationTitle-parentBean" />
 	<bean id="Classification-classificationTitle-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="100" />
 		<property name="required" value="false" />
 		<property name="shortLabel" value="Title" />
 		<property name="controlField">
@@ -111,6 +113,7 @@
 	
 	<bean id="Classification-institution" parent="Classification-institution-parentBean" />
 	<bean id="Classification-institution-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="15" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Institution" />
 		<property name="validationPattern">
@@ -140,6 +143,7 @@
 	
 	<bean id="Classification-salaryGroup" parent="Classification-salaryGroup-parentBean" />
 	<bean id="Classification-salaryGroup-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="50" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Sal Group" />
 		<property name="validationPattern">
@@ -151,24 +155,7 @@
 		<property name="name" value="salaryGroup" />
 		<property name="label" value="Salary Group" />
 	</bean>
-
-    <bean id="Classification-payGrade" parent="Classification-payGrade-parentBean" />
-    <bean id="Classification-payGrade-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="shortLabel" value="payGrade" />
-        <property name="required" value="false" />
-        <property name="maxLength" value="10" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="20" />
-        </property>
-        <property name="name" value="payGrade" />
-        <property name="label" value="Pay Grade" />
-    </bean>
-
+	
 	<bean id="Classification-percentTime" parent="Classification-percentTime-parentBean" />
 	<bean id="Classification-percentTime-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
@@ -228,6 +215,7 @@
 	
 	<bean id="Classification-leavePlan" parent="Classification-leavePlan-parentBean" />
 	<bean id="Classification-leavePlan-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="50" />
 		<property name="shortLabel" value="Leave Plan" />
 		<property name="required" value="false" />
 		<property name="controlField">
@@ -250,6 +238,7 @@
 	
 	<bean id="Classification-positionType" parent="Classification-positionType-parentBean" />
 	<bean id="Classification-positionType-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="50" />
 		<property name="required" value="true" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="10" />
@@ -306,6 +295,7 @@
 	
 	<bean id="Classification-externalReference" parent="Classification-externalReference-parentBean" />
 	<bean id="Classification-externalReference-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="100" />
 		<property name="required" value="false" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="100" />
@@ -354,14 +344,6 @@
 	   		 </property>
 	   		 <property name="quickfinder.autoSearch" value="true"/>
         </bean>
-
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="payGrade">
-             <property name="quickfinder">
-                <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paygrade.PayGrade"
-                     p:fieldConversions="payGrade:payGrade"/>
-             </property>
-             <property name="quickfinder.autoSearch" value="true"/>
-        </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="percentTime" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="benefitsEligible" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="leaveEligible" />
@@ -405,7 +387,6 @@
         <bean parent="Uif-DataField" p:propertyName="institution" />
         <bean parent="Uif-DataField" p:propertyName="location" />
         <bean parent="Uif-DataField" p:propertyName="salaryGroup" />
-        <bean parent="Uif-DataField" p:propertyName="payGrade" />
         <bean parent="Uif-DataField" p:propertyName="percentTime" />
         <bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
         <bean parent="Uif-DataField" p:propertyName="leaveEligible" />
@@ -438,7 +419,6 @@
 			        <bean parent="Uif-DataField" p:propertyName="institution" />
 			        <bean parent="Uif-DataField" p:propertyName="location" />
 			        <bean parent="Uif-DataField" p:propertyName="salaryGroup" />
-                    <bean parent="Uif-DataField" p:propertyName="payGrade" />
 			        <bean parent="Uif-DataField" p:propertyName="percentTime" />
 			        <bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
 			        <bean parent="Uif-DataField" p:propertyName="leaveEligible" />

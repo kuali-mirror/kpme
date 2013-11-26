@@ -43,6 +43,7 @@
 <!-- Attribute Definitions -->  
 	 <bean id="PositionAppointment-pmPositionAppointmentId" parent="PositionAppointment-pmPositionAppointmentId-parentBean"/>
 	 <bean id="PositionAppointment-pmPositionAppointmentId-parentBean" abstract="true" parent="AttributeDefinition">
+	 	<property name="maxLength" value="60" />
 	    <property name="required" value="false" />
 	    <property name="forceUppercase" value="false"/>
 	    <property name="shortLabel" value="id"/>
@@ -68,6 +69,7 @@
 	
 	<bean id="PositionAppointment-positionAppointment" parent="PositionAppointment-positionAppointment-parentBean" />
 	<bean id="PositionAppointment-positionAppointment-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="50" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Pstn Assgt" />
 		<property name="controlField">
@@ -80,6 +82,7 @@
 
 	<bean id="PositionAppointment-description" parent="PositionAppointment-description-parentBean" />
 	<bean id="PositionAppointment-description-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="100" />
 		<property name="required" value="false" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="100" />
@@ -91,6 +94,7 @@
 	
 	<bean id="PositionAppointment-institution" parent="PositionAppointment-institution-parentBean" />
 	<bean id="PositionAppointment-institution-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="15" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Institution" />
 		<property name="validationPattern">

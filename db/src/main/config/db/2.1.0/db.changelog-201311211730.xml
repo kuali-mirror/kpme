@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Copyright 2004-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+
+	<changeSet id="1" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="PM_PSTN_RPT_CAT_T"
+			columnName="PSTN_RPT_CAT" newDataType="VARCHAR(50)" />
+	</changeSet>
+	<changeSet id="2" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="PM_PSTN_RPT_GRP_SUB_CAT_T"
+			columnName="PSTN_RPT_SUB_CAT" newDataType="VARCHAR(50)" />
+	</changeSet>
+	<changeSet id="3" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="PM_PSTN_TYP_T" columnName="PSTN_TYP"
+			newDataType="VARCHAR(50)" />
+	</changeSet>
+	<changeSet id="4" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="PM_PSTN_FLG_T" columnName="PSTN_FLG_NM"
+			newDataType="VARCHAR(50)" />
+	</changeSet>
+	<changeSet id="5" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="PM_PSTN_QLFR_TYP_T"
+			columnName="CODE" newDataType="VARCHAR(50)" />
+	</changeSet>
+	<changeSet id="6" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="PM_PSTN_QLFR_TYP_T"
+			columnName="TYPE" newDataType="VARCHAR(50)" />
+	</changeSet>
+	<changeSet id="7" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="PM_PSTN_QLFR_TYP_T"
+			columnName="TYPE_VL" newDataType="VARCHAR(50)" />
+	</changeSet>
+	<changeSet id="8" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="PM_PSTN_CL_T" columnName="SAL_GROUP"
+			newDataType="VARCHAR(50)" />
+	</changeSet>
+	<changeSet id="9" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="PM_PSTN_CL_T" columnName="LV_PLN"
+			newDataType="VARCHAR(50)" />
+	</changeSet>
+	<changeSet id="10" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="PM_PSTN_CL_T" columnName="PSTN_TYP"
+			newDataType="VARCHAR(50)" />
+	</changeSet>
+	<changeSet id="11" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="PM_PSTN_DEPT_T" columnName="DEPT"
+			newDataType="VARCHAR(50)" />
+	</changeSet>
+	<changeSet id="12" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="PM_PSTN_APPOINTMENT_T"
+			columnName="PSTN_APPOINTMENT" newDataType="VARCHAR(50)" />
+	</changeSet>
+	<changeSet id="13" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="PM_PSTN_CNTRCT_TYP_T"
+			columnName="NAME" newDataType="VARCHAR(50)" />
+	</changeSet>
+	<changeSet id="14" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="HR_POSITION_T" columnName="POSITION_NBR"
+			newDataType="VARCHAR(50)" />
+	</changeSet>
+	<changeSet id="15" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="HR_POSITION_T" columnName="PSTN_TYP"
+			newDataType="VARCHAR(50)" />
+	</changeSet>
+	<changeSet id="16" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="HR_POSITION_T" columnName="SAL_GROUP"
+			newDataType="VARCHAR(50)" />
+	</changeSet>
+	<changeSet id="17" author="umehta" context="kpme-client-bootstrap">
+		<modifyDataType tableName="HR_POSITION_T" columnName="LV_PLN"
+			newDataType="VARCHAR(50)" />
+	</changeSet>
+</databaseChangeLog>

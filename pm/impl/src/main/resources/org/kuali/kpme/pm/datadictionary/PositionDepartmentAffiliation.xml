@@ -39,6 +39,7 @@
 	<!-- Attribute Definitions -->  
 	<bean id="PositionDepartmentAffiliation-pmPositionDeptAfflId" parent="PositionDepartmentAffiliation-pmPositionDeptAfflId-parentBean"/>
 	<bean id="PositionDepartmentAffiliation-pmPositionDeptAfflId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="60" />
 	    <property name="required" value="false" />
 	    <property name="forceUppercase" value="false"/>
 	    <property name="shortLabel" value="id"/>
@@ -64,7 +65,7 @@
 	<bean id="PositionDepartmentAffiliation-positionDeptAfflType" parent="PositionDepartmentAffiliation-positionDeptAfflType-parentBean" />
 	<bean id="PositionDepartmentAffiliation-positionDeptAfflType-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
-		<property name="maxLength" value="50"/>
+		<property name="maxLength" value="60"/>
 		<property name="shortLabel" value="Position Type" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="52" />

@@ -48,6 +48,7 @@
 <!-- Attribute Definitions -->  
 	 <bean id="PositionQualifierType-pmPstnQlfrTypeId" parent="PositionQualifierType-pmPstnQlfrTypeId-parentBean"/>
 	 <bean id="PositionQualifierType-pmPstnQlfrTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+	 	<property name="maxLength" value="60"/>
 	    <property name="required" value="false" />
 	    <property name="forceUppercase" value="false"/>
 	    <property name="shortLabel" value="id"/>
@@ -73,10 +74,11 @@
 	
 	<bean id="PositionQualifierType-code" parent="PositionQualifierType-code-parentBean" />
 	<bean id="PositionQualifierType-code-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="50"/>
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Code" />
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="40" />
+			<bean parent="Uif-TextControl" p:size="50" />
 		</property>
 		<property name="name" value="code" />
 		<property name="label" value="Code" />
@@ -85,9 +87,10 @@
 
 	<bean id="PositionQualifierType-type" parent="PositionQualifierType-type-parentBean" />
 	<bean id="PositionQualifierType-type-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="50"/>
 		<property name="required" value="yes" />
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="40" />
+			<bean parent="Uif-TextControl" p:size="50" />
 		</property>
 		<property name="name" value="type" />
 		<property name="label" value="Type" />
@@ -96,6 +99,7 @@
 
 	<bean id="PositionQualifierType-descr" parent="PositionQualifierType-descr-parentBean" />
 	<bean id="PositionQualifierType-descr-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="100"/>
 		<property name="required" value="false" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="100" />
@@ -121,6 +125,7 @@
 
 	<bean id="PositionQualifierType-selectValues" parent="PositionQualifierType-selectValues-parentBean" />
 	<bean id="PositionQualifierType-selectValues-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="100"/>
 		<property name="required" value="false" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="100" />

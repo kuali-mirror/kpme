@@ -43,6 +43,7 @@
 		<!-- Attribute Definitions -->  
 	 <bean id="PositionReportGroupSubCat-pmPstnRptGrpSubCatId" parent="PositionReportGroupSubCat-pmPstnRptGrpSubCatId-parentBean"/>
 	 <bean id="PositionReportGroupSubCat-pmPstnRptGrpSubCatId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="60" />
 	    <property name="required" value="false" />
 	    <property name="forceUppercase" value="false"/>
 	    <property name="shortLabel" value="id"/>
@@ -67,6 +68,7 @@
 
 	<bean id="PositionReportGroupSubCat-pstnRptGrpSubCat" parent="PositionReportGroupSubCat-pstnRptGrpSubCat-parentBean" />
 	<bean id="PositionReportGroupSubCat-pstnRptGrpSubCat-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="50" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Group Sub Category" />
 		<property name="controlField">
@@ -80,6 +82,7 @@
 
 	<bean id="PositionReportGroupSubCat-positionReportGroup" parent="PositionReportGroupSubCat-positionReportGroup-parentBean" />
 	<bean id="PositionReportGroupSubCat-positionReportGroup-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="50" />
 		<property name="required" value="true" />
 	    <property name="controlField">
 			<bean parent="Uif-TextControl" p:size="50" />
@@ -91,6 +94,7 @@
 		
 	<bean id="PositionReportGroupSubCat-positionReportSubCat" parent="PositionReportGroupSubCat-positionReportSubCat-parentBean" />
 	<bean id="PositionReportGroupSubCat-positionReportSubCat-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="50" />
 		<property name="required" value="true" />
 	    <property name="controlField">
 			<bean parent="Uif-TextControl" p:size="50" />
@@ -102,6 +106,7 @@
 	
 	<bean id="PositionReportGroupSubCat-description" parent="PositionReportGroupSubCat-description-parentBean" />
 	<bean id="PositionReportGroupSubCat-description-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="100" />
 		<property name="required" value="false" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="100" />
@@ -113,6 +118,7 @@
 	
 	<bean id="PositionReportGroupSubCat-institution" parent="PositionReportGroupSubCat-institution-parentBean" />
 	<bean id="PositionReportGroupSubCat-institution-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="15" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Institution" />
 		<property name="validationPattern">

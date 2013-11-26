@@ -38,6 +38,7 @@
 <!-- Attribute Definitions -->  
 	 <bean id="ClassFlag-pmFlagId" parent="ClassFlag-pmFlagId-parentBean"/>
 	 <bean id="ClassFlag-pmFlagId-parentBean" abstract="true" parent="AttributeDefinition">
+	 	<property name="maxLength" value="60" />
 	    <property name="required" value="false" />
 	    <property name="forceUppercase" value="false"/>
 	    <property name="shortLabel" value="id"/>
@@ -74,6 +75,7 @@
 	
  	<bean id="ClassFlag-pmPositionClassId" parent="ClassFlag-pmPositionClassId-parentBean"/>
 	<bean id="ClassFlag-pmPositionClassId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="60" />
 	    <property name="required" value="false" />
 	    <property name="forceUppercase" value="false"/>
 	    <property name="shortLabel" value="id"/>
