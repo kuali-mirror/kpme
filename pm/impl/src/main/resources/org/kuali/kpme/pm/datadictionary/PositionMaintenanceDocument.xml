@@ -172,12 +172,16 @@
 					p:required="true" />
 				<bean parent="Uif-InputField" p:propertyName="contract"
 					p:required="true" />
-				<bean parent="Uif-InputField" p:propertyName="contractType">
+				<bean parent="Uif-InputField" p:propertyName="contractType" >
+					<property name="control">
+  		        		<bean parent="Uif-TextControl" p:disabled="@{document.newMaintainableObject.dataObject.contract ne 'Y'}"/>
+       				</property>
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript"
 							p:dataObjectClassName="org.kuali.kpme.pm.pstncontracttype.PstnContractType"
 							p:fieldConversions="name:contractType" />
 					</property>
+					<property name="quickfinder.quickfinderAction.disabled" value="@{document.newMaintainableObject.dataObject.contract ne 'Y'}"/>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="positionNumber"
 					p:readOnly="true" />

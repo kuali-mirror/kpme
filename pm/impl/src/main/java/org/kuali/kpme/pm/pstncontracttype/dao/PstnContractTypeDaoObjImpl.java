@@ -70,5 +70,39 @@ public class PstnContractTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implemen
 		
 		return pctList;
 	}
+	
+	@Override
+	public List<PstnContractType> getPstnContractTypeList(String name, String institution, String location, LocalDate asOfDate) {
+		List<PstnContractType> pctList = new ArrayList<PstnContractType>();
+		Criteria root = new Criteria();
+		
+		if(StringUtils.isNotEmpty(name) 
+				&& !ValidationUtils.isWildCard(name)) {
+			root.addEqualTo("name", name); 
+		}
+ 		if(StringUtils.isNotEmpty(institution) 
+ 				&& !ValidationUtils.isWildCard(institution)) {
+			root.addEqualTo("institution", institution); 
+		}
+		if(StringUtils.isNotEmpty(location) 
+				&& !ValidationUtils.isWildCard(location)) {
+			root.addEqualTo("location", location); 
+		}
+        
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PstnContractType.class, asOfDate, PstnContractType.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PstnContractType.class, PstnContractType.BUSINESS_KEYS, false));
+        
+        Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+
+        Query query = QueryFactory.newQuery(PstnContractType.class, root);
+        
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		if(!c.isEmpty())
+			pctList.addAll(c);
+		
+		return pctList;
+	}
 
 }

@@ -27,6 +27,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positionappointment.PositionAppointment;
+import org.kuali.kpme.pm.positiontype.PositionType;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import com.google.common.collect.ImmutableList;
@@ -101,6 +102,43 @@ public class PositionAppointmentDaoObjImpl extends PlatformAwareDaoBaseOjb imple
             root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionAppointment.class, PRG_BUSINESS_KEYS , false));
         }
 		
+
+		Query query = QueryFactory.newQuery(PositionAppointment.class, root);
+
+		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		
+		if (!c.isEmpty())
+			prgList.addAll(c);
+
+		return prgList;
+	}
+	
+	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String institution, String location, LocalDate asOfDate) {
+	
+		List<PositionAppointment> prgList = new ArrayList<PositionAppointment>();
+		Criteria root = new Criteria();
+
+		if (StringUtils.isNotEmpty(positionAppointment) 
+				&& !ValidationUtils.isWildCard(positionAppointment)) {
+			root.addLike("UPPER(`pstn_appointment`)", positionAppointment.toUpperCase());
+		}
+		
+		if (StringUtils.isNotEmpty(institution) 
+				&& !ValidationUtils.isWildCard(institution)) {
+			root.addLike("UPPER(`institution`)", institution.toUpperCase());
+		}
+		
+		if (StringUtils.isNotEmpty(location) 
+				&& !ValidationUtils.isWildCard(location)) {
+			root.addLike("UPPER(`location`)", location.toUpperCase());
+		}
+
+		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionAppointment.class, asOfDate, PositionAppointment.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionAppointment.class, PositionAppointment.BUSINESS_KEYS, false));
+        
+        Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
 
 		Query query = QueryFactory.newQuery(PositionAppointment.class, root);
 

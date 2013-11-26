@@ -23,7 +23,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.pm.api.positiondepartmentaffiliation.service.PositionDepartmentAffiliationService;
 import org.kuali.kpme.pm.position.Position;
 import org.kuali.kpme.pm.position.PositionDuty;
 import org.kuali.kpme.pm.position.PositionQualification;
@@ -33,7 +32,9 @@ import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -76,14 +77,22 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
         	aResponsibility.setPositionResponsibilityId(null);
         }
         
-        // temporary
-        if (StringUtils.isEmpty(aPosition.getLocation())) {
-        	aPosition.setLocation("*");
+        // KPME-3016 populate institution and location here
+        // We should be able to do this in addNewLineToCollection, but all the components are in "pages" now with the layout change, 
+        // not on the form, and addNewLineToCollection doesn't get called. 
+        if (aPosition.getDepartmentList() != null) {
+        	for(PositionDepartment aPositionDepartment : aPosition.getDepartmentList()) {
+        		if(aPositionDepartment != null && aPositionDepartment.getPositionDeptAffl() != null) {
+        			PositionDepartmentAffiliation pda = (PositionDepartmentAffiliation)aPositionDepartment.getPositionDeptAfflObj();
+        			if (pda.isPrimaryIndicator()) {
+        				aPosition.setLocation(aPositionDepartment.getLocation());
+        				aPosition.setInstitution(aPositionDepartment.getInstitution());
+        				break;
+        			}
+        		}
+        	}
         }
-        if (StringUtils.isEmpty(aPosition.getInstitution())) {
-        	aPosition.setInstitution("*");
-        }
-        
+
 	}
 	
 	@Override
@@ -257,10 +266,10 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
         super.processAfterNew(document, requestParameters);
 	}
 	
+	/*
 	//TODO:
 	//Document description needs to have been set already when you submit/save a document, so the above two methods are necessary.
 	//Need to find how to override the document description.  The method below is not working for some reason
-	/*
 	@Override
     public void saveDataObject() {
 		
@@ -270,5 +279,7 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 		String documentHeaderId = this.getDocumentNumber();
 		DocumentHeader documentHeader = KRADServiceLocatorWeb.getDocumentHeaderService().getDocumentHeaderById(documentHeaderId);
 		documentHeader.setDocumentDescription(docDesc);
+		
+		super.saveDataObject();
 	}*/
 }

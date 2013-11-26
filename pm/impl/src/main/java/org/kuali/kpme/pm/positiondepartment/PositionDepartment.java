@@ -20,7 +20,10 @@ import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
+import org.kuali.kpme.pm.api.positiondepartmentaffiliation.service.PositionDepartmentAffiliationService;
 import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
+import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.springframework.util.StringUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -88,6 +91,14 @@ public class PositionDepartment extends HrBusinessObject implements PositionDepa
 	 * @return the positionDeptAfflObj
 	 */
 	public PositionDepartmentAffiliation getPositionDeptAfflObj() {
+		
+		if (positionDeptAfflObj == null) {
+			if (!StringUtils.isEmpty(positionDeptAffl)) {
+				PositionDepartmentAffiliationService pdaService = PmServiceLocator.getPositionDepartmentAffiliationService();
+				positionDeptAfflObj = (PositionDepartmentAffiliation)pdaService.getPositionDepartmentAffiliationByType(positionDeptAffl);				
+			}
+		} 
+		
 		return positionDeptAfflObj;
 	}
 

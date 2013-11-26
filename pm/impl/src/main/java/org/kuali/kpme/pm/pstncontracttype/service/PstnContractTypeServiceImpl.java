@@ -46,5 +46,10 @@ public class PstnContractTypeServiceImpl implements PstnContractTypeService {
 	public List<PstnContractType> getPstnContractTypeList(String institution, String location, LocalDate asOfDate) {
 		return pstnContractTypeDao.getPstnContractTypeList( institution, location, asOfDate);
 	}
+	
+	@Override
+	public List<PstnContractType> getPstnContractTypeList(String name, String institution, String location, LocalDate asOfDate) {
+		return pstnContractTypeDao.getPstnContractTypeList(name, institution, location, asOfDate);
+	}
 
 }

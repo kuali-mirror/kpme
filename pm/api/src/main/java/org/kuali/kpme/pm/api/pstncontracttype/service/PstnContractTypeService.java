@@ -37,4 +37,15 @@ public interface PstnContractTypeService {
 	 * @return
 	 */
 	public List<? extends PstnContractTypeContract> getPstnContractTypeList(String institution, String location, LocalDate asOfDate);
+	
+	/**
+	 * Get list of PstnContractType with given name, institution, location and effective date
+	 * wild card allowed
+	 * @param name
+	 * @param institution
+	 * @param location
+	 * @param asOfDate
+	 * @return
+	 */
+	public List<? extends PstnContractTypeContract> getPstnContractTypeList(String name, String institution, String location, LocalDate asOfDate);
 }

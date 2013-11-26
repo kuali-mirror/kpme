@@ -21,17 +21,18 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.paygrade.PayGradeContract;
-import org.kuali.kpme.core.paygrade.PayGrade;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.PMConstants;
+import org.kuali.kpme.pm.api.positionappointment.PositionAppointmentContract;
 import org.kuali.kpme.pm.api.positiondepartmentaffiliation.PositionDepartmentAffiliationContract;
 import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
 import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategoryContract;
 import org.kuali.kpme.pm.api.positionreporttype.PositionReportTypeContract;
 import org.kuali.kpme.pm.api.positiontype.PositionTypeContract;
+import org.kuali.kpme.pm.api.pstncontracttype.PstnContractTypeContract;
 import org.kuali.kpme.pm.api.pstnqlfctnvl.PositionQualificationValueContract;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.location.api.campus.Campus;
@@ -185,5 +186,21 @@ public class PmValidationUtils {
 		}
 		return false;
 	}
-		
+	
+	public static boolean validatePositionAppointmentType(String positionAppointment, String institution, String location, LocalDate asOfDate) {
+		if (StringUtils.isNotEmpty(positionAppointment) && asOfDate != null) {
+			List<? extends PositionAppointmentContract> ptList = PmServiceLocator.getPositionAppointmentService().getPositionAppointmentList(positionAppointment, institution, location, asOfDate);
+			return CollectionUtils.isNotEmpty(ptList);
+		}
+		return false;
+	}
+
+	public static boolean validatePositionContractType(String name, String institution, String location, LocalDate asOfDate) {
+		if (StringUtils.isNotEmpty(name) && asOfDate != null) {
+			List<? extends PstnContractTypeContract> ptList = PmServiceLocator.getPstnContractTypeService().getPstnContractTypeList(name, institution, location, asOfDate);
+			return CollectionUtils.isNotEmpty(ptList);
+		}
+		return false;
+	}
+	
 }

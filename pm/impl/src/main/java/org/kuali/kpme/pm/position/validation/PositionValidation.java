@@ -19,27 +19,13 @@ import java.math.BigDecimal;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import java.math.BigDecimal;
-import org.joda.time.LocalDate;
-
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-
-import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.pm.api.positiondepartmentaffiliation.PositionDepartmentAffiliationContract;
-import org.kuali.kpme.pm.api.positiondepartmentaffiliation.service.PositionDepartmentAffiliationService;
-import org.kuali.kpme.pm.classification.Classification;
-import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.position.Position;
 import org.kuali.kpme.pm.position.PositionDuty;
-import org.kuali.kpme.pm.position.funding.PositionFunding;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
-import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.kuali.kpme.pm.util.PmValidationUtils;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
 public class PositionValidation extends MaintenanceDocumentRuleBase {
 	@Override
@@ -78,6 +64,8 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 
+	// KPME-3016  
+	// Now each section is its own page that if you want to show errors globally, you have to catch them globally
 	private boolean validateOverviewPage(Position aPosition) {
 
 		if (aPosition.getEffectiveDate() == null
@@ -90,11 +78,24 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 
 			this.putFieldError("positionNumber", "error.overview.fields.required");
 			return false;
+		} else {
+			// validate appointment type
+			if (!PmValidationUtils.validatePositionAppointmentType(aPosition.getAppointmentType(), aPosition.getInstitution(), aPosition.getLocation(), aPosition.getEffectiveLocalDate())) {				
+				this.putFieldError("appointmentType", "error.existence", "Appointment Type '" + aPosition.getAppointmentType() + "'");
+				return false;
+			}
+			// validate contract type
+			if (!StringUtils.isEmpty(aPosition.getContractType())) {
+				if (!PmValidationUtils.validatePositionContractType(aPosition.getContractType(), aPosition.getInstitution(), aPosition.getLocation(), aPosition.getEffectiveLocalDate())) {
+					this.putFieldError("contractType", "error.existence", "Contract Type '" + aPosition.getContractType() + "'");
+					return false;
+				}
+			}
 		}
 		
 		return true;
 	}
-
+	
 	private boolean validateClassificationPage(Position aPosition) {
 
 		if (StringUtils.isEmpty(aPosition.getPmPositionClassId())
@@ -111,16 +112,10 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 	
 	private boolean validatePrimaryDepartment(Position aPosition) {
 
-		PositionDepartmentAffiliationService pdaService = PmServiceLocator.getPositionDepartmentAffiliationService();
-
 		if (CollectionUtils.isNotEmpty(aPosition.getDepartmentList())) {
 			for (PositionDepartment aDepartment : aPosition.getDepartmentList()) {
-				// TODO: Implement getPositionDeptAfflObj
-				// if(aDepartment != null && aDepartment.getPositionDeptAfflObj() != null) {
-				if (aDepartment != null && aDepartment.getPositionDeptAffl() != null) {
-					// PositionDepartmentAffiliation pda =
-					// (PositionDepartmentAffiliation)aDepartment.getPositionDeptAfflObj();
-					PositionDepartmentAffiliationContract pda = pdaService.getPositionDepartmentAffiliationByType(aDepartment.getPositionDeptAffl());
+				if(aDepartment != null && aDepartment.getPositionDeptAfflObj() != null) {
+					PositionDepartmentAffiliation pda = (PositionDepartmentAffiliation)aDepartment.getPositionDeptAfflObj();
 					if (pda.isPrimaryIndicator()) {
 						return true;
 					}

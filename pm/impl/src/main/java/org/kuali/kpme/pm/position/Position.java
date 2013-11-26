@@ -331,11 +331,8 @@ public class Position extends PositionBase implements PositionContract {
 	public String getPrimaryDepartment() {
 
 		if (this.departmentList != null && this.departmentList.size() > 0) {
-
-			PositionDepartmentAffiliationService pdaService = PmServiceLocator.getPositionDepartmentAffiliationService();
 			for (PositionDepartment department: this.departmentList) {
-				
-				PositionDepartmentAffiliationContract pda = pdaService.getPositionDepartmentAffiliationByType(department.getPositionDeptAffl());
+				PositionDepartmentAffiliation pda = department.getPositionDeptAfflObj();
 				if (pda.isPrimaryIndicator()) {
 					primaryDepartment = department.getDepartment();
 					break;
