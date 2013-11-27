@@ -64,7 +64,8 @@
 				<ref bean="Position-positionStatus" />
 				<ref bean="Position-primaryDepartment" />
 				<ref bean="Position-appointmentType" />
-				<ref bean="Position-reportsTo" />
+				<ref bean="Position-reportsToPositionId" />
+				<ref bean="Position-reportsToPrincipalId" />
 				<ref bean="Position-expectedEndDate" />
 				<ref bean="Position-renewEligible" />
 				<ref bean="Position-temporary" />
@@ -318,7 +319,7 @@
 	<bean id="Position-positionReportGroup" parent="Position-positionReportGroup-parentBean" />
 	<bean id="Position-positionReportGroup-parentBean" abstract="true"
 		parent="AttributeDefinition">
-			<property name="maxLength" value="50" />
+		<property name="maxLength" value="50" />
 		<property name="shortLabel" value="Report Group" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="10" />
@@ -485,7 +486,7 @@
 		<property name="name" value="primaryDepartment" />
 		<property name="label" value="Primary Department" />
 	</bean>
-	
+
 	<bean id="Position-appointmentType" parent="Position-appointmentType-parentBean" />
 	<bean id="Position-appointmentType-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -497,17 +498,28 @@
 		<property name="label" value="Appointment Type" />
 	</bean>
 
-	<bean id="Position-reportsTo" parent="Position-reportsTo-parentBean" />
-	<bean id="Position-reportsTo-parentBean" abstract="true"
+	<bean id="Position-reportsToPositionId" parent="Position-reportsToPositionId-parentBean" />
+	<bean id="Position-reportsToPositionId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="maxLength" value="40" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="40" />
 		</property>
-		<property name="name" value="reportsTo" />
-		<property name="label" value="Reports To" />
-	</bean>	
-	
+		<property name="name" value="reportsToPositionId" />
+		<property name="label" value="Reports To Position Number" />
+	</bean>
+
+	<bean id="Position-reportsToPrincipalId" parent="Position-reportsToPrincipalId-parentBean" />
+	<bean id="Position-reportsToPrincipalId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="maxLength" value="40" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="40" />
+		</property>
+		<property name="name" value="reportsToPrincipalId" />
+		<property name="label" value="Reports To Principal ID" />
+	</bean>
+
 	<bean id="Position-expectedEndDate" parent="Position-expectedEndDate-parentBean" />
 	<bean id="Position-expectedEndDate-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -523,7 +535,7 @@
 		<property name="name" value="expectedEndDate" />
 		<property name="label" value="Expected End Date" />
 	</bean>
-	
+
 	<bean id="Position-renewEligible" parent="Position-renewEligible-parentBean" />
 	<bean id="Position-renewEligible-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -540,7 +552,7 @@
 		<property name="name" value="renewEligible" />
 		<property name="label" value="Renewal Eligible" />
 	</bean>
-	
+
 	<bean id="Position-temporary" parent="Position-temporary-parentBean" />
 	<bean id="Position-temporary-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -557,7 +569,7 @@
 		<property name="name" value="temporary" />
 		<property name="label" value="Temporary" />
 	</bean>
-	
+
 	<bean id="Position-contract" parent="Position-contract-parentBean" />
 	<bean id="Position-contract-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -584,7 +596,7 @@
 		</property>
 		<property name="name" value="contractType" />
 		<property name="label" value="Contract Type" />
-	</bean>	
+	</bean>
 
 	<!-- Position Qualification List, used by inquiry view -->
 	<bean id="Position-qualificationList" abstract="true"
@@ -999,7 +1011,7 @@
 		<property name="layoutManager.columnCalculations">
 			<list>
 				<bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="percentage"
-					p:showPageTotal="false" p:recalculateTotalClientSide="true">
+					p:recalculateTotalClientSide="true">
 				</bean>
 			</list>
 		</property>
@@ -1182,16 +1194,20 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="institution">
-					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
-							p:fieldConversions="institutionCode:institution" />
+				<!-- 
+					<property name="control">
+						<bean parent="Uif-DropdownControl" />
 					</property>
+					<property name="optionsFinder">
+						<bean class="org.kuali.kpme.core.util.InstitutionKeyValueFinder" />
+					</property>   -->
 				</bean>
-
 				<bean parent="Uif-InputField" p:propertyName="location">
-					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
-							p:fieldConversions="location:location" />
+					<property name="control">
+						<bean parent="Uif-DropdownControl" />
+					</property>
+					<property name="optionsFinder">
+						<bean class="org.kuali.kpme.core.util.LocationKeyValueFinder" />
 					</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="department">

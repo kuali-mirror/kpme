@@ -310,15 +310,26 @@ public interface PositionContract extends PositionBaseContract {
     public String getPositionStatus();
     
     /**
-     * The Position ID or Principal ID that the current Position reports to
+     * The Position ID that the current Position reports to
      *
      * <p>
-     * reportsTo of a Position.
+     * reportsToPositionId of a Position.
      * <p>
      *
-     * @return reportsTo for Position
+     * @return reportsToPositionId for Position
      */
-    public String getReportsTo();
+    public String getReportsToPositionId();
+    
+    /**
+     * The Principal ID that the current Position reports to
+     *
+     * <p>
+     * reportsToPrincipalId of a Position.
+     * <p>
+     *
+     * @return reportsToPrincipalId for Position
+     */
+	public String getReportsToPrincipalId();
     
     /**
      * The date the Position is expected to end

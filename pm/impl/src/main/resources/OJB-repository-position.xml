@@ -208,8 +208,9 @@
     <!-- Business Keys - [department : effectiveDate : timestamp] -->	
     <class-descriptor class="org.kuali.kpme.pm.positiondepartment.PositionDepartment" table="PM_PSTN_DEPT_T">
         <field-descriptor name="pmPositionDeptId"       column="PM_PSTN_DEPT_ID"  	     jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_DEPT_S" />
+        <field-descriptor name="hrPositionId"   			column="HR_PSTN_ID"    		jdbc-type="VARCHAR"     length="60"  		nullable="false" />
         <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
-        <field-descriptor name="location"    				column="LOCATION"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
+        <field-descriptor name="location"    			column="LOCATION"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="department"    			column="DEPT"					 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="positionDeptAffl"       column="PSTN_DEPT_AFFL_TYP"		 jdbc-type="VARCHAR"     length="60" 	  nullable="false" />
         <field-descriptor name="active"              	column="ACTIVE"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -327,9 +328,10 @@
         <field-descriptor name="tenureEligible"         column="TNR_ELIG"       jdbc-type="VARCHAR"     length="1" 	 	nullable="false" />
         <field-descriptor name="positionStatus"         column="PSTN_STATUS"    jdbc-type="VARCHAR"     length="20" 	nullable="false" />
         <field-descriptor name="appointmentType"        column="APPT_TYP"       jdbc-type="VARCHAR"     length="15" 	nullable="false" />
-        <field-descriptor name="reportsTo"         		column="REPORTS_TO"     jdbc-type="VARCHAR"     length="40" 	nullable="true" />
+        <field-descriptor name="reportsToPositionId"    column="RPT_POS_ID"     jdbc-type="VARCHAR"     length="40" 	nullable="true" />
+        <field-descriptor name="reportsToPrincipalId"   column="RPT_PRN_ID"     jdbc-type="VARCHAR"     length="40" 	nullable="true" />
         <field-descriptor name="expectedEndDate"        column="EXP_ENDDT" 		jdbc-type="DATE"     	nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" length="20" />
-        <field-descriptor name="renewEligible"          column="RENEW_ELIG"     jdbc-type="VARCHAR"     length="1" 		nullable="false" />
+        <field-descriptor name="renewEligible"          column="RENEW_ELIG"     jdbc-type="VARCHAR"     length="1" 		nullable="true" />
         <field-descriptor name="temporary"         		column="TEMPORARY"    	jdbc-type="VARCHAR"     length="1" 		nullable="false" />
         <field-descriptor name="contract"         		column="CONT"    		jdbc-type="VARCHAR"     length="1" 		nullable="false" />
         <field-descriptor name="contractType"         	column="CONT_TYP"    	jdbc-type="VARCHAR"     length="10" 	nullable="true" />
@@ -355,7 +357,7 @@
             <inverse-foreignkey field-ref="hrPositionId" />
         </collection-descriptor>
         <collection-descriptor name="departmentList" element-class-ref="org.kuali.kpme.pm.positiondepartment.PositionDepartment"
-                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="hrPositionId" />
         </collection-descriptor>
     </class-descriptor>

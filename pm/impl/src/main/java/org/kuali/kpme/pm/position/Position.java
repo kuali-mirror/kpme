@@ -79,7 +79,8 @@ public class Position extends PositionBase implements PositionContract {
     private String positionStatus;
     private String primaryDepartment;
     private String appointmentType;
-    private String reportsTo;
+    private String reportsToPositionId;
+    private String reportsToPrincipalId;
     private Date expectedEndDate;
     private String renewEligible;
     private String temporary;
@@ -351,12 +352,20 @@ public class Position extends PositionBase implements PositionContract {
 		this.location = location;
 	}
 
-	public String getReportsTo() {
-		return reportsTo;
+	public String getReportsToPositionId() {
+		return reportsToPositionId;
 	}
 
-	public void setReportsTo(String reportsTo) {
-		this.reportsTo = reportsTo;
+	public void setReportsToPositionId(String reportsToPositionId) {
+		this.reportsToPositionId = reportsToPositionId;
+	}
+
+	public String getReportsToPrincipalId() {
+		return reportsToPrincipalId;
+	}
+
+	public void setReportsToPrincipalId(String reportsToPrincipalId) {
+		this.reportsToPrincipalId = reportsToPrincipalId;
 	}
 
 	public Date getExpectedEndDate() {

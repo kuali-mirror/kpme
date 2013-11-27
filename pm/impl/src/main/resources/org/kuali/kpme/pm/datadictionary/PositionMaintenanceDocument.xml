@@ -61,7 +61,8 @@
 				<ref bean="Pos-OverviewPage" />
 				<ref bean="Pos-ClassificationPage" />
 				<ref bean="Pos-DepartmentPage" />
-				<ref bean="Pos-QualificationDutyPage" />
+				<ref bean="Pos-QualificationPage" />
+				<ref bean="Pos-DutyPage" />
 				<ref bean="Pos-FlagPage" />
 				<ref bean="Pos-ResponsibilityPage" />
 				<ref bean="Pos-FundingPage" />
@@ -93,8 +94,10 @@
 					p:navigateToPageId="Pos-ClassificationPage" p:actionLabel="Classification" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-Department-Actionlink"
 					p:navigateToPageId="Pos-DepartmentPage" p:actionLabel="Department" />
-				<bean parent="Uif-NavigationActionLink" id="Pos-QualificationDuty-Actionlink"
-					p:navigateToPageId="Pos-QualificationDutyPage" p:actionLabel="Qualifications &amp; Duties" />
+				<bean parent="Uif-NavigationActionLink" id="Pos-Qualification-Actionlink"
+					p:navigateToPageId="Pos-QualificationPage" p:actionLabel="Qualifications" />
+				<bean parent="Uif-NavigationActionLink" id="Pos-Duty-Actionlink"
+					p:navigateToPageId="Pos-DutyPage" p:actionLabel="Duties" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-Flag-Actionlink"
 					p:navigateToPageId="Pos-FlagPage" p:actionLabel="Position Flags" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-Responsibility-Actionlink"
@@ -156,7 +159,8 @@
 							p:addBlankOption="false" />
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="appointmentType" p:required="true">
+				<bean parent="Uif-InputField" p:propertyName="appointmentType"
+					p:required="true">
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript"
 							p:dataObjectClassName="org.kuali.kpme.pm.positionappointment.PositionAppointment"
@@ -164,24 +168,47 @@
 					</property>
 					<property name="quickfinder.autoSearch" value="true" />
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="reportsTo" />
+				<bean parent="Uif-InputField" p:propertyName="reportsToPositionId">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript"
+							p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
+							p:fieldConversions="positionNumber:reportsToPositionId" />
+					</property>
+					<property name="quickfinder.autoSearch" value="true" />
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="reportsToPrincipalId">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript"
+							p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+							p:fieldConversions="principalId:reportsToPrincipalId" />
+					</property>
+					<property name="quickfinder.autoSearch" value="true" />
+				</bean>
 				<bean parent="Uif-InputField" p:propertyName="expectedEndDate" />
 				<bean parent="Uif-InputField" p:propertyName="renewEligible"
-					p:required="true" />
+					p:constraintText="Required if Expected End Date is filled.">
+					<property name="dependencyConstraints">
+						<list>
+							<bean parent="PrerequisiteConstraint" p:propertyName="expectedEndDate" />
+						</list>
+					</property>
+				</bean>
 				<bean parent="Uif-InputField" p:propertyName="temporary"
-					p:required="true" />
+					p:required="true" p:defaultValue="N" />
 				<bean parent="Uif-InputField" p:propertyName="contract"
-					p:required="true" />
-				<bean parent="Uif-InputField" p:propertyName="contractType" >
+					p:required="true" p:defaultValue="N" />
+				<bean parent="Uif-InputField" p:propertyName="contractType">
 					<property name="control">
-  		        		<bean parent="Uif-TextControl" p:disabled="@{document.newMaintainableObject.dataObject.contract ne 'Y'}"/>
-       				</property>
+						<bean parent="Uif-TextControl"
+							p:disabled="@{document.newMaintainableObject.dataObject.contract ne 'Y'}" />
+					</property>
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript"
 							p:dataObjectClassName="org.kuali.kpme.pm.pstncontracttype.PstnContractType"
 							p:fieldConversions="name:contractType" />
 					</property>
-					<property name="quickfinder.quickfinderAction.disabled" value="@{document.newMaintainableObject.dataObject.contract ne 'Y'}"/>
+					<property name="quickfinder.quickfinderAction.disabled"
+						value="@{document.newMaintainableObject.dataObject.contract ne 'Y'}" />
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="positionNumber"
 					p:readOnly="true" />
@@ -216,6 +243,7 @@
 							<entry key="benefitsEligible" value="benefitsEligible" />
 							<entry key="leaveEligible" value="leaveEligible" />
 							<entry key="leavePlan" value="leavePlan" />
+							<entry key="payGrade" value="payGrade" />
 							<entry key="positionReportGroup" value="positionReportGroup" />
 							<entry key="positionType" value="positionType" />
 							<entry key="poolEligible" value="poolEligible" />
@@ -236,7 +264,7 @@
 				<bean parent="Uif-InputField" p:propertyName="positionType"
 					p:readOnly="true" />
 				<bean parent="Uif-InputField" p:propertyName="poolEligible"
-					p:required="true" />
+					p:defaultValue="N" p:required="true" />
 				<bean parent="Uif-InputField" p:propertyName="maxPoolHeadCount"
 					p:constraintText="Must be a number.">
 					<property name="validCharactersConstraint">
@@ -306,8 +334,8 @@
 		</property>
 	</bean>
 
-	<!-- Position Qualification/Duty Section -->
-	<bean id="Pos-QualificationDutyPage" parent="Uif-MaintenancePage">
+	<!-- Position Qualification Section -->
+	<bean id="Pos-QualificationPage" parent="Uif-MaintenancePage">
 		<property name="items">
 			<list>
 				<bean parent="Uif-VerticalBoxSection">
@@ -324,6 +352,14 @@
 						</list>
 					</property>
 				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Position Duty Section -->
+	<bean id="Pos-DutyPage" parent="Uif-MaintenancePage">
+		<property name="items">
+			<list>
 				<bean parent="Uif-VerticalBoxSection" p:headerText="Duty">
 					<property name="items">
 						<list>
@@ -442,9 +478,9 @@
 		<property name="headerText" value="Position Overview" />
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="classificationTitle" />
+				<bean parent="Uif-InputField" p:propertyName="classificationTitle"
+					p:colSpan="3" />
 				<bean parent="Uif-InputField" p:propertyName="primaryDepartment" />
-				<bean parent="Uif-InputField" p:propertyName="institution" />
 				<bean parent="Uif-InputField" p:propertyName="location" />
 				<bean parent="Uif-InputField" p:propertyName="positionType" />
 				<bean parent="Uif-InputField" p:propertyName="positionNumber" />

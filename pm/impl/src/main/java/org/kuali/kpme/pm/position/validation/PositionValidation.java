@@ -72,7 +72,6 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 				|| StringUtils.isEmpty(aPosition.getDescription())
 				|| StringUtils.isEmpty(aPosition.getPositionStatus())
 				|| StringUtils.isEmpty(aPosition.getAppointmentType())
-				|| StringUtils.isEmpty(aPosition.getRenewEligible())
 				|| StringUtils.isEmpty(aPosition.getTemporary())
 				|| StringUtils.isEmpty(aPosition.getContract())) {
 
