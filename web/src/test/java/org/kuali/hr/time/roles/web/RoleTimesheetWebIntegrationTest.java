@@ -104,7 +104,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         final DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, dateTimeZone);
         final DateTime end = new DateTime(2011, 3, 2, 13, 0, 0, 0, dateTimeZone);
 
-        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true);
+        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true, null, null, null, null, null, null);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
 
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
@@ -186,7 +186,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         DateTimeZone dateTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(userId));
         final DateTime start = new DateTime(2011, 3, 2, 13, 0, 0, 0, dateTimeZone);
         final DateTime end = new DateTime(2011, 3, 2, 18, 0, 0, 0, dateTimeZone);
-        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true);
+        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true, null, null, null, null, null, null);
 
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
@@ -241,7 +241,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         DateTimeZone dateTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(userId));
         DateTime start = new DateTime(2011, 3, 4, 8, 0, 0, 0, dateTimeZone);
         DateTime end = new DateTime(2011, 3, 4, 13, 0, 0, 0, dateTimeZone);
-        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true);
+        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true, null, null, null, null, null, null);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
         page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), userId, getTimesheetDocumentUrl(tdocId), tdaf);

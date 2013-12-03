@@ -172,7 +172,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		DateTime endTime = new DateTime(2011, 2, 15, 11, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
 		// Setup TimeDetailActionForm
-		TimeDetailActionFormBase addTB = TimeDetailTestUtils.buildDetailActionForm(timeDoc, assignment, earnCode, startTime, endTime, null, true, null, true);
+		TimeDetailActionFormBase addTB = TimeDetailTestUtils.buildDetailActionForm(timeDoc, assignment, earnCode, startTime, endTime, null, true, null, true, null, null, null, null, null, null);
 		List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, addTB);
 
 		// Check for errors
@@ -236,7 +236,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		Assert.assertNotNull(form);
 
 		// Setup TimeDetailActionForm for adding time block
-		TimeDetailActionFormBase addTB = TimeDetailTestUtils.buildDetailActionForm(timeDoc, assignment, earnCode, startTime, endTime, null, true, null, true);
+		TimeDetailActionFormBase addTB = TimeDetailTestUtils.buildDetailActionForm(timeDoc, assignment, earnCode, startTime, endTime, null, true, null, true, null, null, null, null, null, null);
 		List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, addTB);
 
 		// Check for errors
@@ -263,7 +263,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 		form = page.getFormByName("TimeDetailActionForm");
 
-		TimeDetailActionFormBase updateTB = TimeDetailTestUtils.buildDetailActionForm(timeDoc, newAssignment, earnCode, startTime1, endTime1, null, true, createdTBId, true);
+		TimeDetailActionFormBase updateTB = TimeDetailTestUtils.buildDetailActionForm(timeDoc, newAssignment, earnCode, startTime1, endTime1, null, true, createdTBId, true, null, null, null, null, null, null);
 
 		// validation of time block
 		errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, updateTB);
@@ -294,7 +294,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		Assert.assertNotNull(form);
 
 		// Setup TimeDetailActionForm
-		TimeDetailActionFormBase addTB = TimeDetailTestUtils.buildDetailActionForm(timeDoc, assignment, earnCode, startTime, endTime, null, true, null, true);
+		TimeDetailActionFormBase addTB = TimeDetailTestUtils.buildDetailActionForm(timeDoc, assignment, earnCode, startTime, endTime, null, true, null, true, null, null, null, null, null, null);
 		List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, addTB);
 
 		// Check for errors
@@ -316,7 +316,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		Assert.assertNotNull(form);
 
 		// set detail for deleting time block
-		TimeDetailActionFormBase deleteTB = TimeDetailTestUtils.buildDetailActionForm(timeDoc, assignment, earnCode, startTime, endTime, null, true, createTBId, true);
+		TimeDetailActionFormBase deleteTB = TimeDetailTestUtils.buildDetailActionForm(timeDoc, assignment, earnCode, startTime, endTime, null, true, createTBId, true, null, null, null, null, null, null);
 		deleteTB.setMethodToCall("deleteTimeBlock");
 
 		// submitting the page
@@ -357,7 +357,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		// Setup TimeDetailActionForm1
 		TimeDetailActionFormBase addTB = TimeDetailTestUtils
 				.buildDetailActionForm(timeDoc, assToBeSelected, earnCode, startTime,
-						endTime, null, true, null, true); // last argument true = include weekends
+						endTime, null, true, null, true, null, null, null, null, null, null); // last argument true = include weekends
 		List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form,
 				addTB);
 		// Check for errors - spanning weeks includes weekends, and include weekends box is checked - should give no error
@@ -375,7 +375,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		// Setup TimeDetailActionForm2
 		addTB = TimeDetailTestUtils
 				.buildDetailActionForm(timeDoc, assToBeSelected, earnCode, startTime,
-						endTime, null, true, null, false); // last argument false = do not include weekends
+						endTime, null, true, null, false, null, null, null, null, null, null); // last argument false = do not include weekends
 		errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, addTB);
 		// Check for errors - spanning weeks includes weekends, and include weekends box is not not checked - should give an error
 		Assert.assertEquals(
@@ -391,7 +391,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		// Setup TimeDetailActionForm2
 		addTB = TimeDetailTestUtils
 				.buildDetailActionForm(timeDoc, assToBeSelected, earnCode, startTime,
-						endTime, null, true, null, false); // last argument false = do not include weekends
+						endTime, null, true, null, false, null, null, null, null, null, null); // last argument false = do not include weekends
 		errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, addTB);
 		// Check for errors - spanning weeks includes weekends, an include weekends box is not not checked - should give an error
 		// hours > 24.

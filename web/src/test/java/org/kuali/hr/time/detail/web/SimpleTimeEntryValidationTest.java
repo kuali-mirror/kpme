@@ -86,7 +86,7 @@ public class SimpleTimeEntryValidationTest extends KPMEWebTestCase {
 
         // Build an action form - we're using it as a POJO, it ties into the
         // existing TK validation setup
-        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(timesheetDocument,assignment, earnCode, start, end, null, false, null, true);
+        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(timesheetDocument,assignment, earnCode, start, end, null, false, null, true, null, null, null, null, null, null);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
 
         // Check for errors
@@ -125,7 +125,7 @@ public class SimpleTimeEntryValidationTest extends KPMEWebTestCase {
 
         // Build an action form - we're using it as a POJO, it ties into the
         // existing TK validation setup
-        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(timesheetDocument, assignment, earnCode, start, end, null, false, null, true);
+        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(timesheetDocument, assignment, earnCode, start, end, null, false, null, true, null, null, null, null, null, null);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
 
         // Check for errors
