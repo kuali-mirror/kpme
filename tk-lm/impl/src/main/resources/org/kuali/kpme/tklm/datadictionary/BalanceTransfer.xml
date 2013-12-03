@@ -46,6 +46,7 @@
 				<ref bean="BalanceTransfer-leaveCalendarDocumentId"/>
 				<ref bean="BalanceTransfer-sstoId"/>
 				<ref bean="BalanceTransfer-relativeEffectiveDate" />
+                <ref bean="BalanceTransfer-userPrincipalId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -273,7 +274,23 @@
 		</property>
 		<property name="label" value="SSTO ID" />
 	</bean>
-	
+
+    <!--userPrincipalId-->
+    <bean id="BalanceTransfer-userPrincipalId" parent="BalanceTransfer-userPrincipalId-parentBean" />
+    <bean id="BalanceTransfer-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
 	<!--  Inquiry Definitions  -->
 
 	<bean id="BalanceTransfer-inquiryDefinition" parent="BalanceTransfer-inquiryDefinition-parentBean" />
@@ -290,7 +307,8 @@
 							<bean parent="FieldDefinition" p:attributeName="balanceTransferId"/>
 							<bean parent="FieldDefinition" p:attributeName="principalId"/>
 							<bean parent="FieldDefinition" p:attributeName="fromAccrualCategory"/>
-							<bean parent="FieldDefinition" p:attributeName="toAccrualCategory"/>						
+							<bean parent="FieldDefinition" p:attributeName="toAccrualCategory"/>
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="Balance Transfer" />

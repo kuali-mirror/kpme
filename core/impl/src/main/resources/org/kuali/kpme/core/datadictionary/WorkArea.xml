@@ -281,6 +281,7 @@
 							<bean parent="FieldDefinition" p:attributeName="adminDescr" />
 							<bean parent="FieldDefinition" p:attributeName="hrsDistributionF" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 				</bean>

@@ -44,6 +44,7 @@
 				<ref bean="EmployeeOverride-overrideValue" />
 				<ref bean="EmployeeOverride-description" />
 				<ref bean="EmployeeOverride-active" />
+                <ref bean="EmployeeOverride-userPrincipalId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -205,7 +206,24 @@
 		<property name="label" value="Active" />
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
 	</bean>
-	
+
+    <!--userPrincipalId-->
+    <bean id="EmployeeOverride-userPrincipalId" parent="EmployeeOverride-userPrincipalId-parentBean" />
+    <bean id="EmployeeOverride-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
+    
 	<!-- Inquiry Definitions -->
 	<bean id="EmployeeOverride-inquiryDefinition" parent="EmployeeOverride-inquiryDefinition-parentBean" />
 	<bean id="EmployeeOverride-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" 
@@ -227,6 +245,7 @@
 							<bean parent="FieldDefinition" p:attributeName="active" />
                             <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
                                   p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="Employee Override" />

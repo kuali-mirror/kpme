@@ -400,6 +400,7 @@
                             <bean parent="FieldDefinition" p:attributeName="maxHiringRate" />
                             <bean parent="FieldDefinition" p:attributeName="rateType" />
                             <bean parent="FieldDefinition" p:attributeName="active"/>
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
                         </list>
                     </property>
                     <property name="title" value="Pay Grade" />
@@ -431,6 +432,7 @@
                               <bean parent="Uif-DataField" p:propertyName="maxHiringRate" />
                               <bean parent="Uif-DataField" p:propertyName="rateType" />
                               <bean parent="Uif-DataField" p:propertyName="active"/>
+                              <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
                           </list>
                       </property>
                       <property name="title" value="Pay Grade Information" />

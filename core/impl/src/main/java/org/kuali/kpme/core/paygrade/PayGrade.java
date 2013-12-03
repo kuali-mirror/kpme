@@ -41,7 +41,6 @@ public class PayGrade extends HrBusinessObject implements PayGradeContract {
 	private String hrPayGradeId;
 	private String payGrade;
 	private String description;
-	private String userPrincipalId;
 	private String salGroup;
     private String institution;
     private String location;
@@ -84,14 +83,6 @@ public class PayGrade extends HrBusinessObject implements PayGradeContract {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public void setUserPrincipalId(String userPrincipalId) {
-		this.userPrincipalId = userPrincipalId;
-	}
-
-	public String getUserPrincipalId() {
-		return userPrincipalId;
 	}
 
 	@Override

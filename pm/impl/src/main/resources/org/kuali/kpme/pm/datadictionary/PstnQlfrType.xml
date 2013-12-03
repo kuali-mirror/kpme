@@ -35,6 +35,7 @@
 	        <ref bean="PositionQualifierType-typeValue"/>
 	        <ref bean="PositionQualifierType-selectValues"/>	
 	        <ref bean="PositionQualifierType-active"/>
+            <ref bean="PositionQualifierType-userPrincipalId"/>
 		 </list>
 	    </property>
 <!-- 	    <property name="collections"> -->
@@ -138,9 +139,24 @@
     <bean id="PositionQualifierType-active" parent="PositionQualifierType-active-parentBean"/>
  	<bean id="PositionQualifierType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
    		<property name="name" value="active"/>
-  	</bean> 
+  	</bean>
 
-  	
+    <!--userPrincipalId-->
+    <bean id="PositionQualifierType-userPrincipalId" parent="PositionQualifierType-userPrincipalId-parentBean" />
+    <bean id="PositionQualifierType-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40" />
+        </property>
+    </bean>
   	 
 
 <!--*************************************************************************** 
@@ -200,6 +216,7 @@
 			       	<bean parent="Uif-DataField" p:propertyName="typeValue" />
 			       	<bean parent="Uif-DataField" p:propertyName="selectValues" />
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
+                    <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
 	        	</list>
 	     	 </property>
 	     	 <property name="title" value="Position Qualifier Type Inquiry"/>

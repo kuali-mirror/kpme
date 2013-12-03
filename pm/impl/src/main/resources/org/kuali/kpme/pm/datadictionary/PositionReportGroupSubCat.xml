@@ -35,6 +35,7 @@
 	        <ref bean="PositionReportGroupSubCat-institution"/>
 	        <ref bean="PositionReportGroupSubCat-location"/>
 	        <ref bean="PositionReportGroupSubCat-active"/>
+            <ref bean="PositionReportGroupSubCat-userPrincipalId"/>
 	      </list>
 	    </property>
 	    <property name="objectLabel" value="Position Report Group Sub Category"/>
@@ -151,8 +152,24 @@
     <bean id="PositionReportGroupSubCat-active" parent="PositionReportGroupSubCat-active-parentBean"/>
  	<bean id="PositionReportGroupSubCat-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
    		<property name="name" value="active"/>
-  	</bean>  
+  	</bean>
 
+    <!--userPrincipalId-->
+    <bean id="PositionReportGroupSubCat-userPrincipalId" parent="PositionReportGroupSubCat-userPrincipalId-parentBean" />
+    <bean id="PositionReportGroupSubCat-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40" />
+        </property>
+    </bean>
 <!--*************************************************************************** 
 							Views
  ***************************************************************************-->  	
@@ -231,6 +248,7 @@
 			        <bean parent="Uif-DataField" p:propertyName="institution" />
 			        <bean parent="Uif-DataField" p:propertyName="location" />
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
+                    <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
 	        	</list>
 	     	 </property>
 	     	 <property name="title" value="Position Report Group Sub Category Inquiry"/>

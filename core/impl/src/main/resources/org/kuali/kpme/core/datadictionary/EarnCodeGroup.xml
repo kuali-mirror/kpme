@@ -43,6 +43,7 @@
 				<ref bean="EarnCodeGroup-history" />
 				<ref bean="EarnCodeGroup-warningText" />
 				<ref bean="EarnCodeGroup-active" />
+                <ref bean="EarnCodeGroup-userPrincipalId" />
 			</list>
 		</property>
 		<property name="collections">
@@ -181,7 +182,24 @@
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 	</bean>
-	
+
+    <!--userPrincipalId-->
+    <bean id="EarnCodeGroup-userPrincipalId" parent="EarnCodeGroup-userPrincipalId-parentBean" />
+    <bean id="EarnCodeGroup-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
+    
 	<!--  Inquiry Definitions  -->
   
   	<bean id="EarnCodeGroup-inquiryDefinition" parent="EarnCodeGroup-inquiryDefinition-parentBean"
@@ -201,6 +219,7 @@
 							<bean parent="FieldDefinition" p:attributeName="showSummary" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 							<bean parent="FieldDefinition" p:attributeName="warningText" />
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="Earn Code Group" />

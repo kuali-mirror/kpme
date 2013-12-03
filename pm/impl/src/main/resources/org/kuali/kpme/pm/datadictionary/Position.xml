@@ -71,6 +71,7 @@
 				<ref bean="Position-temporary" />
 				<ref bean="Position-contract" />
 				<ref bean="Position-contractType" />
+                <ref bean="Position-userPrincipalId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -598,6 +599,24 @@
 		<property name="label" value="Contract Type" />
 	</bean>
 
+
+    <!--userPrincipalId-->
+    <bean id="Position-userPrincipalId" parent="Position-userPrincipalId-parentBean" />
+    <bean id="Position-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40" />
+        </property>
+    </bean>
+    
 	<!-- Position Qualification List, used by inquiry view -->
 	<bean id="Position-qualificationList" abstract="true"
 		parent="Uif-Disclosure-TableCollectionSection"
@@ -650,6 +669,7 @@
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="category" />
 				<bean parent="Uif-DataField" p:propertyName="names" />
+                <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
 			</list>
 		</property>
 	</bean>
@@ -766,7 +786,8 @@
 							<bean parent="Uif-DataField" p:propertyName="poolEligible" />
 							<bean parent="Uif-DataField" p:propertyName="positionStatus" />
 							<bean parent="Uif-DataField" p:propertyName="active" />
-						</list>
+                            <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+                        </list>
 					</property>
 					<property name="title" value="Position" />
 				</bean>

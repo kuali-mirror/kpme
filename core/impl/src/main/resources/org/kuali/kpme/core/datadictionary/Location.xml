@@ -207,6 +207,7 @@
 							<bean parent="FieldDefinition" p:attributeName="active" />
 							<bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
 								p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 				</bean>

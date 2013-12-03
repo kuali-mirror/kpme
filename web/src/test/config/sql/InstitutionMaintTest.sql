@@ -15,4 +15,4 @@
 --
 
 delete from pm_institution_t where pm_institution_id = '10000';
-insert into pm_institution_t values('10000', '2012-01-01', 'SOME-CODE', 'DESCRIPTION', 'Y', now(), uuid(), '1');
+insert into pm_institution_t (`pm_institution_id`,`effdt`,`institution_code`,`description`,`active`,`timestamp`,`obj_id`,`ver_nbr`) values('10000', '2012-01-01', 'SOME-CODE', 'DESCRIPTION', 'Y', now(), uuid(), '1');

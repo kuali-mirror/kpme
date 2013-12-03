@@ -31,7 +31,6 @@ public class GracePeriodRule extends HrBusinessObject implements GracePeriodRule
 
 	private String tkGracePeriodRuleId;
 	private BigDecimal hourFactor;
-	private String userPrincipalId;
 	private boolean history; // KPME-2543
 	
 	// TODO returning an empty map for the time-being, until the BK is finalized
@@ -47,14 +46,6 @@ public class GracePeriodRule extends HrBusinessObject implements GracePeriodRule
 
 	public void setHourFactor(BigDecimal hourFactor) {
 	    this.hourFactor = hourFactor;
-	}
-
-	public String getUserPrincipalId() {
-	    return userPrincipalId;
-	}
-
-	public void setUserPrincipalId(String userPrincipalId) {
-	    this.userPrincipalId = userPrincipalId;
 	}
 
 	public String getTkGracePeriodRuleId() {

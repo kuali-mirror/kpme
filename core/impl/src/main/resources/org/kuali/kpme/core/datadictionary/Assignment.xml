@@ -48,6 +48,7 @@
 				<ref bean="Assignment-task" />
 				<ref bean="Assignment-active" />
 				<ref bean="Assignment-history" />
+                <ref bean="Assignment-userPrincipalId" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -318,7 +319,23 @@
 		<property name="name" value="assignmentAccounts" />
 		<property name="label" value="Assignment Accounts" />
 	</bean>
-	
+    
+    <!--userPrincipalId-->
+    <bean id="Assignment-userPrincipalId" parent="Assignment-userPrincipalId-parentBean" />
+    <bean id="Assignment-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
 
 	<!-- Inquiry Definitions -->
 	<bean id="Assignment-inquiryDefinition" parent="Assignment-inquiryDefinition-parentBean" />
@@ -340,6 +357,7 @@
 							<bean parent="FieldDefinition" p:attributeName="active" />
                             <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
                                   p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="Assignment" />

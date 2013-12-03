@@ -15,12 +15,14 @@
  */
 package org.kuali.kpme.tklm.time.rules.lunch.sys.web;
 
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.cache.CacheUtils;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.rules.lunch.sys.SystemLunchRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class SystemLunchRuleMaintainableImpl extends KualiMaintainableImpl {
 	/**
@@ -45,10 +47,17 @@ public class SystemLunchRuleMaintainableImpl extends KualiMaintainableImpl {
 				}
 				sysLunchRule.setTimestamp(TKUtils.getCurrentTimestamp());
 				sysLunchRule.setTkSystemLunchRuleId(null);
+
 			}
 		}
-		
+
 		KRADServiceLocator.getBusinessObjectService().save(sysLunchRule);
         CacheUtils.flushCache(SystemLunchRule.CACHE_NAME);
 	}
+
+    @Override
+    public void prepareForSave() {
+        SystemLunchRule systemLunchRule = (SystemLunchRule) this.getBusinessObject();
+        systemLunchRule.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+    }
 }

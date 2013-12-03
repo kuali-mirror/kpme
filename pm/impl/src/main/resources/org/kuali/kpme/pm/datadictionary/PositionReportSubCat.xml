@@ -41,6 +41,7 @@
 				<ref bean="PositionReportSubCat-institution" />
 				<ref bean="PositionReportSubCat-location" />
 				<ref bean="PositionReportSubCat-active" />
+                <ref bean="PositionReportSubCat-userPrincipalId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -202,6 +203,23 @@
 		<property name="label" value="Active" />
 	</bean>
 
+    <!--userPrincipalId-->
+    <bean id="PositionReportSubCat-userPrincipalId" parent="PositionReportSubCat-userPrincipalId-parentBean" />
+    <bean id="PositionReportSubCat-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
+    
 	<!-- Business Object Inquiry Definition -->
 	<bean id="PositionReportSubCat-inquiryDefinition" parent="PositionReportSubCat-inquiryDefinition-parentBean" />
 	<bean id="PositionReportSubCat-inquiryDefinition-parentBean" abstract="true"
@@ -219,6 +237,7 @@
 							<bean parent="FieldDefinition" p:attributeName="institution" />
 							<bean parent="FieldDefinition" p:attributeName="location" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="Position Report Sub Category" />

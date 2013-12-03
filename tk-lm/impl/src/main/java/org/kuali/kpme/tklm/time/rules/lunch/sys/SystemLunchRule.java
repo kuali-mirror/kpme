@@ -30,7 +30,6 @@ public class SystemLunchRule extends TkRule implements SystemLunchRuleContract {
 	private String tkSystemLunchRuleId;
 	private Boolean showLunchButton = false;
 	private boolean history;
-	private String userPrincipalId;
 
 	// TODO returning an empty map for the time-being, until the BK is finalized
 	@Override
@@ -56,15 +55,6 @@ public class SystemLunchRule extends TkRule implements SystemLunchRuleContract {
 	public void setHistory(boolean history) {
 		this.history = history;
 	}
-
-	public String getUserPrincipalId() {
-		return userPrincipalId;
-	}
-
-	public void setUserPrincipalId(String userPrincipalId) {
-		this.userPrincipalId = userPrincipalId;
-	}
-
 
 	public Boolean getShowLunchButton() {
 		return showLunchButton;

@@ -296,10 +296,10 @@
 							<bean parent="FieldDefinition" p:attributeName="workArea" />
 							<bean parent="FieldDefinition" p:attributeName="payType" />
 							<bean parent="FieldDefinition" p:attributeName="clockUserFl" />
-							<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
                             <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
                                   p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="Time Collection Rule" />

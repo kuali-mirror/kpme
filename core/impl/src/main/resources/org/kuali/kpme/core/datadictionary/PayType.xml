@@ -50,6 +50,7 @@
 				<ref bean="PayType-location" />
 				<ref bean="PayType-flsaStatus" />
 				<ref bean="PayType-payFrequency" />
+                <ref bean="PayType-userPrincipalId"/>
 			</list>
 		</property>
         <property name="relationships">
@@ -311,7 +312,25 @@
 		<property name="name" value="payFrequency" />
 		<property name="label" value="Pay Frequency" />
 	</bean>
-	
+
+
+    <!--userPrincipalId-->
+    <bean id="PayType-userPrincipalId" parent="PayType-userPrincipalId-parentBean" />
+    <bean id="PayType-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
+    
 	<!--  Inquiry Definitions  -->
   
   	<bean id="PayType-inquiryDefinition" parent="PayType-inquiryDefinition-parentBean" />
@@ -333,6 +352,7 @@
 							<bean parent="FieldDefinition" p:attributeName="active" />
 			                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
 			                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="Pay Type" />

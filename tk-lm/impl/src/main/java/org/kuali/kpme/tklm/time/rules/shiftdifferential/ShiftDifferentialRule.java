@@ -87,7 +87,6 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
 	private String fromEarnGroup;
 	private String pyCalendarGroup;
 	private BigDecimal maxGap; // Gap is in HOURS
-	private String userPrincipalId;
 
 	private String hrSalGroupId;
 	private String hrLocationId;
@@ -176,14 +175,6 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
      */
 	public void setMaxGap(BigDecimal maxGap) {
 		this.maxGap = maxGap;
-	}
-
-	public String getUserPrincipalId() {
-		return userPrincipalId;
-	}
-
-	public void setUserPrincipalId(String userPrincipalId) {
-		this.userPrincipalId = userPrincipalId;
 	}
 
 	public String getHrSalGroup() {

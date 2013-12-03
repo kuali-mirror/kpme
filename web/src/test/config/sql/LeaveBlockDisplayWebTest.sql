@@ -26,8 +26,8 @@ update hr_principal_attributes_t set leave_plan = NULL where principal_id = 'adm
 /** Update HR_Principal_attribute_t */
 update hr_principal_attributes_t set leave_plan = 'testLP' where principal_id = 'admin';
 
-insert into lm_sys_schd_timeoff_t values ('3000', 'testLP', 'testAC', 'testLC', '2013-01-01', NULL, 'testLocation','testSSTO', '3', null, null, null, 'testH', '2013-03-01', uuid(), '1', 'Y', now());
-insert into lm_sys_schd_timeoff_t values ('3001', 'InactiveLP', 'testAC', 'testLC', '2013-01-01', NULL, 'testLocation','testSSTO', '3', null, null, null, 'testH', '2013-03-01', uuid(), '1', 'N', now());
+insert into lm_sys_schd_timeoff_t (`lm_sys_schd_timeoff_id`,`leave_plan`,`accrual_category`,`earn_code`,`accr_dt`,`sch_time_off_dt`,`location`,`descr`,`amount_of_time`,`unused_time`,`trans_conv_factor`,`transfer_to_earn_code`,`premium_holiday`,`effdt`,`obj_id`,`ver_nbr`,`active`,`timestamp`) values ('3000', 'testLP', 'testAC', 'testLC', '2013-01-01', NULL, 'testLocation','testSSTO', '3', null, null, null, 'testH', '2013-03-01', uuid(), '1', 'Y', now());
+insert into lm_sys_schd_timeoff_t (`lm_sys_schd_timeoff_id`,`leave_plan`,`accrual_category`,`earn_code`,`accr_dt`,`sch_time_off_dt`,`location`,`descr`,`amount_of_time`,`unused_time`,`trans_conv_factor`,`transfer_to_earn_code`,`premium_holiday`,`effdt`,`obj_id`,`ver_nbr`,`active`,`timestamp`) values ('3001', 'InactiveLP', 'testAC', 'testLC', '2013-01-01', NULL, 'testLocation','testSSTO', '3', null, null, null, 'testH', '2013-03-01', uuid(), '1', 'N', now());
 insert into lm_accrual_category_t (`lm_accrual_category_id`, `ACCRUAL_CATEGORY`, `LEAVE_PLAN`, `DESCR`, `ACCRUAL_INTERVAL_EARN`, `UNIT_OF_TIME`, `EFFDT`, `OBJ_ID`, `VER_NBR`, `PRORATION`, `DONATION`, `SHOW_ON_GRID`, `ACTIVE`, `TIMESTAMP`, `MIN_PERCENT_WORKED`, `EARN_CODE`, `HAS_RULES`) values('3000', 'testAC', 'testLP', 'test', '', '', '2010-01-01', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', null, null, 'Y', 'Y',now(), '1.5', 'LC-DEFAULT', 'Y');
 
 /** Leave block */
@@ -41,7 +41,7 @@ insert into lm_leave_block_hist_t (`LM_LEAVE_BLOCK_HIST_ID`, `LM_LEAVE_BLOCK_ID`
 insert into lm_leave_block_hist_t (`LM_LEAVE_BLOCK_HIST_ID`, `LM_LEAVE_BLOCK_ID`, `LEAVE_DATE`, `DESCRIPTION`, `PRINCIPAL_ID`, `EARN_CODE`, `LM_SYS_SCHD_TIMEOFF_ID`, `ACCRUAL_CATEGORY`, `LEAVE_AMOUNT`, `DOCUMENT_ID`, `PRINCIPAL_ID_MODIFIED`, `TIMESTAMP`, `PRINCIPAL_ID_DELETED`, `TIMESTAMP_DELETED`, `BLOCK_ID`, `ACCRUAL_GENERATED`, `REQUEST_STATUS`, `ACTION`, `VER_NBR`, `OBJ_ID`, `LEAVE_BLOCK_TYPE`) values ('1002','1002', '2013-03-01', 'Updated by self', 'admin', 'testLC', 3000, 'testAC', '8', '12546', 'admin', now(), null, null, 0,'A','P','M','1','B2991ADA-E866-F28C-7E95-A897AC377D0C', 'LC' );
 
 /** Leave status history */
-insert into lm_leave_status_hist_t values ('2000', '1000', 'D', now(), 'admin', 'Work Load', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1');
+insert into lm_leave_status_hist_t (`lm_leave_status_hist_id`,`lm_leave_block_id`,`request_status`,`timestamp`,`principal_id_modified`,`reason`,`obj_id`,`ver_nbr`) values ('2000', '1000', 'D', now(), 'admin', 'Work Load', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1');
 
 /* Leave Calnedar Document */
 INSERT INTO lm_leave_document_header_t (`document_id`,`principal_id`,`begin_date`,`end_date`,`document_status`,`obj_id`,`ver_nbr`) values ('5000', 'testUser', '2013-03-01 00:00:00','2013-03-15 00:00:00', 'F', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '1');

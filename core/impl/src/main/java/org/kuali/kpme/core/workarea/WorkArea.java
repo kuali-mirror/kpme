@@ -53,7 +53,6 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule, Work
     private Boolean ovtEarnCode;
     private String dept;
     private String adminDescr;
-    private String userPrincipalId;
 	private boolean history;
 	private boolean hrsDistributionF;	
 	
@@ -162,14 +161,6 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule, Work
         this.adminDescr = adminDescr;
     }
 
-    public String getUserPrincipalId() {
-        return userPrincipalId;
-    }
-
-    public void setUserPrincipalId(String userPrincipalId) {
-        this.userPrincipalId = userPrincipalId;
-    }
-    
 	public boolean isHistory() {
 		return history;
 	}

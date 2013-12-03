@@ -38,6 +38,7 @@
 				<ref bean="PayStep-serviceUnit" />
                 <ref bean="PayStep-history"/>
 				<ref bean="PayStep-active" />
+                <ref bean="PayStep-userPrincipalId"/>
 			</list>
 		</property>
 		<property name="objectLabel" value="Pay Step" />
@@ -198,6 +199,23 @@
 		<property name="label" value="Active" />
 	</bean>
 
+
+    <!--userPrincipalId-->
+    <bean id="PayStep-userPrincipalId" parent="PayStep-userPrincipalId-parentBean" />
+    <bean id="PayStep-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
 	<!-- Business Object Inquiry Definition -->
 	<bean id="PayStep-InquiryView" parent="Uif-InquiryView">
 		<property name="headerText" value="Pay Step Inquiry"/>
@@ -221,6 +239,7 @@
 							<bean parent="Uif-DataField" p:propertyName="serviceAmount" />
 							<bean parent="Uif-DataField" p:propertyName="serviceUnit" />
 							<bean parent="Uif-DataField" p:propertyName="active" />
+                            <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="Pay Step Inquiry" />

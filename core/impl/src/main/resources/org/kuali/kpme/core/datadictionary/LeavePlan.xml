@@ -52,6 +52,7 @@
 				<ref bean="LeavePlan-timestamp" />
 				<ref bean="LeavePlan-history" />
 				<ref bean="LeavePlan-active" />
+                <ref bean="LeavePlan-userPrincipalId"/>
 			</list>
 		</property>
 	</bean>
@@ -266,6 +267,7 @@
 							<bean parent="FieldDefinition" p:attributeName="descr" />
 							<bean parent="FieldDefinition" p:attributeName="planningMonths" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="LeavePlan" />
@@ -276,6 +278,22 @@
 		<property name="title" value="Leave Plan Inquiry" />
 	</bean>
 
+    <!--userPrincipalId-->
+    <bean id="LeavePlan-userPrincipalId" parent="LeavePlan-userPrincipalId-parentBean" />
+    <bean id="LeavePlan-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
 	<!-- Look up Definitions -->
 
 	<bean id="LeavePlan-lookupDefinition" parent="LeavePlan-lookupDefinition-parentBean" />

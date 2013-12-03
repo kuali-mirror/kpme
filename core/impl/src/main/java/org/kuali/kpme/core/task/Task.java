@@ -40,7 +40,6 @@ public class Task extends HrBusinessObject implements TaskContract {
     private Long workArea;
     private String description;
     private String administrativeDescription;
-    private String userPrincipalId;
     
     private WorkArea workAreaObj;
 	
@@ -89,14 +88,6 @@ public class Task extends HrBusinessObject implements TaskContract {
 
     public void setAdministrativeDescription(String administrativeDescription) {
     	this.administrativeDescription = administrativeDescription;
-    }
-
-    public String getUserPrincipalId() {
-    	return userPrincipalId;
-    }
-
-    public void setUserPrincipalId(String userPrincipalId) {
-    	this.userPrincipalId = userPrincipalId;
     }
 
 	public WorkArea getWorkAreaObj() {

@@ -44,6 +44,7 @@
 				<ref bean="LeavePayout-forfeitedAmount"/>
 				<ref bean="LeavePayout-leaveCalendarDocumentId"/>
 				<ref bean="LeavePayout-accrualCategoryRule"/>
+                <ref bean="LeavePayout-userPrincipalId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -243,7 +244,24 @@
 		</property>
 		<property name="label" value="Leave Calendar ID" />
 	</bean>
-	
+
+    <!--userPrincipalId-->
+    <bean id="LeavePayout-userPrincipalId" parent="LeavePayout-userPrincipalId-parentBean" />
+    <bean id="LeavePayout-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
+    
 	<!--  Inquiry Definitions  -->
 
 	<bean id="LeavePayout-inquiryDefinition" parent="LeavePayout-inquiryDefinition-parentBean" />
@@ -263,6 +281,7 @@
                             <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
                                   p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
 							<bean parent="FieldDefinition" p:attributeName="fromAccrualCategory"/>
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="LeavePayout" />

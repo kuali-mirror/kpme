@@ -45,6 +45,7 @@
 	        <ref bean="Classification-effectiveDate"/>
 	        <ref bean="Classification-externalReference"/>
 	        <ref bean="Classification-active"/>
+            <ref bean="Classification-userPrincipalId"/>
 		 </list>
 	    </property>
 		
@@ -325,8 +326,24 @@
     <bean id="Classification-active" parent="Classification-active-parentBean"/>
  	<bean id="Classification-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
    		<property name="name" value="active"/>
-  	</bean>  
+  	</bean>
 
+    <!--userPrincipalId-->
+    <bean id="Classification-userPrincipalId" parent="Classification-userPrincipalId-parentBean" />
+    <bean id="Classification-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40" />
+        </property>
+    </bean>
 <!--*************************************************************************** 
 							Views
  ***************************************************************************-->  	
@@ -458,7 +475,7 @@
 			        <bean parent="Uif-LinkField" p:label="External Reference" 
  						p:href="@{#root.dataObject.externalReference}" p:linkText="@{#root.dataObject.externalReference}" p:target="_blank" />
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
-			        
+                    <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
 	        	</list>
 	     	 </property>
 	     	 <property name="title" value="Position Classification Inquiry"/>

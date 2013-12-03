@@ -31,6 +31,7 @@
 	        <ref bean="PositionDepartmentAffiliation-positionDeptAfflType"/>
 	        <ref bean="PositionDepartmentAffiliation-primaryIndicator"/>
 	        <ref bean="PositionDepartmentAffiliation-active"/>
+            <ref bean="PositionDepartmentAffiliation-userPrincipalId"/>  
 	      </list>
 	    </property>
 	    <property name="objectLabel" value="Position Department Affiliation"/>
@@ -91,7 +92,24 @@
 		<property name="name" value="primaryIndicator" />
 		<property name="label" value="Primary Indicator" />
 		<property name="description" value="Primary Indicator" />
-	</bean>	
+	</bean>
+
+    <!--userPrincipalId-->
+    <bean id="PositionDepartmentAffiliation-userPrincipalId" parent="PositionDepartmentAffiliation-userPrincipalId-parentBean" />
+    <bean id="PositionDepartmentAffiliation-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40" />
+        </property>
+    </bean>
 
   <!--*************************************************************************** 
 							            Views
@@ -141,6 +159,7 @@
 			        <bean parent="Uif-DataField" p:propertyName="positionDeptAfflType" />
 			        <bean parent="Uif-DataField" p:propertyName="primaryIndicator"/>
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
+                    <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
 	        	</list>
 	     	 </property>
 	     	 <property name="title" value="Position Department Affiliation Inquiry"/>

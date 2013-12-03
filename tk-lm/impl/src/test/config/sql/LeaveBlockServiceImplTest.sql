@@ -21,8 +21,8 @@ delete from lm_accrual_category_t where lm_accrual_category_id = '3000';
 delete from lm_leave_block_t where lm_leave_block_id >= '1000';
 delete from lm_leave_block_hist_t where lm_leave_block_hist_id = '1000';
 
-insert into lm_sys_schd_timeoff_t values ('3000', 'testLP', 'testAC', 'testLC', '2012-01-01', NULL, 'testLocation','testSSTO', '3', null, null, null, 'testH', '2012-03-01', uuid(), '1', 'Y', now());
-insert into lm_sys_schd_timeoff_t values ('3001', 'InactiveLP', 'testAC', 'testLC', '2012-01-01', NULL, 'testLocation','testSSTO', '3', null, null, null,'testH', '2012-03-01', uuid(), '1', 'N', now());
+insert into lm_sys_schd_timeoff_t (`lm_sys_schd_timeoff_id`,`leave_plan`,`accrual_category`,`earn_code`,`accr_dt`,`sch_time_off_dt`,`location`,`descr`,`amount_of_time`,`unused_time`,`trans_conv_factor`,`transfer_to_earn_code`,`premium_holiday`,`effdt`,`obj_id`,`ver_nbr`,`active`,`timestamp`) values ('3000', 'testLP', 'testAC', 'testLC', '2012-01-01', NULL, 'testLocation','testSSTO', '3', null, null, null, 'testH', '2012-03-01', uuid(), '1', 'Y', now());
+insert into lm_sys_schd_timeoff_t (`lm_sys_schd_timeoff_id`,`leave_plan`,`accrual_category`,`earn_code`,`accr_dt`,`sch_time_off_dt`,`location`,`descr`,`amount_of_time`,`unused_time`,`trans_conv_factor`,`transfer_to_earn_code`,`premium_holiday`,`effdt`,`obj_id`,`ver_nbr`,`active`,`timestamp`) values ('3001', 'InactiveLP', 'testAC', 'testLC', '2012-01-01', NULL, 'testLocation','testSSTO', '3', null, null, null,'testH', '2012-03-01', uuid(), '1', 'N', now());
 insert into lm_accrual_category_t (`lm_accrual_category_id`, `ACCRUAL_CATEGORY`, `LEAVE_PLAN`, `DESCR`, `ACCRUAL_INTERVAL_EARN`, `UNIT_OF_TIME`, `EFFDT`, `OBJ_ID`, `VER_NBR`, `PRORATION`, `DONATION`, `SHOW_ON_GRID`, `ACTIVE`, `TIMESTAMP`, `MIN_PERCENT_WORKED`, `EARN_CODE`, `HAS_RULES`) values('3000', 'testAC', 'testLP', 'test', '', '', '2010-01-01', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', null, null, null, 'Y',now(), '1.5', 'LC-DEFAULT', 'Y');
 
 /** Leave block */

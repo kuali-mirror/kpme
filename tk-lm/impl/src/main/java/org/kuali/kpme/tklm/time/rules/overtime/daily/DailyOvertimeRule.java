@@ -61,7 +61,6 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 
 	private BigDecimal maxGap;
 	private BigDecimal minHours;
-	private String userPrincipalId;
 	private boolean history;
 	private Boolean ovtEarnCode;
 
@@ -110,14 +109,6 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 
 	public void setMaxGap(BigDecimal maxGap) {
 		this.maxGap = maxGap;
-	}
-
-	public String getUserPrincipalId() {
-		return userPrincipalId;
-	}
-
-	public void setUserPrincipalId(String userPrincipalId) {
-		this.userPrincipalId = userPrincipalId;
 	}
 
 	public Department getDepartmentObj() {

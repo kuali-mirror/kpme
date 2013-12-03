@@ -33,6 +33,7 @@
 	        <ref bean="PositionType-institution"/>
 	        <ref bean="PositionType-location"/>
 	        <ref bean="PositionType-active"/>
+            <ref bean="PositionType-userPrincipalId"/>  
 	      </list>
 	    </property>
 	   <property name="relationships">
@@ -136,8 +137,24 @@
  	<bean id="PositionType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
  		<property name="required" value="true" />
    		<property name="name" value="active"/>
-  	</bean>  
+  	</bean>
 
+    <!--userPrincipalId-->
+    <bean id="PositionType-userPrincipalId" parent="PositionType-userPrincipalId-parentBean" />
+    <bean id="PositionType-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40" />
+        </property>
+    </bean>
 <!--*************************************************************************** 
 							Views
  ***************************************************************************-->  	
@@ -202,6 +219,7 @@
 			        <bean parent="Uif-DataField" p:propertyName="institution" />
 			        <bean parent="Uif-DataField" p:propertyName="location" />
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
+                    <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
 	        	</list>
 	     	 </property>
 	     	 <property name="title" value="Position Type Inquiry"/>

@@ -17,13 +17,16 @@ package org.kuali.kpme.core.bo;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.cache.CacheUtils;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainableImpl {
     protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HrBusinessObjectMaintainableImpl.class);
@@ -53,6 +56,7 @@ public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainable
 			}
 		}
 		hrObj.setTimestamp(new Timestamp(System.currentTimeMillis()));
+
 		hrObj.setId(null);
 		
 		customSaveLogic(hrObj);
@@ -81,4 +85,10 @@ public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainable
 	
 	public abstract HrBusinessObject getObjectById(String id);
 	public void customSaveLogic(HrBusinessObject hrObj){};
+
+    @Override
+    public void prepareForSave() {
+    HrBusinessObject hrObj = (HrBusinessObject) this.getBusinessObject();
+    hrObj.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+    }
 }

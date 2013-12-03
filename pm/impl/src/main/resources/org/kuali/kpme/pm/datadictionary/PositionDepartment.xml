@@ -33,6 +33,7 @@
 	        <ref bean="PositionDepartment-department"/>
 	        <ref bean="PositionDepartment-positionDeptAffl"/>
 	        <ref bean="PositionDepartment-active"/>
+            <ref bean="PositionDepartment-userPrincipalId"/>  
 	      </list>
 	    </property>
 	    <property name="relationships">
@@ -141,8 +142,24 @@
  	<bean id="PositionDepartment-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
  		<property name="required" value="false" />
    		<property name="name" value="active"/>
-  	</bean>  
+  	</bean>
 
+    <!--userPrincipalId-->
+    <bean id="PositionDepartment-userPrincipalId" parent="PositionDepartment-userPrincipalId-parentBean" />
+    <bean id="PositionDepartment-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40" />
+        </property>
+    </bean>
 <!--*************************************************************************** 
 							Views
  ***************************************************************************-->  	
@@ -218,6 +235,7 @@
 			        <bean parent="Uif-DataField" p:propertyName="department" />
 			        <bean parent="Uif-DataField" p:propertyName="positionDeptAffl" />			        			        
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
+                    <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
 	        	</list>
 	     	 </property>
 	     	 <property name="title" value="Position Department Inquiry"/>

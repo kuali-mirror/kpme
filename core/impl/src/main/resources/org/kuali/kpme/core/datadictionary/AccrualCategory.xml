@@ -51,6 +51,7 @@
 				<ref bean="AccrualCategory-minPercentWorked" />
 				<ref bean="AccrualCategory-earnCode" />
 				<ref bean="AccrualCategory-hasRules" />
+                <ref bean="AccrualCategory-userPrincipalId"/>
 				
 			</list>
 		</property>
@@ -339,7 +340,23 @@
 		<property name="name" value="earnCode" />
 		<property name="label" value="Default Earn Code" />
 	</bean>
-	
+
+    <!--userPrincipalId-->
+    <bean id="AccrualCategory-userPrincipalId" parent="AccrualCategory-userPrincipalId-parentBean" />
+    <bean id="AccrualCategory-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
 	<!--  Inquiry Definitions  -->
 
 	<bean id="AccrualCategory-inquiryDefinition" parent="AccrualCategory-inquiryDefinition-parentBean" />
@@ -366,6 +383,7 @@
 							<bean parent="FieldDefinition" p:attributeName="active" />
                             <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
                                   p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId"/>
 						</list>
 					</property>
 					<property name="title" value="Accrual Category" />

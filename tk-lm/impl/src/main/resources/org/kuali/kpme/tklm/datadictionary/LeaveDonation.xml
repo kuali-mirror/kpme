@@ -49,6 +49,7 @@
 				<ref bean="LeaveDonation-history" />
 				<ref bean="LeaveDonation-active" />
                 <ref bean="LeaveDonation-relativeEffectiveDate" />
+                <ref bean="LeaveDonation-userPrincipalId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -380,7 +381,22 @@
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
 	</bean>
 
-
+    <!--userPrincipalId-->
+    <bean id="LeaveDonation-userPrincipalId" parent="LeaveDonation-userPrincipalId-parentBean" />
+    <bean id="LeaveDonation-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
 	
 	<!--  Inquiry Definitions  -->
   
@@ -405,6 +421,7 @@
 							<bean parent="FieldDefinition" p:attributeName="active" />
                             <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
                                   p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="LeaveDonation" />

@@ -50,7 +50,6 @@ public class TimeCollectionRule extends HrBusinessObject implements TimeCollecti
 	private String dept;
 	private Long workArea;
 	private boolean clockUserFl;
-	private String userPrincipalId;
 
 	private String tkWorkAreaId;
 	private String hrDeptId;
@@ -131,14 +130,6 @@ public class TimeCollectionRule extends HrBusinessObject implements TimeCollecti
 
 	public void setClockUserFl(boolean clockUserFl) {
 		this.clockUserFl = clockUserFl;
-	}
-
-	public String getUserPrincipalId() {
-		return userPrincipalId;
-	}
-
-	public void setUserPrincipalId(String userPrincipalId) {
-		this.userPrincipalId = userPrincipalId;
 	}
 
 	public String getTkTimeCollectionRuleId() {

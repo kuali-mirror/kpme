@@ -57,6 +57,7 @@
 				<ref bean="Job-active" />
 				<ref bean="Job-positionNbr" />
 				<ref bean="Job-flsaStatus"/>
+                <ref bean="Job-userPrincipalId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -503,7 +504,24 @@
 		<property name="name" value="flsaStatus" />
 		<property name="label" value="FLSA Status" />
 	</bean>
-	
+
+    <!--userPrincipalId-->
+    <bean id="Job-userPrincipalId" parent="Job-userPrincipalId-parentBean" />
+    <bean id="Job-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
+    
 	<!-- Business Object Inquiry Definition -->
 
 
@@ -536,6 +554,7 @@
 							<bean parent="FieldDefinition" p:attributeName="active" />
 			                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
 			                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="Job" />

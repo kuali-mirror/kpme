@@ -52,6 +52,7 @@
 				<ref bean="SystemScheduledTimeOff-active" />
 				<ref bean="SystemScheduledTimeOff-history" />
 				<ref bean="SystemScheduledTimeOff-relativeEffectiveDate" />
+                <ref bean="SystemScheduledTimeOff-userPrincipalId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -391,7 +392,22 @@
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
 	</bean>
 
-
+    <!--userPrincipalId-->
+    <bean id="SystemScheduledTimeOff-userPrincipalId" parent="SystemScheduledTimeOff-userPrincipalId-parentBean" />
+    <bean id="SystemScheduledTimeOff-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
 
 	<!--  Inquiry Definitions  -->
 
@@ -419,6 +435,7 @@
                             <bean parent="FieldDefinition" p:attributeName="premiumHoliday" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true" />
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						 </list>
 					</property>
 					<property name="title" value="SystemScheduledTimeOff" />

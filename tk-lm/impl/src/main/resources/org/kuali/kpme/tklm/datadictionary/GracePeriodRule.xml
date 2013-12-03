@@ -158,6 +158,7 @@
 							<bean parent="FieldDefinition" p:attributeName="hourFactor" />
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="Grace Period Rule" />

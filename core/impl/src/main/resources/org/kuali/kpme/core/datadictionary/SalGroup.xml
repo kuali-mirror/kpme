@@ -45,6 +45,7 @@
 	        <ref bean="SalaryGroup-leavePlan"/>
 	        <ref bean="SalaryGroup-history"/>
 	        <ref bean="SalaryGroup-active"/>
+            <ref bean="SalaryGroup-userPrincipalId"/>  
 		 </list>
 	    </property>
 	    <property name="objectLabel" value="SalaryGroup"/>
@@ -212,8 +213,25 @@
     <bean id="SalaryGroup-active" parent="SalaryGroup-active-parentBean"/>
  	<bean id="SalaryGroup-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
    		<property name="name" value="active"/>
-  	</bean>  
+  	</bean>
 
+
+    <!--userPrincipalId-->
+    <bean id="SalaryGroup-userPrincipalId" parent="SalaryGroup-userPrincipalId-parentBean" />
+    <bean id="SalaryGroup-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
 <!--*************************************************************************** 
 							Views
  ***************************************************************************-->  	
@@ -329,6 +347,7 @@
                             <bean parent="FieldDefinition" p:attributeName="leaveEligible" />
                             <bean parent="FieldDefinition" p:attributeName="leavePlan" />
                             <bean parent="FieldDefinition" p:attributeName="active"/>
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
                         </list>
                     </property>
                     <property name="title" value="Salary Group" />
@@ -360,7 +379,8 @@
 			        <bean parent="Uif-DataField" p:propertyName="leaveEligible" />
 			        <bean parent="Uif-DataField" p:propertyName="leavePlan" />
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
-	        	</list>
+                    <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+                </list>
 	     	 </property>
 	     	 <property name="title" value="Salary Group Inquiry"/>
 	   	   </bean>

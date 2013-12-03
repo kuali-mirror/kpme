@@ -35,6 +35,7 @@
 				<ref bean="PositionResponsibility-percentTime" />
 				<ref bean="PositionResponsibility-active" />
 				<ref bean="PositionDuty-hrPositionId"/>
+                <ref bean="PositionResponsibility-userPrincipalId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -192,9 +193,24 @@
 	    </property>
 	    <property name="name" value="hrPositionId"/>
 	    <property name="label" value="Position Id"/>
-	</bean> 
+	</bean>
 
-
+    <!--userPrincipalId-->
+    <bean id="PositionResponsibility-userPrincipalId" parent="PositionResponsibility-userPrincipalId-parentBean" />
+    <bean id="PositionResponsibility-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40" />
+        </property>
+    </bean>
 
 	<!-- Position Responsibility Lookup View 
 

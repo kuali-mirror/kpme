@@ -50,6 +50,7 @@
 				<ref bean="EarnCodeSecurity-active" />
 				<ref bean="EarnCodeSecurity-earnCodeType" />
 				<ref bean="EarnCodeSecurity-relativeEffectiveDate" />
+                <ref bean="EarnCodeSecurity-userPrincipalId" />
 			</list>
 		</property>
 		  
@@ -306,7 +307,24 @@
 		<property name="name" value="earnCodeType" />
 		<property name="label" value="Earn Code Type" />
 	</bean>
-	
+
+    <!--userPrincipalId-->
+    <bean id="EarnCodeSecurity-userPrincipalId" parent="EarnCodeSecurity-userPrincipalId-parentBean" />
+    <bean id="EarnCodeSecurity-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
+
  	<!--  Inquiry Definitions  -->
   
   	<bean id="EarnCodeSecurity-inquiryDefinition" parent="EarnCodeSecurity-inquiryDefinition-parentBean" />
@@ -331,6 +349,7 @@
 							<bean parent="FieldDefinition" p:attributeName="active" />
 			                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
 			                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="Earn Code Security" />

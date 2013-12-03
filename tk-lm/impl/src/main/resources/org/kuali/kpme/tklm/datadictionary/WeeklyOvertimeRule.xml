@@ -277,6 +277,7 @@
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 							<bean parent="FieldDefinition" p:attributeName="step" />
 							<bean parent="FieldDefinition" p:attributeName="maxHours" />
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="Weekly Overtime Rule Inquiry" />

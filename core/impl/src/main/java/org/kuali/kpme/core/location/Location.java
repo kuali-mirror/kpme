@@ -43,7 +43,6 @@ public class Location extends HrBusinessObject implements LocationContract {
 	private String location;
 	private String timezone;
 	private String description;
-	private String userPrincipalId;
 	private String history;
 	
 	@Override
@@ -105,14 +104,6 @@ public class Location extends HrBusinessObject implements LocationContract {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getUserPrincipalId() {
-		return userPrincipalId;
-	}
-
-	public void setUserPrincipalId(String userPrincipalId) {
-		this.userPrincipalId = userPrincipalId;
 	}
 
 	public String getHistory() {

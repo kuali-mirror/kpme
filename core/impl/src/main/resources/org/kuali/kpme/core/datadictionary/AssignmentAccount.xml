@@ -44,6 +44,7 @@
 				<ref bean="AssignmentAccount-active" />
 				<ref bean="AssignmentAccount-tkAssignmentId" />
 				<ref bean="AssignmentAccount-earnCode" />
+                <ref bean="AssignmentAccount-userPrincipalId" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -299,6 +300,22 @@
 		<property name="label" value="Earn Code" />
 	</bean>
 
+    <!--userPrincipalId-->
+    <bean id="AssignmentAccount-userPrincipalId" parent="AssignmentAccount-userPrincipalId-parentBean" />
+    <bean id="AssignmentAccount-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
 
 	<!--  Inquiry Definitions  -->
 	<bean id="AssignmentAccount-lookupDefinition" parent="AssignmentAccount-lookupDefinition-parentBean" />

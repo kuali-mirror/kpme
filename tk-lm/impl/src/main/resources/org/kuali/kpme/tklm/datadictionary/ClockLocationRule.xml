@@ -321,6 +321,7 @@
 							<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 							<bean parent="FieldDefinition" p:attributeName="ipAddressesString" />
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="Clock Location Rule" />

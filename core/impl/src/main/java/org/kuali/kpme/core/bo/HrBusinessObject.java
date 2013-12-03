@@ -29,7 +29,8 @@ public abstract class HrBusinessObject extends PersistableBusinessObjectBase imp
 	private Date effectiveDate;
 	private boolean active;
 	private Timestamp timestamp;
-	
+    private String userPrincipalId;
+
 	public abstract String getId();
 	
 	public abstract void setId(String id);
@@ -75,7 +76,15 @@ public abstract class HrBusinessObject extends PersistableBusinessObjectBase imp
 	public Timestamp getTimestamp() {
 		return timestamp;
 	}
-	
+
+    public String getUserPrincipalId() {
+        return userPrincipalId;
+    }
+
+    public void setUserPrincipalId(String userPrincipalId) {
+        this.userPrincipalId = userPrincipalId;
+    }
+
 //	@Override
 //	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 //		return null;

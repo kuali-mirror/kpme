@@ -40,6 +40,7 @@
 		        <ref bean="Department-history" />
 		        <ref bean="Department-timestamp" />
 		        <ref bean="Department-relativeEffectiveDate" />
+                <ref bean="Department-userPrincipalId" />
             </list>
         </property>
         <property name="relationships">
@@ -255,6 +256,23 @@
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
 	</bean>
 
+    <!--userPrincipalId-->
+    <bean id="Department-userPrincipalId" parent="Department-userPrincipalId-parentBean" />
+    <bean id="Department-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="userPrincipalId" />
+        <property name="label" value="User Principal Id" />
+        <property name="shortLabel" value="User Principal Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+    </bean>
+    
     <!-- Business Object Inquiry Definition -->
 
     <bean id="Department-inquiryDefinition" parent="Department-inquiryDefinition-parentBean" />
@@ -277,6 +295,7 @@
 							<bean parent="FieldDefinition" p:attributeName="active" />
 	                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
 	                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
                         </list>
                     </property>
                 </bean>

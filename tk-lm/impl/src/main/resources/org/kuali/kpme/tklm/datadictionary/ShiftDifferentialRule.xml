@@ -551,11 +551,11 @@
 							<bean parent="FieldDefinition" p:attributeName="friday" />
 							<bean parent="FieldDefinition" p:attributeName="saturday" />
 							<bean parent="FieldDefinition" p:attributeName="maxGap" />
-							<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 							<bean parent="FieldDefinition" p:attributeName="pyCalendarGroup" />
                             <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
                                   p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
 					<property name="title" value="Shift Differential Rule" />
@@ -592,7 +592,6 @@
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
-				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="fromEarnGroup" />

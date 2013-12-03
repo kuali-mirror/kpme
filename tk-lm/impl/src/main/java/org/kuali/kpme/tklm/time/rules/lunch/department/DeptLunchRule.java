@@ -54,7 +54,6 @@ public class DeptLunchRule extends HrBusinessObject implements DeptLunchRuleCont
     private Long jobNumber;    
     private BigDecimal deductionMins;
     private BigDecimal shiftHours;
-    private String userPrincipalId;
 
     private String tkWorkAreaId;
     private String hrDeptId;
@@ -142,16 +141,6 @@ public class DeptLunchRule extends HrBusinessObject implements DeptLunchRuleCont
 	public void setJobNumber(Long jobNumber) {
 		this.jobNumber = jobNumber;
 	}
-
-
-	public String getUserPrincipalId() {
-        return userPrincipalId;
-    }
-
-
-    public void setUserPrincipalId(String userPrincipalId) {
-        this.userPrincipalId = userPrincipalId;
-    }
 
 	public String getTkDeptLunchRuleId() {
 		return tkDeptLunchRuleId;
