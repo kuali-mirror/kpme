@@ -24,7 +24,8 @@
 		<documentType>
 			<name>PositionReportSubCatMaintenanceDocumentType</name>
 			<parent>KpmeDocument</parent>
-			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory
+            </docHandler>
 			<label>Position Report Sub Category Maintenance</label>
 		</documentType>   
      </documentTypes>

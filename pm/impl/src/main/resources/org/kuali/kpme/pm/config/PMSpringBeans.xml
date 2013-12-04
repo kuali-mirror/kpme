@@ -264,12 +264,6 @@
 	   		<bean class="org.kuali.kpme.pm.positionreportcat.web.PositionReportCatLookupableHelper"/>
 	   	</property>    
     </bean>
-    
-    <bean id="positionReportSubCatLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
-	   	<property name="lookupableHelperService">
-	   		<bean class="org.kuali.kpme.pm.positionreportsubcat.web.PositionReportSubCatLookupableHelper"/>
-	   	</property>    
-    </bean>
 
     <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
         <property name="interceptorNames">
