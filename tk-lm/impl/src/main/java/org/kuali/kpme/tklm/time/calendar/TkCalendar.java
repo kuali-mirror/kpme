@@ -32,6 +32,8 @@ import org.kuali.kpme.tklm.api.time.calendar.TkCalendarContract;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockRenderer;
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.web.TimeBlockRenderer;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailRenderer;
@@ -79,6 +81,19 @@ public class TkCalendar extends CalendarParent implements TkCalendarContract {
 	                 List<LeaveBlock> dayLeaveBlocks = weekLeaveBlocks.get(j);
 	                 // Create the individual days.
 	                 TkCalendarDay day = new TkCalendarDay();
+	                 
+	                 //Set missed punch flag
+	                 for(TimeBlock tb : dayBlocks){
+						if (tb.getClockLogCreated()) {
+							MissedPunch missedPunch = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(tb.getClockLogBeginId());
+							if (missedPunch != null) {
+								tb.setClockedByMissedPunch(Boolean.TRUE);
+							} else {
+								tb.setClockedByMissedPunch(Boolean.FALSE);
+							}
+						}
+	                 }
+	                 
 	                 day.setTimeblocks(dayBlocks);
 	                 day.setLeaveBlocks(dayLeaveBlocks);
 	                 day.setDayNumberString(tc.getDayNumberString(i * 7 + j + firstDay));

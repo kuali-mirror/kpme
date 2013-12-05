@@ -82,6 +82,8 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     @Transient
     private Boolean overtimeEditable;
 
+    @Transient
+    private Boolean clockedByMissedPunch;
     // the two variables below are used to determine if a time block needs to be visually pushed forward / backward
     @Transient
     private Boolean pushBackward = false;
@@ -97,8 +99,8 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     public TimeBlock() {
     	super();
     }
-    
-    public Date getBeginDate() {
+
+	public Date getBeginDate() {
     	Date beginDate = null;
     	
     	if (beginTimestamp != null) {
@@ -625,7 +627,15 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
 	public Boolean getOvertimeEditable() {
 		return TkServiceLocator.getTKPermissionService().canEditOvertimeEarnCode(HrContext.getPrincipalId(), this);
 	}
+    
+    public Boolean getClockedByMissedPunch() {
+		return clockedByMissedPunch;
+	}
 
+	public void setClockedByMissedPunch(Boolean clockedByMissedPunch) {
+		this.clockedByMissedPunch = clockedByMissedPunch;
+	}
+	
     public Boolean getTimeBlockEditable(){
         return TkServiceLocator.getTKPermissionService().canEditTimeBlock(HrContext.getPrincipalId(), this);
     }
