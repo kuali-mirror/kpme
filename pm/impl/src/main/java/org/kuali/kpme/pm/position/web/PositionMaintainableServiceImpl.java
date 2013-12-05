@@ -32,8 +32,11 @@ import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
@@ -222,40 +225,44 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
      }
          */
 	
+	
+	// KPME-3016
+	//set document description here so it passes validation.  It will get overriden in doRouteStatusChange method
 	@Override
 	public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        //set document description
-		Position position = (Position)document.getDocumentDataObject();
-		String docDesc = "Position Number: " + position.getPositionNumber() + " Status: " + position.getProcess();
-        document.getDocumentHeader().setDocumentDescription(docDesc);
-        
+        document.getDocumentHeader().setDocumentDescription("New Position");
         super.processAfterEdit(document, requestParameters);
     }
-	
 	@Override 
 	public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-		//set document description
-		Position position = (Position)document.getDocumentDataObject();
-		String docDesc = "Position Number: " + position.getPositionNumber();
-        document.getDocumentHeader().setDocumentDescription(docDesc);
-        
-        super.processAfterNew(document, requestParameters);
-	}
-	
-	/*
-	//TODO:
-	//Document description needs to have been set already when you submit/save a document, so the above two methods are necessary.
-	//Need to find how to override the document description.  The method below is not working for some reason
+        document.getDocumentHeader().setDocumentDescription("Edit Position");
+		super.processAfterNew(document, requestParameters);
+	} 
 	@Override
-    public void saveDataObject() {
-		
-		Position position = (Position)getDataObject();
-		String docDesc = "Position Number: " + position.getPositionNumber() + " Status: " + position.getProcess();
-		
-		String documentHeaderId = this.getDocumentNumber();
-		DocumentHeader documentHeader = KRADServiceLocatorWeb.getDocumentHeaderService().getDocumentHeaderById(documentHeaderId);
-		documentHeader.setDocumentDescription(docDesc);
-		
-		super.saveDataObject();
-	}*/
+    public void doRouteStatusChange(DocumentHeader documentHeader) {
+
+		String docDescription = null;
+		Position position = (Position)this.getDataObject();
+		DocumentStatus documentStatus = documentHeader.getWorkflowDocument().getStatus();
+	
+		//Set document description for real here
+		if (StringUtils.isEmpty(position.getPositionNumber())) {
+			docDescription = "Status: " + position.getProcess();
+		} else {
+			docDescription = "Position Number: " + position.getPositionNumber() + " Status: " + position.getProcess();;
+		}
+
+		if (DocumentStatus.ENROUTE.equals(documentStatus)) {
+			try {
+				MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentHeader.getDocumentNumber());
+		        md.getDocumentHeader().setDocumentDescription(docDescription);
+		        md.getNewMaintainableObject().setDataObject(position);
+		        KRADServiceLocatorWeb.getDocumentService().saveDocument(md);
+			} catch (WorkflowException e) {
+	            LOG.error("caught exception while handling doRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);
+	            throw new RuntimeException("caught exception while handling doRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);
+	        }
+		}
+    }
+	
 }

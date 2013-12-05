@@ -54,8 +54,6 @@
 		abstract="true" parent="Uif-MaintenanceView">
 		<property name="headerText" value="Position Maintenance" />
 		<property name="dataObjectClassName" value="org.kuali.kpme.pm.position.Position" />
-		<!-- <property name="viewHelperServiceClass" value="org.kuali.kpme.pm.position.web.PositionMaintainableServiceImpl" 
-			/> -->
 		<property name="items">
 			<list>
 				<ref bean="Pos-OverviewPage" />
@@ -70,8 +68,7 @@
 				<ref bean="Pos-AdHocPage" />
 				<ref bean="Pos-RouteLogPage" />
 			</list>
-		</property>
-
+		</property> 
 		<property name="navigation">
 			<ref bean="positionMenuNavigation" />
 		</property>
@@ -80,6 +77,10 @@
 			<bean parent="KPME-Uif-DocumentViewHeader" />
 		</property>
 		<property name="stickyHeader" value="true" />
+		<!-- 
+		<property name="footer">
+			<bean parent="KPME-Uif-FooterBase" />
+		</property>  --> 
 		<property name="applyDirtyCheck" value="false" />
 	</bean> <!-- maintenance -->
 
@@ -115,10 +116,11 @@
 	</bean>
 
 	<!-- Overview Section -->
-	<bean id="Pos-OverviewPage" parent="Uif-MaintenancePage">
+	<bean id="Pos-OverviewPage" parent="Uif-MaintenancePage" >
 		<property name="items">
 			<list>
 				<ref bean="Pos-OverviewPage-Widgets" />
+				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Pos-ClassificationPage" p:actionLabel="Next to Classification" p:align="right" />
 			</list>
 		</property>
 	</bean>
@@ -170,16 +172,14 @@
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="reportsToPositionId">
 					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript"
-							p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
 							p:fieldConversions="positionNumber:reportsToPositionId" />
 					</property>
 					<property name="quickfinder.autoSearch" value="true" />
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="reportsToPrincipalId">
 					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript"
-							p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
 							p:fieldConversions="principalId:reportsToPrincipalId" />
 					</property>
 					<property name="quickfinder.autoSearch" value="true" />
@@ -221,6 +221,7 @@
 		<property name="items">
 			<list>
 				<ref bean="Pos-ClassificationPage-Widgets" />
+				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Pos-DepartmentPage" p:actionLabel="Next to Department" p:align="right" />
 			</list>
 		</property>
 	</bean>
@@ -315,6 +316,14 @@
 						</bean>
 					</property>
 				</bean>
+				<bean parent="Uif-InputField" p:propertyName="payGrade" />
+				<bean parent="Uif-InputField" p:propertyName="payStep">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paystep.PayStep"
+							p:fieldConversions="payStep:payStep" p:lookupParameters="payGrade:payGrade,salaryGroup:salaryGroup" />
+					</property>
+					<property name="quickfinder.autoSearch" value="true" />
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -330,6 +339,7 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Pos-QualificationPage" p:actionLabel="Next to Qualifications" p:align="right" />
 			</list>
 		</property>
 	</bean>
@@ -352,6 +362,7 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Pos-DutyPage" p:actionLabel="Next to Duties" p:align="right" />
 			</list>
 		</property>
 	</bean>
@@ -367,6 +378,7 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Pos-FlagPage" p:actionLabel="Next to Position Flags" p:align="right" />
 			</list>
 		</property>
 	</bean>
@@ -382,6 +394,7 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Pos-ResponsibilityPage" p:actionLabel="Next to Responsibility" p:align="right" />
 			</list>
 		</property>
 	</bean>
@@ -397,6 +410,7 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Pos-FundingPage" p:actionLabel="Next to Funding" p:align="right" />
 			</list>
 		</property>
 	</bean>
@@ -412,6 +426,7 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Pos-OverviewPage" p:actionLabel="Back to Overview" p:align="right" />
 			</list>
 		</property>
 	</bean>
@@ -459,6 +474,37 @@
 		</property>
 		<property name="lowerGroup">
 			<bean parent="Uif-OverviewSection" />
+		</property>
+	</bean>
+
+	<!-- KPME Document View Footer -->
+	<!--  To use this, we need to override the document page becuase it has its own footer with those buttons -->
+	<bean id="KPME-Uif-FooterBase" abstract="true" parent="Uif-FooterBase">
+		<property name="items">
+			<list>
+				<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="performRouteReport" p:actionLabel="route report"
+              		  p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}"/>
+		        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="send adhoc"
+		              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
+		        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+		              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+		        <bean parent="Uif-SaveAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+		        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="reload" p:actionLabel="reload"
+		              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/>
+		        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="blanketApprove" p:actionLabel="blanket approve" p:performClientSideValidation="true"
+		              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
+		        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="approve"  p:performClientSideValidation="true"
+		              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+		        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="disapprove"
+		              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
+		        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="fyi" p:actionLabel="fyi"
+		              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
+		        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="acknowledge" p:actionLabel="acknowledge"
+		              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
+		        <bean parent="Uif-CancelAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+		        <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="copy"
+		              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>
+			</list>
 		</property>
 	</bean>
 

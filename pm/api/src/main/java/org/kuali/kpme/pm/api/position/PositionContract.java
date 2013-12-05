@@ -385,5 +385,28 @@ public interface PositionContract extends PositionBaseContract {
      * @return contractType for Position
      */
     public String getContractType();
+    
+    /**
+     * The Position Pay Grade
+     *
+     * <p>
+     * payGrade of a Position.
+     * <p>
+     *
+     * @return payGrade for Position
+     */
+    public String getPayGrade();
+    
+    /**
+     * The Position Pay Step
+     *
+     * <p>
+     * payStep of a Position.
+     * <p>
+     *
+     * @return payStep for Position
+     */
+    public String getPayStep();
+    
 
 }

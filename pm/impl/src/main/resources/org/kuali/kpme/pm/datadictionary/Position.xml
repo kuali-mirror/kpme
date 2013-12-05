@@ -71,7 +71,9 @@
 				<ref bean="Position-temporary" />
 				<ref bean="Position-contract" />
 				<ref bean="Position-contractType" />
-                <ref bean="Position-userPrincipalId"/>
+				<ref bean="Position-userPrincipalId"/>
+				<ref bean="Position-payGrade" />
+				<ref bean="Position-payStep" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -600,7 +602,7 @@
 	</bean>
 
 
-    <!--userPrincipalId-->
+	<!--userPrincipalId-->
     <bean id="Position-userPrincipalId" parent="Position-userPrincipalId-parentBean" />
     <bean id="Position-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="userPrincipalId" />
@@ -616,7 +618,29 @@
             <bean parent="Uif-TextControl" p:size="40" />
         </property>
     </bean>
-    
+	
+	<bean id="Position-payGrade" parent="Position-payGrade-parentBean" />
+	<bean id="Position-payGrade-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="maxLength" value="10" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
+		<property name="name" value="payGrade" />
+		<property name="label" value="Pay Grade" />
+	</bean>
+	
+	<bean id="Position-payStep" parent="Position-payStep-parentBean" />
+	<bean id="Position-payStep-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="maxLength" value="10" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
+		<property name="name" value="payStep" />
+		<property name="label" value="Pay Step" />
+	</bean>
+
 	<!-- Position Qualification List, used by inquiry view -->
 	<bean id="Position-qualificationList" abstract="true"
 		parent="Uif-Disclosure-TableCollectionSection"
@@ -669,7 +693,7 @@
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="category" />
 				<bean parent="Uif-DataField" p:propertyName="names" />
-                <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+				<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
 			</list>
 		</property>
 	</bean>
@@ -786,8 +810,8 @@
 							<bean parent="Uif-DataField" p:propertyName="poolEligible" />
 							<bean parent="Uif-DataField" p:propertyName="positionStatus" />
 							<bean parent="Uif-DataField" p:propertyName="active" />
-                            <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
-                        </list>
+							<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+						</list>
 					</property>
 					<property name="title" value="Position" />
 				</bean>
@@ -1215,13 +1239,12 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="institution">
-				<!-- 
 					<property name="control">
 						<bean parent="Uif-DropdownControl" />
 					</property>
 					<property name="optionsFinder">
 						<bean class="org.kuali.kpme.core.util.InstitutionKeyValueFinder" />
-					</property>   -->
+					</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="location">
 					<property name="control">

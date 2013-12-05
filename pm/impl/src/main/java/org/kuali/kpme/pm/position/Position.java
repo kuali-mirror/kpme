@@ -23,15 +23,11 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.kuali.kpme.core.position.PositionBase;
-import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
 import org.kuali.kpme.pm.api.position.PositionContract;
-import org.kuali.kpme.pm.api.positiondepartmentaffiliation.PositionDepartmentAffiliationContract;
-import org.kuali.kpme.pm.api.positiondepartmentaffiliation.service.PositionDepartmentAffiliationService;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
 import org.kuali.kpme.pm.position.funding.PositionFunding;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
@@ -86,6 +82,8 @@ public class Position extends PositionBase implements PositionContract {
     private String temporary;
     private String contract;
     private String contractType;
+    private String payGrade;
+    private String payStep;
     
     private String category;		// used to determine what fields should show when editing an existing maint doc
     
@@ -415,5 +413,20 @@ public class Position extends PositionBase implements PositionContract {
 	public void setAppointmentType(String appointmentType) {
 		this.appointmentType = appointmentType;
 	}
-	
+
+	public String getPayGrade() {
+		return payGrade;
+	}
+
+	public void setPayGrade(String payGrade) {
+		this.payGrade = payGrade;
+	}
+
+	public String getPayStep() {
+		return payStep;
+	}
+
+	public void setPayStep(String payStep) {
+		this.payStep = payStep;
+	}
 }
