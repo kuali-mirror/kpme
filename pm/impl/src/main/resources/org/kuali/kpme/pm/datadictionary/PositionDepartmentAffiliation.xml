@@ -101,8 +101,8 @@
         <property name="label" value="User Principal Id" />
         <property name="shortLabel" value="User Principal Id" />
         <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
                 <property name="allowWhitespace" value="false" />
             </bean>
         </property>

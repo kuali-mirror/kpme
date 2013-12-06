@@ -58,12 +58,11 @@
 	<bean id="PayGrade-hrPayGradeId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="PayGrade Id" />
 		<property name="maxLength" value="60" />
-
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="60" />
 		</property>
@@ -76,11 +75,11 @@
 		<property name="shortLabel" value="payGrade" />
         <property name="required" value="true" />
 		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="20" />
 		</property>
@@ -93,11 +92,11 @@
 		<property name="shortLabel" value="Sal Group" />
         <property name="required" value="true"/>
 		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="true" />
-			</bean>
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
@@ -110,11 +109,11 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="100" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="true" />
-			</bean>
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="40" />
 		</property>
@@ -128,8 +127,8 @@
         <property name="shortLabel" value="Institution" />
         <property name="maxLength" value="15" />
         <property name="required" value="true"/>
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
                 <property name="allowWhitespace" value="false" />
             </bean>
         </property>
@@ -205,8 +204,8 @@
         <property name="shortLabel" value="Location" />
         <property name="required" value="true"/>
         <property name="maxLength" value="10" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
                 <property name="allowWhitespace" value="false" />
             </bean>
         </property>
@@ -241,9 +240,6 @@
 	<bean id="PayGrade-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="required" value="true"/>
 		<property name="shortLabel" value="Effective Date" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
 		<property name="controlField">
 			<bean parent="Uif-DateControl" p:size="10" />
 		</property>
@@ -279,14 +275,14 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="User Principal Id" />
 		<property name="maxLength" value="40" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40" />
+        </property>
 		<property name="name" value="userPrincipalId" />
 		<property name="label" value="User Principal Id" />
 	</bean>
@@ -451,7 +447,11 @@
                 <bean parent="Uif-MaintenanceGridSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="effectiveDate"/>
+                            <bean parent="Uif-InputField" p:propertyName="effectiveDate">
+                                <property name="validCharactersConstraint">
+                                    <bean parent="BasicDatePatternConstraint"/>
+                                </property>
+                            </bean>
                             <bean parent="Uif-InputField" p:propertyName="payGrade"/>
                             <bean parent="Uif-InputField" p:propertyName="salGroup">
                                 <property name="quickfinder">

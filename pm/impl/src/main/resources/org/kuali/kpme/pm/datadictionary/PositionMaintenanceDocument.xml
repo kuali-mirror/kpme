@@ -148,7 +148,11 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="effectiveDate"
-					p:required="true" />
+					p:required="true">
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint"/>
+                    </property>
+                </bean>
 				<bean parent="Uif-InputField" p:propertyName="description"
 					p:required="true" />
 				<bean parent="Uif-InputField" p:propertyName="positionStatus"
@@ -184,7 +188,11 @@
 					</property>
 					<property name="quickfinder.autoSearch" value="true" />
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="expectedEndDate" />
+				<bean parent="Uif-InputField" p:propertyName="expectedEndDate">
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint"/>
+                    </property>
+                </bean>
 				<bean parent="Uif-InputField" p:propertyName="renewEligible"
 					p:constraintText="Required if Expected End Date is filled.">
 					<property name="dependencyConstraints">

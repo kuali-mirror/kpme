@@ -75,9 +75,11 @@
 	<bean id="PositionFunding-chart" parent="PositionFunding-chart-parentBean" />
 	<bean id="PositionFunding-chart-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Chart" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="20" />
 		</property>
@@ -88,9 +90,11 @@
 	<bean id="PositionFunding-org" parent="PositionFunding-org-parentBean" />
 	<bean id="PositionFunding-org-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Org" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="20" />
 		</property>
@@ -102,9 +106,11 @@
 	<bean id="PositionFunding-account-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Account" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="20" />
 		</property>
@@ -115,9 +121,11 @@
 	<bean id="PositionFunding-subAccount" parent="PositionFunding-subAccount-parentBean" />
 	<bean id="PositionFunding-subAccount-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="SubAccount" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="20" />
 		</property>
@@ -129,9 +137,11 @@
 	<bean id="PositionFunding-objectCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Obj Code" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="20" />
 		</property>
@@ -142,9 +152,11 @@
 	<bean id="PositionFunding-subObjectCode" parent="PositionFunding-subObjectCode-parentBean" />
 	<bean id="PositionFunding-subObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="SubObj Code" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="20" />
 		</property>
@@ -155,9 +167,11 @@
 	<bean id="PositionFunding-orgRefCode" parent="PositionFunding-orgRefCode-parentBean" />
 	<bean id="PositionFunding-orgRefCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="OrgRef Code" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="20" />
 		</property>
@@ -240,8 +254,8 @@
         <property name="label" value="User Principal Id" />
         <property name="shortLabel" value="User Principal Id" />
         <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
                 <property name="allowWhitespace" value="false" />
             </bean>
         </property>

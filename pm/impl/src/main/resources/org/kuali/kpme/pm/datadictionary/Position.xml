@@ -134,11 +134,11 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Position Id" />
 		<property name="maxLength" value="60" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="60" />
 		</property>
@@ -151,11 +151,11 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Position Number" />
 		<property name="maxLength" value="50" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="20" />
 		</property>
@@ -168,11 +168,11 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Working Title" />
 		<property name="maxLength" value="40" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="true" />
-			</bean>
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="40" />
 		</property>
@@ -185,9 +185,11 @@
 		parent="AttributeDefinition">
 		<property name="maxLength" value="15" />
 		<property name="shortLabel" value="Institution" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="15" />
 		</property>
@@ -200,9 +202,11 @@
 		parent="AttributeDefinition">
 		<property name="maxLength" value="15" />
 		<property name="shortLabel" value="Location" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="15" />
 		</property>
@@ -215,9 +219,11 @@
 		parent="AttributeDefinition">
 		<property name="maxLength" value="50" />
 		<property name="shortLabel" value="Sal Group" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
@@ -391,9 +397,6 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Effective Date" />
 		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
 		<property name="controlField">
 			<bean parent="Uif-DateControl" />
 		</property>
@@ -528,9 +531,6 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Expected End Date" />
 		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
 		<property name="controlField">
 			<bean parent="Uif-DateControl" />
 		</property>
@@ -609,8 +609,8 @@
         <property name="label" value="User Principal Id" />
         <property name="shortLabel" value="User Principal Id" />
         <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
                 <property name="allowWhitespace" value="false" />
             </bean>
         </property>

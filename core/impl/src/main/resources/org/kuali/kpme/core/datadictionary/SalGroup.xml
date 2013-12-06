@@ -104,9 +104,11 @@
 	<bean id="SalaryGroup-institution-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Institution" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern"/>
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
@@ -118,9 +120,11 @@
 	<bean id="SalaryGroup-location-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Location" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern"/>
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
@@ -223,13 +227,13 @@
         <property name="label" value="User Principal Id" />
         <property name="shortLabel" value="User Principal Id" />
         <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
                 <property name="allowWhitespace" value="false" />
             </bean>
         </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="40" />
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40" />
         </property>
     </bean>
 <!--*************************************************************************** 
