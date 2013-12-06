@@ -49,6 +49,7 @@ public class WorkAreaMaintenanceTest extends KPMEWebTestCase {
 		workArea.setWorkArea(4444L);
 		workArea.setOvertimeEditRole("Employee");
 		workArea.setEffectiveLocalDate(LocalDate.now());
+        workArea.setUserPrincipalId("admin");
 		KRADServiceLocator.getBusinessObjectService().save(workArea);
 	}
 

@@ -21,6 +21,7 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Override the Maintenance page behavior for Leave Accrual Category object
@@ -64,4 +65,13 @@ public class AccrualCategoryMaintainableServiceImpl extends HrBusinessObjectMain
 		return (HrBusinessObject) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(id);
 	}
 
+    //KPME-2624 added logic to save current logged in user to UserPrincipal id for collections
+    @Override
+    public void prepareForSave() {
+        AccrualCategory accrualCategory = (AccrualCategory)this.getBusinessObject();
+        for (AccrualCategoryRule accrualCategoryRule : accrualCategory.getAccrualCategoryRules()) {
+            accrualCategoryRule.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+        }
+        super.prepareForSave();
+    }
 }

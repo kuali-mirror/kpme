@@ -139,6 +139,7 @@ public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
 		department.setLocation("BL");
 		department.setEffectiveLocalDate(TEST_DATE);
         department.setActive(Boolean.TRUE);
+        department.setUserPrincipalId(TEST_CODE);
 		department = KRADServiceLocator.getBusinessObjectService().save(department);
 		
 		TimeCollectionRule timeCollectionRule = new TimeCollectionRule();

@@ -70,7 +70,8 @@ public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
 		earnCode.setDescription("RGN Test");
 		earnCode.setOvtEarnCode(false);
 		earnCode.setInflateMinHours(BigDecimal.ZERO);
-		earnCode.setInflateFactor(BigDecimal.ZERO);		
+		earnCode.setInflateFactor(BigDecimal.ZERO);
+        earnCode.setUserPrincipalId("admin");
 
 		KRADServiceLocator.getBusinessObjectService().save(earnCode);	
 		hrEarnCodeId = earnCode.getHrEarnCodeId();

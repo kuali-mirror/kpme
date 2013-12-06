@@ -55,7 +55,8 @@ public class AssignmentAccountMaintTest extends KPMEWebTestCase{
 		assignmentAccount.setFinCoaCd(TEST_CODE);
 		assignmentAccount.setFinObjectCd(TEST_CODE);
 		assignmentAccount.setFinSubObjCd(TEST_CODE);
-		assignmentAccount.setPercent(TEST_PERCENT);		
+		assignmentAccount.setPercent(TEST_PERCENT);
+        assignmentAccount.setUserPrincipalId("admin");
 		KRADServiceLocator.getBusinessObjectService().save(assignmentAccount);
 		assignmentAccountId = assignmentAccount.getTkAssignAcctId();
 	}

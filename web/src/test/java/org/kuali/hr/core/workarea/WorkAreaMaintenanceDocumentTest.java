@@ -58,6 +58,7 @@ public class WorkAreaMaintenanceDocumentTest extends KPMEWebTestCase {
 		department.setLocation("BL");
 		department.setEffectiveLocalDate(TEST_DATE.toLocalDate());
 		department.setActive(true);
+        department.setUserPrincipalId("admin");
 		KRADServiceLocator.getBusinessObjectService().save(department);
     }
     

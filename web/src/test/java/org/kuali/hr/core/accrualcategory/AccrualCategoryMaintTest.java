@@ -59,6 +59,7 @@ public class AccrualCategoryMaintTest extends KPMEWebTestCase {
         accrualCategory.setAccrualEarnInterval("");
         accrualCategory.setUnitOfTime("");
         accrualCategory.setEarnCode("OC1");
+        accrualCategory.setUserPrincipalId("admin");
 		KRADServiceLocator.getBusinessObjectService().save(accrualCategory);
 		accrualCategoryId = accrualCategory.getLmAccrualCategoryId();
 	}

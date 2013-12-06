@@ -94,6 +94,7 @@ public class JobTest extends CoreUnitTestCase {
 		payType.setInstitution("*");
 		payType.setFlsaStatus("NE");
 		payType.setPayFrequency("M");
+        payType.setUserPrincipalId("admin");
 
 		payType = (PayType) KRADServiceLocator.getBusinessObjectService().save(payType);
 		Assert.assertTrue(HrServiceLocator.getPayTypeService().getPayType(payType.getPayType(), payType.getEffectiveLocalDate()) != null);

@@ -160,6 +160,7 @@ public class EarnCodeSecurityMaintenanceTest extends KPMEWebTestCase{
 		deptEarnCode.setEffectiveLocalDate(TEST_DATE_OLD.toLocalDate());
 		deptEarnCode.setLocation("BL");
 		deptEarnCode.setEarnCodeType("T");
+        deptEarnCode.setUserPrincipalId("admin");
 		deptEarnCode = KRADServiceLocator.getBusinessObjectService().save(deptEarnCode);
 		hrDeptEarnCodeId = deptEarnCode.getHrEarnCodeSecurityId();
 	}
@@ -174,6 +175,7 @@ public class EarnCodeSecurityMaintenanceTest extends KPMEWebTestCase{
 		deptEarnCode.setEffectiveLocalDate(TEST_DATE_NEW.toLocalDate());
 		deptEarnCode.setLocation("test");
 		deptEarnCode.setEarnCodeType("T");
+        deptEarnCode.setUserPrincipalId("admin");
         deptEarnCode = KRADServiceLocator.getBusinessObjectService().save(deptEarnCode);
 		dupTkDeptEarnCodeId = deptEarnCode.getHrEarnCodeSecurityId();
 	}

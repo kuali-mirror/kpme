@@ -66,6 +66,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMEWebTestCase {
         earnGroup.setShowSummary(true);
         earnGroup.setActive(true);
         earnGroup.setEarnCodeGroups(earnGroups);
+        earnGroup.setUserPrincipalId("admin");
         KRADServiceLocator.getBusinessObjectService().save(earnGroup);
         hrEarnGroupId = earnGroup.getHrEarnCodeGroupId();
 
@@ -87,6 +88,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMEWebTestCase {
         earnCode.setOvtEarnCode(false);
         earnCode.setInflateMinHours(BigDecimal.ZERO);
         earnCode.setInflateFactor(BigDecimal.ZERO);
+        earnCode.setUserPrincipalId("admin");
         earnCode = KRADServiceLocator.getBusinessObjectService().save(earnCode);
         hrEarnCodeId = earnCode.getHrEarnCodeId();
 
@@ -97,6 +99,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMEWebTestCase {
         earnGroupRGG.setEffectiveLocalDate(TEST_DATE);
         earnGroupRGG.setShowSummary(true);
         earnGroupRGG.setActive(true);
+        earnGroupRGG.setUserPrincipalId("admin");
         earnGroupRGG = KRADServiceLocator.getBusinessObjectService().save(earnGroupRGG);
         hrEarnGroupIdRGG = earnGroupRGG.getHrEarnCodeGroupId();
     }

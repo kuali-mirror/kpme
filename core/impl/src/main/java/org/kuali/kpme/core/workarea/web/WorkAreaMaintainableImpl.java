@@ -354,5 +354,14 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         
         return inactiveRoleMembers;
     }
-    
+
+    //KPME-2624 added logic to save current logged in user to UserPrincipal id for collections
+    @Override
+    public void prepareForSave() {
+        WorkArea workArea = (WorkArea)this.getBusinessObject();
+        for (Task task : workArea.getTasks()) {
+            task.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+        }
+        super.prepareForSave();
+    }
 }

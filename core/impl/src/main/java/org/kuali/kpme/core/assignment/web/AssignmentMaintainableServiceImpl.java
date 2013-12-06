@@ -33,6 +33,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Override the Maintenance page behavior for Assignment object
@@ -137,7 +138,18 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 				assignAcct.setTkAssignAcctId(null);
 			}
 			assignAcct.setTkAssignmentId(assignment.getTkAssignmentId());
+
 		}
 	}
+
+    //KPME-2624 added logic to save current logged in user to UserPrincipal id for collections
+    @Override
+    public void prepareForSave() {
+    Assignment assignment = (Assignment)this.getBusinessObject();
+        for (AssignmentAccount assignAcct : assignment.getAssignmentAccounts()) {
+            assignAcct.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+        }
+    super.prepareForSave();
+    }
 
 }

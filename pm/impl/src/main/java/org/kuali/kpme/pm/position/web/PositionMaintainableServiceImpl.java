@@ -264,5 +264,20 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 	        }
 		}
     }
-	
+
+    //KPME-2624 added logic to save current logged in user to UserPrincipal id for collections
+    @Override
+    public void prepareForSave() {
+        Position position = (Position)this.getDataObject();
+        for (PositionFunding positionFunding : position.getFundingList()) {
+            positionFunding.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+        }
+        for (PositionDepartment positionDepartment : position.getDepartmentList()) {
+            positionDepartment.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+        }
+        for (PositionResponsibility positionResponsibility : position.getPositionResponsibilityList()) {
+            positionResponsibility.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+        }
+        super.prepareForSave();
+    }
 }

@@ -1,6 +1,6 @@
-PM_INSTITUTION_ID,EFFDT,INSTITUTION_CODE,DESCRIPTION,ACTIVE
-1,2010-01-01,IU,Indiana University,Y
-2,2010-01-01,ISU,Iowa State University,Y
-3,2010-01-01,UGA,University of Georgia,Y
-4,2010-01-01,Utah,University of Utah,Y
+PM_INSTITUTION_ID,EFFDT,INSTITUTION_CODE,DESCRIPTION,ACTIVE,USER_PRINCIPAL_ID
+1,2010-01-01,IU,Indiana University,Y,admin
+2,2010-01-01,ISU,Iowa State University,Y,admin
+3,2010-01-01,UGA,University of Georgia,Y,admin
+4,2010-01-01,Utah,University of Utah,Y,admin
 

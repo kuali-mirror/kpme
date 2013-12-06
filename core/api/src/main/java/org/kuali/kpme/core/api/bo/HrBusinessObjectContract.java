@@ -95,13 +95,13 @@ public interface HrBusinessObjectContract extends PersistableBusinessObject, Ina
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap();
 
     /**
-     * The timestamp of when this HrBusinessObject was last created/updated
+     * The userPrincipalId of when this HrBusinessObject was last created/updated
      *
      * <p>
-     * timestamp of HrBusinessObject
+     * userPrincipalId of HrBusinessObject
      * <p>
      *
-     * @return timestamp of HrBusinessObject
+     * @return userPrincipalId of HrBusinessObject
      */
     public String getUserPrincipalId();
 }

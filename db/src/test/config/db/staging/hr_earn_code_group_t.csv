@@ -1,5 +1,5 @@
-HR_EARN_CODE_GROUP_ID,EARN_CODE_GROUP,DESCR,SHOW_SUMMARY,EFFDT,ACTIVE
-1,Regular,Regular Hours,Y,2010-01-01,Y
-2,Overtime,Overtime Hours,Y,2010-01-01,Y
-3,SFD,Shift Eligible,N,2010-01-01,Y
-4,OVE,Overtime Eligible,N,2010-01-01,Y
+HR_EARN_CODE_GROUP_ID,EARN_CODE_GROUP,DESCR,SHOW_SUMMARY,EFFDT,ACTIVE,USER_PRINCIPAL_ID
+1,Regular,Regular Hours,Y,2010-01-01,Y,admin
+2,Overtime,Overtime Hours,Y,2010-01-01,Y,admin
+3,SFD,Shift Eligible,N,2010-01-01,Y,admin
+4,OVE,Overtime Eligible,N,2010-01-01,Y,admin

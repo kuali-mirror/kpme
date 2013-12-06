@@ -1,10 +1,10 @@
-PM_PSTN_CL_ID,PSTN_CL,CL_TTL,INSTITUTION,LOCATION,SAL_GROUP,PRCT_TM,BNFT_ELIG,LV_ELIG,LV_PLN,PSTN_RPT_GRP,POOL_ELIG,TNR_ELIG,EXTRNL_RFRNC,EFFDT,ACTIVE,OBJ_ID,VER_NBR,PSTN_TYP
-1,88001,Dean Academic,UGA,GA,FACULTY,100,Y,Y,FAC,88001,N,N,,2010-01-01,Y,1,1,INSTR
-2,88010,Assoc Dean Academic,UGA,GA,FACULTY,100,Y,Y,FAC,88010,N,N,,2010-01-01,Y,2,1,INSTR
-3,88071,Assoc Dean Administrative,UGA,GA,FACULTY,100,Y,Y,FAC,88071,N,N,,2010-01-01,Y,3,1,INSTR
-4,108,Human Resources Analyst,Utah,UT,STAFF,100,Y,Y,UTAHSTAFF,Report Group,N,N,https://www.hr.utah.edu/comp/jobcodetable.php?action=view&jobcode=0108&pagenumber=&lastpage=lastpage&itemsperpage=5000&sortorder=grade%20ASC&search=human&searchfield=Title,2010-01-01,Y,4,1,STAFF
-5,110,Human Resources Consultant,Utah,UT,STAFF,100,Y,Y,UTAHSTAFF,Report Group,N,N,https://www.hr.utah.edu/comp/jobcodetable.php?action=view&jobcode=0110&pagenumber=&lastpage=lastpage&itemsperpage=5000&sortorder=grade%20ASC&search=human&searchfield=Title,2010-01-01,Y,5,1,STAFF
-6,458,Human Resources Specialist,Utah,UT,STAFF,100,Y,Y,UTAHSTAFF,Report Group,N,N,https://www.hr.utah.edu/comp/jobcodetable.php?action=view&jobcode=0458&pagenumber=&lastpage=lastpage&itemsperpage=5000&sortorder=grade%20ASC&search=human&searchfield=Title,2010-01-01,Y,6,1,STAFF
-7,ACAD ADV I,Academic Adviser I,%,%,PROSTAFF,100,Y,Y,LEAVE,Report Group,N,N,,2010-01-01,Y,7,1,PRO-STAFF
-8,ACAD ADV II,Academic Adviser II,%,%,PROSTAFF,100,Y,Y,LEAVE,Report Group,N,N,,2010-01-01,Y,8,1,PRO-STAFF
-9,ACAD ADV III,Academic Adviser III,%,%,PROSTAFF,100,Y,Y,LEAVE,Report Group,N,N,,2010-01-01,Y,9,1,PRO-STAFF
+PM_PSTN_CL_ID,PSTN_CL,CL_TTL,INSTITUTION,LOCATION,SAL_GROUP,PRCT_TM,BNFT_ELIG,LV_ELIG,LV_PLN,PSTN_RPT_GRP,POOL_ELIG,TNR_ELIG,EXTRNL_RFRNC,EFFDT,ACTIVE,USER_PRINCIPAL_ID,OBJ_ID,VER_NBR,PSTN_TYP
+1,88001,Dean Academic,UGA,GA,FACULTY,100,Y,Y,FAC,88001,N,N,,2010-01-01,Y,admin,1,1,INSTR
+2,88010,Assoc Dean Academic,UGA,GA,FACULTY,100,Y,Y,FAC,88010,N,N,,2010-01-01,Y,admin,2,1,INSTR
+3,88071,Assoc Dean Administrative,UGA,GA,FACULTY,100,Y,Y,FAC,88071,N,N,,2010-01-01,Y,admin,3,1,INSTR
+4,108,Human Resources Analyst,Utah,UT,STAFF,100,Y,Y,UTAHSTAFF,Report Group,N,N,https://www.hr.utah.edu/comp/jobcodetable.php?action=view&jobcode=0108&pagenumber=&lastpage=lastpage&itemsperpage=5000&sortorder=grade%20ASC&search=human&searchfield=Title,2010-01-01,Y,admin,4,1,STAFF
+5,110,Human Resources Consultant,Utah,UT,STAFF,100,Y,Y,UTAHSTAFF,Report Group,N,N,https://www.hr.utah.edu/comp/jobcodetable.php?action=view&jobcode=0110&pagenumber=&lastpage=lastpage&itemsperpage=5000&sortorder=grade%20ASC&search=human&searchfield=Title,2010-01-01,Y,admin,5,1,STAFF
+6,458,Human Resources Specialist,Utah,UT,STAFF,100,Y,Y,UTAHSTAFF,Report Group,N,N,https://www.hr.utah.edu/comp/jobcodetable.php?action=view&jobcode=0458&pagenumber=&lastpage=lastpage&itemsperpage=5000&sortorder=grade%20ASC&search=human&searchfield=Title,2010-01-01,Y,admin,6,1,STAFF
+7,ACAD ADV I,Academic Adviser I,%,%,PROSTAFF,100,Y,Y,LEAVE,Report Group,N,N,,2010-01-01,Y,admin,7,1,PRO-STAFF
+8,ACAD ADV II,Academic Adviser II,%,%,PROSTAFF,100,Y,Y,LEAVE,Report Group,N,N,,2010-01-01,Y,admin,8,1,PRO-STAFF
+9,ACAD ADV III,Academic Adviser III,%,%,PROSTAFF,100,Y,Y,LEAVE,Report Group,N,N,,2010-01-01,Y,admin,9,1,PRO-STAFF
