@@ -19,12 +19,16 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
+import org.springframework.cache.annotation.Cacheable;
 
 public interface EmployeeOverrideService {
+    @Cacheable(value= EmployeeOverride.CACHE_NAME, key="'{getEmployeeOverrides}' + 'principalId=' + #p0 + '|' + 'asOfDate=' + #p1")
 	public List<EmployeeOverride> getEmployeeOverrides(String principalId, LocalDate asOfDate);
-	
+
+    @Cacheable(value= EmployeeOverride.CACHE_NAME, key="'{getEmployeeOverride}' + 'principalId=' + #p0 + '|' + 'leavePlan=' + #p1 + '|' + 'overrideType=' + #p2 + '|' + 'asOfDate=' + #p3")
 	public EmployeeOverride getEmployeeOverride(String principalId, String leavePlan, String accrualCategory, String overrideType, LocalDate asOfDate);
-	
+
+    @Cacheable(value= EmployeeOverride.CACHE_NAME, key="'lmEmployeeOverrideId=' + #p0")
 	public EmployeeOverride getEmployeeOverride(String lmEmployeeOverrideId);
 
     List<EmployeeOverride> getEmployeeOverrides(String principalId, String leavePlan, String accrualCategory, String overrideType, LocalDate fromEffdt, LocalDate toEffdt, String active);

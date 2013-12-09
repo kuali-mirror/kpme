@@ -43,6 +43,7 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
@@ -239,7 +240,7 @@ public class TimeDetailAction extends TimesheetAction {
         			for (LeaveBlock lb : entry.getValue()) {
         				if (calendarInterval.contains(lb.getLeaveDate().getTime())) {
 	    	        		AccrualCategory accrualCat = lb.getAccrualCategoryObj();
-				        	AccrualCategoryRule aRule = lb.getAccrualCategoryRule();
+				        	AccrualCategoryRuleContract aRule = lb.getAccrualCategoryRule();
 				        	if (StringUtils.equals(aRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.LOSE)) {
 				        		DateTime aDate = null;
 				        		if (StringUtils.equals(aRule.getMaxBalanceActionFrequency(), HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
@@ -429,6 +430,7 @@ public class TimeDetailAction extends TimesheetAction {
         ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
         ActionRedirect redirect = new ActionRedirect();
         redirect.setPath("/TimeDetail.do");
+        redirect.addParameter("documentId", tdaf.getDocumentId());
         return redirect;
     }
     

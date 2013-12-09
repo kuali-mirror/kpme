@@ -37,6 +37,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
@@ -343,7 +344,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
     	if (eligibilities != null) {
     		for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
     			for(LeaveBlock block : entry.getValue()) {
-                    AccrualCategoryRule rule = block.getAccrualCategoryRule();
+                    AccrualCategoryRuleContract rule = block.getAccrualCategoryRule();
     				if (rule != null) {
     					AccrualCategory accrualCategory = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
     					if (rule.getActionAtMaxBalance().equals(HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER)) {

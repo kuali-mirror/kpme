@@ -40,6 +40,7 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
@@ -207,7 +208,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
                     		//or if the infraction did not occur within this interval. ( if it occurred during the previous interval, 
                     		//the employee will have the option to take action in that interval up to & including the end date of that interval. )
 	            			row.setInfractingLeaveBlockId(lb.getAccrualCategoryRuleId());
-	            			AccrualCategoryRule aRule = lb.getAccrualCategoryRule();
+	            			AccrualCategoryRuleContract aRule = lb.getAccrualCategoryRule();
 	            			
 	            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER))
 	            				row.setTransferable(true);

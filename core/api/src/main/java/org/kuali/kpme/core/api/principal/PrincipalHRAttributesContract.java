@@ -64,6 +64,7 @@ public interface PrincipalHRAttributesContract extends HrBusinessObjectContract 
 	 * @return payCalendar for PrincipalHRAttributes
 	 */
 	public String getPayCalendar();
+
 	
 	/**
 	 * The name of the LeavePlan object the PrincipalHRAttributes is associated with
@@ -174,6 +175,17 @@ public interface PrincipalHRAttributesContract extends HrBusinessObjectContract 
 	 * @return leaveCalendar for PrincipalHRAttributes
 	 */
 	public String getLeaveCalendar();
+
+    /**
+     * The Calendar object for Leave the PrincipalHRAttributes is associated with
+     *
+     * <p>
+     * leave calendar of a PrincipalHRAttributes
+     * </p>
+     *
+     * @return leave calendar for PrincipalHRAttributes
+     */
+    public CalendarContract getLeaveCalObj();
 	
 	/**
 	 * The primary key of a PrincipalHRAttributes entry saved in a database

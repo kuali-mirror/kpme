@@ -27,6 +27,7 @@
     <cache name="http://kpme.kuali.org/tklm/ClockLocationRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="http://kpme.kuali.org/tklm/DailyOvertimeRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="http://kpme.kuali.org/tklm/DeptLunchRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="http://kpme.kuali.org/tklm/EmployeeOverride" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="http://kpme.kuali.org/tklm/GracePeriodRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
 
     <cache name="http://kpme.kuali.org/tklm/LeaveBlock" maxEntriesLocalHeap="300000" timeToLiveSeconds="900"/>

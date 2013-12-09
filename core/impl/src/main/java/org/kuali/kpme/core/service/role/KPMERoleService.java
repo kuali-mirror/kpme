@@ -34,6 +34,7 @@ public interface KPMERoleService {
 	 * 
 	 * @return true if {@code principalId} has the role {@code roleName}, false otherwise.
 	 */
+    @Cacheable(value=RoleMember.Cache.NAME, key="'{principalHasRole}' + 'principal=' + #p0 + '|' + 'namespace=' + #p1 + '|' + 'roleName=' + #p2  + '|' + 'asOfDate=' + #p3")
 	boolean principalHasRole(String principalId, String namespaceCode, String roleName, DateTime asOfDate);
 	
 	/**
@@ -47,6 +48,7 @@ public interface KPMERoleService {
 	 * 
 	 * @return true if {@code principalId} has the role {@code roleName}, false otherwise.
 	 */
+    @Cacheable(value=RoleMember.Cache.NAME, key="'{principalHasRole}' + 'principal=' + #p0 + '|' + 'namespace=' + #p1 + '|' + 'roleName=' + #p2 + '|' + 'qualification=' + T(org.kuali.rice.core.api.cache.CacheKeyUtils).mapKey(#p3)  + '|' + 'asOfDate=' + #p4")
 	boolean principalHasRole(String principalId, String namespaceCode, String roleName, Map<String, String> qualification, DateTime asOfDate);
 	
 	/**

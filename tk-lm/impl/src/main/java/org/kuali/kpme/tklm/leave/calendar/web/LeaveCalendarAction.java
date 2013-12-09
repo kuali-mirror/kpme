@@ -50,6 +50,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
@@ -289,13 +290,16 @@ public class LeaveCalendarAction extends CalendarFormAction {
 
 		return actionForward;
 	}
-	
+
+    //TODO - performance
 	private List<Assignment> availableAssignmentsForLoggedUser(List<Assignment> fullAssignmentList, String principalId, DateTime asOfDate) {
 		List<Assignment> loggedInUserassignments = new ArrayList<Assignment>();
 		if(HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(principalId, asOfDate)
 				|| HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_SYSTEM_ADMINISTRATOR.getRoleName(), asOfDate)) {
 			loggedInUserassignments.addAll(fullAssignmentList);
 		} else {
+            //get logged in user information from role service
+
 			for(Assignment anAssignment : fullAssignmentList) {
 				// if user has approver/approver delegates/reviewer roles to the workarea, then the user has access to the assignment
 				if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), anAssignment.getWorkArea(), asOfDate)
@@ -578,7 +582,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
 	        for (Entry<String,Set<LeaveBlock>> entry : maxBalInfractions.entrySet()) {
 	        	for (LeaveBlock lb : entry.getValue()) {
 	        		AccrualCategory accrualCat = lb.getAccrualCategoryObj();
-		        	AccrualCategoryRule aRule = lb.getAccrualCategoryRule();
+		        	AccrualCategoryRuleContract aRule = lb.getAccrualCategoryRule();
 		        	if (StringUtils.equals(aRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.LOSE)) {
 		        		DateTime aDate = null;
 		        		if (StringUtils.equals(aRule.getMaxBalanceActionFrequency(), HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {

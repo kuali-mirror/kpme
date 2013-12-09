@@ -54,8 +54,8 @@ public class ChangeTargetPersonAction extends KPMEAction {
         	Principal targetPerson = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(changeTargetPersonForm.getPrincipalName());
         	
 	        if (targetPerson != null) {
-	            if (HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(GlobalVariables.getUserSession().getPrincipalId(), new DateTime())
-	                	|| HrServiceLocator.getKPMEGroupService().isMemberOfSystemViewOnlyGroup(GlobalVariables.getUserSession().getPrincipalId(), new DateTime())
+	            if (HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(GlobalVariables.getUserSession().getPrincipalId(), LocalDate.now().toDateTimeAtStartOfDay())
+	                	|| HrServiceLocator.getKPMEGroupService().isMemberOfSystemViewOnlyGroup(GlobalVariables.getUserSession().getPrincipalId(), LocalDate.now().toDateTimeAtStartOfDay())
 	                	|| isReviewerForPerson(targetPerson.getPrincipalId())
 	                	|| isApproverForPerson(targetPerson.getPrincipalId())
 	                	|| isViewOnlyForPerson(targetPerson.getPrincipalId())

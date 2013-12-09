@@ -59,7 +59,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 	public void initialize(PrincipalHRAttributes currentPrincipalCalendar) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		leaveBalances = new LinkedHashMap<String, List<LeaveBalance>>();
 		principalCalendar = currentPrincipalCalendar;
-		asOfDate = DateTime.now().toLocalDate();
+		asOfDate = LocalDate.now();
 		List<AccrualCategory> accrualCategories = (List<AccrualCategory>) HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(currentPrincipalCalendar.getLeavePlan(), asOfDate);
 		for(AccrualCategory accrualCategory : accrualCategories) {
 			List<LeaveBalance> leaveBalances = new ArrayList<LeaveBalance>();
@@ -78,7 +78,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 		//This list *could* contain leave blocks for accrual categories that have been deactivated, those from another leave plan, etc
 		List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksSinceCarryOver(currentPrincipalCalendar.getPrincipalId(),
 				LmServiceLocator.getLeaveBlockService().getLastCarryOverBlocks(currentPrincipalCalendar.getPrincipalId(), asOfDate),
-				DateTime.now().toLocalDate().plusDays(365), true);
+				LocalDate.now().plusDays(365), true);
 		
 		//These maps could also contain such accrual categories within their keyset.
 		Map<String, LeaveBlock> carryOverBlocks = LmServiceLocator.getLeaveBlockService().getLastCarryOverBlocks(currentPrincipalCalendar.getPrincipalId(), asOfDate);

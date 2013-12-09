@@ -16,6 +16,8 @@
 package org.kuali.kpme.core.service.group;
 
 import org.joda.time.DateTime;
+import org.kuali.rice.kim.api.group.GroupMember;
+import org.springframework.cache.annotation.Cacheable;
 
 public interface KPMEGroupService {
 
@@ -28,6 +30,7 @@ public interface KPMEGroupService {
 	 * 
 	 * @return true if {@code principalId} is a member of the group {@code groupName}, false otherwise.
 	 */
+    @Cacheable(value= GroupMember.Cache.NAME, key="'{KPME|isMemberOfGroup}' + 'principal=' + #p0 + '|' + 'groupName=' + #p1 + '|' + 'asOfDate=' + #p2")
 	boolean isMemberOfGroup(String principalId, String groupName, DateTime asOfDate);
 
 	/**
@@ -38,6 +41,7 @@ public interface KPMEGroupService {
 	 * 
 	 * @return true if {@code principalId} is a system administrator, false otherwise
 	 */
+    @Cacheable(value= GroupMember.Cache.NAME, key="'{KPME|isMemberOfSystemAdministratorGroup}' + 'principal=' + #p0 + '|' + 'asOfDate=' + #p1")
 	boolean isMemberOfSystemAdministratorGroup(String principalId, DateTime asOfDate);
 
 	/**
@@ -48,6 +52,7 @@ public interface KPMEGroupService {
 	 * 
 	 * @return true if {@code principalId} is a system view only user, false otherwise
 	 */
+    @Cacheable(value= GroupMember.Cache.NAME, key="'{KPME|isMemberOfSystemViewOnlyGroup}' + 'principal=' + #p0 + '|' + 'asOfDate=' + #p1")
 	boolean isMemberOfSystemViewOnlyGroup(String principalId, DateTime asOfDate);
 	
 }

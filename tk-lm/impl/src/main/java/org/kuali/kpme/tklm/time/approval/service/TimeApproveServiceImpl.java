@@ -36,6 +36,7 @@ import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -318,7 +319,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		if (eligibilities != null) {
 			for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
 				for(LeaveBlock lb : entry.getValue()) {
-					AccrualCategoryRule rule = lb.getAccrualCategoryRule();
+					AccrualCategoryRuleContract rule = lb.getAccrualCategoryRule();
 					if (rule != null) {
 						AccrualCategory accrualCategory = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
 						if (rule.getActionAtMaxBalance().equals(HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER)) {

@@ -356,7 +356,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
 	            } else if(StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName())) {
 	            	// when overtime edit role is Time Dept Admin, only Time Dept Admin has edit permission
 	                boolean toReturn = HrServiceLocator.getKPMERoleService()
-	                		.principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime());
+	                		.principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, tbDateTime);
 	                return updateCanEditOvtPerm(principalId, perms, toReturn);
 	            }
             }

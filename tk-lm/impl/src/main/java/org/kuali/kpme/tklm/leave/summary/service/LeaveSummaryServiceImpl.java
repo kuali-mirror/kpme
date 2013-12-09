@@ -226,8 +226,9 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                     //remove unwanted carry over blocks from map
                     LeaveBlock carryOverBlock = carryOverBlocks.get(accrualCategory);
                     carryOverBlocks = new HashMap<String, LeaveBlock>(1);
-                    if(ObjectUtils.isNotNull(carryOverBlock))
+                    if(ObjectUtils.isNotNull(carryOverBlock)) {
                     	carryOverBlocks.put(carryOverBlock.getAccrualCategory(), carryOverBlock);
+                    }
                 }
                 List<LeaveBlock> leaveBlocks = getLeaveBlockService().getLeaveBlocksSinceCarryOver(principalId, carryOverBlocks, endDate, filterByAccrualCategory);
 

@@ -82,10 +82,11 @@ public class DepartmentServiceImpl implements DepartmentService {
         		results.add(departmentObj);
         	}
     	}
-    	
-        for (Department result : results) {
-        	populateDepartmentRoleMembers(result, result.getEffectiveLocalDate());
-        }
+
+        //this shouldn't be needed here
+        //for (Department result : results) {
+        //	populateDepartmentRoleMembers(result, result.getEffectiveLocalDate());
+        //}
         
         return results;
     }

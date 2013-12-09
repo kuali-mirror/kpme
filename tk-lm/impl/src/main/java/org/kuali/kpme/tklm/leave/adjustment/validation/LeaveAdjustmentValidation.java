@@ -90,7 +90,7 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
         boolean valid = false;
         String LoggedInPrincipalID = GlobalVariables.getUserSession().getPrincipalId();
         LocalDate loggedInDay =  LocalDate.now();
-        DateTime asOfDate =  DateTime.now();
+        DateTime asOfDate =  LocalDate.now().toDateTimeAtStartOfDay();
 
         if(principalId != null && StringUtils.isNotEmpty(principalId)) {
             List<Job> targetUserJob = (List<Job>) HrServiceLocator.getJobService().getActiveLeaveJobs(principalId, loggedInDay);

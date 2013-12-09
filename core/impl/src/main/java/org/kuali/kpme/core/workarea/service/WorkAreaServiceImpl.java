@@ -96,11 +96,12 @@ public class WorkAreaServiceImpl implements WorkAreaService {
         		results.add(workAreaObj);
         	}
         }
-        
-        for (WorkArea result : results) {
-        	populateWorkAreaTasks(result);
-        	populateWorkAreaRoleMembers(result, result.getEffectiveLocalDate());
-        }
+
+        //shouldn't be needed for this method
+        //for (WorkArea result : results) {
+        //	populateWorkAreaTasks(result);
+        //	populateWorkAreaRoleMembers(result, result.getEffectiveLocalDate());
+        //}
 
         return results;
 	}

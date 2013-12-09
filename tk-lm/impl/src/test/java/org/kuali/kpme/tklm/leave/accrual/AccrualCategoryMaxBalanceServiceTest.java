@@ -32,6 +32,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -146,7 +147,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 		//assertEquals(6, maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 		assertEquals(8, maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		//assertEquals(6, maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
-		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
+		List<AccrualCategoryRuleContract> rules = new ArrayList<AccrualCategoryRuleContract>();
 		for(LeaveBlock eligibleTransfer : maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
 			rules.add(eligibleTransfer.getAccrualCategoryRule());
 		
@@ -154,7 +155,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 		// Comparing accrued balance to a rule's defined max balance is insufficient for testing
 		// whether or not an accrual category is indeed over it's balance limit. Same can be said for FTE-proration.
 		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
-		for(AccrualCategoryRule aRule : rules) {
+		for(AccrualCategoryRuleContract aRule : rules) {
 			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
 			BigDecimal maxBalance = aRule.getMaxBalance();
 			EmployeeOverride mbOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(USER_ID,
@@ -175,12 +176,12 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 		
 		assertEquals(6, maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
 
-		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
+		List<AccrualCategoryRuleContract> rules = new ArrayList<AccrualCategoryRuleContract>();
 		for(LeaveBlock eligibleTransfer : maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
 			rules.add(eligibleTransfer.getAccrualCategoryRule());
 
 		LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
-		for(AccrualCategoryRule aRule : rules) {
+		for(AccrualCategoryRuleContract aRule : rules) {
 			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
 			assertNotNull("eligible accrual category has no balance limit",ObjectUtils.isNotNull(aRule.getMaxBalance()));
 			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(aRule.getMaxBalance()) > 0);

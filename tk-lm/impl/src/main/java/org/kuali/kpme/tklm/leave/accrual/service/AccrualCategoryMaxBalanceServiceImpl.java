@@ -31,6 +31,7 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
@@ -264,7 +265,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 		
 		for(Entry<String,Set<LeaveBlock>> entries : maxBalanceViolations.entrySet()) {
 			for(LeaveBlock lb : entries.getValue()) {
-				AccrualCategoryRule aRule = lb.getAccrualCategoryRule();
+				AccrualCategoryRuleContract aRule = lb.getAccrualCategoryRule();
                 eligibilities.get(aRule.getMaxBalanceActionFrequency()).add(lb);
 			}
 		}
@@ -275,7 +276,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 	protected LeaveBlock retreivePreviousInfraction(Set<LeaveBlock> eligibleLeaveBlocks, LeaveBlock lb, Interval leavePeriodInterval, Interval yearEndPeriodInterval, Interval thisEntryInterval, AccrualCategoryRule asOfLeaveDateRule) {
 		LeaveBlock tempLB = null;
 		for(LeaveBlock block : eligibleLeaveBlocks) {
-			AccrualCategoryRule blockRule = block.getAccrualCategoryRule();
+			AccrualCategoryRuleContract blockRule = block.getAccrualCategoryRule();
 			if(StringUtils.equals(asOfLeaveDateRule.getLmAccrualCategoryRuleId(),blockRule.getLmAccrualCategoryRuleId())) {
 				if((StringUtils.equals(asOfLeaveDateRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)
 						&& StringUtils.equals(blockRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
