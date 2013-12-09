@@ -1257,7 +1257,8 @@
 				<bean parent="Uif-InputField" p:propertyName="department">
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
-							p:fieldConversions="dept:department" />
+							p:fieldConversions="dept:department"
+                            p:lookupParameters="location:location" />
 					</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="positionDeptAffl">
