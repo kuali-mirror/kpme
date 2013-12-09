@@ -18,8 +18,8 @@ package org.kuali.kpme.pm.positionreporttype.validation;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positionreporttype.PositionReportType;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
 @SuppressWarnings("deprecation")
 public class PositionReportTypeValidation extends MaintenanceDocumentRuleBase  {
@@ -27,7 +27,7 @@ public class PositionReportTypeValidation extends MaintenanceDocumentRuleBase  {
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Position Report Type");
-		PositionReportType prt = (PositionReportType) this.getNewBo();
+		PositionReportType prt = (PositionReportType) this.getNewDataObject();
 		
 		if (prt != null) {
 			valid = true;

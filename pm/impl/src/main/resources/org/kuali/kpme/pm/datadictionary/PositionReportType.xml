@@ -16,20 +16,15 @@
 
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="PositionReportType" parent="PositionReportType-parentBean" />
 
 	<bean id="PositionReportType-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kpme.pm.positionreporttype.PositionReportType" />
-		<property name="inquiryDefinition">
-			<ref bean="PositionReportType-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="PositionReportType-lookupDefinition" />
-		</property>
+		<property name="dataObjectClass" value="org.kuali.kpme.pm.positionreporttype.PositionReportType"/>
 		<property name="attributes">
 			<list>
 				<ref bean="PositionReportType-pmPositionReportTypeId" />
@@ -72,13 +67,11 @@
 	<bean id="PositionReportType-pmPositionReportTypeId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="PositionReportType Id" />
 		<property name="maxLength" value="60" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="60" />
+		<property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="60" />
 		</property>
 		<property name="name" value="pmPositionReportTypeId" />
 		<property name="label" value="PositionReportType Id" />
@@ -89,11 +82,8 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Effective Date" />
 		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+		<property name="controlField">
+			<bean parent="Uif-DateControl" p:size="10"/>
 		</property>
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
 		<property name="name" value="effectiveDate" />
@@ -103,8 +93,8 @@
 	<bean id="PositionReportType-positionReportType" parent="PositionReportType-positionReportType-parentBean" />
 	<bean id="PositionReportType-positionReportType-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="maxLength" value="50" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="50" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="50" />
 		</property>
 		<property name="name" value="positionReportType" />
 		<property name="label" value="Position Report Type" />
@@ -114,8 +104,8 @@
 	<bean id="PositionReportType-description" parent="PositionReportType-description-parentBean" />
 	<bean id="PositionReportType-description-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="maxLength" value="100" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="120" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="120" />
 		</property>
 		<property name="name" value="description" />
 		<property name="label" value="Description" />
@@ -126,13 +116,11 @@
 	<bean id="PositionReportType-institution-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Institution" />
 		<property name="maxLength" value="15" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
+		<property name="validCharactersConstraint">
+			<bean parent="AnyCharacterPatternConstraint"/>
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="15" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="15" />
 		</property>
 		<property name="name" value="institution" />
 		<property name="label" value="Institution" />
@@ -142,13 +130,11 @@
 	<bean id="PositionReportType-location-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Location" />
 		<property name="maxLength" value="15" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+		<property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
 		<property name="name" value="location" />
 		<property name="label" value="Location" />
@@ -168,13 +154,11 @@
         <property name="label" value="User Principal Id" />
         <property name="shortLabel" value="User Principal Id" />
         <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
         </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="40" />
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40" />
         </property>
     </bean>
     
@@ -203,66 +187,89 @@
 		<property name="translateCodes" value="false" />
 		<property name="title" value="Position Report Type Inquiry" />
 	</bean>
+	 
+	 
+	 <!--***************************************************************************
+                                Views
+     ***************************************************************************-->
 
-	<!-- Business Object Lookup Definition -->
-	<bean id="PositionReportType-lookupDefinition" parent="PositionReportType-lookupDefinition-parentBean" />
-	<bean id="PositionReportType-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition">
-		<property name="lookupableID" value="positionReportTypeLookupable" />
-		<property name="defaultSort">
-			<bean parent="SortDefinition">
-			</bean>
-		</property>
-		<property name="lookupFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="positionReportType" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-				<bean parent="FieldDefinition" p:attributeName="institution" />
-				<bean parent="FieldDefinition" p:attributeName="location" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
-			</list>
-		</property>
-		<property name="resultFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="positionReportType" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-				<bean parent="FieldDefinition" p:attributeName="institution" />
-				<bean parent="FieldDefinition" p:attributeName="location" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
-			</list>
-		</property>
-		<property name="title" value="Position Report Type Lookup" />
-	</bean>
-	
-	<!-- KRAD Lookup View Definition -->
- 	<bean id="PositionReportType-LookupView" parent="Uif-LookupView">
-	    <property name="headerText" value="Position Report Type Lookup" />
-	    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportType" />
-        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->
-	    <property name="criteriaFields">
-	      <list>
-			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportType" />
-			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
-			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution" />
-			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
-				<property name="quickfinder">
-							<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
-								p:fieldConversions="location:location" />
-				</property>
-			</bean>
-			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
-	      </list>
-	    </property>
-	    <property name="resultFields">
-	      <list>
-			<bean parent="Uif-DataField" p:propertyName="positionReportType" />
-			<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-			<bean parent="Uif-DataField" p:propertyName="institution" />
-			<bean parent="Uif-DataField" p:propertyName="location" />
-			<bean parent="Uif-DataField" p:propertyName="active" />
-	      </list>
-	    </property>
-   </bean>
-	
+    <!-- Position Reporting Type Lookup View -->
+
+    <bean id="PositionReportType-LookupView" parent="Uif-LookupView">
+        <property name="headerText" value="Position Report Type Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportType" />
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportType" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                              p:fieldConversions="location:location" />
+                    </property>
+                </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+            	<bean parent="Uif-DataField" p:propertyName="positionReportType" />
+				<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+				<bean parent="Uif-DataField" p:propertyName="institution" />
+				<bean parent="Uif-DataField" p:propertyName="location" />
+				<bean parent="Uif-DataField" p:propertyName="active" />
+            </list>
+        </property>
+    </bean>
+
+    <!--Position Reporting Type Inquiry View-->
+    
+    <bean id="PositionReportType-inquiryView" parent="Uif-InquiryView">
+        <property name="headerText" value="Position Report Type Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportType"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+          <list>      
+            <bean parent="Uif-DataField" p:propertyName="positionReportType" />
+            <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+            <bean parent="Uif-DataField" p:propertyName="description" />
+            <bean parent="Uif-DataField" p:propertyName="positionReportType" />
+            <bean parent="Uif-DataField" p:propertyName="institution" />
+            <bean parent="Uif-DataField" p:propertyName="location" />
+            <bean parent="Uif-DataField" p:propertyName="active" />
+            <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+          </list>
+        </property>
+        <property name="title" value="Position Report Type Inquiry"/>
+    </bean>
+
+<!--  Position Reporting Type Maintenance View -->
+    <bean id="PositionReportType-MaintenanceView" parent="PositionReportType-MaintenanceView-parentBean"/>
+    <bean id="PositionReportType-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+      <property name="headerText" value="Position Report Type Inquiry"/>
+      <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportType"/>
+      <property name="items">
+          <list merge="true">
+              <bean parent="Uif-MaintenanceGridSection">
+                 <property name="items">
+                  <list>
+                      <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true">
+                          <property name="validCharactersConstraint">
+                              <bean parent="BasicDatePatternConstraint"/>
+                          </property>
+                      </bean>
+                      <bean parent="Uif-InputField" p:propertyName="description" p:required="false"/>
+                      <bean parent="Uif-InputField" p:propertyName="positionReportType" p:required="true"/>
+                      <bean parent="Uif-InputField" p:propertyName="institution" p:required="true"/>
+                      <bean parent="Uif-InputField" p:propertyName="location" p:required="true" />
+                      <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" p:required="true"/>
+                  </list>
+                 </property>
+              </bean>
+          </list>
+      </property>
+    </bean>
 </beans>
 	
