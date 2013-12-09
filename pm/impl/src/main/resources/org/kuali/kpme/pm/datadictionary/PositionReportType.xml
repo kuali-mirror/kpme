@@ -235,7 +235,6 @@
             <bean parent="Uif-DataField" p:propertyName="positionReportType" />
             <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
             <bean parent="Uif-DataField" p:propertyName="description" />
-            <bean parent="Uif-DataField" p:propertyName="positionReportType" />
             <bean parent="Uif-DataField" p:propertyName="institution" />
             <bean parent="Uif-DataField" p:propertyName="location" />
             <bean parent="Uif-DataField" p:propertyName="active" />
