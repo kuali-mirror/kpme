@@ -26,36 +26,10 @@
                            http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PositionReportCatMaintenanceDocument" parent="PositionReportCatMaintenanceDocument-parentBean"/>
-
-  <bean id="PositionReportCatMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.kpme.pm.positionreportcat.PositionReportCategory"
-  		p:businessRulesClass="org.kuali.kpme.pm.positionreportcat.validation.PositionReportCatValidation"
-  		p:maintainableClass="org.kuali.kpme.pm.positionreportcat.web.PositionReportCatMaintainableImpl">
-    <property name="maintainableSections">
-      <list>
-        <ref bean="PositionReportCatMaintenanceDocument-PositionReportCatMaintenance"/>
-      </list>
-    </property>
+  <bean id="PositionReportCatMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionreportcat.PositionReportCategory"/>
+    <property name="businessRulesClass" value="org.kuali.kpme.pm.positionreportcat.validation.PositionReportCatValidation"/>
+    <property name="maintainableClass" value="org.kuali.kpme.pm.positionreportcat.web.PositionReportCatMaintainableImpl"/>
     <property name="documentTypeName" value="PositionReportCatMaintenanceDocumentType"/>
   </bean>
-
-  <!-- Maintenance Section Definitions -->
-
-  <bean id="PositionReportCatMaintenanceDocument-PositionReportCatMaintenance" parent="PositionReportCatMaintenanceDocument-PositionReportCatMaintenance-parentBean"/>
-
-  <bean id="PositionReportCatMaintenanceDocument-PositionReportCatMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Position Report Category Maintenance"/>
-    <property name="maintainableItems">
-      <list>
-      	<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="positionReportCat" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="description" p:required="false"/>
-        <bean parent="MaintainableFieldDefinition" p:name="positionReportType" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="institution" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="location" p:required="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true"/>
-      </list>
-    </property>
-  </bean>
-
 </beans>
