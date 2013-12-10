@@ -231,8 +231,6 @@ public class TkConstants {
     }
 
     public static final String DAILY_OVT_CODE = "DOT";
-    
-    public static final String BATCH_USER_PRINCIPAL_NAME = "kpme.batch.user.principalName";
 
     public static final class CacheNamespace {
         public static final String MODULE_NAME = "tklm";

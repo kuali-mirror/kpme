@@ -19,6 +19,9 @@ import java.math.BigDecimal;
 
 import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.institution.Institution;
+import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
@@ -48,6 +51,35 @@ public class SalaryGroup extends HrBusinessObject implements SalaryGroupContract
 	private String benefitsEligible;
 	private String leaveEligible;
 	private String leavePlan;
+	
+	//	relationship objects
+	private transient Institution institutionObj;
+	private transient Location locationObj;
+	private transient LeavePlan leavePlanObj;
+
+	public Institution getInstitutionObj() {
+		return institutionObj;
+	}
+
+	public void setInstitutionObj(Institution institutionObj) {
+		this.institutionObj = institutionObj;
+	}
+
+	public Location getLocationObj() {
+		return locationObj;
+	}
+
+	public void setLocationObj(Location locationObj) {
+		this.locationObj = locationObj;
+	}
+
+	public LeavePlan getLeavePlanObj() {
+		return leavePlanObj;
+	}
+
+	public void setLeavePlanObj(LeavePlan leavePlanObj) {
+		this.leavePlanObj = leavePlanObj;
+	}
 
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {

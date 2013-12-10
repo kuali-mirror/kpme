@@ -50,20 +50,20 @@ public class ClockLogDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Clock
     }
     
     public ClockLog getLastClockLog(String principalId){
-	Criteria currentRecordCriteria = new Criteria();
-	currentRecordCriteria.addEqualTo("principalId", principalId);
-	
-	Criteria clockTimeJoinCriteria = new Criteria();
-	clockTimeJoinCriteria.addEqualToField("principalId",Criteria.PARENT_QUERY_PREFIX +"principalId");
-	
-	ReportQueryByCriteria clockTimeSubQuery = QueryFactory.newReportQuery(ClockLog.class, clockTimeJoinCriteria);
-	clockTimeSubQuery.setAttributes(new String[]{"max(clockTimestamp)"});
-	
-	currentRecordCriteria.addEqualTo("clockTimestamp", clockTimeSubQuery);
-	
-	Criteria timestampJoinCriteria = new Criteria();
-	timestampJoinCriteria.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-	timestampJoinCriteria.addEqualToField("clockTimestamp", Criteria.PARENT_QUERY_PREFIX + "clockTimestamp");
+        Criteria currentRecordCriteria = new Criteria();
+        currentRecordCriteria.addEqualTo("principalId", principalId);
+
+        Criteria clockTimeJoinCriteria = new Criteria();
+        clockTimeJoinCriteria.addEqualToField("principalId",Criteria.PARENT_QUERY_PREFIX +"principalId");
+
+        ReportQueryByCriteria clockTimeSubQuery = QueryFactory.newReportQuery(ClockLog.class, clockTimeJoinCriteria);
+        clockTimeSubQuery.setAttributes(new String[]{"max(clockTimestamp)"});
+
+        currentRecordCriteria.addEqualTo("clockTimestamp", clockTimeSubQuery);
+
+        Criteria timestampJoinCriteria = new Criteria();
+        timestampJoinCriteria.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        timestampJoinCriteria.addEqualToField("clockTimestamp", Criteria.PARENT_QUERY_PREFIX + "clockTimestamp");
 	
 		ReportQueryByCriteria timeStampSubQuery = QueryFactory.newReportQuery(ClockLog.class, timestampJoinCriteria);
 		timeStampSubQuery.setAttributes(new String[]{"max(timestamp)"});

@@ -218,7 +218,6 @@ public class HrServiceLocator implements ApplicationContextAware {
 	}
 
 	public static CalendarBlockService getCalendarBlockService() {
-		// TODO Auto-generated method stub
 		return (CalendarBlockService) CONTEXT.getBean(HR_CALENDAR_BLOCK_SERVICE );
 	}
 

@@ -16,6 +16,7 @@
 package org.kuali.kpme.tklm.time.batch;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -33,7 +34,7 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-public class EmployeeApprovalJob implements Job {
+public class EmployeeApprovalJob extends BatchJob {
 
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();

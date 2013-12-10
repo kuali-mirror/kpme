@@ -28,6 +28,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -55,7 +56,7 @@ import org.quartz.SchedulerException;
 import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 
-public class PayrollApprovalJob implements Job {
+public class PayrollApprovalJob extends BatchJob {
 
 	private static final Logger LOG = Logger.getLogger(PayrollApprovalJob.class);
 
@@ -104,7 +105,7 @@ public class PayrollApprovalJob implements Job {
 			}
 			sendNotifications(subject, roleMembers, workAreas);
         } else {
-        	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
+        	String principalName = getBatchUserPrincipalName();
         	LOG.error("Could not run batch jobs due to missing batch user " + principalName);
         }
 	}
@@ -138,12 +139,6 @@ public class PayrollApprovalJob implements Job {
 		String [] roleMemberIds = new String [roleMemberIdList.size()];
 		HrServiceLocator.getKPMENotificationService().sendNotification(subject, message, roleMemberIdList.toArray(roleMemberIds));
 	}
-
-	private String getBatchUserPrincipalId() {
-    	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
-        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
-        return principal == null ? null : principal.getPrincipalId();
-    }
 	
 	private boolean documentNotEnroute(String documentId) {
 		//TODO: Determine if the document has been approved by the "work area"

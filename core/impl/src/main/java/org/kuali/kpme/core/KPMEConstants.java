@@ -29,4 +29,6 @@ public class KPMEConstants {
     public static final class CacheNamespace {
         public static final String ROOT_NAMESPACE_PREFIX = "http://kpme.kuali.org";
     }
+
+    public static final String BATCH_USER_PRINCIPAL_NAME = "kpme.batch.user.principalName";
 }

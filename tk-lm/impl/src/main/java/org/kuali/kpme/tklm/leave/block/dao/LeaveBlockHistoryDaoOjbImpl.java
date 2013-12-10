@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.leave.block.dao;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -29,6 +30,8 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LeaveBlockHistoryDaoOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveBlockHistoryDao {
@@ -139,6 +142,19 @@ public class LeaveBlockHistoryDaoOjbImpl extends PlatformAwareDaoBaseOjb impleme
 	   	List<LeaveBlockHistory> leaveBlocks = new ArrayList<LeaveBlockHistory>();
         Criteria criteria = new Criteria();
 
+        //document id....
+        //get document, and cal entry, fill in query data
+        if (StringUtils.isNotBlank(documentId)) {
+            TimesheetDocumentHeader tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
+            if (tsdh == null) {
+                return Collections.emptyList();
+            }
+            criteria.addGreaterOrEqualThan("beginTimestamp", tsdh.getBeginDate());
+            criteria.addLessOrEqualThan("endTimestamp",tsdh.getEndDate());
+            criteria.addEqualTo("principalId", tsdh.getPrincipalId());
+        }
+
+
         if(fromDate != null) {
         	criteria.addGreaterOrEqualThan("beginTimestamp", fromDate.toDate());
         }
@@ -152,7 +168,7 @@ public class LeaveBlockHistoryDaoOjbImpl extends PlatformAwareDaoBaseOjb impleme
         	criteria.addEqualTo("principalIdModified", userPrincipalId);
         }
         criteria.addEqualTo("leaveBlockType",LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR);
-        Query query = QueryFactory.newQuery(LeaveBlock.class, criteria);
+        Query query = QueryFactory.newQuery(LeaveBlockHistory.class, criteria);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         if (c != null) {
         	leaveBlocks.addAll(c);
@@ -165,6 +181,19 @@ public class LeaveBlockHistoryDaoOjbImpl extends PlatformAwareDaoBaseOjb impleme
 			LocalDate toDate, String leaveBlockType) {
 	   	List<LeaveBlockHistory> leaveBlocks = new ArrayList<LeaveBlockHistory>();
         Criteria criteria = new Criteria();
+
+        //document id....
+        //get document, and cal entry, fill in query data
+        if (StringUtils.isNotBlank(documentId)) {
+            TimesheetDocumentHeader tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
+            if (tsdh == null) {
+                return Collections.emptyList();
+            }
+            criteria.addGreaterOrEqualThan("beginTimestamp", tsdh.getBeginDate());
+            criteria.addLessOrEqualThan("endTimestamp",tsdh.getEndDate());
+            criteria.addEqualTo("principalId", tsdh.getPrincipalId());
+        }
+
 
         if(fromDate != null) {
         	criteria.addGreaterOrEqualThan("beginTimestamp", fromDate.toDate());
@@ -179,7 +208,7 @@ public class LeaveBlockHistoryDaoOjbImpl extends PlatformAwareDaoBaseOjb impleme
         	criteria.addEqualTo("principalIdModified", userPrincipalId);
         }
         criteria.addEqualTo("leaveBlockType",leaveBlockType);
-        Query query = QueryFactory.newQuery(LeaveBlock.class, criteria);
+        Query query = QueryFactory.newQuery(LeaveBlockHistory.class, criteria);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         if (c != null) {
         	leaveBlocks.addAll(c);

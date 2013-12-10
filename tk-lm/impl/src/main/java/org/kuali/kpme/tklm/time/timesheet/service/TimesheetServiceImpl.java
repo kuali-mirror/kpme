@@ -31,6 +31,7 @@ import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.permission.service.HRPermissionService;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
@@ -232,7 +233,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
     
     private void deleteNonApprovedLeaveBlocks(String principalId, LocalDate beginDate, LocalDate endDate) {
-    	String batchUserPrincipalId = getBatchUserPrincipalId();
+    	String batchUserPrincipalId = BatchJobUtil.getBatchUserPrincipalId();
         
         if (batchUserPrincipalId != null) {
 	    	List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
@@ -245,16 +246,11 @@ public class TimesheetServiceImpl implements TimesheetService {
 	    		}
 	    	}
         } else {
-        	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
+        	String principalName = BatchJobUtil.getBatchUserPrincipalName();
         	LOG.error("Could not delete leave request blocks due to missing batch user " + principalName);
         }
     }
-    
-    private String getBatchUserPrincipalId() {
-    	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
-        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
-        return principal == null ? null : principal.getPrincipalId();
-    }
+
 
     public List<TimeBlock> getPrevDocumentTimeBlocks(String principalId, DateTime payBeginDate) {
         TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, payBeginDate);

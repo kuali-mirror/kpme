@@ -140,9 +140,4 @@ public class TaskDaoOjbImpl extends PlatformAwareDaoBaseOjb implements TaskDao {
 		return this.getPersistenceBrokerTemplate().getCount(query);
     }
 
-	@Override
-	public Long getNextTaskKey() {
-		return KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("tk_task_s");
-	}
-
 }

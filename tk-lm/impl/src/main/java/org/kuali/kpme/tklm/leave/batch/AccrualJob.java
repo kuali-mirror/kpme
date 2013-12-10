@@ -26,17 +26,13 @@ import org.kuali.kpme.core.api.leaveplan.service.LeavePlanService;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.tklm.leave.accrual.service.AccrualService;
 import org.kuali.kpme.tklm.leave.calendar.service.LeaveCalendarServiceImpl;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-public class AccrualJob implements Job {
+public class AccrualJob extends BatchJob {
 
 	private static final Logger LOG = Logger.getLogger(LeaveCalendarServiceImpl.class);
 
@@ -68,7 +64,7 @@ public class AccrualJob implements Job {
 				}
 			}
         } else {
-        	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
+        	String principalName = getBatchUserPrincipalName();
         	LOG.error("Could not run batch jobs due to missing batch user " + principalName);
         }
 	}
@@ -104,11 +100,5 @@ public class AccrualJob implements Job {
 	public static void setPrincipalHRAttributesService(PrincipalHRAttributesService principalHRAttributesService) {
 		PRINCIPAL_HR_ATTRIBUTES_SERVICE = principalHRAttributesService;
 	}
-
-    private String getBatchUserPrincipalId() {
-        String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
-        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
-        return principal == null ? null : principal.getPrincipalId();
-    }
 
 }

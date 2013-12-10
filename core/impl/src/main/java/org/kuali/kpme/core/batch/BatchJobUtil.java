@@ -23,6 +23,10 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.kpme.core.KPMEConstants;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class BatchJobUtil {
 	
@@ -51,5 +55,15 @@ public class BatchJobUtil {
 		}
 		return StringUtils.join(dataMapPairs, "&");
 	}
+
+    public static String getBatchUserPrincipalName() {
+        return ConfigContext.getCurrentContextConfig().getProperty(KPMEConstants.BATCH_USER_PRINCIPAL_NAME);
+    }
+
+    public static String getBatchUserPrincipalId() {
+        String principalName = ConfigContext.getCurrentContextConfig().getProperty(KPMEConstants.BATCH_USER_PRINCIPAL_NAME);
+        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
+        return principal == null ? null : principal.getPrincipalId();
+    }
 
 }

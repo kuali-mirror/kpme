@@ -80,4 +80,5 @@ public class TaskServiceImpl implements TaskService {
     public int getTaskCount(Long task) {
     	return taskDao.getTaskCount(task);
     }
+    
 }

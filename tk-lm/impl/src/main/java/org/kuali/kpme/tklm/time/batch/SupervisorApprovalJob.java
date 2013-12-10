@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -50,7 +51,7 @@ import org.quartz.SchedulerException;
 import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 
-public class SupervisorApprovalJob implements Job {
+public class SupervisorApprovalJob extends BatchJob {
 	
 	private static final Logger LOG = Logger.getLogger(SupervisorApprovalJob.class);
 	
@@ -88,16 +89,10 @@ public class SupervisorApprovalJob implements Job {
 				}
 			}
         } else {
-        	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
+        	String principalName = getBatchUserPrincipalName();
         	LOG.error("Could not run batch jobs due to missing batch user " + principalName);
         }
 	}
-	
-    private String getBatchUserPrincipalId() {
-    	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
-        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
-        return principal == null ? null : principal.getPrincipalId();
-    }
 	
 	private boolean missedPunchDocumentsEnroute(String documentId) {
 		boolean missedPunchDocumentsEnroute = false;

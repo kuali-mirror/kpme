@@ -49,6 +49,37 @@
 		 </list>
 	    </property>
 	    <property name="objectLabel" value="SalaryGroup"/>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="institutionObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="institution"
+								p:targetName="institutionCode" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="locationObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
+								p:targetName="location" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="leavePlanObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan"
+								p:targetName="leavePlan" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
   	</bean>
 
 <!-- Attribute Definitions -->  
@@ -71,6 +102,9 @@
 		<property name="shortLabel" value="Effective Date" />
 		<property name="controlField">
 			<bean parent="Uif-DateControl" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
 		</property>
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
 		<property name="name" value="effectiveDate" />
@@ -168,6 +202,9 @@
 		        </property>
 	        </bean>
     	</property>
+        <property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder" />
+		</property>
  		<property name="name" value="benefitsEligible" />
  		<property name="label" value="Benefit Eligible" />
   	</bean>
@@ -185,6 +222,9 @@
 		        </property>
 	        </bean>
     	</property>
+        <property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder" />
+		</property>
     	<property name="name" value="leaveEligible" />
  		<property name="label" value="Leave Eligible" />
   	</bean>
@@ -199,6 +239,9 @@
         <property name="optionsFinder">
             <bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
         </property>
+        <property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder" />
+		</property>
 		<property name="name" value="history" />
 		<property name="label" value="Show History" />
 	</bean>

@@ -70,7 +70,7 @@ public class SalaryGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Sa
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<SalaryGroup> getSalaryGroups(String hrSalGroup, String institution, String location, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
+    public List<SalaryGroup> getSalaryGroups(String hrSalGroup, String institution, String location, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory, String benefitEligible, String leaveEligible) {
         List<SalaryGroup> results = new ArrayList<SalaryGroup>();
     	
     	Criteria root = new Criteria();
@@ -111,6 +111,18 @@ public class SalaryGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Sa
                 activeFilter.addEqualTo("active", false);
             }
             root.addAndCriteria(activeFilter);
+        }
+
+        if (StringUtils.isNotBlank(benefitEligible)) {
+            Criteria benefitEligibleFilter = new Criteria();
+            benefitEligibleFilter.addEqualTo("benefitsEligible", benefitEligible);
+            root.addAndCriteria(benefitEligibleFilter);
+        }
+
+        if (StringUtils.isNotBlank(leaveEligible)) {
+            Criteria leaveEligibleFilter = new Criteria();
+            leaveEligibleFilter.addEqualTo("leaveEligible", leaveEligible);
+            root.addAndCriteria(leaveEligibleFilter);
         }
 
         if (StringUtils.equals(showHistory, "N")) {

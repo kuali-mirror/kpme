@@ -439,7 +439,6 @@ public class ValidationUtils {
 	 */
 	public static boolean validateCalendar(String calendarName) {
 		CalendarContract calendar = HrServiceLocator.getCalendarService().getCalendarByName(calendarName);
-		System.out.println("Calendar: "  + calendarName);
 		if(calendar!=null){
 			return true;
 		}else{

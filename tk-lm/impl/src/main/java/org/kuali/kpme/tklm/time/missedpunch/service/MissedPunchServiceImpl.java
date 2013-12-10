@@ -28,6 +28,7 @@ import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.timezone.TimezoneService;
@@ -202,14 +203,14 @@ public class MissedPunchServiceImpl implements MissedPunchService {
     
     @Override
     public void approveMissedPunchDocument(MissedPunchDocument missedPunchDocument) {
-    	String batchUserPrincipalId = getBatchUserPrincipalId();
+    	String batchUserPrincipalId = BatchJobUtil.getBatchUserPrincipalId();
         
         if (batchUserPrincipalId != null) {
         	String documentNumber = missedPunchDocument.getDocumentNumber();
 	        WorkflowDocument wd = WorkflowDocumentFactory.loadDocument(batchUserPrincipalId, documentNumber);
 	        wd.superUserBlanketApprove("Batch job superuser approving missed punch document.");
         } else {
-        	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
+        	String principalName = BatchJobUtil.getBatchUserPrincipalName();
         	LOG.error("Could not approve missed punch document due to missing batch user " + principalName);
         }
     }
@@ -253,12 +254,6 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         );
 
         getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
-    }
-    
-    private String getBatchUserPrincipalId() {
-    	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
-        Principal principal = getIdentityService().getPrincipalByPrincipalName(principalName);
-        return principal == null ? null : principal.getPrincipalId();
     }
     
     public MissedPunchDao getMissedPunchDao() {

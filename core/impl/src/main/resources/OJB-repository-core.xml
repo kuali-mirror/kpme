@@ -19,7 +19,8 @@
 
     <jdbc-connection-descriptor
         jcd-alias="kpmeDataSource"
-        default-connection="true"
+        default-connection="false"
+        eager-release="false"
         jdbc-level="3.0"
         batch-mode="false"
         useAutoCommit="0"
@@ -30,7 +31,7 @@
         </sequence-manager>
 
         <object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />
-        <connection-pool maxActive="150" />
+        <!--<connection-pool maxActive="150" />-->
     </jdbc-connection-descriptor>
 
     <!-- Accrual Category -->

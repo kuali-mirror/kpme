@@ -671,6 +671,31 @@ public class TimeDetailAction extends TimesheetAction {
 		
 		LeaveBlock updatedLeaveBlock = null;
 		updatedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
+		
+		//	KPME-3070: Code for creating new time block and deleting existing leave block starts here
+		EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate()).toLocalDate());
+		if (ec == null || ec.getLeavePlan() == null) {
+			//	delete leave block code will come here
+			LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, HrContext.getPrincipalId());
+			
+			// time blocks changes
+			List<String> errors = TimeDetailValidationUtil.validateTimeEntryDetails(tdaf);
+			if (errors.isEmpty()) {
+				// validate leave entry prior to save.
+				this.changeTimeBlocks(tdaf);
+			} else {
+				tdaf.setErrorMessages(errors);
+			}
+			
+			ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
+			ActionRedirect redirect = new ActionRedirect();
+			redirect.setPath("/TimeDetail.do");
+			redirect.addParameter("documentId", tdaf.getDocumentId());
+			return;
+		}
+
+		//	Code for creating new time block ends here
+		
         if (updatedLeaveBlock.isEditable()) {
             if (!updatedLeaveBlock.getLeaveAmount().equals(tdaf.getLeaveAmount())) {
                 updatedLeaveBlock.setLeaveAmount(tdaf.getLeaveAmount());

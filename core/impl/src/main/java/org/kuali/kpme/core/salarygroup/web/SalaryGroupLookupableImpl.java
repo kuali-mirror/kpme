@@ -38,13 +38,15 @@ public class SalaryGroupLookupableImpl extends KPMELookupableImpl {
         String institution = searchCriteria.get("institution");
         String location = searchCriteria.get("location");
         String leavePlan = searchCriteria.get("leavePlan");
+        String benefitsEligible = searchCriteria.get("benefitsEligible");
+        String leaveEligible = searchCriteria.get("leaveEligible");
 
         if (StringUtils.equals(hrSalGroup, "%")) {
             hrSalGroup = "";
         }
         
         return HrServiceLocator.getSalaryGroupService().getSalaryGroups(hrSalGroup, institution, location, leavePlan, TKUtils.formatDateString(fromEffdt),
-                TKUtils.formatDateString(toEffdt), active, showHist);
+                TKUtils.formatDateString(toEffdt), active, showHist, benefitsEligible, leaveEligible);
     }
 
 }

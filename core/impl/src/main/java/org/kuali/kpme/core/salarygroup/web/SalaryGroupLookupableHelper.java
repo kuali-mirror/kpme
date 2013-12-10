@@ -36,12 +36,14 @@ public class SalaryGroupLookupableHelper extends KPMELookupableHelper {
         String institution = fieldValues.get("institution");
         String location = fieldValues.get("location");
         String leavePlan = fieldValues.get("leavePlan");
+        String benefitsEligible = fieldValues.get("benefitsEligible");
+        String leaveEligible = fieldValues.get("leaveEligible");
 
         if (StringUtils.equals(hrSalGroup, "%")) {
             hrSalGroup = "";
         }
         
         return HrServiceLocator.getSalaryGroupService().getSalaryGroups(hrSalGroup, institution, location, leavePlan, TKUtils.formatDateString(fromEffdt),
-                TKUtils.formatDateString(toEffdt), active, showHist);
+                TKUtils.formatDateString(toEffdt), active, showHist, benefitsEligible, leaveEligible);
 	}
 }

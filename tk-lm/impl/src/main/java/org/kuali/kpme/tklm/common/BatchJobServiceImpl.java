@@ -67,7 +67,7 @@ import org.quartz.Trigger;
 public class BatchJobServiceImpl implements BatchJobService {
 	
 	private static final Logger LOG = Logger.getLogger(BatchJobServiceImpl.class);
-	
+
 	private Scheduler scheduler;
 	
 	private AssignmentService assignmentService;
