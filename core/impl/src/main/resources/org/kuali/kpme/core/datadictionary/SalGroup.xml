@@ -185,6 +185,9 @@
 				</property>
 			</bean>
 		</property>
+		<property name="control">
+    		<bean parent="TextControlDefinition" p:size="10"/>
+	    </property>
 		<property name="name" value="percentTime" />
 		<property name="label" value="Percent Time" />
 	</bean>

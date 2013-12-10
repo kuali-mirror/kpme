@@ -175,6 +175,13 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 				this.putFieldError("leavePlan", "earncode.leavePlan.required");
 				return false;
 			}
+			
+			//	KPME-3093: If an earn code has an accrual category, Accrual Balance Action can not be None.
+			if (StringUtils.isBlank(earnCode.getAccrualBalanceAction())
+					|| earnCode.getAccrualBalanceAction().equals(HrConstants.ACCRUAL_BALANCE_ACTION.NONE)) {
+				this.putFieldError("accrualBalanceAction", "earncode.accrualBalanceAction.invalid");
+				return false;
+			}
 		}
 		
 		return true;

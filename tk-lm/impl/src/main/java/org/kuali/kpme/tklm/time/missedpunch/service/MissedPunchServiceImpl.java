@@ -222,21 +222,28 @@ public class MissedPunchServiceImpl implements MissedPunchService {
     private void buildTimeBlockRunRules(ClockLog beginClockLog, ClockLog endClockLog, TimesheetDocument tdoc, Assignment currentAssignment, String earnCode, DateTime beginDateTime, DateTime endDateTime) {
         // New Time Blocks, pointer reference
         List<TimeBlock> newTimeBlocks = tdoc.getTimeBlocks();
-        List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(newTimeBlocks);
+        List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>();
+        boolean createNewTb = true;
         for (TimeBlock tb : newTimeBlocks) {
+        	if(beginClockLog != null && tb.getClockLogBeginId().equals(beginClockLog.getTkClockLogId())
+        			&& endClockLog != null && tb.getClockLogEndId().equals(endClockLog.getTkClockLogId())) {
+        		// if there's already time block created with the same clock logs, don't create timeblock for it again
+        		createNewTb = false;	
+        	}
             referenceTimeBlocks.add(tb.copy());
         }
-
-        // Add TimeBlocks after we store our reference object!
-        List<TimeBlock> blocks = getTimeBlockService().buildTimeBlocks(
-                currentAssignment, earnCode, tdoc, beginDateTime,
-                endDateTime, BigDecimal.ZERO, BigDecimal.ZERO, true, false, HrContext.getPrincipalId(),
-                beginClockLog != null ? beginClockLog.getTkClockLogId() : null,
-                endClockLog != null ? endClockLog.getTkClockLogId() : null);
-
-
-        newTimeBlocks.addAll(blocks);
-
+        
+        if(createNewTb) {
+	        // Add TimeBlocks after we store our reference object!
+	        List<TimeBlock> blocks = getTimeBlockService().buildTimeBlocks(
+	                currentAssignment, earnCode, tdoc, beginDateTime,
+	                endDateTime, BigDecimal.ZERO, BigDecimal.ZERO, true, false, HrContext.getPrincipalId(),
+	                beginClockLog != null ? beginClockLog.getTkClockLogId() : null,
+	                endClockLog != null ? endClockLog.getTkClockLogId() : null);
+	
+	        newTimeBlocks.addAll(blocks);
+        }
+        
         List<Assignment> assignments = tdoc.getAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
         for (Assignment assignment : assignments) {

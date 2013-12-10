@@ -70,7 +70,7 @@ public class SalaryGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Sa
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<SalaryGroup> getSalaryGroups(String hrSalGroup, String institution, String location, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory, String benefitEligible, String leaveEligible) {
+    public List<SalaryGroup> getSalaryGroups(String hrSalGroup, String institution, String location, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory, String benefitEligible, String leaveEligible, String percentTime) {
         List<SalaryGroup> results = new ArrayList<SalaryGroup>();
     	
     	Criteria root = new Criteria();
@@ -123,6 +123,12 @@ public class SalaryGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Sa
             Criteria leaveEligibleFilter = new Criteria();
             leaveEligibleFilter.addEqualTo("leaveEligible", leaveEligible);
             root.addAndCriteria(leaveEligibleFilter);
+        }
+
+        if (StringUtils.isNotBlank(percentTime)) {
+            Criteria percentTimeFilter = new Criteria();
+            percentTimeFilter.addEqualTo("percentTime", percentTime);
+            root.addAndCriteria(percentTimeFilter);
         }
 
         if (StringUtils.equals(showHistory, "N")) {
