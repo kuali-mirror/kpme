@@ -71,13 +71,13 @@
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Account Number"/>
     <property name="shortLabel" value="Account Number"/>
-    <property name="maxLength" value="10"/>
+    <property name="maxLength" value="7"/>
     <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
   
@@ -179,7 +179,7 @@
         <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
         <bean parent="FieldDefinition" p:attributeName="accountName"/>
         <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
-        <bean parent="FieldDefinition" p:attributeName="closed"/>
+        <bean parent="FieldDefinition" p:attributeName="closed" p:defaultValue="N"/>
       </list>
     </property>
     <property name="resultFields">

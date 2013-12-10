@@ -61,7 +61,7 @@ public class FlsaDay implements FlsaDayContract {
 	public FlsaDay(LocalDateTime flsaDate, List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, DateTimeZone timeZone) {
 		this.flsaDate = flsaDate;
         this.timeZone = timeZone;
-		flsaDateInterval = new Interval(flsaDate.toDateTime(timeZone), flsaDate.toDateTime(timeZone).plusHours(24));
+		flsaDateInterval = new Interval(flsaDate.toDateTime(timeZone), flsaDate.toDateTime(timeZone).plusDays(1));
 		this.setTimeBlocks(timeBlocks);
 		this.setLeaveBlocks(leaveBlocks);
 	}

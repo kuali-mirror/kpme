@@ -27,6 +27,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class TaskDaoOjbImpl extends PlatformAwareDaoBaseOjb implements TaskDao {
     
@@ -84,7 +85,9 @@ public class TaskDaoOjbImpl extends PlatformAwareDaoBaseOjb implements TaskDao {
         for (Task task : tasks)
             this.getPersistenceBrokerTemplate().store(task);
     }
+    
 
+    
     @SuppressWarnings("unchecked")
 	@Override
     public List<Task> getTasks(Long task, String description, Long workArea, LocalDate fromEffdt, LocalDate toEffdt) {
@@ -136,4 +139,10 @@ public class TaskDaoOjbImpl extends PlatformAwareDaoBaseOjb implements TaskDao {
 		Query query = QueryFactory.newQuery(Task.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query);
     }
+
+	@Override
+	public Long getNextTaskKey() {
+		return KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("tk_task_s");
+	}
+
 }

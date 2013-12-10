@@ -137,5 +137,10 @@ public class CalendarServiceImpl implements CalendarService {
     public List<Calendar> getCalendars(String calendarName, String calendarTypes, String flsaBeginDay, String flsaBeginTime) {
         return  calendarDao.getCalendars(calendarName, calendarTypes, flsaBeginDay, flsaBeginTime);
     }
+	
+	@Override
+	public Calendar getCalendarByName(String calendarName){
+		return calendarDao.getCalendarByName(calendarName);
+	}
 
 }

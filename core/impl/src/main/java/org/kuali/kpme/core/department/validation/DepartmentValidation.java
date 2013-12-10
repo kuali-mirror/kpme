@@ -52,7 +52,7 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 			valid &= validateChart(department.getChart());
 			valid &= validateOrg(department.getOrg());
 			valid &= validateChartAndOrg(department.getChart(), department.getOrg());
-			valid &= validateRolePresent(department.getRoleMembers(), department.getEffectiveLocalDate());
+			valid &= validateRolePresent(department.getRoleMembers(), department.getEffectiveLocalDate(), department.isPayrollApproval());
 		}
 
 		return valid;
@@ -121,10 +121,11 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	boolean validateRolePresent(List<DepartmentPrincipalRoleMemberBo> roleMembers, LocalDate effectiveDate) {
+	boolean validateRolePresent(List<DepartmentPrincipalRoleMemberBo> roleMembers, LocalDate effectiveDate, boolean payrollProcessorRequired) {
 		boolean valid = true;
 		boolean activeFlag = false;
-		
+	    boolean payrollProcessorFlag = false;
+
 		for (ListIterator<DepartmentPrincipalRoleMemberBo> iterator = roleMembers.listIterator(); iterator.hasNext(); ) {
 			int index = iterator.nextIndex();
 			RoleMemberBo roleMember = iterator.next();
@@ -152,12 +153,18 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 					}
 				}
 			}
-				
+			if (StringUtils.equals(role.getName(), KPMERole.PAYROLL_PROCESSOR.getRoleName())) {
+               payrollProcessorFlag = true;
+            }
 		}
 
 		if (!activeFlag) {
 			this.putGlobalError("role.required");
 		}
+
+        if (payrollProcessorRequired && !payrollProcessorFlag) {
+            this.putFieldError("add.roleMembers.roleName","role.payrollProcessorRequired");
+        }
 
 		return valid & activeFlag;
 	}

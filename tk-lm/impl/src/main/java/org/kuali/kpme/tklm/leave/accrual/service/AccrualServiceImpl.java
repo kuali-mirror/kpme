@@ -146,6 +146,9 @@ public class AccrualServiceImpl implements AccrualService {
 			BigDecimal totalOfStandardHours = currentRange.getStandardHours();
 			boolean fullFteGranted = false;
 			for(AccrualCategory anAC : accrCatList) {
+				if(anAC == null)
+					continue;
+				
 				fullFteGranted = false;
 				if(!currentDate.toLocalDate().isBefore(phra.getEffectiveLocalDate()) && !anAC.getAccrualEarnInterval().equals("N")) {   	// "N" means no accrual
 					boolean prorationFlag = this.isProrationFlag(anAC.getProration());
@@ -214,7 +217,7 @@ public class AccrualServiceImpl implements AccrualService {
 								continue;
 							}
 						} else {
-							if(minReachedFlag) {
+							if(minReachedFlag && currentAcRule != null) {
 								//  minimum reached, proration = false, first pay period, then accrual the whole fte of current AC rule for this pay interval
 								accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), currentAcRule.getAccrualRate());
 								fullFteGranted = true;

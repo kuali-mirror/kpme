@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.tklm.common;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -99,9 +100,24 @@ public class WorkflowTagSupport implements WorkflowTagSupportContract {
     	if (StringUtils.isNotBlank(documentId)) {
     		String principalId = GlobalVariables.getUserSession().getPrincipalId();
 	        DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(documentId);
-	        boolean tookActionAlready = KEWServiceLocator.getActionTakenService().hasUserTakenAction(principalId, documentId);
-	        
-	        if (!DocumentStatus.FINAL.equals(documentStatus) && !tookActionAlready) {
+            String initiatorId = KewApiServiceLocator.getWorkflowDocumentService().getDocumentInitiatorPrincipalId(documentId);
+            boolean initiator = false;
+            if (StringUtils.equals(HrContext.getPrincipalId(), initiatorId)) {
+                initiator = true;
+            }
+            List<org.kuali.rice.kew.api.action.ActionItem> items = KewApiServiceLocator.getActionListService().getActionItems(documentId, Arrays.asList(new String[]{KewApiConstants.ACTION_REQUEST_APPROVE_REQ}));
+
+
+            boolean authorized = false;
+
+            for (org.kuali.rice.kew.api.action.ActionItem item : items) {
+                if (StringUtils.equals(item.getPrincipalId(), HrContext.getPrincipalId())) {
+                    authorized = true;
+                    break;
+                }
+            }
+
+	        if (!DocumentStatus.FINAL.equals(documentStatus) && authorized && !initiator) {
 	        	TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 	        	isTimesheetApprovalButtonsDisplaying = HrServiceLocator.getHRPermissionService().canApproveCalendarDocument(principalId, timesheetDocument)
 	        			|| HrServiceLocator.getHRPermissionService().canSuperUserAdministerCalendarDocument(principalId, timesheetDocument);
@@ -117,9 +133,8 @@ public class WorkflowTagSupport implements WorkflowTagSupportContract {
     	if (StringUtils.isNotBlank(documentId)) {
     		String principalId = GlobalVariables.getUserSession().getPrincipalId();
 	        DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(documentId);
-	        boolean tookActionAlready = KEWServiceLocator.getActionTakenService().hasUserTakenAction(principalId, documentId);
-	        
-	        if (!DocumentStatus.FINAL.equals(documentStatus) && !tookActionAlready) {
+
+	        if (!DocumentStatus.FINAL.equals(documentStatus)) {
 	        	LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
 	        	isLeaveCalendarApprovalButtonsDisplaying = HrServiceLocator.getHRPermissionService().canApproveCalendarDocument(principalId, leaveCalendarDocument)
 	        			|| HrServiceLocator.getHRPermissionService().canSuperUserAdministerCalendarDocument(principalId, leaveCalendarDocument);
@@ -157,8 +172,7 @@ public class WorkflowTagSupport implements WorkflowTagSupportContract {
 					approveRequstExists = true;
 				}
 			}
-            boolean tookActionAlready = KEWServiceLocator.getActionTakenService().hasUserTakenAction(HrContext.getPrincipalId(), documentId);
-            isApprovalButtonsEnabled = !tookActionAlready && authorized && approveRequstExists;
+            isApprovalButtonsEnabled = authorized && approveRequstExists;
         }
         
         return isApprovalButtonsEnabled;

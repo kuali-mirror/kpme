@@ -55,6 +55,7 @@ import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kim.api.type.KimTypeInfoService;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
@@ -114,6 +115,12 @@ public class KPMERoleServiceImpl implements KPMERoleService {
                         principalHasRole = true;
                         break;
                     }
+                } else if (MemberType.ROLE.equals(roleMember.getType())) {
+                	Role derivedRole = getRoleService().getRoleByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.DERIVED_ROLE_POSITION.getRoleName());
+                	if(derivedRole != null && roleMember.getMemberId().equals(derivedRole.getId())) {
+                		principalHasRole = true;
+                		break;
+                	}
                 }
             }
         }
@@ -454,7 +461,7 @@ public class KPMERoleServiceImpl implements KPMERoleService {
         List<String> groupIds = getGroupService().getGroupIdsByPrincipalId(principalId);
 
         List<Predicate> predicates = new ArrayList<Predicate>();
-        predicates.add(in(KimConstants.PrimaryKeyConstants.SUB_ROLE_ID, roleIds));
+        predicates.add(in(KimConstants.PrimaryKeyConstants.SUB_ROLE_ID, roleIds.toArray(new String[roleIds.size()])));
 
         List<Predicate> principalPredicates = new ArrayList<Predicate>();
         principalPredicates.add(equal(KIMPropertyConstants.RoleMember.MEMBER_TYPE_CODE, MemberType.PRINCIPAL.getCode()));

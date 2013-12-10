@@ -182,7 +182,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 				continue; // No Time blocks, no worries.
             }
 			DateTime currentDay = periodStartDateTime.plusDays(pos);
-			Interval virtualDay = new Interval(currentDay, currentDay.plusHours(24));
+			Interval virtualDay = new Interval(currentDay, currentDay.plusDays(1));
 
 			// Builds our JobNumber to TimeBlock for Current Day List.
             //

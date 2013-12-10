@@ -581,16 +581,23 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     */
     public String getActualBeginTimeString() {
         if (this.getClockLogBeginId() != null) {
-            DateTimeZone dtz = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone());
-            if (getOvernightTimeClockLog(clockLogEndId)) {
-                return getBeginDateTime().withZone(dtz).toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
-            } else {
-                ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(this.getClockLogBeginId());
-                if (cl != null) {
-                    return new DateTime(cl.getTimestamp()).withZone(dtz).toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
-                }
-            }
-
+        	 if (getOvernightTimeClockLog(clockLogEndId)) {
+                 return getBeginDateTime().toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
+             } else {
+                 ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(this.getClockLogEndId());
+                 if (cl != null) {
+                     return new DateTime(cl.getTimestamp()).toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
+                 }
+             }
+//            DateTimeZone dtz = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone());
+//            if (getOvernightTimeClockLog(clockLogEndId)) {
+//                return getBeginDateTime().withZone(dtz).toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
+//            } else {
+//                ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(this.getClockLogBeginId());
+//                if (cl != null) {
+//                    return new DateTime(cl.getTimestamp()).withZone(dtz).toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
+//                }
+//            }
         }
         return "";
     }

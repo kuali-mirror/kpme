@@ -24,6 +24,7 @@ import org.kuali.kpme.core.api.task.service.TaskService;
 import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.task.dao.TaskDao;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class TaskServiceImpl implements TaskService {
 

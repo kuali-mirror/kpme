@@ -64,7 +64,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="serviceDate" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="fmlaEligible" />
 				<bean parent="MaintainableFieldDefinition" p:name="workersCompEligible" />
-				<bean parent="MaintainableFieldDefinition" p:name="timezone" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="timezone" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
 			</list>
 		</property>

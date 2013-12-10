@@ -305,4 +305,28 @@ public class GracePeriodRuleServiceTest extends TKLMIntegrationTestCase{
         //cleanup
         KRADServiceLocator.getBusinessObjectService().delete(gpr);
 	}
+
+    @Test
+    public void testRoundingToMidnight() throws Exception {
+        GracePeriodRule gpr = new GracePeriodRule();
+        gpr.setActive(true);
+        gpr.setEffectiveLocalDate(LocalDate.now());
+        gpr.setHourFactor(new BigDecimal(3));
+
+        KRADServiceLocator.getBusinessObjectService().save(gpr);
+        gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
+        Assert.assertTrue("fetched one rule", gpr != null);
+
+        DateTime beginDateTime = new DateTime(2012, 10, 16, 23, 59, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTime derivedDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
+
+        Assert.assertTrue("rounded to midnight",derivedDateTime.equals(new DateTime(2012,10,17,0,0,0,0,TKUtils.getSystemDateTimeZone())));
+
+        beginDateTime = new DateTime(2012, 10, 16, 0, 1, 0, 0, TKUtils.getSystemDateTimeZone());
+        derivedDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, LocalDate.now());
+        Assert.assertTrue("rounded to midnight",derivedDateTime.equals(new DateTime(2012,10,16,0,0,0,0,TKUtils.getSystemDateTimeZone())));
+
+        //cleanup
+        KRADServiceLocator.getBusinessObjectService().delete(gpr);
+    }
 }

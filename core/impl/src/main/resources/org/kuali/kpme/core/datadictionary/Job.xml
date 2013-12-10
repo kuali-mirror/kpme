@@ -118,6 +118,12 @@
 								p:targetName="payGrade" />
 						</list>
 					</property>
+					<property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="hrSalGroup"
+                                  p:targetName="salGroup" />
+                        </list>
+                    </property>
 				</bean>
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="salaryGroupObj" />
@@ -273,7 +279,7 @@
 		<property name="validationPattern">
 			<bean parent="RegexValidationPattern">
 				<property name="pattern" value="((\+|-)?([0-9]{1,3}(\.[0-9]{1,2})?))()"></property>
-				<property name="validationErrorMessageKey" value="error.bigDecimal"></property>
+				<property name="validationErrorMessageKey" value="error.jobDocument.bigDecimal"></property>
 			</bean>
 		</property>
 		<property name="control">

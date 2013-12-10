@@ -55,10 +55,10 @@
       	<bean parent="MaintainableFieldDefinition" p:name="name" p:noLookup="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="jobNumber" p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="hrSalGroup" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="location" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="hrPayType" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="hrSalGroup" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="payGrade" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="compRate" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="standardHours" p:required="true"/>

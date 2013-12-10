@@ -47,7 +47,17 @@ public class CalendarDaoOjbImpl extends PlatformAwareDaoBaseOjb  implements Cale
 			}
 		}
 	}
-
+	
+	// KPME-2992
+	@Override
+	public Calendar getCalendarByName(String calendarName) {
+		Criteria currentRecordCriteria = new Criteria();
+		if(StringUtils.isNotBlank(calendarName) && StringUtils.isNotEmpty(calendarName)){
+            currentRecordCriteria.addLike("UPPER(`calendar_name`)", calendarName.toUpperCase()); 
+        }
+		return (Calendar) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Calendar.class, currentRecordCriteria));
+	}
+	
 	public Calendar getCalendar(String hrPyCalendarId) {
 		Criteria currentRecordCriteria = new Criteria();
 		currentRecordCriteria.addEqualTo("hrCalendarId", hrPyCalendarId);

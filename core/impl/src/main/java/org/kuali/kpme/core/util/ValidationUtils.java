@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
+import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
@@ -437,11 +438,13 @@ public class ValidationUtils {
 	 * Checks for row presence of a pay calendar
 	 */
 	public static boolean validateCalendar(String calendarName) {
-		Map<String, String> fieldValues = new HashMap<String, String>();
-		fieldValues.put("calendarName", calendarName);
-		int matches = KRADServiceLocator.getBusinessObjectService().countMatching(Calendar.class, fieldValues);
-
-        return matches > 0;
+		CalendarContract calendar = HrServiceLocator.getCalendarService().getCalendarByName(calendarName);
+		System.out.println("Calendar: "  + calendarName);
+		if(calendar!=null){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
    public static boolean duplicateDeptEarnCodeExists(EarnCodeSecurity deptEarnCode) {

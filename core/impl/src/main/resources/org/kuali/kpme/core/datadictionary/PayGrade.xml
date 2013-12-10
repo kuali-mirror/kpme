@@ -472,7 +472,7 @@
 					        			 p:fieldConversions="location:location" />
 					   		 	</property>
 				       		</bean>
-                            <bean parent="Uif-InputField" p:propertyName="active"/>
+                            <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
                             <bean parent="Uif-InputField" p:propertyName="minRate"/>
                             <bean parent="Uif-InputField" p:propertyName="maxRate"/>
                             <bean parent="Uif-InputField" p:propertyName="midPointRate"/>

@@ -130,7 +130,7 @@ public class TimeDetailWSAction extends TimesheetAction {
 
     public ActionForward getEarnCodeJson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailWSActionForm tdaf = (TimeDetailWSActionForm) form;
-        
+        boolean containsRegEarnCode = false;
         List<Map<String, Object>> earnCodeList = new LinkedList<Map<String, Object>>();
 
         if (StringUtils.isNotBlank(tdaf.getSelectedAssignment())) {
@@ -179,12 +179,29 @@ public class TimeDetailWSAction extends TimesheetAction {
                             earnCodeMap.put("unitOfTime", ActionFormUtils.getUnitOfTimeForEarnCode(earnCode));
                         }
                         earnCodeMap.put("eligibleForAccrual", earnCode.getEligibleForAccrual());
+                        EarnCode regEarnCode = regEarnCodes.get(assignment.getAssignmentKey());
+                        if (regEarnCode != null
+                                && StringUtils.equals(regEarnCode.getEarnCode(), earnCode.getEarnCode())) {
+                            containsRegEarnCode = true;
+                        }
                         earnCodeList.add(earnCodeMap);
                     }
                 }
             }
         }
-        
+
+        if (!containsRegEarnCode) {
+            Map<String, Object> earnCodeMap = new HashMap<String, Object>();
+            earnCodeMap.put("assignment", "");
+            earnCodeMap.put("earnCode", "");
+            earnCodeMap.put("desc", "-- select an earn code --");
+            earnCodeMap.put("type", "");
+            // for leave blocks
+            earnCodeMap.put("leavePlan", "");
+            earnCodeMap.put("eligibleForAccrual", "");
+
+            earnCodeList.add(0, earnCodeMap);
+        }
         LOG.info(tdaf.toString());
         tdaf.setOutputString(JSONValue.toJSONString(earnCodeList));
         

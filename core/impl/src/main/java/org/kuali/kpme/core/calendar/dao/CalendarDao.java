@@ -28,7 +28,9 @@ public interface CalendarDao {
 	public void saveOrUpdate(List<Calendar> calendarDatesList);
 
 	public Calendar getCalendar(String hrPyCalendarId);
-
+	
+	public Calendar getCalendarByName(String calendarName);
+	
 	public Calendar getCalendarByGroup(String pyCalendarGroup);
 
     public List<Calendar> getCalendars(String calendarName, String calendarTypes, String flsaBeginDay, String flsaBeginTime);

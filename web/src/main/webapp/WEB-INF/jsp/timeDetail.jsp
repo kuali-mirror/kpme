@@ -201,7 +201,11 @@
 
 <%-- Earn code template --%>
 <script type="text/template" id="earnCode-template">
+    <@ if (earnCode == "") { @>
+    <option value="<@= earnCode @>"><@= desc @></option>
+    <@ } else { @>
     <option value="<@= earnCode @>"><@= earnCode + " : " + desc @></option>
+    <@ } @>
 </script>
 
 <%-- Overtime template --%>

@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
@@ -38,9 +39,9 @@ public class WorkAreaRoleTypeServiceImpl extends RoleTypeServiceBase {
 		boolean matches = false;
 
         Long inputWorkArea;
-        if (MapUtils.getString(inputAttributes, KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName()).equals("%"))
+        if (StringUtils.equals(MapUtils.getString(inputAttributes, KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName()), "%")) {
             inputWorkArea = HrConstants.WILDCARD_LONG;
-        else {
+        } else {
 		    inputWorkArea = MapUtils.getLong(inputAttributes, KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName());
         }
 		Long storedWorkArea = MapUtils.getLong(storedAttributes, KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName());

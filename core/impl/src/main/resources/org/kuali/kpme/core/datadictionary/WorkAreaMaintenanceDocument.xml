@@ -86,7 +86,7 @@
 					<property name="maintainableFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="task" />
+							<bean parent="MaintainableFieldDefinition" p:name="task" p:unconditionallyReadOnly="true"/>
 							<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="administrativeDescription" p:required="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />

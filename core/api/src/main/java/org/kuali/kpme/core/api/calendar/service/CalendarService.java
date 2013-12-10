@@ -56,7 +56,8 @@ public interface CalendarService {
      */
     public CalendarContract getCalendarByPrincipalIdAndDate(String principalId, LocalDate beginDate, LocalDate endDate, boolean findLeaveCal);
 
-  
+    public CalendarContract getCalendarByName(String calendarName);
+
 
     public List<? extends CalendarContract> getCalendars(String calendarName, String calendarTypes, String flsaBeginDay, String flsaBeginTime);
 

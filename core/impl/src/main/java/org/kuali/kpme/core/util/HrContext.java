@@ -15,11 +15,16 @@
  */
 package org.kuali.kpme.core.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.role.KPMERole;
+import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -71,19 +76,52 @@ public class HrContext {
 	}
 	
 	public static boolean isAnyApprover() {
-		return isApprover() || isApproverDelegate();
+		return isApprover() || isApproverDelegate() || isAnyPositionApprover() || isAnyPositionApproverDelegate();
 	}
 
+	public static boolean isAnyPositionApprover() {
+		return isAnyPositionAuthorizedUser(getPrincipalId(), KPMERole.APPROVER.getRoleName());
+	}
+	
+	public static boolean isTargetAnyPositionApprover() {
+		return isAnyPositionAuthorizedUser(getTargetPrincipalId(), KPMERole.APPROVER.getRoleName());
+	}
+	
+	public static boolean isAnyPositionApproverDelegate() {
+		return isAnyPositionAuthorizedUser(getPrincipalId(), KPMERole.APPROVER_DELEGATE.getRoleName());
+	}
+	
+	public static boolean isTargetAnyPositionApproverDelegate() {
+		return isAnyPositionAuthorizedUser(getTargetPrincipalId(), KPMERole.APPROVER_DELEGATE.getRoleName());
+	}
+	
+	public static boolean isAnyPositionReviewer() {
+		return isAnyPositionAuthorizedUser(getPrincipalId(), KPMERole.REVIEWER.getRoleName());
+	}
+	
+	public static boolean isTargetAnyPositionReviewer() {
+		return isAnyPositionAuthorizedUser(getTargetPrincipalId(), KPMERole.REVIEWER.getRoleName());
+	}
+	
+	public static boolean isAnyPositionAuthorizedUser(String principalId, String roleName){
+		JobContract jobObj = HrServiceLocator.getJobService().getPrimaryJob(principalId, LocalDate.now());
+		Map<String, String> qualification = new HashMap<String, String>();
+		if(jobObj != null) {
+			qualification.put(KPMERoleMemberAttribute.POSITION.getRoleMemberAttributeName(), jobObj.getPositionNumber());
+		}
+		return HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), roleName, qualification, new DateTime());
+	}
+	
     public static boolean isAnyPayrollProcessor() {
         return isPayrollProcessor() || isPayrollProcessorDelegate();
     }
 	
 	public static boolean isTargetAnyApprover() {
-		return isTargetApprover() || isTargetApproverDelegate();
+		return isTargetApprover() || isTargetApproverDelegate() || isTargetAnyPositionApprover() || isTargetAnyPositionApproverDelegate();
 	}
 	
 	public static boolean isUserOrTargetAnyApprover() {
-		return isAnyApprover() || isTargetAnyApprover();
+		return isAnyApprover() || isTargetAnyApprover() ;
 	}
 	
 	public static boolean isUserOrTargetAnyPayrollProcessor() {
@@ -91,7 +129,7 @@ public class HrContext {
 	}
 	
 	public static boolean isUserOrTargetReviewer() {
-		return isReviewer() || isTargetReviewer();
+		return isReviewer() || isTargetReviewer() || isAnyPositionReviewer() || isTargetAnyPositionReviewer();
 	}
 	
 	public static boolean isTargetAnyPayrollProcessor() {

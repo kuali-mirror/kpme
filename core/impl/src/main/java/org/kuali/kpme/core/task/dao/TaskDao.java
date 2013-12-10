@@ -31,4 +31,5 @@ public interface TaskDao {
 
     List<Task> getTasks(Long task, String description, Long workArea, LocalDate fromEffdt, LocalDate toEffdt);
     public int getTaskCount(Long task);
+	public Long getNextTaskKey();
 }

@@ -217,25 +217,21 @@ public class ClockAction extends TimesheetAction {
     	caf.setShowDistrubuteButton(false);
     	
     	TimesheetDocument timesheetDocument = caf.getTimesheetDocument();
-    	if (timesheetDocument != null) {
-    		int eligibleAssignmentCount = 0;
-            Set<Long> waValues = new HashSet<Long>();
+        if (timesheetDocument != null) {
+            int eligibleAssignmentCount = 0;
             for (Assignment a : timesheetDocument.getAssignments()) {
-                waValues.add(a.getWorkArea());
+                WorkAreaContract aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(a.getWorkArea(), timesheetDocument.getDocEndDate());
+                if(aWorkArea != null && aWorkArea.isHrsDistributionF()) {
+                    eligibleAssignmentCount++;
+                }
+
+                // Only show the distribute button if there is more than one eligible assignment
+                if (eligibleAssignmentCount > 1) {
+                    caf.setShowDistrubuteButton(true);
+                    break;
+                }
             }
-            List<? extends WorkAreaContract> workAreas = HrServiceLocator.getWorkAreaService().getWorkAreasWithoutRoles(new ArrayList<Long>(waValues), timesheetDocument.getDocEndDate());
-    		for (WorkAreaContract aWorkArea : workAreas) {
-    			if(aWorkArea != null && aWorkArea.isHrsDistributionF()) {
-    				eligibleAssignmentCount++;
-    			}
-		    	
-		    	// Only show the distribute button if there is more than one eligible assignment
-		    	if (eligibleAssignmentCount > 1) {
-		    		caf.setShowDistrubuteButton(true);
-		    		break;
-		    	}
-    		}
-    	}
+        }
     }
     
     public ActionForward clockAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

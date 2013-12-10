@@ -93,8 +93,8 @@ public class AccountMaintTest extends KPMEWebTestCase {
 		lookupPage = HtmlUnitUtil.clickInputContainingText(lookupPage, "search");
 		assertNotNull("lookup result page is null", lookupPage);
 		
-		assertTrue("lookup result page should contain two accounts, '2222' and '1111'",
-				lookupPage.asText().contains("1111") && lookupPage.asText().contains("2222"));
+		assertTrue("lookup result page should contain one account '3333'",
+				lookupPage.asText().contains("3333"));
 	}
 	
 	@Test

@@ -55,7 +55,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	private static final long serialVersionUID = -624127817308880466L;
-
+	Long taskNo = new Long(0L); 
 	@Override
     public HrBusinessObject getObjectById(String id) {
         return (HrBusinessObject) HrServiceLocator.getWorkAreaService().getWorkArea(id);
@@ -122,8 +122,14 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
     @Override
     protected void setNewCollectionLineDefaultValues(String collectionName, PersistableBusinessObject addLine) {
-        WorkArea workArea = (WorkArea) getBusinessObject();
-        
+    	WorkArea workArea = (WorkArea) getBusinessObject();
+    	if(workArea.getWorkArea()!=null && taskNo!=null){
+    		if (addLine instanceof Task) {
+            	Task task = (Task) addLine;
+            	task.setTask(taskNo);
+            	taskNo=null;
+        	} 
+    	}
         if (workArea.getEffectiveDate() != null) {
 	        if (addLine instanceof Task) {
 	            Task task = (Task) addLine;
@@ -133,7 +139,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	        	roleMember.setActiveFromDateValue(new Timestamp(workArea.getEffectiveDate().getTime()));
 	        }
         }
-        
+
         super.setNewCollectionLineDefaultValues(collectionName, addLine);
     }
 
@@ -179,6 +185,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
     }
     
     private void saveTasks(WorkArea workArea) {
+    	System.out.println("Inside Save Tasks ::::::::::::::::::::");
         List<Task> tasks = workArea.getTasks();
         
         for (Task task : tasks) {

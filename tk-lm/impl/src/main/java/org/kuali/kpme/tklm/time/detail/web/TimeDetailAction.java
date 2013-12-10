@@ -499,6 +499,15 @@ public class TimeDetailAction extends TimesheetAction {
 
         // A bad hack to apply rules to all timeblocks on timesheet
         List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
+        
+        // if we are changing an existing time block, we need to remove the time block
+        if(StringUtils.isNotBlank(tdaf.getTkTimeBlockId())) {
+        	TimeBlock tb = TkServiceLocator.getTimeBlockService().getTimeBlock(tdaf.getTkTimeBlockId());
+        	if(tb != null) {
+        		TkServiceLocator.getTimeBlockService().deleteTimeBlock(tb);
+        		newTimeBlocks.remove(tb);	// removed the timeblock that should be deleted from list 
+        	}
+        }
         // We need a  cloned reference set so we know whether or not to
         // persist any potential changes without making hundreds of DB calls.
         List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(newTimeBlocks.size());
