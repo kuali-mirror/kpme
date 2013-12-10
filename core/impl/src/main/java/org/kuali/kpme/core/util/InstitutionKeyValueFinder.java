@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.institution.InstitutionContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -35,20 +36,23 @@ public class InstitutionKeyValueFinder extends UifKeyValuesFinderBase {
 	@Override
 	public List<KeyValue> getKeyValues(ViewModel model) {
 
-		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
-		HrBusinessObject anHrObject = (HrBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
+		
+		if (!StringUtils.contains(model.getFormPostUrl(), "inquiry")) {
+			
+			MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
+			HrBusinessObject anHrObject = (HrBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
+			if (anHrObject.getEffectiveDate() != null) {
+				List<? extends InstitutionContract> intList = HrServiceLocator.getInstitutionService().getActiveInstitutionsAsOf(anHrObject.getEffectiveLocalDate());
 
-		if (anHrObject.getEffectiveDate() != null) {
-			List<? extends InstitutionContract> intList = HrServiceLocator.getInstitutionService().getActiveInstitutionsAsOf(anHrObject.getEffectiveLocalDate());
-
-			if (CollectionUtils.isNotEmpty(intList)) {
-				for (InstitutionContract anInstitution : intList) {
-					keyValues.add(new ConcreteKeyValue((String) anInstitution.getInstitutionCode(), (String) anInstitution.getInstitutionCode()));
+				if (CollectionUtils.isNotEmpty(intList)) {
+					for (InstitutionContract anInstitution : intList) {
+						keyValues.add(new ConcreteKeyValue((String) anInstitution.getInstitutionCode(), (String) anInstitution.getInstitutionCode()));
+					}
 				}
 			}
 		}
-
+		
 		return keyValues;
 	}
 }

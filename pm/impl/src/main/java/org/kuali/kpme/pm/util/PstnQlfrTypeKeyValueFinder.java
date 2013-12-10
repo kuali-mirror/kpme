@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
-import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;

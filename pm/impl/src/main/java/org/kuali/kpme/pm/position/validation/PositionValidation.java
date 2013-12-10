@@ -16,6 +16,7 @@
 package org.kuali.kpme.pm.position.validation;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -79,9 +80,21 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 			return false;
 		} else {
 			// validate appointment type
-			if (!PmValidationUtils.validatePositionAppointmentType(aPosition.getAppointmentType(), aPosition.getInstitution(), aPosition.getLocation(), aPosition.getEffectiveLocalDate())) {				
-				this.putFieldError("appointmentType", "error.existence", "Appointment Type '" + aPosition.getAppointmentType() + "'");
-				return false;
+			if (!StringUtils.isEmpty(aPosition.getAppointmentType())) {
+				List <PositionDepartment> depts = aPosition.getDepartmentList();
+				if (depts != null && depts.size() > 0) {
+					boolean found = false;
+					for (PositionDepartment aPos : depts) {
+						if (PmValidationUtils.validatePositionAppointmentType(aPosition.getAppointmentType(), aPos.getInstitution(), aPos.getLocation(), aPosition.getEffectiveLocalDate())) {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						this.putFieldError("appointmentType", "error.existence", "Appointment Type '" + aPosition.getAppointmentType() + "'");
+						return false;						
+					}
+				}
 			}
 			// validate contract type
 			if (!StringUtils.isEmpty(aPosition.getContractType())) {

@@ -205,7 +205,7 @@
 					p:required="true" p:defaultValue="N" />
 				<bean parent="Uif-InputField" p:propertyName="contract"
 					p:required="true" p:defaultValue="N" />
-				<bean parent="Uif-InputField" p:propertyName="contractType">
+				<bean parent="Uif-InputField" p:propertyName="contractType" p:constraintText="Required if Contract is Yes.">
 					<property name="control">
 						<bean parent="Uif-TextControl"
 							p:disabled="@{document.newMaintainableObject.dataObject.contract ne 'Y'}" />
@@ -216,7 +216,27 @@
 							p:fieldConversions="name:contractType" />
 					</property>
 					<property name="quickfinder.quickfinderAction.disabled"
-						value="@{document.newMaintainableObject.dataObject.contract ne 'Y'}" />
+						value="@{document.newMaintainableObject.dataObject.contract ne 'Y'}" >
+					</property>
+					<property name="caseConstraint">
+				        <bean parent="CaseConstraint">
+				        	<property name="propertyName" value="contract" />
+							<property name="whenConstraint">
+					  			<list>
+						          <bean parent="WhenConstraint">
+						              <property name="values">
+						                  <list>
+						                      <value>Y</value>
+						                  </list>
+						              </property>
+						              <property name="constraint">
+						                  <bean parent="RequiredConstraint" />
+						              </property>
+						          </bean>
+					         	 </list>
+					         </property>
+				         </bean>
+					</property>	
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="positionNumber"
 					p:readOnly="true" />
@@ -324,7 +344,13 @@
 						</bean>
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="payGrade" />
+				<bean parent="Uif-InputField" p:propertyName="payGrade" >
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paygrade.PayGrade"
+							p:fieldConversions="payGrade:payGrade" />
+					</property>
+					<property name="quickfinder.autoSearch" value="true" />
+				</bean>
 				<bean parent="Uif-InputField" p:propertyName="payStep">
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paystep.PayStep"
