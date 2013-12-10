@@ -307,7 +307,7 @@
                                 Views
     ***************************************************************************-->
     <!-- Lookup View  -->
-    <bean id="PayGrade-LookupView" parent="KPMEUif-LookupView">
+    <bean id="PayGrade-LookupView" parent="KPMEUif-ViewLinkLookupView">
         <property name="headerText" value="Pay Grade Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.core.paygrade.PayGrade"/>
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.paygrade.web.PayGradeLookupableImpl" />

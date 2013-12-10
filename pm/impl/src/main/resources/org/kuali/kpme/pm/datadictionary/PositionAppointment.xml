@@ -168,7 +168,7 @@
   	
   <!-- Position Appointment Lookup View -->
  
-  <bean id="PositionAppointment-LookupView" parent="KPMEUif-LookupView">
+  <bean id="PositionAppointment-LookupView" parent="KPMEUif-ViewLinkLookupView">
     <property name="headerText" value="Position Appointment Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionappointment.PositionAppointment" />
     <property name="viewHelperServiceClass" value="org.kuali.kpme.pm.positionappointment.web.PositionAppointmentLookupableImpl" />

@@ -447,7 +447,7 @@
 
 <!-- KRAD Lookup View -->
 
-  <bean id="TimeBlock-lookupView" parent="KPMEUif-LookupView">
+  <bean id="TimeBlock-lookupView" parent="KPMEUif-ViewLinkLookupView">
   	<property name="headerText" value="Time Block Lookup" />
   	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.timeblock.TimeBlock"/>
   	<property name="viewHelperServiceClass" value="org.kuali.kpme.tklm.time.timeblock.web.TimeBlockLookupableHelperServiceImpl"/>

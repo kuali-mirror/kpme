@@ -376,7 +376,7 @@
 
     <!-- KRAD Lookup View Definition -->
  
-  <bean id="Department-LookupView" parent="Uif-LookupView">
+  <bean id="Department-LookupView" parent="KPME-ChangedPageSizeLookupView">
     <property name="headerText" value="Department Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.department.Department" />
 

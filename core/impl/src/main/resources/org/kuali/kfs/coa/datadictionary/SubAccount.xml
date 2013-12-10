@@ -161,7 +161,7 @@
   </bean>
   
    <!-- KRAD Lookup View Definition -->
-  <bean id="SubAccount-LookupView" parent="Uif-LookupView">
+  <bean id="SubAccount-LookupView" parent="KPME-ChangedPageSizeLookupView">
     <property name="headerText" value="Sub Account Lookup View" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.kfs.coa.businessobject.SubAccount" />
     <property name="criteriaFields">

@@ -178,7 +178,7 @@
   	
   <!-- Position Reporting Group Sub Category Lookup View -->
  
-  <bean id="PositionReportGroupSubCat-LookupView" parent="Uif-LookupView">
+  <bean id="PositionReportGroupSubCat-LookupView" parent="KPME-ChangedPageSizeLookupView">
     <property name="headerText" value="Position Report Group Sub Category Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory" />
     <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->

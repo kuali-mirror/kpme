@@ -117,7 +117,7 @@
   	
   <!-- Position Responsibility Option Lookup View -->
  
-  <bean id="PositionResponsibilityOption-LookupView" parent="Uif-LookupView">
+  <bean id="PositionResponsibilityOption-LookupView" parent="KPME-ChangedPageSizeLookupView">
     <property name="headerText" value="Position Responsibility Option Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption" />
     <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->

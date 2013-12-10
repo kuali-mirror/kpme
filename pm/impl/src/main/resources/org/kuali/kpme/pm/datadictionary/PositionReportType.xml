@@ -195,7 +195,7 @@
 
     <!-- Position Reporting Type Lookup View -->
 
-    <bean id="PositionReportType-LookupView" parent="Uif-LookupView">
+    <bean id="PositionReportType-LookupView" parent="KPME-ChangedPageSizeLookupView">
         <property name="headerText" value="Position Report Type Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportType" />
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />

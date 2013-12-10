@@ -348,7 +348,7 @@
 
 <!-- KRAD Lookup View -->
 
-  <bean id="LeaveBlock-lookupView" parent="KPMEUif-LookupView">
+  <bean id="LeaveBlock-lookupView" parent="KPMEUif-ViewLinkLookupView">
   	<property name="headerText" value="Leave Block Lookup" />
   	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.leave.block.LeaveBlock"/>
   	<property name="viewHelperServiceClass" value="org.kuali.kpme.tklm.leave.block.web.LeaveBlockLookupableHelperServiceImpl"/>

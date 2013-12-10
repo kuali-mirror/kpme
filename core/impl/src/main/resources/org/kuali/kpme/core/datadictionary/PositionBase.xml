@@ -272,7 +272,7 @@
 	
 
 	<!-- Look up Definitions  -->
-	<bean id="PositionBase-LookupView" parent="KPMEUif-LookupView" >
+	<bean id="PositionBase-LookupView" parent="KPMEUif-ViewLinkLookupView" >
 	    <property name="headerText" value="Position Lookup" />
 	    <property name="dataObjectClassName" value="org.kuali.kpme.core.position.PositionBase" />
 	    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.position.web.PositionBaseLookupableImpl" />

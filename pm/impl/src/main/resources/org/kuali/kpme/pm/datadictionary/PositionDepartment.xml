@@ -161,7 +161,7 @@
   	
   <!-- Position Department Lookup View -->
  
-  <bean id="PositionDepartment-LookupView" parent="Uif-LookupView">
+  <bean id="PositionDepartment-LookupView" parent="KPME-ChangedPageSizeLookupView">
     <property name="headerText" value="Position Department Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positiondepartment.PositionDepartment" />
     <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->

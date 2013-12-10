@@ -438,7 +438,7 @@
     <!-- We Use a custom Doc Search for Missed Punch Lookups -->
     <!-- See MissedPunchDocumentType.xml for Searchable Attribute Definitions -->
     <bean id="MissedPunch-LookupView" parent="MissedPunch-LookupView-parentBean" />
-    <bean id="MissedPunch-LookupView-parentBean" abstract="true" parent="KPMEUif-LookupView">
+    <bean id="MissedPunch-LookupView-parentBean" abstract="true" parent="KPMEUif-ViewLinkLookupView">
         <property name="headerText" value="Missed Punch Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunch" />
         <property name="viewHelperServiceClass" value="org.kuali.kpme.tklm.time.missedpunch.web.MissedPunchLookupableImpl" />

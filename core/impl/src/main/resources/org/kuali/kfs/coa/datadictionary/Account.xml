@@ -196,7 +196,7 @@
   </bean>
   
   <!-- KRAD Lookup View Definition -->
-  <bean id="Account-LookupView" parent="Uif-LookupView">
+  <bean id="Account-LookupView" parent="KPME-ChangedPageSizeLookupView">
     <property name="headerText" value="Account KRAD Lookup View" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.kfs.coa.businessobject.Account" />
     <property name="criteriaFields">

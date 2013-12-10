@@ -883,7 +883,7 @@
 
 
 	<!-- Look up Definitions -->
-	<bean id="Position-LookupView" parent="KPMEUif-LookupView">
+	<bean id="Position-LookupView" parent="KPMEUif-ViewLinkLookupView">
 		<!-- p:maintenanceUrlMapping="positionMaintenance"> -->
 		<property name="headerText" value="Position Lookup" />
 		<property name="dataObjectClassName" value="org.kuali.kpme.pm.position.Position" />

@@ -67,7 +67,7 @@
   	
   <!-- Position Qualification Value Lookup View -->
  
-  <bean id="PositionQualificationValue-LookupView" parent="Uif-LookupView">
+  <bean id="PositionQualificationValue-LookupView" parent="KPME-ChangedPageSizeLookupView">
     <property name="headerText" value="Position Qualification Value Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue" />
     <property name="criteriaFields">

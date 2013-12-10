@@ -288,7 +288,7 @@
   	
   <!-- Salary Group Lookup View -->
  
-  <bean id="SalaryGroup-LookupView" parent="KPMEUif-LookupView">
+  <bean id="SalaryGroup-LookupView" parent="KPMEUif-ViewLinkLookupView">
     <property name="headerText" value="Salary Group Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroup" />
     <property name="viewHelperServiceClass" value="org.kuali.kpme.core.salarygroup.web.SalaryGroupLookupableImpl" />

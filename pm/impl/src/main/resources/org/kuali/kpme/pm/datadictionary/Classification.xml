@@ -355,7 +355,7 @@
  ***************************************************************************-->  	
   	
   <!-- Position Classification Lookup View -->
-  <bean id="Classification-LookupView" parent="Uif-LookupView">
+  <bean id="Classification-LookupView" parent="KPME-ChangedPageSizeLookupView">
     <property name="headerText" value="Position Classification Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.Classification" />
     <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->

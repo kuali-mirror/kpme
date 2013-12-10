@@ -117,7 +117,7 @@
   	
   <!-- Position Department Affiliation Lookup View -->
  
-  <bean id="PositionDepartmentAffiliation-LookupView" parent="Uif-LookupView">
+  <bean id="PositionDepartmentAffiliation-LookupView" parent="KPME-ChangedPageSizeLookupView">
     <property name="headerText" value="Position Department Affiliation Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation" />
     <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->

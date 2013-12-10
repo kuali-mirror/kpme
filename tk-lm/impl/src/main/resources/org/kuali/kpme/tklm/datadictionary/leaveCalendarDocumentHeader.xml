@@ -117,7 +117,7 @@
      
 <!-- Business Object Lookup Definition -->
 
-  <bean id="LeaveCalendarDocumentHeader-lookupView" parent="Uif-LookupView">
+  <bean id="LeaveCalendarDocumentHeader-lookupView" parent="KPME-ChangedPageSizeLookupView">
     <property name="headerText" value="Leave Calendar Document Header Lookup"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader"/>
     <property name="criteriaFields" >

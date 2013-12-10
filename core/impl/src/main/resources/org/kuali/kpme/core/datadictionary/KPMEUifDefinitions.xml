@@ -21,7 +21,21 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="KPMEUif-LookupView" parent="Uif-LookupView">
+	<!-- lookup view for maint docs that have page size of 25. Used by maint docs that do not need the view link  -->
+    <bean id="KPME-ChangedPageSizeLookupView" parent="Uif-LookupView" abstract="true">
+        <property name="resultsGroup.layoutManager.richTable">
+	      <bean parent="Uif-PagedRichTable">
+	        <property name="templateOptions">
+	          <map merge="true">
+	            <entry key="iDisplayLength" value ="25"/>
+	          </map>
+	        </property>
+	      </bean>
+        </property>
+    </bean>    
+    	
+    <!-- lookup view for maint docs that have View action link. The page size is changed to 25 in the super view  -->
+    <bean id="KPMEUif-ViewLinkLookupView" parent="KPME-ChangedPageSizeLookupView" abstract="true">
         <property name="resultsGroup">
 	        <bean id="KPMEAttributes-LookupView-ViewLink" parent="Uif-LookupResultsCollectionSection">
 		        <property name="lineActions">
@@ -40,7 +54,7 @@
             </bean>
         </property>
     </bean>
-
+   
     <bean id="MaintDoc-HiddenFields-parentBean"
           abstract="true" parent="MaintainableSectionDefinition"  >
         <property name="hidden" value="true" />

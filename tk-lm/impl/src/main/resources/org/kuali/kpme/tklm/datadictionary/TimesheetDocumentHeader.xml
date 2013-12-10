@@ -117,7 +117,7 @@
      
 <!-- Business Object Lookup Definition -->
 
-  <bean id="TimesheetDocumentHeader-lookupView" parent="Uif-LookupView">
+  <bean id="TimesheetDocumentHeader-lookupView" parent="KPME-ChangedPageSizeLookupView">
     <property name="headerText" value="Timesheet Document Header Lookup"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader"/>
     <property name="criteriaFields" >
